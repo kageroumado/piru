@@ -52,6 +52,9 @@ SOURCED = REPO / "data/intermediate/sourced-substances.json"
 CURATED_DIR = REPO / "data/curated/substances"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
+# Citation link-health cache produced by pipeline/audit/validate_links.py.
+# The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
+LINK_CACHE = REPO / "data/sources/link-cache.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 
@@ -1387,6 +1390,41 @@ def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None
     return (None, None, s, None)
 
 
+# Citation URLs/labels that are chemical identifiers or database landing pages,
+# NOT primary literature. They already appear elsewhere — CAS/InChIKey in the
+# Chemistry card, PubChem behind "View on PubChem", and tripsit/psychonautwiki/
+# wikidata/drug.community in the Databases provenance subsection — so listing
+# them again as "references" reads as spurious citations for trivial claims.
+_NON_LITERATURE_HOSTS = (
+    "pubchem.ncbi.nlm.nih.gov",
+    "wikidata.org",
+    "psychonautwiki.org",
+    "drug.community",
+    "tripsit.me",
+    "github.com/tripsit",
+)
+_IDENTIFIER_LABEL_RE = re.compile(
+    r"(?i)^(cas|pubchem(\s+cid)?|wikidata|inchi(key)?|unii|chembl|drugbank|smiles|chemspider)\b"
+)
+
+
+def is_identifier_citation(
+    doi: str | None, pmid: int | None, url: str | None, title: str | None
+) -> bool:
+    """True when a parsed reference is a bare chemical identifier or a database
+    landing page rather than primary literature, so it should not be stored as a
+    citation. A DOI or PMID is always real literature and never matches; Erowid
+    book pages and ordinary paper/article URLs are kept."""
+    if doi or pmid:
+        return False
+    if not url:
+        return True  # a label with no id and no link — nothing to cite
+    u = url.strip().lower()
+    if u.startswith("http"):
+        return any(host in u for host in _NON_LITERATURE_HOSTS)
+    return bool(_IDENTIFIER_LABEL_RE.match(u))
+
+
 def to_float(v) -> float | None:
     if v is None or v == "":
         return None
@@ -1876,6 +1914,14 @@ class Build:
         doi, pmid, url, title = parse_reference(ref)
         if (doi, pmid, url) == (None, None, None):
             return None
+        # Identifiers and database landing pages are not literature — drop them
+        # so they never reach the references list (they live in Chemistry / the
+        # PubChem link / the Databases subsection instead).
+        if is_identifier_citation(doi, pmid, url, title):
+            self.stats["citations_dropped_identifier"] = (
+                self.stats.get("citations_dropped_identifier", 0) + 1
+            )
+            return None
         # Dedup key stays (doi, pmid, url) — the UNIQUE constraint; title is
         # descriptive metadata that backfills onto the shared citation.
         key = (doi, pmid, url)
@@ -2318,6 +2364,76 @@ class Build:
             self.stats["substance_citations"] = self.stats.get("substance_citations", 0) + 1
         except sqlite3.IntegrityError:
             pass
+
+    def prune_generic_book_citations(self) -> int:
+        """Drop the generic PIHKAL/TIHKAL index link from a substance that also
+        cites its specific chapter. Erowid's ``tihkal.shtml`` / ``pihkal.shtml``
+        are book front-matter; ``tihkalNN.shtml`` / ``pihkalNN.shtml`` are the
+        per-compound entries. Many substances carry both, so the index page reads
+        as a duplicate of the real chapter (the "TIHKAL referenced twice" case).
+        The generic citation row stays for substances that have only it."""
+        rows = self.cur.execute(
+            """
+            SELECT sc.substance_id, sc.citation_id, c.url
+              FROM substance_citations sc
+              JOIN citations c ON c.id = sc.citation_id
+             WHERE c.url LIKE '%erowid.org/library/books_online/%hkal/%'
+            """
+        ).fetchall()
+        by_sub: dict[int, list[tuple[int, str]]] = defaultdict(list)
+        for sub, cid, url in rows:
+            by_sub[sub].append((cid, url or ""))
+        generic_re = re.compile(r"/(?:pi|ti)hkal\.shtml(?:[?#].*)?$", re.I)
+        specific_re = re.compile(r"/(?:pi|ti)hkal\d+\.shtml(?:[?#].*)?$", re.I)
+        removed = 0
+        for sub, items in by_sub.items():
+            if not any(specific_re.search(u) for _, u in items):
+                continue
+            for cid, u in items:
+                if generic_re.search(u):
+                    self.cur.execute(
+                        "DELETE FROM substance_citations WHERE substance_id=? AND citation_id=?",
+                        (sub, cid),
+                    )
+                    removed += 1
+        return removed
+
+    def drop_dead_citations(self, cache_path: Path) -> int:
+        """Remove citations the link validator confirmed dead (HTTP 404/410) so
+        the app never ships a broken reference link. Reads the committed
+        link-cache.json — the audit trail of what we checked. A fresh citation
+        not yet in the cache is kept until the next validation run; unknown /
+        bot-blocked links are NOT removed (they aren't proof of death)."""
+        if not cache_path.exists():
+            return 0
+        cache = json.loads(cache_path.read_text())
+        dead = [u for u, e in cache.items() if e.get("verdict") == "dead"]
+        if not dead:
+            return 0
+        # Fact tables that carry a nullable citation_id (everything except the
+        # substance_citations link table, which we clear by deletion instead).
+        cit_tables = [
+            t
+            for (t,) in self.cur.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()
+            if t != "substance_citations"
+            and any(
+                col[1] == "citation_id"
+                for col in self.cur.execute(f"PRAGMA table_info({t})").fetchall()
+            )
+        ]
+        removed = 0
+        for url in dead:
+            for (cid,) in self.cur.execute(
+                "SELECT id FROM citations WHERE url=?", (url,)
+            ).fetchall():
+                self.cur.execute("DELETE FROM substance_citations WHERE citation_id=?", (cid,))
+                for t in cit_tables:
+                    self.cur.execute(f"UPDATE {t} SET citation_id=NULL WHERE citation_id=?", (cid,))
+                self.cur.execute("DELETE FROM citations WHERE id=?", (cid,))
+                removed += 1
+        return removed
 
     def add_duration_profile(
         self,
@@ -4873,6 +4989,19 @@ def main() -> int:
     # peptides). Runs after dedup + popularity are final.
     rc_purged = build.purge_overbroad_research_chemical_tag()
     print(f"Research-chemical tag purge: {rc_purged}", file=sys.stderr)
+
+    # Drop the generic PIHKAL/TIHKAL index link where the specific chapter is
+    # also cited (the "TIHKAL referenced twice" case). Identifier/database-page
+    # citations were already filtered at cite(); this is the per-substance dedup
+    # that needs the full reference set.
+    book_pruned = build.prune_generic_book_citations()
+    print(f"Generic book-citation prune: {book_pruned}", file=sys.stderr)
+
+    # Drop links the validator (pipeline/audit/validate_links.py) confirmed dead
+    # so no 404 ships. The committed link-cache.json is the proof of what we
+    # checked; rerun the validator after data changes to refresh it.
+    dead_dropped = build.drop_dead_citations(LINK_CACHE)
+    print(f"Dead-citation drop: {dead_dropped}", file=sys.stderr)
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer

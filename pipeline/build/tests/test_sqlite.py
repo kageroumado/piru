@@ -27,6 +27,9 @@ normalise = _mod.normalise
 canonical_salt_form = _mod.canonical_salt_form
 smart_title_case = _mod.smart_title_case
 chem_caps = _mod.chem_caps
+is_identifier_citation = _mod.is_identifier_citation
+parse_reference = _mod.parse_reference
+dc_slugify = _mod.dc_slugify
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 _REPO = Path(__file__).resolve().parents[3]
@@ -1426,6 +1429,69 @@ class TestCanonicalSaltForm(unittest.TestCase):
     def test_none_and_empty(self):
         self.assertIsNone(canonical_salt_form(None))
         self.assertIsNone(canonical_salt_form("   "))
+
+
+class TestIsIdentifierCitation(unittest.TestCase):
+    """The citation trim: identifiers and database landing pages are NOT
+    literature and must be dropped; DOIs/PMIDs/real papers/Erowid books stay."""
+
+    def _drop(self, ref: str) -> bool:
+        return is_identifier_citation(*parse_reference(ref))
+
+    def test_cas_label_dropped(self):
+        self.assertTrue(self._drop("CAS 61-50-7"))
+
+    def test_pubchem_cid_dropped(self):
+        # parse_reference turns "PubChem CID 6089" into a pubchem URL.
+        self.assertTrue(self._drop("PubChem CID 6089"))
+        self.assertTrue(self._drop("https://pubchem.ncbi.nlm.nih.gov/compound/6089"))
+
+    def test_wikidata_dropped(self):
+        self.assertTrue(self._drop("Wikidata"))
+        self.assertTrue(self._drop("https://www.wikidata.org/wiki/Q407217"))
+
+    def test_database_landing_pages_dropped(self):
+        self.assertTrue(self._drop("https://psychonautwiki.org/wiki/DMT"))
+        self.assertTrue(self._drop("https://drugs.tripsit.me/DMT"))
+        self.assertTrue(self._drop("https://github.com/TripSit/drugs"))
+        self.assertTrue(self._drop("https://drug.community/drug/mdma"))
+
+    def test_inchikey_unii_dropped(self):
+        self.assertTrue(self._drop("InChIKey DMULVCHRPCFFGV-UHFFFAOYSA-N"))
+        self.assertTrue(self._drop("UNII 9H762SAU03"))
+
+    def test_doi_kept(self):
+        self.assertFalse(self._drop("doi:10.1002/dta.1234"))
+        self.assertFalse(self._drop("https://doi.org/10.1002/dta.1234"))
+
+    def test_pmid_kept(self):
+        self.assertFalse(self._drop("PMID 12345678"))
+
+    def test_erowid_books_kept(self):
+        self.assertFalse(
+            self._drop("https://erowid.org/library/books_online/tihkal/tihkal06.shtml")
+        )
+
+    def test_real_paper_url_kept(self):
+        self.assertFalse(self._drop("https://www.nature.com/articles/s41586-020-0000-0"))
+
+
+class TestDcSlugify(unittest.TestCase):
+    """drug.community page-slug parity — must match the site's Kt() so deep
+    links resolve."""
+
+    def test_simple(self):
+        self.assertEqual(dc_slugify("MDMA"), "mdma")
+
+    def test_parenthetical_and_unicode(self):
+        self.assertEqual(dc_slugify("2-Aminoindane (2-AI)"), "2-aminoindane-2-ai")
+        self.assertEqual(
+            dc_slugify("α-Pyrrolidinopentiophenone (α-PVP)"),
+            "pyrrolidinopentiophenone-pvp",
+        )
+
+    def test_trim_and_collapse(self):
+        self.assertEqual(dc_slugify("  1,4-BDO  "), "1-4-bdo")
 
 
 if __name__ == "__main__":
