@@ -1,23 +1,23 @@
 # Piru SQLite build report
 
-Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,938,112 bytes, sha256 `f6366f984ee10bc00258d1f7f097fbb140d8392159c6f7e36a0848a2efd9320e`)
+Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,929,920 bytes, sha256 `34be15c0e413436f2b28a0043d6f326ef68cf7a29dcfc4351a182f47915e5de5`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,909 |
-| aliases | 5,478 |
+| aliases | 5,480 |
 | sources | 16 |
 | citations | 4,026 |
-| categories | 2,474 |
-| tags | 8,568 |
-| dose_ranges | 2,574 |
-| durations | 8,014 |
+| categories | 2,473 |
+| tags | 8,567 |
+| dose_ranges | 2,572 |
+| durations | 8,003 |
 | half_lives | 278 |
 | mechanisms_summary | 621 |
 | effects | 2,996 |
-| subjective_effects | 4,624 |
+| subjective_effects | 4,615 |
 | tolerance | 336 |
 | indications | 1,144 |
 | contraindications | 1,652 |
@@ -45,7 +45,7 @@ Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,938,112 bytes, sha
 | peer-review-primary | 0 | 895 | 0 | 1,764 |
 | psychonautwiki | 389 | 0 | 277 | 324 |
 | tripsit | 596 | 0 | 545 | 1,353 |
-| drug.community | 891 | 0 | 417 | 420 |
+| drug.community | 889 | 0 | 416 | 419 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 166 | 0 | 178 | 454 |
 | erowid-tihkal | 41 | 0 | 55 | 139 |
