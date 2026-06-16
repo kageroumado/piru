@@ -1182,12 +1182,48 @@ struct Substance: Identifiable {
         return (String(rest), String(first))
     }
 
+    /// Aliases cleaned for display (search uses the separate normalized index,
+    /// so this never affects findability). Collapses hyphen / spacing / casing
+    /// variants ("2C-B" / "2cb" / "2c-b") to one — keeping the best-cased form —
+    /// and drops aliases that merely restate the name. Useful clutter for search,
+    /// noise for a human reading "Also known as".
+    var displayAliases: [String] {
+        let drop: Set<String> = [Substance.aliasKey(name), Substance.aliasKey(displayTitle)]
+        var best: [String: String] = [:]
+        var order: [String] = []
+        for alias in aliases {
+            let key = Substance.aliasKey(alias)
+            if key.isEmpty || drop.contains(key) { continue }
+            if let existing = best[key] {
+                if Substance.aliasCasingScore(alias) > Substance.aliasCasingScore(existing) {
+                    best[key] = alias
+                }
+            } else {
+                best[key] = alias
+                order.append(key)
+            }
+        }
+        return order.compactMap { best[$0] }
+    }
+
+    /// Casing/spacing-insensitive identity key for an alias.
+    static func aliasKey(_ s: String) -> String {
+        s.lowercased().unicodeScalars.filter { CharacterSet.alphanumerics.contains($0) }.map(String.init).joined()
+    }
+
+    /// Prefer the better-cased variant: more capitals (proper "2C-B" over "2cb"),
+    /// then a hyphenated form over a run-together one.
+    static func aliasCasingScore(_ s: String) -> Int {
+        s.filter(\.isUppercase).count * 10 + (s.contains("-") ? 1 : 0)
+    }
+
     /// Secondary line for rows: the canonical (expanded) name when it differs
     /// from the shown title, otherwise the cleaned aliases (up to 3).
     var displaySubtitle: String? {
         if displayName != nil, name != displayTitle { return name }
-        guard !aliases.isEmpty else { return nil }
-        return aliases.prefix(3).joined(separator: ", ")
+        let cleaned = displayAliases
+        guard !cleaned.isEmpty else { return nil }
+        return cleaned.prefix(3).joined(separator: ", ")
     }
 
     /// External chemistry reference, preferring an exact PubChem CID, then an

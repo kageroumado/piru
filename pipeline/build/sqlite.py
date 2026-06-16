@@ -5161,6 +5161,18 @@ def main() -> int:
             purged += 1
     print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
 
+    # Capitalise chemical-code aliases for display the same way names are
+    # (2cb→2CB, 4-ho-met→4-HO-MET) — chem_caps only touches digit-bearing codes.
+    # The display column only; search uses alias_normalized, so findability is
+    # untouched. The app further collapses casing/hyphen variants for display.
+    capped = 0
+    for rowid, alias in build.cur.execute("SELECT rowid, alias FROM aliases").fetchall():
+        fixed = chem_caps(alias)
+        if fixed != alias:
+            build.cur.execute("UPDATE aliases SET alias = ? WHERE rowid = ?", (fixed, rowid))
+            capped += 1
+    print(f"Alias chem-caps: {capped}", file=sys.stderr)
+
     # Purge per-substance wrong tags inherited from sources / merged-in stubs
     # (see _TAG_BLOCKLIST). Runs after dedup so it catches tags carried over by
     # the merge, and before classify_compounds (the dropped tags are not the

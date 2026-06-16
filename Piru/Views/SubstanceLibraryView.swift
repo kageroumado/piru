@@ -1108,7 +1108,7 @@ struct SubstanceDetailView: View {
                 }
                 .padding(.vertical, 4)
 
-                if !substance.aliases.isEmpty {
+                if !substance.displayAliases.isEmpty {
                     aliasChips
                 }
                 if !substance.tags.isEmpty {
@@ -1152,7 +1152,7 @@ struct SubstanceDetailView: View {
     /// Aliases as a wrapping chip flow, collapsed to the first few with a
     /// "+N more" chip — a long comma list was a single over-tall row before.
     private var aliasChips: some View {
-        let all = substance.aliases
+        let all = substance.displayAliases
         let limit = 5
         let shown = aliasesExpanded ? all : Array(all.prefix(limit))
         let hidden = all.count - shown.count
