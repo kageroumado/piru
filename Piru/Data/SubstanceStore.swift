@@ -957,13 +957,21 @@ final class SubstanceStore {
 
     // MARK: - Substance resolver (source-priority aware)
 
+    /// Test-only override for the resolved content language. nil = derive from
+    /// the app's UI language (``contentLanguage``). Lets tests exercise the
+    /// locale-first text resolution without changing the process locale.
+    var languageOverride: String?
+
     private func resolveSubstance(id: Int64, canonicalName _: String?) -> Substance? {
-        let cacheKey = "\(id)"
+        let appLanguage = languageOverride ?? Self.contentLanguage
+        // Language is part of the cache key so a mid-session app-language change
+        // re-resolves locale-first text instead of serving stale-language rows.
+        let cacheKey = "\(id)|\(appLanguage)"
         if let cached = resolvedCache[cacheKey] { return cached }
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -979,6 +987,7 @@ final class SubstanceStore {
                 let popularity = coreRow["popularity"] as Double? ?? 0
                 let isStub = (coreRow["is_stub"] as Int64? ?? 0) != 0
                 let drugCommunitySlug: String? = coreRow["drug_community_slug"]
+                let freeodwikiSlug: String? = coreRow["freeodwiki_slug"]
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
                 let peptideProfile = try resolvedPeptideProfile(db: db, substanceID: id)
@@ -988,9 +997,10 @@ final class SubstanceStore {
                 let tags = try resolvedTags(db: db, substanceID: id)
                 var routes = try resolvedRoutes(db: db, substanceID: id)
                 let effects = try resolvedEffects(db: db, substanceID: id)
-                let subjectiveEffects = try resolvedSubjectiveEffects(db: db, substanceID: id)
+                let subjectiveEffects = try resolvedSubjectiveEffects(db: db, substanceID: id, language: appLanguage)
                 let halfLifeMinutes = try resolvedHalfLife(db: db, substanceID: id)
-                let mechanism = try resolvedMechanism(db: db, substanceID: id)
+                let mechanism = try resolvedMechanism(db: db, substanceID: id, language: appLanguage)
+                let overview = try resolvedDescription(db: db, substanceID: id, language: appLanguage)
                 let sources = try citedSources(db: db, substanceID: id)
                 let toleranceInfo = try resolvedTolerance(db: db, substanceID: id)
                 let indications = try self.resolvedIndications(db: db, substanceID: id)
@@ -1031,6 +1041,8 @@ final class SubstanceStore {
                     peptideProfile: peptideProfile,
                     references: references,
                     drugCommunitySlug: drugCommunitySlug,
+                    freeodwikiSlug: freeodwikiSlug,
+                    overview: overview,
                 )
             }
             if let resolved {
@@ -1071,6 +1083,34 @@ final class SubstanceStore {
     private nonisolated static func enabledSourceListSQL(_ order: [String]) -> String {
         if order.isEmpty { return "''" }
         return order.map { "'\($0.replacingOccurrences(of: "'", with: "''"))'" }.joined(separator: ", ")
+    }
+
+    /// The app's effective UI language, normalised to a content-language tag
+    /// ('zh-Hans' | 'zh-Hant' | 'en'). Drives locale-first text resolution so a
+    /// Chinese source (FreeOD Wiki) wins for descriptions/effects when the app
+    /// runs in Chinese. Reads `preferredLocalizations` so it follows the app's
+    /// per-app language override, not just the device language.
+    nonisolated static var contentLanguage: String {
+        let pref = (Bundle.main.preferredLocalizations.first ?? "en").lowercased()
+        guard pref.hasPrefix("zh") else { return "en" }
+        if pref.contains("hant") || pref.contains("tw") || pref.contains("hk") || pref.contains("mo") {
+            return "zh-Hant"
+        }
+        return "zh-Hans"
+    }
+
+    /// Language-aware `WHERE`/`ORDER BY` fragments for a text-bearing table's
+    /// `language` column. In Chinese, matching-language text floats above source
+    /// priority (exact variant first, then any zh), falling back to English when
+    /// no zh row exists. In English, raw zh is excluded entirely — only English
+    /// (and FreeOD's machine-translated en rows) show.
+    private nonisolated static func languageClauses(
+        _ lang: String, column col: String,
+    ) -> (whereAnd: String, orderPrefix: String) {
+        if lang.hasPrefix("zh") {
+            return ("", "(\(col) = '\(lang)') DESC, (\(col) LIKE 'zh%') DESC, ")
+        }
+        return (" AND \(col) IN ('en', 'und') ", "")
     }
 
     private func resolvedCategory(db: Database, substanceID: Int64) throws -> SubstanceCategory? {
@@ -1370,14 +1410,34 @@ final class SubstanceStore {
         """, arguments: [substanceID])
     }
 
-    private func resolvedMechanism(db: Database, substanceID: Int64) throws -> MechanismOfAction? {
+    /// Substance overview prose (descriptions table), resolved locale-first.
+    private func resolvedDescription(db: Database, substanceID: Int64, language: String) throws -> SubstanceOverview? {
+        let lang = Self.languageClauses(language, column: "d.language")
+        guard let row = try Row.fetchOne(db, sql: """
+            SELECT d.text, d.machine_translated
+              FROM descriptions d
+              JOIN sources src ON src.id = d.source_id
+             WHERE d.substance_id = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+               \(lang.whereAnd)
+             ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
+             LIMIT 1
+        """, arguments: [substanceID]) else { return nil }
+        let text: String = row["text"]
+        guard !text.isEmpty else { return nil }
+        return SubstanceOverview(text: text, machineTranslated: (row["machine_translated"] as Int64? ?? 0) != 0)
+    }
+
+    private func resolvedMechanism(db: Database, substanceID: Int64, language: String) throws -> MechanismOfAction? {
+        let lang = Self.languageClauses(language, column: "m.language")
         let row = try Row.fetchOne(db, sql: """
             SELECT m.summary, m.description
               FROM mechanisms_summary m
               JOIN sources src ON src.id = m.source_id
              WHERE m.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY \(priorityCaseSQL) ASC
+               \(lang.whereAnd)
+             ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID])
 
@@ -1430,17 +1490,27 @@ final class SubstanceStore {
         """, arguments: [substanceID])
     }
 
-    private func resolvedSubjectiveEffects(db: Database, substanceID: Int64) throws -> [SubjectiveEffect] {
-        let rows = try Row.fetchAll(db, sql: """
-            SELECT DISTINCT se.name AS effect_name,
-                            COALESCE(se.description, '') AS effect_description
-              FROM subjective_effects se
-              JOIN sources src ON src.id = se.source_id
-             WHERE se.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY se.name
-        """, arguments: [substanceID])
-        return rows.map { SubjectiveEffect(name: $0["effect_name"], description: $0["effect_description"]) }
+    private func resolvedSubjectiveEffects(db: Database, substanceID: Int64, language: String) throws -> [SubjectiveEffect] {
+        func fetch(_ langFilter: String) throws -> [SubjectiveEffect] {
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT DISTINCT se.name AS effect_name,
+                                COALESCE(se.description, '') AS effect_description
+                  FROM subjective_effects se
+                  JOIN sources src ON src.id = se.source_id
+                 WHERE se.substance_id = ?
+                   AND src.slug IN (\(enabledSourceListSQL))
+                   \(langFilter)
+                 ORDER BY se.name
+            """, arguments: [substanceID])
+            return rows.map { SubjectiveEffect(name: $0["effect_name"], description: $0["effect_description"]) }
+        }
+        // Chinese: show the zh set if the substance has one, else fall back to
+        // English (don't blank the section). English: never show raw zh.
+        if language.hasPrefix("zh") {
+            let zh = try fetch("AND se.language LIKE 'zh%'")
+            return zh.isEmpty ? try fetch("AND se.language IN ('en', 'und')") : zh
+        }
+        return try fetch("AND se.language IN ('en', 'und')")
     }
 
     private func resolvedTolerance(db: Database, substanceID: Int64) throws -> ToleranceInfo? {

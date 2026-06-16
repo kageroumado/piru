@@ -457,6 +457,7 @@ struct SubstanceDetailView: View {
     // Reset to nil on profile change so the new tier's defaults take effect
     // (otherwise the user would be permanently stuck on whatever defaults
     // applied the first time the section was rendered).
+    @State private var overviewExpanded: Bool?
     @State private var mechanismExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
     /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
@@ -618,6 +619,42 @@ struct SubstanceDetailView: View {
     /// to recreational / dual-use compounds where such reports exist.
     private var showsErowidReports: Bool {
         displayClass == .recreational || displayClass == .dualUse
+    }
+
+    /// Long-form overview prose (FreeOD Wiki), resolved locale-first by the
+    /// store: native Chinese when the app runs in Chinese, machine-translated
+    /// English as a fallback. Hidden when no source supplies an overview.
+    @ViewBuilder private var overviewSection: some View {
+        if let overview = substance.overview, !overview.text.isEmpty {
+            Section {
+                DisclosureGroup(
+                    isExpanded: Binding(
+                        get: { overviewExpanded ?? true },
+                        set: { overviewExpanded = $0 },
+                    ),
+                ) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(overview.text)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize(horizontal: false, vertical: true)
+                        if overview.machineTranslated {
+                            Label("Machine-translated from FreeOD Wiki", systemImage: "character.bubble")
+                                .font(.caption2)
+                                .foregroundStyle(.tertiary)
+                        }
+                    }
+                } label: {
+                    Label("Overview", systemImage: "text.justify.left")
+                        .font(.subheadline.weight(.semibold))
+                }
+                SourceAttributionRow(
+                    slug: "freeodwiki",
+                    label: "Overview",
+                    deepLink: sourceDeepLink("freeodwiki"),
+                )
+            }
+        }
     }
 
     @ViewBuilder private var effectsSection: some View {
@@ -1212,6 +1249,8 @@ struct SubstanceDetailView: View {
                 statusBanner
                 jokeBanner
 
+                overviewSection
+
                 // Effects — curated summary + grouped "All effects" navigation.
                 effectsSection
 
@@ -1403,6 +1442,11 @@ struct SubstanceDetailView: View {
         if slug == "drug.community" {
             guard let dc = substance.drugCommunitySlug else { return nil }
             return URL(string: "https://drug.community/drug/\(dc)")
+        }
+        // FreeOD Wiki pages are titled in Chinese, so deep-link the captured
+        // page slug rather than the app's (English) substance name.
+        if slug == "freeodwiki" {
+            return AppSources.freeodwikiURL(slug: substance.freeodwikiSlug)
         }
         // The Shulgin books (PiHKAL/TiHKAL) only have a book homepage, not a
         // per-substance page. The citation carries the real chapter link, so

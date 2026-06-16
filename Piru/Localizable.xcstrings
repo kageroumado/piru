@@ -26503,6 +26503,38 @@
           }
         }
       }
+    },
+    "Overview" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概述"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概述"
+          }
+        }
+      }
+    },
+    "Machine-translated from FreeOD Wiki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 FreeOD Wiki 机器翻译"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 FreeOD Wiki 機器翻譯"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

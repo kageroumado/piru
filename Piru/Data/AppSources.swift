@@ -5,6 +5,10 @@ struct SourceInfo {
     let url: String
     let detail: String
     let description: String
+    /// Content licence, surfaced for attribution. Set for the copyleft community
+    /// wikis Piru bundles (CC BY-SA 4.0); nil for sources used only as outbound
+    /// reference links or whose factual data carries no licence obligation.
+    var license: String?
 }
 
 enum AppSources {
@@ -26,6 +30,14 @@ enum AppSources {
             url: "https://psychonautwiki.org",
             detail: "psychonautwiki.org",
             description: "Community-driven encyclopedia of psychoactive substances providing dosage, duration, pharmacology, subjective effects, and harm reduction information.",
+            license: "CC BY-SA 4.0",
+        ),
+        SourceInfo(
+            name: "FreeOD Wiki",
+            url: "https://freeodwiki.org",
+            detail: "freeodwiki.org",
+            description: "Chinese-language community harm-reduction wiki providing native Chinese descriptions, pharmacology, subjective effects, and dosage/duration data.",
+            license: "CC BY-SA 4.0",
         ),
         SourceInfo(
             name: "DrugBank",
@@ -86,7 +98,18 @@ enum AppSources {
         "peer-review-primary": "PubMed",
         "erowid-pihkal": "PiHKAL",
         "erowid-tihkal": "TiHKAL",
+        "freeodwiki": "FreeOD Wiki",
     ]
+
+    /// Deep link to a FreeOD Wiki substance page. The pages are titled in
+    /// Chinese, so the per-substance `freeodwiki_slug` captured at build time is
+    /// required; without it we fall back to the site root.
+    static func freeodwikiURL(slug: String?) -> URL? {
+        guard let slug, !slug.isEmpty,
+              let encoded = slug.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+        else { return URL(string: "https://freeodwiki.org") }
+        return URL(string: "https://freeodwiki.org/药物/\(encoded)")
+    }
 
     /// Deep link to a source's page for a substance, keyed by the DB `slug`
     /// rather than the display name. Used by the dose/duration source rows so
