@@ -621,6 +621,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         rows = self.db.execute(
             "select canonical_name from substances "
             "where canonical_name = lower(canonical_name) "
+            "and canonical_name glob '*[a-z]*' "  # only Latin names have case; CJK-named FreeOD entries can't be title-cased
             "and canonical_name not glob '[0-9]*' "  # exempt numeric-prefixed names like "5-meo-dmt" (becomes 5-MEO-DMT)
         ).fetchall()
         # Allow a tiny bleed; we mainly want to catch hundreds of un-cased names.

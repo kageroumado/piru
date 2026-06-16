@@ -52,6 +52,7 @@ SOURCED = REPO / "data/intermediate/sourced-substances.json"
 CURATED_DIR = REPO / "data/curated/substances"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
+FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # Citation link-health cache produced by pipeline/audit/validate_links.py.
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
 LINK_CACHE = REPO / "data/sources/link-cache.json"
@@ -129,7 +130,180 @@ SOURCES = [
         "NPS Data Hub",
         "Forensic NPS chemistry catalogue; chemical identifiers (CAS/InChIKey/SMILES/formula/MW) only.",
     ),
+    # Lowest priority: a Chinese-language source whose text only WINS when the
+    # app runs in Chinese (the resolver floats matching-language text above
+    # source priority). In English it fills gaps via machine translation.
+    (
+        "freeodwiki",
+        "FreeOD Wiki",
+        "Chinese harm-reduction wiki (CC BY-SA 4.0): native zh descriptions, pharmacology, effects, dose/duration.",
+    ),
 ]
+
+# --- FreeOD Wiki ingest helpers ---------------------------------------------
+
+_CJK_RE = re.compile(r"[㐀-䶿一-鿿]")
+
+# FreeOD 精神活性分类 (psychoactive class) -> SubstanceCategory rawValue. Mapped
+# to English here so add_category's normalize_category resolves cleanly and the
+# iOS SubstanceCategory(rawValue:) decode succeeds. Unmapped classes are simply
+# skipped (the substance falls back to "Other" / a higher-priority source).
+FREEOD_CATEGORY_MAP = {
+    "兴奋剂": "Stimulant",
+    "抑制剂": "Depressant",
+    "镇静剂": "Depressant",
+    "迷幻剂": "Psychedelic",
+    "致幻剂": "Psychedelic",
+    "共情剂": "Empathogen",
+    "解离剂": "Dissociative",
+    "阿片类药物": "Opioid",
+    "阿片类": "Opioid",
+    "谵妄剂": "Deliriant",
+    "大麻类": "Cannabinoid",
+    "大麻素": "Cannabinoid",
+    "益智药": "Nootropic",
+    "促醒剂": "Eugeroic",
+    "苯二氮卓类物质": "Benzodiazepine",
+    "苯二氮卓类": "Benzodiazepine",
+    "加巴喷丁类": "GABAergic",
+    "抗抑郁药": "Antidepressant",
+    "抗精神病药": "Antipsychotic",
+    "镇痛药": "Analgesic",
+    "止痛药": "Analgesic",
+    "抗组胺药": "Antihistamine",
+    "抗惊厥药": "Anticonvulsant",
+    "抗癫痫药": "Anticonvulsant",
+    "补充剂": "Supplement",
+    "膳食补充剂": "Supplement",
+    "肽": "Peptide",
+    "多肽": "Peptide",
+}
+
+
+# Curated zh→English canonical map for FreeOD pages written with a fully
+# Chinese intro (no English name anywhere on the page) where the auto-miner
+# can't recover one. Targets are verified to exist in the bundled DB by an
+# ingest-time check; an unrecognised target is still a valid English canonical
+# (the page just becomes an English-named new substance rather than a Chinese
+# one). Uncertain botanicals/RCs are intentionally omitted — they stay as
+# genuine FreeOD-only entries under their Chinese title.
+FREEOD_NAME_OVERRIDE = {
+    "1,4-丁二醇": "1,4-Butanediol",
+    "尼古丁": "Nicotine",
+    "美沙酮": "Methadone",
+    "芬太尼": "Fentanyl",
+    "舒芬太尼": "Sufentanil",
+    "乙酰芬太尼": "Acetylfentanyl",
+    "曲马多": "Tramadol",
+    "哌替啶": "Pethidine",
+    "氢吗啡酮": "Hydromorphone",
+    "羟考酮": "Oxycodone",
+    "右美沙芬": "DXM",
+    "右丙氧芬": "Dextropropoxyphene",
+    "二氢可待因": "Dihydrocodeine",
+    "二氢去氧吗啡": "Desomorphine",
+    "替利定": "Tilidine",
+    "洛哌丁胺": "Loperamide",
+    "吡拉西坦": "Piracetam",
+    "普拉西坦": "Pramiracetam",
+    "普罗林坦": "Prolintane",
+    "肌酸": "Creatine",
+    "茶氨酸": "Theanine",
+    "酪氨酸": "Tyrosine",
+    "育亨宾": "Yohimbine",
+    "胍丁胺": "Agmatine",
+    "胞磷胆碱": "Citicoline",
+    "酒石酸氢胆碱": "Choline Bitartrate",
+    "颠茄": "Belladonna",
+    "曼陀罗属": "Datura",
+    "毒蝇伞": "Amanita Muscaria",
+    "豹斑鹅膏": "Amanita Pantherina",
+    "肉豆蔻醚": "Myristicin",
+    "异丙嗪": "Promethazine",
+    "羟嗪": "Hydroxyzine",
+    "茶苯海明": "Dimenhydrinate",
+    "苯海索": "Trihexyphenidyl",
+    "氟哌啶醇": "Haloperidol",
+    "氯氮平": "Clozapine",
+    "奥氮平": "Olanzapine",
+    "氟马西尼": "Flumazenil",
+    "氯氮䓬": "Chlordiazepoxide",
+    "溴西泮": "Bromazepam",
+    "吡溴唑仑": "Pyrazolam",
+    "氟溴西泮": "Flubromazepam",
+    "氟阿普唑仑": "Flualprazolam",
+    "氟氯替唑仑": "Fluclotizolam",
+    "芬纳西泮": "Phenazepam",
+    "去氯依替唑仑": "Deschloroetizolam",
+    "甲丙氨酯": "Meprobamate",
+    "戊巴比妥": "Pentobarbital",
+    "司可巴比妥": "Secobarbital",
+    "金刚烷胺": "Amantadine",
+    "加兰他敏": "Galantamine",
+    "加波沙多": "Gaboxadol",
+    "阿莫达菲尼": "Armodafinil",
+    "苄达明": "Benzydamine",
+    "卡瓦": "Kava",
+    "环己丙甲胺": "Propylhexedrine",
+    "侧柏酮": "Thujone",
+    "依非韦仑": "Efavirenz",
+    "鹅膏蕈氨酸": "Ibotenic Acid",
+    "蓝莲花": "Blue Lotus",
+    "夏威夷小木玫瑰": "Hawaiian Baby Woodrose",
+    "墨西哥鼠尾草": "Salvia Divinorum",
+    "骆驼蓬": "Syrian Rue",
+    "细花含羞草": "Mimosa Hostilis",
+    "绿九节": "Psychotria Viridis",
+    "古巴裸盖菇": "Psilocybe Cubensis",
+    "墨西哥裸盖菇": "Psilocybe Mexicana",
+    "蓝柄裸盖菇": "Psilocybe Cyanescens",
+    "普罗斯卡林": "Proscaline",
+    "硝基甲喹酮": "Nitromethaqualone",
+    "烟草_ODW": "Tobacco",
+    "三色牵牛": "Ipomoea Tricolor",
+    "牵牛花": "Morning Glory",
+    "死藤": "Banisteriopsis Caapi",
+    "秘鲁火炬仙人掌": "Peruvian Torch",
+    "乌羽玉": "Lophophora Williamsii",
+    "二氟莫达菲尼": "Flmodafinil",
+    "氯苄雷司": "Clobenzorex",
+    "水虉草": "Phalaris",
+    "亚硝酸酯": "Poppers",
+}
+
+# FreeOD index/category/genus pages that aren't individual substances — skipped
+# so they don't pollute the substances table.
+FREEOD_SKIP_PAGES = {
+    "吸入剂",  # Inhalants — category page
+    "致幻仙人掌",  # Hallucinogenic cacti — category page
+    "裸盖菇属",  # Psilocybe — genus index
+    "精神活性相思树属植物",  # Psychoactive Acacia spp — category page
+}
+
+
+def _freeod_canonical_name(title: str, names: list[str]) -> str | None:
+    """Pick a Latin canonical name for a FreeOD page so it matches an existing
+    English substance; fall back to the zh title for FreeOD-only compounds."""
+    cands = [
+        c.strip() for c in ([title] + list(names)) if c and c.strip() and not _CJK_RE.search(c)
+    ]
+    for c in cands:
+        if len(c) >= 3 and any(ch.isalpha() for ch in c):
+            return c
+    if cands:
+        return cands[0]
+    return (title or "").strip() or None
+
+
+def _freeod_range(r) -> dict | None:
+    """Convert the extractor's dose value into add_dose's {lower,upper}. A
+    {min,max} range maps directly; a bare scalar (a single-value tier) becomes a
+    degenerate range so it still classifies."""
+    if r is None:
+        return None
+    if isinstance(r, dict):
+        return {"lower": r.get("min"), "upper": r.get("max")}
+    return {"lower": r, "upper": r}
 
 
 # ---------------------------------------------------------------------------
@@ -203,7 +377,10 @@ CREATE TABLE substances (
     -- the canonical slug (no alias fallback), so the app can't derive a working
     -- link from its own name — it must use this. NULL when the substance has no
     -- drug.community entry. Carried across merges via _merge_into's COALESCE.
-    drug_community_slug TEXT
+    drug_community_slug TEXT,
+    -- FreeOD Wiki (freeodwiki.org/药物/<slug>) page slug, captured during
+    -- ingest so the app can deep-link the source page (titles are Chinese).
+    freeodwiki_slug TEXT
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -323,13 +500,21 @@ CREATE TABLE half_lives (
     PRIMARY KEY (substance_id, source_id)
 );
 
+-- Text-bearing tables carry a BCP-47 `language` tag ('en' | 'zh-Hans' |
+-- 'zh-Hant' | 'und') and a `machine_translated` flag so the app can resolve
+-- text locale-first (a Chinese source wins when the app runs in Chinese) and
+-- mark machine-translated prose. All pre-existing sources are English, so the
+-- columns default to ('en', 0). `language` is part of mechanisms_summary's PK
+-- so one source can hold both a zh original and an en translation.
 CREATE TABLE mechanisms_summary (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     summary      TEXT NOT NULL,
     description  TEXT,
+    language     TEXT NOT NULL DEFAULT 'en',
+    machine_translated INTEGER NOT NULL DEFAULT 0,
     citation_id  INTEGER REFERENCES citations(id),
-    PRIMARY KEY (substance_id, source_id)
+    PRIMARY KEY (substance_id, source_id, language)
 );
 
 CREATE TABLE effects (
@@ -339,6 +524,8 @@ CREATE TABLE effects (
     text            TEXT NOT NULL,
     kind            TEXT,
     effect_category TEXT,
+    language        TEXT NOT NULL DEFAULT 'en',
+    machine_translated INTEGER NOT NULL DEFAULT 0,
     citation_id     INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_effects_substance ON effects(substance_id);
@@ -349,9 +536,26 @@ CREATE TABLE subjective_effects (
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     name         TEXT NOT NULL,
     description  TEXT,
+    language     TEXT NOT NULL DEFAULT 'en',
+    machine_translated INTEGER NOT NULL DEFAULT 0,
     citation_id  INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_subjective_substance ON subjective_effects(substance_id);
+
+-- Long-form substance overview prose ("what it is / history / risk profile"),
+-- distinct from mechanisms_summary (pharmacology). Currently fed only by
+-- FreeOD Wiki; the app shows it in an "Overview" section, locale-first.
+CREATE TABLE descriptions (
+    id           INTEGER PRIMARY KEY,
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    text         TEXT NOT NULL,
+    language     TEXT NOT NULL DEFAULT 'en',
+    machine_translated INTEGER NOT NULL DEFAULT 0,
+    citation_id  INTEGER REFERENCES citations(id),
+    UNIQUE (substance_id, source_id, language)
+);
+CREATE INDEX idx_descriptions_substance ON descriptions(substance_id);
 
 CREATE TABLE tolerance (
     substance_id    INTEGER NOT NULL REFERENCES substances(id),
@@ -2808,16 +3012,48 @@ class Build:
         summary: str,
         description: str | None = None,
         citation: str | None = None,
+        language: str = "en",
+        machine_translated: bool = False,
     ) -> None:
         if not summary:
             return
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO mechanisms_summary(substance_id, source_id, summary, description, citation_id) VALUES (?, ?, ?, ?, ?)",
-                (sid, src, summary, description, self.cite(citation)),
+                "INSERT INTO mechanisms_summary(substance_id, source_id, summary, description, language, machine_translated, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (
+                    sid,
+                    src,
+                    summary,
+                    description,
+                    language,
+                    1 if machine_translated else 0,
+                    self.cite(citation),
+                ),
             )
             self.stats["mechanisms_summary"] += 1
+        except sqlite3.IntegrityError:
+            pass
+
+    def add_description(
+        self,
+        sid: int,
+        source_slug: str,
+        text: str,
+        language: str = "en",
+        machine_translated: bool = False,
+        citation: str | None = None,
+    ) -> None:
+        text = (text or "").strip()
+        if not text:
+            return
+        src = self.source_ids[source_slug]
+        try:
+            self.cur.execute(
+                "INSERT INTO descriptions(substance_id, source_id, text, language, machine_translated, citation_id) VALUES (?, ?, ?, ?, ?, ?)",
+                (sid, src, text, language, 1 if machine_translated else 0, self.cite(citation)),
+            )
+            self.stats["descriptions"] = self.stats.get("descriptions", 0) + 1
         except sqlite3.IntegrityError:
             pass
 
@@ -2870,7 +3106,15 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_effect(self, sid: int, source_slug: str, text: str, kind: str | None = None) -> None:
+    def add_effect(
+        self,
+        sid: int,
+        source_slug: str,
+        text: str,
+        kind: str | None = None,
+        language: str = "en",
+        machine_translated: bool = False,
+    ) -> None:
         if not text:
             return
         # Whitelist + categorize against the canonical PsychonautWiki subjective
@@ -2887,20 +3131,26 @@ class Build:
             return
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO effects(substance_id, source_id, text, kind, effect_category) VALUES (?, ?, ?, ?, ?)",
-            (sid, src, text, kind, category),
+            "INSERT INTO effects(substance_id, source_id, text, kind, effect_category, language, machine_translated) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (sid, src, text, kind, category, language, 1 if machine_translated else 0),
         )
         self.stats["effects"] += 1
 
     def add_subjective_effect(
-        self, sid: int, source_slug: str, name: str, description: str | None = None
+        self,
+        sid: int,
+        source_slug: str,
+        name: str,
+        description: str | None = None,
+        language: str = "en",
+        machine_translated: bool = False,
     ) -> None:
         if not name:
             return
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO subjective_effects(substance_id, source_id, name, description) VALUES (?, ?, ?, ?)",
-            (sid, src, name, description),
+            "INSERT INTO subjective_effects(substance_id, source_id, name, description, language, machine_translated) VALUES (?, ?, ?, ?, ?, ?)",
+            (sid, src, name, description, language, 1 if machine_translated else 0),
         )
         self.stats["subjective_effects"] += 1
 
@@ -3884,6 +4134,205 @@ class Build:
                 continue
             out.append(t)
         return out
+
+    def reapply_curated_display_names(self, directory: Path) -> int:
+        """Re-stamp curated `displayName` overrides onto the surviving rows after
+        all dedup/fold passes. display_name is first set during curated ingest,
+        but later merges (which pick a survivor and demote the other name to an
+        alias) can land the survivor on the row that lacked the override — e.g.
+        a FreeOD-introduced synonym absorbing the curated entry. Resolving each
+        curated name through canonical-then-alias finds the survivor regardless
+        of which name won, so the override is authoritative and applied last."""
+        canon = {
+            norm: sid
+            for sid, norm in self.cur.execute("SELECT id, normalized_name FROM substances")
+        }
+        alias: dict[str, int] = {}
+        for sid, anorm in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
+            alias.setdefault(anorm, sid)
+        n = 0
+        for fp in sorted(directory.glob("*.json")):
+            e = json.loads(fp.read_text())
+            dn, nm = e.get("displayName"), e.get("name")
+            if not dn or not nm or is_chemistry_noise(nm):
+                continue
+            sid = canon.get(normalise(nm)) or alias.get(normalise(nm))
+            if sid is None:
+                continue
+            self.cur.execute("UPDATE substances SET display_name = ? WHERE id = ?", (dn, sid))
+            n += 1
+        return n
+
+    def ingest_freeodwiki(self, path: Path) -> None:
+        """FreeOD Wiki (CC BY-SA 4.0) Chinese harm-reduction data.
+
+        Lowest priority, so its numeric facts (dose/duration) only FILL GAPS in
+        English, while its zh text (description/mechanism/effects) is stored
+        language-tagged so the app's locale-aware resolver floats it above
+        higher-priority English sources when the app runs in Chinese. Optional
+        machine-translated English fields (``*_en``) ride along as en rows that
+        fill gaps for substances English sources don't cover.
+
+        FreeOD pages are titled in Chinese; ``upsert_substance`` matches only by
+        normalised canonical name, so we feed it a Latin name (from the page's
+        extracted aliases) and keep the zh title as an alias — which also
+        enriches Chinese search. Compounds with no Latin name keep their zh
+        title as canonical (a new FreeOD-only substance).
+        """
+        if not path.exists():
+            return
+        data = json.loads(path.read_text())
+        slug = "freeodwiki"
+        created: list[str] = []
+        # upsert_substance matches only by canonical name. FreeOD's English
+        # names are frequently RC acronyms (DCK, O-DSMT, α-PVP) that exist in
+        # the DB under a fuller canonical name with the acronym as an alias, so
+        # resolve names against existing aliases too to avoid duplicate rows.
+        # Canonical-name match first (strongest); alias match only for names
+        # specific enough (≥4 chars) to avoid "K"/"E"/"X" false merges.
+        # Alias- and display-name-keyed lookup. display_name is a presentation
+        # override (e.g. "2-FA" for "2-Fluoroamphetamine") that is NOT in the
+        # aliases table, so match it too or FreeOD duplicates those entries.
+        existing_alias: dict[str, int] = {}
+        for anorm, asid in self.cur.execute(
+            "SELECT alias_normalized, substance_id FROM aliases"
+        ).fetchall():
+            existing_alias.setdefault(anorm, asid)
+        for dname, dsid in self.cur.execute(
+            "SELECT display_name, id FROM substances WHERE display_name IS NOT NULL"
+        ).fetchall():
+            existing_alias.setdefault(normalise(dname), dsid)
+
+        def canonical_of(sid_: int) -> str | None:
+            row = self.cur.execute(
+                "SELECT canonical_name FROM substances WHERE id=?", (sid_,)
+            ).fetchone()
+            return row[0] if row else None
+
+        def resolve_existing(cands: list[str]) -> str | None:
+            for cand in cands:
+                n = normalise(cand)
+                sid_canon = self.substance_ids.get(n)
+                sid_alias = existing_alias.get(n)
+                # An acronym that is BOTH a canonical and an alias/display of a
+                # *different* substance signals a pre-existing duplicate (e.g.
+                # "2-FA" exists as its own row and as the display_name of the
+                # curated "2-Fluoroamphetamine"). Prefer the fuller-named,
+                # usually-curated alias target so FreeOD data lands there and
+                # the later dedup keeps the canonical name, not the acronym.
+                if sid_canon and sid_alias and sid_alias != sid_canon:
+                    if name := canonical_of(sid_alias):
+                        return name
+                if sid_canon:
+                    return cand
+            for cand in cands:
+                if len(cand) >= 3 and any(ch.isalpha() for ch in cand):
+                    if sid_ := existing_alias.get(normalise(cand)):
+                        if name := canonical_of(sid_):
+                            return name
+            return None
+
+        for rec in sorted(data, key=lambda r: r.get("page_slug") or ""):
+            title = (rec.get("title") or "").strip()
+            if title in FREEOD_SKIP_PAGES:
+                continue
+            names = rec.get("names") or []
+            canonical = _freeod_canonical_name(title, names)
+            if not canonical:
+                continue
+            # Prefer an existing substance the page's names already resolve to.
+            # A curated zh→English override (for fully-Chinese pages) leads the
+            # candidate list so it both matches and supplies an English name.
+            override = FREEOD_NAME_OVERRIDE.get(title)
+            latin_cands = (
+                ([override] if override else [])
+                + [canonical]
+                + [n for n in names if n and not _CJK_RE.search(n)]
+            )
+            canonical = resolve_existing(latin_cands) or override or canonical
+            # All FreeOD names + the zh title become searchable aliases.
+            aliases = list(dict.fromkeys([n for n in ([title] + names) if n and n != canonical]))
+            before = self.stats["substances"]
+            sid = self.upsert_substance(
+                canonical,
+                aliases=aliases,
+                cas=rec.get("cas") or None,
+                formula=rec.get("formula") or None,
+                iupac=rec.get("iupac") or None,
+                source_slug=slug,
+            )
+            if sid is None:
+                continue
+            if self.stats["substances"] > before:
+                created.append(f"{canonical}  ←  {title}")
+
+            page_slug = rec.get("page_slug")
+            if page_slug:
+                self.cur.execute(
+                    "UPDATE substances SET freeodwiki_slug=COALESCE(freeodwiki_slug, ?) WHERE id=?",
+                    (page_slug, sid),
+                )
+
+            for cat in rec.get("categories") or []:
+                mapped = FREEOD_CATEGORY_MAP.get(cat)
+                if mapped:
+                    self.add_category(sid, slug, mapped)
+
+            for route, d in (rec.get("doses") or {}).items():
+                unit = d.get("unit") or "mg"
+                self.add_dose(
+                    sid,
+                    slug,
+                    route,
+                    unit,
+                    threshold=d.get("threshold"),
+                    light=_freeod_range(d.get("light")),
+                    common=_freeod_range(d.get("common")),
+                    strong=_freeod_range(d.get("strong")),
+                    heavy=d.get("heavy"),
+                )
+            for route, phases in (rec.get("durations") or {}).items():
+                if phases:
+                    self.add_duration_profile(sid, slug, route, phases)
+
+            # zh originals (language-tagged); the resolver floats them above
+            # English sources only when the app runs in Chinese.
+            if rec.get("description"):
+                self.add_description(sid, slug, rec["description"], language="zh-Hans")
+            if rec.get("mechanism"):
+                self.add_mechanism_summary(sid, slug, rec["mechanism"], language="zh-Hans")
+            for eff in rec.get("subjective_effects") or []:
+                self.add_subjective_effect(sid, slug, eff, language="zh-Hans")
+
+            # Optional machine-translated English (from translate_freeodwiki.py);
+            # en rows fill gaps for substances English sources don't cover.
+            if rec.get("description_en"):
+                self.add_description(
+                    sid, slug, rec["description_en"], language="en", machine_translated=True
+                )
+            if rec.get("mechanism_en"):
+                self.add_mechanism_summary(
+                    sid, slug, rec["mechanism_en"], language="en", machine_translated=True
+                )
+            for eff in rec.get("subjective_effects_en") or []:
+                self.add_subjective_effect(sid, slug, eff, language="en", machine_translated=True)
+
+        self.stats["freeodwiki_substances"] = len(data)
+        self.stats["freeodwiki_created"] = len(created)
+        if created:
+            report = Path("/tmp/freeodwiki-match-report.txt")
+            report.write_text(
+                f"FreeOD: {len(data)} records, {len(data) - len(created)} matched "
+                f"existing, {len(created)} created new (no English match):\n\n"
+                + "\n".join(created)
+                + "\n",
+                encoding="utf-8",
+            )
+            print(
+                f"[freeodwiki] {len(data)} records: "
+                f"{len(data) - len(created)} matched, {len(created)} new — "
+                f"full list at {report}"
+            )
 
     def ingest_pyrls(self, path: Path) -> None:
         """Prescription-drug clinical reference. Adds NEW medical substances
@@ -5048,6 +5497,7 @@ def main() -> int:
     print(f"After psychonautwiki: {build.stats}", file=sys.stderr)
 
     build.ingest_drug_community(DRUG_COMMUNITY)
+    build.ingest_freeodwiki(FREEODWIKI)
     print(f"After drug.community: {build.stats}", file=sys.stderr)
 
     for f in sorted(ENRICHMENT_DIR.glob("*.json")):
@@ -5279,6 +5729,12 @@ def main() -> int:
     # category, tags, regulatory status). Must run LAST.
     classified = build.classify_compounds()
     print(f"Display classification: {classified}", file=sys.stderr)
+
+    # Re-stamp curated displayName overrides onto the final survivors (after all
+    # merges/folds settle) so a merge that demoted the curated name to an alias
+    # can't drop its display override. See reapply_curated_display_names.
+    redisplay = build.reapply_curated_display_names(CURATED_DIR)
+    print(f"Curated display_name re-applied: {redisplay}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = datetime.now(UTC).strftime("%Y-%m-%d.0")

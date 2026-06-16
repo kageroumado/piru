@@ -16,6 +16,9 @@ T = {
     # Detail-view Design D 2026-06 — merged dose/duration card, Show All effects,
     # Erowid as its own group, two-column Info/Chemistry grids, merged Sources.
     "Dose & Duration": ("剂量与时长", "劑量與時長"),
+    # FreeOD Wiki overview section (locale-first Chinese substance descriptions).
+    "Overview": ("概述", "概述"),
+    "Machine-translated from FreeOD Wiki": ("由 FreeOD Wiki 机器翻译", "由 FreeOD Wiki 機器翻譯"),
     "Show All": ("查看全部", "查看全部"),
     "Default route": ("默认途径", "預設途徑"),
     "Experience reports": ("体验报告", "體驗報告"),
@@ -2427,6 +2430,9 @@ if __name__ == "__main__":
         "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.",
         # Detail-view Design D 2026-06
         "Dose & Duration",
+        # FreeOD Wiki overview section 2026-06
+        "Overview",
+        "Machine-translated from FreeOD Wiki",
         "Show All",
         "Default route",
         "Experience reports",

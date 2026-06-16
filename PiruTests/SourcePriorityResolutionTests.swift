@@ -53,3 +53,52 @@ struct SourcePriorityResolutionTests {
         }
     }
 }
+
+/// Locale-first text resolution: FreeOD Wiki's native Chinese descriptions and
+/// effects win when the app runs in Chinese, while English never shows raw zh.
+@Suite("FreeOD locale resolution")
+struct FreeODLocaleResolutionTests {
+    private func hasHan(_ s: String) -> Bool {
+        s.unicodeScalars.contains { (0x4E00 ... 0x9FFF).contains($0.value) }
+    }
+
+    @Test
+    @MainActor
+    func `Chinese app shows native FreeOD overview`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        store.languageOverride = "zh-Hans"
+        let overview = try #require(store.lookup("MDMA")?.overview)
+        #expect(hasHan(overview.text))
+        #expect(overview.machineTranslated == false)
+    }
+
+    @Test
+    @MainActor
+    func `English app never shows raw Chinese text`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        store.languageOverride = "en"
+        let en = store.lookup("MDMA")
+        // No machine-translated English exists yet, so the overview is absent
+        // in English rather than falling back to raw Chinese.
+        if let overview = en?.overview { #expect(!hasHan(overview.text)) }
+        for effect in en?.subjectiveEffects ?? [] {
+            #expect(!hasHan(effect.name))
+        }
+    }
+
+    @Test
+    @MainActor
+    func `Chinese subjective effects are native zh`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        store.languageOverride = "zh-Hans"
+        let effects = store.lookup("MDMA")?.subjectiveEffects ?? []
+        #expect(!effects.isEmpty)
+        #expect(effects.contains { hasHan($0.name) })
+    }
+}

@@ -890,6 +890,14 @@ struct ReceptorBinding: Codable, Identifiable {
     }
 }
 
+/// Long-form substance overview prose, resolved locale-first. `machineTranslated`
+/// flags FreeOD Wiki text auto-translated into the app's language so the UI can
+/// label it.
+struct SubstanceOverview: Codable, Hashable {
+    let text: String
+    let machineTranslated: Bool
+}
+
 struct MechanismOfAction: Codable {
     let summary: String
     let description: String
@@ -1088,6 +1096,15 @@ struct Substance: Identifiable {
     /// fallback), so it can't be derived from the app's own name. Detail-only
     /// (nil in the batch/browse path); nil when there's no drug.community entry.
     let drugCommunitySlug: String?
+    /// FreeOD Wiki page slug, for deep-linking `freeodwiki.org/药物/<slug>` (the
+    /// page titles are Chinese, so the slug can't be derived from `name`).
+    /// Detail-only; nil when there's no FreeOD entry.
+    let freeodwikiSlug: String?
+    /// Long-form overview prose ("what it is / history / risk profile"),
+    /// resolved locale-first (native Chinese when the app runs in Chinese,
+    /// machine-translated English as a fallback). Detail-only; nil when no
+    /// source supplies an overview. Distinct from `mechanismOfAction`.
+    let overview: SubstanceOverview?
 
     nonisolated init(
         name: String,
@@ -1120,6 +1137,8 @@ struct Substance: Identifiable {
         peptideProfile: PeptideProfile? = nil,
         references: [Citation] = [],
         drugCommunitySlug: String? = nil,
+        freeodwikiSlug: String? = nil,
+        overview: SubstanceOverview? = nil,
     ) {
         self.id = UUID()
         self.name = name
@@ -1152,6 +1171,8 @@ struct Substance: Identifiable {
         self.peptideProfile = peptideProfile
         self.references = references
         self.drugCommunitySlug = drugCommunitySlug
+        self.freeodwikiSlug = freeodwikiSlug
+        self.overview = overview
     }
 
     /// Title shown in lists and the detail header — the curated override when
@@ -1517,6 +1538,9 @@ extension Substance: Codable {
         peptideProfile = try c.decodeIfPresent(PeptideProfile.self, forKey: .peptideProfile)
         references = try c.decodeIfPresent([Citation].self, forKey: .references) ?? []
         drugCommunitySlug = try c.decodeIfPresent(String.self, forKey: .drugCommunitySlug)
+        // Detail/browse-only metadata, never part of the serialized Substance.
+        freeodwikiSlug = nil
+        overview = nil
     }
 
     func encode(to encoder: Encoder) throws {
