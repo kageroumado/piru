@@ -76,18 +76,33 @@ struct FreeODLocaleResolutionTests {
 
     @Test
     @MainActor
-    func `English app never shows raw Chinese text`() throws {
+    func `English app shows authentic English overview, never raw Chinese`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
         store.languageOverride = "en"
-        let en = store.lookup("MDMA")
-        // No machine-translated English exists yet, so the overview is absent
-        // in English rather than falling back to raw Chinese.
-        if let overview = en?.overview { #expect(!hasHan(overview.text)) }
-        for effect in en?.subjectiveEffects ?? [] {
+        // MDMA has authentic PsychonautWiki lead prose, so the English overview
+        // is present, contains no Han, and is NOT flagged machine-translated.
+        let overview = try #require(store.lookup("MDMA")?.overview)
+        #expect(!hasHan(overview.text))
+        #expect(overview.machineTranslated == false)
+        for effect in store.lookup("MDMA")?.subjectiveEffects ?? [] {
             #expect(!hasHan(effect.name))
         }
+    }
+
+    @Test
+    @MainActor
+    func `English overview for a FreeOD-only substance is flagged machine-translated`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        store.languageOverride = "en"
+        // 1,4-Butanediol is not covered by an English source, so its overview is
+        // machine-translated from FreeOD's Chinese — present, no Han, and flagged.
+        let overview = try #require(store.lookup("1,4-Butanediol")?.overview)
+        #expect(!hasHan(overview.text))
+        #expect(overview.machineTranslated == true)
     }
 
     @Test

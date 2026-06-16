@@ -1,23 +1,23 @@
 # Piru SQLite build report
 
-Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (16,228,352 bytes, sha256 `887784fdfc65767f917c228c56ab31b29e88c63ae6618bb869af43fbca6084dd`)
+Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (17,059,840 bytes, sha256 `826c62b17649d670647a662ca7286dd3925c5676ef50bfa7a35ca3e835127478`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,970 |
-| aliases | 5,921 |
+| substances | 1,968 |
+| aliases | 5,924 |
 | sources | 17 |
 | citations | 1,809 |
-| categories | 1,878 |
+| categories | 1,877 |
 | tags | 8,575 |
 | dose_ranges | 2,893 |
 | durations | 9,448 |
 | half_lives | 278 |
-| mechanisms_summary | 878 |
+| mechanisms_summary | 968 |
 | effects | 2,996 |
-| subjective_effects | 20,072 |
+| subjective_effects | 24,023 |
 | tolerance | 336 |
 | indications | 1,141 |
 | contraindications | 1,649 |
@@ -57,4 +57,4 @@ Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (16,228,352 bytes, sha
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
-| freeodwiki | 321 | 0 | 31 | 0 |
+| freeodwiki | 321 | 0 | 30 | 0 |
