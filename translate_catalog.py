@@ -9,7 +9,7 @@ from pathlib import Path
 T = {
     # Detail-view Design D 2026-06 — merged dose/duration card, Show All effects,
     # Erowid as its own group, two-column Info/Chemistry grids, merged Sources.
-    "Dose & duration": ("剂量与时长", "劑量與時長"),
+    "Dose & Duration": ("剂量与时长", "劑量與時長"),
     "Show All": ("查看全部", "查看全部"),
     "Default route": ("默认途径", "預設途徑"),
     "Experience reports": ("体验报告", "體驗報告"),
@@ -2417,7 +2417,7 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
         # Detail-view Design D 2026-06
-        "Dose & duration",
+        "Dose & Duration",
         "Show All",
         "Default route",
         "Experience reports",
