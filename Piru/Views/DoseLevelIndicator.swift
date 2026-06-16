@@ -505,7 +505,7 @@ struct RouteDosingCard: View {
     private func dosageBlock(_ doses: DoseRange) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             eyebrow("Dosage")
-            VStack(spacing: 9) {
+            VStack(spacing: 0) {
                 if let threshold = doses.threshold {
                     levelRow("Threshold", value: "\(threshold.doseFormatted) \(unit)")
                 }
@@ -558,14 +558,15 @@ struct RouteDosingCard: View {
     private func durationBlock(_ duration: DurationProfile) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             eyebrow("Duration")
-            VStack(spacing: 9) {
+            VStack(spacing: 0) {
                 ForEach(ExperiencePhase.allCases, id: \.self) { phase in
                     if let range = phase.range(in: duration) {
                         levelRow(phase.label, value: range.displayString)
                     }
                 }
                 if let total = duration.total {
-                    Divider()
+                    // Accent wash alone marks Total — a divider on top of it was
+                    // redundant clutter.
                     levelRow("Total", value: total.displayString, emphasized: true)
                 }
             }
@@ -600,7 +601,8 @@ struct RouteDosingCard: View {
     /// A clean dose/duration row — no colored dot or bar (those read as noise).
     /// `emphasized` highlights the typical value (Common dose, Total duration)
     /// with weight and a faint accent wash that bleeds slightly past the content
-    /// so the labels and values stay edge-aligned with the plain rows.
+    /// so the labels/values stay edge-aligned. Every row carries the same
+    /// vertical padding so the emphasised one is no taller than its neighbours.
     private func levelRow(_ label: LocalizedStringResource, value: String, emphasized: Bool = false) -> some View {
         HStack {
             Text(label).foregroundStyle(emphasized ? Color.primary : Theme.secondaryLabel)
@@ -609,13 +611,12 @@ struct RouteDosingCard: View {
         }
         .font(.subheadline)
         .fontWeight(emphasized ? .semibold : .regular)
-        .padding(.vertical, emphasized ? 6 : 0)
+        .padding(.vertical, 6)
         .background {
             if emphasized {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Theme.accent.opacity(0.08))
                     .padding(.horizontal, -10)
-                    .padding(.vertical, -1)
             }
         }
     }

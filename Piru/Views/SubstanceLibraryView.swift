@@ -563,9 +563,10 @@ struct SubstanceDetailView: View {
         }
     }
 
-    /// One labelled cell in the Info / Chemistry two-column grids. The value is
-    /// selectable and carries a Copy action — long-press is the natural gesture,
-    /// so no "press and hold to copy" caption is needed.
+    /// One labelled cell in the Info / Chemistry two-column grids. Only the
+    /// *value* is selectable (long-press to select & copy) — the label isn't,
+    /// so you can't accidentally grab the neighbouring cell's value (the old
+    /// whole-row contextMenu copied the wrong field and felt confusing).
     private func gridCell(_ label: LocalizedStringResource, _ value: String, mono: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 3) {
             Text(label)
@@ -578,13 +579,6 @@ struct SubstanceDetailView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .contextMenu {
-            Button {
-                UIPasteboard.general.string = value
-            } label: {
-                Label("Copy", systemImage: "doc.on.doc")
-            }
-        }
     }
 
     /// PubChem cell — a tappable link out to the curated chemistry record. Lives
@@ -618,6 +612,9 @@ struct SubstanceDetailView: View {
     @ViewBuilder private var effectsSection: some View {
         let curated = policy.showsRichSubjective ? substance.subjectiveEffects : []
         let hasAllEffects = !substance.effects.isEmpty
+        // Only offer "Show All" when the full taxonomy actually adds to the
+        // curated summary — otherwise (e.g. Melatonin) it reveals *fewer* rows.
+        let showsMoreEffects = substance.effects.count > curated.count
         if displayClass != .nonRecreational, !curated.isEmpty || hasAllEffects {
             Section {
                 if !curated.isEmpty {
@@ -648,7 +645,7 @@ struct SubstanceDetailView: View {
                     // (and Erowid reports), grouped by category, one tap away.
                     // A header NavigationLink isn't reliably hittable, so drive a
                     // navigationDestination from a Button instead.
-                    if !curated.isEmpty, hasAllEffects {
+                    if !curated.isEmpty, showsMoreEffects {
                         Button { showAllEffects = true } label: {
                             HStack(spacing: 2) {
                                 Text("Show All")
@@ -783,7 +780,7 @@ struct SubstanceDetailView: View {
             Section {
                 if presentableRoutes.count > 1 {
                     routeChips
-                        .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 4, trailing: 0))
+                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 8, trailing: 20))
                         .listRowSeparator(.hidden)
                 }
                 if activeSaltForms.count > 1 {
@@ -813,7 +810,7 @@ struct SubstanceDetailView: View {
                 let doseSlug = displayClass.showsDoseLadder && route.doses.hasAnyValue ? doseSourceSlug(for: route.route) : nil
                 let durSlug = durationVisible && route.duration != nil ? durationSourceSlug(for: route.route) : nil
                 if let doseSlug, doseSlug == durSlug {
-                    SourceAttributionRow(slug: doseSlug, label: "Dose & duration", deepLink: sourceDeepLink(doseSlug))
+                    SourceAttributionRow(slug: doseSlug, label: "Dose & Duration", deepLink: sourceDeepLink(doseSlug))
                 } else {
                     if let doseSlug {
                         SourceAttributionRow(slug: doseSlug, label: "Dose data", deepLink: sourceDeepLink(doseSlug))
@@ -823,7 +820,7 @@ struct SubstanceDetailView: View {
                     }
                 }
             } header: {
-                Text("Dose & duration")
+                Text("Dose & Duration")
             }
         }
     }
@@ -851,9 +848,7 @@ struct SubstanceDetailView: View {
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 16)
         }
-        .listRowInsets(EdgeInsets())
     }
 
     /// Renders the current route's dose/duration card to a shareable image and
@@ -1128,6 +1123,7 @@ struct SubstanceDetailView: View {
             FlowLayout(spacing: 6) {
                 ForEach(shown, id: \.self) { alias in
                     aliasChip(Text(alias))
+                        .textSelection(.enabled)
                 }
                 if hidden > 0 {
                     Button {
@@ -1248,6 +1244,7 @@ struct SubstanceDetailView: View {
                         generateShareImage()
                     } label: {
                         Image(systemName: "square.and.arrow.up")
+                            .foregroundStyle(Theme.accent)
                     }
                     .accessibilityLabel("Share drug info")
                 }
@@ -1256,33 +1253,42 @@ struct SubstanceDetailView: View {
                 Button {
                     toggleFavorite()
                 } label: {
+                    // Favorited keeps its semantic gold; the resting state shares
+                    // the accent tint with the other bar buttons.
                     Image(systemName: isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
+                        .foregroundStyle(isFavorite ? Color.yellow : Theme.accent)
                 }
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button {
-                        navigator.present(.personalizeSubstance(name: baseSubstance.name))
-                    } label: {
-                        Label(
-                            personalOverride == nil ? "Personalize…" : "Edit Personalization…",
-                            systemImage: "slider.horizontal.3",
-                        )
-                    }
-                    if let override = personalOverride {
+                // No override yet → open personalization directly (a one-item
+                // menu was pointless). With an override, offer Edit + Reset.
+                if let override = personalOverride {
+                    Menu {
+                        Button {
+                            navigator.present(.personalizeSubstance(name: baseSubstance.name))
+                        } label: {
+                            Label("Edit Personalization…", systemImage: "slider.horizontal.3")
+                        }
                         Button(role: .destructive) {
                             customStore.delete(override)
                         } label: {
                             Label("Reset Personalization", systemImage: "arrow.uturn.backward")
                         }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                            .foregroundStyle(Theme.accent)
                     }
-                } label: {
-                    Image(systemName: "slider.horizontal.3")
-                        .foregroundStyle(personalOverride == nil ? Theme.secondaryLabel : Theme.accent)
+                    .accessibilityLabel("Personalize substance")
+                } else {
+                    Button {
+                        navigator.present(.personalizeSubstance(name: baseSubstance.name))
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                            .foregroundStyle(Theme.accent)
+                    }
+                    .accessibilityLabel("Personalize substance")
                 }
-                .accessibilityLabel("Personalize substance")
             }
         }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {

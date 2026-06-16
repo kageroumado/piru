@@ -26455,6 +26455,22 @@
           }
         }
       }
+    },
+    "Dose & Duration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量与时长"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量與時長"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
