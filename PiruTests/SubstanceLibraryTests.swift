@@ -62,11 +62,14 @@ struct SubstanceLibraryTests {
     // MARK: - substances(in:)
 
     @Test
-    func `Substances in category returns only that category`() {
+    func `Substances in category are that category or cross-listed into it`() {
         let stimulants = SubstanceLibrary.substances(in: .stimulant)
         #expect(!stimulants.isEmpty)
         for substance in stimulants {
-            #expect(substance.category == .stimulant)
+            // A substance lands in a category browse under its primary `category`
+            // OR a curated `extraBrowseCategories` home (mixed compounds — e.g.
+            // a balanced stimulant cross-listed under Empathogens).
+            #expect(substance.category == .stimulant || substance.extraBrowseCategories.contains(.stimulant))
         }
     }
 
@@ -78,30 +81,34 @@ struct SubstanceLibraryTests {
             let substances = SubstanceLibrary.substances(in: category)
             #expect(!substances.isEmpty)
             for substance in substances {
-                #expect(substance.category == category)
+                // Primary category OR a curated cross-listed home (see above).
+                #expect(substance.category == category || substance.extraBrowseCategories.contains(category))
             }
         }
     }
 
     @Test
-    func `Non-empty categories partition every browsable substance exactly once`() {
+    func `Non-empty categories cover every browsable substance`() {
         // Category browse only surfaces browsable substances — `.nonRecreational`
         // compounds (antibiotics, …) stay searchable for medication tracking but
-        // are hidden from browse (see `substances(in:)` / `nonEmptyCategories`,
-        // both filtered by `displayClass.surfacesInBrowse`). So the grouped sum
-        // must equal the browsable count, NOT `all.count` (which also includes
-        // the hidden non-recreational substances).
-        let browsableCount = SubstanceLibrary.all
-            .count(where: { $0.displayClass.surfacesInBrowse })
-            
-        let totalGrouped = SubstanceLibrary.nonEmptyCategories
-            .reduce(0) { $0 + SubstanceLibrary.substances(in: $1).count }
-        #expect(totalGrouped == browsableCount)
-        // Everything left out of browse is exactly the non-browsable set.
-        #expect(
-            SubstanceLibrary.all.count - totalGrouped
-                == SubstanceLibrary.all.count(where: { !$0.displayClass.surfacesInBrowse }),
+        // are hidden from browse (`substances(in:)` / `nonEmptyCategories` are
+        // both filtered by `displayClass.surfacesInBrowse`).
+        //
+        // A substance can appear in MULTIPLE categories — its primary `category`
+        // plus any curated `extraBrowseCategories` (e.g. 3-MMC under both
+        // Stimulants and Empathogens) — so this is a COVER, not a strict
+        // partition: the *distinct* union of all category members must equal
+        // exactly the browsable set (nothing browsable left out, nothing hidden
+        // leaking in).
+        let browsable = Set(
+            SubstanceLibrary.all.filter(\.displayClass.surfacesInBrowse).map(\.name),
         )
+        let grouped = Set(
+            SubstanceLibrary.nonEmptyCategories
+                .flatMap { SubstanceLibrary.substances(in: $0) }
+                .map(\.name),
+        )
+        #expect(grouped == browsable)
     }
 
     // MARK: - Search ranking edge cases
@@ -110,7 +117,10 @@ struct SubstanceLibraryTests {
     func `Search for 'lsd' finds LSD as first hit`() {
         let results = SubstanceLibrary.search("LSD", limit: 5)
         #expect(!results.isEmpty)
-        #expect(results.first?.name.uppercased().contains("LSD") == true)
+        // Canonical is "Lysergic Acid Diethylamide"; "LSD" is an alias, so match
+        // on the alias (name no longer contains the acronym). The exact-alias hit
+        // must rank first.
+        #expect(results.first?.aliases.contains { $0.uppercased() == "LSD" } == true)
     }
 
     @Test

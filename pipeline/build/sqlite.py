@@ -2573,9 +2573,21 @@ class Build:
         norm = normalise(alias)
         # Case-/salt-insensitive dedup: skip if a variant alias already exists
         # (collapses "Acid"/"acid", "Robitussin"/"robitussin", "X"/"X HCl").
-        if self.cur.execute(
-            "SELECT 1 FROM aliases WHERE substance_id=? AND alias_normalized=?", (sid, norm)
-        ).fetchone():
+        # Exception: if the stored variant is chemistry-noise ("(+)-LSD") and
+        # the incoming one is a clean common name ("LSD"), swap in the clean
+        # variant. Otherwise the noise variant holds the normalized slot and the
+        # final chemnoise-alias purge deletes it — leaving the form (e.g. plain
+        # "LSD") with no alias at all.
+        existing = self.cur.execute(
+            "SELECT rowid, alias FROM aliases WHERE substance_id=? AND alias_normalized=?",
+            (sid, norm),
+        ).fetchone()
+        if existing:
+            existing_rowid, existing_alias = existing
+            if is_chemnoise_alias(existing_alias) and not is_chemnoise_alias(alias):
+                self.cur.execute(
+                    "UPDATE aliases SET alias=? WHERE rowid=?", (alias, existing_rowid)
+                )
             self.stats["dropped_dup_alias"] = self.stats.get("dropped_dup_alias", 0) + 1
             return
         source_id = self.source_ids.get(source_slug) if source_slug else None

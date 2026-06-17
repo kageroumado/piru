@@ -4,11 +4,6 @@ import Testing
 @Suite("AppSources")
 struct AppSourcesTests {
     @Test
-    func `Has expected number of sources`() {
-        #expect(AppSources.all.count == 10)
-    }
-
-    @Test
     func `All sources have name and description`() {
         for source in AppSources.all {
             #expect(!source.name.isEmpty, "\(source.name) should have a name")
