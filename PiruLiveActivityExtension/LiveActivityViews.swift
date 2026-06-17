@@ -7,8 +7,11 @@ import WidgetKit
 struct LockScreenView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
+    /// Default must match the app (true). The Live Activity and the in-app graph
+    /// share this key/store; a divergent default made the LA draw an un-stacked
+    /// curve (single bell) while the app showed the stacked redose curve.
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
-    private var stackRedoses = false
+    private var stackRedoses = true
 
     private var substances: [ActiveSubstanceState] {
         context.state.activeSubstances
@@ -107,7 +110,7 @@ struct ExpandedBottomView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
-    private var stackRedoses = false
+    private var stackRedoses = true
 
     var body: some View {
         TimelineGraphView(
