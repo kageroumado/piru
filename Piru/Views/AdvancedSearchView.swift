@@ -23,10 +23,39 @@ struct AdvancedSearchView: View {
             resultsSection
         }
         .task { reloadTargets() }
-        .onChange(of: selectedTarget) { _, _ in runQuery() }
-        .onChange(of: kiCeilingEnabled) { _, _ in runQuery() }
-        .onChange(of: kiCeilingNm) { _, _ in runQuery() }
-        .onChange(of: substanceQuery) { _, _ in runQuery() }
+        // Debounce every filter change through one task so dragging the Ki
+        // slider (10 nM steps → up to ~1000 events) doesn't fire a SQLite scan
+        // per step. Skips the scan entirely when no filter is active, preserving
+        // the old behaviour of not auto-running an unfiltered query on appear.
+        .task(id: queryParams) {
+            guard queryParams.isActive else {
+                results = []
+                return
+            }
+            try? await Task.sleep(for: .milliseconds(200))
+            guard !Task.isCancelled else { return }
+            runQuery()
+        }
+    }
+
+    /// The fields the bindings query depends on, folded into one `Equatable`
+    /// value so a single `.task(id:)` debounces all of them.
+    private struct QueryParams: Equatable {
+        let target: String?
+        let kiAtMost: Double?
+        let contains: String
+
+        var isActive: Bool {
+            target != nil || kiAtMost != nil || !contains.isEmpty
+        }
+    }
+
+    private var queryParams: QueryParams {
+        QueryParams(
+            target: selectedTarget,
+            kiAtMost: kiCeilingEnabled ? kiCeilingNm : nil,
+            contains: substanceQuery.trimmingCharacters(in: .whitespacesAndNewlines),
+        )
     }
 
     private var filterSection: some View {
@@ -77,13 +106,11 @@ struct AdvancedSearchView: View {
     /// for unfiltered scans. No loading state needed; if that ever changes,
     /// move the call into a `Task` and re-introduce a progress indicator.
     private func runQuery() {
-        let target = selectedTarget
-        let kiAtMost = kiCeilingEnabled ? kiCeilingNm : nil
-        let q = substanceQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        let p = queryParams
         results = SubstanceStore.shared.bindings(
-            target: target,
-            kiNmAtMost: kiAtMost,
-            substanceContains: q.isEmpty ? nil : q,
+            target: p.target,
+            kiNmAtMost: p.kiAtMost,
+            substanceContains: p.contains.isEmpty ? nil : p.contains,
         )
     }
 }

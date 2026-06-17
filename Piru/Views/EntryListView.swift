@@ -118,6 +118,10 @@ struct EntryListView: View {
     @State private var collapsedSubstances: Set<String> = []
     @State private var collapsedCategories: Set<SubstanceCategory> = []
 
+    /// First-appear gate: the initial derive paints without animation; later
+    /// signature-driven re-runs animate the diff in.
+    @State private var hasLoadedOnce = false
+
     /// Cheap content fingerprint of the fetched entries. Used as the rebuild
     /// task's identity so the derived data refreshes on *edits*, not just
     /// adds/removes. `entries.count` alone misses an in-place edit (moving a dose
@@ -138,11 +142,25 @@ struct EntryListView: View {
         return hasher.finalize()
     }
 
-    /// Resolve derived data + regroup — entries or colours changed.
-    private func rebuildAll() {
+    /// Resolve derived data + regroup — entries or colours changed. The derive
+    /// awaits the off-main substance batch cache and resolves the visible window
+    /// first (painting via `onPrefixReady`) before the tail, so a long history
+    /// never blocks the first frame. `animated` slides a freshly-logged session
+    /// in; the initial appear paints without animation.
+    private func rebuildAll(animated: Bool) async {
         model.refreshColorMap(substanceColors)
-        model.rebuildDerived(entries: entries, colors: substanceColors)
-        regroup()
+        await model.rebuildDerived(entries: entries, colors: substanceColors) {
+            applyRegroup(animated: animated)
+        }
+        applyRegroup(animated: animated)
+    }
+
+    private func applyRegroup(animated: Bool) {
+        if animated {
+            withAnimation(.smooth(duration: 0.35)) { regroup() }
+        } else {
+            regroup()
+        }
     }
 
     /// A filter / search / grouping change: collapse the Day window back to the
@@ -250,24 +268,30 @@ struct EntryListView: View {
                 emptyState
             }
         }
-        .task {
-            rebuildAll()
-        }
+        // Single derive driver: runs once on appear (paints fast, no animation)
+        // and re-runs whenever the entries fingerprint changes (an edit / add /
+        // delete), debouncing briefly and animating the diff in. The model's
+        // generation guard makes a newer run supersede an in-flight one, so the
+        // overlap on first appear (when the signature also "changes" from its
+        // initial value) can't corrupt state.
         .task(id: entriesSignature) {
-            try? await Task.sleep(for: .milliseconds(100))
-            guard !Task.isCancelled else { return }
-            // Animate the diff so a newly-logged session slides in and pushes the
-            // others down instead of snapping. Safe to wrap unconditionally: the
-            // model's incremental derive bails when nothing actually changed (the
-            // initial appear / a re-appear), so `withAnimation` wraps a no-op and
-            // nothing animates on first load.
-            withAnimation(.smooth(duration: 0.35)) { rebuildAll() }
+            let isFirst = !hasLoadedOnce
+            hasLoadedOnce = true
+            if !isFirst {
+                // Animate the diff so a newly-logged session slides in and pushes
+                // the others down instead of snapping.
+                try? await Task.sleep(for: .milliseconds(100))
+                guard !Task.isCancelled else { return }
+            }
+            await rebuildAll(animated: !isFirst)
         }
         .onChange(of: searchText) { resetWindowAndRegroup() }
         .onChange(of: selectedTag) { resetWindowAndRegroup() }
         .onChange(of: grouping) { resetWindowAndRegroup() }
         .onChange(of: filterCategories) { resetWindowAndRegroup() }
-        .onChange(of: substanceColors.count) { rebuildAll() }
+        .onChange(of: substanceColors.count) {
+            Task { await rebuildAll(animated: true) }
+        }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet(proxy: proxy)
                 .presentationDetents([.medium])

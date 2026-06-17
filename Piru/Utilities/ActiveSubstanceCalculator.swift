@@ -38,7 +38,7 @@ enum ActiveSubstanceCalculator {
         func cachedLookup(_ name: String) -> Substance? {
             let key = name.lowercased()
             if let cached = substanceCache[key] { return cached }
-            let result = SubstanceLibrary.lookupByNameOrAlias(name)
+            let result = SubstanceLibrary.timelineLookup(name)
             substanceCache[key] = result
             return result
         }
@@ -195,7 +195,11 @@ extension ActiveSubstanceState {
     ///    active part and leaves the slow tail one pan away.
     /// 3. **Neither** → `nil`, so the dose falls through to a timestamp marker.
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
-        guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) else { return nil }
+        // Timeline path: the lightweight batch row carries everything used below
+        // (category, dose-ranges, durations, half-life, aliases) without the
+        // heavy per-substance chem/mechanism SQL. Falls back to the full lookup
+        // when the batch cache is cold or the substance is custom-only.
+        guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else { return nil }
         let doseRange = Self.resolveDoseRange(substance: substance, route: entry.route)
         let intensity = Self.computeDoseIntensity(amount: entry.amount, doseRange: doseRange)
         let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
