@@ -19,6 +19,9 @@ T = {
     # FreeOD Wiki overview section (locale-first Chinese substance descriptions).
     "Overview": ("概述", "概述"),
     "Machine-translated from FreeOD Wiki": ("由 FreeOD Wiki 机器翻译", "由 FreeOD Wiki 機器翻譯"),
+    "Read more": ("展开", "展開"),
+    "Read less": ("收起", "收起"),
+    "+%lld more": ("还有 %lld 项", "還有 %lld 項"),
     "Show All": ("查看全部", "查看全部"),
     "Default route": ("默认途径", "預設途徑"),
     "Experience reports": ("体验报告", "體驗報告"),
@@ -2433,6 +2436,10 @@ if __name__ == "__main__":
         # FreeOD Wiki overview section 2026-06
         "Overview",
         "Machine-translated from FreeOD Wiki",
+        # Substance detail polish 2026-06 (Overview read-more + caution overflow)
+        "Read more",
+        "Read less",
+        "+%lld more",
         "Show All",
         "Default route",
         "Experience reports",
