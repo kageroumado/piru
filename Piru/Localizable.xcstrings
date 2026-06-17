@@ -1424,6 +1424,23 @@
         }
       }
     },
+    "%lld%% elemental" : {
+      "comment" : "Elemental fraction of a salt",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% 元素含量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% 元素含量"
+          }
+        }
+      }
+    },
     "%lld%% eliminated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1617,6 +1634,7 @@
       }
     },
     "^[%lld saved substance](inflect: true)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1677,6 +1695,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還有 %lld 次更早"
+          }
+        }
+      }
+    },
+    "+%lld more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还有 %lld 项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還有 %lld 項"
           }
         }
       }
@@ -1827,6 +1861,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上次劑量(%2$@%3$@,%4$@)仍有約 %1$lld%% 活躍"
+          }
+        }
+      }
+    },
+    "≈ %@ %@ elemental" : {
+      "comment" : "Elemental content of a salt dose",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ %@ 元素含量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ %@ 元素含量"
           }
         }
       }
@@ -2229,6 +2280,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開始之前需要先設定幾項內容。"
+          }
+        }
+      }
+    },
+    "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出自 1997 年一部讽刺媒体毒品恐慌的电视节目的虚构药物——“Cake”并不存在，下面的内容也都是假的。据说它会过度刺激控制时间感的大脑区域“夏特纳的巴松管（Shatner’s Bassoon）”。产自布拉格。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出自 1997 年一部諷刺媒體毒品恐慌的電視節目的虛構藥物——「Cake」並不存在，下面的內容也都是假的。據說它會過度刺激控制時間感的大腦區域「夏特納的巴松管（Shatner’s Bassoon）」。產自布拉格。"
           }
         }
       }
@@ -3764,6 +3831,39 @@
         }
       }
     },
+    "All effects" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部效应"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部效應"
+          }
+        }
+      }
+    },
+    "All effects (%lld)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部效应（%lld）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部效應（%lld）"
+          }
+        }
+      }
+    },
     "All missed" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4385,6 +4485,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "非典型色胺類 — DiPT、5-MeO-MiPT。"
+          }
+        }
+      }
+    },
+    "Auditory" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "听觉"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "聽覺"
           }
         }
       }
@@ -5369,6 +5486,22 @@
         }
       }
     },
+    "Browse by class" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按类别浏览"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按類別瀏覽"
+          }
+        }
+      }
+    },
     "Caffeine in moderation can help with grogginess." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6219,6 +6352,23 @@
         }
       }
     },
+    "Class Not Found" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到類別"
+          }
+        }
+      }
+    },
     "Classification" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6231,6 +6381,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分類"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除"
           }
         }
       }
@@ -6295,6 +6461,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉"
+          }
+        }
+      }
+    },
+    "Cognitive" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "认知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "認知"
           }
         }
       }
@@ -7213,6 +7396,22 @@
         }
       }
     },
+    "Crisis resources, harm-reduction basics, and how Piru works." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危机求助资源、减害基础知识，以及 Piru 的使用方法。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危機求助資源、減害基礎知識，以及 Piru 的使用方法。"
+          }
+        }
+      }
+    },
     "Crisis Text Line" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7764,6 +7963,7 @@
       }
     },
     "Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7807,6 +8007,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "資料庫版本"
+          }
+        }
+      }
+    },
+    "Databases" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据库"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料庫"
           }
         }
       }
@@ -7935,6 +8152,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天連續"
+          }
+        }
+      }
+    },
+    "Default route" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认途径"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設途徑"
           }
         }
       }
@@ -8241,6 +8474,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "披露等級"
+          }
+        }
+      }
+    },
+    "Disconnective" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解离"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解離"
           }
         }
       }
@@ -8834,6 +9084,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量"
+          }
+        }
+      }
+    },
+    "Dose & duration" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量与时长"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量與時長"
+          }
+        }
+      }
+    },
+    "Dose & Duration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量与时长"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量與時長"
           }
         }
       }
@@ -9446,6 +9729,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "例如：早晨、鍛鍊前、夜間"
+          }
+        }
+      }
+    },
+    "Each link opens this substance's page on that source. Always verify against the original." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个链接都会打开该来源中此物质的页面。请始终对照原始来源核实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每個連結都會開啟該來源中此物質的頁面。請始終對照原始來源核實。"
           }
         }
       }
@@ -10547,6 +10846,22 @@
         }
       }
     },
+    "Everything that doesn't fit a class above." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不属于以上任何类别的物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不屬於以上任何類別的物質。"
+          }
+        }
+      }
+    },
     "Exact mechanism incompletely understood. Inhibits inositol monophosphatase (IMPase), depleting inositol and modulating phosphoinositide signaling. Inhibits glycogen synthase kinase-3β (GSK-3β), regulating neuroplasticity, circadian rhythm, and neuroprotection. Modulates glutamate neurotransmission by reducing NMDA receptor activity. Also affects protein kinase C, cAMP, and arachidonic acid metabolism." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10672,6 +10987,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展開時間軸"
+          }
+        }
+      }
+    },
+    "Experience reports" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体验报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體驗報告"
           }
         }
       }
@@ -11087,6 +11418,22 @@
         }
       }
     },
+    "First-hand reports from Erowid's Experience Vaults. Opens a search in your browser." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自 Erowid 体验库的第一手报告。将在浏览器中打开搜索。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自 Erowid 體驗庫的第一手報告。將在瀏覽器中開啟搜尋。"
+          }
+        }
+      }
+    },
     "Fixed Order" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11115,6 +11462,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用於匯入 PsychonautWiki 應用程式"
+          }
+        }
+      }
+    },
+    "Form" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "盐型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鹽型"
           }
         }
       }
@@ -12139,6 +12502,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "說明"
+          }
+        }
+      }
+    },
+    "Help & Safety" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助与安全"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幫助與安全"
           }
         }
       }
@@ -13945,6 +14324,22 @@
         }
       }
     },
+    "Limited data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据有限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料有限"
+          }
+        }
+      }
+    },
     "Limited human data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14384,6 +14779,22 @@
         }
       }
     },
+    "Machine-translated from FreeOD Wiki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 FreeOD Wiki 机器翻译"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 FreeOD Wiki 機器翻譯"
+          }
+        }
+      }
+    },
     "Macrolide Antibiotic (Protein Synthesis Inhibitor)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14396,6 +14807,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大環內酯類抗生素(蛋白質合成抑制劑)"
+          }
+        }
+      }
+    },
+    "Made-up drug" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "虚构药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "虛構藥物"
           }
         }
       }
@@ -15369,6 +15796,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "多模式血清素能抗抑鬱藥"
+          }
+        }
+      }
+    },
+    "Multisensory" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多重感官"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多重感官"
           }
         }
       }
@@ -16899,6 +17343,22 @@
         }
       }
     },
+    "Other / Miscellaneous" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他 / 杂项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他 / 雜項"
+          }
+        }
+      }
+    },
     "Other dose" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16976,6 +17436,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素再攝取抑制重疊 — 血清素綜合徵的風險增加。"
+          }
+        }
+      }
+    },
+    "Overview" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概述"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概述"
           }
         }
       }
@@ -17429,6 +17905,7 @@
       }
     },
     "Personalize…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17602,6 +18079,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "磷酸二酯酶 5 型 (PDE5) 抑制劑"
+          }
+        }
+      }
+    },
+    "Physical" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體"
           }
         }
       }
@@ -18056,6 +18550,23 @@
         }
       }
     },
+    "Press and hold a value to copy it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按数值即可复制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長按數值即可複製。"
+          }
+        }
+      }
+    },
     "Press the" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -18121,7 +18632,25 @@
         }
       }
     },
+    "Primary literature" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始文獻"
+          }
+        }
+      }
+    },
     "Primary references for this compound's data. Tap to open. Always verify against the original source." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18410,6 +18939,22 @@
         }
       }
     },
+    "PubChem CID" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PubChem CID"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PubChem CID"
+          }
+        }
+      }
+    },
     "Pull this dose into its own session." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18587,6 +19132,38 @@
         }
       }
     },
+    "Read less" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起"
+          }
+        }
+      }
+    },
+    "Read more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開"
+          }
+        }
+      }
+    },
     "Ready-to-inject solution" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18647,6 +19224,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "近 24 小時劑量"
+          }
+        }
+      }
+    },
+    "Recently Searched" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近搜索"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近搜尋"
           }
         }
       }
@@ -18909,6 +19502,7 @@
       }
     },
     "References" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19297,6 +19891,7 @@
       }
     },
     "Reported Subjective Effects" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20275,6 +20870,22 @@
         }
       }
     },
+    "Search experiences on Erowid" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Erowid 上搜索体验报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Erowid 上搜尋體驗報告"
+          }
+        }
+      }
+    },
     "Search for a place or address" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20337,6 +20948,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋物質庫"
+          }
+        }
+      }
+    },
+    "Search Library instead" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改为搜索物质库"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改為搜尋物質庫"
           }
         }
       }
@@ -20885,6 +21512,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "傳送記錄檔給開發者"
+          }
+        }
+      }
+    },
+    "Sensory" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感官"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感官"
           }
         }
       }
@@ -21469,6 +22113,22 @@
         }
       }
     },
+    "Show All" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看全部"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看全部"
+          }
+        }
+      }
+    },
     "Show all %lld entries" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21837,6 +22497,23 @@
         }
       }
     },
+    "Smell and taste" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嗅觉与味觉"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嗅覺與味覺"
+          }
+        }
+      }
+    },
     "Solution Concentration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22025,6 +22702,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "資料來源"
+          }
+        }
+      }
+    },
+    "Sources & references" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源与参考文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源與參考文獻"
           }
         }
       }
@@ -22769,6 +23463,9 @@
         }
       }
     },
+    "Substance Info" : {
+
+    },
     "Substance Library" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -23072,6 +23769,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "半衰期 = %@"
+          }
+        }
+      }
+    },
+    "Tactile" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "触觉"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "觸覺"
           }
         }
       }
@@ -23415,6 +24129,23 @@
         }
       }
     },
+    "The databases and primary literature behind this compound's data. Tap to open; always verify against the original source." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本化合物数据背后的数据库与原始文献。点按打开；请始终对照原始来源核实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本化合物資料背後的資料庫與原始文獻。點按開啟；請始終對照原始來源核實。"
+          }
+        }
+      }
+    },
     "The discomfort peaks and then fades. Give it time." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23636,6 +24367,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此計算器使用一房室口服藥動學模型,包含吸收和消除兩個階段。如有已知的持續時間資料(起效 + 上升期),則吸收速率會由此估算;否則使用預設的 4× 消除速率比。族群平均消除半衰期來源於 FDA 批准的處方資訊、已發表的藥動學研究(PubMed)、DrugBank 以及成熟的藥理學參考資料(《古德曼&吉爾曼治療學的藥理學基礎》、《Stahl 精神藥理學精要》)。部分研究化學品和新型物質的半衰期是根據結構類似的化合物估算的,可能不夠可靠。\n\n實際藥動學因個人代謝、遺傳、肝腎功能、體成分、年齡、藥物相互作用、耐受性和給藥途徑而顯著不同。多房室分布、蛋白質結合、活性代謝物和腸肝循環未被納入考慮。多藥聯用可能不可預測地改變消除速率。\n\n這些數字是族群的近似平均值 — 不能替代臨床監測或專業醫療建議。請始終諮詢合格的醫療專業人員。"
+          }
+        }
+      }
+    },
+    "This class isn’t in the library anymore." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此类别已不在物质库中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此類別已不在物質庫中。"
           }
         }
       }
@@ -24266,6 +25014,23 @@
         }
       }
     },
+    "Transpersonal" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超个人"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超個人"
+          }
+        }
+      }
+    },
     "Tricyclic Antidepressant (TCA)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24855,6 +25620,7 @@
       }
     },
     "View on PubChem" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24866,6 +25632,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在 PubChem 上檢視"
+          }
+        }
+      }
+    },
+    "Visual" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "视觉"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "視覺"
           }
         }
       }
@@ -25956,758 +26739,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Form" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "盐型"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "鹽型"
-          }
-        }
-      }
-    },
-    "≈ %@ %@ elemental" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "≈ %@ %@ 元素含量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "≈ %@ %@ 元素含量"
-          }
-        }
-      }
-    },
-    "%lld%% elemental" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%% 元素含量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%% 元素含量"
-          }
-        }
-      }
-    },
-    "Other / Miscellaneous" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其他 / 杂项"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其他 / 雜項"
-          }
-        }
-      }
-    },
-    "Everything that doesn't fit a class above." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不属于以上任何类别的物质。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不屬於以上任何類別的物質。"
-          }
-        }
-      }
-    },
-    "Limited data" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据有限"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "資料有限"
-          }
-        }
-      }
-    },
-    "Sources & references" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "来源与参考文献"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "來源與參考文獻"
-          }
-        }
-      }
-    },
-    "Databases" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据库"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "資料庫"
-          }
-        }
-      }
-    },
-    "Primary literature" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原始文献"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原始文獻"
-          }
-        }
-      }
-    },
-    "The databases and primary literature behind this compound's data. Tap to open; always verify against the original source." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本化合物数据背后的数据库与原始文献。点按打开；请始终对照原始来源核实。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本化合物資料背後的資料庫與原始文獻。點按開啟；請始終對照原始來源核實。"
-          }
-        }
-      }
-    },
-    "All effects" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部效应"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部效應"
-          }
-        }
-      }
-    },
-    "All effects (%lld)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部效应（%lld）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部效應（%lld）"
-          }
-        }
-      }
-    },
-    "Press and hold a value to copy it." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "长按数值即可复制。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "長按數值即可複製。"
-          }
-        }
-      }
-    },
-    "Physical" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "身体"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "身體"
-          }
-        }
-      }
-    },
-    "Cognitive" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "认知"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "認知"
-          }
-        }
-      }
-    },
-    "Visual" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "视觉"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "視覺"
-          }
-        }
-      }
-    },
-    "Auditory" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "听觉"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "聽覺"
-          }
-        }
-      }
-    },
-    "Tactile" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "触觉"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "觸覺"
-          }
-        }
-      }
-    },
-    "Multisensory" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多重感官"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多重感官"
-          }
-        }
-      }
-    },
-    "Sensory" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "感官"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "感官"
-          }
-        }
-      }
-    },
-    "Smell and taste" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "嗅觉与味觉"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "嗅覺與味覺"
-          }
-        }
-      }
-    },
-    "Transpersonal" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "超个人"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "超個人"
-          }
-        }
-      }
-    },
-    "Disconnective" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "解离"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "解離"
-          }
-        }
-      }
-    },
-    "Search experiences on Erowid" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在 Erowid 上搜索体验报告"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在 Erowid 上搜尋體驗報告"
-          }
-        }
-      }
-    },
-    "Dose & duration" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剂量与时长"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "劑量與時長"
-          }
-        }
-      }
-    },
-    "Show All" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看全部"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看全部"
-          }
-        }
-      }
-    },
-    "Default route" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "默认途径"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "預設途徑"
-          }
-        }
-      }
-    },
-    "Experience reports" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体验报告"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "體驗報告"
-          }
-        }
-      }
-    },
-    "PubChem CID" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PubChem CID"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PubChem CID"
-          }
-        }
-      }
-    },
-    "First-hand reports from Erowid's Experience Vaults. Opens a search in your browser." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "来自 Erowid 体验库的第一手报告。将在浏览器中打开搜索。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "來自 Erowid 體驗庫的第一手報告。將在瀏覽器中開啟搜尋。"
-          }
-        }
-      }
-    },
-    "Each link opens this substance's page on that source. Always verify against the original." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每个链接都会打开该来源中此物质的页面。请始终对照原始来源核实。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每個連結都會開啟該來源中此物質的頁面。請始終對照原始來源核實。"
-          }
-        }
-      }
-    },
-    "Dose & Duration" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剂量与时长"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "劑量與時長"
-          }
-        }
-      }
-    },
-    "Made-up drug" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "虚构药物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "虛構藥物"
-          }
-        }
-      }
-    },
-    "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "出自 1997 年一部讽刺媒体毒品恐慌的电视节目的虚构药物——“Cake”并不存在，下面的内容也都是假的。据说它会过度刺激控制时间感的大脑区域“夏特纳的巴松管（Shatner’s Bassoon）”。产自布拉格。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "出自 1997 年一部諷刺媒體毒品恐慌的電視節目的虛構藥物——「Cake」並不存在，下面的內容也都是假的。據說它會過度刺激控制時間感的大腦區域「夏特納的巴松管（Shatner’s Bassoon）」。產自布拉格。"
-          }
-        }
-      }
-    },
-    "Overview" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "概述"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "概述"
-          }
-        }
-      }
-    },
-    "Machine-translated from FreeOD Wiki" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由 FreeOD Wiki 机器翻译"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由 FreeOD Wiki 機器翻譯"
-          }
-        }
-      }
-    },
-    "Read more" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "展开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "展開"
-          }
-        }
-      }
-    },
-    "Read less" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收起"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收起"
-          }
-        }
-      }
-    },
-    "+%lld more" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "还有 %lld 项"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "還有 %lld 項"
-          }
-        }
-      }
-    },
-    "Recently Searched" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最近搜索"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最近搜尋"
-          }
-        }
-      }
-    },
-    "Browse by class" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按类别浏览"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按類別瀏覽"
-          }
-        }
-      }
-    },
-    "Search Library instead" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "改为搜索物质库"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "改為搜尋物質庫"
-          }
-        }
-      }
-    },
-    "Help & Safety" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "帮助与安全"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "幫助與安全"
-          }
-        }
-      }
-    },
-    "Crisis resources, harm-reduction basics, and how Piru works." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "危机求助资源、减害基础知识，以及 Piru 的使用方法。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "危機求助資源、減害基礎知識，以及 Piru 的使用方法。"
-          }
-        }
-      }
-    },
-    "Class Not Found" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未找到类别"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未找到類別"
-          }
-        }
-      }
-    },
-    "This class isn’t in the library anymore." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此类别已不在物质库中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此類別已不在物質庫中。"
-          }
-        }
-      }
-    },
-    "Clear" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清除"
           }
         }
       }
