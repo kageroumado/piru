@@ -16,11 +16,15 @@ struct SettingsView: View {
                     NavigationLink {
                         RoutinesSettingsView()
                     } label: {
-                        countRow(
-                            "Routines",
-                            systemImage: "repeat",
-                            value: String(localized: "^[\(dailyDoseItems.count) item](inflect: true)"),
-                        )
+                        // The count is rendered through `Text`'s LocalizedStringKey
+                        // path so automatic grammar agreement runs; `String(localized:)`
+                        // here left the raw `^[…](inflect: true)` markup on screen.
+                        HStack {
+                            Label("Routines", systemImage: "repeat")
+                            Spacer()
+                            Text("^[\(dailyDoseItems.count) item](inflect: true)")
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
                     }
 
                     NavigationLink {
