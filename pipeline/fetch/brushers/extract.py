@@ -316,9 +316,9 @@ def extract_pyrls():
         reg_str = "; ".join(
             (reg.get("labels") or []) + ([reg.get("description")] if reg.get("description") else [])
         )
-        tags = sorted(
-            {*(lbl.lower() for lbl in labels), (e.get("dosageForm") or "").lower()} - {""}
-        )
+        # Drug-class labels only; the dosageForm string is kept in its own field
+        # (dosage_form=) rather than dumped into tags, where it's just chip noise.
+        tags = sorted({lbl.lower() for lbl in labels} - {""})
 
         out.append(
             substance(

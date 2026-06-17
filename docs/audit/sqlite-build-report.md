@@ -1,17 +1,17 @@
 # Piru SQLite build report
 
-Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (17,080,320 bytes, sha256 `f2c3ed4523aa0c50823643cd37ae8c6bf03b42cecf7b65409aebd8afc658dfe2`)
+Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (16,969,728 bytes, sha256 `f064d67af3763a2cae40b35d4fcb9b13e89897cb398441cc8a78ffc0de0c485a`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,967 |
-| aliases | 5,922 |
+| aliases | 5,868 |
 | sources | 17 |
 | citations | 1,809 |
 | categories | 1,877 |
-| tags | 8,571 |
+| tags | 7,900 |
 | dose_ranges | 2,893 |
 | durations | 9,448 |
 | half_lives | 278 |
@@ -41,11 +41,11 @@ Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (17,080,320 bytes, sha
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 491 | 68 | 631 | 2,614 |
-| peer-review-primary | 0 | 895 | 0 | 1,764 |
+| piru-curated | 491 | 68 | 631 | 2,608 |
+| peer-review-primary | 0 | 895 | 0 | 1,758 |
 | psychonautwiki | 389 | 0 | 80 | 324 |
 | tripsit | 596 | 0 | 433 | 1,355 |
-| drug.community | 889 | 0 | 220 | 419 |
+| drug.community | 889 | 0 | 220 | 126 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 166 | 0 | 175 | 454 |
 | erowid-tihkal | 41 | 0 | 52 | 139 |
@@ -53,7 +53,7 @@ Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (17,080,320 bytes, sha
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 153 | 507 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
-| pyrls | 0 | 0 | 103 | 995 |
+| pyrls | 0 | 0 | 103 | 629 |
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
