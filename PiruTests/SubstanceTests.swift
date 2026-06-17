@@ -81,6 +81,28 @@ struct SubstanceTests {
         #expect(!substance.matches(""))
     }
 
+    @Test
+    func `Display aliases put Chinese names last in a non-Chinese UI`() {
+        // Tests run in an English host, so CJK aliases (FreeOD street names)
+        // should sort after the Latin ones regardless of source order.
+        let s = Substance(
+            name: "MDMA",
+            aliases: ["摇头丸", "Molly", "莫莉", "Ecstasy"],
+            category: .stimulant,
+            defaultRoute: .oral,
+            routes: [],
+            effects: [],
+        )
+        let shown = s.displayAliases
+        let firstHanIndex = shown.firstIndex(where: \.containsHan)
+        let lastLatinIndex = shown.lastIndex(where: { !$0.containsHan })
+        if let firstHanIndex, let lastLatinIndex {
+            #expect(firstHanIndex > lastLatinIndex)
+        }
+        #expect(shown.contains("Molly"))
+        #expect(shown.contains("莫莉"))
+    }
+
     // MARK: - doseRange(for:)
 
     @Test

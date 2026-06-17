@@ -1240,6 +1240,17 @@ _ACRONYMS = {
 }
 
 
+# Canonical-name fixups for scraped sources that mislabel a compound — keyed by
+# normalised incoming name. The Swift web collector names some TripSit entries
+# from the dataset *key* rather than its `pretty_name`, so paracetamol arrived as
+# "apap" (the US clinical abbreviation, not a name people search). Remapping it to
+# "Acetaminophen" before upsert lets it merge with the curated/pyrls entry instead
+# of standing as a cryptic, recreational-classed duplicate.
+_SOURCED_NAME_FIX = {
+    "apap": "Acetaminophen",
+}
+
+
 def smart_title_case(name: str) -> str:
     """Title-case a substance name when the source supplied it all-lowercase.
     Preserves chemical naming conventions: known acronyms (LSD, MDMA, GBL)
@@ -1410,6 +1421,22 @@ OTC_ALLOWLIST = {
     "omeprazole",
     "bismuth subsalicylate",
     "simethicone",
+}
+
+# OTC medicines with **no** recreational use that harm-reduction wikis still list
+# (for overdose/interaction safety) and that aggregators tag "common". Without
+# this, a TripSit/drug.community dose row classes paracetamol/ibuprofen as
+# "recreational" and the TripSit "common" tag drops them into the recreational
+# Common browse card — wrong for a painkiller. These are forced to `otc` and have
+# the "common" tag stripped so they live in their clinical category instead.
+# Deliberately excludes genuinely-abused OTC drugs (DXM, diphenhydramine,
+# pseudoephedrine), which keep their recreational signal.
+NON_RECREATIONAL_OTC = {
+    "acetaminophen",
+    "paracetamol",
+    "ibuprofen",
+    "aspirin",
+    "naproxen",
 }
 
 
@@ -3501,14 +3528,18 @@ class Build:
         skipped at the source — they're IUPAC artefacts, not substances anyone
         would log in a harm-reduction tracker.
         """
-        if is_chemistry_noise(s.get("name") or ""):
+        name = s.get("name") or ""
+        if is_chemistry_noise(name):
             return None
+        # Fix up scraped-source mislabels (e.g. TripSit's "apap" → Acetaminophen)
+        # so they merge with the properly-named entry rather than duplicating it.
+        name = _SOURCED_NAME_FIX.get(normalise(name), name)
         # Chemical identifiers ride the provenance wrapper for scraped sources
         # (inchikey/pubchem_cid/cas kwargs); the curated overlay carries them —
         # plus formula/molarMass — on the substance object itself. Prefer the
         # wrapper, fall back to the object, so both paths populate the row.
         sid = self.upsert_substance(
-            s.get("name"),
+            name,
             aliases=s.get("aliases") or [],
             inchikey=inchikey or s.get("inchikey"),
             pubchem_cid=pubchem_cid if pubchem_cid is not None else to_int(s.get("pubchemCID")),
@@ -5337,7 +5368,13 @@ class Build:
             is_supplement = cat == "Supplement"
             is_otc = reg in ("otc", "rx_otc_dependent") or name in OTC_ALLOWLIST
 
-            if rec_signal:
+            if strip_stereo(name) in NON_RECREATIONAL_OTC or name in NON_RECREATIONAL_OTC:
+                # Pure OTC analgesic/antipyretic: a wiki listing it for overdose
+                # safety isn't a recreational signal. Force OTC and drop the
+                # aggregator's "common" tag so it leaves the recreational browse.
+                cls = "otc"
+                cur.execute("DELETE FROM tags WHERE substance_id = ? AND tag = 'common'", (sid,))
+            elif rec_signal:
                 # Genuine harm-reduction-wiki dose/duration → show it. A medical
                 # drug here is dual_use (the literal "if PW has the data" rule).
                 cls = "dual_use" if is_medical_cat else "recreational"

@@ -1,17 +1,17 @@
 # Piru SQLite build report
 
-Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (17,072,128 bytes, sha256 `b8553c3df669b484a9d7ad6f5f682b200dc35f5b6200925e6a667c345991d288`)
+Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (17,080,320 bytes, sha256 `f2c3ed4523aa0c50823643cd37ae8c6bf03b42cecf7b65409aebd8afc658dfe2`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,968 |
-| aliases | 5,927 |
+| substances | 1,967 |
+| aliases | 5,922 |
 | sources | 17 |
 | citations | 1,809 |
 | categories | 1,877 |
-| tags | 8,575 |
+| tags | 8,571 |
 | dose_ranges | 2,893 |
 | durations | 9,448 |
 | half_lives | 278 |
@@ -44,7 +44,7 @@ Built 2026-06-17.0 → `Piru/Data/piru-substances.sqlite` (17,072,128 bytes, sha
 | piru-curated | 491 | 68 | 631 | 2,614 |
 | peer-review-primary | 0 | 895 | 0 | 1,764 |
 | psychonautwiki | 389 | 0 | 80 | 324 |
-| tripsit | 596 | 0 | 433 | 1,359 |
+| tripsit | 596 | 0 | 433 | 1,355 |
 | drug.community | 889 | 0 | 220 | 419 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 166 | 0 | 175 | 454 |
