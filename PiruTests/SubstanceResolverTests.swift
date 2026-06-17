@@ -27,8 +27,8 @@ struct SubstanceResolverTests {
     /// the top-level ladder must mirror the default (first) salt — the contract
     /// `makeRoute` is the sole enforcement point for. Checked across the
     /// salt-bearing samples plus salt-free controls.
-    @Test("Every salted route mirrors its default salt at the top level")
-    func defaultSaltMirrorInvariant() {
+    @Test
+    func `Every salted route mirrors its default salt at the top level`() {
         for name in ["Magnesium", "Lithium", "Caffeine", "Methamphetamine"] {
             guard let substance = SubstanceStore.shared.lookup(name) else {
                 Issue.record("\(name) missing from bundled DB")
@@ -47,8 +47,8 @@ struct SubstanceResolverTests {
 
     // MARK: - Structural golden checks (current bundled DB, schema v3)
 
-    @Test("Magnesium resolves its three oral salt ladders with curated ranges")
-    func magnesiumSaltLadders() {
+    @Test
+    func `Magnesium resolves its three oral salt ladders with curated ranges`() {
         guard let mg = SubstanceStore.shared.lookup("Magnesium") else {
             Issue.record("Magnesium missing from bundled DB")
             return
@@ -60,8 +60,8 @@ struct SubstanceResolverTests {
         #expect(mg.doseRange(for: .oral, saltForm: "L-Threonate")?.common == 1_500 ... 2_000)
     }
 
-    @Test("Lithium resolves Carbonate and Orotate with curated ranges")
-    func lithiumSaltLadders() {
+    @Test
+    func `Lithium resolves Carbonate and Orotate with curated ranges`() {
         guard let li = SubstanceStore.shared.lookup("Lithium") else {
             Issue.record("Lithium missing from bundled DB")
             return
@@ -71,8 +71,8 @@ struct SubstanceResolverTests {
         #expect(li.doseRange(for: .oral, saltForm: "Orotate")?.common == 125 ... 250)
     }
 
-    @Test("Caffeine has no salt dimension")
-    func caffeineHasNoSaltForms() {
+    @Test
+    func `Caffeine has no salt dimension`() {
         guard let caffeine = SubstanceStore.shared.lookup("Caffeine") else {
             Issue.record("Caffeine missing from bundled DB")
             return
@@ -83,8 +83,8 @@ struct SubstanceResolverTests {
         }
     }
 
-    @Test("A multi-route substance resolves all of its routes (no salt dimension)")
-    func multiRouteSubstanceResolvesEveryRoute() {
+    @Test
+    func `A multi-route substance resolves all of its routes (no salt dimension)`() {
         // Methamphetamine carries five distinct routes in the bundled DB and no
         // salt forms — a good probe that the resolver surfaces every route, not
         // just the default.
@@ -108,8 +108,8 @@ struct SubstanceResolverTests {
     /// `attachAuxiliaryRoutes`, the MainActor layer that adds the protocol/DOA
     /// data the off-main resolver can't build. BPC-157 is dosed on a
     /// subcutaneous schedule in the bundled DB.
-    @Test("A peptide's subcutaneous route carries its protocol dosing")
-    func protocolDosingSurfacesOnDetail() {
+    @Test
+    func `A peptide's subcutaneous route carries its protocol dosing`() {
         guard let bpc = SubstanceStore.shared.lookup("BPC-157") else {
             Issue.record("BPC-157 missing from bundled DB")
             return
@@ -121,8 +121,8 @@ struct SubstanceResolverTests {
 
     /// CJC-1295 ships a subcutaneous duration-of-action (release window) in the
     /// bundled DB; the detail path must surface it.
-    @Test("A long-acting peptide's route carries its duration-of-action window")
-    func durationOfActionSurfacesOnDetail() {
+    @Test
+    func `A long-acting peptide's route carries its duration-of-action window`() {
         guard let cjc = SubstanceStore.shared.lookup("CJC-1295") else {
             Issue.record("CJC-1295 missing from bundled DB")
             return
@@ -138,8 +138,8 @@ struct SubstanceResolverTests {
     /// for dose/duration; assert the **dose-bearing** routes they produce for a
     /// salted substance are identical (the detail path additionally folds in
     /// protocol/DOA, absent here, so the route shapes coincide).
-    @Test("Batch and detail paths agree on a salted substance's dose ladders")
-    func batchAndDetailAgree() {
+    @Test
+    func `Batch and detail paths agree on a salted substance's dose ladders`() {
         guard let detail = SubstanceStore.shared.lookup("Magnesium"),
               let browse = SubstanceStore.shared.all.first(where: { $0.name == "Magnesium" }) else {
             Issue.record("Magnesium missing from bundled DB")
@@ -148,8 +148,10 @@ struct SubstanceResolverTests {
         #expect(Set(detail.routes.map(\.route)) == Set(browse.routes.map(\.route)))
         for route in [RouteOfAdministration.oral] {
             #expect(detail.saltForms(for: route) == browse.saltForms(for: route))
-            #expect(detail.doseRange(for: route, saltForm: "Glycinate")?.common
-                == browse.doseRange(for: route, saltForm: "Glycinate")?.common)
+            #expect(
+                detail.doseRange(for: route, saltForm: "Glycinate")?.common
+                    == browse.doseRange(for: route, saltForm: "Glycinate")?.common,
+            )
         }
     }
 }

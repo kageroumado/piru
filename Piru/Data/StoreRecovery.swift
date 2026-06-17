@@ -34,6 +34,7 @@ nonisolated enum StoreRecovery {
     static let intentionalReasons: Set<String> = ["predelete", "prerestore"]
 
     // MARK: - Schema-migration policy
+
     //
     // The app opens the store with **automatic lightweight migration** and *no*
     // explicit `SchemaMigrationPlan`. SwiftData infers the migration from the
