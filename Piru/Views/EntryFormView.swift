@@ -483,8 +483,10 @@ struct InteractionWarningRow: View {
                 Text(warning.description)
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding(.vertical, 2)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

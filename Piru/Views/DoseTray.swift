@@ -466,10 +466,15 @@ struct DoseTrayView: View {
                 Image(systemName: "clock")
                     .imageScale(.small)
                 Text(model.time.chipLabel)
+                    .lineLimit(1)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))
             }
             .font(.footnote.weight(.semibold))
+            // The chip's capsule animates its width when the time changes; pin
+            // the label to its ideal width so the new string isn't clipped to the
+            // interpolating frame (which flashed truncated text before snapping).
+            .fixedSize(horizontal: true, vertical: false)
             .padding(.horizontal, 11)
             .padding(.vertical, 8)
             .background(
