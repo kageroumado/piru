@@ -108,7 +108,8 @@ enum AppSources {
         guard let slug, !slug.isEmpty,
               let encoded = slug.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         else { return URL(string: "https://freeodwiki.org") }
-        return URL(string: "https://freeodwiki.org/药物/\(encoded)")
+        // MkDocs renders each page as `药物/<title>.html` (not a directory URL).
+        return URL(string: "https://freeodwiki.org/药物/\(encoded).html")
     }
 
     /// Deep link to a source's page for a substance, keyed by the DB `slug`

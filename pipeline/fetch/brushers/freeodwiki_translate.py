@@ -24,6 +24,7 @@ attributed to `psychonautwiki` and the translated remainder to `freeodwiki`.
 
 import json
 import re
+import sqlite3
 import sys
 import time
 import urllib.parse
@@ -38,12 +39,32 @@ REPO = Path(__file__).resolve().parents[3]
 with open(REPO / "data/sources/freeodwiki.json", encoding="utf-8") as fh:
     recs = json.load(fh)
 
+# The ingester resolves each FreeOD page to an English canonical name via its
+# override map + alias matching (e.g. 甲基苯丙胺 -> "Methamphetamine"), but a page's
+# own title/names may be purely Chinese. Querying PW with only the page's own
+# names therefore misses PW-covered substances whose FreeOD page is Chinese-named.
+# Seed the best PW candidate from the BUILT DB's canonical name, keyed by slug.
+_canon_by_slug = {}
+try:
+    _db = sqlite3.connect(REPO / "Piru/Data/piru-substances.sqlite")
+    for slug, name in _db.execute(
+        "SELECT freeodwiki_slug, canonical_name FROM substances WHERE freeodwiki_slug IS NOT NULL"
+    ):
+        _canon_by_slug[slug] = name
+    _db.close()
+except sqlite3.Error:
+    pass  # DB not built yet; fall back to page-derived names only.
+
 
 def candidates(rec):
     """English name candidates for a PW title lookup, best first."""
     out = []
+    # Resolved canonical name first — it's the same English title PW indexes under.
+    canon = _canon_by_slug.get(rec.get("page_slug"))
+    if canon and not CJK.search(canon):
+        out.append(canon)
     t = (rec.get("title") or "").strip()
-    if t and not CJK.search(t):
+    if t and not CJK.search(t) and t not in out:
         out.append(t)
     for n in rec.get("names") or []:
         n = (n or "").strip()

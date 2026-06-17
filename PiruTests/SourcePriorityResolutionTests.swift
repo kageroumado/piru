@@ -98,11 +98,28 @@ struct FreeODLocaleResolutionTests {
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
         store.languageOverride = "en"
-        // 1,4-Butanediol is not covered by an English source, so its overview is
-        // machine-translated from FreeOD's Chinese — present, no Han, and flagged.
-        let overview = try #require(store.lookup("1,4-Butanediol")?.overview)
+        // 3-Me-PCP is a research chemical PsychonautWiki doesn't cover, so its
+        // overview is machine-translated from FreeOD's Chinese — present, no Han,
+        // flagged machine-translated, and attributed to FreeOD (not PW).
+        let overview = try #require(store.lookup("3-Me-PCP")?.overview)
         #expect(!hasHan(overview.text))
         #expect(overview.machineTranslated == true)
+        #expect(overview.sourceSlug == "freeodwiki")
+    }
+
+    @Test
+    @MainActor
+    func `Authentic PsychonautWiki overview is attributed to PW, not FreeOD`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        store.languageOverride = "en"
+        // Methamphetamine's FreeOD page is Chinese-titled, but the English text
+        // comes from PsychonautWiki — attribution must follow the real source so
+        // the credit row links to PW (not a 404 FreeOD page).
+        let overview = try #require(store.lookup("Methamphetamine")?.overview)
+        #expect(overview.machineTranslated == false)
+        #expect(overview.sourceSlug == "psychonautwiki")
     }
 
     @Test
