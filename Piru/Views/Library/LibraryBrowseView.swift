@@ -45,7 +45,17 @@ struct LibraryBrowseView: View {
             visibleFamilies = LibraryFamily.browsable
             rebuildFavorites()
         }
-        .onChange(of: favorites.count) { rebuildFavorites() }
+        .onChange(of: favoritesSignature) { rebuildFavorites() }
+    }
+
+    /// Favorite identities, not just `count`, so a same-count swap still rebuilds
+    /// the resolved favorite cards.
+    private var favoritesSignature: Int {
+        var hasher = Hasher()
+        for favorite in favorites {
+            hasher.combine(favorite.substance)
+        }
+        return hasher.finalize()
     }
 
     private func rebuildFavorites() {

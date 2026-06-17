@@ -142,6 +142,21 @@ struct EntryListView: View {
         return hasher.finalize()
     }
 
+    /// Content fingerprint of the colour assignments. Drives the recolour derive
+    /// on *edits*, not just adds/removes: recolouring an existing substance
+    /// mutates `hexColor` in place (`SettingsView` / `EntryDetailView` /
+    /// `SessionDetailView`), so the count is unchanged and a `count`-only watch
+    /// would leave the Day cards' baked-in tints stale. Hashing substance + hex
+    /// closes that gap (mirrors `SessionDetailView`).
+    private var colorSignature: Int {
+        var hasher = Hasher()
+        for color in substanceColors {
+            hasher.combine(color.substance)
+            hasher.combine(color.hexColor)
+        }
+        return hasher.finalize()
+    }
+
     /// Resolve derived data + regroup — entries or colours changed. The derive
     /// awaits the off-main substance batch cache and resolves the visible window
     /// first (painting via `onPrefixReady`) before the tail, so a long history
@@ -289,7 +304,7 @@ struct EntryListView: View {
         .onChange(of: selectedTag) { resetWindowAndRegroup() }
         .onChange(of: grouping) { resetWindowAndRegroup() }
         .onChange(of: filterCategories) { resetWindowAndRegroup() }
-        .onChange(of: substanceColors.count) {
+        .onChange(of: colorSignature) {
             Task { await rebuildAll(animated: true) }
         }
         .sheet(isPresented: $showingCalendar) {

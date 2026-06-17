@@ -56,6 +56,9 @@ struct SessionDetailView: View {
     /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole colour
     /// map — O(rows × colours) per body pass.
     @State private var colorMap: [String: Color] = [:]
+    /// Flips true once `colorMap` is first populated, so `resolvedColor` stops
+    /// falling back to the per-call map build after the warm-up frame.
+    @State private var colorMapReady = false
 
     private var colorSignature: Int {
         var hasher = Hasher()
@@ -400,6 +403,7 @@ struct SessionDetailView: View {
         .background(Theme.background)
         .task(id: colorSignature) {
             colorMap = Array(substanceColors).colorMap
+            colorMapReady = true
         }
         .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
@@ -575,11 +579,25 @@ struct SessionDetailView: View {
     }
 
     private func colorFor(_ entry: DoseEntry) -> Color {
-        colorMap[entry.substance.lowercased()] ?? Theme.accent
+        resolvedColor(entry.substance)
     }
 
     private func colorForName(_ name: String) -> Color {
-        colorMap[name.lowercased()] ?? Theme.accent
+        resolvedColor(name)
+    }
+
+    /// Row tint for a substance. Reads the cached `colorMap` once it's warm; on
+    /// the very first frame — before `.task(id: colorSignature)` populates it —
+    /// falls back to a direct resolve so the dots don't flash from the accent
+    /// tint to their real colour. The fallback pays the full map build for that
+    /// one frame only; once `colorMapReady` flips, a miss means the substance
+    /// genuinely has no assigned colour, so it returns the accent without
+    /// rebuilding the map every body pass.
+    private func resolvedColor(_ name: String) -> Color {
+        let key = name.lowercased()
+        if let color = colorMap[key] { return color }
+        guard !colorMapReady else { return Theme.accent }
+        return Array(substanceColors).colorMap[key] ?? Theme.accent
     }
 
     private func exportDayLog() {

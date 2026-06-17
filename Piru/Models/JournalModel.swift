@@ -205,6 +205,18 @@ final class JournalModel {
         // interleave in time, instead of a flat entry count that could
         // under-cover and flash an empty graph. Capped so a single huge session
         // can't make the synchronous burst span the whole history.
+        //
+        // Best-effort: `windowKeys` is derived from the *unfiltered* `entries`,
+        // while `rebuildGroups` windows the *filtered* result. With no filter
+        // (the launch / common path) they coincide and the painted cards get
+        // their graphs synchronously. Under an active search/tag/category filter
+        // the painted window may be older sessions whose entries fall in the
+        // yielding tail — those cards briefly show markers until phase 2 lands.
+        // Acceptable: it only bites on a cold derive or colour change *while a
+        // filter is active* (a re-derive with unchanged colours seeds `newDerived`
+        // from the already-resolved `derived`, so nothing flashes), and the tail
+        // always converges. Matching the filter here would couple the model to
+        // the view's filter predicate for a one-frame cosmetic win.
         let windowKeys = Self.windowSessionKeys(entries, limit: sessionWindow)
         var prefixEntries: [DoseEntry] = []
         var tailEntries: [DoseEntry] = []
