@@ -66,11 +66,12 @@ final class JournalModel {
     /// clobbering published state with a half-resolved or out-of-date map.
     private var deriveGeneration = 0
 
-    /// Newest-first prefix resolved *synchronously* (batch-cache dict hits) so
-    /// the windowed Day cards — the most-recent `sessionWindow` sessions — paint
-    /// before a multi-thousand-entry history's tail finishes resolving. Sized a
-    /// little above a typical full window's dose count.
-    private static let derivePrefix = 150
+    /// Hard cap on the synchronous derive prefix. The prefix normally covers
+    /// *exactly* the visible window's sessions (so their cards paint with full
+    /// graphs, no flash), but a pathologically large single session could make
+    /// that span the whole history — this bounds the synchronous burst and lets
+    /// the overflow resolve in the yielding tail.
+    private static let maxSyncPrefix = 400
 
     func refreshColorMap(_ colors: [SubstanceColor]) {
         colorMap = Array(colors).colorMap
@@ -93,6 +94,20 @@ final class JournalModel {
         guard sessionWindow != Self.sessionPageSize else { return }
         sessionWindow = Self.sessionPageSize
         lastGroupsSignature = nil
+    }
+
+    /// The session keys of the first `limit` distinct sessions in newest-first
+    /// entry order — the sessions `rebuildGroups` materializes into the visible
+    /// Day window. A session-less straggler keys on its own id (matching the
+    /// grouping's `entry.session?.id ?? entry.id`), so each counts as one.
+    private static func windowSessionKeys(_ entries: [DoseEntry], limit: Int) -> Set<PersistentIdentifier> {
+        var keys = Set<PersistentIdentifier>()
+        keys.reserveCapacity(limit)
+        for entry in entries {
+            if keys.count >= limit { break }
+            keys.insert(entry.session?.persistentModelID ?? entry.persistentModelID)
+        }
+        return keys
     }
 
     /// The fields `derived` actually depends on, hashed cheaply (no SQL / PK).
@@ -182,12 +197,31 @@ final class JournalModel {
             }
         }
 
+        // Partition into the entries the visible window's cards need (resolved
+        // synchronously, so those cards paint with full graphs) and the rest
+        // (resolved in the yielding tail). Membership is by session — matching
+        // how `rebuildGroups` buckets and windows — so the prefix covers exactly
+        // the painted sessions even when one spans many doses or sessions
+        // interleave in time, instead of a flat entry count that could
+        // under-cover and flash an empty graph. Capped so a single huge session
+        // can't make the synchronous burst span the whole history.
+        let windowKeys = Self.windowSessionKeys(entries, limit: sessionWindow)
+        var prefixEntries: [DoseEntry] = []
+        var tailEntries: [DoseEntry] = []
+        for entry in entries {
+            let key = entry.session?.persistentModelID ?? entry.persistentModelID
+            if windowKeys.contains(key), prefixEntries.count < Self.maxSyncPrefix {
+                prefixEntries.append(entry)
+            } else {
+                tailEntries.append(entry)
+            }
+        }
+
         // Phase 1 — the visible window, resolved synchronously. Publish it so the
         // Day cards paint immediately. When colours didn't change, `newDerived`
         // still carries the previous tail entries (outside the window), so the
         // list never shows holes while phase 2 catches up.
-        let prefixEnd = min(entries.count, Self.derivePrefix)
-        resolve(entries[0 ..< prefixEnd])
+        resolve(prefixEntries[...])
         let prefixChanged = colorsChanged || resolvedCount > 0
         let prefixResolved = resolvedCount
         if prefixChanged {
@@ -197,12 +231,12 @@ final class JournalModel {
 
         // Phase 2 — the tail, in yielding chunks so a long history never hogs a
         // frame. Bail at each checkpoint if a newer derive superseded us.
-        if prefixEnd < entries.count {
-            var index = prefixEnd
+        if !tailEntries.isEmpty {
+            var index = 0
             let chunkSize = 200
-            while index < entries.count {
-                let end = min(index + chunkSize, entries.count)
-                resolve(entries[index ..< end])
+            while index < tailEntries.count {
+                let end = min(index + chunkSize, tailEntries.count)
+                resolve(tailEntries[index ..< end])
                 index = end
                 await Task.yield()
                 guard gen == deriveGeneration else { return }
