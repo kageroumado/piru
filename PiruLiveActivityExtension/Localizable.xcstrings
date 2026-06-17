@@ -36,7 +36,13 @@
         }
       }
     },
+    "Afterglow" : {
+
+    },
     "Biweekly" : {
+
+    },
+    "Come-up" : {
 
     },
     "Custom days" : {
@@ -69,10 +75,19 @@
     "Monthly" : {
 
     },
+    "Offset" : {
+
+    },
+    "Onset" : {
+
+    },
     "Oral" : {
 
     },
     "Other" : {
+
+    },
+    "Peak" : {
 
     },
     "Rectal" : {

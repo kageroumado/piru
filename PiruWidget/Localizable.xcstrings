@@ -205,6 +205,9 @@
         }
       }
     },
+    "Afterglow" : {
+
+    },
     "Biweekly" : {
       "localizations" : {
         "zh-Hans" : {
@@ -220,6 +223,9 @@
           }
         }
       }
+    },
+    "Come-up" : {
+
     },
     "Current Session" : {
       "localizations" : {
@@ -478,6 +484,12 @@
         }
       }
     },
+    "Offset" : {
+
+    },
+    "Onset" : {
+
+    },
     "Oral" : {
       "localizations" : {
         "zh-Hans" : {
@@ -509,6 +521,9 @@
           }
         }
       }
+    },
+    "Peak" : {
+
     },
     "Rectal" : {
       "localizations" : {
