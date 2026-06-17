@@ -336,6 +336,7 @@ struct RoutesCodableTests {
         PushRoute.substance(name: "LSD"),
         .libraryCategory(.stimulant),
         .libraryCategory(.psychedelic),
+        .libraryTag("common"),
         .libraryFavorites,
     ])
     func `Each PushRoute case round-trips`(route: PushRoute) throws {

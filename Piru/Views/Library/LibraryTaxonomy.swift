@@ -104,6 +104,31 @@ extension LibraryFamily {
             .map(\.displayTitle)
     }
 
+    /// Families with their empty sub-classes (and empty single cards) pruned, so
+    /// a class with nothing browsable never shows a dead card. Shared by the
+    /// Library browse flow and the Search screen's class grid.
+    static var browsable: [LibraryFamily] {
+        all.compactMap { family in
+            guard family.isUmbrella else {
+                return family.hasSubstances ? family : nil
+            }
+            let live = family.subclasses.filter { !SubstanceLibrary.substances(in: $0.category).isEmpty }
+            guard !live.isEmpty else { return nil }
+            var pruned = family
+            pruned.subclasses = live
+            return pruned
+        }
+    }
+
+    /// Whether a single card's source has any browsable substances.
+    private var hasSubstances: Bool {
+        switch source {
+        case let .category(category): !SubstanceLibrary.substances(in: category).isEmpty
+        case let .tag(tag): !SubstanceLibrary.substances(taggedWith: tag).isEmpty
+        case .none: false
+        }
+    }
+
     /// The ordered family taxonomy. `Common` leads as a friendly entry point;
     /// the rest run from recreational effect-families through clinical classes
     /// to supplements and the research-chemical bucket.

@@ -43,6 +43,10 @@ struct EntryListView: View {
     /// showing only the (recent / searched) entries.
     var isSearchSurface = false
 
+    /// Search-surface only: invoked from the empty-results state to offer
+    /// searching the Library instead when a query finds no journal entries.
+    var onSwitchToLibrary: (() -> Void)?
+
     @State private var selectedTag: String? = nil
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingCalendar = false
@@ -588,15 +592,23 @@ struct EntryListView: View {
     // MARK: - Empty State
 
     private var emptyState: some View {
-        ContentUnavailableView(
-            searchText.isEmpty && !hasActiveFilters ? "No Entries" : "No Results",
-            systemImage: searchText.isEmpty && !hasActiveFilters ? "pill" : "magnifyingglass",
-            description: Text(
+        ContentUnavailableView {
+            Label(
+                searchText.isEmpty && !hasActiveFilters ? "No Entries" : "No Results",
+                systemImage: searchText.isEmpty && !hasActiveFilters ? "pill" : "magnifyingglass",
+            )
+        } description: {
+            Text(
                 hasActiveFilters ? "Try adjusting your filters." :
                     searchText.isEmpty ? "Tap + to log your first entry." :
                     "Try a different search term.",
-            ),
-        )
+            )
+        } actions: {
+            if isSearchSurface, !searchText.isEmpty, let onSwitchToLibrary {
+                Button("Search Library instead", action: onSwitchToLibrary)
+                    .buttonStyle(.borderedProminent)
+            }
+        }
     }
 
     // MARK: - Calendar Sheet
