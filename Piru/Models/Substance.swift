@@ -1228,7 +1228,13 @@ struct Substance: Identifiable {
                 order.append(key)
             }
         }
-        return order.compactMap { best[$0] }
+        let resolved = order.compactMap { best[$0] }
+        // In a non-Chinese UI, push CJK aliases (FreeOD's Chinese street names) to
+        // the end so an English title isn't immediately followed by Han — Latin
+        // names a reader recognises lead. A stable partition keeps source order
+        // within each group. In a Chinese UI the source order already reads well.
+        guard !SubstanceStore.contentLanguage.hasPrefix("zh") else { return resolved }
+        return resolved.filter { !$0.containsHan } + resolved.filter(\.containsHan)
     }
 
     /// Casing/spacing-insensitive identity key for an alias.
@@ -1675,5 +1681,13 @@ extension SubstanceCategory {
         case .anticonvulsant: Color(red: 0.65, green: 0.55, blue: 0.85)
         case .other: Theme.secondaryLabel
         }
+    }
+}
+
+extension String {
+    /// Whether the string contains any CJK Han character — used to push Chinese
+    /// aliases to the end of "Also known as" in a non-Chinese UI.
+    var containsHan: Bool {
+        unicodeScalars.contains { (0x4E00 ... 0x9FFF).contains($0.value) }
     }
 }
