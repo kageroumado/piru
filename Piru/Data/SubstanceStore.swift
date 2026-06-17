@@ -1414,7 +1414,7 @@ final class SubstanceStore {
     private func resolvedDescription(db: Database, substanceID: Int64, language: String) throws -> SubstanceOverview? {
         let lang = Self.languageClauses(language, column: "d.language")
         guard let row = try Row.fetchOne(db, sql: """
-            SELECT d.text, d.machine_translated
+            SELECT d.text, d.machine_translated, src.slug AS source_slug
               FROM descriptions d
               JOIN sources src ON src.id = d.source_id
              WHERE d.substance_id = ?
@@ -1425,7 +1425,11 @@ final class SubstanceStore {
         """, arguments: [substanceID]) else { return nil }
         let text: String = row["text"]
         guard !text.isEmpty else { return nil }
-        return SubstanceOverview(text: text, machineTranslated: (row["machine_translated"] as Int64? ?? 0) != 0)
+        return SubstanceOverview(
+            text: text,
+            machineTranslated: (row["machine_translated"] as Int64? ?? 0) != 0,
+            sourceSlug: (row["source_slug"] as String?) ?? "freeodwiki",
+        )
     }
 
     private func resolvedMechanism(db: Database, substanceID: Int64, language: String) throws -> MechanismOfAction? {

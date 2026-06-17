@@ -896,6 +896,10 @@ struct ReceptorBinding: Codable, Identifiable {
 struct SubstanceOverview: Codable, Hashable {
     let text: String
     let machineTranslated: Bool
+    /// DB slug of the source that actually supplied the resolved text (e.g.
+    /// `psychonautwiki` for an authentic English lead, `freeodwiki` for native
+    /// Chinese or a machine translation). Drives the attribution row + deep link.
+    var sourceSlug: String = "freeodwiki"
 }
 
 struct MechanismOfAction: Codable {

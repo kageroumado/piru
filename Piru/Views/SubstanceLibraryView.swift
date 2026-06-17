@@ -649,9 +649,9 @@ struct SubstanceDetailView: View {
                         .font(.subheadline.weight(.semibold))
                 }
                 SourceAttributionRow(
-                    slug: "freeodwiki",
+                    slug: overview.sourceSlug,
                     label: "Overview",
-                    deepLink: sourceDeepLink("freeodwiki"),
+                    deepLink: sourceDeepLink(overview.sourceSlug),
                 )
             }
         }
