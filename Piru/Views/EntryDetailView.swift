@@ -272,6 +272,12 @@ struct EntryDetailView: View {
                     DurationInfoView(duration: duration)
                 }
             }
+
+            Section {
+                NavigationLink(value: PushRoute.substance(name: info.name)) {
+                    Label("Substance Info", systemImage: "info.circle")
+                }
+            }
         }
 
         if let notes = entry.notes, !notes.isEmpty {
