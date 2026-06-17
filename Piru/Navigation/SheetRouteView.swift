@@ -56,8 +56,8 @@ struct SheetRouteView: View {
                 EntryFormView()
             }
 
-        case let .entryEdit(timestamp):
-            EntryLookupView(id: nil, timestamp: timestamp) { entry in
+        case let .entryEdit(timestamp, id):
+            EntryLookupView(id: id, timestamp: timestamp) { entry in
                 EntryFormView(entry: entry)
             }
 

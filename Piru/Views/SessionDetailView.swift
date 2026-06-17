@@ -752,7 +752,7 @@ private struct DayEntryRow: View {
         }
         .swipeActions(edge: .leading) {
             Button {
-                navigator.present(.entryEdit(timestamp: entry.timestamp))
+                navigator.present(.entryEdit(timestamp: entry.timestamp, id: entry.id))
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
@@ -766,7 +766,7 @@ private struct DayEntryRow: View {
                 Label("Change Color", systemImage: "paintbrush")
             }
             Button {
-                navigator.present(.entryEdit(timestamp: entry.timestamp))
+                navigator.present(.entryEdit(timestamp: entry.timestamp, id: entry.id))
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
