@@ -96,6 +96,11 @@ struct TimelineGraphView: View, Equatable {
     /// Drives the inspection lollipop: a vertical rule + per-curve dots + the
     /// SwiftUI callout. Only set on the full graph (`!compact`).
     @State private var scrubX: CGFloat? = nil
+    /// Latest touch x (canvas points), captured by a simultaneous min-distance-0
+    /// tracker. The scrub long-press carries no location, and its sequenced drag
+    /// stays nil until the finger *moves* — so a stationary hold had nothing to
+    /// position the rule with. This lets a motionless hold inspect at the touch.
+    @State private var lastTouchX: CGFloat = 0
 
     // MARK: - Memoized geometry
 
@@ -551,6 +556,19 @@ struct TimelineGraphView: View, Equatable {
         let color: Color
         let value: Double
         let elapsed: Double
+        let phase: LocalizedStringResource?
+    }
+
+    /// Localized phase label for a dose `elapsed` minutes in. Mirrors
+    /// ``DosePhaseProgressBar/phase(_:elapsedMinutes:)`` boundary-for-boundary so
+    /// the scrub readout names the same phase the dose-detail hero would.
+    private func scrubPhaseName(elapsed: Double, for s: ActiveSubstanceState) -> LocalizedStringResource? {
+        guard elapsed >= 0, elapsed <= s.totalMinutes else { return nil }
+        if elapsed <= s.onsetEndMinutes { return "Onset" }
+        if elapsed <= s.comeupEndMinutes { return "Come-up" }
+        if elapsed <= s.peakEndMinutes { return "Peak" }
+        if elapsed <= s.offsetEndMinutes { return "Offset" }
+        return "Afterglow"
     }
 
     /// Every curve present at `global` minutes (since `earliestDose`), sorted
@@ -567,7 +585,7 @@ struct TimelineGraphView: View, Equatable {
                 let params = group.map { TimelineCurveModel.pkParams(for: $0) }
                 let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group, params: params) * yNorm))
                 guard v > 0.01 else { continue }
-                out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, elapsed: global - gStart))
+                out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, elapsed: global - gStart, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
             }
         } else {
             for (i, s) in substances.enumerated() {
@@ -577,7 +595,7 @@ struct TimelineGraphView: View, Equatable {
                 guard local >= 0, local <= TimelineCurveModel.curveExtent(for: s, params: params) else { continue }
                 let v = min(1, max(0, TimelineCurveModel.intensity(at: local, for: s, params: params) * heightScale(for: s) * yNorm))
                 guard v > 0.01 else { continue }
-                out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, elapsed: local))
+                out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, elapsed: local, phase: scrubPhaseName(elapsed: local, for: s)))
             }
         }
         return out.sorted { $0.value > $1.value }
@@ -641,6 +659,7 @@ struct TimelineGraphView: View, Equatable {
                         .contentShape(Rectangle())
                         .gesture(panZoomGesture(graphWidth: geom.width))
                         .highPriorityGesture(scrubGesture(geom: geom))
+                        .simultaneousGesture(touchTrackingGesture())
                         .onTapGesture(count: 2) {
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 zoom = 1.0
@@ -718,13 +737,25 @@ struct TimelineGraphView: View, Equatable {
         LongPressGesture(minimumDuration: 0.25, maximumDistance: 12)
             .sequenced(before: DragGesture(minimumDistance: 0))
             .onChanged { value in
-                if case let .second(true, drag?) = value {
-                    scrubX = min(max(drag.location.x, geom.inset), geom.inset + geom.width)
+                // `.second(true, …)` fires the moment the long press completes;
+                // the drag value is nil until the finger moves, so fall back to
+                // the tracked touch position to inspect on a stationary hold.
+                if case let .second(true, drag) = value {
+                    let x = drag?.location.x ?? lastTouchX
+                    scrubX = min(max(x, geom.inset), geom.inset + geom.width)
                 }
             }
             .onEnded { _ in
                 scrubX = nil
             }
+    }
+
+    /// Records the live touch position so the scrub long-press has somewhere to
+    /// place the rule even when the finger never moves. Min-distance 0 → fires on
+    /// touch-down; simultaneous → never steals the pan or scrub gestures.
+    private func touchTrackingGesture() -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { lastTouchX = $0.location.x }
     }
 
     /// The floating readout above the scrub rule: scrubbed clock time plus each
@@ -752,9 +783,17 @@ struct TimelineGraphView: View, Equatable {
                                 .font(.caption2)
                                 .lineLimit(1)
                             Spacer(minLength: 6)
-                            Text(verbatim: "\(Int((sample.value * 100).rounded()))%")
-                                .font(.caption2.weight(.medium).monospacedDigit())
-                                .foregroundStyle(.secondary)
+                            VStack(alignment: .trailing, spacing: 0) {
+                                Text(verbatim: "\(Int((sample.value * 100).rounded()))%")
+                                    .font(.caption2.weight(.medium).monospacedDigit())
+                                    .foregroundStyle(.secondary)
+                                if let phase = sample.phase {
+                                    Text(phase)
+                                        .font(.system(size: 9).weight(.medium))
+                                        .foregroundStyle(.tertiary)
+                                        .lineLimit(1)
+                                }
+                            }
                         }
                     }
                 }
