@@ -1439,6 +1439,39 @@ NON_RECREATIONAL_OTC = {
     "naproxen",
 }
 
+# Dosage-form vocabulary. pyrls/medtap dump the FDA `dosageForm` string straight
+# into tags ("tablet, chewable tablet, extended release tablet, …"), which is
+# noise as a class chip — the form lives in its own field. A tag whose *every*
+# comma-part names a dosage form is dropped; a mixed drug-class label like
+# "calcium channel blocker, dihydropyridine" is kept (not all parts are forms).
+_DOSAGE_FORM_RE = re.compile(
+    r"\b(tablet|capsule|injection|solution|suspension|syrup|cream|ointment|lotion|"
+    r"gel|patch|suppositor(?:y|ies)|spray|powder|granules?|lozenge|elixir|aerosol|"
+    r"drops?|film|wafer|implant|emulsion|paste|foam|enema|troche|sachet|concentrate|"
+    r"liquid|inhalant|inhaler|pellet|sprinkle|syringe|cartridge|pen|packet|infusor|"
+    r"delivery system|nebuli[sz]er|douche|shampoo|kit)\b",
+    re.I,
+)
+# Form qualifiers that can stand alone as a comma-part ("orally disintegrating").
+_DOSAGE_MODIFIER_RE = re.compile(
+    r"^(extended[- ]release|delayed[- ]release|immediate[- ]release|modified[- ]release|"
+    r"controlled[- ]release|sustained[- ]release|delayed onset|orally disintegrating|"
+    r"chewable|dispersible|sublingual|buccal|effervescent|pre[- ]?filled|metered dose|"
+    r"dry powder|osmotic|oral|topical|nasal|ophthalmic|otic|rectal|vaginal|"
+    r"\d+ ?hour)\b",
+    re.I,
+)
+
+
+def is_dosage_form_tag(tag: str) -> bool:
+    # Drop brand parentheticals first — their inner commas ("(diskus, hfa)") would
+    # otherwise split into non-form fragments and defeat the all-parts test.
+    stripped = re.sub(r"\([^)]*\)", "", tag)
+    parts = [p.strip() for p in stripped.split(",") if p.strip()]
+    if not parts:
+        return False
+    return all(_DOSAGE_FORM_RE.search(p) or _DOSAGE_MODIFIER_RE.match(p) for p in parts)
+
 
 # ---------------------------------------------------------------------------
 # Name normalisation helpers (chirality, chemical-abbreviation casing)
@@ -2502,7 +2535,19 @@ class Build:
         alias = self._ALIAS_PAREN_RE.sub("", alias).strip()
         if not alias:
             return
-        if ":" in alias or "{" in alias or "}" in alias or ", " in alias or len(alias) > 70:
+        # Drop structural junk + fragments: a bare number ("3", split out of a
+        # "3,4-…" systematic name) or a CAS registry number ("87913-26-6") is
+        # noise as an "also known as" chip and useless for search. Single letters
+        # are kept — some are real slang (G, K, L, H).
+        if (
+            ":" in alias
+            or "{" in alias
+            or "}" in alias
+            or ", " in alias
+            or len(alias) > 70
+            or alias.isdigit()
+            or re.fullmatch(r"\d{2,7}-\d{2}-\d", alias) is not None
+        ):
             self.stats["dropped_junk_alias"] = self.stats.get("dropped_junk_alias", 0) + 1
             return
         # Per-substance alias blocklist: drop aliases that name a structurally
@@ -2567,7 +2612,7 @@ class Build:
             pass
 
     def add_tag(self, sid: int, source_slug: str, tag: str, confidence: str | None = None) -> None:
-        if not tag:
+        if not tag or is_dosage_form_tag(tag):
             return
         src = self.source_ids[source_slug]
         # Cache unconditionally so the dose-magnitude gate sees every tag
@@ -3813,7 +3858,11 @@ class Build:
                 if cats:
                     self.add_category(sid, slug, cats[0] if isinstance(cats, list) else str(cats))
             if s.get("chemical_class"):
-                self.add_tag(sid, slug, f"class:{s['chemical_class']}")
+                # drug.community sometimes stores a paragraph of chemistry here
+                # rather than a class label; keep only concise labels as a chip.
+                cc = str(s["chemical_class"]).strip()
+                if cc and len(cc) <= 48 and ";" not in cc and "(" not in cc:
+                    self.add_tag(sid, slug, f"class:{cc}")
             dosages = (s.get("dosages") or {}).get("routes_of_administration") or []
             for r in dosages:
                 dr = r.get("dose_ranges") or {}

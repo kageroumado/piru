@@ -3,7 +3,6 @@
     "name": "1,4-BDO",
     "display_name": "",
     "aliases": [
-      "1",
       "1,4-B",
       "1,4-butylene glycol",
       "4-Butanediol",
@@ -16,9 +15,7 @@
     ],
     "category": "Depressant",
     "display_class": "recreational",
-    "tags": [
-      "class:Aliphatic diol (tetramethylene glycol)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -111,9 +108,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Phenyl-/benzyl-piperazine derivative (trimethoxy-substituted)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -144,9 +139,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:benzylpiperazine (piperazine)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -313,7 +306,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Lysergamide (ergoline derivative, N1-butanoyl analog of LSD)",
       "class:lysergamides",
       "prodrug-of-LSD",
       "research-chemical",
@@ -424,7 +416,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Lysergamide (1-substituted N1-cyclopropanoyl derivative of AL-LAD)",
       "class:lysergamides"
     ],
     "default_route": "insufflation",
@@ -933,9 +924,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Phenethylamine (subclass: substituted amphetamine)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -960,7 +949,6 @@
     "name": "2,5-DMA",
     "display_name": "",
     "aliases": [
-      "2",
       "2,5-dimethoxyamphetamine",
       "5-DMA",
       "5-二甲氧基苯丙胺",
@@ -1124,7 +1112,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Unsubstituted aminoindane (rigid amphetamine analogue)",
       "class:aminoindane"
     ],
     "default_route": "insufflation",
@@ -1197,7 +1184,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted amphetamine (methylenedioxyphenethylamine; halogenated MDMA analogue)",
       "psychedelic-leaning"
     ],
     "default_route": "insufflation",
@@ -1376,7 +1362,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Piperidine derivative (diphenylmethylpiperidine)",
       "class:substituted piperidines",
       "habit-forming",
       "research-chemical",
@@ -1452,7 +1437,6 @@
     "display_class": "recreational",
     "tags": [
       "DA-selective-releaser",
-      "class:Substituted amphetamine (phenethylamine, fluoroamphetamine subclass)",
       "class:substituted amphetamines",
       "habit-forming",
       "research-chemical"
@@ -1539,9 +1523,7 @@
     ],
     "category": "Empathogen",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted amphetamine (fluorinated ethylamphetamine)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -1828,7 +1810,6 @@
     "name": "2-ME-DMT",
     "display_name": "",
     "aliases": [
-      "2",
       "2,N,N-TMT",
       "2,N,N-Trimethyltryptamine",
       "2-Methyl-N",
@@ -2138,7 +2119,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "weak-predicted"
     ],
     "default_route": "insufflation",
@@ -2219,7 +2199,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-blocker-predicted",
-      "class:β-keto phenylpiperidine (piperidinyl ketone)",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -2262,7 +2241,6 @@
     "category": "Other",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-keto amphetamine; naphthyl analogue of methcathinone)",
       "inactive"
     ],
     "default_route": "inhalation",
@@ -2304,7 +2282,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:substituted cathinone (beta-keto amphetamine)",
       "habit-forming",
       "no-human-data",
       "phenethylamine",
@@ -2379,9 +2356,7 @@
     ],
     "category": "Dissociative",
     "display_class": "recreational",
-    "tags": [
-      "class:Arylcyclohexylamine (diphenidine/diarylethylamine family)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -2556,7 +2531,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOH",
-      "class:Phenethylamine (N-benzyl phenethylamine; 2C-B derivative)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -2604,8 +2578,7 @@
       "PET-tracer-Cimbi-36",
       "class:substituted phenethylamines",
       "phenethylamine",
-      "research-chemical",
-      "sublingual-route"
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -2683,7 +2656,6 @@
     "display_class": "recreational",
     "tags": [
       "NBOMe-regioisomer",
-      "class:phenethylamine (2C) / NB3OMe series",
       "likely-weaker-than-25C-NBOMe"
     ],
     "default_route": "buccal",
@@ -2767,8 +2739,7 @@
       "common",
       "fatality-documented",
       "phenethylamine",
-      "research-chemical",
-      "sublingual-route"
+      "research-chemical"
     ],
     "default_route": "sublingual",
     "all_routes": [
@@ -2852,7 +2823,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:N-benzyl phenethylamine (NBOMe/NBOH family)",
       "misclassified-not-a-dissociative"
     ],
     "default_route": "buccal",
@@ -3034,7 +3004,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "class:Substituted phenethylamine (NBOMe series)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3073,7 +3042,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBF",
-      "class:Substituted phenethylamine (N-benzylfluoro analogue of the 2C family)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3116,7 +3084,6 @@
     "display_class": "recreational",
     "tags": [
       "NBMD",
-      "class:Substituted phenethylamine (NBMD / 25-X family)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3161,7 +3128,6 @@
       "5-HT2A-agonist",
       "CYP2D6-substrate",
       "NBOH",
-      "class:Substituted phenethylamine (N-benzyl-oxy-phenethylamine)",
       "class:substituted phenethylamines",
       "phenethylamine",
       "phenolic-glucuronidation",
@@ -3211,14 +3177,12 @@
       "CYP2D6-substrate",
       "CYP3A4-substrate",
       "NBOMe",
-      "class:Phenethylamine (NBOMe series)",
       "class:substituted phenethylamines",
       "common",
       "fatality-documented",
       "hERG-data-lacking",
       "phenethylamine",
-      "research-chemical",
-      "sublingual-route"
+      "research-chemical"
     ],
     "default_route": "buccal",
     "all_routes": [
@@ -3307,7 +3271,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "class:Substituted phenethylamine (NBOMe series)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3392,7 +3355,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "class:Phenethylamine; NBOMe (N‑methoxybenzyl) series; 2C family derivative (2C‑P analog)",
       "duplicate-of-25P-NBOMe",
       "phenethylamine",
       "research-chemical",
@@ -3438,7 +3400,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "class:Substituted phenethylamine (NBOMe series, thioether-substituted)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3517,8 +3478,7 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-superpotent",
-      "NBOMe",
-      "class:Substituted phenethylamine (NBOMe series; thio-ether substituted)"
+      "NBOMe"
     ],
     "default_route": "buccal",
     "all_routes": [
@@ -3566,7 +3526,6 @@
       "5-HT2B-agonist",
       "5HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C series) psychedelic",
       "class:substituted phenethylamines",
       "common",
       "no-human-data",
@@ -3664,7 +3623,6 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
-      "class:Phenethylamine; aminonitrile prodrug of 2C-B",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3696,8 +3654,6 @@
       "2C-Bromo-FLY",
       "2cb-FLY",
       "2cbfly",
-      "3",
-      "6",
       "8-bromo-2"
     ],
     "category": "Psychedelic",
@@ -3706,7 +3662,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "5-HT2B-strong",
-      "class:Phenethylamine (dihydrodifuran analog of 2C-B)",
       "class:substituted benzofurans",
       "class:substituted phenethylamines",
       "phenethylamine",
@@ -3749,7 +3704,6 @@
       "5-HT2A-agonist",
       "MISCATEGORIZED",
       "NBOMe",
-      "class:N-benzylated benzodifuran phenethylamine (NBOMe)",
       "fatality-risk",
       "phenethylamine",
       "psychedelic",
@@ -3790,9 +3744,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted phenethylamine (2C family, brominated dimethoxy-phenethylamine analogue; structure not analytically confirmed)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -3829,7 +3781,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine; 2,5-dimethoxy-4-chloro substitution (2C series)",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
@@ -3904,7 +3855,6 @@
     "name": "2C-D",
     "display_name": "",
     "aliases": [
-      "2",
       "2C‑D",
       "2c-M",
       "2cd",
@@ -3984,7 +3934,6 @@
     "name": "2C-E",
     "display_name": "",
     "aliases": [
-      "2",
       "2ce",
       "4‑ethyl‑2,5‑dimethoxyphenethylamine",
       "5-二甲氧基-4-乙基苯乙胺",
@@ -3999,7 +3948,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C‑x series)",
       "class:substituted phenethylamines",
       "common",
       "no-human-data",
@@ -4084,9 +4032,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Phenethylamine (2,5‑dimethoxy‑4‑substituted phenethylamine)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -4110,7 +4056,6 @@
     "name": "2C-F",
     "display_name": "",
     "aliases": [
-      "2",
       "2C‑F",
       "4-F-2,5-DMPEA",
       "CAS 207740-15-6"
@@ -4122,7 +4067,6 @@
       "5-HT2A-agonist",
       "5HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C family)",
       "no-human-data",
       "phenethylamine",
       "psychedelic"
@@ -4162,7 +4106,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C family)",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -4330,7 +4273,6 @@
     "name": "2C-H",
     "display_name": "",
     "aliases": [
-      "2",
       "2,5-DMPEA",
       "2,5-dimethoxyphenethylamine",
       "5-二甲氧基苯乙胺",
@@ -4367,7 +4309,6 @@
     "name": "2C-I",
     "display_name": "",
     "aliases": [
-      "2",
       "2,5‑DM‑4‑I‑PEA",
       "25I",
       "2C I",
@@ -4465,7 +4406,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "MAO-substrate",
-      "class:Substituted phenethylamine (2C series)",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -4505,7 +4445,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C-x series)",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -4574,7 +4513,6 @@
     "name": "2C-P",
     "display_name": "",
     "aliases": [
-      "2",
       "2,5‑Dimethoxy‑4‑(n)‑propylphenethylamine",
       "2cp",
       "4‑propyl‑2,5‑dimethoxyphenethylamine",
@@ -4587,7 +4525,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C family)",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
@@ -4867,7 +4804,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:2C family phenethylamine; 4-ethylthio-2,5-dimethoxy-phenethylamine",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
@@ -4955,7 +4891,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C-series); thioether-substituted",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
@@ -5002,7 +4937,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Substituted phenethylamine (2,5‑dimethoxy‑4‑isopropylthio‑phenethylamine)",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -5040,9 +4974,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted phenethylamine (NBOMe series, thioalkyl-substituted)"
-    ],
+    "tags": [],
     "default_route": "buccal",
     "all_routes": [
       "buccal",
@@ -5071,7 +5003,6 @@
     "name": "2C-T-7",
     "display_name": "",
     "aliases": [
-      "2",
       "2C‑T7",
       "2ct7",
       "7th heaven",
@@ -5089,7 +5020,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine (2C series, thioether-substituted)",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
@@ -5172,9 +5102,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted phenethylamine (NBOMe series, thio-alkylated)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -5334,7 +5262,6 @@
     "name": "3,3-Diphenylcyclobutanamine",
     "display_name": "3-DPCB",
     "aliases": [
-      "3",
       "3,3-Diphenylcyclobutylamine",
       "3-DPCB",
       "DPCB"
@@ -5374,9 +5301,7 @@
     ],
     "category": "Empathogen",
     "display_class": "recreational",
-    "tags": [
-      "class:Phenylpiperazine (halogenated)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -5403,7 +5328,6 @@
     "name": "3,4-CTMP",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-DCMP",
       "3,4-dichloromethylphenidate",
       "34ctmp",
@@ -5449,7 +5373,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:pyrrolidinophenone (substituted cathinone / pyrovalerone family)",
       "pyrrolidinophenone-predicted"
     ],
     "default_route": "inhalation",
@@ -5514,7 +5437,6 @@
     "name": "3,4-DMMC",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-dimethyl methcathinone",
       "3,4-dimethylmethcathinone",
       "4-dimethyl-methcathinone",
@@ -5524,7 +5446,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:Synthetic cathinone (β-keto-phenethylamine)",
       "substrate-releaser-predicted"
     ],
     "default_route": "insufflation",
@@ -5553,7 +5474,7 @@
     "name": "3,4-Methylenedioxy-phencyclidine",
     "display_name": "4-MD-PCP",
     "aliases": [
-      "3",
+      "3,4-MD-PCP",
       "3,4-benzodioxole-PCP",
       "3,4-methylenedioxy-PCP",
       "4-MD-PCP",
@@ -5561,9 +5482,7 @@
     ],
     "category": "Dissociative",
     "display_class": "recreational",
-    "tags": [
-      "class:Arylcyclohexylamine (PCP analogue, methylenedioxy-substituted)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -5599,8 +5518,7 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "NDRA",
-      "class:Substituted phenylmorpholine (phenmetrazine analogue)"
+      "NDRA"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -5634,8 +5552,7 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "DAT-NET-blocker-predicted",
-      "class:Substituted cathinone (phenethylamine, trimethylenedioxy analogue)"
+      "DAT-NET-blocker-predicted"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -5701,9 +5618,7 @@
     ],
     "category": "Empathogen",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted amphetamine (chloro-substituted phenethylamine)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -5737,7 +5652,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "hybrid-DAT-preferring-predicted"
     ],
     "default_route": "insufflation",
@@ -5775,7 +5689,6 @@
     "tags": [
       "DRI",
       "cathinone",
-      "class:substituted cathinone (β-keto phenethylamine)",
       "no-human-data",
       "phenethylamine"
     ],
@@ -5915,7 +5828,6 @@
     "name": "3-Dimethyl-8-Chloroxanthine",
     "display_name": "",
     "aliases": [
-      "1",
       "8-氯茶碱"
     ],
     "category": "",
@@ -6110,8 +6022,7 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "DA-NE-releaser",
-      "class:Phenethylamine (Amphetamine analogue)"
+      "DA-NE-releaser"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -6143,9 +6054,7 @@
     ],
     "category": "Empathogen",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted amphetamine (N-ethyl, meta-fluoro)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -6178,7 +6087,6 @@
     "display_class": "recreational",
     "tags": [
       "cathinone",
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "habit-forming",
       "no-human-data",
       "research-chemical",
@@ -6225,8 +6133,7 @@
     "display_class": "recreational",
     "tags": [
       "NDRA",
-      "VMAT2-substrate",
-      "class:Phenylmorpholine (substituted phenmetrazine)"
+      "VMAT2-substrate"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -6365,7 +6272,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:1,2-Diarylethylamine (arylcyclohexylamine)",
       "class:arylcyclohexylamines",
       "habit-forming",
       "possible-μ-opioid-agonist",
@@ -6600,9 +6506,7 @@
     ],
     "category": "Dissociative",
     "display_class": "recreational",
-    "tags": [
-      "class:Arylcyclohexylamine (pyrrolidine-substituted PCP analogue)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -6721,7 +6625,6 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine (morpholine subgroup)",
       "class:arylcyclohexylamines",
       "research-chemical",
       "tentative"
@@ -6972,7 +6875,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone; pyrrolidinophenone",
       "fatalities-reported",
       "pure-DAT-NET-blocker"
     ],
@@ -7010,9 +6912,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Aminorex (oxazolidin-imine) derivative"
-    ],
+    "tags": [],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -7234,9 +7134,7 @@
     ],
     "category": "Deliriant",
     "display_class": "recreational",
-    "tags": [
-      "class:Tropane-derived glycolate ester (antimuscarinic)"
-    ],
+    "tags": [],
     "default_route": "intramuscular",
     "all_routes": [
       "intramuscular",
@@ -7522,7 +7420,6 @@
     "name": "3C-E",
     "display_name": "",
     "aliases": [
-      "3",
       "3C-Escaline",
       "3CE",
       "3C‑E",
@@ -7533,7 +7430,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Substituted amphetamine (psychedelic phenethylamine; trimethoxy-amphetamine family)",
       "class:substituted amphetamines",
       "no-human-data",
       "phenethylamine",
@@ -7576,7 +7472,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Phenethylamine (substituted amphetamine; 3C family)",
       "class:substituted amphetamines",
       "research-chemical"
     ],
@@ -7615,7 +7510,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Pyrrolidinophenone cathinone (β‑keto phenethylamine)",
       "pyrrolidinophenone-predicted"
     ],
     "default_route": "inhalation",
@@ -7657,7 +7551,6 @@
     "tags": [
       "NOT-classical-benzodiazepine",
       "TSPO-agonist",
-      "class:1,4-benzodiazepine (diazepam analogue)",
       "research-tool"
     ],
     "default_route": "oral",
@@ -7691,9 +7584,7 @@
     ],
     "category": "Other",
     "display_class": "recreational",
-    "tags": [
-      "class:Aminorex (2-amino-5-aryloxazoline) stimulant"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -7731,7 +7622,6 @@
     "display_class": "recreational",
     "tags": [
       "balanced-SNDRA",
-      "class:Aminorex (2-amino-5-phenyl-2-oxazoline) derivative; synthetic substituted oxazoline",
       "fatal-overdose-risk"
     ],
     "default_route": "insufflation",
@@ -8338,7 +8228,6 @@
     "display_class": "recreational",
     "tags": [
       "MAO-A-inhibitor",
-      "class:Phenethylamine (substituted amphetamine)",
       "serotonergic-neurotoxin"
     ],
     "default_route": "oral",
@@ -8398,7 +8287,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-Chloroethcathinone",
+      "4-chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -8445,7 +8334,6 @@
     "display_class": "recreational",
     "tags": [
       "MAO-A-inhibitor",
-      "class:Substituted amphetamine (phenethylamine)",
       "serotonergic-neurotoxin"
     ],
     "default_route": "oral",
@@ -8479,7 +8367,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "hybrid-DAT-blocker-SERT-substrate-predicted",
       "para-chloro-neurotoxicity-flag"
     ],
@@ -8554,7 +8441,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted amphetamine (phenethylamine)",
       "serotonergic-neurotoxin"
     ],
     "default_route": "oral",
@@ -8651,9 +8537,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted cathinone (pyrrolidinophenone)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -8718,7 +8602,6 @@
     "tags": [
       "SNDRA",
       "cathinone",
-      "class:Cathinone (substituted cathinone, beta-keto amphetamine)",
       "fatalities-reported",
       "habit-forming",
       "neurotoxic-evidence-preliminary",
@@ -8798,7 +8681,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:substituted cathinone (β-ketoamphetamine)",
       "hybrid-predicted"
     ],
     "default_route": "insufflation",
@@ -8838,7 +8720,6 @@
     "display_class": "recreational",
     "tags": [
       "cathinone",
-      "class:Substituted cathinone (β‑keto phenethylamine)",
       "habit-forming",
       "no-human-data",
       "research-chemical",
@@ -8977,7 +8858,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Cathinone (substituted cathinone; pyrrolidinophenone)",
       "pyrrolidinophenone"
     ],
     "default_route": "insufflation",
@@ -9013,9 +8893,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Pyrrolidinophenone cathinone (β‑keto phenethylamine)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -9055,7 +8933,6 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2B-weak",
-      "class:Substituted amphetamine (phenethylamine, fluoroamphetamine subclass)",
       "class:substituted amphetamines",
       "common",
       "empathogen-stimulant-hybrid",
@@ -9127,8 +9004,7 @@
     "display_class": "recreational",
     "tags": [
       "MAO-B-inhibitor",
-      "PET-tracer",
-      "class:Propargylamine; substituted amphetamine (phenethylamine) derivative"
+      "PET-tracer"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -9163,9 +9039,7 @@
     ],
     "category": "Empathogen",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted amphetamine (para-fluorinated, N-ethylated)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -9275,7 +9149,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-NET-blocker-predicted",
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -9309,6 +9182,7 @@
     "display_name": "",
     "aliases": [
       "4-F-Phenibut",
+      "F-Phenibut",
       "F-Phenibut FAA",
       "Fluorobut",
       "Fluorophenibut",
@@ -9319,7 +9193,6 @@
     "tags": [
       "GABA-B-partial-agonist",
       "alpha-2-delta-ligand",
-      "class:Gabapentinoid (structurally related to phenibut and baclofen)",
       "duplicate-of-4-fluorophenibut",
       "habit-forming",
       "high-dependence-risk",
@@ -9357,9 +9230,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Arylpiperazine (para-fluoro analogue of TFMPP)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -10085,7 +9956,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:substituted cathinone (β‑keto amphetamine, phenethylamine derivative)",
       "weak-DAT-blocker-predicted"
     ],
     "default_route": "insufflation",
@@ -10119,7 +9989,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-ketone phenethylamine)",
       "hybrid-predicted"
     ],
     "default_route": "insufflation",
@@ -10278,7 +10147,6 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "class:4-Anilidopiperidine (fentanyl) analogue",
       "duplicate-of-4-methoxybutyrfentanyl",
       "habit-forming",
       "mu-full-agonist",
@@ -10327,7 +10195,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Aminorex (oxazoline) derivative",
       "habit-forming",
       "long-duration",
       "potent-DA-releaser",
@@ -10373,7 +10240,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Phenidate (piperidine-based stimulant)",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -10443,6 +10309,7 @@
     "display_name": "MTA",
     "aliases": [
       "4-(methylthio)amphetamine",
+      "4-MTA",
       "Flatliners",
       "MTA",
       "p-methylthioamphetamine",
@@ -10453,7 +10320,6 @@
     "tags": [
       "MAO-A-inhibitor",
       "SERT-dominant",
-      "class:Phenethylamine (amphetamine derivative; thioamphetamine)",
       "serotonergic-toxin"
     ],
     "default_route": "oral",
@@ -10517,7 +10383,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "habit-forming",
       "tentative"
     ],
@@ -10619,7 +10484,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted tryptamine (psilocin ester)",
       "prodrug-of-psilocin"
     ],
     "default_route": "inhalation",
@@ -10657,7 +10521,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Tryptamine; 4-substituted indole O-ester (putative prodrug to 4‑HO‑MET)",
       "prodrug"
     ],
     "default_route": "insufflation",
@@ -10857,9 +10720,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted aminorex (2‑amino‑5‑aryloxazoline) stimulant"
-    ],
+    "tags": [],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -10890,17 +10751,16 @@
     "name": "4Cl-iBF",
     "display_name": "",
     "aliases": [
-      "4-CL-iBF",
+      "4-CL-IBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-iBF",
+      "p-Cl-IBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "class:4-anilidopiperidine (fentanyl analogue)",
       "mu-full-agonist",
       "wooden-chest-syndrome-risk"
     ],
@@ -11121,7 +10981,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-selective",
-      "class:Phenidate; piperidine (substituted phenidate)",
       "class:substituted phenidates",
       "high-potency"
     ],
@@ -11308,9 +11167,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted aminorex (2-amino-5-aryloxazoline)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -11544,7 +11401,6 @@
       "5-HT2B-strong-agonist",
       "SNDRA",
       "cardiotoxicity-risk",
-      "class:Benzofuran (substituted benzofuran)",
       "class:substituted amphetamines",
       "class:substituted benzofurans",
       "fatalities-reported",
@@ -11620,7 +11476,6 @@
     "display_class": "recreational",
     "tags": [
       "aminoindane-class",
-      "class:Indanylamphetamine (indane-based amphetamine analogue)",
       "research-chemical",
       "tentative"
     ],
@@ -11658,7 +11513,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (pyrrolidinophenone)",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -11732,7 +11586,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Tryptamine (halogenated indoleethylamine)",
       "no-human-data",
       "tryptamine"
     ],
@@ -11860,7 +11713,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Synthetic cathinone (α-pyrrolidinophenone subtype)",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -11901,7 +11753,6 @@
     "display_class": "recreational",
     "tags": [
       "SNDRA-presumed",
-      "class:Aminoalkylbenzofuran (benzofuran‑substituted amphetamine)",
       "habit-forming",
       "research-chemical"
     ],
@@ -12128,7 +11979,6 @@
     "tags": [
       "Nichols-compound",
       "SSRA-selective",
-      "class:Aminoindan (rigid analogue of substituted amphetamines)",
       "habit-forming",
       "research-chemical"
     ],
@@ -12301,9 +12151,9 @@
       "5-MeO-αMT",
       "5-甲氧基-Α-甲基色胺",
       "5meoamt",
-      "Alpha-O",
       "Alpha-O-二甲基血清素",
       "O-二甲基血清素",
+      "alpha-O",
       "α",
       "α,O-DMS",
       "α,O-dimethylserotonin"
@@ -12313,7 +12163,6 @@
     "tags": [
       "5-HT2A-agonist",
       "MISCATEGORIZED",
-      "class:Tryptamine (α-alkyl-5-methoxytryptamine)",
       "fatalities-reported",
       "psychedelic",
       "research-chemical",
@@ -12549,7 +12398,6 @@
       "G-protein-biased-5HT2A",
       "MAO-A-substrate",
       "TIHKAL",
-      "class:Tryptamine (indolealkylamine)",
       "class:substituted tryptamines",
       "no-tachyphylaxis",
       "research-chemical",
@@ -14488,8 +14336,7 @@
     "category": "Depressant",
     "display_class": "recreational",
     "tags": [
-      "GHB-prodrug-ester",
-      "class:Aliphatic carboxylic acid ester (acetyl ester of GHB)"
+      "GHB-prodrug-ester"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -14528,8 +14375,7 @@
     "display_class": "otc",
     "tags": [
       "analgesic",
-      "antipyretic",
-      "tablet, chewable tablet, dispersible tablet, extended release tablet, capsule, solution, suspension, syrup"
+      "antipyretic"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -14562,8 +14408,7 @@
     "tags": [
       "analgesic",
       "antipyretic",
-      "opioid",
-      "tablet, solution, suspension"
+      "opioid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -14591,7 +14436,6 @@
     "category": "Other",
     "display_class": "recreational",
     "tags": [
-      "class:Pyrazolopyrimidinone phosphodiesterase-5 inhibitor (sildenafil analogue)",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -14628,7 +14472,6 @@
     "tags": [
       "Bentley-compound",
       "MOR-superagonist",
-      "class:Morphinan (organic polycyclic compound with a four-ring skeleton)",
       "veterinary-only-class"
     ],
     "default_route": "intramuscular",
@@ -14793,7 +14636,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting muscarinic antagonist"
     ],
     "default_route": "",
@@ -14824,7 +14666,6 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "class:4-anilidopiperidine (fentanyl analogue)",
       "duplicate-of-acrylfentanyl",
       "habit-forming",
       "mu-full-agonist",
@@ -14868,8 +14709,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "antiviral",
-      "tablet, capsule, oral suspension"
+      "antiviral"
     ],
     "default_route": "",
     "all_routes": [],
@@ -15181,7 +15021,6 @@
       "CYP3A4-substrate",
       "GABAA-PAM",
       "benzodiazepine",
-      "class:1,2,4-triazolo[4,3-a][1,4]benzodiazepine (triazolobenzodiazepine)",
       "designer-benzo",
       "habit-forming",
       "prodrug",
@@ -15288,7 +15127,6 @@
     "name": "AEM",
     "display_name": "",
     "aliases": [
-      "4",
       "5-trimethoxyphenyl)butane",
       "alpha-ethylmescaline",
       "α-ethylmescaline"
@@ -15297,7 +15135,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenethylamine; alpha-ethyl homolog of mescaline (not an amphetamine).",
       "no-human-data",
       "phenethylamine"
     ],
@@ -15404,7 +15241,6 @@
     "category": "Depressant",
     "display_class": "recreational",
     "tags": [
-      "class:quinazolinone (methaqualone analogue)",
       "habit-forming",
       "muscle-relaxant-japan",
       "quinazolinone",
@@ -15444,7 +15280,6 @@
     "display_class": "recreational",
     "tags": [
       "NMDA-antagonist",
-      "class:Guanidine derivative (biogenic amine, decarboxylated arginine)",
       "imidazoline",
       "imidazoline-agonist",
       "nootropic",
@@ -15624,9 +15459,7 @@
     ],
     "category": "Cannabinoid",
     "display_class": "recreational",
-    "tags": [
-      "class:Indazole-3-carboxamide synthetic cannabinoid (presumed; name used on market does not uniquely define a structure)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "inhalation",
@@ -15694,7 +15527,6 @@
     "tags": [
       "5-HT2A-partial-agonist",
       "TIHKAL",
-      "class:Lysergamide (LSD analogue)",
       "class:lysergamides",
       "research-chemical",
       "tryptamine"
@@ -15777,7 +15609,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "metered dose inhaler (this page does not cover nebulized albuterol)",
       "short-acting beta-2 agonist"
     ],
     "default_route": "",
@@ -15807,8 +15638,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -15967,8 +15797,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "bisphosphonate",
-      "tablet, effervescent tablet, solution"
+      "bisphosphonate"
     ],
     "default_route": "",
     "all_routes": [],
@@ -15999,7 +15828,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenethylamine (subclass: substituted amphetamine, thioether)",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -16030,7 +15858,6 @@
     "name": "ALEPH-2",
     "display_name": "",
     "aliases": [
-      "2",
       "DOT-2",
       "aleph2",
       "dot2"
@@ -16039,7 +15866,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenylisopropylamine (substituted amphetamine; 2,5-dimethoxy, 4-ethylthio)",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -16101,14 +15927,11 @@
   {
     "name": "ALEPH-6",
     "display_name": "",
-    "aliases": [
-      "2"
-    ],
+    "aliases": [],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenethylamine (substituted amphetamine; thioether at 4-position)",
       "no-human-data",
       "phenethylamine"
     ],
@@ -16180,7 +16003,6 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "class:Phenylpiperidine (fentanyl analog)",
       "mu-full-agonist",
       "rapid-onset",
       "short-acting"
@@ -16214,8 +16036,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "selective alpha-1a blocker",
-      "tablet"
+      "selective alpha-1a blocker"
     ],
     "default_route": "",
     "all_routes": [],
@@ -16244,7 +16065,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "injection pen, pre-filled syringe",
       "pcsk9 inhibitor"
     ],
     "default_route": "",
@@ -16307,7 +16127,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "tablet",
       "xanthine oxidase inhibitor"
     ],
     "default_route": "",
@@ -16441,7 +16260,6 @@
     "display_class": "medical_rx",
     "tags": [
       "5-ht1b/1d agonist",
-      "tablet",
       "triptan"
     ],
     "default_route": "",
@@ -16471,8 +16289,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "dpp-4 inhibitor",
-      "tablet"
+      "dpp-4 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -16501,9 +16318,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Synthetic cathinone; pyrrolidinophenone; diarylethyl-ketone (phenylacetyl-substituted α-PVP analogue)."
-    ],
+    "tags": [],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -16616,12 +16431,12 @@
     "display_name": "AMT",
     "aliases": [
       "3-IT",
-      "AMT",
       "Amthrax",
       "Amtrak",
       "IT-290",
       "Indopan",
       "U-14,164E",
+      "aMT",
       "α-methyltryptamine",
       "αMT"
     ],
@@ -16705,7 +16520,6 @@
     "display_class": "recreational",
     "tags": [
       "cathinone",
-      "class:Cathinone (substituted cathinone, pyrrolidinophenone)",
       "fatalities-reported",
       "no-human-data",
       "pure-DAT-NET-blocker",
@@ -16757,7 +16571,6 @@
       "DAT-NET-selective",
       "TAAR1-inactive-human",
       "cathinone",
-      "class:Cathinone (substituted cathinone, pyrrolidine class)",
       "fatalities-reported",
       "habit-forming",
       "high-risk",
@@ -16817,12 +16630,10 @@
       "active-metabolite",
       "anxiolytic",
       "benzodiazepine",
-      "class:Benzodiazepine (Triazolobenzodiazepine)",
       "class:benzodiazepines",
       "common",
       "habit-forming",
       "high-potency",
-      "tablet, orally disintegrating tablet, solution",
       "triazolobenzodiazepine"
     ],
     "default_route": "inhalation",
@@ -16909,7 +16720,6 @@
     "display_class": "recreational",
     "tags": [
       "adamantoyl-indole",
-      "class:Indole-3-carboxamide synthetic cannabinoid (adamantoylindole; AM-series, “class-6”)",
       "moderate-CB1-agonist"
     ],
     "default_route": "inhalation",
@@ -17024,7 +16834,6 @@
     "display_class": "recreational",
     "tags": [
       "CB1-agonist",
-      "class:indole-based synthetic cannabinoid (aminoalkylindole / 1-(5-fluoropentyl)-3-(2-iodobenzoyl)indole)",
       "synthetic-cannabinoid"
     ],
     "default_route": "inhalation",
@@ -17141,7 +16950,6 @@
     "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
-      "class:Indole-based synthetic cannabinoid (cyclohexylmethyl-indole carboxamide)",
       "fatalities-reported",
       "full-agonist-CB1",
       "ultrapotent"
@@ -17178,8 +16986,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, lotion, ointment"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -17208,9 +17015,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Phenethylamine; substituted amphetamine; imine (Schiff base) of amphetamine and chloral; dual prodrug yielding amphetamine + chloral hydrate"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -17255,7 +17060,6 @@
       "CYP3A4-substrate",
       "FDA-approved-anorectic",
       "Schedule-IV",
-      "class:Aminoketone; substituted cathinone; phenethylamine",
       "prodrug"
     ],
     "default_route": "insufflation",
@@ -17362,8 +17166,7 @@
     "display_class": "medical_rx",
     "tags": [
       "epithelial sodium channel blocker",
-      "potassium-sparing diuretic",
-      "tablet"
+      "potassium-sparing diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -17394,7 +17197,6 @@
     "tags": [
       "epithelial sodium channel blocker",
       "potassium-sparing diuretic",
-      "tablet",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -17425,7 +17227,6 @@
     "tags": [
       "PPH-causing",
       "SERT-component",
-      "class:2-amino-5-phenyloxazoline (oxazoline derivative; amphetamine-like anorectic)",
       "habit-forming",
       "tentative",
       "withdrawn"
@@ -17489,8 +17290,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "antiarrhythmic, class iii",
-      "tablet"
+      "antiarrhythmic, class iii"
     ],
     "default_route": "",
     "all_routes": [],
@@ -17566,7 +17366,6 @@
       "overdose-risk",
       "prescription-only",
       "serotonin-syndrome-risk",
-      "tablet",
       "tertiary amine",
       "tricyclic antidepressant"
     ],
@@ -17600,8 +17399,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "calcium channel blocker, dihydropyridine",
-      "tablet, suspension"
+      "calcium channel blocker, dihydropyridine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -17633,7 +17431,6 @@
     "display_class": "recreational",
     "tags": [
       "barbiturate-intermediate-acting",
-      "class:Barbiturate (5,5-disubstituted barbituric acid derivative)",
       "habit-forming"
     ],
     "default_route": "intramuscular",
@@ -17670,7 +17467,6 @@
     "display_class": "medical_rx",
     "tags": [
       "secondary amine",
-      "tablet",
       "tricyclic antidepressant"
     ],
     "default_route": "",
@@ -17700,8 +17496,7 @@
     "display_class": "non_recreational",
     "tags": [
       "aminopenicillin",
-      "beta-lactam antibiotic",
-      "capsule, tablet, chewable tablet, extended release tablet, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -17730,8 +17525,7 @@
     "display_class": "non_recreational",
     "tags": [
       "aminopenicillin",
-      "beta-lactam antibiotic",
-      "tablet, chewable tablet, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -17827,15 +17621,13 @@
       "TAAR1",
       "TAAR1-agonist",
       "class:Phenethylamine",
-      "class:Substituted amphetamine phenethylamines (d- and l-amphetamine salts: sulfate, saccharate, aspartate monohydrate)",
       "class:substituted phenethylamines",
       "common",
       "habit-forming",
       "mixed-enantiomer",
       "no-human-data",
       "phenethylamine",
-      "stimulant",
-      "tablet, orally disintegrating tablet, extended release orally disintegrating tablet, extended release suspension"
+      "stimulant"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -18008,7 +17800,6 @@
     "display_class": "recreational",
     "tags": [
       "AMPA-PAM",
-      "class:Racetam (pyrrolidone derivative)",
       "class:racetams",
       "nootropic",
       "racetam",
@@ -18107,8 +17898,7 @@
     "display_class": "medical_rx",
     "tags": [
       "anticoagulant",
-      "direct factor xa inhibitor",
-      "tablet"
+      "direct factor xa inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -18147,7 +17937,6 @@
       "D2/D3-agonist",
       "Parkinsons-rescue",
       "QT-moderate",
-      "class:Morphine derivative (non-ergoline)",
       "not-opioid"
     ],
     "default_route": "subcutaneous",
@@ -18208,9 +17997,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Piperidine alkaloid (esterified nipecotic acid derivative)"
-    ],
+    "tags": [],
     "default_route": "buccal",
     "all_routes": [
       "buccal",
@@ -18315,7 +18102,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenethylamine (α-ethyl phenethylamine; “4C” homolog of 2C-D)",
       "no-human-data",
       "phenethylamine"
     ],
@@ -18350,9 +18136,7 @@
     ],
     "category": "Endocrine",
     "display_class": "medical_rx",
-    "tags": [
-      "class:Steroidal aromatase inhibitor (7-keto-DHEA–related androstane)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral",
@@ -18397,8 +18181,7 @@
       "antipsychotic",
       "atypical-antipsychotic",
       "long-acting-injectable",
-      "prescription-only",
-      "tablet, orally disintegrating tablet, solution"
+      "prescription-only"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -18500,7 +18283,6 @@
       "US-Schedule-IV",
       "afinil",
       "atypical-DAT-inhibitor",
-      "class:Benzhydryl sulfoxide (R-enantiomer of modafinil)",
       "class:benzhydryl",
       "eugeroic",
       "habit-forming",
@@ -18591,9 +18373,7 @@
       "alpha1-blocker",
       "antipsychotic",
       "atypical-antipsychotic",
-      "prescription-only",
-      "sublingual",
-      "sublingual tablet"
+      "prescription-only"
     ],
     "default_route": "sublingual",
     "all_routes": [
@@ -18711,8 +18491,7 @@
     "tags": [
       "analgesic",
       "nsaid",
-      "salicylate",
-      "tablet, delayed release tablet, chewable tablet, extended release capsule"
+      "salicylate"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -18745,8 +18524,7 @@
       "beta-1 selective",
       "beta-1-selective",
       "beta-blocker",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -18777,7 +18555,6 @@
     "display_class": "recreational",
     "tags": [
       "CYP2D6-substrate",
-      "capsule",
       "no-abuse-liability",
       "non-stimulant",
       "selective-NRI",
@@ -18813,8 +18590,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "statin",
-      "tablet"
+      "statin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -18850,9 +18626,7 @@
     ],
     "category": "Deliriant",
     "display_class": "recreational",
-    "tags": [
-      "class:Tropane alkaloid (belladonna alkaloid)"
-    ],
+    "tags": [],
     "default_route": "intravenous",
     "all_routes": [
       "intravenous",
@@ -18911,8 +18685,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "phosphodiesterase-5 inhibitor",
-      "tablet"
+      "phosphodiesterase-5 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19113,10 +18886,7 @@
       "antihistamine",
       "antihistamine, 2nd generation",
       "mast-cell-stabilizer",
-      "nasal",
-      "nasal spray",
       "non-sedating",
-      "ophthalmic",
       "prescription-only",
       "second-gen-antihistamine"
     ],
@@ -19150,8 +18920,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihistamine, 2nd generation",
-      "corticosteroid",
-      "nasal spray"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19179,8 +18948,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "macrolide antibiotic",
-      "tablet, oral suspension"
+      "macrolide antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19281,7 +19049,6 @@
       "intrathecal-route",
       "renally-cleared",
       "skeletal muscle relaxant",
-      "tablet, solution, suspension, granule",
       "withdrawal-emergency"
     ],
     "default_route": "oral",
@@ -19356,8 +19123,7 @@
     "display_class": "non_recreational",
     "tags": [
       "antiviral",
-      "endonuclease inhibitor",
-      "tablet"
+      "endonuclease inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19602,9 +19368,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "inhaled corticosteroid",
-      "metered dose inhaler",
-      "nasal spray"
+      "inhaled corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19752,8 +19516,7 @@
     "display_class": "medical_rx",
     "tags": [
       "ace inhibitor",
-      "antihypertensive",
-      "tablet"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19877,8 +19640,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "antitussive",
-      "capsule"
+      "antitussive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19913,7 +19675,6 @@
     "display_class": "recreational",
     "tags": [
       "Schedule-III-US",
-      "class:Phenethylamine (substituted amphetamine)",
       "no-human-data",
       "phenethylamine",
       "prodrug"
@@ -20146,9 +19907,7 @@
     ],
     "category": "Opioid",
     "display_class": "recreational",
-    "tags": [
-      "class:4-Phenylpiperidine ester (meperidine analog)"
-    ],
+    "tags": [],
     "default_route": "intramuscular",
     "all_routes": [
       "intramuscular",
@@ -20188,8 +19947,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, foam, ointment, gel, lotion, spray"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -20218,7 +19976,6 @@
     "display_class": "medical_rx",
     "tags": [
       "anticoagulant",
-      "capsule",
       "direct factor xa inhibitor"
     ],
     "default_route": "",
@@ -20275,9 +20032,7 @@
     ],
     "category": "Opioid",
     "display_class": "recreational",
-    "tags": [
-      "class:Diphenylpropylamide-derived benzimidazolone opioid"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -20434,7 +20189,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "oral extended release tablet, rectal suppository",
       "stimulant laxative"
     ],
     "default_route": "",
@@ -20492,8 +20246,7 @@
     "display_class": "otc",
     "tags": [
       "antidiarrheal",
-      "salicylate",
-      "suspension, tablet, chewable tablet"
+      "salicylate"
     ],
     "default_route": "",
     "all_routes": [],
@@ -20526,8 +20279,7 @@
       "beta-1 selective",
       "beta-1-selective",
       "beta-blocker",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -20809,7 +20561,6 @@
     "display_name": "",
     "aliases": [
       "4-甲基-2",
-      "5",
       "Β-methoxy-2C-D",
       "β-三甲氧基苯乙胺"
     ],
@@ -20887,9 +20638,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted phenethylamine (β-hydroxy 2C series)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -21124,7 +20873,6 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted cathinone (β-keto phenethylamine)",
       "para-bromo-neurotoxicity-flag",
       "substrate-releaser"
     ],
@@ -21245,8 +20993,7 @@
       "alpha1-blocker",
       "antipsychotic",
       "atypical-antipsychotic",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -21346,7 +21093,6 @@
     "name": "Bromantane",
     "display_name": "",
     "aliases": [
-      "87913-26-6",
       "ADK-709",
       "Bromantan",
       "Bromontan",
@@ -21359,7 +21105,6 @@
       "TH-upregulator",
       "WADA-banned",
       "atypical-stimulant",
-      "class:Adamantane derivative (adamantyl-aniline)",
       "class:adamantanes",
       "non-releasing",
       "nootropic",
@@ -21553,7 +21298,6 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine (ketamine analogue)",
       "duplicate-of-2-Br-DCK"
     ],
     "default_route": "insufflation",
@@ -21725,7 +21469,6 @@
       "CYP3A4-substrate",
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Thienodiazepine (benzodiazepine analogue)",
       "habit-forming",
       "high-potency-hypnotic",
       "thienotriazolodiazepine"
@@ -21802,9 +21545,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "dry powder inhaler (twisthaler), metered dose inhaler (hfa)",
-      "inhaled corticosteroid",
-      "nasal spray"
+      "inhaled corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -21833,8 +21574,7 @@
     "display_class": "medical_rx",
     "tags": [
       "inhaled corticosteroid",
-      "long-acting beta-2 agonist",
-      "metered dose inhaler (hfa)"
+      "long-acting beta-2 agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -21875,7 +21615,6 @@
     "display_class": "recreational",
     "tags": [
       "5-HT3-agonist",
-      "class:Indolealkylamine (substituted tryptamine)",
       "class:substituted tryptamines",
       "high-body-load",
       "no-human-data",
@@ -21914,8 +21653,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "loop diuretic",
-      "tablet"
+      "loop diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -22025,7 +21763,6 @@
       "MOR-partial-agonist",
       "OUD-treatment",
       "ceiling-effect-respiratory",
-      "class:Semi-synthetic opioid (thebaine derivative)",
       "class:substituted morphinans",
       "habit-forming",
       "long-half-life"
@@ -22082,8 +21819,7 @@
       "nAChR-antagonist",
       "prescription-only",
       "seizure-risk",
-      "smoking-cessation",
-      "tablet, extended release tablet (24 hour), sustained release tablet (12 hour)"
+      "smoking-cessation"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -22116,8 +21852,7 @@
       "anxiolytic",
       "azapirone",
       "prescription-only",
-      "serotonin-agonist",
-      "tablet"
+      "serotonin-agonist"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -22212,8 +21947,7 @@
     "tags": [
       "KOR-partial-agonist",
       "MOR-partial-agonist",
-      "ceiling-effect",
-      "class:Morphinan opioid (synthetic morphinan derivative)"
+      "ceiling-effect"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -22295,7 +22029,6 @@
     "tags": [
       "MDMA-analog",
       "cathinone",
-      "class:Substituted cathinone (β‑keto amphetamine; phenethylamine)",
       "class:cathinone",
       "class:mdxx",
       "class:substituted cathinones",
@@ -22416,7 +22149,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "class:Substituted phenethylamine (NBOMe series)",
       "inactive",
       "phenethylamine",
       "research-chemical"
@@ -22447,9 +22179,7 @@
     "name": "Caffeine",
     "display_name": "",
     "aliases": [
-      "1",
       "1,3,7-trimethylxanthine",
-      "3",
       "7-methyltheophylline",
       "7-三甲基黄嘌呤",
       "Cafeína",
@@ -22675,8 +22405,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sglt-2 inhibitor",
-      "tablet"
+      "sglt-2 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -22713,9 +22442,7 @@
     ],
     "category": "Dissociative",
     "display_class": "recreational",
-    "tags": [
-      "class:Arylcyclohexylamine (fluorinated ketone)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -22785,7 +22512,6 @@
       "5-HT1A-agonist",
       "COX-2-selective",
       "carboxylic-acid-pharmacophore",
-      "class:cannabinoid (phytocannabinoid)",
       "non-intoxicating"
     ],
     "default_route": "oral",
@@ -22840,7 +22566,6 @@
     "tags": [
       "CYP2C9-substrate",
       "CYP3A4-substrate",
-      "class:Cannabinoid (Δ9‑tetrahydrocannabinol)",
       "class:cannabinoid",
       "common",
       "habit-forming",
@@ -22952,8 +22677,7 @@
       "mood-stabilizer",
       "narrow-therapeutic-index",
       "prescription-only",
-      "sodium-channel-blocker",
-      "tablet, extended-release tablet, chewable tablet, extended-release capsule, suspension"
+      "sodium-channel-blocker"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -22983,8 +22707,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dopamine precursor",
-      "tablet, orally disintegrating tablet, extended release tablet, extended release capsule"
+      "dopamine precursor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -23074,7 +22797,6 @@
     "display_class": "recreational",
     "tags": [
       "beta-arrestin-biased",
-      "class:Opioid (4-anilidopiperidine)",
       "extreme-potency",
       "mu-superagonist",
       "naloxone-partial-resistance",
@@ -23120,7 +22842,6 @@
       "antipsychotic",
       "atypical-antipsychotic",
       "bipolar-depression",
-      "capsule",
       "prescription-only"
     ],
     "default_route": "",
@@ -23163,8 +22884,7 @@
       "class:Carbamate",
       "habit-forming",
       "meprobamate-prodrug",
-      "skeletal muscle relaxant",
-      "tablet"
+      "skeletal muscle relaxant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -23266,8 +22986,7 @@
       "beta-1 & beta-2 non-selective",
       "beta-blocker",
       "non-selective",
-      "prescription-only",
-      "tablet, extended release capsule"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -23326,9 +23045,7 @@
     ],
     "category": "Cannabinoid",
     "display_class": "recreational",
-    "tags": [
-      "class:Synthetic cannabinoid (peripherally-restricted 1,1-diaryl-piperazine amide)"
-    ],
+    "tags": [],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -23489,7 +23206,6 @@
       "CB2-agonist",
       "alpha2-agonist",
       "cannabinoid",
-      "class:Phytocannabinoid (bicyclic terpenophenol)",
       "non-intoxicating",
       "phytocannabinoid",
       "potential-hypotension",
@@ -23612,7 +23328,6 @@
     "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
-      "class:Phytocannabinoid acid; oxidative degradation product of Δ9-THCA/Δ9-THC",
       "minor-cannabinoid",
       "non-intoxicating"
     ],
@@ -23722,8 +23437,7 @@
     "display_class": "non_recreational",
     "tags": [
       "1st generation cephalosporin",
-      "beta-lactam antibiotic",
-      "capsule, tablet, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -23776,8 +23490,7 @@
     "display_class": "non_recreational",
     "tags": [
       "3rd generation cephalosporin",
-      "beta-lactam antibiotic",
-      "capsule, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -23832,8 +23545,7 @@
     "display_class": "non_recreational",
     "tags": [
       "2nd generation cephalosporin",
-      "beta-lactam antibiotic",
-      "tablet, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -23862,8 +23574,7 @@
     "display_class": "non_recreational",
     "tags": [
       "2nd generation cephalosporin",
-      "beta-lactam antibiotic",
-      "tablet, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -23894,7 +23605,6 @@
     "display_class": "medical_rx",
     "tags": [
       "analgesic",
-      "capsule, oral solution",
       "cox-2 selective",
       "nsaid"
     ],
@@ -23965,8 +23675,7 @@
     "display_class": "non_recreational",
     "tags": [
       "1st generation cephalosporin",
-      "beta-lactam antibiotic",
-      "capsule, tablet, suspension"
+      "beta-lactam antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -24044,8 +23753,7 @@
       "antihistamine",
       "antihistamine, 2nd generation",
       "non-sedating",
-      "second-gen-antihistamine",
-      "tablet, chewable tablet, orally disintegrating, capsule, solution"
+      "second-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24115,8 +23823,7 @@
     "tags": [
       "ADH-substrate-prodrug",
       "GABA-A-PAM-via-metabolite",
-      "IARC-2A",
-      "class:Chloral derivatives (trichloroacetaldehyde hydrate)"
+      "IARC-2A"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24214,7 +23921,6 @@
       "alcohol-withdrawal-first-line",
       "anxiolytic",
       "benzodiazepine",
-      "capsule",
       "class:Benzodiazepine"
     ],
     "default_route": "oral",
@@ -24336,7 +24042,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "tablet, suspension",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -24382,12 +24087,10 @@
       "anticholinergic",
       "antihistamine",
       "antihistamine, 1st generation",
-      "class:Alkylamine derivative (first-generation antihistamine)",
       "first-gen-antihistamine",
       "hERG-moderate-overdose-only",
       "sedating",
-      "stereoselective-pharmacology",
-      "tablet, extended-release tablet, liquid"
+      "stereoselective-pharmacology"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24428,7 +24131,6 @@
       "muscarinic-antagonist",
       "phenothiazine",
       "prescription-only",
-      "tablet",
       "typical-antipsychotic"
     ],
     "default_route": "oral",
@@ -24459,7 +24161,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "tablet",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -24489,8 +24190,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "skeletal muscle relaxant",
-      "tablet"
+      "skeletal muscle relaxant"
     ],
     "default_route": "",
     "all_routes": [],
@@ -24587,9 +24287,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "inhaled corticosteroid",
-      "metered dose inhaler",
-      "nasal spray"
+      "inhaled corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -24679,8 +24377,7 @@
       "antacid agent",
       "antihistamine",
       "histamine-2 receptor antagonist",
-      "non-sedating",
-      "tablet, solution"
+      "non-sedating"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24742,8 +24439,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "fluoroquinolone antibiotic",
-      "tablet, extended release tablet, suspension"
+      "fluoroquinolone antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -24809,8 +24505,7 @@
       "hERG-strong",
       "prescription-only",
       "serotonin-syndrome-risk",
-      "ssri",
-      "tablet, solution"
+      "ssri"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24982,8 +24677,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "macrolide antibiotic",
-      "tablet, extended release tablet, oral suspension"
+      "macrolide antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -25045,7 +24739,6 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "capsule, solution",
       "lincosamide antibiotic"
     ],
     "default_route": "",
@@ -25093,7 +24786,6 @@
       "active-metabolite-norclobazam",
       "alpha2-preferring",
       "benzodiazepine",
-      "class:Benzodiazepine (1,5-benzodiazepine)",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -25129,9 +24821,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:N-substituted amphetamine (phenethylamine)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -25168,8 +24858,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, foam, ointment, gel, lotion, solution, spray, shampoo"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -25198,7 +24887,6 @@
     "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
-      "class:Triazolobenzodiazepine (benzodiazepine derivative)",
       "designer-benzo",
       "extreme-potency",
       "triazolobenzodiazepine"
@@ -25331,7 +25019,6 @@
       "TCA",
       "anticholinergic",
       "antidepressant",
-      "capsule",
       "overdose-risk",
       "prescription-only",
       "seizure-risk",
@@ -25382,13 +25069,11 @@
       "anticonvulsant",
       "anxiolytic",
       "benzodiazepine",
-      "class:Benzodiazepine (1,4-benzodiazepine)",
       "class:benzodiazepines",
       "common",
       "habit-forming",
       "high-binding-affinity",
-      "long-half-life",
-      "tablet, orally disintegrating tablet"
+      "long-half-life"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -25501,8 +25186,7 @@
       "class:arylaminoimidazoline",
       "class:imidazoline",
       "common",
-      "rebound-hypertension-risk",
-      "tablet, extended release tablet"
+      "rebound-hypertension-risk"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -25601,8 +25285,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antiplatelet",
-      "p2y12 inhibitor",
-      "tablet"
+      "p2y12 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -25640,7 +25323,6 @@
       "benzodiazepine",
       "habit-forming",
       "prodrug-of-nordazepam",
-      "tablet, orally disintegrating tablet",
       "very-long-half-life"
     ],
     "default_route": "oral",
@@ -25760,7 +25442,6 @@
       "dibenzodiazepine",
       "muscarinic-antagonist",
       "prescription-only",
-      "tablet, orally disintegrating tablet, suspension",
       "treatment-resistant"
     ],
     "default_route": "oral",
@@ -25821,7 +25502,6 @@
       "BChE-substrate",
       "Nav1.5-blocker",
       "class:Tropane alkaloid",
-      "class:Tropane alkaloid (free‑base of benzoylmethylecgonine)",
       "class:substituted tropanes",
       "common",
       "fast-binding-DAT",
@@ -25930,8 +25610,7 @@
       "common",
       "habit-forming",
       "opioid",
-      "pharmacogenetic-critical",
-      "tablet"
+      "pharmacogenetic-critical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -25978,8 +25657,7 @@
     "tags": [
       "antitussive",
       "expectorant",
-      "opioid",
-      "solution, syrup"
+      "opioid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -26007,8 +25685,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "antigout agent",
-      "tablet, capsule, solution"
+      "antigout agent"
     ],
     "default_route": "",
     "all_routes": [],
@@ -26068,7 +25745,6 @@
       "CHT1-modulator-proposed",
       "HACU-enhancer",
       "cholinergic",
-      "class:Racetam (pyrrolidone derivative)",
       "class:racetams",
       "nootropic",
       "preclinical-only",
@@ -26123,8 +25799,7 @@
     "display_class": "medical_rx",
     "tags": [
       "contraceptive",
-      "estrogen/progestin combination",
-      "tablet, chewable tablet, capsule"
+      "estrogen/progestin combination"
     ],
     "default_route": "",
     "all_routes": [],
@@ -26154,8 +25829,7 @@
     "display_class": "medical_rx",
     "tags": [
       "contraceptive",
-      "estrogen/progestin combination",
-      "patch"
+      "estrogen/progestin combination"
     ],
     "default_route": "",
     "all_routes": [],
@@ -26357,8 +26031,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "glucocorticoid",
-      "tablet"
+      "glucocorticoid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -26488,8 +26161,7 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "mast cell stabilizer",
-      "nasal spray"
+      "mast cell stabilizer"
     ],
     "default_route": "",
     "all_routes": [],
@@ -26874,7 +26546,6 @@
     "display_class": "recreational",
     "tags": [
       "class:4-oxazolidinone",
-      "class:Oxazolone (related to pemoline and 4-methylaminorex)",
       "class:substituted aminorexes"
     ],
     "default_route": "oral",
@@ -26977,12 +26648,10 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-antagonist",
-      "class:Tricyclic compound (structurally related to tricyclic antidepressants)",
       "common",
       "habit-forming",
       "muscle-relaxant-central",
-      "skeletal muscle relaxant",
-      "tablet, extended release capsule"
+      "skeletal muscle relaxant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -27183,7 +26852,6 @@
       "anticholinergic",
       "antihistamine",
       "appetite-stimulant",
-      "class:Tricyclic benzocycloheptene (first-generation antihistamine)",
       "first-gen-antihistamine",
       "prescription-only",
       "sedating",
@@ -27220,8 +26888,7 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "DAT-NET-blocker-predicted",
-      "class:Substituted cathinone (β-keto phenethylamine); N-cyclohexyl analogue of methylone"
+      "DAT-NET-blocker-predicted"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -27466,7 +27133,6 @@
     "display_class": "medical_rx",
     "tags": [
       "anticoagulant",
-      "capsule",
       "direct thrombin inhibitor"
     ],
     "default_route": "",
@@ -27556,7 +27222,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "capsule",
       "skeletal muscle relaxant"
     ],
     "default_route": "",
@@ -27586,8 +27251,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sglt-2 inhibitor",
-      "tablet"
+      "sglt-2 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -27991,7 +27655,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Diphenylmethyl-sulfinyl acetamide (modafinil analogue)",
       "research-chemical",
       "tentative"
     ],
@@ -28445,7 +28108,6 @@
       "overdose-risk",
       "prescription-only",
       "secondary amine",
-      "tablet",
       "tricyclic antidepressant"
     ],
     "default_route": "oral",
@@ -28510,8 +28172,7 @@
       "antihistamine, 3rd generation",
       "non-sedating",
       "prescription-only",
-      "second-gen-antihistamine",
-      "tablet, orally disintegrating tablet, syrup"
+      "second-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -28653,7 +28314,6 @@
     "display_class": "recreational",
     "tags": [
       "MOR-full-agonist",
-      "class:Morphinan (morphine derivative)",
       "class:substituted morphinans",
       "high-potency",
       "short-duration"
@@ -28694,8 +28354,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, gel, lotion, foam"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -28724,8 +28383,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, gel, spray"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -28792,7 +28450,6 @@
     "tags": [
       "SNRI",
       "antidepressant",
-      "extended release tablet",
       "prescription-only",
       "serotonin-syndrome-risk",
       "snri"
@@ -28874,8 +28531,7 @@
     "tags": [
       "antiemetic",
       "corticosteroid",
-      "glucocorticoid",
-      "tablet, solution, elixir, concentrate"
+      "glucocorticoid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -28937,7 +28593,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "delayed release capsule",
       "proton pump inhibitor"
     ],
     "default_route": "",
@@ -29003,8 +28658,7 @@
       "habit-forming",
       "prescription-only",
       "single-enantiomer",
-      "stimulant",
-      "tablet, extended release capsule"
+      "stimulant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -29051,12 +28705,10 @@
       "NDRI",
       "TAAR1",
       "TAAR1-agonist",
-      "class:Phenethylamine (subclass: amphetamine)",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
-      "stimulant",
-      "tablet, extended release capsule, solution"
+      "stimulant"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -29090,8 +28742,7 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "stimulant",
-      "tablet, extended release capsule"
+      "stimulant"
     ],
     "default_route": "",
     "all_routes": [],
@@ -29155,7 +28806,6 @@
       "CYP2D6-substrate",
       "SERT-inhibitor",
       "bromide-load-risk-chronic",
-      "class:Morphinan (Levorphanol derivative, codeine analog)",
       "class:substituted morphinans",
       "common",
       "hERG-moderate",
@@ -29327,8 +28977,7 @@
       "class:Benzodiazepine",
       "class:benzodiazepines",
       "common",
-      "habit-forming",
-      "tablet, solution"
+      "habit-forming"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -29514,8 +29163,7 @@
     "tags": [
       "analgesic",
       "moderate cox-2 selectivity",
-      "nsaid",
-      "tablet, delayed release tablet, extended release tablet, capsule, powder for solution"
+      "nsaid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -29604,8 +29252,7 @@
     "display_class": "medical_rx",
     "tags": [
       "anticholinergic agent",
-      "antispasmodic",
-      "capsule, tablet, solution, syrup"
+      "antispasmodic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -29669,8 +29316,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -29701,8 +29347,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antiarrhythmic",
-      "cardiac glycoside",
-      "tablet, solution"
+      "cardiac glycoside"
     ],
     "default_route": "",
     "all_routes": [],
@@ -29772,7 +29417,6 @@
     "tags": [
       "CYP2D6-bioactivation",
       "MOR-agonist",
-      "class:Opioid (semi-synthetic)",
       "class:substituted morphinans",
       "habit-forming"
     ],
@@ -29868,8 +29512,7 @@
       "antianginal",
       "antiarrhythmic, class iv",
       "antihypertensive",
-      "calcium channel blocker, nondihydropyridine",
-      "tablet, extended-release 24 hour tablet, extended-release 12 hour capsule, extended-release 24 hour capsule"
+      "calcium channel blocker, nondihydropyridine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -29944,7 +29587,6 @@
       "anticholinergic",
       "antiemetic",
       "antihistamine",
-      "class:Ethanolamine first‑generation H1 antihistamine salt: diphenhydramine + 8‑chlorotheophylline (xanthine).",
       "common",
       "deliriant",
       "diphenhydramine-salt",
@@ -30121,7 +29763,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-preferring",
-      "class:Cathinone (substituted cathinone; beta-keto amphetamine; tertiary dimethylamino analogue of pentylone)",
       "fatalities-mdma-substitution",
       "post-eutylone-market-successor"
     ],
@@ -30193,9 +29834,7 @@
     ],
     "category": "Empathogen",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted cathinone (-keto phenethylamine)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -30274,8 +29913,7 @@
       "deliriant",
       "first-gen-antihistamine",
       "sedating",
-      "sleep-aid",
-      "tablet, chewable tablet, orally disintegrating, capsule, solution, elixir"
+      "sleep-aid"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -30643,7 +30281,6 @@
     "display_class": "recreational",
     "tags": [
       "Olney-lesion-positive",
-      "class:Diarycycloheptene; NMDA-channel blocker (PCP-site ligand)",
       "duplicate-of-Dizocilpine",
       "habit-forming",
       "high-affinity-NMDA-blocker",
@@ -30727,7 +30364,6 @@
     "name": "DMAA",
     "display_name": "",
     "aliases": [
-      "1",
       "1,3-DMAA",
       "1,3-dimethylamylamine",
       "3-二甲基戊胺",
@@ -30890,7 +30526,6 @@
     "display_class": "recreational",
     "tags": [
       "NDRA-aliphatic",
-      "class:Aliphatic amine (sympathomimetic)",
       "supplement-stimulant"
     ],
     "default_route": "insufflation",
@@ -31103,7 +30738,6 @@
       "DMT-salt-form",
       "MAO-A-substrate",
       "TIHKAL",
-      "class:Indole alkaloid (tryptamine)",
       "class:substituted tryptamines",
       "common",
       "no-human-data",
@@ -31286,7 +30920,6 @@
     "name": "DOB",
     "display_name": "",
     "aliases": [
-      "2",
       "4-溴-2",
       "5-二甲氧基苯丙胺",
       "Brolamfetamine",
@@ -31299,7 +30932,6 @@
       "5-HT2A-agonist",
       "DOx",
       "PIHKAL",
-      "class:Phenethylamine (specifically, substituted amphetamine)",
       "class:substituted amphetamines",
       "long-duration",
       "phenethylamine",
@@ -31365,7 +30997,6 @@
     "name": "DOC",
     "display_name": "",
     "aliases": [
-      "2",
       "5-二甲氧基-4-氯苯丙胺"
     ],
     "category": "Psychedelic",
@@ -31374,7 +31005,6 @@
       "5-HT2A-agonist",
       "DOx",
       "PIHKAL",
-      "class:Phenethylamine (substituted amphetamine)",
       "class:substituted amphetamines",
       "common",
       "long-duration",
@@ -31417,7 +31047,6 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "capsule, tablet, liquid, syrup",
       "stool softener"
     ],
     "default_route": "",
@@ -31477,7 +31106,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Substituted amphetamine; phenethylamine",
       "phenethylamine"
     ],
     "default_route": "oral",
@@ -31512,7 +31140,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Substituted amphetamine (phenethylamine)",
       "long-duration",
       "phenethylamine",
       "research-chemical",
@@ -31543,7 +31170,6 @@
     "name": "DOI",
     "display_name": "",
     "aliases": [
-      "2",
       "5-二甲氧基-4-碘苯丙胺"
     ],
     "category": "Psychedelic",
@@ -31617,7 +31243,6 @@
     "name": "DOM",
     "display_name": "",
     "aliases": [
-      "2",
       "5-二甲氧基-4-甲基苯丙胺",
       "stp"
     ],
@@ -31627,7 +31252,6 @@
       "5-HT2A-agonist",
       "DOx",
       "PIHKAL",
-      "class:Phenethylamine (substituted amphetamine)",
       "class:substituted amphetamines",
       "common",
       "long-duration",
@@ -31807,8 +31431,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "non-selective alpha-1 blocker",
-      "tablet"
+      "non-selective alpha-1 blocker"
     ],
     "default_route": "",
     "all_routes": [],
@@ -31842,7 +31465,6 @@
       "TCA",
       "anticholinergic",
       "antidepressant",
-      "capsule, tablet, solution",
       "overdose-risk",
       "prescription-only",
       "tertiary amine",
@@ -31881,7 +31503,6 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "tablet, delayed release tablet, capsule, delayed release capsule, suspension, syrup",
       "tetracycline antibiotic"
     ],
     "default_route": "",
@@ -31929,8 +31550,7 @@
       "muscarinic-antagonist",
       "phenethylamine",
       "sedating",
-      "sleep-aid",
-      "tablet"
+      "sleep-aid"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -31960,9 +31580,7 @@
     ],
     "category": "Opioid",
     "display_class": "recreational",
-    "tags": [
-      "class:Diphenylpiperidine opioid (dipipanone-sulfone analogue)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -32249,7 +31867,6 @@
       "anti-diabetic",
       "antidiabetic",
       "glp-1 agonist",
-      "injection pen",
       "peptide",
       "prescription-only"
     ],
@@ -32284,7 +31901,6 @@
     "tags": [
       "SNRI",
       "antidepressant",
-      "delayed release capsule (particle), delayed release capsule (sprinkle)",
       "hepatotoxicity-risk",
       "prescription-only",
       "serotonin-syndrome-risk",
@@ -32319,8 +31935,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "5 alpha-reductase inhibitor",
-      "capsule"
+      "5 alpha-reductase inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -32348,8 +31963,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "5 alpha-reductase inhibitor",
-      "capsule"
+      "5 alpha-reductase inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -32381,8 +31995,6 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Morphinan (Levorphanol derivative)",
-      "extended-release",
       "ion-exchange-resin"
     ],
     "default_route": "oral",
@@ -32446,9 +32058,7 @@
     ],
     "category": "Deliriant",
     "display_class": "recreational",
-    "tags": [
-      "class:Quinuclidinyl phenylcyclopentyl glycolate ester (tropane-related antimuscarinic)"
-    ],
+    "tags": [],
     "default_route": "intramuscular",
     "all_routes": [
       "intramuscular"
@@ -32554,7 +32164,6 @@
     "name": "EDMC",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-EDMC",
       "4-EDMC",
       "4-Ethylenedioxymethcathinone",
@@ -32564,8 +32173,7 @@
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
-      "SNDRA-predicted",
-      "class:Substituted cathinone (benzodioxine-derived)"
+      "SNDRA-predicted"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -32601,8 +32209,7 @@
     "display_class": "medical_rx",
     "tags": [
       "anticoagulant",
-      "direct factor xa inhibitor",
-      "tablet"
+      "direct factor xa inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -32760,7 +32367,6 @@
       "antimigraine",
       "prescription-only",
       "serotonin-agonist",
-      "tablet",
       "triptan"
     ],
     "default_route": "oral",
@@ -32910,8 +32516,7 @@
     "display_class": "otc",
     "tags": [
       "contraceptive",
-      "progestin",
-      "tablet"
+      "progestin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -32940,8 +32545,7 @@
     "display_class": "medical_rx",
     "tags": [
       "contraceptive",
-      "progestin receptor modulator",
-      "tablet"
+      "progestin receptor modulator"
     ],
     "default_route": "",
     "all_routes": [],
@@ -33003,8 +32607,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sglt-2 inhibitor",
-      "tablet"
+      "sglt-2 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -33074,8 +32677,7 @@
     "display_class": "medical_rx",
     "tags": [
       "ace inhibitor",
-      "antihypertensive",
-      "tablet, solution"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -33206,7 +32808,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Phenethylamine (Ephedra alkaloid)",
       "class:amphetamine",
       "habit-forming",
       "indirect-sympathomimetic",
@@ -33239,7 +32840,6 @@
     "name": "Ephenidine",
     "display_name": "",
     "aliases": [
-      "1",
       "1,2-DP-E",
       "2-DP-E",
       "DPD-E",
@@ -33494,8 +33094,7 @@
     "display_class": "medical_rx",
     "tags": [
       "aldosterone antagonist",
-      "potassium-sparing diuretic",
-      "tablet"
+      "potassium-sparing diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -33575,8 +33174,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "cgrp antagonist",
-      "injection pen, pre-filled syringe"
+      "cgrp antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -33605,8 +33203,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sglt-2 inhibitor",
-      "tablet"
+      "sglt-2 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -33657,7 +33254,6 @@
     "name": "Escaline",
     "display_name": "",
     "aliases": [
-      "3",
       "5-二甲氧基-4-乙氧基苯乙胺",
       "E; ESCALINE",
       "艾斯卡林",
@@ -33754,8 +33350,7 @@
       "antidepressant",
       "prescription-only",
       "serotonin-syndrome-risk",
-      "ssri",
-      "tablet, solution"
+      "ssri"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -33797,7 +33392,6 @@
       "US-Schedule-III",
       "antidepressant",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine (Cyclohexanone derivative)",
       "duplicate-of-esketamine",
       "prescription-only"
     ],
@@ -33837,7 +33431,6 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "delayed release capsule, delayed release tablet, packet",
       "proton pump inhibitor"
     ],
     "default_route": "",
@@ -33983,8 +33576,7 @@
       "class:cyclopyrrolone",
       "habit-forming",
       "hypnotic",
-      "non-selective-GABA-A",
-      "tablet"
+      "non-selective-GABA-A"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -34122,8 +33714,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "loop diuretic",
-      "tablet"
+      "loop diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -34467,7 +34058,6 @@
     "name": "Ethylone",
     "display_name": "",
     "aliases": [
-      "3",
       "4-亚甲二氧基-N-乙基卡西酮",
       "MDEC",
       "bk-MDEA"
@@ -34759,7 +34349,6 @@
       "GABAA-PAM",
       "active-metabolite",
       "benzodiazepine",
-      "class:Thienodiazepine (benzodiazepine analogue)",
       "class:thienodiazepines",
       "designer-benzo",
       "habit-forming",
@@ -34857,7 +34446,6 @@
     "display_class": "medical_rx",
     "tags": [
       "analgesic",
-      "capsule, tablet, extended release tablet",
       "moderate cox-2 selectivity",
       "nsaid"
     ],
@@ -34920,7 +34508,6 @@
     "tags": [
       "US-Schedule-I",
       "benzimidazole-opioid",
-      "class:Nitazene (2-benzylbenzimidazole) synthetic opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
@@ -34984,9 +34571,7 @@
     ],
     "category": "Dissociative",
     "display_class": "recreational",
-    "tags": [
-      "class:Dioxolane (piperidine) dissociative"
-    ],
+    "tags": [],
     "default_route": "intravenous",
     "all_routes": [
       "intravenous"
@@ -35055,7 +34640,6 @@
       "DAT-preferring",
       "MDMA-analog",
       "cathinone",
-      "class:Cathinone (substituted cathinone; beta-keto amphetamine)",
       "fatalities-mdma-substitution",
       "fatalities-reported",
       "research-chemical"
@@ -35119,7 +34703,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "injection pen, pre-filled syringe, cartridge for infusor",
       "pcsk9 inhibitor"
     ],
     "default_route": "",
@@ -35154,7 +34737,6 @@
       "anti-diabetic",
       "antidiabetic",
       "glp-1 agonist",
-      "injection pen",
       "peptide",
       "prescription-only"
     ],
@@ -35217,8 +34799,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "antihyperlipidemic",
-      "tablet"
+      "antihyperlipidemic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -35348,8 +34929,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "antiviral",
-      "tablet"
+      "antiviral"
     ],
     "default_route": "",
     "all_routes": [],
@@ -35392,8 +34972,7 @@
       "antacid agent",
       "antihistamine",
       "histamine-2 receptor antagonist",
-      "non-sedating",
-      "tablet, suspension"
+      "non-sedating"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -35462,7 +35041,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "tablet",
       "xanthine oxidase inhibitor"
     ],
     "default_route": "",
@@ -35518,8 +35096,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "calcium channel blocker, dihydropyridine",
-      "extended release tablet"
+      "calcium channel blocker, dihydropyridine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -35553,7 +35130,6 @@
     "display_class": "recreational",
     "tags": [
       "amphetamine-theophylline-codrug",
-      "class:Phenethylamine–Methylxanthine conjugate (amphetamine + theophylline)",
       "class:amphetamine",
       "class:substituted amphetamines",
       "class:xanthines",
@@ -35598,7 +35174,6 @@
       "5-HT2B-via-metabolite",
       "SERT-releaser",
       "anticonvulsant-Dravet",
-      "class:Phenethylamine; substituted amphetamine (trifluoromethyl-substituted)",
       "valvulopathic"
     ],
     "default_route": "oral",
@@ -35633,8 +35208,7 @@
     "tags": [
       "analgesic",
       "cox-1/cox-2 non-selective",
-      "nsaid",
-      "tablet, capsule"
+      "nsaid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -35689,7 +35263,6 @@
       "naloxone-responsive",
       "no-human-data",
       "opioid",
-      "patch",
       "phenethylamine",
       "wooden-chest-syndrome-risk"
     ],
@@ -35752,8 +35325,7 @@
       "antihistamine",
       "antihistamine, 3rd generation",
       "non-sedating",
-      "second-gen-antihistamine",
-      "tablet, orally disintegrating tablet, suspension"
+      "second-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -35783,8 +35355,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "5 alpha-reductase inhibitor",
-      "tablet"
+      "5 alpha-reductase inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -35893,7 +35464,6 @@
     "tags": [
       "DA-selective",
       "cathinone",
-      "class:Synthetic cathinone (β-keto phenethylamine)",
       "habit-forming",
       "research-chemical",
       "substrate-releaser"
@@ -35930,8 +35500,7 @@
     "display_class": "medical_rx",
     "tags": [
       "5-ht1a agonist",
-      "5-ht2a antagonist",
-      "tablet"
+      "5-ht2a antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -35973,7 +35542,6 @@
       "DAT-selective",
       "afinil",
       "atypical-DAT-inhibitor",
-      "class:Diphenylmethyl-sulfoxide acetamide (bis-4-fluoro analogue of modafinil)",
       "eugeroic",
       "no-human-data",
       "research-chemical",
@@ -36213,7 +35781,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Thienotriazolodiazepine (designer benzodiazepine)",
       "designer-benzo",
       "habit-forming",
       "research-chemical",
@@ -36260,8 +35827,7 @@
     "display_class": "non_recreational",
     "tags": [
       "antifungal",
-      "class:Triazole antifungal",
-      "tablet, suspension"
+      "class:Triazole antifungal"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -36384,9 +35950,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:2-Amino-5-aryl-2-oxazoline (aminorex analogue)"
-    ],
+    "tags": [],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -36420,8 +35984,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "nasal spray"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -36545,7 +36108,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine (triazolobenzodiazepine)",
       "class:benzodiazepines",
       "designer-benzo",
       "extreme-potency",
@@ -36645,8 +36207,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, gel, solution"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -36892,7 +36453,6 @@
       "SSRI",
       "activating-SSRI",
       "antidepressant",
-      "capsule, extended release capsule, solution, tablet",
       "prescription-only",
       "serotonin-syndrome-risk",
       "ssri"
@@ -36935,7 +36495,6 @@
       "long-acting-injectable",
       "phenothiazine",
       "prescription-only",
-      "tablet, solution, elixir",
       "typical-antipsychotic"
     ],
     "default_route": "intramuscular",
@@ -37083,9 +36642,7 @@
     "category": "Endocrine",
     "display_class": "otc",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, lotion",
-      "nasal spray"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -37113,7 +36670,6 @@
     "category": "Endocrine",
     "display_class": "otc",
     "tags": [
-      "dry powder inhaler",
       "inhaled corticosteroid"
     ],
     "default_route": "",
@@ -37145,7 +36701,6 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler (diskus), metered dose inhaler (hfa)",
       "inhaled corticosteroid"
     ],
     "default_route": "",
@@ -37176,7 +36731,6 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler (diskus, inhub, respiclick), metered dose inhaler (hfa)",
       "inhaled corticosteroid",
       "long-acting beta-2 agonist"
     ],
@@ -37206,7 +36760,6 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "inhaled corticosteroid",
       "long-acting beta-2 agonist",
       "long-acting muscarinic antagonist"
@@ -37237,7 +36790,6 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "inhaled corticosteroid",
       "long-acting beta-2 agonist"
     ],
@@ -37306,7 +36858,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "capsule, extended release tablet",
       "statin"
     ],
     "default_route": "",
@@ -37576,8 +37127,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "cgrp antagonist",
-      "injection pen, pre-filled syringe"
+      "cgrp antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -37606,7 +37156,6 @@
     "display_class": "medical_rx",
     "tags": [
       "5-ht1b/1d agonist",
-      "tablet",
       "triptan"
     ],
     "default_route": "",
@@ -37678,8 +37227,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "loop diuretic",
-      "tablet, solution"
+      "loop diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -37913,8 +37461,6 @@
       "alpha-2-delta-ligand",
       "alpha2-delta-ligand",
       "anticonvulsant",
-      "capsule, tablet, extended-release tablet, solution",
-      "class:GABA analogue (structural analogue of gamma-aminobutyric acid)",
       "class:gabapentinoids",
       "gabapentinoid",
       "habit-forming",
@@ -38009,7 +37555,6 @@
       "CYP2D6-substrate",
       "CYP3A4-substrate",
       "cholinergic",
-      "class:Tertiary isoquinoline alkaloid (phenanthrene-type)",
       "class:benzazepine",
       "nootropic",
       "prescription-only"
@@ -38041,8 +37586,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "cgrp antagonist",
-      "injection pen, pre-filled syringe"
+      "cgrp antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -38166,7 +37710,6 @@
     "tags": [
       "GHB-prodrug",
       "PON1-substrate",
-      "class:Lactone (cyclic ester)",
       "class:lactone",
       "common",
       "habit-forming",
@@ -38282,7 +37825,6 @@
     "name": "GHB",
     "display_name": "",
     "aliases": [
-      "1",
       "1,4-BD",
       "4-hydroxybutanoic acid",
       "4-hydroxybutyric acid",
@@ -38313,7 +37855,6 @@
       "GABA-B-partial-agonist",
       "GHB-receptor-agonist",
       "capacity-limited-PK",
-      "class:Short-chain fatty acid (structurally related to GABA)",
       "class:γ-hydroxy acid",
       "common",
       "habit-forming",
@@ -38617,8 +38158,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sulfonylurea",
-      "tablet"
+      "sulfonylurea"
     ],
     "default_route": "",
     "all_routes": [],
@@ -38648,8 +38188,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sulfonylurea",
-      "tablet, extended release tablet"
+      "sulfonylurea"
     ],
     "default_route": "",
     "all_routes": [],
@@ -38755,8 +38294,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "sulfonylurea",
-      "tablet, micronized tablet"
+      "sulfonylurea"
     ],
     "default_route": "",
     "all_routes": [],
@@ -38824,7 +38362,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting muscarinic antagonist"
     ],
     "default_route": "",
@@ -38854,8 +38391,7 @@
     "display_class": "medical_rx",
     "tags": [
       "long-acting beta-2 agonist",
-      "long-acting muscarinic antagonist",
-      "metered dose inhaler"
+      "long-acting muscarinic antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -39046,8 +38582,7 @@
       "antihypertensive",
       "anxiolytic",
       "centrally-acting alpha-2 agonist",
-      "prescription-only",
-      "tablet, extended release tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -39189,8 +38724,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, solution"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -39221,8 +38755,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, lotion, foam"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -39261,7 +38794,6 @@
       "class:substituted piperidines",
       "high-EPS-risk",
       "prescription-only",
-      "tablet, solution",
       "typical-antipsychotic"
     ],
     "default_route": "intramuscular",
@@ -39574,7 +39106,6 @@
     "display_class": "recreational",
     "tags": [
       "MOR-full-agonist-via-metabolite",
-      "class:Opioid (semi-synthetic opiate, diacetylated morphine derivative)",
       "class:substituted morphinans",
       "common",
       "habit-forming",
@@ -40417,7 +39948,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "capsule, tablet",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -40461,10 +39991,8 @@
       "CYP3A4-substrate",
       "MOR-agonist",
       "analgesic",
-      "class:Opioid (semi-synthetic, derived from codeine)",
       "class:substituted morphinans",
       "common",
-      "extended release tablet, extended release capsule",
       "habit-forming",
       "opioid"
     ],
@@ -40514,8 +40042,7 @@
     "tags": [
       "analgesic",
       "antipyretic",
-      "opioid",
-      "tablet, solution, syrup"
+      "opioid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -40550,8 +40077,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment, lotion, foam"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -40596,12 +40122,10 @@
       "MOR-full-agonist",
       "UGT2B7-substrate",
       "analgesic",
-      "class:Opioid (semi-synthetic hydrogenated ketone derivative of morphine)",
       "class:substituted morphinans",
       "habit-forming",
       "high-potency",
-      "opioid",
-      "tablet, extended release tablet, solution"
+      "opioid"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -40730,8 +40254,7 @@
       "cetirizine-prodrug",
       "first-gen-antihistamine",
       "prescription-only",
-      "sedating",
-      "tablet, capsule, syrup"
+      "sedating"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -40762,8 +40285,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "bisphosphonate",
-      "tablet"
+      "bisphosphonate"
     ],
     "default_route": "",
     "all_routes": [],
@@ -40802,7 +40324,6 @@
       "CYP2D6-substrate",
       "QT-prolongation-risk",
       "TIHKAL",
-      "class:Tryptamine alkaloid (indole alkaloid)",
       "class:substituted tryptamines",
       "hERG-high-risk",
       "iboga-alkaloid",
@@ -40895,8 +40416,7 @@
     "tags": [
       "analgesic",
       "cox-1/cox-2 non-selective",
-      "nsaid",
-      "tablet, chewable tablet, capsule, suspension"
+      "nsaid"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -41214,8 +40734,7 @@
       "alpha1-blocker",
       "antipsychotic",
       "atypical-antipsychotic",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -41281,7 +40800,6 @@
       "TCA",
       "anticholinergic",
       "antidepressant",
-      "capsule, tablet",
       "overdose-risk",
       "prescription-only",
       "serotonin-syndrome-risk",
@@ -41350,7 +40868,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting beta-2 agonist"
     ],
     "default_route": "",
@@ -41379,7 +40896,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting beta-2 agonist",
       "long-acting muscarinic antagonist"
     ],
@@ -41442,7 +40958,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "tablet",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -41600,7 +41115,6 @@
     "display_class": "medical_rx",
     "tags": [
       "analgesic",
-      "capsule, extended release capsule, suspension",
       "cox-1/cox-2 non-selective",
       "nsaid"
     ],
@@ -42047,7 +41561,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "metered dose inhaler",
       "short-acting muscarinic antagonist"
     ],
     "default_route": "",
@@ -42077,8 +41590,7 @@
     "display_class": "medical_rx",
     "tags": [
       "short-acting beta-2 agonist",
-      "short-acting muscarinic antagonist",
-      "soft mist inhaler"
+      "short-acting muscarinic antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -42107,8 +41619,7 @@
     "display_class": "medical_rx",
     "tags": [
       "angiotensin-ii receptor blocker",
-      "antihypertensive",
-      "tablet"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -42408,7 +41919,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-selective",
-      "class:Piperidine (phenidate analogue)",
       "class:substituted phenidates",
       "habit-forming",
       "long-duration",
@@ -42544,7 +42054,6 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
-      "class:Benzimidazole opioid (nitazene subclass)",
       "designer-opioid",
       "fatalities-reported",
       "fentanyl-class-potency",
@@ -42849,7 +42358,6 @@
       "AKI-risk",
       "US-Schedule-I",
       "aminoalkylindole",
-      "class:Naphthoyl-indole synthetic cannabinoid (aminoalkyl-indole)",
       "class:naphthoylindole",
       "full-agonist-CB1",
       "high-risk",
@@ -42922,7 +42430,6 @@
     "name": "JWH-367",
     "display_name": "",
     "aliases": [
-      "914458-30-3",
       "BDBM50192604",
       "CHEMBL385994",
       "DTXSID201337004",
@@ -43092,7 +42599,6 @@
       "NMDA-antagonist",
       "antidepressant",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine; cyclohexanone derivative; commonly encountered medically as ketamine hydrochloride",
       "class:arylcyclohexylamines",
       "common",
       "habit-forming"
@@ -43251,8 +42757,7 @@
     "tags": [
       "analgesic",
       "cox-1/cox-2 non-selective",
-      "nsaid",
-      "tablet"
+      "nsaid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -43289,7 +42794,6 @@
       "antihistamine",
       "first-gen-antihistamine",
       "mast-cell-stabilizer",
-      "ophthalmic",
       "sedating"
     ],
     "default_route": "oral",
@@ -43616,8 +43120,7 @@
       "beta-1 & beta-2 non-selective",
       "beta-blocker",
       "non-selective",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -43650,8 +43153,7 @@
     "tags": [
       "anticonvulsant",
       "prescription-only",
-      "sodium-channel-blocker",
-      "tablet, solution"
+      "sodium-channel-blocker"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -43683,9 +43185,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "ammonium detoxicant",
-      "osmotic laxative",
-      "solution, powder for solution"
+      "ammonium detoxicant"
     ],
     "default_route": "",
     "all_routes": [],
@@ -43777,7 +43277,6 @@
       "antimanic",
       "class:Phenyl-triazine anticonvulsant",
       "sodium-channel-blocker",
-      "tablet, orally disintegrating tablet, extended-release tablet, tablet for suspension (chewable)",
       "use-dependent-block"
     ],
     "default_route": "oral",
@@ -43809,7 +43308,6 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "delayed release capsule, delayed release tablet",
       "proton pump inhibitor"
     ],
     "default_route": "",
@@ -43847,8 +43345,6 @@
     "display_class": "medical_rx",
     "tags": [
       "QT-risk",
-      "class:Phenothiazine antihistamine (promethazine) + natural opiate alkaloid, phenanthrene class (codeine)",
-      "codeine-promethazine-syrup",
       "polypharmacy"
     ],
     "default_route": "oral",
@@ -44030,7 +43526,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "metered dose inhaler (this page does not cover nebulized albuterol)",
       "short-acting beta-2 agonist"
     ],
     "default_route": "",
@@ -44072,8 +43567,7 @@
       "no-CYP-metabolism",
       "prescription-only",
       "racetam",
-      "renal-eliminated",
-      "tablet, extended-release tablet, tablet for suspension (dissolvable), solution"
+      "renal-eliminated"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -44108,8 +43602,7 @@
       "antihistamine",
       "antihistamine, 3rd generation",
       "non-sedating",
-      "second-gen-antihistamine",
-      "tablet, solution"
+      "second-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -44138,8 +43631,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "fluoroquinolone antibiotic",
-      "tablet, solution"
+      "fluoroquinolone antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -44206,7 +43698,6 @@
     "tags": [
       "SNRI",
       "antidepressant",
-      "extended release capsule",
       "prescription-only",
       "serotonin-syndrome-risk",
       "snri"
@@ -44277,7 +43768,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "capsule, tablet, solution",
       "synthetic t4 thyroid hormone"
     ],
     "default_route": "",
@@ -44374,8 +43864,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "dpp-4 inhibitor",
-      "tablet"
+      "dpp-4 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -44446,8 +43935,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "synthetic t3 thyroid hormone",
-      "tablet"
+      "synthetic t3 thyroid hormone"
     ],
     "default_route": "",
     "all_routes": [],
@@ -44509,7 +43997,6 @@
       "anti-obesity",
       "antidiabetic",
       "glp-1 agonist",
-      "injection pen",
       "peptide",
       "prescription-only",
       "weight-loss"
@@ -44550,8 +44037,6 @@
     "display_class": "recreational",
     "tags": [
       "RBC-activated",
-      "capsule, chewable tablet",
-      "class:Phenethylamine (Amphetamine derivative)",
       "class:amphetamine",
       "class:substituted amphetamines",
       "common",
@@ -44592,8 +44077,7 @@
     "display_class": "medical_rx",
     "tags": [
       "ace inhibitor",
-      "antihypertensive",
-      "tablet, solution"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -44698,8 +44182,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "glp-1 agonist",
-      "injection pen"
+      "glp-1 agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -44728,7 +44211,6 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
-      "class:3-methyl-4-carbomethoxy fentanyl (piperidinyl anilide opioid)",
       "extreme-potency",
       "mu-superagonist",
       "very-long-acting",
@@ -44972,8 +44454,7 @@
       "antihistamine",
       "antihistamine, 2nd generation",
       "non-sedating",
-      "second-gen-antihistamine",
-      "tablet, chewable tablet, orally disintegrating tablet, capsule, solution, syrup"
+      "second-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -45014,13 +44495,11 @@
       "anticonvulsant",
       "anxiolytic",
       "benzodiazepine",
-      "class:Benzodiazepine (3-hydroxy 1,4-benzodiazepine)",
       "class:benzodiazepines",
       "common",
       "habit-forming",
       "no-CYP-metabolism",
-      "no-active-metabolite",
-      "tablet, solution"
+      "no-active-metabolite"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -45106,8 +44585,7 @@
     "display_class": "medical_rx",
     "tags": [
       "angiotensin-ii receptor blocker",
-      "antihypertensive",
-      "tablet"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -45137,8 +44615,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "statin",
-      "tablet, extended release tablet"
+      "statin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -45171,7 +44648,6 @@
       "5HT2A-antagonist",
       "D2-antagonist",
       "antipsychotic",
-      "capsule",
       "dibenzoxazepine",
       "prescription-only",
       "typical-antipsychotic"
@@ -45457,8 +44933,7 @@
       "antipsychotic",
       "atypical-antipsychotic",
       "bipolar-depression",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -45912,11 +45387,8 @@
       "mineral",
       "muscle-relaxant",
       "nootropic",
-      "osmotic laxative",
       "sleep",
-      "solution",
-      "supplement",
-      "suspension, chewable tablet"
+      "supplement"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -46037,7 +45509,6 @@
     "display_class": "medical_rx",
     "tags": [
       "secondary amine",
-      "tablet",
       "tricyclic antidepressant"
     ],
     "default_route": "",
@@ -46276,7 +45747,6 @@
     "display_class": "recreational",
     "tags": [
       "NDRI",
-      "class:Synthetic cathinone (pyrrolidinophenone series)",
       "pyrovalerone-cathinone",
       "stimulant-not-entactogen"
     ],
@@ -46314,7 +45784,6 @@
     "display_class": "recreational",
     "tags": [
       "NDRI",
-      "class:Synthetic cathinone (pyrrolidinophenone)",
       "pyrovalerone-cathinone",
       "stimulant-not-entactogen"
     ],
@@ -46352,7 +45821,6 @@
     "name": "MDA",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-MDA",
       "3,4-Methylenedioxyamphetamine",
       "4-亚甲双氧基苯丙胺",
@@ -46375,7 +45843,6 @@
       "SNDRA",
       "SNDRI",
       "TAAR1",
-      "class:Phenethylamine; Amphetamine (ring-substituted methylenedioxyamphetamine)",
       "class:amphetamine",
       "common",
       "duplicate-of-MDA",
@@ -46409,7 +45876,6 @@
     "name": "MDAI",
     "display_name": "",
     "aliases": [
-      "5",
       "6-亚甲双氧基-2-氨基茚",
       "mindy",
       "sparkle"
@@ -46614,7 +46080,6 @@
     "name": "Mdea",
     "display_name": "",
     "aliases": [
-      "3",
       "N-ethyl-MDA",
       "eve",
       "mde"
@@ -46721,7 +46186,6 @@
     "name": "MDMA",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-MDMA",
       "3,4-methylenedioxymethamphetamine",
       "4-亚甲二氧基-N-甲基苯丙胺",
@@ -46766,7 +46230,6 @@
       "SNDRI",
       "SSRA-dominant",
       "Schedule-I",
-      "class:Substituted phenethylamine (methylenedioxyamphetamine family)",
       "class:amphetamine",
       "class:mdxx",
       "class:substituted amphetamines",
@@ -46963,7 +46426,6 @@
     "name": "MDNMP",
     "display_name": "",
     "aliases": [
-      "3",
       "4-亚甲二氧基戊酮"
     ],
     "category": "Stimulant",
@@ -47292,7 +46754,6 @@
     "name": "MDPV",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-methylenedioxypyrovalerone",
       "4-Methylenedioxypyrovalerone)",
       "Bath Salts",
@@ -47312,7 +46773,6 @@
       "DRI",
       "TAAR1-inactive-human",
       "class:Pyrrolidinophenone cathinone stimulant",
-      "class:Substituted cathinone (pyrrolidinophenone)",
       "class:mdxx",
       "class:substituted cathinones",
       "class:substituted pyrrolidines",
@@ -47460,8 +46920,7 @@
       "antihistamine",
       "antihistamine, 1st generation",
       "first-gen-antihistamine",
-      "sedating",
-      "tablet, chewable tablet"
+      "sedating"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -47600,7 +47059,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine (1,4-benzodiazepine; non-2-keto)",
       "habit-forming",
       "prodrug-of-diazepam-nordazepam"
     ],
@@ -47817,7 +47275,6 @@
       "CYP1A2-substrate",
       "MT1-MT2-agonist",
       "TIHKAL",
-      "class:Tryptamine derivative (indoleamine)",
       "class:substituted tryptamines",
       "common",
       "endogenous",
@@ -47892,7 +47349,6 @@
     "display_class": "medical_rx",
     "tags": [
       "analgesic",
-      "capsule, tablet, orally disintegrating tablet",
       "moderate cox-2 selectivity",
       "nsaid"
     ],
@@ -48118,7 +47574,6 @@
       "CYP2D6-substrate",
       "DAT-NET-SERT-balanced",
       "TAAR1-inactive-human",
-      "class:Substituted cathinone (β-keto amphetamine)",
       "class:cathinone",
       "class:substituted cathinones",
       "hERG-safe",
@@ -48689,8 +48144,7 @@
     "tags": [
       "central-muscle-relaxant",
       "mechanism-unknown",
-      "skeletal muscle relaxant",
-      "tablet"
+      "skeletal muscle relaxant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -48724,8 +48178,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "biguanide",
-      "tablet, extended release tablet, solution, extended release suspension"
+      "biguanide"
     ],
     "default_route": "",
     "all_routes": [],
@@ -48773,7 +48226,6 @@
       "MOR-full-agonist",
       "NMDA-antagonist",
       "QT-prolonging",
-      "class:Diphenylheptane derivative (synthetic opioid)",
       "class:diphenylpropylamine",
       "common",
       "hERG-strong",
@@ -48813,7 +48265,6 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2C-selective",
-      "class:Phenethylamine (3,5-dimethoxy-4-alkoxyphenethylamine; escaline analogue)",
       "class:substituted phenethylamines",
       "research-chemical"
     ],
@@ -48957,7 +48408,6 @@
       "NDRI",
       "TAAR1",
       "TAAR1-agonist",
-      "class:Phenethylamine (Amphetamine class)",
       "class:amphetamine",
       "class:substituted amphetamines",
       "common",
@@ -48966,7 +48416,6 @@
       "no-human-data",
       "phenethylamine",
       "stimulant",
-      "tablet",
       "σ1-agonist"
     ],
     "default_route": "inhalation",
@@ -49138,7 +48587,6 @@
       "DRI",
       "US-Schedule-I",
       "cathinone",
-      "class:Cathinone (β‑keto amphetamine)",
       "class:cathinone",
       "class:substituted cathinones",
       "manganese-toxicity-synthesis-contaminant",
@@ -49212,7 +48660,6 @@
     "display_class": "recreational",
     "tags": [
       "MOR-agonist",
-      "class:Diphenylpropylamine sulfone (methadone analogue)",
       "opioid"
     ],
     "default_route": "insufflation",
@@ -49285,8 +48732,7 @@
       "muscle-relaxant",
       "prescription-only",
       "sedating",
-      "skeletal muscle relaxant",
-      "tablet"
+      "skeletal muscle relaxant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -49424,7 +48870,6 @@
     "display_class": "recreational",
     "tags": [
       "NMDA-antagonist",
-      "class:Diarylethylamine (diphenidine family), not an arylcyclohexylamine",
       "class:diarylethylamines",
       "designer-dissociative",
       "diarylethylamine",
@@ -49804,8 +49249,7 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "bulk-forming laxative",
-      "powder for solution, tablet"
+      "bulk-forming laxative"
     ],
     "default_route": "",
     "all_routes": [],
@@ -50108,7 +49552,6 @@
     "name": "Methylone",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4-Methylenedioxymethcathinone",
       "4-亚甲二氧基-N-甲基卡西酮",
       "Ease",
@@ -50125,7 +49568,6 @@
     "tags": [
       "MDMA-analog",
       "cathinone",
-      "class:Substituted cathinone; beta-keto phenethylamine; methylenedioxy-substituted cathinone and beta-keto analogue of MDMA",
       "class:cathinone",
       "common",
       "empathogen-adjacent",
@@ -50222,8 +49664,7 @@
       "common",
       "first-pass-stereoselective",
       "habit-forming",
-      "stimulant",
-      "tablet, extended release tablet (osmotic release oral delivery system [oros]), extended release tablet (various non-oros), chewable tablet, chewable extended release tablet, orally disintegrating tablet, extended release capsule, solution, extended release suspension"
+      "stimulant"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -50275,7 +49716,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "patch",
       "stimulant"
     ],
     "default_route": "",
@@ -50529,7 +49969,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "tablet",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -50560,7 +49999,6 @@
     "tags": [
       "US-Schedule-I",
       "benzimidazole-opioid",
-      "class:Nitazene (synthetic opioid)",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
@@ -50608,8 +50046,7 @@
       "beta-1 selective",
       "beta-1-selective",
       "beta-blocker",
-      "prescription-only",
-      "tablet (tartrate), extended release tablet (succinate), extended release capsule (succinate)"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -50638,8 +50075,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "antibiotic",
-      "tablet, extended release tablet, capsule"
+      "antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -50794,7 +50230,6 @@
     "tags": [
       "DOR-full-agonist",
       "MOR-full-agonist",
-      "class:Indole-based kratom alkaloid derivative (semi-synthetic from 7-hydroxymitragynine)",
       "kratom-derivative",
       "semi-synthetic"
     ],
@@ -51057,7 +50492,6 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "tablet, delayed release tablet, capsule, delayed release capsule",
       "tetracycline antibiotic"
     ],
     "default_route": "",
@@ -51213,9 +50647,7 @@
     ],
     "category": "Anticonvulsant",
     "display_class": "medical_rx",
-    "tags": [
-      "class:Gabapentinoid (structurally related to gabapentin and pregabalin)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -51263,11 +50695,9 @@
       "antidepressant",
       "antihistamine",
       "centrally-acting alpha-2 antagonist",
-      "class:Tetracyclic (piperazino-azepine) antidepressant",
       "class:piperazinoazepine",
       "minimal-sexual-dysfunction",
-      "prescription-only",
-      "tablet, orally disintegrating tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -51637,7 +51067,6 @@
       "MAO-A-selective",
       "MAOI-A",
       "RIMA",
-      "class:Benzamide; reversible monoamine oxidase-A inhibitor (RIMA)",
       "tyramine-safe"
     ],
     "default_route": "oral",
@@ -51808,10 +51237,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "cream, ointment, lotion, solution",
-      "dry powder inhaler (twisthaler), metered dose inhaler (hfa)",
-      "inhaled corticosteroid",
-      "nasal spray"
+      "inhaled corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -51840,8 +51266,7 @@
     "display_class": "medical_rx",
     "tags": [
       "inhaled corticosteroid",
-      "long-acting beta-2 agonist",
-      "metered dose inhaler"
+      "long-acting beta-2 agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -51866,17 +51291,15 @@
     "aliases": [
       "Convulsion root",
       "Corpse plant",
+      "Ghost Pipe",
       "Ghost flower",
-      "Ghost pipe",
       "Ghost plant",
       "Ice plant",
       "Indian Pipe"
     ],
     "category": "Analgesic",
     "display_class": "medical_rx",
-    "tags": [
-      "class:Mycoheterotrophic herb in Ericaceae; phytochemistry incompletely characterized (reports of phenolic/salicylate-type glycosides exist, specific diterpenes unconfirmed)."
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral",
@@ -51908,8 +51331,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "leukotriene receptor antagonist",
-      "tablet, chewable tablet, oral granules"
+      "leukotriene receptor antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -52030,12 +51452,10 @@
       "UGT2B7-substrate",
       "active-glucuronide-M6G",
       "analgesic",
-      "class:Opiate alkaloid (Phenanthrene class)",
       "class:substituted morphinans",
       "common",
       "habit-forming",
-      "opioid",
-      "tablet, extended release tablet, extended release capsule, solution"
+      "opioid"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -52608,12 +52028,12 @@
     "name": "MXPCP",
     "display_name": "",
     "aliases": [
+      "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine (PCP-like; 2'-oxo PCP analogue)",
       "likely-very-high-NMDA-potency"
     ],
     "default_route": "insufflation",
@@ -52717,7 +52137,6 @@
     "display_class": "recreational",
     "tags": [
       "MMDA-precursor",
-      "class:Phenylpropene (aromatic ether)",
       "class:phenylpropenes",
       "deliriant",
       "natural-product",
@@ -52900,7 +52319,6 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
-      "class:Benzimidazole opioid (nitazene subclass; 2-benzylbenzimidazole)",
       "extreme-potency",
       "fentanyl-stronger",
       "mu-superagonist",
@@ -53016,7 +52434,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-selective",
-      "class:Synthetic cathinone (β‑keto amphetamine)",
       "class:cathinone",
       "pure-DAT-NET-blocker",
       "research-chemical",
@@ -53137,7 +52554,6 @@
     "display_class": "recreational",
     "tags": [
       "DAT-NET-inhibitor",
-      "class:2-Oxazolidinone (pemoline) derivative",
       "stimulant"
     ],
     "default_route": "oral",
@@ -53546,8 +52962,7 @@
     "tags": [
       "analgesic",
       "moderate cox-2 selectivity",
-      "nsaid",
-      "tablet"
+      "nsaid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -53579,8 +52994,7 @@
       "beta-1 & beta-2 non-selective",
       "beta-blocker",
       "non-selective",
-      "prescription-only",
-      "tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -53703,7 +53117,6 @@
     "display_class": "recreational",
     "tags": [
       "cathinone",
-      "class:Pyrrolidinophenone cathinone (pyrovalerone analogue)",
       "habit-forming",
       "pure-reuptake-inhibitor",
       "pyrrolidinophenone",
@@ -53746,8 +53159,7 @@
     "tags": [
       "analgesic",
       "cox-1/cox-2 non-selective",
-      "nsaid",
-      "tablet, extended release tablet, capsule, suspension"
+      "nsaid"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -53778,7 +53190,6 @@
     "display_class": "medical_rx",
     "tags": [
       "5-ht1b/1d agonist",
-      "tablet",
       "triptan"
     ],
     "default_route": "",
@@ -53808,8 +53219,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "meglitinide",
-      "tablet"
+      "meglitinide"
     ],
     "default_route": "",
     "all_routes": [],
@@ -53983,8 +53393,7 @@
     "tags": [
       "beta-1 selective",
       "beta-blocker",
-      "nitric oxide-dependent vasodilator",
-      "tablet"
+      "nitric oxide-dependent vasodilator"
     ],
     "default_route": "",
     "all_routes": [],
@@ -54292,8 +53701,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "calcium channel blocker, dihydropyridine",
-      "capsule, extended release tablet (coat-core), extended release tablet (osmotic-pump)"
+      "calcium channel blocker, dihydropyridine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -54382,7 +53790,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine (7-nitro-1,4-benzodiazepine)",
       "habit-forming",
       "nitro-benzodiazepine"
     ],
@@ -54436,7 +53843,6 @@
     "name": "Nitazene",
     "display_name": "",
     "aliases": [
-      "14030-71-8",
       "DTXSID601356250",
       "nitazene-parent"
     ],
@@ -54637,8 +54043,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "antibiotic",
-      "capsule"
+      "antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -55037,7 +54442,6 @@
     "tags": [
       "AMPA-PAM-indirect",
       "Russian-clinical-only",
-      "class:Peptide-derived racetam (dipeptidomimetic)",
       "glutamate-modulator",
       "nootropic",
       "prodrug-of-cPG",
@@ -55325,8 +54729,7 @@
       "active-metabolite",
       "arylcyclohexylamine",
       "metabolite",
-      "no-human-data",
-      "oral-PD-dominant"
+      "no-human-data"
     ],
     "default_route": "",
     "all_routes": [],
@@ -55432,7 +54835,6 @@
       "TCA",
       "anticholinergic",
       "antidepressant",
-      "capsule, solution",
       "overdose-risk",
       "prescription-only",
       "secondary amine",
@@ -55610,7 +55012,6 @@
     "tags": [
       "MOR-full-agonist",
       "SNRI",
-      "class:Cyclohexanol derivative (structurally related to tramadol, a synthetic opioid)",
       "class:phenylpropylamine",
       "habit-forming",
       "research-chemical",
@@ -55872,7 +55273,6 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine dissociative (2-oxo analogue of PCP)",
       "β-keto-PCP-analog"
     ],
     "default_route": "inhalation",
@@ -55920,7 +55320,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine (PCP analog)",
       "no-human-data",
       "research-chemical"
     ],
@@ -56033,7 +55432,6 @@
       "high-weight-gain",
       "muscarinic-antagonist",
       "prescription-only",
-      "tablet, orally disintegrating tablet",
       "thienobenzodiazepine"
     ],
     "default_route": "intramuscular",
@@ -56066,8 +55464,7 @@
     "display_class": "medical_rx",
     "tags": [
       "angiotensin-ii receptor blocker",
-      "antihypertensive",
-      "tablet"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -56095,8 +55492,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "long-acting beta-2 agonist",
-      "soft mist inhaler"
+      "long-acting beta-2 agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -56132,10 +55528,7 @@
       "antihistamine",
       "antihistamine, 2nd generation",
       "mast-cell-stabilizer",
-      "nasal",
-      "nasal spray",
       "non-sedating",
-      "ophthalmic",
       "prescription-only",
       "second-gen-antihistamine"
     ],
@@ -56252,7 +55645,6 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "delayed release capsule, delayed release tablet, packet",
       "proton pump inhibitor"
     ],
     "default_route": "",
@@ -56284,9 +55676,7 @@
     "display_class": "medical_rx",
     "tags": [
       "5-ht3 receptor antagonist",
-      "antiemetic",
-      "class:Carbazole derivative (selective serotonin 5-HT3 receptor antagonist)",
-      "tablet, orally disintegrating tablet, solution"
+      "antiemetic"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -56396,7 +55786,6 @@
       "abuse-potential",
       "anticholinergic",
       "antihistamine",
-      "extended release tablet",
       "muscle-relaxant",
       "prescription-only",
       "skeletal muscle relaxant"
@@ -56461,7 +55850,6 @@
     "display_class": "non_recreational",
     "tags": [
       "antiviral",
-      "capsule, suspension",
       "neuraminidase inhibitor"
     ],
     "default_route": "",
@@ -56530,7 +55918,6 @@
       "UGT2B15-substrate",
       "anxiolytic",
       "benzodiazepine",
-      "capsule",
       "class:Benzodiazepine",
       "habit-forming",
       "hepatic-failure-safe",
@@ -56602,8 +55989,7 @@
       "anticonvulsant",
       "mood-stabilizer",
       "prescription-only",
-      "sodium-channel-blocker",
-      "tablet, extended-release tablet, suspension"
+      "sodium-channel-blocker"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -56770,13 +56156,11 @@
       "CYP3A4-substrate",
       "MOR-full-agonist",
       "analgesic",
-      "class:Opioid (semisynthetic, derived from thebaine)",
       "class:substituted morphinans",
       "common",
       "habit-forming",
       "high-oral-F",
-      "opioid",
-      "tablet, capsule, extended release tablet, extended release capsule, solution, concentrate"
+      "opioid"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -56829,8 +56213,7 @@
     "tags": [
       "analgesic",
       "antipyretic",
-      "opioid",
-      "tablet, solution"
+      "opioid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -56860,8 +56243,7 @@
     "display_class": "otc",
     "tags": [
       "alpha adrenergic agonist",
-      "decongestant",
-      "nasal spray"
+      "decongestant"
     ],
     "default_route": "",
     "all_routes": [],
@@ -56898,8 +56280,7 @@
       "class:substituted morphinans",
       "habit-forming",
       "high-potency",
-      "opioid",
-      "tablet, extended release tablet"
+      "opioid"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -57173,7 +56554,6 @@
       "D2-antagonist",
       "antipsychotic",
       "atypical-antipsychotic",
-      "extended-release tablet",
       "long-acting-injectable",
       "prescription-only"
     ],
@@ -57368,7 +56748,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "delayed release tablet, packet",
       "proton pump inhibitor"
     ],
     "default_route": "",
@@ -57407,7 +56786,6 @@
       "CYP2D6-substrate",
       "MAO-A-inhibitor",
       "SERT-dominant",
-      "class:Phenethylamine; substituted amphetamine",
       "deadly",
       "delayed-onset"
     ],
@@ -57588,8 +56966,7 @@
       "high-discontinuation-risk",
       "prescription-only",
       "serotonin-syndrome-risk",
-      "ssri",
-      "tablet, extended release tablet, capsule, suspension"
+      "ssri"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -57958,7 +57335,6 @@
     "display_class": "recreational",
     "tags": [
       "DA-selective",
-      "class:Oxazoline derivative (specifically, a 2-oxazolinone)",
       "habit-forming",
       "hepatotoxic",
       "withdrawn-US-2005"
@@ -57993,8 +57369,7 @@
     "display_class": "non_recreational",
     "tags": [
       "beta-lactam antibiotic",
-      "natural penicillin",
-      "tablet, solution"
+      "natural penicillin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -58263,7 +57638,6 @@
       "antipsychotic",
       "phenothiazine",
       "prescription-only",
-      "tablet",
       "typical-antipsychotic"
     ],
     "default_route": "oral",
@@ -58521,7 +57895,6 @@
     "category": "Analgesic",
     "display_class": "otc",
     "tags": [
-      "tablet",
       "urinary tract analgesic"
     ],
     "default_route": "",
@@ -58555,7 +57928,6 @@
     "display_class": "recreational",
     "tags": [
       "anorectic",
-      "class:Phenylmorpholine (related to amphetamines)",
       "prodrug"
     ],
     "default_route": "oral",
@@ -58600,7 +57972,6 @@
       "MAOI-B",
       "aldehyde-scavenger",
       "antidepressant",
-      "class:Hydrazine derivative (β-phenylethylhydrazine)",
       "dietary-restriction",
       "hydrazine-hepatotoxic-risk",
       "hypertensive-crisis-risk",
@@ -58686,7 +58057,6 @@
     "display_class": "recreational",
     "tags": [
       "MAO-substrate",
-      "class:Phenethylamine (PEA)",
       "endogenous-TAAR1-agonist",
       "no-human-data",
       "orally-inactive",
@@ -58869,10 +58239,8 @@
       "GABA-A-PAM-direct-agonist-high-conc",
       "anticonvulsant",
       "barbiturate",
-      "class:Barbiturate (Barbituric acid derivative)",
       "class:barbiturates",
       "habit-forming",
-      "tablet, elixir, solution",
       "very-long-half-life",
       "withdrawal-treatment-tool"
     ],
@@ -58978,7 +58346,6 @@
     "display_class": "recreational",
     "tags": [
       "PPH",
-      "class:Substituted amphetamine & substituted amphetamine analogue (phenethylamine derivatives)",
       "valvulopathy",
       "withdrawn-1997"
     ],
@@ -59117,7 +58484,6 @@
       "class:Phenylethanolamine",
       "decongestant",
       "ineffective-oral",
-      "nasal spray, nasal drops",
       "no-human-data",
       "phenethylamine",
       "vasoconstrictor",
@@ -59260,9 +58626,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Substituted phenethylamine / amphetamine analogue"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -59302,7 +58666,6 @@
     "display_class": "medical_rx",
     "tags": [
       "anticonvulsant",
-      "extended-release capsule, chewable tablet, suspension",
       "narrow-therapeutic-index",
       "prescription-only",
       "sodium-channel-blocker"
@@ -59557,8 +58920,7 @@
     "display_class": "medical_rx",
     "tags": [
       "beta-1 & beta-2 non-selective",
-      "beta-blocker",
-      "tablet"
+      "beta-blocker"
     ],
     "default_route": "",
     "all_routes": [],
@@ -59620,7 +58982,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "tablet",
       "thiazolidinedione"
     ],
     "default_route": "",
@@ -59651,7 +59012,6 @@
     "display_class": "medical_rx",
     "tags": [
       "NDRI",
-      "class:Diphenylmethylpiperidine (pipradrol family)",
       "stimulant-miscategorised"
     ],
     "default_route": "oral",
@@ -59744,7 +59104,6 @@
       "AMPA-modulator",
       "century-old-mechanism-unknown",
       "cholinergic",
-      "class:Nootropic cyclic GABA derivative (pyrrolidone family)",
       "class:racetams",
       "membrane-fluidity-modulator-proposed",
       "nootropic",
@@ -59797,7 +59156,6 @@
     "display_class": "medical_rx",
     "tags": [
       "analgesic",
-      "capsule",
       "cox-1/cox-2 non-selective",
       "nsaid"
     ],
@@ -60025,8 +59383,7 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "bulk-forming laxative",
-      "tablet"
+      "bulk-forming laxative"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60053,10 +59410,7 @@
     ],
     "category": "",
     "display_class": "otc",
-    "tags": [
-      "osmotic laxative",
-      "powder for solution"
-    ],
+    "tags": [],
     "default_route": "",
     "all_routes": [],
     "routes_with_dose": [],
@@ -60289,8 +59643,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dopamine agonist",
-      "tablet, extended release tablet"
+      "dopamine agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60360,8 +59713,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antiplatelet",
-      "p2y12 inhibitor",
-      "tablet"
+      "p2y12 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60391,8 +59743,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "statin",
-      "tablet"
+      "statin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60433,7 +59784,6 @@
       "CYP3A4-substrate",
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine (1,4-benzodiazepin-2-one; 2-keto subtype)",
       "habit-forming",
       "prodrug-of-nordazepam"
     ],
@@ -60469,7 +59819,6 @@
       "PTSD-nightmares",
       "alpha1-blocker",
       "antihypertensive",
-      "capsule",
       "non-selective alpha-1 blocker",
       "prescription-only"
     ],
@@ -60500,7 +59849,6 @@
     "category": "Other",
     "display_class": "recreational",
     "tags": [
-      "class:Selective sigma-1 (σ1) receptor agonist; cyclohexane carboxylate structurally related to PCP derivatives.",
       "tentative"
     ],
     "default_route": "insufflation",
@@ -60537,8 +59885,7 @@
     "category": "Endocrine",
     "display_class": "medical_rx",
     "tags": [
-      "corticosteroid",
-      "cream, ointment"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60569,8 +59916,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "glucocorticoid",
-      "tablet, orally disintegrating tablet, solution, syrup"
+      "glucocorticoid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60600,8 +59946,7 @@
     "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
-      "glucocorticoid",
-      "tablet, delayed release tablet, solution, concentrate"
+      "glucocorticoid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60641,8 +59986,6 @@
       "alpha2-delta-ligand",
       "anticonvulsant",
       "anxiolytic",
-      "capsule, extended-release tablet, solution",
-      "class:Gabapentinoid; GABA analogue (does not act at GABA-A/B receptors)",
       "class:gabapentinoids",
       "common",
       "gabapentinoid",
@@ -60740,8 +60083,7 @@
     "display_class": "medical_rx",
     "tags": [
       "anticonvulsant",
-      "barbiturate",
-      "tablet"
+      "barbiturate"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60914,8 +60256,7 @@
     "display_class": "medical_rx",
     "tags": [
       "contraceptive",
-      "progestin",
-      "tablet"
+      "progestin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60944,8 +60285,7 @@
     "display_class": "medical_rx",
     "tags": [
       "contraceptive",
-      "progestin",
-      "tablet"
+      "progestin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -60981,7 +60321,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Phenylalkylpyrrolidine (phenethylamine-derived N-alkylpyrrolidine) stimulant",
       "class:amphetamine",
       "class:substituted amphetamines",
       "class:substituted pyrrolidines",
@@ -61078,8 +60417,7 @@
     "tags": [
       "antihistamine, 1st generation",
       "antitussive",
-      "opioid",
-      "solution, syrup"
+      "opioid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -61192,12 +60530,10 @@
       "antihypertensive",
       "beta-1 & beta-2 non-selective",
       "beta-blocker",
-      "class:Beta-adrenergic antagonist (non-selective); Naphthalene derivative",
       "common",
       "non-selective-beta-blocker",
       "prescription-only",
-      "rebound-risk",
-      "tablet, extended release capsule, solution"
+      "rebound-risk"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -61439,7 +60775,6 @@
     "display_class": "recreational",
     "tags": [
       "benzimidazole-opioid",
-      "class:Benzimidazole opioid (nitazene family)",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
@@ -61482,7 +60817,6 @@
     "display_class": "medical_rx",
     "tags": [
       "secondary amine",
-      "tablet",
       "tricyclic antidepressant"
     ],
     "default_route": "",
@@ -61545,8 +60879,7 @@
       "OTC-decongestant",
       "alpha/beta-adrenergic agonist",
       "common",
-      "decongestant",
-      "tablet, extended release tablet, syrup, liquid"
+      "decongestant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -61903,8 +61236,7 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "bulk-forming laxative",
-      "powder for solution, capsule"
+      "bulk-forming laxative"
     ],
     "default_route": "",
     "all_routes": [],
@@ -62168,7 +61500,6 @@
       "UGT-substrate",
       "benzodiazepine",
       "class:benzodiazepines",
-      "class:triazolobenzodiazepine (benzodiazepine)",
       "designer-benzo",
       "habit-forming",
       "no-CYP-metabolism",
@@ -62497,8 +61828,7 @@
       "dibenzothiazepine",
       "multi-target-antipsychotic",
       "off-label-sleep-aid",
-      "prescription-only",
-      "tablet, extended release tablet"
+      "prescription-only"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -62543,8 +61873,7 @@
     "display_class": "medical_rx",
     "tags": [
       "ace inhibitor",
-      "antihypertensive",
-      "tablet"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -62730,8 +62059,7 @@
       "melatonin receptor agonist",
       "melatonin-agonist",
       "prescription-only",
-      "sedative-hypnotic",
-      "tablet"
+      "sedative-hypnotic"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -62761,8 +62089,7 @@
     "display_class": "medical_rx",
     "tags": [
       "ace inhibitor",
-      "antihypertensive",
-      "capsule"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -62804,7 +62131,6 @@
       "antihistamine",
       "histamine-2 receptor antagonist",
       "non-sedating",
-      "tablet, capsule, syrup",
       "withdrawn-US"
     ],
     "default_route": "oral",
@@ -62937,8 +62263,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "meglitinide",
-      "tablet"
+      "meglitinide"
     ],
     "default_route": "",
     "all_routes": [],
@@ -63356,8 +62681,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "cgrp antagonist",
-      "orally disintegrating tablet"
+      "cgrp antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -63386,8 +62710,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "bisphosphonate",
-      "tablet, delayed release tablet"
+      "bisphosphonate"
     ],
     "default_route": "",
     "all_routes": [],
@@ -63424,8 +62747,7 @@
       "atypical-antipsychotic",
       "class:benzisoxazole",
       "long-acting-injectable",
-      "prescription-only",
-      "tablet, orally disintegrating tablet, solution"
+      "prescription-only"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -63457,8 +62779,7 @@
     "display_class": "medical_rx",
     "tags": [
       "anticoagulant",
-      "direct factor xa inhibitor",
-      "tablet"
+      "direct factor xa inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -63492,7 +62813,6 @@
       "antimigraine",
       "prescription-only",
       "serotonin-agonist",
-      "tablet, orally disintegrating tablet",
       "triptan"
     ],
     "default_route": "oral",
@@ -63659,8 +62979,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dopamine agonist",
-      "tablet, extended release tablet"
+      "dopamine agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -63689,7 +63008,6 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "tablet",
       "thiazolidinedione"
     ],
     "default_route": "",
@@ -63720,8 +63038,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "statin",
-      "tablet, capsule"
+      "statin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -64245,7 +63562,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting beta-2 agonist"
     ],
     "default_route": "",
@@ -64276,8 +63592,7 @@
     "tags": [
       "analgesic",
       "nsaid",
-      "salicylate",
-      "tablet"
+      "salicylate"
     ],
     "default_route": "",
     "all_routes": [],
@@ -64441,7 +63756,6 @@
       "DMN-attenuating",
       "KOR-selective",
       "balanced-agonist-KOR",
-      "class:Diterpenoid (neoclerodane diterpene)",
       "class:salvinorin",
       "class:terpenoid",
       "dysdelic",
@@ -64744,8 +64058,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "dpp-4 inhibitor",
-      "tablet"
+      "dpp-4 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -65184,7 +64497,6 @@
       "anti-obesity",
       "antidiabetic",
       "glp-1 agonist",
-      "injection pen, oral tablet",
       "peptide",
       "prescription-only",
       "weight-loss"
@@ -65256,8 +64568,7 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "stimulant laxative",
-      "tablet, chewable tablet, liquid, syrup"
+      "stimulant laxative"
     ],
     "default_route": "",
     "all_routes": [],
@@ -65314,8 +64625,7 @@
     "display_class": "recreational",
     "tags": [
       "stimulant laxative",
-      "stool softener",
-      "tablet"
+      "stool softener"
     ],
     "default_route": "",
     "all_routes": [],
@@ -65406,7 +64716,6 @@
     "category": "Antidepressant",
     "display_class": "medical_rx",
     "tags": [
-      "class:Piperidine-derived phenidate prodrug (quaternary pyridinium carbamate of dexmethylphenidate)",
       "extended-duration",
       "low-IV-abuse-liability",
       "prodrug"
@@ -65563,8 +64872,7 @@
       "prescription-only",
       "serotonin-syndrome-risk",
       "sigma-1-inverse-agonist",
-      "ssri",
-      "tablet, oral concentrate"
+      "ssri"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -65628,9 +64936,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Phenethylamine (structurally related to amphetamines)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -65662,8 +64968,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "phosphodiesterase-5 inhibitor",
-      "tablet, oral reconstituted suspension"
+      "phosphodiesterase-5 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -65691,7 +64996,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "capsule",
       "selective alpha-1a blocker"
     ],
     "default_route": "",
@@ -65722,8 +65026,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihyperlipidemic",
-      "statin",
-      "tablet, suspension"
+      "statin"
     ],
     "default_route": "",
     "all_routes": [],
@@ -65811,8 +65114,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antidiabetic",
-      "dpp-4 inhibitor",
-      "tablet"
+      "dpp-4 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -65844,7 +65146,6 @@
     "category": "Depressant",
     "display_class": "recreational",
     "tags": [
-      "class:Quinazolinone (4-quinazolinone) derivative; methaqualone analogue.",
       "quinazolinone",
       "research-chemical"
     ],
@@ -65999,8 +65300,7 @@
     "tags": [
       "euphoriant",
       "gaba-b receptor agonist",
-      "hypnotic",
-      "oral solution"
+      "hypnotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -66062,7 +65362,6 @@
       "aldehyde-oxidase-substrate",
       "alpha1-highly-selective",
       "benzodiazepine receptor agonist",
-      "capsule",
       "common",
       "habit-forming",
       "hypnotic",
@@ -66205,8 +65504,7 @@
     "display_class": "medical_rx",
     "tags": [
       "aldosterone antagonist",
-      "potassium-sparing diuretic",
-      "tablet, suspension"
+      "potassium-sparing diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -66263,9 +65561,7 @@
     ],
     "category": "Opioid",
     "display_class": "recreational",
-    "tags": [
-      "class:Piperidine benzimidazolone (G-protein-biased μ-opioid agonist)"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral",
@@ -66298,9 +65594,7 @@
     ],
     "category": "Opioid",
     "display_class": "recreational",
-    "tags": [
-      "class:Piperidine benzimidazolone; G‑protein‑biased μ‑opioid receptor agonist"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral",
@@ -66562,8 +65856,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "sulfonamide antibiotic",
-      "tablet, suspension"
+      "sulfonamide antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -66658,8 +65951,7 @@
     "tags": [
       "analgesic",
       "cox-1/cox-2 non-selective",
-      "nsaid",
-      "tablet"
+      "nsaid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -66696,7 +65988,6 @@
       "antimigraine",
       "prescription-only",
       "serotonin-agonist",
-      "tablet",
       "triptan"
     ],
     "default_route": "oral",
@@ -66959,8 +66250,7 @@
     "category": "Other",
     "display_class": "recreational",
     "tags": [
-      "phosphodiesterase-5 inhibitor",
-      "tablet"
+      "phosphodiesterase-5 inhibitor"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -67023,7 +66313,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "capsule",
       "selective alpha-1a blocker"
     ],
     "default_route": "",
@@ -67059,7 +66348,6 @@
       "MOR-agonist",
       "NRI",
       "UGT-substrate",
-      "class:Synthetic opioid analgesic; benzenoid phenol",
       "class:phenylpropylamine",
       "habit-forming",
       "low-serotonin-risk",
@@ -67346,8 +66634,6 @@
       "GABAA-PAM",
       "UGT2B15-substrate",
       "benzodiazepine",
-      "capsule",
-      "class:1,4-benzodiazepine (3-hydroxy)",
       "class:benzodiazepines",
       "habit-forming",
       "no-CYP-metabolism",
@@ -67408,7 +66694,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "capsule",
       "non-selective alpha-1 blocker"
     ],
     "default_route": "",
@@ -68188,8 +67473,7 @@
     "category": "Antipsychotic",
     "display_class": "medical_rx",
     "tags": [
-      "1st generation antipsychotic",
-      "tablet"
+      "1st generation antipsychotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -68245,7 +67529,6 @@
       "1st generation antipsychotic",
       "D2-antagonist",
       "antipsychotic",
-      "capsule",
       "high-EPS-risk",
       "prescription-only",
       "thioxanthene",
@@ -68596,8 +67879,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antiplatelet",
-      "p2y12 inhibitor",
-      "tablet"
+      "p2y12 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -68631,7 +67913,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine dissociative (cyclohexanone core with thienyl substituent)",
       "habit-forming",
       "no-human-data",
       "research-chemical",
@@ -68742,8 +68023,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "antibiotic",
-      "tablet"
+      "antibiotic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -68772,7 +68052,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler, soft mist inhaler",
       "long-acting muscarinic antagonist"
     ],
     "default_route": "",
@@ -68802,8 +68081,7 @@
     "display_class": "medical_rx",
     "tags": [
       "long-acting beta-2 agonist",
-      "long-acting muscarinic antagonist",
-      "soft mist inhaler"
+      "long-acting muscarinic antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -68864,8 +68142,6 @@
     "name": "Tizanidine",
     "display_name": "",
     "aliases": [
-      "1",
-      "2",
       "3-苯并噻二唑",
       "Sirdalud",
       "Zanaflex",
@@ -68882,8 +68158,7 @@
       "muscle-relaxant",
       "prescription-only",
       "sedating",
-      "skeletal muscle relaxant",
-      "tablet, capsule"
+      "skeletal muscle relaxant"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -68938,10 +68213,8 @@
     "name": "TMA",
     "display_name": "",
     "aliases": [
-      "3",
       "3,4,5-TMA",
       "3,4,5-Trimethoxyamphetamine",
-      "4",
       "5-Trimethoxyamphetamine",
       "Mescaline amphetamine analog",
       "TMA-1",
@@ -68951,7 +68224,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenethylamine (substituted amphetamine)",
       "phenethylamine"
     ],
     "default_route": "oral",
@@ -68979,10 +68251,8 @@
     "name": "TMA-2",
     "display_name": "",
     "aliases": [
-      "2",
       "2,4,5-TMA",
       "2,4,5-Trimethoxyamphetamine",
-      "4",
       "5-Trimethoxyamphetamine",
       "5-三甲氧基苯丙胺"
     ],
@@ -68990,7 +68260,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:Phenethylamine (subclass: substituted amphetamine, trimethoxyamphetamine)",
       "class:substituted amphetamines",
       "phenethylamine",
       "research-chemical",
@@ -69114,9 +68383,7 @@
     "name": "TMA-6",
     "display_name": "",
     "aliases": [
-      "2",
       "2,4,6-trimethoxyamphetamine",
-      "4",
       "6-三甲氧基苯丙胺"
     ],
     "category": "Psychedelic",
@@ -69419,7 +68686,6 @@
       "appetite-suppressant",
       "mood-stabilizer",
       "prescription-only",
-      "tablet, sprinkle capsule, extended-release capsule, extended-release sprinkle capsule, solution",
       "teratogenic"
     ],
     "default_route": "oral",
@@ -69476,8 +68742,7 @@
     "display_class": "medical_rx",
     "tags": [
       "antihypertensive",
-      "loop diuretic",
-      "tablet"
+      "loop diuretic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -69562,8 +68827,7 @@
       "habit-forming",
       "opioid",
       "seizure-risk",
-      "serotonin-syndrome-risk",
-      "tablet, extended release tablet, extended release capsule, solution"
+      "serotonin-syndrome-risk"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -69615,7 +68879,6 @@
       "MAOI",
       "amphetamine-scaffold",
       "antidepressant",
-      "class:Phenethylamine (substituted amphetamine; cyclopropylamine)",
       "dietary-restriction",
       "hypertensive-crisis-risk",
       "irreversible-MAOI",
@@ -69694,8 +68957,7 @@
       "prescription-only",
       "priapism-risk",
       "serotonin-syndrome-risk",
-      "ssri and 5ht2 receptor antagonist",
-      "tablet"
+      "ssri and 5ht2 receptor antagonist"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -69759,9 +69021,7 @@
     "category": "Endocrine",
     "display_class": "otc",
     "tags": [
-      "corticosteroid",
-      "cream, lotion, ointment, spray, dental paste",
-      "nasal spray"
+      "corticosteroid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -69789,7 +69049,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "capsule",
       "epithelial sodium channel blocker",
       "potassium-sparing diuretic"
     ],
@@ -69822,7 +69081,6 @@
     "tags": [
       "epithelial sodium channel blocker",
       "potassium-sparing diuretic",
-      "tablet, capsule",
       "thiazide diuretic"
     ],
     "default_route": "",
@@ -69858,7 +69116,6 @@
       "habit-forming",
       "high-amnesia",
       "short-half-life",
-      "tablet",
       "triazolobenzodiazepine"
     ],
     "default_route": "oral",
@@ -69895,7 +69152,6 @@
       "high-EPS-risk",
       "phenothiazine",
       "prescription-only",
-      "tablet",
       "typical-antipsychotic"
     ],
     "default_route": "oral",
@@ -69978,7 +69234,6 @@
     "category": "Antidepressant",
     "display_class": "medical_rx",
     "tags": [
-      "capsule",
       "tertiary amine",
       "tricyclic antidepressant"
     ],
@@ -70565,8 +69820,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "cgrp antagonist",
-      "tablet"
+      "cgrp antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -70594,7 +69848,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting muscarinic antagonist"
     ],
     "default_route": "",
@@ -70623,7 +69876,6 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dry powder inhaler",
       "long-acting beta-2 agonist",
       "long-acting muscarinic antagonist"
     ],
@@ -70716,8 +69968,7 @@
     "category": "Antimicrobial",
     "display_class": "non_recreational",
     "tags": [
-      "antiviral",
-      "tablet"
+      "antiviral"
     ],
     "default_route": "",
     "all_routes": [],
@@ -70791,7 +70042,6 @@
       "GABA-modulator",
       "anticonvulsant",
       "antimanic",
-      "capsule, delayed-release sprinkle capsule, delayed-release tablet, extended-release tablet, solution",
       "mood-stabilizer",
       "narrow-therapeutic-index",
       "prescription-only",
@@ -70852,8 +70102,7 @@
     "display_class": "medical_rx",
     "tags": [
       "angiotensin-ii receptor blocker",
-      "antihypertensive",
-      "tablet"
+      "antihypertensive"
     ],
     "default_route": "",
     "all_routes": [],
@@ -70882,8 +70131,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "phosphodiesterase-5 inhibitor",
-      "tablet, orally disintegrating tablet"
+      "phosphodiesterase-5 inhibitor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -70920,8 +70168,7 @@
       "partial nicotine agonist",
       "prescription-only",
       "renally-cleared",
-      "smoking-cessation",
-      "tablet"
+      "smoking-cessation"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -70958,8 +70205,7 @@
       "hypertension-risk",
       "prescription-only",
       "serotonin-syndrome-risk",
-      "snri",
-      "tablet, extended release capsule, extended release tablet"
+      "snri"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -70995,8 +70241,7 @@
       "antianginal",
       "antiarrhythmic, class iv",
       "antihypertensive",
-      "calcium channel blocker, nondihydropyridine",
-      "tablet, extended-release tablet, extended-release capsule, delayed onset extended-release capsule"
+      "calcium channel blocker, nondihydropyridine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -71182,11 +70427,9 @@
       "SPARI",
       "SSRI",
       "antidepressant",
-      "class:Indole-derived benzofuran; serotonergic antidepressant",
       "prescription-only",
       "serotonin-syndrome-risk",
-      "ssri & 5-ht1a partial agonist",
-      "tablet"
+      "ssri & 5-ht1a partial agonist"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -71766,8 +71009,7 @@
       "prescription-only",
       "serotonin-modulator",
       "serotonin-syndrome-risk",
-      "ssri, 5-ht ra, 5-ht1a agonist",
-      "tablet"
+      "ssri, 5-ht ra, 5-ht1a agonist"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -71833,7 +71075,6 @@
     "display_class": "otc",
     "tags": [
       "anticoagulant",
-      "tablet",
       "vitamin k antagonist"
     ],
     "default_route": "",
@@ -72049,8 +71290,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "leukotriene receptor antagonist",
-      "tablet"
+      "leukotriene receptor antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -72079,7 +71319,6 @@
     "display_class": "non_recreational",
     "tags": [
       "antiviral",
-      "dry powder inhaler (diskhaler)",
       "neuraminidase inhibitor"
     ],
     "default_route": "",
@@ -72197,8 +71436,7 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon",
-      "Ziprasidone mesylate"
+      "Geodon"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",
@@ -72212,8 +71450,6 @@
       "antipsychotic",
       "atypical-antipsychotic",
       "benzisothiazole",
-      "capsule",
-      "class:Benzisothiazolyl piperazine; second-generation (atypical) antipsychotic",
       "hERG-strong",
       "prescription-only"
     ],
@@ -72315,7 +71551,6 @@
       "CYP1A2-substrate",
       "MAO-A-substrate",
       "no-human-data",
-      "tablet, orally disintegrating tablet",
       "triptan",
       "tryptamine"
     ],
@@ -72368,8 +71603,7 @@
       "common",
       "complex-sleep-behaviors",
       "habit-forming",
-      "hypnotic",
-      "tablet, extended release tablet, sublingual tablet, spray"
+      "hypnotic"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -72476,7 +71710,6 @@
     "tags": [
       "CYP3A4-substrate",
       "GABAA-PAM",
-      "class:Cyclopyrrolone (nonbenzodiazepine hypnotic)",
       "class:cyclopyrrolone",
       "common",
       "habit-forming",
@@ -72606,7 +71839,6 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Cathinone (substituted cathinone, pyrrolidinophenone)",
       "no-human-data",
       "phenethylamine"
     ],
@@ -72706,9 +71938,7 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "class:Pyrrolidinophenone cathinone (substituted cathinone)"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -73079,9 +72309,6 @@
     "name": "苦茶碱",
     "display_name": "",
     "aliases": [
-      "1",
-      "3",
-      "7",
       "9-四甲基尿酸"
     ],
     "category": "Stimulant",
@@ -73191,8 +72418,6 @@
     "name": "麦斯卡林",
     "display_name": "",
     "aliases": [
-      "3",
-      "4",
       "5-三甲氧基苯乙胺"
     ],
     "category": "",

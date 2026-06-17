@@ -37,6 +37,7 @@ apply_identifier_corrections = _mod.apply_identifier_corrections
 apply_wikipedia_popularity = _mod.apply_wikipedia_popularity
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
+is_dosage_form_tag = _mod.is_dosage_form_tag
 _REPO = Path(__file__).resolve().parents[3]
 
 
@@ -1642,6 +1643,33 @@ class TestApplyWikipediaPopularity(unittest.TestCase):
         self.assertAlmostEqual(got["MDMA"], 0.99)  # supersedes the old hand value
         self.assertAlmostEqual(got["6-APB"], 0.69)  # benzofuran now outranks the RC
         self.assertAlmostEqual(got["ObscureRC"], 0.0)  # unmapped stays 0
+
+
+class TestDosageFormTag(unittest.TestCase):
+    """is_dosage_form_tag drops FDA dosageForm strings dumped into tags while
+    keeping real drug-class labels that happen to be comma-lists."""
+
+    def test_drops_pure_form_lists(self):
+        for tag in [
+            "tablet",
+            "capsule, tablet, solution",
+            "tablet, chewable tablet, extended release tablet, capsule, solution, syrup",
+            "cream, lotion, ointment",
+            "injection pen, pre-filled syringe, cartridge for infusor",
+            "dry powder inhaler (diskus, inhub, respiclick), metered dose inhaler (hfa)",
+            "tablet, chewable tablet, orally disintegrating, capsule, solution, elixir",
+        ]:
+            self.assertTrue(is_dosage_form_tag(tag), tag)
+
+    def test_keeps_drug_class_labels(self):
+        for tag in [
+            "calcium channel blocker, dihydropyridine",
+            "stimulant",
+            "ssri",
+            "class:Pyrrolidinophenone cathinone stimulant",
+            "FDA-black-box-pediatric-respiratory-depression",
+        ]:
+            self.assertFalse(is_dosage_form_tag(tag), tag)
 
 
 if __name__ == "__main__":
