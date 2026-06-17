@@ -600,6 +600,21 @@ T = {
     "Search entries...": ("搜索记录…", "搜尋記錄…"),
     "Search substances...": ("搜索物质…", "搜尋物質…"),
     "Search": ("搜索", "搜尋"),
+    # Search redesign 2026-06 (landing + class grid + journal→library fallback)
+    "Recently Searched": ("最近搜索", "最近搜尋"),
+    "Browse by class": ("按类别浏览", "按類別瀏覽"),
+    "Search Library instead": ("改为搜索物质库", "改為搜尋物質庫"),
+    "Help & Safety": ("帮助与安全", "幫助與安全"),
+    "Crisis resources, harm-reduction basics, and how Piru works.": (
+        "危机求助资源、减害基础知识，以及 Piru 的使用方法。",
+        "危機求助資源、減害基礎知識，以及 Piru 的使用方法。",
+    ),
+    "Class Not Found": ("未找到类别", "未找到類別"),
+    "This class isn’t in the library anymore.": (
+        "此类别已不在物质库中。",
+        "此類別已不在物質庫中。",
+    ),
+    "Clear": ("清除", "清除"),
     # Common UI actions
     "Add": ("添加", "新增"),
     "Cancel": ("取消", "取消"),
@@ -2428,6 +2443,15 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Search redesign 2026-06
+        "Recently Searched",
+        "Browse by class",
+        "Search Library instead",
+        "Help & Safety",
+        "Crisis resources, harm-reduction basics, and how Piru works.",
+        "Class Not Found",
+        "This class isn’t in the library anymore.",
+        "Clear",
         # Cake joke entry 2026-06
         "Made-up drug",
         "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.",

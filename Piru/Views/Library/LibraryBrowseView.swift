@@ -20,24 +20,7 @@ struct LibraryBrowseView: View {
     /// Families with their empty sub-classes (and empty single cards) pruned, so
     /// a category with nothing browsable never shows a dead card.
     private var visibleFamilies: [LibraryFamily] {
-        LibraryFamily.all.compactMap { family in
-            guard family.isUmbrella else {
-                return familyHasSubstances(family) ? family : nil
-            }
-            let live = family.subclasses.filter { !SubstanceLibrary.substances(in: $0.category).isEmpty }
-            guard !live.isEmpty else { return nil }
-            var pruned = family
-            pruned.subclasses = live
-            return pruned
-        }
-    }
-
-    private func familyHasSubstances(_ family: LibraryFamily) -> Bool {
-        switch family.source {
-        case let .category(category): !SubstanceLibrary.substances(in: category).isEmpty
-        case let .tag(tag): !SubstanceLibrary.substances(taggedWith: tag).isEmpty
-        case .none: false
-        }
+        LibraryFamily.browsable
     }
 
     var body: some View {
@@ -66,6 +49,36 @@ struct LibraryBrowseView: View {
         withAnimation(.snappy(duration: 0.3)) {
             if expanded.contains(id) { expanded.remove(id) } else { expanded.insert(id) }
         }
+    }
+}
+
+// MARK: - Gradient Surface
+
+/// The Library's signature card surface: a category-tinted diagonal gradient
+/// with a faint hero graphic (molecule or glyph) bleeding off the top-trailing
+/// edge, rounded and shadowed. Shared by the family cards, the favorites card,
+/// and the Search screen's class mini-cards so the recipe lives in one place.
+struct FamilyGradientCard<Hero: View, Content: View>: View {
+    let color: Color
+    var cornerRadius: CGFloat = 22
+    var padding: CGFloat = 16
+    @ViewBuilder var hero: () -> Hero
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        content()
+            .padding(padding)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(alignment: .topTrailing) { hero() }
+            .background(
+                LinearGradient(
+                    colors: [color, color.mix(with: .white, by: 0.35)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing,
+                ),
+            )
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            .shadow(color: color.opacity(0.3), radius: 10, x: 0, y: 5)
     }
 }
 
@@ -213,29 +226,19 @@ private struct LibraryFamilyCard: View {
 
     // MARK: Surface
 
-    private func surface(@ViewBuilder _ content: () -> some View) -> some View {
-        content()
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(alignment: .topTrailing) {
-                // Anchored to the header (top-trailing in both states with one fixed
-                // offset) so expanding doesn't slide it down — only the card grows
-                // beneath it. Faint, lightly blurred when expanded so the rows read.
-                MoleculeView(key: family.molecule)
-                    .frame(width: 178, height: 178)
-                    .opacity(isExpanded ? 0.22 : 0.5)
-                    .blur(radius: isExpanded ? 3 : 0)
-                    .offset(x: 20, y: -16)
-            }
-            .background(
-                LinearGradient(
-                    colors: [family.color, family.color.mix(with: .white, by: 0.35)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing,
-                ),
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-            .shadow(color: family.color.opacity(0.3), radius: 10, x: 0, y: 5)
+    private func surface(@ViewBuilder _ content: @escaping () -> some View) -> some View {
+        FamilyGradientCard(color: family.color) {
+            // Anchored to the header (top-trailing in both states with one fixed
+            // offset) so expanding doesn't slide it down — only the card grows
+            // beneath it. Faint, lightly blurred when expanded so the rows read.
+            MoleculeView(key: family.molecule)
+                .frame(width: 178, height: 178)
+                .opacity(isExpanded ? 0.22 : 0.5)
+                .blur(radius: isExpanded ? 3 : 0)
+                .offset(x: 20, y: -16)
+        } content: {
+            content()
+        }
     }
 }
 
@@ -307,55 +310,45 @@ private struct LibraryFavoritesCard: View {
 
     var body: some View {
         NavigationLink(value: PushRoute.libraryFavorites) {
-            HStack(alignment: .top, spacing: 0) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Image(systemName: "star.fill")
-                        .font(.system(size: 21, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .frame(height: 28, alignment: .leading)
-                    Text("Favorites")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.white)
-                    // The saved-count now sits by the chevron, so this card drops
-                    // its count subtitle and runs a line shorter than the rest.
-                    Text(exemplarLine)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.white.opacity(0.92))
-                        .lineLimit(1)
-                        .frame(maxWidth: 220, alignment: .leading)
-                        .padding(.top, 5)
-                }
-                Spacer(minLength: 8)
-                HStack(spacing: 6) {
-                    Text("\(total)")
-                        .font(.subheadline.weight(.semibold))
-                        .monospacedDigit()
-                        .foregroundStyle(.white.opacity(0.9))
-                    Image(systemName: "chevron.right")
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.white.opacity(0.9))
-                }
-                .padding(.top, 4)
-                .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(alignment: .topTrailing) {
+            FamilyGradientCard(color: Self.accent) {
                 Image(systemName: "star.fill")
-                    .font(.system(size: 132))
+                    .font(.system(size: 152))
                     .foregroundStyle(.white.opacity(0.16))
                     .rotationEffect(.degrees(8))
-                    .offset(x: 30, y: -8)
+                    .offset(x: 30, y: -18)
+            } content: {
+                HStack(alignment: .top, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 21, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(height: 28, alignment: .leading)
+                        Text("Favorites")
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundStyle(.white)
+                        // The saved-count now sits by the chevron, so this card drops
+                        // its count subtitle and runs a line shorter than the rest.
+                        Text(exemplarLine)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.white.opacity(0.92))
+                            .lineLimit(1)
+                            .frame(maxWidth: 220, alignment: .leading)
+                            .padding(.top, 5)
+                    }
+                    Spacer(minLength: 8)
+                    HStack(spacing: 6) {
+                        Text("\(total)")
+                            .font(.subheadline.weight(.semibold))
+                            .monospacedDigit()
+                            .foregroundStyle(.white.opacity(0.9))
+                        Image(systemName: "chevron.right")
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(.white.opacity(0.9))
+                    }
+                    .padding(.top, 4)
+                    .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
+                }
             }
-            .background(
-                LinearGradient(
-                    colors: [Self.accent, Self.accent.mix(with: .white, by: 0.35)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing,
-                ),
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-            .shadow(color: Self.accent.opacity(0.3), radius: 10, x: 0, y: 5)
         }
         .buttonStyle(.plain)
     }

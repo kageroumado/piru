@@ -14,15 +14,6 @@ struct ContentView: View {
     /// user-switchable via the scope picker.
     @State private var searchScope: SearchTabScope = .library
 
-    /// Bumped to rebuild the search scope picker after its (global) title-font
-    /// appearance changes — see ``applyScopePickerFont(forSearchActive:)``.
-    @State private var scopePickerToken = 0
-
-    /// The tab the user was on before entering Search. Cancelling search returns
-    /// here, matching the Music app (the X exits the search surface entirely
-    /// rather than leaving you stranded on a dismissed Search tab).
-    @State private var tabBeforeSearch: AppTab = .library
-
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
     @State private var showDiscordPrompt = false
@@ -54,8 +45,6 @@ struct ContentView: View {
             searchScope: $searchScope,
             searchText: $searchText,
             librarySearchText: $librarySearchText,
-            tabBeforeSearch: $tabBeforeSearch,
-            scopePickerToken: scopePickerToken,
             quickLogZoom: quickLogZoom,
         )
         .equatable()
@@ -64,16 +53,9 @@ struct ContentView: View {
                 // Seed the scope from where the user came from; Library is
                 // the natural default from Tools/Insights/Search itself.
                 searchScope = (oldValue == .journal) ? .journal : .library
-                tabBeforeSearch = oldValue
             }
             searchText = ""
             librarySearchText = ""
-            applyScopePickerFont(forSearchActive: newValue == .search)
-        }
-        .task {
-            // Initial application — `onChange` doesn't fire for the tab the
-            // app launches on, so cover the launch-onto-Search case here.
-            applyScopePickerFont(forSearchActive: navigator.selectedTab == .search)
         }
         .environment(\.quickLogZoomNamespace, quickLogZoom)
         .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
@@ -164,22 +146,6 @@ struct ContentView: View {
         guard let outcome = DeepLink.decode(url) else { return }
         navigator.apply(outcome)
     }
-
-    /// Enlarges the search scope picker's title font while Search is active and
-    /// restores the default otherwise. SwiftUI's segmented `Picker` ignores a
-    /// `.font` on its labels, so the global `UISegmentedControl` appearance
-    /// proxy is the only lever. Managing it here on the always-mounted root —
-    /// rather than inside `SearchView` — means the restore runs in the tab-change
-    /// transaction *before* a sibling tab's picker is created, so the app's other
-    /// segmented controls (Tools, Insights, …) never inherit the larger font.
-    private func applyScopePickerFont(forSearchActive active: Bool) {
-        let attributes: [NSAttributedString.Key: Any]? = active
-            ? [.font: UIFont.preferredFont(forTextStyle: .body)]
-            : nil
-        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
-        if active { scopePickerToken += 1 }
-    }
 }
 
 // MARK: - Main Tab View
@@ -204,18 +170,16 @@ private struct MainTabView: View, Equatable {
     @Binding var searchScope: SearchTabScope
     @Binding var searchText: String
     @Binding var librarySearchText: String
-    @Binding var tabBeforeSearch: AppTab
-    let scopePickerToken: Int
     let quickLogZoom: Namespace.ID
 
-    /// Only `scopePickerToken` gates parent-driven re-evaluation — it's the one
-    /// input `ContentView.body` changes that this view must rebuild for (the
-    /// segmented picker re-creates to pick up the font appearance). Everything
-    /// else that should update the tab view flows through `@Observable` tracking
-    /// (selected tab, nav paths, `ActiveSessionManager`) or the leaf views'
-    /// bindings (`searchText`), all of which fire regardless of this comparison.
-    static func == (lhs: MainTabView, rhs: MainTabView) -> Bool {
-        lhs.scopePickerToken == rhs.scopePickerToken
+    /// Always equal: nothing `ContentView.body` changes when it re-runs (it does
+    /// so on every sheet open/close, via `.sheetStackPresenter`) needs to rebuild
+    /// the tab view. Everything that should update it flows through `@Observable`
+    /// tracking (selected tab, nav paths, `ActiveSessionManager`) or the leaf
+    /// views' bindings (`searchScope`, `searchText`), all of which fire
+    /// regardless of this comparison.
+    static func == (_: MainTabView, _: MainTabView) -> Bool {
+        true
     }
 
     var body: some View {
@@ -258,13 +222,15 @@ private struct MainTabView: View, Equatable {
                     SearchView(
                         scope: $searchScope,
                         searchText: $searchText,
-                        pickerRebuildToken: scopePickerToken,
-                        onExitSearch: { navigator.selectedTab = tabBeforeSearch },
                     )
                     .withAppDestinations()
                 }
             }
         }
+        // Apple-Music-style fold: scrolling down minimizes the tab bar and slides
+        // the session accessory into its inline placement (which
+        // `SessionAccessoryView` already adapts to).
+        .tabBarMinimizeBehavior(.onScrollDown)
         .withSessionAccessory(
             isActive: sessionAccessoryActive,
             // Plain actions, *not* sheetStack-reading bindings. The accessory only
@@ -401,86 +367,103 @@ enum SearchTabScope: String, CaseIterable, Identifiable {
     }
 }
 
-/// Single search surface shared by the catalog and the journal. A native
-/// full-width segmented `Picker` selects the dataset (Library/Journal); the
-/// search field auto-activates on tab entry so the keyboard appears without a
-/// second tap (matching the Music app).
+/// The Search tab. Declares the `.searchable` field and hands its content to
+/// ``SearchSurface``, which reads `\.isSearching` to pick its phase.
+///
+/// `.searchable` is declared *here* (the parent) but `\.isSearching` is read in
+/// the child `SearchSurface` — that split is required: a view reading
+/// `\.isSearching` in the same body that declares `.searchable` always sees
+/// `false`. Crucially we do **not** pass `isPresented:` — on a `role: .search`
+/// tab that binding makes the system auto-focus the field on tab entry (you'd
+/// never see the landing) and treat the cancel button as "leave the tab". Letting
+/// the system own focus gives the Music behaviour: enter → landing, tap field →
+/// keyboard, cancel → back to the landing (staying on the tab).
 private struct SearchView: View {
-    @Environment(\.appNavigator) private var navigator
     @Binding var scope: SearchTabScope
     @Binding var searchText: String
 
-    /// Forces the segmented `Picker` to rebuild whenever the parent changes the
-    /// global `UISegmentedControl` title-font appearance — the proxy only
-    /// affects controls created *after* it's set, so an existing instance won't
-    /// pick up the larger font without being re-created.
-    let pickerRebuildToken: Int
+    var body: some View {
+        SearchSurface(scope: $scope, searchText: $searchText)
+            .searchable(text: $searchText, prompt: Text(scope.prompt))
+    }
+}
 
-    /// Invoked when the user cancels search (taps the X) so the parent can leave
-    /// the Search tab and return to where they came from.
-    let onExitSearch: () -> Void
+/// The Search tab's content, with three phases driven by `\.isSearching`:
+///
+/// - **landing** (field not focused): a browse screen (`SearchLandingView`) with
+///   the large "Search" title and *no* keyboard.
+/// - **focusedEmpty** (focused, nothing typed): the scope picker + recent
+///   activity (`SearchActivityList`) above the keyboard.
+/// - **typing**: the scope picker + results, switched between the catalog and the
+///   journal by a native segmented `Picker`.
+///
+/// The navbar and scope-picker *modifiers* stay permanently mounted — only their
+/// content/visibility varies per phase, so focus changes never flash chrome.
+private struct SearchSurface: View {
+    @Environment(\.appNavigator) private var navigator
+    @Environment(\.isSearching) private var isSearching
+    @Binding var scope: SearchTabScope
+    @Binding var searchText: String
 
-    /// Drives the system search field's presented/focused state. Set true when
-    /// the Search tab becomes active so the keyboard rises immediately.
-    @State private var isSearchActive = false
+    /// Forces the segmented `Picker` to rebuild after the global
+    /// `UISegmentedControl` title-font appearance changes (the proxy only affects
+    /// controls created *after* it's set). Bumped on focus, when the picker
+    /// appears — see ``applyScopePickerFont(_:)``.
+    @State private var pickerToken = 0
+
+    private enum Phase { case landing, focusedEmpty, typing }
+    private var phase: Phase {
+        guard isSearching else { return .landing }
+        return searchText.isEmpty ? .focusedEmpty : .typing
+    }
 
     var body: some View {
         content
-            // The scope picker is the Search surface's header, pinned in a top
-            // safe-area bar with the system navigation bar hidden. Letting the
-            // system bar show here (inline "Search" title + toolbar buttons)
-            // made search activation/dismissal flash chrome the surface doesn't
-            // want. Sized to roughly the tab roots' bar height so the content's
-            // top edge doesn't move when hopping between Search and the
-            // regular tabs.
             .scrollEdgeEffectStyle(.soft, for: .top)
+            // Permanently mounted; the picker only appears once focused (an empty
+            // builder collapses to zero height without changing identity).
             .safeAreaBar(edge: .top) {
-                scopePicker
-            }
-            .toolbar(.hidden, for: .navigationBar)
-            .searchable(
-                text: $searchText,
-                isPresented: $isSearchActive,
-                prompt: Text(scope.prompt),
-            )
-            // Raise the search field (and keyboard) whenever the Search tab is
-            // active. `.task(id:)` runs after first render and re-runs on every
-            // tab change, so it catches both the initial mount and later
-            // re-entries.
-            //
-            // Leaving the tab resets `isSearchActive` to false: the system hides
-            // the presentation without flipping our binding, so without this a
-            // re-entry would write true→true — no published change, field stays
-            // collapsed. The brief sleep lets the `.searchable` field finish
-            // installing on first mount before we present it.
-            .task(id: navigator.selectedTab) {
-                guard navigator.selectedTab == .search else {
-                    isSearchActive = false
-                    return
-                }
-                try? await Task.sleep(for: .milliseconds(50))
-                guard navigator.selectedTab == .search else { return }
-                isSearchActive = true
-            }
-            // Tapping the search field's cancel (X) flips `isSearchActive` to
-            // false while we're still on the Search tab — that's the user
-            // exiting search, so leave the tab entirely (Music behaviour) rather
-            // than stranding them on a dismissed search surface. Our own
-            // programmatic dismissal only happens once `selectedTab` has already
-            // left `.search`, so guarding on it avoids a feedback loop.
-            //
-            // The exit is deferred a runloop turn: switching tabs in the same
-            // transaction as the system's search dismissal — which, with an
-            // active session, also flips `tabViewBottomAccessory(isEnabled:)`
-            // when the journal hero takes over — cancels UIKit's
-            // search-field→tab-bar morph midway and the tab bar never returns.
-            .onChange(of: isSearchActive) { _, active in
-                guard !active, navigator.selectedTab == .search else { return }
-                Task {
-                    guard navigator.selectedTab == .search, !isSearchActive else { return }
-                    onExitSearch()
+                if phase != .landing {
+                    scopePicker
                 }
             }
+            // Large "Search" title at rest; suppressed once focused (the
+            // `enabled: false` branch returns the view untouched).
+            .appNavigationBar("Search", enabled: phase == .landing)
+            // Enlarge the segmented picker font while it's visible (focused),
+            // and restore it otherwise so sibling tabs' controls don't inherit it.
+            .onChange(of: isSearching) { _, searching in
+                applyScopePickerFont(searching)
+            }
+            // Record into "Recently Searched" whenever a substance is opened from
+            // a *focused* search surface (results or the recent lists) — i.e. a
+            // substance the user looked up while searching. Browsing from the
+            // landing's class grid (phase `.landing`) is deliberately excluded.
+            .onChange(of: navigator.path(for: .search)) { _, newPath in
+                guard phase != .landing, case let .substance(name) = newPath.last else { return }
+                SearchHistoryStore.shared.record(name)
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch phase {
+        case .landing:
+            SearchLandingView()
+        case .focusedEmpty:
+            SearchActivityList()
+        case .typing:
+            switch scope {
+            case .library:
+                SubstanceLibraryView(searchText: $searchText, isSearchSurface: true)
+            case .journal:
+                EntryListView(
+                    searchText: $searchText,
+                    isSearchSurface: true,
+                    onSwitchToLibrary: { scope = .library },
+                )
+            }
+        }
     }
 
     /// Full-width scope selector pinned above the results, matching the Music
@@ -496,21 +479,24 @@ private struct SearchView: View {
         .pickerStyle(.segmented)
         .controlSize(.large)
         .labelsHidden()
-        .id(pickerRebuildToken)
+        .id(pickerToken)
         .frame(height: 44)
         .padding(.horizontal)
         .padding(.top, 4)
         .padding(.bottom, 8)
     }
 
-    @ViewBuilder
-    private var content: some View {
-        switch scope {
-        case .library:
-            SubstanceLibraryView(searchText: $searchText, isSearchSurface: true)
-        case .journal:
-            EntryListView(searchText: $searchText, isSearchSurface: true)
-        }
+    /// Enlarges the scope picker's title font while the picker is visible.
+    /// SwiftUI's segmented `Picker` ignores a `.font` on its labels, so the
+    /// global `UISegmentedControl` appearance proxy is the only lever; bumping
+    /// `pickerToken` re-creates the control so it adopts the new font.
+    private func applyScopePickerFont(_ active: Bool) {
+        let attributes: [NSAttributedString.Key: Any]? = active
+            ? [.font: UIFont.preferredFont(forTextStyle: .body)]
+            : nil
+        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
+        if active { pickerToken += 1 }
     }
 }
 
