@@ -34,7 +34,19 @@ enum JournalGrouping: String, CaseIterable {
 struct EntryListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
-    @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var entries: [DoseEntry]
+    @Query(Self.entriesDescriptor, transaction: .init(animation: nil)) private var entries: [DoseEntry]
+
+    /// Newest-first, **prefetching the `session` relationship**. Grouping and the
+    /// entries signature both read `entry.session`; without prefetch that's a
+    /// per-entry CoreData fault (N+1) on the main thread — hundreds of blocking
+    /// round-trips at launch. Prefetch batches them into the initial fetch.
+    private static var entriesDescriptor: FetchDescriptor<DoseEntry> {
+        var descriptor = FetchDescriptor<DoseEntry>(
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
+        )
+        descriptor.relationshipKeyPathsForPrefetching = [\.session]
+        return descriptor
+    }
     @Query private var substanceColors: [SubstanceColor]
 
     @Binding var searchText: String
@@ -130,6 +142,20 @@ struct EntryListView: View {
     private func rebuildAll() {
         model.refreshColorMap(substanceColors)
         model.rebuildDerived(entries: entries, colors: substanceColors)
+        regroup()
+    }
+
+    /// A filter / search / grouping change: collapse the Day window back to the
+    /// first page (a fresh result should start at the top) and re-bucket.
+    private func resetWindowAndRegroup() {
+        model.resetSessionWindow()
+        regroup()
+    }
+
+    /// Sentinel-driven: pull in the next page of older sessions, then re-bucket
+    /// with the wider window.
+    private func loadMoreSessions() {
+        model.growSessionWindow()
         regroup()
     }
 
@@ -237,9 +263,10 @@ struct EntryListView: View {
             // nothing animates on first load.
             withAnimation(.smooth(duration: 0.35)) { rebuildAll() }
         }
-        .onChange(of: searchText) { regroup() }
-        .onChange(of: selectedTag) { regroup() }
-        .onChange(of: grouping) { regroup() }
+        .onChange(of: searchText) { resetWindowAndRegroup() }
+        .onChange(of: selectedTag) { resetWindowAndRegroup() }
+        .onChange(of: grouping) { resetWindowAndRegroup() }
+        .onChange(of: filterCategories) { resetWindowAndRegroup() }
         .onChange(of: substanceColors.count) { rebuildAll() }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet(proxy: proxy)
@@ -257,6 +284,14 @@ struct EntryListView: View {
             regroup()
         }
         let target = Calendar.current.startOfDay(for: date)
+        // The Day list is windowed, so an older target may not be built yet —
+        // grow the window page by page until it reaches back past the target
+        // (or the whole history is materialized). A deliberate calendar jump can
+        // afford the rebuilds; everyday scrolling never hits this.
+        while model.hasMoreSessions, (model.sessionDays.last?.date ?? .distantFuture) > target {
+            model.growSessionWindow()
+            regroup()
+        }
         // A day whose only session is the live one renders no section (the hero
         // card represents it), so only days that actually put rows on screen
         // are valid scroll targets.
@@ -368,12 +403,12 @@ struct EntryListView: View {
         } else {
             filterCategories.insert(category)
         }
-        regroup()
+        // The regroup (and Day-window reset) is driven by `onChange(of:
+        // filterCategories)` so the filter and the window stay in lockstep.
     }
 
     private func clearFilters() {
         filterCategories = []
-        regroup()
     }
 
     // MARK: - Tag Chip Bar
@@ -460,7 +495,24 @@ struct EntryListView: View {
     /// row; everything else is a full card with a mini per-session timeline.
     private var sessionGroupedContent: some View {
         let activeID = activeSessionCardID
-        return ForEach(model.sessionDays) { day in
+        return Group {
+            sessionDayRows(activeID: activeID)
+            // Load-more sentinel: when the last built day scrolls into view, pull
+            // in the next page of older sessions. Removed once the whole history
+            // is materialized (`hasMoreSessions == false`).
+            if model.hasMoreSessions {
+                Color.clear
+                    .frame(height: 1)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .onAppear { loadMoreSessions() }
+            }
+        }
+    }
+
+    private func sessionDayRows(activeID: UUID?) -> some View {
+        ForEach(model.sessionDays) { day in
             // The active session lives in the hero card, so drop it here. A day
             // left empty by that removal (e.g. Today held only the live session)
             // renders nothing — no orphan header.
