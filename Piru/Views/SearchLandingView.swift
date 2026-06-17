@@ -152,13 +152,9 @@ private struct SectionLabel: View {
 private struct HelpCard: View {
     @Environment(\.appNavigator) private var navigator
 
-    /// A calm teal-blue, distinct from the Common card's cornflower and the
-    /// Mind family's deep teal that share the grid below.
-    private static let color = Color(red: 0.18, green: 0.48, blue: 0.60)
-
     var body: some View {
         Button { navigator.present(.help) } label: {
-            FamilyGradientCard(color: Self.color) {
+            FamilyGradientCard(color: Theme.accent) {
                 Image(systemName: "lifepreserver")
                     .font(.system(size: 124, weight: .regular))
                     .foregroundStyle(.white.opacity(0.16))
