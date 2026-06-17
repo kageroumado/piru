@@ -8,20 +8,13 @@ struct LibraryBrowseView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @State private var expanded: Set<String> = []
 
-    private var favoriteSubstances: [Substance] {
-        // Exact canonical lookup only. Alias fallback was tempting (so a favorite
-        // under a since-merged name like "Magnesium" still resolves), but some
-        // aliases are polluted in the data — "magnesium" is also an alias of
-        // Salicylic acid — so it mis-resolves. Paired with `total =
-        // favoriteSubstances.count` this keeps the card's count honest instead.
-        favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
-    }
-
-    /// Families with their empty sub-classes (and empty single cards) pruned, so
-    /// a category with nothing browsable never shows a dead card.
-    private var visibleFamilies: [LibraryFamily] {
-        LibraryFamily.browsable
-    }
+    /// Resolved once the batch cache is warm, not per `body`. `visibleFamilies`
+    /// calls `SubstanceLibrary.substances(in:)` for ~12 families and
+    /// `favoriteSubstances` does a lookup per favorite — both are batch-cache
+    /// dict hits once warm, but recomputing them on every body pass (and risking
+    /// a cold full resolve on the main thread the first time) is wasted work.
+    @State private var visibleFamilies: [LibraryFamily] = []
+    @State private var favoriteSubstances: [Substance] = []
 
     var body: some View {
         ScrollView {
@@ -43,6 +36,25 @@ struct LibraryBrowseView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        .task {
+            // Resolve against the warmed batch cache so the ~12 category counts
+            // and favorite lookups are dict hits, not a cold main-thread resolve.
+            await SubstanceStore.shared.ensureAllLoaded()
+            // Families with empty sub-classes / single cards pruned, so a category
+            // with nothing browsable never shows a dead card.
+            visibleFamilies = LibraryFamily.browsable
+            rebuildFavorites()
+        }
+        .onChange(of: favorites.count) { rebuildFavorites() }
+    }
+
+    private func rebuildFavorites() {
+        // Exact canonical lookup only. Alias fallback was tempting (so a favorite
+        // under a since-merged name like "Magnesium" still resolves), but some
+        // aliases are polluted in the data — "magnesium" is also an alias of
+        // Salicylic acid — so it mis-resolves. Paired with `total =
+        // favoriteSubstances.count` this keeps the card's count honest instead.
+        favoriteSubstances = favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
     }
 
     private func toggle(_ id: String) {

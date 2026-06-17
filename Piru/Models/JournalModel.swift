@@ -60,6 +60,18 @@ final class JournalModel {
     /// re-resolve (rare — only when the user assigns a substance colour).
     private var lastColorSignature: Int?
 
+    /// Monotonic token so a newer ``rebuildDerived`` supersedes an older one
+    /// that's still suspended at an `await` (the cold-launch batch-cache wait, or
+    /// a tail yield). The stale derive bails at its next checkpoint rather than
+    /// clobbering published state with a half-resolved or out-of-date map.
+    private var deriveGeneration = 0
+
+    /// Newest-first prefix resolved *synchronously* (batch-cache dict hits) so
+    /// the windowed Day cards — the most-recent `sessionWindow` sessions — paint
+    /// before a multi-thousand-entry history's tail finishes resolving. Sized a
+    /// little above a typical full window's dose count.
+    private static let derivePrefix = 150
+
     func refreshColorMap(_ colors: [SubstanceColor]) {
         colorMap = Array(colors).colorMap
     }
@@ -99,7 +111,7 @@ final class JournalModel {
     /// Resolve a single entry's category + timeline inputs (the expensive part:
     /// the `SubstanceLibrary` lookup and PK-state synthesis).
     private func resolveEntry(_ entry: DoseEntry, hexMap: [String: String]) -> EntryDerived {
-        let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
+        let category = SubstanceLibrary.timelineLookup(entry.substance)?.category ?? .other
         let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
         let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
         let marker = state == nil
@@ -123,7 +135,25 @@ final class JournalModel {
     /// rest. So logging one dose into a five-year history does one expensive
     /// resolve, not thousands. A colour change is the one fast-path exception:
     /// it alters every state's `colorHex`, so it re-resolves the whole set (rare).
-    func rebuildDerived(entries: [DoseEntry], colors: [SubstanceColor]) {
+    /// - Parameter onPrefixReady: Invoked once the newest-first prefix (the
+    ///   visible Day window) has been resolved and published, so the caller can
+    ///   regroup and paint the cards before the tail finishes. Not called when a
+    ///   newer derive has already superseded this one.
+    func rebuildDerived(
+        entries: [DoseEntry],
+        colors: [SubstanceColor],
+        onPrefixReady: () -> Void = {},
+    ) async {
+        deriveGeneration += 1
+        let gen = deriveGeneration
+
+        // Resolve against the lightweight batch cache (category, dose-ranges,
+        // durations, half-life). Awaiting the off-main prefill started at launch
+        // turns the per-entry resolves into dict hits instead of ~50 cold heavy
+        // SQL reads on the main actor. A newer derive may land while we wait.
+        await SubstanceStore.shared.ensureAllLoaded()
+        guard gen == deriveGeneration else { return }
+
         let colorSignature = colors.reduce(into: Hasher()) { h, c in
             h.combine(c.substance)
             h.combine(c.hexColor)
@@ -135,19 +165,48 @@ final class JournalModel {
         newDerived.reserveCapacity(entries.count)
         var newFingerprints: [PersistentIdentifier: Int] = [:]
         newFingerprints.reserveCapacity(entries.count)
-
         var resolvedCount = 0
-        for entry in entries {
-            let id = entry.persistentModelID
-            let fp = Self.fingerprint(entry)
-            newFingerprints[id] = fp
-            // Reuse the cached resolution when the entry is byte-identical to the
-            // last derive (and colours didn't shift underneath it).
-            if !colorsChanged, fingerprints[id] == fp, newDerived[id] != nil {
-                continue
+
+        /// Resolve one newest-first slice into the working map, reusing the cached
+        /// `EntryDerived` for entries byte-identical to the last derive.
+        func resolve(_ slice: ArraySlice<DoseEntry>) {
+            for entry in slice {
+                let id = entry.persistentModelID
+                let fp = Self.fingerprint(entry)
+                newFingerprints[id] = fp
+                if !colorsChanged, fingerprints[id] == fp, newDerived[id] != nil {
+                    continue
+                }
+                newDerived[id] = resolveEntry(entry, hexMap: hexMap)
+                resolvedCount += 1
             }
-            newDerived[id] = resolveEntry(entry, hexMap: hexMap)
-            resolvedCount += 1
+        }
+
+        // Phase 1 — the visible window, resolved synchronously. Publish it so the
+        // Day cards paint immediately. When colours didn't change, `newDerived`
+        // still carries the previous tail entries (outside the window), so the
+        // list never shows holes while phase 2 catches up.
+        let prefixEnd = min(entries.count, Self.derivePrefix)
+        resolve(entries[0 ..< prefixEnd])
+        let prefixChanged = colorsChanged || resolvedCount > 0
+        let prefixResolved = resolvedCount
+        if prefixChanged {
+            derived = newDerived
+            onPrefixReady()
+        }
+
+        // Phase 2 — the tail, in yielding chunks so a long history never hogs a
+        // frame. Bail at each checkpoint if a newer derive superseded us.
+        if prefixEnd < entries.count {
+            var index = prefixEnd
+            let chunkSize = 200
+            while index < entries.count {
+                let end = min(index + chunkSize, entries.count)
+                resolve(entries[index ..< end])
+                index = end
+                await Task.yield()
+                guard gen == deriveGeneration else { return }
+            }
         }
 
         // Drop entries that no longer exist (deletions / merges away) — any key
@@ -166,6 +225,13 @@ final class JournalModel {
         derived = newDerived
         fingerprints = newFingerprints
         lastColorSignature = colorSignature
+        // Only force the caller's final regroup to re-bucket when the *tail*
+        // (resolved after the phase-1 regroup) actually changed `derived`. When
+        // the prefix already covered everything, the phase-1 regroup was
+        // complete and the final regroup harmlessly no-ops on the same signature.
+        if resolvedCount > prefixResolved {
+            lastGroupsSignature = nil
+        }
         rebuildFacets(entries: entries)
     }
 

@@ -40,9 +40,12 @@ struct EntryDetailView: View {
 
     // MARK: - Derived
 
-    private var substanceInfo: Substance? {
-        SubstanceLibrary.lookupByNameOrAlias(entry.substance)
-    }
+    /// The substance record for this entry, resolved **once** on appear. The
+    /// dose-ladder tint, unit list, salt forms, route list, and live-preview all
+    /// read it; `entry.substance` never changes here, so caching it avoids a
+    /// blocking `lookupByNameOrAlias` per body pass (3–5× per keystroke in edit
+    /// mode, each a heavy resolve).
+    @State private var substanceInfo: Substance?
 
     private var resolvedDuration: DurationProfile? {
         substanceInfo?.resolveDuration(for: entry.route)
@@ -192,6 +195,14 @@ struct EntryDetailView: View {
         }
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView { picked in draftLocation = picked }
+        }
+        .task {
+            // Resolve the full substance record once — it feeds the dose ladder,
+            // unit/route/salt lists, and live preview. Re-running it per body
+            // (and per keystroke while editing) was a heavy blocking lookup.
+            if substanceInfo == nil {
+                substanceInfo = SubstanceLibrary.lookupByNameOrAlias(entry.substance)
+            }
         }
     }
 

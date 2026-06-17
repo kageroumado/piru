@@ -51,16 +51,29 @@ struct SessionDetailView: View {
     @State private var showShareSheet = false
     @State private var isExporting = false
 
+    /// Substance → colour, rebuilt only when the colour assignments change.
+    /// `colorFor`/`colorForName` are called once per entry row, and each used to
+    /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole colour
+    /// map — O(rows × colours) per body pass.
+    @State private var colorMap: [String: Color] = [:]
+
+    private var colorSignature: Int {
+        var hasher = Hasher()
+        for color in substanceColors {
+            hasher.combine(color.substance)
+            hasher.combine(color.hexColor)
+        }
+        return hasher.finalize()
+    }
+
     /// Height of the grown-in-place timeline — a modest step up from the embedded
     /// 168pt, enough to read without the distorted full-screen stretch.
     private static let enlargedGraphHeight: CGFloat = 320
 
     /// Distinct substances drawn on the timeline — the lane count once the graph
-    /// switches to small multiples.
+    /// switches to small multiples. Precomputed in ``resolvedDay``.
     private var laneCount: Int {
-        let curve = substanceStates.map { $0.substanceName.lowercased() }
-        let marker = doseMarkers.map { $0.substanceName.lowercased() }
-        return Set(curve + marker).count
+        resolvedDay.laneCount
     }
 
     /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
@@ -90,8 +103,34 @@ struct SessionDetailView: View {
             let t = ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors))
             let names = Array(Set(entries.map(\.substance)))
             let interactions = names.count >= 2 ? InteractionChecker.checkBatch(names, against: []) : []
-            return ResolvedDay(states: t.states, markers: t.markers, interactions: interactions)
+            let laneNames = Set(t.states.map { $0.substanceName.lowercased() })
+                .union(t.markers.map { $0.substanceName.lowercased() })
+            return ResolvedDay(
+                states: t.states,
+                markers: t.markers,
+                interactions: interactions,
+                cumulativeDoses: Self.computeCumulativeDoses(entries),
+                laneCount: laneNames.count,
+            )
         }
+    }
+
+    /// Aggregate re-doses (substances logged more than once this session).
+    /// Keeps each substance's first-seen casing (e.g. "3-Me-PCPy").
+    private static func computeCumulativeDoses(_ entries: [DoseEntry]) -> [(substance: String, total: Double, unit: String, count: Int)] {
+        var grouped: [String: (name: String, total: Double, unit: String, count: Int)] = [:]
+        for entry in entries {
+            let key = entry.substance.lowercased()
+            if let existing = grouped[key] {
+                grouped[key] = (name: existing.name, total: existing.total + entry.amount, unit: existing.unit, count: existing.count + 1)
+            } else {
+                grouped[key] = (name: entry.substance, total: entry.amount, unit: entry.unit, count: 1)
+            }
+        }
+        return grouped.values
+            .filter { $0.count > 1 }
+            .map { (substance: $0.name, total: $0.total, unit: $0.unit, count: $0.count) }
+            .sorted { $0.substance < $1.substance }
     }
 
     private var substanceStates: [ActiveSubstanceState] {
@@ -119,22 +158,9 @@ struct SessionDetailView: View {
         return hasher.finalize()
     }
 
+    /// Re-dose totals, precomputed in ``resolvedDay``.
     private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
-        // Keep the substance's original casing (e.g. "3-Me-PCPy") by remembering
-        // the first-seen name per lowercased key — `.capitalized` would mangle it.
-        var grouped: [String: (name: String, total: Double, unit: String, count: Int)] = [:]
-        for entry in entries {
-            let key = entry.substance.lowercased()
-            if let existing = grouped[key] {
-                grouped[key] = (name: existing.name, total: existing.total + entry.amount, unit: existing.unit, count: existing.count + 1)
-            } else {
-                grouped[key] = (name: entry.substance, total: entry.amount, unit: entry.unit, count: 1)
-            }
-        }
-        return grouped.values
-            .filter { $0.count > 1 }
-            .map { (substance: $0.name, total: $0.total, unit: $0.unit, count: $0.count) }
-            .sorted { $0.substance < $1.substance }
+        resolvedDay.cumulativeDoses
     }
 
     /// The Summary section appears whenever there is at least one derived signal
@@ -372,6 +398,9 @@ struct SessionDetailView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        .task(id: colorSignature) {
+            colorMap = Array(substanceColors).colorMap
+        }
         .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -546,17 +575,28 @@ struct SessionDetailView: View {
     }
 
     private func colorFor(_ entry: DoseEntry) -> Color {
-        Array(substanceColors).colorMap[entry.substance.lowercased()] ?? Theme.accent
+        colorMap[entry.substance.lowercased()] ?? Theme.accent
     }
 
     private func colorForName(_ name: String) -> Color {
-        Array(substanceColors).colorMap[name.lowercased()] ?? Theme.accent
+        colorMap[name.lowercased()] ?? Theme.accent
     }
 
     private func exportDayLog() {
         isExporting = true
+        let hexMap = Array(substanceColors).hexColorMap
+        // Resolve each distinct substance once, not twice per dose.
+        var substanceCache: [String: Substance?] = [:]
+        func substance(_ name: String) -> Substance? {
+            let key = name.lowercased()
+            if let cached = substanceCache[key] { return cached }
+            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
+            substanceCache[key] = resolved
+            return resolved
+        }
         let entriesCopy = entries.map { entry in
-            DayLogImageExporter.EntryData(
+            let sub = substance(entry.substance)
+            return DayLogImageExporter.EntryData(
                 substance: entry.substance,
                 amount: entry.amount,
                 unit: entry.unit,
@@ -564,9 +604,9 @@ struct SessionDetailView: View {
                 timestamp: entry.timestamp,
                 notes: entry.notes,
                 tags: entry.tags,
-                category: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
-                doseLevel: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount),
-                colorHex: Array(substanceColors).hexColorMap[entry.substance.lowercased()],
+                category: sub?.category,
+                doseLevel: sub?.doseRange(for: entry.route)?.level(for: entry.amount),
+                colorHex: hexMap[entry.substance.lowercased()],
             )
         }
         let exportDate = date
@@ -630,6 +670,12 @@ private struct ResolvedDay {
     var states: [ActiveSubstanceState] = []
     var markers: [DoseMarker] = []
     var interactions: [InteractionResult] = []
+    /// Re-dose totals (substances logged more than once), precomputed with the
+    /// rest so the Summary section and `hasSummary` don't re-aggregate per body.
+    var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] = []
+    /// Distinct timeline lanes, precomputed so `graphHeight` doesn't rebuild two
+    /// name Sets on every height-animation frame.
+    var laneCount: Int = 0
 }
 
 /// Hosts a fixed-height child whose height is itself the animation driver.

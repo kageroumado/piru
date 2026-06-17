@@ -67,6 +67,20 @@ final class SubstanceStore {
     private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
     private var nonEmptyCategoriesCache: [SubstanceCategory]?
 
+    /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
+    /// This is the journal/timeline resolution path: it carries everything
+    /// `ActiveSubstanceState.from` and the category facet need (category,
+    /// routes/dose-ranges, durations, half-life, aliases) **without** the heavy
+    /// per-substance `resolveSubstance` SQL (mechanism, bindings, chem identity).
+    /// Built lazily on first access; invalidated in lockstep with `allCache`.
+    private var batchByName: [String: Substance]?
+
+    /// The in-flight (or finished) off-main prefill of `allCache` started in
+    /// `init`. ``ensureAllLoaded()`` awaits it so the journal derive resolves
+    /// from the batch cache (dict hits) instead of paying ~50 cold heavy reads
+    /// on the main actor at launch.
+    private var prewarmTask: Task<Void, Never>?
+
     /// All substance canonical names (lowercased) → row id. Built once at
     /// startup so `lookup` / `lookupByNameOrAlias` / `search` don't pay the
     /// full SQL scan tax.
@@ -149,7 +163,7 @@ final class SubstanceStore {
         if prewarmsAllCache {
             let prewarmDB = substancesDB
             let prewarmOrder = enabledSourceOrder
-            Task.detached(priority: .userInitiated) {
+            prewarmTask = Task.detached(priority: .userInitiated) {
                 let resolved = Self.loadAllSubstancesBatch(db: prewarmDB, order: prewarmOrder)
                 await MainActor.run { [weak self] in
                     // Drop the prefill if the user reordered/toggled sources while
@@ -157,6 +171,7 @@ final class SubstanceStore {
                     // check alone would publish a batch resolved with stale order.
                     guard let self, self.allCache == nil, self.enabledSourceOrder == prewarmOrder else { return }
                     self.allCache = resolved
+                    self.batchByName = nil
                 }
             }
         }
@@ -253,6 +268,7 @@ final class SubstanceStore {
         }
         resolvedCache.removeAll(keepingCapacity: true)
         allCache = nil
+        batchByName = nil
         substancesByCategoryCache.removeAll(keepingCapacity: true)
         nonEmptyCategoriesCache = nil
     }
@@ -442,11 +458,55 @@ final class SubstanceStore {
         if let cached = allCache { return cached }
         let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: enabledSourceOrder)
         allCache = resolved
+        batchByName = nil
         // Intentionally NOT writing to resolvedCache: the batch path omits
         // mechanism / subjective effects / tolerance (loaded by lookup() on
         // demand for the detail view). Poisoning the per-substance cache
         // with partial data would make detail views miss those fields.
         return resolved
+    }
+
+    /// Await the off-main `allCache` prefill started in `init` (or, if the
+    /// prewarm was disabled or already nilled, resolve it synchronously now).
+    /// The journal calls this before deriving so its per-entry resolution lands
+    /// on the batch cache (``timelineRow(_:)``) rather than ~50 cold heavy
+    /// `resolveSubstance` reads on the main actor at launch.
+    func ensureAllLoaded() async {
+        if allCache != nil { return }
+        if let prewarmTask {
+            await prewarmTask.value
+            if allCache != nil { return }
+        }
+        _ = all
+    }
+
+    /// The name/alias-keyed view over the batch cache, built lazily on first
+    /// use and reused until `allCache` is invalidated.
+    private func batchIndex() -> [String: Substance] {
+        if let batchByName { return batchByName }
+        let rows = all
+        var index: [String: Substance] = [:]
+        index.reserveCapacity(rows.count * 2)
+        for row in rows {
+            // Canonical name wins ties; aliases only fill gaps so a shared alias
+            // never shadows a real substance's own row.
+            index[row.name.lowercased()] = row
+            for alias in row.aliases {
+                let key = alias.lowercased()
+                if index[key] == nil { index[key] = row }
+            }
+        }
+        batchByName = index
+        return index
+    }
+
+    /// Lightweight library row for the journal/timeline path — category, routes,
+    /// dose-ranges, durations, half-life, aliases — resolved from the batch
+    /// cache without the heavy per-substance SQL. Returns `nil` only when the
+    /// name matches no library substance (the caller then falls back to the full
+    /// overlay-aware lookup, which also covers custom-only substances).
+    func timelineRow(_ nameOrAlias: String) -> Substance? {
+        batchIndex()[nameOrAlias.lowercased()]
     }
 
     /// Batch-load every substance with ~12 SQL queries instead of ~21k
@@ -1916,6 +1976,22 @@ enum SubstanceLibrary {
 
     static func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
         overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
+    }
+
+    /// Overlay-aware lookup for the **journal / timeline** path. Resolves the
+    /// library row from the lightweight batch cache (``SubstanceStore/timelineRow(_:)``)
+    /// — category, routes, dose-ranges, durations, half-life — which is all the
+    /// timeline derive needs, then applies any custom override. Falls back to the
+    /// full heavy lookup when the batch cache hasn't matched (cold cache, or a
+    /// custom-only substance with no library row), so it never silently drops an
+    /// override or a custom. Use this from per-entry resolution where the heavy
+    /// chem/mechanism fields are irrelevant; use ``lookupByNameOrAlias(_:)`` when
+    /// the full detail record is required.
+    static func timelineLookup(_ nameOrAlias: String) -> Substance? {
+        if let row = SubstanceStore.shared.timelineRow(nameOrAlias) {
+            return overlayCustom(library: row, query: nameOrAlias)
+        }
+        return overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
     }
 
     static func search(_ query: String, limit: Int = 50) -> [Substance] {

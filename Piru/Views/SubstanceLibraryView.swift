@@ -12,10 +12,8 @@ struct SubstanceLibraryView: View {
 
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @State private var searchResults: [Substance] = []
-
-    private var favoriteNames: Set<String> {
-        Set(favorites.map { $0.substance.lowercased() })
-    }
+    /// Cached so each search-result row's swipe action doesn't rebuild the set.
+    @State private var favoriteNames: Set<String> = []
 
     var body: some View {
         Group {
@@ -44,6 +42,9 @@ struct SubstanceLibraryView: View {
             try? await Task.sleep(for: .milliseconds(150))
             guard !Task.isCancelled else { return }
             searchResults = SubstanceLibrary.search(searchText)
+        }
+        .task(id: favorites.count) {
+            favoriteNames = Set(favorites.map { $0.substance.lowercased() })
         }
     }
 
@@ -205,7 +206,21 @@ struct SubstanceLibraryView: View {
 private struct RecentSubstancesSection: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
 
-    private var recentSubstances: [Substance] {
+    /// Resolved once per dose-history change instead of per body — each rebuild
+    /// is up to 10 synchronous `SubstanceLibrary.lookup` calls.
+    @State private var recentSubstances: [Substance] = []
+
+    private var recentSignature: Int {
+        var hasher = Hasher()
+        // The 10 most-recent distinct substances are what we render; the newest
+        // ~20 timestamps comfortably cover that window for change detection.
+        for entry in recentEntries.prefix(20) {
+            hasher.combine(entry.substance)
+        }
+        return hasher.finalize()
+    }
+
+    private func rebuildRecent() {
         var seen = Set<String>()
         var result: [Substance] = []
         for entry in recentEntries {
@@ -215,10 +230,19 @@ private struct RecentSubstancesSection: View {
                 if result.count >= 10 { break }
             }
         }
-        return result
+        recentSubstances = result
     }
 
     var body: some View {
+        content
+            .task(id: recentSignature) {
+                await SubstanceStore.shared.ensureAllLoaded()
+                rebuildRecent()
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         if recentSubstances.isEmpty {
             ContentUnavailableView(
                 "Search Substances",
@@ -258,37 +282,52 @@ struct SubstanceCategoryListView: View {
         category != nil || tag != nil
     }
 
-    private var substances: [Substance] {
-        if let tag {
-            return SubstanceLibrary.substances(taggedWith: tag)
-        }
-        if let category {
-            return SubstanceLibrary.substances(in: category)
-        }
-        // Exact canonical lookup — alias fallback mis-resolves on polluted
-        // aliases (e.g. "magnesium" is also an alias of Salicylic acid).
-        return favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
+    /// Resolved + sorted once per (category/tag/sort/favorites) change, not per
+    /// body. `substances(in:)`/`(taggedWith:)` and the sort were re-running on
+    /// every body pass; the sort is O(n log n) over a full category.
+    @State private var sortedSubstances: [Substance] = []
+    /// Favorite name set, cached so the per-row swipe action doesn't rebuild it.
+    @State private var favoriteNames: Set<String> = []
+
+    /// The inputs the resolved list depends on; drives the rebuild task.
+    private var listSignature: Int {
+        var hasher = Hasher()
+        hasher.combine(category)
+        hasher.combine(tag)
+        hasher.combine(sortMode)
+        // Favorites are this list's content when browsing neither category nor
+        // tag, and always drive the swipe-action label set.
+        hasher.combine(favorites.count)
+        return hasher.finalize()
     }
 
-    /// Category browse is sortable (popularity surfaces well-known substances
-    /// above obscure research chemicals); Favorites keep the user's own order.
-    private var sortedSubstances: [Substance] {
-        let list = substances
-        guard isBrowse else { return list }
-        switch sortMode {
-        case .name:
-            return list.sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
-        case .popularity:
-            return list.sorted {
-                $0.popularity != $1.popularity
-                    ? $0.popularity > $1.popularity
-                    : $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending
+    private func rebuildList() {
+        let list: [Substance] = if let tag {
+            SubstanceLibrary.substances(taggedWith: tag)
+        } else if let category {
+            SubstanceLibrary.substances(in: category)
+        } else {
+            // Exact canonical lookup — alias fallback mis-resolves on polluted
+            // aliases (e.g. "magnesium" is also an alias of Salicylic acid).
+            favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
+        }
+        // Category browse is sortable (popularity surfaces well-known substances
+        // above obscure research chemicals); Favorites keep the user's own order.
+        if isBrowse {
+            switch sortMode {
+            case .name:
+                sortedSubstances = list.sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
+            case .popularity:
+                sortedSubstances = list.sorted {
+                    $0.popularity != $1.popularity
+                        ? $0.popularity > $1.popularity
+                        : $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending
+                }
             }
+        } else {
+            sortedSubstances = list
         }
-    }
-
-    private var favoriteNames: Set<String> {
-        Set(favorites.map { $0.substance.lowercased() })
+        favoriteNames = Set(favorites.map { $0.substance.lowercased() })
     }
 
     var body: some View {
@@ -315,6 +354,10 @@ struct SubstanceCategoryListView: View {
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        .task(id: listSignature) {
+            await SubstanceStore.shared.ensureAllLoaded()
+            rebuildList()
+        }
         .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
