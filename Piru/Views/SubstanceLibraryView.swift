@@ -43,9 +43,19 @@ struct SubstanceLibraryView: View {
             guard !Task.isCancelled else { return }
             searchResults = SubstanceLibrary.search(searchText)
         }
-        .task(id: favorites.count) {
+        .task(id: favoritesSignature) {
             favoriteNames = Set(favorites.map { $0.substance.lowercased() })
         }
+    }
+
+    /// Favorite identities, not just `count`, so a same-count swap still
+    /// refreshes the cached swipe-action label set.
+    private var favoritesSignature: Int {
+        var hasher = Hasher()
+        for favorite in favorites {
+            hasher.combine(favorite.substance)
+        }
+        return hasher.finalize()
     }
 
     // MARK: - Search Results
@@ -296,8 +306,12 @@ struct SubstanceCategoryListView: View {
         hasher.combine(tag)
         hasher.combine(sortMode)
         // Favorites are this list's content when browsing neither category nor
-        // tag, and always drive the swipe-action label set.
-        hasher.combine(favorites.count)
+        // tag, and always drive the swipe-action label set. Hash identities, not
+        // just `count`, so a same-count swap (remove one, add another) still
+        // rebuilds instead of leaving the favorites list / swipe labels stale.
+        for favorite in favorites {
+            hasher.combine(favorite.substance)
+        }
         return hasher.finalize()
     }
 
