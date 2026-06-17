@@ -75,7 +75,10 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
     case entryDetail(timestamp: Date, id: UUID?)
     case entryForm(prefill: EntryPrefillPayload?)
-    case entryEdit(timestamp: Date)
+    /// Edit an existing entry. Carries the entry's stable `id` so a batch of
+    /// doses sharing one timestamp resolves to the exact row the user acted on;
+    /// `timestamp` stays as the fallback for id-less/legacy payloads.
+    case entryEdit(timestamp: Date, id: UUID?)
 
     // Daily dose tracking
     case dailyDoseLog(category: String)
