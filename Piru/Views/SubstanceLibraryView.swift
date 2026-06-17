@@ -460,6 +460,9 @@ struct SubstanceDetailView: View {
     @State private var overviewExpanded: Bool?
     @State private var mechanismExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
+    /// Contraindications & cautions — verbose clinical data, collapsed by default
+    /// so the screen reads like a harm-reduction app, not a drug monograph.
+    @State private var cautionsExpanded = false
     /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
     /// collapsed by default — few users need the chemical identity up front.
     @State private var infoExpanded = false
@@ -505,9 +508,7 @@ struct SubstanceDetailView: View {
         if !substance.indications.isEmpty {
             Section("Medical Uses") {
                 ForEach(substance.indications, id: \.self) { ind in
-                    Label(ind, systemImage: "stethoscope")
-                        .font(.subheadline)
-                        .labelStyle(EffectLabelStyle())
+                    clinicalRow(ind, icon: "stethoscope", tint: Theme.accent)
                 }
             }
         }
@@ -516,21 +517,47 @@ struct SubstanceDetailView: View {
         if !boxed.isEmpty {
             Section("Boxed Warning") {
                 ForEach(boxed, id: \.text) { c in
-                    Label(c.text, systemImage: "exclamationmark.octagon.fill")
-                        .font(.subheadline)
-                        .foregroundStyle(.red)
-                        .fixedSize(horizontal: false, vertical: true)
+                    clinicalRow(c.text, icon: "exclamationmark.octagon.fill", tint: .red, lineLimit: nil)
                 }
             }
         }
         if !cautions.isEmpty {
-            Section("Contraindications & Cautions") {
-                ForEach(cautions, id: \.text) { c in
-                    Label(c.text, systemImage: "exclamationmark.triangle")
-                        .font(.subheadline)
-                        .labelStyle(EffectLabelStyle())
+            // Verbose DailyMed contraindication prose — collapsed by default,
+            // each row clamped to a few lines, and capped to keep the screen
+            // from turning into a drug monograph. Full text lives at the source.
+            CollapsibleSection(
+                "Contraindications & Cautions",
+                systemImage: "exclamationmark.triangle",
+                count: cautions.count,
+                isExpanded: $cautionsExpanded,
+            ) {
+                ForEach(cautions.prefix(cautionDisplayLimit), id: \.text) { c in
+                    clinicalRow(c.text, icon: "exclamationmark.triangle", tint: .orange, lineLimit: 4)
+                }
+                if cautions.count > cautionDisplayLimit {
+                    Text("+\(cautions.count - cautionDisplayLimit) more")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
+        }
+    }
+
+    /// How many cautions to list before falling back to a "+N more" row.
+    private let cautionDisplayLimit = 6
+
+    /// One clinical list row — a readable leading symbol (the old style forced a
+    /// 5pt icon that vanished) plus wrapping text clamped to `lineLimit`.
+    private func clinicalRow(_ text: String, icon: String, tint: Color, lineLimit: Int? = 2) -> some View {
+        Label {
+            Text(text)
+                .font(.subheadline)
+                .lineLimit(lineLimit)
+                .fixedSize(horizontal: false, vertical: true)
+        } icon: {
+            Image(systemName: icon)
+                .font(.caption)
+                .foregroundStyle(tint)
         }
     }
 
@@ -542,35 +569,30 @@ struct SubstanceDetailView: View {
         let hasPubChem = substance.pubChemURL != nil
         if policy.showsMechanism,
            substance.formula != nil || substance.cas != nil || substance.inchikey != nil || substance.molarMass != nil || hasPubChem {
-            Section {
-                DisclosureGroup(isExpanded: $chemistryExpanded) {
-                    let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
-                    Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
-                        if substance.formula != nil || showMW {
-                            GridRow {
-                                if let f = substance.formula { gridCell("Formula", f) } else { Color.clear }
-                                if showMW, let mw = substance.molarMass {
-                                    gridCell("Molar mass", "\(mw.doseFormatted) g/mol")
-                                } else { Color.clear }
-                            }
-                        }
-                        if let k = substance.inchikey {
-                            GridRow { gridCell("InChIKey", k, mono: true).gridCellColumns(2) }
-                        }
-                        if substance.cas != nil || hasPubChem {
-                            GridRow {
-                                if let c = substance.cas { gridCell("CAS", c, mono: true) } else { Color.clear }
-                                if let cid = substance.pubchemCID, let url = substance.pubChemURL {
-                                    pubChemCell(cid: cid, url: url)
-                                } else { Color.clear }
-                            }
+            CollapsibleSection("Chemistry", systemImage: "atom", isExpanded: $chemistryExpanded) {
+                let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
+                Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
+                    if substance.formula != nil || showMW {
+                        GridRow {
+                            if let f = substance.formula { gridCell("Formula", f) } else { Color.clear }
+                            if showMW, let mw = substance.molarMass {
+                                gridCell("Molar mass", "\(mw.doseFormatted) g/mol")
+                            } else { Color.clear }
                         }
                     }
-                    .padding(.vertical, 4)
-                } label: {
-                    Label("Chemistry", systemImage: "atom")
-                        .font(.subheadline.weight(.semibold))
+                    if let k = substance.inchikey {
+                        GridRow { gridCell("InChIKey", k, mono: true).gridCellColumns(2) }
+                    }
+                    if substance.cas != nil || hasPubChem {
+                        GridRow {
+                            if let c = substance.cas { gridCell("CAS", c, mono: true) } else { Color.clear }
+                            if let cid = substance.pubchemCID, let url = substance.pubChemURL {
+                                pubChemCell(cid: cid, url: url)
+                            } else { Color.clear }
+                        }
+                    }
                 }
+                .padding(.vertical, 4)
             }
         }
     }
@@ -626,27 +648,35 @@ struct SubstanceDetailView: View {
     /// English as a fallback. Hidden when no source supplies an overview.
     @ViewBuilder private var overviewSection: some View {
         if let overview = substance.overview, !overview.text.isEmpty {
+            // Unlike the other folded blocks, the Overview reads better as a few
+            // lines of prose with an inline "Read more" than as a closed
+            // disclosure — you see what the substance *is* without a tap.
+            let expanded = overviewExpanded ?? false
+            let isLong = overview.text.count > overviewCollapsedThreshold
             Section {
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { overviewExpanded ?? true },
-                        set: { overviewExpanded = $0 },
-                    ),
-                ) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(overview.text)
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .fixedSize(horizontal: false, vertical: true)
-                        if overview.machineTranslated {
-                            Label("Machine-translated from FreeOD Wiki", systemImage: "character.bubble")
-                                .font(.caption2)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
-                } label: {
+                VStack(alignment: .leading, spacing: 8) {
                     Label("Overview", systemImage: "text.justify.left")
                         .font(.subheadline.weight(.semibold))
+                    Text(overview.text)
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .lineLimit(isLong && !expanded ? overviewCollapsedLines : nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                    if isLong {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) { overviewExpanded = !expanded }
+                        } label: {
+                            Text(expanded ? "Read less" : "Read more")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(Theme.accent)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    if overview.machineTranslated {
+                        Label("Machine-translated from FreeOD Wiki", systemImage: "character.bubble")
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                    }
                 }
                 SourceAttributionRow(
                     slug: overview.sourceSlug,
@@ -657,16 +687,26 @@ struct SubstanceDetailView: View {
         }
     }
 
+    /// Overview collapses to `overviewCollapsedLines` lines with a "Read more"
+    /// when the prose exceeds `overviewCollapsedThreshold` characters (≈ that
+    /// many lines), so short blurbs show in full with no toggle.
+    private let overviewCollapsedLines = 5
+    private let overviewCollapsedThreshold = 320
+
     @ViewBuilder private var effectsSection: some View {
         let curated = policy.showsRichSubjective ? substance.subjectiveEffects : []
         let hasAllEffects = !substance.effects.isEmpty
-        // Only offer "Show All" when the full taxonomy actually adds to the
-        // curated summary — otherwise (e.g. Melatonin) it reveals *fewer* rows.
-        let showsMoreEffects = substance.effects.count > curated.count
+        // Only the first few curated effects read as the "main effects" summary;
+        // a long list (e.g. MPH) belongs behind "Show All", not dumped inline.
+        let mainEffects = Array(curated.prefix(mainEffectsLimit))
+        // Offer "Show All" when there are more curated effects than we show, or
+        // when the full taxonomy adds rows beyond the curated set (not Melatonin,
+        // where it would reveal *fewer*).
+        let showsMoreEffects = curated.count > mainEffects.count || substance.effects.count > curated.count
         if displayClass != .nonRecreational, !curated.isEmpty || hasAllEffects {
             Section {
-                if !curated.isEmpty {
-                    ForEach(curated, id: \.name) { effect in
+                if !mainEffects.isEmpty {
+                    ForEach(mainEffects, id: \.name) { effect in
                         VStack(alignment: .leading, spacing: 4) {
                             Text(effect.name)
                                 .font(.subheadline)
@@ -693,7 +733,7 @@ struct SubstanceDetailView: View {
                     // (and Erowid reports), grouped by category, one tap away.
                     // A header NavigationLink isn't reliably hittable, so drive a
                     // navigationDestination from a Button instead.
-                    if !curated.isEmpty, showsMoreEffects {
+                    if !mainEffects.isEmpty, showsMoreEffects {
                         Button { showAllEffects = true } label: {
                             HStack(spacing: 2) {
                                 Text("Show All")
@@ -708,6 +748,9 @@ struct SubstanceDetailView: View {
             }
         }
     }
+
+    /// How many curated effects show inline before the rest move to "Show All".
+    private let mainEffectsLimit = 6
 
     init(substance: Substance) {
         self.baseSubstance = substance
@@ -1128,47 +1171,42 @@ struct SubstanceDetailView: View {
     /// Name / aliases / route / chemistry — demoted below dosing and collapsed.
     /// Chemists who want the full identity follow the PubChem link.
     private var infoDisclosure: some View {
-        Section {
-            DisclosureGroup(isExpanded: $infoExpanded) {
-                let extras = infoExtraCells
-                Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
+        CollapsibleSection("Info", systemImage: "info.circle", isExpanded: $infoExpanded) {
+            let extras = infoExtraCells
+            Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
+                GridRow {
+                    gridCell("Category", String(localized: substance.category.displayName))
+                    gridCell("Default route", String(localized: substance.defaultRoute.localizedName))
+                }
+                if !extras.isEmpty {
                     GridRow {
-                        gridCell("Category", String(localized: substance.category.displayName))
-                        gridCell("Default route", String(localized: substance.defaultRoute.localizedName))
-                    }
-                    if !extras.isEmpty {
-                        GridRow {
-                            gridCell(extras[0].0, extras[0].1)
-                            if extras.count > 1 { gridCell(extras[1].0, extras[1].1) } else { Color.clear }
-                        }
+                        gridCell(extras[0].0, extras[0].1)
+                        if extras.count > 1 { gridCell(extras[1].0, extras[1].1) } else { Color.clear }
                     }
                 }
-                .padding(.vertical, 4)
+            }
+            .padding(.vertical, 4)
 
-                if !substance.displayAliases.isEmpty {
-                    aliasChips
-                }
-                if !substance.tags.isEmpty {
-                    SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
-                        .padding(.vertical, 4)
-                }
-                if let slug = provenance?.categorySource {
-                    SourceAttributionRow(
-                        slug: slug,
-                        label: "Category",
-                        deepLink: sourceDeepLink(slug),
-                    )
-                }
-                if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
-                    SourceAttributionRow(
-                        slug: slug,
-                        label: "Half-life",
-                        deepLink: sourceDeepLink(slug),
-                    )
-                }
-            } label: {
-                Label("Info", systemImage: "info.circle")
-                    .font(.subheadline.weight(.semibold))
+            if !substance.displayAliases.isEmpty {
+                aliasChips
+            }
+            if !substance.tags.isEmpty {
+                SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
+                    .padding(.vertical, 4)
+            }
+            if let slug = provenance?.categorySource {
+                SourceAttributionRow(
+                    slug: slug,
+                    label: "Category",
+                    deepLink: sourceDeepLink(slug),
+                )
+            }
+            if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
+                SourceAttributionRow(
+                    slug: slug,
+                    label: "Half-life",
+                    deepLink: sourceDeepLink(slug),
+                )
             }
         }
     }
@@ -1255,18 +1293,15 @@ struct SubstanceDetailView: View {
                 effectsSection
 
                 if policy.showsMechanism, let moa = composedMechanism {
-                    Section {
-                        DisclosureGroup(
-                            isExpanded: Binding(
-                                get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
-                                set: { mechanismExpanded = $0 },
-                            ),
-                        ) {
-                            mechanismBody(moa)
-                        } label: {
-                            Label("Mechanism of Action", systemImage: "atom")
-                                .font(.subheadline.weight(.semibold))
-                        }
+                    CollapsibleSection(
+                        "Mechanism of Action",
+                        systemImage: "atom",
+                        isExpanded: Binding(
+                            get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
+                            set: { mechanismExpanded = $0 },
+                        ),
+                    ) {
+                        mechanismBody(moa)
                         if let slug = provenance?.mechanismSource {
                             SourceAttributionRow(
                                 slug: slug,
@@ -1278,22 +1313,19 @@ struct SubstanceDetailView: View {
                 }
 
                 if policy.showsReceptorLiterature, !literatureBindings.isEmpty {
-                    Section {
-                        DisclosureGroup(
-                            isExpanded: Binding(
-                                get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
-                                set: { receptorLitExpanded = $0 },
-                            ),
-                        ) {
-                            receptorLiteratureBody
-                        } label: {
-                            Label("Receptor Literature", systemImage: "function")
-                                .font(.subheadline.weight(.semibold))
-                        }
-                    } footer: {
+                    CollapsibleSection(
+                        "Receptor Literature",
+                        systemImage: "function",
+                        isExpanded: Binding(
+                            get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
+                            set: { receptorLitExpanded = $0 },
+                        ),
+                    ) {
+                        receptorLiteratureBody
                         Text("Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting.")
                             .font(.caption2)
                             .foregroundStyle(Theme.secondaryLabel)
+                            .padding(.top, 4)
                     }
                 }
 
@@ -1626,6 +1658,55 @@ private struct DetailSourceLink: Identifiable {
 /// via ``SubstanceStore/sourceDisplayName(forSlug:)`` so users see the
 /// human-readable name ("TripSit factsheets") instead of the wire slug
 /// ("tripsit").
+/// The one folded-section look used across the whole substance screen — a
+/// `DisclosureGroup` with a semibold subheadline label, a leading SF Symbol, and
+/// an optional count badge. Extracted so Mechanism, Receptor Literature, Info,
+/// Chemistry and the Cautions list fold identically. Crucially, a section's
+/// source-attribution row goes *inside* `content` so it collapses with the body
+/// rather than dangling beneath a closed disclosure.
+private struct CollapsibleSection<Content: View>: View {
+    let title: LocalizedStringResource
+    let systemImage: String
+    var count: Int?
+    @Binding var isExpanded: Bool
+    @ViewBuilder var content: () -> Content
+
+    init(
+        _ title: LocalizedStringResource,
+        systemImage: String,
+        count: Int? = nil,
+        isExpanded: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content,
+    ) {
+        self.title = title
+        self.systemImage = systemImage
+        self.count = count
+        _isExpanded = isExpanded
+        self.content = content
+    }
+
+    var body: some View {
+        Section {
+            DisclosureGroup(isExpanded: $isExpanded) {
+                content()
+            } label: {
+                HStack(spacing: 6) {
+                    Label(title, systemImage: systemImage)
+                        .font(.subheadline.weight(.semibold))
+                    if let count {
+                        Text(verbatim: "\(count)")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 1)
+                            .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+                    }
+                }
+            }
+        }
+    }
+}
+
 private struct SourceAttributionRow: View {
     let slug: String
     let label: LocalizedStringResource
@@ -1882,19 +1963,6 @@ func formatNm(_ value: Double) -> String {
     if value >= 100 { return String(format: "%.0f", value) }
     if value >= 10 { return String(format: "%.1f", value) }
     return String(format: "%.2f", value)
-}
-
-// MARK: - Effect Label Style
-
-struct EffectLabelStyle: LabelStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack(spacing: 8) {
-            configuration.icon
-                .font(.system(size: 5))
-                .foregroundStyle(Theme.secondaryLabel)
-            configuration.title
-        }
-    }
 }
 
 // MARK: - Substance Tag Flow
