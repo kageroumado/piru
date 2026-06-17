@@ -7,6 +7,9 @@ struct HelpView: View {
     @Environment(\.appNavigator) private var navigator
     @State private var copiedSummary = false
     @State private var activeSubstances: [ActiveSubstance] = []
+    /// Resolved once per data change in `.task`, not on every `body` pass — the
+    /// computation does a `SubstanceLibrary` (GRDB) lookup per recent dose.
+    @State private var activeCategories: [SubstanceCategory] = []
 
     init() {
         let cutoff = Date.now.addingTimeInterval(-72 * 3_600)
@@ -22,7 +25,7 @@ struct HelpView: View {
         return recentEntries.filter { $0.timestamp > cutoff }
     }
 
-    private var activeCategories: [SubstanceCategory] {
+    private func makeActiveCategories() -> [SubstanceCategory] {
         let guided = Set(ComedownGuideView.guidedCategories)
         let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         var seen = Set<SubstanceCategory>()
@@ -67,6 +70,7 @@ struct HelpView: View {
                     from: recentEntries,
                     colorMap: substanceColors.colorMap,
                 )
+                activeCategories = makeActiveCategories()
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

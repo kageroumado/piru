@@ -38,6 +38,15 @@ final class JournalModel {
     private(set) var substanceGroups: [(name: String, entries: [DoseEntry])] = []
     private(set) var categoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
 
+    /// The Day list is *windowed*: only the most recent `sessionWindow` sessions
+    /// are turned into `SessionCard`s + rendered `Section`s, so a 149-session
+    /// history doesn't build (and animate in) every card on first appear. The
+    /// view extends the window as the user scrolls to the bottom. `true` while
+    /// older sessions remain unbuilt — drives the load-more sentinel.
+    private(set) var hasMoreSessions = false
+    private static let sessionPageSize = 25
+    private var sessionWindow = sessionPageSize
+
     /// Same guard for the grouping pass (bucketing + day-card formatting).
     private var lastGroupsSignature: Int?
 
@@ -53,6 +62,25 @@ final class JournalModel {
 
     func refreshColorMap(_ colors: [SubstanceColor]) {
         colorMap = Array(colors).colorMap
+    }
+
+    /// Extend the Day list by one page of older sessions. Clearing the groups
+    /// signature forces the next `rebuildGroups` to re-bucket with the larger
+    /// window (the window is folded into the signature, so this is also safe to
+    /// no-op if nothing else changed).
+    func growSessionWindow() {
+        guard hasMoreSessions else { return }
+        sessionWindow += Self.sessionPageSize
+        lastGroupsSignature = nil
+    }
+
+    /// Collapse the Day list back to the first page — called when the filter,
+    /// search, or grouping changes so a fresh result starts at the top, not at
+    /// whatever depth the previous scroll had reached.
+    func resetSessionWindow() {
+        guard sessionWindow != Self.sessionPageSize else { return }
+        sessionWindow = Self.sessionPageSize
+        lastGroupsSignature = nil
     }
 
     /// The fields `derived` actually depends on, hashed cheaply (no SQL / PK).
@@ -182,9 +210,16 @@ final class JournalModel {
         // timestamp — still re-buckets. (The derive step may legitimately no-op
         // on such a change, since `EntryDerived` doesn't depend on session.)
         sigHasher.combine(entriesSignature)
+        // The Day window is part of the signature so `growSessionWindow()` /
+        // `resetSessionWindow()` re-bucket, while an unrelated re-entry no-ops.
+        sigHasher.combine(sessionWindow)
         let signature = sigHasher.finalize()
         guard signature != lastGroupsSignature else { return }
         lastGroupsSignature = signature
+
+        // Only the Day grouping is windowed; reset the flag so the load-more
+        // sentinel never lingers under Recent / Substance / Category.
+        hasMoreSessions = false
 
         let calendar = Calendar.current
         let result = filteredEntries(
@@ -216,9 +251,19 @@ final class JournalModel {
                 bySession[key]?.entries.append(entry)
             }
 
+            // Window the build: `order` is newest-first, so the first
+            // `sessionWindow` keys are the most recent sessions. Only those
+            // become cards (and, downstream, rendered `Section`s + prewarmed
+            // graphs). Bucketing the *whole* history above keeps a session's
+            // doses complete even when sessions overlap in time; we just stop
+            // materializing once the window is full. The view grows the window
+            // on scroll.
+            let windowed = order.prefix(sessionWindow)
+            hasMoreSessions = order.count > windowed.count
+
             var cards: [SessionCard] = []
-            cards.reserveCapacity(order.count)
-            for key in order {
+            cards.reserveCapacity(windowed.count)
+            for key in windowed {
                 guard let bucket = bySession[key] else { continue }
                 let sessionEntries = bucket.entries.sorted { $0.timestamp < $1.timestamp }
                 var states: [ActiveSubstanceState] = []
