@@ -55,16 +55,24 @@ struct MechanismOfActionTests {
     }
 
     @Test
+    @MainActor
     func `Mitragynine and kratom are partial MOR agonists with adrenergic activity`() {
-        for name in ["mitragynine", "kratom"] {
-            let m = MechanismOfActionDatabase.mechanism(for: name)
-            #expect(m != nil, "\(name) should have a curated mechanism entry")
+        // The curated mitragynine/kratom data now lives in the bundled DB
+        // (`piru-curated`), no longer the Swift `substanceData`, so this is an
+        // end-to-end check through the same hydration path the detail view uses.
+        for name in ["Mitragynine", "Kratom"] {
+            guard let sub = SubstanceStore.shared.lookup(name) else {
+                Issue.record("\(name) missing from bundled DB"); continue
+            }
+            let m = MechanismOfActionDatabase.resolvedMechanism(
+                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            )
+            #expect(m != nil, "\(name) should resolve a mechanism")
             let mu = m?.bindings.first { $0.target.localizedCaseInsensitiveContains("opioid") }
             #expect(
                 mu?.action == .partialAgonist,
                 "\(name) μ-opioid action should be partialAgonist, got \(mu?.action.rawValue ?? "nil")",
             )
-            // Not a full agonist
             #expect(mu?.action != .agonist, "\(name) must not be a full μ-opioid agonist")
             // Carries its non-opioid targets (the data that the measured opioid
             // panel omits and that motivated the curated entry).
@@ -95,22 +103,19 @@ struct MechanismOfActionTests {
     }
 
     @Test
-    func `A curated per-name entry's bindings win over a thinner DB panel`() {
-        // Mirrors mitragynine: the measured DB panel has only the opioid receptors,
-        // but the curated entry adds α2-adrenergic. The richer curated set must win.
-        let db = moa(summary: "", bindings: [binding("MOR", .partialAgonist)])
+    func `A class template's bindings fill in when the DB summary carries none`() {
+        // A class-mapped substance (fluoxetine → the SSRI template, kept in Swift)
+        // whose DB row supplies a summary but no bindings must still show the
+        // template's receptor data, not an empty list. (Curated per-substance
+        // bindings now arrive via the DB; the template is the generic fallback.)
+        let db = moa(summary: "DB-supplied SSRI summary", bindings: [])
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: db, substanceName: "mitragynine", category: .opioid,
+            dbMechanism: db, substanceName: "fluoxetine", category: .antidepressant,
         )
+        #expect(resolved?.summary == "DB-supplied SSRI summary")
         #expect(
-            resolved?.bindings.contains { $0.target.localizedCaseInsensitiveContains("adrenergic") } == true,
-            "Curated α2-adrenergic binding must survive composition",
-        )
-        // And the summary must be the curated partial-agonist one, not the
-        // opioid category's "Full Agonist" default.
-        #expect(
-            resolved?.summary.localizedCaseInsensitiveContains("full agonist") == false,
-            "Mitragynine must not resolve to the opioid 'Full Agonist' category default",
+            resolved?.bindings.contains { $0.target == "SERT" } == true,
+            "Fluoxetine should fall back to the SSRI template's SERT binding",
         )
     }
 
@@ -198,5 +203,42 @@ struct MechanismOfActionTests {
             sub.mechanismOfAction?.bindings.isEmpty == false,
             "Mephedrone's DB mechanism should carry its measured bindings",
         )
+    }
+
+    // MARK: - MOA relocation (Stage 3): curated prose + bindings now in the DB
+
+    @Test
+    @MainActor
+    func `Relocated curated mechanism surfaces its summary and preserves affinity tiers`() {
+        // Mitragynine's bespoke MOA was relocated from the Swift file into the
+        // bundled DB (`piru-curated`). Its summary must surface and its ordinal
+        // affinity tiers must round-trip via the new `affinity_tier` column
+        // (no numeric Ki) — μ-opioid primary, α2-adrenergic significant.
+        guard let sub = SubstanceStore.shared.lookup("Mitragynine") else {
+            Issue.record("Mitragynine missing from bundled DB"); return
+        }
+        let m = MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+        )
+        #expect(m?.summary.localizedCaseInsensitiveContains("partial") == true)
+        let mu = m?.bindings.first { $0.target.localizedCaseInsensitiveContains("opioid") }
+        #expect(mu?.affinity == .primary, "μ-opioid tier should be primary (affinity_tier=3)")
+        let a2 = m?.bindings.first { $0.target.localizedCaseInsensitiveContains("adrenergic") }
+        #expect(a2?.affinity == .significant, "α2-adrenergic tier should be significant (affinity_tier=2)")
+    }
+
+    @Test
+    @MainActor
+    func `A prose-only relocated mechanism (no bindings) still resolves a summary`() {
+        // 5-HTP is a serotonin precursor: relocated with prose but deliberately
+        // no binding chip (precursor steps aren't receptor targets). Its mechanism
+        // must still resolve a non-empty summary, not nil.
+        guard let sub = SubstanceStore.shared.lookup("5-Hydroxytryptophan") else {
+            Issue.record("5-Hydroxytryptophan missing from bundled DB"); return
+        }
+        let m = MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+        )
+        #expect(m?.summary.isEmpty == false, "5-HTP should resolve a curated summary")
     }
 }

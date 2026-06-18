@@ -1529,16 +1529,32 @@ final class SubstanceStore {
              LIMIT 1
         """, arguments: [substanceID])
 
+        // Union-merge bindings across sources (curated ∪ measured), deduped by
+        // (target, action): when both a curated row (ordinal `affinity_tier`, no
+        // Ki) and a measured row (numeric `ki_nm`) describe the same target+action,
+        // keep the measured one — it carries the real affinity. The displayed tier
+        // is COALESCE(affinity_tier, tier-derived-from-Ki) so curated rows keep
+        // their intended emphasis (e.g. mitragynine's α2-adrenergic survives even
+        // though the measured opioid panel omits it). Ordered primary-first.
         let bindingRows = try Row.fetchAll(db, sql: """
-            SELECT b.target, b.action,
-                   CASE WHEN b.ki_nm IS NOT NULL AND b.ki_nm < 100 THEN 3
-                        WHEN b.ki_nm IS NOT NULL AND b.ki_nm < 1000 THEN 2
-                        ELSE 1 END AS affinity
-              FROM bindings b
-              JOIN sources src ON src.id = b.source_id
-             WHERE b.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY b.ki_nm ASC NULLS LAST
+            SELECT target, action, affinity, ki_nm FROM (
+                SELECT b.target, b.action,
+                       COALESCE(b.affinity_tier,
+                                CASE WHEN b.ki_nm IS NOT NULL AND b.ki_nm < 100 THEN 3
+                                     WHEN b.ki_nm IS NOT NULL AND b.ki_nm < 1000 THEN 2
+                                     ELSE 1 END) AS affinity,
+                       b.ki_nm,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY b.target, b.action
+                           ORDER BY (b.ki_nm IS NOT NULL) DESC, b.ki_nm ASC
+                       ) AS rn
+                  FROM bindings b
+                  JOIN sources src ON src.id = b.source_id
+                 WHERE b.substance_id = ?
+                   AND src.slug IN (\(enabledSourceListSQL))
+            )
+             WHERE rn = 1
+             ORDER BY affinity DESC, ki_nm ASC NULLS LAST
              LIMIT 20
         """, arguments: [substanceID])
 

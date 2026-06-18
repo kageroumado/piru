@@ -1,0 +1,1641 @@
+[
+  {
+    "name": "1,4-Butanediol",
+    "summary": "Prodrug → GHB (GABA-B Agonist)",
+    "description": "A prodrug converted to GHB via alcohol dehydrogenase and aldehyde dehydrogenase. The active form acts on GHB and GABA-B receptors. Onset and duration depend on hepatic enzyme activity; co-ingestion with ethanol competitively inhibits ADH-mediated conversion, unpredictably delaying and prolonging effects.",
+    "bindings": [
+      {
+        "target": "GHB receptor",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GABA-B",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "25C-NBOMe",
+    "summary": "Full 5-HT2A Receptor Agonist (High Potency)",
+    "description": "An N-benzylmethoxy (NBOMe) phenethylamine that acts as a full agonist at 5-HT2A receptors with very high potency. As with other NBOMe compounds, full agonism contributes to a steep dose-response curve and greater toxicity risk than classical psychedelics. Active at microgram doses.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "25I-NBOMe",
+    "summary": "Full 5-HT2A Receptor Agonist (High Potency)",
+    "description": "An N-benzylmethoxy (NBOMe) phenethylamine that acts as a highly potent full agonist at serotonin 5-HT2A receptors. Its very high 5-HT2A potency is associated with a steep dose-response curve and a narrow margin of safety, with risk of seizures and vasoconstriction that exceeds that of classical psychedelics.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "3,4-Methylenedioxyamphetamine",
+    "summary": "Serotonin-Predominant Monoamine Releasing Agent",
+    "description": "A monoamine releasing agent with strong serotonergic predominance, releasing serotonin, dopamine, and norepinephrine via transporter reversal. Also a direct agonist at 5-HT2A (and 5-HT2B/5-HT2C) receptors; this direct 5-HT2A agonism gives it more pronounced psychedelic effects than MDMA, alongside empathogenic effects from serotonin release.",
+    "bindings": [
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "5-APB",
+    "summary": "Benzofuran Empathogen (Monoamine Releasing Agent)",
+    "description": "A benzofuran analogue that releases serotonin, dopamine, and norepinephrine via transporter reversal, and acts as an agonist at 5-HT2B receptors. Produces empathogenic and mildly psychedelic effects with a profile between MDMA and MDA.",
+    "bindings": [
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "5-HT2B",
+        "action": "agonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "5-Hydroxytryptophan",
+    "summary": "Serotonin Precursor",
+    "description": "The immediate biosynthetic precursor to serotonin (5-HT). Crosses the blood-brain barrier and is converted to serotonin by aromatic L-amino acid decarboxylase (AADC), bypassing the rate-limiting tryptophan hydroxylase step that gates serotonin synthesis from tryptophan. Increases central serotonin synthesis. Should not be combined with serotonergic agents due to serotonin syndrome risk.",
+    "bindings": []
+  },
+  {
+    "name": "5-MeO-DMT",
+    "summary": "Potent 5-HT1A and 5-HT2A Receptor Agonist",
+    "description": "A potent agonist at serotonin 5-HT1A receptors with weaker activity at 5-HT2A (roughly 300-fold 5-HT1A selectivity). The dominant 5-HT1A activation distinguishes it from most classical psychedelics and contributes to its characteristic intense, ego-dissolving effects with relatively less visual distortion. Rapidly metabolized by MAO. The 5-HT1A component may produce cardiovascular effects including hypotension.",
+    "bindings": [
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "6-APB",
+    "summary": "Benzofuran Empathogen (Monoamine Releasing Agent)",
+    "description": "A benzofuran analogue of MDA that acts as a serotonin-predominant monoamine releasing agent, releasing serotonin, dopamine, and norepinephrine. Also a potent agonist at 5-HT2B receptors, raising cardiovascular (valvulopathy) safety concerns with repeated use. Produces empathogenic effects similar to MDMA with a longer duration of action.",
+    "bindings": [
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "5-HT2B",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Acetaminophen",
+    "summary": "Centrally-Acting Analgesic and Antipyretic",
+    "description": "Mechanism remains incompletely understood despite widespread use. Weakly inhibits cyclooxygenase, with a relatively greater effect centrally than peripherally, reducing CNS prostaglandin synthesis and producing antipyresis via the hypothalamus. A proposed (but not fully established) additional mechanism involves the metabolite AM404, which may inhibit endocannabinoid (anandamide) reuptake and weakly engage CB1 and TRPV1 receptors; recent evidence also implicates peripheral voltage-gated sodium channel inhibition by AM404. Lacks significant anti-inflammatory activity.",
+    "bindings": [
+      {
+        "target": "COX (central)",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Endocannabinoid reuptake (via AM404)",
+        "action": "modulator",
+        "affinity_tier": 1
+      },
+      {
+        "target": "TRPV1 (via AM404)",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Agomelatine",
+    "summary": "Melatonin Receptor Agonist and 5-HT2C Antagonist",
+    "description": "Agonizes melatonin MT1 and MT2 receptors, resynchronizing circadian rhythms and improving sleep architecture. Simultaneously antagonizes serotonin 5-HT2C receptors, which disinhibits norepinephrine and dopamine release in the prefrontal cortex. This dual mechanism provides antidepressant effects without the sexual dysfunction, weight gain, or discontinuation syndrome associated with serotonin reuptake inhibitors.",
+    "bindings": [
+      {
+        "target": "MT1",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "MT2",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2C",
+        "action": "antagonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Albuterol",
+    "summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
+    "description": "Selectively activates β2-adrenergic receptors on airway smooth muscle, coupling through Gs to stimulate adenylyl cyclase and raise intracellular cAMP. Elevated cAMP activates protein kinase A, which inactivates myosin light chain kinase, lowering myosin light-chain phosphorylation and producing smooth muscle relaxation and bronchodilation. Provides rapid relief of acute bronchospasm (onset ~5-15 minutes). Raised cAMP also inhibits mast cell mediator release and enhances mucociliary clearance.",
+    "bindings": [
+      {
+        "target": "β2-adrenergic",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Alcohol",
+    "summary": "Non-Selective CNS Depressant (GABAergic/Anti-Glutamatergic)",
+    "description": "Produces CNS depression through multiple mechanisms: positive allosteric modulation of GABA-A receptors, inhibition of NMDA glutamate receptors, enhancement of glycine receptor function, inhibition of voltage-gated calcium channels, and potentiation of 5-HT3 receptors. Acute exposure increases dopamine release in the mesolimbic pathway. Chronic use leads to GABA-A downregulation and NMDA receptor upregulation, causing excitotoxic withdrawal.",
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Glycine",
+        "action": "modulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT3",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Alpha-GPC",
+    "summary": "Cholinergic Precursor",
+    "description": "A choline-containing phospholipid that serves as a precursor to acetylcholine. Crosses the blood-brain barrier and supplies free choline for central acetylcholine synthesis, and glycerophosphate for membrane phospholipid synthesis. Supports cholinergic neurotransmission, which is involved in memory formation, attention, and learning.",
+    "bindings": []
+  },
+  {
+    "name": "Amoxicillin",
+    "summary": "β-Lactam Antibiotic (Cell Wall Synthesis Inhibitor)",
+    "description": "Binds penicillin-binding proteins (PBPs) on the bacterial cytoplasmic membrane, inhibiting transpeptidation, the final cross-linking step of peptidoglycan (cell wall) synthesis. The weakened cell wall undergoes osmotic lysis, producing bactericidal killing of susceptible organisms. Inactivated by bacterial β-lactamases, which is overcome by combining with the β-lactamase inhibitor clavulanate.",
+    "bindings": [
+      {
+        "target": "PBPs (transpeptidases)",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Aripiprazole",
+    "summary": "Dopamine D2 Partial Agonist and Serotonin Modulator",
+    "description": "A partial agonist at dopamine D2 receptors — acting as a functional antagonist in hyperdopaminergic states (mesolimbic pathway) and a functional agonist in hypodopaminergic states (mesocortical pathway). This 'dopamine stabilizer' mechanism reduces positive symptoms while potentially improving negative symptoms and cognition. Also a partial agonist at 5-HT1A and an antagonist at 5-HT2A receptors.",
+    "bindings": [
+      {
+        "target": "D2",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Armodafinil",
+    "summary": "Wakefulness-Promoting Agent (R-Enantiomer of Modafinil)",
+    "description": "The R-enantiomer of modafinil, with the same mechanism: weak inhibition of the dopamine transporter (DAT) as the only well-validated direct target, with downstream activation of orexin/hypocretin neurons and increased histamine release driving wakefulness. Has a longer effective half-life than racemic modafinil, providing more sustained wakefulness-promoting effects throughout the day.",
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 1
+      },
+      {
+        "target": "Orexin (downstream)",
+        "action": "modulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Histamine (downstream)",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ],
+    "references": [
+      "10.3389/fnana.2025.1670564"
+    ]
+  },
+  {
+    "name": "Aspirin",
+    "summary": "Irreversible Cyclooxygenase (COX) Inhibitor",
+    "description": "Irreversibly inhibits cyclooxygenase enzymes by acetylating a serine residue in the active site. COX-1 inhibition in platelets prevents thromboxane A2 synthesis, irreversibly blocking platelet aggregation for the platelet's lifetime (7-10 days). COX-2 inhibition reduces prostaglandin synthesis, providing anti-inflammatory, analgesic, and antipyretic effects. The irreversible (covalent acetylation) mechanism is pharmacologically distinctive among NSAIDs.",
+    "bindings": [
+      {
+        "target": "COX-1",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "COX-2",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Atomoxetine",
+    "summary": "Selective Norepinephrine Reuptake Inhibitor (NRI)",
+    "description": "Selectively inhibits the norepinephrine transporter (NET), increasing synaptic norepinephrine. In the prefrontal cortex, where dopamine is also cleared by NET due to low DAT density, NET inhibition indirectly raises both norepinephrine and dopamine. This enhances attention and executive function without dopamine release in the nucleus accumbens, resulting in minimal abuse potential.",
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Azithromycin",
+    "summary": "Macrolide Antibiotic (Protein Synthesis Inhibitor)",
+    "description": "Binds the 50S ribosomal subunit at the polypeptide exit tunnel, blocking translocation of peptidyl-tRNA and thereby inhibiting bacterial protein synthesis. Bacteriostatic at typical concentrations. Has a very long tissue half-life and accumulates within phagocytes, which transport it to sites of infection. Also exhibits anti-inflammatory and immunomodulatory properties.",
+    "bindings": [
+      {
+        "target": "50S ribosomal subunit",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Baclofen",
+    "summary": "Selective GABA-B Receptor Agonist",
+    "description": "Selectively activates GABA-B receptors — Gi/Go-coupled GPCRs that lower neuronal excitability by opening potassium channels and inhibiting voltage-gated calcium channels. Produces antispasticity/muscle relaxation by reducing excitatory transmission at spinal motoneurons. Unlike benzodiazepines and barbiturates, has no action at GABA-A receptors.",
+    "bindings": [
+      {
+        "target": "GABA-B",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Brexpiprazole",
+    "summary": "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)",
+    "description": "A partial agonist at dopamine D2 and serotonin 5-HT1A receptors and an antagonist at 5-HT2A receptors. Relative to aripiprazole, has lower intrinsic activity at D2 (more antagonist-like) and stronger 5-HT1A partial agonism, which may reduce akathisia and improve tolerability.",
+    "bindings": [
+      {
+        "target": "D2",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Buprenorphine",
+    "summary": "Partial μ-Opioid Agonist and κ-Opioid Antagonist",
+    "description": "A high-affinity partial agonist at μ-opioid receptors (MOR), producing submaximal receptor activation even at full occupancy. This creates a ceiling effect for respiratory depression while providing effective analgesia and withdrawal relief. Also antagonizes κ-opioid receptors (KOR), which may contribute to antidepressant and anti-dysphoric effects. Slow receptor dissociation contributes to its long duration of action.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Bupropion",
+    "summary": "Norepinephrine-Dopamine Reuptake Inhibitor (NDRI)",
+    "description": "Inhibits the reuptake of norepinephrine (NET) and dopamine (DAT), increasing their synaptic availability. Unlike most antidepressants, has minimal effect on serotonin and does not cause sexual dysfunction or weight gain. Also acts as a non-competitive antagonist at nicotinic acetylcholine receptors, contributing to efficacy in smoking cessation. The active metabolite hydroxybupropion has a longer half-life and contributes significantly to clinical effects.",
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "nAChR",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Caffeine",
+    "summary": "Non-Selective Adenosine Receptor Antagonist",
+    "description": "Competitively antagonizes adenosine A1 and A2A receptors. Adenosine normally promotes sleep and suppresses arousal; blocking its receptors increases wakefulness and alertness. A2A antagonism in the striatum indirectly enhances dopaminergic signaling. At supratherapeutic doses it also inhibits phosphodiesterases (raising intracellular cAMP), but this effect is minor at normal dietary doses.",
+    "bindings": [
+      {
+        "target": "Adenosine A1",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Adenosine A2A",
+        "action": "antagonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Carbamazepine",
+    "summary": "Voltage-Gated Sodium Channel Blocker",
+    "description": "Primarily blocks voltage-gated sodium channels by binding their inactivated state, reducing sustained repetitive firing and limiting seizure spread; reduced glutamate release follows secondarily from this sodium-channel blockade. Has additional minor effects on adenosine receptors and voltage-gated calcium channels. The active metabolite carbamazepine-10,11-epoxide contributes to both therapeutic and adverse effects.",
+    "bindings": [
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Cariprazine",
+    "summary": "D3-Preferring Dopamine Partial Agonist",
+    "description": "Partial agonist at dopamine D3 and D2 receptors with preferential affinity for D3 (roughly 5- to 10-fold). D3 occupancy in the mesolimbic pathway may particularly benefit negative symptoms, cognitive deficits, and anhedonia. Also a partial agonist at 5-HT1A and an antagonist at 5-HT2B (high affinity) and 5-HT2A receptors. An active metabolite has a very long half-life.",
+    "bindings": [
+      {
+        "target": "D3",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "D2",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2B",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Carisoprodol",
+    "summary": "GABA-A Modulator (via Meprobamate Metabolite)",
+    "description": "A carbamate muscle relaxant that is partly metabolized to meprobamate, itself a positive allosteric modulator at GABA-A receptors with barbiturate-like activity. The parent compound also acts directly at GABA-A receptors — allosterically potentiating, and at higher concentrations directly gating, the channel in a barbiturate-like manner (blocked by bemegride but not flumazenil) via a site distinct from the benzodiazepine, barbiturate, and neurosteroid sites; this direct action is partly independent of meprobamate. Produces muscle relaxation, sedation, and anxiolysis. The meprobamate metabolite has a long half-life and contributes to dependence potential.",
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Carvedilol",
+    "summary": "Non-Selective β-Blocker with α1 Antagonism and Antioxidant Properties",
+    "description": "Blocks β1-, β2-, and α1-adrenergic receptors, combining cardiac output reduction with arterial vasodilation. The α1 blockade produces direct vasodilation, distinguishing it from pure β-blockers. Also exhibits antioxidant and anti-proliferative properties that may contribute additional cardiovascular protection beyond blood-pressure lowering.",
+    "bindings": [
+      {
+        "target": "β1",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "β2",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "α1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "CBD",
+    "summary": "Multimodal Modulator (Non-Intoxicating Cannabinoid)",
+    "description": "Does not directly activate CB1 or CB2 receptors at physiological concentrations. Acts as a negative allosteric modulator of CB1, reducing the efficacy of orthosteric agonists such as THC and 2-AG. Agonist at 5-HT1A (anxiolytic), TRPV1 vanilloid channels (analgesic/antipsychotic-linked), and PPARγ nuclear receptors (anti-inflammatory). Inhibits fatty acid amide hydrolase (FAAH), raising endogenous anandamide. Antagonizes the orphan receptor GPR55.",
+    "bindings": [
+      {
+        "target": "CB1",
+        "action": "negativeAllostericModulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "TRPV1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "PPARγ",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "FAAH",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "GPR55",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "CDP-Choline",
+    "summary": "Cholinergic Precursor and Membrane Phospholipid Source",
+    "description": "An endogenous intermediate in phosphatidylcholine synthesis. Supplies both choline (for acetylcholine synthesis) and cytidine (converted to uridine, which supports synaptic membrane phospholipid formation via the Kennedy pathway). Chronic exposure is associated with modest, indirect increases in striatal dopamine receptor density and dopamine release, in addition to cholinergic effects. Supports neuronal membrane integrity and repair.",
+    "bindings": [
+      {
+        "target": "Dopaminergic (indirect, downstream)",
+        "action": "modulator",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Celecoxib",
+    "summary": "Selective COX-2 Inhibitor",
+    "description": "Selectively inhibits cyclooxygenase-2 (COX-2), the inducible isoform upregulated during inflammation, while relatively sparing constitutive COX-1 in the gastric mucosa and platelets. This selectivity reduces gastrointestinal bleeding risk compared to non-selective NSAIDs but does not provide antiplatelet effects. COX-2 selectivity may increase cardiovascular thromboembolic risk.",
+    "bindings": [
+      {
+        "target": "COX-2",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Clonidine",
+    "summary": "α2-Adrenergic Receptor Agonist",
+    "description": "Activates presynaptic α2-adrenergic receptors in the locus coeruleus and brainstem, reducing norepinephrine release and sympathetic outflow, which decreases heart rate, blood pressure, and peripheral vascular resistance. In opioid and alcohol withdrawal, it dampens the noradrenergic hyperactivity responsible for anxiety, tachycardia, and diaphoresis. Also has activity at imidazoline I1 receptors.",
+    "bindings": [
+      {
+        "target": "α2-adrenergic",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Imidazoline I1",
+        "action": "agonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Clozapine",
+    "summary": "Multi-Receptor Antagonist (Atypical Antipsychotic with Unique Efficacy)",
+    "description": "Distinguished by high 5-HT2A affinity relative to D2, with uniquely rapid D2 dissociation ('fast-off' theory). Has significant affinity for D1, D3, D4, muscarinic M1/M4, histamine H1, and α1/α2-adrenergic receptors. This broad receptor profile underlies its efficacy in treatment-resistant schizophrenia. Risk of agranulocytosis necessitates blood monitoring.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "D2",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "D1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "D4",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "M1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "H1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "α1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Cocaine",
+    "summary": "Triple Monoamine Reuptake Inhibitor",
+    "description": "Blocks the dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, preventing reuptake and increasing synaptic monoamine levels. Unlike amphetamines, it inhibits reuptake without reversing transporter function or releasing stored neurotransmitters. The rapid onset and short duration of DAT blockade contribute to its high addiction potential. Also blocks voltage-gated sodium channels, producing local anesthetic effects.",
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Codeine",
+    "summary": "Prodrug → Morphine (CYP2D6-Dependent Opioid)",
+    "description": "A prodrug metabolized to morphine by cytochrome P450 enzyme CYP2D6. Has very weak intrinsic affinity for μ-opioid receptors; analgesic and antitussive effects depend on conversion to morphine. CYP2D6 polymorphisms strongly affect response — poor metabolizers get little benefit, while ultra-rapid metabolizers may reach dangerous opioid levels.",
+    "bindings": [
+      {
+        "target": "μ-opioid (via morphine)",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Delta-8-THC",
+    "summary": "Cannabinoid CB1 Partial Agonist (Lower Potency)",
+    "description": "A positional isomer of Δ9-THC with the ring double bond at the 8-carbon rather than the 9-carbon position. Acts as a CB1 partial agonist with lower binding affinity than Δ9-THC, producing qualitatively similar but generally milder psychoactive effects (euphoria, relaxation, altered perception). Also a weak CB2 partial agonist.",
+    "bindings": [
+      {
+        "target": "CB1",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "CB2",
+        "action": "partialAgonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Dextromethorphan",
+    "summary": "NMDA Antagonist, Sigma-1 Agonist, and Serotonin Reuptake Inhibitor",
+    "description": "Produces dose-dependent effects through multiple targets. At therapeutic antitussive doses, acts primarily as a sigma-1 receptor agonist in brainstem cough centers. At higher (recreational) doses, the metabolite dextrorphan acts as an NMDA antagonist producing dissociative effects. The parent compound also inhibits serotonin reuptake (SERT) — a basis for serotonin-syndrome risk with serotonergic drugs — and weakly activates μ-opioid receptors. CYP2D6 polymorphisms significantly affect metabolism and experience.",
+    "bindings": [
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Sigma-1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "DMT",
+    "summary": "Serotonin 5-HT2A Agonist and Sigma-1 Receptor Agonist",
+    "description": "Acts as an agonist at serotonin 5-HT2A receptors (the primary psychedelic mechanism) and also activates sigma-1 receptors, which may modulate ion channels, ER stress responses, and neuroplasticity. Additionally interacts with trace amine-associated receptors. Rapidly metabolized by monoamine oxidase (MAO), so oral activity requires an MAO inhibitor (as in ayahuasca).",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Sigma-1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "TAAR1",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "GBL",
+    "summary": "Prodrug → GHB (GABA-B Agonist)",
+    "description": "A prodrug rapidly converted to GHB (gamma-hydroxybutyrate) by peripheral lactonases. The active form acts as an agonist at GHB receptors and GABA-B receptors. Faster onset than oral GHB owing to more rapid absorption and conversion, but carries the same steep dose-response curve and overdose risk.",
+    "bindings": [
+      {
+        "target": "GHB receptor",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GABA-B",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "GHB",
+    "summary": "GHB Receptor and GABA-B Receptor Agonist",
+    "description": "Acts as an agonist at the GHB receptor (a distinct Gi/Go-coupled GPCR, GPR172A) and at GABA-B receptors. At lower concentrations, GHB-receptor activation modulates dopamine and glutamate release, producing a stimulatory/euphoric phase; at higher concentrations GABA-B agonism predominates, producing sedation, deep sleep, and anesthesia. An endogenous brain substance synthesized from GABA. The steep dose-response curve makes the margin between recreational and overdose doses dangerously narrow.",
+    "bindings": [
+      {
+        "target": "GHB receptor",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GABA-B",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Ibogaine",
+    "summary": "Multimodal Psychoactive Alkaloid",
+    "description": "Acts on multiple neurotransmitter systems simultaneously. Its highest-affinity interaction is potent non-competitive antagonism of α3β4 nicotinic acetylcholine receptors — a likely key contributor to its anti-addictive effects. It is also a serotonin transporter inhibitor, a κ-opioid receptor agonist, a moderate-affinity NMDA receptor antagonist, and a sigma (notably sigma-2) ligand. The active metabolite noribogaine has prolonged μ-opioid receptor activity. This complex profile may reduce opioid withdrawal and craving but carries significant cardiac risk via hERG potassium-channel inhibition.",
+    "bindings": [
+      {
+        "target": "α3β4 nAChR",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "κ-opioid",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Sigma-2",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "hERG",
+        "action": "channelBlocker",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Kratom",
+    "summary": "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator",
+    "description": "The primary alkaloid mitragynine acts as a partial agonist at μ-opioid receptors (MOR), producing dose-dependent analgesic and euphoric effects. At lower doses, stimulant-like effects are attributed to α2-adrenergic agonism and 5-HT2A antagonism. The metabolite 7-hydroxymitragynine has substantially higher MOR potency. Unlike classical opioids, mitragynine also acts as a κ-opioid receptor antagonist.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "α2-adrenergic",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "L-Theanine",
+    "summary": "Glutamate Analogue with GABAergic and Serotonergic Effects",
+    "description": "An amino-acid analogue of glutamate found in tea leaves that crosses the blood-brain barrier. Its receptor pharmacology is poorly characterized: the best-supported direct interaction is low-affinity (micromolar) binding at ionotropic glutamate receptors (NMDA, AMPA, kainate) by structural mimicry of glutamate, which may produce weak antagonism. Animal studies report downstream increases in brain GABA, serotonin, and dopamine and modulation of EEG alpha-wave activity, though these are not established direct receptor actions. Promotes relaxation without sedation and may attenuate the anxiogenic effects of caffeine when co-administered.",
+    "bindings": [
+      {
+        "target": "Glutamate receptors (NMDA/AMPA/kainate, low-affinity)",
+        "action": "antagonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Lamotrigine",
+    "summary": "Voltage-Gated Sodium Channel Blocker and Glutamate Release Inhibitor",
+    "description": "Stabilizes neuronal membranes by binding the inactivated state of voltage-gated sodium channels, reducing sustained repetitive firing. The resulting suppression of presynaptic neurotransmitter release falls preferentially on glutamate rather than GABA, which distinguishes it from other sodium-channel blockers and may underlie its mood-stabilizing effect, particularly in preventing bipolar depressive episodes.",
+    "bindings": [
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Glutamate release",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Levothyroxine",
+    "summary": "Thyroid Hormone Replacement (T4)",
+    "description": "Synthetic thyroxine (T4) converted to the more active triiodothyronine (T3) by peripheral deiodinase enzymes. T3 binds nuclear thyroid hormone receptors, modulating gene transcription to raise basal metabolic rate, cardiac output, oxygen consumption, and protein synthesis. Replaces deficient endogenous thyroid hormone in hypothyroidism.",
+    "bindings": [
+      {
+        "target": "Thyroid hormone receptors (TRα/TRβ)",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Lisdexamfetamine",
+    "summary": "Prodrug of Dextroamphetamine (Monoamine Releasing Agent)",
+    "description": "A pharmacologically inactive prodrug cleaved in red blood cells to release dextroamphetamine and L-lysine. Dextroamphetamine then acts as a monoamine releasing agent, reversing the dopamine (DAT) and norepinephrine (NET) transporters, redistributing vesicular stores via VMAT2, and activating TAAR1. The prodrug formulation provides gradual release of active drug, reducing abuse potential and producing smoother pharmacokinetics than immediate-release amphetamine.",
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "TAAR1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "VMAT2",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Lithium",
+    "summary": "Mood Stabilizer with Multiple Intracellular Mechanisms",
+    "description": "Exact mechanism incompletely understood. Inhibits inositol monophosphatase (IMPase), depleting free inositol and dampening phosphoinositide second-messenger signaling. Inhibits glycogen synthase kinase-3β (GSK-3β), influencing neuroplasticity, circadian rhythm, and neuroprotection. Indirectly attenuates NMDA-receptor-mediated glutamate signaling, and also affects protein kinase C, cAMP, and arachidonic acid metabolism.",
+    "bindings": [
+      {
+        "target": "IMPase",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GSK-3β",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NMDA",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Loperamide",
+    "summary": "Peripheral μ-Opioid Receptor Agonist",
+    "description": "Acts as a μ-opioid receptor agonist on myenteric plexus neurons in the gastrointestinal tract, reducing peristalsis and intestinal secretion. Does not cross the blood-brain barrier at therapeutic doses due to P-glycoprotein efflux, so it produces antidiarrheal effects without central opioid effects. At very high (supratherapeutic) doses, the efflux mechanism can be overwhelmed, producing central opioid effects and cardiotoxicity.",
+    "bindings": [
+      {
+        "target": "μ-opioid (peripheral)",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "MDMA",
+    "summary": "Serotonin-Predominant Monoamine Releasing Agent and Empathogen",
+    "description": "Enters serotonergic, dopaminergic, and noradrenergic nerve terminals via their respective transporters and reverses transporter function to release stored monoamines, with strongest action at SERT — producing pronounced serotonin release that distinguishes it from amphetamine. It also directly inhibits SERT, DAT, and NET reuptake. Downstream serotonergic signaling stimulates oxytocin release from the hypothalamus, contributing to prosocial and empathogenic effects.",
+    "bindings": [
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Melatonin",
+    "summary": "Melatonin MT1/MT2 Receptor Agonist",
+    "description": "Activates melatonin MT1 and MT2 receptors in the suprachiasmatic nucleus (SCN), the master circadian clock. MT1 activation suppresses SCN neuronal firing, promoting sleep onset; MT2 activation shifts circadian phase, entraining the sleep-wake cycle. Endogenous melatonin is secreted by the pineal gland in response to darkness, and exogenous melatonin mimics this signal.",
+    "bindings": [
+      {
+        "target": "MT1",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "MT2",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Memantine",
+    "summary": "Low-Affinity NMDA Receptor Antagonist (Neuroprotective)",
+    "description": "A low-affinity, uncompetitive NMDA receptor antagonist with rapid on/off kinetics. At therapeutic concentrations it preferentially blocks pathologically (tonically) activated NMDA receptors while preserving normal phasic synaptic NMDA signaling. This selectivity reduces excitotoxic neuronal damage in Alzheimer's disease without producing the dissociative effects of higher-affinity NMDA antagonists such as ketamine.",
+    "bindings": [
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Metformin",
+    "summary": "AMP-Activated Protein Kinase (AMPK) Activator",
+    "description": "Exact mechanism not fully established. Inhibits mitochondrial respiratory complex I, raising the cellular AMP:ATP ratio, which activates AMP-activated protein kinase (AMPK). AMPK activation suppresses hepatic gluconeogenesis and improves peripheral insulin sensitivity. Does not stimulate insulin secretion and does not cause hypoglycemia when used alone. May also modulate the gut microbiome and raise GLP-1 levels.",
+    "bindings": [
+      {
+        "target": "Mitochondrial complex I",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "AMPK",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Methadone",
+    "summary": "Full μ-Opioid Agonist and NMDA Receptor Antagonist",
+    "description": "Acts as a full agonist at μ-opioid receptors with additional NMDA receptor antagonist activity. The NMDA antagonism may slow opioid tolerance development and contribute to analgesic efficacy in neuropathic pain. A very long and variable half-life (15-60 hours) provides sustained opioid receptor occupancy that suppresses withdrawal and craving. Also weakly inhibits serotonin and norepinephrine reuptake.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Methaqualone",
+    "summary": "GABA-A Positive Allosteric Modulator (Quinazolinone)",
+    "description": "A quinazolinone sedative-hypnotic that acts as a positive allosteric modulator of GABA-A receptors, binding at the transmembrane β(+)/α(–) subunit interface — a site distinct from the benzodiazepine, barbiturate, and neurosteroid sites and overlapping the general-anesthetic (etomidate) site. Potentiation widens the ion-conducting pore and destabilizes the hydrophobic activation gate, enhancing GABAergic inhibition to produce sedative, hypnotic, anxiolytic, and muscle-relaxant effects. Functionality is subtype-dependent.",
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Methylphenidate",
+    "summary": "Dopamine-Norepinephrine Reuptake Inhibitor",
+    "description": "Blocks the dopamine transporter (DAT) and norepinephrine transporter (NET), increasing synaptic dopamine and norepinephrine. Unlike amphetamines, it is a pure reuptake inhibitor — it does not reverse transporter function or release stored monoamines. Preferentially raises catecholamines in the prefrontal cortex and striatum, enhancing attention, working memory, and executive function.",
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Mirtazapine",
+    "summary": "Noradrenergic and Specific Serotonergic Antidepressant (NaSSA)",
+    "description": "Blocks presynaptic α2-adrenergic autoreceptors and heteroreceptors, increasing norepinephrine and serotonin release. Simultaneously blocks 5-HT2A, 5-HT2C, and 5-HT3 receptors, directing serotonergic activity through 5-HT1A receptors. Potent histamine H1 antagonism produces marked sedation and appetite stimulation, particularly at lower doses where antihistaminic effects predominate.",
+    "bindings": [
+      {
+        "target": "α2-adrenergic",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2C",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT3",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "H1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Mitragynine",
+    "summary": "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator",
+    "description": "The primary alkaloid in kratom. Acts as a partial agonist at μ-opioid receptors (MOR), producing dose-dependent analgesic and euphoric effects. At lower doses, stimulant-like effects are attributed to α2-adrenergic agonism and 5-HT2A antagonism. The metabolite 7-hydroxymitragynine has substantially higher MOR potency. Also acts as a κ-opioid receptor antagonist.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "α2-adrenergic",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Modafinil",
+    "summary": "Wakefulness-Promoting Agent (Atypical Stimulant)",
+    "description": "Mechanism not fully established. Weakly inhibits the dopamine transporter (DAT), increasing extracellular dopamine — the only well-validated direct molecular target. Downstream of this it activates hypothalamic orexin/hypocretin neurons and raises histamine release in the tuberomammillary nucleus, both promoting wakefulness, and indirectly modulates norepinephrine, serotonin, and glutamate/GABA balance. Unlike amphetamines, it does not significantly release catecholamines.",
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 1
+      },
+      {
+        "target": "Orexin (downstream)",
+        "action": "modulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Histamine (downstream)",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ],
+    "references": [
+      "10.3389/fnana.2025.1670564"
+    ]
+  },
+  {
+    "name": "Montelukast",
+    "summary": "Leukotriene Receptor Antagonist",
+    "description": "Selectively antagonizes the cysteinyl leukotriene receptor CysLT1, blocking the bronchoconstrictive and pro-inflammatory effects of the cysteinyl leukotrienes C4, D4, and E4 — potent inflammatory mediators released by mast cells, eosinophils, and other immune cells. Reduces bronchospasm, mucus secretion, and eosinophilic airway inflammation in asthma.",
+    "bindings": [
+      {
+        "target": "CysLT1",
+        "action": "antagonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Naloxone",
+    "summary": "Competitive μ-Opioid Receptor Antagonist (Short-Acting)",
+    "description": "Acts as a competitive antagonist at μ-opioid receptors (MOR), with lower affinity for κ and δ receptors. Rapidly displaces opioid agonists from MOR, reversing respiratory depression, sedation, and analgesia. Has poor oral bioavailability due to extensive first-pass metabolism, necessitating parenteral or intranasal administration. The short duration of action (30-90 minutes) may require repeat dosing for long-acting opioids.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "δ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Naltrexone",
+    "summary": "Long-Acting Opioid Receptor Antagonist",
+    "description": "Acts as a competitive antagonist at μ-, κ-, and δ-opioid receptors with good oral bioavailability and a long duration of action (24-72 hours). At standard doses (50 mg) it blocks the euphoric effects of exogenous opioids. Also used for alcohol use disorder, where it reduces alcohol-induced dopamine release and craving through opioid-system modulation.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "δ-opioid",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Nicotine",
+    "summary": "Nicotinic Acetylcholine Receptor (nAChR) Agonist",
+    "description": "Acts as an agonist at nicotinic acetylcholine receptors (nAChRs), ligand-gated ion channels that open in response to acetylcholine. Primary targets include α4β2 nAChRs (high affinity; involved in reward and cognition) and α7 nAChRs (involved in cognitive enhancement). Activation of nAChRs in the ventral tegmental area drives dopamine release in the nucleus accumbens, mediating reinforcing effects and addiction.",
+    "bindings": [
+      {
+        "target": "α4β2 nAChR",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "α7 nAChR",
+        "action": "agonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Nitrous",
+    "summary": "NMDA Antagonist, Endogenous Opioid Releaser, and GABA Modulator",
+    "description": "Produces analgesia and dissociative effects through multiple mechanisms: NMDA receptor antagonism, stimulation of endogenous opioid peptide release, positive modulation of GABA-A receptors, and inhibition of certain potassium channels. Separately, it inactivates vitamin B12 (cobalamin) by oxidizing its cobalt atom, which can cause functional B12 deficiency and neurological damage with repeated heavy use.",
+    "bindings": [
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Endogenous opioids",
+        "action": "modulator",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Noopept",
+    "summary": "Neuropeptide-Derived Cognitive Enhancer",
+    "description": "A dipeptide nootropic structurally related to the racetams but with distinct pharmacology. Acts largely as a prodrug to the endogenous dipeptide cycloprolylglycine, a positive allosteric modulator of AMPA receptors; this potentiation of fast glutamatergic transmission is associated with enhanced long-term potentiation (LTP) and synaptic plasticity. NMDA-receptor involvement is reported but weaker. Downstream, chronic exposure increases expression of brain-derived neurotrophic factor (BDNF) and nerve growth factor (NGF) mRNA in the hippocampus. Active at much lower doses than piracetam.",
+    "bindings": [
+      {
+        "target": "AMPA",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NMDA",
+        "action": "modulator",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Ondansetron",
+    "summary": "Serotonin 5-HT3 Receptor Antagonist (Antiemetic)",
+    "description": "Selectively antagonizes serotonin 5-HT3 receptors, ligand-gated cation channels located on vagal afferents in the GI tract and in the chemoreceptor trigger zone (area postrema). Blocking 5-HT3 activation by serotonin released from enterochromaffin cells prevents initiation of the vomiting reflex. Has negligible activity at dopamine, histamine, and muscarinic receptors.",
+    "bindings": [
+      {
+        "target": "5-HT3",
+        "action": "antagonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Oxcarbazepine",
+    "summary": "Voltage-Gated Sodium Channel Blocker",
+    "description": "A keto derivative of carbamazepine that blocks voltage-gated sodium channels in their inactivated state. Largely a prodrug, rapidly reduced to its active metabolite licarbazepine (monohydroxy derivative, MHD), which carries most of the activity. Compared with carbamazepine it has a more favorable interaction profile owing to weaker hepatic enzyme induction and no epoxide metabolite.",
+    "bindings": [
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "PCP",
+    "summary": "Non-Competitive NMDA Antagonist and Dopamine Reuptake Inhibitor",
+    "description": "Blocks NMDA glutamate receptors as a non-competitive (open-channel) antagonist. Also raises synaptic dopamine — largely through indirect/allosteric effects on monoamine transport rather than high-affinity direct DAT blockade — which distinguishes it from other dissociatives and contributes to its stimulant properties and higher psychosis risk. Additionally interacts with sigma receptors, nicotinic receptors, and voltage-gated sodium channels.",
+    "bindings": [
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 1
+      },
+      {
+        "target": "Sigma",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Phenibut",
+    "summary": "GABA-B Receptor Agonist and α2δ Calcium Channel Ligand",
+    "description": "A synthetic phenyl derivative of GABA that, unlike GABA, crosses the blood-brain barrier. Acts as a GABA-B receptor agonist (anxiolytic, sedative) and binds the α2δ subunit of voltage-gated calcium channels in a gabapentinoid manner, reducing excitatory neurotransmitter release; the R-enantiomer's α2δ affinity is comparable to or greater than its GABA-B affinity. At high doses may weakly potentiate GABA-A receptors.",
+    "bindings": [
+      {
+        "target": "GABA-B",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "α2δ VGCC",
+        "action": "modulator",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GABA-A",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Psilocybin",
+    "summary": "Prodrug → Psilocin (5-HT2A Agonist)",
+    "description": "A prodrug rapidly dephosphorylated to psilocin by alkaline phosphatase. Psilocin acts as an agonist at serotonin 5-HT2A receptors (the primary psychedelic target), with additional activity at 5-HT2C, 5-HT1A, and other serotonin subtypes. 5-HT2A activation on cortical pyramidal neurons increases glutamate release and enhances connectivity between brain networks that are normally segregated, producing altered perception and consciousness.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2C",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Salbutamol",
+    "summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
+    "description": "Selectively activates β2-adrenergic receptors on airway smooth muscle, coupling through Gs to stimulate adenylyl cyclase and raise intracellular cAMP. The resulting protein kinase A activation relaxes bronchial smooth muscle, providing rapid bronchodilation. Raised cAMP also inhibits mast cell degranulation and stimulates mucociliary clearance.",
+    "bindings": [
+      {
+        "target": "β2-adrenergic",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Salvinorin A",
+    "summary": "Selective κ-Opioid Receptor Agonist (Salvinorin A)",
+    "description": "The active compound, salvinorin A, is a structurally unique non-nitrogenous terpenoid that acts as a highly potent and selective agonist at κ-opioid receptors (KOR). Unlike virtually all other known psychoactive compounds, it has no significant activity at serotonin 5-HT2A receptors. KOR activation in the claustrum and prefrontal cortex produces intensely dissociative and hallucinatory effects.",
+    "bindings": [
+      {
+        "target": "κ-opioid (KOR)",
+        "action": "agonist",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Sildenafil",
+    "summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
+    "description": "Selectively inhibits phosphodiesterase type 5 (PDE5), preventing degradation of cyclic GMP (cGMP) in smooth muscle. In the corpus cavernosum, sexual stimulation releases nitric oxide, which raises cGMP, causing smooth-muscle relaxation and increased blood flow; by blocking cGMP breakdown, the erectile response is enhanced and prolonged. The same mechanism underlies its use in pulmonary arterial hypertension.",
+    "bindings": [
+      {
+        "target": "PDE5",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Tadalafil",
+    "summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
+    "description": "Selectively inhibits PDE5, preventing degradation of cGMP in smooth muscle. Has a substantially longer half-life than sildenafil (~17.5 hours vs. ~4 hours), permitting daily dosing and a wider window of efficacy (up to ~36 hours on demand). Also weakly inhibits PDE11, though the clinical significance is unclear.",
+    "bindings": [
+      {
+        "target": "PDE5",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Tapentadol",
+    "summary": "μ-Opioid Receptor Agonist and Norepinephrine Reuptake Inhibitor",
+    "description": "Combines μ-opioid receptor (MOR) agonism with norepinephrine reuptake inhibition (NET blockade) in a single molecule. Unlike tramadol, does not require metabolic activation and does not significantly affect serotonin. The dual mechanism provides synergistic analgesia with a lower opioid burden and reduced gastrointestinal side effects relative to equianalgesic classical opioids.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "THC",
+    "summary": "Cannabinoid CB1 Partial Agonist",
+    "description": "A partial agonist at central cannabinoid CB1 receptors, mimicking the endogenous cannabinoid anandamide. CB1 receptors sit presynaptically on GABAergic and glutamatergic terminals; their activation suppresses neurotransmitter release via retrograde endocannabinoid-like signaling, modulating synaptic plasticity, pain, appetite, memory consolidation, and motor coordination. Also a weak partial agonist at CB2 receptors.",
+    "bindings": [
+      {
+        "target": "CB1",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "CB2",
+        "action": "partialAgonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Tianeptine sodium",
+    "summary": "μ-Opioid Receptor Agonist (Atypical Antidepressant)",
+    "description": "Historically classified as a serotonin reuptake enhancer, but now understood to act primarily as a full agonist at μ-opioid receptors (MOR) and, more weakly, δ-opioid receptors. MOR activation in the mesolimbic system produces antidepressant, anxiolytic, and analgesic effects. Also modulates glutamatergic neurotransmission and neuroplasticity in the hippocampus and amygdala.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "δ-opioid",
+        "action": "agonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Tianeptine sulfate",
+    "summary": "μ-Opioid Receptor Agonist (Atypical Antidepressant)",
+    "description": "Historically classified as a serotonin reuptake enhancer, but now understood to act primarily as a full agonist at μ-opioid receptors (MOR) and, more weakly, δ-opioid receptors. MOR activation in the mesolimbic system produces antidepressant, anxiolytic, and analgesic effects. Also modulates glutamatergic neurotransmission and neuroplasticity in the hippocampus and amygdala.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "δ-opioid",
+        "action": "agonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Topiramate",
+    "summary": "Multimodal Anticonvulsant",
+    "description": "Acts through several mechanisms: blocks voltage-gated sodium channels; potentiates GABA-A receptor activity at a benzodiazepine-independent site; antagonizes AMPA/kainate glutamate receptors; and inhibits carbonic anhydrase (isoenzymes II and IV). Combined GABAergic enhancement and glutamatergic reduction give broad-spectrum anticonvulsant activity, while carbonic-anhydrase inhibition underlies appetite suppression, paresthesia, and a tendency to metabolic acidosis.",
+    "bindings": [
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      },
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "AMPA/kainate",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "Carbonic anhydrase",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Tramadol",
+    "summary": "Weak μ-Opioid Agonist and Serotonin-Norepinephrine Reuptake Inhibitor",
+    "description": "Produces analgesia through a dual mechanism: the parent compound weakly agonizes μ-opioid receptors and inhibits serotonin and norepinephrine reuptake. The active metabolite O-desmethyltramadol (M1), formed by CYP2D6, has roughly 200-fold greater μ-opioid affinity and accounts for most of the opioid analgesia. The combination of opioid and monoaminergic mechanisms provides synergistic analgesia but increases seizure risk and serotonin syndrome potential.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Trazodone",
+    "summary": "Serotonin Antagonist and Reuptake Inhibitor (SARI)",
+    "description": "Combines serotonin 5-HT2A receptor antagonism with serotonin reuptake inhibition (SERT blockade). The 5-HT2A antagonism predominates at lower doses, producing anxiolytic and sleep-promoting effects, while at higher antidepressant doses SERT inhibition enhances serotonergic neurotransmission. Also blocks α1-adrenergic and histamine H1 receptors, contributing to sedation.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "α1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "H1",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Valproate",
+    "summary": "Multimodal Anticonvulsant and Mood Stabilizer",
+    "description": "Acts through several mechanisms: raises brain GABA by inhibiting GABA transaminase and enhancing GABA synthesis; blocks voltage-gated sodium channels to reduce repetitive neuronal firing; inhibits T-type calcium channels in thalamic neurons; and inhibits histone deacetylases (HDACs).",
+    "bindings": [
+      {
+        "target": "GABA transaminase",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      },
+      {
+        "target": "T-type Ca²⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 2
+      },
+      {
+        "target": "HDACs",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Valproic Acid",
+    "summary": "Multimodal Anticonvulsant and Mood Stabilizer",
+    "description": "Acts through several mechanisms: raises brain GABA by inhibiting GABA transaminase (and enhancing GABA synthesis); blocks voltage-gated sodium channels to limit high-frequency repetitive firing; inhibits T-type calcium channels in thalamic neurons (relevant to absence seizures); and inhibits histone deacetylases (HDACs), altering gene expression in a way that may contribute to neuroprotective and mood-stabilizing effects.",
+    "bindings": [
+      {
+        "target": "GABA transaminase",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Na⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      },
+      {
+        "target": "T-type Ca²⁺ channels",
+        "action": "channelBlocker",
+        "affinity_tier": 2
+      },
+      {
+        "target": "HDACs",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Vilazodone",
+    "summary": "SSRI and 5-HT1A Partial Agonist",
+    "description": "Combines serotonin reuptake inhibition (SERT blockade) with partial agonism at serotonin 5-HT1A receptors. The 5-HT1A partial agonism may accelerate the onset of action by partially bypassing the delayed desensitization of presynaptic autoreceptors required by pure SSRIs, and may produce fewer sexual side effects.",
+    "bindings": [
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Vortioxetine",
+    "summary": "Multimodal Serotonergic Antidepressant",
+    "description": "Combines SERT inhibition with direct modulation of multiple serotonin receptors: agonist at 5-HT1A, partial agonist at 5-HT1B, antagonist at 5-HT1D, 5-HT3, and 5-HT7 receptors. This multimodal mechanism enhances downstream release of serotonin, norepinephrine, dopamine, histamine, and acetylcholine. The 5-HT3 and 5-HT7 antagonism may contribute to procognitive effects.",
+    "bindings": [
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT3",
+        "action": "antagonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT7",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Warfarin",
+    "summary": "Vitamin K Epoxide Reductase Inhibitor (Anticoagulant)",
+    "description": "Inhibits vitamin K epoxide reductase (VKORC1), preventing recycling of vitamin K to its active reduced form. Reduced vitamin K is required for post-translational gamma-carboxylation of clotting factors II, VII, IX, and X, as well as anticoagulant proteins C and S. The anticoagulant effect is delayed (3-5 days) until pre-existing carboxylated clotting factors are cleared.",
+    "bindings": [
+      {
+        "target": "VKORC1",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 3
+      }
+    ]
+  }
+]
