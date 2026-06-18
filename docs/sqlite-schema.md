@@ -258,6 +258,7 @@ CREATE TABLE bindings (
     ic50_nm              REAL,
     emax_pct             REAL,
     intrinsic_activity_pct REAL,
+    affinity_tier        INTEGER,               -- curated ordinal tier 1=weak/2=significant/3=primary when no numeric Ki; app shows COALESCE(affinity_tier, tier-from-ki_nm). NULL for measured rows. (MOA relocation)
     reference_agonist    TEXT,                  -- '5-HT', 'DAMGO', 'DOI'
     species              TEXT,                  -- 'human' | 'rat' | 'mouse' | 'rhesus' | 'other'
     tissue_or_cell       TEXT,                  -- 'HEK293 stably expressing human 5-HT2A'

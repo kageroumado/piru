@@ -74,7 +74,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 39.3,
-    "mechanism_summary": "Main article: GHB § Pharmacology\n\n1,4-Butanediol is not itself active; its mechanism of action derives from its identity as a prodrug of GHB.\n\nIt is converted to GHB in the liver by alcohol dehydrogenase and aldehyde dehydrogenase — the same enzymes responsible for metabolizing alcohol. 1,4-Butanediol is first converted in the liver to 4-hydroxybutanal and released into the bloodstream, then returned to the liver where it is converted to GHB. This process results in a substantially delayed onset compared to GBL or GHB. 4-Hydroxybutanal, although an aldehyde, does not share the organ toxicity of acetaldehyde, possibly because its metabolism to GHB proceeds very rapidly.\n\nGBL and 1,4-butanediol metabolic pathways as GHB prodrugs\n\nVariation in dehydrogenase levels between individuals means that, as with alcohol, effects can differ substantially across users. In many people this manifests as a slow onset and a higher rate of aldehyde accumulation in the blood, producing more toxic side effects. Because of these pharmacokinetic differences, 1,4-butanediol tends to be less potent and slower-acting than GHB but longer-lasting; the related compound GBL tends to be slightly more potent and faster-acting than GHB but shorter in duration.",
+    "mechanism_summary": "Prodrug → GHB (GABA-B Agonist)",
     "effects": [
       "Amnesia",
       "Anxiety suppression",
@@ -2751,7 +2751,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n25C-NBOMe对5-HT受体系统具有活性，并在其中作为强效部分激动剂发挥作用。不过，这些相互作用究竟如何产生迷幻剂体验，目前仍然没有被完全阐明。\n\n与2C-C相比，在结构中加入NBOMe基团会使其效力提升约16倍，因此即使是极高剂量也能以液体形式附着在纸片与吸墨纸上，而人们也常常会将其误认为是LSD。不过若与LSD相比，它的效力大约只有后者的三分之一。",
+    "mechanism_summary": "Full 5-HT2A Receptor Agonist (High Potency)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -3199,7 +3199,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\n25I-NBOMe 在 5-HT2A 受体上具有功效，在此处它充当全激动剂。[[5]](#cite_note-Ettrup2011-5) 然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。\n\n在迷幻剂中，这种化合物在与 5-HT2a 受体结合的高效力、亲和力和选择性方面被认为是药理学上独特的。[[5]](#cite_note-Ettrup2011-5) 与流行的看法相反，它不是一种“全激动剂”，尽管人们对其产生的效应与包括传统迷幻剂在内的其他 5-HT2a 部分激动剂有何不同提出了疑问。\n\n以下靶点的 Ki 值大于 500 Ki：5-HT1A、D3、H2、5-HT1D、α1A 肾上腺素能、δ 阿片、血清素再摄取转运蛋白、5-HT5A、5-HT1B、D2、5-HT7、D1、5-HT3、5-HT1E、D5、毒蕈碱 M1-M5、H3 和多巴胺再摄取转运蛋白。[[7]](#cite_note-high_specific-7)\n\nKi-值[[5]](#cite_note-Ettrup2011-5)[[7]](#cite_note-high_specific-7)",
+    "mechanism_summary": "Full 5-HT2A Receptor Agonist (High Potency)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -5546,14 +5546,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Serotonin-Predominant Monoamine Releasing Agent",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal100.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -11376,7 +11375,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "5-APB 是一种针对去甲肾上腺素、多巴胺与血清素的三重再摄取抑制剂，同时也是 5-HT 受体的激动剂。另外，也有人推测 5-APB 会作为前面提到这些神经递质的释放剂来发挥作用。\n\n这意味着它会通过结合并部分阻断那些通常负责把这些单胺类物质从突触间隙中移除的转运蛋白，从而有效提升大脑中血清素、去甲肾上腺素与多巴胺的水平。这样会让多巴胺与去甲肾上腺素在脑内积聚，进而带来兴奋与躯体欣快感等效应。",
+    "mechanism_summary": "Benzofuran Empathogen (Monoamine Releasing Agent)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -11909,15 +11908,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Serotonin Precursor",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/5-Hydroxytryptophan",
       "https://examine.com/supplements/5-htp/"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "5-IAI",
@@ -12378,7 +12375,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Potent 5-HT1A and 5-HT2A Receptor Agonist",
     "effects": [
       "Amnesia",
       "Analysis enhancement",
@@ -12418,8 +12415,7 @@
       "https://erowid.org/library/books_online/tihkal/tihkal38.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -13277,7 +13273,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "6-APB是一种血清素–去甲肾上腺素–多巴胺再摄取抑制剂（SNDRI），其对去甲肾上腺素转运体（NET）、多巴胺转运体（DAT）和血清素转运体（SERT）的Ki值分别为117、150和2698 nM。6-APB还具有作为这些单胺类神经递质的释放剂的额外活性。\n\n6-APB是血清素5-HT2B受体的强效完全激动剂（Ki = 3.7 nM），对该靶点的亲和力高于任何其他位点。此外，与MDMA不同，6-APB对5-HT2B受体的选择性是5-HT2A和5-HT2C受体的100倍。\n\n除了5-HT2B受体外，还发现6-APB对α2C-肾上腺素能受体亚型具有高亲和力（Ki = 45 nM），尽管这种作用的临床意义尚不清楚。\n\n5-HT2B受体的强效激动作用使得6-APB在长期或慢性使用中可能会产生心脏毒性，正如在已撤市的血清素能食欲抑制剂芬氟拉明等其他5-HT2B受体激动剂中所见。\n\n被称为血清素、多巴胺和去甲肾上腺素的单胺类神经递质是调节大脑感受愉悦、动力、奖励、计划、注意力和专注力的全局神经递质。当它们的再摄取被抑制或它们的释放被促进时，这些神经递质会在突触间隙（神经元之间的间隙）中积累到非正常水平，这使得它们能够被重复使用。其结果是多个大脑区域的神经元激活，最终产生刺激、放松、去抑制和欣快效应的组合。",
+    "mechanism_summary": "Benzofuran Empathogen (Monoamine Releasing Agent)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -14325,7 +14321,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "The mechanism of action of acetaminophen is not well-defined. Its antipyretic and analgesic activity are thought to result from inhibition of prostaglandin synthesis and release in the central nervous system. Inhibition of the nitric oxide (NO) pathway via action on neurotransmitter receptors, such as N-methyl-D-aspartate (NMDA) and substance P, also may result in elevation of the pain threshold.",
+    "mechanism_summary": "Centrally-Acting Analgesic and Antipyretic",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15272,15 +15268,14 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 90.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Melatonin Receptor Agonist and 5-HT2C Antagonist",
     "effects": [],
     "references": [
       "https://www.ema.europa.eu/en/documents/product-information/valdoxan-epar-product-information_en.pdf",
       "https://en.wikipedia.org/wiki/Agomelatine"
     ],
     "data_gaps": [
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -15555,7 +15550,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Rapidly agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15640,7 +15635,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "低剂量的乙醇会引起欣快感、减轻焦虑、增加社交能力和热情，显著更高的剂量会导致酒精中毒（醉酒）、木僵、无意识、严重的运动控制丧失以及中枢神经系统功能的普遍抑制（抑制）。长期使用会导致酒精滥用、身体依赖或「酗酒」（这是一个相当宽泛的术语）。\n\n酒精对人类有成瘾性，会导致酒精耐受（对药物的敏感性降低）、酒精戒断综合征（药物依赖）或与酗酒相关的健康问题。众所周知，它会对健康产生许多不利影响。当摄入足够量时，该药物已被判定具有神经毒性。  在高剂量或药物过量的情况下，酒精可能会导致意识丧失，严重情况下甚至导致死亡。它是许多交通事故和因醉酒驾驶导致的车辆死亡的肇事因素。它还与社会上相当大比例的暴力犯罪有关。\n\n过去，人们认为酒精是一种非特异性药理制剂，影响大脑中的许多神经递质系统。 虽然这种观点仍有一定道理，但为了更全面地了解其精确的药效学而对其分子药理学进行的进一步研究表明，酒精只有几个主要靶点，特别是通过（增强/促进）某些 GABA 受体。然而，其整体药理学特征和效果范围仍可被视为在某些系统中具有促进作用（如 GABA），而在其他系统中具有抑制作用。\n\n这种对某些神经递质系统的增强作用列举如下，其中乙醇（酒精）已知具有以下功能：\n\nGABAA 受体 正向变构调节剂（主要是含 δ 亚基的受体） 与苯二氮卓类和巴比妥类药物类似，增强名为 GABA 的抑制系统会诱导神经以及更广泛的生理抑制。这增强了行为抑制中心，从而减缓了对来自感官的新信息的处理，抑制了各种类型的认知思维过程，并普遍诱导了正常躯体和认知功能的抑制。然而，该药物通常同时调节其他神经递质系统，特别是在适度剂量下，似乎可以在一定程度上；甚至足以抵消或至少减轻其中一些认知抑制，这使得它与其他几乎完全导致神经/生理抑制的 GABA 类药物相比相对独特，无论剂量如何，而酒精则表现出「平衡木」式的神经活动形式。 5-HT3 受体 激动剂 甘氨酸受体 烟碱乙酰胆碱受体 腺苷：乙醇通过抑制支气管上皮细胞中的核苷转运系统来阻断腺苷摄取。乙醇抑制腺苷摄取导致细胞外腺苷积累增加，影响腺苷在上皮细胞表面的作用，这可能会改变气道稳态。\n\n而被抑制/压制的神经递质包括：",
+    "mechanism_summary": "Non-Selective CNS Depressant (GABAergic/Anti-Glutamatergic)",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -16314,7 +16309,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Alpha-GPC 分解为两个关键成分：胆碱和甘油磷酸酯。 胆碱及其代谢物是三个主要生理目的所需的：细胞膜的结构完整性和信号作用以及胆碱能神经传递（乙酰胆碱合成）。[[5]](#cite_note-5) 这个过程本质上允许乙酰胆碱积累到比原本更高的水平。由于乙酰胆碱参与记忆和其他基本认知功能的功能，这可能解释了其益智作用。\n\n另一种成分甘油磷酸酯也有助于细胞膜的产生，但这在很大程度上尚未被研究，科学文献对其了解甚少。",
+    "mechanism_summary": "Cholinergic Precursor",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Alpha-GPC"
@@ -17396,7 +17391,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits bacterial cell wall synthesis by binding to and inactivating penicillin-binding proteins (PBPs) present in the bacterial cell wall.",
+    "mechanism_summary": "β-Lactam Antibiotic (Cell Wall Synthesis Inhibitor)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -18098,7 +18093,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4680.0,
-    "mechanism_summary": "Partial agonist of D2 dopamine and 5HT-1A serotonin receptors, while blocking 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4), serotonin (5HT-2A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 (mildly) adrenergic receptors.",
+    "mechanism_summary": "Dopamine D2 Partial Agonist and Serotonin Modulator",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Aripiprazole"
@@ -18203,7 +18198,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
-    "mechanism_summary": "The mechanism(s) through which armodafinil promotes wakefulness is unknown . Armodafinil (R-modafinil) has pharmacological properties similar to those of modafinil (a mixture of R- and S-modafinil). In vitro, modafinil binds to the dopamine transporter and inhibits dopamine reuptake . In genetically engineered mice lacking the dopamine transporter, modafinil lacked wake-promoting activity. However, the wake-promoting effects of modafinil were not antagonized by the dopamine receptor antagonist haloperidol in rats.",
+    "mechanism_summary": "Wakefulness-Promoting Agent (R-Enantiomer of Modafinil)",
     "effects": [
       "Anxiety",
       "Appetite suppression",
@@ -18225,7 +18220,8 @@
       "Wakefulness"
     ],
     "references": [
-      "https://en.wikipedia.org/wiki/Armodafinil"
+      "https://en.wikipedia.org/wiki/Armodafinil",
+      "10.3389/fnana.2025.1670564"
     ],
     "data_gaps": []
   },
@@ -18405,7 +18401,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits cyclooxygenase-1 and 2 (COX-1 and 2) enzymes causing decreased prostaglandin precursor formation. This results in anti-inflammatory, analgesic, and antipyretic effects. Via its COX enzyme inhibition, aspirin also blocks the synthesis of thromboxane A2 which interferes with platelet aggregation .",
+    "mechanism_summary": "Irreversible Cyclooxygenase (COX) Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -18475,7 +18471,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Atomoxetine is a selective norepinephrine reuptake inhibitor that has been shown to specifically increase norepinephrine and dopamine within the prefrontal cortex. This is thought to produce its therapeutic effects for improving symptoms of Attention-Deficit/Hyperactivity Disorder (ADHD).",
+    "mechanism_summary": "Selective Norepinephrine Reuptake Inhibitor (NRI)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -18860,7 +18856,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits protein synthesis by binding to the 23S rRNA of the 50S ribosomal subunit of susceptible microorganisms.",
+    "mechanism_summary": "Macrolide Antibiotic (Protein Synthesis Inhibitor)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -18965,7 +18961,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Baclofen is a centrally acting muscle relaxant that agonizes GABA-B receptors to reduce spasticity by inhibiting both monosynaptic and polysynaptic reflexes at the spinal level. Baclofen may also produce neuroprotective and anti-inflammatory effects.",
+    "mechanism_summary": "Selective GABA-B Receptor Agonist",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -20908,7 +20904,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 5760.0,
-    "mechanism_summary": "Partial agonist of D2 dopamine and 5HT-1A serotonin receptors, while blocking 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4), serotonin (5HT-2A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 adrenergic receptors.",
+    "mechanism_summary": "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Brexpiprazole"
@@ -21686,7 +21682,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Mechanism Of Action Buprenorphine is a partial agonist at the mu-opioid receptor and an antagonist at the kappaopioid receptors, an agonist at delta-opioid receptors, and a partial agonist at ORL-1 (nociceptin) receptors. The contributions of these actions to its analgesic profile are unclear. Pharmacodynamics Effects on the Central Nervous System Buprenorphine produces respiratory depression by direct action on brainstem respiratory centers. The respiratory depression involves a reduction in the responsiveness of the brainstem respiratory centers to increases in carbon dioxide tension and to electrical stimulation. Buprenorphine causes miosis, even in total darkness. Pinpoint pupils are a sign of opioid overdose but are not pathognomonic (e.g., pontine lesions of hemorrhagic or ischemic origins may produce similar findings). Marked mydriasis rather than miosis may be seen with worsening hypoxia in overdose situations. Effects on the Gastrointestinal Tract and Other Smooth Muscle Buprenorphine causes a reduction in motility associated with an increase in tone smooth muscle tone in the antrum of the stomach and duodenum. Digestion of food in the small intestine is delayed and propulsive contractions are decreased. Propulsive peristaltic waves in the colon are decreased, while tone is increased to the point of spasm, resulting in constipation. Other opioid induced effects may include a reduction in biliary and pancreatic secretions, spasm of the sphincter of Oddi, and transient elevations in serum amylase. Effects on the Cardiovascular System Buprenorphine produces peripheral vasodilation, which may result in orthostatic hypotension or syncope. Manifestations of histamine release and/or peripheral vasodilation may include pruritus, flushing, red eyes, sweating, and/or orthostatic hypotension. Effects on Cardiac Electrophysiology The effect of Buprenorphine transdermal system 10 mcg/hour and 2 × Buprenorphine transdermal system 20 mcg/hour on QTc interval, was evaluated in a double-blind (Buprenorphine transdermal system vs. placebo), randomized, placebo and active-controlled (moxifloxacin 400 mg, open label), parallel-group, dose-escalating, single-dose study in 132 healthy male and female subjects aged 18 to 55 years. The dose escalation sequence for Buprenorphine transdermal system during the titration period was: Buprenorphine transdermal system 5 mcg/hour for 3 days, then Buprenorphine transdermal system 10 mcg/hour for 3 days, then Buprenorphine transdermal system 20 mcg/hour for 3 days, then 2 × Buprenorphine transdermal system 20 mcg/hour for 4 days. The QTc evaluation was performed during the third day of Buprenorphine transdermal system 10 mcg/hour and the fourth day of 2 × Buprenorphine transdermal system 20 mcg/hour when the plasma levels of Buprenorphine were at steady state for the corresponding doses . There was no clinically meaningful effect on mean QTc with a Buprenorphine transdermal system dose of 10 mcg/hour. A Buprenorphine transdermal system dose of 40 mcg/hour (given as two 20 mcg/hour Buprenorphine transdermal systems) prolonged mean QTc by a maximum of 9.2 (90% CI: 5.2 to 13.3) msec across the 13 assessment time points. Effects on the Endocrine System Opioids inhibit the secretion of adrenocorticotropic hormone (ACTH), cortisol, and luteinizing hormone (LH) in humans . They also stimulate prolactin, growth hormone (GH) secretion, and pancreatic secretion of insulin and glucagon. Chronic use of opioids may influence the hypothalamic-pituitary-gonadal axis, leading to androgen deficiency that may manifest as low libido, impotence, erectile dysfunction, amenorrhea, or infertility. The causal role of opioids in the clinical syndrome of hypogonadism is unknown because the various medical, physical, lifestyle, and psychological stressors that may influence gonadal hormone levels have not been adequately controlled for in studies conducted to date Effects on the Immune System Opioids have been shown to have a variety of effects on components of the immune system in in vitro and animal models. The clinical significance of these findings is unknown. Overall, the effects of opioids appear to be modestly immunosuppressive. Concentration–Efficacy Relationships The minimum effective analgesic concentration will vary widely among patients, especially among patients who have been previously treated with potent agonist opioids. The minimum effective analgesic concentration of Buprenorphine for any individual patient may increase over time due to an increase in pain, the development of a new pain syndrome, and/or the development of analgesic tolerance . Concentration–Adverse Reaction Relationships There is a relationship between increasing Buprenorphine plasma concentration and increasing frequency of dose-related opioid adverse reactions such as nausea, vomiting, CNS effects, and respiratory depression. In opioid-tolerant patients, the situation may be altered by the development of tolerance to opioid-related adverse reactions . Pharmacokinetics Absorption Each Buprenorphine transdermal system provides delivery of Buprenorphine for 7 days. Steady state was achieved during the first application by Day 3 . Figure 2 Mean (SD) Buprenorphine Plasma Concentrations Following Three Consecutive Applications of Buprenorphine Transdermal System 10 mcg/hour (N = 36 Healthy Subjects) Buprenorphine transdermal system 5, 10, and 20 mcg/hour provide dose-proportional total Buprenorphine exposures (AUC) following 7-day applications. Buprenorphine transdermal system single 7-day application and steady-state pharmacokinetic parameters are summarized in Table 7. Plasma Buprenorphine concentrations after titration showed no further change over the 60-day period studied. Table 7: Pharmacokinetic Parameters of Buprenorphine Transdermal System in Healthy Subjects, Mean (%CV) Single 7-day Application AUC inf (pg.h/mL) C max (pg/mL) Buprenorphine Transdermal System 5 mcg/hour 12087 (37) 176 (67) Buprenorphine Transdermal System 10 mcg/hour 27035 (29) 191 (34) Buprenorphine Transdermal System 20 mcg/hour 54294 (36) 471 (49) Multiple 7-day Applications AUC tau,ss (pg.h/mL) C max,ss (pg/mL) Buprenorphine Transdermal System 10 mcg/hour, steady-state 27543 (33) 224 (35) Transdermal delivery studies showed that intact human skin is permeable to Buprenorphine. In clinical pharmacology studies, the median time for Buprenorphine transdermal system 10 mcg/hour to deliver quantifiable Buprenorphine concentrations (≥ 25 pg/mL) was approximately 17 hours. The absolute bioavailability of Buprenorphine transdermal system relative to IV administration, following a 7-day application, is approximately 15% for all doses (Buprenorphine transdermal system 5, 10, and 20 mcg/hour). Figure 2 Effects of Application Site A study in healthy subjects demonstrated that the pharmacokinetic profile of Buprenorphine delivered by Buprenorphine transdermal system 10 mcg/hour is similar when applied to the upper outer arm, upper chest, upper back, or the side of the chest . The reapplication of Buprenorphine transdermal system 10 mcg/hour after various rest periods to the same application site in healthy subjects showed that the minimum rest period needed to avoid variability in drug absorption is 3 weeks (21 days) . Effects of Heat In a study of healthy subjects, application of a heating pad directly on the Buprenorphine transdermal system 10 mcg/hour caused a 26% to 55% increase in blood concentrations of Buprenorphine. Concentrations returned to normal within 5 hours after the heat was removed. For this reason, instruct patients not to apply heating pads directly to the Buprenorphine transdermal system during system wear . Fever may increase the permeability of the skin, leading to increased Buprenorphine concentrations during Buprenorphine transdermal system treatment. As a result, febrile patients are at increased risk for the possibility of Buprenorphine transdermal system-related reactions during treatment with Buprenorphine transdermal system. Monitor patients with febrile illness for adverse effects and consider dose adjustment . In a crossover study of healthy subjects receiving endotoxin or placebo challenge during Buprenorphine transdermal system 10 mcg/hour wear, the AUC and C max were similar despite a physiologic response of mild fever to endotoxin. Distribution Buprenorphine is approximately 96% bound to plasma proteins, mainly to alpha- and beta-globulin. Studies of IV Buprenorphine have shown a large volume of distribution (approximately 430 L), implying extensive distribution of Buprenorphine. CSF Buprenorphine concentrations appear to be approximately 15 to 25% of concurrent plasma concentrations. Elimination Metabolism Buprenorphine metabolism in the skin following Buprenorphine transdermal system application is negligible. Buprenorphine primarily undergoes N -dealkylation by CYP3A4 to norBuprenorphine and glucuronidation by UGT-isoenzymes (mainly UGT1A1 and 2B7) to Buprenorphine 3β- O -glucuronide. NorBuprenorphine, the major metabolite, is also glucuronidated (mainly UGT1A3) prior to excretion. NorBuprenorphine is the only known active metabolite of Buprenorphine. It has been shown to be a respiratory depressant in rats, but only at concentrations at least 50-fold greater than those observed following application to humans of Buprenorphine transdermal system 20 mcg/hour. Excretion Following IV administration, Buprenorphine and its metabolites are secreted into bile and excreted in urine. Following intramuscular administration of 2 mcg/kg dose of Buprenorphine, approximately 70% of the dose was excreted in feces within 7 days. Approximately 27% was excreted in urine. Following transdermal application, Buprenorphine is eliminated via hepatic metabolism, with subsequent biliary excretion and renal excretion of soluble metabolites. After removal of Buprenorphine transdermal system, mean Buprenorphine concentrations decrease approximately 50% within 10 to 24 hours, followed by decline with an apparent terminal half-life of approximately 26 hours. Since metabolism and excretion of Buprenorphine occur mainly via hepatic elimination, reductions in hepatic blood flow induced by some general anesthetics (e.g., halothane) and other drugs may result in a decreased rate of hepatic elimination of the drug, leading to increased plasma concentrations. The total clearance of Buprenorphine is approximately 55 L/hour in postoperative patients. Drug Interaction Studies Effect of CYP3A4 inhibitors In a drug-drug interaction study, Buprenorphine transdermal system 10 mcg/hour (single dose × 7 days) was co-administered with 200 mg ketoconazole, a strong CYP3A4 inhibitor or ketoconazole placebo twice daily for 11 days and the pharmacokinetics of Buprenorphine and its metabolites were evaluated. Plasma Buprenorphine concentrations did not accumulate during co-medication with ketoconazole 200 mg twice daily. Based on the results from this study, metabolism during therapy with Buprenorphine transdermal system is not expected to be affected by co-administration of CYP3A4 inhibitors . Antiretroviral agents have been evaluated for CYP3A4 mediated interactions with sublingual Buprenorphine. Nucleoside reverse transcriptase inhibitors (NRTIs) and non-nucleoside reverse transcriptase inhibitors (NNRTIs) do not appear to have clinically significant interactions with Buprenorphine. However, certain protease inhibitors (PIs) with CYP3A4 inhibitory activity such as atazanavir and atazanavir/ritonavir resulted in elevated levels of Buprenorphine and norBuprenorphine when Buprenorphine and naloxone were administered sublingually. C max and AUC for Buprenorphine increased by up to 1.6 and 1.9 fold, and C max and AUC for norBuprenorphine increased by up to 1.6 and 2.0 fold respectively, when sublingual Buprenorphine was administered with these PIs. Patients in this study reported increased sedation, and symptoms of opiate excess have been found in post-marketing reports of patients receiving Buprenorphine and atazanavir with and without ritonavir concomitantly. It should be noted that atazanavir is both a CYP3A4 and UGT1A1 inhibitor. As such, the drug-drug interaction potential for Buprenorphine with CYP3A4 inhibitors is likely to be dependent on the route of administration as well as the specificity of enzyme inhibition . Effect of CYP3A4 Inducers The interaction between Buprenorphine and CYP3A4 inducers has not been studied. Specific Populations Age: Geriatric Patients Following a single application of Buprenorphine transdermal system 10 mcg/hour to 12 healthy young adults (mean age 32 years) and 12 healthy elderly subjects (mean age 72 years), the pharmacokinetic profile of Buprenorphine transdermal system was similar in healthy elderly and healthy young adult subjects, though the elderly subjects showed a trend toward higher plasma concentrations immediately after Buprenorphine transdermal system removal. Both groups eliminated Buprenorphine at similar rates after system removal . In a study of healthy young subjects, healthy elderly subjects, and elderly subjects treated with thiazide diuretics, Buprenorphine transdermal system at a fixed dose-escalation schedule (Buprenorphine transdermal system 5 mcg/hour for 3 days, followed by Buprenorphine transdermal system 10 mcg/hour for 3 days and Buprenorphine transdermal system 20 mcg/hour for 7 days) produced similar mean plasma concentration vs. time profiles for each of the three subject groups. There were no significant differences between groups in Buprenorphine C max or AUC . Sex In a pooled data analysis utilizing data from several studies that administered Buprenorphine transdermal system 10 mcg/hour to healthy subjects, no differences in Buprenorphine C max and AUC or body-weight normalized C max and AUC were observed between males and females treated with Buprenorphine transdermal system. Hepatic Impairment The pharmacokinetics of Buprenorphine following an IV infusion of 0.3 mg of Buprenorphine were compared in 8 patients with mild impairment (Child-Pugh A), 4 patients with moderate impairment (Child-Pugh B) and 12 subjects with normal hepatic function. Buprenorphine and norBuprenorphine exposure did not increase in the mild and moderate hepatic impairment patients. Buprenorphine transdermal system has not been evaluated in patients with severe (Child-Pugh C) hepatic impairment. . Renal Impairment No studies in patients with renal impairment have been performed with Buprenorphine transdermal system. In an independent study, the effect of impaired renal function on Buprenorphine pharmacokinetics after IV bolus and after continuous IV infusion administrations was evaluated. It was found that plasma Buprenorphine concentrations were similar in patients with normal renal function and in patients with impaired renal function or renal failure. In a separate investigation of the effect of intermittent hemodialysis on Buprenorphine plasma concentrations in chronic pain patients with end-stage renal disease who were treated with a transdermal Buprenorphine product (marketed outside the US) up to 70 mcg/hour, no significant differences in Buprenorphine plasma concentrations before or after hemodialysis were observed. No notable relationship was observed between estimated creatinine clearance rates and steady-state Buprenorphine concentrations among patients during Buprenorphine transdermal system therapy.",
+    "mechanism_summary": "Partial μ-Opioid Agonist and κ-Opioid Antagonist",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -21734,7 +21730,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1260.0,
-    "mechanism_summary": "Weak reuptake inhibitor of norepinephrine and dopamine . Does not inhibit the reuptake of serotonin and does not inhibit monoamine oxidase. The exact mechanism of action for depression and smoking cessation is not known but thought to be related to these effects.",
+    "mechanism_summary": "Norepinephrine-Dopamine Reuptake Inhibitor (NDRI)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Bupropion"
@@ -22119,7 +22115,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "在没有咖啡因且人处于清醒和警觉状态时，（中枢神经系统）神经元中存在的腺苷很少。随着持续的清醒状态，腺苷会随着时间的推移在神经元突触中积累，进而结合并激活某些中枢神经系统神经元上的腺苷受体；当这些受体被激活时，会产生细胞反应，最终增加嗜睡感。当摄入咖啡因时，它会拮抗腺苷受体；换句话说，咖啡因通过阻断腺苷与受体结合的位置，阻止腺苷激活受体。结果就是，咖啡因暂时阻止或缓解了嗜睡，从而维持或恢复了警觉性。\n\n咖啡因的主要作用机制是作为腺苷 A1 和 A2A 受体的非选择性拮抗剂。在清醒期间，大脑中的神经递质腺苷水平稳步上升，引发疲劳和困倦。咖啡因分子在结构上与腺苷相似，这使其能够结合细胞表面的腺苷受体而不激活它们，从而充当竞争性抑制剂。\n\n除此之外，咖啡因对大多数其他主要神经递质也有影响，包括多巴胺、乙酰胆碱、血清素，在大剂量下还会影响去甲肾上腺素， 并在小程度上影响肾上腺素、谷氨酸和皮质醇。研究表明，咖啡因可使去甲肾上腺素增加约 75%，多巴胺增加 100%，肾上腺素增加 207%，谷氨酸增加 100%。  在超过 500 毫克的高剂量下，咖啡因会抑制 GABA 神经传递。咖啡因对 GABA 的减少会导致高剂量下的焦虑、失眠、心率和呼吸频率增加。\n\n来自咖啡或其他饮料的咖啡因在摄入后 45 分钟内被小肠吸收，并分布到全身组织。血液浓度在 1 ~ 2 小时内达到峰值。它通过一级动力学消除。咖啡因也可以通过直肠吸收，例如麦角胺酒石酸盐和咖啡因的栓剂（用于缓解偏头痛）以及氯丁醇和咖啡因的栓剂（用于治疗剧烈呕吐）。然而，直肠吸收不如口服有效：最大浓度（Cmax）和吸收总量（AUC）都约为口服量的 30%（即1/3.5）。\n\n咖啡因是腺苷 A2A 受体的拮抗剂，敲除小鼠的研究特别指出 A2A 受体的拮抗作用是咖啡因产生促醒作用的原因。腹外侧视前区（VLPO）中 A2A 受体的拮抗作用减少了对结节乳头体核的抑制性GABA神经传递，这是一个组胺能投射核，其激活依赖性地促进觉醒。这种对结节乳头体核的去抑制是咖啡因产生促醒作用的下游机制。咖啡因是所有四种腺苷受体亚型（A1、A2A、A2B和 A3）的拮抗剂，尽管效力各不相同。咖啡因对人类腺苷受体的亲和力（KD）值分别为：A1 为 12 μM，A2A 为 2.4 μM，A2B 为 13 μM，A3 为 80 μM。\n\n咖啡因在肝脏中通过细胞色素 P450 氧化酶系统代谢，特别是通过 CYP1A2 同工酶，代谢成三种二甲基黄嘌呤， 每种都对身体有其自身的影响：",
+    "mechanism_summary": "Non-Selective Adenosine Receptor Antagonist",
     "effects": [
       "Analysis enhancement",
       "Anxiety",
@@ -22592,7 +22588,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 750.0,
-    "mechanism_summary": "Carbamazepine blocks sodium channels , reducing polysynaptic responses and blocking post-tetanic potentiation. Carbamazepine is a tricyclic compound chemically related to tricyclic antidepressants (TCA) with anticonvulsant, antimanic, and analgesic properties.",
+    "mechanism_summary": "Voltage-Gated Sodium Channel Blocker",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Carbamazepine"
@@ -22753,7 +22749,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 72000.0,
-    "mechanism_summary": "Partial agonist of D2 dopamine and 5HT-1A serotonin receptors, while blocking 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, D3 dopamine receptors, serotonin (5HT-2A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 adrenergic receptors.",
+    "mechanism_summary": "D3-Preferring Dopamine Partial Agonist",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Cariprazine"
@@ -22799,7 +22795,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Carisoprodol is a centrally acting skeletal muscle relaxant whose mechanism of action is not well understood, but is thought to exert its effect through sedative and analgesic effects. Carisoprodol is metabolized by CYP2C19 to meprobamate, which is barbiturate-like, has anxiolytic and sedative properties, and is known to exert action on GABA-A receptors.",
+    "mechanism_summary": "GABA-A Modulator (via Meprobamate Metabolite)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -22901,7 +22897,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
-    "mechanism_summary": "Blocks beta-1 and beta-2 adrenergic receptors (non-selective) causing decreased heart rate and myocardial contractility. Also blocks alpha-1 adrenergic receptors causing vasodilation and reducing peripheral vascular resistance.",
+    "mechanism_summary": "Non-Selective β-Blocker with α1 Antagonism and Antioxidant Properties",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Carvedilol"
@@ -23043,7 +23039,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
-    "mechanism_summary": "The precise mechanisms of action of CBD and THC are not yet fully understood. It is known, however, that CBD acts on cannabinoid (CB) receptors within the endocannabinoid system. These receptors are distributed throughout many parts of the body, including the peripheral and central nervous systems (e.g., the brain). The endocannabinoid system regulates many of the body's physiological processes, including pain, memory, appetite, and mood.\n\nMore specifically, CB1 receptors are found within pain pathways in the brain and spinal cord, where they may influence the analgesic and anxiolytic effects induced by CBD; CB2 receptors act on immune cells and may influence the anti-inflammatory processes induced by CBD. CBD has been shown to act as a negative allosteric modulator at the cannabinoid CB1 receptor, which is the most abundant G protein-coupled receptor (GPCR) in the human body. Unlike receptor agonists, which directly bind to the receptor itself to alter its activity, allosteric modulators bind to a functionally distinct site to modulate receptor activity.\n\nBeyond the well-characterized CB1 and CB2 receptor-related activity, there is increasing evidence that CBD also activates 5-HT1A/2A/3A serotonergic receptors and TRPV1-2 vanilloid receptors, antagonizes α1-adrenergic and μ-opioid receptors, inhibits synaptosomal uptake of norepinephrine, dopamine, serotonin, and GABA, as well as cellular uptake of anandamide; it also acts on mitochondrial Ca2+ stores, blocks low-voltage-activated (T-type) Ca2+ channels, stimulates inhibitory glycine receptor activity, and inhibits the activity of fatty acid amide hydrolase (FAAH).\n\nThe oral bioavailability of CBD is 13–19%, while bioavailability via inhalation is 11–45% (mean 31%). The elimination half-life of CBD is 18–32 hours.\n\nCannabidiol is metabolized in the liver and intestine by CYP2C19, CYP3A4, and the UGT1A7, UGT1A9, and UGT2B7 isoforms.",
+    "mechanism_summary": "Multimodal Modulator (Non-Intoxicating Cannabinoid)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Cannabidiol"
@@ -23292,7 +23288,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 360.0,
-    "mechanism_summary": "CDP-choline breaks down into two key components: choline and cytidine. Choline and its metabolites are primarily used for three important physiological purposes: maintaining the structural integrity of cell membranes, participating in cell membrane signaling, and supporting cholinergic neurotransmission (i.e., the synthesis of acetylcholine). This process essentially allows acetylcholine to accumulate to higher levels than would otherwise occur. Because acetylcholine is involved in memory function, this may partly explain the compound's nootropic effects.\n\nCytidine is the second metabolite and is a key intermediate in the synthesis of uridine, which in turn increases the efficiency of phosphatidylcholine synthesis. Uridine supplementation also appears to enhance dopamine release from activated neurons without meaningfully affecting baseline dopamine levels. This may explain the improvements in spatial short-term memory, recognition, recall, attention, and executive function observed with long-term supplementation.",
+    "mechanism_summary": "Cholinergic Precursor and Membrane Phospholipid Source",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Citicoline",
@@ -23521,7 +23517,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Reversibly inhibits primarily cyclooxygenase-2 (COX-2) enzymes (with some limited inhibition of cyclooxygenase-1 enzymes) causing decreased prostaglandin precursor formation. This results in anti-inflammatory, analgesic, and antipyretic effects.",
+    "mechanism_summary": "Selective COX-2 Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -25062,7 +25058,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Clonidine is a central alpha 2A-adrenergic receptor agonist . Stimulation of alpha-adrenoceptors in the brain stem results in reduced sympathetic outflow from the central nervous system and decreases in peripheral resistance, renal vascular resistance, heart rate, and blood pressure. The mechanism of action of clonidine in ADHD is not known.",
+    "mechanism_summary": "α2-Adrenergic Receptor Agonist",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -25318,7 +25314,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
-    "mechanism_summary": "Competitively blocks of D2 dopamine and 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, other subtypes of dopamine receptors (D1, D3, D4, D5), serotonin (5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 adrenergic receptors. Partial agonist of M1 muscarinic receptors and 5HT-1A.",
+    "mechanism_summary": "Multi-Receptor Antagonist (Atypical Antipsychotic with Unique Efficacy)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Clozapine"
@@ -25390,7 +25386,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "关于可卡因对中枢神经系统影响的研究最广泛的是其对多巴胺转运体的阻断作用。这种物质作为一种再摄取抑制剂，阻止多巴胺被回收，导致过量的多巴胺在突触或神经元之间的连接处积聚。结果是多巴胺能信号传导的突触后效应增强和延长。在较小程度上，可卡因也表现出对血清素和去甲肾上腺素神经递质再摄取抑制的功能相似作用。 正是这种神经递质的突然泛滥导致了可卡因特有的兴奋感。\n\n可卡因的药效学涉及神经递质的复杂关系（在大鼠中抑制单胺摄取的比例约为：血清素:多巴胺 = 2:3 ，血清素:去甲肾上腺素 = 2:5 ）。关于可卡因对中枢神经系统影响的研究最广泛的是其对多巴胺转运蛋白的阻断作用。神经信号传导过程中释放的多巴胺递质通常通过转运体回收；即，转运体结合递质并将其从突触间隙泵回突触前神经元，在那里它被摄入储存囊泡中。\n\n可卡因紧密结合在多巴胺转运体上，形成一种阻断转运体功能的复合物。多巴胺转运体无法再执行其再摄取功能，因此多巴胺在突触间隙中积聚。突触中多巴胺浓度的增加激活了突触后多巴胺受体，这使得该药物具有奖赏性并促进了可卡因的强迫性使用。",
+    "mechanism_summary": "Triple Monoamine Reuptake Inhibitor",
     "effects": [
       "Abnormal heartbeat",
       "Anxiety",
@@ -25486,7 +25482,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Codeine is a natural opioid agonist with preferential selectivity for mu-opioid receptors . Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine , a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions.",
+    "mechanism_summary": "Prodrug → Morphine (CYP2D6-Dependent Opioid)",
     "effects": [
       "Anxiety suppression",
       "Cognitive euphoria",
@@ -27647,14 +27643,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Cannabinoid CB1 Partial Agonist (Lower Potency)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Delta-8-tetrahydrocannabinol"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Demerol",
@@ -28682,7 +28676,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "For more information: NMDA receptor antagonist drugs\n\nThe pharmacological mechanism of dextromethorphan has not been fully elucidated. In vitro studies indicate that the primary mechanism of action is blockade of N-methyl-D-aspartate (NMDA) receptors. NMDA receptors are a class of glutamate receptor; glutamate is the principal excitatory neurotransmitter. Blockade of NMDA receptors therefore disrupts excitatory signaling in the central nervous system. This mechanism of action is shared with ketamine and PCP.\n\nDextromethorphan itself does not act directly as an NMDA receptor antagonist; rather, it acts as a prodrug for its more potent metabolite dextrorphan, which is the compound that actually mediates the dissociative effects.\n\nAdditional pharmacological mechanisms include activity as a non-selective serotonin reuptake inhibitor, an α3β4 nicotinic receptor antagonist, and a σ1 receptor agonist.\n\nAt high doses, dextromethorphan can cause increases in both systolic and diastolic blood pressure accompanied by elevated heart rate. Dextromethorphan also raises plasma levels of adrenocorticotropic hormone (ACTH) and corticosterone.\n\nAlthough dextromethorphan is a morphine derivative, it is not a potent μ-opioid receptor agonist in the way that most compounds in that class — such as heroin and codeine — are.",
+    "mechanism_summary": "NMDA Antagonist, Sigma-1 Agonist, and Serotonin Reuptake Inhibitor",
     "effects": [
       "Acuity suppression",
       "Auditory distortion",
@@ -30618,7 +30612,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 15.0,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\nDMT 的致幻作用被认为来自于它作为部分激动剂对 5-HT2A 受体的功效。然而，这些相互作用的角色以及它们如何导致致幻体验，仍然难以捉摸。\n\n除此之外，N,N-二甲基色胺被认为是 sigma 受体的内源性配体。然而，sigma-1 受体的重要性仍然是正在进行的科学研究的主题。[[15]](#参考文献)\n\n与赛洛西宾等其他色胺类不同，口服 DMT 是无效的，因为单胺氧化酶（MAO）会分解它。为了体验口服效果，DMT 经常与MAO 抑制剂（MAOIs）结合使用，以防止这种分解。当这种组合使用纯形式的 DMT 和 MAOI 时，被称为 pharmahuasca；当通过植物材料（无论是煮造还是整服）进行时，传统上称为 死藤水[[16]](#参考文献)。\n\n虽然鼻吸 DMT 具有足够快的起效和上升速度，可以像抽吸 DMT 一样提供扎实的体验，但这样做可能会刺激液体分泌物的产生，这些分泌物可能会与药物混合，顺着喉咙流下并被吞咽，这意味着它将在胃中分解，不会对体验产生贡献。\n\n饮用死藤水意味着同时摄入 DMT 和骆驼蓬碱生物碱。尽管这是制作死藤水的传统方式，但在最大化致幻药物吸收方面并不是最有效的方法。DMT 和骆驼蓬碱生物碱具有非常相似的药代动力学[[17]](#参考文献)，但现代用户在结合这两种药物时倾向于使用较低剂量的骆驼蓬碱生物碱和较高剂量的 DMT；这样，DMT 往往比所用的 MAOI 更快达到峰值。在这种情况下，优化 MAO 抑制剂使用的一种方法是在服用致幻药物前约 30 分钟摄入它们。MAOI 的服用时间窗口是在摄入致幻药物前 10 到 50 分钟。",
+    "mechanism_summary": "Serotonin 5-HT2A Agonist and Sigma-1 Receptor Agonist",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -37577,12 +37571,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Prodrug → GHB (GABA-B Agonist)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -37722,12 +37715,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "GHB Receptor and GABA-B Receptor Agonist",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -40194,14 +40186,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Multimodal Psychoactive Alkaloid",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal25.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -42721,7 +42712,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "卡痛作为一种阿片类药物受体激动剂，其功能类似于吗啡和其他阿片类药物，尽管其药理作用和主观效应与传统阿片类药物有显著不同哦。\n\n阿片类药物通过结合并激活阿片类药物受体来发挥作用。它们在结构上模仿体内天然存在的内源性内啡肽，这些内啡肽也作用于阿片受体系统。阿片类药物在结构上模仿这些天然内啡肽的方式导致了它们的欣快、镇痛和抗焦虑效果。这是因为内啡肽负责减轻疼痛，引起镇静和快乐的感觉。它们会在疼痛、剧烈运动、性高潮或一般兴奋时释放出来。\n\n帽柱木碱和7-羟基帽柱木碱作为部分激动剂结合到μ-阿片受体上，并对κ-和δ-阿片受体起拮抗作用。它们对µ-和κ-受体有很高的结合亲和力。对δ-受体的结合亲和力对于7-羟基帽柱木碱来说很高，但对于帽柱木碱来说很弱呢。\n\n与大多数其他阿片类药物不同，卡痛还对去甲肾上腺素和血清素受体系统表现出亲和力，在那里它作为一种激动剂发挥作用。其对去甲肾上腺素和血清素的作用也可能有助于卡痛的刺激特性哦。\n\n此外，卡痛含有生物碱钩藤碱，它起着NMDA受体拮抗剂的作用。这可能是导致在严重剂量下出现轻微解离效应的原因。",
+    "mechanism_summary": "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator",
     "effects": [
       "Acuity suppression",
       "Anxiety suppression",
@@ -42856,15 +42847,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 60.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Glutamate Analogue with GABAergic and Serotonergic Effects",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Theanine",
       "https://examine.com/supplements/theanine/"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "L-Tryptophan",
@@ -43131,7 +43120,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Lamotrigine blocks sodium channels and high voltage-gated calcium channels , suppressing release of the excitatory neurotransmitters glutamate and aspartate, and inhibiting serotonin reuptake. Lamotrigine may also enhance the activity of the inhibitory neurotransmitter, gamma-aminobutyric acid (GABA).",
+    "mechanism_summary": "Voltage-Gated Sodium Channel Blocker and Glutamate Release Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -43618,7 +43607,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Levothyroxine is a synthetic form of L-thyroxine (T4) , an endogenous hormone secreted by the thyroid gland. T4 is converted to its active metabolite, T3 (L-triiodothyronine). Thyroid hormones bind to thyroid hormone receptors on DNA, activating gene transcription and protein synthesis necessary in metabolic processes.",
+    "mechanism_summary": "Thyroid Hormone Replacement (T4)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -43896,7 +43885,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Lisdexamfetamine is a prodrug that is converted to dextroamphetamine through cleavage of a lysine group. Amphetamines both induce the release and inhibit reuptake of catecholamine neurotransmitters including dopamine, norepinephrine, and serotonin . Amphetamines also exhibit weak monoamine oxidase inhibitor properties.",
+    "mechanism_summary": "Prodrug of Dextroamphetamine (Monoamine Releasing Agent)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -43969,15 +43958,14 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Mood Stabilizer with Multiple Intracellular Mechanisms",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Lithium_(medication)",
       "https://en.wikipedia.org/wiki/Lithium_orotate"
     ],
     "data_gaps": [
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -44167,7 +44155,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Loperamide is an opioid receptor agonist that acts on μ-opioid receptors in the myenteric plexus of the large intestine. Loperamide works similarly to morphine, reducing the activity of the myenteric plexus and thereby reducing the tone of the longitudinal and circular smooth muscle of the intestinal wall. It is considered to have low abuse potential due to its significant first-pass metabolism and P-glycoprotein-mediated efflux at the level of the blood-brain barrier. Following therapeutic oral doses, central nervous system opioid effects are generally not observed because of low bioavailability and minimal CNS penetration. However, CNS opioid effects do occur following supratherapeutic oral doses.\n\nCo-administration of P-glycoprotein inhibitors such as quinidine may allow loperamide to cross the blood-brain barrier and produce central morphine-like effects. Studies have found that loperamide combined with quinidine produces respiratory depression, indicating its central opioid action.\n\nLoperamide is metabolized through the cytochrome P450 (CYP) system and is a substrate of the CYP3A4 isoenzyme. Co-administration of CYP3A4 inhibitors may increase loperamide concentrations.",
+    "mechanism_summary": "Peripheral μ-Opioid Receptor Agonist",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -46075,7 +46063,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "MDMA 主要作为三种主要单胺神经递质血清素、去甲肾上腺素和多巴胺的释放剂，通过其在痕量胺相关受体 1（TAAR1）和囊泡单胺转运体 2（VMAT2）的作用发挥作用。   MDMA 是单胺转运体底物（即多巴胺（DAT）、去甲肾上腺素（NET）和血清素（SERT）转运体的底物），使其能够通过这些神经元膜转运蛋白进入单胺能神经元。 通过作为单胺转运体底物，MDMA 在神经元膜转运体处产生竞争性再摄取抑制，与内源性单胺竞争再摄取。\n\nMDMA 抑制两种囊泡单胺转运体（VMATs），其中第二种（VMAT2）在单胺神经元囊泡膜内高度表达。 一旦进入单胺神经元，MDMA 充当 VMAT2 抑制剂和 TAAR1 激动剂。  MDMA 对 VMAT2 的抑制导致神经元细胞质中上述单胺神经递质浓度的增加。  MDMA 激活 TAAR1 触发蛋白激酶信号传导事件，然后磷酸化神经元的相关单胺转运体。\n\n随后，这些磷酸化的单胺转运体要么反转转运方向——即从细胞内向突触间隙移动神经递质——要么缩回神经元，分别产生神经递质的流入和神经元膜转运体处的非竞争性再摄取抑制。 与多巴胺和去甲肾上腺素转运体相比，MDMA 对血清素转运体的摄取亲和力高十倍，因此主要具有血清素能效应。\n\nMDMA 在突触后血清素受体 5-HT1 和 5-HT2 受体上也具有弱激动剂活性，其更有效的代谢物MDA可能会增强这种作用。    血清中的皮质醇、催乳素和催产素数量因 MDMA 而增加。\n\n此外，MDMA 是两种 sigma 受体亚型的配体，尽管其在这些受体上的功效及其所起的作用尚未阐明。",
+    "mechanism_summary": "Serotonin-Predominant Monoamine Releasing Agent and Empathogen",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal109.shtml"
@@ -47088,7 +47076,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Melatonin MT1/MT2 Receptor Agonist",
     "effects": [
       "Dream potentiation"
     ],
@@ -47096,8 +47084,7 @@
       "https://erowid.org/library/books_online/tihkal/tihkal35.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -47264,7 +47251,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 4200.0,
-    "mechanism_summary": "Mechanism Of Action Persistent activation of central nervous system N-methyl-D-aspartate (NMDA) receptors by the excitatory amino acid glutamate has been hypothesized to contribute to the symptomatology of Alzheimer’s disease. Memantine is postulated to exert its therapeutic effect through its action as a low to moderate affinity uncompetitive (open-channel) NMDA receptor antagonist which binds preferentially to the NMDA receptor-operated cation channels. There is no evidence that Memantine prevents or slows neurodegeneration in patients with Alzheimer’s disease. Pharmacodynamics Memantine showed low to negligible affinity for GABA, benzodiazepine, dopamine, adrenergic, histamine and glycine receptors and for voltage-dependent Ca 2+ , Na + or K + channels. Memantine also showed antagonistic effects at the 5HT 3 receptor with a potency similar to that for the NMDA receptor and blocked nicotinic acetylcholine receptors with one-sixth to one-tenth the potency. In vitro studies have shown that Memantine does not affect the reversible inhibition of acetylcholinesterase by donepezil, galantamine, or tacrine. Pharmacokinetics Absorption Following oral administration Memantine is highly absorbed with peak concentrations reached in about 3 to 7 hours. Memantine has linear pharmacokinetics over the therapeutic dose range. Food has no effect on the absorption of Memantine. Distribution The mean volume of distribution of Memantine is 9 to 11 L/kg and the plasma protein binding is low (45%). Metabolism Memantine undergoes partial hepatic metabolism. The hepatic microsomal CYP450 enzyme system does not play a significant role in the metabolism of Memantine. Elimination Memantine is excreted predominantly (about 48%) unchanged in urine and has a terminal elimination half-life of about 60 to 80 hours. The remainder is converted primarily to three polar metabolites which possess minimal NMDA receptor antagonistic activity: the N-glucuronide conjugate, 6-hydroxy Memantine, and 1-nitroso-deaminated Memantine. A total of 74% of the administered dose is excreted as the sum of the parent drug and the N-glucuronide conjugate. Renal clearance involves active tubular secretion moderated by pH dependent tubular reabsorption. Pharmacokinetics in Specific Populations Gender Following multiple dose administration of Memantine hydrochloride tablets 20 mg daily, females had about 45% higher exposure than males, but there was no difference in exposure when body weight was taken into account. Elderly The pharmacokinetics of Memantine hydrochloride in young and elderly subjects are similar. Renal Impairment Memantine pharmacokinetics were evaluated following single oral administration of 20 mg Memantine HCl in 8 subjects with mild renal impairment (creatinine clearance, CLcr, >50 to 80 mL/min), 8 subjects with moderate renal impairment (CLcr 30 to 49 mL/min), 7 subjects with severe renal impairment (CLcr 5 to 29 mL/min) and 8 healthy subjects (CLcr > 80 mL/min) matched as closely as possible by age, weight and gender to the subjects with renal impairment. Mean AUC 0-∞ increased by 4%, 60%, and 115% in subjects with mild, moderate, and severe renal impairment, respectively, compared to healthy subjects. The terminal elimination half-life increased by 18%, 41%, and 95% in subjects with mild, moderate, and severe renal impairment, respectively, compared to healthy subjects. No dosage adjustment is recommended for patients with mild and moderate renal impairment. Dosage should be reduced in patients with severe renal impairment . Hepatic Impairment Memantine pharmacokinetics were evaluated following the administration of single oral doses of 20 mg in 8 subjects with moderate hepatic impairment (Child-Pugh Class B, score 7 to 9) and 8 subjects who were age-, gender-, and weight-matched to the hepatically-impaired subjects. There was no change in Memantine exposure (based on C max and AUC) in subjects with moderate hepatic impairment as compared with healthy subjects. However, terminal elimination half-life increased by about 16% in subjects with moderate hepatic impairment as compared with healthy subjects. No dose adjustment is recommended for patients with mild and moderate hepatic impairment. Memantine should be administered with caution to patients with severe hepatic impairment as the pharmacokinetics of Memantine have not been evaluated in that population. Drug-Drug Interactions Use with Cholinesterase Inhibitors Coadministration of Memantine with the AChE inhibitor donepezil HCl did not affect the pharmacokinetics of either compound. Furthermore, Memantine did not affect AChE inhibition by donepezil. In a 24-week controlled clinical study in patients with moderate to severe Alzheimer’s disease, the adverse event profile observed with a combination of Memantine hydrochloride and donepezil was similar to that of donepezil alone. Effect of Memantine Hydrochloride on the Metabolism of Other Drugs In vitro studies conducted with marker substrates of CYP450 enzymes (CYP1A2, -2A6, -2C9, -2D6, -2E1, -3A4) showed minimal inhibition of these enzymes by Memantine. In addition, in vitro studies indicate that at concentrations exceeding those associated with efficacy, Memantine does not induce the cytochrome P450 isozymes CYP1A2, -2C9, -2E1 and -3A4/5. No pharmacokinetic interactions with drugs metabolized by these enzymes are expected. Pharmacokinetic studies evaluated the potential of Memantine for interaction with warfarin, and buproprion. Memantine did not affect the pharmacokinetics of the CYP2B6 substrate buproprion or its metabolite hydroxybuproprion. Furthermore, Memantine did not affect the pharmacokinetics or pharmacodynamics of warfarin as assessed by the prothrombin INR. Effect of Other Drugs on Memantine Hydrochloride Memantine is predominantly renally eliminated, and drugs that are substrates and/or inhibitors of the CYP450 system are not expected to alter the metabolism of Memantine. Drugs Eliminated via Renal Mechanisms Because Memantine is eliminated in part by tubular secretion, coadministration of drugs that use the same renal cationic system, including hydrochlorothiazide (HCTZ), triamterene (TA), metformin, cimetidine, ranitidine, quinidine, and nicotine, could potentially result in altered plasma levels of both agents. However, coadministration of Memantine hydrochloride and HCTZ/TA did not affect the bioavailability of either Memantine or TA, and the bioavailability of HCTZ decreased by 20%. In addition, coadministration of Memantine with the antihyperglycemic drug Glucovance ® (glyburide and metformin HCl) did not affect the pharmacokinetics of Memantine, metformin and glyburide. Furthermore, Memantine did not modify the serum glucose lowering effect of Glucovance ® , indicating the absence of a pharmacodynamic interaction. Drugs Highly Bound to Plasma Proteins Because the plasma protein binding of Memantine is low (45%), an interaction with drugs that are highly bound to plasma proteins, such as warfarin and digoxin, is unlikely.",
+    "mechanism_summary": "Low-Affinity NMDA Receptor Antagonist (Neuroprotective)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Memantine"
@@ -47980,7 +47967,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Decreases hepatic glucose production and intestinal glucose absorption, and increases insulin sensitivity.",
+    "mechanism_summary": "AMP-Activated Protein Kinase (AMPK) Activator",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -48037,7 +48024,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
-    "mechanism_summary": "Mechanism Of Action Methadone hydrochloride is a mu-agonist; a synthetic opioid with multiple actions qualitatively similar to those of morphine, the most prominent of which involves the central nervous system and organs composed of smooth muscle. The methadone withdrawal syndrome, although qualitatively similar to that of morphine, differs in that the onset is slower, the course is more prolonged, and the symptoms are less severe. Some data also indicate that methadone acts as an antagonist at the N-methyl-D-aspartate (NMDA) receptor. The contribution of NMDA receptor antagonism to methadone’s efficacy is unknown. Pharmacodynamics Effects on the Central Nervous System Methadone produces respiratory depression by direct action on brain stem respiratory centers. The respiratory depression involves a reduction in the responsiveness of the brain stem respiratory centers to both increases in carbon dioxide tension and electrical stimulation. Methadone causes miosis, even in total darkness. Pinpoint pupils are a sign of opioid overdose but are not pathognomonic (e.g., pontine lesions of hemorrhagic or ischemic origins may produce similar findings). Marked mydriasis rather than miosis may be seen due to hypoxia in overdose situations. Some NMDA receptor antagonists have been shown to produce neurotoxic effects in animals. Effects on the Gastrointestinal Tract and Other Smooth Muscle Methadone causes a reduction in motility associated with an increase in smooth muscle tone in the antrum of the stomach and duodenum. Digestion of food in the small intestine is delayed and propulsive contractions are decreased. Propulsive peristaltic waves in the colon are decreased, while tone is increased to the point of spasm, resulting in constipation. Other opioid-induced effects may include a reduction in biliary and pancreatic secretions, spasm of sphincter of Oddi, and transient elevations in serum amylase. Effects on the Cardiovascular System Methadone produces peripheral vasodilation, which may result in orthostatic hypotension or syncope. Manifestations of histamine release and/or peripheral vasodilation may include pruritus, flushing, red eyes, sweating, and/or orthostatic hypotension. Effects on the Endocrine System Opioids inhibit the secretion of adrenocorticotropic hormone (ACTH), cortisol, and luteinizing hormone (LH) in humans . They also stimulate prolactin, growth hormone (GH) secretion, and pancreatic secretion of insulin and glucagon. Chronic use of opioids may influence the hypothalamic-pituitary-gonadal axis, leading to androgen deficiency that may manifest as low libido, impotence, erectile dysfunction, amenorrhea, or infertility. The causal role of opioids in the clinical syndrome of hypogonadism is unknown because the various medical, physical, lifestyle, and psychological stressors that may influence gonadal hormone levels have not been adequately controlled for in studies conducted to date . Effects on the Immune System Opioids have been shown to have a variety of effects on components of the immune system in in vitro and animal models. The clinical significance of these findings is unknown. Overall, the effects of opioids appear to be modestly immunosuppressive. Concentration-Adverse Reaction Relationships There is a relationship between increasing methadone plasma concentration and increasing frequency of dose-related opioid adverse reactions such as nausea, vomiting, CNS effects, and respiratory depression. In opioid-tolerant patients, the situation may be altered by the development of tolerance to opioid-related adverse reactions . Pharmacokinetics Absorption Following oral administration the bioavailability of methadone ranges between 36 to 100% and peak plasma concentrations are achieved between 1 to 7.5 hours. Dose proportionality of methadone pharmacokinetics is not known. However, after administration of daily oral doses ranging from 10 to 225 mg, the steady-state plasma concentrations ranged between 65 to 630 ng/mL and the peak concentrations ranged between 124 to 1255 ng/mL. Effect of food on the bioavailability of methadone has not been evaluated. Distribution Methadone is a lipophilic drug and the steady-state volume of distribution ranges between 1 to 8 L/kg. In plasma, methadone is predominantly bound to α1-acid glycoprotein (85% to 90%). Methadone is secreted in saliva, breast milk, amniotic fluid and umbilical cord plasma. Elimination Metabolism : Methadone is primarily metabolized by N-demethylation to an inactive metabolite, 2-ethylidene-1,5-dimethyl-3,3-diphenylpyrrolidene (EDDP). Cytochrome P450 enzymes, primarily CYP3A4, CYP2B6, CYP2C19 CYP2C9 and CYP2D6, are responsible for conversion of methadone to EDDP and other inactive metabolites, which are excreted mainly in the urine. Methadone appears to be a substrate for P-glycoprotein but its pharmacokinetics do not appear to be significantly altered in case of P-glycoprotein polymorphism or inhibition. Excretion : The elimination of methadone is mediated by extensive biotransformation, followed by renal and fecal excretion. Published reports indicate that after multiple dose administration the apparent plasma clearance of methadone ranged between 1.4 and 126 L/h, and the terminal half-life (T 1/2 ) was highly variable and ranged between 8 to 59 hours in different studies. Methadone is a basic (pKa=9.2) compound and the pH of the urinary tract can alter its disposition in plasma. Also, since methadone is lipophilic, it has been known to persist in the liver and other tissues. The slow release from the liver and other tissues may prolong the duration of methadone action despite low plasma concentrations. Drug Interaction Studies Cytochrome P450 Interactions : Methadone undergoes hepatic N-demethylation by cytochrome P450 (CYP) isoforms, principally CYP3A4, CYP2B6, CYP2C19, CYP2C9, and CYP2D6. Coadministration of methadone with CYP inducers may result in more rapid metabolism and potential for decreased effects of methadone, whereas administration with CYP inhibitors may reduce metabolism and potentiate methadone’s effects. Although antiretroviral drugs such as efavirenz, nelfinavir, nevirapine, ritonavir, lopinavir+ritonavir combination are known to inhibit some CYPs, they are shown to reduce the plasma levels of methadone, possibly due to CYP induction activity . Cytochrome P450 Inducers : The following drug interactions were reported following coadministration of methadone with known inducers of cytochrome P450 enzymes: Rifampin : In patients well-stabilized on methadone, concomitant administration of rifampin resulted in a marked reduction in serum methadone levels and a concurrent appearance of withdrawal symptoms. Phenytoin : In a pharmacokinetic study with patients on methadone maintenance therapy, phenytoin administration (250 mg twice daily initially for 1 day followed by 300 mg daily for 3 to 4 days) resulted in an approximately 50% reduction in methadone exposure and withdrawal symptoms occurred concurrently. Upon discontinuation of phenytoin, the incidence of withdrawal symptoms decreased and methadone exposure increased to a level comparable to that prior to phenytoin administration. St. John’s Wort, Phenobarbital, Carbamazepine : Administration of methadone with other CYP3A4 inducers may result in withdrawal symptoms. Cytochrome P450 Inhibitors: Voriconazole : Voriconazole can inhibit the activity of CYP3A4, CYP2C9, and CYP2C19. Repeat dose administration of oral voriconazole (400 mg every 12 hours for 1 day, then 200 mg every 12 hours for 4 days) increased the peak plasma concentration (C max ) and AUC of (R)-methadone by 31% and 47%, respectively, in subjects receiving a methadone maintenance dose (30 to 100 mg daily). The C max and AUC of (S)-methadone increased by 65% and 103%, respectively. Increased plasma concentrations of methadone have been associated with toxicity including QT prolongation. Frequent monitoring for adverse events and toxicity related to methadone is recommended during coadministration. Dose reduction of methadone may be needed . Antiretroviral Drugs : Although antiretroviral drugs such as efavirenz, nelfinavir, nevirapine, ritonavir, telaprevir, lopinavir+ritonavir combination are known to inhibit some CYPs, they are shown to reduce the plasma levels of methadone, possibly due to CYP induction activity. Abacavir, amprenavir, darunavir+ritonavir, efavirenz, nelfinavir, nevirapine, ritonavir, telaprevir, lopinavir+ritonavir, saquinavir+ritonavir, tipranvir+ritonavir combination : Coadministration of these antiretroviral agents resulted in increased clearance or decreased plasma levels of methadone . Didanosine and Stavudine : Methadone decreased the AUC and peak levels for didanosine and stavudine, with a more significant decrease for didanosine. Methadone disposition was not substantially altered . Zidovudine : Methadone increased the AUC of zidovudine which could result in toxic effects .",
+    "mechanism_summary": "Full μ-Opioid Agonist and NMDA Receptor Antagonist",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -48311,7 +48298,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Quinazolinone)",
     "effects": [
       "Acuity suppression",
       "Anxiety suppression",
@@ -48338,7 +48325,6 @@
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -49521,7 +49507,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Methylphenidate is a synthetic central nervous system stimulant that is thought to inhibit reuptake of norepinephrine and dopamine into the presynaptic neuron and increase the release of these monoamines into the extraneuronal space.",
+    "mechanism_summary": "Dopamine-Norepinephrine Reuptake Inhibitor",
     "effects": [
       "Analysis enhancement",
       "Anxiety",
@@ -50551,7 +50537,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1500.0,
-    "mechanism_summary": "The mechanism of action of mirtazapine is not fully understood, though several properties may explain its effects. Mirtazapine antagonizes alpha-2 receptors resulting in release of serotonin and norepinephrine in the synaptic cleft. Mirtazapine is also a potent antagonist of 5-HT2 and 5-HT3 serotonin receptors and H1 histamine receptors, and a moderate antagonist of peripheral alpha1-adrenergic and muscarinic receptors.",
+    "mechanism_summary": "Noradrenergic and Specific Serotonergic Antidepressant (NaSSA)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Mirtazapine"
@@ -50614,12 +50600,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -50964,7 +50949,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Wakefulness-Promoting Agent (Atypical Stimulant)",
     "effects": [
       "Anxiety",
       "Appetite suppression",
@@ -50985,11 +50970,10 @@
       "Wakefulness"
     ],
     "references": [
-      "https://en.wikipedia.org/wiki/Modafinil"
+      "https://en.wikipedia.org/wiki/Modafinil",
+      "10.3389/fnana.2025.1670564"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Modafinil acid",
@@ -51180,7 +51164,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Selectively antagonizes leukotriene receptors (CysLT-1 receptor) blocking activation of cellular activity associated with the inflammation process and smooth muscle contraction in the airways and similar effects associated with allergic rhinitis in nasal passages.",
+    "mechanism_summary": "Leukotriene Receptor Antagonist",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -52769,7 +52753,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 60.0,
-    "mechanism_summary": "Naloxone is an opioid antagonist that binds with high affinity to opioid receptors, however, does not cause activation of the receptor-mediated response. In the presence of opioid agonists, naloxone rapidly reverses their effects and may precipitate opioid withdrawal in an opioid dependent individual. In opioid naive individuals, opioid antagonists produce little/no effect.",
+    "mechanism_summary": "Competitive μ-Opioid Receptor Antagonist (Short-Acting)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Naloxone"
@@ -52804,14 +52788,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 240.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Long-Acting Opioid Receptor Antagonist",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Naltrexone"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Naphyrone",
@@ -53378,7 +53360,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Nicotine produces its stimulant effects by acting as an agonist at nicotinic acetylcholine receptors, causing the liver to release glucose and the adrenal medulla to release epinephrine.\n\nUpon reaching the brain, nicotine stimulates the release of multiple neurotransmitters and hormones, including acetylcholine, norepinephrine, epinephrine, arginine vasopressin, serotonin, dopamine, and β-endorphin, which are responsible for most of its psychoactive effects.\n\nBy raising acetylcholine levels in the brain, nicotine enhances focus. The release of norepinephrine leads to increased alertness and arousal. At low doses, nicotine enhances the effects of norepinephrine and dopamine, producing the characteristic psychological stimulation. Nicotine also has sedative effects, caused by the release of β-endorphin (which reduces anxiety) and by the enhancement of serotonergic and opioid activity.\n\nOral bioavailability: 20–45%. Intranasal bioavailability: 53%. Transdermal bioavailability: 68%.\n\nFollowing a single dose, nicotine has a half-life of 1–2 hours; its active metabolite cotinine has a half-life of 20 hours. Nicotine and cotinine are further glucuronidated by UGT2B10.",
+    "mechanism_summary": "Nicotinic Acetylcholine Receptor (nAChR) Agonist",
     "effects": [
       "Abnormal heartbeat",
       "Anxiety",
@@ -53871,7 +53853,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "More information: NMDA receptor antagonist drugs\n\nAlthough N2O affects a considerable number of receptors, its anesthetic, hallucinogenic, and euphoric actions are likely mediated primarily or entirely through its action as an NMDA receptor antagonist. NMDA receptors allow electrical signals to pass between neurons in the brain and spinal cord; for a signal to be transmitted, the receptor must be open. Dissociatives close NMDA receptors by blocking them. This disconnection of neurons results in loss of sensation, motor difficulty, and ultimately the well-known \"K-hole\" state.\n\nThe pharmacological mechanism of action of N2O in medicine is not fully understood. However, it has been shown to directly modulate a broad range of receptors, which may play an important role in its many effects. It moderately blocks nACh channels containing the β2 subunit, weakly inhibits AMPA, kainate, GABA-A-rho, and 5-HT3 receptors, and slightly enhances GABA-A and glycine receptors. It has also been shown to activate two-pore-domain K+ channels.",
+    "mechanism_summary": "NMDA Antagonist, Endogenous Opioid Releaser, and GABA Modulator",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -54174,7 +54156,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 30.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Neuropeptide-Derived Cognitive Enhancer",
     "effects": [
       "Acuity enhancement",
       "Anxiety suppression",
@@ -54193,9 +54175,7 @@
     "references": [
       "https://en.wikipedia.org/wiki/Noopept"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Norbaeocystin",
@@ -55365,7 +55345,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Ondansetron is an antiemetic, selective serotonin receptor antagonist that competitively blocks serotonin at 5-HT3 receptors in both the peripheral vagal nerve terminals and central chemoreceptor trigger zone, resulting in suppression of chemotherapy- and radiotherapy-induced nausea and vomiting. It may also have activity against nausea and vomiting of other origins.",
+    "mechanism_summary": "Serotonin 5-HT3 Receptor Antagonist (Antiemetic)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -55675,7 +55655,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 570.0,
-    "mechanism_summary": "Oxcarbazepine is a prodrug that is rapidly metabolized to its active metabolite, 10-monohydroxy metabolite (MHD). MHD blocks sodium channels and modulates calcium channels , resulting in stabilization of hyper excited neural membranes, inhibition of repetitive neuronal firing, and diminution of propagation of synaptic impulses.",
+    "mechanism_summary": "Voltage-Gated Sodium Channel Blocker",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Oxcarbazepine"
@@ -56755,7 +56735,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-Competitive NMDA Antagonist and Dopamine Reuptake Inhibitor",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -56805,7 +56785,6 @@
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -57825,7 +57804,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 330.0,
-    "mechanism_summary": "Phenibut has a more complex pharmacological profile than many other depressants. Unlike benzodiazepines, phenibut acts as a full agonist at GABAB receptors, similar to baclofen and high-dose GHB. At higher doses, phenibut loses its selectivity for GABAB and gains additional activity as a GABAA agonist. Phenibut's action at GABAB receptors is responsible for its sedative effects.\n\nRecent research has shown that phenibut binds to and blocks voltage-dependent calcium channels (VDCCs) containing alpha-2-delta subunits, analogously to gabapentinoid drugs such as gabapentin and pregabalin. Both enantiomers of phenibut exhibit this action with similar efficacy. The R-enantiomer displays fivefold greater affinity for alpha-2-delta-containing voltage-gated calcium channels relative to GABAB receptors, while the S-enantiomer shows no efficacy at GABAB receptors.\n\nThe analgesic effects of phenibut in rodents are mediated not by GABAB receptors but by blockade of voltage-gated calcium channels containing alpha-2-delta subunits.",
+    "mechanism_summary": "GABA-B Receptor Agonist and α2δ Calcium Channel Ligand",
     "effects": [
       "Amnesia",
       "Anxiety suppression",
@@ -60787,14 +60766,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Prodrug → Psilocin (5-HT2A Agonist)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Psilocybin"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -63177,7 +63155,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Mechanism Of Action In vitro studies and in vivo pharmacologic studies have demonstrated that albuterol has a preferential effect on beta 2 -adrenergic receptors compared with isoproterenol. While it is recognized that beta 2 -adrenergic receptors are the predominant receptors in bronchial smooth muscle, data indicate that there is a population of beta 2 -receptors in the human heart existing in a concentration between 10% and 50% of cardiac beta-adrenergic receptors. The precise function of these receptors has not been established . Activation of beta 2 -adrenergic receptors on airway smooth muscle leads to the activation of adenylcyclase and to an increase in the intracellular concentration of cyclic-3′,5′-adenosine monophosphate (cyclic AMP). This increase of cyclic AMP leads to the activation of protein kinase A, which inhibits the phosphorylation of myosin and lowers intracellular ionic calcium concentrations, resulting in relaxation. Albuterol relaxes the smooth muscles of all airways, from the trachea to the terminal bronchioles. Albuterol acts as a functional antagonist to relax the airway irrespective of the spasmogen involved, thus protecting against all bronchoconstrictor challenges. Increased cyclic AMP concentrations are also associated with the inhibition of release of mediators from mast cells in the airway. Albuterol has been shown in most controlled clinical trials to have more effect on the respiratory tract, in the form of bronchial smooth muscle relaxation, than isoproterenol at comparable doses while producing fewer cardiovascular effects. Controlled clinical studies and other clinical experience have shown that inhaled albuterol, like other beta-adrenergic agonist drugs, can produce a significant cardiovascular effect in some patients, as measured by pulse rate, blood pressure, symptoms, and/or electrocardiographic changes . Pharmacokinetics The systemic levels of albuterol are low after inhalation of recommended doses. A study conducted in 12 healthy male and female subjects using a higher dose (1,080 mcg of albuterol base) showed that mean peak plasma concentrations of approximately 3 ng/mL occurred after dosing when albuterol was delivered using propellant HFA-134a. The mean time to peak concentrations (T max ) was delayed after administration of VENTOLIN HFA (T max = 0.42 hours) as compared to CFC-propelled albuterol inhaler (T max = 0.17 hours). Apparent terminal plasma half-life of albuterol is approximately 4.6 hours. No further pharmacokinetic studies for VENTOLIN HFA were conducted in neonates, children, or elderly subjects.",
+    "mechanism_summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -63447,14 +63425,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 60.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Selective κ-Opioid Receptor Agonist (Salvinorin A)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Salvinorin_A"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Salvinorin B",
@@ -64644,7 +64620,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits cGMP specific phosphodiesterase type-5 (PDE-5) enzymes from degrading cyclic guanosine monophosphate (cGMP) . Sexual stimulation creates a release of nitric oxide, which increases cGMP that causes smooth muscle relaxation allowing blood flow into the penis to produce an erection. This same effect in the pulmonary vascular bed leads to vasodilation for the treatment of pulmonary arterial hypertension.",
+    "mechanism_summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -65923,7 +65899,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits cGMP specific phosphodiesterase type-5 (PDE-5) enzymes from degrading cyclic guanosine monophosphate (cGMP) . Sexual stimulation creates a release of nitric oxide, which increases cGMP that causes smooth muscle relaxation allowing blood flow into the penis to produce an erection. This same effect in the pulmonary vascular bed leads to vasodilation for the treatment of pulmonary arterial hypertension. This effect is also observed in the smooth muscle of the prostate, the bladder and their vascular supply, although the exact mechanism for reducing BPH symptoms has not been established.",
+    "mechanism_summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -66024,7 +66000,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "阿片类药物通过结合并激活μ-阿片受体来发挥作用。这是因为阿片类药物在结构上模仿了体内的内啡肽，内啡肽是体内天然存在的，也作用于 μ-阿片受体组。阿片类药物在结构上模仿这些天然内啡肽的方式，导致了它们的欣快感、镇痛和抗焦虑作用。这是因为内啡肽负责减轻疼痛、引起睡意和产生愉悦感呢。它们会在疼痛、剧烈运动、性高潮或普遍兴奋时释放出来。塔喷他多的口服生物利用度约为 32%。塔喷他多由肝脏中的细胞色素 P450 系统代谢，并通过肾脏随尿液和粪便排出。与大多数阿片类药物不同，塔喷他多也是一种去甲肾上腺素再摄取抑制剂，并且也有微弱的血清素能作用哦。[[4]](#cite_note-4)\n\n塔喷他多是一种可口服的合成苯类化合物，作为 μ-阿片受体 (MOR) 的激动剂，并抑制去甲肾上腺素的再摄取，具有潜在的镇痛活性。口服给药后，塔喷他多与 MOR 结合，增强 MOR 介导的信号传导，干扰疼痛感并产生镇痛效果。塔喷他多还抑制去甲肾上腺素的再摄取，从而增加去甲肾上腺素 (NA) 的水平，激活抑制性 α-2 受体并产生镇痛效果。[[5]](#cite_note-5)\n\n塔喷他多及其代谢物几乎完全（99%）通过肾脏排泄。大约 70%（55% 的塔喷他多 O-葡萄糖醛酸苷和 15% 的硫酸盐）以结合形式排泄。共有 3% 的药物以原形药物的形式在尿液中排泄。[[6]](#cite_note-6)",
+    "mechanism_summary": "μ-Opioid Receptor Agonist and Norepinephrine Reuptake Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -66790,16 +66766,14 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Cannabinoid CB1 Partial Agonist",
     "effects": [
       "Increased appetite"
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Tetrahydrocannabinol"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "THC-O",
@@ -67445,15 +67419,14 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "μ-Opioid Receptor Agonist (Atypical Antidepressant)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Tianeptine"
     ],
     "data_gaps": [
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -67496,7 +67469,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "与大多数处方抗抑郁药不同，噻奈普汀对多巴胺和血清素等单胺类物质的直接影响微乎其微。噻奈普汀会略微增加细胞外多巴胺水平，尽管目前尚不清楚它是如何引起这种释放的。\n\n在老鼠身上进行的实验表明，噻奈普汀不会增加受试体内的血清素水平。相反，它被发现会增加血清素的 _再摄取_，被贴上了选择性血清素再摄取 _增强剂_ 的标签。 这与最常用的处方抗抑郁药形成了鲜明对比，后者是选择性血清素 再摄取抑制剂（SSRIs）。然而，噻奈普汀对血清素的改变可能与其作用机制无关。\n\n噻奈普汀还通过调节谷氨酸及其受体，特别是通过间接调节 NMDA 受体，显著增强神经可塑性。 这种大脑塑性的增加与压力和抑郁症状的显著减轻有关。 最近的研究得出的结论是，噻奈普汀也是一种有效的 μ-阿片受体激动剂，这可能有助于其抗抑郁和焦虑抑制特性。\n\n它有时也被用于治疗肠易激综合征或哮喘。",
+    "mechanism_summary": "μ-Opioid Receptor Agonist (Atypical Antidepressant)",
     "effects": [
       "Anxiety suppression",
       "Bronchodilation",
@@ -68351,7 +68324,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1260.0,
-    "mechanism_summary": "Topiramate has multiple mechanisms of action. It blocks sodium channels, reduces L-type high voltage-gated calcium currents, antagonizes the kainate/AMPA glutamate receptor subtype, and is thought to augment gamma-aminobenzoic acid (GABA) activity. These actions produce a stabilizing effect on hyper-excited neural membranes, decreasing propagation of synaptic impulses, and thereby impeding seizure occurrences. Topiramate is also a carbonic anhydrase inhibitor.",
+    "mechanism_summary": "Multimodal Anticonvulsant",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Topiramate"
@@ -68492,7 +68465,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Tramadol is a synthetic mu-opioid agonist and a weak inhibitor of norepinephrine and serotonin re-uptake . Tramadol is metabolized via CYP2D6 to the active metabolite, M1 , which is up to 6 times more potent than tramadol in producing analgesia and 200 times more potent in mu-opioid binding. It works for analgesia by blocking transmission of nociceptive signals and inhibiting other pain pathways. The primary therapeutic action is analgesia, however, this agent also exhibits dose-related degrees of anxiolysis, euphoria, sedation, respiratory depression, and gastrointestinal system smooth muscle contraction.",
+    "mechanism_summary": "Weak μ-Opioid Agonist and Serotonin-Norepinephrine Reuptake Inhibitor",
     "effects": [
       "Anxiety suppression",
       "Cognitive euphoria",
@@ -68621,7 +68594,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 420.0,
-    "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons and antagonizes 5-HT2 receptors enhancing serotonergic activity in the CNS.",
+    "mechanism_summary": "Serotonin Antagonist and Reuptake Inhibitor (SARI)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Trazodone"
@@ -69709,7 +69682,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
-    "mechanism_summary": "Valproate’s broad-spectrum antiepileptic properties appear to act by increasing the concentration of gamma-aminobutyric acid (GABA) in the brain. Proposed mechanisms of action include blocking sodium channels, T-type calcium channels, and the action of GABA transaminase. Valproate's antitumor and antiangiogenesis activities may be related to the inhibition of histone deacetylases and nitric oxide synthase, which results in the inhibition of nitric oxide synthesis.",
+    "mechanism_summary": "Multimodal Anticonvulsant and Mood Stabilizer",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Valproate"
@@ -69733,7 +69706,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Mechanism Of Action Divalproex sodium dissociates to the valproate ion in the gastrointestinal tract. The mechanisms by which valproate exerts its therapeutic effects have not been established. It has been suggested that its activity in epilepsy is related to increased brain concentrations of gamma-aminobutyric acid (GABA). Pharmacodynamics The relationship between plasma concentration and clinical response is not well documented. One contributing factor is the nonlinear, concentration dependent protein binding of valproate which affects the clearance of the drug. Thus, monitoring of total serum valproate may not provide a reliable index of the bioactive valproate species. For example, because the plasma protein binding of valproate is concentration dependent, the free fraction increases from approximately 10% at 40 mcg/mL to 18.5% at 130 mcg/mL. Higher than expected free fractions occur in the elderly, in hyperlipidemic patients, and in patients with hepatic and renal diseases. Epilepsy The therapeutic range in epilepsy is commonly considered to be 50 to 100 mcg/mL of total valproate, although some patients may be controlled with lower or higher plasma concentrations. Mania In placebo-controlled clinical trials of acute mania, patients were dosed to clinical response with trough plasma concentrations between 85 and 125 mcg/mL . Pharmacokinetics Absorption/Bioavailability The absolute bioavailability of Depakote ER tablets administered as a single dose after a meal was approximately 90% relative to intravenous infusion. When given in equal total daily doses, the bioavailability of Depakote ER is less than that of Depakote (divalproex sodium delayed-release tablets). In five multiple-dose studies in healthy subjects (N=82) and in subjects with epilepsy (N=86), when administered under fasting and nonfasting conditions, Depakote ER given once daily produced an average bioavailability of 89% relative to an equal total daily dose of Depakote given BID, TID, or QID. The median time to maximum plasma valproate concentrations (C max ) after Depakote ER administration ranged from 4 to 17 hours. After multiple once-daily dosing of Depakote ER, the peak-to-trough fluctuation in plasma valproate concentrations was 10-20% lower than that of regular Depakote given BID, TID, or QID. Conversion from Depakote to Depakote ER When Depakote ER is given in doses 8 to 20% higher than the total daily dose of Depakote, the two formulations are bioequivalent. In two randomized, crossover studies, multiple daily doses of Depakote were compared to 8 to 20% higher once-daily doses of Depakote ER. In these two studies, Depakote ER and Depakote regimens were equivalent with respect to area under the curve (AUC; a measure of the extent of bioavailability). Additionally, valproate C max was lower, and C min was either higher or not different, for Depakote ER relative to Depakote regimens . Table 8. Bioavailability of Depakote ER Tablets Relative to Depakote When Depakote ER Dose is 8 to 20% Higher Study Population Regimens Relative Bioavailability Depakote ER vs. Depakote AUC 24 C max C min Healthy Volunteers (N=35) 1,000 & 1,500 mg Depakote ER vs. 875 & 1,250 mg Depakote 9 2 3 Patients with epilepsy on concomitant enzyme-inducing antiepilepsy drugs (N = 64) 1,000 to 5,000 mg Depakote ER vs. 875 to 4,250 mg Depakote 8 9 2 Concomitant antiepilepsy drugs (topiramate, phenobarbital, carbamazepine, phenytoin, and lamotrigine were evaluated) that induce the cytochrome P450 isozyme system did not significantly alter valproate bioavailability when converting between Depakote and Depakote ER. Distribution Protein Binding The plasma protein binding of valproate is concentration dependent and the free fraction increases from approximately 10% at 40 mcg/mL to 18.5% at 130 mcg/mL. Protein binding of valproate is reduced in the elderly, in patients with chronic hepatic diseases, in patients with renal impairment, and in the presence of other drugs (e.g., aspirin). Conversely, valproate may displace certain protein-bound drugs (e.g., phenytoin, carbamazepine, warfarin, and tolbutamide) . CNS Distribution Valproate concentrations in cerebrospinal fluid (CSF) approximate unbound concentrations in plasma (about 10% of total concentration). Metabolism Valproate is metabolized almost entirely by the liver. In adult patients on monotherapy, 30-50% of an administered dose appears in urine as a glucuronide conjugate. Mitochondrial β-oxidation is the other major metabolic pathway, typically accounting for over 40% of the dose. Usually, less than 15-20% of the dose is eliminated by other oxidative mechanisms. Less than 3% of an administered dose is excreted unchanged in urine. The relationship between dose and total valproate concentration is nonlinear; concentration does not increase proportionally with the dose, but rather, increases to a lesser extent due to saturable plasma protein binding. The kinetics of unbound drug are linear. Elimination Mean plasma clearance and volume of distribution for total valproate are 0.56 L/hr/1.73 m 2 and 11 L/1.73 m 2 , respectively. Mean plasma clearance and volume of distribution for free valproate are 4.6 L/hr/1.73 m 2 and 92 L/1.73 m 2 . Mean terminal half-life for valproate monotherapy ranged from 9 to 16 hours following oral dosing regimens of 250 to 1,000 mg. The estimates cited apply primarily to patients who are not taking drugs that affect hepatic metabolizing enzyme systems. For example, patients taking enzyme-inducing antiepileptic drugs (carbamazepine, phenytoin, and phenobarbital) will clear valproate more rapidly. Because of these changes in valproate clearance, monitoring of antiepileptic concentrations should be intensified whenever concomitant antiepileptics are introduced or withdrawn. Special Populations Effect of Age Pediatric The valproate pharmacokinetic profile following administration of Depakote ER was characterized in a multiple-dose, non-fasting, open label, multi-center study in children and adolescents. Depakote ER once daily doses ranged from 250-1,750 mg. Once daily administration of Depakote ER in pediatric patients (10-17 years) produced plasma VPA concentration-time profiles similar to those that have been observed in adults. Elderly The capacity of elderly patients (age range: 68 to 89 years) to eliminate valproate has been shown to be reduced compared to younger adults (age range: 22 to 26 years). Intrinsic clearance is reduced by 39%; the free fraction is increased by 44%. Accordingly, the initial dosage should be reduced in the elderly . Effect of Sex There are no differences in the body surface area adjusted unbound clearance between males and females (4.8±0.17 and 4.7±0.07 L/hr per 1.73 m 2 , respectively). Effect of Race The effects of race on the kinetics of valproate have not been studied. Effect of Disease Liver Disease Liver disease impairs the capacity to eliminate valproate. In one study, the clearance of free valproate was decreased by 50% in 7 patients with cirrhosis and by 16% in 4 patients with acute hepatitis, compared with 6 healthy subjects. In that study, the half-life of valproate was increased from 12 to 18 hours. Liver disease is also associated with decreased albumin concentrations and larger unbound fractions (2 to 2.6 fold increase) of valproate. Accordingly, monitoring of total concentrations may be misleading since free concentrations may be substantially elevated in patients with hepatic disease whereas total concentrations may appear to be normal . Renal Disease A slight reduction (27%) in the unbound clearance of valproate has been reported in patients with renal failure (creatinine clearance < 10 mL/minute); however, hemodialysis typically reduces valproate concentrations by about 20%. Therefore, no dosage adjustment appears to be necessary in patients with renal failure. Protein binding in these patients is substantially reduced; thus, monitoring total concentrations may be misleading.",
+    "mechanism_summary": "Multimodal Anticonvulsant and Mood Stabilizer",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -70093,7 +70066,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1500.0,
-    "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons and agonizes 5-HT1A receptors affecting serotonergic activity in the CNS.",
+    "mechanism_summary": "SSRI and 5-HT1A Partial Agonist",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Vilazodone"
@@ -70673,7 +70646,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4320.0,
-    "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons, antagonizes 5-HT3 receptors , and agonizes 5-HT1A receptors affecting serotonergic activity in the CNS.",
+    "mechanism_summary": "Multimodal Serotonergic Antidepressant",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Vortioxetine"
@@ -70735,7 +70708,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits the C1 subunit of the vitamin K epoxide reductase (VKORC1) enzyme complex, which is required for the activation of coagulation factors II, VII, IX, and X as well as proteins C and S. This results in disruption of platelet activation and fibrin clot formation.",
+    "mechanism_summary": "Vitamin K Epoxide Reductase Inhibitor (Anticoagulant)",
     "effects": [],
     "references": [],
     "data_gaps": [

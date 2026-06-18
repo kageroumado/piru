@@ -51,6 +51,11 @@ SOURCED = REPO / "data/intermediate/sourced-substances.json"
 # layer). Ingested directly as the `piru-curated` source — sqlite.py is the
 # single consumer, so there is no overlay→sourced bake step to drift out of sync.
 CURATED_DIR = REPO / "data/curated/substances"
+# Curated per-substance mechanism-of-action prose + receptor bindings, relocated
+# out of the iOS MechanismOfActionDatabase Swift file so the prose is
+# data-localizable and the bindings are surfaced (union-merged with measured
+# rows). One JSON array, ingested as `piru-curated` AFTER all substances exist.
+MECHANISMS = REPO / "data/curated/mechanisms.json"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
@@ -655,6 +660,12 @@ CREATE TABLE bindings (
     ic50_nm                REAL,
     emax_pct               REAL,
     intrinsic_activity_pct REAL,
+    -- Curated ordinal affinity tier (1 = weak, 2 = significant, 3 = primary)
+    -- for hand-curated bindings that carry no numeric Ki. The app's displayed
+    -- tier is COALESCE(affinity_tier, tier-derived-from-ki_nm) so curated rows
+    -- keep their intended emphasis without faking a numeric Ki. NULL for
+    -- measured rows (those rank by ki_nm). Added with the MOA relocation.
+    affinity_tier          INTEGER,
     reference_agonist      TEXT,
     species                TEXT,
     tissue_or_cell         TEXT,
@@ -3616,7 +3627,7 @@ class Build:
         src = self.source_ids[source_slug]
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
-            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 b.get("target"),
@@ -3629,6 +3640,7 @@ class Build:
                 to_float(b.get("ic50_nm")),
                 to_float(b.get("emax_pct")),
                 to_float(b.get("intrinsic_activity_pct")),
+                to_int(b.get("affinity_tier")),
                 b.get("reference_agonist"),
                 b.get("species"),
                 b.get("tissue_or_cell"),
@@ -4066,6 +4078,68 @@ class Build:
                         )
         self.stats["curated_files"] = len(names)
         return names
+
+    def ingest_curated_mechanisms(self, path: Path) -> None:
+        """Ingest the curated mechanism-of-action records relocated from the iOS
+        ``MechanismOfActionDatabase`` Swift file. Each record is::
+
+            {"name", "summary", "description",
+             "bindings": [{"target", "action", "affinity_tier"}],
+             "references": ["doi/pmid", ...]}
+
+        attributed to ``piru-curated``. Run AFTER every substance is ingested so
+        a name resolves whether it originates from curated, scraped, or
+        FreeOD/PW data. Names are resolved canonical-first, then via the alias
+        table (so an alias-keyed record like a salt form still lands). Records
+        whose name resolves to no substance are skipped with a warning
+        (no-silent-drops). The summary/description ship as ``language = 'en'``;
+        a later translation stage fills zh. Bindings carry an ordinal
+        ``affinity_tier`` (no numeric Ki) — the app union-merges them with any
+        measured rows, preferring numeric Ki where present."""
+        if not path.exists():
+            return
+        try:
+            records = json.loads(path.read_text())
+        except (ValueError, OSError) as exc:
+            print(f"  WARNING: {path.name} failed to load: {exc}", file=sys.stderr)
+            return
+        if not isinstance(records, list):
+            return
+        skipped: list[str] = []
+        for rec in records:
+            if not isinstance(rec, dict) or not rec.get("name"):
+                continue
+            name = rec["name"]
+            sid = self.substance_ids.get(normalise(name))
+            if sid is None:
+                row = self.cur.execute(
+                    "SELECT substance_id FROM aliases WHERE lower(alias) = ? LIMIT 1",
+                    (name.lower(),),
+                ).fetchone()
+                sid = row[0] if row else None
+            if sid is None:
+                skipped.append(name)
+                continue
+            refs = rec.get("references") or []
+            self.add_mechanism_summary(
+                sid,
+                "piru-curated",
+                rec.get("summary") or rec.get("description") or "",
+                description=rec.get("description"),
+                citation=refs[0] if refs else None,
+            )
+            for b in rec.get("bindings") or []:
+                if isinstance(b, dict) and b.get("target"):
+                    self.add_binding(sid, "piru-curated", b)
+            for ref in refs:
+                if isinstance(ref, str) and ref.strip():
+                    self.add_substance_citation(sid, ref.strip())
+        self.stats["curated_mechanisms"] = len(records) - len(skipped)
+        if skipped:
+            print(
+                f"  WARNING: curated mechanisms skipped (no substance match): {skipped}",
+                file=sys.stderr,
+            )
 
     def ingest_sourced_substances(self, path: Path, *, known_names: set[str] | None = None) -> None:
         """SubstanceCollector's per-record sourced output. Each record carries
@@ -6063,6 +6137,14 @@ def main() -> int:
     build.ingest_nps(NPS_EXT)
     print(
         f"After nps (identifier backfill): {build.stats.get('nps_identifier_matches', 0)} matches",
+        file=sys.stderr,
+    )
+
+    # Curated MOA prose + bindings (relocated from the iOS Swift file). Runs
+    # AFTER every substance exists so names resolve regardless of origin.
+    build.ingest_curated_mechanisms(MECHANISMS)
+    print(
+        f"After curated mechanisms: {build.stats.get('curated_mechanisms', 0)} ingested",
         file=sys.stderr,
     )
 
