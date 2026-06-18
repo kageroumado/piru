@@ -39,6 +39,11 @@ struct QuickLogView: View {
     @State private var searchActive = false
     @FocusState private var searchFocused: Bool
 
+    /// Gates the empty-state placeholder: it must not show until the first
+    /// rebuild has actually run, or the sheet briefly flashes "No Previous
+    /// Substances" on every open before the (now warm-cache, fast) caches fill.
+    @State private var hasLoaded = false
+
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
     @State private var cachedFavoriteOrder: [String: Int] = [:]
@@ -160,7 +165,11 @@ struct QuickLogView: View {
                     substanceName: dose.substance,
                     route: dose.route,
                     colorHex: colorLookup[nameLower],
-                    librarySubstance: SubstanceLibrary.lookupByNameOrAlias(nameLower),
+                    // Batch-cache lookup (class/routes/doses/salts/durations) —
+                    // all a card needs — instead of the heavy per-substance SQL
+                    // resolve, which cold-stalled the first open. Same path the
+                    // journal uses; pre-warmed via `ensureAllLoaded()` on open.
+                    librarySubstance: SubstanceLibrary.timelineLookup(nameLower),
                     latestTimestamp: dose.lastUsedAt,
                 )
                 group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
@@ -208,7 +217,7 @@ struct QuickLogView: View {
         cachedNonFavoriteCards = cachedCards.filter { !cachedFavoriteSet.contains($0.id) }
         cachedFavoriteLibrarySubstances = favorites
             .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
-            .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.substance.lowercased()) }
+            .compactMap { SubstanceLibrary.timelineLookup($0.substance.lowercased()) }
     }
 
     // MARK: - Favorites
@@ -231,7 +240,7 @@ struct QuickLogView: View {
             // Resolve through the library so an override of a shipped substance
             // carries its full dose/duration data (labelled with the personal
             // name); a net-new custom falls back to its own asSubstance.
-            .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.name) ?? $0.asSubstance }
+            .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
     }
 
     /// Pre-`sortOrder` favorites are all 0 — stamp them with their current
@@ -259,7 +268,13 @@ struct QuickLogView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    if cachedCards.isEmpty, cachedDailyGroups.isEmpty {
+                    if !hasLoaded {
+                        // Loading: render nothing (the dock stays put) rather than
+                        // the empty-state placeholder — the caches fill within a
+                        // frame or two off the warm batch cache, so this avoids the
+                        // jarring "No Previous Substances" flash on open.
+                        EmptyView()
+                    } else if cachedCards.isEmpty, cachedDailyGroups.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
@@ -349,14 +364,18 @@ struct QuickLogView: View {
                 FavoritesReorderView()
             }
             .task {
-                // Defer rebuild to next run loop so sheet presentation isn't blocked
-                try? await Task.sleep(for: .milliseconds(50))
+                // Wait for the launch prewarm so the card lookups below land on
+                // the warm batch cache instead of cold per-substance SQL (returns
+                // immediately if already loaded; the rebuild is then cheap enough
+                // not to block the present animation).
+                await SubstanceStore.shared.ensureAllLoaded()
                 QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
                 RoutineMigrator.seedIfNeeded(context: modelContext)
                 seedFavoriteOrderIfNeeded()
                 rebuildColorLookup()
                 rebuildEntryDerived()
                 rebuildCards()
+                hasLoaded = true
                 if let prestagedRoutine {
                     stageRoutine(named: prestagedRoutine)
                 }
@@ -804,7 +823,7 @@ struct QuickLogView: View {
             amount: item.amount,
             unit: item.unit,
             colorHex: cachedColorLookup[item.substance.lowercased()],
-            librarySubstance: SubstanceLibrary.lookupByNameOrAlias(item.substance.lowercased()),
+            librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
             isFromDailySet: true,
             isBackgroundMed: item.isBackgroundMed,
         )
@@ -1017,7 +1036,7 @@ struct QuickLogView: View {
                 route: prefill.route,
                 unit: prefill.unit,
                 colorHex: cachedColorLookup[prefill.substance.lowercased()],
-                librarySubstance: SubstanceLibrary.lookupByNameOrAlias(prefill.substance.lowercased()),
+                librarySubstance: SubstanceLibrary.timelineLookup(prefill.substance.lowercased()),
             )
             searchActive = false
             searchText = ""
