@@ -26742,6 +26742,22 @@
           }
         }
       }
+    },
+    "Log a dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄劑量"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

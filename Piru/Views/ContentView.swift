@@ -45,7 +45,6 @@ struct ContentView: View {
             searchScope: $searchScope,
             searchText: $searchText,
             librarySearchText: $librarySearchText,
-            quickLogZoom: quickLogZoom,
         )
         .equatable()
         .onChange(of: navigator.selectedTab) { oldValue, newValue in
@@ -170,7 +169,6 @@ private struct MainTabView: View, Equatable {
     @Binding var searchScope: SearchTabScope
     @Binding var searchText: String
     @Binding var librarySearchText: String
-    let quickLogZoom: Namespace.ID
 
     /// Always equal: nothing `ContentView.body` changes when it re-runs (it does
     /// so on every sheet open/close, via `.sheetStackPresenter`) needs to rebuild
@@ -188,14 +186,6 @@ private struct MainTabView: View, Equatable {
             Tab("Journal", systemImage: "book", value: AppTab.journal) {
                 NavigationStack(path: navigator.pathBinding(for: .journal)) {
                     journalContent
-                        // The floating add button stays put on the journal root
-                        // regardless of session state — muscle memory. (The
-                        // session accessory is what we suppress here; see
-                        // `journalShowingActiveHero`.)
-                        .overlay(alignment: .bottom) {
-                            addMenu
-                                .padding(.bottom, 16)
-                        }
                         .withAppDestinations()
                 }
             }
@@ -232,7 +222,7 @@ private struct MainTabView: View, Equatable {
         // `SessionAccessoryView` already adapts to).
         .tabBarMinimizeBehavior(.onScrollDown)
         .withSessionAccessory(
-            isActive: sessionAccessoryActive,
+            showSessionPill: sessionAccessoryActive,
             // Plain actions, *not* sheetStack-reading bindings. The accessory only
             // ever triggers a present (its sheet dismisses itself), so a binding's
             // getter was dead weight — and reading `sheetStack` in that getter
@@ -270,10 +260,12 @@ private struct MainTabView: View, Equatable {
 
     // MARK: Session Accessory Visibility
 
-    /// Whether the floating session accessory is shown. Suppressed while the
-    /// journal already surfaces the live session — on its day-detail (curve /
-    /// substances / timing on screen) or at the journal root, where the hero
-    /// card carries it — since the pill would only duplicate them.
+    /// Whether the bottom accessory shows the live-session pill (vs. the idle
+    /// "Log a dose" call-to-action). The accessory is *always* mounted now; this
+    /// only chooses its content. We fall back to the CTA — rather than the pill —
+    /// while the journal already surfaces the live session (its day-detail with
+    /// the curve / substances / timing on screen, or the journal root where the
+    /// hero card carries it), since the pill would only duplicate them.
     private var sessionAccessoryActive: Bool {
         ActiveSessionManager.shared.hasActiveSession
             && !viewingActiveSessionDay
@@ -308,31 +300,6 @@ private struct MainTabView: View, Equatable {
         // session also has a still-active long-acting dose.
         return session.orderedDoses.contains { dose in
             activeStamps.contains { abs($0.timeIntervalSince(dose.timestamp)) < 1 }
-        }
-    }
-
-    // MARK: Add Menu
-
-    private var addMenu: some View {
-        Button {
-            guard navigator.sheetStack.isEmpty else { return }
-            navigator.present(.quickLog(routine: nil), zoomSource: QuickLogTransition.floatingID)
-        } label: {
-            Image(systemName: "plus")
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(.white)
-                .frame(width: 56, height: 56)
-                .contentShape(Circle())
-                .glassEffect(.regular.tint(Theme.accent).interactive(), in: Circle())
-        }
-        // Clip the transition source to the button's circle (the default
-        // rectangular placeholder leaves a faint card behind the glass capsule
-        // as the dismissal zoom completes).
-        .matchedTransitionSource(id: QuickLogTransition.floatingID, in: quickLogZoom) { source in
-            // Full corner radius (half the 56pt side) → a circle. `clipShape`
-            // here only accepts `RoundedRectangle`, so `.circle`/`.capsule` are
-            // out; this matches the glass capsule and kills the faint card.
-            source.clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         }
     }
 }
@@ -503,97 +470,181 @@ private struct SearchSurface: View {
 // MARK: - Session Bottom Accessory
 
 private extension View {
-    /// iOS hosts `tabViewBottomAccessory` content in a context separate from the
-    /// main view tree, so a `matchedTransitionSource` placed *inside* the
-    /// accessory can't anchor a sheet's zoom (it falls back to a centre zoom).
-    /// The accessory's sheets therefore present as a normal slide-up rather than
-    /// zooming — only the journal's floating + and the day-detail + (both in the
-    /// main tree) get the grow-from-button effect.
-    @ViewBuilder
+    /// The tab bar's bottom accessory — Piru's "now logging" surface, the analog
+    /// of Music's now-playing bar. It is *always* mounted (iOS 26.0+) and morphs
+    /// between two faces: the live-session pill when a session is active, and an
+    /// idle "Log a dose" call-to-action otherwise. Anchoring the primary action
+    /// here (rather than a floating button) keeps it pinned to the tab bar — it
+    /// never looks orphaned, and it folds into the bar's inline placement for
+    /// free when the tab bar minimizes on scroll.
+    ///
+    /// Note: iOS hosts accessory content in a context separate from the main view
+    /// tree, so a `matchedTransitionSource` placed *inside* the accessory can't
+    /// anchor a sheet's zoom — the quick-log sheet presents as a normal slide-up.
     func withSessionAccessory(
-        isActive: Bool,
+        showSessionPill: Bool,
         onShowSessionDetail: @escaping () -> Void,
         onAdd: @escaping () -> Void,
     ) -> some View {
-        if #available(iOS 26.1, *) {
-            self.tabViewBottomAccessory(isEnabled: isActive) {
-                TimelineView(.periodic(from: .now, by: 60)) { context in
-                    SessionAccessoryView(
-                        states: ActiveSessionManager.shared.activeSubstanceStates,
-                        currentTime: context.date,
-                        onTapSession: onShowSessionDetail,
-                        onAdd: onAdd,
-                    )
-                }
-            }
-        } else {
-            self
+        tabViewBottomAccessory {
+            BottomAccessoryContent(
+                showSessionPill: showSessionPill,
+                onShowSessionDetail: onShowSessionDetail,
+                onAdd: onAdd,
+            )
         }
     }
 }
 
-// MARK: - Session Accessory View
+// MARK: - Bottom Accessory Content
 
-private struct SessionAccessoryView: View {
+/// The tab bar's bottom-accessory content, with two faces: the live-session
+/// pill and the idle "Log a dose" call-to-action.
+///
+/// Layout is one full-width **body button** with the "+" **overlaid** on top as
+/// its own button. So the whole surface is tappable — a tap anywhere logs a dose
+/// (idle) or opens the session (live) — while the "+" still logs directly. The
+/// "+" lives outside the crossfading body, pinned trailing, so it stays solid
+/// and never moves between the two faces; only the body content crossfades. (We
+/// avoid `matchedGeometryEffect` across the swap: iOS hosts accessory content in
+/// a context separate from the main view tree — the same boundary that stops a
+/// `matchedTransition` from anchoring the sheet zoom — so a geometry match there
+/// snaps rather than animates.)
+private struct BottomAccessoryContent: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
+
+    let showSessionPill: Bool
+    var onShowSessionDetail: () -> Void
+    var onAdd: () -> Void
+
+    /// The tab bar is minimized — the accessory is in its folded, inline slot.
+    private var compact: Bool {
+        placement == .inline
+    }
+    /// One control footprint for the leading glyph and the "+", shrunk when
+    /// folded so the idle CTA keeps its label + glyph rather than collapsing.
+    private var controlSide: CGFloat {
+        compact ? 34 : 44
+    }
+
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 60)) { context in
+            ZStack(alignment: .trailing) {
+                Button(action: showSessionPill ? onShowSessionDetail : onAdd) {
+                    bodyContent(currentTime: context.date)
+                        .frame(maxWidth: .infinity)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                // No explicit label: idle reads "Log a dose" from its Text, and
+                // the live pill reads the substance names/times it already shows.
+
+                // Overlaid on the body's reserved trailing slot — always present
+                // (outside the crossfade), so it stays put across the swap.
+                plusButton
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 11)
+            .animation(.snappy, value: showSessionPill)
+        }
+    }
+
+    private func bodyContent(currentTime: Date) -> some View {
+        HStack(spacing: 10) {
+            if showSessionPill {
+                SessionAccessoryInfo(
+                    states: ActiveSessionManager.shared.activeSubstanceStates,
+                    currentTime: currentTime,
+                    placement: placement,
+                )
+                .transition(.opacity)
+
+                Spacer(minLength: 0)
+            } else {
+                // A flat-trend glyph mirrors the session graph's footprint: it
+                // balances the trailing "+" (so "Log a dose" sits at the true
+                // centre) and reads as the timeline-before-it-has-data.
+                Image(systemName: "chart.line.flattrend.xyaxis")
+                    .font(compact ? .subheadline : .title3)
+                    .foregroundStyle(.secondary)
+                    .frame(width: controlSide, height: controlSide)
+                    .accessibilityHidden(true)
+                    .transition(.opacity)
+
+                Spacer(minLength: 0)
+
+                Text("Log a dose")
+                    .font((compact ? Font.caption : Font.subheadline).weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                    .transition(.opacity)
+
+                Spacer(minLength: 0)
+            }
+
+            // Reserve the slot the overlaid "+" occupies, so the body's centred
+            // label accounts for it and lands on true centre.
+            Color.clear
+                .frame(width: controlSide, height: controlSide)
+        }
+    }
+
+    /// Log another dose. Pinned trailing in every face — no background fill (a
+    /// bare accent glyph avoids glass-on-glass concentricity issues against the
+    /// accessory's own capsule); 11pt trailing so its centre lines up with the
+    /// tab bar's search button.
+    private var plusButton: some View {
+        Button(action: onAdd) {
+            Image(systemName: "plus")
+                .font((compact ? Font.subheadline : Font.title3).weight(.semibold))
+                .foregroundStyle(Theme.accent)
+                .frame(width: controlSide, height: controlSide)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Log dose"))
+    }
+}
+
+// MARK: - Session Accessory Info
+
+/// The live-session summary shown in the accessory's pill face: a compact
+/// timeline, the substance names, and elapsed/remaining times. Collapses to just
+/// the names when the tab bar minimizes (`.inline`).
+private struct SessionAccessoryInfo: View {
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     let states: [ActiveSubstanceState]
     let currentTime: Date
-    var onTapSession: () -> Void
-    var onAdd: () -> Void
+    let placement: TabViewBottomAccessoryPlacement?
 
     var body: some View {
-        HStack(spacing: 12) {
-            Button(action: onTapSession) {
-                HStack(spacing: 10) {
-                    if placement != .inline {
-                        TimelineGraphView(
-                            substances: states,
-                            currentTime: currentTime,
-                            compact: true,
-                            stackRedoses: stackRedoses,
-                        )
-                        .equatable()
-                        .frame(width: 60, height: 36)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                        .allowsHitTesting(false)
-                    }
+        HStack(spacing: 10) {
+            // The mini timeline stays in *both* placements — in the folded bar a
+            // name + "+" alone read ambiguously; the graph anchors it as a live
+            // session and balances the trailing glyph.
+            TimelineGraphView(
+                substances: states,
+                currentTime: currentTime,
+                compact: true,
+                stackRedoses: stackRedoses,
+            )
+            .equatable()
+            .frame(width: 60, height: 36)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .allowsHitTesting(false)
 
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(uniqueNames)
-                            .font(.subheadline.weight(.semibold))
-                            .lineLimit(1)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(uniqueNames)
+                    .font(.subheadline.weight(.semibold))
+                    .lineLimit(1)
 
-                        if placement != .inline {
-                            Text("\(elapsedText) in \u{00B7} \(remainingText) left")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                if placement != .inline {
+                    Text("\(elapsedText) in \u{00B7} \(remainingText) left")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
-            .buttonStyle(.plain)
-
-            Spacer(minLength: 0)
-
-            // Primary action: log another dose. No background fill — a bare
-            // accent glyph avoids any glass-on-glass or concentricity issues
-            // against the accessory's own capsule. The 44pt hit box matches the
-            // tab bar's search button (44pt wide, 12pt trailing) so their
-            // centres line up.
-            Button(action: onAdd) {
-                Image(systemName: "plus")
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(Theme.accent)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Circle())
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(Text("Log dose"))
         }
-        .padding(.leading, 16)
-        .padding(.trailing, 11)
     }
 
     private var uniqueNames: String {

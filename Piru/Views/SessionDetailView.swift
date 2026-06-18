@@ -5,7 +5,6 @@ import SwiftUI
 struct SessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
-    @Environment(\.quickLogZoomNamespace) private var quickLogZoom
     let session: Session
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \Session.startDate, order: .reverse) private var allSessions: [Session]
@@ -429,15 +428,9 @@ struct SessionDetailView: View {
                 sessionMenu
             }
         }
-        // Primary action floats at the bottom, mirroring the journal root's add
-        // button — unless the live-session accessory pill is on screen beneath
-        // this detail, which already carries its own plus.
-        .overlay(alignment: .bottom) {
-            if !accessoryCarriesAdd {
-                addDoseButton
-                    .padding(.bottom, 16)
-            }
-        }
+        // The primary "Log a dose" action lives in the tab bar's bottom accessory
+        // (always on screen beneath this detail), so the day view no longer
+        // floats its own add button.
         .alert("Rename Session", isPresented: $showRename) {
             TextField("Session title", text: $titleDraft)
             Button("Cancel", role: .cancel) {}
@@ -503,53 +496,6 @@ struct SessionDetailView: View {
             }
         } label: {
             Image(systemName: "ellipsis")
-        }
-    }
-
-    /// Floating add-dose button — same 56pt tinted glass circle as the journal
-    /// root's, so the primary action lives in the same place on both screens.
-    @ViewBuilder
-    private var addDoseButton: some View {
-        let button = Button {
-            navigator.present(.quickLog(routine: nil), zoomSource: QuickLogTransition.dayDetailID)
-        } label: {
-            Image(systemName: "plus")
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(.white)
-                .frame(width: 56, height: 56)
-                .contentShape(Circle())
-                .glassEffect(.regular.tint(Theme.accent).interactive(), in: Circle())
-        }
-        .accessibilityLabel(Text("Log dose"))
-
-        // Grow the quick-log sheet out of this button (Mail-style), matching the
-        // journal root. A distinct id keeps it from clashing with the root's
-        // floating button still mounted beneath the pushed detail. Only when
-        // presented as a pushed day view (depth 0) is the namespace published;
-        // when this detail is itself a sheet the source is harmlessly unused.
-        if let quickLogZoom {
-            button.matchedTransitionSource(id: QuickLogTransition.dayDetailID, in: quickLogZoom) { source in
-                source.clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-            }
-        } else {
-            button
-        }
-    }
-
-    /// True while the floating session accessory is on screen beneath this
-    /// detail — a session is live and it isn't this one (`ContentView` hides
-    /// the accessory when the viewed session holds an active dose). The
-    /// accessory already ends in a plus button, so the detail's own floating
-    /// add button yields to it rather than doubling up.
-    private var accessoryCarriesAdd: Bool {
-        // The accessory itself is gated on 26.1 in `withSessionAccessory` —
-        // below that there is no pill to defer to.
-        guard #available(iOS 26.1, *) else { return false }
-        guard ActiveSessionManager.shared.hasActiveSession else { return false }
-        let activeStamps = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp)
-        guard !activeStamps.isEmpty else { return false }
-        return !entries.contains { dose in
-            activeStamps.contains { abs($0.timeIntervalSince(dose.timestamp)) < 1 }
         }
     }
 

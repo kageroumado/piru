@@ -7,6 +7,8 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Bottom-accessory "Log a dose" CTA 2026-06
+    "Log a dose": ("记录剂量", "記錄劑量"),
     # Cake (PsychonautWiki 🍰 April-Fools entry) — emoji off the title, joke in detail
     "Made-up drug": ("虚构药物", "虛構藥物"),
     "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.": (
@@ -2443,6 +2445,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Bottom-accessory "Log a dose" CTA 2026-06
+        "Log a dose",
         # Search redesign 2026-06
         "Recently Searched",
         "Browse by class",
