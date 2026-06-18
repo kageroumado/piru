@@ -1,7 +1,7 @@
 {
-  "source": "PubChem PUG REST — MolecularFormula + MolecularWeight by CID",
-  "url_pattern": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cids}/property/MolecularFormula,MolecularWeight/JSON",
-  "fetched_at": "2026-06-16T09:49:19+00:00",
-  "cid_count": 238,
-  "note": "Free-base formula/weight (the stored CID is the free base); overrides salt-form values at build time."
+  "source": "PubChem PUG REST — formula/weight + computed physicochemical descriptors by CID",
+  "url_pattern": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cids}/property/MolecularFormula,MolecularWeight,XLogP,TPSA,HBondDonorCount,HBondAcceptorCount,Complexity/JSON",
+  "fetched_at": "2026-06-18T11:04:49+00:00",
+  "cid_count": 892,
+  "note": "Free-base formula/weight (the stored CID is the free base) overrides salt-form values at build time. XLogP/TPSA/HBA/HBD are PubChem-computed descriptors; the build prefers them over NPS-DataHub where the CID is InChIKey-verified."
 }

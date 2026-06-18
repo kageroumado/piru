@@ -37,12 +37,15 @@ CREATE TABLE substances (
     formula         TEXT,
     molecular_weight REAL,
     -- Physicochemical / forensic properties (schema v5, Workstream 1). NULL =
-    -- unknown. Predicted/computed (logP/pKa often PubChem XLogP) or rodent-assay
-    -- (LD50) — NOT clinical; the app badges them forensic and never as a "safe
-    -- dose". Columns added in Stage 0; extractors populate them in Stage 1.
+    -- unknown. Predicted/computed (logP/TPSA/HBA/HBD are PubChem XLogP3-class
+    -- descriptors) or rodent-assay (LD50) — NOT clinical; the app badges them
+    -- forensic and never as a "safe dose". Stage 1 populates: PubChem computed
+    -- descriptors win where a CID is InChIKey-verified (or a CID-less InChIKey
+    -- resolves directly); NPS-DataHub supplies logP fallback + LD50/mp/bp.
+    -- logD/pKa have no source yet and stay NULL.
     logp                  REAL,    -- octanol/water partition coefficient
-    logd                  REAL,    -- distribution coefficient at physiological pH
-    pka                   REAL,    -- acid dissociation constant (primary)
+    logd                  REAL,    -- distribution coefficient at physiological pH (no source yet)
+    pka                   REAL,    -- acid dissociation constant (no source yet)
     tpsa                  REAL,    -- topological polar surface area (Å²)
     hba                   INTEGER, -- H-bond acceptor count
     hbd                   INTEGER, -- H-bond donor count
