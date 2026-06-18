@@ -911,10 +911,38 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ).fetchone()
             self.assertIsNotNone(row, f"combo {combo!r} should remain standalone")
 
-    def test_schema_version_is_four(self):
-        """The salt_rank/elemental_fraction/is_stub bump set schema_version to 4."""
+    def test_schema_version_is_five(self):
+        """The physicochemical-columns + effect_vocab localization-shape bump
+        (Workstream 1 + Track 1 of substance-data-hardening) set it to 5."""
         v = self.db.execute("select value from manifest where key='schema_version'").fetchone()
-        self.assertEqual(v["value"], "4")
+        self.assertEqual(v["value"], "5")
+
+    def test_physicochemical_columns_present(self):
+        """Stage 0 adds the forensic chem columns (NULL until Stage 1 fills them)."""
+        cols = {c["name"] for c in self.db.execute("PRAGMA table_info(substances)")}
+        for col in (
+            "logp",
+            "logd",
+            "pka",
+            "tpsa",
+            "hba",
+            "hbd",
+            "ld50_oral_mg_per_kg",
+            "ld50_dermal_mg_per_kg",
+            "melting_point_c",
+            "boiling_point_c",
+        ):
+            self.assertIn(col, cols, f"substances.{col} should exist")
+
+    def test_effect_vocab_shape_present(self):
+        """Stage 0 adds the controlled-vocabulary tables (empty until Stage 2)."""
+        tables = {
+            r["name"] for r in self.db.execute("select name from sqlite_master where type='table'")
+        }
+        self.assertIn("effect_vocab", tables)
+        self.assertIn("effect_vocab_labels", tables)
+        effect_cols = {c["name"] for c in self.db.execute("PRAGMA table_info(effects)")}
+        self.assertIn("vocab_id", effect_cols)
 
     def test_journal_mode_is_delete(self):
         """The shipped DB must be DELETE-mode (self-contained, no -wal/-shm

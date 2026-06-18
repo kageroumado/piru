@@ -374,6 +374,23 @@ CREATE TABLE substances (
     smiles          TEXT,
     formula         TEXT,
     molecular_weight REAL,
+    -- Physicochemical / forensic properties (Workstream 1). NULL = unknown.
+    -- Predicted/computed or rodent-assay values, NOT clinical — every populated
+    -- value carries its source/citation elsewhere and the app badges them as
+    -- forensic (logP/pKa often computed, e.g. PubChem XLogP; LD50 is rodent and
+    -- shown order-of-magnitude with species/route, never as a "safe dose").
+    -- Columns are added here (Stage 0); the extractors that fill them land in
+    -- Stage 1 (extend extract_nps() + widen fetch_pubchem_properties.py).
+    logp                  REAL,    -- octanol/water partition coefficient (lipophilicity)
+    logd                  REAL,    -- distribution coefficient at physiological pH
+    pka                   REAL,    -- acid dissociation constant (primary/most relevant)
+    tpsa                  REAL,    -- topological polar surface area (Å²)
+    hba                   INTEGER, -- hydrogen-bond acceptor count
+    hbd                   INTEGER, -- hydrogen-bond donor count
+    ld50_oral_mg_per_kg   REAL,    -- rodent oral LD50 (mg/kg) — order-of-magnitude only
+    ld50_dermal_mg_per_kg REAL,    -- rodent dermal LD50 (mg/kg) — order-of-magnitude only
+    melting_point_c       REAL,    -- melting point (°C)
+    boiling_point_c       REAL,    -- boiling point (°C)
     -- Display-policy classification, baked at build by classify_compounds().
     -- One of: recreational | dual_use | otc | medical_rx | non_recreational.
     -- Gates dose/duration visibility and recreational-browse surfacing in the app.
@@ -538,6 +555,33 @@ CREATE TABLE mechanisms_summary (
     PRIMARY KEY (substance_id, source_id, language)
 );
 
+-- Controlled effect vocabulary (Track 1 of the localization workstream). The
+-- high-leverage localization win: instead of translating "Anxiety" once per
+-- occurrence across hundreds of substances, there is ONE canonical effect with
+-- one translated label set, and every raw effects.text points at it via
+-- effects.vocab_id (populated by the Stage 2 fuzzy matcher). Kept as DATA (not a
+-- closed Swift enum) so adding an effect ships in the DB with no app rebuild.
+-- The canonical set seeds from PsychonautWiki's SEI (English labels + the
+-- existing PW effect→category map); FreeODwiki 药效 supplies zh-Hans ~1:1;
+-- zh-Hant derives from zh-Hans. Tables added Stage 0 (empty); seeded Stage 2.
+CREATE TABLE effect_vocab (
+    vocab_id  TEXT PRIMARY KEY,   -- stable slug, e.g. 'anxiety', 'visual_geometry'
+    category  TEXT                 -- PsychonautWiki/SEI grouping (joins the PW category map)
+);
+
+-- Per-language label for a vocab_id. Row-per-language (mirroring descriptions /
+-- effects / mechanisms_summary) so each language carries its own
+-- machine_translated flag — zh-Hans from native 药效 is curated (0), zh-Hant
+-- OpenCC-converted from zh-Hans is machine (1). The app resolves the label for
+-- the current contentLanguage (exact → broader zh → en → und).
+CREATE TABLE effect_vocab_labels (
+    vocab_id           TEXT NOT NULL REFERENCES effect_vocab(vocab_id),
+    language           TEXT NOT NULL,   -- 'en' | 'zh-Hans' | 'zh-Hant' | 'und'
+    label              TEXT NOT NULL,
+    machine_translated INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (vocab_id, language)
+);
+
 CREATE TABLE effects (
     id              INTEGER PRIMARY KEY,
     substance_id    INTEGER NOT NULL REFERENCES substances(id),
@@ -547,9 +591,17 @@ CREATE TABLE effects (
     effect_category TEXT,
     language        TEXT NOT NULL DEFAULT 'en',
     machine_translated INTEGER NOT NULL DEFAULT 0,
+    -- Controlled-vocabulary reference (Track 1). When the build-time fuzzy
+    -- matcher (Stage 2) maps this raw `text` to a canonical effect_vocab entry,
+    -- it records the slug here; the app then renders the localized vocab label
+    -- for the current UI language for EVERY substance, even English-only-source
+    -- ones. NULL when no match clears the threshold — `text` stays the raw
+    -- fallback (no-silent-caps). Column added Stage 0; matcher populates Stage 2.
+    vocab_id        TEXT REFERENCES effect_vocab(vocab_id),
     citation_id     INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_effects_substance ON effects(substance_id);
+CREATE INDEX idx_effects_vocab     ON effects(vocab_id) WHERE vocab_id IS NOT NULL;
 
 CREATE TABLE subjective_effects (
     id           INTEGER PRIMARY KEY,
@@ -5762,7 +5814,7 @@ class Build:
         sources_summary: dict,
     ) -> None:
         for k, v in [
-            ("schema_version", "4"),
+            ("schema_version", "5"),
             ("content_version", content_version),
             ("generated_at", datetime.now(UTC).isoformat()),
             ("generator_version", generator_version),
@@ -6149,7 +6201,7 @@ def main() -> int:
     size = OUT_SQLITE.stat().st_size
 
     manifest = {
-        "schema_version": 4,
+        "schema_version": 5,
         "content_version": content_version,
         "generated_at": datetime.now(UTC).isoformat(),
         "generator_version": "pipeline/build/sqlite.py 0.1.0",
