@@ -1672,5 +1672,36 @@ class TestDosageFormTag(unittest.TestCase):
             self.assertFalse(is_dosage_form_tag(tag), tag)
 
 
+class TestAliasCasingDeterminism(unittest.TestCase):
+    """Two spellings that normalise identically but differ only in case must
+    resolve to the same stored spelling regardless of insertion order. Set/dict
+    iteration is hash-randomized per process, so a first-write-wins rule shipped
+    nondeterministic casing ("Alpha-O" vs "alpha-O") across builds. The tiebreak
+    keeps the lexicographically smaller (capitalised) form."""
+
+    def _stored_aliases(self, order):
+        db = sqlite3.connect(":memory:")
+        db.executescript(_mod.SCHEMA_SQL)
+        build = Builder(db)
+        build.seed_sources()
+        sid = build.upsert_substance("Mephedrone", source_slug="piru-curated")
+        for a in order:
+            build._add_alias(sid, a, "piru-curated")
+        return [
+            r[0]
+            for r in db.execute("SELECT alias FROM aliases WHERE substance_id=?", (sid,)).fetchall()
+        ]
+
+    def test_winner_independent_of_insertion_order(self):
+        forward = self._stored_aliases(["alpha-O", "Alpha-O"])
+        reverse = self._stored_aliases(["Alpha-O", "alpha-O"])
+        self.assertEqual(forward, reverse)
+        self.assertEqual(forward, ["Alpha-O"])  # ASCII upper < lower
+
+    def test_capitalised_form_preferred(self):
+        self.assertEqual(self._stored_aliases(["indian pipe", "Indian Pipe"]), ["Indian Pipe"])
+        self.assertEqual(self._stored_aliases(["Indian Pipe", "indian pipe"]), ["Indian Pipe"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
