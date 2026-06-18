@@ -25,6 +25,7 @@ import re
 __all__ = [
     "normalize_effect",
     "PW_EFFECT_CATEGORY",
+    "CANONICAL_EFFECTS",
     "CATEGORY_ORDER",
 ]
 
@@ -294,6 +295,8 @@ _VISUAL = [
     "Texture liquidation",
     "Texture repetition",
     "Aura vision",
+    "Exposure to inner mechanics of consciousness",
+    "Exposure to semantic concept network",
 ]
 
 _AUDITORY = [
@@ -374,23 +377,25 @@ _DISCONNECTIVE = [
 ]
 
 
+_GROUPS: list[tuple[list[str], str]] = [
+    (_PHYSICAL, "Physical"),
+    (_COGNITIVE, "Cognitive"),
+    (_VISUAL, "Visual"),
+    (_AUDITORY, "Auditory"),
+    (_TACTILE, "Tactile"),
+    (_SMELL_TASTE, "Smell and taste"),
+    (_MULTISENSORY, "Multisensory"),
+    (_SENSORY, "Sensory"),
+    (_TRANSPERSONAL, "Transpersonal"),
+    (_DISCONNECTIVE, "Disconnective"),
+]
+
+
 def _build() -> dict[str, str]:
-    groups: list[tuple[list[str], str]] = [
-        (_PHYSICAL, "Physical"),
-        (_COGNITIVE, "Cognitive"),
-        (_VISUAL, "Visual"),
-        (_AUDITORY, "Auditory"),
-        (_TACTILE, "Tactile"),
-        (_SMELL_TASTE, "Smell and taste"),
-        (_MULTISENSORY, "Multisensory"),
-        (_SENSORY, "Sensory"),
-        (_TRANSPERSONAL, "Transpersonal"),
-        (_DISCONNECTIVE, "Disconnective"),
-    ]
     out: dict[str, str] = {}
     # Earlier groups win on conflict (e.g. duplicates across lists), which is
     # why the primary-modality lists precede the cross-cutting ones.
-    for names, category in groups:
+    for names, category in _GROUPS:
         for name in names:
             key = normalize_effect(name)
             out.setdefault(key, category)
@@ -398,6 +403,31 @@ def _build() -> dict[str, str]:
 
 
 PW_EFFECT_CATEGORY: dict[str, str] = _build()
+
+
+def _build_canonical() -> list[tuple[str, str]]:
+    """Ordered ``(canonical_name, category)`` for the controlled vocabulary.
+
+    Preserves PW's canonical spelling (unlike ``PW_EFFECT_CATEGORY``, which is
+    keyed by the normalized form) and dedups across groups first-wins, mirroring
+    ``_build`` so the category assignment is identical. This is the seed
+    ``effect_vocab.py`` derives slug-keyed vocab entries from.
+    """
+    seen: set[str] = set()
+    out: list[tuple[str, str]] = []
+    for names, category in _GROUPS:
+        for name in names:
+            key = normalize_effect(name)
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append((name, category))
+    return out
+
+
+# Ordered canonical effect list (canonical spelling + category), one entry per
+# distinct PW effect. Consumed by effect_vocab.py.
+CANONICAL_EFFECTS: list[tuple[str, str]] = _build_canonical()
 
 
 # Corpus-orthography aliases: variants whose normalized form differs from the

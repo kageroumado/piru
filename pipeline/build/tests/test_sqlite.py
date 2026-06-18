@@ -615,6 +615,36 @@ class TestApplyPubchemComputed(unittest.TestCase):
         )
 
 
+class TestEffectVocabModule(unittest.TestCase):
+    """Unit tests for the controlled effect vocabulary resolver (no DB)."""
+
+    def test_vocab_id_for_is_deterministic_and_normalized(self):
+        # Case / whitespace / trailing-period insensitive (PW whitelist already
+        # normalizes, but the resolver must agree).
+        self.assertEqual(_mod.vocab_id_for("Anxiety"), "anxiety")
+        self.assertEqual(_mod.vocab_id_for("  anxiety. "), "anxiety")
+
+    def test_orthography_variants_collapse_to_one_vocab(self):
+        # American/British + singular/plural spellings the corpus mixes must
+        # resolve to the SAME vocab_id (one translated label, unified grouping).
+        self.assertEqual(
+            _mod.vocab_id_for("Color enhancement"),
+            _mod.vocab_id_for("Colour enhancement"),
+        )
+        self.assertEqual(_mod.vocab_id_for("Headache"), _mod.vocab_id_for("Headaches"))
+
+    def test_unmatched_returns_none_for_raw_fallback(self):
+        # A non-PW string resolves to None — caller keeps raw text (no fabricated
+        # merge into an unrelated effect).
+        self.assertIsNone(_mod.vocab_id_for("not a real effect xyzzy"))
+        self.assertIsNone(_mod.vocab_id_for(""))
+
+    def test_every_label_row_points_at_a_real_vocab_id(self):
+        ids = set(_mod.EFFECT_VOCAB)
+        for vid, _lang, _label, _mt in _mod.vocab_labels():
+            self.assertIn(vid, ids)
+
+
 class TestBuiltDatabaseInvariants(unittest.TestCase):
     """End-to-end checks against the bundled `piru-substances.sqlite`. These
     verify that the build pipeline as a whole produces a database the iOS app
@@ -1038,7 +1068,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             self.assertIsNotNone(row["tpsa"], f"{name} should carry TPSA")
 
     def test_effect_vocab_shape_present(self):
-        """Stage 0 adds the controlled-vocabulary tables (empty until Stage 2)."""
+        """Stage 0 adds the controlled-vocabulary tables; Stage 2 seeds them."""
         tables = {
             r["name"] for r in self.db.execute("select name from sqlite_master where type='table'")
         }
@@ -1046,6 +1076,72 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         self.assertIn("effect_vocab_labels", tables)
         effect_cols = {c["name"] for c in self.db.execute("PRAGMA table_info(effects)")}
         self.assertIn("vocab_id", effect_cols)
+
+    def test_effect_vocab_seeded(self):
+        """Stage 2 seeds the controlled vocabulary from the PW SEI whitelist."""
+        n = self.db.execute("select count(*) from effect_vocab").fetchone()[0]
+        self.assertGreater(n, 200, "effect_vocab not seeded")
+        # Every vocab entry carries a category from the PW grouping.
+        uncategorized = self.db.execute(
+            "select count(*) from effect_vocab where category is null or category=''"
+        ).fetchone()[0]
+        self.assertEqual(uncategorized, 0)
+
+    def test_effect_vocab_labels_trilingual(self):
+        """Each vocab_id has an en label and curated zh-Hans/zh-Hant labels;
+        zh-Hant is OpenCC-derived (machine_translated=1), zh-Hans curated (0)."""
+        vocab_ids = {r[0] for r in self.db.execute("select vocab_id from effect_vocab")}
+        for lang in ("en", "zh-Hans", "zh-Hant"):
+            covered = {
+                r[0]
+                for r in self.db.execute(
+                    "select vocab_id from effect_vocab_labels where language=?", (lang,)
+                )
+            }
+            self.assertEqual(vocab_ids - covered, set(), f"{lang}: vocab_ids missing a label")
+        # Honesty labeling: zh-Hant flagged machine, en/zh-Hans not.
+        hant_mt = self.db.execute(
+            "select min(machine_translated), max(machine_translated) "
+            "from effect_vocab_labels where language='zh-Hant'"
+        ).fetchone()
+        self.assertEqual(tuple(hant_mt), (1, 1))
+        hans_mt = self.db.execute(
+            "select max(machine_translated) from effect_vocab_labels where language='zh-Hans'"
+        ).fetchone()[0]
+        self.assertEqual(hans_mt, 0)
+
+    def test_effects_linked_to_vocab(self):
+        """The build-time matcher stamps vocab_id on (almost) every whitelisted
+        effect row; the few unmatched keep raw text as the fallback (not blank)."""
+        linked, total = self.db.execute("select count(vocab_id), count(*) from effects").fetchone()
+        # effects.text is already PW-whitelisted, so coverage is near-total.
+        self.assertGreater(linked / total, 0.98)
+        # FK integrity: every non-NULL vocab_id resolves to a real vocab entry.
+        orphans = self.db.execute(
+            "select count(*) from effects e "
+            "left join effect_vocab v on v.vocab_id=e.vocab_id "
+            "where e.vocab_id is not null and v.vocab_id is null"
+        ).fetchone()[0]
+        self.assertEqual(orphans, 0)
+
+    def test_english_only_substance_gets_localized_effects(self):
+        """The Stage 2 payoff: a substance whose effects came from English-only
+        sources still resolves a zh-Hans label for each, via vocab_id — even
+        though no zh effect row was ever ingested for it."""
+        row = self.db.execute(
+            "select id from substances where canonical_name='Caffeine'"
+        ).fetchone()
+        self.assertIsNotNone(row)
+        sid = row["id"]
+        effects = self.db.execute(
+            "select e.text, l.label zh from effects e "
+            "join effect_vocab_labels l on l.vocab_id=e.vocab_id and l.language='zh-Hans' "
+            "where e.substance_id=?",
+            (sid,),
+        ).fetchall()
+        self.assertGreater(len(effects), 0, "Caffeine has no vocab-linked effects")
+        for r in effects:
+            self.assertTrue(r["zh"], f"no zh-Hans label for {r['text']!r}")
 
     def test_journal_mode_is_delete(self):
         """The shipped DB must be DELETE-mode (self-contained, no -wal/-shm

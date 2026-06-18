@@ -842,14 +842,18 @@ final class SubstanceStore {
                     halfLifeByID[row["substance_id"]] = row["half_life_minutes"]
                 }
 
-                // Effects — union (text).
+                // Effects — union, localized via the controlled vocabulary so a
+                // zh user sees translated labels even on English-only-source
+                // substances. DISTINCT on the resolved label folds orthography
+                // variants that share a vocab_id into one entry.
                 var effectsByID: [Int64: [String]] = [:]
+                let effectLabelSQL = Self.localizedEffectLabelSQL(Self.contentLanguage)
                 for row in try Row.fetchAll(db, sql: """
-                    SELECT DISTINCT e.substance_id, e.text
+                    SELECT DISTINCT e.substance_id, \(effectLabelSQL) AS text
                       FROM effects e
                       JOIN sources src ON src.id = e.source_id
                      WHERE src.slug IN (\(enabledSourceListSQL))
-                     ORDER BY e.text
+                     ORDER BY text
                 """) {
                     effectsByID[row["substance_id"], default: []].append(row["text"])
                 }
@@ -1056,7 +1060,7 @@ final class SubstanceStore {
                 let category = try resolvedCategory(db: db, substanceID: id)
                 let tags = try resolvedTags(db: db, substanceID: id)
                 var routes = try resolvedRoutes(db: db, substanceID: id)
-                let effects = try resolvedEffects(db: db, substanceID: id)
+                let effects = try resolvedEffects(db: db, substanceID: id, language: appLanguage)
                 let subjectiveEffects = try resolvedSubjectiveEffects(db: db, substanceID: id, language: appLanguage)
                 let halfLifeMinutes = try resolvedHalfLife(db: db, substanceID: id)
                 let mechanism = try resolvedMechanism(db: db, substanceID: id, language: appLanguage)
@@ -1171,6 +1175,26 @@ final class SubstanceStore {
             return ("", "(\(col) = '\(lang)') DESC, (\(col) LIKE 'zh%') DESC, ")
         }
         return (" AND \(col) IN ('en', 'und') ", "")
+    }
+
+    /// SQL scalar resolving a row of `effects` (table aliased `e`) to its
+    /// localized label via the controlled vocabulary (Track 1). For Chinese it
+    /// returns the `effect_vocab_labels` label for the exact variant, then any
+    /// broader zh label, then the raw English `e.text` fallback — so a zh user
+    /// sees translated effects on *every* substance, even ones whose source data
+    /// was English-only, because the label was translated once at the vocabulary
+    /// level. For English it is simply `e.text` (already the canonical PW name).
+    private nonisolated static func localizedEffectLabelSQL(_ lang: String) -> String {
+        guard lang.hasPrefix("zh") else { return "e.text" }
+        let l = lang.replacingOccurrences(of: "'", with: "''")
+        return """
+        COALESCE(
+            (SELECT lbl.label FROM effect_vocab_labels lbl
+              WHERE lbl.vocab_id = e.vocab_id AND lbl.language = '\(l)'),
+            (SELECT lbl.label FROM effect_vocab_labels lbl
+              WHERE lbl.vocab_id = e.vocab_id AND lbl.language LIKE 'zh%' LIMIT 1),
+            e.text)
+        """
     }
 
     private func resolvedCategory(db: Database, substanceID: Int64) throws -> SubstanceCategory? {
@@ -1543,9 +1567,9 @@ final class SubstanceStore {
         )
     }
 
-    private func resolvedEffects(db: Database, substanceID: Int64) throws -> [String] {
+    private func resolvedEffects(db: Database, substanceID: Int64, language: String) throws -> [String] {
         try String.fetchAll(db, sql: """
-            SELECT DISTINCT text
+            SELECT DISTINCT \(Self.localizedEffectLabelSQL(language)) AS text
               FROM effects e
               JOIN sources src ON src.id = e.source_id
              WHERE e.substance_id = ?
@@ -1834,16 +1858,17 @@ final class SubstanceStore {
     /// grouped view used only when a user drills into the full taxonomy.
     func effectsByCategory(forSubstanceName name: String) -> [EffectGroup] {
         guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        let language = languageOverride ?? Self.contentLanguage
         do {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
-                    SELECT DISTINCT e.text AS text,
+                    SELECT DISTINCT \(Self.localizedEffectLabelSQL(language)) AS text,
                                     COALESCE(e.effect_category, '') AS category
                       FROM effects e
                       JOIN sources src ON src.id = e.source_id
                      WHERE e.substance_id = ?
                        AND src.slug IN (\(enabledSourceListSQL))
-                     ORDER BY e.text COLLATE NOCASE
+                     ORDER BY text COLLATE NOCASE
                 """, arguments: [substanceID])
             }
             var byCategory: [String: [String]] = [:]

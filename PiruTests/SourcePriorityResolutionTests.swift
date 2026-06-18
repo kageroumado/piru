@@ -133,4 +133,28 @@ struct FreeODLocaleResolutionTests {
         #expect(!effects.isEmpty)
         #expect(effects.contains { hasHan($0.name) })
     }
+
+    @Test
+    @MainActor
+    func `Flat effects are localized via the controlled vocabulary`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        // Caffeine's effects come from English-only sources, yet a zh user must
+        // still see translated labels — the Stage 2 controlled-vocabulary payoff
+        // (the label is translated once at the vocab level, not per occurrence).
+        store.languageOverride = "en"
+        let en = store.lookup("Caffeine")?.effects ?? []
+        #expect(!en.isEmpty)
+        #expect(en.allSatisfy { !hasHan($0) })
+        #expect(en.contains("Anxiety"))
+
+        store.languageOverride = "zh-Hans"
+        let zh = store.lookup("Caffeine")?.effects ?? []
+        #expect(!zh.isEmpty)
+        #expect(zh.contains { hasHan($0) })
+        // The vocab maps "Anxiety" → 焦虑 for every substance, regardless of source.
+        #expect(zh.contains("焦虑"))
+        #expect(!zh.contains("Anxiety"))
+    }
 }

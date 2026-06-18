@@ -1,0 +1,1063 @@
+{
+  "_meta": {
+    "source": "Hand-authored against PsychonautWiki zh SEI; 76 native FreeODwiki 药效 mutual-best anchors used verbatim. zh-Hant via OpenCC s2twp.",
+    "machine_translated": {
+      "zh-Hans": 0,
+      "zh-Hant": 1
+    }
+  },
+  "labels": {
+    "abnormal_heartbeat": {
+      "zh-Hans": "心律异常",
+      "zh-Hant": "心律異常"
+    },
+    "acuity_enhancement": {
+      "zh-Hans": "锐度增强",
+      "zh-Hant": "銳度增強"
+    },
+    "acuity_suppression": {
+      "zh-Hans": "锐度抑制",
+      "zh-Hant": "銳度抑制"
+    },
+    "after_images": {
+      "zh-Hans": "残影",
+      "zh-Hant": "殘影"
+    },
+    "amnesia": {
+      "zh-Hans": "失忆",
+      "zh-Hant": "失憶"
+    },
+    "analgesia": {
+      "zh-Hans": "痛觉缺失",
+      "zh-Hant": "痛覺缺失"
+    },
+    "analysis_enhancement": {
+      "zh-Hans": "分析能力增强",
+      "zh-Hant": "分析能力增強"
+    },
+    "analysis_suppression": {
+      "zh-Hans": "分析能力抑制",
+      "zh-Hant": "分析能力抑制"
+    },
+    "anxiety": {
+      "zh-Hans": "焦虑",
+      "zh-Hant": "焦慮"
+    },
+    "anxiety_suppression": {
+      "zh-Hans": "焦虑抑制",
+      "zh-Hant": "焦慮抑制"
+    },
+    "appetite_enhancement": {
+      "zh-Hans": "食欲增强",
+      "zh-Hant": "食慾增強"
+    },
+    "appetite_suppression": {
+      "zh-Hans": "食欲抑制",
+      "zh-Hant": "食慾抑制"
+    },
+    "auditory_disconnection": {
+      "zh-Hans": "听觉断离",
+      "zh-Hant": "聽覺斷離"
+    },
+    "auditory_distortion": {
+      "zh-Hans": "听觉扭曲",
+      "zh-Hant": "聽覺扭曲"
+    },
+    "auditory_enhancement": {
+      "zh-Hans": "听觉增强",
+      "zh-Hant": "聽覺增強"
+    },
+    "auditory_hallucinations": {
+      "zh-Hans": "听觉幻觉",
+      "zh-Hant": "聽覺幻覺"
+    },
+    "auditory_misinterpretation": {
+      "zh-Hans": "听觉误判",
+      "zh-Hant": "聽覺誤判"
+    },
+    "auditory_suppression": {
+      "zh-Hans": "听觉抑制",
+      "zh-Hant": "聽覺抑制"
+    },
+    "aura_vision": {
+      "zh-Hans": "光环视觉",
+      "zh-Hant": "光環視覺"
+    },
+    "autonomous_entities": {
+      "zh-Hans": "自主实体",
+      "zh-Hant": "自主實體"
+    },
+    "blood_pressure_elevation": {
+      "zh-Hans": "血压上升",
+      "zh-Hant": "血壓上升"
+    },
+    "bodily_control_enhancement": {
+      "zh-Hans": "躯体控制增强",
+      "zh-Hant": "軀體控制增強"
+    },
+    "bodily_heaviness": {
+      "zh-Hans": "躯体沉重感",
+      "zh-Hant": "軀體沉重感"
+    },
+    "bodily_lightness": {
+      "zh-Hans": "躯体轻盈感",
+      "zh-Hant": "軀體輕盈感"
+    },
+    "bodily_pressures": {
+      "zh-Hans": "躯体压迫感",
+      "zh-Hant": "軀體壓迫感"
+    },
+    "bodily_vibrations": {
+      "zh-Hans": "躯体振动感",
+      "zh-Hant": "軀體振動感"
+    },
+    "body_odor_alteration": {
+      "zh-Hans": "体味改变",
+      "zh-Hant": "體味改變"
+    },
+    "brightness_alteration": {
+      "zh-Hans": "亮度改变",
+      "zh-Hant": "亮度改變"
+    },
+    "bronchoconstriction": {
+      "zh-Hans": "支气管收缩",
+      "zh-Hant": "支氣管收縮"
+    },
+    "bronchodilation": {
+      "zh-Hans": "支气管扩张",
+      "zh-Hant": "支氣管擴張"
+    },
+    "catharsis": {
+      "zh-Hans": "宣泄",
+      "zh-Hant": "宣洩"
+    },
+    "cerebral_vasodilation": {
+      "zh-Hans": "脑血管扩张",
+      "zh-Hant": "腦血管擴張"
+    },
+    "changes_in_felt_bodily_form": {
+      "zh-Hans": "躯体形态感知改变",
+      "zh-Hant": "軀體形態感知改變"
+    },
+    "changes_in_gravity": {
+      "zh-Hans": "重力感改变",
+      "zh-Hant": "重力感改變"
+    },
+    "cognitive_disconnection": {
+      "zh-Hans": "认知断离",
+      "zh-Hant": "認知斷離"
+    },
+    "cognitive_dysphoria": {
+      "zh-Hans": "认知不快",
+      "zh-Hant": "認知不快"
+    },
+    "cognitive_euphoria": {
+      "zh-Hans": "认知欣快",
+      "zh-Hant": "認知欣快"
+    },
+    "cognitive_fatigue": {
+      "zh-Hans": "认知疲劳",
+      "zh-Hant": "認知疲勞"
+    },
+    "colour_enhancement": {
+      "zh-Hans": "颜色增强",
+      "zh-Hant": "顏色增強"
+    },
+    "colour_replacement": {
+      "zh-Hans": "颜色替换",
+      "zh-Hant": "顏色替換"
+    },
+    "colour_shifting": {
+      "zh-Hans": "颜色偏移",
+      "zh-Hant": "顏色偏移"
+    },
+    "colour_tinting": {
+      "zh-Hans": "颜色染色",
+      "zh-Hant": "顏色染色"
+    },
+    "compulsive_redosing": {
+      "zh-Hans": "强迫性补量",
+      "zh-Hant": "強迫性補量"
+    },
+    "conceptual_thinking": {
+      "zh-Hans": "概念性思维",
+      "zh-Hant": "概念性思維"
+    },
+    "confusion": {
+      "zh-Hans": "困惑",
+      "zh-Hant": "困惑"
+    },
+    "consciousness_disconnection": {
+      "zh-Hans": "意识断离",
+      "zh-Hant": "意識斷離"
+    },
+    "constipation": {
+      "zh-Hans": "便秘",
+      "zh-Hant": "便秘"
+    },
+    "cough_suppression": {
+      "zh-Hans": "咳嗽抑制",
+      "zh-Hant": "咳嗽抑制"
+    },
+    "creativity_enhancement": {
+      "zh-Hans": "创造力增强",
+      "zh-Hant": "創造力增強"
+    },
+    "creativity_suppression": {
+      "zh-Hans": "创造力抑制",
+      "zh-Hant": "創造力抑制"
+    },
+    "d_j_vu": {
+      "zh-Hans": "既视感",
+      "zh-Hant": "既視感"
+    },
+    "decreased_appetite": {
+      "zh-Hans": "食欲减退",
+      "zh-Hant": "食慾減退"
+    },
+    "decreased_blood_pressure": {
+      "zh-Hans": "血压降低",
+      "zh-Hant": "血壓降低"
+    },
+    "decreased_bodily_temperature": {
+      "zh-Hans": "体温降低",
+      "zh-Hant": "體溫降低"
+    },
+    "decreased_heart_rate": {
+      "zh-Hans": "心率减慢",
+      "zh-Hant": "心率減慢"
+    },
+    "decreased_libido": {
+      "zh-Hans": "性欲减退",
+      "zh-Hant": "性慾減退"
+    },
+    "decreased_perspiration": {
+      "zh-Hans": "出汗减少",
+      "zh-Hant": "出汗減少"
+    },
+    "dehydration": {
+      "zh-Hans": "脱水",
+      "zh-Hant": "脫水"
+    },
+    "delusion": {
+      "zh-Hans": "妄想",
+      "zh-Hant": "妄想"
+    },
+    "delusions": {
+      "zh-Hans": "妄想",
+      "zh-Hant": "妄想"
+    },
+    "depersonalization": {
+      "zh-Hans": "人格解体",
+      "zh-Hant": "人格解體"
+    },
+    "depression": {
+      "zh-Hans": "抑郁",
+      "zh-Hant": "抑鬱"
+    },
+    "depth_perception_distortions": {
+      "zh-Hans": "深度感知扭曲",
+      "zh-Hant": "深度感知扭曲"
+    },
+    "derealization": {
+      "zh-Hans": "现实感丧失",
+      "zh-Hant": "現實感喪失"
+    },
+    "diarrhea": {
+      "zh-Hans": "腹泻",
+      "zh-Hant": "腹瀉"
+    },
+    "difficulty_breathing": {
+      "zh-Hans": "呼吸困难",
+      "zh-Hant": "呼吸困難"
+    },
+    "difficulty_swallowing": {
+      "zh-Hans": "吞咽困难",
+      "zh-Hant": "吞嚥困難"
+    },
+    "difficulty_urinating": {
+      "zh-Hans": "排尿困难",
+      "zh-Hant": "排尿困難"
+    },
+    "diffraction": {
+      "zh-Hans": "衍射",
+      "zh-Hant": "衍射"
+    },
+    "disinhibition": {
+      "zh-Hans": "去抑制",
+      "zh-Hant": "去抑制"
+    },
+    "dizziness": {
+      "zh-Hans": "头晕",
+      "zh-Hant": "頭暈"
+    },
+    "double_vision": {
+      "zh-Hans": "复视",
+      "zh-Hant": "複視"
+    },
+    "dream_potentiation": {
+      "zh-Hans": "梦境强化",
+      "zh-Hant": "夢境強化"
+    },
+    "dream_suppression": {
+      "zh-Hans": "梦境抑制",
+      "zh-Hant": "夢境抑制"
+    },
+    "drifting": {
+      "zh-Hans": "漂移",
+      "zh-Hant": "漂移"
+    },
+    "dry_mouth": {
+      "zh-Hans": "口干",
+      "zh-Hant": "口乾"
+    },
+    "ego_death": {
+      "zh-Hans": "自我死亡",
+      "zh-Hant": "自我死亡"
+    },
+    "ego_dissolution": {
+      "zh-Hans": "自我消融",
+      "zh-Hant": "自我消融"
+    },
+    "ego_inflation": {
+      "zh-Hans": "自我膨胀",
+      "zh-Hant": "自我膨脹"
+    },
+    "ego_replacement": {
+      "zh-Hans": "自我替换",
+      "zh-Hant": "自我替換"
+    },
+    "emotion_enhancement": {
+      "zh-Hans": "情感增强",
+      "zh-Hant": "情感增強"
+    },
+    "emotion_suppression": {
+      "zh-Hans": "情感抑制",
+      "zh-Hant": "情感抑制"
+    },
+    "empathy_love_and_sociability_enhancement": {
+      "zh-Hans": "共情、爱与社交能力增强",
+      "zh-Hant": "共情、愛與社交能力增強"
+    },
+    "empathy_love_and_sociability_suppression": {
+      "zh-Hans": "共情、爱与社交能力抑制",
+      "zh-Hant": "共情、愛與社交能力抑制"
+    },
+    "enhancement_and_suppression_cycles": {
+      "zh-Hans": "增强与抑制循环",
+      "zh-Hant": "增強與抑制迴圈"
+    },
+    "environmental_cubism": {
+      "zh-Hans": "环境立体主义",
+      "zh-Hant": "環境立體主義"
+    },
+    "environmental_orbism": {
+      "zh-Hans": "环境球体化",
+      "zh-Hant": "環境球體化"
+    },
+    "excessive_yawning": {
+      "zh-Hans": "过度打哈欠",
+      "zh-Hant": "過度打哈欠"
+    },
+    "existential_realization": {
+      "zh-Hans": "存在主义领悟",
+      "zh-Hant": "存在主義領悟"
+    },
+    "existential_self_realization": {
+      "zh-Hans": "存在主义自我实现",
+      "zh-Hant": "存在主義自我實現"
+    },
+    "exposure_to_inner_mechanics_of_consciousness": {
+      "zh-Hans": "意识内在机制的显现",
+      "zh-Hant": "意識內在機制的顯現"
+    },
+    "exposure_to_semantic_concept_network": {
+      "zh-Hans": "语义概念网络的显现",
+      "zh-Hant": "語義概念網路的顯現"
+    },
+    "external_hallucinations": {
+      "zh-Hans": "外部幻觉",
+      "zh-Hant": "外部幻覺"
+    },
+    "feelings_of_eternalism": {
+      "zh-Hans": "永恒主义感",
+      "zh-Hant": "永恆主義感"
+    },
+    "feelings_of_impending_doom": {
+      "zh-Hans": "末日临近感",
+      "zh-Hant": "末日臨近感"
+    },
+    "feelings_of_interdependent_opposites": {
+      "zh-Hans": "对立互依感",
+      "zh-Hant": "對立互依感"
+    },
+    "feelings_of_predeterminism": {
+      "zh-Hans": "宿命论感",
+      "zh-Hant": "宿命論感"
+    },
+    "feelings_of_self_design": {
+      "zh-Hans": "自我设计感",
+      "zh-Hant": "自我設計感"
+    },
+    "focus_enhancement": {
+      "zh-Hans": "专注力增强",
+      "zh-Hant": "專注力增強"
+    },
+    "focus_suppression": {
+      "zh-Hans": "专注力抑制",
+      "zh-Hant": "專注力抑制"
+    },
+    "frame_rate_enhancement": {
+      "zh-Hans": "帧率增强",
+      "zh-Hant": "幀率增強"
+    },
+    "frame_rate_suppression": {
+      "zh-Hans": "帧率抑制",
+      "zh-Hant": "幀率抑制"
+    },
+    "frequent_urination": {
+      "zh-Hans": "尿频",
+      "zh-Hant": "尿頻"
+    },
+    "geometry": {
+      "zh-Hans": "几何",
+      "zh-Hant": "幾何"
+    },
+    "goosebumps": {
+      "zh-Hans": "起鸡皮疙瘩",
+      "zh-Hant": "起雞皮疙瘩"
+    },
+    "gravity_perception_alteration": {
+      "zh-Hans": "重力感知改变",
+      "zh-Hant": "重力感知改變"
+    },
+    "gustatory_enhancement": {
+      "zh-Hans": "味觉增强",
+      "zh-Hant": "味覺增強"
+    },
+    "gustatory_hallucination": {
+      "zh-Hans": "味幻觉",
+      "zh-Hant": "味幻覺"
+    },
+    "gustatory_suppression": {
+      "zh-Hans": "味觉抑制",
+      "zh-Hant": "味覺抑制"
+    },
+    "hallucinations": {
+      "zh-Hans": "幻觉",
+      "zh-Hant": "幻覺"
+    },
+    "headaches": {
+      "zh-Hans": "头痛",
+      "zh-Hant": "頭痛"
+    },
+    "identity_alteration": {
+      "zh-Hans": "身份改变",
+      "zh-Hant": "身份改變"
+    },
+    "immersion_enhancement": {
+      "zh-Hans": "沉浸感增强",
+      "zh-Hant": "沉浸感增強"
+    },
+    "increased_appetite": {
+      "zh-Hans": "食欲增加",
+      "zh-Hant": "食慾增加"
+    },
+    "increased_blood_pressure": {
+      "zh-Hans": "血压升高",
+      "zh-Hant": "血壓升高"
+    },
+    "increased_bodily_temperature": {
+      "zh-Hans": "体温升高",
+      "zh-Hant": "體溫升高"
+    },
+    "increased_heart_rate": {
+      "zh-Hans": "心率增快",
+      "zh-Hant": "心率增快"
+    },
+    "increased_libido": {
+      "zh-Hans": "性欲增强",
+      "zh-Hant": "性慾增強"
+    },
+    "increased_music_appreciation": {
+      "zh-Hans": "音乐欣赏能力增强",
+      "zh-Hant": "音樂欣賞能力增強"
+    },
+    "increased_pain_perception": {
+      "zh-Hans": "痛觉增强",
+      "zh-Hant": "痛覺增強"
+    },
+    "increased_perspiration": {
+      "zh-Hans": "出汗增加",
+      "zh-Hant": "出汗增加"
+    },
+    "increased_salivation": {
+      "zh-Hans": "唾液分泌增多",
+      "zh-Hant": "唾液分泌增多"
+    },
+    "increased_sense_of_humor": {
+      "zh-Hans": "幽默感增强",
+      "zh-Hant": "幽默感增強"
+    },
+    "increased_thirst": {
+      "zh-Hans": "口渴增加",
+      "zh-Hant": "口渴增加"
+    },
+    "information_processing_acceleration": {
+      "zh-Hans": "信息处理加速",
+      "zh-Hant": "資訊處理加速"
+    },
+    "information_processing_suppression": {
+      "zh-Hans": "信息处理抑制",
+      "zh-Hant": "資訊處理抑制"
+    },
+    "inner_ear_pressure": {
+      "zh-Hans": "内耳压迫感",
+      "zh-Hant": "內耳壓迫感"
+    },
+    "internal_hallucinations": {
+      "zh-Hans": "内部幻觉",
+      "zh-Hant": "內部幻覺"
+    },
+    "irritability": {
+      "zh-Hans": "易怒",
+      "zh-Hant": "易怒"
+    },
+    "itchiness": {
+      "zh-Hans": "瘙痒",
+      "zh-Hant": "瘙癢"
+    },
+    "jamais_vu": {
+      "zh-Hans": "未视感",
+      "zh-Hant": "未視感"
+    },
+    "language_suppression": {
+      "zh-Hans": "语言能力抑制",
+      "zh-Hant": "語言能力抑制"
+    },
+    "laughter": {
+      "zh-Hans": "大笑",
+      "zh-Hant": "大笑"
+    },
+    "machinescapes": {
+      "zh-Hans": "机械景观",
+      "zh-Hant": "機械景觀"
+    },
+    "magnification": {
+      "zh-Hans": "放大",
+      "zh-Hant": "放大"
+    },
+    "mania": {
+      "zh-Hans": "躁狂",
+      "zh-Hant": "躁狂"
+    },
+    "memory_enhancement": {
+      "zh-Hans": "记忆增强",
+      "zh-Hant": "記憶增強"
+    },
+    "memory_replays": {
+      "zh-Hans": "记忆回放",
+      "zh-Hant": "記憶回放"
+    },
+    "memory_suppression": {
+      "zh-Hans": "记忆抑制",
+      "zh-Hant": "記憶抑制"
+    },
+    "mindfulness": {
+      "zh-Hans": "正念",
+      "zh-Hant": "正念"
+    },
+    "motivation_enhancement": {
+      "zh-Hans": "动机增强",
+      "zh-Hant": "動機增強"
+    },
+    "motivation_suppression": {
+      "zh-Hans": "动机抑制",
+      "zh-Hant": "動機抑制"
+    },
+    "motor_control_loss": {
+      "zh-Hans": "运动控制丧失",
+      "zh-Hant": "運動控制喪失"
+    },
+    "mouth_numbing": {
+      "zh-Hans": "口腔麻木",
+      "zh-Hant": "口腔麻木"
+    },
+    "multiple_thought_streams": {
+      "zh-Hans": "多重思维流",
+      "zh-Hant": "多重思維流"
+    },
+    "multisensory_enhancement": {
+      "zh-Hans": "多感官增强",
+      "zh-Hant": "多感官增強"
+    },
+    "muscle_contractions": {
+      "zh-Hans": "肌肉收缩",
+      "zh-Hant": "肌肉收縮"
+    },
+    "muscle_cramps": {
+      "zh-Hans": "肌肉痉挛",
+      "zh-Hant": "肌肉痙攣"
+    },
+    "muscle_relaxation": {
+      "zh-Hans": "肌肉松弛",
+      "zh-Hant": "肌肉鬆弛"
+    },
+    "muscle_spasms": {
+      "zh-Hans": "肌肉抽搐",
+      "zh-Hant": "肌肉抽搐"
+    },
+    "muscle_tension": {
+      "zh-Hans": "肌肉紧张",
+      "zh-Hant": "肌肉緊張"
+    },
+    "muscle_twitching": {
+      "zh-Hans": "肌肉颤动",
+      "zh-Hant": "肌肉顫動"
+    },
+    "nasal_congestion": {
+      "zh-Hans": "鼻塞",
+      "zh-Hant": "鼻塞"
+    },
+    "nausea": {
+      "zh-Hans": "恶心",
+      "zh-Hant": "噁心"
+    },
+    "nausea_suppression": {
+      "zh-Hans": "恶心抑制",
+      "zh-Hant": "噁心抑制"
+    },
+    "novelty_enhancement": {
+      "zh-Hans": "新奇感增强",
+      "zh-Hant": "新奇感增強"
+    },
+    "object_activation": {
+      "zh-Hans": "物体活化",
+      "zh-Hant": "物體活化"
+    },
+    "object_alteration": {
+      "zh-Hans": "物体改变",
+      "zh-Hant": "物體改變"
+    },
+    "object_multiplication": {
+      "zh-Hans": "物体增殖",
+      "zh-Hant": "物體增殖"
+    },
+    "olfactory_hallucination": {
+      "zh-Hans": "嗅幻觉",
+      "zh-Hant": "嗅幻覺"
+    },
+    "orgasm_enhancement": {
+      "zh-Hans": "性高潮增强",
+      "zh-Hant": "性高潮增強"
+    },
+    "orgasm_suppression": {
+      "zh-Hans": "性高潮抑制",
+      "zh-Hant": "性高潮抑制"
+    },
+    "pain_relief": {
+      "zh-Hans": "镇痛",
+      "zh-Hant": "鎮痛"
+    },
+    "panic_attacks": {
+      "zh-Hans": "惊恐发作",
+      "zh-Hant": "驚恐發作"
+    },
+    "paranoia": {
+      "zh-Hans": "偏执",
+      "zh-Hant": "偏執"
+    },
+    "pattern_recognition_enhancement": {
+      "zh-Hans": "模式识别增强",
+      "zh-Hant": "模式識別增強"
+    },
+    "pattern_recognition_suppression": {
+      "zh-Hans": "模式识别抑制",
+      "zh-Hant": "模式識別抑制"
+    },
+    "perception_of_decreased_weight": {
+      "zh-Hans": "体重减轻感",
+      "zh-Hant": "體重減輕感"
+    },
+    "perception_of_eternalism": {
+      "zh-Hans": "永恒主义感知",
+      "zh-Hant": "永恆主義感知"
+    },
+    "perception_of_increased_weight": {
+      "zh-Hans": "体重增加感",
+      "zh-Hant": "體重增加感"
+    },
+    "perception_of_interdependent_opposites": {
+      "zh-Hans": "对立互依感知",
+      "zh-Hant": "對立互依感知"
+    },
+    "perception_of_predeterminism": {
+      "zh-Hans": "宿命论感知",
+      "zh-Hant": "宿命論感知"
+    },
+    "perception_of_self_design": {
+      "zh-Hans": "自我设计感知",
+      "zh-Hant": "自我設計感知"
+    },
+    "peripheral_information_misinterpretation": {
+      "zh-Hans": "周边信息误判",
+      "zh-Hant": "周邊資訊誤判"
+    },
+    "personal_bias_suppression": {
+      "zh-Hans": "个人偏见抑制",
+      "zh-Hant": "個人偏見抑制"
+    },
+    "personal_meaning_enhancement": {
+      "zh-Hans": "个人意义感增强",
+      "zh-Hant": "個人意義感增強"
+    },
+    "personality_regression": {
+      "zh-Hans": "人格退行",
+      "zh-Hant": "人格退行"
+    },
+    "perspective_alterations": {
+      "zh-Hans": "视角改变",
+      "zh-Hant": "視角改變"
+    },
+    "perspective_distortions": {
+      "zh-Hans": "视角扭曲",
+      "zh-Hant": "視角扭曲"
+    },
+    "photophobia": {
+      "zh-Hans": "畏光",
+      "zh-Hant": "畏光"
+    },
+    "physical_autonomy": {
+      "zh-Hans": "躯体自主性",
+      "zh-Hant": "軀體自主性"
+    },
+    "physical_dysphoria": {
+      "zh-Hans": "躯体不快",
+      "zh-Hant": "軀體不快"
+    },
+    "physical_euphoria": {
+      "zh-Hans": "躯体欣快感",
+      "zh-Hant": "軀體欣快感"
+    },
+    "physical_fatigue": {
+      "zh-Hans": "躯体疲劳",
+      "zh-Hant": "軀體疲勞"
+    },
+    "psychosis": {
+      "zh-Hans": "精神病发作",
+      "zh-Hant": "精神病發作"
+    },
+    "pupil_constriction": {
+      "zh-Hans": "瞳孔缩小",
+      "zh-Hant": "瞳孔縮小"
+    },
+    "pupil_dilation": {
+      "zh-Hans": "瞳孔扩大",
+      "zh-Hant": "瞳孔擴大"
+    },
+    "recursion": {
+      "zh-Hans": "递归",
+      "zh-Hant": "遞迴"
+    },
+    "rejuvenation": {
+      "zh-Hans": "返老还童感",
+      "zh-Hant": "返老還童感"
+    },
+    "respiratory_depression": {
+      "zh-Hans": "呼吸抑制",
+      "zh-Hant": "呼吸抑制"
+    },
+    "restless_leg_syndrome": {
+      "zh-Hans": "不宁腿综合征",
+      "zh-Hant": "不寧腿綜合徵"
+    },
+    "runny_nose": {
+      "zh-Hans": "流鼻涕",
+      "zh-Hant": "流鼻涕"
+    },
+    "salivation": {
+      "zh-Hans": "流涎",
+      "zh-Hant": "流涎"
+    },
+    "scenarios_and_plots": {
+      "zh-Hans": "情景与剧情",
+      "zh-Hant": "情景與劇情"
+    },
+    "scenery_slicing": {
+      "zh-Hans": "景物切片",
+      "zh-Hant": "景物切片"
+    },
+    "sedation": {
+      "zh-Hans": "镇静",
+      "zh-Hant": "鎮靜"
+    },
+    "seizure": {
+      "zh-Hans": "癫痫发作",
+      "zh-Hant": "癲癇發作"
+    },
+    "seizure_suppression": {
+      "zh-Hans": "癫痫抑制",
+      "zh-Hant": "癲癇抑制"
+    },
+    "sensory_disconnection": {
+      "zh-Hans": "感官断离",
+      "zh-Hant": "感官斷離"
+    },
+    "sensory_enhancement": {
+      "zh-Hans": "感官增强",
+      "zh-Hant": "感官增強"
+    },
+    "sensory_suppression": {
+      "zh-Hans": "感官抑制",
+      "zh-Hant": "感官抑制"
+    },
+    "settings_sceneries_and_landscapes": {
+      "zh-Hans": "场景、景物与风景",
+      "zh-Hant": "場景、景物與風景"
+    },
+    "shadow_people": {
+      "zh-Hans": "影子人",
+      "zh-Hant": "影子人"
+    },
+    "simultaneous_emotions": {
+      "zh-Hans": "情绪并存",
+      "zh-Hant": "情緒並存"
+    },
+    "skin_flushing": {
+      "zh-Hans": "皮肤潮红",
+      "zh-Hant": "皮膚潮紅"
+    },
+    "skin_tingling": {
+      "zh-Hans": "皮肤刺痛感",
+      "zh-Hant": "皮膚刺痛感"
+    },
+    "sleep_paralysis": {
+      "zh-Hans": "睡眠瘫痪",
+      "zh-Hant": "睡眠癱瘓"
+    },
+    "smell_enhancement": {
+      "zh-Hans": "嗅觉增强",
+      "zh-Hant": "嗅覺增強"
+    },
+    "smell_hallucination": {
+      "zh-Hans": "嗅觉幻觉",
+      "zh-Hant": "嗅覺幻覺"
+    },
+    "smell_suppression": {
+      "zh-Hans": "嗅觉抑制",
+      "zh-Hant": "嗅覺抑制"
+    },
+    "spatial_disconnection": {
+      "zh-Hans": "空间断离",
+      "zh-Hant": "空間斷離"
+    },
+    "spatial_disorientation": {
+      "zh-Hans": "空间定向障碍",
+      "zh-Hant": "空間定向障礙"
+    },
+    "spirituality_enhancement": {
+      "zh-Hans": "灵性增强",
+      "zh-Hant": "靈性增強"
+    },
+    "spontaneous_orgasm": {
+      "zh-Hans": "自发性高潮",
+      "zh-Hant": "自發性高潮"
+    },
+    "spontaneous_tactile_sensations": {
+      "zh-Hans": "自发性触觉",
+      "zh-Hant": "自發性觸覺"
+    },
+    "stamina_enhancement": {
+      "zh-Hans": "耐力增强",
+      "zh-Hant": "耐力增強"
+    },
+    "stimulation": {
+      "zh-Hans": "兴奋",
+      "zh-Hant": "興奮"
+    },
+    "stimulation_suppression": {
+      "zh-Hans": "刺激抑制",
+      "zh-Hant": "刺激抑制"
+    },
+    "stomach_bloating": {
+      "zh-Hans": "腹胀",
+      "zh-Hant": "腹脹"
+    },
+    "stomach_cramps": {
+      "zh-Hans": "胃痉挛",
+      "zh-Hant": "胃痙攣"
+    },
+    "stomach_pain": {
+      "zh-Hans": "胃痛",
+      "zh-Hant": "胃痛"
+    },
+    "subconscious_communication": {
+      "zh-Hans": "潜意识交流",
+      "zh-Hant": "潛意識交流"
+    },
+    "sublingual_numbing": {
+      "zh-Hans": "舌下麻木",
+      "zh-Hant": "舌下麻木"
+    },
+    "suggestibility_enhancement": {
+      "zh-Hans": "暗示性增强",
+      "zh-Hant": "暗示性增強"
+    },
+    "suggestibility_suppression": {
+      "zh-Hans": "暗示性抑制",
+      "zh-Hant": "暗示性抑制"
+    },
+    "symmetrical_texture_repetition": {
+      "zh-Hans": "对称纹理重复",
+      "zh-Hant": "對稱紋理重複"
+    },
+    "synaesthesia": {
+      "zh-Hans": "联觉",
+      "zh-Hant": "聯覺"
+    },
+    "synesthesia": {
+      "zh-Hans": "联觉",
+      "zh-Hant": "聯覺"
+    },
+    "tactile_disconnection": {
+      "zh-Hans": "触觉断离",
+      "zh-Hant": "觸覺斷離"
+    },
+    "tactile_enhancement": {
+      "zh-Hans": "触觉增强",
+      "zh-Hant": "觸覺增強"
+    },
+    "tactile_hallucinations": {
+      "zh-Hans": "触觉幻觉",
+      "zh-Hant": "觸覺幻覺"
+    },
+    "tactile_suppression": {
+      "zh-Hans": "触觉抑制",
+      "zh-Hant": "觸覺抑制"
+    },
+    "taste_enhancement": {
+      "zh-Hans": "味觉增强",
+      "zh-Hant": "味覺增強"
+    },
+    "taste_suppression": {
+      "zh-Hans": "味觉抑制",
+      "zh-Hant": "味覺抑制"
+    },
+    "teeth_grinding": {
+      "zh-Hans": "磨牙",
+      "zh-Hant": "磨牙"
+    },
+    "temperature_regulation_suppression": {
+      "zh-Hans": "体温调节抑制",
+      "zh-Hant": "體溫調節抑制"
+    },
+    "temporary_erectile_dysfunction": {
+      "zh-Hans": "暂时性勃起功能障碍",
+      "zh-Hant": "暫時性勃起功能障礙"
+    },
+    "texture_liquidation": {
+      "zh-Hans": "纹理液化",
+      "zh-Hant": "紋理液化"
+    },
+    "texture_repetition": {
+      "zh-Hans": "纹理重复",
+      "zh-Hant": "紋理重複"
+    },
+    "thought_acceleration": {
+      "zh-Hans": "思维加速",
+      "zh-Hant": "思維加速"
+    },
+    "thought_connectivity": {
+      "zh-Hans": "思维连通性",
+      "zh-Hant": "思維連通性"
+    },
+    "thought_deceleration": {
+      "zh-Hans": "思维减速",
+      "zh-Hant": "思維減速"
+    },
+    "thought_disorganization": {
+      "zh-Hans": "思维混乱",
+      "zh-Hant": "思維混亂"
+    },
+    "thought_loops": {
+      "zh-Hans": "思维循环",
+      "zh-Hant": "思維迴圈"
+    },
+    "thought_organization": {
+      "zh-Hans": "思维组织",
+      "zh-Hant": "思維組織"
+    },
+    "thought_suppression": {
+      "zh-Hans": "思维抑制",
+      "zh-Hant": "思維抑制"
+    },
+    "time_distortion": {
+      "zh-Hans": "时间扭曲",
+      "zh-Hant": "時間扭曲"
+    },
+    "tracers": {
+      "zh-Hans": "拖影",
+      "zh-Hant": "拖影"
+    },
+    "transformations": {
+      "zh-Hans": "变形",
+      "zh-Hant": "變形"
+    },
+    "unity_and_interconnectedness": {
+      "zh-Hans": "合一与互联感",
+      "zh-Hant": "合一與互聯感"
+    },
+    "unspeakable_horrors": {
+      "zh-Hans": "难以名状的恐怖",
+      "zh-Hant": "難以名狀的恐怖"
+    },
+    "vasoconstriction": {
+      "zh-Hans": "血管收缩",
+      "zh-Hant": "血管收縮"
+    },
+    "vasodilation": {
+      "zh-Hans": "血管扩张",
+      "zh-Hant": "血管擴張"
+    },
+    "vibrating_vision": {
+      "zh-Hans": "视物振动",
+      "zh-Hant": "視物振動"
+    },
+    "visual_acuity_enhancement": {
+      "zh-Hans": "视觉锐度增强",
+      "zh-Hant": "視覺銳度增強"
+    },
+    "visual_disconnection": {
+      "zh-Hans": "视觉断离",
+      "zh-Hant": "視覺斷離"
+    },
+    "visual_flipping": {
+      "zh-Hans": "视觉翻转",
+      "zh-Hant": "視覺翻轉"
+    },
+    "visual_haze": {
+      "zh-Hans": "视觉迷雾",
+      "zh-Hant": "視覺迷霧"
+    },
+    "visual_sliding": {
+      "zh-Hans": "视觉滑动",
+      "zh-Hant": "視覺滑動"
+    },
+    "visual_stretching": {
+      "zh-Hans": "视觉拉伸",
+      "zh-Hant": "視覺拉伸"
+    },
+    "vomiting": {
+      "zh-Hans": "呕吐",
+      "zh-Hant": "嘔吐"
+    },
+    "wakefulness": {
+      "zh-Hans": "清醒",
+      "zh-Hant": "清醒"
+    },
+    "watery_eyes": {
+      "zh-Hans": "流泪",
+      "zh-Hant": "流淚"
+    }
+  }
+}
