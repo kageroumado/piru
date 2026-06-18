@@ -4,7 +4,7 @@
     "aliases_added": ["Divinorin A"],
     "iupac_name": "methyl (2S,4aR,6aR,7R,9S,10aS,10bR)-9-(acetyloxy)-2-(furan-3-yl)-6a,10b-dimethyl-4,10-dioxododecahydro-2H-benzo[f]isochromene-7-carboxylate",
     "smiles": "CC(=O)O[C@@H]1CC(=O)O[C@@H]2[C@@]1([C@H]3CC[C@@]([C@@H]([C@@]3(C(=O)C2)C)C(=O)OC)C4=COC=C4)C",
-    "inchikey": "MKPLKVHSHYCHOC-AHTXBMBWSA-N",
+    "inchikey": "IGQUDQRTTFBHKS-DXZFCEOZSA-N",
     "cas": "83729-01-5",
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",

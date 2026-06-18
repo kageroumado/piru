@@ -768,7 +768,7 @@
     "aliases_added": ["Hyoscine", "Hyoscine hydrobromide", "Hyoscine butylbromide (peripheral analogue)", "L-scopolamine", "(-)-scopolamine", "Transderm Scōp"],
     "iupac_name": "[(1S,2R,4R,5S,7s)-9-methyl-3-oxa-9-azatricyclo[3.3.1.02,4]nonan-7-yl] (2S)-3-hydroxy-2-phenylpropanoate",
     "smiles": "CN1[C@@H]2CC(C[C@H]1[C@H]3[C@@H]2O3)OC(=O)[C@H](CO)C4=CC=CC=C4",
-    "inchikey": "STECJAGHUSJQJN-FWXGHANASA-N",
+    "inchikey": "STECJAGHUSJQJN-USLFZFAMSA-N",
     "cas": "51-34-3",
     "pubchem_cid": 3000322,
     "class_context_id": "anticholinergic_deliriants_tropane_alkaloids",
