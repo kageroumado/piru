@@ -206,7 +206,20 @@
       }
     },
     "Afterglow" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "余韵"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "餘韻"
+          }
+        }
+      }
     },
     "Biweekly" : {
       "localizations" : {
@@ -225,7 +238,20 @@
       }
     },
     "Come-up" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上升期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上升期"
+          }
+        }
+      }
     },
     "Current Session" : {
       "localizations" : {
@@ -485,10 +511,36 @@
       }
     },
     "Offset" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下降期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下降期"
+          }
+        }
+      }
     },
     "Onset" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起效"
+          }
+        }
+      }
     },
     "Oral" : {
       "localizations" : {
@@ -523,7 +575,20 @@
       }
     },
     "Peak" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "巅峰"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "巔峰"
+          }
+        }
+      }
     },
     "Rectal" : {
       "localizations" : {

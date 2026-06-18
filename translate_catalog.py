@@ -2,7 +2,9 @@
 """Apply zh-Hans and zh-Hant translations to a Localizable.xcstrings catalog."""
 
 import json
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
@@ -2429,6 +2431,76 @@ def apply_translations(catalog_path: Path, translations: dict, insert_keys: set 
     return translated_count, added, missing
 
 
+CANONICAL_LANGUAGES = ("zh-Hans", "zh-Hant")
+
+
+def canonicalize_catalogs(project_path: Path, languages=CANONICAL_LANGUAGES) -> bool:
+    """Let Xcode re-collate every catalog key into its canonical order.
+
+    Why this exists: `apply_translations` appends brand-new `insert_keys` to the
+    end of the catalog (Python dict insertion order). Xcode's String Catalog
+    editor stores keys in an ICU-collated order that we can't reproduce in
+    Python and that `xcstringstool sync` mangles (it stales/drops live strings
+    when invoked outside the build graph — see CLAUDE.md). So instead of sorting
+    ourselves, we hand the catalog back to Xcode: an `xcodebuild
+    -exportLocalizations` → `-importLocalizations` round-trip rewrites every
+    project `.xcstrings` in Xcode's canonical order, byte-for-byte identical to
+    what opening the catalog in the IDE produces. The round-trip is idempotent
+    (a second pass is a no-op) and non-destructive (no keys dropped, stale marks
+    and untranslated entries preserved), so committing its output stops the IDE
+    from re-ordering the file on the next build.
+
+    Returns True on success, False if xcodebuild isn't available or fails (in
+    which case the script's own serialization is left in place untouched).
+    """
+    if not project_path.exists():
+        print(f"  (skipped canonicalize: {project_path} not found)")
+        return False
+
+    with tempfile.TemporaryDirectory(prefix="piru-loc-") as tmp:
+        tmp_path = Path(tmp)
+        export = [
+            "xcodebuild",
+            "-exportLocalizations",
+            "-project",
+            str(project_path),
+            "-localizationPath",
+            str(tmp_path),
+        ]
+        for lang in languages:
+            export += ["-exportLanguage", lang]
+
+        result = subprocess.run(export, capture_output=True, text=True)
+        if result.returncode != 0:
+            print("  (canonicalize failed at export — leaving Python output in place)")
+            print(result.stderr.strip()[-500:])
+            return False
+
+        for lang in languages:
+            xcloc = tmp_path / f"{lang}.xcloc"
+            if not xcloc.exists():
+                print(f"  (canonicalize: no {xcloc.name} produced — skipping)")
+                continue
+            imp = subprocess.run(
+                [
+                    "xcodebuild",
+                    "-importLocalizations",
+                    "-project",
+                    str(project_path),
+                    "-localizationPath",
+                    str(xcloc),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            if imp.returncode != 0:
+                print(f"  (canonicalize failed at import of {lang})")
+                print(imp.stderr.strip()[-500:])
+                return False
+
+    return True
+
+
 sys.path.insert(0, "/tmp")
 try:
     from moa_translations import MOA_DESCRIPTIONS, MOA_SUMMARIES
@@ -2737,3 +2809,13 @@ if __name__ == "__main__":
     print(f"Missing: {len(missing)}")
     for m in missing:
         print(f"  - {m!r}")
+
+    # Hand both catalogs back to Xcode so it re-collates every key into its
+    # canonical order — this is what stops the IDE from churning the file on the
+    # next build. Done last, after all translations are filled, so the export
+    # captures the freshly-inserted keys. Skipped gracefully if xcodebuild is
+    # unavailable (the Python serialization above is still valid, just unsorted).
+    print()
+    print("--- Canonicalizing key order via Xcode (export/import round-trip) ---")
+    if canonicalize_catalogs(project_root / "Piru.xcodeproj"):
+        print("Done — catalogs rewritten in Xcode's canonical order.")
