@@ -5,6 +5,44 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
+/// The app's resolved content language for substance text. The requested side
+/// of locale resolution — stored rows may also be `und` (undetermined), which
+/// the resolver treats as an English-tier fallback. Carries the SQL fragments
+/// for locale-first text resolution so every text table resolves the same way.
+nonisolated enum ContentLanguage: String {
+    case en
+    case zhHans = "zh-Hans"
+    case zhHant = "zh-Hant"
+
+    var isChinese: Bool {
+        self != .en
+    }
+
+    /// Derive from the app's preferred localization (follows a per-app language
+    /// override, not just the device language).
+    static var current: ContentLanguage {
+        let pref = (Bundle.main.preferredLocalizations.first ?? "en").lowercased()
+        guard pref.hasPrefix("zh") else { return .en }
+        if pref.contains("hant") || pref.contains("tw") || pref.contains("hk") || pref.contains("mo") {
+            return .zhHant
+        }
+        return .zhHans
+    }
+
+    /// Language-aware `WHERE`/`ORDER BY` fragments for a text table's `language`
+    /// column. In Chinese, matching-language text floats above source priority
+    /// (exact variant first, then any zh), falling back to English when no zh
+    /// row exists. In English, raw zh is excluded — only English (and FreeOD's
+    /// machine-translated en rows) show. `rawValue` is a fixed enum literal, so
+    /// interpolating it carries no injection risk.
+    func clauses(column col: String) -> (whereAnd: String, orderPrefix: String) {
+        if isChinese {
+            return ("", "(\(col) = '\(rawValue)') DESC, (\(col) LIKE 'zh%') DESC, ")
+        }
+        return (" AND \(col) IN ('en', 'und') ", "")
+    }
+}
+
 /// The multi-source substance store. Replaces ``SubstanceLibrary``.
 ///
 /// ## Two databases
@@ -1024,13 +1062,13 @@ final class SubstanceStore {
     /// Test-only override for the resolved content language. nil = derive from
     /// the app's UI language (``contentLanguage``). Lets tests exercise the
     /// locale-first text resolution without changing the process locale.
-    var languageOverride: String?
+    var languageOverride: ContentLanguage?
 
     private func resolveSubstance(id: Int64, canonicalName _: String?) -> Substance? {
         let appLanguage = languageOverride ?? Self.contentLanguage
         // Language is part of the cache key so a mid-session app-language change
         // re-resolves locale-first text instead of serving stale-language rows.
-        let cacheKey = "\(id)|\(appLanguage)"
+        let cacheKey = "\(id)|\(appLanguage.rawValue)"
         if let cached = resolvedCache[cacheKey] { return cached }
 
         do {
@@ -1154,27 +1192,8 @@ final class SubstanceStore {
     /// Chinese source (FreeOD Wiki) wins for descriptions/effects when the app
     /// runs in Chinese. Reads `preferredLocalizations` so it follows the app's
     /// per-app language override, not just the device language.
-    nonisolated static var contentLanguage: String {
-        let pref = (Bundle.main.preferredLocalizations.first ?? "en").lowercased()
-        guard pref.hasPrefix("zh") else { return "en" }
-        if pref.contains("hant") || pref.contains("tw") || pref.contains("hk") || pref.contains("mo") {
-            return "zh-Hant"
-        }
-        return "zh-Hans"
-    }
-
-    /// Language-aware `WHERE`/`ORDER BY` fragments for a text-bearing table's
-    /// `language` column. In Chinese, matching-language text floats above source
-    /// priority (exact variant first, then any zh), falling back to English when
-    /// no zh row exists. In English, raw zh is excluded entirely — only English
-    /// (and FreeOD's machine-translated en rows) show.
-    private nonisolated static func languageClauses(
-        _ lang: String, column col: String,
-    ) -> (whereAnd: String, orderPrefix: String) {
-        if lang.hasPrefix("zh") {
-            return ("", "(\(col) = '\(lang)') DESC, (\(col) LIKE 'zh%') DESC, ")
-        }
-        return (" AND \(col) IN ('en', 'und') ", "")
+    nonisolated static var contentLanguage: ContentLanguage {
+        .current
     }
 
     /// SQL scalar resolving a row of `effects` (table aliased `e`) to its
@@ -1184,13 +1203,12 @@ final class SubstanceStore {
     /// sees translated effects on *every* substance, even ones whose source data
     /// was English-only, because the label was translated once at the vocabulary
     /// level. For English it is simply `e.text` (already the canonical PW name).
-    private nonisolated static func localizedEffectLabelSQL(_ lang: String) -> String {
-        guard lang.hasPrefix("zh") else { return "e.text" }
-        let l = lang.replacingOccurrences(of: "'", with: "''")
+    private nonisolated static func localizedEffectLabelSQL(_ language: ContentLanguage) -> String {
+        guard language.isChinese else { return "e.text" }
         return """
         COALESCE(
             (SELECT lbl.label FROM effect_vocab_labels lbl
-              WHERE lbl.vocab_id = e.vocab_id AND lbl.language = '\(l)'),
+              WHERE lbl.vocab_id = e.vocab_id AND lbl.language = '\(language.rawValue)'),
             (SELECT lbl.label FROM effect_vocab_labels lbl
               WHERE lbl.vocab_id = e.vocab_id AND lbl.language LIKE 'zh%' LIMIT 1),
             e.text)
@@ -1494,19 +1512,36 @@ final class SubstanceStore {
         """, arguments: [substanceID])
     }
 
-    /// Substance overview prose (descriptions table), resolved locale-first.
-    private func resolvedDescription(db: Database, substanceID: Int64, language: String) throws -> SubstanceOverview? {
-        let lang = Self.languageClauses(language, column: "d.language")
-        guard let row = try Row.fetchOne(db, sql: """
-            SELECT d.text, d.machine_translated, src.slug AS source_slug
-              FROM descriptions d
-              JOIN sources src ON src.id = d.source_id
-             WHERE d.substance_id = ?
+    /// One locale-resolved prose row from a text table, the single definitive
+    /// `LIMIT 1` pass that `resolvedDescription`/`resolvedMechanism` share:
+    /// matching-language text floats above source priority, English/`und` is the
+    /// fallback (see ``ContentLanguage/clauses(column:)``). The table is aliased
+    /// `t`; the returned row also carries `machine_translated` + `source_slug` so
+    /// callers build their typed value. `table` is a fixed internal literal (no
+    /// injection surface).
+    private func resolvedTextRow(
+        db: Database, from table: String, selecting columns: String,
+        substanceID: Int64, language: ContentLanguage,
+    ) throws -> Row? {
+        let lang = language.clauses(column: "t.language")
+        return try Row.fetchOne(db, sql: """
+            SELECT \(columns), t.machine_translated, src.slug AS source_slug
+              FROM \(table) t
+              JOIN sources src ON src.id = t.source_id
+             WHERE t.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
                \(lang.whereAnd)
              ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
              LIMIT 1
-        """, arguments: [substanceID]) else { return nil }
+        """, arguments: [substanceID])
+    }
+
+    /// Substance overview prose (descriptions table), resolved locale-first.
+    private func resolvedDescription(db: Database, substanceID: Int64, language: ContentLanguage) throws -> SubstanceOverview? {
+        guard let row = try resolvedTextRow(
+            db: db, from: "descriptions", selecting: "t.text",
+            substanceID: substanceID, language: language,
+        ) else { return nil }
         let text: String = row["text"]
         guard !text.isEmpty else { return nil }
         return SubstanceOverview(
@@ -1516,18 +1551,11 @@ final class SubstanceStore {
         )
     }
 
-    private func resolvedMechanism(db: Database, substanceID: Int64, language: String) throws -> MechanismOfAction? {
-        let lang = Self.languageClauses(language, column: "m.language")
-        let row = try Row.fetchOne(db, sql: """
-            SELECT m.summary, m.description
-              FROM mechanisms_summary m
-              JOIN sources src ON src.id = m.source_id
-             WHERE m.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-               \(lang.whereAnd)
-             ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
-             LIMIT 1
-        """, arguments: [substanceID])
+    private func resolvedMechanism(db: Database, substanceID: Int64, language: ContentLanguage) throws -> MechanismOfAction? {
+        let row = try resolvedTextRow(
+            db: db, from: "mechanisms_summary", selecting: "t.summary, t.description",
+            substanceID: substanceID, language: language,
+        )
 
         // Union-merge bindings across sources (curated ∪ measured), deduped by
         // (target, action): when both a curated row (ordinal `affinity_tier`, no
@@ -1583,7 +1611,7 @@ final class SubstanceStore {
         )
     }
 
-    private func resolvedEffects(db: Database, substanceID: Int64, language: String) throws -> [String] {
+    private func resolvedEffects(db: Database, substanceID: Int64, language: ContentLanguage) throws -> [String] {
         try String.fetchAll(db, sql: """
             SELECT DISTINCT \(Self.localizedEffectLabelSQL(language)) AS text
               FROM effects e
@@ -1594,7 +1622,7 @@ final class SubstanceStore {
         """, arguments: [substanceID])
     }
 
-    private func resolvedSubjectiveEffects(db: Database, substanceID: Int64, language: String) throws -> [SubjectiveEffect] {
+    private func resolvedSubjectiveEffects(db: Database, substanceID: Int64, language: ContentLanguage) throws -> [SubjectiveEffect] {
         func fetch(_ langFilter: String) throws -> [SubjectiveEffect] {
             let rows = try Row.fetchAll(db, sql: """
                 SELECT DISTINCT se.name AS effect_name,
@@ -1610,7 +1638,7 @@ final class SubstanceStore {
         }
         // Chinese: show the zh set if the substance has one, else fall back to
         // English (don't blank the section). English: never show raw zh.
-        if language.hasPrefix("zh") {
+        if language.isChinese {
             let zh = try fetch("AND se.language LIKE 'zh%'")
             return zh.isEmpty ? try fetch("AND se.language IN ('en', 'und')") : zh
         }
