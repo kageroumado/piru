@@ -29,7 +29,7 @@ import re
 import sqlite3
 import sys
 import unicodedata
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -38,6 +38,7 @@ from pathlib import Path
 # suite loads this file via importlib spec (where it is not).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from effect_vocab import EFFECT_VOCAB, vocab_id_for, vocab_labels  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
@@ -2648,6 +2649,10 @@ class Build:
         # tag-keyed dose-magnitude gate in `add_dose` consults this; populated
         # by `add_tag`.
         self.substance_tags: dict[int, set[str]] = defaultdict(set)
+        # Whitelisted PW effect strings that resolved to no controlled-vocab
+        # entry (vocab_id NULL). Surfaced as curation candidates at build end —
+        # no-silent-caps: they still ship (raw `text` is the fallback).
+        self.effect_vocab_unmatched: Counter[str] = Counter()
         self.stats: dict[str, int] = defaultdict(int)
 
     # ---- seeds ----
@@ -2659,6 +2664,27 @@ class Build:
                 (slug, name, desc, prio),
             )
             self.source_ids[slug] = self.cur.lastrowid
+
+    def seed_effect_vocab(self) -> None:
+        """Seed the controlled effect vocabulary (Track 1 localization).
+
+        Populates ``effect_vocab`` (slug + category) and ``effect_vocab_labels``
+        (en + curated zh-Hans/zh-Hant). Must run after ``seed_sources`` and
+        before any ingest, so the FK from ``effects.vocab_id`` is satisfiable
+        (foreign_keys is ON). The English label + category come from the PW SEI
+        whitelist; zh labels from the curated crosswalk JSON.
+        """
+        for vid, (_en_label, category) in EFFECT_VOCAB.items():
+            self.cur.execute(
+                "INSERT INTO effect_vocab(vocab_id, category) VALUES (?, ?)",
+                (vid, category),
+            )
+        for vid, language, label, machine_translated in vocab_labels():
+            self.cur.execute(
+                "INSERT INTO effect_vocab_labels(vocab_id, language, label, machine_translated) VALUES (?, ?, ?, ?)",
+                (vid, language, label, machine_translated),
+            )
+        self.stats["effect_vocab"] = len(EFFECT_VOCAB)
 
     # ---- citations ----
 
@@ -3530,10 +3556,17 @@ class Build:
         if category is None:
             self.stats["effects_dropped"] = self.stats.get("effects_dropped", 0) + 1
             return
+        # Controlled-vocabulary reference (Track 1). Deterministic — `text` is
+        # already a whitelisted PW name, so this resolves by normalized lookup
+        # (no fuzzy auto-merge). NULL keeps the raw `text` as the localized
+        # fallback; such strings are surfaced as curation candidates, not dropped.
+        vocab_id = vocab_id_for(text)
+        if vocab_id is None:
+            self.effect_vocab_unmatched[text] += 1
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO effects(substance_id, source_id, text, kind, effect_category, language, machine_translated) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (sid, src, text, kind, category, language, 1 if machine_translated else 0),
+            "INSERT INTO effects(substance_id, source_id, text, kind, effect_category, language, machine_translated, vocab_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (sid, src, text, kind, category, language, 1 if machine_translated else 0, vocab_id),
         )
         self.stats["effects"] += 1
 
@@ -5975,6 +6008,7 @@ def main() -> int:
     db.executescript(SCHEMA_SQL)
     build = Build(db)
     build.seed_sources()
+    build.seed_effect_vocab()
 
     # Curated per-substance files first, so curated chemical identifiers win the
     # COALESCE in upsert_substance and curated names seed the wikidata allowlist.
@@ -6305,6 +6339,24 @@ def main() -> int:
     # can't drop its display override. See reapply_curated_display_names.
     redisplay = build.reapply_curated_display_names(CURATED_DIR)
     print(f"Curated display_name re-applied: {redisplay}", file=sys.stderr)
+
+    # Effect controlled-vocabulary coverage + curation candidates (no-silent-caps:
+    # whitelisted effects with no vocab_id still ship via raw `text`, but surface
+    # here so a future vocab entry can be added).
+    vocab_linked, vocab_null = db.execute(
+        "SELECT COUNT(vocab_id), COUNT(*) - COUNT(vocab_id) FROM effects"
+    ).fetchone()
+    print(
+        f"Effect vocab: {build.stats.get('effect_vocab', 0)} entries; "
+        f"{vocab_linked} effect rows linked, {vocab_null} unlinked (raw fallback)",
+        file=sys.stderr,
+    )
+    if build.effect_vocab_unmatched:
+        print(
+            "  unmatched effect strings (curation candidates): "
+            + ", ".join(f"{t!r}×{n}" for t, n in build.effect_vocab_unmatched.most_common(20)),
+            file=sys.stderr,
+        )
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = datetime.now(UTC).strftime("%Y-%m-%d.0")

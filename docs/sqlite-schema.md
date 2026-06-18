@@ -189,8 +189,11 @@ CREATE TABLE mechanisms_summary (
 -- Controlled effect vocabulary (schema v5, localization Track 1). One canonical
 -- effect per concept, translated once, referenced by effects.vocab_id — so a zh
 -- user sees localized effects even on English-only-source substances. Kept as
--- DATA (not a Swift enum) so adding an effect ships in the DB. Tables added in
--- Stage 0 (empty); seeded from the PW SEI + FreeODwiki 药效 in Stage 2.
+-- DATA (not a Swift enum) so adding an effect ships in the DB. Seeded in Stage 2
+-- (~263 entries): en labels + categories from the PW SEI whitelist
+-- (pipeline/build/effect_vocab.py), zh-Hans hand-authored against FreeODwiki 药效
+-- (76 native mutual-best anchors verbatim) and zh-Hant via OpenCC s2twp — all in
+-- the curated effect_vocab_zh.json. zh-Hant carries machine_translated=1.
 CREATE TABLE effect_vocab (
     vocab_id  TEXT PRIMARY KEY,         -- stable slug, e.g. 'anxiety'
     category  TEXT                      -- PsychonautWiki/SEI grouping
@@ -209,8 +212,9 @@ CREATE TABLE effects (
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     text         TEXT NOT NULL,
     kind         TEXT,                  -- 'positive' | 'neutral' | 'negative' | 'warning'
-    -- Canonical-vocabulary reference (schema v5). NULL when no fuzzy match
-    -- clears threshold; `text` is the raw fallback. Populated in Stage 2.
+    -- Canonical-vocabulary reference (schema v5). Stamped in Stage 2 by a
+    -- deterministic normalized lookup (text is already PW-whitelisted, so no
+    -- fuzzy auto-merge); NULL when unmatched and `text` is the raw fallback.
     vocab_id     TEXT REFERENCES effect_vocab(vocab_id),
     reference_id INTEGER REFERENCES references(id)
 );
