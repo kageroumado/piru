@@ -35,7 +35,21 @@ CREATE TABLE substances (
     iupac_name      TEXT,
     smiles          TEXT,
     formula         TEXT,
-    molecular_weight REAL
+    molecular_weight REAL,
+    -- Physicochemical / forensic properties (schema v5, Workstream 1). NULL =
+    -- unknown. Predicted/computed (logP/pKa often PubChem XLogP) or rodent-assay
+    -- (LD50) — NOT clinical; the app badges them forensic and never as a "safe
+    -- dose". Columns added in Stage 0; extractors populate them in Stage 1.
+    logp                  REAL,    -- octanol/water partition coefficient
+    logd                  REAL,    -- distribution coefficient at physiological pH
+    pka                   REAL,    -- acid dissociation constant (primary)
+    tpsa                  REAL,    -- topological polar surface area (Å²)
+    hba                   INTEGER, -- H-bond acceptor count
+    hbd                   INTEGER, -- H-bond donor count
+    ld50_oral_mg_per_kg   REAL,    -- rodent oral LD50 (order-of-magnitude)
+    ld50_dermal_mg_per_kg REAL,    -- rodent dermal LD50 (order-of-magnitude)
+    melting_point_c       REAL,    -- melting point (°C)
+    boiling_point_c       REAL     -- boiling point (°C)
 );
 CREATE INDEX idx_substances_normalized   ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey     ON substances(inchikey) WHERE inchikey IS NOT NULL;
@@ -169,15 +183,36 @@ CREATE TABLE mechanisms_summary (
 ## Effects and tolerance
 
 ```sql
+-- Controlled effect vocabulary (schema v5, localization Track 1). One canonical
+-- effect per concept, translated once, referenced by effects.vocab_id — so a zh
+-- user sees localized effects even on English-only-source substances. Kept as
+-- DATA (not a Swift enum) so adding an effect ships in the DB. Tables added in
+-- Stage 0 (empty); seeded from the PW SEI + FreeODwiki 药效 in Stage 2.
+CREATE TABLE effect_vocab (
+    vocab_id  TEXT PRIMARY KEY,         -- stable slug, e.g. 'anxiety'
+    category  TEXT                      -- PsychonautWiki/SEI grouping
+);
+CREATE TABLE effect_vocab_labels (
+    vocab_id           TEXT NOT NULL REFERENCES effect_vocab(vocab_id),
+    language           TEXT NOT NULL,   -- 'en' | 'zh-Hans' | 'zh-Hant' | 'und'
+    label              TEXT NOT NULL,
+    machine_translated INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (vocab_id, language)
+);
+
 CREATE TABLE effects (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     text         TEXT NOT NULL,
     kind         TEXT,                  -- 'positive' | 'neutral' | 'negative' | 'warning'
+    -- Canonical-vocabulary reference (schema v5). NULL when no fuzzy match
+    -- clears threshold; `text` is the raw fallback. Populated in Stage 2.
+    vocab_id     TEXT REFERENCES effect_vocab(vocab_id),
     reference_id INTEGER REFERENCES references(id)
 );
 CREATE INDEX idx_effects_substance ON effects(substance_id);
+CREATE INDEX idx_effects_vocab     ON effects(vocab_id) WHERE vocab_id IS NOT NULL;
 
 CREATE TABLE subjective_effects (
     id           INTEGER PRIMARY KEY,
@@ -442,7 +477,7 @@ CREATE TABLE manifest (
     value TEXT NOT NULL
 );
 -- Rows seeded by the build tool:
---   ('schema_version',     '1')
+--   ('schema_version',     '5')          -- v5: physicochemical cols + effect_vocab
 --   ('content_version',    '2026-05-25.0')         -- semver-like; bumped per build
 --   ('generator_version',  'SubstanceCollector 0.1.0')
 --   ('build_timestamp',    '2026-05-25T15:00:00Z')
@@ -548,7 +583,7 @@ Schema:
 
 ```json
 {
-  "schema_version": 1,
+  "schema_version": 5,
   "content_version": "2026-05-25.0",
   "generated_at": "2026-05-25T15:00:00Z",
   "generator_version": "SubstanceCollector 0.1.0",
