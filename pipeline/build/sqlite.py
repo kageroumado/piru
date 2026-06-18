@@ -1544,6 +1544,44 @@ NON_RECREATIONAL_OTC = {
     "naproxen",
 }
 
+# The Library's "Common" card is a curated entry point — "everyday substances,
+# by the names most people know" — NOT a dump of every compound an aggregator
+# happened to flag `common`. Upstream "common" tags (TripSit et al.) bled ~70
+# research chemicals, designer benzos, and obscure isomers into it (25I-NBOMe,
+# clonazolam, 4-HO-MET, …), which is the opposite of "common". So the build
+# OWNS this tag: every upstream `common` tag is dropped and re-asserted for
+# exactly this hand-picked set (~20). To add/remove a substance from the Common
+# card, edit this set — nothing else. Matched by normalise()d name against the
+# final (post-dedup) survivors; a name that resolves to nothing is reported
+# (no silent drops), so a rename/merge that orphans an entry is caught at build.
+COMMON_CARD_ALLOWLIST = {
+    # Legal / ubiquitous
+    "caffeine",
+    "alcohol",
+    "nicotine",
+    "cannabis",
+    # Well-known recreational
+    "cocaine",
+    "heroin",
+    "mdma",
+    "lysergic acid diethylamide",
+    "mushrooms",
+    "methamphetamine",
+    "ketamine",
+    "amphetamine",
+    # Household opioid names
+    "morphine",
+    "codeine",
+    "oxycodone",
+    # Household benzo names
+    "diazepam",
+    "alprazolam",
+    # Other names most people know
+    "methylphenidate",
+    "nitrous",
+    "melatonin",
+}
+
 # Dosage-form vocabulary. pyrls/medtap dump the FDA `dosageForm` string straight
 # into tags ("tablet, chewable tablet, extended release tablet, …"), which is
 # noise as a class chip — the form lives in its own field. A tag whose *every*
@@ -2621,7 +2659,11 @@ class Build:
             self.substance_ids[norm] = sid
             self.stats["substances"] += 1
 
-        for alias in aliases or []:
+        # Sorted so alias rows insert in a stable order regardless of how the
+        # caller built the list (many sources pass a set-derived list, whose
+        # iteration order is randomized by str hashing — see _add_alias). This
+        # keeps the built DB byte-reproducible across runs.
+        for alias in sorted(aliases or []):
             self._add_alias(sid, alias, source_slug)
         return sid
 
@@ -2690,6 +2732,21 @@ class Build:
         if existing:
             existing_rowid, existing_alias = existing
             if is_chemnoise_alias(existing_alias) and not is_chemnoise_alias(alias):
+                self.cur.execute(
+                    "UPDATE aliases SET alias=? WHERE rowid=?", (alias, existing_rowid)
+                )
+            elif (
+                is_chemnoise_alias(alias) == is_chemnoise_alias(existing_alias)
+                and alias < existing_alias
+            ):
+                # Deterministic casing tiebreak. Two spellings that normalise to
+                # the same form but differ only in case ("Alpha-O"/"alpha-O",
+                # "Indian Pipe"/"Indian pipe") used to race: whichever the build
+                # happened to insert FIRST held the slot, and insertion order is
+                # randomized by Python's per-process str hashing (set/dict
+                # iteration). That made the shipped casing nondeterministic. Keep
+                # the lexicographically smaller spelling instead — order-independent
+                # and it prefers the capitalised display form (ASCII upper < lower).
                 self.cur.execute(
                     "UPDATE aliases SET alias=? WHERE rowid=?", (alias, existing_rowid)
                 )
@@ -5571,6 +5628,29 @@ class Build:
             counts[cls] += 1
         return dict(counts)
 
+    def curate_common_card(self) -> dict[str, int]:
+        """Make the Library's "Common" card a curated set, not an aggregator dump.
+
+        Drops every upstream `common` tag and re-asserts it (source = piru-curated)
+        for exactly ``COMMON_CARD_ALLOWLIST``. Runs AFTER dedup + classification so
+        it acts on the final survivors. Any allowlist name that resolves to no
+        substance is returned in ``missing`` (no silent drops — a merge/rename that
+        orphans an entry surfaces in the build report)."""
+        cur = self.cur
+        cur.execute("DELETE FROM tags WHERE tag = 'common'")
+        added = 0
+        missing: list[str] = []
+        for name in sorted(COMMON_CARD_ALLOWLIST):
+            sid = self.substance_ids.get(normalise(name))
+            if sid is None:
+                missing.append(name)
+                continue
+            self.add_tag(sid, "piru-curated", "common")
+            added += 1
+        if missing:
+            print(f"  curate_common_card MISSING: {missing}", file=sys.stderr)
+        return {"common_tagged": added, "missing": len(missing)}
+
     def ingest_enrichment(self, path: Path) -> None:
         """Deep-pharma enrichment from the agent swarm. source = peer-review-primary
         for per-compound records (they cite primary literature per fact). For PDSP-sourced
@@ -6011,6 +6091,13 @@ def main() -> int:
     # category, tags, regulatory status). Must run LAST.
     classified = build.classify_compounds()
     print(f"Display classification: {classified}", file=sys.stderr)
+
+    # Curate the Library's "Common" card down to the hand-picked everyday set
+    # (drops the ~70 aggregator-flagged RCs/designer compounds). After classify
+    # so it owns the final `common` tag; the tag only feeds the Common browse
+    # card (not in REC_TAGS), so re-curating it changes no display class.
+    common_card = build.curate_common_card()
+    print(f"Common card curated: {common_card}", file=sys.stderr)
 
     # Re-stamp curated displayName overrides onto the final survivors (after all
     # merges/folds settle) so a merge that demoted the curated name to an alias
