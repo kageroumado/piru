@@ -1,0 +1,1522 @@
+{
+  "ACRITBNCBMTINK-UHFFFAOYSA-N": {
+    "formula": "C11H16ClNO2",
+    "molecular_weight": 229.7,
+    "xlogp": 2.5,
+    "tpsa": 44.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 191.0,
+    "cid": 542036
+  },
+  "AELCINSCMGFISI-DTWKUNHWSA-N": {
+    "formula": "C9H11N",
+    "molecular_weight": 133.19,
+    "xlogp": 1.5,
+    "tpsa": 26.0,
+    "hbd": 1,
+    "hba": 1,
+    "complexity": 116.0,
+    "cid": 19493
+  },
+  "AHOUBRCZNHFOSL-YOEHRIQHSA-N": {
+    "formula": "C19H20FNO3",
+    "molecular_weight": 329.4,
+    "xlogp": 3.5,
+    "tpsa": 39.7,
+    "hbd": 1,
+    "hba": 5,
+    "complexity": 402.0,
+    "cid": 43815
+  },
+  "AKPLHCDWDRPJGD-UHFFFAOYSA-N": {
+    "formula": "C15H11ClN2O",
+    "molecular_weight": 270.71,
+    "xlogp": 2.9,
+    "tpsa": 41.5,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 376.0,
+    "cid": 2997
+  },
+  "AKVKBEDACKJNPO-UHFFFAOYSA-N": {
+    "formula": "C13H19NO",
+    "molecular_weight": 205.3,
+    "xlogp": 2.9,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 195.0,
+    "cid": 124201807
+  },
+  "ANDGGVOPIJEHOF-UHFFFAOYSA-N": {
+    "formula": "C14H15N3O",
+    "molecular_weight": 241.29,
+    "xlogp": 1.8,
+    "tpsa": 46.1,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 301.0,
+    "cid": 148184
+  },
+  "ANJTVLIZGCUXLD-DTWKUNHWSA-N": {
+    "formula": "C11H14N2O",
+    "molecular_weight": 190.24,
+    "xlogp": 0.2,
+    "tpsa": 32.3,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 332.0,
+    "cid": 10235
+  },
+  "ANWPENAPCIFDSZ-BQBZGAKWSA-N": {
+    "formula": "C10H14F2N2O2",
+    "molecular_weight": 232.23,
+    "xlogp": 0.3,
+    "tpsa": 63.4,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 327.0,
+    "cid": 9856063
+  },
+  "AQHHHDLHHXJYJD-UHFFFAOYSA-N": {
+    "formula": "C16H21NO2",
+    "molecular_weight": 259.34,
+    "xlogp": 3.0,
+    "tpsa": 41.5,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 257.0,
+    "cid": 4946
+  },
+  "ASUTZQLVASHGKV-JDFRZJQESA-N": {
+    "formula": "C17H21NO3",
+    "molecular_weight": 287.35,
+    "xlogp": 1.8,
+    "tpsa": 41.9,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 440.0,
+    "cid": 9651
+  },
+  "AULGMISRJWGTBA-UHFFFAOYSA-N": {
+    "formula": "C11H14N2",
+    "molecular_weight": 174.24,
+    "xlogp": 2.1,
+    "tpsa": 41.8,
+    "hbd": 2,
+    "hba": 1,
+    "complexity": 169.0,
+    "cid": 55253543
+  },
+  "AVJKDKWRVSSJPK-UHFFFAOYSA-N": {
+    "formula": "C10H13FN2",
+    "molecular_weight": 180.22,
+    "xlogp": 1.3,
+    "tpsa": 15.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 149.0,
+    "cid": 75260
+  },
+  "BCJXLSGKMNRRKO-UHFFFAOYSA-N": {
+    "formula": "C16H22FNO",
+    "molecular_weight": 263.35,
+    "xlogp": 4.1,
+    "tpsa": 20.3,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 280.0,
+    "cid": 132989300
+  },
+  "BHIZKPHLTVLXIV-UHFFFAOYSA-N": {
+    "formula": "C13H19NO",
+    "molecular_weight": 205.3,
+    "xlogp": 3.0,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 185.0,
+    "cid": 129844496
+  },
+  "BLTMVAIOAAGYAR-CEFSSPBYSA-N": {
+    "formula": "C21H26O7",
+    "molecular_weight": 390.4,
+    "xlogp": 1.9,
+    "tpsa": 103.0,
+    "hbd": 1,
+    "hba": 7,
+    "complexity": 690.0,
+    "cid": 11440685
+  },
+  "BNWJOHGLIBDBOB-UHFFFAOYSA-N": {
+    "formula": "C11H12O3",
+    "molecular_weight": 192.21,
+    "xlogp": 2.9,
+    "tpsa": 27.7,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 205.0,
+    "cid": 4276
+  },
+  "BQSJTQLCZDPROO-UHFFFAOYSA-N": {
+    "formula": "C16H16N2O3S",
+    "molecular_weight": 316.4,
+    "xlogp": 3.9,
+    "tpsa": 111.0,
+    "hbd": 1,
+    "hba": 6,
+    "complexity": 448.0,
+    "cid": 134018
+  },
+  "BRUQQQPBMZOVGD-XFKAJCMBSA-N": {
+    "formula": "C18H21NO4",
+    "molecular_weight": 315.4,
+    "xlogp": 1.2,
+    "tpsa": 59.0,
+    "hbd": 1,
+    "hba": 5,
+    "complexity": 553.0,
+    "cid": 5284603
+  },
+  "BTCSSZJGUNDROE-UHFFFAOYSA-N": {
+    "formula": "C4H9NO2",
+    "molecular_weight": 103.12,
+    "xlogp": -3.2,
+    "tpsa": 63.3,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 62.0,
+    "cid": 119
+  },
+  "BUCORZSTKDOEKQ-UHFFFAOYSA-N": {
+    "formula": "C16H14ClN3O",
+    "molecular_weight": 299.75,
+    "xlogp": 2.4,
+    "tpsa": 48.2,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 580.0,
+    "cid": 2712
+  },
+  "BUTCFAZTKZDYCN-UHFFFAOYSA-N": {
+    "formula": "C17H12BrClN4",
+    "molecular_weight": 387.7,
+    "xlogp": 2.5,
+    "tpsa": 43.1,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 474.0,
+    "cid": 1032830
+  },
+  "BYIVGHIYNFQIJX-NZLXMSDQSA-N": {
+    "formula": "C24H21NO3",
+    "molecular_weight": 375.5,
+    "xlogp": 4.7,
+    "tpsa": 59.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 562.0,
+    "cid": 53394458
+  },
+  "CFBVGSWSOJBYGC-ZYHUDNBSSA-N": {
+    "formula": "C12H14ClNO2",
+    "molecular_weight": 239.7,
+    "xlogp": 1.5,
+    "tpsa": 63.3,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 284.0,
+    "cid": 89504167
+  },
+  "CHBRHODLKOZEPZ-UHFFFAOYSA-N": {
+    "formula": "C16H15ClN2OS",
+    "molecular_weight": 318.8,
+    "xlogp": 3.5,
+    "tpsa": 60.9,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 442.0,
+    "cid": 2811
+  },
+  "CHIFCDOIPRCHCF-UHFFFAOYSA-N": {
+    "formula": "C15H10Cl2N2O",
+    "molecular_weight": 305.2,
+    "xlogp": 3.1,
+    "tpsa": 41.5,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 413.0,
+    "cid": 17925
+  },
+  "CIDMXLOVFPIHDS-UHFFFAOYSA-N": {
+    "formula": "C16H22N2O2",
+    "molecular_weight": 274.36,
+    "xlogp": 2.9,
+    "tpsa": 45.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 332.0,
+    "cid": 46783587
+  },
+  "CKPWHLGHHXSVJI-UHFFFAOYSA-N": {
+    "formula": "C11H16FN",
+    "molecular_weight": 181.25,
+    "xlogp": 2.7,
+    "tpsa": 12.0,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 138.0,
+    "cid": 57458869
+  },
+  "COVZYZSDYWQREU-UHFFFAOYSA-N": {
+    "formula": "C6H14O6S2",
+    "molecular_weight": 246.3,
+    "xlogp": -0.5,
+    "tpsa": 104.0,
+    "hbd": 0,
+    "hba": 6,
+    "complexity": 293.0,
+    "cid": 2478
+  },
+  "CXOXHMZGEKVPMT-UHFFFAOYSA-N": {
+    "formula": "C16H13ClN2O2",
+    "molecular_weight": 300.74,
+    "xlogp": 2.1,
+    "tpsa": 40.6,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 423.0,
+    "cid": 2789
+  },
+  "CYQFCXCEBYINGO-IAGOWNOFSA-N": {
+    "formula": "C21H30O2",
+    "molecular_weight": 314.5,
+    "xlogp": 7.0,
+    "tpsa": 29.5,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 439.0,
+    "cid": 16078
+  },
+  "DDGNOUVDFKXADP-UHFFFAOYSA-N": {
+    "formula": "C12H19NO3",
+    "molecular_weight": 225.28,
+    "xlogp": 1.6,
+    "tpsa": 53.7,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 187.0,
+    "cid": 31015
+  },
+  "DDNCQMVWWZOMLN-IRLDBZIGSA-N": {
+    "formula": "C22H26N2O2",
+    "molecular_weight": 350.5,
+    "xlogp": 4.1,
+    "tpsa": 34.5,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 617.0,
+    "cid": 443955
+  },
+  "DGQUHAZEXMTKBQ-UHFFFAOYSA-N": {
+    "formula": "C12H17NO",
+    "molecular_weight": 191.27,
+    "xlogp": 2.3,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 191.0,
+    "cid": 91696118
+  },
+  "FDQGNLOWMMVRQL-UHFFFAOYSA-N": {
+    "formula": "C10H12N2O3",
+    "molecular_weight": 208.21,
+    "xlogp": 1.0,
+    "tpsa": 75.3,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 315.0,
+    "cid": 5842
+  },
+  "FFHBJDQSGDNCIV-MFVUMRCOSA-N": {
+    "formula": "C50H68N14O10",
+    "molecular_weight": 1025.2,
+    "xlogp": 0.7,
+    "tpsa": 379.0,
+    "hbd": 13,
+    "hba": 12,
+    "complexity": 1950.0,
+    "cid": 9941379
+  },
+  "FJIKWRGCXUCUIG-UHFFFAOYSA-N": {
+    "formula": "C16H12Cl2N2O2",
+    "molecular_weight": 335.2,
+    "xlogp": 2.4,
+    "tpsa": 52.9,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 471.0,
+    "cid": 13314
+  },
+  "FNDCTJYFKOQGTL-UHFFFAOYSA-N": {
+    "formula": "C10H13NO3",
+    "molecular_weight": 195.21,
+    "xlogp": 1.7,
+    "tpsa": 50.7,
+    "hbd": 2,
+    "hba": 4,
+    "complexity": 188.0,
+    "cid": 98528
+  },
+  "FTQIVDGNGXPEKP-UHFFFAOYSA-N": {
+    "formula": "C16H23NO2",
+    "molecular_weight": 261.36,
+    "xlogp": 2.7,
+    "tpsa": 38.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 316.0,
+    "cid": 163192824
+  },
+  "FWTARAXQGJRQKN-INIZCTEOSA-N": {
+    "formula": "C19H28N4O2",
+    "molecular_weight": 344.5,
+    "xlogp": 3.6,
+    "tpsa": 90.0,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 475.0,
+    "cid": 121493587
+  },
+  "FXMWUTGUCAKGQL-UHFFFAOYSA-N": {
+    "formula": "C11H16BrNO2",
+    "molecular_weight": 274.15,
+    "xlogp": 2.6,
+    "tpsa": 44.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 191.0,
+    "cid": 62065
+  },
+  "GJSURZIOUXUGAL-UHFFFAOYSA-N": {
+    "formula": "C9H9Cl2N3",
+    "molecular_weight": 230.09,
+    "xlogp": 1.6,
+    "tpsa": 36.4,
+    "hbd": 2,
+    "hba": 1,
+    "complexity": 222.0,
+    "cid": 2803
+  },
+  "GOVNVPJYMDJYSR-UHFFFAOYSA-N": {
+    "formula": "C6H10O4",
+    "molecular_weight": 146.14,
+    "xlogp": 0.0,
+    "tpsa": 63.6,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 130.0,
+    "cid": 176865
+  },
+  "HCFDWZZGGLSKEP-UHFFFAOYSA-N": {
+    "formula": "C17H22N2O",
+    "molecular_weight": 270.37,
+    "xlogp": 2.5,
+    "tpsa": 25.4,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 276.0,
+    "cid": 3162
+  },
+  "HEPVRDHGUWFXJS-UHFFFAOYSA-N": {
+    "formula": "C12H17NO",
+    "molecular_weight": 191.27,
+    "xlogp": 2.5,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 173.0,
+    "cid": 20326296
+  },
+  "HGMITUYOCPPQLE-UHFFFAOYSA-N": {
+    "formula": "C21H23NO3",
+    "molecular_weight": 337.4,
+    "xlogp": 3.3,
+    "tpsa": 49.8,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 442.0,
+    "cid": 23056
+  },
+  "HLBBSWSJLPLPRU-UHFFFAOYSA-N": {
+    "formula": "C18H22ClNO2",
+    "molecular_weight": 319.8,
+    "xlogp": null,
+    "tpsa": 30.7,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 312.0,
+    "cid": 39988
+  },
+  "HOQAVGZLYRYHSO-HNNXBMFYSA-N": {
+    "formula": "C19H22N2O2S",
+    "molecular_weight": 342.5,
+    "xlogp": 3.8,
+    "tpsa": 78.3,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 527.0,
+    "cid": 66857735
+  },
+  "HPHUVLMMVZITSG-LURJTMIESA-N": {
+    "formula": "C8H14N2O2",
+    "molecular_weight": 170.21,
+    "xlogp": -0.3,
+    "tpsa": 63.4,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 203.0,
+    "cid": 5284583
+  },
+  "HPHUVLMMVZITSG-UHFFFAOYSA-N": {
+    "formula": "C8H14N2O2",
+    "molecular_weight": 170.21,
+    "xlogp": -0.3,
+    "tpsa": 63.4,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 203.0,
+    "cid": 59708
+  },
+  "HXFAZCCRNXARMH-UHFFFAOYSA-N": {
+    "formula": "C23H31ClN4O3",
+    "molecular_weight": 447.0,
+    "xlogp": null,
+    "tpsa": 76.1,
+    "hbd": 1,
+    "hba": 5,
+    "complexity": 517.0,
+    "cid": 156589000
+  },
+  "IBZRXTVDTGVBIS-UHFFFAOYSA-N": {
+    "formula": "C12H17NO",
+    "molecular_weight": 191.27,
+    "xlogp": 2.3,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 202.0,
+    "cid": 52988261
+  },
+  "IDLSBAANXISGEI-UHFFFAOYSA-N": {
+    "formula": "C14H19NO",
+    "molecular_weight": 217.31,
+    "xlogp": 2.3,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 245.0,
+    "cid": 132989542
+  },
+  "IEZDOKQWPWZVQF-UHFFFAOYSA-N": {
+    "formula": "C7H9NO2",
+    "molecular_weight": 139.15,
+    "xlogp": -0.3,
+    "tpsa": 37.4,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 180.0,
+    "cid": 71893
+  },
+  "IMWZZHHPURKASS-UHFFFAOYSA-N": {
+    "formula": "C12H15NO3",
+    "molecular_weight": 221.25,
+    "xlogp": 2.2,
+    "tpsa": 47.6,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 247.0,
+    "cid": 15459
+  },
+  "IUJDSEJGGMCXSG-UHFFFAOYSA-N": {
+    "formula": "C11H18N2O2S",
+    "molecular_weight": 242.34,
+    "xlogp": 2.8,
+    "tpsa": 59.5,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 341.0,
+    "cid": 1244
+  },
+  "JCQLEPDZFXGHHQ-OXQOHEQNSA-N": {
+    "formula": "C22H27N3O",
+    "molecular_weight": 349.5,
+    "xlogp": 3.6,
+    "tpsa": 39.3,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 582.0,
+    "cid": 15227511
+  },
+  "JCRIVQIOJSSCQD-UHFFFAOYSA-N": {
+    "formula": "C10H21N",
+    "molecular_weight": 155.28,
+    "xlogp": 3.5,
+    "tpsa": 12.0,
+    "hbd": 1,
+    "hba": 1,
+    "complexity": 95.0,
+    "cid": 7558
+  },
+  "JEYCTXHKTXCGPB-UHFFFAOYSA-N": {
+    "formula": "C16H14N2O",
+    "molecular_weight": 250.29,
+    "xlogp": 2.5,
+    "tpsa": 32.7,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 390.0,
+    "cid": 6292
+  },
+  "JFUNLJPTPCQLIR-PJQZNRQZSA-N": {
+    "formula": "C15H17Cl2NO2",
+    "molecular_weight": 314.2,
+    "xlogp": 3.4,
+    "tpsa": 38.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 379.0,
+    "cid": 127024
+  },
+  "JFXASAFVUQVGEW-SFHVURJKSA-N": {
+    "formula": "C20H27FN2O3",
+    "molecular_weight": 362.4,
+    "xlogp": 3.9,
+    "tpsa": 60.3,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 472.0,
+    "cid": 119058037
+  },
+  "JMBQKKAJIKAWKF-UHFFFAOYSA-N": {
+    "formula": "C13H15NO2",
+    "molecular_weight": 217.26,
+    "xlogp": 1.9,
+    "tpsa": 46.2,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 294.0,
+    "cid": 3487
+  },
+  "JRPRINGETIYVSV-LJISPDSOSA-N": {
+    "formula": "C17H20FNO4",
+    "molecular_weight": 321.34,
+    "xlogp": 2.4,
+    "tpsa": 55.8,
+    "hbd": 0,
+    "hba": 6,
+    "complexity": 464.0,
+    "cid": 126112
+  },
+  "JUKMAYKVHWKRKY-CHWSQXEVSA-N": {
+    "formula": "C14H17Cl2NO2",
+    "molecular_weight": 302.2,
+    "xlogp": 1.5,
+    "tpsa": 38.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 314.0,
+    "cid": 44296390
+  },
+  "JURKNVYFZMSNLP-UHFFFAOYSA-N": {
+    "formula": "C20H21N",
+    "molecular_weight": 275.4,
+    "xlogp": 5.2,
+    "tpsa": 3.2,
+    "hbd": 0,
+    "hba": 1,
+    "complexity": 365.0,
+    "cid": 2895
+  },
+  "KJONHKAYOJNZEC-UHFFFAOYSA-N": {
+    "formula": "C15H11N3O3",
+    "molecular_weight": 281.27,
+    "xlogp": 2.2,
+    "tpsa": 87.3,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 452.0,
+    "cid": 4506
+  },
+  "KQPKPCNLIDLUMF-UHFFFAOYSA-N": {
+    "formula": "C12H18N2O3",
+    "molecular_weight": 238.28,
+    "xlogp": 2.0,
+    "tpsa": 75.3,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 343.0,
+    "cid": 5193
+  },
+  "KVWDHTXUZHCGIO-UHFFFAOYSA-N": {
+    "formula": "C17H20N4S",
+    "molecular_weight": 312.4,
+    "xlogp": 2.9,
+    "tpsa": 59.1,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 432.0,
+    "cid": 135398745
+  },
+  "KYIJLDDXQWBNGX-UHFFFAOYSA-N": {
+    "formula": "C16H23NO",
+    "molecular_weight": 245.36,
+    "xlogp": 4.0,
+    "tpsa": 20.3,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 252.0,
+    "cid": 102107923
+  },
+  "LBXMQBTXOLBCCA-UHFFFAOYSA-N": {
+    "formula": "C13H19NO2",
+    "molecular_weight": 221.29,
+    "xlogp": 3.0,
+    "tpsa": 30.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 210.0,
+    "cid": 559375
+  },
+  "LELBFTMXCIIKKX-QVRQZEMUSA-N": {
+    "formula": "C23H30N2O4",
+    "molecular_weight": 398.5,
+    "xlogp": 3.4,
+    "tpsa": 63.8,
+    "hbd": 1,
+    "hba": 5,
+    "complexity": 624.0,
+    "cid": 3034396
+  },
+  "LFFIIZFINPPEMC-UHFFFAOYSA-N": {
+    "formula": "C20H19FINO",
+    "molecular_weight": 435.3,
+    "xlogp": 5.3,
+    "tpsa": 22.0,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 418.0,
+    "cid": 9889172
+  },
+  "LIJIZZZQTLRBBW-UHFFFAOYSA-N": {
+    "formula": "C16H22ClNO3",
+    "molecular_weight": 311.8,
+    "xlogp": null,
+    "tpsa": 47.6,
+    "hbd": 2,
+    "hba": 4,
+    "complexity": 341.0,
+    "cid": 165361991
+  },
+  "LLPOLZWFYMWNKH-CMKMFDCUSA-N": {
+    "formula": "C18H21NO3",
+    "molecular_weight": 299.4,
+    "xlogp": 2.2,
+    "tpsa": 38.8,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 509.0,
+    "cid": 5284569
+  },
+  "LXIXAVCVBZBXIY-UHFFFAOYSA-N": {
+    "formula": "C21H34O2",
+    "molecular_weight": 318.5,
+    "xlogp": 7.5,
+    "tpsa": 40.5,
+    "hbd": 2,
+    "hba": 2,
+    "complexity": 329.0,
+    "cid": 616324
+  },
+  "MFOCDFTXLCYLKU-CMPLNLGQSA-N": {
+    "formula": "C12H17NO",
+    "molecular_weight": 191.27,
+    "xlogp": 1.9,
+    "tpsa": 12.5,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 177.0,
+    "cid": 30487
+  },
+  "NGHTXZCKLWZPGK-UHFFFAOYSA-N": {
+    "formula": "C14H18N2O2",
+    "molecular_weight": 246.3,
+    "xlogp": 1.4,
+    "tpsa": 49.4,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 320.0,
+    "cid": 71157
+  },
+  "NIJJYAXOARWZEE-UHFFFAOYSA-N": {
+    "formula": "C8H16O2",
+    "molecular_weight": 144.21,
+    "xlogp": 2.8,
+    "tpsa": 37.3,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 93.0,
+    "cid": 3121
+  },
+  "NMCHYWGKBADVMK-UHFFFAOYSA-N": {
+    "formula": "C18H23N5O2",
+    "molecular_weight": 341.4,
+    "xlogp": 1.4,
+    "tpsa": 70.5,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 494.0,
+    "cid": 19527
+  },
+  "NTJQREUGJKIARY-UHFFFAOYSA-N": {
+    "formula": "C12H19NO2",
+    "molecular_weight": 209.28,
+    "xlogp": 2.2,
+    "tpsa": 44.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 186.0,
+    "cid": 85875
+  },
+  "NWNCIXFIIDVRKE-UHFFFAOYSA-N": {
+    "formula": "C12H17NO",
+    "molecular_weight": 191.27,
+    "xlogp": 1.7,
+    "tpsa": 21.3,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 175.0,
+    "cid": 43169333
+  },
+  "NYISTOZKVCMVEL-UHFFFAOYSA-N": {
+    "formula": "C22H27FN2O2",
+    "molecular_weight": 370.5,
+    "xlogp": 3.6,
+    "tpsa": 32.8,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 448.0,
+    "cid": 60575
+  },
+  "OBSYBRPAKCASQB-AGQYDFLVSA-N": {
+    "formula": "C23H28O8",
+    "molecular_weight": 432.5,
+    "xlogp": 2.5,
+    "tpsa": 109.0,
+    "hbd": 0,
+    "hba": 8,
+    "complexity": 792.0,
+    "cid": 128563
+  },
+  "OLVLMDVPMCIBQW-UHFFFAOYSA-N": {
+    "formula": "C15H19NO3",
+    "molecular_weight": 261.32,
+    "xlogp": 2.9,
+    "tpsa": 38.8,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 327.0,
+    "cid": 71300672
+  },
+  "OOJXMFNDUXHDOV-UHFFFAOYSA-N": {
+    "formula": "C10H12BrNO",
+    "molecular_weight": 242.11,
+    "xlogp": 2.3,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 176.0,
+    "cid": 10421832
+  },
+  "ORADFQZOLNHWRQ-UHFFFAOYSA-N": {
+    "formula": "C11H15NO3",
+    "molecular_weight": 209.24,
+    "xlogp": 2.1,
+    "tpsa": 41.9,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 212.0,
+    "cid": 44350092
+  },
+  "OROGSEYTTFOCAN-DNJOTXNNSA-N": {
+    "formula": "C18H21NO3",
+    "molecular_weight": 299.4,
+    "xlogp": 1.1,
+    "tpsa": 41.9,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 509.0,
+    "cid": 5284371
+  },
+  "PCLITLDOTJTVDJ-UHFFFAOYSA-N": {
+    "formula": "C6H8ClNS",
+    "molecular_weight": 161.65,
+    "xlogp": 2.1,
+    "tpsa": 41.1,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 89.0,
+    "cid": 10783
+  },
+  "PRGXFAWAMOFULD-UHFFFAOYSA-N": {
+    "formula": "C11H15NO",
+    "molecular_weight": 177.24,
+    "xlogp": 2.0,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 179.0,
+    "cid": 56603536
+  },
+  "PZTJXZKNTPCPJL-UHFFFAOYSA-N": {
+    "formula": "C11H15NO",
+    "molecular_weight": 177.24,
+    "xlogp": 1.7,
+    "tpsa": 35.3,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 171.0,
+    "cid": 192601
+  },
+  "QARQPIWTMBRJFX-UHFFFAOYSA-N": {
+    "formula": "C15H14O3S",
+    "molecular_weight": 274.3,
+    "xlogp": 2.4,
+    "tpsa": 73.6,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 299.0,
+    "cid": 3085267
+  },
+  "QLENKWFQUHHBKZ-UHFFFAOYSA-N": {
+    "formula": "C13H20FNO2",
+    "molecular_weight": 241.3,
+    "xlogp": 2.6,
+    "tpsa": 44.5,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 216.0,
+    "cid": 14201982
+  },
+  "QMQBBUPJKANITL-MYXGOWFTSA-N": {
+    "formula": "C22H30ClNO2",
+    "molecular_weight": 375.9,
+    "xlogp": null,
+    "tpsa": 29.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 397.0,
+    "cid": 15424
+  },
+  "QNMGHBMGNRQPNL-UHFFFAOYSA-N": {
+    "formula": "C16H19NO2",
+    "molecular_weight": 257.33,
+    "xlogp": 3.8,
+    "tpsa": 21.7,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 213.0,
+    "cid": 36109
+  },
+  "QYPPJABKJHAVHS-UHFFFAOYSA-N": {
+    "formula": "C5H14N4",
+    "molecular_weight": 130.19,
+    "xlogp": -1.5,
+    "tpsa": 90.4,
+    "hbd": 3,
+    "hba": 2,
+    "complexity": 85.0,
+    "cid": 199
+  },
+  "REOZWEGFPHTFEI-JKSUJKDBSA-N": {
+    "formula": "C19H26O2",
+    "molecular_weight": 286.4,
+    "xlogp": 5.4,
+    "tpsa": 40.5,
+    "hbd": 2,
+    "hba": 2,
+    "complexity": 386.0,
+    "cid": 11601669
+  },
+  "RNBCGEIZCHBTGL-UHFFFAOYSA-N": {
+    "formula": "C11H14ClNO",
+    "molecular_weight": 211.69,
+    "xlogp": 2.6,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 188.0,
+    "cid": 31004
+  },
+  "RONZAEMNMFQXRA-UHFFFAOYSA-N": {
+    "formula": "C17H19N3",
+    "molecular_weight": 265.35,
+    "xlogp": 3.3,
+    "tpsa": 19.4,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 345.0,
+    "cid": 4205
+  },
+  "RQHKZUBCUZVZEF-UHFFFAOYSA-N": {
+    "formula": "C19H27NO3",
+    "molecular_weight": 317.4,
+    "xlogp": 3.3,
+    "tpsa": 38.8,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 367.0,
+    "cid": 126402
+  },
+  "RTZKZFJDLAIYFH-UHFFFAOYSA-N": {
+    "formula": "C4H10O",
+    "molecular_weight": 74.12,
+    "xlogp": 0.9,
+    "tpsa": 9.2,
+    "hbd": 0,
+    "hba": 1,
+    "complexity": 11.0,
+    "cid": 3283
+  },
+  "RUZIUYOSRDWYQF-HNNXBMFYSA-N": {
+    "formula": "C21H25NO4",
+    "molecular_weight": 355.4,
+    "xlogp": 3.4,
+    "tpsa": 40.2,
+    "hbd": 0,
+    "hba": 5,
+    "complexity": 489.0,
+    "cid": 16754
+  },
+  "SCUUYKMQDUDNBP-UHFFFAOYSA-N": {
+    "formula": "C12H17NO3",
+    "molecular_weight": 223.27,
+    "xlogp": 1.5,
+    "tpsa": 50.7,
+    "hbd": 2,
+    "hba": 4,
+    "complexity": 212.0,
+    "cid": 21645837
+  },
+  "SEQDDYPDSLOBDC-UHFFFAOYSA-N": {
+    "formula": "C16H13ClN2O2",
+    "molecular_weight": 300.74,
+    "xlogp": 2.2,
+    "tpsa": 52.9,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 434.0,
+    "cid": 5391
+  },
+  "SFNKTTXBZXVGOH-UHFFFAOYSA-N": {
+    "formula": "C21H27N3O",
+    "molecular_weight": 337.5,
+    "xlogp": 4.1,
+    "tpsa": 30.3,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 379.0,
+    "cid": 26412
+  },
+  "SIDLZWOQUZRBRU-UHFFFAOYSA-N": {
+    "formula": "C10H17NO2",
+    "molecular_weight": 183.25,
+    "xlogp": 0.8,
+    "tpsa": 46.2,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 231.0,
+    "cid": 4162
+  },
+  "SKEOVGLOOAJSTG-UHFFFAOYSA-N": {
+    "formula": "C21H27ClN2O8S2",
+    "molecular_weight": 535.0,
+    "xlogp": null,
+    "tpsa": 178.0,
+    "hbd": 4,
+    "hba": 10,
+    "complexity": 735.0,
+    "cid": 68431515
+  },
+  "SUVMJBTUFCVSAD-UHFFFAOYSA-N": {
+    "formula": "C6H11NOS2",
+    "molecular_weight": 177.3,
+    "xlogp": 1.4,
+    "tpsa": 80.7,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 152.0,
+    "cid": 5350
+  },
+  "SUXGNJVVBGJEFB-UHFFFAOYSA-N": {
+    "formula": "C18H22BrNO3",
+    "molecular_weight": 380.3,
+    "xlogp": 3.9,
+    "tpsa": 39.7,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 331.0,
+    "cid": 9977044
+  },
+  "SXWZQUCTTOBHJT-UHFFFAOYSA-N": {
+    "formula": "C10H13N",
+    "molecular_weight": 147.22,
+    "xlogp": 1.9,
+    "tpsa": 12.0,
+    "hbd": 1,
+    "hba": 1,
+    "complexity": 119.0,
+    "cid": 15023225
+  },
+  "SYHGEUNFJIGTRX-UHFFFAOYSA-N": {
+    "formula": "C16H21NO3",
+    "molecular_weight": 275.34,
+    "xlogp": 3.3,
+    "tpsa": 38.8,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 341.0,
+    "cid": 20111961
+  },
+  "TVSIMAWGATVNGK-UHFFFAOYSA-N": {
+    "formula": "C12H19NO3",
+    "molecular_weight": 225.28,
+    "xlogp": 1.7,
+    "tpsa": 53.7,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 201.0,
+    "cid": 31014
+  },
+  "TWYFGYXQSYOKLK-CYUSMAIQSA-N": {
+    "formula": "C17H19N3O6",
+    "molecular_weight": 361.3,
+    "xlogp": null,
+    "tpsa": 153.0,
+    "hbd": 5,
+    "hba": 9,
+    "complexity": 388.0,
+    "cid": 6918678
+  },
+  "UBZPNQRBUOBBLN-PWRODBHTSA-N": {
+    "formula": "C25H29N3O8",
+    "molecular_weight": 499.5,
+    "xlogp": 2.2,
+    "tpsa": 149.0,
+    "hbd": 2,
+    "hba": 8,
+    "complexity": 767.0,
+    "cid": 134823895
+  },
+  "UCHDWCPVSPXUMX-TZIWLTJVSA-N": {
+    "formula": "C35H36ClNO3S",
+    "molecular_weight": 586.2,
+    "xlogp": 7.7,
+    "tpsa": 95.7,
+    "hbd": 2,
+    "hba": 5,
+    "complexity": 891.0,
+    "cid": 5281040
+  },
+  "UHVGPEBZWPKWNT-UHFFFAOYSA-N": {
+    "formula": "C10H12ClNO",
+    "molecular_weight": 197.66,
+    "xlogp": 2.1,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 184.0,
+    "cid": 112693018
+  },
+  "UJOZERYNSXXQRD-UHFFFAOYSA-N": {
+    "formula": "C14H16N2O",
+    "molecular_weight": 228.29,
+    "xlogp": 1.1,
+    "tpsa": 32.7,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 478.0,
+    "cid": 155884859
+  },
+  "UMSGKTJDUHERQW-UHFFFAOYSA-N": {
+    "formula": "C15H10BrClN4S",
+    "molecular_weight": 393.7,
+    "xlogp": 2.8,
+    "tpsa": 71.3,
+    "hbd": 0,
+    "hba": 4,
+    "complexity": 465.0,
+    "cid": 2451
+  },
+  "UOZWZANRCOALQL-UHFFFAOYSA-N": {
+    "formula": "C16H23NO",
+    "molecular_weight": 245.36,
+    "xlogp": 3.9,
+    "tpsa": 20.3,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 262.0,
+    "cid": 59809191
+  },
+  "UQCNKQCJZOAFTQ-ISWURRPUSA-N": {
+    "formula": "C17H19NO4",
+    "molecular_weight": 301.34,
+    "xlogp": 0.8,
+    "tpsa": 70.0,
+    "hbd": 2,
+    "hba": 5,
+    "complexity": 539.0,
+    "cid": 5284604
+  },
+  "USSIQXCVUWKGNF-UHFFFAOYSA-N": {
+    "formula": "C21H27NO",
+    "molecular_weight": 309.4,
+    "xlogp": 3.9,
+    "tpsa": 20.3,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 346.0,
+    "cid": 4095
+  },
+  "UVKZSORBKUEBAZ-UHFFFAOYSA-N": {
+    "formula": "C18H22N2",
+    "molecular_weight": 266.4,
+    "xlogp": 3.6,
+    "tpsa": 6.5,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 253.0,
+    "cid": 6726
+  },
+  "UYXAWHWODHRRMR-UHFFFAOYSA-N": {
+    "formula": "C12H16N2O3",
+    "molecular_weight": 236.27,
+    "xlogp": 1.5,
+    "tpsa": 66.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 427.0,
+    "cid": 3608
+  },
+  "VERDHJIMZYXGIW-UHFFFAOYSA-N": {
+    "formula": "C14H19NO3",
+    "molecular_weight": 249.3,
+    "xlogp": 2.7,
+    "tpsa": 47.6,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 282.0,
+    "cid": 57359308
+  },
+  "VHYVKJAQSJCYCK-UHFFFAOYSA-N": {
+    "formula": "C11H14FNO",
+    "molecular_weight": 195.23,
+    "xlogp": 1.5,
+    "tpsa": 21.3,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 188.0,
+    "cid": 54673723
+  },
+  "VIROVYVQCGLCII-UHFFFAOYSA-N": {
+    "formula": "C11H18N2O3",
+    "molecular_weight": 226.27,
+    "xlogp": 2.1,
+    "tpsa": 75.3,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 303.0,
+    "cid": 2164
+  },
+  "VLEUZFDZJKSGMX-ONEGZZNKSA-N": {
+    "formula": "C16H16O3",
+    "molecular_weight": 256.3,
+    "xlogp": 3.8,
+    "tpsa": 38.7,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 270.0,
+    "cid": 5281727
+  },
+  "VOKSWYLNZZRQPF-GDIGMMSISA-N": {
+    "formula": "C19H27NO",
+    "molecular_weight": 285.4,
+    "xlogp": 3.3,
+    "tpsa": 23.5,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 414.0,
+    "cid": 441278
+  },
+  "VVEQXDHSGNBFLZ-UHFFFAOYSA-N": {
+    "formula": "C16H24N2O",
+    "molecular_weight": 260.37,
+    "xlogp": 2.7,
+    "tpsa": 28.3,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 269.0,
+    "cid": 53485366
+  },
+  "WDEFBBTXULIOBB-WBVHZDCISA-N": {
+    "formula": "C17H23NO2",
+    "molecular_weight": 273.37,
+    "xlogp": 3.1,
+    "tpsa": 29.5,
+    "hbd": 0,
+    "hba": 3,
+    "complexity": 358.0,
+    "cid": 30131
+  },
+  "WEXRUCMBJFQVBZ-UHFFFAOYSA-N": {
+    "formula": "C11H18N2O3",
+    "molecular_weight": 226.27,
+    "xlogp": 2.1,
+    "tpsa": 75.3,
+    "hbd": 2,
+    "hba": 3,
+    "complexity": 305.0,
+    "cid": 4737
+  },
+  "WJSIUCDMWSDDCE-UHFFFAOYSA-K": {
+    "formula": "C6H5Li3O7",
+    "molecular_weight": 210.0,
+    "xlogp": null,
+    "tpsa": 141.0,
+    "hbd": 1,
+    "hba": 7,
+    "complexity": 211.0,
+    "cid": 13520
+  },
+  "WVLOADHCBXTIJK-YNHQPCIGSA-N": {
+    "formula": "C17H19NO3",
+    "molecular_weight": 285.34,
+    "xlogp": 1.8,
+    "tpsa": 49.8,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 494.0,
+    "cid": 5284570
+  },
+  "WVOLTBSCXRRQFR-DLBZAZTESA-N": {
+    "formula": "C22H30O4",
+    "molecular_weight": 358.5,
+    "xlogp": 6.6,
+    "tpsa": 77.8,
+    "hbd": 3,
+    "hba": 4,
+    "complexity": 538.0,
+    "cid": 160570
+  },
+  "XAXMYHMKTCNRRZ-UHFFFAOYSA-N": {
+    "formula": "C18H13ClFN3O2",
+    "molecular_weight": 357.8,
+    "xlogp": 2.0,
+    "tpsa": 76.7,
+    "hbd": 1,
+    "hba": 5,
+    "complexity": 590.0,
+    "cid": 3033621
+  },
+  "XEEQGYMUWCZPDN-UHFFFAOYSA-N": {
+    "formula": "C17H16F6N2O",
+    "molecular_weight": 378.31,
+    "xlogp": 3.6,
+    "tpsa": 45.2,
+    "hbd": 2,
+    "hba": 9,
+    "complexity": 483.0,
+    "cid": 4046
+  },
+  "XISBAJBPDVRSPG-CHWSQXEVSA-N": {
+    "formula": "C14H18FNO2",
+    "molecular_weight": 251.3,
+    "xlogp": 0.3,
+    "tpsa": 38.3,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 277.0,
+    "cid": 52944002
+  },
+  "XPMMBFIMXKSQIQ-UHFFFAOYSA-N": {
+    "formula": "C13H16BrNO",
+    "molecular_weight": 282.18,
+    "xlogp": 2.2,
+    "tpsa": 29.1,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 269.0,
+    "cid": 71588007
+  },
+  "XTXXOHPHLNROBN-UHFFFAOYSA-N": {
+    "formula": "C6H8N2O2",
+    "molecular_weight": 140.14,
+    "xlogp": -0.9,
+    "tpsa": 49.4,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 202.0,
+    "cid": 65955
+  },
+  "XUGPCRRUMVWELT-UHFFFAOYSA-N": {
+    "formula": "C13H21NO2",
+    "molecular_weight": 223.31,
+    "xlogp": 2.3,
+    "tpsa": 44.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 196.0,
+    "cid": 57474311
+  },
+  "XXLWNLKEOWWHDC-UHFFFAOYSA-N": {
+    "formula": "C10H14ClN",
+    "molecular_weight": 183.68,
+    "xlogp": 2.7,
+    "tpsa": 12.0,
+    "hbd": 1,
+    "hba": 1,
+    "complexity": 119.0,
+    "cid": 3128
+  },
+  "YAPQBXQYLJRXSA-UHFFFAOYSA-N": {
+    "formula": "C7H8N4O2",
+    "molecular_weight": 180.16,
+    "xlogp": -0.8,
+    "tpsa": 67.2,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 267.0,
+    "cid": 5429
+  },
+  "YCIHPQHVWDULOY-FMZCEJRJSA-N": {
+    "formula": "C22H25ClN2O8",
+    "molecular_weight": 480.9,
+    "xlogp": null,
+    "tpsa": 182.0,
+    "hbd": 7,
+    "hba": 9,
+    "complexity": 971.0,
+    "cid": 54704426
+  },
+  "YLXBZBPHTNJZQE-UHFFFAOYSA-N": {
+    "formula": "C33H45N5O5",
+    "molecular_weight": 591.7,
+    "xlogp": 3.5,
+    "tpsa": 118.0,
+    "hbd": 3,
+    "hba": 6,
+    "complexity": 1180.0,
+    "cid": 592735
+  },
+  "YWPHCCPCQOJSGZ-UHFFFAOYSA-N": {
+    "formula": "C13H19NO3",
+    "molecular_weight": 237.29,
+    "xlogp": 1.5,
+    "tpsa": 39.7,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 213.0,
+    "cid": 5666
+  },
+  "YZDFADGMVOSVIX-UHFFFAOYSA-N": {
+    "formula": "C12H14BrNO2",
+    "molecular_weight": 284.15,
+    "xlogp": 1.9,
+    "tpsa": 44.5,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 263.0,
+    "cid": 10265873
+  },
+  "ZAFYATHCZYHLPB-UHFFFAOYSA-N": {
+    "formula": "C19H21N3O",
+    "molecular_weight": 307.4,
+    "xlogp": 2.5,
+    "tpsa": 37.6,
+    "hbd": 0,
+    "hba": 2,
+    "complexity": 417.0,
+    "cid": 5732
+  },
+  "ZEHYJZXQEQOSON-UHFFFAOYSA-N": {
+    "formula": "C7H9ClO",
+    "molecular_weight": 144.6,
+    "xlogp": 1.5,
+    "tpsa": 20.2,
+    "hbd": 1,
+    "hba": 1,
+    "complexity": 154.0,
+    "cid": 3281
+  },
+  "ZESNOWZYHYRSRY-UHFFFAOYSA-N": {
+    "formula": "C15H15NO3S",
+    "molecular_weight": 289.4,
+    "xlogp": 1.7,
+    "tpsa": 85.6,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 397.0,
+    "cid": 6460146
+  },
+  "ZIMGGGWCDYVHOY-UHFFFAOYSA-N": {
+    "formula": "C9H15N5O",
+    "molecular_weight": 209.25,
+    "xlogp": 1.2,
+    "tpsa": 88.9,
+    "hbd": 3,
+    "hba": 3,
+    "complexity": 329.0,
+    "cid": 4201
+  },
+  "ZIXNZOBDFKSQTC-UHFFFAOYSA-N": {
+    "formula": "C17H14Cl2N2O2",
+    "molecular_weight": 349.2,
+    "xlogp": 3.2,
+    "tpsa": 41.6,
+    "hbd": 1,
+    "hba": 3,
+    "complexity": 478.0,
+    "cid": 2816
+  },
+  "ZPXSCAKFGYXMGA-UHFFFAOYSA-N": {
+    "formula": "C16H13ClN2O",
+    "molecular_weight": 284.74,
+    "xlogp": 2.2,
+    "tpsa": 35.8,
+    "hbd": 1,
+    "hba": 2,
+    "complexity": 419.0,
+    "cid": 4020
+  },
+  "ZQDWXGKKHFNSQK-UHFFFAOYSA-N": {
+    "formula": "C21H27ClN2O2",
+    "molecular_weight": 374.9,
+    "xlogp": 3.7,
+    "tpsa": 35.9,
+    "hbd": 1,
+    "hba": 4,
+    "complexity": 376.0,
+    "cid": 3658
+  },
+  "ZRJBHWIHUMBLCN-YQEJDHNASA-N": {
+    "formula": "C15H18N2O",
+    "molecular_weight": 242.32,
+    "xlogp": 0.0,
+    "tpsa": 55.1,
+    "hbd": 2,
+    "hba": 2,
+    "complexity": 551.0,
+    "cid": 854026
+  }
+}

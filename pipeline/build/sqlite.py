@@ -974,6 +974,7 @@ def dc_slugify(name: str) -> str:
 
 
 PUBCHEM_PROPERTIES = REPO / "data/sources/pubchem-properties.json"
+PUBCHEM_PROPERTIES_BY_INCHIKEY = REPO / "data/sources/pubchem-properties-by-inchikey.json"
 PUBCHEM_CIDS = REPO / "data/sources/pubchem-cids.json"
 IDENTIFIER_RECONCILE = REPO / "data/sources/identifier-corrections.json"
 IDENTIFIER_RECONCILE_MANUAL = REPO / "data/sources/identifier-corrections-manual.json"
@@ -1260,6 +1261,63 @@ def apply_pubchem_freebase(con, props: dict) -> dict:
         "unverified_no_formula": unverified_no_formula,
         "names": sorted(trusted + desalted),
     }
+
+
+def apply_pubchem_computed(con, props: dict, ik_props: dict | None = None) -> dict:
+    """Set computed physicochemical descriptors (``logp``/``tpsa``/``hba``/``hbd``)
+    from PubChem.
+
+    PubChem computes XLogP3/TPSA/H-bond counts by a single consistent method, so
+    these supersede NPS-DataHub's mixed-provenance values wherever the structure
+    is trusted. Two trusted paths:
+
+    1. ``props`` keyed by ``pubchem_cid`` — applied where a CID is also
+       InChIKey-verified (same gate as ``apply_pubchem_freebase``). An unverified
+       CID is skipped: if the structure can't be trusted, neither can a descriptor
+       computed from it — NPS's own value (from ``ingest_nps``) stands.
+    2. ``ik_props`` keyed by ``inchikey`` — for substances with an InChIKey but no
+       CID (codeine, many NPS analogues). The InChIKey *is* the structure, so
+       descriptors fetched by it are unambiguously the right molecule.
+
+    NPS retains the columns PubChem doesn't supply (``logd``/``pka``/LD50/melting/
+    boiling point). All values are predicted/computed, never measured — forensic."""
+    cur = con.cursor()
+    # (column, prop-key) — only descriptors PubChem computes consistently.
+    fields = [("logp", "xlogp"), ("tpsa", "tpsa"), ("hba", "hba"), ("hbd", "hbd")]
+    applied = {col: 0 for col, _ in fields}
+
+    def write(sid: int, prop: dict) -> None:
+        sets, vals = [], []
+        for col, key in fields:
+            v = prop.get(key)
+            if v is None:
+                continue
+            sets.append(f"{col} = ?")
+            vals.append(v)
+            applied[col] += 1
+        if not sets:
+            return
+        vals.append(sid)
+        cur.execute(f"UPDATE substances SET {', '.join(sets)} WHERE id = ?", vals)
+
+    for sid, cid in cur.execute(
+        "SELECT id, pubchem_cid FROM substances "
+        "WHERE pubchem_cid IS NOT NULL AND inchikey IS NOT NULL"
+    ).fetchall():
+        prop = props.get(str(cid))
+        if prop:
+            write(sid, prop)
+
+    if ik_props:
+        for sid, ik in cur.execute(
+            "SELECT id, inchikey FROM substances WHERE inchikey IS NOT NULL AND pubchem_cid IS NULL"
+        ).fetchall():
+            prop = ik_props.get(ik)
+            if prop:
+                write(sid, prop)
+
+    con.commit()
+    return applied
 
 
 def normalise(s: str) -> str:
@@ -2108,6 +2166,30 @@ def to_int(v) -> int | None:
             return int(float(v))
         except (TypeError, ValueError):
             return None
+
+
+# "Oral 80-90%", "Oral: 84%.", "Oral 70% +/- 24%.", and pipe-joined multi-route
+# strings ("Oral 85-90% | Insufflated 76-80%"). Pull (route, pct) per segment:
+# pct is the first %-value or a range midpoint; segments with no % (e.g. "Oral
+# [variable - first-pass]") yield no row. The raw segment is kept as the note.
+_BIOAVAIL_RE = re.compile(
+    r"^\s*([A-Za-z/ ]+?)\s*:?\s*\[?\s*(\d+(?:\.\d+)?)\s*(?:[-–]\s*(\d+(?:\.\d+)?))?\s*%"
+)
+
+
+def _parse_bioavailability(text: str | None) -> list[tuple[str, float, str]]:
+    if not text:
+        return []
+    out: list[tuple[str, float, str]] = []
+    for seg in text.split("|"):
+        seg = seg.strip()
+        m = _BIOAVAIL_RE.match(seg)
+        if not m:
+            continue
+        lo = float(m.group(2))
+        pct = round((lo + float(m.group(3))) / 2.0, 1) if m.group(3) else lo
+        out.append((m.group(1).strip(), pct, seg.rstrip(".")))
+    return out
 
 
 def get(d: dict | None, *keys, default=None):
@@ -4749,8 +4831,10 @@ class Build:
     _DIAZ_RE = re.compile(r"(\d+(?:\.\d+)?)\s*mg\b.*?(\d+(?:\.\d+)?)\s*mg", re.IGNORECASE)
 
     def ingest_benzos_cited(self, path: Path) -> None:
-        """Enrichment-only (0 novel). Attaches cross-benzo diazepam-equivalency
-        to existing benzodiazepine records — data Piru has nowhere else."""
+        """Enrichment-only (0 novel). Attaches cross-benzo diazepam-equivalency,
+        plus the curated prose fields (discontinuation warning, summary, oral
+        bioavailability, tolerance note), to existing benzodiazepine records —
+        data Piru has nowhere else."""
         if not path.exists():
             return
         slug = "benzos-cited"
@@ -4763,32 +4847,53 @@ class Build:
             name_to_sid.setdefault(row[1], row[0])
         for rec in json.loads(path.read_text()):
             name = rec.get("name")
-            prose = rec.get("x_dose_to_diazepam")
-            if not name or not prose:
+            if not name:
                 continue
             candidates = [normalise(name)] + [normalise(a) for a in (rec.get("aliases") or [])]
             sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
             if sid is None:
                 continue
-            dose_mg = equiv_mg = None
-            m = self._DIAZ_RE.search(prose)
-            if m:
-                dose_mg = float(m.group(1))
-                equiv_mg = float(m.group(2))
-            self.add_diazepam_equivalent(
-                sid,
-                slug,
-                dose_mg=dose_mg,
-                equivalent_diazepam_mg=equiv_mg,
-                display_text=prose.strip(),
-            )
+            prose = rec.get("x_dose_to_diazepam")
+            if prose:
+                dose_mg = equiv_mg = None
+                m = self._DIAZ_RE.search(prose)
+                if m:
+                    dose_mg = float(m.group(1))
+                    equiv_mg = float(m.group(2))
+                self.add_diazepam_equivalent(
+                    sid,
+                    slug,
+                    dose_mg=dose_mg,
+                    equivalent_diazepam_mg=equiv_mg,
+                    display_text=prose.strip(),
+                )
+            # x_summary → a plain description; x_avoid → a contraindication
+            # (discontinuation/combination warning, not a boxed warning);
+            # x_tolerance → the tolerance note; x_bioavailability → pk_routes
+            # rows (one per route segment, with a numeric % where parseable).
+            self.add_description(sid, slug, rec.get("x_summary") or "")
+            if rec.get("x_avoid"):
+                self.add_contraindication(sid, slug, rec["x_avoid"])
+            if rec.get("x_tolerance"):
+                self.add_tolerance(sid, slug, {"notes": rec["x_tolerance"]})
+            for route, pct, note in _parse_bioavailability(rec.get("x_bioavailability")):
+                self.add_pk_route(
+                    sid, slug, {"route": route, "bioavailability_pct": pct, "notes": note}
+                )
 
     def ingest_nps(self, path: Path) -> None:
-        """IDENTIFIER-ONLY backfill. Matches nps records to EXISTING Piru
-        substances by normalised name/alias and donates chemical identifiers
-        (CAS/InChIKey/SMILES/formula/MW) via COALESCE — never overwrites an
-        existing value, never mints a new substance (avoids catalog pollution
-        from ~5000 forensic one-off names)."""
+        """IDENTIFIER + PHYSICOCHEMICAL backfill. Matches nps records to EXISTING
+        Piru substances by normalised name/alias and donates chemical identifiers
+        (CAS/InChIKey/SMILES/formula/MW) and forensic physicochemical properties
+        (logP/logD/pKa/TPSA/HBA/HBD, rodent LD50, melting/boiling point) via
+        COALESCE — never overwrites an existing value, never mints a new
+        substance (avoids catalog pollution from ~5000 forensic one-off names).
+
+        These physicochemical values are predicted/forensic (logP is typically a
+        computed estimate; LD50 is rodent, order-of-magnitude), not clinical —
+        their provenance is the NPS-DataHub source attached to the substance. For
+        InChIKey-verified CIDs, ``apply_pubchem_computed`` later supersedes
+        logP/TPSA/HBA/HBD with PubChem's consistently-computed values."""
         if not path.exists():
             return
         # name/alias → sid index over what's already in the DB.
@@ -4796,6 +4901,7 @@ class Build:
         for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
             name_to_sid.setdefault(row[1], row[0])
         matched = 0
+        chem = 0
         for rec in json.loads(path.read_text()):
             candidates = [normalise(rec.get("name") or "")]
             candidates += [normalise(a) for a in (rec.get("aliases") or [])]
@@ -4805,7 +4911,13 @@ class Build:
             self.cur.execute(
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
                 "smiles = COALESCE(smiles, ?), iupac_name = COALESCE(iupac_name, ?), "
-                "formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?) WHERE id = ?",
+                "formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?), "
+                "logp = COALESCE(logp, ?), logd = COALESCE(logd, ?), pka = COALESCE(pka, ?), "
+                "tpsa = COALESCE(tpsa, ?), hba = COALESCE(hba, ?), hbd = COALESCE(hbd, ?), "
+                "ld50_oral_mg_per_kg = COALESCE(ld50_oral_mg_per_kg, ?), "
+                "ld50_dermal_mg_per_kg = COALESCE(ld50_dermal_mg_per_kg, ?), "
+                "melting_point_c = COALESCE(melting_point_c, ?), "
+                "boiling_point_c = COALESCE(boiling_point_c, ?) WHERE id = ?",
                 (
                     rec.get("x_inchikey") or None,
                     rec.get("x_cas") or None,
@@ -4813,11 +4925,33 @@ class Build:
                     rec.get("x_iupac") or None,
                     rec.get("x_chemical_formula") or None,
                     to_float(rec.get("x_mw")),
+                    to_float(rec.get("x_logp")),
+                    to_float(rec.get("x_logd")),
+                    to_float(rec.get("x_pka")),
+                    to_float(rec.get("x_tpsa")),
+                    to_int(rec.get("x_hba")),
+                    to_int(rec.get("x_hbd")),
+                    to_float(rec.get("x_ld50_oral")),
+                    to_float(rec.get("x_ld50_dermal")),
+                    to_float(rec.get("x_melting_point_c")),
+                    to_float(rec.get("x_boiling_point_c")),
                     sid,
                 ),
             )
             matched += 1
+            if any(
+                rec.get(k) is not None
+                for k in (
+                    "x_logp",
+                    "x_ld50_oral",
+                    "x_ld50_dermal",
+                    "x_melting_point_c",
+                    "x_boiling_point_c",
+                )
+            ):
+                chem += 1
         self.stats["nps_identifier_matches"] = matched
+        self.stats["nps_physicochem_matches"] = chem
 
     def _substance_tables(self) -> list[str]:
         """Every table (besides ``substances``) that carries a substance_id.
@@ -6037,6 +6171,11 @@ def main() -> int:
     _pubchem_props = (
         json.loads(PUBCHEM_PROPERTIES.read_text()) if PUBCHEM_PROPERTIES.exists() else {}
     )
+    _pubchem_ik_props = (
+        json.loads(PUBCHEM_PROPERTIES_BY_INCHIKEY.read_text())
+        if PUBCHEM_PROPERTIES_BY_INCHIKEY.exists()
+        else {}
+    )
 
     # Reconcile chemical identifiers against PubChem (snapshot:
     # data/sources/identifier-corrections.json, refresh via
@@ -6106,6 +6245,16 @@ def main() -> int:
         )
         for f in fb["flagged"]:
             print(f"  unverified CID, kept existing: {f}", file=sys.stderr)
+
+        # Computed physicochemical descriptors (logP/TPSA/HBA/HBD) from the same
+        # CID-keyed snapshot. Verified CIDs only — PubChem's consistent method
+        # supersedes NPS-DataHub here; NPS keeps logD/pKa/LD50/mp/bp.
+        pc = apply_pubchem_computed(build.cur.connection, _pubchem_props, _pubchem_ik_props)
+        print(
+            f"PubChem computed: logp={pc['logp']} tpsa={pc['tpsa']} "
+            f"hba={pc['hba']} hbd={pc['hbd']}",
+            file=sys.stderr,
+        )
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer

@@ -33,6 +33,8 @@ dc_slugify = _mod.dc_slugify
 parse_formula = _mod.parse_formula
 is_clean_desalt = _mod.is_clean_desalt
 apply_pubchem_freebase = _mod.apply_pubchem_freebase
+apply_pubchem_computed = _mod.apply_pubchem_computed
+_parse_bioavailability = _mod._parse_bioavailability
 apply_identifier_corrections = _mod.apply_identifier_corrections
 apply_wikipedia_popularity = _mod.apply_wikipedia_popularity
 _unit_to_mg_factor = _mod._unit_to_mg_factor
@@ -543,6 +545,76 @@ class TestNormalizeCategory(unittest.TestCase):
         self.assertEqual(normalize_category(None), "Other")
 
 
+class TestParseBioavailability(unittest.TestCase):
+    """benzos-cited `x_bioavailability` strings → (route, pct, note) for pk_routes
+    (Stage 1). Pct is a single value or a range midpoint; pipe-joined multi-route
+    strings split; segments without a % yield no row (no fabricated number)."""
+
+    def test_single_value(self):
+        self.assertEqual(_parse_bioavailability("Oral: 84%."), [("Oral", 84.0, "Oral: 84%")])
+
+    def test_range_midpoint(self):
+        self.assertEqual(_parse_bioavailability("Oral 80-90%"), [("Oral", 85.0, "Oral 80-90%")])
+
+    def test_pipe_joined_multi_route(self):
+        out = _parse_bioavailability("Oral 85-90% | Insufflated 76-80%")
+        self.assertEqual(
+            out, [("Oral", 87.5, "Oral 85-90%"), ("Insufflated", 78.0, "Insufflated 76-80%")]
+        )
+
+    def test_segment_without_percent_skipped(self):
+        # "Oral [variable …]" carries no number — only the % segments produce rows.
+        out = _parse_bioavailability("Oral [variable - first-pass] | Intramuscular 90%")
+        self.assertEqual(out, [("Intramuscular", 90.0, "Intramuscular 90%")])
+
+    def test_first_value_when_plus_minus(self):
+        self.assertEqual(
+            _parse_bioavailability("Oral 70% +/- 24%."), [("Oral", 70.0, "Oral 70% +/- 24%")]
+        )
+
+    def test_empty(self):
+        self.assertEqual(_parse_bioavailability(None), [])
+        self.assertEqual(_parse_bioavailability(""), [])
+
+
+class TestApplyPubchemComputed(unittest.TestCase):
+    """`apply_pubchem_computed` sets logP/TPSA/HBA/HBD from PubChem on the trusted
+    paths only: a CID that is also InChIKey-verified, or a CID-less row matched by
+    InChIKey. An unverified CID (no InChIKey) is left to NPS's own value."""
+
+    def _db(self):
+        con = sqlite3.connect(":memory:")
+        con.execute(
+            "CREATE TABLE substances (id INTEGER PRIMARY KEY, pubchem_cid INTEGER, "
+            "inchikey TEXT, logp REAL, tpsa REAL, hba INTEGER, hbd INTEGER)"
+        )
+        return con
+
+    def test_verified_cid_applied(self):
+        con = self._db()
+        con.execute("INSERT INTO substances VALUES (1, 100, 'KEY-A', NULL, NULL, NULL, NULL)")
+        apply_pubchem_computed(con, {"100": {"xlogp": 2.5, "tpsa": 30.0, "hba": 3, "hbd": 1}})
+        row = con.execute("SELECT logp, tpsa, hba, hbd FROM substances WHERE id=1").fetchone()
+        self.assertEqual(row, (2.5, 30.0, 3, 1))
+
+    def test_unverified_cid_skipped(self):
+        con = self._db()
+        con.execute("INSERT INTO substances VALUES (1, 100, NULL, 9.9, NULL, NULL, NULL)")
+        apply_pubchem_computed(con, {"100": {"xlogp": 2.5, "tpsa": 30.0}})
+        self.assertEqual(
+            con.execute("SELECT logp, tpsa FROM substances WHERE id=1").fetchone(), (9.9, None)
+        )
+
+    def test_inchikey_fallback_for_cidless(self):
+        con = self._db()
+        con.execute("INSERT INTO substances VALUES (1, NULL, 'KEY-B', NULL, NULL, NULL, NULL)")
+        apply_pubchem_computed(con, {}, {"KEY-B": {"xlogp": 1.1, "tpsa": 41.9, "hba": 4, "hbd": 1}})
+        self.assertEqual(
+            con.execute("SELECT logp, tpsa, hba, hbd FROM substances WHERE id=1").fetchone(),
+            (1.1, 41.9, 4, 1),
+        )
+
+
 class TestBuiltDatabaseInvariants(unittest.TestCase):
     """End-to-end checks against the bundled `piru-substances.sqlite`. These
     verify that the build pipeline as a whole produces a database the iOS app
@@ -933,6 +1005,37 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "boiling_point_c",
         ):
             self.assertIn(col, cols, f"substances.{col} should exist")
+
+    def test_physicochemical_columns_populated(self):
+        """Stage 1 fills the forensic chem columns from NPS-DataHub + PubChem.
+        logP/TPSA/HBA/HBD come (mostly) from PubChem's computed descriptors;
+        LD50/melting/boiling point come from NPS. logD/pKa have no source yet
+        and stay NULL — an honest gap, not a failure."""
+        counts = self.db.execute(
+            "SELECT count(logp), count(tpsa), count(hba), count(hbd), "
+            "count(ld50_oral_mg_per_kg), count(melting_point_c), count(boiling_point_c) "
+            "FROM substances"
+        ).fetchone()
+        logp, tpsa, hba, hbd, ld50, mp, bp = counts
+        self.assertGreater(logp, 500, "logP should be broadly populated")
+        self.assertGreater(tpsa, 500, "TPSA should be broadly populated")
+        self.assertGreater(hba, 500)
+        self.assertGreater(hbd, 500)
+        self.assertGreater(ld50, 0, "at least some rodent LD50 from NPS")
+        self.assertGreater(mp, 0, "at least some melting points from NPS")
+        self.assertGreater(bp, 0, "at least some boiling points from NPS")
+
+    def test_ceiling_spec_seeds_carry_chemistry(self):
+        """The spec's spot-check: codeine + lisdexamfetamine (and a few common
+        recreational seeds) carry logP/TPSA — verifying the InChIKey fallback
+        reaches CID-less substances like codeine, not just CID-bearing ones."""
+        for name in ("Codeine", "Lisdexamfetamine", "MDMA", "Alprazolam"):
+            row = self.db.execute(
+                "SELECT logp, tpsa FROM substances WHERE canonical_name=?", (name,)
+            ).fetchone()
+            self.assertIsNotNone(row, f"{name} missing from catalog")
+            self.assertIsNotNone(row["logp"], f"{name} should carry logP")
+            self.assertIsNotNone(row["tpsa"], f"{name} should carry TPSA")
 
     def test_effect_vocab_shape_present(self):
         """Stage 0 adds the controlled-vocabulary tables (empty until Stage 2)."""

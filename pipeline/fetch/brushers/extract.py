@@ -469,6 +469,15 @@ NPS_POS = {  # blank/duplicate headers -> fixed indices (match brush_nps.py)
     "type": 21,
     "tags": 133,
     "uuid": 138,
+    # Melting/boiling point labels appear TWICE in the header: an early hazard
+    # block and a later physical-properties block. Label-matching takes the
+    # first (hazard) hit, but the physical block has far more coverage (~708 vs
+    # 42 melting; ~455 vs 219 boiling), so pin both by position and prefer the
+    # physical block at read time, falling back to the hazard block.
+    "mp_phys": 117,
+    "bp_phys": 118,
+    "mp_haz": 58,
+    "bp_haz": 26,
 }
 
 
@@ -481,12 +490,58 @@ def _resolve_nps_cols(header):
         ("InChIKey", "inchikey"),
         ("InChI", "inchi"),
         ("MW", "mw"),
+        # Physicochemical / forensic columns (Stage 1). These labels are unique
+        # in the header, so first-match is correct. logD/pKa/TPSA/HBA/HBD are
+        # present-but-empty in the current CSV (PubChem fills those) — wired here
+        # so a future CSV that populates them flows through with no code change.
+        ("logP", "logp"),
+        ("logD", "logd"),
+        ("pKa", "pka"),
+        ("Topological polar surface area", "tpsa"),
+        ("No. of hydrogen bond acceptors", "hba"),
+        ("No. of hydrogen bond donors", "hbd"),
+        ("LD50 oral", "ld50_oral"),
+        ("LD50 dermal", "ld50_dermal"),
     ]:
         for i, h in enumerate(header):
             if h == label:
                 cols[key] = i
                 break
     return cols
+
+
+# NPS physicochemical cells carry units, provenance and ranges, e.g.
+# "2.40130 (ChemSrc)", "66-70 °C (ChemSrc)", "367.7 mg/kg (Rat; Merck)",
+# "&gt; 3900 mg/kg", or a bare "146-152". Pull a single number: a range becomes
+# its midpoint, otherwise the first value; the trailing "(source)"/"; secondary"
+# annotation is dropped first so a number inside it can't be picked up.
+_NPS_RANGE_RE = re.compile(r"^\s*(\d+(?:\.\d+)?)\s*[-–~]\s*(\d+(?:\.\d+)?)")
+
+
+def _nps_num(raw, *, allow_negative=False):
+    if not raw:
+        return None
+    s = raw.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
+    s = re.split(r"[(;]", s, maxsplit=1)[0].strip()
+    if not s:
+        return None
+    # Range → midpoint (only when negatives aren't expected; logP is a signed
+    # scalar, never a range, so its leading "-" must not be read as a dash).
+    if not allow_negative:
+        m = _NPS_RANGE_RE.match(s)
+        if m:
+            return round((float(m.group(1)) + float(m.group(2))) / 2.0, 4)
+    m = re.search(r"[-+]?\d+(?:\.\d+)?" if allow_negative else r"\d+(?:\.\d+)?", s)
+    return float(m.group()) if m else None
+
+
+def _nps_int(raw):
+    v = _nps_num(raw)
+    return int(round(v)) if v is not None else None
+
+
+def _nps_cell(row, idx):
+    return row[idx] if idx is not None and idx < len(row) else None
 
 
 def _derive_nps_category(tags):
@@ -548,6 +603,17 @@ def extract_nps():
             type_str = row[C["type"]].strip()
             hierarchy = row[C["hierarchy"]].strip()
             tags = sorted({*(t.lower() for t in tags_raw), type_str.lower()} - {""})
+            # Physicochemical / forensic properties. logP is signed; melting and
+            # boiling points prefer the higher-coverage physical-properties block
+            # over the hazard-sheet block (see NPS_POS). These are predicted /
+            # rodent-assay values, never clinical — carried with the substance's
+            # NPS-DataHub source and surfaced as forensic in the app.
+            mp = _nps_num(_nps_cell(row, C.get("mp_phys"))) or _nps_num(
+                _nps_cell(row, C.get("mp_haz"))
+            )
+            bp = _nps_num(_nps_cell(row, C.get("bp_phys"))) or _nps_num(
+                _nps_cell(row, C.get("bp_haz"))
+            )
             out.append(
                 substance(
                     name,
@@ -569,6 +635,16 @@ def extract_nps():
                     type=type_str,
                     hierarchy=hierarchy,
                     raw_classes=tags_raw,
+                    logp=_nps_num(_nps_cell(row, C.get("logp")), allow_negative=True),
+                    logd=_nps_num(_nps_cell(row, C.get("logd")), allow_negative=True),
+                    pka=_nps_num(_nps_cell(row, C.get("pka"))),
+                    tpsa=_nps_num(_nps_cell(row, C.get("tpsa"))),
+                    hba=_nps_int(_nps_cell(row, C.get("hba"))),
+                    hbd=_nps_int(_nps_cell(row, C.get("hbd"))),
+                    ld50_oral=_nps_num(_nps_cell(row, C.get("ld50_oral"))),
+                    ld50_dermal=_nps_num(_nps_cell(row, C.get("ld50_dermal"))),
+                    melting_point_c=mp,
+                    boiling_point_c=bp,
                 )
             )
     return out
