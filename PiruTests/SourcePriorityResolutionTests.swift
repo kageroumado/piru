@@ -68,7 +68,7 @@ struct FreeODLocaleResolutionTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        store.languageOverride = "zh-Hans"
+        store.languageOverride = .zhHans
         let overview = try #require(store.lookup("MDMA")?.overview)
         #expect(hasHan(overview.text))
         #expect(overview.machineTranslated == false)
@@ -80,7 +80,7 @@ struct FreeODLocaleResolutionTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        store.languageOverride = "en"
+        store.languageOverride = .en
         // MDMA has authentic PsychonautWiki lead prose, so the English overview
         // is present, contains no Han, and is NOT flagged machine-translated.
         let overview = try #require(store.lookup("MDMA")?.overview)
@@ -97,7 +97,7 @@ struct FreeODLocaleResolutionTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        store.languageOverride = "en"
+        store.languageOverride = .en
         // 3-Me-PCP is a research chemical PsychonautWiki doesn't cover, so its
         // overview is machine-translated from FreeOD's Chinese — present, no Han,
         // flagged machine-translated, and attributed to FreeOD (not PW).
@@ -113,7 +113,7 @@ struct FreeODLocaleResolutionTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        store.languageOverride = "en"
+        store.languageOverride = .en
         // Methamphetamine's FreeOD page is Chinese-titled, but the English text
         // comes from PsychonautWiki — attribution must follow the real source so
         // the credit row links to PW (not a 404 FreeOD page).
@@ -128,7 +128,7 @@ struct FreeODLocaleResolutionTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        store.languageOverride = "zh-Hans"
+        store.languageOverride = .zhHans
         let effects = store.lookup("MDMA")?.subjectiveEffects ?? []
         #expect(!effects.isEmpty)
         #expect(effects.contains { hasHan($0.name) })
@@ -143,13 +143,13 @@ struct FreeODLocaleResolutionTests {
         // Caffeine's effects come from English-only sources, yet a zh user must
         // still see translated labels — the Stage 2 controlled-vocabulary payoff
         // (the label is translated once at the vocab level, not per occurrence).
-        store.languageOverride = "en"
+        store.languageOverride = .en
         let en = store.lookup("Caffeine")?.effects ?? []
         #expect(!en.isEmpty)
         #expect(en.allSatisfy { !hasHan($0) })
         #expect(en.contains("Anxiety"))
 
-        store.languageOverride = "zh-Hans"
+        store.languageOverride = .zhHans
         let zh = store.lookup("Caffeine")?.effects ?? []
         #expect(!zh.isEmpty)
         #expect(zh.contains { hasHan($0) })

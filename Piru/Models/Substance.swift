@@ -1233,7 +1233,7 @@ struct Substance: Identifiable {
         // the end so an English title isn't immediately followed by Han — Latin
         // names a reader recognises lead. A stable partition keeps source order
         // within each group. In a Chinese UI the source order already reads well.
-        guard !SubstanceStore.contentLanguage.hasPrefix("zh") else { return resolved }
+        guard !SubstanceStore.contentLanguage.isChinese else { return resolved }
         return resolved.filter { !$0.containsHan } + resolved.filter(\.containsHan)
     }
 
