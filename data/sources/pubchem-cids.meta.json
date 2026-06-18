@@ -1,0 +1,172 @@
+{
+  "source": "PubChem PUG REST — CID by InChIKey (exact structural match)",
+  "url_pattern": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchikey/{inchikey}/cids/JSON",
+  "fetched_at": "2026-06-18T08:23:16+00:00",
+  "queried": 766,
+  "resolved": 744,
+  "unresolved": 22,
+  "ambiguous_count": 38,
+  "ambiguous": {
+    "AXOJRQLKMVSHHZ-UHFFFAOYSA-N": [
+      9301,
+      15487167,
+      57486785,
+      91973784
+    ],
+    "AYXYPKUFHZROOJ-SSDOTTSWSA-N": [
+      125889,
+      40561619
+    ],
+    "BTCSSZJGUNDROE-UHFFFAOYSA-N": [
+      119,
+      6992099
+    ],
+    "BWMISRWJRUSYEX-SZKNIZGXSA-N": [
+      5282481,
+      11324905,
+      50986900
+    ],
+    "CJCSPKMFHVPWAR-JTQLQIEISA-N": [
+      38853,
+      6919173
+    ],
+    "DAFOCGYVTAOKAJ-UHFFFAOYSA-N": [
+      14113,
+      74441225
+    ],
+    "DATAGRPVKZEWHA-YFKPBYRVSA-N": [
+      439378,
+      25201220
+    ],
+    "DEIYFTQMQPDXOT-UHFFFAOYSA-N": [
+      62853,
+      5282482,
+      135413523,
+      161455236
+    ],
+    "DGCZWGSFSFNXNS-UHFFFAOYSA-N": [
+      11195318,
+      131888250
+    ],
+    "HLBBSWSJLPLPRU-UHFFFAOYSA-N": [
+      39988,
+      70700868
+    ],
+    "HQBIOVWPIHUNKN-UHFFFAOYSA-L": [
+      3080650,
+      138402338
+    ],
+    "HRSFWIYFGGDGQO-UHFFFAOYSA-N": [
+      2756653,
+      129700960
+    ],
+    "HTQBXNHDCUEHJF-XWLPCZSASA-N": [
+      16157882,
+      45588096,
+      56947125,
+      91935542,
+      175688571
+    ],
+    "INJOMKTZOLKMBF-UHFFFAOYSA-N": [
+      3519,
+      137319710
+    ],
+    "IQZVXWOBOYTPER-UHFFFAOYSA-N": [
+      197788,
+      92002730
+    ],
+    "IRJCBFDCFXCWGO-UHFFFAOYSA-N": [
+      1233,
+      12310764
+    ],
+    "IUJDSEJGGMCXSG-UHFFFAOYSA-N": [
+      1244,
+      3000715
+    ],
+    "JSDRRTOADPPCHY-HSQYWUDLSA-N": [
+      54892,
+      40466957
+    ],
+    "KPYSYYIEGFHWSV-UHFFFAOYSA-N": [
+      2284,
+      78422631
+    ],
+    "LSQZJLSUYDQPKJ-NJBDSQKTSA-N": [
+      33613,
+      40467057
+    ],
+    "MJEXYQIZUOHDGY-UHFFFAOYSA-N": [
+      24756844,
+      135565273
+    ],
+    "MSZRPURXKHMSFF-UHFFFAOYSA-N": [
+      49344,
+      78425015
+    ],
+    "NRNCYVBFPDDJNE-UHFFFAOYSA-N": [
+      4723,
+      137628477
+    ],
+    "NSKWYRZISOURNW-UHFFFAOYSA-N": [
+      24212070,
+      44181811
+    ],
+    "OIKQTWPVQQAGJG-UHFFFAOYSA-N": [
+      12201196,
+      74765231
+    ],
+    "QAHXUHUHCQYFHC-UHFFFAOYSA-N": [
+      117903522,
+      173571217
+    ],
+    "QIVBCDIJIAJPQS-VIFPVBQESA-N": [
+      6305,
+      6923516
+    ],
+    "QMQBBUPJKANITL-MYXGOWFTSA-N": [
+      15424,
+      25137854
+    ],
+    "QZZUEBNBZAPZLX-QFIPXVFZSA-N": [
+      6918554,
+      86314533
+    ],
+    "RRBRQNALHKQCAI-UHFFFAOYSA-N": [
+      29918992,
+      135566112
+    ],
+    "TWYFGYXQSYOKLK-CYUSMAIQSA-N": [
+      6918678,
+      163360477
+    ],
+    "UGJMXCAKCUNAIE-UHFFFAOYSA-N": [
+      3446,
+      6919078
+    ],
+    "WJSIUCDMWSDDCE-UHFFFAOYSA-K": [
+      13520,
+      5129076
+    ],
+    "WWTWKTDXBNHESE-UHFFFAOYSA-N": [
+      120286,
+      46856264
+    ],
+    "XDDJGVMJFWAHJX-UHFFFAOYSA-N": [
+      2809,
+      74648480
+    ],
+    "XYSYRXOJSOXZPT-UHFFFAOYSA-N": [
+      204385,
+      91985693
+    ],
+    "ZLBSUOGMZDXYKE-UHFFFAOYSA-M": [
+      6452983,
+      23663953
+    ],
+    "ZXRVKCBLGJOCEE-UHFFFAOYSA-N": [
+      3448,
+      28360827
+    ]
+  },
+  "note": "CID resolved from the substance's own InChIKey, so it is CID↔InChIKey-consistent by construction. chosen = min(CID) when PubChem holds duplicate records for one InChIKey."
+}

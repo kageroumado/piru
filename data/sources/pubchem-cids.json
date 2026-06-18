@@ -1,0 +1,2978 @@
+{
+  "AAEKULYONKUBOZ-MLFFRYNPSA-N": {
+    "cid": 9886801,
+    "formula": "C21H22ClNO2"
+  },
+  "AAOVKJBEBIDNHE-UHFFFAOYSA-N": {
+    "cid": 3016,
+    "formula": "C16H13ClN2O"
+  },
+  "AAVOSBAXDRASAH-UHFFFAOYSA-N": {
+    "cid": 155817932,
+    "formula": "C16H23NO2"
+  },
+  "ABGXADJDTPFFSZ-UHFFFAOYSA-N": {
+    "cid": 31738,
+    "formula": "C12H17N"
+  },
+  "ADIMAYPTOBDMTL-UHFFFAOYSA-N": {
+    "cid": 4616,
+    "formula": "C15H11ClN2O2"
+  },
+  "AELCINSCMGFISI-DTWKUNHWSA-N": {
+    "cid": 19493,
+    "formula": "C9H11N"
+  },
+  "AFEHBIGDWIGTEH-AQRCPPRCSA-N": {
+    "cid": 9811102,
+    "formula": "C37H51N9O10S"
+  },
+  "AFMVESZOYKHDBJ-UHFFFAOYSA-N": {
+    "cid": 74318,
+    "formula": "C13H10O"
+  },
+  "AFUZENUOVAPATD-UHFFFAOYSA-N": {
+    "cid": 113831,
+    "formula": "C20H28ClNO2S"
+  },
+  "AGOYDEPGAOXOCK-KCBOHYOISA-N": {
+    "cid": 84029,
+    "formula": "C38H69NO13"
+  },
+  "AIVSIRYZIBXTMM-UHFFFAOYSA-N": {
+    "cid": 3080846,
+    "formula": "C15H21NO2"
+  },
+  "AIZFEOPQVZBNGH-UHFFFAOYSA-N": {
+    "cid": 135412795,
+    "formula": "C17H16N2OS"
+  },
+  "AJHGTCBMUIJSQL-UHFFFAOYSA-N": {
+    "cid": 129846174,
+    "formula": "C15H20N2O"
+  },
+  "AKOOIMKXADOPDA-KRWDZBQOSA-N": {
+    "cid": 58124325,
+    "formula": "C20H21FN4O2"
+  },
+  "AKPLHCDWDRPJGD-UHFFFAOYSA-N": {
+    "cid": 2997,
+    "formula": "C15H11ClN2O"
+  },
+  "ALFGKMXHOUSVAD-UHFFFAOYSA-N": {
+    "cid": 10101,
+    "formula": "C15H21NO2"
+  },
+  "ALQFAGFPQCBPED-UHFFFAOYSA-N": {
+    "cid": 53393997,
+    "formula": "C24H22FNO"
+  },
+  "AMKVXSZCKVJAGH-UHFFFAOYSA-N": {
+    "cid": 4440,
+    "formula": "C17H25N3O2S"
+  },
+  "AMSXTZUCNOKUEN-UHFFFAOYSA-N": {
+    "cid": 133277,
+    "formula": "C17H25NO"
+  },
+  "ANDGGVOPIJEHOF-UHFFFAOYSA-N": {
+    "cid": 148184,
+    "formula": "C14H15N3O"
+  },
+  "ANJTVLIZGCUXLD-DTWKUNHWSA-N": {
+    "cid": 10235,
+    "formula": "C11H14N2O"
+  },
+  "ANUCDXCTICZJRH-UHFFFAOYSA-N": {
+    "cid": 4177,
+    "formula": "C18H16Cl2N2O2"
+  },
+  "ANWPENAPCIFDSZ-BQBZGAKWSA-N": {
+    "cid": 9856063,
+    "formula": "C10H14F2N2O2"
+  },
+  "APSJUNFBAXIXLK-UHFFFAOYSA-N": {
+    "cid": 6430745,
+    "formula": "C14H19NO"
+  },
+  "AQHHHDLHHXJYJD-UHFFFAOYSA-N": {
+    "cid": 4946,
+    "formula": "C16H21NO2"
+  },
+  "ASTNLROMDNGJLS-UHFFFAOYSA-N": {
+    "cid": 44350017,
+    "formula": "C13H21NO3S"
+  },
+  "AVJKDKWRVSSJPK-UHFFFAOYSA-N": {
+    "cid": 75260,
+    "formula": "C10H13FN2"
+  },
+  "AXACJBKFKCCIOR-UHFFFAOYSA-N": {
+    "cid": 23349712,
+    "formula": "C18H26Cl2N2O"
+  },
+  "AXOJRQLKMVSHHZ-UHFFFAOYSA-N": {
+    "cid": 9301,
+    "formula": "C8H14BrNO2"
+  },
+  "AXQUMNYYLGUJIZ-UHFFFAOYSA-N": {
+    "cid": 4995664,
+    "formula": "C12H15N3O2"
+  },
+  "AYXYPKUFHZROOJ-SSDOTTSWSA-N": {
+    "cid": 125889,
+    "formula": "C8H17NO2"
+  },
+  "AZPUAKGNQXURGA-ZWLNRFIDSA-N": {
+    "cid": 73347341,
+    "formula": "C24H27NO8S"
+  },
+  "AZVPADMEIMLODT-UHFFFAOYSA-N": {
+    "cid": 68314762,
+    "formula": "C16H23NO2"
+  },
+  "BCJXLSGKMNRRKO-UHFFFAOYSA-N": {
+    "cid": 132989300,
+    "formula": "C16H22FNO"
+  },
+  "BCKPHENWWQCRCG-UHFFFAOYSA-N": {
+    "cid": 12434320,
+    "formula": "C17H15FN4S"
+  },
+  "BCQZXOMGPXTTIC-UHFFFAOYSA-N": {
+    "cid": 3562,
+    "formula": "C2HBrClF3"
+  },
+  "BDOJPNJIBDXWQQ-UHFFFAOYSA-N": {
+    "cid": 21854224,
+    "formula": "C18H28N2O"
+  },
+  "BEMIKIUJWHLJTP-UHFFFAOYSA-N": {
+    "cid": 144891,
+    "formula": "C12H19NO2S"
+  },
+  "BEQZHFIKTBVCAU-UHFFFAOYSA-N": {
+    "cid": 123767,
+    "formula": "C12H14ClNO"
+  },
+  "BGMZUEKZENQUJY-UHFFFAOYSA-N": {
+    "cid": 1229,
+    "formula": "C11H16INO2"
+  },
+  "BGRWSFIQQPVEML-UHFFFAOYSA-N": {
+    "cid": 12562545,
+    "formula": "C16H12BrN5"
+  },
+  "BHIZKPHLTVLXIV-UHFFFAOYSA-N": {
+    "cid": 129844496,
+    "formula": "C13H19NO"
+  },
+  "BIHPYCDDPGNWQO-UHFFFAOYSA-N": {
+    "cid": 131506,
+    "formula": "C9H10IN"
+  },
+  "BJIWLHLNPTWSGD-UHFFFAOYSA-N": {
+    "cid": 29935317,
+    "formula": "C15H22N2O"
+  },
+  "BKFQKERIGDJPGK-UHFFFAOYSA-N": {
+    "cid": 92135117,
+    "formula": "C16H25ClN2O"
+  },
+  "BMLPNUNXHUGDOI-UHFFFAOYSA-N": {
+    "cid": 149797386,
+    "formula": "C22H29N3O"
+  },
+  "BNWJOHGLIBDBOB-UHFFFAOYSA-N": {
+    "cid": 4276,
+    "formula": "C11H12O3"
+  },
+  "BOFUZZAQNVYZFF-UHFFFAOYSA-N": {
+    "cid": 43350791,
+    "formula": "C11H14ClNO"
+  },
+  "BOGOEDFWPOXWQE-UHFFFAOYSA-N": {
+    "cid": 132605908,
+    "formula": "C17H25NO2"
+  },
+  "BOOQTIHIKDDPRW-UHFFFAOYSA-N": {
+    "cid": 6091,
+    "formula": "C16H24N2"
+  },
+  "BOWHVFJVXBVJCU-UHFFFAOYSA-N": {
+    "cid": 125181243,
+    "formula": "C21H29NO3S"
+  },
+  "BPJKJUFQSNRQCR-OXQOHEQNSA-N": {
+    "cid": 139030999,
+    "formula": "C22H25N3O"
+  },
+  "BPRHUIZQVSMCRT-MDZDMXLPSA-N": {
+    "cid": 6239562,
+    "formula": "C22H28FN3O6S"
+  },
+  "BPZSYCZIITTYBL-YJYMSZOUSA-N": {
+    "cid": 3083544,
+    "formula": "C19H24N2O4"
+  },
+  "BQJCRHHNABKAKU-NOSXKOESSA-N": {
+    "cid": 5324287,
+    "formula": "C17H19NO3"
+  },
+  "BQQSZHHKGPOXLN-UHFFFAOYSA-N": {
+    "cid": 11778080,
+    "formula": "C18H27NO"
+  },
+  "BQSJTQLCZDPROO-UHFFFAOYSA-N": {
+    "cid": 134018,
+    "formula": "C16H16N2O3S"
+  },
+  "BTCSSZJGUNDROE-UHFFFAOYSA-N": {
+    "cid": 119,
+    "formula": "C4H9NO2"
+  },
+  "BUCORZSTKDOEKQ-UHFFFAOYSA-N": {
+    "cid": 2712,
+    "formula": "C16H14ClN3O"
+  },
+  "BUKIXGXYEUJJHQ-UHFFFAOYSA-N": {
+    "cid": 44350007,
+    "formula": "C14H23NO3S"
+  },
+  "BUTCFAZTKZDYCN-UHFFFAOYSA-N": {
+    "cid": 1032830,
+    "formula": "C17H12BrClN4"
+  },
+  "BWMISRWJRUSYEX-SZKNIZGXSA-N": {
+    "cid": 5282481,
+    "formula": "C21H26ClN"
+  },
+  "BWWWOLYZMKACSB-UHFFFAOYSA-N": {
+    "cid": 17802040,
+    "formula": "C14H17N"
+  },
+  "BXNJHAXVSOCGBA-UHFFFAOYSA-N": {
+    "cid": 5280953,
+    "formula": "C13H12N2O"
+  },
+  "BYIVGHIYNFQIJX-NZLXMSDQSA-N": {
+    "cid": 53394458,
+    "formula": "C24H21NO3"
+  },
+  "CBRPSVDSBGTOKK-UHFFFAOYSA-N": {
+    "cid": 15728382,
+    "formula": "C10H11N"
+  },
+  "CCSYKGYLSFXNTA-UHFFFAOYSA-N": {
+    "cid": 137700140,
+    "formula": "C19H16ClN3O3"
+  },
+  "CDCHDCWJMGXXRH-UHFFFAOYSA-N": {
+    "cid": 3261,
+    "formula": "C16H11ClN4"
+  },
+  "CEUORZQYGODEFX-UHFFFAOYSA-N": {
+    "cid": 60795,
+    "formula": "C23H27Cl2N3O2"
+  },
+  "CFBVGSWSOJBYGC-ZYHUDNBSSA-N": {
+    "cid": 89504167,
+    "formula": "C12H14ClNO2"
+  },
+  "CFCFEXCFOQWYQK-UHFFFAOYSA-N": {
+    "cid": 66631818,
+    "formula": "C25H27NO2"
+  },
+  "CGKQZIULZRXRRJ-UHFFFAOYSA-N": {
+    "cid": 56843046,
+    "formula": "C12H15NO3"
+  },
+  "CGMJQQJSWIRRRL-UHFFFAOYSA-N": {
+    "cid": 40113,
+    "formula": "C15H10BrClN2O"
+  },
+  "CGNMLOKEMNBUAI-UHFFFAOYSA-N": {
+    "cid": 3033226,
+    "formula": "C15H15NO3S"
+  },
+  "CHBRHODLKOZEPZ-UHFFFAOYSA-N": {
+    "cid": 2811,
+    "formula": "C16H15ClN2OS"
+  },
+  "CHIFCDOIPRCHCF-UHFFFAOYSA-N": {
+    "cid": 17925,
+    "formula": "C15H10Cl2N2O"
+  },
+  "CHSUEEBESACQDV-GOSISDBHSA-N": {
+    "cid": 129597835,
+    "formula": "C21H29FN2O3"
+  },
+  "CIGWUZUBQBQZAO-UHFFFAOYSA-N": {
+    "cid": 129844558,
+    "formula": "C17H23NO2"
+  },
+  "CJCSPKMFHVPWAR-JTQLQIEISA-N": {
+    "cid": 38853,
+    "formula": "C10H13NO4"
+  },
+  "CJOFXWAVKWHTFT-XSFVSMFZSA-N": {
+    "cid": 5324346,
+    "formula": "C15H21F3N2O2"
+  },
+  "CKHJPWQVLKHBIH-ZDSKVHJSSA-N": {
+    "cid": 20055424,
+    "formula": "C32H46N8O6S2"
+  },
+  "CNOFBGYRMCBVLO-UHFFFAOYSA-N": {
+    "cid": 145975294,
+    "formula": "C20H22BrN3O"
+  },
+  "COUYJEVMBVSIHV-UHFFFAOYSA-N": {
+    "cid": 9800339,
+    "formula": "C21H26N2O5"
+  },
+  "COYHGVCHRRXECF-UHFFFAOYSA-N": {
+    "cid": 57404059,
+    "formula": "C24H31FN2O"
+  },
+  "CPVMNHOHOSNFOP-UHFFFAOYSA-N": {
+    "cid": 125181253,
+    "formula": "C21H29NO3S"
+  },
+  "CQERUJSORROCGH-UHFFFAOYSA-N": {
+    "cid": 163192347,
+    "formula": "C14H19NO2"
+  },
+  "CRQPDNIUPWXPNK-UHFFFAOYSA-N": {
+    "cid": 44719578,
+    "formula": "C12H17NO2"
+  },
+  "CSLNJUOCJZCEIR-UHFFFAOYSA-N": {
+    "cid": 118796502,
+    "formula": "C18H22ClNO3"
+  },
+  "CTRLABGOLIVAIY-UHFFFAOYSA-N": {
+    "cid": 34312,
+    "formula": "C15H12N2O2"
+  },
+  "CUCHJCMWNFEYOM-UHFFFAOYSA-N": {
+    "cid": 3299,
+    "formula": "C18H14ClFN2O3"
+  },
+  "CUTUPKOZXNFVHK-UHFFFAOYSA-N": {
+    "cid": 166468747,
+    "formula": "C16H24N2O"
+  },
+  "CWNKMHIETKEBCA-UHFFFAOYSA-N": {
+    "cid": 134822125,
+    "formula": "C14H21NO"
+  },
+  "CXKWCBBOMKCUKX-UHFFFAOYSA-M": {
+    "cid": 6099,
+    "formula": "C16H18ClN3S"
+  },
+  "CXOXHMZGEKVPMT-UHFFFAOYSA-N": {
+    "cid": 2789,
+    "formula": "C16H13ClN2O2"
+  },
+  "CYQFCXCEBYINGO-IAGOWNOFSA-N": {
+    "cid": 16078,
+    "formula": "C21H30O2"
+  },
+  "CZKPOZZJODAYPZ-UHFFFAOYSA-N": {
+    "cid": 123610,
+    "formula": "C35H49N11O9S2"
+  },
+  "DAFOCGYVTAOKAJ-UHFFFAOYSA-N": {
+    "cid": 14113,
+    "formula": "C10H13NO2"
+  },
+  "DATAGRPVKZEWHA-YFKPBYRVSA-N": {
+    "cid": 439378,
+    "formula": "C7H14N2O3"
+  },
+  "DBGIVFWFUFKIQN-UHFFFAOYSA-N": {
+    "cid": 3337,
+    "formula": "C12H16F3N"
+  },
+  "DCMOUMKIDLRIBO-UHFFFAOYSA-N": {
+    "cid": 71316821,
+    "formula": "C10H12FNO"
+  },
+  "DDBREPKUVSBGFI-UHFFFAOYSA-N": {
+    "cid": 4763,
+    "formula": "C12H12N2O3"
+  },
+  "DDLIGBOFAVUZHB-UHFFFAOYSA-N": {
+    "cid": 4192,
+    "formula": "C18H13ClFN3"
+  },
+  "DDPMGIMJSRUULN-UHFFFAOYSA-N": {
+    "cid": 53249194,
+    "formula": "C11H15NO"
+  },
+  "DEIYFTQMQPDXOT-UHFFFAOYSA-N": {
+    "cid": 62853,
+    "formula": "C28H38N6O11S"
+  },
+  "DEQANNDTNATYII-OULOTJBUSA-N": {
+    "cid": 448601,
+    "formula": "C49H66N10O10S2"
+  },
+  "DEWSJDIJFWQLOA-RTBURBONSA-N": {
+    "cid": 198013,
+    "formula": "C23H32O3"
+  },
+  "DFMLULIEUUXXSA-UHFFFAOYSA-N": {
+    "cid": 60208608,
+    "formula": "C13H17NO3"
+  },
+  "DGBIGWXXNGSACT-UHFFFAOYSA-N": {
+    "cid": 2802,
+    "formula": "C15H10ClN3O3"
+  },
+  "DGCZWGSFSFNXNS-UHFFFAOYSA-N": {
+    "cid": 11195318,
+    "formula": "C10H16ClNS"
+  },
+  "DGOWDUFJCINDGI-UHFFFAOYSA-N": {
+    "cid": 4223812,
+    "formula": "C14H18N2O2"
+  },
+  "DGQUHAZEXMTKBQ-UHFFFAOYSA-N": {
+    "cid": 91696118,
+    "formula": "C12H17NO"
+  },
+  "DGXWNDGLEOIEGT-UHFFFAOYSA-N": {
+    "cid": 9986,
+    "formula": "C9H12FN"
+  },
+  "DHHVAGZRUROJKS-UHFFFAOYSA-N": {
+    "cid": 4771,
+    "formula": "C10H15N"
+  },
+  "DHXANQGCRAVCSQ-PJQZNRQZSA-N": {
+    "cid": 9796921,
+    "formula": "C15H16Cl2O3"
+  },
+  "DIWRORZWFLOCLC-UHFFFAOYSA-N": {
+    "cid": 3958,
+    "formula": "C15H10Cl2N2O2"
+  },
+  "DJSSLECNUQMYKG-UHFFFAOYSA-N": {
+    "cid": 130431386,
+    "formula": "C20H20BrCl2N3O"
+  },
+  "DKNWSYNQZKUICI-UHFFFAOYSA-N": {
+    "cid": 2130,
+    "formula": "C10H17N"
+  },
+  "DKPILUWUWJLVPE-UHFFFAOYSA-N": {
+    "cid": 132989534,
+    "formula": "C13H19Cl2NO"
+  },
+  "DNBPMBJFRRVTSJ-UHFFFAOYSA-N": {
+    "cid": 151182,
+    "formula": "C17H26N2O"
+  },
+  "DNRNSIJBSCBESJ-UHFFFAOYSA-N": {
+    "cid": 49823708,
+    "formula": "C18H21NO2"
+  },
+  "DOMAVIHZFHQQHF-UHFFFAOYSA-N": {
+    "cid": 43350824,
+    "formula": "C12H17NO"
+  },
+  "DQCKKXVULJGBQN-XFWGSAIBSA-N": {
+    "cid": 5360515,
+    "formula": "C20H23NO4"
+  },
+  "DRHKJLXJIQTDTD-HNNXBMFYSA-N": {
+    "cid": 60147,
+    "formula": "C20H28N2O5S"
+  },
+  "DTNUPBSOODGRKW-UHFFFAOYSA-N": {
+    "cid": 11243002,
+    "formula": "C19H23NO"
+  },
+  "DUGMCDWNXXFHDE-UHFFFAOYSA-N": {
+    "cid": 9939049,
+    "formula": "C28H40N4O8S2"
+  },
+  "DUGOZIWVEXMGBE-STQMWFEESA-N": {
+    "cid": 10657292,
+    "formula": "C14H19NO2"
+  },
+  "DUGOZIWVEXMGBE-UHFFFAOYSA-N": {
+    "cid": 4158,
+    "formula": "C14H19NO2"
+  },
+  "DUKNIHFTDAXJON-CTQRGLTFSA-N": {
+    "cid": 71301249,
+    "formula": "C21H25N3O"
+  },
+  "DULWRYKFTVFPTL-UHFFFAOYSA-N": {
+    "cid": 91864533,
+    "formula": "C23H21FN2O"
+  },
+  "DYLGFOYVTXJFJP-MYYYXRDXSA-N": {
+    "cid": 6437380,
+    "formula": "C30H32Cl3NO"
+  },
+  "DYTOQURYRYYNOR-UHFFFAOYSA-N": {
+    "cid": 50922681,
+    "formula": "C22H30N4O"
+  },
+  "FASDKYOPVNHBLU-ZETCQYMHSA-N": {
+    "cid": 119570,
+    "formula": "C10H17N3S"
+  },
+  "FAXVCSOMTSWQNT-SNVBAGLBSA-N": {
+    "cid": 93798139,
+    "formula": "C13H19NO"
+  },
+  "FBRJTEBLJRHAQX-UHFFFAOYSA-N": {
+    "cid": 110817,
+    "formula": "C17H21N"
+  },
+  "FCETYWCLCUZFJI-UHFFFAOYSA-N": {
+    "cid": 137332183,
+    "formula": "C14H18FNO"
+  },
+  "FDQGNLOWMMVRQL-UHFFFAOYSA-N": {
+    "cid": 5842,
+    "formula": "C10H12N2O3"
+  },
+  "FELGMEQIXOGIFQ-UHFFFAOYSA-N": {
+    "cid": 4595,
+    "formula": "C18H19N3O"
+  },
+  "FEUZHYRXGQTBRO-UHFFFAOYSA-N": {
+    "cid": 10001761,
+    "formula": "C17H20INO3"
+  },
+  "FEZBIKUBAYAZIU-UHFFFAOYSA-N": {
+    "cid": 5577,
+    "formula": "C21H28N2O5"
+  },
+  "FFCARBNHUSWRGK-UHFFFAOYSA-N": {
+    "cid": 25904,
+    "formula": "C18H28ClNO"
+  },
+  "FJFPOGCVVLUYAQ-UHFFFAOYSA-N": {
+    "cid": 46856354,
+    "formula": "C18H22ClNO3"
+  },
+  "FJIKWRGCXUCUIG-UHFFFAOYSA-N": {
+    "cid": 13314,
+    "formula": "C16H12Cl2N2O2"
+  },
+  "FJOWXGYLIWJFCH-UHFFFAOYSA-N": {
+    "cid": 632550,
+    "formula": "C22H27N3O2"
+  },
+  "FJZZPCZKBUKGGU-AUSIDOKSSA-N": {
+    "cid": 23652731,
+    "formula": "C23H36N2O4"
+  },
+  "FKEHRWJWTWDTDB-UHFFFAOYSA-N": {
+    "cid": 155884437,
+    "formula": "C18H25NO"
+  },
+  "FLKWNFFCSSJANB-UHFFFAOYSA-N": {
+    "cid": 61791,
+    "formula": "C31H32N4O2"
+  },
+  "FNVSEQCPMXWQKG-UHFFFAOYSA-N": {
+    "cid": 118796493,
+    "formula": "C24H32N2O2"
+  },
+  "FOXJFBFFGULACD-UHFFFAOYSA-N": {
+    "cid": 44350127,
+    "formula": "C14H21NO3"
+  },
+  "FQDAMYLMQQKPRX-UHFFFAOYSA-N": {
+    "cid": 9794343,
+    "formula": "C11H13NO"
+  },
+  "FQDRMHHCWZAXJM-UHFFFAOYSA-N": {
+    "cid": 125558,
+    "formula": "C10H11NO2"
+  },
+  "FTOAOBMCPZCFFF-UHFFFAOYSA-N": {
+    "cid": 2294,
+    "formula": "C8H12N2O3"
+  },
+  "FTSNQYGFVFQKHY-UHFFFAOYSA-N": {
+    "cid": 85054562,
+    "formula": "C13H17NO3"
+  },
+  "FUYPDKFWOHBUFT-VIFPVBQESA-N": {
+    "cid": 93798210,
+    "formula": "C12H17NO"
+  },
+  "FWTARAXQGJRQKN-INIZCTEOSA-N": {
+    "cid": 121493587,
+    "formula": "C19H28N4O2"
+  },
+  "FYIUUQUPOKIKNI-UHFFFAOYSA-N": {
+    "cid": 527015,
+    "formula": "C21H26N2O"
+  },
+  "FYOWWXMGDATDQY-UHFFFAOYSA-N": {
+    "cid": 62436,
+    "formula": "C16H23N"
+  },
+  "FZEIVUHEODGHML-UHFFFAOYSA-N": {
+    "cid": 43174741,
+    "formula": "C12H17NO"
+  },
+  "GBBSUAFBMRNDJC-INIZCTEOSA-N": {
+    "cid": 969472,
+    "formula": "C17H17ClN6O3"
+  },
+  "GBBSUAFBMRNDJC-UHFFFAOYSA-N": {
+    "cid": 5735,
+    "formula": "C17H17ClN6O3"
+  },
+  "GBUNHVOIGFKQDT-UHFFFAOYSA-N": {
+    "cid": 44719597,
+    "formula": "C12H17NO3"
+  },
+  "GDLIGKIOYRNHDA-UHFFFAOYSA-N": {
+    "cid": 2801,
+    "formula": "C19H23ClN2"
+  },
+  "GDSCFOSHSOWNDL-UHFFFAOYSA-N": {
+    "cid": 35775,
+    "formula": "C15H15FN4O"
+  },
+  "GDSXNLDTQFFIEU-UHFFFAOYSA-N": {
+    "cid": 121531,
+    "formula": "C9H12FN"
+  },
+  "GECBBEABIDMGGL-RTBURBONSA-N": {
+    "cid": 5284592,
+    "formula": "C24H36O3"
+  },
+  "GEKLDGQKEZAPFZ-UHFFFAOYSA-N": {
+    "cid": 91696119,
+    "formula": "C12H17NO"
+  },
+  "GENAHGKEFJLNJB-UHFFFAOYSA-N": {
+    "cid": 10173,
+    "formula": "C16H17N3O"
+  },
+  "GFBKORZTTCHDGY-UWVJOHFNSA-N": {
+    "cid": 941651,
+    "formula": "C23H29N3O2S2"
+  },
+  "GFVJBFIXZYLVPO-UHFFFAOYSA-N": {
+    "cid": 155253443,
+    "formula": "C14H18N2O"
+  },
+  "GGCSSNBKKAUURC-UHFFFAOYSA-N": {
+    "cid": 41693,
+    "formula": "C22H30N2O2S"
+  },
+  "GIIZNNXWQWCKIB-RUZDIDTESA-N": {
+    "cid": 9812133,
+    "formula": "C25H37NO4"
+  },
+  "GIKPTWKWYXCBEC-UHFFFAOYSA-N": {
+    "cid": 9839057,
+    "formula": "C13H12BrNO2"
+  },
+  "GJJFMKBJSRMPLA-DZGCQCFKSA-N": {
+    "cid": 6917779,
+    "formula": "C15H22N2O"
+  },
+  "GJJFMKBJSRMPLA-HIFRSBDPSA-N": {
+    "cid": 65833,
+    "formula": "C15H22N2O"
+  },
+  "GJSLOMWRLALDCT-UHFFFAOYSA-N": {
+    "cid": 37632,
+    "formula": "C19H18ClN5"
+  },
+  "GJSURZIOUXUGAL-UHFFFAOYSA-N": {
+    "cid": 2803,
+    "formula": "C9H9Cl2N3"
+  },
+  "GMQRLEHODLAXAW-UHFFFAOYSA-N": {
+    "cid": 193099,
+    "formula": "C15H16ClNO"
+  },
+  "GMZVRMREEHBGGF-UHFFFAOYSA-N": {
+    "cid": 4843,
+    "formula": "C6H10N2O2"
+  },
+  "GONQEUJYYMYNMN-HWAJWLCKSA-N": {
+    "cid": 134823897,
+    "formula": "C25H30ClN3O8"
+  },
+  "GOVNVPJYMDJYSR-UHFFFAOYSA-N": {
+    "cid": 176865,
+    "formula": "C6H10O4"
+  },
+  "GOWRRBABHQUJMX-MRVPVSSYSA-N": {
+    "cid": 198695,
+    "formula": "C10H16N2O2"
+  },
+  "GPVJAXJRAZVITB-UHFFFAOYSA-N": {
+    "cid": 90966,
+    "formula": "C11H15NO3"
+  },
+  "GPZLDQAEBHTMPG-UHFFFAOYSA-N": {
+    "cid": 62528,
+    "formula": "C20H23ClN4O2"
+  },
+  "GQCCTZGWWWUYLS-UHFFFAOYSA-N": {
+    "cid": 33957,
+    "formula": "C18H19NO"
+  },
+  "GQUWSNDODZTHKC-UHFFFAOYSA-N": {
+    "cid": 144890,
+    "formula": "C12H19NO2S"
+  },
+  "GSESDIFGJCCBHN-UHFFFAOYSA-N": {
+    "cid": 23199082,
+    "formula": "C14H19NO"
+  },
+  "GTACSIONMHMRPD-UHFFFAOYSA-N": {
+    "cid": 6603828,
+    "formula": "C16H16F2N2O4S2"
+  },
+  "GUDVQJXODNJRIJ-UHFFFAOYSA-N": {
+    "cid": 5072,
+    "formula": "C21H27N3"
+  },
+  "GURNWYXOAVSCDU-UHFFFAOYSA-N": {
+    "cid": 71396460,
+    "formula": "C13H22ClNO3"
+  },
+  "GUTXTARXLVFHDK-UHFFFAOYSA-N": {
+    "cid": 52919,
+    "formula": "C31H41ClFNO3"
+  },
+  "GVGLGOZIDCSQPN-PVHGPHFFSA-N": {
+    "cid": 5462328,
+    "formula": "C21H23NO5"
+  },
+  "GWUSZQUVEVMBPI-UHFFFAOYSA-N": {
+    "cid": 4496,
+    "formula": "C16H13N3O3"
+  },
+  "GZGKSDAMWRWYOZ-MRXNPFEDSA-N": {
+    "cid": 145707216,
+    "formula": "C19H26FN3O3"
+  },
+  "HCFDWZZGGLSKEP-UHFFFAOYSA-N": {
+    "cid": 3162,
+    "formula": "C17H22N2O"
+  },
+  "HEDOODBJFVUQMS-UHFFFAOYSA-N": {
+    "cid": 2763156,
+    "formula": "C15H22N2O"
+  },
+  "HEDRZPFGACZZDS-UHFFFAOYSA-N": {
+    "cid": 6212,
+    "formula": "CHCl3"
+  },
+  "HFYJGAIOBIDRPX-UHFFFAOYSA-N": {
+    "cid": 11288812,
+    "formula": "C10H12BrNO3"
+  },
+  "HGRHWEAUHXYNNP-UHFFFAOYSA-N": {
+    "cid": 50878551,
+    "formula": "C17H22N2O"
+  },
+  "HIUPRQPBWVEQJJ-IBGZPJMESA-N": {
+    "cid": 25273635,
+    "formula": "C23H22ClN3O2"
+  },
+  "HLBBSWSJLPLPRU-UHFFFAOYSA-N": {
+    "cid": 39988,
+    "formula": "C18H22ClNO2"
+  },
+  "HLBROWUOAAQHCM-UHFFFAOYSA-N": {
+    "cid": 132989234,
+    "formula": "C17H23NO"
+  },
+  "HNDXBGYRMHRUFN-CIVUWBIHSA-N": {
+    "cid": 5362460,
+    "formula": "C29H25N3O5"
+  },
+  "HNGZTLMRQTVPBH-UHFFFAOYSA-N": {
+    "cid": 53316366,
+    "formula": "C21H26N4O3"
+  },
+  "HOQAVGZLYRYHSO-UHFFFAOYSA-N": {
+    "cid": 9928016,
+    "formula": "C19H22N2O2S"
+  },
+  "HPHUVLMMVZITSG-LURJTMIESA-N": {
+    "cid": 5284583,
+    "formula": "C8H14N2O2"
+  },
+  "HPHUVLMMVZITSG-UHFFFAOYSA-N": {
+    "cid": 59708,
+    "formula": "C8H14N2O2"
+  },
+  "HPHUWHKFQXTZPS-UHFFFAOYSA-N": {
+    "cid": 436156,
+    "formula": "C8H13NS"
+  },
+  "HQBIOVWPIHUNKN-UHFFFAOYSA-L": {
+    "cid": 3080650,
+    "formula": "C23H34N4Na2O6"
+  },
+  "HRSFWIYFGGDGQO-UHFFFAOYSA-N": {
+    "cid": 2756653,
+    "formula": "C11H17ClN2"
+  },
+  "HTQBXNHDCUEHJF-XWLPCZSASA-N": {
+    "cid": 16157882,
+    "formula": "C184H282N50O60S"
+  },
+  "HUNXMJYCHXQEGX-UHFFFAOYSA-N": {
+    "cid": 5719,
+    "formula": "C17H15N5O"
+  },
+  "HXFAZCCRNXARMH-UHFFFAOYSA-N": {
+    "cid": 156589000,
+    "formula": "C23H31ClN4O3"
+  },
+  "HXGBXQDTNZMWGS-RUZDIDTESA-N": {
+    "cid": 444031,
+    "formula": "C28H30N2O2"
+  },
+  "HXJKWPGVENNMCC-UHFFFAOYSA-N": {
+    "cid": 27402,
+    "formula": "C13H21NO2"
+  },
+  "HYMZAYGFKNNHDN-SSDVNMTOSA-N": {
+    "cid": 25229652,
+    "formula": "C18H17F3N2O2"
+  },
+  "HYWLMSUAZVDUFW-UHFFFAOYSA-O": {
+    "cid": 71437510,
+    "formula": "C13H22NO3+"
+  },
+  "HZEVDVGPBUFIAW-AIZNXBIQSA-N": {
+    "cid": 10091491,
+    "formula": "C24H29F2NO"
+  },
+  "HZKYLVLOBYNKKM-OXQOHEQNSA-N": {
+    "cid": 44457803,
+    "formula": "C22H29N3O"
+  },
+  "IABBZBVTZRKDFW-UHFFFAOYSA-N": {
+    "cid": 47486,
+    "formula": "C16H17N"
+  },
+  "IDBPHNDTYPBSNI-UHFFFAOYSA-N": {
+    "cid": 51263,
+    "formula": "C21H32N6O3"
+  },
+  "IDLSBAANXISGEI-UHFFFAOYSA-N": {
+    "cid": 132989542,
+    "formula": "C14H19NO"
+  },
+  "IEJXVRYNEISIKR-UHFFFAOYSA-N": {
+    "cid": 2216,
+    "formula": "C9H10Cl2N4"
+  },
+  "IENZQIKPVFGBNW-UHFFFAOYSA-N": {
+    "cid": 4893,
+    "formula": "C19H21N5O4"
+  },
+  "IEZDOKQWPWZVQF-UHFFFAOYSA-N": {
+    "cid": 71893,
+    "formula": "C7H9NO2"
+  },
+  "IFKLAQQSCNILHL-QHAWAJNXSA-N": {
+    "cid": 5361092,
+    "formula": "C21H29NO2"
+  },
+  "IFKPLJWIEQBPGG-UHFFFAOYSA-N": {
+    "cid": 10072,
+    "formula": "C21H27NO"
+  },
+  "IFYLVUHLOOCYBG-UHFFFAOYSA-N": {
+    "cid": 16622,
+    "formula": "C14H21N"
+  },
+  "IGBRRSIHEGCUEN-UHFFFAOYSA-N": {
+    "cid": 431865,
+    "formula": "C24H32N2"
+  },
+  "IGHTZQUIFGUJTG-BKFVKPSZSA-N": {
+    "cid": 117612175,
+    "formula": "C21H30O2"
+  },
+  "IHLAQQPQKRMGSS-UHFFFAOYSA-N": {
+    "cid": 4626,
+    "formula": "C6H10N2O3"
+  },
+  "IKMPWMZBZSAONZ-UHFFFAOYSA-N": {
+    "cid": 4999,
+    "formula": "C17H11ClF4N2S"
+  },
+  "IKVMWFRRDDILJA-UHFFFAOYSA-N": {
+    "cid": 141803940,
+    "formula": "C17H24N2O2"
+  },
+  "ILLGYRJAYAAAEW-QMMMGPOBSA-N": {
+    "cid": 119380,
+    "formula": "C9H14N2O"
+  },
+  "IMWZZHHPURKASS-UHFFFAOYSA-N": {
+    "cid": 15459,
+    "formula": "C12H15NO3"
+  },
+  "IMYHGORQCPYVBZ-NLFFAJNJSA-N": {
+    "cid": 10070040,
+    "formula": "C25H32N2O3"
+  },
+  "INJOMKTZOLKMBF-UHFFFAOYSA-N": {
+    "cid": 3519,
+    "formula": "C9H9Cl2N3O"
+  },
+  "INOYCBNLWYEPSB-XHSDSOJGSA-N": {
+    "cid": 14208380,
+    "formula": "C16H23NO2"
+  },
+  "INUNXTSAACVKJS-OAQYLSRUSA-N": {
+    "cid": 92943,
+    "formula": "C25H32N2O2"
+  },
+  "IQZVXWOBOYTPER-UHFFFAOYSA-N": {
+    "cid": 197788,
+    "formula": "C11H18ClNO"
+  },
+  "IRJCBFDCFXCWGO-UHFFFAOYSA-N": {
+    "cid": 1233,
+    "formula": "C5H6N2O4"
+  },
+  "ISJUYFBACBKWBV-UHFFFAOYSA-N": {
+    "cid": 21328050,
+    "formula": "C17H24Cl2N2O"
+  },
+  "ITBBBZIIFJJMDU-UHFFFAOYSA-N": {
+    "cid": 57483649,
+    "formula": "C14H18ClNO"
+  },
+  "ITZLAXJQDMGDEO-UHFFFAOYSA-N": {
+    "cid": 542053,
+    "formula": "C13H21NO3"
+  },
+  "IUJDSEJGGMCXSG-UHFFFAOYSA-N": {
+    "cid": 1244,
+    "formula": "C11H18N2O2S"
+  },
+  "IXUYMXAKKYWKRG-KRWDZBQOSA-N": {
+    "cid": 121489170,
+    "formula": "C20H29N3O2"
+  },
+  "JAUOIFJMECXRGI-UHFFFAOYSA-N": {
+    "cid": 124087,
+    "formula": "C19H19ClN2"
+  },
+  "JCRIVQIOJSSCQD-UHFFFAOYSA-N": {
+    "cid": 7558,
+    "formula": "C10H21N"
+  },
+  "JDEDMCKQPKGSAX-UHFFFAOYSA-N": {
+    "cid": 61121,
+    "formula": "C20H30N2O3"
+  },
+  "JDKLPDJLXHXHNV-MFVUMRCOSA-N": {
+    "cid": 92432,
+    "formula": "C50H69N15O9"
+  },
+  "JECGWOMOCPQHDH-UHFFFAOYSA-N": {
+    "cid": 163192742,
+    "formula": "C19H27N3O"
+  },
+  "JEYCTXHKTXCGPB-UHFFFAOYSA-N": {
+    "cid": 6292,
+    "formula": "C16H14N2O"
+  },
+  "JFDZZTSFBTYYDF-UHFFFAOYSA-N": {
+    "cid": 129844581,
+    "formula": "C21H23NO"
+  },
+  "JFXASAFVUQVGEW-SFHVURJKSA-N": {
+    "cid": 119058037,
+    "formula": "C20H27FN2O3"
+  },
+  "JGPMMRGNQUBGND-UHFFFAOYSA-N": {
+    "cid": 3686,
+    "formula": "C19H30O5"
+  },
+  "JHGDCSPZKQLBOP-UHFFFAOYSA-N": {
+    "cid": 129318262,
+    "formula": "C12H17NO2"
+  },
+  "JIOBORXCOGMHSV-UHFFFAOYSA-N": {
+    "cid": 827322,
+    "formula": "C17H16N4S"
+  },
+  "JJCFRYNCJDLXIK-UHFFFAOYSA-N": {
+    "cid": 2913,
+    "formula": "C21H21N"
+  },
+  "JJGYGPZNTOPXGV-SSTWWWIQSA-N": {
+    "cid": 5462507,
+    "formula": "C19H21NO4"
+  },
+  "JKHIJQTXTPXKTI-UHFFFAOYSA-N": {
+    "cid": 129844562,
+    "formula": "C16H23NO"
+  },
+  "JMABLCPXWZOLCW-UHFFFAOYSA-N": {
+    "cid": 82286499,
+    "formula": "C12H15NO3"
+  },
+  "JMBQKKAJIKAWKF-UHFFFAOYSA-N": {
+    "cid": 3487,
+    "formula": "C13H15NO2"
+  },
+  "JMYCGCXYZZHWMO-UHFFFAOYSA-N": {
+    "cid": 37114,
+    "formula": "C18H18ClN2O2P"
+  },
+  "JMZROFPPEXCTST-UHFFFAOYSA-N": {
+    "cid": 187760,
+    "formula": "C16H22Cl2N2O"
+  },
+  "JOFWLTCLBGQGBO-UHFFFAOYSA-N": {
+    "cid": 5556,
+    "formula": "C17H12Cl2N4"
+  },
+  "JOQQHMGSIKNGAF-HLFYOVGASA-N": {
+    "cid": 44024,
+    "formula": "C17H23Cl2N"
+  },
+  "JOUWVJULHKPDHV-UHFFFAOYSA-N": {
+    "cid": 66741538,
+    "formula": "C7H9ClN4O2"
+  },
+  "JQELEPKHBXEAHR-UHFFFAOYSA-N": {
+    "cid": 138454310,
+    "formula": "C15H22N2O"
+  },
+  "JRECAXBHMULNJQ-UHFFFAOYSA-N": {
+    "cid": 10293794,
+    "formula": "C26H34N2O"
+  },
+  "JRPRINGETIYVSV-LJISPDSOSA-N": {
+    "cid": 126112,
+    "formula": "C17H20FNO4"
+  },
+  "JSDRRTOADPPCHY-HSQYWUDLSA-N": {
+    "cid": 54892,
+    "formula": "C25H30N2O5"
+  },
+  "JSMQOVGXBIDBIE-UHFFFAOYSA-N": {
+    "cid": 162478085,
+    "formula": "C23H29N3O2"
+  },
+  "JTDTXGMXNXBGBZ-UHFFFAOYSA-N": {
+    "cid": 14332099,
+    "formula": "C33H57N11O9"
+  },
+  "JTJMJGYZQZDUJJ-UHFFFAOYSA-N": {
+    "cid": 6468,
+    "formula": "C17H25N"
+  },
+  "JURKNVYFZMSNLP-UHFFFAOYSA-N": {
+    "cid": 2895,
+    "formula": "C20H21N"
+  },
+  "JXMVQBDHMBOHDH-UHFFFAOYSA-N": {
+    "cid": 27697,
+    "formula": "C14H19N"
+  },
+  "JYTNQNCOQXFQPK-MRXNPFEDSA-N": {
+    "cid": 24965990,
+    "formula": "C23H23ClN6O2"
+  },
+  "JZVMREFYFTZXGN-UHFFFAOYSA-N": {
+    "cid": 137332188,
+    "formula": "C17H25N"
+  },
+  "KAASYKNZNPWPQG-UHFFFAOYSA-N": {
+    "cid": 17053,
+    "formula": "C15H20N2O"
+  },
+  "KCCVWUAAHDXNNQ-UHFFFAOYSA-N": {
+    "cid": 129532609,
+    "formula": "C23H30N2O2"
+  },
+  "KCEIOBKDDQAYCM-UHFFFAOYSA-N": {
+    "cid": 12562546,
+    "formula": "C17H13BrN4"
+  },
+  "KCRWXNIIXGBPID-UHFFFAOYSA-N": {
+    "cid": 168322728,
+    "formula": "C23H28N4O3"
+  },
+  "KFEYPBZJPJJRFX-UHFFFAOYSA-N": {
+    "cid": 14783734,
+    "formula": "C21H24ClN3O"
+  },
+  "KFQYTPMOWPVWEJ-UHFFFAOYSA-N": {
+    "cid": 57537,
+    "formula": "C19H25NOS"
+  },
+  "KGDVJQQWCDDEPP-UHFFFAOYSA-N": {
+    "cid": 417608,
+    "formula": "C15H22N2O"
+  },
+  "KGFYHTZWPPHNLQ-UHFFFAOYSA-N": {
+    "cid": 6433119,
+    "formula": "C19H18ClN3O5S"
+  },
+  "KITIJFNTLBMYQD-UHFFFAOYSA-N": {
+    "cid": 2063919,
+    "formula": "C13H20N2O2"
+  },
+  "KJADKKWYZYXHBB-XBWDGYHZSA-N": {
+    "cid": 5284627,
+    "formula": "C12H21NO8S"
+  },
+  "KJNZIEGLNLCWTQ-KRWDZBQOSA-N": {
+    "cid": 44206133,
+    "formula": "C20H28N4O2"
+  },
+  "KJONHKAYOJNZEC-UHFFFAOYSA-N": {
+    "cid": 4506,
+    "formula": "C15H11N3O3"
+  },
+  "KJUOROGOOZJYAI-UHFFFAOYSA-N": {
+    "cid": 97711,
+    "formula": "C12H17NO"
+  },
+  "KKMCHCCXGKYEKJ-UHFFFAOYSA-N": {
+    "cid": 54929142,
+    "formula": "C14H23NO3"
+  },
+  "KMZZEEDFQLXSQF-UHFFFAOYSA-N": {
+    "cid": 118796426,
+    "formula": "C21H29NO3"
+  },
+  "KNGIGRDYBQPXKQ-UHFFFAOYSA-N": {
+    "cid": 520217,
+    "formula": "C15H10FN3O3"
+  },
+  "KOFSZKDEQWGBDN-UHFFFAOYSA-N": {
+    "cid": 199115,
+    "formula": "C10H16ClN"
+  },
+  "KPYSYYIEGFHWSV-UHFFFAOYSA-N": {
+    "cid": 2284,
+    "formula": "C10H12ClNO2"
+  },
+  "KQKPFRSPSRPDEB-UHFFFAOYSA-N": {
+    "cid": 5358,
+    "formula": "C14H21N3O2S"
+  },
+  "KQPKPCNLIDLUMF-UHFFFAOYSA-N": {
+    "cid": 5193,
+    "formula": "C12H18N2O3"
+  },
+  "KRJKJUWAZOWXNV-UHFFFAOYSA-N": {
+    "cid": 125820,
+    "formula": "C15H10BrClN2O2"
+  },
+  "KRMDCWKBEZIMAB-UHFFFAOYSA-N": {
+    "cid": 2160,
+    "formula": "C20H23N"
+  },
+  "KRUGABVNKKKCJN-UHFFFAOYSA-N": {
+    "cid": 73553809,
+    "formula": "C18H26N2O2"
+  },
+  "KSLCYQTUSSEGPT-UHFFFAOYSA-N": {
+    "cid": 10226340,
+    "formula": "C22H23IN2O"
+  },
+  "KSMAGQUYOIHWFS-UHFFFAOYSA-N": {
+    "cid": 30668,
+    "formula": "C11H12Cl2N2O"
+  },
+  "KUIHLOHNUGOCTO-UHFFFAOYSA-N": {
+    "cid": 63386,
+    "formula": "C16H12Cl2N2O"
+  },
+  "KWGRBVOPPLSCSI-PSASIEDQSA-N": {
+    "cid": 9457,
+    "formula": "C10H15NO"
+  },
+  "KWHZRPBDEAQYDE-UHFFFAOYSA-N": {
+    "cid": 57493771,
+    "formula": "C17H19NO"
+  },
+  "KWTWDQCKEHXFFR-FZMZJTMJSA-N": {
+    "cid": 23654757,
+    "formula": "C14H23NO"
+  },
+  "KXPMRPNOYIOXFY-UHFFFAOYSA-N": {
+    "cid": 44350106,
+    "formula": "C12H18FNO2"
+  },
+  "KXUBAVLIJFTASZ-UHFFFAOYSA-N": {
+    "cid": 62300,
+    "formula": "C22H27FN2O"
+  },
+  "KYHFRCPLIGODFH-UHFFFAOYSA-N": {
+    "cid": 5069,
+    "formula": "C21H20Cl2N6O3"
+  },
+  "KYIJLDDXQWBNGX-UHFFFAOYSA-N": {
+    "cid": 102107923,
+    "formula": "C16H23NO"
+  },
+  "KYYIDSXMWOZKMP-UHFFFAOYSA-N": {
+    "cid": 125017,
+    "formula": "C16H25NO2"
+  },
+  "LAGUDYUGRSQDKS-UHFFFAOYSA-N": {
+    "cid": 130431397,
+    "formula": "C19H18Cl3N3O"
+  },
+  "LBCZKDPFDXFDTN-GGNLRSJOSA-N": {
+    "cid": 5492874,
+    "formula": "C18H21NO2"
+  },
+  "LBLVIDUIWXYVNG-AITUJVMLSA-N": {
+    "cid": 9972881,
+    "formula": "C20H27NO2"
+  },
+  "LCAFGJGYCUMTGS-UHFFFAOYSA-N": {
+    "cid": 65926,
+    "formula": "C12H16N2O"
+  },
+  "LCXOAMRAVSWHBP-UHFFFAOYSA-N": {
+    "cid": 90473109,
+    "formula": "C23H28O3"
+  },
+  "LEZWWPYKPKIXLL-UHFFFAOYSA-N": {
+    "cid": 3198,
+    "formula": "C18H15Cl3N2O"
+  },
+  "LFQSCWFLJHTTHZ-UHFFFAOYSA-N": {
+    "cid": 702,
+    "formula": "C2H6O"
+  },
+  "LFTWWOQOBQFPAT-UHFFFAOYSA-N": {
+    "cid": 163195978,
+    "formula": "C16H22FNO"
+  },
+  "LFXXIXAVEJVYGY-UHFFFAOYSA-N": {
+    "cid": 14545215,
+    "formula": "C12H18ClNO2"
+  },
+  "LFYBMMHFJIAKFE-PMEKXCSPSA-N": {
+    "cid": 20055090,
+    "formula": "C27H35NO5"
+  },
+  "LGGDXXJAGWBUSL-BKRJIHRRSA-N": {
+    "cid": 5463874,
+    "formula": "C20H25NO4"
+  },
+  "LIJIZZZQTLRBBW-UHFFFAOYSA-N": {
+    "cid": 165361991,
+    "formula": "C16H22ClNO3"
+  },
+  "LJQBMYDFWFGESC-UHFFFAOYSA-N": {
+    "cid": 92196,
+    "formula": "C10H12N2O"
+  },
+  "LJUNPHMOGNFFOS-UHFFFAOYSA-N": {
+    "cid": 2890,
+    "formula": "C14H17NO3"
+  },
+  "LKOJGSWUMISDOF-UHFFFAOYSA-N": {
+    "cid": 5320315,
+    "formula": "C16H12O5"
+  },
+  "LMHHFZAXSANGGM-UHFFFAOYSA-N": {
+    "cid": 76310,
+    "formula": "C9H11N"
+  },
+  "LMQLBXOYCGXTOM-UHFFFAOYSA-N": {
+    "cid": 15915372,
+    "formula": "C12H19NO2S"
+  },
+  "LMUVYJCAFWGNSY-UHFFFAOYSA-N": {
+    "cid": 93364,
+    "formula": "C16H12ClN3O3"
+  },
+  "LNNWVNGFPYWNQE-GMIGKAJZSA-N": {
+    "cid": 5362456,
+    "formula": "C17H21NO2"
+  },
+  "LPBKNBHMWRBPHT-UHFFFAOYSA-N": {
+    "cid": 57469209,
+    "formula": "C17H19FINO2"
+  },
+  "LPKTWLVEGBNOOX-UHFFFAOYSA-N": {
+    "cid": 52911279,
+    "formula": "C15H21NO2"
+  },
+  "LQEATNFJCMVKAC-UHFFFAOYSA-N": {
+    "cid": 24839550,
+    "formula": "C16H20N2"
+  },
+  "LQHGEOIBMBXJGV-UHFFFAOYSA-N": {
+    "cid": 12945120,
+    "formula": "C11H15NO"
+  },
+  "LRXXRIXDSAEIOR-UHFFFAOYSA-N": {
+    "cid": 71675,
+    "formula": "C16H18ClN"
+  },
+  "LSQZJLSUYDQPKJ-NJBDSQKTSA-N": {
+    "cid": 33613,
+    "formula": "C16H19N3O5S"
+  },
+  "LSSUMOWDTKZHHT-UHFFFAOYSA-N": {
+    "cid": 6090,
+    "formula": "C14H20N2"
+  },
+  "LTKOVYBBGBGKTA-SFHVURJKSA-N": {
+    "cid": 71968,
+    "formula": "C22H27ClN4O3"
+  },
+  "LTXREWYXXSTFRX-QGZVFWFLSA-N": {
+    "cid": 10096344,
+    "formula": "C25H28N8O2"
+  },
+  "LUZRJRNZXALNLM-UHFFFAOYSA-N": {
+    "cid": 3066,
+    "formula": "C33H37N5O5"
+  },
+  "LWJALJDRFBXHKX-UHFFFAOYSA-N": {
+    "cid": 4660557,
+    "formula": "C16H20BrN"
+  },
+  "LWOCBHBFWNGPGM-QGZVFWFLSA-N": {
+    "cid": 155804661,
+    "formula": "C20H27N3O3"
+  },
+  "LXIXAVCVBZBXIY-UHFFFAOYSA-N": {
+    "cid": 616324,
+    "formula": "C21H34O2"
+  },
+  "LYMHIBZGTAPASQ-UHFFFAOYSA-N": {
+    "cid": 458519,
+    "formula": "C11H15NO"
+  },
+  "LYONXVJRBWWGQO-UHFFFAOYSA-N": {
+    "cid": 132441,
+    "formula": "C12H14N2O2"
+  },
+  "MABOIYXDALNSES-UHFFFAOYSA-N": {
+    "cid": 164979,
+    "formula": "C12H10N2"
+  },
+  "MACFTPBZAOCTFN-UHFFFAOYSA-N": {
+    "cid": 118643968,
+    "formula": "C28H32F2N2O2S"
+  },
+  "MAFMQEKGGFWBAB-UHFFFAOYSA-N": {
+    "cid": 7699,
+    "formula": "C30H53NO11"
+  },
+  "MAICYUOZXYUWMJ-UHFFFAOYSA-N": {
+    "cid": 13141004,
+    "formula": "C17H24N2O2"
+  },
+  "MBOCMBFDYVSGLJ-UHFFFAOYSA-N": {
+    "cid": 72710774,
+    "formula": "C23H21FN2O2"
+  },
+  "MEDMUZZETVRTFG-UHFFFAOYSA-N": {
+    "cid": 119057997,
+    "formula": "C12H16ClNO"
+  },
+  "MEZLKOACVSPNER-GFCCVEGCSA-N": {
+    "cid": 26757,
+    "formula": "C13H17N"
+  },
+  "MFJKNXILEXBWNQ-UHFFFAOYSA-N": {
+    "cid": 9930416,
+    "formula": "C20H25FN2O3S"
+  },
+  "MFOCDFTXLCYLKU-CMPLNLGQSA-N": {
+    "cid": 30487,
+    "formula": "C12H17NO"
+  },
+  "MFZOSKPPVCIFMT-UHFFFAOYSA-N": {
+    "cid": 40391,
+    "formula": "C18H13ClN2O"
+  },
+  "MIKNPNLBFHVMKK-UHFFFAOYSA-N": {
+    "cid": 137332171,
+    "formula": "C14H21NO"
+  },
+  "MIRNYUKRRZFBOI-UHFFFAOYSA-N": {
+    "cid": 102336591,
+    "formula": "C13H17NO"
+  },
+  "MJEMIOXXNCZZFK-UHFFFAOYSA-N": {
+    "cid": 57252245,
+    "formula": "C12H15NO3"
+  },
+  "MJEXYQIZUOHDGY-UHFFFAOYSA-N": {
+    "cid": 24756844,
+    "formula": "C23H32N6O4S"
+  },
+  "MJRDCJBNRNAXIK-UHFFFAOYSA-N": {
+    "cid": 12280954,
+    "formula": "C7H12ClNS"
+  },
+  "MKXFXPRJCBUTLX-UHFFFAOYSA-N": {
+    "cid": 2779263,
+    "formula": "C10H12ClFN2"
+  },
+  "MKXZASYAUGDDCJ-CGTJXYLNSA-N": {
+    "cid": 5362449,
+    "formula": "C18H25NO"
+  },
+  "MLOFCBXSOAYCIF-DYESRHJHSA-N": {
+    "cid": 119025859,
+    "formula": "C24H31N3O2"
+  },
+  "MMIKQWIZKBYLKZ-UHFFFAOYSA-N": {
+    "cid": 132989549,
+    "formula": "C19H27NO"
+  },
+  "MNTIJYGEITVWHU-SNVBAGLBSA-N": {
+    "cid": 637863,
+    "formula": "C10H12N2O2S"
+  },
+  "MPMDMUROZIYIIM-UHFFFAOYSA-N": {
+    "cid": 63382,
+    "formula": "C17H16N2O"
+  },
+  "MPZVLJCMGPYWQQ-UHFFFAOYSA-N": {
+    "cid": 10359044,
+    "formula": "C17H12ClFN4"
+  },
+  "MQUIHBQDYYAEMH-UHFFFAOYSA-N": {
+    "cid": 216281,
+    "formula": "C11H15NO2"
+  },
+  "MQZWTCIUDSDFCQ-UHFFFAOYSA-N": {
+    "cid": 132989661,
+    "formula": "C16H15F2NO2S"
+  },
+  "MRFMNGZRIIBJTB-UHFFFAOYSA-N": {
+    "cid": 82100609,
+    "formula": "C12H15NO3"
+  },
+  "MSXVEPNJUHWQHW-UHFFFAOYSA-N": {
+    "cid": 6405,
+    "formula": "C5H12O"
+  },
+  "MSYKRHVOOPPJKU-BDAKNGLRSA-N": {
+    "cid": 9837243,
+    "formula": "C11H20N2O2"
+  },
+  "MSZRPURXKHMSFF-UHFFFAOYSA-N": {
+    "cid": 49344,
+    "formula": "C11H15NO2"
+  },
+  "MUGXRYIUWFITCP-UHFFFAOYSA-N": {
+    "cid": 76469283,
+    "formula": "C22H20F2N4O2"
+  },
+  "MUMGGOZAMZWBJJ-PPORCNLBSA-N": {
+    "cid": 5701998,
+    "formula": "C19H28O2"
+  },
+  "MUZGGFNYVLGUFS-UHFFFAOYSA-N": {
+    "cid": 15100753,
+    "formula": "C18H27NO"
+  },
+  "MVWVFYHBGMAFLY-UHFFFAOYSA-N": {
+    "cid": 60854,
+    "formula": "C21H21ClN4OS"
+  },
+  "MWKQPIROPJSFRI-UHFFFAOYSA-N": {
+    "cid": 49853406,
+    "formula": "C10H12FNO"
+  },
+  "MWQCHHACWWAQLJ-UHFFFAOYSA-N": {
+    "cid": 4890,
+    "formula": "C19H17ClN2O"
+  },
+  "MYNOUXJLOHVSMQ-UHFFFAOYSA-N": {
+    "cid": 54098032,
+    "formula": "C21H27N3O"
+  },
+  "MZLRMPTVOVJXLW-UHFFFAOYSA-N": {
+    "cid": 21854223,
+    "formula": "C16H24N2O"
+  },
+  "NAJVRARAUNYNDX-UHFFFAOYSA-N": {
+    "cid": 60608,
+    "formula": "C10H12N2O3"
+  },
+  "NBFMSQBTYHYVKP-UHFFFAOYSA-N": {
+    "cid": 125276632,
+    "formula": "C17H25NO2"
+  },
+  "NBGABHGMJVIVBW-QHCPKHFHSA-N": {
+    "cid": 91801202,
+    "formula": "C23H23ClN6O2"
+  },
+  "NBUSAPJNASSKBP-UHFFFAOYSA-N": {
+    "cid": 364842,
+    "formula": "C15H11BrN2O"
+  },
+  "NDAUXUAQIAJITI-LBPRGKRZSA-N": {
+    "cid": 123600,
+    "formula": "C13H21NO3"
+  },
+  "NEGYEDYHPHMHGK-UHFFFAOYSA-N": {
+    "cid": 31721,
+    "formula": "C10H15NO"
+  },
+  "NEZHKHMZNSFKGS-UHFFFAOYSA-N": {
+    "cid": 82281904,
+    "formula": "C11H14FNO"
+  },
+  "NGHTXZCKLWZPGK-UHFFFAOYSA-N": {
+    "cid": 71157,
+    "formula": "C14H18N2O2"
+  },
+  "NIJJYAXOARWZEE-UHFFFAOYSA-N": {
+    "cid": 3121,
+    "formula": "C8H16O2"
+  },
+  "NIWYLNFSJJLYHU-UHFFFAOYSA-N": {
+    "cid": 20027466,
+    "formula": "C11H16FN"
+  },
+  "NIYQOTCYXGXMPI-UHFFFAOYSA-N": {
+    "cid": 6430845,
+    "formula": "C14H17NO3"
+  },
+  "NJNMIPDEUMTYNV-UHFFFAOYSA-N": {
+    "cid": 57507899,
+    "formula": "C18H20INO4"
+  },
+  "NKMGWZZAFWDLFG-UHFFFAOYSA-N": {
+    "cid": 2845469,
+    "formula": "C18H21ClN2"
+  },
+  "NLPGJSPLDNDKKZ-UHFFFAOYSA-N": {
+    "cid": 113832,
+    "formula": "C20H27NO2S"
+  },
+  "NMGYDYBWRZHLHR-UHFFFAOYSA-N": {
+    "cid": 24100,
+    "formula": "C10H9F3N2O"
+  },
+  "NOOLISFMXDJSKH-KXUCPTDWSA-N": {
+    "cid": 16666,
+    "formula": "C10H20O"
+  },
+  "NPHUSRHIDKYNDO-UHFFFAOYSA-N": {
+    "cid": 168310594,
+    "formula": "C21H26N4O3"
+  },
+  "NPILLHMQNMXXTL-UHFFFAOYSA-N": {
+    "cid": 20741615,
+    "formula": "C11H14N2O"
+  },
+  "NPUKDXXFDDZOKR-UHFFFAOYSA-N": {
+    "cid": 36339,
+    "formula": "C14H16N2O2"
+  },
+  "NQSSWDKQLVBUQN-UHFFFAOYSA-N": {
+    "cid": 12434325,
+    "formula": "C16H13ClN4S"
+  },
+  "NRLIFEGHTNUYFL-QJDHNRDASA-N": {
+    "cid": 9614919,
+    "formula": "C16H20Cl2N2O"
+  },
+  "NRNCYVBFPDDJNE-UHFFFAOYSA-N": {
+    "cid": 4723,
+    "formula": "C9H8N2O2"
+  },
+  "NSKWYRZISOURNW-UHFFFAOYSA-N": {
+    "cid": 24212070,
+    "formula": "C12H19ClN2"
+  },
+  "NTJOBXMMWNYJFB-UHFFFAOYSA-N": {
+    "cid": 2159,
+    "formula": "C17H27N3O4S"
+  },
+  "NVVDQMVGALBDGE-UHFFFAOYSA-N": {
+    "cid": 278173,
+    "formula": "C21H26N2O2"
+  },
+  "NVXPZMLRGBVYQV-RHSMWYFYSA-N": {
+    "cid": 10609935,
+    "formula": "C17H19N"
+  },
+  "NYISTOZKVCMVEL-UHFFFAOYSA-N": {
+    "cid": 60575,
+    "formula": "C22H27FN2O2"
+  },
+  "OBWASQILIWPZMG-UHFFFAOYSA-N": {
+    "cid": 73151030,
+    "formula": "C23H27ClO7"
+  },
+  "ODQWQRRAPPTVAG-GZTJUZNOSA-N": {
+    "cid": 667477,
+    "formula": "C19H21NO"
+  },
+  "OEKWJQXRCDYSHL-UHFFFAOYSA-N": {
+    "cid": 22052291,
+    "formula": "C23H28F2N6O4S"
+  },
+  "OFGOOZLOGUNDFS-UHFFFAOYSA-N": {
+    "cid": 57461569,
+    "formula": "C15H23NO"
+  },
+  "OFVXPDXXVSGEPX-UHFFFAOYSA-N": {
+    "cid": 3400,
+    "formula": "C19H16ClFN2O"
+  },
+  "OFZCIYFFPZCNJE-UHFFFAOYSA-N": {
+    "cid": 2576,
+    "formula": "C12H24N2O4"
+  },
+  "OGDVEMNWJVYAJL-LEPYJNQMSA-N": {
+    "cid": 5359271,
+    "formula": "C19H23NO3"
+  },
+  "OHJNHKUFSKAANI-UHFFFAOYSA-N": {
+    "cid": 137332293,
+    "formula": "C24H30N2O2"
+  },
+  "OIKQTWPVQQAGJG-UHFFFAOYSA-N": {
+    "cid": 12201196,
+    "formula": "C10H14ClFN2"
+  },
+  "OIOQREYBGDAYGT-UHFFFAOYSA-N": {
+    "cid": 145721979,
+    "formula": "C23H30N4O3"
+  },
+  "OJCPSBCUMRIPFL-UHFFFAOYSA-N": {
+    "cid": 14592,
+    "formula": "C15H23N"
+  },
+  "OJTMRZHYTZMJKX-RTBURBONSA-N": {
+    "cid": 6453074,
+    "formula": "C23H34O2"
+  },
+  "OLBCVFGFOZPWHH-UHFFFAOYSA-N": {
+    "cid": 4943,
+    "formula": "C12H18O"
+  },
+  "OLEWMKVPSUCNLG-UHFFFAOYSA-N": {
+    "cid": 151900,
+    "formula": "C10H15NS"
+  },
+  "OMBOXYLBBHNWHL-YJNKXOJESA-N": {
+    "cid": 170832,
+    "formula": "C16H21NO2"
+  },
+  "OOBHFESNSZDWIU-UHFFFAOYSA-N": {
+    "cid": 4762,
+    "formula": "C11H15NO"
+  },
+  "OOLSOYRWBLRTLT-UHFFFAOYSA-N": {
+    "cid": 168318648,
+    "formula": "C16H24ClNO2"
+  },
+  "OOSRPGUQJAKBLV-LLVKDONJSA-N": {
+    "cid": 86336146,
+    "formula": "C13H19NOS"
+  },
+  "OPJOMVMFYOUDPK-UHFFFAOYSA-N": {
+    "cid": 10776,
+    "formula": "C10H13NO2"
+  },
+  "ORADFQZOLNHWRQ-UHFFFAOYSA-N": {
+    "cid": 44350092,
+    "formula": "C11H15NO3"
+  },
+  "ORXQUAPZHKCCAX-UHFFFAOYSA-N": {
+    "cid": 90239,
+    "formula": "C10H13NO3"
+  },
+  "OSCKJNABTUADKZ-UHFFFAOYSA-N": {
+    "cid": 165411888,
+    "formula": "C19H21NO"
+  },
+  "OTQVTBPHZRARTL-UHFFFAOYSA-N": {
+    "cid": 91844468,
+    "formula": "C19H23NO2"
+  },
+  "OTQWCDNEJVKXKG-RDTXWAMCSA-N": {
+    "cid": 199507,
+    "formula": "C20H23N3O2"
+  },
+  "OYRPNABWTHDOFK-UHFFFAOYSA-N": {
+    "cid": 20317278,
+    "formula": "C17H13N5O2"
+  },
+  "OZEBFZPAWCXEGK-UHFFFAOYSA-N": {
+    "cid": 129514317,
+    "formula": "C20H27NO3S"
+  },
+  "OZKGXOZBACDFIQ-UHFFFAOYSA-N": {
+    "cid": 13140997,
+    "formula": "C15H20N2O2"
+  },
+  "PBENSVGEGPJNFJ-CQSZACIVSA-N": {
+    "cid": 51529346,
+    "formula": "C14H23N"
+  },
+  "PCLITLDOTJTVDJ-UHFFFAOYSA-N": {
+    "cid": 10783,
+    "formula": "C6H8ClNS"
+  },
+  "PCSKDXWCLQXURQ-UHFFFAOYSA-N": {
+    "cid": 11370394,
+    "formula": "C10H14BrNO3"
+  },
+  "PFPLGKFWWBXTNP-UHFFFAOYSA-N": {
+    "cid": 398433,
+    "formula": "C17H24FN"
+  },
+  "PHFAGYYTDLITTB-UHFFFAOYSA-N": {
+    "cid": 13771618,
+    "formula": "C13H16FNO"
+  },
+  "PHLBKPHSAVXXEF-UHFFFAOYSA-N": {
+    "cid": 5533,
+    "formula": "C19H22ClN5O"
+  },
+  "PHVGLTMQBUFIQQ-UHFFFAOYSA-N": {
+    "cid": 4543,
+    "formula": "C19H21N"
+  },
+  "PIOCLGPCMNPZFT-UHFFFAOYSA-N": {
+    "cid": 121501,
+    "formula": "C9H12FN"
+  },
+  "PJNSMUBMSNAEEN-AWEZNQCLSA-N": {
+    "cid": 180496,
+    "formula": "C17H22N2O4"
+  },
+  "PLQTZOCLUHHCOI-UHFFFAOYSA-N": {
+    "cid": 112500533,
+    "formula": "C12H17NO"
+  },
+  "PMXMIIMHBWHSKN-LJQANCHMSA-N": {
+    "cid": 9802545,
+    "formula": "C23H27FN4O3"
+  },
+  "PNCPYILNMDWPEY-QGZVFWFLSA-N": {
+    "cid": 5312125,
+    "formula": "C25H32F3N3O4"
+  },
+  "PNHPVNBKLQWBKH-UHFFFAOYSA-N": {
+    "cid": 14011047,
+    "formula": "C17H26N2O"
+  },
+  "PNVNVHUZROJLTJ-UHFFFAOYSA-N": {
+    "cid": 5656,
+    "formula": "C17H27NO2"
+  },
+  "PPRRDFIXUUSXRA-UHFFFAOYSA-N": {
+    "cid": 6918248,
+    "formula": "C20H21F3N4O"
+  },
+  "PPTYJKAXVCCBDU-UHFFFAOYSA-N": {
+    "cid": 3380,
+    "formula": "C16H12FN3O3"
+  },
+  "PQIBROLLUQSNQI-UHFFFAOYSA-N": {
+    "cid": 53415330,
+    "formula": "C10H12FNO"
+  },
+  "PQTJKFUXRBKONZ-UHFFFAOYSA-N": {
+    "cid": 119057570,
+    "formula": "C14H19NO3"
+  },
+  "PQXKDMSYBGKCJA-CVTJIBDQSA-N": {
+    "cid": 213046,
+    "formula": "C28H36N4O2S"
+  },
+  "PRMWWEANNQSWAR-LSDHHAIUSA-N": {
+    "cid": 119025956,
+    "formula": "C16H23NO2"
+  },
+  "PSPGQHXMUKWNDI-UHFFFAOYSA-N": {
+    "cid": 214346,
+    "formula": "C19H23N3O3"
+  },
+  "PTYYWSKZYOSFEK-UHFFFAOYSA-N": {
+    "cid": 44383444,
+    "formula": "C17H24N2O2"
+  },
+  "PUJNOWQUPWZVER-UHFFFAOYSA-N": {
+    "cid": 18352720,
+    "formula": "C11H16FN"
+  },
+  "PUMYFTJOWAJIKF-UHFFFAOYSA-N": {
+    "cid": 1688,
+    "formula": "C16H12Cl2N2O"
+  },
+  "PVXVWWANJIWJOO-UHFFFAOYSA-N": {
+    "cid": 105039,
+    "formula": "C12H17NO2"
+  },
+  "PWVXXGRKLHYWKM-LJQANCHMSA-N": {
+    "cid": 77993,
+    "formula": "C22H26N2O2S"
+  },
+  "PXBVEXGRHZFEOF-UHFFFAOYSA-N": {
+    "cid": 37367,
+    "formula": "C19H18ClN3O3"
+  },
+  "PXDBZSCGSQSKST-UHFFFAOYSA-N": {
+    "cid": 13493,
+    "formula": "C22H28N4O3"
+  },
+  "PXDVGFGXPVCNAB-UHFFFAOYSA-N": {
+    "cid": 118796522,
+    "formula": "C20H27NO3"
+  },
+  "PYDQMXRFUVDCHC-XAGHGKQISA-N": {
+    "cid": 11431898,
+    "formula": "C28H30O8"
+  },
+  "PYZRQGJRPPTADH-UHFFFAOYSA-N": {
+    "cid": 3878,
+    "formula": "C9H7Cl2N5"
+  },
+  "PZMLDAGKYPJWHJ-UHFFFAOYSA-N": {
+    "cid": 162705326,
+    "formula": "C20H30N4O2"
+  },
+  "QAHXUHUHCQYFHC-UHFFFAOYSA-N": {
+    "cid": 117903522,
+    "formula": "C17H22Cl3NO2"
+  },
+  "QARQPIWTMBRJFX-UHFFFAOYSA-N": {
+    "cid": 3085267,
+    "formula": "C15H14O3S"
+  },
+  "QAXBVGVYDCAVLV-UHFFFAOYSA-N": {
+    "cid": 26533,
+    "formula": "C12H17NOS"
+  },
+  "QBFXBDUCRNGHSA-UHFFFAOYSA-N": {
+    "cid": 132278123,
+    "formula": "C12H16FNO"
+  },
+  "QDNXSIYWHYGMCD-UHFFFAOYSA-N": {
+    "cid": 71741532,
+    "formula": "C11H15NO"
+  },
+  "QHEBYIJRKGDFGH-UHFFFAOYSA-N": {
+    "cid": 118796470,
+    "formula": "C21H29NO3"
+  },
+  "QHEIGHVZMWJQHB-UHFFFAOYSA-N": {
+    "cid": 13140993,
+    "formula": "C13H16N2O2"
+  },
+  "QHMBSVQNZZTUGM-ZWKOTPCHSA-N": {
+    "cid": 644019,
+    "formula": "C21H30O2"
+  },
+  "QIVBCDIJIAJPQS-VIFPVBQESA-N": {
+    "cid": 6305,
+    "formula": "C11H12N2O2"
+  },
+  "QLAAURQYEAEHBO-UHFFFAOYSA-N": {
+    "cid": 122202866,
+    "formula": "C12H15NO"
+  },
+  "QLENKWFQUHHBKZ-UHFFFAOYSA-N": {
+    "cid": 14201982,
+    "formula": "C13H20FNO2"
+  },
+  "QMQBBUPJKANITL-MYXGOWFTSA-N": {
+    "cid": 15424,
+    "formula": "C22H30ClNO2"
+  },
+  "QNIVIMYXGGFTAK-UHFFFAOYSA-N": {
+    "cid": 10982,
+    "formula": "C8H19N"
+  },
+  "QNMGHBMGNRQPNL-UHFFFAOYSA-N": {
+    "cid": 36109,
+    "formula": "C16H19NO2"
+  },
+  "QOIGKGMMAGJZNZ-UHFFFAOYSA-N": {
+    "cid": 55191,
+    "formula": "C19H29N5O2"
+  },
+  "QPVUUOXSCVQZQG-UHFFFAOYSA-N": {
+    "cid": 179624,
+    "formula": "C10H13N"
+  },
+  "QQAHEGDXEXIQPR-UHFFFAOYSA-N": {
+    "cid": 205593,
+    "formula": "C13H19NO"
+  },
+  "QQOMYEQLWQJRKK-UHFFFAOYSA-N": {
+    "cid": 621174,
+    "formula": "C23H30N2O"
+  },
+  "QSAFSJAOPPHPTK-UHFFFAOYSA-N": {
+    "cid": 100079,
+    "formula": "C18H17ClO2"
+  },
+  "QUSLQENMLDRCTO-APIJFGDWSA-N": {
+    "cid": 10707673,
+    "formula": "C16H20FNO2"
+  },
+  "QWCRAEMEVRGPNT-UHFFFAOYSA-N": {
+    "cid": 2477,
+    "formula": "C21H31N5O2"
+  },
+  "QWGDMFLQWFTERH-UHFFFAOYSA-N": {
+    "cid": 2170,
+    "formula": "C17H16ClN3O"
+  },
+  "QWHXHLDNSXLAPX-UHFFFAOYSA-N": {
+    "cid": 103611,
+    "formula": "C10H12FNO2"
+  },
+  "QXACEHWTBCFNSA-SFQUDFHCSA-N": {
+    "cid": 5315659,
+    "formula": "C21H32O2"
+  },
+  "QYPPJABKJHAVHS-UHFFFAOYSA-N": {
+    "cid": 199,
+    "formula": "C5H14N4"
+  },
+  "QYVNZHBQYJRLEX-UHFFFAOYSA-N": {
+    "cid": 192600,
+    "formula": "C12H17N"
+  },
+  "QZUDBNBUXVUHMW-UHFFFAOYSA-N": {
+    "cid": 135398737,
+    "formula": "C18H19ClN4"
+  },
+  "QZZUEBNBZAPZLX-QFIPXVFZSA-N": {
+    "cid": 6918554,
+    "formula": "C24H28N2O3"
+  },
+  "RAPZEAPATHNIPO-UHFFFAOYSA-N": {
+    "cid": 5073,
+    "formula": "C23H27FN4O2"
+  },
+  "RBOXVHNMENFORY-DNJOTXNNSA-N": {
+    "cid": 5284543,
+    "formula": "C18H23NO3"
+  },
+  "RDLAGIOILLWVTM-UHFFFAOYSA-N": {
+    "cid": 137700379,
+    "formula": "C17H12FN5O2"
+  },
+  "RDOIQAHITMMDAJ-UHFFFAOYSA-N": {
+    "cid": 3955,
+    "formula": "C29H33ClN2O2"
+  },
+  "REFJWTPEDVJJIY-UHFFFAOYSA-N": {
+    "cid": 5280343,
+    "formula": "C15H10O7"
+  },
+  "RERZNCLIYCABFS-UHFFFAOYSA-N": {
+    "cid": 3564,
+    "formula": "C13H14N2O"
+  },
+  "RFQNLMWUIJJEQF-UHFFFAOYSA-N": {
+    "cid": 10314851,
+    "formula": "C22H26N2O"
+  },
+  "RFXCNPOWSCFJCD-UHFFFAOYSA-N": {
+    "cid": 33597,
+    "formula": "C20H27NO3"
+  },
+  "RGSVXQJPSWZXOP-UHFFFAOYSA-N": {
+    "cid": 123692,
+    "formula": "C19H25NS"
+  },
+  "RHOGRSKNWDNCDN-UHFFFAOYSA-N": {
+    "cid": 38240,
+    "formula": "C12H19NO3"
+  },
+  "RHWDQYHGQIZSGW-UHFFFAOYSA-N": {
+    "cid": 9947229,
+    "formula": "C16H20Cl3NO2"
+  },
+  "RKEWSXXUOLRFBX-UHFFFAOYSA-N": {
+    "cid": 10071196,
+    "formula": "C25H34FN3O2"
+  },
+  "RKXQYWFDJDYSEN-UHFFFAOYSA-N": {
+    "cid": 123133727,
+    "formula": "C15H20FNO2"
+  },
+  "RMDGINCOKQDLNS-UHFFFAOYSA-N": {
+    "cid": 132989253,
+    "formula": "C14H20ClNO3"
+  },
+  "RMLXCDMTGWSEOU-UHFFFAOYSA-N": {
+    "cid": 39424372,
+    "formula": "C18H23NO3"
+  },
+  "RMRJXGBAOAMLHD-IHFGGWKQSA-N": {
+    "cid": 644073,
+    "formula": "C29H41NO4"
+  },
+  "RNFNDJAIBTYOQL-UHFFFAOYSA-N": {
+    "cid": 2707,
+    "formula": "C2H3Cl3O2"
+  },
+  "RPCVIAXDAUMJJP-PZBABLGHSA-N": {
+    "cid": 9824145,
+    "formula": "C14H22N2O"
+  },
+  "RRBRQNALHKQCAI-UHFFFAOYSA-N": {
+    "cid": 29918992,
+    "formula": "C25H34N6O3"
+  },
+  "RRVAUTPWWWFYQT-UHFFFAOYSA-N": {
+    "cid": 58216164,
+    "formula": "C10H14FN"
+  },
+  "RSUMDJRTAFBISX-UHFFFAOYSA-N": {
+    "cid": 9799417,
+    "formula": "C26H24O2"
+  },
+  "RSUNJYKZRKIBNB-UHFFFAOYSA-N": {
+    "cid": 125181394,
+    "formula": "C17H20BrNO3"
+  },
+  "RTHCYVBBDHJXIQ-UHFFFAOYSA-N": {
+    "cid": 3386,
+    "formula": "C17H18F3NO"
+  },
+  "RTZKZFJDLAIYFH-UHFFFAOYSA-N": {
+    "cid": 3283,
+    "formula": "C4H10O"
+  },
+  "RUZIUYOSRDWYQF-HNNXBMFYSA-N": {
+    "cid": 16754,
+    "formula": "C21H25NO4"
+  },
+  "RWTNXJXZVGHMGI-UHFFFAOYSA-N": {
+    "cid": 160506,
+    "formula": "C18H21N"
+  },
+  "RYENLSMHLCNXJT-CYXFISRXSA-N": {
+    "cid": 44301524,
+    "formula": "C23H30N2O5"
+  },
+  "RYNRSMKGPSUXLC-UHFFFAOYSA-N": {
+    "cid": 172872047,
+    "formula": "C26H37N3O2Si"
+  },
+  "RYYVLZVUVIJVGH-UHFFFAOYSA-N": {
+    "cid": 2519,
+    "formula": "C8H10N4O2"
+  },
+  "RZHHDMJWDYJXAW-UHFFFAOYSA-N": {
+    "cid": 63339,
+    "formula": "C16H13N3O4"
+  },
+  "RZVAJINKPMORJF-UHFFFAOYSA-N": {
+    "cid": 1983,
+    "formula": "C8H9NO2"
+  },
+  "RZZPDXZPRHQOCG-OJAKKHQRSA-M": {
+    "cid": 25202509,
+    "formula": "C14H25N4O11P2-"
+  },
+  "SAADBVWGJQAEFS-UHFFFAOYSA-N": {
+    "cid": 3393,
+    "formula": "C21H23ClFN3O"
+  },
+  "SEQDDYPDSLOBDC-UHFFFAOYSA-N": {
+    "cid": 5391,
+    "formula": "C16H13ClN2O2"
+  },
+  "SERVJVLEXBDVEE-UHFFFAOYSA-N": {
+    "cid": 137699733,
+    "formula": "C12H18ClNO"
+  },
+  "SFNKTTXBZXVGOH-UHFFFAOYSA-N": {
+    "cid": 26412,
+    "formula": "C21H27N3O"
+  },
+  "SGEGOXDYSFKCPT-UHFFFAOYSA-N": {
+    "cid": 6918314,
+    "formula": "C26H27N5O2"
+  },
+  "SGUAFYQXFOLMHL-UHFFFAOYSA-N": {
+    "cid": 3869,
+    "formula": "C19H24N2O3"
+  },
+  "SIDLZWOQUZRBRU-UHFFFAOYSA-N": {
+    "cid": 4162,
+    "formula": "C10H17NO2"
+  },
+  "SIXLXDIJGIWWFU-UHFFFAOYSA-N": {
+    "cid": 14190,
+    "formula": "C16H20N2O4S2"
+  },
+  "SJZRECIVHVDYJC-UHFFFAOYSA-N": {
+    "cid": 10413,
+    "formula": "C4H8O3"
+  },
+  "SMNXUMMCCOZPPN-UHFFFAOYSA-N": {
+    "cid": 205668,
+    "formula": "C9H12BrN"
+  },
+  "SNICXCGAKADSCV-JTQLQIEISA-N": {
+    "cid": 89594,
+    "formula": "C10H14N2"
+  },
+  "SNPPWIUOZRMYNY-UHFFFAOYSA-N": {
+    "cid": 444,
+    "formula": "C13H18ClNO"
+  },
+  "SNRTZFZAFBIBJP-UHFFFAOYSA-N": {
+    "cid": 9861054,
+    "formula": "C13H15FN2O3S"
+  },
+  "SPTIETJWCCCJSE-UHFFFAOYSA-N": {
+    "cid": 91936940,
+    "formula": "C16H24N2O4"
+  },
+  "SRIJFPBZWUFLFD-UHFFFAOYSA-N": {
+    "cid": 68664,
+    "formula": "C20H20N2O2"
+  },
+  "SRJKCVHWIDFUBO-HXUWFJFHSA-N": {
+    "cid": 125181404,
+    "formula": "C23H32N2O3"
+  },
+  "SRPXSILJHWNFMK-MEDUHNTESA-N": {
+    "cid": 9947999,
+    "formula": "C16H15Cl2N"
+  },
+  "SSRDSYXGYPJKRR-ZDUSSCGKSA-N": {
+    "cid": 46196517,
+    "formula": "C16H17ClN2OS"
+  },
+  "SUHOQUVVVLNYQR-QMMMGPOBSA-N": {
+    "cid": 71920,
+    "formula": "C8H20NO6P"
+  },
+  "SUVMJBTUFCVSAD-UHFFFAOYSA-N": {
+    "cid": 5350,
+    "formula": "C6H11NOS2"
+  },
+  "SVDHSZFEQYXRDC-UHFFFAOYSA-N": {
+    "cid": 13331,
+    "formula": "C24H31NO"
+  },
+  "SVFXPTLYMIXFRX-BBRMVZONSA-N": {
+    "cid": 20055336,
+    "formula": "C16H15Cl2N"
+  },
+  "SVRFNPSJPIDUBC-UHFFFAOYSA-N": {
+    "cid": 166624776,
+    "formula": "C24H31N3O2"
+  },
+  "SWUVZKWCOBGPTH-UHFFFAOYSA-N": {
+    "cid": 14373,
+    "formula": "C16H23NO"
+  },
+  "SWWAVNFEFVMDAG-UHFFFAOYSA-N": {
+    "cid": 201662,
+    "formula": "C23H25ClN4O"
+  },
+  "SXWZQUCTTOBHJT-UHFFFAOYSA-N": {
+    "cid": 15023225,
+    "formula": "C10H13N"
+  },
+  "SYAKTDIEAPMBAL-UHFFFAOYSA-N": {
+    "cid": 16630,
+    "formula": "C9H10N2O"
+  },
+  "SYBINTRPEZWFLZ-UHFFFAOYSA-N": {
+    "cid": 135391539,
+    "formula": "C19H25NO3"
+  },
+  "TVYLLZQTGLZFBW-UHFFFAOYSA-N": {
+    "cid": 5523,
+    "formula": "C16H25NO2"
+  },
+  "TWYFGYXQSYOKLK-CYUSMAIQSA-N": {
+    "cid": 6918678,
+    "formula": "C17H19N3O6"
+  },
+  "TXCKTIBHURMASQ-UHFFFAOYSA-N": {
+    "cid": 118536028,
+    "formula": "C18H22N2O5"
+  },
+  "UBNHYNYMUORHAM-UHFFFAOYSA-N": {
+    "cid": 15102787,
+    "formula": "C13H21NO3"
+  },
+  "UCMFSGVIEPXYIV-UHFFFAOYSA-N": {
+    "cid": 71711119,
+    "formula": "C23H30FN3O"
+  },
+  "UDZJNLZRWBOFTK-UHFFFAOYSA-N": {
+    "cid": 119057579,
+    "formula": "C17H24ClNO3"
+  },
+  "UEEJHVSXFDXPFK-UHFFFAOYSA-N": {
+    "cid": 7902,
+    "formula": "C4H11NO"
+  },
+  "UFECWXZSRFBSHC-LLVKDONJSA-N": {
+    "cid": 155928944,
+    "formula": "C14H18N4O2"
+  },
+  "UGJMXCAKCUNAIE-UHFFFAOYSA-N": {
+    "cid": 3446,
+    "formula": "C9H17NO2"
+  },
+  "UHFIFTRHLBAWGY-UHFFFAOYSA-N": {
+    "cid": 3058221,
+    "formula": "C15H10FN3O4"
+  },
+  "UHSKFQJFRQCDBE-UHFFFAOYSA-N": {
+    "cid": 5095,
+    "formula": "C16H24N2O"
+  },
+  "UHWVSEOVJBQKBE-COMRDEPKSA-N": {
+    "cid": 45040630,
+    "formula": "C14H22N2O3"
+  },
+  "ULFRLSNUDGIQQP-UHFFFAOYSA-N": {
+    "cid": 5078,
+    "formula": "C15H19N5"
+  },
+  "ULRSISQFKHWZNP-UHFFFAOYSA-N": {
+    "cid": 43227582,
+    "formula": "C13H16ClNO"
+  },
+  "UMSGKTJDUHERQW-UHFFFAOYSA-N": {
+    "cid": 2451,
+    "formula": "C15H10BrClN4S"
+  },
+  "UNAANXDKBXWMLN-UHFFFAOYSA-N": {
+    "cid": 5210,
+    "formula": "C17H26ClN"
+  },
+  "UNQQFDCVEMVQHM-UHFFFAOYSA-N": {
+    "cid": 135740,
+    "formula": "C11H17NO2"
+  },
+  "URKOMYMAXPYINW-UHFFFAOYSA-N": {
+    "cid": 5002,
+    "formula": "C21H25N3O2S"
+  },
+  "USEBIPUIVPERGC-UHFFFAOYSA-N": {
+    "cid": 71308182,
+    "formula": "C13H17NO3"
+  },
+  "USMNOWBWPHYOEA-VWHDNNRLSA-N": {
+    "cid": 10931629,
+    "formula": "C10H16O"
+  },
+  "USZILQYXSONCHH-UHFFFAOYSA-N": {
+    "cid": 168310523,
+    "formula": "C23H36O2"
+  },
+  "UTEFBSAVJNEPTR-RGEXLXHISA-N": {
+    "cid": 3033860,
+    "formula": "C23H21ClN6O3"
+  },
+  "UTVHBNXCFSATDB-UHFFFAOYSA-N": {
+    "cid": 118536027,
+    "formula": "C19H25NO3"
+  },
+  "UVCOILFBWYKHHB-UHFFFAOYSA-N": {
+    "cid": 4540,
+    "formula": "C15H10ClFN2O"
+  },
+  "UVKZSORBKUEBAZ-UHFFFAOYSA-N": {
+    "cid": 6726,
+    "formula": "C18H22N2"
+  },
+  "UVOLYTDXHDXWJU-UHFFFAOYSA-N": {
+    "cid": 30219,
+    "formula": "C21H30O2"
+  },
+  "UVTJKLLUVOTSOB-UHFFFAOYSA-N": {
+    "cid": 23914,
+    "formula": "C17H16N2O"
+  },
+  "UWJUQVWARXYRCG-UHFFFAOYSA-N": {
+    "cid": 130829,
+    "formula": "C15H23NO2"
+  },
+  "UYXAWHWODHRRMR-UHFFFAOYSA-N": {
+    "cid": 3608,
+    "formula": "C12H16N2O3"
+  },
+  "VAKGBPSFDNTMDJ-UHFFFAOYSA-N": {
+    "cid": 124518671,
+    "formula": "C23H22N2O"
+  },
+  "VAVRRUJYUFACKA-UHFFFAOYSA-N": {
+    "cid": 82281626,
+    "formula": "C11H15NO2"
+  },
+  "VBGLYOIFKLUMQG-UHFFFAOYSA-N": {
+    "cid": 2543,
+    "formula": "C21H26O2"
+  },
+  "VBZWFDNXUJTAGG-UHFFFAOYSA-N": {
+    "cid": 125181416,
+    "formula": "C24H15FN2O2"
+  },
+  "VCCPXHWAJYWQMR-UHFFFAOYSA-N": {
+    "cid": 21595398,
+    "formula": "C24H32N2O"
+  },
+  "VCCZBYPHZRWKFY-XIKOKIGWSA-N": {
+    "cid": 62779,
+    "formula": "C18H17ClN2O2"
+  },
+  "VCHHHSMPMLNVGS-UHFFFAOYSA-N": {
+    "cid": 10471670,
+    "formula": "C23H21NO"
+  },
+  "VDAUMFACIMNTDA-UHFFFAOYSA-N": {
+    "cid": 118796428,
+    "formula": "C20H27NO3"
+  },
+  "VDOSWXIDETXFET-UHFFFAOYSA-N": {
+    "cid": 2040,
+    "formula": "C16H14FN3O"
+  },
+  "VERDHJIMZYXGIW-UHFFFAOYSA-N": {
+    "cid": 57359308,
+    "formula": "C14H19NO3"
+  },
+  "VGKDLMBJGBXTGI-SJCJKPOMSA-N": {
+    "cid": 68617,
+    "formula": "C17H17Cl2N"
+  },
+  "VHDOTNMSJDQVEE-YJVBKCKTSA-N": {
+    "cid": 169544435,
+    "formula": "C19H24O2"
+  },
+  "VHFVKMTVMIZMIK-UHFFFAOYSA-N": {
+    "cid": 1355,
+    "formula": "C10H13ClN2"
+  },
+  "VHGCDTVCOLNTBX-QGZVFWFLSA-N": {
+    "cid": 54841,
+    "formula": "C17H21NO"
+  },
+  "VHWXICYYQMMZCW-UHFFFAOYSA-N": {
+    "cid": 125181419,
+    "formula": "C17H20ClNO3"
+  },
+  "VIROVYVQCGLCII-UHFFFAOYSA-N": {
+    "cid": 2164,
+    "formula": "C11H18N2O3"
+  },
+  "VJHXSSVOCOBVMI-VZCXRCSSSA-N": {
+    "cid": 71463939,
+    "formula": "C19H21ClN2O2S"
+  },
+  "VKEQBMCRQDSRET-UHFFFAOYSA-N": {
+    "cid": 45789647,
+    "formula": "C11H13NO3"
+  },
+  "VKGUUSVYPXTWMA-UHFFFAOYSA-N": {
+    "cid": 13316557,
+    "formula": "C15H13F2NO3S"
+  },
+  "VKUMKUZDZWHMQU-UHFFFAOYSA-N": {
+    "cid": 9837232,
+    "formula": "C11H13NO"
+  },
+  "VLEUZFDZJKSGMX-ONEGZZNKSA-N": {
+    "cid": 5281727,
+    "formula": "C16H16O3"
+  },
+  "VLJORLCVOAUUKM-UHFFFAOYSA-N": {
+    "cid": 12262512,
+    "formula": "C16H27NO2"
+  },
+  "VMIYHDSEFNYJSL-UHFFFAOYSA-N": {
+    "cid": 2441,
+    "formula": "C14H10BrN3O"
+  },
+  "VMWNQDUVQKEIOC-CYBMUJFWSA-N": {
+    "cid": 6005,
+    "formula": "C17H17NO2"
+  },
+  "VMZUTJCNQWMAGF-UHFFFAOYSA-N": {
+    "cid": 3307,
+    "formula": "C17H15ClN4S"
+  },
+  "VOBHXZCDAVEXEY-OCCSQVGLSA-N": {
+    "cid": 71771784,
+    "formula": "C15H25N3O"
+  },
+  "VOZDBDBHBXLWCG-UHFFFAOYSA-N": {
+    "cid": 3044878,
+    "formula": "C15H10BrFN4S"
+  },
+  "VPAYQWRBBOGGPY-UHFFFAOYSA-N": {
+    "cid": 76168,
+    "formula": "C16H12Cl2N2O"
+  },
+  "VQCZQKJXTMYEQV-UHFFFAOYSA-N": {
+    "cid": 21114962,
+    "formula": "C13H18ClNO"
+  },
+  "VRBKIVRKKCLPHA-UHFFFAOYSA-N": {
+    "cid": 4449,
+    "formula": "C25H32ClN5O2"
+  },
+  "VREFGVBLTWBCJP-UHFFFAOYSA-N": {
+    "cid": 2118,
+    "formula": "C17H13ClN4"
+  },
+  "VRKDSDBBRNHHCR-UHFFFAOYSA-N": {
+    "cid": 168322631,
+    "formula": "C23H28N4O3"
+  },
+  "VRNGXHJGMCJRSQ-UHFFFAOYSA-N": {
+    "cid": 192599,
+    "formula": "C11H15NO"
+  },
+  "VRQRDQWKORSFMZ-UHFFFAOYSA-N": {
+    "cid": 156588946,
+    "formula": "C17H23NO3"
+  },
+  "VSABTUDYQCMWKE-UHFFFAOYSA-N": {
+    "cid": 166624785,
+    "formula": "C26H31N3O2"
+  },
+  "VSWBSWWIRNCQIJ-GJZGRUSLSA-N": {
+    "cid": 3036780,
+    "formula": "C17H16ClNO"
+  },
+  "VWEIOFROPKRPJC-UHFFFAOYSA-N": {
+    "cid": 137700471,
+    "formula": "C11H17ClFN"
+  },
+  "VXGSZBZQCBNUIP-UHFFFAOYSA-N": {
+    "cid": 21930924,
+    "formula": "C17H12BrFN4"
+  },
+  "VZRNTCHTJRLTMU-UHFFFAOYSA-N": {
+    "cid": 3688,
+    "formula": "C8H9ClN2O2S"
+  },
+  "WABYCCJHARSRBH-UHFFFAOYSA-N": {
+    "cid": 71272,
+    "formula": "C18H18BrClN2O"
+  },
+  "WBPQJTBOQCCTFX-UHFFFAOYSA-N": {
+    "cid": 126589,
+    "formula": "C13H17NO2"
+  },
+  "WEAJZXNPAWBCOA-UHFFFAOYSA-N": {
+    "cid": 18762634,
+    "formula": "C23H26ClN7O3"
+  },
+  "WERYXYBDKMZEQL-UHFFFAOYSA-N": {
+    "cid": 8064,
+    "formula": "C4H10O2"
+  },
+  "WETQQOQCDBNIKE-UHFFFAOYSA-N": {
+    "cid": 132989236,
+    "formula": "C19H27NO"
+  },
+  "WEXRUCMBJFQVBZ-UHFFFAOYSA-N": {
+    "cid": 4737,
+    "formula": "C11H18N2O3"
+  },
+  "WGTASENVNYJZBK-UHFFFAOYSA-N": {
+    "cid": 31016,
+    "formula": "C12H19NO3"
+  },
+  "WHHHJDGNBVQNAU-UHFFFAOYSA-N": {
+    "cid": 2137,
+    "formula": "C18H16N2O3"
+  },
+  "WHQOZXALFDXFRH-UHFFFAOYSA-N": {
+    "cid": 129844528,
+    "formula": "C17H26ClNO"
+  },
+  "WIIZWVCIJKGZOK-RKDXNWHRSA-N": {
+    "cid": 5959,
+    "formula": "C11H12Cl2N2O5"
+  },
+  "WIMLPRYZJQNQLE-UHFFFAOYSA-N": {
+    "cid": 157010705,
+    "formula": "C15H21NO"
+  },
+  "WJSIUCDMWSDDCE-UHFFFAOYSA-K": {
+    "cid": 13520,
+    "formula": "C6H5Li3O7"
+  },
+  "WJZNCJIOIACDBR-UHFFFAOYSA-N": {
+    "cid": 71308139,
+    "formula": "C15H21NO2"
+  },
+  "WKEMJKQOLOHJLZ-UHFFFAOYSA-N": {
+    "cid": 123606,
+    "formula": "C17H25N3O2S"
+  },
+  "WLIWIUNEJRETFX-UHFFFAOYSA-N": {
+    "cid": 57501499,
+    "formula": "C12H17NO"
+  },
+  "WMFSSTNVXWNLKI-UHFFFAOYSA-N": {
+    "cid": 3398,
+    "formula": "C19H18ClFN2O3"
+  },
+  "WMKONRFEZGAHTE-UHFFFAOYSA-N": {
+    "cid": 163319,
+    "formula": "C11H18N4O3"
+  },
+  "WOXKDUGGOYFFRN-UHFFFAOYSA-N": {
+    "cid": 4687521,
+    "formula": "C22H19N3O4"
+  },
+  "WRHFDIBXZYYCHO-UHFFFAOYSA-N": {
+    "cid": 119025857,
+    "formula": "C18H22N2O2"
+  },
+  "WRSJONWBAYSODC-UHFFFAOYSA-N": {
+    "cid": 9952105,
+    "formula": "C27H31NO"
+  },
+  "WSEQXVZVJXJVFP-FQEVSTJZSA-N": {
+    "cid": 146570,
+    "formula": "C20H21FN2O"
+  },
+  "WSEQXVZVJXJVFP-UHFFFAOYSA-N": {
+    "cid": 2771,
+    "formula": "C20H21FN2O"
+  },
+  "WWPITPSIWMXDPE-UHFFFAOYSA-N": {
+    "cid": 3127,
+    "formula": "C9H12ClN"
+  },
+  "WWTWKTDXBNHESE-UHFFFAOYSA-N": {
+    "cid": 120286,
+    "formula": "C16H27ClN2O2"
+  },
+  "WYCLKVQLVUQKNZ-UHFFFAOYSA-N": {
+    "cid": 31640,
+    "formula": "C17H12ClF3N2O"
+  },
+  "WYEVVQJLTXBMPM-UHFFFAOYSA-N": {
+    "cid": 24801867,
+    "formula": "C16H22N2O2"
+  },
+  "XADCESSVHJOZHK-UHFFFAOYSA-N": {
+    "cid": 4058,
+    "formula": "C15H21NO2"
+  },
+  "XASLPZWIPBCAPF-UHFFFAOYSA-N": {
+    "cid": 21854226,
+    "formula": "C14H18N2O"
+  },
+  "XBCUSBRGRALQID-UHFFFAOYSA-N": {
+    "cid": 135056,
+    "formula": "C13H20INO2"
+  },
+  "XDDJGVMJFWAHJX-UHFFFAOYSA-N": {
+    "cid": 2809,
+    "formula": "C16H11ClN2O3"
+  },
+  "XEUVNVNAVKZSPT-JTJYXVOQSA-N": {
+    "cid": 129010512,
+    "formula": "C27H44N4O5"
+  },
+  "XFQDDPQGBLSNCN-UHFFFAOYSA-N": {
+    "cid": 21786584,
+    "formula": "C14H20N2O"
+  },
+  "XFYDIVBRZNQMJC-UHFFFAOYSA-N": {
+    "cid": 5487,
+    "formula": "C9H8ClN5S"
+  },
+  "XGFJCRNRWOXGQM-UHFFFAOYSA-N": {
+    "cid": 44350142,
+    "formula": "C12H19NO3S"
+  },
+  "XISBAJBPDVRSPG-CHWSQXEVSA-N": {
+    "cid": 52944002,
+    "formula": "C14H18FNO2"
+  },
+  "XISBAJBPDVRSPG-UHFFFAOYSA-N": {
+    "cid": 70876096,
+    "formula": "C14H18FNO2"
+  },
+  "XJRGLCAWBRZUFC-UHFFFAOYSA-N": {
+    "cid": 12317881,
+    "formula": "C17H12ClN5O2"
+  },
+  "XKRHRBJLCLXSGE-UHFFFAOYSA-N": {
+    "cid": 522237,
+    "formula": "C21H32O2"
+  },
+  "XLGCMZLSEXRBSG-UHFFFAOYSA-N": {
+    "cid": 121919,
+    "formula": "C17H15BrN4O2"
+  },
+  "XLMALTXPSGQGBX-GCJKJVERSA-N": {
+    "cid": 10100,
+    "formula": "C22H29NO2"
+  },
+  "XMXHEBAFVSFQEX-UHFFFAOYSA-N": {
+    "cid": 71360,
+    "formula": "C24H27FN2O4"
+  },
+  "XNWIKJYFOIDUGD-UHFFFAOYSA-N": {
+    "cid": 24257263,
+    "formula": "C10H14FN"
+  },
+  "XPMMBFIMXKSQIQ-UHFFFAOYSA-N": {
+    "cid": 71588007,
+    "formula": "C13H16BrNO"
+  },
+  "XPOQHMRABVBWPR-ZDUSSCGKSA-N": {
+    "cid": 64139,
+    "formula": "C14H9ClF3NO2"
+  },
+  "XPSQPHWEGNHMSK-SECBINFHSA-N": {
+    "cid": 77992,
+    "formula": "C14H17N3O"
+  },
+  "XSWHNYGMWWVAIE-UHFFFAOYSA-N": {
+    "cid": 10083,
+    "formula": "C18H21NO"
+  },
+  "XTULMSXFIHGYFS-UHFFFAOYSA-N": {
+    "cid": 20734893,
+    "formula": "C27H29F3O6S"
+  },
+  "XXEPPPIWZFICOJ-UHFFFAOYSA-N": {
+    "cid": 7029,
+    "formula": "C13H19NO"
+  },
+  "XXLWNLKEOWWHDC-UHFFFAOYSA-N": {
+    "cid": 3128,
+    "formula": "C10H14ClN"
+  },
+  "XXWWFLAMFUOAQG-UHFFFAOYSA-N": {
+    "cid": 44382345,
+    "formula": "C16H24N2O2"
+  },
+  "XXZSQOVSEBAPGS-DONVQRBFSA-L": {
+    "cid": 62886,
+    "formula": "C65H82N2O18S2"
+  },
+  "XYRKPZYRLSWABB-LLVKDONJSA-N": {
+    "cid": 10466404,
+    "formula": "C14H18N2O"
+  },
+  "XYSYRXOJSOXZPT-UHFFFAOYSA-N": {
+    "cid": 204385,
+    "formula": "C17H20ClNO"
+  },
+  "XZTYGFHCIAKPGJ-UHFFFAOYSA-N": {
+    "cid": 4039,
+    "formula": "C12H16ClNO3"
+  },
+  "YAHRDLICUYEDAU-UHFFFAOYSA-N": {
+    "cid": 7753,
+    "formula": "C7H17N"
+  },
+  "YBBLVLTVTVSKRW-UHFFFAOYSA-N": {
+    "cid": 2187,
+    "formula": "C17H19N5"
+  },
+  "YBHILYKTIRIUTE-UHFFFAOYSA-N": {
+    "cid": 2353,
+    "formula": "C20H18NO4+"
+  },
+  "YCWZPIHKUYZTFM-UHFFFAOYSA-N": {
+    "cid": 11745017,
+    "formula": "C10H14FN"
+  },
+  "YDSDEBIZUNNPOB-UHFFFAOYSA-N": {
+    "cid": 62156,
+    "formula": "C24H30N2O3"
+  },
+  "YEAQNUMCWMRYMU-UHFFFAOYSA-N": {
+    "cid": 13271852,
+    "formula": "C15H13F2NO2S"
+  },
+  "YEJRWHAVMIAJKC-UHFFFAOYSA-N": {
+    "cid": 7302,
+    "formula": "C4H6O2"
+  },
+  "YERSNXHEOIYEGX-UHFFFAOYSA-N": {
+    "cid": 57360686,
+    "formula": "C13H17NO3"
+  },
+  "YFGHCGITMMYXAQ-IBGZPJMESA-N": {
+    "cid": 11173366,
+    "formula": "C15H15NO2S"
+  },
+  "YFGHCGITMMYXAQ-UHFFFAOYSA-N": {
+    "cid": 4236,
+    "formula": "C15H15NO2S"
+  },
+  "YFSLPSITQIUFQK-UHFFFAOYSA-N": {
+    "cid": 143750,
+    "formula": "C11H16BrNO2"
+  },
+  "YHXISWVBGDMDLQ-UHFFFAOYSA-N": {
+    "cid": 4235,
+    "formula": "C13H17ClN2O2"
+  },
+  "YIDHTOZIUGUEHM-UHFFFAOYSA-N": {
+    "cid": 163192825,
+    "formula": "C16H22FNO"
+  },
+  "YIORJSVFDCPMMT-UHFFFAOYSA-N": {
+    "cid": 137699818,
+    "formula": "C12H16ClNO"
+  },
+  "YJEXOIDIYJUVNS-UHFFFAOYSA-N": {
+    "cid": 112500548,
+    "formula": "C13H18ClNO"
+  },
+  "YJYPHIXNFHFHND-UHFFFAOYSA-N": {
+    "cid": 82148,
+    "formula": "C15H17NO2"
+  },
+  "YLCXGBZIZBEVPZ-UHFFFAOYSA-N": {
+    "cid": 4041,
+    "formula": "C16H15ClN2"
+  },
+  "YLTWYAXWDLZZCU-UHFFFAOYSA-N": {
+    "cid": 71440386,
+    "formula": "C21H30O2"
+  },
+  "YLXBZBPHTNJZQE-UHFFFAOYSA-N": {
+    "cid": 592735,
+    "formula": "C33H45N5O5"
+  },
+  "YLXDSYKOBKBWJQ-LBPRGKRZSA-N": {
+    "cid": 208902,
+    "formula": "C16H21NO2"
+  },
+  "YPFCCQUUZJDQAM-VQTJNVASSA-N": {
+    "cid": 13903191,
+    "formula": "C20H19N"
+  },
+  "YQEZLKZALYSWHR-CYBMUJFWSA-N": {
+    "cid": 644025,
+    "formula": "C13H16ClNO"
+  },
+  "YQEZLKZALYSWHR-UHFFFAOYSA-N": {
+    "cid": 3821,
+    "formula": "C13H16ClNO"
+  },
+  "YQEZLKZALYSWHR-ZDUSSCGKSA-N": {
+    "cid": 182137,
+    "formula": "C13H16ClNO"
+  },
+  "YQYUWUKDEVZFDB-UHFFFAOYSA-N": {
+    "cid": 26175,
+    "formula": "C11H15NO3"
+  },
+  "YVUQSNJEYSNKRX-UHFFFAOYSA-N": {
+    "cid": 16362,
+    "formula": "C28H29F2N3O"
+  },
+  "YVYKFTDZRUWHJL-UHFFFAOYSA-N": {
+    "cid": 20027487,
+    "formula": "C11H17ClFN"
+  },
+  "YWHLYGSHOQKCJG-UHFFFAOYSA-N": {
+    "cid": 100974915,
+    "formula": "C23H29ClN2O"
+  },
+  "YWPHCCPCQOJSGZ-UHFFFAOYSA-N": {
+    "cid": 5666,
+    "formula": "C13H19NO3"
+  },
+  "ZAGBSZSITDFFAF-UHFFFAOYSA-N": {
+    "cid": 437168,
+    "formula": "C13H17NO"
+  },
+  "ZAGWVXYVNFPCLW-UHFFFAOYSA-N": {
+    "cid": 137332216,
+    "formula": "C18H20FN"
+  },
+  "ZBMZVLHSJCTVON-UHFFFAOYSA-N": {
+    "cid": 5253,
+    "formula": "C12H20N2O3S"
+  },
+  "ZCTUUSNQUQURDL-UHFFFAOYSA-N": {
+    "cid": 132989232,
+    "formula": "C15H21NO"
+  },
+  "ZCVMWBYGMWKGHF-UHFFFAOYSA-N": {
+    "cid": 3827,
+    "formula": "C19H19NOS"
+  },
+  "ZDYRCUZZLRLMHG-UHFFFAOYSA-N": {
+    "cid": 21317700,
+    "formula": "C15H10ClFN4S"
+  },
+  "ZEHYJZXQEQOSON-UHFFFAOYSA-N": {
+    "cid": 3281,
+    "formula": "C7H9ClO"
+  },
+  "ZEMQBDFHXOOXLY-UHFFFAOYSA-N": {
+    "cid": 115808,
+    "formula": "C10H15N"
+  },
+  "ZESNOWZYHYRSRY-UHFFFAOYSA-N": {
+    "cid": 6460146,
+    "formula": "C15H15NO3S"
+  },
+  "ZEUITGRIYCTCEM-KRWDZBQOSA-N": {
+    "cid": 60835,
+    "formula": "C18H19NOS"
+  },
+  "ZFUOLNAKPBFDIJ-UHFFFAOYSA-N": {
+    "cid": 10251906,
+    "formula": "C18H22INO3"
+  },
+  "ZGLAJTSGABGHND-UHFFFAOYSA-N": {
+    "cid": 12204576,
+    "formula": "C17H15ClN2O"
+  },
+  "ZGQWDAOLJNAADS-UHFFFAOYSA-N": {
+    "cid": 117067863,
+    "formula": "C14H19NO2"
+  },
+  "ZIBHSZQEEWBQLW-UHFFFAOYSA-N": {
+    "cid": 132988792,
+    "formula": "C11H14BrNO2"
+  },
+  "ZIXNZOBDFKSQTC-UHFFFAOYSA-N": {
+    "cid": 2816,
+    "formula": "C17H14Cl2N2O2"
+  },
+  "ZJDCGVDEEHWEIG-UHFFFAOYSA-N": {
+    "cid": 68871,
+    "formula": "C17H17Cl2NO"
+  },
+  "ZKIAIYBUSXZPLP-UHFFFAOYSA-N": {
+    "cid": 11978813,
+    "formula": "C25H27N3O2S"
+  },
+  "ZLBSUOGMZDXYKE-UHFFFAOYSA-M": {
+    "cid": 6452983,
+    "formula": "C21H24ClN2NaO4S"
+  },
+  "ZMJIUWPWADQNLC-UHFFFAOYSA-N": {
+    "cid": 90645581,
+    "formula": "C11H14ClNO"
+  },
+  "ZMKRWFZFMOKVCP-UHFFFAOYSA-N": {
+    "cid": 44278540,
+    "formula": "C13H16N2O2"
+  },
+  "ZOVRTIPCNFERHY-UHFFFAOYSA-N": {
+    "cid": 102336592,
+    "formula": "C12H15NO"
+  },
+  "ZOXZWYWOECCBSH-UHFFFAOYSA-N": {
+    "cid": 52988259,
+    "formula": "C12H17NO"
+  },
+  "ZPAOVGZYDSXCPK-UHFFFAOYSA-N": {
+    "cid": 24801868,
+    "formula": "C18H26N2O2"
+  },
+  "ZPEIMTDSQAKGNT-UHFFFAOYSA-N": {
+    "cid": 2726,
+    "formula": "C17H19ClN2S"
+  },
+  "ZPUCINDJVBIVPJ-UHFFFAOYSA-N": {
+    "cid": 2826,
+    "formula": "C17H21NO4"
+  },
+  "ZQDWXGKKHFNSQK-UHFFFAOYSA-N": {
+    "cid": 3658,
+    "formula": "C21H27ClN2O2"
+  },
+  "ZRKDDZBVSZLOFS-UHFFFAOYSA-N": {
+    "cid": 12947024,
+    "formula": "C15H10BrFN2O"
+  },
+  "ZROLHBHDLIHEMS-UHFFFAOYSA-N": {
+    "cid": 34180,
+    "formula": "C19H26O2"
+  },
+  "ZRVAAGAZUWXRIP-UHFFFAOYSA-N": {
+    "cid": 26903,
+    "formula": "C16H24N2"
+  },
+  "ZTIPDEPKTDPNQE-UHFFFAOYSA-N": {
+    "cid": 91698934,
+    "formula": "C13H19NO"
+  },
+  "ZTVQQQVZCWLTDF-UHFFFAOYSA-N": {
+    "cid": 60815,
+    "formula": "C20H28N2O5"
+  },
+  "ZTWHIDCAGRMKTC-UHFFFAOYSA-N": {
+    "cid": 156588967,
+    "formula": "C20H23FN4O2"
+  },
+  "ZULJGOSFKWFVRX-UHFFFAOYSA-N": {
+    "cid": 51712,
+    "formula": "C14H27N3O2"
+  },
+  "ZVQXCXPGLSBNCX-UHFFFAOYSA-N": {
+    "cid": 15872156,
+    "formula": "C9H12N4O3"
+  },
+  "ZWPIZVVOKGWMFW-UHFFFAOYSA-N": {
+    "cid": 124518722,
+    "formula": "C19H25NO3S"
+  },
+  "ZXLDQJLIBNPEFJ-UHFFFAOYSA-N": {
+    "cid": 159809,
+    "formula": "C13H16N2O"
+  },
+  "ZXNRTKGTQJPIJK-UHFFFAOYSA-N": {
+    "cid": 2196,
+    "formula": "C12H13NO3"
+  },
+  "ZXRVKCBLGJOCEE-UHFFFAOYSA-N": {
+    "cid": 3448,
+    "formula": "C6H8N2O2"
+  },
+  "ZZVUWRFHKOJYTH-UHFFFAOYSA-N": {
+    "cid": 3100,
+    "formula": "C17H21NO"
+  }
+}

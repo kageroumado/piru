@@ -922,6 +922,9 @@ def dc_slugify(name: str) -> str:
 
 
 PUBCHEM_PROPERTIES = REPO / "data/sources/pubchem-properties.json"
+PUBCHEM_CIDS = REPO / "data/sources/pubchem-cids.json"
+IDENTIFIER_RECONCILE = REPO / "data/sources/identifier-corrections.json"
+IDENTIFIER_RECONCILE_MANUAL = REPO / "data/sources/identifier-corrections-manual.json"
 WIKIPEDIA_POPULARITY = REPO / "data/sources/wikipedia-popularity.json"
 
 
@@ -1013,6 +1016,108 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
     "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
 }
+
+
+def apply_identifier_reconciliation(con, mapping: dict) -> dict:
+    """Apply PubChem-authoritative InChIKey/SMILES corrections from the
+    ``data/sources/identifier-corrections.json`` snapshot (refresh via
+    ``reconcile_identifiers_pubchem.py``). Keyed by canonical_name; each entry
+    carries whichever field PubChem found wrong — ``inchikey`` and/or ``smiles``.
+
+    The catalog's identifiers are corrupt in both directions (LLM-fabricated keys
+    in enrichment; wrong-regioisomer SMILES in the NPS vendor dump), so the fix
+    can't trust either field as the oracle. The snapshot only contains
+    corrections PubChem corroborated against exactly one existing DB signal, so
+    each names the field that was wrong. Runs after dedup (canonical_name matches
+    the snapshot's basis) and **before** ``apply_pubchem_cids`` so CID resolution
+    keys off the corrected InChIKey. Returns per-field change counts."""
+    if not mapping:
+        return {"inchikey": 0, "smiles": 0}
+    cur = con.cursor()
+    res = {"inchikey": 0, "smiles": 0, "cas": 0}
+    for name, fix in mapping.items():
+        if fix.get("inchikey"):
+            cur.execute(
+                "UPDATE substances SET inchikey = ? WHERE canonical_name = ? AND inchikey IS NOT ?",
+                (fix["inchikey"], name, fix["inchikey"]),
+            )
+            res["inchikey"] += cur.rowcount
+        if fix.get("smiles"):
+            cur.execute(
+                "UPDATE substances SET smiles = ? WHERE canonical_name = ? AND smiles IS NOT ?",
+                (fix["smiles"], name, fix["smiles"]),
+            )
+            res["smiles"] += cur.rowcount
+        if fix.get("cas"):
+            cur.execute(
+                "UPDATE substances SET cas = ? WHERE canonical_name = ? AND cas IS NOT ?",
+                (fix["cas"], name, fix["cas"]),
+            )
+            res["cas"] += cur.rowcount
+    con.commit()
+    return res
+
+
+def apply_pubchem_cids(con, mapping: dict) -> dict:
+    """Fill ``pubchem_cid`` for substances that have an InChIKey but no CID,
+    keyed by InChIKey from the ``data/sources/pubchem-cids.json`` snapshot
+    (``{inchikey: {cid, formula}}``; refresh via ``fetch_pubchem_cids.py``).
+
+    The CID was resolved *from* the substance's own InChIKey, so it is
+    CID↔InChIKey-consistent by construction. **But that only helps if the stored
+    InChIKey is itself right** — a slice of upstream keys are corrupt (point at an
+    unrelated compound), so a faithful resolve yields a wrong CID. Guard exactly
+    like ``apply_pubchem_freebase``: accept the CID only when PubChem's formula
+    for it matches the substance's stored formula (equal, or a clean salt→free-
+    base desalt). A corrupt key fails this because its stored formula is right
+    while the wrong-CID formula differs and isn't a salt of it. When the stored
+    formula is NULL we can't verify, so we skip (a wrong CID is worse than none).
+
+    COALESCE-only: never overwrites an existing CID (those are audited/curated).
+    Runs before ``apply_identifier_corrections`` so a known-wrong resolved CID can
+    still be corrected, and before ``apply_pubchem_freebase`` so the verified CID
+    drives the formula lookup. Returns counts + the rejected (mismatch) list."""
+    if not mapping:
+        return {"filled": 0, "skipped_unverifiable": 0, "rejected": []}
+    cur = con.cursor()
+    by_ik = {
+        ik: row[0]
+        for ik, row in (
+            (
+                ik,
+                cur.execute(
+                    "SELECT formula FROM substances WHERE inchikey = ? AND pubchem_cid IS NULL",
+                    (ik,),
+                ).fetchone(),
+            )
+            for ik in mapping
+        )
+        if row is not None
+    }
+    filled = skipped = 0
+    rejected: list[str] = []
+    for ik, entry in mapping.items():
+        if ik not in by_ik:
+            continue  # no NULL-CID substance carries this key
+        cid = entry["cid"] if isinstance(entry, dict) else entry
+        pubchem_formula = entry.get("formula") if isinstance(entry, dict) else None
+        stored_formula = by_ik[ik]
+        if stored_formula is None:
+            skipped += 1
+            continue
+        if not (
+            parse_formula(pubchem_formula) == parse_formula(stored_formula)
+            or is_clean_desalt(pubchem_formula, stored_formula)
+        ):
+            rejected.append(f"{ik} cid={cid} stored={stored_formula} pubchem={pubchem_formula}")
+            continue
+        cur.execute(
+            "UPDATE substances SET pubchem_cid = ? WHERE inchikey = ? AND pubchem_cid IS NULL",
+            (cid, ik),
+        )
+        filled += cur.rowcount
+    con.commit()
+    return {"filled": filled, "skipped_unverifiable": skipped, "rejected": rejected}
 
 
 def apply_identifier_corrections(con, props: dict | None = None) -> dict:
@@ -5800,6 +5905,52 @@ def main() -> int:
     _pubchem_props = (
         json.loads(PUBCHEM_PROPERTIES.read_text()) if PUBCHEM_PROPERTIES.exists() else {}
     )
+
+    # Reconcile chemical identifiers against PubChem (snapshot:
+    # data/sources/identifier-corrections.json, refresh via
+    # reconcile_identifiers_pubchem.py). The catalog's identifiers are corrupt in
+    # both directions — LLM-fabricated InChIKeys (enrichment) and wrong-regioisomer
+    # SMILES (NPS vendor dump) — so each correction names the field PubChem found
+    # wrong. Runs before the CID fill so resolution keys off the corrected key.
+    if IDENTIFIER_RECONCILE.exists():
+        rec = apply_identifier_reconciliation(
+            build.cur.connection, json.loads(IDENTIFIER_RECONCILE.read_text())
+        )
+        print(
+            f"Identifier reconciliation (PubChem): inchikey={rec['inchikey']} smiles={rec['smiles']}",
+            file=sys.stderr,
+        )
+    # Curated manual layer for substances the reconciler couldn't auto-resolve
+    # (no PubChem/CAS corroboration). Applied after — manual wins. Keys starting
+    # with "_" (e.g. _comment) are metadata, not corrections.
+    if IDENTIFIER_RECONCILE_MANUAL.exists():
+        manual = {
+            k: v
+            for k, v in json.loads(IDENTIFIER_RECONCILE_MANUAL.read_text()).items()
+            if not k.startswith("_")
+        }
+        rec_m = apply_identifier_reconciliation(build.cur.connection, manual)
+        print(
+            f"Identifier reconciliation (manual): inchikey={rec_m['inchikey']} "
+            f"smiles={rec_m['smiles']} cas={rec_m['cas']}",
+            file=sys.stderr,
+        )
+
+    # Fill pubchem_cid for substances that have an InChIKey but no CID, keyed by
+    # InChIKey (exact structural match → CID↔InChIKey-consistent by construction).
+    # Lifts CID coverage so the free-base correction below — and the property
+    # enrichment — reach far more of the catalog. Snapshot:
+    # data/sources/pubchem-cids.json (refresh via fetch_pubchem_cids.py).
+    if PUBCHEM_CIDS.exists():
+        cid_res = apply_pubchem_cids(build.cur.connection, json.loads(PUBCHEM_CIDS.read_text()))
+        print(
+            f"PubChem CIDs filled from InChIKey: {cid_res['filled']} "
+            f"(skipped-unverifiable={cid_res['skipped_unverifiable']}, "
+            f"formula-rejected={len(cid_res['rejected'])})",
+            file=sys.stderr,
+        )
+        for r in cid_res["rejected"]:
+            print(f"  formula mismatch, CID not filled: {r}", file=sys.stderr)
 
     # Correct verified-wrong chemical identifiers (wrong PubChem CID / InChIKey)
     # before the free-base override, so the corrected CID drives that lookup.

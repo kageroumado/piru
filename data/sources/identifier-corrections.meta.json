@@ -1,0 +1,237 @@
+{
+  "source": "PubChem name→(InChIKey, SMILES); corroborated vs stored key & obabel(SMILES)",
+  "computed_at": "2026-06-18T08:22:53+00:00",
+  "counts": {
+    "checked": 1100,
+    "consistent": 667,
+    "fix_inchikey": 52,
+    "fix_smiles": 162,
+    "fix_both_via_cas": 57,
+    "name_collision_left": 28,
+    "flag_ambiguous": 24,
+    "flag_not_in_pubchem": 4
+  },
+  "flagged": [
+    {
+      "name": "2-Chloro-Ephenidine",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": null,
+      "obabel_smiles_ik": "MSFHPMGDFAHNRH-UHFFFAOYSA-N",
+      "pubchem_name_ik": "CIZLUPKWIPWOID-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "2-MAPB",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "MEDMUZZETVRTFG-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "MEDMUZZETVRTFG-UHFFFAOYSA-N",
+      "pubchem_name_ik": "ANJIDHKQUCZNQY-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "2C-EF",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "KXPMRPNOYIOXFY-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "KXPMRPNOYIOXFY-UHFFFAOYSA-N",
+      "pubchem_name_ik": "UHCBBWUQDAVSMS-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "2C-T-9",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "PSVDMTZXLJTPNX-UHFFFAOYSA-N",
+      "obabel_smiles_ik": null,
+      "pubchem_name_ik": "LGUVDOBGXUFUAJ-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "3-FEA",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "VWEIOFROPKRPJC-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "VWEIOFROPKRPJC-UHFFFAOYSA-N",
+      "pubchem_name_ik": "CKPWHLGHHXSVJI-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "4-CBC",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "DKPILUWUWJLVPE-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "DKPILUWUWJLVPE-UHFFFAOYSA-N",
+      "pubchem_name_ik": "FMDPVFRFGCOFKM-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "4-HO-MCPT",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "GFVJBFIXZYLVPO-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "VJYWOYHNNMMWQQ-UHFFFAOYSA-N",
+      "pubchem_name_ik": "UJOZERYNSXXQRD-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "4-MBC",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "KWHZRPBDEAQYDE-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "KWHZRPBDEAQYDE-UHFFFAOYSA-N",
+      "pubchem_name_ik": "HEOCBCNFKCOKBX-SDNWHVSQSA-N",
+      "cas": "1336911-92-2"
+    },
+    {
+      "name": "5-MeO-EiPT",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "BKFQKERIGDJPGK-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "NRAFPNARWVUUFQ-UHFFFAOYSA-N",
+      "pubchem_name_ik": "VVEQXDHSGNBFLZ-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "AHN 1-055",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": null,
+      "obabel_smiles_ik": "RTNJZVHUESOIBP-GAOSQQNJSA-N",
+      "pubchem_name_ik": "MHNSOBBJZCWUGS-RTBURBONSA-N",
+      "cas": null
+    },
+    {
+      "name": "AMB-CHMICA",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "SRJKCVHWIDFUBO-HXUWFJFHSA-N",
+      "obabel_smiles_ik": "SRJKCVHWIDFUBO-HXUWFJFHSA-N",
+      "pubchem_name_ik": "ROWZIXRLVUOMCJ-UHFFFAOYSA-N",
+      "cas": "1971007-95-4"
+    },
+    {
+      "name": "Busulfan",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "JECGWOMOCPQHDH-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "NHJKEKFNZNGQDS-UHFFFAOYSA-N",
+      "pubchem_name_ik": "COVZYZSDYWQREU-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "Dehydronorketamine",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": null,
+      "obabel_smiles_ik": "DKZQBIFXOJTPHX-UHFFFAOYSA-N",
+      "pubchem_name_ik": "BXBPJMHHWPXBJL-UHFFFAOYSA-N",
+      "cas": "81395-71-3"
+    },
+    {
+      "name": "Doip",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "GYEHYVZVTYSXPS-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "SPKSLAUXKHSASF-UHFFFAOYSA-N",
+      "pubchem_name_ik": "WXZOXVVKILCOPG-UHFFFAOYSA-N",
+      "cas": "53581-56-9"
+    },
+    {
+      "name": "G-4",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "SEIUSMPGGATKFD-UHFFFAOYSA-N",
+      "obabel_smiles_ik": null,
+      "pubchem_name_ik": "MDNWOSOZYLHTCG-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "MPPP",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "APSJUNFBAXIXLK-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "APSJUNFBAXIXLK-UHFFFAOYSA-N",
+      "pubchem_name_ik": "BCQMRZRAWHNSBF-UHFFFAOYSA-N",
+      "cas": "5588-26-1"
+    },
+    {
+      "name": "Mephenmetrazine",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": null,
+      "obabel_smiles_ik": "NWNCIXFIIDVRKE-UHFFFAOYSA-N",
+      "pubchem_name_ik": "MFOCDFTXLCYLKU-CMPLNLGQSA-N",
+      "cas": null
+    },
+    {
+      "name": "Mephtetramine",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "YIORJSVFDCPMMT-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "YIORJSVFDCPMMT-UHFFFAOYSA-N",
+      "pubchem_name_ik": "FTRWLSZFQILOOD-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "N-Pyrrolidino-metonitazene",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "UAGSDSVSMJHTLT-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "UAGSDSVSMJHTLT-UHFFFAOYSA-N",
+      "pubchem_name_ik": "JTTDZHBAEQTIPA-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "Pfbt",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": null,
+      "obabel_smiles_ik": "YXDFSLSXLYAAPF-STQMWFEESA-N",
+      "pubchem_name_ik": "UVAMFBJPMUMURT-UHFFFAOYSA-N",
+      "cas": "10384-22-2"
+    },
+    {
+      "name": "Salvinorin B",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": null,
+      "obabel_smiles_ik": "CDKOUQLGZABODM-FQRQMLBYSA-N",
+      "pubchem_name_ik": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",
+      "cas": "92545-30-3"
+    },
+    {
+      "name": "Serdexmethylphenidate",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "GONQEUJYYMYNMN-HWAJWLCKSA-N",
+      "obabel_smiles_ik": "IBFDTGPAOUCXRF-UHFFFAOYSA-M",
+      "pubchem_name_ik": "UBZPNQRBUOBBLN-PWRODBHTSA-N",
+      "cas": "2088480-24-2"
+    },
+    {
+      "name": "Theobromine",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "JOUWVJULHKPDHV-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "NVTWCRJOBBQSLU-UHFFFAOYSA-N",
+      "pubchem_name_ik": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
+      "cas": "521-68-6"
+    },
+    {
+      "name": "Tianeptine sulfate",
+      "reason": "ambiguous_no_cas_arbiter",
+      "stored_ik": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
+      "pubchem_name_ik": "SKEOVGLOOAJSTG-UHFFFAOYSA-N",
+      "cas": "72797-41-230123-17-2（钠盐）1224690-84-9（硫酸盐）"
+    },
+    {
+      "name": "4-HO-PiPT",
+      "reason": "not_in_pubchem_and_inconsistent",
+      "stored_ik": "CUTUPKOZXNFVHK-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "RGOLAMJXAREAGW-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "5-BR-DMT",
+      "reason": "not_in_pubchem_and_inconsistent",
+      "stored_ik": "MOJRMSJDZDVMCK-WLHGVMLRSA-N",
+      "obabel_smiles_ik": "AVXDJBXDGXTESD-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "MXiPr",
+      "reason": "not_in_pubchem_and_inconsistent",
+      "stored_ik": "OOLSOYRWBLRTLT-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "FTQIVDGNGXPEKP-UHFFFAOYSA-N",
+      "cas": null
+    },
+    {
+      "name": "alpha-N,N-trimethyltryptamine",
+      "reason": "not_in_pubchem_and_inconsistent",
+      "stored_ik": "XQFCCTPWINMCQJ-UHFFFAOYSA-N",
+      "obabel_smiles_ik": "OYXBWNWCBBCYJR-UHFFFAOYSA-N",
+      "cas": null
+    }
+  ],
+  "note": "Only auto-corrects when PubChem corroborates exactly one DB field, pinpointing the wrong one. 'flagged' need manual review (name collision, both fields wrong, or not in PubChem)."
+}

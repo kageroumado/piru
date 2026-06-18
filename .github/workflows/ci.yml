@@ -24,6 +24,8 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install ruff==0.15.15
+      - name: Install OpenBabel (for the InChIKey↔SMILES integrity check)
+        run: sudo apt-get update && sudo apt-get install -y openbabel
       - name: Ruff format check
         run: ruff format --check .
       - name: Ruff lint
@@ -32,6 +34,8 @@ jobs:
         run: python3 pipeline/build/validate_curated.py
       - name: Pipeline tests (parsers, validators, built-DB invariants)
         run: python3 pipeline/build/tests/test_sqlite.py
+      - name: Identifier integrity + regression (InChIKey↔SMILES vs PubChem-verified)
+        run: python3 pipeline/build/tests/test_identifier_integrity.py
       - name: Link-validator tests (verdict + cache staleness)
         run: python3 pipeline/audit/tests/test_validate_links.py
 
