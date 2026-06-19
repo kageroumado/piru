@@ -517,6 +517,7 @@ struct SubstanceDetailView: View {
     @State private var overviewExpanded: Bool?
     @State private var mechanismExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
+    @State private var pharmacokineticsExpanded: Bool?
     /// Contraindications & cautions — verbose clinical data, collapsed by default
     /// so the screen reads like a harm-reduction app, not a drug monograph.
     @State private var cautionsExpanded = false
@@ -532,6 +533,8 @@ struct SubstanceDetailView: View {
     /// header's "Show All" (a header NavigationLink isn't reliably hittable).
     @State private var showAllEffects = false
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
+    @State private var pkRoutes: [SubstanceStore.PKRouteHit] = []
+    @State private var metabolismRows: [SubstanceStore.MetabolismHit] = []
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
     private var profile: UserProfile {
@@ -624,8 +627,11 @@ struct SubstanceDetailView: View {
     /// useless.
     @ViewBuilder private var chemistryDisclosure: some View {
         let hasPubChem = substance.pubChemURL != nil
-        if policy.showsMechanism,
-           substance.formula != nil || substance.cas != nil || substance.inchikey != nil || substance.molarMass != nil || hasPubChem {
+        let phys = substance.physicochemical
+        let hasChem = substance.formula != nil || substance.cas != nil || substance.inchikey != nil
+            || substance.molarMass != nil || hasPubChem || substance.smiles != nil
+            || substance.iupacName != nil || (phys?.hasAnyValue ?? false)
+        if policy.showsMechanism, hasChem {
             CollapsibleSection("Chemistry", systemImage: "atom", isExpanded: $chemistryExpanded) {
                 let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
                 Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
@@ -636,6 +642,13 @@ struct SubstanceDetailView: View {
                                 gridCell("Molar mass", "\(mw.doseFormatted) g/mol")
                             } else { Color.clear }
                         }
+                    }
+                    physicochemicalRows(phys)
+                    if let iupac = substance.iupacName {
+                        GridRow { gridCell("IUPAC name", iupac).gridCellColumns(2) }
+                    }
+                    if let smiles = substance.smiles {
+                        GridRow { gridCell("SMILES", smiles, mono: true).gridCellColumns(2) }
                     }
                     if let k = substance.inchikey {
                         GridRow { gridCell("InChIKey", k, mono: true).gridCellColumns(2) }
@@ -650,8 +663,65 @@ struct SubstanceDetailView: View {
                     }
                 }
                 .padding(.vertical, 4)
+                if let phys, phys.hasAnyValue {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation.")
+                        if phys.hasLD50 {
+                            Text("LD50 is rodent toxicity (order of magnitude) — not a human safe dose.")
+                        }
+                    }
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 2)
+                }
             }
         }
+    }
+
+    /// The Stage-1 physicochemical descriptors, laid into the Chemistry grid as
+    /// two-column rows. logD/pKa are unsourced today (always nil) but the
+    /// `if let` guards keep them future-proof — a populated column just appears.
+    @ViewBuilder
+    private func physicochemicalRows(_ phys: Physicochemical?) -> some View {
+        if let phys {
+            if phys.logP != nil || phys.tpsa != nil {
+                GridRow {
+                    if let v = phys.logP { gridCell("LogP", Self.chemNumber(v)) } else { Color.clear }
+                    if let v = phys.tpsa { gridCell("TPSA", "\(Self.chemNumber(v)) Å²") } else { Color.clear }
+                }
+            }
+            if phys.hba != nil || phys.hbd != nil {
+                GridRow {
+                    if let v = phys.hba { gridCell("H-bond acceptors", "\(v)") } else { Color.clear }
+                    if let v = phys.hbd { gridCell("H-bond donors", "\(v)") } else { Color.clear }
+                }
+            }
+            if phys.logD != nil || phys.pKa != nil {
+                GridRow {
+                    if let v = phys.logD { gridCell("LogD", Self.chemNumber(v)) } else { Color.clear }
+                    if let v = phys.pKa { gridCell("pKa", Self.chemNumber(v)) } else { Color.clear }
+                }
+            }
+            if phys.meltingPointC != nil || phys.boilingPointC != nil {
+                GridRow {
+                    if let v = phys.meltingPointC { gridCell("Melting point", "\(Self.chemNumber(v)) °C") } else { Color.clear }
+                    if let v = phys.boilingPointC { gridCell("Boiling point", "\(Self.chemNumber(v)) °C") } else { Color.clear }
+                }
+            }
+            if phys.ld50OralMgPerKg != nil || phys.ld50DermalMgPerKg != nil {
+                GridRow {
+                    if let v = phys.ld50OralMgPerKg { gridCell("LD50 (oral, rodent)", "\(Self.chemNumber(v)) mg/kg") } else { Color.clear }
+                    if let v = phys.ld50DermalMgPerKg { gridCell("LD50 (dermal, rodent)", "\(Self.chemNumber(v)) mg/kg") } else { Color.clear }
+                }
+            }
+        }
+    }
+
+    /// Compact numeric formatter for chemistry values: drops a trailing `.0`
+    /// (so `45.0` → `45`) but keeps real decimals (`2.34` → `2.34`).
+    static func chemNumber(_ value: Double) -> String {
+        value == value.rounded() ? String(format: "%.0f", value) : String(format: "%g", value)
     }
 
     /// One labelled cell in the Info / Chemistry two-column grids. Only the
@@ -1386,6 +1456,19 @@ struct SubstanceDetailView: View {
                     }
                 }
 
+                if policy.showsPharmacokinetics, !pkRoutes.isEmpty || !metabolismRows.isEmpty {
+                    CollapsibleSection(
+                        "Pharmacokinetics",
+                        systemImage: "waveform.path.ecg",
+                        isExpanded: Binding(
+                            get: { pharmacokineticsExpanded ?? policy.pharmacokineticsDefaultExpanded },
+                            set: { pharmacokineticsExpanded = $0 },
+                        ),
+                    ) {
+                        pharmacokineticsBody
+                    }
+                }
+
                 // Medical context (indications / contraindications / boxed warnings)
                 // — shown for any compound that has clinical data. Net-new surface.
                 medicalInfoSection
@@ -1473,6 +1556,16 @@ struct SubstanceDetailView: View {
             } else {
                 literatureBindings = []
             }
+
+            // Pharmacokinetics (per-route PK + CYP metabolism) is likewise a
+            // pharma-nerd surface — skip the two queries for other tiers.
+            if policy.showsPharmacokinetics {
+                pkRoutes = store.pharmacokinetics(forSubstanceName: substance.name)
+                metabolismRows = store.metabolism(forSubstanceName: substance.name)
+            } else {
+                pkRoutes = []
+                metabolismRows = []
+            }
         }
         .task(id: historySignature) {
             rebuildHistoryStats()
@@ -1483,6 +1576,7 @@ struct SubstanceDetailView: View {
             // until the next profile change.
             mechanismExpanded = nil
             receptorLitExpanded = nil
+            pharmacokineticsExpanded = nil
         }
     }
 
@@ -1614,6 +1708,39 @@ struct SubstanceDetailView: View {
                     Divider()
                 }
             }
+        }
+        .padding(.vertical, 4)
+    }
+
+    /// Per-route PK (bioavailability/tmax/half-life) above the CYP metabolism
+    /// pathways, each row carrying its own source/citation. Mirrors the Receptor
+    /// Literature layout — dense, attributed, pharma-nerd-only.
+    private var pharmacokineticsBody: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if !pkRoutes.isEmpty {
+                ForEach(pkRoutes) { hit in
+                    PKRouteRow(hit: hit, accent: substance.category.color)
+                    if hit.id != pkRoutes.last?.id { Divider() }
+                }
+            }
+            if !metabolismRows.isEmpty {
+                if !pkRoutes.isEmpty {
+                    Divider().padding(.vertical, 2)
+                }
+                Text("Metabolism")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .textCase(.uppercase)
+                ForEach(metabolismRows) { hit in
+                    MetabolismRow(hit: hit, accent: substance.category.color)
+                    if hit.id != metabolismRows.last?.id { Divider() }
+                }
+            }
+            Text("Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.top, 4)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.vertical, 4)
     }
@@ -2020,6 +2147,114 @@ func formatNm(_ value: Double) -> String {
     if value >= 100 { return String(format: "%.0f", value) }
     if value >= 10 { return String(format: "%.1f", value) }
     return String(format: "%.2f", value)
+}
+
+/// One per-route pharmacokinetic row: the route, a chip line of populated
+/// metrics (bioavailability/tmax/half-life/…), and the source + citation.
+private struct PKRouteRow: View {
+    let hit: SubstanceStore.PKRouteHit
+    let accent: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(RouteOfAdministration.from(string: hit.route).localizedName)
+                .font(.subheadline.weight(.semibold))
+            if !metrics.isEmpty {
+                Text(metrics.joined(separator: "  ·  "))
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            sourceLine(slug: hit.sourceSlug, detail: hit.demographics, doi: hit.doi, pmid: hit.pmid, accent: accent)
+        }
+    }
+
+    /// Only the populated metrics, each prefixed with its standard pharmacology
+    /// symbol so the row reads without a header. These are international
+    /// scientific notation (Tmax, t½, Vd, ng/mL …) — rendered verbatim, not
+    /// localized, like the units everywhere else in the app.
+    private var metrics: [String] {
+        let n = SubstanceDetailView.chemNumber
+        var out: [String] = []
+        if let v = hit.bioavailabilityPct { out.append("F \(n(v))%") }
+        if let v = hit.tmaxMin { out.append("Tmax \(pkMinutes(v))") }
+        if let v = hit.halfLifeMin { out.append("t½ \(pkMinutes(v))") }
+        if let v = hit.proteinBindingPct { out.append("PPB \(n(v))%") }
+        if let v = hit.vdLPerKg { out.append("Vd \(n(v)) L/kg") }
+        if let v = hit.clearanceMlPerMinPerKg { out.append("CL \(n(v)) mL/min/kg") }
+        if let v = hit.cmaxNgPerMl { out.append("Cmax \(n(v)) ng/mL") }
+        return out
+    }
+}
+
+/// One metabolism row: the enzyme/pathway, an optional metabolite (flagged
+/// active/inactive), and the source + citation.
+private struct MetabolismRow: View {
+    let hit: SubstanceStore.MetabolismHit
+    let accent: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(hit.enzyme)
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                if let frac = hit.fractionOfClearancePct {
+                    Text("\(SubstanceDetailView.chemNumber(frac))%")
+                        .font(.subheadline.monospacedDigit())
+                        .foregroundStyle(accent)
+                }
+            }
+            if let metabolite = hit.metaboliteName, !metabolite.isEmpty {
+                HStack(spacing: 6) {
+                    Image(systemName: "arrow.turn.down.right").font(.caption2)
+                    Text(metabolite).font(.caption)
+                    if let active = hit.metaboliteActive {
+                        Text(active ? "active" : "inactive")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(active ? accent : .secondary)
+                    }
+                }
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+            sourceLine(slug: hit.sourceSlug, detail: hit.notes, doi: hit.doi, pmid: hit.pmid, accent: accent)
+        }
+    }
+}
+
+/// Shared source/citation footer for the PK + metabolism rows — a source slug,
+/// an optional italic detail (demographics / notes), and a PMID/DOI link.
+private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
+    HStack(spacing: 6) {
+        Image(systemName: "doc.text.magnifyingglass").font(.caption2)
+        Text(slug).font(.caption2.monospaced())
+        if let detail, !detail.isEmpty {
+            Text("·")
+            Text(detail).italic().lineLimit(1)
+        }
+        Spacer()
+        if let pmid, let url = URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") {
+            Link(destination: url) {
+                Text("PMID \(pmid)").font(.caption2).foregroundStyle(accent)
+            }
+        } else if let doi, !doi.isEmpty, let url = URL(string: "https://doi.org/\(doi)") {
+            Link(destination: url) {
+                Text("DOI").font(.caption2).foregroundStyle(accent)
+            }
+        }
+    }
+    .font(.caption)
+    .foregroundStyle(Theme.secondaryLabel)
+}
+
+/// Compact minutes→human formatter for PK timings: sub-hour stays in minutes,
+/// otherwise hours with one decimal where it matters (90 min → "1.5 h").
+/// `min`/`h` are universal SI-adjacent unit symbols — rendered verbatim.
+private func pkMinutes(_ minutes: Double) -> String {
+    if minutes < 60 { return "\(SubstanceDetailView.chemNumber(minutes)) min" }
+    let hours = minutes / 60
+    return "\(SubstanceDetailView.chemNumber(hours)) h"
 }
 
 // MARK: - Substance Tag Flow

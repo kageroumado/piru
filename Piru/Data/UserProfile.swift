@@ -90,6 +90,11 @@ struct DisclosurePolicy: Hashable {
     var showsReceptorLiterature: Bool {
         profile == .pharmaNerd
     }
+    /// Per-route pharmacokinetics (bioavailability/tmax/half-life) + CYP
+    /// metabolism tables with per-row citations. Only pharma-nerd surface.
+    var showsPharmacokinetics: Bool {
+        profile == .pharmaNerd
+    }
 
     var mechanismDefaultExpanded: Bool {
         profile == .pharmaNerd
@@ -102,5 +107,10 @@ struct DisclosurePolicy: Hashable {
     }
     var receptorLitDefaultExpanded: Bool {
         profile == .pharmaNerd
+    }
+    /// Pharmacokinetics starts collapsed even for pharma-nerds — it's dense
+    /// reference data that would otherwise dominate the scroll.
+    var pharmacokineticsDefaultExpanded: Bool {
+        false
     }
 }
