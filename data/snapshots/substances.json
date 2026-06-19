@@ -1209,39 +1209,6 @@
     ]
   },
   {
-    "name": "2-Bromodeschloroketamine",
-    "display_name": "2-Br-DCK",
-    "aliases": [
-      "2-BR-DCK"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "NMDA-antagonist",
-      "arylcyclohexylamine",
-      "no-human-data",
-      "research-chemical"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Bromoketamine"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "2-Chloro-Ephenidine",
     "display_name": "",
     "aliases": [
@@ -5360,7 +5327,7 @@
     ]
   },
   {
-    "name": "3,4-Dimethoxy-Α-PHP",
+    "name": "3,4-Dimethoxy-A-PHP",
     "display_name": "",
     "aliases": [
       "3,4-DMPV”",
@@ -6134,49 +6101,6 @@
     ]
   },
   {
-    "name": "3-Fluorophenmetrazine",
-    "display_name": "",
-    "aliases": [
-      "3-FPH",
-      "3-FPM",
-      "3FPM",
-      "3f-P",
-      "3f-phenmetrazine",
-      "3fp",
-      "PAL-593"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "NDRA",
-      "VMAT2-substrate"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral",
-      "rectal"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral",
-      "rectal"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "3-FPM 是一种拟交感神经药物，食用后具有经典的兴奋剂作用呢。它的作用机制似乎是作为多巴胺和去甲肾上腺素的释放剂，增加它们在大脑神经元突触间隙中的浓度。这些神经递质的积累导致了欣快感和兴奋效果的体验。它的母体化合物苯吗啉曾在 60 和 70 年代作为食欲抑制剂上市，但由于担心滥用和成瘾，后来已从市场撤出喵。\n\n下表显示了 3-FPM 诱导释放（EC50）多巴胺 (DA)、血清素 (5-HT) 和去甲肾上腺素 (NE) 的效价，并与苯吗啉进行了比较哦：",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "3-FMA",
     "display_name": "",
     "aliases": [
@@ -6215,35 +6139,41 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-fluorophenmetrazine",
+      "3-Fluorophenmetrazine",
+      "3FPM",
       "3f-P",
       "3f-phenmetrazine",
       "3fp",
-      "3fpm",
       "PAL-593"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
+      "NDRA",
+      "VMAT2-substrate",
       "class:phenylmorpholine",
       "class:substituted amphetamines",
       "habit-forming",
       "research-chemical"
     ],
-    "default_route": "insufflation",
+    "default_route": "inhalation",
     "all_routes": [
+      "inhalation",
       "insufflation",
-      "oral"
+      "oral",
+      "rectal"
     ],
     "routes_with_dose": [
+      "inhalation",
       "insufflation",
-      "oral"
+      "oral",
+      "rectal"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "3-FPM 是一种拟交感神经药物，食用后具有经典的兴奋剂作用呢。它的作用机制似乎是作为多巴胺和去甲肾上腺素的释放剂，增加它们在大脑神经元突触间隙中的浓度。这些神经递质的积累导致了欣快感和兴奋效果的体验。它的母体化合物苯吗啉曾在 60 和 70 年代作为食欲抑制剂上市，但由于担心滥用和成瘾，后来已从市场撤出喵。\n\n下表显示了 3-FPM 诱导释放（EC50）多巴胺 (DA)、血清素 (5-HT) 和去甲肾上腺素 (NE) 的效价，并与苯吗啉进行了比较哦：",
     "effects": [
       "Analysis enhancement",
       "Anxiety",
@@ -6266,7 +6196,6 @@
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -6878,7 +6807,7 @@
     ]
   },
   {
-    "name": "3-Methyl-4-fluoro-Α-pyrrolidinovalerophenone",
+    "name": "3-Methyl-4-fluoro-A-pyrrolidinovalerophenone",
     "display_name": "MFPVP",
     "aliases": [
       "3-Me-4-F-Α-PVP",
@@ -8425,9 +8354,10 @@
       "p-Chloromethamphetamine",
       "para-Chloromethamphetamine"
     ],
-    "category": "Stimulant",
+    "category": "Other",
     "display_class": "recreational",
     "tags": [
+      "research-chemical",
       "serotonergic-neurotoxin"
     ],
     "default_route": "oral",
@@ -8509,33 +8439,6 @@
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "4-CMA",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [
-      "research-chemical"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -8805,18 +8708,17 @@
     ]
   },
   {
-    "name": "4-Fluoro-alpha-PHP",
+    "name": "4-Fluoro-A-pyrrolidinopropiophenone",
     "display_name": "",
     "aliases": [
-      "4F-PHP",
-      "4F-Α-PHP",
-      "4′-fluoro-Α-PHP"
+      "4F-PPP",
+      "4‑FPPP",
+      "pFPPP",
+      "para‑fluoro‑α‑PPP"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [
-      "pyrrolidinophenone"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -8840,17 +8742,18 @@
     ]
   },
   {
-    "name": "4-Fluoro-Α-pyrrolidinopropiophenone",
+    "name": "4-Fluoro-alpha-PHP",
     "display_name": "",
     "aliases": [
-      "4F-PPP",
-      "4‑FPPP",
-      "pFPPP",
-      "para‑fluoro‑α‑PPP"
+      "4F-PHP",
+      "4F-Α-PHP",
+      "4′-fluoro-Α-PHP"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "pyrrolidinophenone"
+    ],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -9046,45 +8949,6 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "一般认为，4F-EPH作为多巴胺再摄取抑制剂的效率高于与其近缘的哌甲酯。这意味着它会通过结合并部分阻断通常将这些单胺从突触间隙中移除的转运蛋白，从而有效提高脑内多巴胺神经递质水平。这使多巴胺在脑内某些局部区域蓄积，并由此产生兴奋和欣快效应。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "4-Fluoromethylphenidate",
-    "display_name": "",
-    "aliases": [
-      "4-FL-MPH",
-      "4-FMPH",
-      "4-fluoro-MPH",
-      "4-氟哌甲酯",
-      "4F-MPH",
-      "4fmph"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "4F-MPH被认为主要作为多巴胺与去甲肾上腺素再摄取抑制剂发挥作用，这意味着它会通过结合并部分阻断通常从突触间隙清除这些儿茶酚胺的转运蛋白，有效提高大脑中多巴胺和去甲肾上腺素神经递质的水平。这使多巴胺和去甲肾上腺素能够在大脑的奖赏通路中积累，从而产生兴奋和欣快效应。\n\n根据一项药理学评估，4F-MPH的(±)-苏式异构体在多巴胺再摄取抑制方面比其母体化合物哌甲酯有效2.15倍，在去甲肾上腺素再摄取抑制方面则有效2.7倍。然而，其(±)-赤式异构体在多巴胺再摄取抑制方面比哌甲酯低65倍，在去甲肾上腺素再摄取抑制方面低45.6倍。4F-MPH的两个外消旋体都不会对血清素再摄取产生显著影响。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -10270,12 +10134,14 @@
       "p-methylthioamphetamine",
       "para-methylthioamphetamine"
     ],
-    "category": "Stimulant",
+    "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
       "MAO-A-inhibitor",
       "SERT-dominant",
-      "serotonergic-toxin"
+      "research-chemical",
+      "serotonergic-toxin",
+      "tentative"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -10360,36 +10226,6 @@
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "4-MTA",
-    "display_name": "",
-    "aliases": [
-      "4-methylthioamphetamine"
-    ],
-    "category": "Empathogen",
-    "display_class": "recreational",
-    "tags": [
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -10920,9 +10756,13 @@
     "name": "4F-MPH",
     "display_name": "",
     "aliases": [
+      "4-FL-MPH",
       "4-FMPH",
       "4-Fluoromethylphenidate",
+      "4-fluoro-MPH",
+      "4-氟哌甲酯",
       "4F Ritalin",
+      "4fmph",
       "4‑FMPH",
       "4‑Fluoro‑methylphenidate",
       "erythro‑4F‑MPH",
@@ -10937,7 +10777,10 @@
     "tags": [
       "DAT-selective",
       "class:substituted phenidates",
-      "high-potency"
+      "habit-forming",
+      "high-potency",
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -10952,12 +10795,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "4F-MPH被认为主要作为多巴胺与去甲肾上腺素再摄取抑制剂发挥作用，这意味着它会通过结合并部分阻断通常从突触间隙清除这些儿茶酚胺的转运蛋白，有效提高大脑中多巴胺和去甲肾上腺素神经递质的水平。这使多巴胺和去甲肾上腺素能够在大脑的奖赏通路中积累，从而产生兴奋和欣快效应。\n\n根据一项药理学评估，4F-MPH的(±)-苏式异构体在多巴胺再摄取抑制方面比其母体化合物哌甲酯有效2.15倍，在去甲肾上腺素再摄取抑制方面则有效2.7倍。然而，其(±)-赤式异构体在多巴胺再摄取抑制方面比哌甲酯低65倍，在去甲肾上腺素再摄取抑制方面低45.6倍。4F-MPH的两个外消旋体都不会对血清素再摄取产生显著影响。",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -12896,15 +12738,20 @@
     "name": "5-Methoxytryptamine",
     "display_name": "",
     "aliases": [
+      "5-MT",
+      "5-MeO-T",
       "Lopac-M-6628",
+      "Mexamine",
       "methoxytryptamine",
-      "mexamine",
       "mexamine base"
     ],
-    "category": "Other",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "endogenous",
       "no-human-data",
+      "radioprotectant-historical",
+      "tentative",
       "tryptamine"
     ],
     "default_route": "",
@@ -13803,6 +13650,39 @@
     ]
   },
   {
+    "name": "A-pbp",
+    "display_name": "",
+    "aliases": [
+      "alpha-pbp"
+    ],
+    "category": "Stimulant",
+    "display_class": "recreational",
+    "tags": [
+      "habit-forming",
+      "research-chemical",
+      "tentative"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "A-PHP",
     "display_name": "",
     "aliases": [
@@ -13893,19 +13773,17 @@
       "O-2387",
       "O‑2387",
       "Prolintanone",
-      "alfa-PvP",
       "alpha-PVP",
       "alpha-Pyrrolidinopentiophenone",
       "apvp",
       "desmethylpyrovalerone",
       "flocka",
-      "Α-Pyrrolidinopentiophenone",
       "α-PVP",
-      "α-Pyrrolidinovalerophenone",
+      "α-Pyrrolidinopentiophenone",
+      "α-pyrrolidinovalerophenone",
       "αpvp",
       "α‑PVP",
       "α‑pyrrolidinovalerophenone",
-      "β-keto-prolintane",
       "β-ketone-prolintane"
     ],
     "category": "Stimulant",
@@ -13922,8 +13800,6 @@
       "habit-forming",
       "high-psychosis-risk",
       "high-risk",
-      "no-human-data",
-      "phenethylamine",
       "pure-reuptake-inhibitor",
       "pyrrolidinophenone",
       "research-chemical",
@@ -15528,36 +15404,6 @@
     ],
     "data_gaps": [
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "Albuterol",
-    "display_name": "",
-    "aliases": [
-      "ProAir",
-      "Proventil",
-      "Ventolin"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [
-      "short-acting beta-2 agonist"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -17590,6 +17436,7 @@
     "tags": [
       "MAO-A-inhibitor-weak",
       "class:Tryptamine",
+      "class:substituted tryptamines",
       "monoamine-releaser-broad",
       "no-human-data",
       "research-chemical",
@@ -20231,16 +20078,20 @@
       "B-k2-C-B",
       "B-k2-CB",
       "B-k2cb",
+      "BETA-keto 2C-B",
       "bk-2-CB",
       "bk-2cb",
       "bk2cb",
-      "Β-keto-2C-B"
+      "Β-keto-2C-B",
+      "Β-酮-2C-B",
+      "ΒK-2C-B"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
+      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
     ],
@@ -20255,12 +20106,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "更多信息：5-羟色胺能迷幻剂\n\nβk-2C-B很可能作为一种5-HT受体部分激动剂发挥作用。其迷幻剂效应一般被认为来自它在5-HT受体上的活性。然而，这些相互作用具体扮演怎样的角色，以及它们如何导致迷幻体验，目前仍不明确。",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -20521,42 +20371,6 @@
     "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "BOH-2C-B",
-    "display_name": "",
-    "aliases": [
-      "2C-B-OH",
-      "2C-B-Β-OL",
-      "BH2CB",
-      "BOH2CB",
-      "BOHB",
-      "βOH-2C-B"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -21184,8 +20998,9 @@
   },
   {
     "name": "Bromoketamine",
-    "display_name": "",
+    "display_name": "2-Br-DCK",
     "aliases": [
+      "2-BR-DCK",
       "2-Bromodeschloroketamine",
       "2‑BDCK",
       "2‑BrDCK",
@@ -21196,7 +21011,11 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "duplicate-of-2-Br-DCK"
+      "NMDA-antagonist",
+      "arylcyclohexylamine",
+      "duplicate-of-2-Br-DCK",
+      "no-human-data",
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -21213,11 +21032,12 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Bromoketamine"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -26330,33 +26150,6 @@
     ]
   },
   {
-    "name": "Cyanocobalamin",
-    "display_name": "",
-    "aliases": [
-      "B12 Inject Kit"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Cychlorphine",
     "display_name": "",
     "aliases": [
@@ -28331,10 +28124,12 @@
   },
   {
     "name": "DET",
-    "display_name": "",
+    "display_name": "DET",
     "aliases": [
       "Diethyltryptamine",
+      "N",
       "N,N-diethyltryptamine",
+      "N-二乙基色胺",
       "T-9"
     ],
     "category": "Psychedelic",
@@ -28342,6 +28137,7 @@
     "tags": [
       "TIHKAL",
       "class:substituted tryptamines",
+      "no-human-data",
       "orally-active-tryptamine",
       "research-chemical",
       "tentative",
@@ -28360,14 +28156,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "更多信息：血清素致幻剂\n\n由于缺乏关于该物质的研究，关于其药理学的所有讨论都纯粹基于其结构以及与色胺致幻剂（如赛洛西宾和DMT）的主观效应相似性。考虑到这一点，DET 被认为起着 5-HT2A 部分激动剂的作用。与 DMT 不同，乙基增加了对单胺氧化酶系统的保护，使 DET 具有口服活性，而 DMT 则没有哦。\n\nDET 有时比 DMT 更受青睐，因为它可以口服，而 DMT 不能。这是因为单胺氧化酶在 DMT 被吸收之前就将其降解为无活性化合物了。为了克服这个问题，必须以不同的方式给药，即静脉注射、肌肉注射、吸入、鼻吸、直肠给药，或与单胺氧化酶抑制剂一起摄入。因为 DET 的氮原子上连接有乙基，单胺氧化酶无法降解它。对于许多其他具有较大氮取代基的色胺也是如此呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal03.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -33447,42 +33242,6 @@
     ]
   },
   {
-    "name": "Etazene",
-    "display_name": "",
-    "aliases": [
-      "Desnitroetonitazene"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "benzimidazole-opioid",
-      "duplicate-of-etodesnitazene",
-      "extreme-potency",
-      "fatalities-reported",
-      "fentanyl-stronger",
-      "mu-full-agonist",
-      "nitazene"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Etazene"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "ETH-CAT",
     "display_name": "",
     "aliases": [
@@ -34060,47 +33819,6 @@
     ]
   },
   {
-    "name": "Eticyclidone",
-    "display_name": "",
-    "aliases": [
-      "2'-oxo-PCE",
-      "2'-氧代-PCE",
-      "N-Ethyldeschloroketamine",
-      "O-PCE",
-      "乙环利定"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "NMDA-antagonist",
-      "arylcyclohexylamine",
-      "designer-dissociative",
-      "duplicate-of-O-PCE",
-      "research-chemical"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "由于缺乏关于该物质的研究，所有关于其药理学的讨论纯粹是基于其结构以及与 氯胺酮、PCE 和 甲氧色胺 等其他芳基环己胺解离剂的效应相似性。虽然还没有进行科学研究来证实这一点，但结构-活性关系分析表明，2'-氧代-PCE 可能主要作为 NMDA受体拮抗剂表现出其观察到的效应，尽管也可能涉及其他神经递质系统。\n\nNMDA受体（谷氨酸受体的一种亚型，谷氨酸是神经系统中主要的兴奋性神经递质）允许电信号在脑部和脊髓的神经细胞之间传递；为了让信号通过，受体必须是开放的。NMDA受体拮抗剂已被证明通过阻断这些受体来干扰这种信号传递。这种神经系统中信息流的断连会导致感觉丧失（麻醉）、移动困难（运动失调），并最终导致该物质等效的“K-hole”。",
-    "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Eticyclidone"
-    ],
-    "data_gaps": [
-      "half_life_minutes"
-    ]
-  },
-  {
     "name": "Etifelmine",
     "display_name": "",
     "aliases": [],
@@ -34254,6 +33972,7 @@
     "display_class": "recreational",
     "tags": [
       "benzimidazole-opioid",
+      "duplicate-of-etodesnitazene",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
@@ -42861,14 +42580,17 @@
     "aliases": [
       "L-Trp",
       "Optimax",
+      "Trp",
       "Tryptophan"
     ],
     "category": "Supplement",
     "display_class": "otc",
     "tags": [
+      "5-HT-precursor",
       "5HT-precursor",
       "OTC",
       "amino-acid",
+      "essential-amino-acid",
       "serotonin-syndrome-risk",
       "sleep",
       "supplement"
@@ -45293,37 +45015,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "MAL",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal099.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -48011,7 +47702,9 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2C-selective",
+      "PIHKAL",
       "class:substituted phenethylamines",
+      "phenethylamine",
       "research-chemical"
     ],
     "default_route": "insufflation",
@@ -48070,10 +47763,11 @@
       "Transformations",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal099.shtml"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -49885,39 +49579,6 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "Mexamine",
-    "display_name": "",
-    "aliases": [
-      "5-MT",
-      "5-MeO-T",
-      "5-methoxytryptamine"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "endogenous",
-      "radioprotectant-historical",
-      "tentative"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -51888,40 +51549,6 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "In 1963, Alexander Shulgin proposed that myristicin might be metabolized in the liver to MMDA, a psychoactive compound related to MDA. However, this is considered unlikely, as no amphetamine metabolites have been detected in urine following myristicin ingestion. Myristicin is believed to act as an anticholinergic agent, based on the observation that overdose produces effects similar to anticholinergic toxidrome, though its precise mechanism of action has not been determined. Myristicin has also been found to act as a serotonin receptor antagonist and as a weak monoamine oxidase inhibitor. [citation needed]\n\nElementicin co-occurs with myristicin in nutmeg and is thought to contribute to its hallucinogenic effects. Elemicin may possess effects similar to those of myristicin. It is also a traditional precursor in the synthesis of the alkaloid mescaline. [citation needed]\n\nIndividuals who have ingested elemi oil—a source of elemicin that contains little myristicin—report that it produces visual effects appearing more similar to those of classical psychedelics than nutmeg oil, the effects of which seem more deliriant and sedating in character.\n\nThis distinction suggests that myristicin is more sedating and cognitively dulling, while elemicin appears more visually active and stimulating. This hypothesis is further supported by the observation that, while elemicin shares a direct structural relationship with mescaline, myristicin is structurally related to the MDxx compounds such as MDMA.\n\nElementicin's chemical structure appears to be a carbogenic analog of mescaline, while myristicin itself appears to be a carbogenic analog of lophophine; these structural differences may account for the subtly distinct psychoactive profiles of elemicin and myristicin.\n\nNo compounds found in nutmeg have been shown to bind directly to CB1 or CB2 receptors. Three compounds in nutmeg (Malabaricone C, Licarin A, and 5-Methoxylicarin A) have been demonstrated to act as endocannabinoid modulators by inhibiting the enzymes FAAH and MAGL.",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "N,N-diethyltryptamine",
-    "display_name": "DET",
-    "aliases": [
-      "DET",
-      "Diethyltryptamine",
-      "N",
-      "N-二乙基色胺"
-    ],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [
-      "no-human-data",
-      "tryptamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素致幻剂\n\n由于缺乏关于该物质的研究，关于其药理学的所有讨论都纯粹基于其结构以及与色胺致幻剂（如赛洛西宾和DMT）的主观效应相似性。考虑到这一点，DET 被认为起着 5-HT2A 部分激动剂的作用。与 DMT 不同，乙基增加了对单胺氧化酶系统的保护，使 DET 具有口服活性，而 DMT 则没有哦。\n\nDET 有时比 DMT 更受青睐，因为它可以口服，而 DMT 不能。这是因为单胺氧化酶在 DMT 被吸收之前就将其降解为无活性化合物了。为了克服这个问题，必须以不同的方式给药，即静脉注射、肌肉注射、吸入、鼻吸、直肠给药，或与单胺氧化酶抑制剂一起摄入。因为 DET 的氮原子上连接有乙基，单胺氧化酶无法降解它。对于许多其他具有较大氮取代基的色胺也是如此呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -54800,17 +54427,19 @@
     "display_name": "",
     "aliases": [
       "2'-oxo-PCE",
+      "2'-氧代-PCE",
       "2-oxo-PCE",
       "2‑DCNEK",
       "2‑Oxo‑PCE",
       "2′‑Oxo‑PCE",
       "Eticyclidone",
-      "N-ethyldeschloroketamine",
+      "N-Ethyldeschloroketamine",
       "N‑ethyldeschloroketamine",
       "OPCE",
       "O‑PCE",
       "deschloro‑N‑ethyl‑ketamine",
-      "eticyclidon"
+      "eticyclidon",
+      "乙环利定"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -54819,6 +54448,8 @@
       "arylcyclohexylamine",
       "class:Arylcyclohexylamine",
       "class:arylcyclohexylamines",
+      "designer-dissociative",
+      "duplicate-of-O-PCE",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -54836,13 +54467,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "由于缺乏关于该物质的研究，所有关于其药理学的讨论纯粹是基于其结构以及与 氯胺酮、PCE 和 甲氧色胺 等其他芳基环己胺解离剂的效应相似性。虽然还没有进行科学研究来证实这一点，但结构-活性关系分析表明，2'-氧代-PCE 可能主要作为 NMDA受体拮抗剂表现出其观察到的效应，尽管也可能涉及其他神经递质系统。\n\nNMDA受体（谷氨酸受体的一种亚型，谷氨酸是神经系统中主要的兴奋性神经递质）允许电信号在脑部和脊髓的神经细胞之间传递；为了让信号通过，受体必须是开放的。NMDA受体拮抗剂已被证明通过阻断这些受体来干扰这种信号传递。这种神经系统中信息流的断连会导致感觉丧失（麻醉）、移动困难（运动失调），并最终导致该物质等效的“K-hole”。",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Eticyclidone"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -57503,36 +57134,6 @@
       "https://en.wikipedia.org/wiki/Phenazepam"
     ],
     "data_gaps": []
-  },
-  {
-    "name": "Phenazolam",
-    "display_name": "",
-    "aliases": [
-      "clobromazolam"
-    ],
-    "category": "",
-    "display_class": "recreational",
-    "tags": [
-      "designer-benzo",
-      "triazolobenzodiazepine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
   },
   {
     "name": "Phenazopyridine",
@@ -63140,12 +62741,17 @@
     "name": "Salbutamol",
     "display_name": "",
     "aliases": [
-      "Ventolinhfa",
-      "albuterol"
+      "Albuterol",
+      "ProAir",
+      "Proventil",
+      "Ventolin",
+      "Ventolinhfa"
     ],
     "category": "",
     "display_class": "medical_rx",
-    "tags": [],
+    "tags": [
+      "short-acting beta-2 agonist"
+    ],
     "default_route": "",
     "all_routes": [],
     "routes_with_dose": [],
@@ -64314,38 +63920,6 @@
     ]
   },
   {
-    "name": "SEP-225289",
-    "display_name": "",
-    "aliases": [
-      "Dasotraline"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "NDRI",
-      "investigational",
-      "research-chemical"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Dasotraline"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Serdexmethylphenidate",
     "display_name": "",
     "aliases": [
@@ -64983,40 +64557,6 @@
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "Sonata",
-    "display_name": "",
-    "aliases": [
-      "Zaleplon",
-      "扎来普隆"
-    ],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "aldehyde-oxidase-substrate",
-      "alpha1-highly-selective",
-      "habit-forming",
-      "ultra-short-half-life"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Zaleplon shares pharmacological characteristics with benzodiazepines. Zaleplon is a full agonist at the benzodiazepine α1 receptor located on the GABAA receptor ionophore complex in the brain, with lower affinity for the α2 and α3 subtypes. It selectively enhances the effects of GABA in a manner similar to benzodiazepines, but with greater selectivity.\n\nThe pharmacological mechanism by which the compound produces its bizarre hallucinations is not well understood and does not appear to have been directly investigated.",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
       "half_life_minutes",
       "references"
     ]
@@ -66979,31 +66519,6 @@
     "effects": [],
     "references": [],
     "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "Thiamine",
-    "display_name": "",
-    "aliases": [],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
@@ -69166,36 +68681,6 @@
     ]
   },
   {
-    "name": "Tryptophan",
-    "display_name": "",
-    "aliases": [
-      "Trp"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [
-      "5-HT-precursor",
-      "essential-amino-acid"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Tuinal",
     "display_name": "",
     "aliases": [
@@ -69656,7 +69141,8 @@
       "Depakote",
       "Divalproex",
       "Epilim",
-      "Valproic Acid"
+      "Valproic Acid",
+      "divalproex sodium"
     ],
     "category": "Anticonvulsant",
     "display_class": "medical_rx",
@@ -69686,33 +69172,6 @@
       "https://en.wikipedia.org/wiki/Valproate"
     ],
     "data_gaps": []
-  },
-  {
-    "name": "Valproic Acid",
-    "display_name": "",
-    "aliases": [
-      "Depakote",
-      "divalproex sodium"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Multimodal Anticonvulsant and Mood Stabilizer",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
-    ]
   },
   {
     "name": "Valsartan",
@@ -70300,6 +69759,7 @@
     "display_name": "",
     "aliases": [
       "B12",
+      "B12 Inject Kit",
       "Cobalamin",
       "Cyanocobalamin",
       "MeCbl",
@@ -70934,7 +70394,8 @@
     "name": "Zaleplon",
     "display_name": "",
     "aliases": [
-      "Sonata"
+      "Sonata",
+      "扎来普隆"
     ],
     "category": "Depressant",
     "display_class": "recreational",
@@ -70942,10 +70403,14 @@
       "GABA-modulator",
       "US-Schedule-IV",
       "Z-drug",
+      "aldehyde-oxidase-substrate",
+      "alpha1-highly-selective",
       "benzodiazepine receptor agonist",
+      "habit-forming",
       "hypnotic",
       "prescription-only",
-      "sedative-hypnotic"
+      "sedative-hypnotic",
+      "ultra-short-half-life"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -71438,104 +70903,6 @@
     ]
   },
   {
-    "name": "Α-pbp",
-    "display_name": "",
-    "aliases": [
-      "a-pbp",
-      "alpha-pbp"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "ΑMT",
-    "display_name": "",
-    "aliases": [
-      "AMT",
-      "Indopan"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "class:substituted tryptamines"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "ΒK-2C-B",
-    "display_name": "",
-    "aliases": [
-      "BETA-keto 2C-B",
-      "bk-2C-B",
-      "Β-酮-2C-B"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "class:substituted phenethylamines"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "更多信息：5-羟色胺能迷幻剂\n\nβk-2C-B很可能作为一种5-HT受体部分激动剂发挥作用。其迷幻剂效应一般被认为来自它在5-HT受体上的活性。然而，这些相互作用具体扮演怎样的角色，以及它们如何导致迷幻体验，目前仍不明确。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "α-PCYP",
     "display_name": "",
     "aliases": [
@@ -71613,11 +70980,15 @@
     "name": "βH-2C-B",
     "display_name": "",
     "aliases": [
+      "2C-B-OH",
+      "2C-B-Β-OL",
       "BH-2c-B",
       "BH-2cb",
-      "BOH-2c-B",
+      "BH2CB",
+      "BOH-2C-B",
       "BOH-2cb",
-      "bohb",
+      "BOH2CB",
+      "BOHB",
       "Β-hydroxy-2C-B",
       "βOH-2C-B"
     ],
@@ -71630,11 +71001,13 @@
       "research-chemical",
       "tentative"
     ],
-    "default_route": "oral",
+    "default_route": "insufflation",
     "all_routes": [
+      "insufflation",
       "oral"
     ],
     "routes_with_dose": [
+      "insufflation",
       "oral"
     ],
     "has_dose_data": true,
