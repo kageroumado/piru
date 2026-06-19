@@ -68,7 +68,7 @@ struct QuickLogSearchResults: View {
             }
         case let .library(substance):
             resultRow(
-                name: substance.name,
+                name: substance.displayTitle,
                 source: String(localized: "Library"),
                 tint: substance.category.color,
                 detail: substanceDetail(substance),
