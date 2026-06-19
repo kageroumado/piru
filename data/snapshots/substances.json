@@ -6334,34 +6334,6 @@
     ]
   },
   {
-    "name": "3-Hydroxytyramine hydrobromide",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [
-      "no-human-data",
-      "phenethylamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "3-Me-PCE",
     "display_name": "",
     "aliases": [
@@ -37419,7 +37391,10 @@
       "GHB-receptor-agonist",
       "capacity-limited-PK",
       "class:γ-hydroxy acid",
+      "euphoriant",
+      "gaba-b receptor agonist",
       "habit-forming",
+      "hypnotic",
       "narrow-therapeutic-index",
       "severe-withdrawal"
     ],
@@ -64504,37 +64479,6 @@
     ]
   },
   {
-    "name": "Sodium oxybate",
-    "display_name": "",
-    "aliases": [
-      "Xyrem",
-      "Xywav"
-    ],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "euphoriant",
-      "gaba-b receptor agonist",
-      "hypnotic"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Selectively binds to the GHB receptor , and the GABA-B recepto (at higher doses).r",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "Somatropin recombinant",
     "display_name": "",
     "aliases": [
@@ -66905,51 +66849,17 @@
     "data_gaps": []
   },
   {
-    "name": "Tianeptine sodium",
-    "display_name": "",
-    "aliases": [
-      "Stablon sodium salt",
-      "tianeptine Na"
-    ],
-    "category": "Antidepressant",
-    "display_class": "medical_rx",
-    "tags": [
-      "antidepressant",
-      "high-abuse-liability",
-      "high-dependence-risk",
-      "mu-opioid-agonist",
-      "mu-opioid-full-agonist",
-      "nootropic"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "μ-Opioid Receptor Agonist (Atypical Antidepressant)",
-    "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Tianeptine"
-    ],
-    "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes"
-    ]
-  },
-  {
-    "name": "Tianeptine sulfate",
+    "name": "Tianeptine",
     "display_name": "",
     "aliases": [
       "Coaxil",
       "Stablon",
+      "Stablon sodium salt",
       "Tatinol",
       "Tianeptin",
+      "Tianeptine sodium",
+      "Tianeptine sulfate",
+      "tianeptine Na",
       "噻奈普汀",
       "塔提诺",
       "康耐喜",

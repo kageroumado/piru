@@ -959,6 +959,12 @@ _SALT_FORM_CANON: dict[str, str] = {
     "carbonate": "Carbonate",
     "orotate": "Orotate",
     "hydroxide": "Hydroxide",
+    # Non-mineral drug-salt labels (Tianeptine sodium/sulfate, GHB sodium salt,
+    # dopamine hydrobromide). No elemental-metal fraction applies to these.
+    "sodium": "Sodium",
+    "sulfate": "Sulfate",
+    "sulphate": "Sulfate",
+    "hydrobromide": "Hydrobromide",
 }
 
 
@@ -5519,23 +5525,43 @@ class Build:
             ("Lithium Carbonate", "Carbonate"),
             ("Lithium orotate", "Orotate"),
         ],
+        # Drug salts (not mineral supplements). The variant rows are synonym+salt
+        # names that normalise() couldn't merge onto their freebase because the
+        # base name differs (3-Hydroxytyramine = Dopamine, Sodium oxybate = GHB).
+        "GHB": [
+            ("Sodium oxybate", "Sodium"),
+        ],
+        "Dopamine": [
+            ("3-Hydroxytyramine hydrobromide", "Hydrobromide"),
+        ],
+        # Tianeptine shipped only as its two salts (no freebase row): the sulfate
+        # holds the 'tianeptine' normalised slot, the sodium sits beside it. Both
+        # carry real, distinct dose ladders, so fold them under one parent tagged
+        # by salt form rather than dropping either ladder.
+        "Tianeptine": [
+            ("Tianeptine sodium", "Sodium"),
+            ("Tianeptine sulfate", "Sulfate"),
+        ],
     }
 
-    # Per-salt curated metadata, keyed by (parent canonical, salt label). Drives
-    # two forward-looking dose_ranges columns the loader consumes later (WS-2b):
+    # Per-salt curated metadata, keyed by (parent canonical, salt label). Salt
+    # and mineral are DECOUPLED — a salt form is any counter-ion (sodium,
+    # sulfate, hydrobromide, HCl, fumarate …), and only some happen to be mineral
+    # supplements. Drives two dose_ranges columns the loader consumes later:
     #
-    #   rank      0 = the default the app should pre-select; 1, 2 … = the rest.
-    #             Kiri-approved: Magnesium Glycinate (best-absorbed/best-tolerated
-    #             common form) and Lithium Carbonate (the pharma standard) lead.
-    #   elemental mass fraction of the elemental metal in the salt — so the app
-    #             can show "≈ N mg elemental Mg/Li" beside the salt dose.
-    #             Mg citrate 0.16, glycinate 0.141, L-threonate 0.083;
-    #             Li carbonate 0.188, orotate 0.043.
+    #   rank      Universal. 0 = the default the app should pre-select; 1, 2 … =
+    #             the rest. Kiri-approved leads: Magnesium Glycinate, Lithium
+    #             Carbonate, Tianeptine Sodium (the Stablon pharma standard).
+    #   elemental Mineral-only enrichment, else None. Mass fraction of the
+    #             elemental metal so the app can show "≈ N mg elemental Mg/Li".
+    #             Mg citrate 0.16, glycinate 0.141, L-threonate 0.083; Li
+    #             carbonate 0.188, orotate 0.043. N/A (None) for drug salts whose
+    #             dose differences are carried by their own per-salt ladders.
     #
     # The salt label here MUST match the (already-canonical) label set by
-    # fold_salt_families(); apply_salt_metadata() asserts coverage so a typo or a
-    # new family without metadata surfaces at build time, not silently.
-    _SALT_METADATA: dict[str, dict[str, tuple[int, float]]] = {
+    # fold_salt_families(); apply_salt_metadata() asserts every salt-tagged dose
+    # row got a rank, so a new family without metadata surfaces at build time.
+    _SALT_METADATA: dict[str, dict[str, tuple[int, float | None]]] = {
         "Magnesium": {
             "Glycinate": (0, 0.141),
             "Citrate": (1, 0.16),
@@ -5544,6 +5570,12 @@ class Build:
         "Lithium": {
             "Carbonate": (0, 0.188),
             "Orotate": (1, 0.043),
+        },
+        # Drug salt: rank picks the default form to pre-select (sodium = the
+        # Stablon pharma standard); elemental fraction is N/A for a non-mineral.
+        "Tianeptine": {
+            "Sodium": (0, None),
+            "Sulfate": (1, None),
         },
     }
 
@@ -5662,7 +5694,8 @@ class Build:
                 )
                 if cur.rowcount:
                     ranked += cur.rowcount
-                    with_elemental += cur.rowcount
+                    if elemental is not None:
+                        with_elemental += cur.rowcount
 
         # Coverage gate: every salt-tagged dose row must have received a rank.
         uncovered = self.cur.execute(
