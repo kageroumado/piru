@@ -18,6 +18,51 @@ struct CodableRange: Codable {
     }
 }
 
+// MARK: - Physicochemical Properties
+
+/// Predicted / forensic physicochemical descriptors, decoded from the
+/// `substances` table's Stage-1 columns. **Not clinical values** — logP/TPSA/
+/// HBA/HBD are computed (PubChem XLogP3 / NPS-DataHub), logD/pKa are not yet
+/// sourced (always nil today), and the LD50 figures are *rodent*
+/// order-of-magnitude toxicity, never a human "safe dose". The detail card
+/// surfaces them behind an explicit honesty footnote (see ``SubstanceDetailView``).
+struct Physicochemical: Codable, Hashable {
+    /// Octanol/water partition coefficient (lipophilicity), computed.
+    let logP: Double?
+    /// Distribution coefficient at physiological pH. No source populates this yet.
+    let logD: Double?
+    /// Acid dissociation constant. No source populates this yet.
+    let pKa: Double?
+    /// Topological polar surface area, Å².
+    let tpsa: Double?
+    /// Hydrogen-bond acceptor count.
+    let hba: Int?
+    /// Hydrogen-bond donor count.
+    let hbd: Int?
+    /// Rodent oral LD50, mg/kg — order-of-magnitude toxicity, not a safe dose.
+    let ld50OralMgPerKg: Double?
+    /// Rodent dermal LD50, mg/kg — order-of-magnitude toxicity, not a safe dose.
+    let ld50DermalMgPerKg: Double?
+    /// Melting point, °C.
+    let meltingPointC: Double?
+    /// Boiling point, °C.
+    let boilingPointC: Double?
+
+    /// `true` when at least one descriptor is populated — the card only renders
+    /// when there's something to show.
+    var hasAnyValue: Bool {
+        logP != nil || logD != nil || pKa != nil || tpsa != nil || hba != nil
+            || hbd != nil || ld50OralMgPerKg != nil || ld50DermalMgPerKg != nil
+            || meltingPointC != nil || boilingPointC != nil
+    }
+
+    /// `true` when either LD50 figure is present — gates the rodent-toxicity
+    /// honesty footnote so it only shows when an LD50 is actually displayed.
+    var hasLD50: Bool {
+        ld50OralMgPerKg != nil || ld50DermalMgPerKg != nil
+    }
+}
+
 // MARK: - Dose
 
 struct DoseRange {
@@ -1109,6 +1154,17 @@ struct Substance: Identifiable {
     /// machine-translated English as a fallback). Detail-only; nil when no
     /// source supplies an overview. Distinct from `mechanismOfAction`.
     let overview: SubstanceOverview?
+    /// Canonical isomeric SMILES, when known. Detail-only (nil in the batch/
+    /// browse path); shown in the Chemistry disclosure for the structurally
+    /// curious. Maps to `substances.smiles`.
+    let smiles: String?
+    /// IUPAC systematic name, when known. Detail-only; maps to
+    /// `substances.iupac_name`.
+    let iupacName: String?
+    /// Predicted/forensic physicochemical descriptors (logP/TPSA/LD50/…).
+    /// Detail-only; nil when no column is populated. **Not clinical** — see
+    /// ``Physicochemical``.
+    let physicochemical: Physicochemical?
 
     nonisolated init(
         name: String,
@@ -1143,6 +1199,9 @@ struct Substance: Identifiable {
         drugCommunitySlug: String? = nil,
         freeodwikiSlug: String? = nil,
         overview: SubstanceOverview? = nil,
+        smiles: String? = nil,
+        iupacName: String? = nil,
+        physicochemical: Physicochemical? = nil,
     ) {
         self.id = UUID()
         self.name = name
@@ -1177,6 +1236,9 @@ struct Substance: Identifiable {
         self.drugCommunitySlug = drugCommunitySlug
         self.freeodwikiSlug = freeodwikiSlug
         self.overview = overview
+        self.smiles = smiles
+        self.iupacName = iupacName
+        self.physicochemical = physicochemical
     }
 
     /// Title shown in lists and the detail header — the curated override when
@@ -1551,6 +1613,9 @@ extension Substance: Codable {
         // Detail/browse-only metadata, never part of the serialized Substance.
         freeodwikiSlug = nil
         overview = nil
+        smiles = nil
+        iupacName = nil
+        physicochemical = nil
     }
 
     func encode(to encoder: Encoder) throws {

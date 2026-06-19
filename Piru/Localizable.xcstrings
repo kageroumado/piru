@@ -846,6 +846,9 @@
         }
       }
     },
+    "%@%%" : {
+
+    },
     "%@+ %@" : {
       "localizations" : {
         "en" : {
@@ -2157,6 +2160,7 @@
       }
     },
     "A benzofuran analogue of MDA that acts as a serotonin-predominant monoamine releasing agent. Releases serotonin, dopamine, and norepinephrine with strong SERT selectivity. Also acts as a 5-HT2B agonist, which raises cardiovascular safety concerns with repeated use. Produces empathogenic effects similar to MDMA with a longer duration of action." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2173,6 +2177,7 @@
       }
     },
     "A benzofuran analogue that releases serotonin, dopamine, and norepinephrine via transporter reversal. Acts as an agonist at 5-HT2B receptors. Produces empathogenic and mildly psychedelic effects with a profile between MDMA and MDA." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2253,6 +2258,7 @@
       }
     },
     "A dipeptide nootropic structurally related to racetams but with distinct pharmacology. Modulates AMPA and NMDA glutamate receptors, enhancing long-term potentiation (LTP) and synaptic plasticity. Increases expression of brain-derived neurotrophic factor (BDNF) and nerve growth factor (NGF). Active at much lower doses than piracetam, suggesting additional mechanisms beyond glutamatergic modulation." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2365,6 +2371,7 @@
       }
     },
     "A pharmacologically inactive prodrug cleaved in red blood cells to release dextroamphetamine and L-lysine. The dextroamphetamine then acts as a monoamine releasing agent via DAT, NET, SERT reversal and TAAR1 activation. The prodrug formulation provides controlled, gradual release of active drug, reducing abuse potential and producing smoother pharmacokinetics compared to immediate-release amphetamine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2381,6 +2388,7 @@
       }
     },
     "A phospholipid that serves as a precursor to acetylcholine. Crosses the blood-brain barrier and increases acetylcholine synthesis and release in the brain. Also provides glycerophosphate for membrane phospholipid synthesis. Enhances cholinergic neurotransmission, which is involved in memory formation, attention, and learning." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2413,6 +2421,7 @@
       }
     },
     "A positional isomer of Δ9-THC with the double bond at the 8th carbon position. Acts as a partial agonist at CB1 receptors with approximately 50-75% the potency of Δ9-THC. Produces similar but milder psychoactive effects including euphoria, relaxation, and altered perception." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2429,6 +2438,7 @@
       }
     },
     "A prodrug converted to GHB via alcohol dehydrogenase and aldehyde dehydrogenase. Once converted, acts on GHB and GABA-B receptors. Onset and duration depend on hepatic enzyme activity. Co-administration with ethanol competitively inhibits conversion, unpredictably altering pharmacokinetics." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2445,6 +2455,7 @@
       }
     },
     "A prodrug rapidly dephosphorylated to psilocin by alkaline phosphatase. Psilocin acts as an agonist at serotonin 5-HT2A receptors (primary psychedelic target), with additional activity at 5-HT2C, 5-HT1A, and other serotonin subtypes. 5-HT2A activation on cortical pyramidal neurons increases glutamate release and enhances connectivity between brain networks that are normally segregated, producing altered perception and consciousness." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2461,6 +2472,7 @@
       }
     },
     "A prodrug that is metabolized to morphine by the cytochrome P450 enzyme CYP2D6. Codeine itself has very weak affinity for μ-opioid receptors; its analgesic and antitussive effects depend on conversion to morphine. Genetic polymorphisms in CYP2D6 significantly affect efficacy — poor metabolizers get little benefit, while ultra-rapid metabolizers may experience dangerous opioid levels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2477,6 +2489,7 @@
       }
     },
     "A prodrug that is partially metabolized to meprobamate, which acts as a positive allosteric modulator at GABA-A receptors. The parent compound may also directly modulate GABA-A receptors and other targets. Produces muscle relaxation, sedation, and anxiolysis. The meprobamate metabolite has a long half-life and contributes to dependence potential." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2493,6 +2506,7 @@
       }
     },
     "A prodrug that is rapidly converted to GHB (gamma-hydroxybutyrate) by peripheral lactonases. Once converted, acts as an agonist at GHB receptors and GABA-B receptors. Has faster onset than GHB due to rapid absorption and conversion. Carries the same steep dose-response curve and overdose risks as GHB." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2525,6 +2539,7 @@
       }
     },
     "A structural derivative of carbamazepine that blocks voltage-gated sodium channels in their inactivated state. Rapidly converted to its active metabolite licarbazepine (MHD). Compared to carbamazepine, has a more favorable side effect profile and fewer drug interactions due to reduced hepatic enzyme induction." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2541,6 +2556,7 @@
       }
     },
     "A structurally unique non-nitrogenous terpenoid that acts as a highly potent and selective agonist at κ-opioid receptors (KOR). Unlike virtually all other psychoactive compounds, has no significant activity at serotonin 5-HT2A receptors. KOR activation in the claustrum and prefrontal cortex produces intensely dissociative and hallucinatory effects. The most potent naturally occurring psychoactive compound by weight." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2557,6 +2573,7 @@
       }
     },
     "A synthetic phenyl derivative of GABA that crosses the blood-brain barrier, unlike GABA itself. Primarily acts as a GABA-B receptor agonist, producing anxiolytic and sedative effects. Also binds the α2δ subunit of voltage-gated calcium channels, similar to gabapentin, reducing excitatory neurotransmitter release. At high doses, may weakly activate GABA-A receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2702,6 +2719,7 @@
       }
     },
     "Activates melatonin MT1 and MT2 receptors in the suprachiasmatic nucleus (SCN), the master circadian clock. MT1 activation suppresses SCN neuronal firing, promoting sleep onset. MT2 activation shifts the circadian phase, entraining the sleep-wake cycle. Endogenous melatonin is produced by the pineal gland in response to darkness; exogenous melatonin mimics this signal." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2718,6 +2736,7 @@
       }
     },
     "Activates presynaptic α2-adrenergic receptors in the locus coeruleus and brainstem, reducing norepinephrine release and sympathetic outflow. Decreases heart rate, blood pressure, and peripheral vascular resistance. In opioid and alcohol withdrawal, reduces the noradrenergic hyperactivity responsible for anxiety, tachycardia, and diaphoresis. Also has activity at imidazoline I1 receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2729,6 +2748,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "激活藍斑和腦幹中的突觸前 α2-腎上腺素受體,減少去甲腎上腺素釋放和交感輸出。降低心率、血壓和外周血管阻力。在阿片和酒精戒斷中,減少導致焦慮、心動過速和出汗的去甲腎上腺素能過度活躍。也對咪唑啉 I1 受體有活性。"
+          }
+        }
+      }
+    },
+    "active" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有活性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有活性"
           }
         }
       }
@@ -2798,6 +2833,7 @@
       }
     },
     "Acts as a competitive antagonist at μ-opioid receptors (MOR), with lower affinity for κ and δ receptors. Rapidly displaces opioid agonists from MOR, reversing respiratory depression, sedation, and analgesia. Has poor oral bioavailability due to extensive first-pass metabolism, necessitating parenteral or intranasal administration. Short duration of action (30–90 minutes) may require repeat dosing for long-acting opioids." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2814,6 +2850,7 @@
       }
     },
     "Acts as a competitive antagonist at μ, κ, and δ-opioid receptors with good oral bioavailability and long duration of action (24–72 hours). At standard doses (50 mg), blocks the euphoric effects of exogenous opioids. Also used for alcohol use disorder, where it reduces alcohol-induced dopamine release and craving through opioid system modulation." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2830,6 +2867,7 @@
       }
     },
     "Acts as a competitive antagonist at μ, κ, and δ-opioid receptors, with highest affinity for μ-opioid receptors. Displaces opioid agonists from receptors, reversing opioid-induced respiratory depression, sedation, and analgesia. Used for opioid overdose reversal and maintenance treatment of opioid and alcohol use disorders." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2862,6 +2900,7 @@
       }
     },
     "Acts as a full agonist at μ-opioid receptors with additional NMDA receptor antagonist activity. The NMDA antagonism may reduce opioid tolerance development and contribute to analgesic efficacy in neuropathic pain. Has a very long and variable half-life (15–60 hours), providing sustained opioid receptor occupancy that suppresses withdrawal and craving. Also weakly inhibits serotonin and norepinephrine reuptake." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2878,6 +2917,7 @@
       }
     },
     "Acts as a high-affinity partial agonist at μ-opioid receptors (MOR), producing submaximal receptor activation even at full occupancy. This creates a ceiling effect for respiratory depression while providing effective analgesia and opioid withdrawal relief. Simultaneously antagonizes κ-opioid receptors (KOR), which may contribute to antidepressant and anti-dysphoric effects. Slow receptor dissociation contributes to its long duration of action." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2894,6 +2934,7 @@
       }
     },
     "Acts as a low-affinity, uncompetitive NMDA receptor antagonist with rapid on/off kinetics. At therapeutic concentrations, preferentially blocks pathologically activated (tonically open) NMDA receptors while preserving normal phasic (synaptic) NMDA signaling. This selectivity reduces excitotoxic neuronal damage in Alzheimer's disease without producing the dissociative effects seen with higher-affinity NMDA antagonists like ketamine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2926,6 +2967,7 @@
       }
     },
     "Acts as a partial agonist at cannabinoid CB1 receptors in the central nervous system, mimicking the endogenous cannabinoid anandamide. CB1 receptors are presynaptic on GABAergic and glutamatergic neurons; their activation reduces neurotransmitter release via retrograde signaling. This modulates synaptic plasticity, pain perception, appetite, memory consolidation, and motor coordination. Also weakly activates CB2 receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2942,6 +2984,7 @@
       }
     },
     "Acts as a partial agonist at cannabinoid CB1 receptors in the central nervous system, mimicking the endogenous cannabinoid anandamide. Reduces neurotransmitter release via retrograde signaling at presynaptic CB1 receptors on GABAergic and glutamatergic neurons." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2958,6 +3001,7 @@
       }
     },
     "Acts as a positive allosteric modulator of GABA-A receptors at a binding site distinct from both benzodiazepines and barbiturates. Enhances GABAergic inhibition, producing sedative, hypnotic, anxiolytic, and muscle relaxant effects. Also has weak inhibitory effects on voltage-gated sodium channels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2974,6 +3018,7 @@
       }
     },
     "Acts as a potent agonist at both serotonin 5-HT1A and 5-HT2A receptors. The strong 5-HT1A activation distinguishes it from most classical psychedelics and contributes to its characteristic intense, ego-dissolving effects with less visual distortion. Like DMT, rapidly metabolized by MAO. The 5-HT1A component may produce cardiovascular effects including hypotension." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2990,6 +3035,7 @@
       }
     },
     "Acts as a μ-opioid receptor agonist on myenteric plexus neurons in the gastrointestinal tract, reducing peristalsis and intestinal secretion. Does not cross the blood-brain barrier at therapeutic doses due to P-glycoprotein efflux, so it produces antidiarrheal effects without central opioid effects. At very high (supratherapeutic) doses, may overwhelm the efflux mechanism." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3022,6 +3068,7 @@
       }
     },
     "Acts as an agonist at nicotinic acetylcholine receptors (nAChRs), ligand-gated ion channels that open in response to acetylcholine. Primary targets include α4β2 nAChRs (high affinity, involved in reward and cognition) and α7 nAChRs (involved in cognitive enhancement). Activation of nAChRs in the ventral tegmental area stimulates dopamine release in the nucleus accumbens, mediating reinforcing effects and addiction." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3038,6 +3085,7 @@
       }
     },
     "Acts as an agonist at serotonin 5-HT2A receptors (primary psychedelic mechanism) and also activates sigma-1 receptors, which may modulate ion channels, ER stress responses, and neuroplasticity. Additionally interacts with trace amine-associated receptors. DMT is rapidly metabolized by monoamine oxidase (MAO), requiring an MAO inhibitor (as in ayahuasca) for oral activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3054,6 +3102,7 @@
       }
     },
     "Acts as an agonist at the GHB receptor (Gi/Go-coupled) and at GABA-B receptors. At lower concentrations, GHB receptor activation modulates dopamine and glutamate release. At higher concentrations, GABA-B agonism predominates, producing sedation and anesthesia. GHB is an endogenous substance in the human brain, synthesized from GABA. Its steep dose-response curve makes it particularly dangerous." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3086,6 +3135,7 @@
       }
     },
     "Acts on multiple neurotransmitter systems simultaneously: NMDA receptor antagonist, κ-opioid receptor agonist, σ-receptor agonist, and serotonin transporter inhibitor. Also interacts with nicotinic acetylcholine receptors. Its active metabolite noribogaine has prolonged μ-opioid receptor activity. The complex pharmacological profile may reduce opioid withdrawal and craving, but carries significant cardiac risk via hERG potassium channel inhibition." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3102,6 +3152,7 @@
       }
     },
     "Acts through multiple mechanisms: blocks voltage-gated sodium channels, enhances GABA activity at GABA-A receptors, antagonizes AMPA/kainate glutamate receptors, and inhibits carbonic anhydrase (isoenzymes II and IV). This combination of GABAergic enhancement and glutamatergic reduction provides broad-spectrum anticonvulsant activity. The carbonic anhydrase inhibition contributes to appetite suppression and metabolic acidosis." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3118,6 +3169,7 @@
       }
     },
     "Acts through multiple mechanisms: increases GABA levels by inhibiting GABA transaminase and enhancing GABA synthesis. Blocks voltage-gated sodium channels, reducing repetitive neuronal firing. Inhibits T-type calcium channels in thalamic neurons. Also inhibits histone deacetylases (HDACs), modifying gene expression, which may contribute to neuroprotective and mood-stabilizing effects." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3134,6 +3186,7 @@
       }
     },
     "Acts through multiple mechanisms: increases GABA levels by inhibiting GABA transaminase and enhancing GABA synthesis. Blocks voltage-gated sodium channels, reducing repetitive neuronal firing. Inhibits T-type calcium channels in thalamic neurons. Also inhibits histone deacetylases (HDACs)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3752,6 +3805,7 @@
       }
     },
     "Agonizes melatonin MT1 and MT2 receptors, resynchronizing circadian rhythms and improving sleep architecture. Simultaneously antagonizes serotonin 5-HT2C receptors, which disinhibits norepinephrine and dopamine release in the prefrontal cortex. This unique dual mechanism provides antidepressant effects without the sexual dysfunction, weight gain, or discontinuation syndrome associated with serotonin reuptake inhibitors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4041,6 +4095,7 @@
       }
     },
     "AMP-Activated Protein Kinase (AMPK) Activator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4089,6 +4144,7 @@
       }
     },
     "An amino acid analogue of glutamate found in tea leaves. Crosses the blood-brain barrier and increases brain levels of GABA, serotonin, and dopamine. May antagonize glutamate at AMPA receptors and modulate α-wave brain activity. Promotes relaxation without sedation, and may attenuate the anxiogenic effects of caffeine when co-administered." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4121,6 +4177,7 @@
       }
     },
     "An endogenous intermediate in phosphatidylcholine synthesis. Provides both choline (for acetylcholine synthesis) and cytidine (converted to uridine, which supports synaptic membrane formation). Enhances dopamine receptor density and dopamine release in addition to cholinergic effects. Supports neuronal membrane integrity and repair." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4137,6 +4194,7 @@
       }
     },
     "An N-benzylmethoxy derivative that acts as a highly potent full agonist at serotonin 5-HT2A receptors with much greater efficacy than partial agonists like LSD. The full agonism and high potency at 5-HT2A receptors are associated with a steeper dose-response curve, greater risk of seizures, vasoconstriction, and a narrower margin of safety compared to classical partial agonist psychedelics." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4153,6 +4211,7 @@
       }
     },
     "An N-benzylmethoxy phenethylamine that acts as a full agonist at 5-HT2A receptors with very high potency. Like other NBOMe compounds, the full agonism contributes to a steeper dose-response curve and greater toxicity risk compared to classical psychedelics. Active at microgram doses." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5119,6 +5178,7 @@
       }
     },
     "Benzofuran Empathogen (Monoamine Releasing Agent)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5167,6 +5227,7 @@
       }
     },
     "Binds to penicillin-binding proteins (PBPs) on the bacterial cell membrane, inhibiting transpeptidation — the final step in bacterial cell wall (peptidoglycan) synthesis. This weakens the cell wall, leading to osmotic lysis and bacterial death. Bactericidal against susceptible organisms. Inactivated by bacterial β-lactamase enzymes (overcome by combining with clavulanate)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5183,6 +5244,7 @@
       }
     },
     "Binds to the 50S ribosomal subunit of bacterial ribosomes, inhibiting translocation of peptidyl-tRNA and blocking protein synthesis. Bacteriostatic at typical concentrations. Has a very long tissue half-life and accumulates in phagocytes, which transport it to sites of infection. Also has anti-inflammatory and immunomodulatory properties." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5311,6 +5373,7 @@
       }
     },
     "Blocks NMDA glutamate receptors as a non-competitive antagonist. Also inhibits the dopamine transporter (DAT), increasing synaptic dopamine — this dopaminergic activity distinguishes PCP from other dissociatives and contributes to its stimulant properties and higher psychosis risk. Additionally interacts with sigma receptors, nicotinic receptors, and voltage-gated sodium channels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5327,6 +5390,7 @@
       }
     },
     "Blocks presynaptic α2-adrenergic autoreceptors and heteroreceptors, increasing norepinephrine and serotonin release. Simultaneously blocks 5-HT2A, 5-HT2C, and 5-HT3 receptors, directing serotonergic activity through 5-HT1A receptors. Potent histamine H1 antagonism produces marked sedation and appetite stimulation, particularly at lower doses where antihistaminic effects predominate." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5343,6 +5407,7 @@
       }
     },
     "Blocks the dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, preventing reuptake and increasing synaptic monoamine levels. Unlike amphetamines, cocaine inhibits reuptake without reversing transporter function or releasing stored neurotransmitters. The rapid onset and short duration of DAT blockade contribute to its high addiction potential. Also blocks voltage-gated sodium channels, producing local anesthetic effects." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5359,6 +5424,7 @@
       }
     },
     "Blocks the dopamine transporter (DAT) and norepinephrine transporter (NET), increasing synaptic dopamine and norepinephrine. Unlike amphetamines, methylphenidate is a pure reuptake inhibitor — it does not reverse transporter function or release stored monoamines. Preferentially increases catecholamines in the prefrontal cortex and striatum, enhancing attention, working memory, and executive function." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5375,6 +5441,7 @@
       }
     },
     "Blocks β1, β2, and α1-adrenergic receptors, providing combined vasodilation and cardiac output reduction. The α1 blockade produces direct arterial vasodilation, distinguishing it from pure β-blockers. Also has antioxidant and anti-proliferative properties that may provide additional cardiovascular protection beyond blood pressure lowering." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5402,6 +5469,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血壓、心臟與膽固醇。"
+          }
+        }
+      }
+    },
+    "Boiling point" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沸点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沸點"
           }
         }
       }
@@ -5695,6 +5778,7 @@
       }
     },
     "Cannabinoid CB1 Partial Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5711,6 +5795,7 @@
       }
     },
     "Cannabinoid CB1 Partial Agonist (Lower Potency)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5952,6 +6037,7 @@
       }
     },
     "Centrally-Acting Analgesic and Antipyretic" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6289,6 +6375,7 @@
       }
     },
     "Cholinergic Precursor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6305,6 +6392,7 @@
       }
     },
     "Cholinergic Precursor and Membrane Phospholipid Source" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6643,6 +6731,7 @@
       }
     },
     "Combines serotonin 5-HT2A receptor antagonism with serotonin reuptake inhibition (SERT blockade). The 5-HT2A antagonism occurs at lower doses, producing anxiolytic and sleep-promoting effects. At higher antidepressant doses, SERT inhibition enhances serotonergic neurotransmission. Also blocks α1-adrenergic receptors and histamine H1 receptors, contributing to sedation." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6659,6 +6748,7 @@
       }
     },
     "Combines serotonin reuptake inhibition (SERT blockade) with partial agonism at serotonin 5-HT1A receptors. The 5-HT1A partial agonism may accelerate the onset of antidepressant action by partially bypassing the delayed desensitization of presynaptic autoreceptors required by pure SSRIs. May produce fewer sexual side effects than SSRIs due to 5-HT1A activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6675,6 +6765,7 @@
       }
     },
     "Combines SERT inhibition with direct modulation of multiple serotonin receptors: agonist at 5-HT1A, partial agonist at 5-HT1B, antagonist at 5-HT1D, 5-HT3, and 5-HT7 receptors. This multimodal mechanism enhances downstream release of serotonin, norepinephrine, dopamine, histamine, and acetylcholine. The 5-HT3 and 5-HT7 antagonism may contribute to procognitive effects." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6691,6 +6782,7 @@
       }
     },
     "Combines μ-opioid receptor (MOR) agonism with norepinephrine reuptake inhibition (NET blockade) in a single molecule. Unlike tramadol, tapentadol does not require metabolic activation and does not significantly affect serotonin. The dual mechanism provides synergistic analgesia with a lower opioid burden and reduced gastrointestinal side effects compared to equianalgesic doses of classical opioids." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6819,6 +6911,7 @@
       }
     },
     "Competitive μ-Opioid Receptor Antagonist (Short-Acting)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6835,6 +6928,7 @@
       }
     },
     "Competitively antagonizes adenosine A1 and A2A receptors. Adenosine normally promotes sleep and suppresses arousal; blocking its receptors increases wakefulness and alertness. A2A antagonism in the striatum indirectly enhances dopaminergic signaling. At supratherapeutic doses, also inhibits phosphodiesterases (increasing intracellular cAMP), but this effect is less significant at normal dietary doses." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7043,6 +7137,7 @@
       }
     },
     "Contains multiple active constituents including hypericin and hyperforin. Hyperforin inhibits the reuptake of serotonin, norepinephrine, dopamine, GABA, and glutamate by activating TRPC6 ion channels, which increase intracellular sodium and reduce transporter function. Also weakly inhibits MAO-A. Potent inducer of CYP3A4, causing clinically significant drug interactions with many medications." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7784,6 +7879,7 @@
       }
     },
     "D3-Preferring Dopamine Partial Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8544,6 +8640,7 @@
       }
     },
     "Distinguished by high 5-HT2A affinity relative to D2, with uniquely rapid D2 dissociation ('fast-off' theory). Has significant affinity for D1, D3, D4, muscarinic M1/M4, histamine H1, and α1/α2-adrenergic receptors. This broad receptor profile underlies its unique efficacy in treatment-resistant schizophrenia. M1/M4 muscarinic activity may contribute to cognitive benefits. Risk of agranulocytosis necessitates blood monitoring." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8560,6 +8657,7 @@
       }
     },
     "Does not directly activate CB1 or CB2 receptors at physiological concentrations. Acts as a negative allosteric modulator of CB1, reducing the efficacy of agonists like THC. Activates 5-HT1A receptors (anxiolytic), TRPV1 vanilloid receptors (analgesic), and PPARγ nuclear receptors (anti-inflammatory). Inhibits fatty acid amide hydrolase (FAAH), increasing endogenous anandamide levels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8576,6 +8674,7 @@
       }
     },
     "Does not directly activate CB1 or CB2 receptors at physiological concentrations. Acts as a negative allosteric modulator of CB1, reducing the efficacy of agonists like THC. Activates 5-HT1A receptors (anxiolytic), TRPV1 vanilloid receptors (analgesic), and PPARγ nuclear receptors (anti-inflammatory). Inhibits fatty acid amide hydrolase (FAAH), increasing endogenous anandamide levels. Also antagonizes GPR55." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8976,6 +9075,7 @@
       }
     },
     "Dopamine D2 Partial Agonist and Serotonin Modulator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9008,6 +9108,7 @@
       }
     },
     "Dopamine-Norepinephrine Reuptake Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10559,6 +10660,7 @@
       }
     },
     "Enters serotonergic, dopaminergic, and noradrenergic nerve terminals via their respective transporters and reverses transporter function to release stored monoamines. Has strongest affinity for SERT, producing pronounced serotonin release that distinguishes it from amphetamine. Also stimulates oxytocin release from the hypothalamus, contributing to prosocial and empathogenic effects. Additionally directly inhibits SERT, DAT, and NET reuptake." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10863,6 +10965,7 @@
       }
     },
     "Exact mechanism incompletely understood. Inhibits inositol monophosphatase (IMPase), depleting inositol and modulating phosphoinositide signaling. Inhibits glycogen synthase kinase-3β (GSK-3β), regulating neuroplasticity, circadian rhythm, and neuroprotection. Modulates glutamate neurotransmission by reducing NMDA receptor activity. Also affects protein kinase C, cAMP, and arachidonic acid metabolism." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10879,6 +10982,7 @@
       }
     },
     "Exact mechanism not fully established. Activates AMP-activated protein kinase (AMPK), which inhibits hepatic gluconeogenesis and increases insulin sensitivity in peripheral tissues. Also inhibits mitochondrial complex I, altering the cellular energy state. Does not stimulate insulin secretion and does not cause hypoglycemia when used alone. May also modulate the gut microbiome and increase GLP-1 levels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11714,6 +11818,7 @@
       }
     },
     "Full 5-HT2A Receptor Agonist (High Potency)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11746,6 +11851,7 @@
       }
     },
     "Full μ-Opioid Agonist and NMDA Receptor Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11762,6 +11868,7 @@
       }
     },
     "GABA-A Modulator (via Meprobamate Metabolite)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11826,6 +11933,7 @@
       }
     },
     "GABA-A Positive Allosteric Modulator (Quinazolinone)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11875,6 +11983,7 @@
       }
     },
     "GABA-B Receptor Agonist and α2δ Calcium Channel Ligand" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12099,6 +12208,7 @@
       }
     },
     "GHB Receptor and GABA-B Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12195,6 +12305,7 @@
       }
     },
     "Glutamate Analogue with GABAergic and Serotonergic Effects" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12255,6 +12366,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把一起服用的藥物和補充劑分成組——鍛鍊前、夜間——一鍵備入整組。"
+          }
+        }
+      }
+    },
+    "H-bond acceptors" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氢键受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氫鍵受體"
+          }
+        }
+      }
+    },
+    "H-bond donors" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氢键供体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氫鍵供體"
           }
         }
       }
@@ -13233,6 +13376,22 @@
         }
       }
     },
+    "inactive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无活性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無活性"
+          }
+        }
+      }
+    },
     "InChIKey" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13442,6 +13601,7 @@
       }
     },
     "Inhibits the reuptake of norepinephrine (NET) and dopamine (DAT), increasing their synaptic availability. Unlike most antidepressants, has minimal effect on serotonin and does not cause sexual dysfunction or weight gain. Also acts as a non-competitive antagonist at nicotinic acetylcholine receptors, contributing to its efficacy in smoking cessation. Its active metabolite hydroxybupropion has a longer half-life and contributes significantly to clinical effects." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13474,6 +13634,7 @@
       }
     },
     "Inhibits vitamin K epoxide reductase (VKORC1), preventing the recycling of vitamin K to its active reduced form. Vitamin K is essential for the post-translational carboxylation of clotting factors II, VII, IX, and X, as well as proteins C and S. Onset of anticoagulant effect is delayed (3–5 days) until existing clotting factors are cleared." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13490,6 +13651,7 @@
       }
     },
     "Initially classified as a serotonin reuptake enhancer, but now understood to primarily act as a full agonist at μ-opioid receptors (MOR) and δ-opioid receptors. MOR activation in the mesolimbic system produces antidepressant, anxiolytic, and analgesic effects. Also modulates glutamatergic neurotransmission and neuroplasticity in the hippocampus and amygdala." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13699,6 +13861,7 @@
       }
     },
     "Irreversible Cyclooxygenase (COX) Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13731,6 +13894,7 @@
       }
     },
     "Irreversibly inhibits cyclooxygenase enzymes by acetylating a serine residue in the active site. COX-1 inhibition in platelets prevents thromboxane A2 synthesis, irreversibly blocking platelet aggregation for the platelet's lifetime (7–10 days). COX-2 inhibition reduces prostaglandin synthesis, providing anti-inflammatory, analgesic, and antipyretic effects. The irreversible nature of inhibition is pharmacologically unique among NSAIDs." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13806,6 +13970,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "項目"
+          }
+        }
+      }
+    },
+    "IUPAC name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IUPAC 名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IUPAC 名稱"
           }
         }
       }
@@ -14148,7 +14328,56 @@
         }
       }
     },
+    "LD50 (dermal, rodent)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LD50（皮肤，啮齿动物）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LD50（皮膚，齧齒動物）"
+          }
+        }
+      }
+    },
+    "LD50 (oral, rodent)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LD50（口服，啮齿动物）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LD50（口服，齧齒動物）"
+          }
+        }
+      }
+    },
+    "LD50 is rodent toxicity (order of magnitude) — not a human safe dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LD50 为啮齿动物毒性（数量级参考），并非人体安全剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。"
+          }
+        }
+      }
+    },
     "Leukotriene Receptor Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14731,7 +14960,14 @@
         }
       }
     },
+    "LogD" : {
+
+    },
+    "LogP" : {
+
+    },
     "Long-Acting Opioid Receptor Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14748,6 +14984,7 @@
       }
     },
     "Low-Affinity NMDA Receptor Antagonist (Neuroprotective)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14812,6 +15049,7 @@
       }
     },
     "Macrolide Antibiotic (Protein Synthesis Inhibitor)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14941,6 +15179,7 @@
       }
     },
     "Mechanism incompletely understood despite widespread use. Weakly inhibits COX peripherally but primarily acts centrally. Its active metabolite AM404 inhibits endocannabinoid reuptake, increasing anandamide levels and activating CB1 and TRPV1 receptors. Also inhibits prostaglandin synthesis in the CNS, producing antipyretic effects via the hypothalamus. Lacks significant anti-inflammatory activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14957,6 +15196,7 @@
       }
     },
     "Mechanism incompletely understood. Weakly inhibits COX peripherally but primarily acts centrally. Its active metabolite AM404 inhibits endocannabinoid reuptake, increasing anandamide levels and activating CB1 and TRPV1 receptors. Also inhibits prostaglandin synthesis in the CNS. Lacks significant anti-inflammatory activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14973,6 +15213,7 @@
       }
     },
     "Mechanism not fully established. Weakly inhibits the dopamine transporter (DAT), increasing extracellular dopamine. Also activates hypothalamic orexin/hypocretin neurons and increases histamine release in the tuberomammillary nucleus, both promoting wakefulness. Modulates norepinephrine, serotonin, and glutamate/GABA balance. Unlike amphetamines, does not significantly release catecholamines." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15069,6 +15310,7 @@
       }
     },
     "Melatonin MT1/MT2 Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15085,6 +15327,7 @@
       }
     },
     "Melatonin Receptor Agonist and 5-HT2C Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15096,6 +15339,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "褪黑素受體激動劑兼 5-HT2C 拮抗劑"
+          }
+        }
+      }
+    },
+    "Melting point" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "熔点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "熔點"
           }
         }
       }
@@ -15160,6 +15419,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與上一段合併"
+          }
+        }
+      }
+    },
+    "Metabolism" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代谢"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代謝"
           }
         }
       }
@@ -15475,6 +15750,7 @@
       }
     },
     "Mood Stabilizer with Multiple Intracellular Mechanisms" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15705,6 +15981,7 @@
       }
     },
     "Multi-Receptor Antagonist (Atypical Antipsychotic with Unique Efficacy)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15721,6 +15998,7 @@
       }
     },
     "Multimodal Anticonvulsant" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15737,6 +16015,7 @@
       }
     },
     "Multimodal Anticonvulsant and Mood Stabilizer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15753,6 +16032,7 @@
       }
     },
     "Multimodal Modulator (Non-Intoxicating Cannabinoid)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15769,6 +16049,7 @@
       }
     },
     "Multimodal Monoamine Modulator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15785,6 +16066,7 @@
       }
     },
     "Multimodal Psychoactive Alkaloid" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15801,6 +16083,7 @@
       }
     },
     "Multimodal Serotonergic Antidepressant" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15946,6 +16229,7 @@
       }
     },
     "Neuropeptide-Derived Cognitive Enhancer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16122,6 +16406,7 @@
       }
     },
     "Nicotinic Acetylcholine Receptor (nAChR) Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16154,6 +16439,7 @@
       }
     },
     "NMDA Antagonist, Endogenous Opioid Releaser, and GABA Modulator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16170,6 +16456,7 @@
       }
     },
     "NMDA Antagonist, Sigma-1 Agonist, and Serotonin Reuptake Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16671,6 +16958,7 @@
       }
     },
     "Non-Competitive NMDA Antagonist and Dopamine Reuptake Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16719,6 +17007,7 @@
       }
     },
     "Non-Selective Adenosine Receptor Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16735,6 +17024,7 @@
       }
     },
     "Non-Selective CNS Depressant (GABAergic/Anti-Glutamatergic)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16767,6 +17057,7 @@
       }
     },
     "Non-Selective β-Blocker with α1 Antagonism and Antioxidant Properties" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16847,6 +17138,7 @@
       }
     },
     "Noradrenergic and Specific Serotonergic Antidepressant (NaSSA)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16863,6 +17155,7 @@
       }
     },
     "Norepinephrine-Dopamine Reuptake Inhibitor (NDRI)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17199,6 +17492,7 @@
       }
     },
     "Opioid Receptor Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17521,6 +17815,7 @@
       }
     },
     "Partial agonist at dopamine D3 and D2 receptors with preferential affinity for D3 receptors. D3 receptor occupancy in the mesolimbic pathway may particularly benefit negative symptoms, cognitive deficits, and anhedonia. Also acts as a partial agonist at 5-HT1A and an antagonist at 5-HT2A/2B receptors. Has an active metabolite with a very long half-life." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17537,6 +17832,7 @@
       }
     },
     "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17553,6 +17849,7 @@
       }
     },
     "Partial μ-Opioid Agonist and κ-Opioid Antagonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17857,6 +18154,7 @@
       }
     },
     "Peripheral μ-Opioid Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18002,6 +18300,22 @@
         }
       }
     },
+    "Pharmacokinetics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药代动力学"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物動力學"
+          }
+        }
+      }
+    },
     "Pharmacological" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18084,6 +18398,7 @@
       }
     },
     "Phosphodiesterase Type 5 (PDE5) Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18128,6 +18443,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "身體活動是清除迷糊感最快的方法。"
+          }
+        }
+      }
+    },
+    "Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "理化数值为预测/计算值（PubChem、NPS-DataHub），并非针对此制剂实测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "理化數值為預測/計算值（PubChem、NPS-DataHub），並非針對此製劑實測。"
           }
         }
       }
@@ -18325,6 +18656,9 @@
         }
       }
     },
+    "pKa" : {
+
+    },
     "Please enable notifications in Settings to use Ramp Down alerts." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18453,7 +18787,24 @@
         }
       }
     },
+    "Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "源自原始文献的群体平均药代动力学数据，每行均标注来源。实际数值因个体遗传、器官功能与给药途径而异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "源自原始文獻的群體平均藥物動力學數據，每列均標註來源。實際數值因個體遺傳、器官功能與給藥途徑而異。"
+          }
+        }
+      }
+    },
     "Potent 5-HT1A and 5-HT2A Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18633,6 +18984,7 @@
       }
     },
     "Primarily blocks voltage-gated sodium channels by binding to the inactivated state, reducing sustained repetitive neuronal firing and limiting seizure spread. Also reduces glutamate release secondary to sodium channel blockade. Has additional effects on adenosine receptors and voltage-gated calcium channels. Its active metabolite carbamazepine-10,11-epoxide contributes to both therapeutic and adverse effects." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18715,6 +19067,7 @@
       }
     },
     "Prodrug → GHB (GABA-B Agonist)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18731,6 +19084,7 @@
       }
     },
     "Prodrug → Morphine (CYP2D6-Dependent Opioid)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18747,6 +19101,7 @@
       }
     },
     "Prodrug → Psilocin (5-HT2A Agonist)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18763,6 +19118,7 @@
       }
     },
     "Prodrug of Dextroamphetamine (Monoamine Releasing Agent)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18779,6 +19135,7 @@
       }
     },
     "Produces analgesia and dissociative effects through multiple mechanisms: NMDA receptor antagonism, stimulation of endogenous opioid peptide release, positive modulation of GABA-A receptors, and inhibition of certain potassium channels. Inactivates vitamin B12 (cobalamin) by oxidizing its cobalt atom, which can cause functional B12 deficiency and neurological damage with repeated heavy use." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18795,6 +19152,7 @@
       }
     },
     "Produces analgesia through a dual mechanism. The parent compound weakly agonizes μ-opioid receptors and inhibits serotonin and norepinephrine reuptake. Its active metabolite O-desmethyltramadol (M1), formed by CYP2D6, has approximately 200-fold greater μ-opioid affinity. The combination of opioid and monoaminergic mechanisms provides synergistic analgesia but increases seizure risk and serotonin syndrome potential." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18811,6 +19169,7 @@
       }
     },
     "Produces CNS depression through multiple mechanisms: positive allosteric modulation of GABA-A receptors, inhibition of NMDA glutamate receptors, enhancement of glycine receptor function, inhibition of voltage-gated calcium channels, and potentiation of 5-HT3 receptors. Acute exposure increases dopamine release in the mesolimbic pathway. Chronic use leads to GABA-A downregulation and NMDA receptor upregulation, causing excitotoxic withdrawal." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18827,6 +19186,7 @@
       }
     },
     "Produces dose-dependent effects through multiple targets. At therapeutic antitussive doses, acts primarily as a sigma-1 receptor agonist in brainstem cough centers. At higher doses, its metabolite dextrorphan acts as an NMDA antagonist producing dissociative effects. The parent compound also inhibits serotonin reuptake (SERT) and weakly activates μ-opioid receptors. CYP2D6 polymorphisms significantly affect metabolism and experience." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21165,6 +21525,7 @@
       }
     },
     "Selective COX-2 Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21181,6 +21542,7 @@
       }
     },
     "Selective GABA-B Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21213,6 +21575,7 @@
       }
     },
     "Selective Norepinephrine Reuptake Inhibitor (NRI)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21245,6 +21608,7 @@
       }
     },
     "Selective κ-Opioid Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21261,6 +21625,7 @@
       }
     },
     "Selective κ-Opioid Receptor Agonist (Salvinorin A)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21277,6 +21642,7 @@
       }
     },
     "Selectively activates GABA-B receptors, which are G-protein coupled receptors that inhibit neuronal excitability by activating potassium channels and inhibiting calcium channels. Produces muscle relaxation by reducing excitatory neurotransmitter release at spinal motor neurons. Unlike benzodiazepines and barbiturates, does not act on GABA-A receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21309,6 +21675,7 @@
       }
     },
     "Selectively activates β2-adrenergic receptors on airway smooth muscle cells, stimulating adenylyl cyclase and increasing intracellular cAMP. This activates protein kinase A, which phosphorylates and inactivates myosin light chain kinase, causing smooth muscle relaxation and bronchodilation. Provides rapid relief of acute bronchospasm (onset 5–15 minutes)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21325,6 +21692,7 @@
       }
     },
     "Selectively activates β2-adrenergic receptors on airway smooth muscle, stimulating adenylyl cyclase and increasing cAMP. This relaxes bronchial smooth muscle and provides rapid bronchodilation. Also inhibits mast cell degranulation and stimulates mucociliary clearance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21373,6 +21741,7 @@
       }
     },
     "Selectively antagonizes serotonin 5-HT3 receptors, which are ligand-gated ion channels located on vagal afferents in the GI tract and in the chemoreceptor trigger zone (area postrema). Blocking 5-HT3 activation by serotonin released from enterochromaffin cells prevents the initiation of the vomiting reflex. Does not affect dopamine, histamine, or muscarinic receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21389,6 +21758,7 @@
       }
     },
     "Selectively antagonizes the cysteinyl leukotriene receptor CysLT1, blocking the bronchoconstrictive and pro-inflammatory effects of leukotrienes C4, D4, and E4. Leukotrienes are potent inflammatory mediators released by mast cells, eosinophils, and other immune cells. Reduces bronchospasm, mucus secretion, and eosinophilic inflammation in asthma." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21421,6 +21791,7 @@
       }
     },
     "Selectively inhibits cyclooxygenase-2 (COX-2), the inducible isoform upregulated during inflammation, while relatively sparing constitutive COX-1 in the gastric mucosa and platelets. This selectivity reduces gastrointestinal bleeding risk compared to non-selective NSAIDs but does not provide antiplatelet effects. COX-2 selectivity may increase cardiovascular thromboembolic risk." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21453,6 +21824,7 @@
       }
     },
     "Selectively inhibits PDE5, preventing degradation of cGMP in smooth muscle. Has a significantly longer half-life than sildenafil (17.5 hours vs. 4 hours), allowing for daily dosing and a wider window of efficacy. Also slightly inhibits PDE11, though the clinical significance is unclear." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21469,6 +21841,7 @@
       }
     },
     "Selectively inhibits phosphodiesterase type 5 (PDE5), preventing degradation of cyclic GMP (cGMP) in smooth muscle cells. In the corpus cavernosum, sexual stimulation releases nitric oxide, which increases cGMP, causing smooth muscle relaxation and increased blood flow. By preventing cGMP breakdown, sildenafil enhances and prolongs the erectile response. Also used for pulmonary arterial hypertension via the same mechanism." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21485,6 +21858,7 @@
       }
     },
     "Selectively inhibits the norepinephrine transporter (NET), increasing norepinephrine in the synaptic cleft. In the prefrontal cortex, where dopamine is also cleared by NET due to low DAT density, atomoxetine indirectly increases both norepinephrine and dopamine. This dual prefrontal effect enhances attention and executive function without dopamine release in the nucleus accumbens, resulting in minimal abuse potential." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21598,6 +21972,7 @@
       }
     },
     "Serotonin 5-HT2A Agonist and Sigma-1 Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21630,6 +22005,7 @@
       }
     },
     "Serotonin 5-HT3 Receptor Antagonist (Antiemetic)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21662,6 +22038,7 @@
       }
     },
     "Serotonin Antagonist and Reuptake Inhibitor (SARI)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21694,6 +22071,7 @@
       }
     },
     "Serotonin Precursor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21790,6 +22168,7 @@
       }
     },
     "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21838,6 +22217,7 @@
       }
     },
     "Serotonin-Predominant Monoamine Releasing Agent" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21854,6 +22234,7 @@
       }
     },
     "Serotonin-Predominant Monoamine Releasing Agent and Empathogen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22258,6 +22639,7 @@
       }
     },
     "Similar to aripiprazole, acts as a partial agonist at dopamine D2 and serotonin 5-HT1A receptors, and an antagonist at 5-HT2A receptors. Compared to aripiprazole, has lower intrinsic activity at D2 receptors (more antagonist-like) and stronger 5-HT1A partial agonism, which may reduce akathisia and improve tolerability." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22529,6 +22911,9 @@
           }
         }
       }
+    },
+    "SMILES" : {
+
     },
     "Solution Concentration" : {
       "localizations" : {
@@ -22805,6 +23190,7 @@
       }
     },
     "SSRI and 5-HT1A Partial Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22869,6 +23255,7 @@
       }
     },
     "Stabilizes neuronal membranes by blocking voltage-gated sodium channels in their inactivated state, reducing sustained repetitive firing. Preferentially reduces glutamate release rather than GABA release, distinguishing it from other sodium channel blockers and potentially accounting for its mood-stabilizing properties, particularly in preventing depressive episodes in bipolar disorder." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23319,6 +23706,7 @@
       }
     },
     "Structurally related to MDMA, acts as a monoamine releasing agent with strong serotonergic predominance. Releases serotonin, dopamine, and norepinephrine via transporter reversal. Compared to MDMA, has more pronounced psychedelic effects attributed to greater 5-HT2A receptor agonism from a metabolite, alongside empathogenic effects from serotonin release." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23742,6 +24130,7 @@
       }
     },
     "Synthetic thyroxine (T4) that is converted to the active triiodothyronine (T3) by deiodinase enzymes in peripheral tissues. T3 binds to nuclear thyroid hormone receptors, modulating gene transcription to increase basal metabolic rate, cardiac output, oxygen consumption, and protein synthesis. Replaces deficient endogenous thyroid hormone in hypothyroidism." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24114,6 +24503,7 @@
       }
     },
     "The active compound salvinorin A is a structurally unique non-nitrogenous terpenoid that acts as a highly potent and selective agonist at κ-opioid receptors (KOR). Unlike virtually all other known psychoactive compounds, it has no significant activity at serotonin 5-HT2A receptors. KOR activation in the claustrum and prefrontal cortex produces intensely dissociative and hallucinatory effects." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24195,6 +24585,7 @@
       }
     },
     "The immediate biosynthetic precursor to serotonin (5-HT). Crosses the blood-brain barrier and is converted to serotonin by aromatic L-amino acid decarboxylase (AADC). Unlike tryptophan, bypasses the rate-limiting tryptophan hydroxylase step. Increases central serotonin synthesis. Should not be combined with serotonergic medications due to serotonin syndrome risk." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24243,6 +24634,7 @@
       }
     },
     "The primary alkaloid in kratom. Acts as a partial agonist at μ-opioid receptors (MOR), producing dose-dependent analgesic and euphoric effects. At lower doses, stimulant-like effects are attributed to α2-adrenergic agonism and 5-HT2A antagonism. The metabolite 7-hydroxymitragynine has significantly higher MOR potency. Also acts as a κ-opioid receptor antagonist." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24259,6 +24651,7 @@
       }
     },
     "The primary alkaloid mitragynine acts as a partial agonist at μ-opioid receptors (MOR), producing dose-dependent analgesic and euphoric effects. At lower doses, stimulant-like effects are attributed to α2-adrenergic agonism and 5-HT2A antagonism. The metabolite 7-hydroxymitragynine has significantly higher MOR potency. Unlike classical opioids, mitragynine also acts as a κ-opioid receptor antagonist." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24291,6 +24684,7 @@
       }
     },
     "The R-enantiomer of modafinil with the same mechanism: weak DAT inhibition, orexin/hypocretin neuron activation, and histamine release promotion. Has a longer effective half-life than racemic modafinil, providing more sustained wakefulness-promoting effects throughout the day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24629,6 +25023,7 @@
       }
     },
     "Thyroid Hormone Replacement (T4)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24982,6 +25377,9 @@
         }
       }
     },
+    "TPSA" : {
+
+    },
     "Track active substances on your Lock Screen and Dynamic Island." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25064,6 +25462,7 @@
       }
     },
     "Triple Monoamine Reuptake Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25217,6 +25616,7 @@
       }
     },
     "Unique among antipsychotics as a partial agonist at dopamine D2 receptors — acting as a functional antagonist in hyperdopaminergic states (mesolimbic pathway) and a functional agonist in hypodopaminergic states (mesocortical pathway). This 'dopamine stabilizer' mechanism reduces positive symptoms while potentially improving negative symptoms and cognition. Also acts as a partial agonist at 5-HT1A and an antagonist at 5-HT2A receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25686,6 +26086,7 @@
       }
     },
     "Vitamin K Epoxide Reductase Inhibitor (Anticoagulant)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25734,6 +26135,7 @@
       }
     },
     "Voltage-Gated Sodium Channel Blocker" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25750,6 +26152,7 @@
       }
     },
     "Voltage-Gated Sodium Channel Blocker and Glutamate Release Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25831,6 +26234,7 @@
       }
     },
     "Wakefulness-Promoting Agent (Atypical Stimulant)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25847,6 +26251,7 @@
       }
     },
     "Wakefulness-Promoting Agent (R-Enantiomer of Modafinil)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25879,6 +26284,7 @@
       }
     },
     "Weak μ-Opioid Agonist and Serotonin-Norepinephrine Reuptake Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26632,6 +27038,7 @@
       }
     },
     "α2-Adrenergic Receptor Agonist" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26664,6 +27071,7 @@
       }
     },
     "β-Lactam Antibiotic (Cell Wall Synthesis Inhibitor)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26680,6 +27088,7 @@
       }
     },
     "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26728,6 +27137,7 @@
       }
     },
     "μ-Opioid Receptor Agonist (Atypical Antidepressant)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26744,6 +27154,7 @@
       }
     },
     "μ-Opioid Receptor Agonist and Norepinephrine Reuptake Inhibitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

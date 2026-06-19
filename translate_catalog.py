@@ -1031,6 +1031,30 @@ T = {
     ),
     # MoA / Pharmacology
     "Mechanism of Action": ("作用机制", "作用機制"),
+    # Stage 4 — chemistry card + pharmacokinetics disclosure
+    "Pharmacokinetics": ("药代动力学", "藥物動力學"),
+    "Metabolism": ("代谢", "代謝"),
+    "Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route.": (
+        "源自原始文献的群体平均药代动力学数据，每行均标注来源。实际数值因个体遗传、器官功能与给药途径而异。",
+        "源自原始文獻的群體平均藥物動力學數據，每列均標註來源。實際數值因個體遺傳、器官功能與給藥途徑而異。",
+    ),
+    "Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation.": (
+        "理化数值为预测/计算值（PubChem、NPS-DataHub），并非针对此制剂实测。",
+        "理化數值為預測/計算值（PubChem、NPS-DataHub），並非針對此製劑實測。",
+    ),
+    "LD50 is rodent toxicity (order of magnitude) — not a human safe dose.": (
+        "LD50 为啮齿动物毒性（数量级参考），并非人体安全剂量。",
+        "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。",
+    ),
+    "IUPAC name": ("IUPAC 名称", "IUPAC 名稱"),
+    "H-bond acceptors": ("氢键受体", "氫鍵受體"),
+    "H-bond donors": ("氢键供体", "氫鍵供體"),
+    "Melting point": ("熔点", "熔點"),
+    "Boiling point": ("沸点", "沸點"),
+    "LD50 (oral, rodent)": ("LD50（口服，啮齿动物）", "LD50（口服，齧齒動物）"),
+    "LD50 (dermal, rodent)": ("LD50（皮肤，啮齿动物）", "LD50（皮膚，齧齒動物）"),
+    "active": ("有活性", "有活性"),
+    "inactive": ("无活性", "無活性"),
     "Subjective Effects": ("主观效果", "主觀效果"),
     "Reported Subjective Effects": ("报告的主观效果", "報告的主觀效果"),
     "Primary Targets: ": ("主要作用位点: ", "主要作用位點: "),
@@ -2775,6 +2799,28 @@ if __name__ == "__main__":
         # Elemental-content breakdown for salts (Magnesium, Lithium…)
         "≈ %@ %@ elemental",
         "%lld%% elemental",
+        # Stage 4 — chemistry card + pharmacokinetics disclosure 2026-06
+        "Pharmacokinetics",
+        "Metabolism",
+        "Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route.",
+        "Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation.",
+        "LD50 is rodent toxicity (order of magnitude) — not a human safe dose.",
+        "IUPAC name",
+        "H-bond acceptors",
+        "H-bond donors",
+        "Melting point",
+        "Boiling point",
+        "LD50 (oral, rodent)",
+        "LD50 (dermal, rodent)",
+        "active",
+        "inactive",
+        # Scientific symbols — identical in zh (no translation), but still
+        # catalog keys because gridCell takes a LocalizedStringResource.
+        "SMILES",
+        "LogP",
+        "LogD",
+        "TPSA",
+        "pKa",
     }
 
     print("--- Piru main app catalog ---")

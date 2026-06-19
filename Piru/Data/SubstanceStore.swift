@@ -1073,7 +1073,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, logd, pka, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -1090,6 +1090,20 @@ final class SubstanceStore {
                 let isStub = (coreRow["is_stub"] as Int64? ?? 0) != 0
                 let drugCommunitySlug: String? = coreRow["drug_community_slug"]
                 let freeodwikiSlug: String? = coreRow["freeodwiki_slug"]
+                let smiles: String? = coreRow["smiles"]
+                let iupacName: String? = coreRow["iupac_name"]
+                let physicochemical = Physicochemical(
+                    logP: coreRow["logp"] as Double?,
+                    logD: coreRow["logd"] as Double?,
+                    pKa: coreRow["pka"] as Double?,
+                    tpsa: coreRow["tpsa"] as Double?,
+                    hba: (coreRow["hba"] as Int64?).map(Int.init),
+                    hbd: (coreRow["hbd"] as Int64?).map(Int.init),
+                    ld50OralMgPerKg: coreRow["ld50_oral_mg_per_kg"] as Double?,
+                    ld50DermalMgPerKg: coreRow["ld50_dermal_mg_per_kg"] as Double?,
+                    meltingPointC: coreRow["melting_point_c"] as Double?,
+                    boilingPointC: coreRow["boiling_point_c"] as Double?,
+                )
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
                 let peptideProfile = try resolvedPeptideProfile(db: db, substanceID: id)
@@ -1145,6 +1159,9 @@ final class SubstanceStore {
                     drugCommunitySlug: drugCommunitySlug,
                     freeodwikiSlug: freeodwikiSlug,
                     overview: overview,
+                    smiles: smiles,
+                    iupacName: iupacName,
+                    physicochemical: physicochemical.hasAnyValue ? physicochemical : nil,
                 )
             }
             if let resolved {
@@ -1685,6 +1702,45 @@ final class SubstanceStore {
 
     // MARK: - Advanced search (Pharma Nerd surface)
 
+    /// One per-route pharmacokinetic row joined to its source + citation.
+    /// Surfaced in the detail view's Pharmacokinetics disclosure (pharma-nerd
+    /// tier). Every numeric is from primary literature with explicit attribution;
+    /// fields are optional because most rows populate only a subset.
+    struct PKRouteHit: Identifiable, Hashable {
+        let id: Int64
+        let route: String
+        let bioavailabilityPct: Double?
+        let cmaxNgPerMl: Double?
+        let tmaxMin: Double?
+        let halfLifeMin: Double?
+        let vdLPerKg: Double?
+        let clearanceMlPerMinPerKg: Double?
+        let proteinBindingPct: Double?
+        let doseInStudyMg: Double?
+        let subjectN: Int?
+        let demographics: String?
+        let sourceSlug: String
+        let doi: String?
+        let pmid: Int?
+        let notes: String?
+    }
+
+    /// One metabolism row — an enzyme/pathway and (optionally) the metabolite it
+    /// produces — joined to its source + citation. Surfaced alongside
+    /// ``PKRouteHit`` in the Pharmacokinetics disclosure.
+    struct MetabolismHit: Identifiable, Hashable {
+        let id: Int64
+        let enzyme: String
+        let fractionOfClearancePct: Double?
+        let metaboliteName: String?
+        let metaboliteActive: Bool?
+        let metabolitePotencyVsParentPct: Double?
+        let sourceSlug: String
+        let doi: String?
+        let pmid: Int?
+        let notes: String?
+    }
+
     /// One row from the bindings table joined to its substance + source +
     /// citation. Used by advanced-search results.
     struct BindingHit: Identifiable, Hashable {
@@ -1972,6 +2028,89 @@ final class SubstanceStore {
             }
         } catch {
             logger.error("bindings(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    /// Per-route pharmacokinetic rows for a substance, across all sources, with
+    /// per-row citation. Drives the detail view's Pharmacokinetics disclosure.
+    /// Ordered by route rank (oral first) then tightest study.
+    func pharmacokinetics(forSubstanceName name: String) -> [PKRouteHit] {
+        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        do {
+            return try substancesDB.read { db in
+                let rows = try Row.fetchAll(db, sql: """
+                    SELECT p.id, p.route, p.bioavailability_pct, p.cmax_ng_per_ml, p.tmax_min,
+                           p.half_life_min, p.vd_l_per_kg, p.clearance_ml_per_min_per_kg,
+                           p.protein_binding_pct, p.dose_in_study_mg, p.subject_n, p.demographics,
+                           p.notes, src.slug AS source_slug, c.doi, c.pmid
+                      FROM pk_routes p
+                      JOIN sources src ON src.id = p.source_id
+                      LEFT JOIN citations c ON c.id = p.citation_id
+                     WHERE p.substance_id = ?
+                """, arguments: [substanceID])
+                return rows.map { row in
+                    PKRouteHit(
+                        id: row["id"],
+                        route: row["route"],
+                        bioavailabilityPct: row["bioavailability_pct"],
+                        cmaxNgPerMl: row["cmax_ng_per_ml"],
+                        tmaxMin: row["tmax_min"],
+                        halfLifeMin: row["half_life_min"],
+                        vdLPerKg: row["vd_l_per_kg"],
+                        clearanceMlPerMinPerKg: row["clearance_ml_per_min_per_kg"],
+                        proteinBindingPct: row["protein_binding_pct"],
+                        doseInStudyMg: row["dose_in_study_mg"],
+                        subjectN: (row["subject_n"] as Int64?).map(Int.init),
+                        demographics: row["demographics"],
+                        sourceSlug: row["source_slug"],
+                        doi: row["doi"],
+                        pmid: (row["pmid"] as Int64?).map(Int.init),
+                        notes: row["notes"],
+                    )
+                }
+                .sorted { Self.routeRank(RouteOfAdministration.from(string: $0.route)) < Self.routeRank(RouteOfAdministration.from(string: $1.route)) }
+            }
+        } catch {
+            logger.error("pharmacokinetics(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    /// Metabolism rows (enzymes/pathways + metabolites) for a substance, with
+    /// per-row citation. Ordered by fraction-of-clearance (largest first), then
+    /// enzyme name. Drives the Pharmacokinetics disclosure's metabolism block.
+    func metabolism(forSubstanceName name: String) -> [MetabolismHit] {
+        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        do {
+            return try substancesDB.read { db in
+                let rows = try Row.fetchAll(db, sql: """
+                    SELECT m.id, m.enzyme, m.fraction_of_clearance_pct, m.metabolite_name,
+                           m.metabolite_active, m.metabolite_potency_vs_parent_pct, m.notes,
+                           src.slug AS source_slug, c.doi, c.pmid
+                      FROM metabolism m
+                      JOIN sources src ON src.id = m.source_id
+                      LEFT JOIN citations c ON c.id = m.citation_id
+                     WHERE m.substance_id = ?
+                     ORDER BY m.fraction_of_clearance_pct DESC NULLS LAST, m.enzyme ASC
+                """, arguments: [substanceID])
+                return rows.map { row in
+                    MetabolismHit(
+                        id: row["id"],
+                        enzyme: row["enzyme"],
+                        fractionOfClearancePct: row["fraction_of_clearance_pct"],
+                        metaboliteName: row["metabolite_name"],
+                        metaboliteActive: (row["metabolite_active"] as Int64?).map { $0 != 0 },
+                        metabolitePotencyVsParentPct: row["metabolite_potency_vs_parent_pct"],
+                        sourceSlug: row["source_slug"],
+                        doi: row["doi"],
+                        pmid: (row["pmid"] as Int64?).map(Int.init),
+                        notes: row["notes"],
+                    )
+                }
+            }
+        } catch {
+            logger.error("metabolism(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
