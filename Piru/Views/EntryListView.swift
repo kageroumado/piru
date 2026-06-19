@@ -1011,6 +1011,8 @@ private struct ActiveSessionHeroCard: View {
     var onTap: () -> Void
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
+    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
 
     private var isSingleDose: Bool {
         states.count == 1
@@ -1223,7 +1225,7 @@ private struct ActiveSessionHeroCard: View {
 
     private var multiGraphHeight: CGFloat {
         let base = GraphMetrics.embedded
-        guard distinctCount >= TimelineGraphView.laneModeThreshold else { return base }
+        guard laneModeEnabled, distinctCount >= laneModeThreshold else { return base }
         let ideal = CGFloat(distinctCount) * 32 + 40
         return max(base, min(ideal, 380))
     }

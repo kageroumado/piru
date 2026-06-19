@@ -230,6 +230,8 @@ struct NotificationSettingsView: View {
 /// Day-grouping, timeline, and quick-log preferences.
 struct JournalSettingsView: View {
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var stackedLanesEnabled = LaneModeDefaults.enabledDefault
+    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
@@ -258,6 +260,26 @@ struct JournalSettingsView: View {
                     .tint(Theme.accent)
                 } footer: {
                     Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
+                }
+
+                Section {
+                    Toggle(isOn: $stackedLanesEnabled) {
+                        Label("Stack Busy Sessions", systemImage: "square.stack.3d.up")
+                    }
+                    .tint(Theme.accent)
+
+                    if stackedLanesEnabled {
+                        Stepper(value: $laneModeThreshold, in: LaneModeDefaults.thresholdRange) {
+                            HStack {
+                                Text("Stack From")
+                                Spacer()
+                                Text(laneModeThreshold, format: .number)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
+                        }
+                    }
+                } footer: {
+                    Text("When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph.")
                 }
 
                 Section {
