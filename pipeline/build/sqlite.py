@@ -2557,6 +2557,9 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     ("Etazene", "Etodesnitazene", True),
     ("4-CMA", "4-Chloromethamphetamine", True),
     ("Mexamine", "5-Methoxytryptamine", True),
+    # Dexedrine is the brand for dextroamphetamine (it already lists it as an
+    # alias); no InChIKey on the brand stub + data on both sides kept them split.
+    ("Dexedrine", "Dextroamphetamine", True),
     # Greek/Latin spelling variant the capital-Greek normalise() fold can't
     # reach (βH spelled out as "BOH"). Keep the curated β-hydroxy canonical.
     ("BOH-2C-B", "βH-2C-B", True),

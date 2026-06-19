@@ -1,16 +1,16 @@
 # Piru SQLite build report
 
-Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha256 `1d5bb34131c4f4b4ffd64850e4e72a07ed73be7c591b7e629c479c2ea56267af`)
+Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha256 `3c1c3cbf4ddb399495b4b71dae062a569b48b3fafb523c5141e43adb751a0712`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,934 |
-| aliases | 5,826 |
+| substances | 1,933 |
+| aliases | 5,824 |
 | sources | 17 |
 | citations | 1,809 |
-| categories | 1,853 |
+| categories | 1,852 |
 | tags | 7,804 |
 | dose_ranges | 2,892 |
 | durations | 9,454 |
@@ -26,7 +26,7 @@ Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 791 |
+| downstream_signalling | 790 |
 | neuroimaging | 57 |
 | pk_routes | 413 |
 | concentration_effects | 38 |
@@ -35,7 +35,7 @@ Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha
 | pharmacogenetics | 274 |
 | off_targets | 226 |
 | class_contexts | 58 |
-| substance_classes | 212 |
+| substance_classes | 211 |
 
 ## Per-source coverage
 
@@ -51,7 +51,7 @@ Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha
 | erowid-tihkal | 41 | 0 | 52 | 138 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 150 | 502 |
+| wikidata | 0 | 0 | 149 | 502 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
 | pyrls | 0 | 0 | 102 | 617 |
 | medtap | 0 | 0 | 0 | 0 |
