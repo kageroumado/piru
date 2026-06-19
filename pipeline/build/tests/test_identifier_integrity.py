@@ -34,8 +34,9 @@ _spec.loader.exec_module(_cii)
 # Substances the cleanup fixed (and a few controls), with their verified-correct
 # InChIKey. Mix of both failure modes: wrong-key/right-SMILES (DOB, DET, DPT,
 # Carfentanil, Codeine, Morphine) and right-key/wrong-SMILES (2C-B, LSD); plus
-# the curated manual fixes (Theobromine, Busulfan, Salvinorin B, MXiPr, Tianeptine
-# sulfate). A regression in any source or pass that re-breaks these fails here.
+# the curated manual fixes (Theobromine, Busulfan, Salvinorin B, MXiPr, Cocaine,
+# L-Tryptophan, Tianeptine). A regression in any source or pass that re-breaks
+# these fails here.
 ANCHORS = {
     "2C-B": "YMHOBZXQZVXHBM-UHFFFAOYSA-N",
     "AMT": "QSQQQURBVYWZKJ-UHFFFAOYSA-N",
@@ -57,7 +58,7 @@ ANCHORS = {
     "Phenmetrazine": "OOBHFESNSZDWIU-UHFFFAOYSA-N",
     "Salvinorin B": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",
     "Theobromine": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
-    "Tianeptine sulfate": "SKEOVGLOOAJSTG-UHFFFAOYSA-N",
+    "Tianeptine": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
 }
 
 

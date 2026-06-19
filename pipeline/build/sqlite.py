@@ -1144,9 +1144,11 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "MDA": {"inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"},
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
     "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
-    # Stereo-less InChIKey on a 4-stereocentre molecule (the flat key collides
-    # with other tropanes in structural dedup); PubChem CID 446220.
-    "Cocaine": {"inchikey": "ZPUCINDJVBIVPJ-PFSRBDOWSA-N"},
+    # Flat (stereo-less) InChIKey, consistent with the stored stereo-less SMILES
+    # and the anchor test. Structural dedup keys on the first-14 skeleton —
+    # identical for any stereo layer — and no other ZPUCINDJVBIVPJ tropane is in
+    # the catalogue, so a stereo key gave no collision protection. CID 446220.
+    "Cocaine": {"inchikey": "ZPUCINDJVBIVPJ-UHFFFAOYSA-N"},
     # Formula/MW were the hydrochloride salt while the InChIKey/SMILES are the
     # free base — desalt the formula to match the structure (MW recomputed by
     # reconcile_formula_mass). PubChem CID 5284603.
