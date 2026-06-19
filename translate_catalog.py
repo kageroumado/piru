@@ -2364,6 +2364,13 @@ T = {
         "預設調色盤中已有此顏色",
     ),
     "You've already created this shade": ("你已创建过此颜色", "你已建立過此顏色"),
+    # 2026-06 — stacked-lane (small multiples) timeline preference
+    "Stack Busy Sessions": ("拆分繁忙记录图表", "拆分繁忙記錄圖表"),
+    "Stack From": ("拆分阈值", "拆分閾值"),
+    "When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph.": (
+        "当某次记录达到这么多种不同物质时，时间线会将重叠的曲线拆分为独立的堆叠泳道——每种物质一条——让繁忙的记录依然清晰可读。关闭后，所有曲线始终叠加在同一张图上。",
+        "當某次記錄達到這麼多種不同物質時，時間線會將重疊的曲線拆分為獨立的堆疊泳道——每種物質一條——讓繁忙的記錄依然清晰可讀。關閉後，所有曲線始終疊加在同一張圖上。",
+    ),
 }
 
 # Widget translations
@@ -2535,7 +2542,7 @@ except ImportError:
     pass
 
 if __name__ == "__main__":
-    project_root = Path("/Users/kirie/Developer/piru")
+    project_root = Path(__file__).resolve().parent
 
     # Brand-new strings added from the CLI that Xcode hasn't extracted into the
     # catalog yet. List them here so they get inserted; clear once Xcode has
@@ -2821,6 +2828,10 @@ if __name__ == "__main__":
         "LogD",
         "TPSA",
         "pKa",
+        # Stacked-lane timeline preference 2026-06
+        "Stack Busy Sessions",
+        "Stack From",
+        "When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph.",
     }
 
     print("--- Piru main app catalog ---")
