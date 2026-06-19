@@ -2205,10 +2205,24 @@
   },
   "metabolism": [
    {
-    "enzyme": "alkaline phosphatase (gut) + UGT1A10/UGT1A9",
+    "enzyme": "alkaline phosphatase (gut/intestinal)",
     "fraction_of_clearance_pct": null,
-    "metabolite_name": "psilocin \u2192 psilocin-glucuronide",
+    "metabolite_name": "psilocin",
     "metabolite_active": true,
+    "reference": "doi:10.1124/dmd.117.077107"
+   },
+   {
+    "enzyme": "UGT1A10/UGT1A9",
+    "fraction_of_clearance_pct": null,
+    "metabolite_name": "psilocin-O-glucuronide",
+    "metabolite_active": false,
+    "reference": "doi:10.1124/dmd.117.077107"
+   },
+   {
+    "enzyme": "MAO-A",
+    "fraction_of_clearance_pct": null,
+    "metabolite_name": "4-hydroxyindole-3-acetic acid (4-HIAA)",
+    "metabolite_active": false,
     "reference": "doi:10.1124/dmd.117.077107"
    }
   ],

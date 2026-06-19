@@ -1033,6 +1033,64 @@ def parse_formula(formula: str | None) -> dict[str, int] | None:
     return out or None
 
 
+_CJK_RE = re.compile(r"[　-〿㐀-鿿＀-￯]")
+
+
+def latin_iupac(value: str | None) -> str | None:
+    """Reject a non-Latin IUPAC name. FreeOD's 系统名称 column carries Chinese
+    systematic names ("1,3,7-三甲基嘌呤-2,6-二酮"); the `iupac_name` column is
+    Latin-only (the English systematic name comes from PubChem). Returns the value
+    unchanged when it's Latin, else None so the slot stays open for PubChem."""
+    if value and _CJK_RE.search(value):
+        return None
+    return value
+
+
+# Standard atomic weights (g/mol) for the elements that appear in catalog
+# formulae — organics, common salt counter-ions, and peptide metals. Used to
+# recompute molecular_weight from the formula so a salt mass can't sit on a
+# free-base formula (amphetamine C9H13N must be 135.21, not the 368.5 sulfate).
+_ATOMIC_WEIGHT: dict[str, float] = {
+    "H": 1.008,
+    "B": 10.81,
+    "C": 12.011,
+    "N": 14.007,
+    "O": 15.999,
+    "F": 18.998,
+    "Na": 22.990,
+    "Mg": 24.305,
+    "Al": 26.982,
+    "Si": 28.085,
+    "P": 30.974,
+    "S": 32.06,
+    "Cl": 35.45,
+    "K": 39.098,
+    "Ca": 40.078,
+    "Fe": 55.845,
+    "Zn": 65.38,
+    "Se": 78.971,
+    "Br": 79.904,
+    "I": 126.904,
+    "Li": 6.94,
+}
+
+
+def formula_mass(formula: str | None) -> float | None:
+    """Molecular weight (g/mol) computed from a Hill formula, or None when the
+    formula is missing or contains an element we don't weigh (peptide 3-letter
+    junk, isotope labels) — in which case the stored value is left untouched."""
+    parsed = parse_formula(formula)
+    if not parsed:
+        return None
+    total = 0.0
+    for el, count in parsed.items():
+        weight = _ATOMIC_WEIGHT.get(el)
+        if weight is None:
+            return None
+        total += weight * count
+    return round(total, 2)
+
+
 def is_clean_desalt(freebase: str | None, salt: str | None) -> bool:
     """True when ``freebase`` is plausibly the salt-free form of ``salt`` — i.e.
     ``salt`` = k·``freebase`` + a nitrogen-free counter-ion, for a small base:acid
@@ -1080,6 +1138,13 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     "MDA": {"inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"},
     "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
     "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
+    # Stereo-less InChIKey on a 4-stereocentre molecule (the flat key collides
+    # with other tropanes in structural dedup); PubChem CID 446220.
+    "Cocaine": {"inchikey": "ZPUCINDJVBIVPJ-PFSRBDOWSA-N"},
+    # Formula/MW were the hydrochloride salt while the InChIKey/SMILES are the
+    # free base — desalt the formula to match the structure (MW recomputed by
+    # reconcile_formula_mass). PubChem CID 5284603.
+    "Oxycodone": {"formula": "C18H21NO4"},
 }
 
 
@@ -1217,6 +1282,9 @@ def apply_identifier_corrections(con, props: dict | None = None) -> dict:
             changed[name] = (
                 changed.get(name, "") + f" inchikey {old_ik}→{fix['inchikey']}"
             ).strip()
+        if "formula" in fix:
+            cur.execute("UPDATE substances SET formula = ? WHERE id = ?", (fix["formula"], sid))
+            changed[name] = (changed.get(name, "") + f" formula→{fix['formula']}").strip()
     con.commit()
     return changed
 
@@ -1275,6 +1343,74 @@ def apply_pubchem_freebase(con, props: dict) -> dict:
     }
 
 
+def reconcile_formula_mass(con, tolerance: float = 0.02) -> dict:
+    """Replace ``molecular_weight`` with the mass computed from ``formula`` when
+    the two disagree beyond ``tolerance`` (2%).
+
+    A formula has exactly one molecular weight, so a stored mass that doesn't
+    match it is wrong — almost always a *salt* mass left on a *free-base* formula
+    (amphetamine C9H13N tagged 368.5 sulfate; MDMA C11H15NO2 tagged 229.71 HCl),
+    because ``apply_pubchem_freebase`` skips the MW when the formula already
+    matches PubChem. This recomputes from the formula itself, so it's source-
+    independent. Rows whose formula contains an element we don't weigh (peptide
+    3-letter codes) are left untouched. Returns the per-substance changes."""
+    cur = con.cursor()
+    changed: list[str] = []
+    for sid, name, formula, mw in cur.execute(
+        "SELECT id, canonical_name, formula, molecular_weight FROM substances "
+        "WHERE formula IS NOT NULL AND molecular_weight IS NOT NULL"
+    ).fetchall():
+        computed = formula_mass(formula)
+        if computed is None or computed <= 0:
+            continue
+        if abs(mw - computed) / computed > tolerance:
+            cur.execute("UPDATE substances SET molecular_weight = ? WHERE id = ?", (computed, sid))
+            changed.append(f"{name}: {mw}→{computed} ({formula})")
+    con.commit()
+    return {"changed": len(changed), "names": changed}
+
+
+def dedup_pk_routes(con) -> dict:
+    """Drop exact-duplicate ``pk_routes`` rows — same substance, route, source,
+    every numeric, and citation (alprazolam ingested five identical "oral F 85%"
+    rows). Keeps the lowest id of each identical group. Returns the drop count."""
+    cur = con.cursor()
+    before = cur.execute("SELECT COUNT(*) FROM pk_routes").fetchone()[0]
+    cur.execute("""
+        DELETE FROM pk_routes WHERE id NOT IN (
+            SELECT MIN(id) FROM pk_routes
+            GROUP BY substance_id, route, source_id,
+                     IFNULL(bioavailability_pct,''), IFNULL(cmax_ng_per_ml,''),
+                     IFNULL(tmax_min,''), IFNULL(auc_0_inf_ng_h_per_ml,''),
+                     IFNULL(half_life_min,''), IFNULL(vd_l_per_kg,''),
+                     IFNULL(clearance_ml_per_min_per_kg,''), IFNULL(protein_binding_pct,''),
+                     IFNULL(dose_in_study_mg,''), IFNULL(subject_n,''),
+                     IFNULL(demographics,''), IFNULL(citation_id,''), IFNULL(notes,'')
+        )
+    """)
+    con.commit()
+    return {"dropped": before - cur.execute("SELECT COUNT(*) FROM pk_routes").fetchone()[0]}
+
+
+def reconcile_mp_bp(con) -> dict:
+    """Null a ``boiling_point_c`` that sits below its own ``melting_point_c``.
+
+    A boiling point below the melting point is physically impossible — the value
+    is a *sublimation* point mislabelled as a BP (caffeine: mp 234 °C, "bp"
+    178 °C is the sublimation temperature). The MP is the trustworthy figure, so
+    drop the bad BP rather than inventing one. Returns the affected substances."""
+    cur = con.cursor()
+    rows = cur.execute(
+        "SELECT id, canonical_name, melting_point_c, boiling_point_c FROM substances "
+        "WHERE melting_point_c IS NOT NULL AND boiling_point_c IS NOT NULL "
+        "AND boiling_point_c < melting_point_c"
+    ).fetchall()
+    for sid, _name, _mp, _bp in rows:
+        cur.execute("UPDATE substances SET boiling_point_c = NULL WHERE id = ?", (sid,))
+    con.commit()
+    return {"cleared": len(rows), "names": [f"{n}: bp {bp}<mp {mp}" for _, n, mp, bp in rows]}
+
+
 def apply_pubchem_computed(con, props: dict, ik_props: dict | None = None) -> dict:
     """Set computed physicochemical descriptors (``logp``/``tpsa``/``hba``/``hbd``)
     from PubChem.
@@ -1296,7 +1432,7 @@ def apply_pubchem_computed(con, props: dict, ik_props: dict | None = None) -> di
     cur = con.cursor()
     # (column, prop-key) — only descriptors PubChem computes consistently.
     fields = [("logp", "xlogp"), ("tpsa", "tpsa"), ("hba", "hba"), ("hbd", "hbd")]
-    applied = {col: 0 for col, _ in fields}
+    applied = {col: 0 for col, _ in fields} | {"iupac": 0}
 
     def write(sid: int, prop: dict) -> None:
         sets, vals = [], []
@@ -1307,10 +1443,17 @@ def apply_pubchem_computed(con, props: dict, ik_props: dict | None = None) -> di
             sets.append(f"{col} = ?")
             vals.append(v)
             applied[col] += 1
-        if not sets:
-            return
-        vals.append(sid)
-        cur.execute(f"UPDATE substances SET {', '.join(sets)} WHERE id = ?", vals)
+        if sets:
+            cur.execute(f"UPDATE substances SET {', '.join(sets)} WHERE id = ?", [*vals, sid])
+        # English systematic name — fill only when empty (the CJK gate leaves the
+        # FreeOD-only rows NULL; a curated/NPS Latin name already present wins).
+        iupac = latin_iupac(prop.get("iupac"))
+        if iupac:
+            cur.execute(
+                "UPDATE substances SET iupac_name = ? WHERE id = ? AND iupac_name IS NULL",
+                (iupac, sid),
+            )
+            applied["iupac"] += cur.rowcount
 
     for sid, cid in cur.execute(
         "SELECT id, pubchem_cid FROM substances "
@@ -1664,6 +1807,9 @@ NON_RECREATIONAL_OTC = {
     "ibuprofen",
     "aspirin",
     "naproxen",
+    # Endogenous hormone / OTC sleep supplement — PsychonautWiki lists a dose,
+    # but that's a harm-reduction reference, not a recreational signal.
+    "melatonin",
 }
 
 # The Library's "Common" card is a curated entry point — "everyday substances,
@@ -2421,6 +2567,11 @@ _CANONICAL_CASE: dict[str, str] = {
 # lineage via its category + lysergamide/tryptamine/TIHKAL/common tags.
 _TAG_BLOCKLIST: dict[str, set[str]] = {
     "lsd": {"no-human-data", "phenethylamine"},
+    # An endogenous hormone / OTC sleep aid mis-tagged as a recreational TIHKAL
+    # tryptamine (erowid-tihkal false-match) with "no-human-data" (absurd — it's
+    # among the best-studied supplements). Category pinned to Supplement via
+    # curated; strip the rec/quality tags so it doesn't read as a psychedelic.
+    "melatonin": {"no-human-data", "TIHKAL"},
     # Pure dopaminergic/noradrenergic stimulants wrongly carrying an empathogen
     # tag (no meaningful serotonin release). Category is pinned via curated; this
     # strips the residual cosmetic tag so the detail card doesn't call them
@@ -2766,6 +2917,9 @@ class Build:
         # ingester (wikidata SPARQL, drug.community, enrichment).
         if is_chemistry_noise(name):
             return None
+        # Never let a non-Latin (Chinese) IUPAC name land — PubChem supplies the
+        # English systematic name (see apply_pubchem_computed).
+        iupac = latin_iupac(iupac)
         # Collapse known alt-names onto their canonical entry so a source
         # supplying "Cannabidiol" merges into the existing "CBD" row instead
         # of creating a parallel one. The original name still gets preserved
@@ -3483,6 +3637,9 @@ class Build:
         citation: str | None = None,
     ) -> None:
         text = (text or "").strip()
+        # Strip wiki citation markers ("[2]", "[12]") that leak from FreeOD's
+        # markdown into the prose (diazepam's overview opened with a bare "[2]").
+        text = re.sub(r"\s*\[\d+\]", "", text).strip()
         if not text:
             return
         src = self.source_ids[source_slug]
@@ -5029,7 +5186,7 @@ class Build:
                     rec.get("x_inchikey") or None,
                     rec.get("x_cas") or None,
                     rec.get("x_smiles") or None,
-                    rec.get("x_iupac") or None,
+                    latin_iupac(rec.get("x_iupac") or None),
                     rec.get("x_chemical_formula") or None,
                     to_float(rec.get("x_mw")),
                     to_float(rec.get("x_logp")),
@@ -6368,9 +6525,29 @@ def main() -> int:
         pc = apply_pubchem_computed(build.cur.connection, _pubchem_props, _pubchem_ik_props)
         print(
             f"PubChem computed: logp={pc['logp']} tpsa={pc['tpsa']} "
-            f"hba={pc['hba']} hbd={pc['hbd']}",
+            f"hba={pc['hba']} hbd={pc['hbd']} iupac={pc['iupac']}",
             file=sys.stderr,
         )
+
+    # Recompute molecular_weight from the formula wherever the two disagree — a
+    # salt mass left on a free-base formula (amphetamine, MDMA). Runs after all
+    # formula corrections so the formula is final. Source-independent.
+    fm = reconcile_formula_mass(build.cur.connection)
+    print(f"Formula↔mass reconciled: {fm['changed']}", file=sys.stderr)
+    for c in fm["names"]:
+        print(f"  {c}", file=sys.stderr)
+
+    # Drop exact-duplicate pharmacokinetic rows (alprazolam's five identical
+    # "oral F 85%" rows from repeated enrichment ingest).
+    pkd = dedup_pk_routes(build.cur.connection)
+    print(f"Duplicate pk_routes dropped: {pkd['dropped']}", file=sys.stderr)
+
+    # Drop any boiling point below its melting point (a sublimation temperature
+    # mislabelled as a BP — caffeine 178 < 234).
+    mb = reconcile_mp_bp(build.cur.connection)
+    print(f"Boiling-point<melting-point cleared: {mb['cleared']}", file=sys.stderr)
+    for c in mb["names"]:
+        print(f"  {c}", file=sys.stderr)
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer

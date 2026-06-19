@@ -7,7 +7,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 191.0,
-    "cid": 542036
+    "cid": 542036,
+    "iupac": "1-(4-chloro-2,5-dimethoxyphenyl)propan-2-amine"
   },
   "AELCINSCMGFISI-DTWKUNHWSA-N": {
     "formula": "C9H11N",
@@ -17,7 +18,8 @@
     "hbd": 1,
     "hba": 1,
     "complexity": 116.0,
-    "cid": 19493
+    "cid": 19493,
+    "iupac": "trans-(1R,2S)-2-phenylcyclopropan-1-amine"
   },
   "AHOUBRCZNHFOSL-YOEHRIQHSA-N": {
     "formula": "C19H20FNO3",
@@ -27,7 +29,8 @@
     "hbd": 1,
     "hba": 5,
     "complexity": 402.0,
-    "cid": 43815
+    "cid": 43815,
+    "iupac": "(3S,4R)-3-(1,3-benzodioxol-5-yloxymethyl)-4-(4-fluorophenyl)piperidine"
   },
   "AKPLHCDWDRPJGD-UHFFFAOYSA-N": {
     "formula": "C15H11ClN2O",
@@ -37,7 +40,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 376.0,
-    "cid": 2997
+    "cid": 2997,
+    "iupac": "7-chloro-5-phenyl-1,3-dihydro-1,4-benzodiazepin-2-one"
   },
   "AKVKBEDACKJNPO-UHFFFAOYSA-N": {
     "formula": "C13H19NO",
@@ -47,7 +51,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 195.0,
-    "cid": 124201807
+    "cid": 124201807,
+    "iupac": "2-(methylamino)-1-(4-methylphenyl)pentan-1-one"
   },
   "ANDGGVOPIJEHOF-UHFFFAOYSA-N": {
     "formula": "C14H15N3O",
@@ -57,7 +62,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 301.0,
-    "cid": 148184
+    "cid": 148184,
+    "iupac": "piperidin-1-yl(quinoxalin-6-yl)methanone"
   },
   "ANJTVLIZGCUXLD-DTWKUNHWSA-N": {
     "formula": "C11H14N2O",
@@ -67,7 +73,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 332.0,
-    "cid": 10235
+    "cid": 10235,
+    "iupac": "(1R,9S)-7,11-diazatricyclo[7.3.1.02,7]trideca-2,4-dien-6-one"
   },
   "ANWPENAPCIFDSZ-BQBZGAKWSA-N": {
     "formula": "C10H14F2N2O2",
@@ -77,7 +84,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 327.0,
-    "cid": 9856063
+    "cid": 9856063,
+    "iupac": "(2S)-2-[(4R)-4-(2,2-difluoroethenyl)-2-oxopyrrolidin-1-yl]butanamide"
   },
   "AQHHHDLHHXJYJD-UHFFFAOYSA-N": {
     "formula": "C16H21NO2",
@@ -87,7 +95,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 257.0,
-    "cid": 4946
+    "cid": 4946,
+    "iupac": "1-naphthalen-1-yloxy-3-(propan-2-ylamino)propan-2-ol"
   },
   "ASUTZQLVASHGKV-JDFRZJQESA-N": {
     "formula": "C17H21NO3",
@@ -97,7 +106,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 440.0,
-    "cid": 9651
+    "cid": 9651,
+    "iupac": "(1S,12S,14R)-9-methoxy-4-methyl-11-oxa-4-azatetracyclo[8.6.1.01,12.06,17]heptadeca-6(17),7,9,15-tetraen-14-ol"
   },
   "AULGMISRJWGTBA-UHFFFAOYSA-N": {
     "formula": "C11H14N2",
@@ -107,7 +117,8 @@
     "hbd": 2,
     "hba": 1,
     "complexity": 169.0,
-    "cid": 55253543
+    "cid": 55253543,
+    "iupac": "1-(1H-indol-5-yl)propan-2-amine"
   },
   "AVJKDKWRVSSJPK-UHFFFAOYSA-N": {
     "formula": "C10H13FN2",
@@ -117,7 +128,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 149.0,
-    "cid": 75260
+    "cid": 75260,
+    "iupac": "1-(4-fluorophenyl)piperazine"
   },
   "BCJXLSGKMNRRKO-UHFFFAOYSA-N": {
     "formula": "C16H22FNO",
@@ -127,7 +139,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 280.0,
-    "cid": 132989300
+    "cid": 132989300,
+    "iupac": "1-(4-fluorophenyl)-2-pyrrolidin-1-ylhexan-1-one"
   },
   "BHIZKPHLTVLXIV-UHFFFAOYSA-N": {
     "formula": "C13H19NO",
@@ -137,7 +150,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 185.0,
-    "cid": 129844496
+    "cid": 129844496,
+    "iupac": "2-(methylamino)-1-phenylhexan-1-one"
   },
   "BLTMVAIOAAGYAR-CEFSSPBYSA-N": {
     "formula": "C21H26O7",
@@ -147,7 +161,8 @@
     "hbd": 1,
     "hba": 7,
     "complexity": 690.0,
-    "cid": 11440685
+    "cid": 11440685,
+    "iupac": "methyl (2S,4aR,6aR,7R,9S,10aS,10bR)-2-(furan-3-yl)-9-hydroxy-6a,10b-dimethyl-4,10-dioxo-2,4a,5,6,7,8,9,10a-octahydro-1H-benzo[f]isochromene-7-carboxylate"
   },
   "BNWJOHGLIBDBOB-UHFFFAOYSA-N": {
     "formula": "C11H12O3",
@@ -157,7 +172,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 205.0,
-    "cid": 4276
+    "cid": 4276,
+    "iupac": "4-methoxy-6-prop-2-enyl-1,3-benzodioxole"
   },
   "BQSJTQLCZDPROO-UHFFFAOYSA-N": {
     "formula": "C16H16N2O3S",
@@ -167,7 +183,8 @@
     "hbd": 1,
     "hba": 6,
     "complexity": 448.0,
-    "cid": 134018
+    "cid": 134018,
+    "iupac": "2-[3-cyano-4-(2-methylpropoxy)phenyl]-4-methyl-1,3-thiazole-5-carboxylic acid"
   },
   "BRUQQQPBMZOVGD-XFKAJCMBSA-N": {
     "formula": "C18H21NO4",
@@ -177,7 +194,8 @@
     "hbd": 1,
     "hba": 5,
     "complexity": 553.0,
-    "cid": 5284603
+    "cid": 5284603,
+    "iupac": "(4R,4aS,7aR,12bS)-4a-hydroxy-9-methoxy-3-methyl-2,4,5,6,7a,13-hexahydro-1H-4,12-methanobenzofuro[3,2-e]isoquinolin-7-one"
   },
   "BTCSSZJGUNDROE-UHFFFAOYSA-N": {
     "formula": "C4H9NO2",
@@ -187,7 +205,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 62.0,
-    "cid": 119
+    "cid": 119,
+    "iupac": "4-aminobutanoic acid"
   },
   "BUCORZSTKDOEKQ-UHFFFAOYSA-N": {
     "formula": "C16H14ClN3O",
@@ -197,7 +216,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 580.0,
-    "cid": 2712
+    "cid": 2712,
+    "iupac": "7-chloro-4-hydroxy-N-methyl-5-phenyl-3H-1,4-benzodiazepin-2-imine"
   },
   "BUTCFAZTKZDYCN-UHFFFAOYSA-N": {
     "formula": "C17H12BrClN4",
@@ -207,7 +227,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 474.0,
-    "cid": 1032830
+    "cid": 1032830,
+    "iupac": "8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine"
   },
   "BYIVGHIYNFQIJX-NZLXMSDQSA-N": {
     "formula": "C24H21NO3",
@@ -217,7 +238,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 562.0,
-    "cid": 53394458
+    "cid": 53394458,
+    "iupac": "3,3,4,4-tetradeuterio-5-[3-(naphthalene-1-carbonyl)indol-1-yl]pentanoic acid"
   },
   "CFBVGSWSOJBYGC-ZYHUDNBSSA-N": {
     "formula": "C12H14ClNO2",
@@ -227,7 +249,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 284.0,
-    "cid": 89504167
+    "cid": 89504167,
+    "iupac": "cis-(2R,6R)-2-amino-2-(2-chlorophenyl)-6-hydroxycyclohexan-1-one"
   },
   "CHBRHODLKOZEPZ-UHFFFAOYSA-N": {
     "formula": "C16H15ClN2OS",
@@ -237,7 +260,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 442.0,
-    "cid": 2811
+    "cid": 2811,
+    "iupac": "5-(2-chlorophenyl)-7-ethyl-1-methyl-3H-thieno[2,3-e][1,4]diazepin-2-one"
   },
   "CHIFCDOIPRCHCF-UHFFFAOYSA-N": {
     "formula": "C15H10Cl2N2O",
@@ -247,7 +271,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 413.0,
-    "cid": 17925
+    "cid": 17925,
+    "iupac": "7-chloro-5-(2-chlorophenyl)-1,3-dihydro-1,4-benzodiazepin-2-one"
   },
   "CIDMXLOVFPIHDS-UHFFFAOYSA-N": {
     "formula": "C16H22N2O2",
@@ -257,7 +282,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 332.0,
-    "cid": 46783587
+    "cid": 46783587,
+    "iupac": "[3-[2-[methyl(propan-2-yl)amino]ethyl]-1H-indol-4-yl] acetate"
   },
   "CKPWHLGHHXSVJI-UHFFFAOYSA-N": {
     "formula": "C11H16FN",
@@ -267,7 +293,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 138.0,
-    "cid": 57458869
+    "cid": 57458869,
+    "iupac": "N-ethyl-1-(3-fluorophenyl)propan-2-amine"
   },
   "COVZYZSDYWQREU-UHFFFAOYSA-N": {
     "formula": "C6H14O6S2",
@@ -277,7 +304,8 @@
     "hbd": 0,
     "hba": 6,
     "complexity": 293.0,
-    "cid": 2478
+    "cid": 2478,
+    "iupac": "4-methylsulfonyloxybutyl methanesulfonate"
   },
   "CXOXHMZGEKVPMT-UHFFFAOYSA-N": {
     "formula": "C16H13ClN2O2",
@@ -287,7 +315,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 423.0,
-    "cid": 2789
+    "cid": 2789,
+    "iupac": "7-chloro-1-methyl-5-phenyl-1,5-benzodiazepine-2,4-dione"
   },
   "CYQFCXCEBYINGO-IAGOWNOFSA-N": {
     "formula": "C21H30O2",
@@ -297,7 +326,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 439.0,
-    "cid": 16078
+    "cid": 16078,
+    "iupac": "(6aR,10aR)-6,6,9-trimethyl-3-pentyl-6a,7,8,10a-tetrahydrobenzo[c]chromen-1-ol"
   },
   "DDGNOUVDFKXADP-UHFFFAOYSA-N": {
     "formula": "C12H19NO3",
@@ -307,7 +337,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 187.0,
-    "cid": 31015
+    "cid": 31015,
+    "iupac": "1-(2,4,6-trimethoxyphenyl)propan-2-amine"
   },
   "DDNCQMVWWZOMLN-IRLDBZIGSA-N": {
     "formula": "C22H26N2O2",
@@ -317,7 +348,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 617.0,
-    "cid": 443955
+    "cid": 443955,
+    "iupac": "ethyl (15S,19S)-15-ethyl-1,11-diazapentacyclo[9.6.2.02,7.08,18.015,19]nonadeca-2,4,6,8(18),16-pentaene-17-carboxylate"
   },
   "DGQUHAZEXMTKBQ-UHFFFAOYSA-N": {
     "formula": "C12H17NO",
@@ -327,7 +359,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 191.0,
-    "cid": 91696118
+    "cid": 91696118,
+    "iupac": "2-(ethylamino)-1-(2-methylphenyl)propan-1-one"
   },
   "FDQGNLOWMMVRQL-UHFFFAOYSA-N": {
     "formula": "C10H12N2O3",
@@ -337,7 +370,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 315.0,
-    "cid": 5842
+    "cid": 5842,
+    "iupac": "5,5-bis(prop-2-enyl)-1,3-diazinane-2,4,6-trione"
   },
   "FFHBJDQSGDNCIV-MFVUMRCOSA-N": {
     "formula": "C50H68N14O10",
@@ -347,7 +381,8 @@
     "hbd": 13,
     "hba": 12,
     "complexity": 1950.0,
-    "cid": 9941379
+    "cid": 9941379,
+    "iupac": "(3S,6S,9R,12S,15S,23S)-15-[[(2S)-2-acetamidohexanoyl]amino]-9-benzyl-6-[3-(diaminomethylideneamino)propyl]-12-(1H-imidazol-5-ylmethyl)-3-(1H-indol-3-ylmethyl)-2,5,8,11,14,17-hexaoxo-1,4,7,10,13,18-hexazacyclotricosane-23-carboxylic acid"
   },
   "FJIKWRGCXUCUIG-UHFFFAOYSA-N": {
     "formula": "C16H12Cl2N2O2",
@@ -357,7 +392,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 471.0,
-    "cid": 13314
+    "cid": 13314,
+    "iupac": "7-chloro-5-(2-chlorophenyl)-3-hydroxy-1-methyl-3H-1,4-benzodiazepin-2-one"
   },
   "FNDCTJYFKOQGTL-UHFFFAOYSA-N": {
     "formula": "C10H13NO3",
@@ -367,7 +403,8 @@
     "hbd": 2,
     "hba": 4,
     "complexity": 188.0,
-    "cid": 98528
+    "cid": 98528,
+    "iupac": "N-[1-(1,3-benzodioxol-5-yl)propan-2-yl]hydroxylamine"
   },
   "FTQIVDGNGXPEKP-UHFFFAOYSA-N": {
     "formula": "C16H23NO2",
@@ -377,7 +414,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 316.0,
-    "cid": 163192824
+    "cid": 163192824,
+    "iupac": "2-(3-methoxyphenyl)-2-(propan-2-ylamino)cyclohexan-1-one"
   },
   "FWTARAXQGJRQKN-INIZCTEOSA-N": {
     "formula": "C19H28N4O2",
@@ -387,7 +425,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 475.0,
-    "cid": 121493587
+    "cid": 121493587,
+    "iupac": "N-[(2R)-1-amino-3,3-dimethyl-1-oxobutan-2-yl]-1-pentylindazole-3-carboxamide"
   },
   "FXMWUTGUCAKGQL-UHFFFAOYSA-N": {
     "formula": "C11H16BrNO2",
@@ -397,7 +436,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 191.0,
-    "cid": 62065
+    "cid": 62065,
+    "iupac": "1-(4-bromo-2,5-dimethoxyphenyl)propan-2-amine"
   },
   "GJSURZIOUXUGAL-UHFFFAOYSA-N": {
     "formula": "C9H9Cl2N3",
@@ -407,7 +447,8 @@
     "hbd": 2,
     "hba": 1,
     "complexity": 222.0,
-    "cid": 2803
+    "cid": 2803,
+    "iupac": "N-(2,6-dichlorophenyl)-4,5-dihydro-1H-imidazol-2-amine"
   },
   "GOVNVPJYMDJYSR-UHFFFAOYSA-N": {
     "formula": "C6H10O4",
@@ -417,7 +458,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 130.0,
-    "cid": 176865
+    "cid": 176865,
+    "iupac": "4-acetyloxybutanoic acid"
   },
   "HCFDWZZGGLSKEP-UHFFFAOYSA-N": {
     "formula": "C17H22N2O",
@@ -427,7 +469,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 276.0,
-    "cid": 3162
+    "cid": 3162,
+    "iupac": "N,N-dimethyl-2-(1-phenyl-1-pyridin-2-ylethoxy)ethanamine"
   },
   "HEPVRDHGUWFXJS-UHFFFAOYSA-N": {
     "formula": "C12H17NO",
@@ -437,7 +480,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 173.0,
-    "cid": 20326296
+    "cid": 20326296,
+    "iupac": "2-(ethylamino)-1-phenylbutan-1-one"
   },
   "HGMITUYOCPPQLE-UHFFFAOYSA-N": {
     "formula": "C21H23NO3",
@@ -447,7 +491,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 442.0,
-    "cid": 23056
+    "cid": 23056,
+    "iupac": "1-azabicyclo[2.2.2]octan-3-yl 2-hydroxy-2,2-diphenylacetate"
   },
   "HLBBSWSJLPLPRU-UHFFFAOYSA-N": {
     "formula": "C18H22ClNO2",
@@ -457,7 +502,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 312.0,
-    "cid": 39988
+    "cid": 39988,
+    "iupac": "benzyl-[2-(3-methoxycarbonylphenyl)ethyl]-methylazanium chloride"
   },
   "HOQAVGZLYRYHSO-HNNXBMFYSA-N": {
     "formula": "C19H22N2O2S",
@@ -467,7 +513,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 527.0,
-    "cid": 66857735
+    "cid": 66857735,
+    "iupac": "N-[(2R)-2-[4-(4-cyanophenyl)phenyl]propyl]propane-2-sulfonamide"
   },
   "HPHUVLMMVZITSG-LURJTMIESA-N": {
     "formula": "C8H14N2O2",
@@ -477,7 +524,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 203.0,
-    "cid": 5284583
+    "cid": 5284583,
+    "iupac": "(2S)-2-(2-oxopyrrolidin-1-yl)butanamide"
   },
   "HPHUVLMMVZITSG-UHFFFAOYSA-N": {
     "formula": "C8H14N2O2",
@@ -487,7 +535,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 203.0,
-    "cid": 59708
+    "cid": 59708,
+    "iupac": "2-(2-oxopyrrolidin-1-yl)butanamide"
   },
   "HXFAZCCRNXARMH-UHFFFAOYSA-N": {
     "formula": "C23H31ClN4O3",
@@ -497,7 +546,8 @@
     "hbd": 1,
     "hba": 5,
     "complexity": 517.0,
-    "cid": 156589000
+    "cid": 156589000,
+    "iupac": "N,N-diethyl-2-[5-nitro-2-[(4-propoxyphenyl)methyl]benzimidazol-1-yl]ethanamine;hydrochloride"
   },
   "IBZRXTVDTGVBIS-UHFFFAOYSA-N": {
     "formula": "C12H17NO",
@@ -507,7 +557,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 202.0,
-    "cid": 52988261
+    "cid": 52988261,
+    "iupac": "1-(3,4-dimethylphenyl)-2-(methylamino)propan-1-one"
   },
   "IDLSBAANXISGEI-UHFFFAOYSA-N": {
     "formula": "C14H19NO",
@@ -517,7 +568,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 245.0,
-    "cid": 132989542
+    "cid": 132989542,
+    "iupac": "2-(ethylamino)-2-phenylcyclohexan-1-one"
   },
   "IEZDOKQWPWZVQF-UHFFFAOYSA-N": {
     "formula": "C7H9NO2",
@@ -527,7 +579,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 180.0,
-    "cid": 71893
+    "cid": 71893,
+    "iupac": "2,6,7,8-tetrahydro-1H-pyrrolizine-3,5-dione"
   },
   "IMWZZHHPURKASS-UHFFFAOYSA-N": {
     "formula": "C12H15NO3",
@@ -537,7 +590,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 247.0,
-    "cid": 15459
+    "cid": 15459,
+    "iupac": "5-[(3,5-dimethylphenoxy)methyl]-1,3-oxazolidin-2-one"
   },
   "IUJDSEJGGMCXSG-UHFFFAOYSA-N": {
     "formula": "C11H18N2O2S",
@@ -547,7 +601,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 341.0,
-    "cid": 1244
+    "cid": 1244,
+    "iupac": "5-ethyl-5-pentan-2-yl-2-sulfanyl-1H-pyrimidine-4,6-dione"
   },
   "JCQLEPDZFXGHHQ-OXQOHEQNSA-N": {
     "formula": "C22H27N3O",
@@ -557,7 +612,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 582.0,
-    "cid": 15227511
+    "cid": 15227511,
+    "iupac": "(6aR,9R)-N,N-diethyl-7-prop-2-enyl-6,6a,8,9-tetrahydro-4H-indolo[4,3-fg]quinoline-9-carboxamide"
   },
   "JCRIVQIOJSSCQD-UHFFFAOYSA-N": {
     "formula": "C10H21N",
@@ -567,7 +623,8 @@
     "hbd": 1,
     "hba": 1,
     "complexity": 95.0,
-    "cid": 7558
+    "cid": 7558,
+    "iupac": "1-cyclohexyl-N-methylpropan-2-amine"
   },
   "JEYCTXHKTXCGPB-UHFFFAOYSA-N": {
     "formula": "C16H14N2O",
@@ -577,7 +634,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 390.0,
-    "cid": 6292
+    "cid": 6292,
+    "iupac": "2-methyl-3-(2-methylphenyl)quinazolin-4-one"
   },
   "JFUNLJPTPCQLIR-PJQZNRQZSA-N": {
     "formula": "C15H17Cl2NO2",
@@ -587,7 +645,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 379.0,
-    "cid": 127024
+    "cid": 127024,
+    "iupac": "methyl (1R,2S,3S,5S)-3-(3,4-dichlorophenyl)-8-azabicyclo[3.2.1]octane-2-carboxylate"
   },
   "JFXASAFVUQVGEW-SFHVURJKSA-N": {
     "formula": "C20H27FN2O3",
@@ -597,7 +656,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 472.0,
-    "cid": 119058037
+    "cid": 119058037,
+    "iupac": "methyl (2S)-2-[[1-(5-fluoropentyl)indole-3-carbonyl]amino]-3-methylbutanoate"
   },
   "JMBQKKAJIKAWKF-UHFFFAOYSA-N": {
     "formula": "C13H15NO2",
@@ -607,7 +667,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 294.0,
-    "cid": 3487
+    "cid": 3487,
+    "iupac": "3-ethyl-3-phenylpiperidine-2,6-dione"
   },
   "JRPRINGETIYVSV-LJISPDSOSA-N": {
     "formula": "C17H20FNO4",
@@ -617,7 +678,8 @@
     "hbd": 0,
     "hba": 6,
     "complexity": 464.0,
-    "cid": 126112
+    "cid": 126112,
+    "iupac": "methyl (1R,2R,3S,5S)-3-(4-fluorobenzoyl)oxy-8-methyl-8-azabicyclo[3.2.1]octane-2-carboxylate"
   },
   "JUKMAYKVHWKRKY-CHWSQXEVSA-N": {
     "formula": "C14H17Cl2NO2",
@@ -627,7 +689,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 314.0,
-    "cid": 44296390
+    "cid": 44296390,
+    "iupac": "methyl (2R)-2-(3,4-dichlorophenyl)-2-[(2R)-piperidin-2-yl]acetate"
   },
   "JURKNVYFZMSNLP-UHFFFAOYSA-N": {
     "formula": "C20H21N",
@@ -637,7 +700,8 @@
     "hbd": 0,
     "hba": 1,
     "complexity": 365.0,
-    "cid": 2895
+    "cid": 2895,
+    "iupac": "N,N-dimethyl-3-(2-tricyclo[9.4.0.03,8]pentadeca-1(15),3,5,7,9,11,13-heptaenylidene)propan-1-amine"
   },
   "KJONHKAYOJNZEC-UHFFFAOYSA-N": {
     "formula": "C15H11N3O3",
@@ -647,7 +711,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 452.0,
-    "cid": 4506
+    "cid": 4506,
+    "iupac": "7-nitro-5-phenyl-1,3-dihydro-1,4-benzodiazepin-2-one"
   },
   "KQPKPCNLIDLUMF-UHFFFAOYSA-N": {
     "formula": "C12H18N2O3",
@@ -657,7 +722,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 343.0,
-    "cid": 5193
+    "cid": 5193,
+    "iupac": "5-pentan-2-yl-5-prop-2-enyl-1,3-diazinane-2,4,6-trione"
   },
   "KVWDHTXUZHCGIO-UHFFFAOYSA-N": {
     "formula": "C17H20N4S",
@@ -667,7 +733,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 432.0,
-    "cid": 135398745
+    "cid": 135398745,
+    "iupac": "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine"
   },
   "KYIJLDDXQWBNGX-UHFFFAOYSA-N": {
     "formula": "C16H23NO",
@@ -677,7 +744,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 252.0,
-    "cid": 102107923
+    "cid": 102107923,
+    "iupac": "1-phenyl-2-pyrrolidin-1-ylhexan-1-one"
   },
   "LBXMQBTXOLBCCA-UHFFFAOYSA-N": {
     "formula": "C13H19NO2",
@@ -687,7 +755,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 210.0,
-    "cid": 559375
+    "cid": 559375,
+    "iupac": "1-(1,3-benzodioxol-5-yl)-N-propylpropan-2-amine"
   },
   "LELBFTMXCIIKKX-QVRQZEMUSA-N": {
     "formula": "C23H30N2O4",
@@ -697,7 +766,8 @@
     "hbd": 1,
     "hba": 5,
     "complexity": 624.0,
-    "cid": 3034396
+    "cid": 3034396,
+    "iupac": "methyl (E)-2-[(2S,3S,12bS)-3-ethyl-8-methoxy-1,2,3,4,6,7,12,12b-octahydroindolo[2,3-a]quinolizin-2-yl]-3-methoxyprop-2-enoate"
   },
   "LFFIIZFINPPEMC-UHFFFAOYSA-N": {
     "formula": "C20H19FINO",
@@ -707,7 +777,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 418.0,
-    "cid": 9889172
+    "cid": 9889172,
+    "iupac": "[1-(5-fluoropentyl)indol-3-yl]-(2-iodophenyl)methanone"
   },
   "LIJIZZZQTLRBBW-UHFFFAOYSA-N": {
     "formula": "C16H22ClNO3",
@@ -717,7 +788,8 @@
     "hbd": 2,
     "hba": 4,
     "complexity": 341.0,
-    "cid": 165361991
+    "cid": 165361991,
+    "iupac": "1-(1,3-benzodioxol-5-yl)-2-(cyclohexylamino)propan-1-one;hydrochloride"
   },
   "LLPOLZWFYMWNKH-CMKMFDCUSA-N": {
     "formula": "C18H21NO3",
@@ -727,7 +799,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 509.0,
-    "cid": 5284569
+    "cid": 5284569,
+    "iupac": "(4R,4aR,7aR,12bS)-9-methoxy-3-methyl-1,2,4,4a,5,6,7a,13-octahydro-4,12-methanobenzofuro[3,2-e]isoquinolin-7-one"
   },
   "LXIXAVCVBZBXIY-UHFFFAOYSA-N": {
     "formula": "C21H34O2",
@@ -737,7 +810,8 @@
     "hbd": 2,
     "hba": 2,
     "complexity": 329.0,
-    "cid": 616324
+    "cid": 616324,
+    "iupac": "2-(5-methyl-2-propan-2-ylcyclohexyl)-5-pentylbenzene-1,3-diol"
   },
   "MFOCDFTXLCYLKU-CMPLNLGQSA-N": {
     "formula": "C12H17NO",
@@ -747,7 +821,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 177.0,
-    "cid": 30487
+    "cid": 30487,
+    "iupac": "(2S,3S)-3,4-dimethyl-2-phenylmorpholine"
   },
   "NGHTXZCKLWZPGK-UHFFFAOYSA-N": {
     "formula": "C14H18N2O2",
@@ -757,7 +832,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 320.0,
-    "cid": 71157
+    "cid": 71157,
+    "iupac": "N-(2,6-dimethylphenyl)-2-(2-oxopyrrolidin-1-yl)acetamide"
   },
   "NIJJYAXOARWZEE-UHFFFAOYSA-N": {
     "formula": "C8H16O2",
@@ -767,7 +843,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 93.0,
-    "cid": 3121
+    "cid": 3121,
+    "iupac": "2-propylpentanoic acid"
   },
   "NMCHYWGKBADVMK-UHFFFAOYSA-N": {
     "formula": "C18H23N5O2",
@@ -777,7 +854,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 494.0,
-    "cid": 19527
+    "cid": 19527,
+    "iupac": "1,3-dimethyl-7-[2-(1-phenylpropan-2-ylamino)ethyl]purine-2,6-dione"
   },
   "NTJQREUGJKIARY-UHFFFAOYSA-N": {
     "formula": "C12H19NO2",
@@ -787,7 +865,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 186.0,
-    "cid": 85875
+    "cid": 85875,
+    "iupac": "1-(2,5-dimethoxy-4-methylphenyl)propan-2-amine"
   },
   "NWNCIXFIIDVRKE-UHFFFAOYSA-N": {
     "formula": "C12H17NO",
@@ -797,7 +876,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 175.0,
-    "cid": 43169333
+    "cid": 43169333,
+    "iupac": "3-methyl-2-(4-methylphenyl)morpholine"
   },
   "NYISTOZKVCMVEL-UHFFFAOYSA-N": {
     "formula": "C22H27FN2O2",
@@ -807,7 +887,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 448.0,
-    "cid": 60575
+    "cid": 60575,
+    "iupac": "N-(2-fluorophenyl)-2-methoxy-N-[1-(2-phenylethyl)piperidin-4-yl]acetamide"
   },
   "OBSYBRPAKCASQB-AGQYDFLVSA-N": {
     "formula": "C23H28O8",
@@ -817,7 +898,8 @@
     "hbd": 0,
     "hba": 8,
     "complexity": 792.0,
-    "cid": 128563
+    "cid": 128563,
+    "iupac": "methyl (2S,4aR,6aR,7R,9S,10aS,10bR)-9-acetyloxy-2-(furan-3-yl)-6a,10b-dimethyl-4,10-dioxo-2,4a,5,6,7,8,9,10a-octahydro-1H-benzo[f]isochromene-7-carboxylate"
   },
   "OLVLMDVPMCIBQW-UHFFFAOYSA-N": {
     "formula": "C15H19NO3",
@@ -827,7 +909,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 327.0,
-    "cid": 71300672
+    "cid": 71300672,
+    "iupac": "1-(1,3-benzodioxol-5-yl)-2-pyrrolidin-1-ylbutan-1-one"
   },
   "OOJXMFNDUXHDOV-UHFFFAOYSA-N": {
     "formula": "C10H12BrNO",
@@ -837,7 +920,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 176.0,
-    "cid": 10421832
+    "cid": 10421832,
+    "iupac": "1-(4-bromophenyl)-2-(methylamino)propan-1-one"
   },
   "ORADFQZOLNHWRQ-UHFFFAOYSA-N": {
     "formula": "C11H15NO3",
@@ -847,7 +931,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 212.0,
-    "cid": 44350092
+    "cid": 44350092,
+    "iupac": "N-[1-(1,3-benzodioxol-5-yl)propan-2-yl]-N-methylhydroxylamine"
   },
   "OROGSEYTTFOCAN-DNJOTXNNSA-N": {
     "formula": "C18H21NO3",
@@ -857,7 +942,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 509.0,
-    "cid": 5284371
+    "cid": 5284371,
+    "iupac": "(4R,4aR,7S,7aR,12bS)-9-methoxy-3-methyl-2,4,4a,7,7a,13-hexahydro-1H-4,12-methanobenzofuro[3,2-e]isoquinolin-7-ol"
   },
   "PCLITLDOTJTVDJ-UHFFFAOYSA-N": {
     "formula": "C6H8ClNS",
@@ -867,7 +953,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 89.0,
-    "cid": 10783
+    "cid": 10783,
+    "iupac": "5-(2-chloroethyl)-4-methyl-1,3-thiazole"
   },
   "PRGXFAWAMOFULD-UHFFFAOYSA-N": {
     "formula": "C11H15NO",
@@ -877,7 +964,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 179.0,
-    "cid": 56603536
+    "cid": 56603536,
+    "iupac": "2-(methylamino)-1-(2-methylphenyl)propan-1-one"
   },
   "PZTJXZKNTPCPJL-UHFFFAOYSA-N": {
     "formula": "C11H15NO",
@@ -887,7 +975,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 171.0,
-    "cid": 192601
+    "cid": 192601,
+    "iupac": "1-(2,3-dihydro-1-benzofuran-5-yl)propan-2-amine"
   },
   "QARQPIWTMBRJFX-UHFFFAOYSA-N": {
     "formula": "C15H14O3S",
@@ -897,7 +986,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 299.0,
-    "cid": 3085267
+    "cid": 3085267,
+    "iupac": "2-benzhydrylsulfinylacetic acid"
   },
   "QLENKWFQUHHBKZ-UHFFFAOYSA-N": {
     "formula": "C13H20FNO2",
@@ -907,7 +997,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 216.0,
-    "cid": 14201982
+    "cid": 14201982,
+    "iupac": "1-[4-(2-fluoroethyl)-2,5-dimethoxyphenyl]propan-2-amine"
   },
   "QMQBBUPJKANITL-MYXGOWFTSA-N": {
     "formula": "C22H30ClNO2",
@@ -917,7 +1008,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 397.0,
-    "cid": 15424
+    "cid": 15424,
+    "iupac": "[(2S,3R)-4-(dimethylamino)-3-methyl-1,2-diphenylbutan-2-yl] propanoate;hydrochloride"
   },
   "QNMGHBMGNRQPNL-UHFFFAOYSA-N": {
     "formula": "C16H19NO2",
@@ -927,7 +1019,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 213.0,
-    "cid": 36109
+    "cid": 36109,
+    "iupac": "N,N-dimethyl-2,2-diphenoxyethanamine"
   },
   "QYPPJABKJHAVHS-UHFFFAOYSA-N": {
     "formula": "C5H14N4",
@@ -937,7 +1030,8 @@
     "hbd": 3,
     "hba": 2,
     "complexity": 85.0,
-    "cid": 199
+    "cid": 199,
+    "iupac": "2-(4-aminobutyl)guanidine"
   },
   "REOZWEGFPHTFEI-JKSUJKDBSA-N": {
     "formula": "C19H26O2",
@@ -947,7 +1041,8 @@
     "hbd": 2,
     "hba": 2,
     "complexity": 386.0,
-    "cid": 11601669
+    "cid": 11601669,
+    "iupac": "2-[(1R,6R)-3-methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-5-propylbenzene-1,3-diol"
   },
   "RNBCGEIZCHBTGL-UHFFFAOYSA-N": {
     "formula": "C11H14ClNO",
@@ -957,7 +1052,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 188.0,
-    "cid": 31004
+    "cid": 31004,
+    "iupac": "1-(4-chlorophenyl)-2-(ethylamino)propan-1-one"
   },
   "RONZAEMNMFQXRA-UHFFFAOYSA-N": {
     "formula": "C17H19N3",
@@ -967,7 +1063,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 345.0,
-    "cid": 4205
+    "cid": 4205,
+    "iupac": "5-methyl-2,5,19-triazatetracyclo[13.4.0.02,7.08,13]nonadeca-1(15),8,10,12,16,18-hexaene"
   },
   "RQHKZUBCUZVZEF-UHFFFAOYSA-N": {
     "formula": "C19H27NO3",
@@ -977,7 +1074,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 367.0,
-    "cid": 126402
+    "cid": 126402,
+    "iupac": "2-morpholin-4-ylethyl 1-phenylcyclohexane-1-carboxylate"
   },
   "RTZKZFJDLAIYFH-UHFFFAOYSA-N": {
     "formula": "C4H10O",
@@ -987,7 +1085,8 @@
     "hbd": 0,
     "hba": 1,
     "complexity": 11.0,
-    "cid": 3283
+    "cid": 3283,
+    "iupac": "ethoxyethane"
   },
   "RUZIUYOSRDWYQF-HNNXBMFYSA-N": {
     "formula": "C21H25NO4",
@@ -997,7 +1096,8 @@
     "hbd": 0,
     "hba": 5,
     "complexity": 489.0,
-    "cid": 16754
+    "cid": 16754,
+    "iupac": "(6aS)-1,2,9,10-tetramethoxy-6-methyl-5,6,6a,7-tetrahydro-4H-dibenzo[de,g]quinoline"
   },
   "SCUUYKMQDUDNBP-UHFFFAOYSA-N": {
     "formula": "C12H17NO3",
@@ -1007,7 +1107,8 @@
     "hbd": 2,
     "hba": 4,
     "complexity": 212.0,
-    "cid": 21645837
+    "cid": 21645837,
+    "iupac": "2-[1-(1,3-benzodioxol-5-yl)propan-2-ylamino]ethanol"
   },
   "SEQDDYPDSLOBDC-UHFFFAOYSA-N": {
     "formula": "C16H13ClN2O2",
@@ -1017,7 +1118,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 434.0,
-    "cid": 5391
+    "cid": 5391,
+    "iupac": "7-chloro-3-hydroxy-1-methyl-5-phenyl-3H-1,4-benzodiazepin-2-one"
   },
   "SFNKTTXBZXVGOH-UHFFFAOYSA-N": {
     "formula": "C21H27N3O",
@@ -1027,7 +1129,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 379.0,
-    "cid": 26412
+    "cid": 26412,
+    "iupac": "N,N-diethyl-2-[2-[(4-methoxyphenyl)methyl]benzimidazol-1-yl]ethanamine"
   },
   "SIDLZWOQUZRBRU-UHFFFAOYSA-N": {
     "formula": "C10H17NO2",
@@ -1037,7 +1140,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 231.0,
-    "cid": 4162
+    "cid": 4162,
+    "iupac": "3,3-diethyl-5-methylpiperidine-2,4-dione"
   },
   "SKEOVGLOOAJSTG-UHFFFAOYSA-N": {
     "formula": "C21H27ClN2O8S2",
@@ -1047,7 +1151,8 @@
     "hbd": 4,
     "hba": 10,
     "complexity": 735.0,
-    "cid": 68431515
+    "cid": 68431515,
+    "iupac": "7-[(3-chloro-6-methyl-5,5-dioxo-11H-benzo[c][2,1]benzothiazepin-11-yl)amino]heptanoic acid;sulfuric acid"
   },
   "SUVMJBTUFCVSAD-UHFFFAOYSA-N": {
     "formula": "C6H11NOS2",
@@ -1057,7 +1162,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 152.0,
-    "cid": 5350
+    "cid": 5350,
+    "iupac": "1-isothiocyanato-4-methylsulfinylbutane"
   },
   "SUXGNJVVBGJEFB-UHFFFAOYSA-N": {
     "formula": "C18H22BrNO3",
@@ -1067,7 +1173,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 331.0,
-    "cid": 9977044
+    "cid": 9977044,
+    "iupac": "2-(4-bromo-2,5-dimethoxyphenyl)-N-[(2-methoxyphenyl)methyl]ethanamine"
   },
   "SXWZQUCTTOBHJT-UHFFFAOYSA-N": {
     "formula": "C10H13N",
@@ -1077,7 +1184,8 @@
     "hbd": 1,
     "hba": 1,
     "complexity": 119.0,
-    "cid": 15023225
+    "cid": 15023225,
+    "iupac": "N-methyl-2,3-dihydro-1H-inden-2-amine"
   },
   "SYHGEUNFJIGTRX-UHFFFAOYSA-N": {
     "formula": "C16H21NO3",
@@ -1087,7 +1195,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 341.0,
-    "cid": 20111961
+    "cid": 20111961,
+    "iupac": "1-(1,3-benzodioxol-5-yl)-2-pyrrolidin-1-ylpentan-1-one"
   },
   "TVSIMAWGATVNGK-UHFFFAOYSA-N": {
     "formula": "C12H19NO3",
@@ -1097,7 +1206,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 201.0,
-    "cid": 31014
+    "cid": 31014,
+    "iupac": "1-(2,4,5-trimethoxyphenyl)propan-2-amine"
   },
   "TWYFGYXQSYOKLK-CYUSMAIQSA-N": {
     "formula": "C17H19N3O6",
@@ -1107,7 +1217,8 @@
     "hbd": 5,
     "hba": 9,
     "complexity": 388.0,
-    "cid": 6918678
+    "cid": 6918678,
+    "iupac": "(2R,3R)-2,3-dihydroxybutanedioic acid;(1S,12R)-5,8,14-triazatetracyclo[10.3.1.02,11.04,9]hexadeca-2,4,6,8,10-pentaene"
   },
   "UBZPNQRBUOBBLN-PWRODBHTSA-N": {
     "formula": "C25H29N3O8",
@@ -1117,7 +1228,8 @@
     "hbd": 2,
     "hba": 8,
     "complexity": 767.0,
-    "cid": 134823895
+    "cid": 134823895,
+    "iupac": "(2S)-3-hydroxy-2-[[1-[[(2R)-2-[(1R)-2-methoxy-2-oxo-1-phenylethyl]piperidine-1-carbonyl]oxymethyl]pyridin-1-ium-3-carbonyl]amino]propanoate"
   },
   "UCHDWCPVSPXUMX-TZIWLTJVSA-N": {
     "formula": "C35H36ClNO3S",
@@ -1127,7 +1239,8 @@
     "hbd": 2,
     "hba": 5,
     "complexity": 891.0,
-    "cid": 5281040
+    "cid": 5281040,
+    "iupac": "2-[1-[[(1R)-1-[3-[(E)-2-(7-chloroquinolin-2-yl)ethenyl]phenyl]-3-[2-(2-hydroxypropan-2-yl)phenyl]propyl]sulfanylmethyl]cyclopropyl]acetic acid"
   },
   "UHVGPEBZWPKWNT-UHFFFAOYSA-N": {
     "formula": "C10H12ClNO",
@@ -1137,7 +1250,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 184.0,
-    "cid": 112693018
+    "cid": 112693018,
+    "iupac": "1-(2-chlorophenyl)-2-(methylamino)propan-1-one"
   },
   "UJOZERYNSXXQRD-UHFFFAOYSA-N": {
     "formula": "C14H16N2O",
@@ -1147,7 +1261,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 478.0,
-    "cid": 155884859
+    "cid": 155884859,
+    "iupac": "3-[2-[cyclopropyl(methyl)amino]ethyl]indol-4-one"
   },
   "UMSGKTJDUHERQW-UHFFFAOYSA-N": {
     "formula": "C15H10BrClN4S",
@@ -1157,7 +1272,8 @@
     "hbd": 0,
     "hba": 4,
     "complexity": 465.0,
-    "cid": 2451
+    "cid": 2451,
+    "iupac": "4-bromo-7-(2-chlorophenyl)-13-methyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.02,6]trideca-2(6),4,7,10,12-pentaene"
   },
   "UOZWZANRCOALQL-UHFFFAOYSA-N": {
     "formula": "C16H23NO",
@@ -1167,7 +1283,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 262.0,
-    "cid": 59809191
+    "cid": 59809191,
+    "iupac": "4-methyl-1-phenyl-2-pyrrolidin-1-ylpentan-1-one"
   },
   "UQCNKQCJZOAFTQ-ISWURRPUSA-N": {
     "formula": "C17H19NO4",
@@ -1177,7 +1294,8 @@
     "hbd": 2,
     "hba": 5,
     "complexity": 539.0,
-    "cid": 5284604
+    "cid": 5284604,
+    "iupac": "(4R,4aS,7aR,12bS)-4a,9-dihydroxy-3-methyl-2,4,5,6,7a,13-hexahydro-1H-4,12-methanobenzofuro[3,2-e]isoquinolin-7-one"
   },
   "USSIQXCVUWKGNF-UHFFFAOYSA-N": {
     "formula": "C21H27NO",
@@ -1187,7 +1305,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 346.0,
-    "cid": 4095
+    "cid": 4095,
+    "iupac": "6-(dimethylamino)-4,4-diphenylheptan-3-one"
   },
   "UVKZSORBKUEBAZ-UHFFFAOYSA-N": {
     "formula": "C18H22N2",
@@ -1197,7 +1316,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 253.0,
-    "cid": 6726
+    "cid": 6726,
+    "iupac": "1-benzhydryl-4-methylpiperazine"
   },
   "UYXAWHWODHRRMR-UHFFFAOYSA-N": {
     "formula": "C12H16N2O3",
@@ -1207,7 +1327,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 427.0,
-    "cid": 3608
+    "cid": 3608,
+    "iupac": "5-(cyclohexen-1-yl)-1,5-dimethyl-1,3-diazinane-2,4,6-trione"
   },
   "VERDHJIMZYXGIW-UHFFFAOYSA-N": {
     "formula": "C14H19NO3",
@@ -1217,7 +1338,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 282.0,
-    "cid": 57359308
+    "cid": 57359308,
+    "iupac": "1-(1,3-benzodioxol-5-yl)-2-(ethylamino)pentan-1-one"
   },
   "VHYVKJAQSJCYCK-UHFFFAOYSA-N": {
     "formula": "C11H14FNO",
@@ -1227,7 +1349,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 188.0,
-    "cid": 54673723
+    "cid": 54673723,
+    "iupac": "2-(3-fluorophenyl)-3-methylmorpholine"
   },
   "VIROVYVQCGLCII-UHFFFAOYSA-N": {
     "formula": "C11H18N2O3",
@@ -1237,7 +1360,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 303.0,
-    "cid": 2164
+    "cid": 2164,
+    "iupac": "5-ethyl-5-(3-methylbutyl)-1,3-diazinane-2,4,6-trione"
   },
   "VLEUZFDZJKSGMX-ONEGZZNKSA-N": {
     "formula": "C16H16O3",
@@ -1247,7 +1371,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 270.0,
-    "cid": 5281727
+    "cid": 5281727,
+    "iupac": "4-[(E)-2-(3,5-dimethoxyphenyl)ethenyl]phenol"
   },
   "VOKSWYLNZZRQPF-GDIGMMSISA-N": {
     "formula": "C19H27NO",
@@ -1257,7 +1382,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 414.0,
-    "cid": 441278
+    "cid": 441278,
+    "iupac": "(1R,9R,13R)-1,13-dimethyl-10-(3-methylbut-2-enyl)-10-azatricyclo[7.3.1.02,7]trideca-2(7),3,5-trien-4-ol"
   },
   "VVEQXDHSGNBFLZ-UHFFFAOYSA-N": {
     "formula": "C16H24N2O",
@@ -1267,7 +1393,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 269.0,
-    "cid": 53485366
+    "cid": 53485366,
+    "iupac": "N-ethyl-N-[2-(5-methoxy-1H-indol-3-yl)ethyl]propan-2-amine"
   },
   "WDEFBBTXULIOBB-WBVHZDCISA-N": {
     "formula": "C17H23NO2",
@@ -1277,7 +1404,8 @@
     "hbd": 0,
     "hba": 3,
     "complexity": 358.0,
-    "cid": 30131
+    "cid": 30131,
+    "iupac": "ethyl (1S,2R)-2-(dimethylamino)-1-phenylcyclohex-3-ene-1-carboxylate"
   },
   "WEXRUCMBJFQVBZ-UHFFFAOYSA-N": {
     "formula": "C11H18N2O3",
@@ -1287,7 +1415,8 @@
     "hbd": 2,
     "hba": 3,
     "complexity": 305.0,
-    "cid": 4737
+    "cid": 4737,
+    "iupac": "5-ethyl-5-pentan-2-yl-1,3-diazinane-2,4,6-trione"
   },
   "WJSIUCDMWSDDCE-UHFFFAOYSA-K": {
     "formula": "C6H5Li3O7",
@@ -1297,7 +1426,8 @@
     "hbd": 1,
     "hba": 7,
     "complexity": 211.0,
-    "cid": 13520
+    "cid": 13520,
+    "iupac": "trilithium;2-hydroxypropane-1,2,3-tricarboxylate"
   },
   "WVLOADHCBXTIJK-YNHQPCIGSA-N": {
     "formula": "C17H19NO3",
@@ -1307,7 +1437,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 494.0,
-    "cid": 5284570
+    "cid": 5284570,
+    "iupac": "(4R,4aR,7aR,12bS)-9-hydroxy-3-methyl-1,2,4,4a,5,6,7a,13-octahydro-4,12-methanobenzofuro[3,2-e]isoquinolin-7-one"
   },
   "WVOLTBSCXRRQFR-DLBZAZTESA-N": {
     "formula": "C22H30O4",
@@ -1317,7 +1448,8 @@
     "hbd": 3,
     "hba": 4,
     "complexity": 538.0,
-    "cid": 160570
+    "cid": 160570,
+    "iupac": "2,4-dihydroxy-3-[(1R,6R)-3-methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-6-pentylbenzoic acid"
   },
   "XAXMYHMKTCNRRZ-UHFFFAOYSA-N": {
     "formula": "C18H13ClFN3O2",
@@ -1327,7 +1459,8 @@
     "hbd": 1,
     "hba": 5,
     "complexity": 590.0,
-    "cid": 3033621
+    "cid": 3033621,
+    "iupac": "3-[7-chloro-5-(2-fluorophenyl)-3-hydroxy-2-oxo-3H-1,4-benzodiazepin-1-yl]propanenitrile"
   },
   "XEEQGYMUWCZPDN-UHFFFAOYSA-N": {
     "formula": "C17H16F6N2O",
@@ -1337,7 +1470,8 @@
     "hbd": 2,
     "hba": 9,
     "complexity": 483.0,
-    "cid": 4046
+    "cid": 4046,
+    "iupac": "[2,8-bis(trifluoromethyl)quinolin-4-yl]-piperidin-2-ylmethanol"
   },
   "XISBAJBPDVRSPG-CHWSQXEVSA-N": {
     "formula": "C14H18FNO2",
@@ -1347,7 +1481,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 277.0,
-    "cid": 52944002
+    "cid": 52944002,
+    "iupac": "methyl (2R)-2-(4-fluorophenyl)-2-[(2R)-piperidin-2-yl]acetate"
   },
   "XPMMBFIMXKSQIQ-UHFFFAOYSA-N": {
     "formula": "C13H16BrNO",
@@ -1357,7 +1492,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 269.0,
-    "cid": 71588007
+    "cid": 71588007,
+    "iupac": "2-(2-bromophenyl)-2-(methylamino)cyclohexan-1-one"
   },
   "XTXXOHPHLNROBN-UHFFFAOYSA-N": {
     "formula": "C6H8N2O2",
@@ -1367,7 +1503,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 202.0,
-    "cid": 65955
+    "cid": 65955,
+    "iupac": "3,6,7,7a-tetrahydro-1H-pyrrolo[1,2-a]imidazole-2,5-dione"
   },
   "XUGPCRRUMVWELT-UHFFFAOYSA-N": {
     "formula": "C13H21NO2",
@@ -1377,7 +1514,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 196.0,
-    "cid": 57474311
+    "cid": 57474311,
+    "iupac": "2-(2,5-dimethoxy-4-propan-2-ylphenyl)ethanamine"
   },
   "XXLWNLKEOWWHDC-UHFFFAOYSA-N": {
     "formula": "C10H14ClN",
@@ -1387,7 +1525,8 @@
     "hbd": 1,
     "hba": 1,
     "complexity": 119.0,
-    "cid": 3128
+    "cid": 3128,
+    "iupac": "1-(4-chlorophenyl)-N-methylpropan-2-amine"
   },
   "YAPQBXQYLJRXSA-UHFFFAOYSA-N": {
     "formula": "C7H8N4O2",
@@ -1397,7 +1536,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 267.0,
-    "cid": 5429
+    "cid": 5429,
+    "iupac": "3,7-dimethylpurine-2,6-dione"
   },
   "YCIHPQHVWDULOY-FMZCEJRJSA-N": {
     "formula": "C22H25ClN2O8",
@@ -1407,7 +1547,8 @@
     "hbd": 7,
     "hba": 9,
     "complexity": 971.0,
-    "cid": 54704426
+    "cid": 54704426,
+    "iupac": "(4S,4aS,5aS,6S,12aR)-4-(dimethylamino)-1,6,10,11,12a-pentahydroxy-6-methyl-3,12-dioxo-4,4a,5,5a-tetrahydrotetracene-2-carboxamide;hydrochloride"
   },
   "YLXBZBPHTNJZQE-UHFFFAOYSA-N": {
     "formula": "C33H45N5O5",
@@ -1417,7 +1558,8 @@
     "hbd": 3,
     "hba": 6,
     "complexity": 1180.0,
-    "cid": 592735
+    "cid": 592735,
+    "iupac": "N-[2-hydroxy-7-(2-methylbutan-2-yl)-5,8-dioxo-4-propan-2-yl-3-oxa-6,9-diazatricyclo[7.3.0.02,6]dodecan-4-yl]-7-methyl-6,6a,8,9,10,10a-hexahydro-4H-indolo[4,3-fg]quinoline-9-carboxamide"
   },
   "YWPHCCPCQOJSGZ-UHFFFAOYSA-N": {
     "formula": "C13H19NO3",
@@ -1427,7 +1569,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 213.0,
-    "cid": 5666
+    "cid": 5666,
+    "iupac": "2-[(2-ethoxyphenoxy)methyl]morpholine"
   },
   "YZDFADGMVOSVIX-UHFFFAOYSA-N": {
     "formula": "C12H14BrNO2",
@@ -1437,7 +1580,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 263.0,
-    "cid": 10265873
+    "cid": 10265873,
+    "iupac": "2-(4-bromo-2,3,6,7-tetrahydrofuro[2,3-f][1]benzofuran-8-yl)ethanamine"
   },
   "ZAFYATHCZYHLPB-UHFFFAOYSA-N": {
     "formula": "C19H21N3O",
@@ -1447,7 +1591,8 @@
     "hbd": 0,
     "hba": 2,
     "complexity": 417.0,
-    "cid": 5732
+    "cid": 5732,
+    "iupac": "N,N-dimethyl-2-[6-methyl-2-(4-methylphenyl)imidazo[1,2-a]pyridin-3-yl]acetamide"
   },
   "ZEHYJZXQEQOSON-UHFFFAOYSA-N": {
     "formula": "C7H9ClO",
@@ -1457,7 +1602,8 @@
     "hbd": 1,
     "hba": 1,
     "complexity": 154.0,
-    "cid": 3281
+    "cid": 3281,
+    "iupac": "1-chloro-3-ethylpent-1-en-4-yn-3-ol"
   },
   "ZESNOWZYHYRSRY-UHFFFAOYSA-N": {
     "formula": "C15H15NO3S",
@@ -1467,7 +1613,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 397.0,
-    "cid": 6460146
+    "cid": 6460146,
+    "iupac": "2-benzhydrylsulfonylacetamide"
   },
   "ZIMGGGWCDYVHOY-UHFFFAOYSA-N": {
     "formula": "C9H15N5O",
@@ -1477,7 +1624,8 @@
     "hbd": 3,
     "hba": 3,
     "complexity": 329.0,
-    "cid": 4201
+    "cid": 4201,
+    "iupac": "3-hydroxy-2-imino-6-piperidin-1-ylpyrimidin-4-amine"
   },
   "ZIXNZOBDFKSQTC-UHFFFAOYSA-N": {
     "formula": "C17H14Cl2N2O2",
@@ -1487,7 +1635,8 @@
     "hbd": 1,
     "hba": 3,
     "complexity": 478.0,
-    "cid": 2816
+    "cid": 2816,
+    "iupac": "10-chloro-11b-(2-chlorophenyl)-2,3,5,7-tetrahydro-[1,3]oxazolo[3,2-d][1,4]benzodiazepin-6-one"
   },
   "ZPXSCAKFGYXMGA-UHFFFAOYSA-N": {
     "formula": "C16H13ClN2O",
@@ -1497,7 +1646,8 @@
     "hbd": 1,
     "hba": 2,
     "complexity": 419.0,
-    "cid": 4020
+    "cid": 4020,
+    "iupac": "5-(4-chlorophenyl)-2,3-dihydroimidazo[1,2-b]isoindol-5-ol"
   },
   "ZQDWXGKKHFNSQK-UHFFFAOYSA-N": {
     "formula": "C21H27ClN2O2",
@@ -1507,7 +1657,8 @@
     "hbd": 1,
     "hba": 4,
     "complexity": 376.0,
-    "cid": 3658
+    "cid": 3658,
+    "iupac": "2-[2-[4-[(4-chlorophenyl)-phenylmethyl]piperazin-1-yl]ethoxy]ethanol"
   },
   "ZRJBHWIHUMBLCN-YQEJDHNASA-N": {
     "formula": "C15H18N2O",
@@ -1517,6 +1668,7 @@
     "hbd": 2,
     "hba": 2,
     "complexity": 551.0,
-    "cid": 854026
+    "cid": 854026,
+    "iupac": "(1R,9R,13E)-1-amino-13-ethylidene-11-methyl-6-azatricyclo[7.3.1.02,7]trideca-2(7),3,10-trien-5-one"
   }
 }

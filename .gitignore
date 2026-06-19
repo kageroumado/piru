@@ -57,3 +57,6 @@ data/enrichment/coverage.csv
 
 # Local archives / exports (not source)
 Exports/
+
+# Regenerable substance audit dump (script: PiruTests/SubstanceAuditExportTests.swift)
+Audits/
