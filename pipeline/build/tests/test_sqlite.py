@@ -1202,19 +1202,22 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             self.assertIsNotNone(row, f"{parent}: no rank-0 default salt row")
             self.assertEqual(row["salt_form"], expected_default)
 
-    def test_every_salt_dose_row_has_rank_and_elemental(self):
-        """No salt-tagged dose row may ship with a NULL rank or elemental fraction
-        — the build's coverage gate guarantees curated metadata for each."""
+    def test_every_salt_dose_row_has_rank(self):
+        """Every salt-tagged dose row carries a non-null salt_rank — the universal
+        default-form intent that applies to any salt (mineral or drug). The
+        build's coverage gate guarantees it. `elemental_fraction` is a
+        mineral-only enrichment, decoupled from the salt concept: it is
+        legitimately NULL for drug salts (Tianeptine sulfate, future benzofuran
+        HCl/fumarate variants) and is range-checked separately where present."""
         rows = self.db.execute(
             "select s.canonical_name, d.salt_form from dose_ranges d "
             "join substances s on s.id=d.substance_id "
-            "where d.salt_form is not null "
-            "and (d.salt_rank is null or d.elemental_fraction is null)"
+            "where d.salt_form is not null and d.salt_rank is null"
         ).fetchall()
         self.assertEqual(
             [(r["canonical_name"], r["salt_form"]) for r in rows],
             [],
-            "salt-tagged dose rows missing rank/elemental",
+            "salt-tagged dose rows missing rank",
         )
 
     def test_elemental_fraction_in_expected_range(self):
@@ -1454,12 +1457,30 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
 
     def test_no_chemnoise_aliases_survive(self):
         """The post-dedup purge should leave zero IUPAC/salt-form chemistry-noise
-        aliases in the shipped table (the Library alias subtitle stays clean)."""
-        survivors = [
-            r["alias"]
-            for r in self.db.execute("select alias from aliases")
-            if is_chemnoise_alias(r["alias"])
-        ]
+        aliases in the shipped table (the Library alias subtitle stays clean).
+
+        Exception: a salt-form variant name like "Tianeptine sulfate" is a real,
+        searchable name when the substance genuinely ships that salt — those are
+        deliberately protected, not noise. Salt and mineral are decoupled, so a
+        substance carrying a `sulfate`/`hydrobromide` form keeps its qualified
+        alias even though the bare suffix reads as chemnoise in isolation."""
+        salt_forms: dict[str, set[str]] = {}
+        for r in self.db.execute(
+            "select s.canonical_name c, lower(d.salt_form) sf from dose_ranges d "
+            "join substances s on s.id=d.substance_id where d.salt_form is not null"
+        ):
+            salt_forms.setdefault(r["c"], set()).add(r["sf"])
+        survivors = []
+        for r in self.db.execute(
+            "select s.canonical_name c, a.alias al from aliases a "
+            "join substances s on s.id=a.substance_id"
+        ):
+            al = r["al"]
+            if not is_chemnoise_alias(al):
+                continue
+            if any(al.lower().rstrip().endswith(sf) for sf in salt_forms.get(r["c"], ())):
+                continue  # legitimate "<substance> <salt-form>" variant name
+            survivors.append(al)
         self.assertEqual(survivors, [], f"chemnoise aliases survived the purge: {survivors[:10]}")
 
 
