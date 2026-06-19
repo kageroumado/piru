@@ -20,6 +20,21 @@ enum GraphMetrics {
     static let embedded: CGFloat = 168
 }
 
+/// UserDefaults keys, defaults, and bounds for the lane-mode ("small multiples")
+/// preference. One source of truth so the Settings UI, the host views that size
+/// the graph card, and the graph's own gate all agree. Stored in the app group
+/// suite so the widget/Live Activity honor the same choice as the main app.
+enum LaneModeDefaults {
+    static let suite = "group.dev.yumeji.piru"
+    static let enabledKey = "stackedLanesEnabled"
+    static let thresholdKey = "laneModeThreshold"
+    static let enabledDefault = true
+    static let thresholdDefault = 4
+    /// Allowed stepper range — needs ≥2 distinct substances before lanes mean
+    /// anything, and beyond ~8 the day is busy by any measure.
+    static let thresholdRange = 2 ... 8
+}
+
 /// A dose without duration data, shown as a timestamp marker on the graph.
 struct DoseMarker: Hashable {
     let substanceName: String
@@ -368,11 +383,16 @@ struct TimelineGraphView: View, Equatable {
         return substances.isEmpty || markers.count <= Self.maxCompactMarkers
     }
 
-    /// At or above this many distinct substances, overlapping translucent fills
-    /// stop conveying information and collapse into curve soup — so a day this
-    /// busy renders as stacked per-substance lanes (small multiples) instead.
-    /// Internal so hosts can size the graph to keep each lane readable.
-    static let laneModeThreshold: Int = 4
+    /// Whether stacked lanes are used at all (user-toggleable). When off, busy
+    /// days always overlay every curve on one graph regardless of substance count.
+    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite))
+    private var laneModeEnabled = LaneModeDefaults.enabledDefault
+
+    /// Distinct-substance count at or above which overlapping translucent fills
+    /// collapse into curve soup, so the day renders as stacked per-substance
+    /// lanes (small multiples) instead. User-configurable.
+    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite))
+    private var laneModeThreshold = LaneModeDefaults.thresholdDefault
 
     /// Distinct substances drawn on the graph (by lowercased name).
     private var distinctSubstanceCount: Int {
@@ -381,9 +401,10 @@ struct TimelineGraphView: View, Equatable {
 
     /// Switch a busy day from overlapping curves to stacked lanes. Gated to the
     /// roomy day surfaces (`dayBounded`, non-compact) — thumbnails stay a glance
-    /// of texture, and the live accessory keeps its single-baseline look.
+    /// of texture, and the live accessory keeps its single-baseline look — and to
+    /// the user's lane-mode preference.
     private var laneMode: Bool {
-        !compact && dayBounded && distinctSubstanceCount >= Self.laneModeThreshold
+        laneModeEnabled && !compact && dayBounded && distinctSubstanceCount >= laneModeThreshold
     }
 
     /// One lane per distinct substance, in first-dose order, carrying every dose

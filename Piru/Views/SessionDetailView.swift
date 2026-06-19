@@ -21,6 +21,8 @@ struct SessionDetailView: View {
         session.startDate
     }
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
+    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
 
     /// The session immediately before this one in time — the target for
     /// "Merge with previous".
@@ -84,7 +86,7 @@ struct SessionDetailView: View {
     /// a very busy day still fits a scrollable card.
     private func graphHeight(enlarged: Bool) -> CGFloat {
         let base = enlarged ? Self.enlargedGraphHeight : GraphMetrics.embedded
-        guard laneCount >= TimelineGraphView.laneModeThreshold else { return base }
+        guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
         let perLane: CGFloat = enlarged ? 46 : 32
         let axisOverhead: CGFloat = 40
         let ideal = CGFloat(laneCount) * perLane + axisOverhead
