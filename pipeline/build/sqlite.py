@@ -1475,8 +1475,35 @@ def apply_pubchem_computed(con, props: dict, ik_props: dict | None = None) -> di
     return applied
 
 
+# Capital Greek letters that are pixel-identical to Latin capitals. Genuine
+# chemical nomenclature uses *lowercase* α/β/γ locants; a CAPITAL Greek letter
+# inside a name is always an encoding/data-entry error for the Latin capital
+# (e.g. "ΑMT" → AMT, "ΒK-2C-B" → BK-2C-B). Folding these *before* casefolding
+# collapses the look-alike duplicates while leaving legitimate lowercase α/β
+# nomenclature (α-PVP, βH-2C-B) untouched.
+_GREEK_CAPS_TO_LATIN = str.maketrans(
+    {
+        "Α": "A",
+        "Β": "B",
+        "Ε": "E",
+        "Ζ": "Z",
+        "Η": "H",
+        "Ι": "I",
+        "Κ": "K",
+        "Μ": "M",
+        "Ν": "N",
+        "Ο": "O",
+        "Ρ": "P",
+        "Τ": "T",
+        "Υ": "Y",
+        "Χ": "X",
+    }
+)
+
+
 def normalise(s: str) -> str:
-    s = unicodedata.normalize("NFKD", s or "").lower().strip()
+    s = (s or "").translate(_GREEK_CAPS_TO_LATIN)
+    s = unicodedata.normalize("NFKD", s).lower().strip()
     s = re.sub(r"^\(\s*[+\-±rs]\s*\)\s*-?\s*", "", s)
     s = re.sub(
         r"\s*[·.]?\s*(hcl|hydrochloride|sulfate|sulphate|fumarate|tartrate|maleate|mesylate|citrate|hbr|hydrobromide)\s*$",
@@ -2496,6 +2523,37 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # (BAHANNQVCQDQQT, the correct key). Fold the stub into the correctly-keyed
     # canonical; display stays "2-FDCK" via its display_name.
     ("2-FDCK", "2-Fluorodeschloroketamine", True),
+    # "MAL" is the Erowid PIHKAL Part 2 shorthand for Methallylescaline. The
+    # PIHKAL record is a structure-less stub (no InChIKey/SMILES), so the
+    # alias-linked union-find (Methallylescaline already lists "mal") never had
+    # the structural proof mergeable() requires. Fold the stub's PIHKAL dose/
+    # duration into the full-data record; "MAL" survives as an alias.
+    ("MAL", "Methallylescaline", True),
+    # Same-InChIKey connectivity-block duplicates that dedup left split because
+    # BOTH rows carry their own dose/duration (the auto-merge gate only folds a
+    # data-poor stub, never two data-rich rows). All verified same molecule.
+    ("2-Bromodeschloroketamine", "Bromoketamine", True),  # XPMMBFIMXKSQIQ
+    ("Phenazolam", "Clobromazolam", True),  # BUTCFAZTKZDYCN (phenazolam = vendor name)
+    ("Sonata", "Zaleplon", True),  # HUNXMJYCHXQEGX (brand → generic)
+    ("N,N-diethyltryptamine", "DET", True),  # LSSUMOWDTKZHHT
+    ("3-Fluorophenmetrazine", "3-FPM", True),  # VHYVKJAQSJCYCK
+    ("Eticyclidone", "O-pce", True),  # IDLSBAANXISGEI
+    ("4-Fluoromethylphenidate", "4F-MPH", True),  # XISBAJBPDVRSPG
+    # Name-variant duplicates (abbreviation / brand / INN / vitamer / dev-code)
+    # the structural pass missed — different or absent InChIKeys.
+    ("4-MTA", "4-Methylthioamphetamine", True),  # 4-MTA stub carried a wrong key
+    ("Albuterol", "Salbutamol", True),  # US adopted name → INN
+    ("Cyanocobalamin", "Vitamin B12", True),
+    ("Thiamine", "Vitamin B1", True),
+    ("Tryptophan", "L-Tryptophan", True),
+    ("Valproic Acid", "Valproate", True),
+    ("SEP-225289", "Dasotraline", True),  # development code → name
+    ("Etazene", "Etodesnitazene", True),
+    ("4-CMA", "4-Chloromethamphetamine", True),
+    ("Mexamine", "5-Methoxytryptamine", True),
+    # Greek/Latin spelling variant the capital-Greek normalise() fold can't
+    # reach (βH spelled out as "BOH"). Keep the curated β-hydroxy canonical.
+    ("BOH-2C-B", "βH-2C-B", True),
 ]
 
 # Do-NOT-merge pairs: distinct compounds whose source InChIKeys collide on the
@@ -2534,7 +2592,7 @@ _CANONICAL_CASE: dict[str, str] = {
     # digit so chem_caps skips it; bare 2C-B/2C-I arrive cased from source).
     "bk-2c-b": "bk-2C-B",
     "bk-2c-i": "bk-2C-I",
-    "βh-2c-b": "βH-2C-B",  # β-hydroxy-2C-B
+    "bh-2c-b": "βH-2C-B",  # β-hydroxy-2C-B (capital-Β source folds to a Latin key)
     # Cathinones / piperazines / RCs whose lowercase-from-source names get
     # title-cased to "Mdpv"/"Bzp" — these are acronyms and read ALL CAPS.
     "mdpv": "MDPV",
@@ -2913,6 +2971,10 @@ class Build:
         name = (name or "").strip()
         if not name:
             return None
+        # Fold capital-Greek look-alikes (ΑMT → AMT) in the *display* name too,
+        # not just the dedup key, so whichever source lands first the survivor
+        # shows the Latin spelling. Lowercase α/β are left as-authored.
+        name = name.translate(_GREEK_CAPS_TO_LATIN)
         # Single choke-point for blocking IUPAC chemistry noise from any
         # ingester (wikidata SPARQL, drug.community, enrichment).
         if is_chemistry_noise(name):
@@ -5289,6 +5351,27 @@ class Build:
             for a in laliases:
                 self._add_alias(winner, a, None)
 
+    def fold_greek_capital_display_names(self) -> int:
+        """Catch-all for canonical names that reached the table without passing
+        through upsert_substance's capital-Greek fold (some rows are seeded /
+        renamed straight from source). Their normalized_name is already Latin —
+        only the *display* kept the look-alike. Capital Greek is never valid in a
+        chemical name; lowercase α/β locants are deliberately left untouched."""
+        fixed = 0
+        for sid, cname in self.cur.execute("SELECT id, canonical_name FROM substances").fetchall():
+            folded = cname.translate(_GREEK_CAPS_TO_LATIN)
+            if folded == cname:
+                continue
+            try:
+                self.cur.execute(
+                    "UPDATE substances SET canonical_name=?, normalized_name=? WHERE id=?",
+                    (folded, normalise(folded), sid),
+                )
+                fixed += 1
+            except sqlite3.IntegrityError:
+                pass  # a Latin twin already owns this name; dedup folds the pair
+        return fixed
+
     def apply_forced_merges(self) -> dict[str, int]:
         """Consolidate the verified same-compound clusters in _FORCE_MERGE that
         structural auto-dedup can't reach (different/absent InChIKeys). Resolves
@@ -6316,6 +6399,12 @@ def main() -> int:
     # arrived from different sources and never matched. Must run after all
     # ingest so both members exist, and before classify so the survivor is
     # classified once.
+    # De-Greek any capital-Greek look-alike that slipped into a canonical_name
+    # via a non-upsert path (ΑMT → AMT). Runs before dedup so a de-Greeked name
+    # that now equals a Latin twin can merge.
+    greeked = build.fold_greek_capital_display_names()
+    print(f"Greek-capital display fold: {greeked}", file=sys.stderr)
+
     deduped = build.dedup_substances()
     print(f"Substance dedup: {deduped}", file=sys.stderr)
 
