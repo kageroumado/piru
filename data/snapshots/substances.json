@@ -28173,39 +28173,6 @@
     ]
   },
   {
-    "name": "Dexedrine",
-    "display_name": "",
-    "aliases": [
-      "dexamfetamine",
-      "dextroamphetamine"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "brand-of-dextroamphetamine",
-      "habit-forming"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Dexlansoprazole",
     "display_name": "",
     "aliases": [
@@ -28325,7 +28292,9 @@
       "NDRI",
       "TAAR1",
       "TAAR1-agonist",
+      "brand-of-dextroamphetamine",
       "class:substituted phenethylamines",
+      "habit-forming",
       "no-human-data",
       "phenethylamine",
       "stimulant"
