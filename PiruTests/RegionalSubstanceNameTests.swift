@@ -11,11 +11,33 @@ struct RegionalSubstanceNameTests {
     }
 
     @Test
-    func `Non-US region shows the international name`() {
+    func `Canada and Japan follow US adopted names`() {
+        for region in ["CA", "JP"] {
+            #expect(RegionalSubstanceName.resolve(canonicalName: "Acetaminophen", region: region) == "Acetaminophen")
+            #expect(RegionalSubstanceName.resolve(canonicalName: "Epinephrine", region: region) == "Epinephrine")
+            #expect(RegionalSubstanceName.resolve(canonicalName: "Norepinephrine", region: region) == "Norepinephrine")
+            // …but Albuterol is US-only; CA/JP keep the INN Salbutamol.
+            #expect(RegionalSubstanceName.resolve(canonicalName: "Salbutamol", region: region) == "Salbutamol")
+        }
+    }
+
+    @Test
+    func `Rest of the world shows the international name`() {
         #expect(RegionalSubstanceName.resolve(canonicalName: "Acetaminophen", region: "GB") == "Paracetamol")
         #expect(RegionalSubstanceName.resolve(canonicalName: "Salbutamol", region: "GB") == "Salbutamol")
         #expect(RegionalSubstanceName.resolve(canonicalName: "Epinephrine", region: "AU") == "Adrenaline")
         #expect(RegionalSubstanceName.resolve(canonicalName: "Norepinephrine", region: "DE") == "Noradrenaline")
+    }
+
+    @Test
+    func `Estradiol is the inverse — Oestradiol only in the UK and Commonwealth`() {
+        // US and most of the world use the INN "Estradiol"…
+        #expect(RegionalSubstanceName.resolve(canonicalName: "Estradiol", region: "US") == "Estradiol")
+        #expect(RegionalSubstanceName.resolve(canonicalName: "Estradiol", region: "FR") == "Estradiol")
+        #expect(RegionalSubstanceName.resolve(canonicalName: "Estradiol", region: "JP") == "Estradiol")
+        // …only the UK and Commonwealth keep "Oestradiol".
+        #expect(RegionalSubstanceName.resolve(canonicalName: "Estradiol", region: "GB") == "Oestradiol")
+        #expect(RegionalSubstanceName.resolve(canonicalName: "Estradiol", region: "AU") == "Oestradiol")
     }
 
     @Test
