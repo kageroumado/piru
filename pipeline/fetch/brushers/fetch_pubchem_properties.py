@@ -52,7 +52,7 @@ OUT_IK = REPO / "data/sources/pubchem-properties-by-inchikey.json"
 
 BASE = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid"
 BASE_IK = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchikey"
-PROPS = "MolecularFormula,MolecularWeight,XLogP,TPSA,HBondDonorCount,HBondAcceptorCount,Complexity"
+PROPS = "MolecularFormula,MolecularWeight,XLogP,TPSA,HBondDonorCount,HBondAcceptorCount,Complexity,IUPACName"
 UA = "Piru-DataFetcher/1.0 (+https://github.com/kageroumado/piru; first-party data snapshot)"
 TIMEOUT = 30
 RETRIES = 2
@@ -115,6 +115,9 @@ def _row_props(row: dict) -> dict:
         "hbd": _int(row.get("HBondDonorCount")),
         "hba": _int(row.get("HBondAcceptorCount")),
         "complexity": _num(row.get("Complexity"), 1),
+        # English systematic name — supersedes FreeOD's Chinese 系统名称 (the
+        # iupac_name column otherwise leaks CJK into a Latin-only field).
+        "iupac": row.get("IUPACName"),
     }
 
 

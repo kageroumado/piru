@@ -719,6 +719,45 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         noise = [r["canonical_name"] for r in rows if is_chemistry_noise(r["canonical_name"])]
         self.assertEqual(noise, [], f"chemistry-noise names slipped into DB: {noise[:10]}")
 
+    def test_no_cjk_iupac_names(self):
+        """iupac_name is Latin-only — FreeOD's Chinese 系统名称 must be gated and
+        the English systematic name supplied by PubChem (Stage-4 data audit)."""
+        rows = self.db.execute(
+            "select canonical_name, iupac_name from substances where iupac_name glob '*[一-鿿]*'"
+        ).fetchall()
+        self.assertEqual(
+            rows,
+            [],
+            f"Chinese IUPAC names leaked into DB: {[r['canonical_name'] for r in rows][:10]}",
+        )
+
+    def test_formula_matches_molecular_weight(self):
+        """A stored molecular_weight must match the mass computed from its formula
+        (no salt mass on a free-base formula — amphetamine, MDMA). Tolerance 2%."""
+        bad = []
+        for r in self.db.execute(
+            "select canonical_name, formula, molecular_weight from substances "
+            "where formula is not null and molecular_weight is not null"
+        ).fetchall():
+            computed = _mod.formula_mass(r["formula"])
+            if computed and abs(r["molecular_weight"] - computed) / computed > 0.02:
+                bad.append(
+                    f"{r['canonical_name']}: {r['molecular_weight']} vs {computed} ({r['formula']})"
+                )
+        self.assertEqual(bad, [], f"formula↔mass mismatches: {bad[:10]}")
+
+    def test_boiling_point_above_melting_point(self):
+        """A boiling point below the melting point is impossible (sublimation
+        mislabelled as a BP — caffeine)."""
+        rows = self.db.execute(
+            "select canonical_name from substances "
+            "where melting_point_c is not null and boiling_point_c is not null "
+            "and boiling_point_c < melting_point_c"
+        ).fetchall()
+        self.assertEqual(
+            rows, [], f"boiling<melting point: {[r['canonical_name'] for r in rows][:10]}"
+        )
+
     def test_no_all_lowercase_substance_names(self):
         """smart_title_case should have upgraded all all-lowercase names."""
         rows = self.db.execute(

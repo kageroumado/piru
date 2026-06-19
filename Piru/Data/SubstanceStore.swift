@@ -1568,6 +1568,20 @@ final class SubstanceStore {
         )
     }
 
+    /// Canonical key for collapsing near-synonymous binding targets in the
+    /// mechanism *summary* — "NMDA receptor" → "nmda", so a measured row doesn't
+    /// double-list a curated target. Strips a trailing "receptor(s)" word,
+    /// lowercases, and collapses whitespace. Subunit-specific names
+    /// ("GABA-A α4β3δ (extrasynaptic)") stay distinct from the coarse target.
+    static func normalizedBindingTarget(_ target: String) -> String {
+        var t = target.lowercased().trimmingCharacters(in: .whitespaces)
+        for suffix in [" receptors", " receptor"] where t.hasSuffix(suffix) {
+            t = String(t.dropLast(suffix.count)).trimmingCharacters(in: .whitespaces)
+            break
+        }
+        return t.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+    }
+
     private func resolvedMechanism(db: Database, substanceID: Int64, language: ContentLanguage) throws -> MechanismOfAction? {
         let row = try resolvedTextRow(
             db: db, from: "mechanisms_summary", selecting: "t.summary, t.description",
@@ -1603,7 +1617,7 @@ final class SubstanceStore {
              LIMIT 20
         """, arguments: [substanceID])
 
-        let bindings: [ReceptorBinding] = bindingRows.compactMap { row in
+        let rawBindings: [ReceptorBinding] = bindingRows.compactMap { row in
             guard let target: String = row["target"],
                   let actionRaw: String = row["action"],
                   let action = BindingAction(rawValue: actionRaw) else { return nil }
@@ -1611,6 +1625,13 @@ final class SubstanceStore {
             let affinity = BindingAffinity(rawValue: affRaw) ?? .significant
             return ReceptorBinding(target: target, action: action, affinity: affinity)
         }
+        // Collapse one row per receptor for the *summary* table: a measured row
+        // often restates a curated target under a wordier name ("NMDA receptor"
+        // vs "NMDA", "5-HT3" twice). Rows arrive ordered affinity-desc, so the
+        // first per normalized target is the strongest/curated one; the full
+        // per-assay detail still shows in the Receptor Literature disclosure.
+        var seenTargets = Set<String>()
+        let bindings = rawBindings.filter { seenTargets.insert(Self.normalizedBindingTarget($0.target)).inserted }
 
         // Surface measured bindings even when no curated summary row exists —
         // the detail view's mechanism composer fills missing summary text from

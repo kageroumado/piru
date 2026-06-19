@@ -47051,16 +47051,14 @@
       "褪黑激素",
       "褪黑素"
     ],
-    "category": "Nootropic",
-    "display_class": "recreational",
+    "category": "Supplement",
+    "display_class": "otc",
     "tags": [
       "CYP1A2-substrate",
       "MT1-MT2-agonist",
-      "TIHKAL",
       "class:substituted tryptamines",
       "common",
       "endogenous",
-      "no-human-data",
       "tryptamine"
     ],
     "default_route": "oral",
@@ -47085,37 +47083,6 @@
     ],
     "data_gaps": [
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "Melatonin（MT）",
-    "display_name": "",
-    "aliases": [
-      "MT",
-      "N-乙酰-5-甲氧基色胺",
-      "松果体素",
-      "褪黑素"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "褪黑素是褪黑素受体 1（皮摩尔结合亲和力）和褪黑素受体 2（纳摩尔结合亲和力）的完全激动剂，两者都属于 G 蛋白偶联受体（GPCRs）类别。 褪黑素受体 1 和 2 都是 Gi/o 偶联 GPCRs，尽管褪黑素受体 1 也是 Gq 偶联的。 褪黑素还作为线粒体内的强效自由基清除剂，并通过褪黑素受体的信号转导促进抗氧化酶的表达，如超氧化物歧化酶、谷胱甘肽过氧化物酶、谷胱甘肽还原酶和过氧化氢酶。 褪黑素在肝脏中由细胞色素 P450 酶 CYP1A2 代谢为 6-羟基褪黑素。代谢物与硫酸或葡萄糖醛酸结合后通过尿液排出。5% 的褪黑素以原形药物通过尿液排出。 褪黑素与自由基反应形成的一些代谢物包括环状 3-羟基褪黑素、N1-乙酰-N2-甲酰-5-甲氧基犬尿胺 (AFMK) 和 N1-乙酰-5-甲氧基犬尿胺 (AMK)。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -51537,6 +51504,37 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes"
+    ]
+  },
+  {
+    "name": "MT",
+    "display_name": "",
+    "aliases": [
+      "Melatonin（MT）",
+      "N-乙酰-5-甲氧基色胺",
+      "松果体素",
+      "褪黑素"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "褪黑素是褪黑素受体 1（皮摩尔结合亲和力）和褪黑素受体 2（纳摩尔结合亲和力）的完全激动剂，两者都属于 G 蛋白偶联受体（GPCRs）类别。 褪黑素受体 1 和 2 都是 Gi/o 偶联 GPCRs，尽管褪黑素受体 1 也是 Gq 偶联的。 褪黑素还作为线粒体内的强效自由基清除剂，并通过褪黑素受体的信号转导促进抗氧化酶的表达，如超氧化物歧化酶、谷胱甘肽过氧化物酶、谷胱甘肽还原酶和过氧化氢酶。 褪黑素在肝脏中由细胞色素 P450 酶 CYP1A2 代谢为 6-羟基褪黑素。代谢物与硫酸或葡萄糖醛酸结合后通过尿液排出。5% 的褪黑素以原形药物通过尿液排出。 褪黑素与自由基反应形成的一些代谢物包括环状 3-羟基褪黑素、N1-乙酰-N2-甲酰-5-甲氧基犬尿胺 (AFMK) 和 N1-乙酰-5-甲氧基犬尿胺 (AMK)。",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "references"
     ]
   },
   {
