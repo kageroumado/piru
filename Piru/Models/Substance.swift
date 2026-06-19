@@ -1241,11 +1241,13 @@ struct Substance: Identifiable {
         self.physicochemical = physicochemical
     }
 
-    /// Title shown in lists and the detail header — the curated override when
-    /// present, otherwise the canonical `name`. A leading pictograph is stripped
-    /// (see ``titlePictograph``).
+    /// Title shown in lists and the detail header — the region-appropriate
+    /// spelling for drugs with US/international name variants (Acetaminophen vs
+    /// Paracetamol), else the curated override, else the canonical `name`. A
+    /// leading pictograph is stripped (see ``titlePictograph``).
     var displayTitle: String {
-        Substance.strippingLeadingPictograph(displayName ?? name).text
+        let base = RegionalSubstanceName.resolve(canonicalName: name) ?? displayName ?? name
+        return Substance.strippingLeadingPictograph(base).text
     }
 
     /// A leading pictograph in the curated display name — e.g. PsychonautWiki's
