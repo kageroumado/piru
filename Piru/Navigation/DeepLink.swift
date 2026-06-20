@@ -207,7 +207,9 @@ nonisolated enum DeepLink {
              .timeAdjust,
              .dayShare,
              .sourcePriority,
-             .advancedSearch:
+             .advancedSearch,
+             .inventoryItemForm,
+             .inventoryItemEdit:
             // Not represented as deep links — these are app-internal flows.
             return nil
         }

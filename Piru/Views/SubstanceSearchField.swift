@@ -26,6 +26,16 @@ struct SubstanceSearchField: View {
         return results.contains { $0.name.lowercased() == q || $0.aliases.contains { $0.lowercased() == q } }
     }
 
+    /// Canonical name + aliases for the subtitle, dropping whichever entries the
+    /// title (``Substance/displayTitle``) already shows, so the line doesn't echo
+    /// the title back (e.g. title "2-Br-DCK" → subtitle "Bromoketamine, …").
+    private func secondaryNames(for substance: Substance) -> String? {
+        let title = substance.displayTitle.lowercased()
+        let names = ([substance.name] + substance.aliases)
+            .filter { $0.lowercased() != title }
+        return names.isEmpty ? nil : names.prefix(3).joined(separator: ", ")
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TextField("Substance name", text: $text)
@@ -81,7 +91,12 @@ struct SubstanceSearchField: View {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack(spacing: 4) {
-                                            Text(substance.name)
+                                            // Show the same presentation name as
+                                            // the journal / quick-log (display
+                                            // override, regional name); the
+                                            // canonical name still leads the
+                                            // subtitle so it stays discoverable.
+                                            Text(substance.displayTitle)
                                                 .font(.body)
                                                 .foregroundStyle(.primary)
                                             if favoriteNames.contains(substance.name.lowercased()) {
@@ -90,8 +105,8 @@ struct SubstanceSearchField: View {
                                                     .foregroundStyle(.yellow)
                                             }
                                         }
-                                        if !substance.aliases.isEmpty {
-                                            Text(substance.aliases.prefix(3).joined(separator: ", "))
+                                        if let secondary = secondaryNames(for: substance) {
+                                            Text(secondary)
                                                 .font(.caption)
                                                 .foregroundStyle(Theme.secondaryLabel)
                                         }

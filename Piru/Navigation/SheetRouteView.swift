@@ -97,6 +97,12 @@ struct SheetRouteView: View {
                     .withCancellationCloseButton()
             }
 
+        case let .inventoryItemForm(id, prefillSubstance, prefillSalt):
+            InventoryItemFormHost(itemID: id, prefillSubstance: prefillSubstance, prefillSalt: prefillSalt)
+
+        case let .inventoryItemEdit(id):
+            InventoryItemEditHost(itemID: id)
+
         case .dailyDoseItemForm,
              .customSubstancesList,
              .customSubstanceForm,
