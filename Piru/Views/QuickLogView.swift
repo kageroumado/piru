@@ -969,6 +969,7 @@ struct QuickLogView: View {
                 for entry in createdEntries {
                     DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
                 }
+                InventoryService.recomputeAll(in: context)
                 WidgetCenter.shared.reloadAllTimelines()
             }
         }

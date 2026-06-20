@@ -69,6 +69,7 @@ nonisolated enum StoreRecovery {
             QuickLogDose.self,
             Session.self,
             DoseRoutine.self,
+            InventoryItem.self,
         ]
     }
 

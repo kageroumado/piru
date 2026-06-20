@@ -418,6 +418,7 @@ struct EntryFormView: View {
             DoseNotificationManager.doseLogged(entry: newEntry, recentEntries: Array(recentEntries))
         }
 
+        InventoryService.recomputeAll(in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
 
         // Auto-assign a stable palette colour for a brand-new substance up front

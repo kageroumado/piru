@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 // MARK: - Substance Card
@@ -19,6 +20,9 @@ struct SubstanceCardView: View {
     let onRemoveChip: (SubstanceGroup, DoseChip) -> Void
 
     @State private var customSubstanceStore = CustomSubstanceStore.shared
+    /// Tracked inventory items — drives the passive "X left" hint. A `@Query`
+    /// here re-renders only this card when stock changes, never the whole list.
+    @Query private var inventoryItems: [InventoryItem]
     /// Substances whose PK badge has been expanded into the full advice card.
     @State private var expandedPK = false
     /// (substance|route) groups showing their full chip set instead of the
@@ -89,12 +93,44 @@ struct SubstanceCardView: View {
                 .accessibilityLabel("Collapse")
             }
 
+            inventoryHint
+
             ForEach(card.routes) { group in
                 routeSection(group)
             }
         }
         .padding(14)
         .background(RoundedRectangle(cornerRadius: 20).fill(Theme.cardBackground))
+    }
+
+    /// The matching tracked item for this card's substance (salt-agnostic — the
+    /// card isn't salt-specific; prefer the base form).
+    private var inventoryItem: InventoryItem? {
+        let name = card.substanceName.lowercased()
+        let matches = inventoryItems.filter { $0.substance.lowercased() == name }
+        return matches.first { $0.saltForm == nil } ?? matches.first
+    }
+
+    /// Passive stock hint (1B): a supply bar (only when a baseline is set) with
+    /// the "X left" amount on the line below. Nothing for untracked substances —
+    /// the quick-log flow stays nudge-free.
+    @ViewBuilder
+    private var inventoryHint: some View {
+        if let item = inventoryItem {
+            VStack(alignment: .leading, spacing: 4) {
+                if let fraction = item.fillFraction {
+                    InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
+                }
+                Text(stockHintText(item))
+                    .font(.caption)
+                    .foregroundStyle(item.stockStatus == .ok ? Theme.secondaryLabel : item.stockStatus.numberColor)
+            }
+        }
+    }
+
+    private func stockHintText(_ item: InventoryItem) -> String {
+        if item.stockStatus == .out { return String(localized: "Out of stock") }
+        return String(localized: "\(item.currentQuantity.doseFormatted) \(item.unit) left")
     }
 
     private func routeSection(_ group: SubstanceGroup) -> some View {

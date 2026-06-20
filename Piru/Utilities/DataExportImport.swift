@@ -498,6 +498,10 @@ private nonisolated struct PiruFile: Codable {
     var userColors: [PiruUserColorData]
     var favorites: [PiruFavoriteData]
     var customSubstances: [PsyLogCustomSubstance]
+    /// Optional for back-compat: files written before inventory tracking omit
+    /// the key, which decodes to `nil` (treated as empty). Mirrors the
+    /// `id`/`saltForm` optional-on-decode pattern the dose data uses.
+    var inventory: [PiruInventoryData]?
 }
 
 private nonisolated struct PiruSessionData: Codable {
@@ -559,6 +563,31 @@ private nonisolated struct PiruUserColorData: Codable {
 private nonisolated struct PiruFavoriteData: Codable {
     var substance: String
     var createdAt: Int64
+}
+
+/// Everything needed to reconstruct an inventory item's stock. `currentQuantity`
+/// and `lowStockNotified` are intentionally omitted — both are derived/transient
+/// and rebuilt by `recomputeAll` after import. `trackingStart` is preserved so
+/// the dose-consumption window matches the source device exactly.
+private nonisolated struct PiruInventoryData: Codable {
+    var substance: String
+    var saltForm: String?
+    var unit: String
+    var trackingStart: Int64
+    var lowStockThreshold: Double?
+    var baselineQuantity: Double?
+    var doseSize: Double?
+    var createdAt: Int64
+    var manualEvents: [PiruManualEventData]
+}
+
+private nonisolated struct PiruManualEventData: Codable {
+    var id: UUID
+    var kind: String
+    var amount: Double
+    var date: Int64
+    var note: String?
+    var setsBaseline: Bool
 }
 
 // MARK: - Export / Import
@@ -699,6 +728,7 @@ enum DataExportImport {
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
         let userColors = try context.fetch(FetchDescriptor<UserColor>())
         let favorites = try context.fetch(FetchDescriptor<FavoriteSubstance>())
+        let inventoryItems = try context.fetch(FetchDescriptor<InventoryItem>())
 
         func doseData(_ e: DoseEntry) -> PiruDoseData {
             PiruDoseData(
@@ -743,6 +773,28 @@ enum DataExportImport {
             userColors: userColors.map { PiruUserColorData(hex: $0.hex, name: $0.name, createdAt: $0.createdAt.msSince1970) },
             favorites: favorites.map { PiruFavoriteData(substance: $0.substance, createdAt: $0.createdAt.msSince1970) },
             customSubstances: customStore.all.map(PsyLogCustomSubstance.init),
+            inventory: inventoryItems.map { item in
+                PiruInventoryData(
+                    substance: item.substance,
+                    saltForm: item.saltForm,
+                    unit: item.unit,
+                    trackingStart: item.trackingStart.msSince1970,
+                    lowStockThreshold: item.lowStockThreshold,
+                    baselineQuantity: item.baselineQuantity,
+                    doseSize: item.doseSize,
+                    createdAt: item.createdAt.msSince1970,
+                    manualEvents: item.manualEvents.map { event in
+                        PiruManualEventData(
+                            id: event.id,
+                            kind: event.kind.rawValue,
+                            amount: event.amount,
+                            date: event.date.msSince1970,
+                            note: event.note,
+                            setsBaseline: event.setsBaseline,
+                        )
+                    },
+                )
+            },
         )
     }
 
@@ -991,6 +1043,52 @@ enum DataExportImport {
                 isBackgroundMed: item.isBackgroundMed,
             ))
         }
+
+        // Inventory — merge by (substance, salt): union manual events by id so a
+        // re-import is idempotent, keep the earliest trackingStart, and fill any
+        // missing scalar settings. Then recompute caches now that doses and
+        // inventory are both in — silently, so a restore doesn't fire a low-stock
+        // alert per item.
+        if let importedInventory = file.inventory, !importedInventory.isEmpty {
+            let existingItems = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
+            for inv in importedInventory {
+                let importedEvents = inv.manualEvents.map { event in
+                    ManualEvent(
+                        id: event.id,
+                        kind: ManualEvent.Kind(rawValue: event.kind) ?? .restock,
+                        amount: event.amount,
+                        date: Date(ms: event.date),
+                        note: event.note,
+                        setsBaseline: event.setsBaseline,
+                    )
+                }
+                if let item = existingItems.first(where: {
+                    $0.substance.lowercased() == inv.substance.lowercased() && $0.saltForm == inv.saltForm
+                }) {
+                    var byID = Dictionary(item.manualEvents.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+                    for event in importedEvents where byID[event.id] == nil { byID[event.id] = event }
+                    item.manualEvents = byID.values.sorted { $0.date < $1.date }
+                    let importedStart = Date(ms: inv.trackingStart)
+                    if importedStart < item.trackingStart { item.trackingStart = importedStart }
+                    if item.lowStockThreshold == nil { item.lowStockThreshold = inv.lowStockThreshold }
+                    if item.baselineQuantity == nil { item.baselineQuantity = inv.baselineQuantity }
+                    if item.doseSize == nil { item.doseSize = inv.doseSize }
+                } else {
+                    context.insert(InventoryItem(
+                        substance: inv.substance,
+                        saltForm: inv.saltForm,
+                        unit: inv.unit,
+                        trackingStart: Date(ms: inv.trackingStart),
+                        lowStockThreshold: inv.lowStockThreshold,
+                        baselineQuantity: inv.baselineQuantity,
+                        doseSize: inv.doseSize,
+                        manualEvents: importedEvents,
+                        createdAt: Date(ms: inv.createdAt),
+                    ))
+                }
+            }
+        }
+        InventoryService.recomputeAll(in: context, notify: false)
     }
 
     /// Merge imported custom substances into the store: add new ones, update
@@ -1086,6 +1184,7 @@ enum DataExportImport {
         try context.delete(model: SubstanceColor.self)
         try context.delete(model: UserColor.self)
         try context.delete(model: FavoriteSubstance.self)
+        try context.delete(model: InventoryItem.self)
     }
 
     static var exportFilename: String {

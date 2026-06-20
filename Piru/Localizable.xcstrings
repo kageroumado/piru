@@ -515,6 +515,16 @@
         }
       }
     },
+    "%@ %@ of %@ left." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ of %3$@ left."
+          }
+        }
+      }
+    },
     "%@ %@ remaining after %@" : {
       "localizations" : {
         "en" : {
@@ -728,6 +738,9 @@
         }
       }
     },
+    "%@ left" : {
+
+    },
     "%@–%@ days" : {
       "comment" : "Long-acting release window",
       "localizations" : {
@@ -801,6 +814,29 @@
           }
         }
       }
+    },
+    "%@, %@ %@ in stock" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@ %3$@ in stock"
+          }
+        }
+      }
+    },
+    "%@, %@ %@ in stock, low" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@ %3$@ in stock, low"
+          }
+        }
+      }
+    },
+    "%@, out of stock" : {
+
     },
     "%@, source: %@" : {
       "localizations" : {
@@ -1806,6 +1842,22 @@
         }
       }
     },
+    "~%lld days" : {
+
+    },
+    "~%lld doses · %@ left" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "~%1$lld doses · %2$@ left"
+          }
+        }
+      }
+    },
+    "~%lld doses left" : {
+
+    },
     "~%lld minutes" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1821,6 +1873,12 @@
           }
         }
       }
+    },
+    "~%lld months" : {
+
+    },
+    "~%lld weeks" : {
+
     },
     "~%lld-%lld minutes" : {
       "extractionState" : "stale",
@@ -3317,6 +3375,9 @@
         }
       }
     },
+    "Add Inventory Item" : {
+
+    },
     "Add Item" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3756,6 +3817,9 @@
         }
       }
     },
+    "Adjustment" : {
+
+    },
     "Afterglow" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4093,6 +4157,9 @@
           }
         }
       }
+    },
+    "Amount added" : {
+
     },
     "AMP-Activated Protein Kinase (AMPK) Activator" : {
       "extractionState" : "stale",
@@ -5048,6 +5115,9 @@
           }
         }
       }
+    },
+    "Baseline (100%)" : {
+
     },
     "Be easy with yourself — profound experiences need time to settle." : {
       "localizations" : {
@@ -7780,6 +7850,9 @@
         }
       }
     },
+    "Custom substance — its doses count by exact name match." : {
+
+    },
     "Custom substance (no dose data)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7926,6 +7999,9 @@
           }
         }
       }
+    },
+    "Daily avg %@" : {
+
     },
     "Daily Medications" : {
       "localizations" : {
@@ -9382,6 +9458,9 @@
         }
       }
     },
+    "Doses in other units aren't counted." : {
+
+    },
     "Doses logged before this hour are grouped with the previous day's session — so a 02:00 dose joins the night before instead of starting a new day at midnight. Set to 12 AM for classic calendar-day grouping." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10771,6 +10850,9 @@
           }
         }
       }
+    },
+    "Estimated from your average daily use over the last 7 days. Shown only when you've dosed on most days, so a one-off doesn't skew it." : {
+
     },
     "Estimates based on pharmacokinetic modeling. Actual levels may vary." : {
       "localizations" : {
@@ -12729,6 +12811,9 @@
         }
       }
     },
+    "History" : {
+
+    },
     "HMG-CoA Reductase Inhibitor (Statin)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12824,6 +12909,9 @@
           }
         }
       }
+    },
+    "How this is calculated" : {
+
     },
     "How you feel depends on what you took, how much, and your body's chemistry." : {
       "localizations" : {
@@ -13650,6 +13738,9 @@
         }
       }
     },
+    "Initial" : {
+
+    },
     "Initially classified as a serotonin reuptake enhancer, but now understood to primarily act as a full agonist at μ-opioid receptors (MOR) and δ-opioid receptors. MOR activation in the mesolimbic system produces antidepressant, anxiolytic, and analgesic effects. Also modulates glutamatergic neurotransmission and neuroplasticity in the hippocampus and amygdala." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13843,6 +13934,9 @@
           }
         }
       }
+    },
+    "Inventory" : {
+
     },
     "Inverse Agonist" : {
       "localizations" : {
@@ -14327,6 +14421,9 @@
           }
         }
       }
+    },
+    "last dose %@" : {
+
     },
     "LD50 (dermal, rodent)" : {
       "localizations" : {
@@ -15145,6 +15242,9 @@
           }
         }
       }
+    },
+    "Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock." : {
+
     },
     "max" : {
       "localizations" : {
@@ -16682,6 +16782,9 @@
         }
       }
     },
+    "No Inventory Yet" : {
+
+    },
     "No known interactions found." : {
       "localizations" : {
         "zh-Hans" : {
@@ -16777,6 +16880,9 @@
           }
         }
       }
+    },
+    "No restocks or doses yet." : {
+
     },
     "No Results" : {
       "localizations" : {
@@ -17171,6 +17277,9 @@
         }
       }
     },
+    "Not tracked" : {
+
+    },
     "Note" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17426,6 +17535,9 @@
           }
         }
       }
+    },
+    "On hand" : {
+
     },
     "On This Device" : {
       "localizations" : {
@@ -17685,6 +17797,15 @@
           }
         }
       }
+    },
+    "Out" : {
+
+    },
+    "Out of %@" : {
+
+    },
+    "Out of stock" : {
+
     },
     "Over the next hours" : {
       "localizations" : {
@@ -18561,6 +18682,7 @@
       }
     },
     "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18575,6 +18697,9 @@
           }
         }
       }
+    },
+    "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files." : {
+
     },
     "Piru Backup" : {
       "localizations" : {
@@ -20492,6 +20617,9 @@
         }
       }
     },
+    "Restock" : {
+
+    },
     "Restore" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20973,6 +21101,12 @@
           }
         }
       }
+    },
+    "Run-out estimate" : {
+
+    },
+    "Running low on %@" : {
+
     },
     "S" : {
       "localizations" : {
@@ -22364,6 +22498,9 @@
         }
       }
     },
+    "Set as new baseline" : {
+
+    },
     "Set Time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22651,6 +22788,19 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "類似於阿立哌唑,作為多巴胺 D2 和血清素 5-HT1A 受體的部分激動劑,以及 5-HT2A 受體的拮抗劑。與阿立哌唑相比,在 D2 受體上的內在活性較低(更像拮抗劑),5-HT1A 部分激動更強,這可能減少靜坐不能並改善耐受性。"
+          }
+        }
+      }
+    },
+    "Single dose" : {
+
+    },
+    "Single dose %@ %@ · daily avg %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Single dose %1$@ %2$@ · daily avg %3$@"
           }
         }
       }
@@ -23398,6 +23548,9 @@
           }
         }
       }
+    },
+    "Starting amount" : {
+
     },
     "Starting from" : {
       "localizations" : {
@@ -24551,6 +24704,9 @@
         }
       }
     },
+    "The amount that counts as a full supply for the bar. Set to 0 to hide the bar." : {
+
+    },
     "The crash is your nervous system demanding rest and replenishment." : {
       "localizations" : {
         "zh-Hans" : {
@@ -24599,6 +24755,9 @@
           }
         }
       }
+    },
+    "The exact amount you have now. Changing it is logged as a correction." : {
+
     },
     "The foggy feeling will clear. Give it hours, not minutes." : {
       "localizations" : {
@@ -25412,6 +25571,15 @@
     "TPSA" : {
 
     },
+    "Track" : {
+
+    },
+    "Track a Substance" : {
+
+    },
+    "Track a substance to see how much you have left as you log doses." : {
+
+    },
     "Track active substances on your Lock Screen and Dynamic Island." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25427,6 +25595,12 @@
           }
         }
       }
+    },
+    "Track how much you have on hand" : {
+
+    },
+    "Track Substance" : {
+
     },
     "Tracking started. Effects on the way." : {
       "localizations" : {
@@ -25937,6 +26111,9 @@
         }
       }
     },
+    "Use as baseline" : {
+
+    },
     "Use at least %lld characters. A phrase of several words is stronger and easier to remember than a short password." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25985,6 +26162,9 @@
           }
         }
       }
+    },
+    "Used to show how many doses you have left. Set to 0 to disable." : {
+
     },
     "Vandrevala Foundation" : {
       "localizations" : {
@@ -26314,6 +26494,9 @@
           }
         }
       }
+    },
+    "Warn when below" : {
+
     },
     "Weak μ-Opioid Agonist and Serotonin-Norepinephrine Reuptake Inhibitor" : {
       "extractionState" : "stale",
@@ -26749,6 +26932,9 @@
         }
       }
     },
+    "You're out of %@. Restock when you can." : {
+
+    },
     "You're safe. If the experience was intense, remind yourself: it's temporary." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27036,6 +27222,9 @@
           }
         }
       }
+    },
+    "Your remaining amount stands out once it drops below this. Set to 0 to disable." : {
+
     },
     "Your serotonin receptors are returning to their normal sensitivity." : {
       "localizations" : {

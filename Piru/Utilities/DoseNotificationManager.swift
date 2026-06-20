@@ -144,6 +144,48 @@ enum DoseNotificationManager {
         routineReminderPrefix + name.lowercased()
     }
 
+    // MARK: - Inventory low-stock
+
+    /// Deliver a one-shot low-stock (or out-of-stock) alert for an inventory
+    /// item. De-duping is owned by `InventoryService` via the item's
+    /// `lowStockNotified` flag, so this just builds and posts the request.
+    ///
+    /// Delivered immediately (`trigger: nil`); iOS suppresses banners while the
+    /// app is foregrounded — the alert then surfaces on the Lock/Home screen the
+    /// next time the user leaves the app, which is the intended "you've run low"
+    /// nudge for a threshold crossed by an in-app log.
+    static func inventoryLowStock(
+        substance: String,
+        remaining: Double,
+        unit: String,
+        isOut: Bool,
+        itemID: UUID,
+    ) {
+        Task {
+            guard await RampDownScheduler.requestPermissionIfNeeded() else { return }
+            let content = UNMutableNotificationContent()
+            if isOut {
+                content.title = String(localized: "Out of \(substance)")
+                content.body = String(localized: "You're out of \(substance). Restock when you can.")
+            } else {
+                content.title = String(localized: "Running low on \(substance)")
+                content.body = String(localized: "\(remaining.doseFormatted) \(unit) of \(substance) left.")
+            }
+            content.sound = .default
+            try? await UNUserNotificationCenter.current().add(UNNotificationRequest(
+                identifier: inventoryNotificationIdentifier(itemID),
+                content: content,
+                trigger: nil,
+            ))
+        }
+    }
+
+    private static let inventoryLowStockPrefix = "inventoryLowStock_"
+
+    private static func inventoryNotificationIdentifier(_ id: UUID) -> String {
+        inventoryLowStockPrefix + id.uuidString
+    }
+
     // MARK: - Deep links
 
     nonisolated static let deepLinkUserInfoKey = "deepLink"
