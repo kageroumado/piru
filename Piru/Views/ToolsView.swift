@@ -9,6 +9,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case volumetric
     case recovery
     case pharma
+    case inventory
 
     var id: String {
         rawValue
@@ -22,6 +23,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "Volumetric Dosing"
         case .recovery: "Recovery Guide"
         case .pharma: "Pharma Search"
+        case .inventory: "Inventory"
         }
     }
 
@@ -33,6 +35,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "Dilute and measure precise doses"
         case .recovery: "Comedown and aftercare tips"
         case .pharma: "Search by receptor and affinity"
+        case .inventory: "Track how much you have on hand"
         }
     }
 
@@ -43,22 +46,30 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "drop"
         case .recovery: "heart.text.square"
         case .pharma: "pills"
+        case .inventory: "shippingbox"
         }
     }
 }
 
 /// The Tools tab root: a hub list of tools, each pushing a full-screen view.
+/// Inventory is rendered as a richer summary card (see ``InventorySummaryCard``)
+/// rather than a plain row, so the user can glance at what's low without opening
+/// the manager.
 struct ToolsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 14) {
                 ForEach(Tool.allCases) { tool in
-                    NavigationLink(value: PushRoute.tool(tool)) {
-                        NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
-                            Text(tool.subtitle)
+                    if tool == .inventory {
+                        InventorySummaryCard()
+                    } else {
+                        NavigationLink(value: PushRoute.tool(tool)) {
+                            NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
+                                Text(tool.subtitle)
+                            }
                         }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal)

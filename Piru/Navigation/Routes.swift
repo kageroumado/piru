@@ -112,6 +112,15 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// return to the originating sheet.
     case colorPicker(substance: String, remaining: [String] = [], dismissAllOnComplete: Bool = false)
 
+    // Inventory
+    /// Add / restock sheet. `id == nil` is the generic add form (with a
+    /// Substance picker); a non-nil id restocks that existing item (and the
+    /// Substance field is omitted). `prefillSubstance`/`prefillSalt` open the add
+    /// form pre-targeted at a substance (the "Track" button in substance detail).
+    case inventoryItemForm(id: UUID?, prefillSubstance: String? = nil, prefillSalt: String? = nil)
+    /// Edit screen reached from the detail-view pencil.
+    case inventoryItemEdit(id: UUID)
+
     // Day utilities
     case journalFilters
     case journalCalendar

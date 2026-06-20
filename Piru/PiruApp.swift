@@ -84,6 +84,9 @@ struct PiruApp: App {
                     // and failure-isolated (only sets the optional relationship).
                     SessionService.ensureSessionsPopulated(in: container.mainContext)
                     ActiveSessionManager.shared.recoverSession(container: container)
+                    // Warm the inventory caches so badges/widget read fresh
+                    // numbers on first paint (cheap; only touches tracked items).
+                    InventoryService.recomputeAll(in: container.mainContext)
                     #if DEBUG
                         DemoData.insertShowcaseData(container: container)
                     #endif
@@ -91,6 +94,12 @@ struct PiruApp: App {
         }
         .modelContainer(container)
         .onChange(of: scenePhase) { _, phase in
+            // Coming back to the foreground: re-derive inventory caches so any
+            // doses logged from the widget / other surfaces while away are
+            // reflected, and a crossed threshold can notify.
+            if phase == .active {
+                InventoryService.recomputeAll(in: container.mainContext)
+            }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.
             if phase == .background {

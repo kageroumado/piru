@@ -23,6 +23,7 @@ struct DataStorageView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Query private var userColors: [UserColor]
     @Query private var quickLogDoses: [QuickLogDose]
+    @Query private var inventoryItems: [InventoryItem]
 
     // Encrypted export flow.
     @State private var showingExportPassphrase = false
@@ -147,6 +148,7 @@ struct DataStorageView: View {
             countRow("Daily Medications", systemImage: "cross.case", count: dailyItems.count)
             countRow("Quick-Log Shortcuts", systemImage: "bolt", count: quickLogDoses.count)
             countRow("Favorites", systemImage: "star", count: favorites.count)
+            countRow("Inventory", systemImage: "shippingbox", count: inventoryItems.count)
             countRow("Custom Colors", systemImage: "paintpalette", count: substanceColors.count + userColors.count)
             LabeledContent {
                 Text(byteString(StoreRecovery.canonicalStoreBytes())).foregroundStyle(Theme.secondaryLabel)
@@ -233,7 +235,7 @@ struct DataStorageView: View {
         } header: {
             Text("Export & Import")
         } footer: {
-            Text("Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace.")
+            Text("Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.")
         }
         .disabled(generatingFormat != nil)
     }

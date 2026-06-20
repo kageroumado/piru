@@ -6,5 +6,6 @@ struct PiruWidgetBundle: WidgetBundle {
     var body: some Widget {
         TodaySummaryWidget()
         RecentDoseWidget()
+        InventoryWidget()
     }
 }

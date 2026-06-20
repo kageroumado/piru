@@ -413,6 +413,9 @@
         }
       }
     },
+    "Inventory" : {
+
+    },
     "Last Dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -510,6 +513,9 @@
         }
       }
     },
+    "Nothing tracked" : {
+
+    },
     "Offset" : {
       "localizations" : {
         "zh-Hans" : {
@@ -574,6 +580,9 @@
         }
       }
     },
+    "Out" : {
+
+    },
     "Peak" : {
       "localizations" : {
         "zh-Hans" : {
@@ -605,6 +614,9 @@
           }
         }
       }
+    },
+    "See how much you have left of what you track." : {
+
     },
     "See what you've taken today at a glance." : {
       "extractionState" : "stale",

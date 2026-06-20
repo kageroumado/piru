@@ -123,6 +123,7 @@ private struct PushRouteView: View {
         case .volumetric: VolumetricDosingView()
         case .recovery: ComedownGuideView()
         case .pharma: AdvancedSearchView()
+        case .inventory: InventoryListView()
         }
     }
 

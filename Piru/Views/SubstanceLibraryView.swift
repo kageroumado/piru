@@ -473,6 +473,7 @@ struct SubstanceDetailView: View {
     @Environment(\.appNavigator) private var navigator
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
+    @Query private var inventoryItems: [InventoryItem]
     @State private var customStore = CustomSubstanceStore.shared
     @State private var showAllHistory = false
     @State private var showEntries = false
@@ -986,6 +987,95 @@ struct SubstanceDetailView: View {
         )
     }
 
+    // MARK: - Inventory stock card (2B)
+
+    /// The tracked item for this substance, preferring the currently-selected
+    /// salt, then the base form. Matched by canonical name (how stock is stored).
+    private var trackedItem: InventoryItem? {
+        let name = baseSubstance.name.lowercased()
+        let matches = inventoryItems.filter { $0.substance.lowercased() == name }
+        return matches.first { $0.saltForm == selectedSaltForm }
+            ?? matches.first { $0.saltForm == nil }
+            ?? matches.first
+    }
+
+    /// Rich stock card below Dose & Duration: amount, doses-left, supply bar, and
+    /// run-out when tracked; a quiet "Not tracked · Track" row otherwise.
+    @ViewBuilder
+    private var inventoryStockSection: some View {
+        Section {
+            if let item = trackedItem {
+                trackedStockCard(item)
+            } else {
+                HStack {
+                    Text("Not tracked")
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Spacer()
+                    Button("Track") {
+                        navigator.present(.inventoryItemForm(
+                            id: nil,
+                            prefillSubstance: baseSubstance.name,
+                            prefillSalt: selectedSaltForm,
+                        ))
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(Theme.accent)
+                }
+            }
+        } header: {
+            Text("Inventory")
+        }
+    }
+
+    @ViewBuilder
+    private func trackedStockCard(_ item: InventoryItem) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            StockAmountText(item: item, style: .title2)
+            if let subtitle = stockSubtitle(item) {
+                Text(subtitle)
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            if let fraction = item.fillFraction {
+                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
+            }
+            if let runOut = InventoryMath.runOut(for: item, in: modelContext) {
+                Text(inventoryRunOutLine(for: item, runOut: runOut))
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            if hasUnitMismatch(item) {
+                Label("Doses in other units aren't counted.", systemImage: "info.circle")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            Button("Restock") {
+                navigator.present(.inventoryItemForm(id: item.id))
+            }
+            .buttonStyle(.bordered)
+            .tint(Theme.accent)
+        }
+        .padding(.vertical, 4)
+    }
+
+    /// "Glycinate · ~3 doses left" — salt and/or doses-left, whichever apply.
+    private func stockSubtitle(_ item: InventoryItem) -> String? {
+        var parts: [String] = []
+        if let salt = item.saltForm, !salt.isEmpty { parts.append(salt) }
+        if let doses = InventoryMath.dosesLeft(for: item) {
+            parts.append(String(localized: "~\(doses) doses left"))
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
+
+    /// True when any matching dose can't be converted into the item's unit, so
+    /// the card can show a calm "not counted" hint.
+    private func hasUnitMismatch(_ item: InventoryItem) -> Bool {
+        InventoryMath.doses(for: item, in: modelContext).contains {
+            InventoryMath.convert($0.amount, from: $0.unit, to: item.unit) == nil
+        }
+    }
+
     /// Dose ladder + duration for the selected route, behind a segmented route
     /// switcher when more than one route applies. Surfaced near the top of the
     /// detail view — the primary thing people open a substance for. One
@@ -1398,6 +1488,8 @@ struct SubstanceDetailView: View {
                 }
 
                 doseDurationSections
+
+                inventoryStockSection
 
                 peptideSections
 

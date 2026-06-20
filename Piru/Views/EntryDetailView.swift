@@ -634,6 +634,7 @@ struct EntryDetailView: View {
         // must drop them and reschedule from its new time.
         DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp)
 
+        InventoryService.recomputeAll(in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
         isEditing = false
     }
@@ -666,6 +667,7 @@ struct EntryDetailView: View {
             timestamp: timestamp,
             allColors: Array(substanceColors),
         )
+        InventoryService.recomputeAll(in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
         dismiss()
     }
