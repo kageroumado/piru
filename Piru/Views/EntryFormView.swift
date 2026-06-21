@@ -28,6 +28,7 @@ struct EntryFormView: View {
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
     @State private var savedEntry: DoseEntry?
     @State private var interactionWarnings: [InteractionResult] = []
+    @State private var combinedDepression: CombinedDepressionResult?
     @State private var substanceLocked = false
     @FocusState private var amountFocused: Bool
 
@@ -124,6 +125,12 @@ struct EntryFormView: View {
         NavigationStack {
             Form {
                 Group {
+                    if let combinedDepression, combinedDepression.hasMeaningfulLoad {
+                        Section {
+                            CombinedDepressionBanner(result: combinedDepression)
+                        }
+                    }
+
                     // Interaction warnings — shown at top
                     if !interactionWarnings.isEmpty {
                         Section {
@@ -288,10 +295,16 @@ struct EntryFormView: View {
     private func checkInteractions() {
         guard !substance.isEmpty, !isEditing else {
             interactionWarnings = []
+            combinedDepression = nil
             return
         }
         let active = InteractionChecker.activeEntries(from: recentEntries)
         interactionWarnings = InteractionChecker.check(substance, against: active)
+
+        // Combined CNS/respiratory-depression index over the active depressant stack + this dose.
+        let prospective = DoseEntry(substance: substance, amount: parsedAmount ?? 0, unit: unit, route: route, timestamp: .now)
+        let depression = CombinedDepression.analyze(entries: active + [prospective])
+        combinedDepression = (depression?.totalCount ?? 0) >= 2 ? depression : nil
     }
 
     private func loadEntry() {

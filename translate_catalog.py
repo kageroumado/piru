@@ -9,6 +9,35 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology axis Stage 3b — Combined depression index (2026-06-21)
+    "Combined depression": ("综合抑制", "綜合抑制"),
+    "Combined respiratory depression peaks around %@.": (
+        "综合呼吸抑制约在 %@ 达到峰值。",
+        "綜合呼吸抑制約在 %@ 達到峰值。",
+    ),
+    "Severe": ("严重", "嚴重"),
+    "High": ("高", "高"),
+    "Moderate": ("中等", "中等"),
+    "Predicted from receptor occupancy · %@.": (
+        "依据受体占据率预测 · %@。",
+        "依據受體佔據率預測 · %@。",
+    ),
+    "Estimated from effect curves · %@.": (
+        "依据效应曲线估算 · %@。",
+        "依據效應曲線估算 · %@。",
+    ),
+    "%lld of %lld substances from receptor occupancy, the rest estimated from effect curves · %@.": (
+        "%lld/%lld 种物质来自受体占据率，其余依据效应曲线估算 · %@。",
+        "%lld/%lld 種物質來自受體佔據率，其餘依據效應曲線估算 · %@。",
+    ),
+    "Predicted combined depression · %@.": (
+        "预测综合抑制 · %@。",
+        "預測綜合抑制 · %@。",
+    ),
+    "%@ combined depression · predicted (model, %@).": (
+        "%@综合抑制 · 预测（模型，%@）。",
+        "%@綜合抑制 · 預測（模型，%@）。",
+    ),
     # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
     "Tolerance": ("耐受性", "耐受性"),
     "Predicted receptor tolerance and recovery": (
@@ -2690,6 +2719,17 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology axis Stage 3b — Combined depression index (2026-06-21)
+        "Combined depression",
+        "Combined respiratory depression peaks around %@.",
+        "Severe",
+        "High",
+        "Moderate",
+        "Predicted from receptor occupancy · %@.",
+        "Estimated from effect curves · %@.",
+        "%lld of %lld substances from receptor occupancy, the rest estimated from effect curves · %@.",
+        "Predicted combined depression · %@.",
+        "%@ combined depression · predicted (model, %@).",
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",

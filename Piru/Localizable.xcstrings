@@ -684,6 +684,22 @@
         }
       }
     },
+    "%@ combined depression · predicted (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@综合抑制 · 预测（模型，%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@綜合抑制 · 預測（模型，%@）。"
+          }
+        }
+      }
+    },
     "%@ days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1337,6 +1353,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 分鐘前"
+          }
+        }
+      }
+    },
+    "%lld of %lld substances from receptor occupancy, the rest estimated from effect curves · %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld/%lld 种物质来自受体占据率，其余依据效应曲线估算 · %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld/%lld 種物質來自受體佔據率，其餘依據效應曲線估算 · %@。"
           }
         }
       }
@@ -7033,6 +7065,22 @@
         }
       }
     },
+    "Combined depression" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "综合抑制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "綜合抑制"
+          }
+        }
+      }
+    },
     "Combined QTc prolongation risk — monitor cardiac rhythm." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7061,6 +7109,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "聯合呼吸抑制 — 過量致死的首要原因。"
+          }
+        }
+      }
+    },
+    "Combined respiratory depression peaks around %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "综合呼吸抑制约在 %@ 达到峰值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "綜合呼吸抑制約在 %@ 達到峰值。"
           }
         }
       }
@@ -11261,6 +11325,22 @@
         }
       }
     },
+    "Estimated from effect curves · %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依据效应曲线估算 · %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依據效應曲線估算 · %@。"
+          }
+        }
+      }
+    },
     "Estimated from your average daily use over the last 7 days. Shown only when you've dosed on most days, so a one-off doesn't skew it." : {
 
     },
@@ -13169,6 +13249,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "幫助與安全"
+          }
+        }
+      }
+    },
+    "High" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高"
           }
         }
       }
@@ -15268,6 +15365,9 @@
         }
       }
     },
+    "Load" : {
+
+    },
     "Location" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16175,6 +16275,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模式"
+          }
+        }
+      }
+    },
+    "Moderate" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等"
           }
         }
       }
@@ -19595,6 +19712,38 @@
         }
       }
     },
+    "Predicted combined depression · %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预测综合抑制 · %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預測綜合抑制 · %@。"
+          }
+        }
+      }
+    },
+    "Predicted from receptor occupancy · %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依据受体占据率预测 · %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依據受體佔據率預測 · %@。"
+          }
+        }
+      }
+    },
     "Predicted receptor tolerance and recovery" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21090,6 +21239,7 @@
       }
     },
     "Repeated GABA depressant use builds dependence; abrupt stops after heavy use can be dangerous. Taper rather than quitting cold." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23355,6 +23505,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
+          }
+        }
+      }
+    },
+    "Severe" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "严重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嚴重"
           }
         }
       }

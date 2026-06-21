@@ -21,6 +21,19 @@ struct InteractionTimelineView: View {
     @State private var chartData: ChartData?
     @State private var computedFor: CurveInputs?
 
+    // Real logged doses for the two substances (within 48 h), captured on auto-detect. The
+    // combined-depression index is a dose-resolved readout, so it is only computed when both
+    // depressants have an actual logged dose — never fabricated from names alone.
+    @State private var matchedA: MatchedDose?
+    @State private var matchedB: MatchedDose?
+    @State private var depression: CombinedDepressionResult?
+
+    private struct MatchedDose {
+        let amount: Double
+        let unit: String
+        let route: RouteOfAdministration
+    }
+
     init(substanceA: String, substanceB: String, severity: InteractionSeverity) {
         self.substanceA = substanceA
         self.substanceB = substanceB
@@ -79,7 +92,22 @@ struct InteractionTimelineView: View {
         } else {
             chartData = nil
         }
+        depression = computeDepression(for: inputs)
         computedFor = inputs
+    }
+
+    /// The combined CNS/respiratory-depression index for the pair, computed from the two real logged
+    /// doses at the (possibly adjusted) ingestion times. Nil unless both substances are additive
+    /// depressants *and* both have an actual logged dose — the index is a dose-resolved readout, so it
+    /// is never fabricated from names alone (the dose-blind explorer keeps the concentration overlap).
+    private func computeDepression(for inputs: CurveInputs) -> CombinedDepressionResult? {
+        guard let a = matchedA, let b = matchedB else { return nil }
+        let entries = [
+            DoseEntry(substance: inputs.substanceA, amount: a.amount, unit: a.unit, route: a.route, timestamp: inputs.timeA),
+            DoseEntry(substance: inputs.substanceB, amount: b.amount, unit: b.unit, route: b.route, timestamp: inputs.timeB),
+        ]
+        guard let result = CombinedDepression.analyze(entries: entries), result.totalCount >= 2 else { return nil }
+        return result
     }
 
     private static func resolveParams(for name: String) -> PKParams? {
@@ -125,6 +153,10 @@ struct InteractionTimelineView: View {
                     overlapCard(data: data)
                 }
 
+                if let depression, depression.hasMeaningfulLoad {
+                    depressionCard(depression)
+                }
+
                 warningCard
                 if let pA = paramsA, let pB = paramsB {
                     substanceInfoCards(pA: pA, pB: pB)
@@ -151,12 +183,15 @@ struct InteractionTimelineView: View {
             $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
         }) {
             ingestTimeA = entry.timestamp
+            matchedA = MatchedDose(amount: entry.amount, unit: entry.unit, route: entry.route)
         }
         if let entry = allEntries.first(where: {
             $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
         }) {
             ingestTimeB = entry.timestamp
+            matchedB = MatchedDose(amount: entry.amount, unit: entry.unit, route: entry.route)
         }
+        depression = computeDepression(for: curveInputs)
     }
 
     private var hasRecentEntryA: Bool {
@@ -475,6 +510,107 @@ struct InteractionTimelineView: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
+    }
+
+    // MARK: - Combined Depression
+
+    /// The Stage-3b readout: a single combined CNS/respiratory-depression load over the shared
+    /// timeline, with the peak value and *when* it occurs marked. The danger signal becomes "your
+    /// combined respiratory depression peaks at ~02:30," not "two depressant tags co-exist."
+    private func depressionCard(_ d: CombinedDepressionResult) -> some View {
+        let bandColor = d.band?.labelColor ?? Theme.secondaryLabel
+        let peakHours = max(0, d.peakDate.timeIntervalSince(referenceTime) / 3_600)
+        let yMax = max(CombinedDepression.dangerousThreshold * 1.1, d.peakLoad * 1.1)
+
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "lungs.fill")
+                    .foregroundStyle(bandColor)
+                Text("Combined depression")
+                    .font(.headline)
+                Spacer()
+                if let level = d.levelLabel {
+                    Text(level)
+                        .font(.caption.weight(.semibold))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(bandColor.opacity(0.15), in: Capsule())
+                        .foregroundStyle(bandColor)
+                }
+            }
+
+            Text("Combined respiratory depression peaks around \(peakClockTime(d.peakDate)).")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+
+            Chart {
+                ForEach(Array(d.points.enumerated()), id: \.offset) { _, point in
+                    AreaMark(
+                        x: .value("Time", point.minute / 60),
+                        y: .value("Load", point.load),
+                    )
+                    .foregroundStyle(bandColor.opacity(0.18))
+                    .interpolationMethod(.monotone)
+                }
+                ForEach(Array(d.points.enumerated()), id: \.offset) { _, point in
+                    LineMark(
+                        x: .value("Time", point.minute / 60),
+                        y: .value("Load", point.load),
+                    )
+                    .foregroundStyle(bandColor)
+                    .interpolationMethod(.monotone)
+                    .lineStyle(StrokeStyle(lineWidth: 2))
+                }
+                RuleMark(y: .value("Dangerous", CombinedDepression.dangerousThreshold))
+                    .foregroundStyle(InteractionSeverity.dangerous.color.opacity(0.5))
+                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                RuleMark(x: .value("Peak", peakHours))
+                    .foregroundStyle(bandColor.opacity(0.6))
+                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
+                    .annotation(position: .top, alignment: .center, spacing: 2) {
+                        Text("Peak")
+                            .font(.caption2)
+                            .foregroundStyle(bandColor)
+                    }
+            }
+            .chartXAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
+                    AxisValueLabel {
+                        if let h = value.as(Double.self) {
+                            Text("\(Int(h))h").font(.caption2)
+                        }
+                    }
+                }
+            }
+            .chartYAxis(.hidden)
+            .chartYScale(domain: 0 ... yMax)
+            .frame(height: 130)
+
+            Text(depressionCaveat(d))
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .themeCard()
+    }
+
+    /// House honesty caveat — confidence tier + how much of the stack used real occupancy vs the
+    /// effect-curve surrogate ("predicted (model, confidence)", never "measured").
+    private func depressionCaveat(_ d: CombinedDepressionResult) -> String {
+        let confidence = String(localized: d.confidence.label)
+        if d.isFullyModeled {
+            return String(localized: "Predicted from receptor occupancy · \(confidence).")
+        }
+        if d.modeledCount == 0 {
+            return String(localized: "Estimated from effect curves · \(confidence).")
+        }
+        return String(localized: "\(d.modeledCount) of \(d.totalCount) substances from receptor occupancy, the rest estimated from effect curves · \(confidence).")
+    }
+
+    private func peakClockTime(_ date: Date) -> String {
+        date.formatted(date: .omitted, time: .shortened)
     }
 
     // MARK: - Warning
