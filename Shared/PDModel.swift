@@ -124,6 +124,35 @@ enum PDModel {
         return target + (load - target) * decay
     }
 
+    // MARK: - Recovery / decay forecasts (closed-form ODE inverses)
+
+    /// Minutes for **availability** to climb from `current` to `target` (both in `[0, 1]`) with **no
+    /// further occupancy** — the recovery half of the ODE alone, `dA/dt = (1 − A)/τ`, whose solution is
+    /// `A(t) = 1 − (1 − current)·e^{−t/τ}`. Solving `A(t) = target` gives `t = −τ·ln((1−target)/(1−current))`.
+    ///
+    /// This is the "if you stop now" tolerance-break forecast the Stage-2 Tool renders. Returns `0`
+    /// when already at/above the goal, and `nil` when `target ≥ 1` (full reset is asymptotic — never
+    /// reached in finite time, so the UI must phrase it as "≈X% recovered", not "fully reset in N days")
+    /// or `τ` is non-positive.
+    nonisolated static func recoveryMinutes(from current: Double, to target: Double, tauMinutes: Double) -> Double? {
+        guard tauMinutes > 0 else { return nil }
+        if current >= target { return 0 }
+        guard target < 1 else { return nil }
+        let ratio = (1 - target) / (1 - current) // ∈ (0, 1) since current < target < 1
+        return -tauMinutes * log(ratio)
+    }
+
+    /// Minutes for **allostatic load** to decay from `current` to `target` (`target < current`) with no
+    /// further occupancy — the leaky integrator relaxing toward 0, `dL/dt = −L/τ`, `L(t) = current·e^{−t/τ}`,
+    /// so `t = τ·ln(current/target)`. Returns `0` when already at/below `target`, and `nil` when
+    /// `target ≤ 0` (decay to exactly zero is asymptotic) or `τ` is non-positive.
+    nonisolated static func loadDecayMinutes(from current: Double, to target: Double, tauMinutes: Double) -> Double? {
+        guard tauMinutes > 0 else { return nil }
+        if current <= target { return 0 }
+        guard target > 0 else { return nil }
+        return tauMinutes * log(current / target)
+    }
+
     // MARK: - Cross-substance occupancy combination
 
     /// Combine the occupancy contributions of several ligands at one **shared** target into a single

@@ -101,6 +101,22 @@
         }
       }
     },
+    "· from %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· 来自 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· 來自 %@"
+          }
+        }
+      }
+    },
     "· PMID %lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -740,6 +756,38 @@
     },
     "%@ left" : {
 
+    },
+    "%@ to ~90%% if you stop now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若现在停用，约 %@ 恢复到 ~90%%。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若現在停用，約 %@ 恢復到 ~90%%。"
+          }
+        }
+      }
+    },
+    "%@ to clear if you stop now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若现在停用，约 %@ 清除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若現在停用，約 %@ 清除。"
+          }
+        }
+      }
     },
     "%@–%@ days" : {
       "comment" : "Long-acting release window",
@@ -1843,7 +1891,20 @@
       }
     },
     "~%lld days" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 天"
+          }
+        }
+      }
     },
     "~%lld doses · %@ left" : {
       "localizations" : {
@@ -1857,6 +1918,22 @@
     },
     "~%lld doses left" : {
 
+    },
+    "~%lld hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 小時"
+          }
+        }
+      }
     },
     "~%lld minutes" : {
       "localizations" : {
@@ -1875,10 +1952,36 @@
       }
     },
     "~%lld months" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 個月"
+          }
+        }
+      }
     },
     "~%lld weeks" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 周"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 週"
+          }
+        }
+      }
     },
     "~%lld-%lld minutes" : {
       "extractionState" : "stale",
@@ -2021,6 +2124,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您%5$@服用的 %3$@ %4$@，體內仍約有 %1$@ %2$@（約 %6$lld%%）"
+          }
+        }
+      }
+    },
+    "≈%@ to ~90%% if you stop now." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若现在停用，约 %@ 恢复到 ~90%%。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若現在停用，約 %@ 恢復到 ~90%%。"
+          }
+        }
+      }
+    },
+    "≈%@ to clear if you stop now." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若现在停用，约 %@ 清除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若現在停用，約 %@ 清除。"
           }
         }
       }
@@ -2592,6 +2729,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一種吡咯烷類卡西酮,強效阻斷多巴胺和正腎上腺素轉運體(DAT/NET),不釋放單胺,血清素活性很弱。多巴胺和正腎上腺素強烈而持久地升高,帶來強烈興奮,並伴有很高的強迫性反覆用藥風險。"
+          }
+        }
+      }
+    },
+    "A redose right now would land ~%lld%% as strong — within-session tachyphylaxis, recovers overnight." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在再次用药，效果约为 ~%lld%%——同一次使用内的快速耐受，过夜即可恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在再次用藥，效果約為 ~%lld%%——同一次使用內的快速耐受，過夜即可恢復。"
           }
         }
       }
@@ -3785,6 +3938,22 @@
         }
       }
     },
+    "Adenosine (caffeine)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腺苷（咖啡因）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腺苷（咖啡因）"
+          }
+        }
+      }
+    },
     "Adherence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3819,6 +3988,22 @@
     },
     "Adjustment" : {
 
+    },
+    "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中断一段时间后，你的阿片类耐受会下降——之前没问题的剂量可能让你停止呼吸。缺氧来得很突然，毫无预兆。请从低剂量重新开始，并让身边的人能随时拿到纳洛酮。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中斷一段時間後，你的鴉片類耐受會下降——之前沒問題的劑量可能讓你停止呼吸。缺氧來得很突然，毫無預兆。請從低劑量重新開始，並讓身邊的人能隨時拿到納洛酮。"
+          }
+        }
+      }
     },
     "Afterglow" : {
       "localizations" : {
@@ -5132,6 +5317,22 @@
         }
       }
     },
+    "Based on an estimated %lld kg body weight — set yours in Settings for accuracy." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于估算的 %lld kg 体重——在设置中填写你的体重可更准确。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於估算的 %lld kg 體重——在設定中填寫你的體重可更準確。"
+          }
+        }
+      }
+    },
     "Baseline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5957,6 +6158,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大麻素"
+          }
+        }
+      }
+    },
+    "Cannabinoids (CB1)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大麻素（CB1）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大麻素（CB1）"
           }
         }
       }
@@ -8792,6 +9009,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解離劑"
+          }
+        }
+      }
+    },
+    "Dissociatives (NMDA)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解离剂（NMDA）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解離劑（NMDA）"
           }
         }
       }
@@ -12126,6 +12359,22 @@
         }
       }
     },
+    "GABA (benzos / alcohol)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA（苯二氮䓬／酒精）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA（苯二氮平／酒精）"
+          }
+        }
+      }
+    },
     "GABA-A Modulator (via Meprobamate Metabolite)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15234,6 +15483,22 @@
         }
       }
     },
+    "Log doses of substances with receptor data and your predicted tolerance will appear here. Targets you haven't engaged recently read as fully rested." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录有受体数据的物质剂量，预测的耐受性就会出现在这里。近期未涉及的靶点会显示为完全休息状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄有受體資料的物質劑量，預測的耐受性就會出現在這裡。近期未涉及的靶點會顯示為完全休息狀態。"
+          }
+        }
+      }
+    },
     "Log Prescriptions" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16569,6 +16834,22 @@
         }
       }
     },
+    "Nearly recovered." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已接近恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已接近恢復。"
+          }
+        }
+      }
+    },
     "Neuropeptide-Derived Cognitive Enhancer" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16742,6 +17023,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下個月"
+          }
+        }
+      }
+    },
+    "Nicotine tolerance is mostly fast receptor desensitization that recovers between uses — a single “tolerance %” wouldn't capture it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尼古丁耐受主要是受体的快速脱敏，在两次使用之间会恢复——单一的“耐受性百分比”无法体现这一点。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尼古丁耐受主要是受體的快速去敏感化，在兩次使用之間會恢復——單一的「耐受性百分比」無法體現這一點。"
+          }
+        }
+      }
+    },
+    "Nicotinic (nAChR)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烟碱型（nAChR）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菸鹼型（nAChR）"
           }
         }
       }
@@ -17633,6 +17946,22 @@
         }
       }
     },
+    "Nothing to show yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无可显示内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無可顯示內容"
+          }
+        }
+      }
+    },
     "Notifications" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17905,6 +18234,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阿片類"
+          }
+        }
+      }
+    },
+    "Opioids (μ)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿片类（μ）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鴉片類（μ）"
           }
         }
       }
@@ -19250,6 +19595,54 @@
         }
       }
     },
+    "Predicted receptor tolerance and recovery" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预测的受体耐受与恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預測的受體耐受與恢復"
+          }
+        }
+      }
+    },
+    "Predicted response vs. rested: ~%lld%%" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相对于休息状态的预测反应：~%lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相對於休息狀態的預測反應：~%lld%%"
+          }
+        }
+      }
+    },
+    "Predicted, not measured" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预测值，并非实测"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預測值，並非實測"
+          }
+        }
+      }
+    },
     "Preferences" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19693,6 +20086,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "致幻劑"
+          }
+        }
+      }
+    },
+    "Psychedelics (5-HT2A)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷幻剂（5-HT2A）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷幻劑（5-HT2A）"
           }
         }
       }
@@ -20227,6 +20636,54 @@
         }
       }
     },
+    "Recovery-state load: high" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复状态负荷：高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復狀態負荷：高"
+          }
+        }
+      }
+    },
+    "Recovery-state load: low" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复状态负荷：低"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復狀態負荷：低"
+          }
+        }
+      }
+    },
+    "Recovery-state load: moderate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复状态负荷：中等"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復狀態負荷：中等"
+          }
+        }
+      }
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20628,6 +21085,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新命名記錄"
+          }
+        }
+      }
+    },
+    "Repeated GABA depressant use builds dependence; abrupt stops after heavy use can be dangerous. Taper rather than quitting cold." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反复使用 GABA 类镇静剂会形成依赖；大量使用后骤然停用可能很危险。请逐渐减量，而不要突然停用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反覆使用 GABA 類鎮靜劑會形成依賴；大量使用後驟然停用可能很危險。請逐漸減量，而不要突然停用。"
           }
         }
       }
@@ -22542,6 +23015,22 @@
         }
       }
     },
+    "Serotonin releasers (SERT)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素释放剂（SERT）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素釋放劑（SERT）"
+          }
+        }
+      }
+    },
     "Serotonin syndrome — potentially fatal. Allow 2+ week washout." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22930,6 +23419,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享記錄日誌"
+          }
+        }
+      }
+    },
+    "Shared by %@ — tolerance to one carries to the others." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 %@ 共享——对其一的耐受会带到其余。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 %@ 共享——對其一的耐受會帶到其餘。"
           }
         }
       }
@@ -24098,6 +24603,22 @@
         }
       }
     },
+    "Stimulant tolerance isn't one number you can multiply a dose by. The fast part is within a session (a redose lands weaker); the slow part is a months-long recovery state, not a “take more” signal." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兴奋剂耐受不是一个可用来乘剂量的数字。快的部分发生在同一次使用内（再次用药效果更弱）；慢的部分是长达数月的恢复状态，而非“该多用”的信号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "興奮劑耐受不是一個可用來乘劑量的數字。快的部分發生在同一次使用內（再次用藥效果更弱）；慢的部分是長達數月的恢復狀態，而非「該多用」的訊號。"
+          }
+        }
+      }
+    },
     "Stimulants" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24110,6 +24631,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "興奮劑"
+          }
+        }
+      }
+    },
+    "Stimulants (DAT/NET)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兴奋剂（DAT/NET）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "興奮劑（DAT/NET）"
           }
         }
       }
@@ -25244,6 +25781,54 @@
         }
       }
     },
+    "The slow axis here is a recovery-state indicator, not an effect multiplier." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里的慢轴是一个恢复状态指标，而不是效果乘数。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡的慢軸是一個恢復狀態指標，而不是效果乘數。"
+          }
+        }
+      }
+    },
+    "The slow change here is a SERT-binding association, reversible-leaning — not proven neurotoxicity, and not a dose multiplier. It's a recovery-state indicator." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里的慢变化是一种 SERT 结合关联，倾向可逆——并非已证实的神经毒性，也不是剂量乘数。它是一个恢复状态指标。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡的慢變化是一種 SERT 結合關聯，傾向可逆——並非已證實的神經毒性，也不是劑量乘數。它是一個恢復狀態指標。"
+          }
+        }
+      }
+    },
+    "These are model predictions of how repeated use changes each receptor's responsiveness — never a measurement. Tolerance is shown per mechanism, because one universal “tolerance %” is wrong for some classes (stimulants especially)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些是模型对反复使用如何改变各受体反应性的预测——并非实测。耐受性按机制分别显示，因为单一通用的“耐受性百分比”对某些类别（尤其是兴奋剂）是错误的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些是模型對反覆使用如何改變各受體反應性的預測——並非實測。耐受性按機制分別顯示，因為單一通用的「耐受性百分比」對某些類別（尤其是興奮劑）是錯誤的。"
+          }
+        }
+      }
+    },
     "These effects are proportional to how much and how often you've been using." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25824,6 +26409,22 @@
         }
       }
     },
+    "Tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受性"
+          }
+        }
+      }
+    },
     "Too short — use at least %lld characters." : {
       "localizations" : {
         "zh-Hans" : {
@@ -26154,6 +26755,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未分類 — %1$lld 個處方"
+          }
+        }
+      }
+    },
+    "under an hour" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到一小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到一小時"
           }
         }
       }

@@ -150,4 +150,48 @@ struct PDModelToleranceTests {
         let down = PDModel.stepLoad(load: 0.8, occupancy: 0, dtMinutes: 100_000, tauMinutes: 1_000, gain: 1)
         #expect(down < 1e-3)
     }
+
+    // MARK: - Recovery / decay forecasts (Stage 2)
+
+    @Test
+    func `Recovery forecast inverts the recovery ODE`() throws {
+        let tau = 5_040.0 // 3.5 d
+        let mins = try #require(PDModel.recoveryMinutes(from: 0.5, to: 0.9, tauMinutes: tau))
+        // Stepping forward by the forecast with zero occupancy must land at the target.
+        let landed = PDModel.stepAvailability(availability: 0.5, occupancy: 0, dtMinutes: mins, kappa: 0.003, tauMinutes: tau)
+        #expect(abs(landed - 0.9) < 1e-6)
+        #expect(mins > 0)
+    }
+
+    @Test
+    func `Recovery forecast: already-recovered is zero, full reset is asymptotic`() {
+        #expect(PDModel.recoveryMinutes(from: 0.95, to: 0.9, tauMinutes: 5_040) == 0) // already past goal
+        #expect(PDModel.recoveryMinutes(from: 0.9, to: 0.9, tauMinutes: 5_040) == 0) // exactly at goal
+        #expect(PDModel.recoveryMinutes(from: 0.5, to: 1.0, tauMinutes: 5_040) == nil) // 100% never reached
+        #expect(PDModel.recoveryMinutes(from: 0.5, to: 0.9, tauMinutes: 0) == nil) // degenerate τ
+    }
+
+    @Test
+    func `Recovery forecast is monotone: deeper tolerance takes longer`() throws {
+        let tau = 5_040.0
+        let shallow = try #require(PDModel.recoveryMinutes(from: 0.7, to: 0.9, tauMinutes: tau))
+        let deep = try #require(PDModel.recoveryMinutes(from: 0.3, to: 0.9, tauMinutes: tau))
+        #expect(deep > shallow)
+    }
+
+    @Test
+    func `Load-decay forecast inverts the leaky integrator`() throws {
+        let tau = 129_600.0 // 3 months
+        let mins = try #require(PDModel.loadDecayMinutes(from: 0.6, to: 0.1, tauMinutes: tau))
+        let landed = PDModel.stepLoad(load: 0.6, occupancy: 0, dtMinutes: mins, tauMinutes: tau, gain: 1)
+        #expect(abs(landed - 0.1) < 1e-6)
+        #expect(mins > 0)
+    }
+
+    @Test
+    func `Load-decay forecast: already-below is zero, zero target is asymptotic`() {
+        #expect(PDModel.loadDecayMinutes(from: 0.05, to: 0.1, tauMinutes: 129_600) == 0) // already below
+        #expect(PDModel.loadDecayMinutes(from: 0.6, to: 0.0, tauMinutes: 129_600) == nil) // exact zero never reached
+        #expect(PDModel.loadDecayMinutes(from: 0.6, to: 0.1, tauMinutes: 0) == nil) // degenerate τ
+    }
 }

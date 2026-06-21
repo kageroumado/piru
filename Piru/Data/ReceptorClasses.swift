@@ -50,6 +50,22 @@ enum ReceptorClasses {
         case nicotinic
         /// No curated class — generic class-default kinetics at the lowest confidence.
         case unknown
+
+        /// Short user-facing name for the tolerance class — the Stage-2 Tool card headline.
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .psychedelic5HT2A: "Psychedelics (5-HT2A)"
+            case .muOpioid: "Opioids (μ)"
+            case .catecholamineStimulant: "Stimulants (DAT/NET)"
+            case .serotonergicReleaser: "Serotonin releasers (SERT)"
+            case .gaba: "GABA (benzos / alcohol)"
+            case .nmdaAntagonist: "Dissociatives (NMDA)"
+            case .cannabinoidCB1: "Cannabinoids (CB1)"
+            case .adenosine: "Adenosine (caffeine)"
+            case .nicotinic: "Nicotinic (nAChR)"
+            case .unknown: "Other"
+            }
+        }
     }
 
     /// The harm-reduction axis a class hands tolerance off to (drives Stage-2/5 copy; not yet shown).

@@ -9,6 +9,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case volumetric
     case recovery
     case pharma
+    case tolerance
     case inventory
 
     var id: String {
@@ -23,6 +24,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "Volumetric Dosing"
         case .recovery: "Recovery Guide"
         case .pharma: "Pharma Search"
+        case .tolerance: "Tolerance"
         case .inventory: "Inventory"
         }
     }
@@ -35,6 +37,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "Dilute and measure precise doses"
         case .recovery: "Comedown and aftercare tips"
         case .pharma: "Search by receptor and affinity"
+        case .tolerance: "Predicted receptor tolerance and recovery"
         case .inventory: "Track how much you have on hand"
         }
     }
@@ -46,6 +49,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "drop"
         case .recovery: "heart.text.square"
         case .pharma: "pills"
+        case .tolerance: "chart.line.downtrend.xyaxis"
         case .inventory: "shippingbox"
         }
     }

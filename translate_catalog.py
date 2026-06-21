@@ -9,6 +9,89 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
+    "Tolerance": ("耐受性", "耐受性"),
+    "Predicted receptor tolerance and recovery": (
+        "预测的受体耐受与恢复",
+        "預測的受體耐受與恢復",
+    ),
+    "Psychedelics (5-HT2A)": ("迷幻剂（5-HT2A）", "迷幻劑（5-HT2A）"),
+    "Opioids (μ)": ("阿片类（μ）", "鴉片類（μ）"),
+    "Stimulants (DAT/NET)": ("兴奋剂（DAT/NET）", "興奮劑（DAT/NET）"),
+    "Serotonin releasers (SERT)": ("血清素释放剂（SERT）", "血清素釋放劑（SERT）"),
+    "GABA (benzos / alcohol)": ("GABA（苯二氮䓬／酒精）", "GABA（苯二氮平／酒精）"),
+    "Dissociatives (NMDA)": ("解离剂（NMDA）", "解離劑（NMDA）"),
+    "Cannabinoids (CB1)": ("大麻素（CB1）", "大麻素（CB1）"),
+    "Adenosine (caffeine)": ("腺苷（咖啡因）", "腺苷（咖啡因）"),
+    "Nicotinic (nAChR)": ("烟碱型（nAChR）", "菸鹼型（nAChR）"),
+    "Predicted, not measured": ("预测值，并非实测", "預測值，並非實測"),
+    "These are model predictions of how repeated use changes each receptor's responsiveness — never a measurement. Tolerance is shown per mechanism, because one universal “tolerance %” is wrong for some classes (stimulants especially).": (
+        "这些是模型对反复使用如何改变各受体反应性的预测——并非实测。耐受性按机制分别显示，因为单一通用的“耐受性百分比”对某些类别（尤其是兴奋剂）是错误的。",
+        "這些是模型對反覆使用如何改變各受體反應性的預測——並非實測。耐受性按機制分別顯示，因為單一通用的「耐受性百分比」對某些類別（尤其是興奮劑）是錯誤的。",
+    ),
+    "Based on an estimated %lld kg body weight — set yours in Settings for accuracy.": (
+        "基于估算的 %lld kg 体重——在设置中填写你的体重可更准确。",
+        "基於估算的 %lld kg 體重——在設定中填寫你的體重可更準確。",
+    ),
+    "Nothing to show yet": ("暂无可显示内容", "暫無可顯示內容"),
+    "Log doses of substances with receptor data and your predicted tolerance will appear here. Targets you haven't engaged recently read as fully rested.": (
+        "记录有受体数据的物质剂量，预测的耐受性就会出现在这里。近期未涉及的靶点会显示为完全休息状态。",
+        "記錄有受體資料的物質劑量，預測的耐受性就會出現在這裡。近期未涉及的靶點會顯示為完全休息狀態。",
+    ),
+    "Shared by %@ — tolerance to one carries to the others.": (
+        "由 %@ 共享——对其一的耐受会带到其余。",
+        "由 %@ 共享——對其一的耐受會帶到其餘。",
+    ),
+    "· from %@": ("· 来自 %@", "· 來自 %@"),
+    "Predicted response vs. rested: ~%lld%%": (
+        "相对于休息状态的预测反应：~%lld%%",
+        "相對於休息狀態的預測反應：~%lld%%",
+    ),
+    "Recovery-state load: low": ("恢复状态负荷：低", "恢復狀態負荷：低"),
+    "Recovery-state load: moderate": ("恢复状态负荷：中等", "恢復狀態負荷：中等"),
+    "Recovery-state load: high": ("恢复状态负荷：高", "恢復狀態負荷：高"),
+    "Stimulant tolerance isn't one number you can multiply a dose by. The fast part is within a session (a redose lands weaker); the slow part is a months-long recovery state, not a “take more” signal.": (
+        "兴奋剂耐受不是一个可用来乘剂量的数字。快的部分发生在同一次使用内（再次用药效果更弱）；慢的部分是长达数月的恢复状态，而非“该多用”的信号。",
+        "興奮劑耐受不是一個可用來乘劑量的數字。快的部分發生在同一次使用內（再次用藥效果更弱）；慢的部分是長達數月的恢復狀態，而非「該多用」的訊號。",
+    ),
+    "The slow change here is a SERT-binding association, reversible-leaning — not proven neurotoxicity, and not a dose multiplier. It's a recovery-state indicator.": (
+        "这里的慢变化是一种 SERT 结合关联，倾向可逆——并非已证实的神经毒性，也不是剂量乘数。它是一个恢复状态指标。",
+        "這裡的慢變化是一種 SERT 結合關聯，傾向可逆——並非已證實的神經毒性，也不是劑量乘數。它是一個恢復狀態指標。",
+    ),
+    "Nicotine tolerance is mostly fast receptor desensitization that recovers between uses — a single “tolerance %” wouldn't capture it.": (
+        "尼古丁耐受主要是受体的快速脱敏，在两次使用之间会恢复——单一的“耐受性百分比”无法体现这一点。",
+        "尼古丁耐受主要是受體的快速去敏感化，在兩次使用之間會恢復——單一的「耐受性百分比」無法體現這一點。",
+    ),
+    "The slow axis here is a recovery-state indicator, not an effect multiplier.": (
+        "这里的慢轴是一个恢复状态指标，而不是效果乘数。",
+        "這裡的慢軸是一個恢復狀態指標，而不是效果乘數。",
+    ),
+    "A redose right now would land ~%lld%% as strong — within-session tachyphylaxis, recovers overnight.": (
+        "现在再次用药，效果约为 ~%lld%%——同一次使用内的快速耐受，过夜即可恢复。",
+        "現在再次用藥，效果約為 ~%lld%%——同一次使用內的快速耐受，過夜即可恢復。",
+    ),
+    "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you.": (
+        "中断一段时间后，你的阿片类耐受会下降——之前没问题的剂量可能让你停止呼吸。缺氧来得很突然，毫无预兆。请从低剂量重新开始，并让身边的人能随时拿到纳洛酮。",
+        "中斷一段時間後，你的鴉片類耐受會下降——之前沒問題的劑量可能讓你停止呼吸。缺氧來得很突然，毫無預兆。請從低劑量重新開始，並讓身邊的人能隨時拿到納洛酮。",
+    ),
+    "Repeated GABA depressant use builds dependence; abrupt stops after heavy use can be dangerous. Taper rather than quitting cold.": (
+        "反复使用 GABA 类镇静剂会形成依赖；大量使用后骤然停用可能很危险。请逐渐减量，而不要突然停用。",
+        "反覆使用 GABA 類鎮靜劑會形成依賴；大量使用後驟然停用可能很危險。請逐漸減量，而不要突然停用。",
+    ),
+    "%@ to ~90%% if you stop now.": (
+        "若现在停用，约 %@ 恢复到 ~90%%。",
+        "若現在停用，約 %@ 恢復到 ~90%%。",
+    ),
+    "%@ to clear if you stop now.": (
+        "若现在停用，约 %@ 清除。",
+        "若現在停用，約 %@ 清除。",
+    ),
+    "Nearly recovered.": ("已接近恢复。", "已接近恢復。"),
+    "~%lld months": ("~%lld 个月", "~%lld 個月"),
+    "~%lld weeks": ("~%lld 周", "~%lld 週"),
+    "~%lld days": ("~%lld 天", "~%lld 天"),
+    "~%lld hours": ("~%lld 小时", "~%lld 小時"),
+    "under an hour": ("不到一小时", "不到一小時"),
     # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
     "High confidence": ("高可信度", "高可信度"),
     "Medium confidence": ("中等可信度", "中等可信度"),
@@ -2607,6 +2690,44 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
+        "Tolerance",
+        "Predicted receptor tolerance and recovery",
+        "Psychedelics (5-HT2A)",
+        "Opioids (μ)",
+        "Stimulants (DAT/NET)",
+        "Serotonin releasers (SERT)",
+        "GABA (benzos / alcohol)",
+        "Dissociatives (NMDA)",
+        "Cannabinoids (CB1)",
+        "Adenosine (caffeine)",
+        "Nicotinic (nAChR)",
+        "Predicted, not measured",
+        "These are model predictions of how repeated use changes each receptor's responsiveness — never a measurement. Tolerance is shown per mechanism, because one universal “tolerance %” is wrong for some classes (stimulants especially).",
+        "Based on an estimated %lld kg body weight — set yours in Settings for accuracy.",
+        "Nothing to show yet",
+        "Log doses of substances with receptor data and your predicted tolerance will appear here. Targets you haven't engaged recently read as fully rested.",
+        "Shared by %@ — tolerance to one carries to the others.",
+        "· from %@",
+        "Predicted response vs. rested: ~%lld%%",
+        "Recovery-state load: low",
+        "Recovery-state load: moderate",
+        "Recovery-state load: high",
+        "Stimulant tolerance isn't one number you can multiply a dose by. The fast part is within a session (a redose lands weaker); the slow part is a months-long recovery state, not a “take more” signal.",
+        "The slow change here is a SERT-binding association, reversible-leaning — not proven neurotoxicity, and not a dose multiplier. It's a recovery-state indicator.",
+        "Nicotine tolerance is mostly fast receptor desensitization that recovers between uses — a single “tolerance %” wouldn't capture it.",
+        "The slow axis here is a recovery-state indicator, not an effect multiplier.",
+        "A redose right now would land ~%lld%% as strong — within-session tachyphylaxis, recovers overnight.",
+        "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you.",
+        "Repeated GABA depressant use builds dependence; abrupt stops after heavy use can be dangerous. Taper rather than quitting cold.",
+        "%@ to ~90%% if you stop now.",
+        "%@ to clear if you stop now.",
+        "Nearly recovered.",
+        "~%lld months",
+        "~%lld weeks",
+        "~%lld days",
+        "~%lld hours",
+        "under an hour",
         # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
         "High confidence",
         "Medium confidence",
