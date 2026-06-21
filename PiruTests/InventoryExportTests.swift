@@ -35,8 +35,8 @@ struct InventoryExportTests {
         InventoryService.recompute(item, in: ctx)
     }
 
-    @Test("Round-trip reproduces stock exactly")
-    func roundTrip() throws {
+    @Test
+    func `Round-trip reproduces stock exactly`() throws {
         let ctx = try makeContext()
         seed(ctx)
         try ctx.save()
@@ -65,8 +65,8 @@ struct InventoryExportTests {
         #expect(item.currentQuantity == 70)
     }
 
-    @Test("Re-importing the same file is idempotent")
-    func idempotentReimport() throws {
+    @Test
+    func `Re-importing the same file is idempotent`() throws {
         let ctx = try makeContext()
         seed(ctx)
         try ctx.save()
@@ -84,8 +84,8 @@ struct InventoryExportTests {
         #expect(item.currentQuantity == 70) // dose deduped by content
     }
 
-    @Test("Import merges events into an existing item, keeping earliest start")
-    func mergeIntoExisting() throws {
+    @Test
+    func `Import merges events into an existing item, keeping earliest start`() throws {
         // Source file: item created at `start` with the initial event.
         let source = try makeContext()
         seed(source)
@@ -116,8 +116,8 @@ struct InventoryExportTests {
         #expect(abs(item.trackingStart.timeIntervalSince(start)) < 1) // earliest wins
     }
 
-    @Test("PsyLog export omits inventory")
-    func psyLogOmitsInventory() throws {
+    @Test
+    func `PsyLog export omits inventory`() throws {
         let ctx = try makeContext()
         seed(ctx)
         try ctx.save()

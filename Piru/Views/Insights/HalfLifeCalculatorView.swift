@@ -311,8 +311,7 @@ struct HalfLifeCalculatorView: View {
                 for (i, c) in curvePoints.enumerated() {
                     let x = inset + CGFloat(Double(i) / Double(steps)) * graphWidth
                     let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
-                    if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) }
-                    else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
+                    if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) } else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
                 }
                 context.stroke(strokePath, with: .color(color), lineWidth: 2)
 
@@ -327,24 +326,13 @@ struct HalfLifeCalculatorView: View {
                 }
 
                 // Time labels
-                let interval: Double = if endMinutes <= 60 { 15 }
-                else if endMinutes <= 180 { 30 }
-                else if endMinutes <= 360 { 60 }
-                else if endMinutes <= 720 { 120 }
-                else if endMinutes <= 2_880 { 360 }
-                else if endMinutes <= 14_400 { 1_440 }
-                else if endMinutes <= 43_200 { 4_320 }
-                else if endMinutes <= 100_800 { 10_080 }
-                else { 20_160 }
+                let interval: Double = if endMinutes <= 60 { 15 } else if endMinutes <= 180 { 30 } else if endMinutes <= 360 { 60 } else if endMinutes <= 720 { 120 } else if endMinutes <= 2_880 { 360 } else if endMinutes <= 14_400 { 1_440 } else if endMinutes <= 43_200 { 4_320 } else if endMinutes <= 100_800 { 10_080 } else { 20_160 }
 
                 let labelY = inset + graphHeight + labelAreaHeight / 2 + 1
                 var t = 0.0
                 while t <= endMinutes {
                     let x = inset + CGFloat(t / endMinutes) * graphWidth
-                    let text = if t == 0 { "0" }
-                    else if t < 60 { "\(Int(t))m" }
-                    else if t < 1_440 { "\(Int(t / 60))h" }
-                    else { "\(Int(t / 1_440))d" }
+                    let text = if t == 0 { "0" } else if t < 60 { "\(Int(t))m" } else if t < 1_440 { "\(Int(t / 60))h" } else { "\(Int(t / 1_440))d" }
 
                     let resolved = context.resolve(
                         Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.5)),
@@ -526,8 +514,7 @@ struct HalfLifeCalculatorView: View {
                     let c = PKModel.concentration(at: t, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
                     let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
-                    if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) }
-                    else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
+                    if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) } else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
                 }
                 context.stroke(strokePath, with: .color(Theme.accent), lineWidth: 2)
 
@@ -562,21 +549,13 @@ struct HalfLifeCalculatorView: View {
                 }
 
                 // Time labels
-                let interval: Double = if totalMinutes <= 60 { 15 }
-                else if totalMinutes <= 180 { 30 }
-                else if totalMinutes <= 360 { 60 }
-                else if totalMinutes <= 720 { 120 }
-                else if totalMinutes <= 2_880 { 360 }
-                else { 1_440 }
+                let interval: Double = if totalMinutes <= 60 { 15 } else if totalMinutes <= 180 { 30 } else if totalMinutes <= 360 { 60 } else if totalMinutes <= 720 { 120 } else if totalMinutes <= 2_880 { 360 } else { 1_440 }
 
                 let labelY = inset + graphHeight + labelAreaHeight / 2 + 2
                 var t = 0.0
                 while t <= totalMinutes {
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
-                    let label = if t == 0 { "0" }
-                    else if t < 60 { "\(Int(t))m" }
-                    else if t < 1_440 { "\(Int(t / 60))h" }
-                    else { "\(Int(t / 1_440))d" }
+                    let label = if t == 0 { "0" } else if t < 60 { "\(Int(t))m" } else if t < 1_440 { "\(Int(t / 60))h" } else { "\(Int(t / 1_440))d" }
 
                     let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
                     context.draw(context.resolve(text), at: CGPoint(x: x, y: labelY), anchor: .center)

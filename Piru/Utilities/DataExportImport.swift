@@ -1066,7 +1066,9 @@ enum DataExportImport {
                     $0.substance.lowercased() == inv.substance.lowercased() && $0.saltForm == inv.saltForm
                 }) {
                     var byID = Dictionary(item.manualEvents.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-                    for event in importedEvents where byID[event.id] == nil { byID[event.id] = event }
+                    for event in importedEvents where byID[event.id] == nil {
+                        byID[event.id] = event
+                    }
                     item.manualEvents = byID.values.sorted { $0.date < $1.date }
                     let importedStart = Date(ms: inv.trackingStart)
                     if importedStart < item.trackingStart { item.trackingStart = importedStart }

@@ -112,7 +112,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// return to the originating sheet.
     case colorPicker(substance: String, remaining: [String] = [], dismissAllOnComplete: Bool = false)
 
-    // Inventory
+    /// Inventory
     /// Add / restock sheet. `id == nil` is the generic add form (with a
     /// Substance picker); a non-nil id restocks that existing item (and the
     /// Substance field is omitted). `prefillSubstance`/`prefillSalt` open the add

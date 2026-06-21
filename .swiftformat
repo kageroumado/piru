@@ -33,4 +33,6 @@
 --trimwhitespace nonblank
 
 # Build artifacts, SPM checkouts, agent worktrees — never format these.
---exclude .build,**/.build,.claude,DerivedData,**/*.generated.swift
+# (`build` + `**/DerivedData` cover the local `build/DerivedData/SourcePackages`
+# SPM checkouts so local `swiftformat .` matches CI, which has no build dir.)
+--exclude .build,**/.build,build,**/build,.claude,DerivedData,**/DerivedData,**/*.generated.swift

@@ -30,7 +30,8 @@ enum InventoryMath {
         let start = item.trackingStart
         let lowered = item.substance.lowercased()
         let all = (try? ctx.fetch(FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= start }))) ?? []
+            predicate: #Predicate { $0.timestamp >= start },
+        ))) ?? []
         return all.filter {
             $0.substance.lowercased() == lowered && $0.saltForm == item.saltForm
         }
@@ -169,7 +170,7 @@ enum InventoryService {
 
     /// Set the supply-bar baseline directly (Edit screen). `nil`, `0`, or a
     /// negative value disables the bar.
-    static func setBaseline(_ item: InventoryItem, value: Double?, in ctx: ModelContext) {
+    static func setBaseline(_ item: InventoryItem, value: Double?, in _: ModelContext) {
         item.baselineQuantity = normalizedPositive(value)
     }
 
@@ -225,7 +226,9 @@ enum InventoryService {
     /// restore) and alongside the existing post-log widget reload.
     static func recomputeAll(in ctx: ModelContext, notify: Bool = true) {
         let items = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        for item in items { recompute(item, in: ctx, notify: notify) }
+        for item in items {
+            recompute(item, in: ctx, notify: notify)
+        }
     }
 
     // MARK: - Helpers

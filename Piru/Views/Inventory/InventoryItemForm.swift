@@ -63,8 +63,12 @@ struct InventoryItemForm: View {
         _unit = State(initialValue: existingItem?.unit ?? "mg")
     }
 
-    private var isRestock: Bool { existingItem != nil }
-    private var substanceFixed: Bool { existingItem != nil || prefillSubstance != nil }
+    private var isRestock: Bool {
+        existingItem != nil
+    }
+    private var substanceFixed: Bool {
+        existingItem != nil || prefillSubstance != nil
+    }
 
     /// The picker's choices, always including the currently-selected unit so a
     /// substance whose unit isn't in the common list (peptides dosed in `IU`,
@@ -184,12 +188,11 @@ struct InventoryItemForm: View {
         }
     }
 
-    @ViewBuilder
     private var noteSection: some View {
         Section {
             if showNote {
                 TextField("Note", text: $note, axis: .vertical)
-                    .lineLimit(1...3)
+                    .lineLimit(1 ... 3)
             } else {
                 Button {
                     withAnimation { showNote = true }

@@ -96,8 +96,7 @@ struct TripSitSource {
                         case "light": dose.light = range ?? JSONRange(p.min, p.min)
                         case "common": dose.common = range ?? JSONRange(p.min, p.min)
                         case "strong":
-                            if let range { dose.strong = range }
-                            else { dose.heavy = p.min }
+                            if let range { dose.strong = range } else { dose.heavy = p.min }
                         case "heavy": dose.heavy = p.min
                         default: break
                         }

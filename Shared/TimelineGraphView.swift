@@ -1976,10 +1976,7 @@ struct TimelineGraphView: View, Equatable {
         // Determine hour step based on visible span
         let hourStep: Int
         let visibleHours = visibleSpan / 60
-        if visibleHours <= 4 { hourStep = 1 }
-        else if visibleHours <= 12 { hourStep = 2 }
-        else if visibleHours <= 24 { hourStep = 4 }
-        else { hourStep = 6 }
+        if visibleHours <= 4 { hourStep = 1 } else if visibleHours <= 12 { hourStep = 2 } else if visibleHours <= 24 { hourStep = 4 } else { hourStep = 6 }
 
         // Always step in whole hours to avoid duplicates
         var hour = 0

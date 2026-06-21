@@ -523,8 +523,7 @@ nonisolated enum PDFReportGenerator {
                     cleaned = prefix
                     // Clean trailing punctuation
                     while cleaned.hasSuffix(",") || cleaned.hasSuffix(";") || cleaned.hasSuffix(" or") || cleaned.hasSuffix(" ") {
-                        if cleaned.hasSuffix(" or") { cleaned = String(cleaned.dropLast(3)) }
-                        else { cleaned = String(cleaned.dropLast()) }
+                        if cleaned.hasSuffix(" or") { cleaned = String(cleaned.dropLast(3)) } else { cleaned = String(cleaned.dropLast()) }
                     }
                     if !cleaned.hasSuffix(".") { cleaned += "." }
                     break

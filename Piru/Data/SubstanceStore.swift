@@ -957,13 +957,11 @@ final class SubstanceStore {
         }
         for (key, id) in nameIndex {
             guard !seen.contains(id) else { continue }
-            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) }
-            else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
+            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) } else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
         }
         for (key, id) in aliasIndex {
             guard !seen.contains(id) else { continue }
-            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) }
-            else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
+            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) } else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
         }
 
         var ranked: [Int64] = exactIDs + prefixIDs + containsIDs
@@ -2092,10 +2090,7 @@ final class SubstanceStore {
             // present Kᵢ — for LSD that would swap 4 nM for 261 nM (~65× different occupancy).
             let halfMax: Double?
             let kind: PharmacologyParameters.HalfMaxKind
-            if let ki = b.kiNm { halfMax = ki; kind = .ki }
-            else if let ec = b.ec50Nm { halfMax = ec; kind = .ec50 }
-            else if let ic = b.ic50Nm { halfMax = ic; kind = .ic50 }
-            else { halfMax = nil; kind = .ki }
+            if let ki = b.kiNm { halfMax = ki; kind = .ki } else if let ec = b.ec50Nm { halfMax = ec; kind = .ec50 } else if let ic = b.ic50Nm { halfMax = ic; kind = .ic50 } else { halfMax = nil; kind = .ki }
             guard let halfMax, halfMax > 0 else { return nil }
             return .init(
                 target: b.target, action: action, halfMaxNanomolar: halfMax,

@@ -36,8 +36,12 @@ struct InventorySummaryCard: View {
     @Query private var items: [InventoryItem]
     @Query private var substanceColors: [SubstanceColor]
 
-    private var colorMap: [String: Color] { Array(substanceColors).colorMap }
-    private var topItems: [InventoryItem] { Array(inventorySorted(items).prefix(3)) }
+    private var colorMap: [String: Color] {
+        Array(substanceColors).colorMap
+    }
+    private var topItems: [InventoryItem] {
+        Array(inventorySorted(items).prefix(3))
+    }
 
     var body: some View {
         NavigationLink(value: PushRoute.tool(.inventory)) {
@@ -111,8 +115,12 @@ struct InventoryListView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Environment(\.appNavigator) private var navigator
 
-    private var colorMap: [String: Color] { Array(substanceColors).colorMap }
-    private var sorted: [InventoryItem] { inventorySorted(items) }
+    private var colorMap: [String: Color] {
+        Array(substanceColors).colorMap
+    }
+    private var sorted: [InventoryItem] {
+        inventorySorted(items)
+    }
 
     var body: some View {
         Group {

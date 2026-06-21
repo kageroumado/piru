@@ -41,11 +41,7 @@ struct DosePhaseProgressBar: View {
     }
 
     static func phase(_ state: ActiveSubstanceState, elapsedMinutes: Double) -> Phase {
-        if elapsedMinutes <= state.onsetEndMinutes { .onset }
-        else if elapsedMinutes <= state.comeupEndMinutes { .comeup }
-        else if elapsedMinutes <= state.peakEndMinutes { .peak }
-        else if elapsedMinutes <= state.offsetEndMinutes { .offset }
-        else { .after }
+        if elapsedMinutes <= state.onsetEndMinutes { .onset } else if elapsedMinutes <= state.comeupEndMinutes { .comeup } else if elapsedMinutes <= state.peakEndMinutes { .peak } else if elapsedMinutes <= state.offsetEndMinutes { .offset } else { .after }
     }
 
     var body: some View {

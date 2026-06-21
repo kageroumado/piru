@@ -69,7 +69,9 @@ struct InventoryProvider: TimelineProvider {
         let items = (try? context.fetch(FetchDescriptor<InventoryItem>())) ?? []
         let hexMap = ((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).hexColorMap
 
-        func isOut(_ item: InventoryItem) -> Bool { item.currentQuantity <= 0 }
+        func isOut(_ item: InventoryItem) -> Bool {
+            item.currentQuantity <= 0
+        }
         func isLow(_ item: InventoryItem) -> Bool {
             guard let t = item.lowStockThreshold, t > 0 else { return false }
             return item.currentQuantity <= t
@@ -112,7 +114,9 @@ struct InventoryWidgetView: View {
 
     @Environment(\.widgetFamily) var family
 
-    private var rowLimit: Int { family == .systemMedium ? 4 : 3 }
+    private var rowLimit: Int {
+        family == .systemMedium ? 4 : 3
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {

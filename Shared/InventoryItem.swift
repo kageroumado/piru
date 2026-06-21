@@ -13,7 +13,7 @@ import SwiftData
 /// not stored here at all — it is derived on read from the `DoseEntry` log.
 struct ManualEvent: Codable, Identifiable, Hashable {
     /// Stable identity, used to union events idempotently on re-import.
-    var id: UUID = UUID()
+    var id: UUID = .init()
     /// What kind of manual change this represents.
     var kind: Kind = .restock
     /// Signed amount in the item's unit. `initial`/`restock` are positive; an
@@ -73,22 +73,22 @@ final class InventoryItem {
     /// Canonical substance name; matched case-insensitively against `DoseEntry`.
     var substance: String = ""
     /// Salt/form variant; `nil` means base/freebase. Matched strictly.
-    var saltForm: String? = nil
+    var saltForm: String?
     /// Base unit the stock is measured in (e.g. `"mg"`, `"mL"`, `"caps"`).
     var unit: String = "mg"
     /// Doses on/after this instant count against stock; earlier ones do not.
     var trackingStart: Date = Date.now
     /// Opt-in low-stock alert level, in ``unit``. `nil` = no alert.
-    var lowStockThreshold: Double? = nil
+    var lowStockThreshold: Double?
     /// De-dupe flag for the low-stock notification; reset when stock rises back
     /// above the threshold (e.g. on restock).
     var lowStockNotified: Bool = false
     /// Amount that reads as 100% for the supply bar, in ``unit``. `nil` or `0`
     /// hides the bar (see the Baseline section of the spec).
-    var baselineQuantity: Double? = nil
+    var baselineQuantity: Double?
     /// "Single dose" in ``unit``, powering "~N doses left". Optional, **not**
     /// prefilled; `nil` or `0` hides the doses-left value.
-    var doseSize: Double? = nil
+    var doseSize: Double?
     /// Cache of ``InventoryMath/quantity(for:in:)`` for cheap badge/widget reads.
     /// Pure-derived, so a stale value self-heals on the next recompute.
     var currentQuantity: Double = 0

@@ -69,24 +69,24 @@ struct InventoryTests {
 
     // MARK: - Replay, floor, forgive
 
-    @Test("Initial minus a converted dose")
-    func basicConsumption() throws {
+    @Test
+    func `Initial minus a converted dose`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "g", initial: 5)
         logDose(ctx, amount: 200, unit: "mg", at: 1) // 0.2 g
         #expect(InventoryMath.quantity(for: item, in: ctx) == 4.8)
     }
 
-    @Test("Over-log floors at 0")
-    func overdrawFloors() throws {
+    @Test
+    func `Over-log floors at 0`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 30)
         logDose(ctx, amount: 50, at: 1)
         #expect(InventoryMath.quantity(for: item, in: ctx) == 0)
     }
 
-    @Test("Overdraw is forgiven before a later restock")
-    func overdrawThenRestock() throws {
+    @Test
+    func `Overdraw is forgiven before a later restock`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 30)
         logDose(ctx, amount: 50, at: 1) // floors to 0
@@ -94,8 +94,8 @@ struct InventoryTests {
         #expect(InventoryMath.quantity(for: item, in: ctx) == 100)
     }
 
-    @Test("Negative adjustment floors at 0")
-    func negativeAdjustmentFloors() throws {
+    @Test
+    func `Negative adjustment floors at 0`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 10)
         InventoryService.correctTo(item, exact: 0, note: nil, in: ctx)
@@ -106,16 +106,16 @@ struct InventoryTests {
 
     // MARK: - Conversion / mismatch
 
-    @Test("Unit-mismatched dose is skipped, not blocked")
-    func unitMismatchSkipped() throws {
+    @Test
+    func `Unit-mismatched dose is skipped, not blocked`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         logDose(ctx, amount: 5, unit: "mL", at: 1) // not mass-convertible → skipped
         #expect(InventoryMath.quantity(for: item, in: ctx) == 100)
     }
 
-    @Test("Exact-unit (count) match decrements")
-    func exactUnitMatch() throws {
+    @Test
+    func `Exact-unit (count) match decrements`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "caps", initial: 30)
         logDose(ctx, amount: 2, unit: "caps", at: 1)
@@ -124,8 +124,8 @@ struct InventoryTests {
 
     // MARK: - Salt matching
 
-    @Test("Strict salt match: wrong-form dose is not counted")
-    func strictSaltMatch() throws {
+    @Test
+    func `Strict salt match: wrong-form dose is not counted`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", saltForm: "Glycinate", initial: 100)
         logDose(ctx, amount: 20, saltForm: "Citrate", at: 1) // different salt
@@ -136,8 +136,8 @@ struct InventoryTests {
 
     // MARK: - trackingStart cutoff
 
-    @Test("Doses before trackingStart don't count")
-    func preTrackingExcluded() throws {
+    @Test
+    func `Doses before trackingStart don't count`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", trackingStart: now, initial: 100)
         logDose(ctx, amount: 40, at: -2) // before tracking start
@@ -147,8 +147,8 @@ struct InventoryTests {
 
     // MARK: - Back-dated reorder
 
-    @Test("Back-dated dose is replayed in date order")
-    func backDatedReplay() throws {
+    @Test
+    func `Back-dated dose is replayed in date order`() throws {
         let ctx = try makeContext()
         // initial 100 @0h, restock +50 @10h, with a dose back-dated to +5h —
         // between the two manual events. Date-sorted replay: 100 → 70 → 120.
@@ -162,8 +162,8 @@ struct InventoryTests {
 
     // MARK: - Edit/delete reflected
 
-    @Test("Deleting a dose restores stock on re-query")
-    func deleteReflected() throws {
+    @Test
+    func `Deleting a dose restores stock on re-query`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         let dose = logDose(ctx, amount: 25, at: 1)
@@ -172,8 +172,8 @@ struct InventoryTests {
         #expect(InventoryMath.quantity(for: item, in: ctx) == 100)
     }
 
-    @Test("Editing a dose amount is reflected on re-query")
-    func editReflected() throws {
+    @Test
+    func `Editing a dose amount is reflected on re-query`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         let dose = logDose(ctx, amount: 25, at: 1)
@@ -183,8 +183,8 @@ struct InventoryTests {
 
     // MARK: - Cache
 
-    @Test("recompute refreshes the currentQuantity cache")
-    func recomputeCache() throws {
+    @Test
+    func `recompute refreshes the currentQuantity cache`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         #expect(item.currentQuantity == 0) // not yet computed
@@ -193,8 +193,8 @@ struct InventoryTests {
         #expect(item.currentQuantity == 70)
     }
 
-    @Test("recomputeAll touches every tracked item")
-    func recomputeAll() throws {
+    @Test
+    func `recomputeAll touches every tracked item`() throws {
         let ctx = try makeContext()
         let a = makeItem(ctx, unit: "mg", initial: 100)
         let b = makeItem(ctx, substance: "ZZOther", unit: "mg", initial: 50)
@@ -207,16 +207,16 @@ struct InventoryTests {
 
     // MARK: - find / create
 
-    @Test("find matches case-insensitively on substance + strict salt")
-    func findMatch() throws {
+    @Test
+    func `find matches case-insensitively on substance + strict salt`() throws {
         let ctx = try makeContext()
         _ = makeItem(ctx, unit: "mg", saltForm: "Glycinate")
         #expect(InventoryService.find(substance: drug.lowercased(), saltForm: "Glycinate", in: ctx) != nil)
         #expect(InventoryService.find(substance: drug, saltForm: nil, in: ctx) == nil)
     }
 
-    @Test("create with setBaseline pins the post-initial total")
-    func createSetsBaseline() throws {
+    @Test
+    func `create with setBaseline pins the post-initial total`() throws {
         let ctx = try makeContext()
         let item = InventoryService.create(
             substance: drug, saltForm: nil, unit: "g", initial: 5,
@@ -228,8 +228,8 @@ struct InventoryTests {
 
     // MARK: - Baseline
 
-    @Test("setBaseline with 0 disables the bar")
-    func baselineZeroDisables() throws {
+    @Test
+    func `setBaseline with 0 disables the bar`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         InventoryService.setBaseline(item, value: 200, in: ctx)
@@ -238,8 +238,8 @@ struct InventoryTests {
         #expect(item.baselineQuantity == nil)
     }
 
-    @Test("restock with setBaseline captures the new full level")
-    func restockSetsBaseline() throws {
+    @Test
+    func `restock with setBaseline captures the new full level`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 20)
         InventoryService.restock(item, amount: 80, note: "refill", setBaseline: true, in: ctx)
@@ -249,8 +249,8 @@ struct InventoryTests {
 
     // MARK: - correctTo
 
-    @Test("correctTo lands the exact amount via a signed adjustment")
-    func correctToExact() throws {
+    @Test
+    func `correctTo lands the exact amount via a signed adjustment`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         logDose(ctx, amount: 30, at: 1) // -> 70
@@ -261,8 +261,8 @@ struct InventoryTests {
 
     // MARK: - Unit change
 
-    @Test("changeUnit converts events + derived fields within the mass family")
-    func unitChangeConverts() throws {
+    @Test
+    func `changeUnit converts events + derived fields within the mass family`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "g", initial: 5)
         InventoryService.setBaseline(item, value: 5, in: ctx)
@@ -278,8 +278,8 @@ struct InventoryTests {
         #expect(item.currentQuantity == 5_000) // 5 g -> 5000 mg
     }
 
-    @Test("changeUnit to a non-convertible unit clears derived fields")
-    func unitChangeClears() throws {
+    @Test
+    func `changeUnit to a non-convertible unit clears derived fields`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         InventoryService.setBaseline(item, value: 200, in: ctx)
@@ -296,8 +296,8 @@ struct InventoryTests {
 
     // MARK: - doses left
 
-    @Test("dosesLeft only when a dose size is set")
-    func dosesLeftGating() throws {
+    @Test
+    func `dosesLeft only when a dose size is set`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", initial: 100)
         InventoryService.recompute(item, in: ctx)
@@ -308,24 +308,24 @@ struct InventoryTests {
 
     // MARK: - Run-out gate
 
-    @Test("runOut requires at least 5 of the last 7 days dosed")
-    func runOutGateOff() throws {
+    @Test
+    func `runOut requires at least 5 of the last 7 days dosed`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", trackingStart: now.addingTimeInterval(-30 * 86_400), initial: 100)
         // Only 3 distinct days in the last week.
-        for day in 1...3 {
+        for day in 1 ... 3 {
             logDose(ctx, amount: 10, at: Double(-day) * 24)
         }
         InventoryService.recompute(item, in: ctx)
         #expect(InventoryMath.runOut(for: item, in: ctx, now: now) == nil)
     }
 
-    @Test("runOut computes daily average and days left when the gate passes")
-    func runOutGateOn() throws {
+    @Test
+    func `runOut computes daily average and days left when the gate passes`() throws {
         let ctx = try makeContext()
         let item = makeItem(ctx, unit: "mg", trackingStart: now.addingTimeInterval(-30 * 86_400), initial: 700)
         // 7 distinct days, 10 mg each -> 70 mg consumed -> dailyAvg 10.
-        for day in 0...6 {
+        for day in 0 ... 6 {
             logDose(ctx, amount: 10, at: Double(-day) * 24 - 1)
         }
         InventoryService.recompute(item, in: ctx)

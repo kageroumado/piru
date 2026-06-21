@@ -17,8 +17,12 @@ struct InventoryItemDetailView: View {
 
     @State private var showBasisInfo = false
 
-    private var colorMap: [String: Color] { Array(substanceColors).colorMap }
-    private var runOut: InventoryMath.RunOut? { InventoryMath.runOut(for: item, in: modelContext) }
+    private var colorMap: [String: Color] {
+        Array(substanceColors).colorMap
+    }
+    private var runOut: InventoryMath.RunOut? {
+        InventoryMath.runOut(for: item, in: modelContext)
+    }
 
     var body: some View {
         List {
@@ -211,11 +215,11 @@ struct InventoryItemDetailView: View {
     private var accessibilityAmount: String {
         switch item.stockStatus {
         case .out:
-            return String(localized: "\(item.substance), out of stock")
+            String(localized: "\(item.substance), out of stock")
         case .low:
-            return String(localized: "\(item.substance), \(item.currentQuantity.doseFormatted) \(item.unit) in stock, low")
+            String(localized: "\(item.substance), \(item.currentQuantity.doseFormatted) \(item.unit) in stock, low")
         case .ok:
-            return String(localized: "\(item.substance), \(item.currentQuantity.doseFormatted) \(item.unit) in stock")
+            String(localized: "\(item.substance), \(item.currentQuantity.doseFormatted) \(item.unit) in stock")
         }
     }
 }

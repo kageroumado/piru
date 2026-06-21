@@ -235,11 +235,7 @@ struct ErowidSource {
     private func parseDosage(_ text: String) -> (JSONDoseRange, String, String) {
         var route = "oral"
         let lower = text.lowercased()
-        if lower.contains("smoked") || lower.contains("inhalation") { route = "inhalation" }
-        else if lower.contains("intravenous") || lower.contains("iv ") { route = "intravenous" }
-        else if lower.contains("intramuscular") || lower.contains("im ") { route = "intramuscular" }
-        else if lower.contains("sublingual") { route = "sublingual" }
-        else if lower.contains("insufflated") || lower.contains("intranasal") { route = "insufflation" }
+        if lower.contains("smoked") || lower.contains("inhalation") { route = "inhalation" } else if lower.contains("intravenous") || lower.contains("iv ") { route = "intravenous" } else if lower.contains("intramuscular") || lower.contains("im ") { route = "intramuscular" } else if lower.contains("sublingual") { route = "sublingual" } else if lower.contains("insufflated") || lower.contains("intranasal") { route = "insufflation" }
 
         var dose = JSONDoseRange()
         var unit = "mg"
