@@ -65,6 +65,28 @@ struct EffectAttenuationTests {
         #expect(Set(result.blockers) == ["Fluoxetine", "Sertraline"])
     }
 
+    // MARK: - Half-life presence gate (chronic blockers persist; stale ones fall off)
+
+    @Test
+    func `A long-half-life SSRI taken days ago is still onboard`() throws {
+        // Fluoxetine (t½ ≈ 4 d) logged 3 days before tonight's MDMA is still pharmacologically present,
+        // even though its subjective effects are long gone — the half-life gate keeps it.
+        let result = try #require(EffectAttenuation.analyze(entries: [
+            Self.dose("MDMA", mg: 100, hoursAgo: 0),
+            Self.dose("Fluoxetine", mg: 20, hoursAgo: 72),
+        ]).first)
+        #expect(result.blockers.contains("Fluoxetine"))
+    }
+
+    @Test
+    func `A shorter-half-life blocker long past no longer blunts`() {
+        // Sertraline (t½ ≈ 26 h) logged a week ago has decayed well below the onboard threshold.
+        #expect(EffectAttenuation.analyze(entries: [
+            Self.dose("MDMA", mg: 100, hoursAgo: 0),
+            Self.dose("Sertraline", mg: 50, hoursAgo: 168),
+        ]).isEmpty)
+    }
+
     // MARK: - No false positives
 
     @Test

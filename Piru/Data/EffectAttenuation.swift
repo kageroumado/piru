@@ -90,26 +90,45 @@ nonisolated struct EffectAttenuationResult: Identifiable {
 /// MAOIs are excluded (they are the danger edge, not blunting). Adding DAT/NET bands or non-
 /// antidepressant blockers later is a data change, not a structural one.
 nonisolated enum EffectAttenuation {
+    /// Fraction of a blocker's peak level (terminal half-life decay) below which it is treated as no
+    /// longer meaningfully onboard. 0.25 ≈ two half-lives — for a chronically-dosed SSRI the most recent
+    /// dose is hours old so presence is ~1, while a one-off dose weeks ago falls away. This is what
+    /// replaces the short subjective-effect window: an antidepressant is *pharmacologically* present far
+    /// longer than its acute effects, which the half-life captures and the effect curve does not.
+    private static let onboardThreshold = 0.25
+
+    /// Half-life used for a blocker with no resolvable half-life (a conservative day).
+    private static let defaultBlockerHalfLifeMinutes = 1_440.0
+
     /// Resolve a set of doses into the effect-attenuation readouts among them. Returns one result per
-    /// blunted releaser (with all of its co-present blockers folded in). Empty when no releaser ×
-    /// reuptake-blocker competition is present. Ordered most-confident first.
+    /// blunted releaser (with all of its onboard blockers folded in). Empty when no releaser ×
+    /// reuptake-blocker competition is concurrently present. Ordered most-confident first.
+    ///
+    /// A blocker counts only while it is **pharmacologically onboard during the releaser's active
+    /// window** — gated on its terminal half-life decay, not the short subjective-effect window. So a
+    /// chronic SSRI taken days before tonight's MDMA still blunts it (a long half-life keeps it present),
+    /// while a single SSRI dose long past does not. The entries' timestamps drive the gate (the
+    /// prospective dose carries `now`).
     @MainActor
     static func analyze(entries: [DoseEntry]) -> [EffectAttenuationResult] {
         guard entries.count >= 2 else { return [] }
 
-        // Resolve each entry's transporter roles once.
+        // Resolve each entry's transporter roles once (carrying the entry for timing/half-life).
         struct Role {
-            let substance: String
+            let entry: DoseEntry
             let releaserTransporters: Set<CompetingTransporter>
             let isEmpathogen: Bool
             let blockerTransporters: Set<CompetingTransporter>
             let isAntidepressantBlocker: Bool
+            var substance: String {
+                entry.substance
+            }
         }
         var roles: [Role] = []
         roles.reserveCapacity(entries.count)
         for entry in entries {
             roles.append(Role(
-                substance: entry.substance,
+                entry: entry,
                 releaserTransporters: releaserTransporters(for: entry.substance),
                 isEmpathogen: InteractionChecker.drugClasses(for: entry.substance).contains(.empathogen),
                 blockerTransporters: blockerTransporters(for: entry.substance),
@@ -119,14 +138,18 @@ nonisolated enum EffectAttenuation {
 
         var results: [EffectAttenuationResult] = []
         for releaser in roles where !releaser.releaserTransporters.isEmpty {
+            let releaserEnd = releaserEffectEnd(for: releaser.entry)
             for transporter in releaser.releaserTransporters {
-                // Blockers must be a different substance that (a) blocks this transporter and (b) is an
-                // antidepressant — the evidence anchor for the reduction band, and a persistent
-                // serotonergic state so co-presence in the window is itself the temporal gate.
-                let blockers = roles.filter {
-                    $0.substance.lowercased() != releaser.substance.lowercased()
-                        && $0.isAntidepressantBlocker
-                        && $0.blockerTransporters.contains(transporter)
+                // Blockers: a different antidepressant that blocks this transporter and is still onboard
+                // (half-life-gated) at some point during the releaser's active window.
+                let blockers = roles.filter { candidate in
+                    candidate.substance.lowercased() != releaser.substance.lowercased()
+                        && candidate.isAntidepressantBlocker
+                        && candidate.blockerTransporters.contains(transporter)
+                        && blockerPresence(
+                            blocker: candidate.entry,
+                            releaserStart: releaser.entry.timestamp, releaserEnd: releaserEnd,
+                        ) >= onboardThreshold
                 }
                 guard !blockers.isEmpty else { continue }
 
@@ -148,6 +171,40 @@ nonisolated enum EffectAttenuation {
             }
         }
         return results.sorted { $0.confidence > $1.confidence }
+    }
+
+    // MARK: - Presence gating (half-life based)
+
+    /// A blocker's fraction of peak level (terminal half-life decay) at the start of its overlap with the
+    /// releaser's active window — `0` if it never overlaps that window. Models "is the blocker still
+    /// onboard while the releaser is working," using its pharmacological half-life rather than the much
+    /// shorter subjective-effect curve.
+    @MainActor
+    private static func blockerPresence(blocker: DoseEntry, releaserStart: Date, releaserEnd: Date) -> Double {
+        let overlapStart = max(blocker.timestamp, releaserStart)
+        guard overlapStart <= releaserEnd else { return 0 }
+        let halfLife = halfLifeMinutes(for: blocker.substance) ?? defaultBlockerHalfLifeMinutes
+        guard halfLife > 0 else { return 0 }
+        let elapsedMinutes = overlapStart.timeIntervalSince(blocker.timestamp) / 60
+        return pow(0.5, elapsedMinutes / halfLife)
+    }
+
+    /// The end of a releaser's active window — its subjective-effect duration (the interaction engine's
+    /// active-substance model), falling back to ~5 half-lives, then a 6 h default.
+    @MainActor
+    private static func releaserEffectEnd(for entry: DoseEntry) -> Date {
+        if let state = ActiveSubstanceState.from(entry: entry, colorHex: "") {
+            let endMinutes = max(state.offsetEndMinutes, state.totalMinutes)
+            return entry.timestamp.addingTimeInterval(endMinutes * 60)
+        }
+        let halfLife = halfLifeMinutes(for: entry.substance) ?? 360
+        return entry.timestamp.addingTimeInterval(max(halfLife * 5, 360) * 60)
+    }
+
+    /// Resolved half-life (minutes) for a substance — the library value, else the hardcoded database.
+    @MainActor
+    private static func halfLifeMinutes(for name: String) -> Double? {
+        SubstanceLibrary.lookupByNameOrAlias(name)?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
     }
 
     // MARK: - Role detection

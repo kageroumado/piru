@@ -73,6 +73,13 @@ final class ToleranceStore {
     /// contribution has decayed to nothing, so older history is dropped to bound the work.
     static let defaultLookbackDays = 547.0 // ~18 months
 
+    /// Lookback for the cross-tolerance readout (Stage 4a). Cross-tolerance reads only the *availability*
+    /// axis, whose slowest recovery τ among multiplier classes is ~10 days (opioid/GABA), so a dose more
+    /// than ~6 τ back has recovered to <1% and contributes nothing. 90 days is a generous margin and a
+    /// far smaller fetch/replay than the 18-month load window (the LOAD axis, which needs the long
+    /// window, is not used here).
+    static let crossToleranceLookbackDays = 90.0
+
     /// Current per-target tolerance snapshot, keyed by target. Observation-tracked; views read this.
     private(set) var states: [String: TargetTolerance] = [:]
 
@@ -119,7 +126,7 @@ final class ToleranceStore {
     /// readout is independent of this dose's amount. Returns `[]` before launch configuration.
     func crossToleranceReadouts(forSubstance name: String, now: Date = .now) -> [CrossToleranceReadout] {
         guard let context else { return [] }
-        let cutoff = now.addingTimeInterval(-Self.defaultLookbackDays * 86_400)
+        let cutoff = now.addingTimeInterval(-Self.crossToleranceLookbackDays * 86_400)
         let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate<DoseEntry> { $0.timestamp >= cutoff })
         guard let entries = try? context.fetch(descriptor) else { return [] }
         let weightKg = UserProfileStore.shared.effectiveWeightKg

@@ -269,9 +269,9 @@ struct EntryFormView: View {
                 .listRowBackground(Theme.cardBackground)
             }
             .onChange(of: substance) { checkInteractions() }
-            // Cross-tolerance is a long-window replay, so it runs off the synchronous interaction path
-            // and only re-runs when the substance changes (not per keystroke of the amount).
-            .task(id: isEditing ? "" : substance) { refreshCrossTolerance() }
+            // Cross-tolerance + effect-attenuation need history beyond 48 h, so they run off the
+            // synchronous interaction path and only re-run when the substance changes (not per keystroke).
+            .task(id: isEditing ? "" : substance) { refreshPharmacologyReadouts() }
             .onChange(of: notes) {
                 let extracted = TagExtractor.extractTags(from: notes)
                 for tag in extracted where !entryTags.contains(tag) {
@@ -317,7 +317,6 @@ struct EntryFormView: View {
         guard !substance.isEmpty, !isEditing else {
             interactionWarnings = []
             combinedDepression = nil
-            attenuations = []
             return
         }
         let active = InteractionChecker.activeEntries(from: recentEntries)
@@ -327,18 +326,27 @@ struct EntryFormView: View {
         let prospective = DoseEntry(substance: substance, amount: parsedAmount ?? 0, unit: unit, route: route, timestamp: .now)
         let depression = CombinedDepression.analyze(entries: active + [prospective])
         combinedDepression = (depression?.totalCount ?? 0) >= 2 ? depression : nil
-
-        // Sign-flipped readout: a reuptake blocker onboard blunting this dose's transporter-mediated
-        // effect (e.g. an SSRI weakening MDMA). Not a danger warning — a separate, calmer surface.
-        attenuations = EffectAttenuation.analyze(entries: active + [prospective])
     }
 
-    /// Cross-tolerance for the selected substance: the shared receptor availability already lowered by
-    /// recent use of substances hitting the same target. Independent of this dose's amount, so it is
-    /// keyed on the substance alone.
-    private func refreshCrossTolerance() {
-        guard !substance.isEmpty, !isEditing else { crossTolerance = []; return }
+    /// Pharmacology readouts that need history beyond the 48 h interaction window, computed off the
+    /// synchronous interaction path and keyed on the substance alone (neither depends on the dose's
+    /// amount): the cross-tolerance state, and the effect-attenuation blunting from blockers still
+    /// pharmacologically onboard (half-life-gated, so a chronic SSRI taken days ago still counts).
+    private func refreshPharmacologyReadouts() {
+        guard !substance.isEmpty, !isEditing else {
+            crossTolerance = []
+            attenuations = []
+            return
+        }
         crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
+
+        // A 30-day window covers even long-half-life antidepressants (norfluoxetine), then the half-life
+        // presence gate in `EffectAttenuation` decides what is still onboard.
+        let cutoff = Date.now.addingTimeInterval(-30 * 86_400)
+        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate<DoseEntry> { $0.timestamp >= cutoff })
+        let history = (try? modelContext.fetch(descriptor)) ?? []
+        let prospective = DoseEntry(substance: substance, amount: 1, unit: unit, route: route, timestamp: .now)
+        attenuations = EffectAttenuation.analyze(entries: history + [prospective])
     }
 
     private func loadEntry() {
