@@ -21,6 +21,28 @@ struct TargetTolerance: Hashable, Identifiable {
     }
 }
 
+/// A predicted **cross-tolerance** readout for a substance about to be logged: the shared receptor
+/// availability `A_R` at one engaged class, already lowered by recent use of substances that hit the
+/// same target. Surfaced at dose entry (Stage 4a) — "≈X% of rested response."
+struct CrossToleranceReadout: Identifiable {
+    let receptorClass: ReceptorClasses.ReceptorClass
+    /// Predicted availability `A_R` ∈ [0, 1] — 1 = rested. The "% of rested response."
+    let availability: Double
+    /// Substances driving this class's tolerance, recency order (may include the same substance's own
+    /// recent doses — same-drug tolerance is as real as cross-drug).
+    let contributors: [String]
+    let confidence: ConfidenceTier
+
+    var id: String {
+        receptorClass.rawValue
+    }
+
+    /// Predicted response as a percentage of rested.
+    var responsePercent: Int {
+        Int((min(1, max(0, availability)) * 100).rounded())
+    }
+}
+
 /// Owns the user's **per-target tolerance state**, recomputed by replaying the dose log through
 /// ``PDModel`` — the lead thread of `Specs/pharmacology-axis-meta-plan.md` (Stage 1).
 ///
@@ -83,6 +105,93 @@ final class ToleranceStore {
     /// Current availability at a target, or `nil` if untracked (treated as naïve `1` by callers).
     func tolerance(forTarget target: String) -> TargetTolerance? {
         states[target]
+    }
+
+    // MARK: - Cross-tolerance readout (Stage 4a)
+
+    /// Predicted **cross-tolerance** for a substance about to be logged: the already-computed shared
+    /// availability `A_R` at the receptor classes it engages, lowered by *other* recent substances that
+    /// hit the same target ("≈X% of rested response — shared 5-HT2A tolerance from LSD 3 days ago").
+    ///
+    /// Fetches the long tolerance window from the store's own context (the form's `@Query` is only the
+    /// 48 h interaction window) and replays it through ``simulate(entries:now:weightKg:resolve:)``. The
+    /// prospective dose itself is **not** included — tolerance is a property of *past* exposure, so the
+    /// readout is independent of this dose's amount. Returns `[]` before launch configuration.
+    func crossToleranceReadouts(forSubstance name: String, now: Date = .now) -> [CrossToleranceReadout] {
+        guard let context else { return [] }
+        let cutoff = now.addingTimeInterval(-Self.defaultLookbackDays * 86_400)
+        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate<DoseEntry> { $0.timestamp >= cutoff })
+        guard let entries = try? context.fetch(descriptor) else { return [] }
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        return Self.crossTolerance(forSubstance: name, entries: entries, now: now, weightKg: weightKg) {
+            SubstanceStore.shared.pharmacologyParameters(forSubstanceName: $0)
+        }
+    }
+
+    /// Pure cross-tolerance computation (the testable core). Replays `entries`, then for each receptor
+    /// **class** the prospective substance engages that is a valid effect *multiplier*
+    /// (``ReceptorClasses/Parameters/usesEffectMultiplier`` — psychedelic / opioid / GABA / NMDA / CB1 /
+    /// adenosine; stimulants/releasers are excluded because their slow axis is LOAD, not a multiplier),
+    /// it surfaces the worst (lowest-availability) shared state of that class and the substances driving
+    /// it. Only classes reduced by at least `minReduction` are returned, worst first.
+    @MainActor
+    static func crossTolerance(
+        forSubstance name: String,
+        entries: [DoseEntry],
+        now: Date,
+        weightKg: Double,
+        minReduction: Double = 0.1,
+        resolve: (String) -> PharmacologyParameters?,
+    ) -> [CrossToleranceReadout] {
+        guard let prospective = resolve(name) else { return [] }
+
+        // Receptor classes the prospective substance engages whose *availability* axis is a valid
+        // multiplier (the only classes for which "≈X% of rested response" is meaningful). `.unknown`
+        // is excluded: a "% of rested" readout for an uncurated receptor with class-default kinetics is
+        // noise, even though that fallback class nominally allows the multiplier.
+        var engagedClasses = Set<ReceptorClasses.ReceptorClass>()
+        for t in prospective.targets {
+            let cls = ReceptorClasses.classify(target: t.target, action: t.action)
+            guard cls != .unknown, ReceptorClasses.parameters(for: cls).usesEffectMultiplier else { continue }
+            engagedClasses.insert(cls)
+        }
+        guard !engagedClasses.isEmpty else { return [] }
+
+        let states = simulate(entries: entries, now: now, weightKg: weightKg, resolve: resolve)
+        guard !states.isEmpty else { return [] }
+
+        // Substances driving each engaged class, recency order, deduped — mirrors `simulate`'s gating
+        // (only occupancy-computable substances contribute) so the names match the computed state.
+        let sortedDesc = entries.filter { $0.timestamp <= now }.sorted { $0.timestamp > $1.timestamp }
+        var contributorsByClass: [ReceptorClasses.ReceptorClass: [String]] = [:]
+        var seenByClass: [ReceptorClasses.ReceptorClass: Set<String>] = [:]
+        var paramCache: [String: PharmacologyParameters?] = [:]
+        for e in sortedDesc {
+            let p: PharmacologyParameters?
+            if let cached = paramCache[e.substance] { p = cached } else { p = resolve(e.substance); paramCache[e.substance] = p }
+            guard let p, p.canComputeOccupancy else { continue }
+            for t in p.targets {
+                let cls = ReceptorClasses.classify(target: t.target, action: t.action)
+                guard engagedClasses.contains(cls) else { continue }
+                if seenByClass[cls, default: []].insert(e.substance).inserted {
+                    contributorsByClass[cls, default: []].append(e.substance)
+                }
+            }
+        }
+
+        var readouts: [CrossToleranceReadout] = []
+        for cls in engagedClasses {
+            let classStates = states.values.filter { $0.receptorClass == cls }
+            guard let worst = classStates.min(by: { $0.availability < $1.availability }),
+                  (1 - worst.availability) >= minReduction else { continue }
+            readouts.append(CrossToleranceReadout(
+                receptorClass: cls,
+                availability: worst.availability,
+                contributors: contributorsByClass[cls] ?? [],
+                confidence: classStates.map(\.confidence).min() ?? worst.confidence,
+            ))
+        }
+        return readouts.sorted { $0.availability < $1.availability }
     }
 
     // MARK: - Pure replay (the testable core)

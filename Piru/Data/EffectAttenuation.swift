@@ -1,0 +1,191 @@
+import Foundation
+
+/// A monoamine transporter at which a *releaser* (a transporter substrate) can be **blunted** by a
+/// co-present *reuptake blocker* that competes for the same transporter.
+///
+/// A releaser (MDMA-type) works by being carried *into* the neuron through the transporter and then
+/// reversing it to dump neurotransmitter. A reuptake blocker (an SSRI) occupies the transporter and
+/// physically prevents the substrate from entering — so the releaser's transporter-mediated effect is
+/// reduced. v1 seeds only **SERT** (the cleanest evidenced case); DAT/NET are structurally supported
+/// by the same role detection but ship no graded reduction band until evidenced.
+nonisolated enum CompetingTransporter: String {
+    case sert
+
+    /// Classify a binding `target` string to a competing transporter, or `nil`. Case-insensitive and
+    /// substring-based to absorb the DB's qualifying suffixes (`"SERT (uptake, human)"`).
+    static func from(target: String) -> CompetingTransporter? {
+        let t = target.lowercased()
+        if t.contains("sert") || t.contains("serotonin transporter") { return .sert }
+        return nil
+    }
+
+    /// Short transporter phrase for the readout copy.
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .sert: "serotonin transporter"
+        }
+    }
+
+    /// Evidence-anchored fractional-reduction band for a releaser at this transporter when a blocker
+    /// occupies it. The SERT band — chronic SSRI blunts MDMA's effect ~30–80% — is controlled-human,
+    /// HIGH-confidence (the MDMA evidence run). It is a *range*, never a single fabricated %, because
+    /// the relationship between transporter occupancy and subjective blunting is not 1:1.
+    var reductionBand: (low: Double, high: Double) {
+        switch self {
+        case .sert: (0.30, 0.80)
+        }
+    }
+}
+
+/// One predicted **effect-attenuation** ("it won't work as well") between a releaser and the
+/// reuptake blocker(s) competing for its transporter — a *sign-flipped* interaction readout, distinct
+/// from the danger stacking the rest of the interaction engine surfaces.
+nonisolated struct EffectAttenuationResult: Identifiable {
+    /// The releaser whose effect is predicted to be blunted (e.g. MDMA).
+    let attenuated: String
+    /// The co-present reuptake blocker(s) occupying the transporter (e.g. an SSRI), recency order.
+    let blockers: [String]
+    let transporter: CompetingTransporter
+    /// Predicted fractional reduction band `[low, high]` ∈ [0, 1] (e.g. 0.30…0.80).
+    let reductionLow: Double
+    let reductionHigh: Double
+    /// "predicted (model, confidence)" tier — HIGH for the directly-evidenced empathogen × SSRI
+    /// archetype, lower for a structurally-detected but less-directly-evidenced pair.
+    let confidence: ConfidenceTier
+
+    var id: String {
+        "\(attenuated)|\(transporter.rawValue)"
+    }
+
+    /// "30–80%" style percentage range for the headline.
+    var reductionRangeText: String {
+        let lo = Int((reductionLow * 100).rounded())
+        let hi = Int((reductionHigh * 100).rounded())
+        return "\(lo)\u{2013}\(hi)%"
+    }
+}
+
+/// Computes predicted **effect attenuation** — the sign-flipped interaction readout
+/// (`Specs/pharmacology-axis-meta-plan.md`, Stage 3c).
+///
+/// ## What it is, and what it is NOT
+/// Some "warnings" in other apps are really *blunting*, not danger: a chronic SSRI competes for SERT
+/// and reduces MDMA's effect by ~30–80% (controlled-human) — *"it won't work,"* not *"serotonin
+/// syndrome."* SSRI + MDMA **alone lowers** serotonin-syndrome odds. This engine surfaces that as a
+/// **negative-magnitude readout**, deliberately separate from the depression/danger surfaces. It does
+/// **not** touch the genuine lethal serotonergic edge (MAOI + serotonergic), which remains a hard
+/// danger rule in ``InteractionChecker``.
+///
+/// ## Faithfulness (Foundation C)
+/// With the Stage-0 default unbound fraction (`fu = 1`) the Hill occupancy of a sub-nanomolar-Kᵢ SSRI
+/// at SERT saturates to ~100%, which would *over-predict* blunting (real PET SERT occupancy ≈ 80%, the
+/// behavioural blunting 30–80%). So this readout does **not** present a computed occupancy % as the
+/// reduction — it surfaces the **evidence-anchored band** for the transporter, gated only on the two
+/// roles being concurrently present. Every figure is "predicted (model, confidence)", never measured.
+///
+/// ## v1 scope ("start specific, structure for generality")
+/// The transporter abstraction and role detection are general, but a result ships only when a
+/// **releaser** (an empathogen, or a binding `releasingAgent` at a competing transporter) is co-present
+/// with an **antidepressant** reuptake blocker (SSRI/SNRI/TCA — the trust anchor for the band).
+/// MAOIs are excluded (they are the danger edge, not blunting). Adding DAT/NET bands or non-
+/// antidepressant blockers later is a data change, not a structural one.
+nonisolated enum EffectAttenuation {
+    /// Resolve a set of doses into the effect-attenuation readouts among them. Returns one result per
+    /// blunted releaser (with all of its co-present blockers folded in). Empty when no releaser ×
+    /// reuptake-blocker competition is present. Ordered most-confident first.
+    @MainActor
+    static func analyze(entries: [DoseEntry]) -> [EffectAttenuationResult] {
+        guard entries.count >= 2 else { return [] }
+
+        // Resolve each entry's transporter roles once.
+        struct Role {
+            let substance: String
+            let releaserTransporters: Set<CompetingTransporter>
+            let isEmpathogen: Bool
+            let blockerTransporters: Set<CompetingTransporter>
+            let isAntidepressantBlocker: Bool
+        }
+        var roles: [Role] = []
+        roles.reserveCapacity(entries.count)
+        for entry in entries {
+            roles.append(Role(
+                substance: entry.substance,
+                releaserTransporters: releaserTransporters(for: entry.substance),
+                isEmpathogen: InteractionChecker.drugClasses(for: entry.substance).contains(.empathogen),
+                blockerTransporters: blockerTransporters(for: entry.substance),
+                isAntidepressantBlocker: isAntidepressantBlocker(entry.substance),
+            ))
+        }
+
+        var results: [EffectAttenuationResult] = []
+        for releaser in roles where !releaser.releaserTransporters.isEmpty {
+            for transporter in releaser.releaserTransporters {
+                // Blockers must be a different substance that (a) blocks this transporter and (b) is an
+                // antidepressant — the evidence anchor for the reduction band, and a persistent
+                // serotonergic state so co-presence in the window is itself the temporal gate.
+                let blockers = roles.filter {
+                    $0.substance.lowercased() != releaser.substance.lowercased()
+                        && $0.isAntidepressantBlocker
+                        && $0.blockerTransporters.contains(transporter)
+                }
+                guard !blockers.isEmpty else { continue }
+
+                // De-dup blocker names, preserving order.
+                var seen = Set<String>()
+                let blockerNames = blockers.map(\.substance).filter { seen.insert($0.lowercased()).inserted }
+
+                let band = transporter.reductionBand
+                results.append(EffectAttenuationResult(
+                    attenuated: releaser.substance,
+                    blockers: blockerNames,
+                    transporter: transporter,
+                    reductionLow: band.low,
+                    reductionHigh: band.high,
+                    // HIGH for the directly-evidenced empathogen archetype; MEDIUM for a structurally-
+                    // detected non-empathogen releaser (same mechanism, less direct human evidence).
+                    confidence: releaser.isEmpathogen ? .high : .medium,
+                ))
+            }
+        }
+        return results.sorted { $0.confidence > $1.confidence }
+    }
+
+    // MARK: - Role detection
+
+    /// The transporters a substance *releases* at — from binding `releasingAgent` rows, plus the
+    /// empathogen drug-class fallback (MDMA-type SERT releasers) so a substance without binding data is
+    /// still caught.
+    @MainActor
+    private static func releaserTransporters(for name: String) -> Set<CompetingTransporter> {
+        var transporters = Set<CompetingTransporter>()
+        for t in SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name).targets
+            where t.action == .releasingAgent {
+            if let transporter = CompetingTransporter.from(target: t.target) { transporters.insert(transporter) }
+        }
+        if InteractionChecker.drugClasses(for: name).contains(.empathogen) { transporters.insert(.sert) }
+        return transporters
+    }
+
+    /// The transporters a substance *blocks reuptake* at — from binding `reuptakeInhibitor` rows, plus
+    /// the antidepressant drug-class fallback (SSRI/SNRI/TCA → SERT) for substances without binding data.
+    @MainActor
+    private static func blockerTransporters(for name: String) -> Set<CompetingTransporter> {
+        var transporters = Set<CompetingTransporter>()
+        for t in SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name).targets
+            where t.action == .reuptakeInhibitor {
+            if let transporter = CompetingTransporter.from(target: t.target) { transporters.insert(transporter) }
+        }
+        if isAntidepressantBlocker(name) { transporters.insert(.sert) }
+        return transporters
+    }
+
+    /// Whether a substance is an antidepressant SERT blocker (SSRI/SNRI/TCA) — the evidence anchor for
+    /// the reduction band and a persistent serotonergic state. **MAOIs are excluded**: they are the
+    /// genuine additive-toxicity danger edge, not a blunting competitor.
+    @MainActor
+    private static func isAntidepressantBlocker(_ name: String) -> Bool {
+        let classes = InteractionChecker.drugClasses(for: name)
+        guard !classes.contains(.maoi) else { return false }
+        return classes.contains(.ssri) || classes.contains(.snri) || classes.contains(.tca)
+    }
+}

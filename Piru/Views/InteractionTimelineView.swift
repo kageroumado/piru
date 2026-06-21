@@ -27,6 +27,7 @@ struct InteractionTimelineView: View {
     @State private var matchedA: MatchedDose?
     @State private var matchedB: MatchedDose?
     @State private var depression: CombinedDepressionResult?
+    @State private var attenuations: [EffectAttenuationResult] = []
 
     private struct MatchedDose {
         let amount: Double
@@ -93,7 +94,20 @@ struct InteractionTimelineView: View {
             chartData = nil
         }
         depression = computeDepression(for: inputs)
+        attenuations = computeAttenuations(for: inputs)
         computedFor = inputs
+    }
+
+    /// Sign-flipped readout: if one substance is a transporter releaser and the other blocks reuptake
+    /// at that transporter (e.g. MDMA + an SSRI), surface the predicted *reduced* effect — distinct from
+    /// the danger warning. Built from the two matched doses; persistent (SSRI) blockers gate on
+    /// co-presence, so explicit timestamps aren't required.
+    private func computeAttenuations(for inputs: CurveInputs) -> [EffectAttenuationResult] {
+        let entries = [
+            DoseEntry(substance: inputs.substanceA, amount: matchedA?.amount ?? 1, unit: matchedA?.unit ?? "mg", route: matchedA?.route ?? .oral, timestamp: inputs.timeA),
+            DoseEntry(substance: inputs.substanceB, amount: matchedB?.amount ?? 1, unit: matchedB?.unit ?? "mg", route: matchedB?.route ?? .oral, timestamp: inputs.timeB),
+        ]
+        return EffectAttenuation.analyze(entries: entries)
     }
 
     /// The combined CNS/respiratory-depression index for the pair, computed from the two real logged
@@ -155,6 +169,10 @@ struct InteractionTimelineView: View {
 
                 if let depression, depression.hasMeaningfulLoad {
                     depressionCard(depression)
+                }
+
+                ForEach(attenuations) { attenuation in
+                    attenuationCard(attenuation)
                 }
 
                 warningCard
@@ -611,6 +629,38 @@ struct InteractionTimelineView: View {
 
     private func peakClockTime(_ date: Date) -> String {
         date.formatted(date: .omitted, time: .shortened)
+    }
+
+    // MARK: - Effect attenuation (sign-flipped readout)
+
+    private func attenuationCard(_ a: EffectAttenuationResult) -> some View {
+        let blockerPhrase = ListFormatter.localizedString(byJoining: a.blockers)
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "arrow.down.right.circle")
+                    .foregroundStyle(Theme.secondaryLabel)
+                Text("Reduced effect")
+                    .font(.headline)
+                Spacer()
+                Text("~\(a.reductionRangeText)")
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Theme.secondaryLabel.opacity(0.15), in: Capsule())
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+
+            Text("\(blockerPhrase) blocks the \(String(localized: a.transporter.displayName)) that \(a.attenuated) needs to work, so \(a.attenuated) is predicted to feel ~\(a.reductionRangeText) weaker.")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+
+            Text("This is a reduced effect, not a danger warning · predicted (model, \(String(localized: a.confidence.label))).")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .themeCard()
     }
 
     // MARK: - Warning

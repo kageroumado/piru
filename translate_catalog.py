@@ -38,6 +38,38 @@ T = {
         "%@综合抑制 · 预测（模型，%@）。",
         "%@綜合抑制 · 預測（模型，%@）。",
     ),
+    # Pharmacology axis Stage 3c — effect attenuation (2026-06-21)
+    "serotonin transporter": ("血清素转运体", "血清素轉運體"),
+    "Reduced effect": ("效果减弱", "效果減弱"),
+    "%@ may feel weaker — %@ blocks the %@ it needs to work.": (
+        "%@ 的效果可能减弱——%@ 阻断了它起效所需的%@。",
+        "%@ 的效果可能減弱——%@ 阻斷了它起效所需的%@。",
+    ),
+    "Predicted ~%@ reduced effect · predicted (model, %@). Reduced effect, not a danger warning.": (
+        "预测效果减弱约 %@ · 预测（模型，%@）。这是效果减弱，并非危险警告。",
+        "預測效果減弱約 %@ · 預測（模型，%@）。這是效果減弱，並非危險警告。",
+    ),
+    "%@ blocks the %@ that %@ needs to work, so %@ is predicted to feel ~%@ weaker.": (
+        "%@ 阻断了 %@，而 %@ 起效需要它，因此预计 %@ 的效果会减弱约 %@。",
+        "%@ 阻斷了 %@，而 %@ 起效需要它，因此預計 %@ 的效果會減弱約 %@。",
+    ),
+    "This is a reduced effect, not a danger warning · predicted (model, %@).": (
+        "这是效果减弱，并非危险警告 · 预测（模型，%@）。",
+        "這是效果減弱，並非危險警告 · 預測（模型，%@）。",
+    ),
+    # Pharmacology axis Stage 4a — cross-tolerance readout (2026-06-21)
+    "Reduced response predicted — ~%lld%% of rested.": (
+        "预计反应减弱——约为静息状态的 %lld%%。",
+        "預計反應減弱——約為靜息狀態的 %lld%%。",
+    ),
+    "Shared %@ tolerance · predicted (model, %@).": (
+        "共享的%@耐受 · 预测（模型，%@）。",
+        "共享的%@耐受 · 預測（模型，%@）。",
+    ),
+    "Shared %@ tolerance from %@ · predicted (model, %@).": (
+        "来自 %2$@ 的 %1$@ 耐受 · 预测（模型，%3$@）。",
+        "來自 %2$@ 的 %1$@ 耐受 · 預測（模型，%3$@）。",
+    ),
     # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
     "Tolerance": ("耐受性", "耐受性"),
     "Predicted receptor tolerance and recovery": (
@@ -2730,6 +2762,17 @@ if __name__ == "__main__":
         "%lld of %lld substances from receptor occupancy, the rest estimated from effect curves · %@.",
         "Predicted combined depression · %@.",
         "%@ combined depression · predicted (model, %@).",
+        # Pharmacology axis Stage 3c — effect attenuation (2026-06-21)
+        "serotonin transporter",
+        "Reduced effect",
+        "%@ may feel weaker — %@ blocks the %@ it needs to work.",
+        "Predicted ~%@ reduced effect · predicted (model, %@). Reduced effect, not a danger warning.",
+        "%@ blocks the %@ that %@ needs to work, so %@ is predicted to feel ~%@ weaker.",
+        "This is a reduced effect, not a danger warning · predicted (model, %@).",
+        # Pharmacology axis Stage 4a — cross-tolerance readout (2026-06-21)
+        "Reduced response predicted — ~%lld%% of rested.",
+        "Shared %@ tolerance · predicted (model, %@).",
+        "Shared %@ tolerance from %@ · predicted (model, %@).",
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",

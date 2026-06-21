@@ -29,6 +29,8 @@ struct EntryFormView: View {
     @State private var savedEntry: DoseEntry?
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var combinedDepression: CombinedDepressionResult?
+    @State private var attenuations: [EffectAttenuationResult] = []
+    @State private var crossTolerance: [CrossToleranceReadout] = []
     @State private var substanceLocked = false
     @FocusState private var amountFocused: Bool
 
@@ -128,6 +130,22 @@ struct EntryFormView: View {
                     if let combinedDepression, combinedDepression.hasMeaningfulLoad {
                         Section {
                             CombinedDepressionBanner(result: combinedDepression)
+                        }
+                    }
+
+                    if !attenuations.isEmpty {
+                        Section {
+                            ForEach(attenuations) { attenuation in
+                                EffectAttenuationBanner(result: attenuation)
+                            }
+                        }
+                    }
+
+                    if !crossTolerance.isEmpty {
+                        Section {
+                            ForEach(crossTolerance) { readout in
+                                CrossToleranceBanner(readout: readout)
+                            }
                         }
                     }
 
@@ -251,6 +269,9 @@ struct EntryFormView: View {
                 .listRowBackground(Theme.cardBackground)
             }
             .onChange(of: substance) { checkInteractions() }
+            // Cross-tolerance is a long-window replay, so it runs off the synchronous interaction path
+            // and only re-runs when the substance changes (not per keystroke of the amount).
+            .task(id: isEditing ? "" : substance) { refreshCrossTolerance() }
             .onChange(of: notes) {
                 let extracted = TagExtractor.extractTags(from: notes)
                 for tag in extracted where !entryTags.contains(tag) {
@@ -296,6 +317,7 @@ struct EntryFormView: View {
         guard !substance.isEmpty, !isEditing else {
             interactionWarnings = []
             combinedDepression = nil
+            attenuations = []
             return
         }
         let active = InteractionChecker.activeEntries(from: recentEntries)
@@ -305,6 +327,18 @@ struct EntryFormView: View {
         let prospective = DoseEntry(substance: substance, amount: parsedAmount ?? 0, unit: unit, route: route, timestamp: .now)
         let depression = CombinedDepression.analyze(entries: active + [prospective])
         combinedDepression = (depression?.totalCount ?? 0) >= 2 ? depression : nil
+
+        // Sign-flipped readout: a reuptake blocker onboard blunting this dose's transporter-mediated
+        // effect (e.g. an SSRI weakening MDMA). Not a danger warning — a separate, calmer surface.
+        attenuations = EffectAttenuation.analyze(entries: active + [prospective])
+    }
+
+    /// Cross-tolerance for the selected substance: the shared receptor availability already lowered by
+    /// recent use of substances hitting the same target. Independent of this dose's amount, so it is
+    /// keyed on the substance alone.
+    private func refreshCrossTolerance() {
+        guard !substance.isEmpty, !isEditing else { crossTolerance = []; return }
+        crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
     }
 
     private func loadEntry() {

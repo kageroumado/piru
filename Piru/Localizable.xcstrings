@@ -684,6 +684,22 @@
         }
       }
     },
+    "%@ blocks the %@ that %@ needs to work, so %@ is predicted to feel ~%@ weaker." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 阻断了 %@，而 %@ 起效需要它，因此预计 %@ 的效果会减弱约 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 阻斷了 %@，而 %@ 起效需要它，因此預計 %@ 的效果會減弱約 %@。"
+          }
+        }
+      }
+    },
     "%@ combined depression · predicted (model, %@)." : {
       "localizations" : {
         "zh-Hans" : {
@@ -772,6 +788,22 @@
     },
     "%@ left" : {
 
+    },
+    "%@ may feel weaker — %@ blocks the %@ it needs to work." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的效果可能减弱——%@ 阻断了它起效所需的%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的效果可能減弱——%@ 阻斷了它起效所需的%@。"
+          }
+        }
+      }
     },
     "%@ to ~90%% if you stop now." : {
       "localizations" : {
@@ -1850,6 +1882,9 @@
           }
         }
       }
+    },
+    "~%@" : {
+
     },
     "~%@ – %@ hours" : {
       "localizations" : {
@@ -19712,6 +19747,22 @@
         }
       }
     },
+    "Predicted ~%@ reduced effect · predicted (model, %@). Reduced effect, not a danger warning." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预测效果减弱约 %@ · 预测（模型，%@）。这是效果减弱，并非危险警告。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預測效果減弱約 %@ · 預測（模型，%@）。這是效果減弱，並非危險警告。"
+          }
+        }
+      }
+    },
     "Predicted combined depression · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20849,6 +20900,22 @@
         }
       }
     },
+    "Reduced effect" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果减弱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果減弱"
+          }
+        }
+      }
+    },
     "Reduced effects and risk of serotonin syndrome — SSRIs block MDMA's mechanism." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20861,6 +20928,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效果減弱並有血清素綜合徵的風險 — SSRI 會阻斷 MDMA 的作用機制。"
+          }
+        }
+      }
+    },
+    "Reduced response predicted — ~%lld%% of rested." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预计反应减弱——约为静息状态的 %lld%%。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預計反應減弱——約為靜息狀態的 %lld%%。"
           }
         }
       }
@@ -23261,6 +23344,22 @@
         }
       }
     },
+    "serotonin transporter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素转运体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素轉運體"
+          }
+        }
+      }
+    },
     "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -23585,6 +23684,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享記錄日誌"
+          }
+        }
+      }
+    },
+    "Shared %@ tolerance · predicted (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享的%@耐受 · 预测（模型，%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享的%@耐受 · 預測（模型，%@）。"
+          }
+        }
+      }
+    },
+    "Shared %@ tolerance from %@ · predicted (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自 %2$@ 的 %1$@ 耐受 · 预测（模型，%3$@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自 %2$@ 的 %1$@ 耐受 · 預測（模型，%3$@）。"
           }
         }
       }
@@ -26169,6 +26300,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這是反彈效應,而非回到基線焦慮。它會過去。"
+          }
+        }
+      }
+    },
+    "This is a reduced effect, not a danger warning · predicted (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是效果减弱，并非危险警告 · 预测（模型，%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是效果減弱，並非危險警告 · 預測（模型，%@）。"
           }
         }
       }
