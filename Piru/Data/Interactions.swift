@@ -82,6 +82,15 @@ nonisolated enum DrugClass: String, Codable {
     case serotonergic
     case lithium
     case antipsychotic
+    /// Centrally-acting alpha-2 adrenergic agonists (clonidine, guanfacine, tizanidine, dexmedetomidine,
+    /// lofexidine; the xylazine/medetomidine "tranq" adulterants). Additive sedation/bradycardia/
+    /// hypotension; the alpha-2 component is NOT reversed by naloxone. Grounded in the Foundation-C
+    /// alpha-2/beta-blocker run (2026-06-22).
+    case alpha2Agonist
+    /// Beta-adrenergic antagonists (propranolol, metoprolol, atenolol, carvedilol, …). The real
+    /// "unopposed alpha" edge is alpha-2-agonist *withdrawal* while beta-blocked, NOT routine
+    /// beta-blocker + stimulant (that contraindication is contested dogma — see the evidence run).
+    case betaBlocker
     case supplement
     case other
 }
@@ -505,8 +514,21 @@ enum InteractionChecker {
         // Quetiapine (sedating antipsychotic — also acts as antihistamine at low doses)
         map["quetiapine"] = [.antipsychotic, .antihistamine]
 
-        // Clonidine (alpha-2 agonist — additive with CNS depressants)
-        map["clonidine"] = [.other]
+        // Alpha-2 adrenergic agonists (clonidine/guanfacine for ADHD/BP; tizanidine muscle relaxant;
+        // dexmedetomidine/lofexidine). Additive sedation/bradycardia/hypotension; naloxone-irreversible.
+        for name in ["Clonidine", "Guanfacine", "Tizanidine", "Dexmedetomidine", "Lofexidine", "Xylazine", "Medetomidine"] {
+            map[name.lowercased()] = [.alpha2Agonist]
+        }
+
+        // Beta-blockers. NOT split selective vs non-selective: the actionable interaction rules
+        // (alpha-2-withdrawal hypertensive crisis, additive hypotension) don't turn on selectivity, and
+        // the beta-blocker + stimulant "unopposed alpha" contraindication is contested dogma (evidence run).
+        for name in [
+            "Propranolol", "Metoprolol", "Atenolol", "Bisoprolol", "Carvedilol", "Labetalol",
+            "Nebivolol", "Nadolol", "Sotalol", "Pindolol", "Timolol", "Esmolol", "Acebutolol",
+        ] {
+            map[name.lowercased()] = [.betaBlocker]
+        }
 
         // Mirtazapine (NaSSA — both antihistamine AND serotonergic)
         map["mirtazapine"] = [.antihistamine, .ssri]
@@ -791,6 +813,60 @@ enum InteractionChecker {
             classB: .lithium,
             severity: .unsafe,
             description: "Increased serotonin syndrome risk — lithium adds to the serotonergic load.",
+        ),
+
+        // === ALPHA-2 AGONISTS & BETA-BLOCKERS ===
+        // Grounded in the Foundation-C alpha-2/beta-blocker evidence run (2026-06-22). Key corrections:
+        // the alpha-2 + opioid danger is the xylazine/"tranq" reality (naloxone won't reverse the alpha-2
+        // part); the genuine "unopposed alpha" is alpha-2 *withdrawal* while beta-blocked, NOT routine
+        // beta-blocker + stimulant (that contraindication is contested dogma → caution, not danger).
+        InteractionRule(
+            classA: .alpha2Agonist,
+            classB: .opioid,
+            severity: .dangerous,
+            description: "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part — give rescue breaths and call for help even after naloxone.",
+        ),
+        InteractionRule(
+            classA: .alpha2Agonist,
+            classB: .alcohol,
+            severity: .caution,
+            description: "Adds up sedation and lowers blood pressure further — expect stronger drowsiness and dizziness. Use less and don't drive.",
+        ),
+        InteractionRule(
+            classA: .alpha2Agonist,
+            classB: .benzodiazepine,
+            severity: .caution,
+            description: "Compounded sedation and low blood pressure — stronger drowsiness and dizziness.",
+        ),
+        InteractionRule(
+            classA: .alpha2Agonist,
+            classB: .gabapentinoid,
+            severity: .caution,
+            description: "Additive sedation and low blood pressure — increased drowsiness and dizziness.",
+        ),
+        InteractionRule(
+            classA: .alpha2Agonist,
+            classB: .tca,
+            severity: .caution,
+            description: "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise — a medical issue more than an overdose risk.",
+        ),
+        InteractionRule(
+            classA: .betaBlocker,
+            classB: .alpha2Agonist,
+            severity: .unsafe,
+            description: "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly.",
+        ),
+        InteractionRule(
+            classA: .betaBlocker,
+            classB: .stimulant,
+            severity: .caution,
+            description: "The old \u{201C}never mix\u{201D} warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them.",
+        ),
+        InteractionRule(
+            classA: .betaBlocker,
+            classB: .alcohol,
+            severity: .caution,
+            description: "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.",
         ),
         InteractionRule(
             classA: .dissociative,

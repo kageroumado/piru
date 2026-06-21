@@ -167,6 +167,43 @@ struct InteractionRuleTests {
         #expect(pair?.severity == .dangerous)
     }
 
+    // MARK: - Alpha-2 agonists & beta-blockers (Foundation-C run, 2026-06-22)
+
+    @Test
+    func `Clonidine is an alpha-2 agonist, not interaction-invisible .other`() {
+        // Was mapped to .other (zero rules). Now a real class so its depressant/opioid edges fire.
+        #expect(InteractionChecker.drugClasses(for: "Clonidine") == [.alpha2Agonist])
+        #expect(InteractionChecker.drugClasses(for: "Propranolol") == [.betaBlocker])
+    }
+
+    @Test
+    func `Alpha-2 agonist + opioid is dangerous`() {
+        // Clonidine is the prospective (amount-unknown) side so the dose gate doesn't touch it — its
+        // bundled dose-range has a corrupt unit row (µg values labeled g) that can read as sub-threshold.
+        let entry = makeEntry(substance: "Morphine", amount: 30)
+        let results = InteractionChecker.check("Clonidine", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "morphine" }
+        #expect(pair?.severity == .dangerous)
+    }
+
+    @Test
+    func `Beta-blocker + stimulant is only caution (unopposed-alpha is contested dogma)`() {
+        // The blanket "never mix beta-blockers with stimulants" contraindication failed verification —
+        // graded caution, not dangerous (evidence run 2026-06-22).
+        let entry = makeEntry(substance: "Propranolol", amount: 40)
+        let results = InteractionChecker.check("Amphetamine", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "propranolol" }
+        #expect(pair?.severity == .caution)
+    }
+
+    @Test
+    func `Beta-blocker + alpha-2 agonist is unsafe (withdrawal hypertensive crisis)`() {
+        let entry = makeEntry(substance: "Propranolol", amount: 40)
+        let results = InteractionChecker.check("Clonidine", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "propranolol" }
+        #expect(pair?.severity == .unsafe)
+    }
+
     @Test
     func `Opioid + Opioid is unsafe`() {
         let entry = makeEntry(substance: "Morphine")

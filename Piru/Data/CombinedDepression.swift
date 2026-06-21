@@ -59,7 +59,9 @@ nonisolated enum DepressantMechanism: String, CaseIterable {
         case .benzodiazepine, .alcohol, .ghb: .gabaergic
         case .gabapentinoid: .gabapentinoid
         case .dissociative: .dissociative
-        case .antihistamine, .antipsychotic: .sedatingOther
+        // Alpha-2 agonists add sedation/hypotension but only modest intrinsic respiratory depression
+        // (opioid-sparing for OIRD) — counted at the low `sedatingOther` weight (evidence run 2026-06-22).
+        case .antihistamine, .antipsychotic, .alpha2Agonist: .sedatingOther
         default: nil
         }
     }

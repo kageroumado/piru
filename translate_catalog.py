@@ -195,6 +195,39 @@ T = {
         "血清素综合征风险增加——锂会增加血清素负荷。",
         "血清素症候群風險增加——鋰會增加血清素負荷。",
     ),
+    # Alpha-2 agonists + beta-blockers (Foundation-C run, 2026-06-22)
+    "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part — give rescue breaths and call for help even after naloxone.": (
+        "强烈镇静，伴心率和呼吸危险性减慢。纳洛酮能逆转阿片，但无法逆转 alpha-2 的作用——即使用了纳洛酮，也要进行人工呼吸并呼叫求助。",
+        "強烈鎮靜，伴心率和呼吸危險性減慢。納洛酮能逆轉鴉片，但無法逆轉 alpha-2 的作用——即使用了納洛酮，也要進行人工呼吸並呼叫求助。",
+    ),
+    "Adds up sedation and lowers blood pressure further — expect stronger drowsiness and dizziness. Use less and don't drive.": (
+        "镇静叠加并进一步降低血压——困倦和头晕会更明显。减量，且不要开车。",
+        "鎮靜疊加並進一步降低血壓——睏倦和頭暈會更明顯。減量，且不要開車。",
+    ),
+    "Compounded sedation and low blood pressure — stronger drowsiness and dizziness.": (
+        "镇静与低血压叠加——困倦和头晕加重。",
+        "鎮靜與低血壓疊加——睏倦和頭暈加重。",
+    ),
+    "Additive sedation and low blood pressure — increased drowsiness and dizziness.": (
+        "镇静与低血压叠加——困倦和头晕增加。",
+        "鎮靜與低血壓疊加——睏倦和頭暈增加。",
+    ),
+    "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise — a medical issue more than an overdose risk.": (
+        "三环类抗抑郁药可能抵消可乐定类药物的降压作用，使血压升高——这更多是医疗问题，而非过量风险。",
+        "三環類抗憂鬱藥可能抵消可樂定類藥物的降壓作用，使血壓升高——這更多是醫療問題，而非過量風險。",
+    ),
+    "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly.": (
+        "在使用 beta 受体阻滞剂期间，不要突然停用可乐定类药物——可能使血压骤升至危险水平。请缓慢减量。",
+        "在使用 beta 受體阻滯劑期間，不要突然停用可樂定類藥物——可能使血壓驟升至危險水平。請緩慢減量。",
+    ),
+    "The old “never mix” warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them.": (
+        "“绝不可同用”的旧说法在很大程度上是医学误区——大型综述未发现真正的危害。但两者都会增加心脏负担，因此也并非可以随意同用。",
+        "「絕不可同用」的舊說法在很大程度上是醫學迷思——大型綜述未發現真正的危害。但兩者都會增加心臟負擔，因此也並非可以隨意同用。",
+    ),
+    "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.": (
+        "两者都会降低血压并增加头晕——可能感到眩晕，尤其是起身时。",
+        "兩者都會降低血壓並增加頭暈——可能感到眩暈，尤其是起身時。",
+    ),
     # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
     "Tolerance": ("耐受性", "耐受性"),
     "Predicted receptor tolerance and recovery": (
@@ -2941,6 +2974,15 @@ if __name__ == "__main__":
         "Serotonin syndrome risk — a serotonin-raising drug stacked with an SNRI.",
         "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant.",
         "Increased serotonin syndrome risk — lithium adds to the serotonergic load.",
+        # Alpha-2 agonists + beta-blockers (Foundation-C run, 2026-06-22)
+        "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part — give rescue breaths and call for help even after naloxone.",
+        "Adds up sedation and lowers blood pressure further — expect stronger drowsiness and dizziness. Use less and don't drive.",
+        "Compounded sedation and low blood pressure — stronger drowsiness and dizziness.",
+        "Additive sedation and low blood pressure — increased drowsiness and dizziness.",
+        "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise — a medical issue more than an overdose risk.",
+        "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly.",
+        "The old “never mix” warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them.",
+        "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.",
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",
