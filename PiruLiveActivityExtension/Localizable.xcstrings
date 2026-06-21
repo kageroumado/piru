@@ -60,6 +60,9 @@
     "Every other day" : {
 
     },
+    "High confidence" : {
+
+    },
     "Inhalation" : {
 
     },
@@ -70,6 +73,12 @@
 
     },
     "Intravenous" : {
+
+    },
+    "Low confidence" : {
+
+    },
+    "Medium confidence" : {
 
     },
     "Monthly" : {
@@ -103,6 +112,9 @@
 
     },
     "Transdermal" : {
+
+    },
+    "Unverified" : {
 
     },
     "Weekly" : {

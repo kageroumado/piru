@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha256 `ff6947529ee2c9f20cb6137db8835a8f6c241330882c3a0b2cf98e2489149c84`)
+Built 2026-06-21.0 → `Piru/Data/piru-substances.sqlite` (17,367,040 bytes, sha256 `06b7d50c4756598c0ab67dc59c9cd59476480732b7578ff8344fb31c3e1268d2`)
 
 ## Row counts
 
@@ -9,7 +9,7 @@ Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha
 | substances | 1,933 |
 | aliases | 5,824 |
 | sources | 17 |
-| citations | 1,809 |
+| citations | 1,830 |
 | categories | 1,852 |
 | tags | 7,804 |
 | dose_ranges | 2,892 |
@@ -22,13 +22,13 @@ Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha
 | indications | 1,141 |
 | contraindications | 1,674 |
 | diazepam_equivalents | 33 |
-| bindings | 1,171 |
+| bindings | 1,194 |
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
 | downstream_signalling | 790 |
 | neuroimaging | 57 |
-| pk_routes | 413 |
+| pk_routes | 427 |
 | concentration_effects | 38 |
 | metabolism | 530 |
 | drug_interactions_pk | 229 |
@@ -42,7 +42,7 @@ Built 2026-06-19.0 → `Piru/Data/piru-substances.sqlite` (17,354,752 bytes, sha
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
 | piru-curated | 490 | 276 | 625 | 2,610 |
-| peer-review-primary | 0 | 895 | 0 | 1,751 |
+| peer-review-primary | 0 | 918 | 0 | 1,751 |
 | psychonautwiki | 389 | 0 | 77 | 324 |
 | tripsit | 596 | 0 | 430 | 1,282 |
 | drug.community | 889 | 0 | 215 | 126 |

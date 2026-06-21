@@ -6,6 +6,7 @@ struct SettingsView: View {
     @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @State private var customSubstanceStore = CustomSubstanceStore.shared
+    @State private var profileStore = UserProfileStore.shared
 
     @Environment(\.appNavigator) private var navigator
 
@@ -82,10 +83,21 @@ struct SettingsView: View {
                     } label: {
                         Label("Disclosure Tier", systemImage: "slider.horizontal.3")
                     }
+
+                    NavigationLink {
+                        BodyWeightView()
+                    } label: {
+                        HStack {
+                            Label("Body Weight", systemImage: "figure")
+                            Spacer()
+                            Text(weightSummary)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
                 } header: {
                     Text("Preferences")
                 } footer: {
-                    Text(SubstanceStore.shared.userProfile.summary)
+                    Text(UserProfileStore.shared.disclosureTier.summary)
                 }
 
                 Section("Data") {
@@ -148,9 +160,16 @@ struct SettingsView: View {
 
     private var profileBinding: Binding<UserProfile> {
         Binding(
-            get: { SubstanceStore.shared.userProfile },
-            set: { SubstanceStore.shared.setUserProfile($0) },
+            get: { profileStore.disclosureTier },
+            set: { profileStore.setDisclosureTier($0) },
         )
+    }
+
+    /// Trailing summary for the Body Weight row — the value, or "Estimated" when unset.
+    private var weightSummary: String {
+        guard let kg = profileStore.weightKg else { return String(localized: "Estimated") }
+        let value = kg.rounded() == kg ? String(Int(kg)) : String(format: "%.1f", kg)
+        return "\(value) kg"
     }
 
     // MARK: - Version

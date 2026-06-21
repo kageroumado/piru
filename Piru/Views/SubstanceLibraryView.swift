@@ -505,10 +505,12 @@ struct SubstanceDetailView: View {
         personalOverride.map { baseSubstance.applyingOverride(from: $0) } ?? baseSubstance
     }
 
-    /// Holding the @Observable store as @State (rather than reading
-    /// `SubstanceStore.shared.userProfile` via a plain computed) is what makes
-    /// SwiftUI re-render this view when the user changes profile in Settings.
     @State private var store = SubstanceStore.shared
+
+    /// Holding the @Observable profile store as @State (rather than reading
+    /// `UserProfileStore.shared.disclosureTier` via a plain computed) is what makes
+    /// SwiftUI re-render this view when the user changes the tier in Settings.
+    @State private var profileStore = UserProfileStore.shared
 
     // Section expansion state. `nil` means "use the policy default for the
     // current tier"; once the user toggles a section, the stored Bool sticks.
@@ -539,7 +541,7 @@ struct SubstanceDetailView: View {
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
     private var profile: UserProfile {
-        store.userProfile
+        profileStore.disclosureTier
     }
     private var policy: DisclosurePolicy {
         .init(profile: profile)
@@ -1001,7 +1003,6 @@ struct SubstanceDetailView: View {
 
     /// Rich stock card below Dose & Duration: amount, doses-left, supply bar, and
     /// run-out when tracked; a quiet "Not tracked · Track" row otherwise.
-    @ViewBuilder
     private var inventoryStockSection: some View {
         Section {
             if let item = trackedItem {
@@ -1027,7 +1028,6 @@ struct SubstanceDetailView: View {
         }
     }
 
-    @ViewBuilder
     private func trackedStockCard(_ item: InventoryItem) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             StockAmountText(item: item, style: .title2)

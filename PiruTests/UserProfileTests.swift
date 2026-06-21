@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 import Testing
 @testable import Piru
 
@@ -27,29 +28,145 @@ struct UserProfileTests {
         #expect(UserProfile.allCases.contains(.harmReduction))
         #expect(UserProfile.allCases.contains(.pharmaNerd))
     }
+}
+
+@Suite("UserProfileStore", .serialized)
+@MainActor
+struct UserProfileStoreTests {
+    /// A throwaway in-memory container using the full app schema (the pattern the other SwiftData
+    /// suites use). Single-entity in-memory containers proved flaky under the parallel runner.
+    private func makeContainer() throws -> ModelContainer {
+        try ModelContainer(
+            for: Schema(StoreRecovery.models),
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
+        )
+    }
+
+    /// A store bound to a throwaway in-memory container, with no legacy migration.
+    private func makeStore() throws -> UserProfileStore {
+        let store = UserProfileStore()
+        try store.configure(container: makeContainer(), legacyPrefsDBURL: nil)
+        return store
+    }
+
+    // MARK: - Disclosure tier
 
     @Test
-    @MainActor
-    func `Store persists profile change across a single session`() throws {
-        let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
-
-        store.setUserProfile(.pharmaNerd)
-        #expect(store.userProfile == .pharmaNerd)
-
-        store.setUserProfile(.casual)
-        #expect(store.userProfile == .casual)
+    func `Defaults to harm-reduction when unset`() throws {
+        let store = try makeStore()
+        #expect(store.disclosureTier == .harmReduction)
     }
 
     @Test
-    @MainActor
-    func `Setting same profile is a no-op`() throws {
-        let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+    func `Persists disclosure tier change`() throws {
+        let store = try makeStore()
+        store.setDisclosureTier(.pharmaNerd)
+        #expect(store.disclosureTier == .pharmaNerd)
+        store.setDisclosureTier(.casual)
+        #expect(store.disclosureTier == .casual)
+    }
 
-        let original = store.userProfile
-        store.setUserProfile(original)
-        #expect(store.userProfile == original)
+    @Test
+    func `Setting same tier is a no-op`() throws {
+        let store = try makeStore()
+        let original = store.disclosureTier
+        store.setDisclosureTier(original)
+        #expect(store.disclosureTier == original)
+    }
+
+    @Test
+    func `Tier survives a reconfigure against the same container`() throws {
+        let container = try makeContainer()
+        let first = UserProfileStore()
+        first.configure(container: container, legacyPrefsDBURL: nil)
+        first.setDisclosureTier(.pharmaNerd)
+
+        let second = UserProfileStore()
+        second.configure(container: container, legacyPrefsDBURL: nil)
+        #expect(second.disclosureTier == .pharmaNerd)
+    }
+
+    // MARK: - Body weight
+
+    @Test
+    func `Unset weight falls back to default and is estimated`() throws {
+        let store = try makeStore()
+        #expect(store.weightKg == nil)
+        #expect(store.isWeightEstimated)
+        #expect(store.weightSource == .estimated)
+        #expect(store.effectiveWeightKg == UserProfileStore.defaultWeightKg)
+    }
+
+    @Test
+    func `Manual weight is stored and no longer estimated`() throws {
+        let store = try makeStore()
+        store.setManualWeight(72)
+        #expect(store.weightKg == 72)
+        #expect(!store.isWeightEstimated)
+        #expect(store.weightSource == .manual)
+        #expect(store.effectiveWeightKg == 72)
+    }
+
+    @Test
+    func `HealthKit weight records its source`() throws {
+        let store = try makeStore()
+        store.setHealthKitWeight(64.5)
+        #expect(store.weightKg == 64.5)
+        #expect(store.weightSource == .healthKit)
+        #expect(!store.isWeightEstimated)
+    }
+
+    @Test
+    func `Out-of-range and non-finite weights are rejected`() throws {
+        let store = try makeStore()
+        store.setManualWeight(5)
+        store.setManualWeight(500)
+        store.setManualWeight(.nan)
+        store.setManualWeight(.infinity)
+        #expect(store.weightKg == nil)
+        #expect(store.isWeightEstimated)
+    }
+
+    @Test
+    func `Range bounds are inclusive`() throws {
+        let store = try makeStore()
+        store.setManualWeight(20)
+        #expect(store.weightKg == 20)
+        store.setManualWeight(300)
+        #expect(store.weightKg == 300)
+    }
+
+    @Test
+    func `Clearing weight reverts to estimated default`() throws {
+        let store = try makeStore()
+        store.setManualWeight(80)
+        store.clearWeight()
+        #expect(store.weightKg == nil)
+        #expect(store.isWeightEstimated)
+        #expect(store.weightSource == .estimated)
+        #expect(store.effectiveWeightKg == UserProfileStore.defaultWeightKg)
+    }
+
+    @Test
+    func `Weight persists across stores on the same container`() throws {
+        let container = try makeContainer()
+        let first = UserProfileStore()
+        first.configure(container: container, legacyPrefsDBURL: nil)
+        first.setHealthKitWeight(70)
+
+        let second = UserProfileStore()
+        second.configure(container: container, legacyPrefsDBURL: nil)
+        #expect(second.weightKg == 70)
+        #expect(second.weightSource == .healthKit)
+    }
+
+    @Test
+    func `Tier and weight share one record`() throws {
+        let store = try makeStore()
+        store.setDisclosureTier(.pharmaNerd)
+        store.setManualWeight(75)
+        #expect(store.disclosureTier == .pharmaNerd)
+        #expect(store.weightKg == 75)
     }
 }
 

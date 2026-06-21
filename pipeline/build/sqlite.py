@@ -56,6 +56,11 @@ CURATED_DIR = REPO / "data/curated/substances"
 # data-localizable and the bindings are surfaced (union-merged with measured
 # rows). One JSON array, ingested as `piru-curated` AFTER all substances exist.
 MECHANISMS = REPO / "data/curated/mechanisms.json"
+# Flagship pharmacology seed: graded, citation-verified Vd / Kᵢ / EC₅₀ for the
+# pharmacology-axis flagship substances (transcribed from the private evidence
+# run; the raw graded records stay out of the repo). Ingested AFTER all
+# substances exist so it can attach to existing rows.
+FLAGSHIP_PHARMA = REPO / "data/curated/pharmacology-flagship.json"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
@@ -75,6 +80,61 @@ PYRLS_EXT = EXTERNAL_DIR / "pyrls.substances.json"
 MEDTAP_EXT = EXTERNAL_DIR / "medtap.substances.json"
 BENZOS_EXT = EXTERNAL_DIR / "benzos_cited.substances.json"
 NPS_EXT = EXTERNAL_DIR / "nps_datahub.substances.json"
+
+# What each external extract contributes, for the missing-source preflight below.
+# Their ingesters (ingest_pyrls/medtap/benzos_cited/nps) skip a missing file
+# *silently*, so without a preflight a contributor lacking them would build a
+# quietly-partial DB and never know. These come from private datasources that are
+# intentionally not in this open-source repo (see extract.py).
+EXTERNAL_SOURCES = [
+    (
+        PYRLS_EXT,
+        "pyrls",
+        "Rx clinical reference: regulatory status, indications, contraindications, MOA",
+    ),
+    (MEDTAP_EXT, "medtap", "FDA structured product labels: regulatory status, indications, MOA"),
+    (
+        BENZOS_EXT,
+        "benzos-cited",
+        "diazepam-equivalency + curated benzo prose (bioavailability, tolerance)",
+    ),
+    (
+        NPS_EXT,
+        "nps-datahub",
+        "chemical-identifier + forensic physicochemical backfill (CAS/InChIKey/SMILES, logP/pKa/LD50…)",
+    ),
+]
+
+
+def check_external_sources() -> None:
+    """Loudly report any missing external datasource extract before building.
+
+    Warns rather than fails so the offline build from committed inputs still
+    works for a public contributor — it just produces a DB that is *knowingly*
+    partial. Set ``PIRU_REQUIRE_EXTERNAL=1`` to hard-fail instead (use this in
+    the maintainer's own builds so a partial DB never ships by accident).
+    """
+    missing = [(slug, desc) for (path, slug, desc) in EXTERNAL_SOURCES if not path.exists()]
+    if not missing:
+        print(
+            f"✓ All {len(EXTERNAL_SOURCES)} external datasource extracts present in {EXTERNAL_DIR}",
+            file=sys.stderr,
+        )
+        return
+    print("", file=sys.stderr)
+    print("⚠️  MISSING EXTERNAL DATASOURCES — the DB will build but be PARTIAL:", file=sys.stderr)
+    for slug, desc in missing:
+        print(f"     • {slug}: {desc}", file=sys.stderr)
+    print(f"   Expected in: {EXTERNAL_DIR}  (override dir with PIRU_EXTERNAL_DIR)", file=sys.stderr)
+    print(
+        "   Regenerate from the private datasources: python3 pipeline/fetch/brushers/extract.py",
+        file=sys.stderr,
+    )
+    print("", file=sys.stderr)
+    if os.environ.get("PIRU_REQUIRE_EXTERNAL") == "1":
+        print("PIRU_REQUIRE_EXTERNAL=1 set → refusing to build a partial DB.", file=sys.stderr)
+        sys.exit(2)
+
 
 # Note: data/curated/overlay.json used to be referenced here, but the Python
 # build pipeline reads data/intermediate/sourced-substances.json — which
@@ -674,6 +734,10 @@ CREATE TABLE bindings (
     source_id              INTEGER NOT NULL REFERENCES sources(id),
     citation_id            INTEGER REFERENCES citations(id),
     is_review              INTEGER DEFAULT 0,
+    -- Citation-verification grade for this specific value (HIGH|MEDIUM|LOW),
+    -- from the pharmacology evidence pass. NULL for un-graded rows; the app maps
+    -- NULL → ordinal/unverified. Drives the in-UI ConfidenceTier badge.
+    confidence             TEXT,
     notes                  TEXT
 );
 CREATE INDEX idx_bindings_target           ON bindings(target);
@@ -757,6 +821,10 @@ CREATE TABLE pk_routes (
     subject_n                   INTEGER,
     demographics                TEXT,
     citation_id                 INTEGER REFERENCES citations(id),
+    -- Citation-verification grade for this route's values (HIGH|MEDIUM|LOW),
+    -- from the pharmacology evidence pass. NULL for un-graded rows. Drives the
+    -- in-UI ConfidenceTier badge and lets the app prefer a graded Vd.
+    confidence                  TEXT,
     notes                       TEXT
 );
 CREATE INDEX idx_pk_substance_route ON pk_routes(substance_id, route);
@@ -1380,8 +1448,11 @@ def reconcile_formula_mass(con, tolerance: float = 0.02) -> dict:
 
 def dedup_pk_routes(con) -> dict:
     """Drop exact-duplicate ``pk_routes`` rows — same substance, route, source,
-    every numeric, and citation (alprazolam ingested five identical "oral F 85%"
-    rows). Keeps the lowest id of each identical group. Returns the drop count."""
+    every numeric, citation, and confidence grade (alprazolam ingested five
+    identical "oral F 85%" rows). Keeps the lowest id of each identical group.
+    ``confidence`` is part of the key so a graded flagship row is never collapsed
+    into an otherwise-identical un-graded row (which would strip its grade).
+    Returns the drop count."""
     cur = con.cursor()
     before = cur.execute("SELECT COUNT(*) FROM pk_routes").fetchone()[0]
     cur.execute("""
@@ -1393,7 +1464,8 @@ def dedup_pk_routes(con) -> dict:
                      IFNULL(half_life_min,''), IFNULL(vd_l_per_kg,''),
                      IFNULL(clearance_ml_per_min_per_kg,''), IFNULL(protein_binding_pct,''),
                      IFNULL(dose_in_study_mg,''), IFNULL(subject_n,''),
-                     IFNULL(demographics,''), IFNULL(citation_id,''), IFNULL(notes,'')
+                     IFNULL(demographics,''), IFNULL(citation_id,''),
+                     IFNULL(confidence,''), IFNULL(notes,'')
         )
     """)
     con.commit()
@@ -2359,6 +2431,21 @@ def to_int(v) -> int | None:
             return int(float(v))
         except (TypeError, ValueError):
             return None
+
+
+def normalise_confidence(v) -> str | None:
+    """Canonicalise a citation-verification grade to HIGH|MEDIUM|LOW, or None.
+
+    The app maps a NULL/absent grade to its ``unverified`` tier, so anything not
+    recognised as a real grade (incl. "NONE") returns None rather than a fake tier."""
+    if not v:
+        return None
+    s = str(v).strip().upper()
+    if s in ("HIGH", "MEDIUM", "LOW"):
+        return s
+    if s == "MED":
+        return "MEDIUM"
+    return None
 
 
 # "Oral 80-90%", "Oral: 84%.", "Oral 70% +/- 24%.", and pipe-joined multi-route
@@ -3857,7 +3944,7 @@ class Build:
         src = self.source_ids[source_slug]
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
-            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 b.get("target"),
@@ -3879,6 +3966,7 @@ class Build:
                 src,
                 self.cite(b.get("reference")),
                 1 if b.get("is_review") else 0,
+                normalise_confidence(b.get("confidence")),
                 b.get("notes"),
             ),
         )
@@ -3977,7 +4065,7 @@ class Build:
             return
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, citation_id, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 route,
@@ -3994,6 +4082,7 @@ class Build:
                 to_int(r.get("subject_n")),
                 r.get("subject_demographics") or r.get("demographics"),
                 self.cite(r.get("reference")),
+                normalise_confidence(r.get("confidence")),
                 r.get("notes"),
             ),
         )
@@ -5290,6 +5379,50 @@ class Build:
         self.stats["nps_identifier_matches"] = matched
         self.stats["nps_physicochem_matches"] = chem
 
+    def ingest_pharmacology_flagship(self, path: Path) -> None:
+        """Flagship pharmacology seed: graded, citation-verified Vd / Kᵢ / EC₅₀ / IC₅₀ for the
+        pharmacology-axis flagship substances, transcribed from the private evidence run into a
+        committed curated file. Each value carries its own ``confidence`` (HIGH|MEDIUM|LOW) and a
+        primary-literature ``reference`` (DOI/PMID), so the engine can prefer a graded number and the
+        app can badge it.
+
+        ENRICHMENT-ONLY: matches existing substances by name/alias and NEVER mints a new one — these
+        are well-known drugs already in the catalog. Rows are ADDED (not overwritten), so a flagship
+        value coexists with any pre-existing un-graded row; the app's resolver prefers the graded one.
+        Uses the canonical ``peer-review-primary`` source tag (the values cite primary literature)."""
+        if not path.exists():
+            print(
+                f"WARNING: {path} not found; flagship pharmacology seed skipped.", file=sys.stderr
+            )
+            return
+        slug = "peer-review-primary"
+        name_to_sid: dict[str, int] = dict(self.substance_ids)
+        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
+            name_to_sid.setdefault(row[1], row[0])
+        bindings_added = pk_added = 0
+        unmatched: list[str] = []
+        for rec in json.loads(path.read_text()):
+            names = rec.get("names") or ([rec["name"]] if rec.get("name") else [])
+            for name in names:
+                candidates = [normalise(name)] + [normalise(a) for a in (rec.get("aliases") or [])]
+                sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
+                if sid is None:
+                    unmatched.append(name)
+                    continue
+                for b in rec.get("bindings") or []:
+                    self.add_binding(sid, slug, b)
+                    bindings_added += 1
+                for r in rec.get("pk_routes") or []:
+                    self.add_pk_route(sid, slug, r)
+                    pk_added += 1
+        self.stats["flagship_bindings"] = bindings_added
+        self.stats["flagship_pk_routes"] = pk_added
+        if unmatched:
+            print(
+                f"WARNING: flagship seed could not match: {', '.join(sorted(set(unmatched)))}",
+                file=sys.stderr,
+            )
+
     def _substance_tables(self) -> list[str]:
         """Every table (besides ``substances``) that carries a substance_id.
 
@@ -6352,6 +6485,7 @@ class Build:
 
 
 def main() -> int:
+    check_external_sources()
     OUT_SQLITE.parent.mkdir(parents=True, exist_ok=True)
     if OUT_SQLITE.exists():
         OUT_SQLITE.unlink()
@@ -6423,6 +6557,15 @@ def main() -> int:
     build.ingest_curated_mechanisms(MECHANISMS)
     print(
         f"After curated mechanisms: {build.stats.get('curated_mechanisms', 0)} ingested",
+        file=sys.stderr,
+    )
+
+    # Flagship pharmacology seed: graded Vd / Kᵢ / EC₅₀ with per-value confidence.
+    # After curated mechanisms so its bindings union with measured rows on existing substances.
+    build.ingest_pharmacology_flagship(FLAGSHIP_PHARMA)
+    print(
+        f"After flagship pharmacology: {build.stats.get('flagship_bindings', 0)} bindings, "
+        f"{build.stats.get('flagship_pk_routes', 0)} pk_routes",
         file=sys.stderr,
     )
 

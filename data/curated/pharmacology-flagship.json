@@ -1,0 +1,125 @@
+[
+  {
+    "_comment": "Pharmacology-axis flagship seed. Graded, citation-verified Vd / Kᵢ / EC₅₀ / IC₅₀ transcribed from the private evidence run (~/Developer/piru-data/pharmacology-evidence). Each value carries its own confidence (HIGH|MEDIUM|LOW) + a primary-literature reference. fu is left at the default (1) per the Stage-0 resolution; real protein binding lands in the alcohol/benzo verticals. Ingested by ingest_pharmacology_flagship() as peer-review-primary; rows ADD to (never overwrite) existing data and the app resolver prefers the graded value.",
+    "name": "Ethanol",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 0.7, "bioavailability_pct": 88, "confidence": "HIGH", "reference": "10.1016/j.forsciint.2018.10.033", "notes": "Vd ~0.7 L/kg (male representative; women ~0.6). Oral F 80–96%, meal/dose-dependent first-pass. Elimination is zero-order (Michaelis–Menten), not first-order — no first-order t½ applies." }
+    ]
+  },
+  {
+    "name": "THC",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 3.4, "bioavailability_pct": 6, "half_life_min": 180, "confidence": "HIGH", "reference": "PMID 30001569", "notes": "True Vdss ~3.4 L/kg (inhaled, IV-anchored); the oral apparent V/F is much larger and route-confounded, so the IV Vdss is used here. Oral F ~6% (inhaled ~18%). 180 min = effect-site/psychoactive duration; terminal plasma t½ (22 h→days from lipid redistribution) must NOT be used for psychoactive modeling." }
+    ],
+    "bindings": [
+      { "target": "CB1", "action": "partialAgonist", "ki_nm": 25.1, "ec50_nm": 5.2, "confidence": "HIGH", "reference": "10.1038/sj.bjp.0707399", "notes": "CB1 Ki 25.1 ± 5.5 nM (human meta-analytic mean; span 2.9–53 nM). cAMP EC50 5.2 nM, Emax 70% (partial agonist). Active metabolite 11-OH-THC is ~95× higher affinity (Ki 0.37 nM)." }
+    ]
+  },
+  {
+    "name": "Caffeine",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 0.69, "bioavailability_pct": 100, "half_life_min": 300, "confidence": "HIGH", "reference": "10.1111/j.1365-2125.1985.tb02799.x", "notes": "Vd ~0.69 L/kg; F ~100% (108% report is AUC artifact). t½ ~5 h healthy non-smoking adult — CYP1A2-dependent (smokers ~3.5 h, OC ~10.7 h)." }
+    ],
+    "bindings": [
+      { "target": "Adenosine A1", "action": "antagonist", "ki_nm": 10700, "confidence": "MEDIUM", "reference": "10.1016/j.neulet.2010.10.068", "notes": "A1 Ki ~10.7 µM (human recombinant) to ~61 µM (human PET/CHO); assay-dependent, ~6× disagreement. Non-selective across adenosine subtypes." },
+      { "target": "Adenosine A2A", "action": "antagonist", "ki_nm": 9560, "confidence": "MEDIUM", "reference": "10.1111/bph.15103", "notes": "A2A Ki ~9.56 µM (human recombinant; single surviving human source). Primary behaviorally-relevant target (wakefulness/arousal). Non-selective across A1/A2A/A2B/A3 (~1.4×)." }
+    ]
+  },
+  {
+    "name": "Nicotine",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 2.6, "bioavailability_pct": 40, "half_life_min": 120, "confidence": "HIGH", "reference": "10.1007/978-3-540-69248-5_2", "notes": "Benowitz canonical Vss ~2.6 L/kg (range 1.0–4.3). Oral/swallowed F ~40%; inhaled pulmonary absorption near-complete. t½ ~2 h single-phase; cotinine t½ ~16 h; CYP2A6-dependent." }
+    ],
+    "bindings": [
+      { "target": "nAChR α4β2", "action": "agonist", "ec50_nm": 2400, "confidence": "MEDIUM", "reference": "PMID 14555718", "notes": "Activation EC50 ~2.4 µM (high-affinity state). Desensitization IC50 ~9.7–61 nM is 200–1000× lower, so physiological nicotine primarily desensitizes rather than activates. In-vitro, rat-based with human extrapolation." }
+    ]
+  },
+  {
+    "names": ["Dextroamphetamine", "Amphetamine"],
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 4.0, "bioavailability_pct": 75, "half_life_min": 600, "confidence": "HIGH", "reference": "PMID 26329917", "notes": "d-Amphetamine: true Vd ~4 L/kg (oral Vz/F ~5.4 inflated); F ~75% (tertiary, MEDIUM); t½ ~10 h. Applied to racemic Amphetamine as a close approximation (l-isomer t½ slightly longer). XR prolongs Tmax, not t½." }
+    ],
+    "bindings": [
+      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 24.8, "confidence": "MEDIUM", "reference": "10.1037/a0036595", "notes": "d-Amph functional release EC50 at DAT 24.8 nM (rat synaptosome, Rothman/Baumann platform). Use ratios within this assay, not absolute (cross-platform 5–25 nM). DA-leaning, near-SERT-sparing." },
+      { "target": "NET", "action": "releasingAgent", "ec50_nm": 7.2, "confidence": "MEDIUM", "reference": "10.1037/a0036595", "notes": "NET release EC50 7.2 nM (same assay as DAT). NET most potent; NET ≈ DAT ≫ SERT. Use within-assay ratios." },
+      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1765, "confidence": "MEDIUM", "reference": "10.1037/a0036595", "notes": "SERT release EC50 1765 nM (same assay). SERT/DAT ratio ~71 — near-SERT-sparing. Use within-assay ratios." }
+    ]
+  },
+  {
+    "name": "Methylphenidate",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 2.23, "bioavailability_pct": 22, "half_life_min": 150, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "Racemate IV Vss 2.23 L/kg (d-MPH 2.65, l-MPH 1.80). d-MPH oral F 22% (l-MPH 5%); MEDIUM (no DOI source). t½ ~2.5 h (IR); CES1A1 de-esterification. XR prolongs Tmax not t½. (Reference is for the binding IC50s below.)" }
+    ],
+    "bindings": [
+      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 80, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "Human DAT uptake-inhibition IC50 ~60–140 nM (racemic dl-threo-MPH). Pure blocker — does NOT evoke transporter-mediated efflux (mechanistically distinct from amphetamine)." },
+      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 100, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "Human NET uptake-inhibition IC50 ~0.10 µM. DAT ≈ NET ≫ SERT." },
+      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 100000, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "SERT IC50 ~100 µM — ~1000× weaker than DAT/NET; effectively SERT-sparing." }
+    ]
+  },
+  {
+    "name": "Psilocin",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 3.97, "bioavailability_pct": 52.7, "half_life_min": 120, "confidence": "MEDIUM", "reference": "10.1007/s40262-024-01454-4", "notes": "True IV Vss ~3.97 L/kg (277 L ÷ 70 kg; Hasler n=3). Oral F 52.7% (n=3, single source, LOW). Oral t½ ~2 h. ~80% of circulating psilocin is glucuronide. Psilocin is the active metabolite of psilocybin." }
+    ],
+    "bindings": [
+      { "target": "5-HT2A", "action": "agonist", "ki_nm": 41.1, "ec50_nm": 74.5, "confidence": "HIGH", "reference": "10.1016/j.euroneuro.2016.05.001", "notes": "5-HT2A Ki 41.1 nM (human cloned, HEK293); functional EC50 ≤74.5 nM. ~10× lower affinity than LSD. Bidirectional cross-tolerance with LSD (human controlled)." }
+    ]
+  },
+  {
+    "name": "Lysergic Acid Diethylamide",
+    "pk_routes": [
+      { "route": "oral", "half_life_min": 228, "confidence": "HIGH", "reference": "10.1111/bcp.13918", "notes": "Primary elimination t½ ~3.8 h (2.4–7.3 h at 100 µg); biphasic at higher dose. No Vd record in the evidence run. Long apparent effect duration vs plasma t½ is slow 5-HT2A dissociation (ECL2 'lid'), not PK." }
+    ],
+    "bindings": [
+      { "target": "5-HT2A", "action": "partialAgonist", "ki_nm": 4, "ec50_nm": 261, "confidence": "HIGH", "reference": "10.1016/j.cell.2016.12.033", "notes": "5-HT2A Ki 4 nM (binding + crystal structure); functional EC50 261 nM, Emax 28% (partial). Exceptionally slow dissociation. ~10× tighter binding than psilocin." }
+    ]
+  },
+  {
+    "name": "Morphine",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 3.5, "bioavailability_pct": 23, "half_life_min": 120, "confidence": "HIGH", "reference": "PMID 2719903", "notes": "Vd 1–4.7 L/kg (FDA label, parenteral); 3.5 = midpoint. Oral F ~22–24% (extensive first-pass glucuronidation). Dominant terminal t½ ~2 h; the ~15 h slow phase is a trivial fraction and not for one-compartment modeling. Active metabolite M6G is a potent MOR agonist." }
+    ],
+    "bindings": [
+      { "target": "MOR", "action": "agonist", "ki_nm": 37, "confidence": "HIGH", "reference": "10.1016/j.yrtph.2010.12.007", "notes": "MOR Ki ~1.2–74 nM across assays (37 ≈ geometric-mean of range). Full agonist in intact-cell functional assays (Emax 96%)." }
+    ]
+  },
+  {
+    "name": "Oxycodone",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 2.6, "bioavailability_pct": 75, "half_life_min": 210, "confidence": "HIGH", "reference": "10.1016/j.yrtph.2010.12.007", "notes": "FDA Roxicodone IV Vss 2.6 L/kg; oral F ~60–87% (higher than morphine, less first-pass). IR t½ ~3.5 h. CYP3A4→noroxycodone (major), CYP2D6→oxymorphone (minor, high µ-affinity). (Reference is for the MOR Ki below.)" }
+    ],
+    "bindings": [
+      { "target": "MOR", "action": "agonist", "ki_nm": 400, "confidence": "HIGH", "reference": "10.1016/j.yrtph.2010.12.007", "notes": "MOR Ki ~26–780 nM (~10–22× weaker than morphine; rank order consistent). Full agonist in intact-cell assays (Emax 90%)." }
+    ]
+  },
+  {
+    "name": "Diazepam",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 1.1, "bioavailability_pct": 94, "half_life_min": 2760, "confidence": "HIGH", "reference": "PMID 6849499", "notes": "Vd ~1.1 L/kg young adults (rises to ~1.7 in elderly). Oral F ~94%. t½ ~46 h; active metabolite desmethyldiazepam t½ ~71–100 h extends duration. CYP2C19 + CYP3A4 (poor 2C19 metabolizers ↑ exposure)." }
+    ],
+    "bindings": [
+      { "target": "GABA-A α1β2γ2", "action": "positiveAllostericModulator", "ki_nm": 3, "confidence": "HIGH", "reference": "10.1073/pnas.74.9.3805", "notes": "BZ-site Kd ~3 nM (rat brain); cold-diazepam Ki ~4.8–15 nM across α1/2/3/5 (non-selective classical profile)." }
+    ]
+  },
+  {
+    "name": "Alprazolam",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 0.8, "bioavailability_pct": 90, "half_life_min": 672, "confidence": "HIGH", "reference": "PMID 1964224", "notes": "Vd ~0.8 L/kg (IV ~0.72). Oral F ~90%. t½ ~11.2 h (FDA IR mean). Metabolites pharmacologically minor (≈single-parent kinetics, unlike diazepam). CYP3A4 only — not CYP2C19. (Reference is for the binding Kd below.)" }
+    ],
+    "bindings": [
+      { "target": "GABA-A α1β2γ2", "action": "positiveAllostericModulator", "ki_nm": 4.6, "confidence": "HIGH", "reference": "PMID 1964224", "notes": "BZ-site Kd ~4.6 nM (rat brain); slightly more potent than diazepam. Ashton diazepam-equivalent ~0.5 mg ≡ 10 mg diazepam." }
+    ]
+  },
+  {
+    "name": "MDMA",
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 6.5, "half_life_min": 522, "confidence": "MEDIUM", "reference": "10.1097/00007691-200404000-00009", "notes": "Apparent V/F ~6.5 L/kg (453 L ÷ 70 kg; oral, true Vd likely lower). Racemic oral t½ ~8.7 h (R ~11–14 h, S ~4–5 h). Non-linear PK from CYP2D6 autoinhibition → t½ rises with dose. Absolute oral F is definitionally underivable (no human IV arm)." }
+    ],
+    "bindings": [
+      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1690, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Human SERT release EC50 ~1.69 µM (HEK293); rat synaptosome ~74 nM — ~23× cross-platform disagreement, use within-assay ratios. MDMA is 5-HT-leaning (SERT most potent in the synaptosome platform)." },
+      { "target": "NET", "action": "releasingAgent", "ec50_nm": 77.4, "confidence": "MEDIUM", "reference": "10.1021/acschemneuro.8b00155", "notes": "NET release EC50 77.4 nM (rat synaptosome, Rothman/Baumann review). Use within-assay ratios." },
+      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 22000, "confidence": "MEDIUM", "reference": "10.1111/j.1476-5381.2012.02145.x", "notes": "Human DAT release EC50 ~22 µM (HEK293); rat synaptosome ~142–278 nM — ~80× disagreement. MDMA is DA-weak relative to SERT/NET. Use within-assay ratios." },
+      { "target": "5-HT2A", "action": "agonist", "ki_nm": 7800, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Weak, low-affinity 5-HT2A ligand (~7.8 µM); not a meaningful direct agonist at therapeutic concentrations. Primary serotonergic action is SERT-mediated release." }
+    ]
+  }
+]

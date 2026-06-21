@@ -4,6 +4,7 @@ struct OnboardingView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
+    @State private var useHealthWeight = false
 
     @Environment(\.dismiss) private var dismiss
 
@@ -41,6 +42,26 @@ struct OnboardingView: View {
                     description: "Get hydration and sleep nudges automatically when you log a dose.",
                     isOn: $wellnessNotificationsEnabled,
                 )
+
+                if HealthKitBodyMass.shared.isAvailable {
+                    featureToggle(
+                        icon: "figure",
+                        title: "Use Body Weight",
+                        description: "Read your weight from Apple Health so estimates fit your body — a drink hits harder the less you weigh. Read-only; change anytime in Settings.",
+                        isOn: $useHealthWeight,
+                    )
+                    .onChange(of: useHealthWeight) { _, on in
+                        guard on else { return }
+                        Task {
+                            let result = await HealthKitBodyMass.shared.requestAndSync()
+                            // If the user flipped the toggle back off while the request was in
+                            // flight, undo the write so the stored state matches the toggle.
+                            if !useHealthWeight, case .updated = result {
+                                UserProfileStore.shared.clearWeight()
+                            }
+                        }
+                    }
+                }
             }
             .padding(.horizontal, 24)
 

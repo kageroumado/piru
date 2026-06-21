@@ -8,6 +8,8 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Piru reads your body weight from Health to make dose-exposure and alcohol-strength estimates accurate for your body. It is read only on your device and is never shared.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

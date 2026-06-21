@@ -88,11 +88,6 @@ final class SubstanceStore {
     /// launch.
     private(set) var enabledSourceOrder: [String] = []
 
-    /// The user's chosen disclosure tier. Drives default expanded state in
-    /// progressive-disclosure surfaces. Defaults to ``UserProfile/harmReduction``
-    /// when no value has been stored.
-    private(set) var userProfile: UserProfile = .harmReduction
-
     /// Cached resolved substances keyed by canonical name (case-insensitive).
     /// Cleared when the user changes source priority.
     private var resolvedCache: [String: Substance] = [:]
@@ -187,9 +182,8 @@ final class SubstanceStore {
 
         seedUserPrefsIfNeeded()
         reloadSourceOrder()
-        reloadUserProfile()
         buildIndexes()
-        logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources, profile=\(self.userProfile.rawValue, privacy: .public)")
+        logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources")
         // Eager-prefill the `all` cache *off the main thread*. The first
         // Library-tab tap — and, more visibly, the first quick-log open — was
         // paying a ~660 ms synchronous resolve of all 1700+ substances on the
@@ -234,10 +228,6 @@ final class SubstanceStore {
                         source_slug TEXT PRIMARY KEY,
                         priority    INTEGER NOT NULL,
                         enabled     INTEGER NOT NULL DEFAULT 1
-                    );
-                    CREATE TABLE IF NOT EXISTS user_profile (
-                        key   TEXT PRIMARY KEY,
-                        value TEXT NOT NULL
                     );
                     CREATE TABLE IF NOT EXISTS field_overrides (
                         id              INTEGER PRIMARY KEY,
@@ -343,47 +333,6 @@ final class SubstanceStore {
             reloadSourceOrder()
         } catch {
             logger.error("Failed to toggle source enabled state: \(error.localizedDescription, privacy: .public)")
-        }
-    }
-
-    // MARK: - User profile
-
-    private static let userProfileKey = "profile"
-
-    private func reloadUserProfile() {
-        do {
-            let raw = try userPrefsDB.read { db in
-                try String.fetchOne(
-                    db,
-                    sql: "SELECT value FROM user_profile WHERE key = ?",
-                    arguments: [Self.userProfileKey],
-                )
-            }
-            if let raw, let parsed = UserProfile(rawValue: raw) {
-                userProfile = parsed
-            }
-        } catch {
-            logger.error("Failed to read user profile: \(error.localizedDescription, privacy: .public)")
-        }
-    }
-
-    /// Persist a new disclosure tier. The change is immediate and triggers
-    /// `@Observable` updates so detail views re-render with the new defaults.
-    func setUserProfile(_ profile: UserProfile) {
-        guard profile != userProfile else { return }
-        do {
-            try userPrefsDB.write { db in
-                try db.execute(
-                    sql: """
-                        INSERT INTO user_profile(key, value) VALUES (?, ?)
-                        ON CONFLICT(key) DO UPDATE SET value = excluded.value
-                    """,
-                    arguments: [Self.userProfileKey, profile.rawValue],
-                )
-            }
-            userProfile = profile
-        } catch {
-            logger.error("Failed to write user profile: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -1744,6 +1693,8 @@ final class SubstanceStore {
         let doi: String?
         let pmid: Int?
         let notes: String?
+        /// Citation-verification grade for this route's values (`.unverified` when un-graded).
+        var confidence: ConfidenceTier = .unverified
     }
 
     /// One metabolism row — an enzyme/pathway and (optionally) the metabolite it
@@ -1771,10 +1722,13 @@ final class SubstanceStore {
         let action: String
         let kiNm: Double?
         let ec50Nm: Double?
+        let ic50Nm: Double?
         let species: String?
         let sourceSlug: String
         let doi: String?
         let pmid: Int?
+        /// Citation-verification grade for this binding (`.unverified` when un-graded).
+        var confidence: ConfidenceTier = .unverified
     }
 
     /// Returns every binding row matching the predicate, *across all sources*
@@ -1790,7 +1744,7 @@ final class SubstanceStore {
         do {
             return try substancesDB.read { db in
                 var sql = """
-                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.species,
+                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
                            c.doi, c.pmid
@@ -1825,10 +1779,12 @@ final class SubstanceStore {
                         action: row["action"],
                         kiNm: row["ki_nm"],
                         ec50Nm: row["ec50_nm"],
+                        ic50Nm: row["ic50_nm"],
                         species: row["species"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        confidence: ConfidenceTier(grade: row["confidence"]),
                     )
                 }
             }
@@ -2021,7 +1977,7 @@ final class SubstanceStore {
         do {
             return try substancesDB.read { db in
                 let rows = try Row.fetchAll(db, sql: """
-                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.species,
+                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
                            c.doi, c.pmid
@@ -2040,10 +1996,12 @@ final class SubstanceStore {
                         action: row["action"],
                         kiNm: row["ki_nm"],
                         ec50Nm: row["ec50_nm"],
+                        ic50Nm: row["ic50_nm"],
                         species: row["species"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: row["pmid"],
+                        confidence: ConfidenceTier(grade: row["confidence"]),
                     )
                 }
             }
@@ -2064,7 +2022,7 @@ final class SubstanceStore {
                     SELECT p.id, p.route, p.bioavailability_pct, p.cmax_ng_per_ml, p.tmax_min,
                            p.half_life_min, p.vd_l_per_kg, p.clearance_ml_per_min_per_kg,
                            p.protein_binding_pct, p.dose_in_study_mg, p.subject_n, p.demographics,
-                           p.notes, src.slug AS source_slug, c.doi, c.pmid
+                           p.notes, p.confidence, src.slug AS source_slug, c.doi, c.pmid
                       FROM pk_routes p
                       JOIN sources src ON src.id = p.source_id
                       LEFT JOIN citations c ON c.id = p.citation_id
@@ -2088,6 +2046,7 @@ final class SubstanceStore {
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
                         notes: row["notes"],
+                        confidence: ConfidenceTier(grade: row["confidence"]),
                     )
                 }
                 .sorted { Self.routeRank(RouteOfAdministration.from(string: $0.route)) < Self.routeRank(RouteOfAdministration.from(string: $1.route)) }
@@ -2096,6 +2055,68 @@ final class SubstanceStore {
             logger.error("pharmacokinetics(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
+    }
+
+    /// Resolved inputs for the absolute-exposure → occupancy pipeline (the pharmacology axis's
+    /// Foundation A): the best graded Vd + bioavailability + half-life from `pk_routes`, the molar
+    /// mass, and the engaged targets (Kᵢ/EC₅₀/IC₅₀) from `bindings` — each carrying its confidence.
+    ///
+    /// This is the single accessor Stage 1's tolerance/PD engine consumes. Stage 0 ships it plus a
+    /// peak-occupancy convenience used by the dose-dependence gate. It deliberately *prefers a graded
+    /// row* (the flagship seed) over an un-graded one for the Vd, so the engine runs on the verified
+    /// number when one exists and degrades to whatever is available otherwise.
+    func pharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
+        let molarMass = SubstanceLibrary.lookup(name)?.molarMass
+        let pk = pharmacokinetics(forSubstanceName: name)
+        // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
+        // with an F or half-life from another. That cross-pairing silently double-counts F when a
+        // stored "Vd" is actually an apparent V/F (e.g. MDMA, where no IV arm exists): C = F·dose/(V/F·wt)
+        // would embed F twice. Prefer the highest-confidence row that carries a Vd (pharmacokinetics()
+        // is oral-first, so .first is deterministic); fall back to the best row for half-life only when
+        // no Vd exists (occupancy needs a Vd regardless, so it stays uncomputable — correct).
+        let vdRows = pk.filter { $0.vdLPerKg != nil }
+        let primaryRow = vdRows.first { $0.confidence != .unverified }
+            ?? vdRows.first
+            ?? pk.first { $0.confidence != .unverified }
+            ?? pk.first
+        let vd = primaryRow?.vdLPerKg
+        let f = primaryRow?.bioavailabilityPct.map { $0 / 100 }
+        let halfLife = primaryRow?.halfLifeMin
+
+        var seenTargets = Set<String>()
+        let targets = bindings(forSubstanceName: name).compactMap { b -> PharmacologyParameters.TargetEngagement? in
+            guard let action = BindingAction(rawValue: b.action) else { return nil }
+            // Half-saturation constant for the Hill occupancy curve, by mechanism: Kᵢ (binding) is
+            // preferred because it *is* fractional receptor occupancy; EC₅₀ (functional release) and
+            // IC₅₀ (reuptake inhibition) are used only when no Kᵢ exists. Do not "promote" EC₅₀ over a
+            // present Kᵢ — for LSD that would swap 4 nM for 261 nM (~65× different occupancy).
+            let halfMax: Double?
+            let kind: PharmacologyParameters.HalfMaxKind
+            if let ki = b.kiNm { halfMax = ki; kind = .ki }
+            else if let ec = b.ec50Nm { halfMax = ec; kind = .ec50 }
+            else if let ic = b.ic50Nm { halfMax = ic; kind = .ic50 }
+            else { halfMax = nil; kind = .ki }
+            guard let halfMax, halfMax > 0 else { return nil }
+            return .init(
+                target: b.target, action: action, halfMaxNanomolar: halfMax,
+                kind: kind, confidence: b.confidence,
+            )
+        }
+        // Tightest (most potent) first, then collapse duplicate target+action+kind rows (which a
+        // future substance-merge could introduce, since bindings has no DB-level dedup) so each
+        // engaged target appears once and `TargetEngagement.id` stays unique for any ForEach.
+        .sorted { $0.halfMaxNanomolar < $1.halfMaxNanomolar }
+        .filter { seenTargets.insert($0.id).inserted }
+
+        return PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: molarMass,
+            vdLPerKg: vd,
+            bioavailabilityFraction: f,
+            halfLifeMinutes: halfLife,
+            vdConfidence: vd != nil ? (primaryRow?.confidence ?? .unverified) : .unverified,
+            targets: targets,
+        )
     }
 
     /// Metabolism rows (enzymes/pathways + metabolites) for a substance, with

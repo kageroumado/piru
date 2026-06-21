@@ -9,6 +9,65 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
+    "High confidence": ("高可信度", "高可信度"),
+    "Medium confidence": ("中等可信度", "中等可信度"),
+    "Low confidence": ("低可信度", "低可信度"),
+    "Unverified": ("未核实", "未核實"),
+    "Body Weight": ("体重", "體重"),
+    "Your weight": ("你的体重", "你的體重"),
+    "Not set": ("未设置", "未設定"),
+    "Source": ("来源", "來源"),
+    "Estimated — set your weight for more accurate estimates.": (
+        "估算值——设置体重可获得更准确的估算。",
+        "估算值——設定體重可獲得更準確的估算。",
+    ),
+    "Apple Health": ("Apple 健康", "Apple 健康"),
+    "Entered manually": ("手动输入", "手動輸入"),
+    "Estimated (default 60 kg)": ("估算值（默认 60 kg）", "估算值（預設 60 kg）"),
+    "Why we ask": ("我们为何询问", "我們為何詢問"),
+    "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Without it, those numbers fall back to an average adult and are marked estimated.": (
+        "体重是把剂量换算成暴露量的分母：体重越轻，同样的剂量作用越强。有了它，Piru 才能估算一杯酒对*你的*身体有多强，以及反复使用如何形成耐受。没有它，这些数字会退回到普通成年人的平均值，并标注为估算。",
+        "體重是把劑量換算成暴露量的分母：體重越輕，同樣的劑量作用越強。有了它，Piru 才能估算一杯酒對*你的*身體有多強，以及反覆使用如何形成耐受。沒有它，這些數字會退回到普通成年人的平均值，並標註為估算。",
+    ),
+    "Set manually": ("手动设置", "手動設定"),
+    "Enter a number.": ("请输入数字。", "請輸入數字。"),
+    "Enter a weight between 20 and 300 kg.": (
+        "请输入 20 至 300 kg 之间的体重。",
+        "請輸入 20 至 300 kg 之間的體重。",
+    ),
+    "Use Apple Health": ("使用 Apple 健康", "使用 Apple 健康"),
+    "Updated from Apple Health.": ("已从 Apple 健康更新。", "已從 Apple 健康更新。"),
+    "Couldn't read a weight from Health. If you've used Health before, Piru may not have access.": (
+        "无法从健康读取体重。如果你以前使用过健康，可能是 Piru 没有访问权限。",
+        "無法從健康讀取體重。如果你以前使用過健康，可能是 Piru 沒有存取權限。",
+    ),
+    "Open Settings": ("打开设置", "打開設定"),
+    "Apple Health isn't available on this device.": (
+        "此设备不支持 Apple 健康。",
+        "此裝置不支援 Apple 健康。",
+    ),
+    "Piru reads your latest body weight from Health, read-only. You can turn this off anytime in Settings ▸ Health ▸ Data Access.": (
+        "Piru 仅以只读方式从健康读取你最新的体重。你可以随时在 设置 ▸ 健康 ▸ 数据访问 中关闭。",
+        "Piru 僅以唯讀方式從健康讀取你最新的體重。你可以隨時在 設定 ▸ 健康 ▸ 資料存取 中關閉。",
+    ),
+    "Use the estimated default": ("使用估算默认值", "使用估算預設值"),
+    "Reverts to the average-adult default (60 kg). Estimates will be marked estimated.": (
+        "恢复为普通成年人的默认值（60 kg）。估算结果将标注为估算。",
+        "恢復為普通成年人的預設值（60 kg）。估算結果將標註為估算。",
+    ),
+    "Estimated": ("估算", "估算"),
+    "Use Body Weight": ("使用体重", "使用體重"),
+    "Read your weight from Apple Health so estimates fit your body — a drink hits harder the less you weigh. Read-only; change anytime in Settings.": (
+        "从 Apple 健康读取你的体重，让估算贴合你的身体——体重越轻，一杯酒作用越强。仅只读；可随时在设置中更改。",
+        "從 Apple 健康讀取你的體重，讓估算貼合你的身體——體重越輕，一杯酒作用越強。僅唯讀；可隨時在設定中更改。",
+    ),
+    "Weight": ("体重", "體重"),
+    "kg": ("kg", "kg"),
+    "Couldn't read a weight from Health. You may not have granted access, or haven't recorded a weight there yet.": (
+        "无法从健康读取体重。你可能尚未授予访问权限，或还没有在健康中记录过体重。",
+        "無法從健康讀取體重。你可能尚未授予存取權限，或還沒有在健康中記錄過體重。",
+    ),
     # Bottom-accessory "Log a dose" CTA 2026-06
     "Log a dose": ("记录剂量", "記錄劑量"),
     # Cake (PsychonautWiki 🍰 April-Fools entry) — emoji off the title, joke in detail
@@ -2548,6 +2607,38 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology axis Stage 0 — confidence tiers + body-weight UI (2026-06-21)
+        "High confidence",
+        "Medium confidence",
+        "Low confidence",
+        "Unverified",
+        "Body Weight",
+        "Your weight",
+        "Not set",
+        "Source",
+        "Estimated — set your weight for more accurate estimates.",
+        "Apple Health",
+        "Entered manually",
+        "Estimated (default 60 kg)",
+        "Why we ask",
+        "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Without it, those numbers fall back to an average adult and are marked estimated.",
+        "Set manually",
+        "Enter a number.",
+        "Enter a weight between 20 and 300 kg.",
+        "Use Apple Health",
+        "Updated from Apple Health.",
+        "Couldn't read a weight from Health. If you've used Health before, Piru may not have access.",
+        "Open Settings",
+        "Apple Health isn't available on this device.",
+        "Piru reads your latest body weight from Health, read-only. You can turn this off anytime in Settings ▸ Health ▸ Data Access.",
+        "Use the estimated default",
+        "Reverts to the average-adult default (60 kg). Estimates will be marked estimated.",
+        "Estimated",
+        "Use Body Weight",
+        "Read your weight from Apple Health so estimates fit your body — a drink hits harder the less you weigh. Read-only; change anytime in Settings.",
+        "Weight",
+        "kg",
+        "Couldn't read a weight from Health. You may not have granted access, or haven't recorded a weight there yet.",
         # Bottom-accessory "Log a dose" CTA 2026-06
         "Log a dose",
         # Search redesign 2026-06

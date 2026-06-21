@@ -46,6 +46,11 @@ struct PiruApp: App {
 
         container = Self.makeContainer()
 
+        // Bind the user-profile store to the shared container before any view
+        // reads disclosure tier / body weight, and run the one-time migration of
+        // the legacy GRDB disclosure tier into SwiftData.
+        UserProfileStore.shared.configure(container: container)
+
         // Automatic lightweight migration fills the SAME UUID into every
         // pre-existing DoseEntry when it adds `id` (the default expression is
         // evaluated once) — uniquify before any UI reads. Idempotent and cheap
@@ -87,6 +92,14 @@ struct PiruApp: App {
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).
                     InventoryService.recomputeAll(in: container.mainContext)
+                    // If the user connected Apple Health for body weight, silently refresh it
+                    // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
+                    // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
+                    // population default. The Body Weight screen surfaces the empty-read state so the
+                    // user can re-grant access or update it.
+                    if UserProfileStore.shared.weightSource == .healthKit {
+                        Task { await HealthKitBodyMass.shared.syncLatest() }
+                    }
                     #if DEBUG
                         DemoData.insertShowcaseData(container: container)
                     #endif

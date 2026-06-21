@@ -26,7 +26,7 @@ enum WidgetStoreAccess {
         return try? ModelContainer(
             for: DoseEntry.self, SubstanceColor.self, UserColor.self,
             DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
-            DoseRoutine.self, InventoryItem.self,
+            DoseRoutine.self, InventoryItem.self, UserProfileRecord.self,
             configurations: config,
         )
     }

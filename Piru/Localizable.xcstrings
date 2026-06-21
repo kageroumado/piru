@@ -4566,6 +4566,38 @@
         }
       }
     },
+    "Apple Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple 健康"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple 健康"
+          }
+        }
+      }
+    },
+    "Apple Health isn't available on this device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备不支持 Apple 健康。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置不支援 Apple 健康。"
+          }
+        }
+      }
+    },
     "Are you sure you want to delete all your data? This action cannot be undone." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5539,6 +5571,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血壓、心臟與膽固醇。"
+          }
+        }
+      }
+    },
+    "Body Weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體重"
           }
         }
       }
@@ -7395,6 +7443,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法準備診斷檔案。"
+          }
+        }
+      }
+    },
+    "Couldn't read a weight from Health. If you've used Health before, Piru may not have access." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法从健康读取体重。如果你以前使用过健康，可能是 Piru 没有访问权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法從健康讀取體重。如果你以前使用過健康，可能是 Piru 沒有存取權限。"
+          }
+        }
+      }
+    },
+    "Couldn't read a weight from Health. You may not have granted access, or haven't recorded a weight there yet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法从健康读取体重。你可能尚未授予访问权限，或还没有在健康中记录过体重。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法從健康讀取體重。你可能尚未授予存取權限，或還沒有在健康中記錄過體重。"
           }
         }
       }
@@ -10674,6 +10755,22 @@
         }
       }
     },
+    "Enter a number." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请输入数字。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入數字。"
+          }
+        }
+      }
+    },
     "Enter a valid 6-digit hex code" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10706,6 +10803,22 @@
         }
       }
     },
+    "Enter a weight between 20 and 300 kg." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请输入 20 至 300 kg 之间的体重。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入 20 至 300 kg 之間的體重。"
+          }
+        }
+      }
+    },
     "Enter Passphrase" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10718,6 +10831,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "輸入通行碼"
+          }
+        }
+      }
+    },
+    "Entered manually" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動輸入"
           }
         }
       }
@@ -10847,6 +10976,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅供參考"
+          }
+        }
+      }
+    },
+    "Estimated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算"
+          }
+        }
+      }
+    },
+    "Estimated — set your weight for more accurate estimates." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算值——设置体重可获得更准确的估算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算值——設定體重可獲得更準確的估算。"
+          }
+        }
+      }
+    },
+    "Estimated (default 60 kg)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算值（默认 60 kg）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算值（預設 60 kg）"
           }
         }
       }
@@ -12747,6 +12924,22 @@
         }
       }
     },
+    "High confidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高可信度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高可信度"
+          }
+        }
+      }
+    },
     "High cumulative benzo doses impair memory and coordination. Stay somewhere safe." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14262,6 +14455,22 @@
         }
       }
     },
+    "kg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        }
+      }
+    },
     "Ki %@ nM" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15080,6 +15289,22 @@
         }
       }
     },
+    "Low confidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低可信度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低可信度"
+          }
+        }
+      }
+    },
     "Low-Affinity NMDA Receptor Antagonist (Neuroprotective)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15405,6 +15630,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用藥"
+          }
+        }
+      }
+    },
+    "Medium confidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等可信度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等可信度"
           }
         }
       }
@@ -17277,6 +17518,22 @@
         }
       }
     },
+    "Not set" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未設定"
+          }
+        }
+      }
+    },
     "Not tracked" : {
 
     },
@@ -17583,6 +17840,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在計算器中打開"
+          }
+        }
+      }
+    },
+    "Open Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開設定"
           }
         }
       }
@@ -18749,6 +19022,22 @@
         }
       }
     },
+    "Piru reads your latest body weight from Health, read-only. You can turn this off anytime in Settings ▸ Health ▸ Data Access." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 仅以只读方式从健康读取你最新的体重。你可以随时在 设置 ▸ 健康 ▸ 数据访问 中关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 僅以唯讀方式從健康讀取你最新的體重。你可以隨時在 設定 ▸ 健康 ▸ 資料存取 中關閉。"
+          }
+        }
+      }
+    },
     "Piru will notify you as the comedown approaches with practical care reminders — hydration, nutrition, and rest tips tailored to what you took." : {
       "localizations" : {
         "zh-Hans" : {
@@ -19661,6 +19950,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展開"
+          }
+        }
+      }
+    },
+    "Read your weight from Apple Health so estimates fit your body — a drink hits harder the less you weigh. Read-only; change anytime in Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从 Apple 健康读取你的体重，让估算贴合你的身体——体重越轻，一杯酒作用越强。仅只读；可随时在设置中更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從 Apple 健康讀取你的體重，讓估算貼合你的身體——體重越輕，一杯酒作用越強。僅唯讀；可隨時在設定中更改。"
           }
         }
       }
@@ -20874,6 +21179,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可逆地抑制環氧合酶 COX-1 和 COX-2,減少花生四烯酸合成前列腺素。COX-2 抑制介導抗炎和鎮痛效應,而 COX-1 抑制減少胃黏膜保護。中樞前列腺素抑制助長退熱效應。"
+          }
+        }
+      }
+    },
+    "Reverts to the average-adult default (60 kg). Estimates will be marked estimated." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复为普通成年人的默认值（60 kg）。估算结果将标注为估算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復為普通成年人的預設值（60 kg）。估算結果將標註為估算。"
           }
         }
       }
@@ -22501,6 +22822,22 @@
     "Set as new baseline" : {
 
     },
+    "Set manually" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動設定"
+          }
+        }
+      }
+    },
     "Set Time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23237,6 +23574,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SOS Voz Amiga"
+          }
+        }
+      }
+    },
+    "Source" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源"
           }
         }
       }
@@ -25967,6 +26320,22 @@
         }
       }
     },
+    "Unverified" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未核实"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未核實"
+          }
+        }
+      }
+    },
     "Up to date" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26027,6 +26396,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更新失敗"
+          }
+        }
+      }
+    },
+    "Updated from Apple Health." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已从 Apple 健康更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已從 Apple 健康更新。"
           }
         }
       }
@@ -26111,6 +26496,22 @@
         }
       }
     },
+    "Use Apple Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Apple 健康"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Apple 健康"
+          }
+        }
+      }
+    },
     "Use as baseline" : {
 
     },
@@ -26147,6 +26548,22 @@
         }
       }
     },
+    "Use Body Weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用体重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用體重"
+          }
+        }
+      }
+    },
     "Use Custom Half-Life" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26159,6 +26576,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用自訂半衰期"
+          }
+        }
+      }
+    },
+    "Use the estimated default" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用估算默认值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用估算預設值"
           }
         }
       }
@@ -26531,6 +26964,22 @@
         }
       }
     },
+    "Weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體重"
+          }
+        }
+      }
+    },
     "Welcome to Piru" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26720,6 +27169,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在等待時,或如果您只是想冷靜下來:"
+          }
+        }
+      }
+    },
+    "Why we ask" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们为何询问"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們為何詢問"
           }
         }
       }
@@ -27270,6 +27735,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的血清素系統正承受壓力。請休息並照顧好自己。"
+          }
+        }
+      }
+    },
+    "Your weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的体重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的體重"
+          }
+        }
+      }
+    },
+    "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Without it, those numbers fall back to an average adult and are marked estimated." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重是把剂量换算成暴露量的分母：体重越轻，同样的剂量作用越强。有了它，Piru 才能估算一杯酒对*你的*身体有多强，以及反复使用如何形成耐受。没有它，这些数字会退回到普通成年人的平均值，并标注为估算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體重是把劑量換算成暴露量的分母：體重越輕，同樣的劑量作用越強。有了它，Piru 才能估算一杯酒對*你的*身體有多強，以及反覆使用如何形成耐受。沒有它，這些數字會退回到普通成年人的平均值，並標註為估算。"
           }
         }
       }

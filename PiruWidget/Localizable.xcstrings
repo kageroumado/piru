@@ -349,6 +349,22 @@
         }
       }
     },
+    "High confidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高可信度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高可信度"
+          }
+        }
+      }
+    },
     "Inhalation" : {
       "localizations" : {
         "zh-Hans" : {
@@ -428,6 +444,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最近劑量"
+          }
+        }
+      }
+    },
+    "Low confidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低可信度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低可信度"
+          }
+        }
+      }
+    },
+    "Medium confidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等可信度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等可信度"
           }
         }
       }
@@ -777,6 +825,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "透皮"
+          }
+        }
+      }
+    },
+    "Unverified" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未核实"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未核實"
           }
         }
       }

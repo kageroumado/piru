@@ -221,6 +221,104 @@ struct PKModelTests {
         #expect(PKModel.timeToFraction(0.5, ke: 0, ka: 0) == 0)
     }
 
+    // MARK: - Absolute exposure (Foundation A)
+
+    /// The flaw-closing gate: the normalized curve makes 5 mg and 50 mg identical; the absolute
+    /// curve must scale linearly with dose at *every* time point. Without this, dose-dependent
+    /// tolerance is inexpressible.
+    @Test(.tags(.pharmacokinetics))
+    func `Absolute concentration is linear in dose`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 300)
+        let ka = PKModel.estimateKa(timeToPeak: 45, ke: ke)
+        for t in [10.0, 45, 120, 600, 2_000] {
+            let low = PKModel.concentrationAbsolute(dose: 5, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: t)
+            let high = PKModel.concentrationAbsolute(dose: 50, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: t)
+            #expect(low > 0)
+            #expect(abs(high / low - 10) < 1e-9)
+        }
+    }
+
+    @Test
+    func `Absolute concentration is inverse in body weight`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 120)
+        let ka = PKModel.defaultKa(ke: ke)
+        let light = PKModel.concentrationAbsolute(dose: 20, bioavailability: 1, vdPerKg: 0.6, weightKg: 60, ke: ke, ka: ka, at: 60)
+        let heavy = PKModel.concentrationAbsolute(dose: 20, bioavailability: 1, vdPerKg: 0.6, weightKg: 120, ke: ke, ka: ka, at: 60)
+        // Twice the mass → half the concentration for the same dose.
+        #expect(abs(heavy / light - 0.5) < 1e-9)
+    }
+
+    @Test
+    func `Absolute concentration scales with bioavailability`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 120)
+        let ka = PKModel.defaultKa(ke: ke)
+        let lowF = PKModel.concentrationAbsolute(dose: 20, bioavailability: 0.4, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: 60)
+        let highF = PKModel.concentrationAbsolute(dose: 20, bioavailability: 0.8, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: 60)
+        #expect(abs(lowF / highF - 0.5) < 1e-9)
+    }
+
+    @Test
+    func `Absolute concentration equals prefactor times shape`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 300)
+        let ka = PKModel.estimateKa(timeToPeak: 45, ke: ke)
+        let dose = 80.0, f = 0.7, vdPerKg = 5.0, weight = 68.0, t = 90.0
+        let expected = (f * dose / (vdPerKg * weight)) * PKModel.concentration(at: t, ke: ke, ka: ka)
+        let actual = PKModel.concentrationAbsolute(dose: dose, bioavailability: f, vdPerKg: vdPerKg, weightKg: weight, ke: ke, ka: ka, at: t)
+        #expect(abs(actual - expected) < 1e-12)
+    }
+
+    @Test
+    func `Absolute concentration returns zero for invalid inputs`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 120)
+        let ka = PKModel.defaultKa(ke: ke)
+        #expect(PKModel.concentrationAbsolute(dose: 10, bioavailability: 0, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: 60) == 0)
+        #expect(PKModel.concentrationAbsolute(dose: 10, bioavailability: 1, vdPerKg: 0, weightKg: 70, ke: ke, ka: ka, at: 60) == 0)
+        #expect(PKModel.concentrationAbsolute(dose: 10, bioavailability: 1, vdPerKg: 0.6, weightKg: 0, ke: ke, ka: ka, at: 60) == 0)
+        #expect(PKModel.concentrationAbsolute(dose: -5, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: 60) == 0)
+    }
+
+    /// Ethanol on a mass basis *is* the Widmark equation: peak BAC ≈ Dose / (r · weight). One US
+    /// standard drink (14 g) in a 70 kg person with r ≈ 0.6 → ~0.33 g/L ≈ 0.033 g/dL, a realistic
+    /// single-drink peak. With fast (ethanol-like) absorption the modeled peak approaches that ideal.
+    @Test(.tags(.pharmacokinetics))
+    func `Ethanol absolute concentration approximates Widmark BAC`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 90)
+        let ka = 100 * ke // fast absorption
+        let doseMg = 14_000.0 // 14 g standard drink
+        let prefactor = 1.0 * doseMg / (0.6 * 70) // mg/L, ≈ 333
+        #expect(abs(prefactor - 333.33) < 1)
+
+        let peak = PKModel.concentrationAbsolute(dose: doseMg, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: PKModel.tmax(ke: ke, ka: ka))
+        // Fast-absorption peak sits just under the instantaneous-distribution ideal.
+        #expect(peak <= prefactor)
+        #expect(peak > 0.88 * prefactor)
+
+        let gPerDL = peak / 1_000 / 10 // mg/L → g/L → g/dL
+        #expect(gPerDL > 0.02)
+        #expect(gPerDL < 0.05)
+    }
+
+    // MARK: - Molar concentration
+
+    @Test
+    func `Molar concentration is mass over molar mass`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 300)
+        let ka = PKModel.estimateKa(timeToPeak: 45, ke: ke)
+        let mw = 194.19 // caffeine g/mol
+        let mass = PKModel.concentrationAbsolute(dose: 100, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ke: ke, ka: ka, at: 45)
+        let molar = PKModel.concentrationMolar(dose: 100, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, molarMassGramsPerMole: mw, ke: ke, ka: ka, at: 45)
+        #expect(abs(molar - mass / 1_000 / mw) < 1e-15)
+        #expect(molar > 0)
+    }
+
+    @Test
+    func `Molar concentration returns zero for non-positive molar mass`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 300)
+        let ka = PKModel.defaultKa(ke: ke)
+        #expect(PKModel.concentrationMolar(dose: 100, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, molarMassGramsPerMole: 0, ke: ke, ka: ka, at: 45) == 0)
+        #expect(PKModel.concentrationMolar(dose: 100, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, molarMassGramsPerMole: -1, ke: ke, ka: ka, at: 45) == 0)
+    }
+
     // MARK: - Real-world substance parameters
 
     @Test(
@@ -238,6 +336,92 @@ struct PKModelTests {
         // Should be mostly eliminated after ~5 half-lives (25 hours = 1500 min)
         #expect(t5hl < 2_000)
         #expect(t5hl > 1_000)
+    }
+
+    // MARK: - Receptor occupancy / engagement (PK → PD bridge)
+
+    @Test
+    func `Occupancy is zero for non-positive inputs`() {
+        #expect(PKModel.occupancy(concentration: 0, halfMax: 100) == 0)
+        #expect(PKModel.occupancy(concentration: -1, halfMax: 100) == 0)
+        #expect(PKModel.occupancy(concentration: 100, halfMax: 0) == 0)
+        #expect(PKModel.occupancy(concentration: 100, halfMax: 100, hillCoefficient: 0) == 0)
+    }
+
+    @Test
+    func `Occupancy is half at C equals halfMax`() {
+        #expect(abs(PKModel.occupancy(concentration: 250, halfMax: 250) - 0.5) < 1e-12)
+    }
+
+    @Test
+    func `Occupancy is bounded in 0 to 1 and rises with concentration`() {
+        var last = 0.0
+        for c in stride(from: 1.0, through: 10_000, by: 250) {
+            let o = PKModel.occupancy(concentration: c, halfMax: 500)
+            #expect(o > 0 && o < 1)
+            #expect(o > last) // strictly monotonic increasing
+            last = o
+        }
+    }
+
+    @Test
+    func `Occupancy is unit-invariant when concentration and halfMax share a unit`() {
+        // Same ratio in nM and in mol/L must give the same occupancy.
+        let inNanomolar = PKModel.occupancy(concentration: 300, halfMax: 200)
+        let inMolar = PKModel.occupancy(concentration: 300e-9, halfMax: 200e-9)
+        #expect(abs(inNanomolar - inMolar) < 1e-12)
+    }
+
+    @Test
+    func `Hill coefficient above one sharpens the response`() {
+        // Below halfMax, cooperativity (h > 1) lowers occupancy (steeper threshold);
+        // above halfMax it raises it. h = 1 sits between.
+        let below1 = PKModel.occupancy(concentration: 100, halfMax: 500, hillCoefficient: 1)
+        let below2 = PKModel.occupancy(concentration: 100, halfMax: 500, hillCoefficient: 2)
+        #expect(below2 < below1)
+        let above1 = PKModel.occupancy(concentration: 2_000, halfMax: 500, hillCoefficient: 1)
+        let above2 = PKModel.occupancy(concentration: 2_000, halfMax: 500, hillCoefficient: 2)
+        #expect(above2 > above1)
+    }
+
+    /// **The Stage 0 gate (model property): low-dose vs high-dose of the same substance produce
+    /// DIFFERENT receptor occupancy.** This is the headline correctness requirement of the whole
+    /// pharmacology axis — the normalized-shape model could not express it (every dose normalized to
+    /// the same `[0,1]` curve → identical occupancy → dose-independent tolerance, which is wrong).
+    /// Driving occupancy from the *absolute* molar pathway closes the flaw: occupancy is a strictly
+    /// increasing function of dose, low therapeutic exposure sits in the near-linear low-engagement
+    /// regime, and a recreational multiple climbs toward saturation.
+    ///
+    /// Parameters are representative stimulant-like values chosen to exercise the regime, NOT a claim
+    /// about a specific drug's measured EC₅₀ — the real-data version lands with the flagship DB seed.
+    @Test(.tags(.pharmacokinetics))
+    func `Occupancy is dose-dependent (the normalized-PK flaw is closed)`() {
+        let halfLife = 660.0 // ~11 h, stimulant-like
+        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
+        let ka = PKModel.estimateKa(timeToPeak: 120, ke: ke)
+        let peakTime = PKModel.tmax(ke: ke, ka: ka)
+        let mw = 135.2 // amphetamine-like g/mol
+        let releaseEC50nM = 1_000.0 // functional release EC₅₀ at the transporter (representative)
+
+        func peakOccupancy(doseMg: Double) -> Double {
+            let molar = PKModel.concentrationMolar(
+                dose: doseMg, bioavailability: 0.9, vdPerKg: 4.0, weightKg: 70,
+                molarMassGramsPerMole: mw, ke: ke, ka: ka, at: peakTime,
+            )
+            let nanomolar = molar * 1e9 // mol/L → nM, matching the EC₅₀ unit
+            return PKModel.occupancy(concentration: nanomolar, halfMax: releaseEC50nM)
+        }
+
+        let low = peakOccupancy(doseMg: 5) // therapeutic-ish
+        let high = peakOccupancy(doseMg: 50) // recreational-ish (10×)
+
+        // The flaw: a normalized model would make these EQUAL. They must differ, strongly.
+        #expect(low > 0)
+        #expect(high > low)
+        #expect(high / low > 3) // dose drives engagement, not just curve shape
+        // Low dose sits in the low-engagement regime (little allostatic drive); high dose climbs.
+        #expect(low < 0.2)
+        #expect(high > 0.35)
     }
 }
 

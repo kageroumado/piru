@@ -24,6 +24,21 @@ cd Tools/SubstanceValidator && swift build
 cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 ```
 
+## Releases & schema versioning
+
+- **Each shipped build is git-tagged** (`vMAJOR.MINOR-bBUILD`). Run `git tag --sort=-creatordate | head` to find the current shipped baseline; everything after the newest tag is **unreleased**. Tag every release going forward so this stays true.
+- **Never bump a persisted schema version that hasn't shipped.** Many schema/data changes land between releases and never reach a user, so the "current" version is often itself unshipped — amend it *in place* rather than minting `n+1`. Check the newest release tag before assuming a version is live in the wild.
+  - **SwiftData store:** uses additive automatic lightweight migration with **no version ladder** (see `StoreRecovery`'s schema-migration policy). Additive `@Model` changes (new entity, new optional/defaulted field) need **no** version bump and no migration plan at all. Only a genuinely non-additive change reintroduces a scoped `VersionedSchema` + `MigrationStage`.
+  - **Bundled substance SQLite** (`manifest.schema_version`, currently `5`): the DB ships as a wholesale-replaced bundle artifact, so its version can be edited in place pre-release — only bump it for a change that an *already-shipped* app must read.
+
+## Rebuilding the bundled substance DB
+
+`pipeline/build.sh` (default `fast`) is **quick, offline, and reproducible** — it rebuilds the whole `Piru/Data/piru-substances.sqlite` from committed inputs (cached web snapshots in `data/sources/` + the curated layer in `data/curated/`) plus external extracts in `/tmp/piru-extract`. `pipeline/build.sh full` additionally re-runs the upstream scrape (network).
+
+- **Always rebuild the WHOLE DB through the pipeline — never hand-edit the bundled `.sqlite`.** A surgical/manual edit hides build-pipeline bugs (they only surface on a full rebuild) and is silently clobbered on the next run. Because the full rebuild is fast and offline, there is never a reason to avoid it.
+- To change pharmacology/MOA data, edit the curated source (`data/curated/`), then `pipeline/build.sh fast`, then commit the rebuilt `piru-substances.sqlite` + `manifest.json` + `data/snapshots/*`.
+- Some datasources are private (not in this open-source repo); the build **warns loudly** when an external extract is missing and produces a clearly-partial DB rather than failing silently (set `PIRU_REQUIRE_EXTERNAL=1` to hard-fail instead).
+
 ## Architecture
 
 **Pattern**: SwiftUI + SwiftData with @Observable singletons — no formal MVVM ViewModels.

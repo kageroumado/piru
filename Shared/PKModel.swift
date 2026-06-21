@@ -15,6 +15,110 @@ enum PKModel {
         return max(0, raw)
     }
 
+    // MARK: - Absolute exposure (Foundation A)
+
+    /// Absolute plasma concentration on a **mass** basis at time `t` (minutes), one-compartment oral.
+    ///
+    /// This is the multiplicative re-base of ``concentration(at:ke:ka:)``: that function returns the
+    /// pure one-compartment shape `(ka/(ka−ke))·(e^{−ke·t} − e^{−ka·t})`, and absolute concentration
+    /// is simply `(F · Dose / Vd)` times it, where `Vd = vdPerKg · weightKg`. Unlike the normalized
+    /// curve used for the visual timeline, this preserves dose magnitude — so 5 mg and 50 mg of the
+    /// same drug now yield *different* curves, which is what makes dose-dependent tolerance expressible.
+    ///
+    /// - Parameters:
+    ///   - dose: administered amount in **milligrams** (convert the logged dose unit before calling).
+    ///   - bioavailability: fraction reaching systemic circulation, `F ∈ (0, 1]`.
+    ///   - vdPerKg: volume of distribution per kg body weight, in **L/kg**.
+    ///   - weightKg: body weight in **kg** (the keystone input; caller supplies the 60 kg default).
+    ///   - ke: elimination rate constant (per minute).
+    ///   - ka: absorption rate constant (per minute).
+    ///   - minutes: time since administration.
+    /// - Returns: concentration in **mg/L** (≡ µg/mL). For ethanol dosed in mg with `vdPerKg ≈ 0.6`
+    ///   this is the Widmark blood-alcohol concentration in mg/L (÷1000 for g/L, ×100 for g/dL).
+    nonisolated static func concentrationAbsolute(
+        dose: Double,
+        bioavailability: Double,
+        vdPerKg: Double,
+        weightKg: Double,
+        ke: Double,
+        ka: Double,
+        at minutes: Double,
+    ) -> Double {
+        guard dose >= 0, bioavailability > 0, vdPerKg > 0, weightKg > 0 else { return 0 }
+        let vd = vdPerKg * weightKg
+        return (bioavailability * dose / vd) * concentration(at: minutes, ke: ke, ka: ka)
+    }
+
+    /// Absolute plasma concentration on a **molar** basis at time `t` (minutes), one-compartment oral.
+    ///
+    /// Identical to ``concentrationAbsolute(dose:bioavailability:vdPerKg:weightKg:ke:ka:at:)`` divided
+    /// by molar mass, giving the unit that receptor occupancy needs (compares directly to a Kᵢ/EC₅₀).
+    /// This returns *total* plasma concentration; the unbound fraction `fu` is applied later, in the
+    /// occupancy step, so it stays out of here (default `fu = 1`).
+    ///
+    /// - Parameters:
+    ///   - molarMassGramsPerMole: molar mass in **g/mol** (already decoded on `Substance`).
+    ///   - (others): see ``concentrationAbsolute(dose:bioavailability:vdPerKg:weightKg:ke:ka:at:)``.
+    /// - Returns: concentration in **mol/L**. `C_molar = C_abs[mg/L] / 1000 / molarMass[g/mol]`.
+    ///   ⚠️ The substance DB stores Kᵢ/EC₅₀ in **nanomolar**, so multiply this by `1e9` before passing
+    ///   it to ``occupancy(concentration:halfMax:hillCoefficient:)`` against an nM half-max (which is
+    ///   exactly what `PharmacologyParameters.peakPrimaryOccupancy` does). Mixing mol/L with an nM
+    ///   half-max silently understates occupancy by 10⁹×.
+    nonisolated static func concentrationMolar(
+        dose: Double,
+        bioavailability: Double,
+        vdPerKg: Double,
+        weightKg: Double,
+        molarMassGramsPerMole: Double,
+        ke: Double,
+        ka: Double,
+        at minutes: Double,
+    ) -> Double {
+        guard molarMassGramsPerMole > 0 else { return 0 }
+        let massPerLiter = concentrationAbsolute(
+            dose: dose,
+            bioavailability: bioavailability,
+            vdPerKg: vdPerKg,
+            weightKg: weightKg,
+            ke: ke,
+            ka: ka,
+            at: minutes,
+        )
+        return massPerLiter / 1_000.0 / molarMassGramsPerMole
+    }
+
+    // MARK: - Receptor occupancy / engagement (Foundation A → PD bridge)
+
+    /// Fractional receptor occupancy (or transporter engagement) from a Hill/Langmuir binding
+    /// isotherm: `O = C^h / (K^h + C^h)`, returned in `[0, 1]`.
+    ///
+    /// One form serves all three mechanism branches the pharmacology axis distinguishes — only the
+    /// meaning of the half-saturation constant `K` changes:
+    /// - **agonist / antagonist / PAM:** `K = Kᵢ` (binding affinity).
+    /// - **releaser / substrate** (amphetamine, MDMA): `K = functional release EC₅₀` at the transporter.
+    /// - **reuptake inhibitor** (methylphenidate, cocaine): `K = uptake-inhibition IC₅₀/Kᵢ`.
+    ///
+    /// `concentration` and `halfMax` must be in the **same unit** (it cancels — nM vs nM or mol/L vs
+    /// mol/L both work). Pass the **free** (unbound) concentration: multiply total molar concentration
+    /// by `fu` before calling. `hillCoefficient` defaults to 1 (simple mass action); `> 1` models
+    /// positive cooperativity.
+    ///
+    /// This is the step that makes tolerance **dose-dependent**: its input comes from
+    /// ``concentrationMolar(dose:bioavailability:vdPerKg:weightKg:molarMassGramsPerMole:ke:ka:at:)``,
+    /// which is linear in dose, so at low exposure `C ≪ K` gives `O ≈ C/K → 0` (no allostatic drive)
+    /// while near/above `K` it saturates. The normalized-shape model could not express this — every
+    /// dose produced the same curve. Closing that is the keystone correctness requirement.
+    nonisolated static func occupancy(
+        concentration: Double,
+        halfMax: Double,
+        hillCoefficient: Double = 1,
+    ) -> Double {
+        guard concentration > 0, halfMax > 0, hillCoefficient > 0 else { return 0 }
+        let cH = pow(concentration, hillCoefficient)
+        let kH = pow(halfMax, hillCoefficient)
+        return cH / (kH + cH)
+    }
+
     /// Time of peak concentration (Tmax) in minutes.
     nonisolated static func tmax(ke: Double, ka: Double) -> Double {
         guard ka > ke, ka > 0, ke > 0 else { return 0 }
