@@ -132,13 +132,15 @@ struct InteractionRuleTests {
     }
 
     @Test
-    func `SSRI + Empathogen is unsafe`() {
+    func `SSRI + Empathogen is caution (blunting, not danger)`() {
+        // SSRIs blunt MDMA rather than endangering — a myth-buster, so the pair reads `.caution`,
+        // never `.unsafe`/`.dangerous`. (The lethal serotonergic edge is MAOI + empathogen.)
         let entry = makeEntry(substance: "Sertraline")
         let results = InteractionChecker.check("MDMA", against: [entry])
-        #expect(!results.isEmpty)
-        // MDMA is empathogen + stimulant, so may have multiple results
-        let hasUnsafe = results.contains { $0.severity == .unsafe }
-        #expect(hasUnsafe)
+        let pair = results.first { $0.substanceB.lowercased() == "sertraline" }
+        #expect(pair?.severity == .caution)
+        // MDMA is empathogen + stimulant, but none of its antidepressant pairings should be danger-coloured.
+        #expect(!results.contains { $0.severity == .dangerous })
     }
 
     @Test

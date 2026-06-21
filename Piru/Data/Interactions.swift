@@ -711,23 +711,28 @@ enum InteractionChecker {
             severity: .unsafe,
             description: "Compounded CNS depression — excessive sedation and impaired breathing.",
         ),
+        // Antidepressant SERT blockers + empathogen: a myth-buster, not a danger. These compete for
+        // SERT and *blunt* the empathogen (it may feel much weaker or not work) — on their own they do
+        // not cause serotonin syndrome; the real lethal serotonergic edge is the MAOI rules above. Kept
+        // visible (and bypassing the relevance gate via `persistentClasses`) so people aren't blindsided
+        // when their dose does nothing, but coloured `.caution`, not danger.
         InteractionRule(
             classA: .ssri,
             classB: .empathogen,
-            severity: .unsafe,
-            description: "Reduced effects and risk of serotonin syndrome — SSRIs block MDMA's mechanism.",
+            severity: .caution,
+            description: "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
         ),
         InteractionRule(
             classA: .snri,
             classB: .empathogen,
-            severity: .unsafe,
-            description: "Serotonin syndrome risk — SNRIs block reuptake while empathogens release serotonin.",
+            severity: .caution,
+            description: "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
         ),
         InteractionRule(
             classA: .tca,
             classB: .empathogen,
-            severity: .unsafe,
-            description: "Serotonin toxicity risk from combined serotonergic activity.",
+            severity: .caution,
+            description: "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
         ),
         InteractionRule(
             classA: .dissociative,

@@ -21189,6 +21189,7 @@
       }
     },
     "Reduced effects and risk of serotonin syndrome — SSRIs block MDMA's mechanism." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23649,6 +23650,7 @@
       }
     },
     "Serotonin syndrome risk — SNRIs block reuptake while empathogens release serotonin." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23681,6 +23683,7 @@
       }
     },
     "Serotonin toxicity risk from combined serotonergic activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24556,6 +24559,22 @@
     "SMILES" : {
 
     },
+    "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SNRI 会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征（真正的风险来自 MAOI）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SNRI 會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群（真正的風險來自 MAOI）。"
+          }
+        }
+      }
+    },
     "Solution Concentration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24859,6 +24878,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SSRI 兼 5-HT1A 部分激動劑"
+          }
+        }
+      }
+    },
+    "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome (the real risk there is MAOIs)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSRI 会减弱 MDMA 的效果——可能明显变弱甚至无效。两者单独合用不会引起血清素综合征（真正的风险来自 MAOI）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSRI 會減弱 MDMA 的效果——可能明顯變弱甚至無效。兩者單獨併用不會引起血清素症候群（真正的風險來自 MAOI）。"
           }
         }
       }
@@ -26158,6 +26193,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "目標劑量"
+          }
+        }
+      }
+    },
+    "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三环类抗抑郁药会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征（真正的风险来自 MAOI）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三環類抗憂鬱藥會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群（真正的風險來自 MAOI）。"
           }
         }
       }
