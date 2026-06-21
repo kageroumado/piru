@@ -218,6 +218,9 @@ final class ToleranceStore {
 
         var contributorsByTarget: [String: [Contributor]] = [:]
         var classByTarget: [String: ReceptorClasses.ReceptorClass] = [:]
+        // Tolerance-modulation contributors keyed by the *affected* class (Stage 4b): an NMDA
+        // antagonist onboard lowers μ-opioid tolerance development, etc.
+        var modulatorsByClass: [ReceptorClasses.ReceptorClass: [ModulatorContributor]] = [:]
 
         for entry in relevant {
             guard let p = resolve(entry.substance), p.canComputeOccupancy,
@@ -234,7 +237,12 @@ final class ToleranceStore {
             let prefactorNanomolar = (f * doseMg / vd) / 1_000 / mw * 1e9
             let offsetMinutes = entry.timestamp.timeIntervalSince(start) / 60
 
+            // Most-potent target per class (p.targets is tightest-first, so the first per class wins) —
+            // used both to route the contributor and to drive any modulation edge's presence curve.
+            var bestTargetByClass: [ReceptorClasses.ReceptorClass: PharmacologyParameters.TargetEngagement] = [:]
             for engagement in p.targets {
+                let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
+                if bestTargetByClass[cls] == nil { bestTargetByClass[cls] = engagement }
                 contributorsByTarget[engagement.target, default: []].append(
                     Contributor(
                         offsetMinutes: offsetMinutes, ke: ke, ka: ka,
@@ -243,9 +251,23 @@ final class ToleranceStore {
                         confidence: Swift.min(p.vdConfidence, engagement.confidence),
                     ),
                 )
-                classByTarget[engagement.target] = ReceptorClasses.classify(
-                    target: engagement.target, action: engagement.action,
-                )
+                classByTarget[engagement.target] = cls
+            }
+
+            // Register this dose as a tolerance modulator for any class it modulates. Presence is the
+            // occupancy of its most-potent target *of the modulating class*, so the edge fires only
+            // while the modulator is actually onboard (concentration/overlap-gated).
+            for (modClass, best) in bestTargetByClass {
+                for edge in ToleranceModulation.edges(forModulatorClass: modClass) {
+                    modulatorsByClass[edge.affectedClass, default: []].append(
+                        ModulatorContributor(
+                            offsetMinutes: offsetMinutes, ke: ke, ka: ka,
+                            prefactorNanomolar: prefactorNanomolar,
+                            halfMaxNanomolar: best.halfMaxNanomolar,
+                            muFactor: edge.muFactor,
+                        ),
+                    )
+                }
             }
         }
         guard !contributorsByTarget.isEmpty else { return [:] }
@@ -257,16 +279,22 @@ final class ToleranceStore {
             let receptorClass = classByTarget[target] ?? .unknown
             let params = ReceptorClasses.parameters(for: receptorClass)
 
+            let modulators = modulatorsByClass[receptorClass] ?? []
+
             var availability = 1.0
             var acute = 1.0
             var load = 0.0
             var elapsed = 0.0
             while elapsed < totalMinutes {
                 let step = Swift.min(timestepMinutes, totalMinutes - elapsed)
-                let occ = combinedOccupancy(atMinute: elapsed + step / 2, contributors: contributors)
+                let mid = elapsed + step / 2
+                let occ = combinedOccupancy(atMinute: mid, contributors: contributors)
+                // μ_R(t): tolerance-modulation factor for the slow availability axis only (Stage 4b).
+                let modulation = modulators.isEmpty ? 1.0 : modulationFactor(atMinute: mid, modulators: modulators)
                 availability = PDModel.stepAvailability(
                     availability: availability, occupancy: occ, dtMinutes: step,
                     kappa: params.kappaSlow, tauMinutes: params.tauSlowMinutes,
+                    modulation: modulation,
                 )
                 if params.hasAcutePool {
                     acute = PDModel.stepAvailability(
@@ -304,6 +332,34 @@ final class ToleranceStore {
         let prefactorNanomolar: Double
         let halfMaxNanomolar: Double
         let confidence: ConfidenceTier
+    }
+
+    /// One co-active substance's tolerance-modulation contribution at one affected class: its PK shape +
+    /// nM prefactor + the half-saturation of the target driving its presence + the μ factor at full
+    /// engagement.
+    private struct ModulatorContributor {
+        let offsetMinutes: Double
+        let ke: Double
+        let ka: Double
+        let prefactorNanomolar: Double
+        let halfMaxNanomolar: Double
+        let muFactor: Double
+    }
+
+    /// Combined tolerance-modulation factor `μ` at one grid minute. Each modulator blends its
+    /// `muFactor` toward 1 by its current engagement (presence), and modulators compound
+    /// multiplicatively — `μ = Π (1 − (1 − muFactorᵢ)·presenceᵢ)`, bounded in `[0, 1]` and reducing to 1
+    /// when no modulator is onboard.
+    private static func modulationFactor(atMinute minute: Double, modulators: [ModulatorContributor]) -> Double {
+        var mu = 1.0
+        for m in modulators {
+            let dt = minute - m.offsetMinutes
+            guard dt >= 0 else { continue }
+            let free = m.prefactorNanomolar * PKModel.concentration(at: dt, ke: m.ke, ka: m.ka)
+            let presence = PKModel.occupancy(concentration: free, halfMax: m.halfMaxNanomolar)
+            mu *= (1 - (1 - m.muFactor) * presence)
+        }
+        return mu
     }
 
     /// Combined fractional occupancy at one grid minute from all contributors active by then.
