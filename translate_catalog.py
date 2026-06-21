@@ -142,17 +142,17 @@ T = {
         "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。",
     ),
     # Antidepressant + empathogen reframed as myth-buster (blunting, not serotonin syndrome) (2026-06-21)
-    "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).": (
-        "SSRI 会减弱 MDMA 的效果——可能明显变弱甚至无效。两者单独合用不会引起血清素综合征（真正的风险来自 MAOI）。",
-        "SSRI 會減弱 MDMA 的效果——可能明顯變弱甚至無效。兩者單獨併用不會引起血清素症候群（真正的風險來自 MAOI）。",
+    "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome.": (
+        "SSRI 会减弱 MDMA 的效果——可能明显变弱甚至无效。两者单独合用不会引起血清素综合征。",
+        "SSRI 會減弱 MDMA 的效果——可能明顯變弱甚至無效。兩者單獨併用不會引起血清素症候群。",
     ),
-    "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).": (
-        "SNRI 会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征（真正的风险来自 MAOI）。",
-        "SNRI 會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群（真正的風險來自 MAOI）。",
+    "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.": (
+        "SNRI 会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征。",
+        "SNRI 會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群。",
     ),
-    "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).": (
-        "三环类抗抑郁药会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征（真正的风险来自 MAOI）。",
-        "三環類抗憂鬱藥會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群（真正的風險來自 MAOI）。",
+    "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.": (
+        "三环类抗抑郁药会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征。",
+        "三環類抗憂鬱藥會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群。",
     ),
     # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
     "Tolerance": ("耐受性", "耐受性"),
@@ -2886,9 +2886,9 @@ if __name__ == "__main__":
         "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product).",
         "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days.",
         # Antidepressant + empathogen reframed as myth-buster (2026-06-21)
-        "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
-        "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
-        "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
+        "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome.",
+        "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
+        "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",

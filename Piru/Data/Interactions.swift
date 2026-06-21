@@ -720,19 +720,19 @@ enum InteractionChecker {
             classA: .ssri,
             classB: .empathogen,
             severity: .caution,
-            description: "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
+            description: "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome.",
         ),
         InteractionRule(
             classA: .snri,
             classB: .empathogen,
             severity: .caution,
-            description: "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
+            description: "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
         ),
         InteractionRule(
             classA: .tca,
             classB: .empathogen,
             severity: .caution,
-            description: "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs).",
+            description: "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
         ),
         InteractionRule(
             classA: .dissociative,
