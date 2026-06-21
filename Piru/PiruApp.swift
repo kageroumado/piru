@@ -50,6 +50,10 @@ struct PiruApp: App {
         // reads disclosure tier / body weight, and run the one-time migration of
         // the legacy GRDB disclosure tier into SwiftData.
         UserProfileStore.shared.configure(container: container)
+        // Bind the tolerance engine to the store and load its cached per-target snapshot. Recompute
+        // is driven by the dose log when a Stage-2 surface consumes it; configuring here exercises the
+        // additive `ToleranceState` schema and makes the cache available.
+        ToleranceStore.shared.configure(container: container)
 
         // Automatic lightweight migration fills the SAME UUID into every
         // pre-existing DoseEntry when it adds `id` (the default expression is

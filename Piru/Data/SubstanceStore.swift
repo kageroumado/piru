@@ -2103,13 +2103,33 @@ final class SubstanceStore {
         .sorted { $0.halfMaxNanomolar < $1.halfMaxNanomolar }
         .filter { seenTargets.insert($0.id).inserted }
 
+        // Vd resolution with a class-default fallback (meta-plan Foundation A — "tier-mapped fallback
+        // elsewhere"). A graded Vd is always preferred; when none exists but the substance engages a
+        // classifiable target, fall back to that receptor class's CNS-distribution default (e.g. LSD,
+        // which the evidence run left without a Vd) so the tolerance engine can still resolve occupancy
+        // library-wide — flagged `.unverified` so the UI badges exactly how much to trust it. Without a
+        // graded Vd *and* without a classifiable target there is nothing to stand in for, so it stays
+        // nil (occupancy uncomputable — correct).
+        let resolvedVd: Double?
+        let resolvedVdConfidence: ConfidenceTier
+        if let vd {
+            resolvedVd = vd
+            resolvedVdConfidence = primaryRow?.confidence ?? .unverified
+        } else if let primaryTarget = targets.first {
+            resolvedVd = ReceptorClasses.parameters(forTarget: primaryTarget.target, action: primaryTarget.action).classDefaultVdLPerKg
+            resolvedVdConfidence = .unverified
+        } else {
+            resolvedVd = nil
+            resolvedVdConfidence = .unverified
+        }
+
         return PharmacologyParameters(
             substanceName: name,
             molarMassGramsPerMole: molarMass,
-            vdLPerKg: vd,
+            vdLPerKg: resolvedVd,
             bioavailabilityFraction: f,
             halfLifeMinutes: halfLife,
-            vdConfidence: vd != nil ? (primaryRow?.confidence ?? .unverified) : .unverified,
+            vdConfidence: resolvedVdConfidence,
             targets: targets,
         )
     }

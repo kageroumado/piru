@@ -71,6 +71,7 @@ nonisolated enum StoreRecovery {
             DoseRoutine.self,
             InventoryItem.self,
             UserProfileRecord.self,
+            ToleranceState.self,
         ]
     }
 
