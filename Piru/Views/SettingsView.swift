@@ -100,6 +100,22 @@ struct SettingsView: View {
                     Text(UserProfileStore.shared.disclosureTier.summary)
                 }
 
+                Section {
+                    Toggle(isOn: smokesBinding) {
+                        Label("I smoke tobacco regularly", systemImage: "smoke")
+                    }
+                    .tint(Theme.accent)
+
+                    Toggle(isOn: grapefruitBinding) {
+                        Label("Grapefruit dose logging", systemImage: "carrot")
+                    }
+                    .tint(Theme.accent)
+                } header: {
+                    Text("Metabolism")
+                } footer: {
+                    Text("Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels.")
+                }
+
                 Section("Data") {
                     NavigationLink {
                         DataStorageView()
@@ -162,6 +178,20 @@ struct SettingsView: View {
         Binding(
             get: { profileStore.disclosureTier },
             set: { profileStore.setDisclosureTier($0) },
+        )
+    }
+
+    private var smokesBinding: Binding<Bool> {
+        Binding(
+            get: { profileStore.smokesTobacco },
+            set: { profileStore.setSmokesTobacco($0) },
+        )
+    }
+
+    private var grapefruitBinding: Binding<Bool> {
+        Binding(
+            get: { profileStore.grapefruitLoggingEnabled },
+            set: { profileStore.setGrapefruitLoggingEnabled($0) },
         )
     }
 

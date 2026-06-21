@@ -68,6 +68,12 @@ final class UserProfileStore {
     /// Provenance of ``weightKg`` (or `.estimated` when unset).
     private(set) var weightSource: WeightSource = .estimated
 
+    /// Whether the user smokes tobacco regularly (chronic CYP1A2 induction — Stage 4c metabolic flag).
+    private(set) var smokesTobacco: Bool = false
+
+    /// Whether the per-dose "had grapefruit" toggle is shown in the dose logger (off by default).
+    private(set) var grapefruitLoggingEnabled: Bool = false
+
     // MARK: - Configuration
 
     /// Bind to the app's shared container. Call once at launch, before any view reads profile state.
@@ -89,12 +95,16 @@ final class UserProfileStore {
             disclosureTier = .harmReduction
             weightKg = nil
             weightSource = .estimated
+            smokesTobacco = false
+            grapefruitLoggingEnabled = false
             return
         }
         disclosureTier = UserProfile(rawValue: record.disclosureTierRaw) ?? .harmReduction
         weightKg = record.bodyWeightKg
         weightSource = WeightSource(rawValue: record.weightSourceRaw)
             ?? (record.bodyWeightKg == nil ? .estimated : .manual)
+        smokesTobacco = record.smokesTobacco
+        grapefruitLoggingEnabled = record.grapefruitLoggingEnabled
     }
 
     private static var defaultLegacyPrefsDBURL: URL {
@@ -111,6 +121,24 @@ final class UserProfileStore {
         guard tier != disclosureTier else { return }
         disclosureTier = tier
         ensureRecord().disclosureTierRaw = tier.rawValue
+        save()
+    }
+
+    // MARK: - Metabolic context flags (Stage 4c)
+
+    /// Persist the "I smoke tobacco regularly" profile flag (chronic CYP1A2 induction).
+    func setSmokesTobacco(_ value: Bool) {
+        guard value != smokesTobacco else { return }
+        smokesTobacco = value
+        ensureRecord().smokesTobacco = value
+        save()
+    }
+
+    /// Persist whether the per-dose grapefruit toggle is shown in the dose logger.
+    func setGrapefruitLoggingEnabled(_ value: Bool) {
+        guard value != grapefruitLoggingEnabled else { return }
+        grapefruitLoggingEnabled = value
+        ensureRecord().grapefruitLoggingEnabled = value
         save()
     }
 

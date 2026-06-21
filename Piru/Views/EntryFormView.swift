@@ -31,6 +31,7 @@ struct EntryFormView: View {
     @State private var combinedDepression: CombinedDepressionResult?
     @State private var attenuations: [EffectAttenuationResult] = []
     @State private var crossTolerance: [CrossToleranceReadout] = []
+    @State private var metabolicEffects: [MetabolicModulation.Effect] = []
     @State private var substanceLocked = false
     @FocusState private var amountFocused: Bool
 
@@ -145,6 +146,14 @@ struct EntryFormView: View {
                         Section {
                             ForEach(crossTolerance) { readout in
                                 CrossToleranceBanner(readout: readout)
+                            }
+                        }
+                    }
+
+                    if !metabolicEffects.isEmpty {
+                        Section {
+                            ForEach(metabolicEffects) { effect in
+                                MetabolicModulationBanner(effect: effect)
                             }
                         }
                     }
@@ -336,9 +345,21 @@ struct EntryFormView: View {
         guard !substance.isEmpty, !isEditing else {
             crossTolerance = []
             attenuations = []
+            metabolicEffects = []
             return
         }
         crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
+
+        // Metabolic modulation (Stage 4c, readout-only): co-active CYP inhibitors/inducers onboard, the
+        // smoking profile flag, and the substance's own auto-modulation. Grapefruit is a per-dose flag
+        // set in the quick-log tray, so it is not part of this form's banner.
+        let coPresent = InteractionChecker.activeEntries(from: Array(recentEntries)).map(\.substance)
+        let context = MetabolicModulation.Context(smokes: UserProfileStore.shared.smokesTobacco)
+        metabolicEffects = MetabolicModulation.activeEffects(
+            loggingSubstance: substance,
+            coPresentSubstances: coPresent,
+            context: context,
+        )
 
         // A 30-day window covers even long-half-life antidepressants (norfluoxetine), then the half-life
         // presence gate in `EffectAttenuation` decides what is still onboard.

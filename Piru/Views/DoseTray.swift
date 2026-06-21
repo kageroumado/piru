@@ -33,6 +33,9 @@ struct StagedDose: Identifiable {
     var isFromDailySet = false
     /// Carried from `DailyDoseItem.isBackgroundMed` onto the committed entry.
     var isBackgroundMed = false
+    /// Per-dose "had grapefruit" flag (Stage 4c). Only ever toggled for CYP3A4-heavy
+    /// substrates when grapefruit logging is enabled; carried onto the committed entry.
+    var hadGrapefruit = false
 
     init(
         substanceName: String,
@@ -854,6 +857,11 @@ private struct StagedDoseEditor: View {
     /// Bumped on each stepper tap — drives the value-change pulse + haptic.
     @State private var stepTick = 0
 
+    /// Whether this substance is CYP3A4-heavy — gates the per-dose grapefruit toggle (Stage 4c).
+    /// Computed once on appear; the metabolism lookup shouldn't run every render.
+    @State private var isGrapefruitSubstrate = false
+    @State private var profileStore = UserProfileStore.shared
+
     private static let unitChoices = ["µg", "mg", "g", "mL"]
     /// One shared height for the route/note pills — a TextField's intrinsic
     /// height differs from a Menu label's, so padding alone won't match them.
@@ -909,6 +917,9 @@ private struct StagedDoseEditor: View {
                     style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: Self.pillHeight),
                 )
                 notePill
+                if profileStore.grapefruitLoggingEnabled, isGrapefruitSubstrate {
+                    grapefruitPill
+                }
             }
 
             if noteExpanded {
@@ -922,6 +933,11 @@ private struct StagedDoseEditor: View {
                 amountText = item.amount.doseFormatted
             }
             if item.amount <= 0 { amountFocused = true }
+            if profileStore.grapefruitLoggingEnabled {
+                isGrapefruitSubstrate = MetabolicModulation
+                    .majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: item.substanceName))
+                    .contains(.cyp3a4)
+            }
         }
         .onChange(of: noteFocused) {
             // Fold an untouched note row back into the pill.
@@ -987,6 +1003,28 @@ private struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .frame(maxWidth: 180, alignment: .leading)
+    }
+
+    /// Per-dose "had grapefruit" toggle (Stage 4c) — shown only for CYP3A4-heavy substrates when
+    /// grapefruit logging is enabled in Settings. Tinted when on; recorded on the committed dose.
+    private var grapefruitPill: some View {
+        Button {
+            withAnimation(.snappy) { item.hadGrapefruit.toggle() }
+        } label: {
+            Image(systemName: "carrot")
+                .imageScale(.small)
+                .font(.footnote.weight(.semibold))
+                .padding(.horizontal, 11)
+                .frame(height: Self.pillHeight)
+                .background(
+                    item.hadGrapefruit ? AnyShapeStyle(Theme.accent.opacity(0.15)) : AnyShapeStyle(Color(.secondarySystemFill)),
+                    in: Capsule(),
+                )
+                .foregroundStyle(item.hadGrapefruit ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Had grapefruit with this dose"))
+        .accessibilityAddTraits(item.hadGrapefruit ? [.isSelected] : [])
     }
 
     /// Multi-line note editor — a single line that grows with its content,

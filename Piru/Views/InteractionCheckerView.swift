@@ -7,6 +7,7 @@ struct InteractionCheckerView: View {
 
     @State private var selected: [String] = []
     @State private var results: [InteractionResult] = []
+    @State private var metabolicEffects: [MetabolicModulation.Effect] = []
     @State private var searchText = ""
     @State private var searchResults: [Substance] = []
     @State private var showSearchResults = false
@@ -48,6 +49,7 @@ struct InteractionCheckerView: View {
                 searchSection
                 selectedSection
                 resultsSection
+                metabolicSection
                 frequentlyUsedSection
             }
             .padding(.horizontal)
@@ -330,8 +332,39 @@ struct InteractionCheckerView: View {
     private func recheckInteractions() {
         guard selected.count >= 2 else {
             results = []
+            metabolicEffects = []
             return
         }
         results = InteractionChecker.checkBatch(selected, against: [], policy: .explore)
+        metabolicEffects = MetabolicModulation.checkerEffects(among: selected)
+    }
+
+    // MARK: - Metabolic modulation (Stage 4c)
+
+    @ViewBuilder
+    private var metabolicSection: some View {
+        if selected.count >= 2, !metabolicEffects.isEmpty {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Metabolic Effects")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .textCase(.uppercase)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
+
+                ForEach(Array(metabolicEffects.enumerated()), id: \.offset) { index, effect in
+                    if index > 0 {
+                        Divider().padding(.leading, 46)
+                    }
+                    MetabolicModulationBanner(effect: effect)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                }
+                .padding(.bottom, 4)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .themeCard()
+        }
     }
 }

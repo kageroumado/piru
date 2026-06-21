@@ -421,6 +421,22 @@
         }
       }
     },
+    "%@ · predicted (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 预测（模型，%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 預測（模型，%@）。"
+          }
+        }
+      }
+    },
     "%@ (%lld)" : {
       "localizations" : {
         "en" : {
@@ -801,6 +817,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 的效果可能減弱——%@ 阻斷了它起效所需的%@。"
+          }
+        }
+      }
+    },
+    "%@ may lower %@ levels (%@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能降低 %2$@ 的血药浓度（%3$@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能降低 %2$@ 的血藥濃度（%3$@）。"
+          }
+        }
+      }
+    },
+    "%@ may raise %@ levels (%@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能升高 %2$@ 的血药浓度（%3$@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能升高 %2$@ 的血藥濃度（%3$@）。"
           }
         }
       }
@@ -6241,6 +6289,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大麻素（CB1）"
+          }
+        }
+      }
+    },
+    "Carbamazepine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡马西平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡馬西平"
+          }
+        }
+      }
+    },
+    "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡马西平诱导 CYP3A4，降低经该酶清除的药物的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡馬西平誘導 CYP3A4，降低經該酶清除的藥物的血藥濃度。"
           }
         }
       }
@@ -12161,6 +12241,38 @@
         }
       }
     },
+    "Fluvoxamine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氟伏沙明"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氟伏沙明"
+          }
+        }
+      }
+    },
+    "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氟伏沙明强烈抑制 CYP1A2，升高经该酶清除的药物的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氟伏沙明強烈抑制 CYP1A2，升高經該酶清除的藥物的血藥濃度。"
+          }
+        }
+      }
+    },
     "For importing into the PsychonautWiki app" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12944,6 +13056,54 @@
         }
       }
     },
+    "Grapefruit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "西柚"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄柚"
+          }
+        }
+      }
+    },
+    "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "西柚（及相关柑橘）会抑制肠道 CYP3A4 约 1–3 天，升高经该酶清除的药物的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄柚（及相關柑橘）會抑制腸道 CYP3A4 約 1–3 天，升高經該酶清除的藥物的血藥濃度。"
+          }
+        }
+      }
+    },
+    "Grapefruit dose logging" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "西柚剂量记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄柚劑量記錄"
+          }
+        }
+      }
+    },
     "Group by" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13021,6 +13181,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "氫鍵供體"
+          }
+        }
+      }
+    },
+    "Had grapefruit with this dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此剂量同服了西柚"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此劑量同服了葡萄柚"
           }
         }
       }
@@ -13468,6 +13644,22 @@
         }
       }
     },
+    "How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "西柚、吸烟以及该药自身的代谢如何改变其血药浓度。仅供参考——根据典型药代动力学预测，并非针对你的实测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄柚、吸菸以及該藥自身的代謝如何改變其血藥濃度。僅供參考——根據典型藥物動力學預測，並非針對你的實測。"
+          }
+        }
+      }
+    },
     "How it works" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13547,6 +13739,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高血壓危象 — 血壓可能致命性飆升。"
+          }
+        }
+      }
+    },
+    "I smoke tobacco regularly" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我经常吸烟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我經常吸菸"
           }
         }
       }
@@ -15887,6 +16095,38 @@
         }
       }
     },
+    "MDMA" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDMA"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDMA"
+          }
+        }
+      }
+    },
+    "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDMA 会使清除它的 CYP2D6 失活，因此反复或间隔很短的用药会不成比例地累积，而非与剂量成正比。该酶约需 10 天恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。"
+          }
+        }
+      }
+    },
     "Mechanism" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16164,6 +16404,22 @@
         }
       }
     },
+    "Metabolic Effects" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代谢影响"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代謝影響"
+          }
+        }
+      }
+    },
     "Metabolism" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16176,6 +16432,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "代謝"
+          }
+        }
+      }
+    },
+    "Metabolism Interactions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代谢相互作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代謝交互作用"
           }
         }
       }
@@ -21321,6 +21593,22 @@
         }
       }
     },
+    "Repeated %@ doses build up faster than the dose suggests." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复服用 %@ 会比剂量显示的更快累积。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重複服用 %@ 會比劑量顯示的更快累積。"
+          }
+        }
+      }
+    },
     "Repeated GABA depressant use builds dependence; abrupt stops after heavy use can be dangerous. Taper rather than quitting cold." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -21905,6 +22193,38 @@
         }
       }
     },
+    "Rifampicin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利福平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利福平"
+          }
+        }
+      }
+    },
+    "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利福平强烈诱导 CYP3A4，明显降低经该酶清除的药物的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利福平強烈誘導 CYP3A4，明顯降低經該酶清除的藥物的血藥濃度。"
+          }
+        }
+      }
+    },
     "Right now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22029,6 +22349,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有血清素綜合徵的風險,尤其是與哌替啶、曲馬多和他噴他多。"
+          }
+        }
+      }
+    },
+    "Ritonavir" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利托那韦"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利托那韋"
+          }
+        }
+      }
+    },
+    "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利托那韦强烈抑制 CYP3A4，显著升高经该酶清除的药物的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利托那韋強烈抑制 CYP3A4，顯著升高經該酶清除的藥物的血藥濃度。"
           }
         }
       }
@@ -24559,6 +24911,38 @@
         }
       }
     },
+    "St John's Wort" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圣约翰草"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "聖約翰草"
+          }
+        }
+      }
+    },
+    "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圣约翰草诱导 CYP3A4，降低经该酶清除的药物的血药浓度（强度因产品而异）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "聖約翰草誘導 CYP3A4，降低經該酶清除的藥物的血藥濃度（強度因產品而異）。"
+          }
+        }
+      }
+    },
     "Stabilizes neuronal membranes by blocking voltage-gated sodium channels in their inactivated state, reducing sustained repetitive firing. Preferentially reduces glutamate release rather than GABA release, distinguishing it from other sodium channel blockers and potentially accounting for its mood-stabilizing properties, particularly in preventing depressive episodes in bipolar disorder." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -26686,6 +27070,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "到"
+          }
+        }
+      }
+    },
+    "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烟草烟雾会诱导 CYP1A2，降低经该酶清除的药物的血药浓度。戒烟后约一周内逆转，可能使浓度升高。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菸草煙霧會誘導 CYP1A2，降低經該酶清除的藥物的血藥濃度。戒菸後約一週內逆轉，可能使濃度升高。"
+          }
+        }
+      }
+    },
+    "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烟草烟雾会加快 CYP1A2，从而降低某些药物（如咖啡因和奥氮平）的血药浓度。西柚会减慢 CYP3A4，升高另一些药物的浓度——开启西柚记录后，可在受影响物质的单次剂量上标记它。两者仅在确实会改变某药物浓度时才显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菸草煙霧會加快 CYP1A2，從而降低某些藥物（如咖啡因和奧氮平）的血藥濃度。葡萄柚會減慢 CYP3A4，升高另一些藥物的濃度——開啟葡萄柚記錄後，可在受影響物質的單次劑量上標記它。兩者僅在確實會改變某藥物濃度時才顯示。"
+          }
+        }
+      }
+    },
+    "Tobacco smoking" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸烟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸菸"
           }
         }
       }

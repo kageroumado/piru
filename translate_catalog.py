@@ -70,6 +70,77 @@ T = {
         "来自 %2$@ 的 %1$@ 耐受 · 预测（模型，%3$@）。",
         "來自 %2$@ 的 %1$@ 耐受 · 預測（模型，%3$@）。",
     ),
+    # Pharmacology axis Stage 4c — metabolic modulation (2026-06-21)
+    "%@ may raise %@ levels (%@).": (
+        "%1$@ 可能升高 %2$@ 的血药浓度（%3$@）。",
+        "%1$@ 可能升高 %2$@ 的血藥濃度（%3$@）。",
+    ),
+    "%@ may lower %@ levels (%@).": (
+        "%1$@ 可能降低 %2$@ 的血药浓度（%3$@）。",
+        "%1$@ 可能降低 %2$@ 的血藥濃度（%3$@）。",
+    ),
+    "Repeated %@ doses build up faster than the dose suggests.": (
+        "重复服用 %@ 会比剂量显示的更快累积。",
+        "重複服用 %@ 會比劑量顯示的更快累積。",
+    ),
+    "%@ · predicted (model, %@).": (
+        "%@ · 预测（模型，%@）。",
+        "%@ · 預測（模型，%@）。",
+    ),
+    "I smoke tobacco regularly": ("我经常吸烟", "我經常吸菸"),
+    "Grapefruit dose logging": ("西柚剂量记录", "葡萄柚劑量記錄"),
+    "Metabolic Effects": ("代谢影响", "代謝影響"),
+    "Metabolism Interactions": ("代谢相互作用", "代謝交互作用"),
+    "Had grapefruit with this dose": ("此剂量同服了西柚", "此劑量同服了葡萄柚"),
+    "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels.": (
+        "烟草烟雾会加快 CYP1A2，从而降低某些药物（如咖啡因和奥氮平）的血药浓度。西柚会减慢 CYP3A4，升高另一些药物的浓度——开启西柚记录后，可在受影响物质的单次剂量上标记它。两者仅在确实会改变某药物浓度时才显示。",
+        "菸草煙霧會加快 CYP1A2，從而降低某些藥物（如咖啡因和奧氮平）的血藥濃度。葡萄柚會減慢 CYP3A4，升高另一些藥物的濃度——開啟葡萄柚記錄後，可在受影響物質的單次劑量上標記它。兩者僅在確實會改變某藥物濃度時才顯示。",
+    ),
+    "How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you.": (
+        "西柚、吸烟以及该药自身的代谢如何改变其血药浓度。仅供参考——根据典型药代动力学预测，并非针对你的实测。",
+        "葡萄柚、吸菸以及該藥自身的代謝如何改變其血藥濃度。僅供參考——根據典型藥物動力學預測，並非針對你的實測。",
+    ),
+    # Stage 4c — modulator catalog display names + notes
+    "Grapefruit": ("西柚", "葡萄柚"),
+    "Tobacco smoking": ("吸烟", "吸菸"),
+    "Ritonavir": ("利托那韦", "利托那韋"),
+    "Fluvoxamine": ("氟伏沙明", "氟伏沙明"),
+    "Carbamazepine": ("卡马西平", "卡馬西平"),
+    "Rifampicin": ("利福平", "利福平"),
+    "St John's Wort": ("圣约翰草", "聖約翰草"),
+    "MDMA": ("MDMA", "MDMA"),
+    "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it.": (
+        "西柚（及相关柑橘）会抑制肠道 CYP3A4 约 1–3 天，升高经该酶清除的药物的血药浓度。",
+        "葡萄柚（及相關柑橘）會抑制腸道 CYP3A4 約 1–3 天，升高經該酶清除的藥物的血藥濃度。",
+    ),
+    "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels.": (
+        "烟草烟雾会诱导 CYP1A2，降低经该酶清除的药物的血药浓度。戒烟后约一周内逆转，可能使浓度升高。",
+        "菸草煙霧會誘導 CYP1A2，降低經該酶清除的藥物的血藥濃度。戒菸後約一週內逆轉，可能使濃度升高。",
+    ),
+    "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it.": (
+        "利托那韦强烈抑制 CYP3A4，显著升高经该酶清除的药物的血药浓度。",
+        "利托那韋強烈抑制 CYP3A4，顯著升高經該酶清除的藥物的血藥濃度。",
+    ),
+    "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it.": (
+        "氟伏沙明强烈抑制 CYP1A2，升高经该酶清除的药物的血药浓度。",
+        "氟伏沙明強烈抑制 CYP1A2，升高經該酶清除的藥物的血藥濃度。",
+    ),
+    "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it.": (
+        "卡马西平诱导 CYP3A4，降低经该酶清除的药物的血药浓度。",
+        "卡馬西平誘導 CYP3A4，降低經該酶清除的藥物的血藥濃度。",
+    ),
+    "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it.": (
+        "利福平强烈诱导 CYP3A4，明显降低经该酶清除的药物的血药浓度。",
+        "利福平強烈誘導 CYP3A4，明顯降低經該酶清除的藥物的血藥濃度。",
+    ),
+    "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product).": (
+        "圣约翰草诱导 CYP3A4，降低经该酶清除的药物的血药浓度（强度因产品而异）。",
+        "聖約翰草誘導 CYP3A4，降低經該酶清除的藥物的血藥濃度（強度因產品而異）。",
+    ),
+    "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days.": (
+        "MDMA 会使清除它的 CYP2D6 失活，因此反复或间隔很短的用药会不成比例地累积，而非与剂量成正比。该酶约需 10 天恢复。",
+        "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。",
+    ),
     # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
     "Tolerance": ("耐受性", "耐受性"),
     "Predicted receptor tolerance and recovery": (
@@ -2773,6 +2844,34 @@ if __name__ == "__main__":
         "Reduced response predicted — ~%lld%% of rested.",
         "Shared %@ tolerance · predicted (model, %@).",
         "Shared %@ tolerance from %@ · predicted (model, %@).",
+        # Pharmacology axis Stage 4c — metabolic modulation (2026-06-21)
+        "%@ may raise %@ levels (%@).",
+        "%@ may lower %@ levels (%@).",
+        "Repeated %@ doses build up faster than the dose suggests.",
+        "%@ · predicted (model, %@).",
+        "I smoke tobacco regularly",
+        "Grapefruit dose logging",
+        "Metabolic Effects",
+        "Metabolism Interactions",
+        "Had grapefruit with this dose",
+        "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels.",
+        "How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you.",
+        "Grapefruit",
+        "Tobacco smoking",
+        "Ritonavir",
+        "Fluvoxamine",
+        "Carbamazepine",
+        "Rifampicin",
+        "St John's Wort",
+        "MDMA",
+        "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it.",
+        "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels.",
+        "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it.",
+        "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it.",
+        "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it.",
+        "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it.",
+        "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product).",
+        "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days.",
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",

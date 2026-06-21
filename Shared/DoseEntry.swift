@@ -81,6 +81,12 @@ final class DoseEntry {
     /// Longitude of ``locationName`` in degrees, or `nil` if no location is set.
     var longitude: Double?
 
+    /// Whether grapefruit was taken with this dose — a per-dose CYP3A4-inhibition
+    /// context flag (Stage 4c). Only ever set for grapefruit-sensitive (3A4-heavy)
+    /// substrates when the user has enabled grapefruit logging; `nil`/`false` for
+    /// every other dose, which keeps the migration additive and lightweight.
+    var hadGrapefruit: Bool?
+
     /// The dose's location as a coordinate, or `nil` unless both ``latitude`` and
     /// ``longitude`` are set. A named place may have no coordinate (e.g. a
     /// free-typed label), so a non-nil ``locationName`` does not imply this.
@@ -117,6 +123,7 @@ final class DoseEntry {
         locationName: String? = nil,
         latitude: Double? = nil,
         longitude: Double? = nil,
+        hadGrapefruit: Bool? = nil,
     ) {
         self.substance = substance
         self.amount = max(0, amount)
@@ -130,5 +137,6 @@ final class DoseEntry {
         self.locationName = locationName
         self.latitude = latitude
         self.longitude = longitude
+        self.hadGrapefruit = hadGrapefruit
     }
 }

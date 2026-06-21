@@ -538,6 +538,10 @@ struct SubstanceDetailView: View {
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
     @State private var pkRoutes: [SubstanceStore.PKRouteHit] = []
     @State private var metabolismRows: [SubstanceStore.MetabolismHit] = []
+    /// Educational metabolic-modulation effects (grapefruit / smoking / self-edge) for this substance
+    /// (Stage 4c). Loaded for non-casual tiers from a dedicated metabolism fetch so the card reaches
+    /// harm-reduction users even though the full PK table is pharma-nerd-only.
+    @State private var metabolicEducation: [MetabolicModulation.Effect] = []
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
     private var profile: UserProfile {
@@ -1561,6 +1565,20 @@ struct SubstanceDetailView: View {
                     }
                 }
 
+                // Metabolic modulation (Stage 4c) — grapefruit/smoking/self-edge education for
+                // substances with a major clearance route through a modulated enzyme.
+                if !metabolicEducation.isEmpty {
+                    Section {
+                        ForEach(metabolicEducation) { effect in
+                            MetabolicModulationBanner(effect: effect)
+                        }
+                    } header: {
+                        Label("Metabolism Interactions", systemImage: "fork.knife")
+                    } footer: {
+                        Text("How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you.")
+                    }
+                }
+
                 // Medical context (indications / contraindications / boxed warnings)
                 // — shown for any compound that has clinical data. Net-new surface.
                 medicalInfoSection
@@ -1657,6 +1675,15 @@ struct SubstanceDetailView: View {
             } else {
                 pkRoutes = []
                 metabolismRows = []
+            }
+
+            // Grapefruit/smoking/self-edge education is harm-reduction-relevant, so it loads for
+            // non-casual tiers from its own metabolism fetch (the full PK table above stays pharma-nerd).
+            if policy.showsMechanism {
+                let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substance.name)
+                metabolicEducation = MetabolicModulation.educationalEffects(forSubstance: substance.name, metabolism: rows)
+            } else {
+                metabolicEducation = []
             }
         }
         .task(id: historySignature) {

@@ -168,6 +168,29 @@ struct UserProfileStoreTests {
         #expect(store.disclosureTier == .pharmaNerd)
         #expect(store.weightKg == 75)
     }
+
+    // MARK: - Metabolic context flags (Stage 4c)
+
+    @Test
+    func `Metabolic context flags default off`() throws {
+        let store = try makeStore()
+        #expect(!store.smokesTobacco)
+        #expect(!store.grapefruitLoggingEnabled)
+    }
+
+    @Test
+    func `Smoking and grapefruit flags persist across stores`() throws {
+        let container = try makeContainer()
+        let first = UserProfileStore()
+        first.configure(container: container, legacyPrefsDBURL: nil)
+        first.setSmokesTobacco(true)
+        first.setGrapefruitLoggingEnabled(true)
+
+        let second = UserProfileStore()
+        second.configure(container: container, legacyPrefsDBURL: nil)
+        #expect(second.smokesTobacco)
+        #expect(second.grapefruitLoggingEnabled)
+    }
 }
 
 @Suite("Source priority")

@@ -25,13 +25,27 @@ final class UserProfileRecord {
     /// Weight-source wire value (mirrors `UserProfileStore.WeightSource.rawValue`).
     var weightSourceRaw: String
 
+    /// Whether the user smokes tobacco regularly — a chronic CYP1A2-inducer profile flag (Stage 4c).
+    /// While set, the metabolic-modulation readout notes that 1A2-cleared drugs run lower. Defaulted so
+    /// the migration stays additive/lightweight (`false` is correct for every pre-existing row).
+    var smokesTobacco: Bool = false
+
+    /// Whether the per-dose "had grapefruit" toggle is shown in the dose logger (off by default — it is
+    /// niche, surfaced only on CYP3A4-heavy substrates when enabled). A presentation preference, not a
+    /// physiological fact. Defaulted for lightweight migration.
+    var grapefruitLoggingEnabled: Bool = false
+
     init(
         disclosureTierRaw: String = "harm-reduction",
         bodyWeightKg: Double? = nil,
         weightSourceRaw: String = "estimated",
+        smokesTobacco: Bool = false,
+        grapefruitLoggingEnabled: Bool = false,
     ) {
         self.disclosureTierRaw = disclosureTierRaw
         self.bodyWeightKg = bodyWeightKg
         self.weightSourceRaw = weightSourceRaw
+        self.smokesTobacco = smokesTobacco
+        self.grapefruitLoggingEnabled = grapefruitLoggingEnabled
     }
 }
