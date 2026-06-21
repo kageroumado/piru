@@ -6,13 +6,21 @@ import Testing
 // MARK: - Helpers
 
 /// In-memory ModelContainer with the full Piru schema.
+///
+/// Must use the *complete* `StoreRecovery.models` schema — the same one every
+/// other SwiftData suite uses — not a hand-picked subset. The export/import code
+/// under test fetches `InventoryItem`, `Session`, and other entities; a subset
+/// schema omits them, so those fetches silently resolve against CoreData's
+/// process-global entity registry instead of this container's own model. Worse,
+/// a *distinct* schema makes SwiftData build a separate `NSManagedObjectModel`
+/// with competing `DoseEntry`/`SubstanceColor` entity descriptions, churning that
+/// global registry; under the parallel runner the borrowed `InventoryItem` lookup
+/// eventually fails with `could not locate an NSEntityDescription`. Sharing the
+/// one canonical schema collapses all containers onto SwiftData's single cached
+/// model and removes the contention entirely.
 private func makeTestContainer() throws -> ModelContainer {
     let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
-    return try ModelContainer(
-        for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-        DailyDoseItem.self, FavoriteSubstance.self,
-        configurations: config,
-    )
+    return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
 }
 
 // MARK: - Filename tests

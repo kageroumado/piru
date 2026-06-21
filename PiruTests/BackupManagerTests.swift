@@ -15,13 +15,14 @@ import Testing
 @Suite("BackupManager — round-trip", .serialized)
 @MainActor
 struct BackupManagerRoundTripTests {
+    /// Full canonical schema (`StoreRecovery.models`) — the backup round-trip
+    /// fetches entities like `InventoryItem` that a subset schema omits, and a
+    /// distinct schema pollutes CoreData's process-global model registry, which
+    /// crashes unrelated fetches under the parallel runner. Match the one schema
+    /// every other SwiftData suite uses.
     private func makeContainer() throws -> ModelContainer {
         let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
-        return try ModelContainer(
-            for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-            DailyDoseItem.self, FavoriteSubstance.self,
-            configurations: config,
-        )
+        return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
     }
 
     @Test
