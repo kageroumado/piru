@@ -54,9 +54,11 @@ struct InteractionCheckerTests {
 
     @Test
     func `Dual-class substance returns multiple classes`() {
+        // Tramadol is an opioid AND a serotonin-adder (not a blunting antidepressant), so it rides
+        // .serotonergic, not .snri — see the Foundation-C serotonergic run (2026-06-22).
         let classes = InteractionChecker.drugClasses(for: "Tramadol")
         #expect(classes.contains(.opioid))
-        #expect(classes.contains(.snri))
+        #expect(classes.contains(.serotonergic))
         #expect(classes.count == 2)
     }
 

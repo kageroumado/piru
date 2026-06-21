@@ -154,6 +154,47 @@ T = {
         "三环类抗抑郁药会减弱 MDMA 的效果——可能变弱。两者单独合用不会引起血清素综合征。",
         "三環類抗憂鬱藥會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群。",
     ),
+    # Serotonergic special cases — evidence-grounded rules (Foundation-C run, 2026-06-22)
+    "SSRIs usually blunt MDMA — it may feel much weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.": (
+        "SSRI 通常会减弱 MDMA 的效果——可能明显变弱，于是人们常常追加剂量而出问题（过热、心脏负担）。两者单独合用不会引起血清素综合征。",
+        "SSRI 通常會減弱 MDMA 的效果——可能明顯變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。",
+    ),
+    "SNRIs usually blunt MDMA — it may feel weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.": (
+        "SNRI 通常会减弱 MDMA 的效果——可能变弱，于是人们常常追加剂量而出问题（过热、心脏负担）。两者单独合用不会引起血清素综合征。",
+        "SNRI 通常會減弱 MDMA 的效果——可能變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。",
+    ),
+    "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure.": (
+        "三环类抗抑郁药通常会减弱 MDMA 等药物的效果，而非增强，因此人们可能追加剂量；更需注意的是对心率和血压的额外负担。",
+        "三環類抗憂鬱藥通常會減弱 MDMA 等藥物的效果，而非增強，因此人們可能追加劑量；更需注意的是對心率和血壓的額外負擔。",
+    ),
+    "Serotonin syndrome risk — these drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures.": (
+        "血清素综合征风险——这些药物会在摇头丸（MDMA）已升高的血清素之上继续增加。部分药物（曲马多、哌替啶）还可能诱发癫痫发作。",
+        "血清素症候群風險——這些藥物會在搖頭丸（MDMA）已升高的血清素之上繼續增加。部分藥物（曲馬多、哌替啶）還可能誘發癲癇發作。",
+    ),
+    "Serotonin syndrome — potentially fatal. Do not combine.": (
+        "血清素综合征——可能致命。请勿合用。",
+        "血清素症候群——可能致命。請勿併用。",
+    ),
+    "Serotonin syndrome risk — two serotonin-raising drugs stacked together.": (
+        "血清素综合征风险——两种升高血清素的药物叠加使用。",
+        "血清素症候群風險——兩種升高血清素的藥物疊加使用。",
+    ),
+    "Serotonin syndrome risk — a serotonin-raising drug stacked with an SSRI.": (
+        "血清素综合征风险——升高血清素的药物与 SSRI 叠加。",
+        "血清素症候群風險——升高血清素的藥物與 SSRI 疊加。",
+    ),
+    "Serotonin syndrome risk — a serotonin-raising drug stacked with an SNRI.": (
+        "血清素综合征风险——升高血清素的药物与 SNRI 叠加。",
+        "血清素症候群風險——升高血清素的藥物與 SNRI 疊加。",
+    ),
+    "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant.": (
+        "血清素综合征风险——升高血清素的药物与三环类抗抑郁药叠加。",
+        "血清素症候群風險——升高血清素的藥物與三環類抗憂鬱藥疊加。",
+    ),
+    "Increased serotonin syndrome risk — lithium adds to the serotonergic load.": (
+        "血清素综合征风险增加——锂会增加血清素负荷。",
+        "血清素症候群風險增加——鋰會增加血清素負荷。",
+    ),
     # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
     "Tolerance": ("耐受性", "耐受性"),
     "Predicted receptor tolerance and recovery": (
@@ -2889,6 +2930,17 @@ if __name__ == "__main__":
         "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome.",
         "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
         "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
+        # Serotonergic special cases — evidence-grounded (Foundation-C run, 2026-06-22)
+        "SSRIs usually blunt MDMA — it may feel much weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.",
+        "SNRIs usually blunt MDMA — it may feel weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.",
+        "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure.",
+        "Serotonin syndrome risk — these drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures.",
+        "Serotonin syndrome — potentially fatal. Do not combine.",
+        "Serotonin syndrome risk — two serotonin-raising drugs stacked together.",
+        "Serotonin syndrome risk — a serotonin-raising drug stacked with an SSRI.",
+        "Serotonin syndrome risk — a serotonin-raising drug stacked with an SNRI.",
+        "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant.",
+        "Increased serotonin syndrome risk — lithium adds to the serotonergic load.",
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",

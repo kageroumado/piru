@@ -43,10 +43,13 @@ struct InteractionRuleTests {
     }
 
     @Test
-    func `DXM is dissociative + SSRI`() {
+    func `DXM is dissociative + serotonergic adder`() {
+        // DXM raises serotonin (reuptake inhibition) — a genuine SS-toxicity adder, not an
+        // antidepressant SERT blocker, so it must NOT ride the .ssri "blunting" bucket.
         let classes = InteractionChecker.drugClasses(for: "DXM")
         #expect(classes.contains(.dissociative))
-        #expect(classes.contains(.ssri))
+        #expect(classes.contains(.serotonergic))
+        #expect(!classes.contains(.ssri))
     }
 
     @Test
@@ -141,6 +144,27 @@ struct InteractionRuleTests {
         #expect(pair?.severity == .caution)
         // MDMA is empathogen + stimulant, but none of its antidepressant pairings should be danger-coloured.
         #expect(!results.contains { $0.severity == .dangerous })
+    }
+
+    @Test
+    func `Tramadol + Empathogen is dangerous (serotonin adder, not blunting)`() {
+        // Tramadol ADDS serotonin (+ lowers seizure threshold) — it must not ride the SNRI blunting
+        // rule. Foundation-C evidence run (2026-06-22): SS grade B/HIGH, seizure A/HIGH → dangerous.
+        // A meaningful (non-trivial) tramadol dose so the relevance gate doesn't suppress it as
+        // sub-threshold — serotonergic adders aren't in persistentClasses, so the dose gate applies.
+        let entry = makeEntry(substance: "Tramadol", amount: 100)
+        let results = InteractionChecker.check("MDMA", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "tramadol" }
+        #expect(pair?.severity == .dangerous)
+    }
+
+    @Test
+    func `DXM + Empathogen is dangerous, never blunting`() {
+        // DXM + MDMA is a real serotonin-toxicity combo — it must never read as antidepressant blunting.
+        let entry = makeEntry(substance: "DXM", amount: 200)
+        let results = InteractionChecker.check("MDMA", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "dxm" }
+        #expect(pair?.severity == .dangerous)
     }
 
     @Test

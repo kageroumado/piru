@@ -74,6 +74,12 @@ nonisolated enum DrugClass: String, Codable {
     case ssri
     case snri
     case tca
+    /// Serotonin-*adding* agents with a genuine additive serotonin-toxicity risk — releasers or
+    /// reuptake inhibitors that are NOT therapeutic antidepressant SERT blockers (which blunt
+    /// empathogens). Tramadol, meperidine/pethidine, and dextromethorphan: they *stack* serotonergic
+    /// load rather than competing it away, so they get danger rules, not the antidepressant blunting
+    /// readout. Grounded in the Foundation-C serotonergic evidence run (2026-06-22).
+    case serotonergic
     case lithium
     case antipsychotic
     case supplement
@@ -406,13 +412,18 @@ enum InteractionChecker {
             map[name.lowercased()] = [.tca]
         }
 
-        // Dual-class substances
-        map["tramadol"] = [.opioid, .snri]
-        map["tapentadol"] = [.opioid, .snri]
-        map["meperidine"] = [.opioid, .ssri]
-        map["pethidine"] = [.opioid, .ssri]
-        map["dxm"] = [.dissociative, .ssri]
-        map["dextromethorphan"] = [.dissociative, .ssri]
+        // Dual-class substances. Tramadol, meperidine, and DXM are serotonin *adders* (releaser /
+        // reuptake inhibitor), NOT antidepressant SERT blockers — so they ride `.serotonergic` (genuine
+        // serotonin-toxicity danger) rather than `.ssri/.snri` (which now read as empathogen *blunting*).
+        // Evidence: Foundation-C serotonergic run, 2026-06-22 (tramadol SS grade B/HIGH + seizure A/HIGH).
+        map["tramadol"] = [.opioid, .serotonergic]
+        // Tapentadol is NRI-dominant with minimal SERT activity (low SS risk) — plain opioid, so it
+        // neither blunts an empathogen nor carries the serotonergic danger.
+        map["tapentadol"] = [.opioid]
+        map["meperidine"] = [.opioid, .serotonergic]
+        map["pethidine"] = [.opioid, .serotonergic]
+        map["dxm"] = [.dissociative, .serotonergic]
+        map["dextromethorphan"] = [.dissociative, .serotonergic]
         map["mdma"] = [.empathogen, .stimulant]
         map["mda"] = [.empathogen, .stimulant]
         map["mdea"] = [.empathogen, .stimulant]
@@ -720,19 +731,66 @@ enum InteractionChecker {
             classA: .ssri,
             classB: .empathogen,
             severity: .caution,
-            description: "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome.",
+            description: "SSRIs usually blunt MDMA — it may feel much weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.",
         ),
         InteractionRule(
             classA: .snri,
             classB: .empathogen,
             severity: .caution,
-            description: "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
+            description: "SNRIs usually blunt MDMA — it may feel weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.",
         ),
         InteractionRule(
             classA: .tca,
             classB: .empathogen,
             severity: .caution,
-            description: "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome.",
+            description: "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure.",
+        ),
+
+        // === SEROTONIN-ADDING AGENTS (tramadol, meperidine, DXM) ===
+        // Genuine additive serotonin-toxicity risk — these RAISE serotonin (unlike antidepressant SERT
+        // blockers, which blunt empathogens), so they stack rather than compete. Grounded in the
+        // Foundation-C serotonergic evidence run (2026-06-22): tramadol SS grade B/HIGH, seizure A/HIGH.
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .empathogen,
+            severity: .dangerous,
+            description: "Serotonin syndrome risk — these drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures.",
+        ),
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .maoi,
+            severity: .dangerous,
+            description: "Serotonin syndrome — potentially fatal. Do not combine.",
+        ),
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .serotonergic,
+            severity: .unsafe,
+            description: "Serotonin syndrome risk — two serotonin-raising drugs stacked together.",
+        ),
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .ssri,
+            severity: .unsafe,
+            description: "Serotonin syndrome risk — a serotonin-raising drug stacked with an SSRI.",
+        ),
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .snri,
+            severity: .unsafe,
+            description: "Serotonin syndrome risk — a serotonin-raising drug stacked with an SNRI.",
+        ),
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .tca,
+            severity: .unsafe,
+            description: "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant.",
+        ),
+        InteractionRule(
+            classA: .serotonergic,
+            classB: .lithium,
+            severity: .unsafe,
+            description: "Increased serotonin syndrome risk — lithium adds to the serotonergic load.",
         ),
         InteractionRule(
             classA: .dissociative,

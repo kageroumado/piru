@@ -14326,6 +14326,22 @@
         }
       }
     },
+    "Increased serotonin syndrome risk — lithium adds to the serotonergic load." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险增加——锂会增加血清素负荷。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險增加——鋰會增加血清素負荷。"
+          }
+        }
+      }
+    },
     "Increases central nervous system activity by enhancing monoamine neurotransmission, typically through increased release or reduced reuptake of dopamine and/or norepinephrine. The specific mechanism varies by substance class (releasing agents, reuptake inhibitors, or receptor agonists). Effects include increased alertness, attention, and energy." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23633,6 +23649,70 @@
         }
       }
     },
+    "Serotonin syndrome — potentially fatal. Do not combine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征——可能致命。请勿合用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群——可能致命。請勿併用。"
+          }
+        }
+      }
+    },
+    "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险——升高血清素的药物与三环类抗抑郁药叠加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險——升高血清素的藥物與三環類抗憂鬱藥疊加。"
+          }
+        }
+      }
+    },
+    "Serotonin syndrome risk — a serotonin-raising drug stacked with an SNRI." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险——升高血清素的药物与 SNRI 叠加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險——升高血清素的藥物與 SNRI 疊加。"
+          }
+        }
+      }
+    },
+    "Serotonin syndrome risk — a serotonin-raising drug stacked with an SSRI." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险——升高血清素的药物与 SSRI 叠加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險——升高血清素的藥物與 SSRI 疊加。"
+          }
+        }
+      }
+    },
     "Serotonin syndrome risk — especially with DXM and other serotonergic dissociatives." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23662,6 +23742,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有血清素綜合徵的風險 — SNRI 阻斷再攝取,而共感劑釋放血清素。"
+          }
+        }
+      }
+    },
+    "Serotonin syndrome risk — these drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险——这些药物会在摇头丸（MDMA）已升高的血清素之上继续增加。部分药物（曲马多、哌替啶）还可能诱发癫痫发作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險——這些藥物會在搖頭丸（MDMA）已升高的血清素之上繼續增加。部分藥物（曲馬多、哌替啶）還可能誘發癲癇發作。"
+          }
+        }
+      }
+    },
+    "Serotonin syndrome risk — two serotonin-raising drugs stacked together." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素综合征风险——两种升高血清素的药物叠加使用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素症候群風險——兩種升高血清素的藥物疊加使用。"
           }
         }
       }
@@ -24577,6 +24689,7 @@
       }
     },
     "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24588,6 +24701,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SNRI 會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群。"
+          }
+        }
+      }
+    },
+    "SNRIs usually blunt MDMA — it may feel weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SNRI 通常会减弱 MDMA 的效果——可能变弱，于是人们常常追加剂量而出问题（过热、心脏负担）。两者单独合用不会引起血清素综合征。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SNRI 通常會減弱 MDMA 的效果——可能變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。"
           }
         }
       }
@@ -24917,6 +25046,7 @@
       }
     },
     "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24960,6 +25090,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SSRI 通常會減弱致幻效應,但與某些化合物可能增加風險。"
+          }
+        }
+      }
+    },
+    "SSRIs usually blunt MDMA — it may feel much weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSRI 通常会减弱 MDMA 的效果——可能明显变弱，于是人们常常追加剂量而出问题（过热、心脏负担）。两者单独合用不会引起血清素综合征。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSRI 通常會減弱 MDMA 的效果——可能明顯變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。"
           }
         }
       }
@@ -26249,6 +26395,7 @@
       }
     },
     "TCAs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26260,6 +26407,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "三環類抗憂鬱藥會減弱 MDMA 的效果——可能變弱。兩者單獨併用不會引起血清素症候群。"
+          }
+        }
+      }
+    },
+    "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三环类抗抑郁药通常会减弱 MDMA 等药物的效果，而非增强，因此人们可能追加剂量；更需注意的是对心率和血压的额外负担。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三環類抗憂鬱藥通常會減弱 MDMA 等藥物的效果，而非增強，因此人們可能追加劑量；更需注意的是對心率和血壓的額外負擔。"
           }
         }
       }
