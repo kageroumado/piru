@@ -89,13 +89,75 @@ struct InteractionResult {
     let description: String
     let source: InteractionSource
 
-    init(severity: InteractionSeverity, substanceA: String, substanceB: String, description: String, source: InteractionSource = .classRule) {
+    /// Temporal effect-curve overlap of the two doses, `[0, 1]`. The peak of
+    /// the product of both doses' subjective-effect curves over wall-clock
+    /// time. `1` when no timestamps were available (the manual picker / report)
+    /// — i.e. "unknown, treat as concurrent". A low value means the two effect
+    /// curves barely co-occur (kratom in the morning vs a benzo at night).
+    let overlapFactor: Double
+
+    /// Combined dose-presence weight, `[0, 1]`. The product of each
+    /// participant's presence (≈1 at a meaningful dose, →0 for a clearly
+    /// sub-threshold one). `1` when the amounts are unknown.
+    let doseFactor: Double
+
+    init(
+        severity: InteractionSeverity,
+        substanceA: String,
+        substanceB: String,
+        description: String,
+        source: InteractionSource = .classRule,
+        overlapFactor: Double = 1,
+        doseFactor: Double = 1,
+    ) {
         self.severity = severity
         self.substanceA = substanceA
         self.substanceB = substanceB
         self.description = description
         self.source = source
+        self.overlapFactor = overlapFactor
+        self.doseFactor = doseFactor
     }
+
+    /// Relevance-weighted score used to order warnings and, on warn surfaces,
+    /// to decide what to hide. Reserves the top of the list — and the red
+    /// treatment — for genuinely concurrent, meaningful-dose, dangerous pairs.
+    /// With no temporal/dose data both factors are `1`, so this collapses back
+    /// to the base severity rank and ordering is unchanged.
+    var displayScore: Double {
+        (Double(severity.rawValue) + 1) * relevance
+    }
+
+    /// `overlapFactor · doseFactor` — how much this pair actually matters here,
+    /// independent of its base severity. `1` when nothing is known.
+    var relevance: Double {
+        overlapFactor * doseFactor
+    }
+
+    /// `true` when good data shows the pair is unlikely to matter at these
+    /// doses/timing. The Tools ▸ Interactions explorer marks these rather than
+    /// hiding them; warn surfaces suppress them upstream (see
+    /// ``InteractionChecker``).
+    var isLowRelevance: Bool {
+        relevance < InteractionChecker.lowRelevanceThreshold
+    }
+}
+
+// MARK: - Interaction Policy
+
+/// How aggressively the checker gates warnings, set per surface.
+enum InteractionPolicy {
+    /// Log-time warnings (dose entry, daily-dose batch). Hide a pair when good
+    /// data — real effect curves or dose amounts — shows it is confidently
+    /// irrelevant (a clearly sub-threshold dose, or two doses whose effect
+    /// curves never overlap). Everything uncertain is still shown, ranked by
+    /// relevance.
+    case warn
+
+    /// The Tools ▸ Interactions explorer. Never hide a matched rule — surface
+    /// every possible interaction unconditionally, marking low-relevance ones
+    /// via ``InteractionResult/isLowRelevance`` instead of suppressing them.
+    case explore
 }
 
 // MARK: - FDA Label-Sourced Interaction
@@ -124,6 +186,19 @@ private struct InteractionRule {
         self.classB = classB
         self.severity = severity
         self.description = String(localized: description)
+    }
+
+    /// A hard pharmacological edge whose danger **outlasts the subjective
+    /// effect curve** — irreversible MAO inhibition (lethal days after the
+    /// felt effects fade), lithium, or a chronic serotonergic at steady state
+    /// (an SSRI taken today is effectively present for weeks). These are *not*
+    /// gated on effect-curve overlap and are never suppressed on dose; they
+    /// keep firing on co-presence within the existing long pharmacological
+    /// window. The additive depressant/cardio pile (where the false reds and
+    /// the wall-of-red live) is everything else, and gets the full gate.
+    var isPersistent: Bool {
+        InteractionChecker.persistentClasses.contains(classA)
+            || InteractionChecker.persistentClasses.contains(classB)
     }
 }
 
@@ -161,101 +236,119 @@ private struct InteractionRule {
 enum InteractionChecker {
     // MARK: - Public API
 
-    /// Check a substance against a list of active dose entries
-    static func check(_ substanceName: String, against activeEntries: [DoseEntry]) -> [InteractionResult] {
+    /// Check a prospective substance against a list of active dose entries.
+    ///
+    /// On the ``InteractionPolicy/warn`` surfaces this reads the same effect
+    /// curves the timeline draws: a pair only warns where the two doses'
+    /// effects genuinely co-occur and both are at a meaningful dose. A pair the
+    /// data confidently shows to be irrelevant — non-concurrent, or with a
+    /// clearly sub-threshold participant — is dropped, not reddened. Hard
+    /// pharmacological edges (MAOI, lithium, chronic serotonergics) bypass the
+    /// effect-overlap gate; see ``InteractionRule/isPersistent``.
+    ///
+    /// On ``InteractionPolicy/explore`` nothing is hidden — every matched rule
+    /// is returned, ranked by relevance.
+    static func check(
+        _ substanceName: String,
+        against activeEntries: [DoseEntry],
+        policy: InteractionPolicy = .warn,
+    ) -> [InteractionResult] {
         let newClasses = drugClasses(for: substanceName)
+        guard !newClasses.isEmpty else { return [] }
 
-        var results: [InteractionResult] = []
-        var seen = Set<String>() // Avoid duplicate warnings for same substance
+        // The prospective dose's effect track (it starts "now"). Only built for
+        // temporal gating on warn surfaces; nil when the substance has no curve
+        // data, in which case the temporal gate degrades to "unknown" and the
+        // pair is shown.
+        let prospective = policy == .warn ? prospectiveTrack(for: substanceName) : nil
 
+        var byPair: [String: InteractionResult] = [:]
         for entry in activeEntries {
-            // Skip same substance
             guard entry.substance.lowercased() != substanceName.lowercased() else { continue }
-            guard !seen.contains(entry.substance.lowercased()) else { continue }
-            seen.insert(entry.substance.lowercased())
 
-            let activeClasses = drugClasses(for: entry.substance)
+            guard let rule = worstRule(newClasses, drugClasses(for: entry.substance)) else { continue }
 
-            // Check all class pair combinations
-            for newClass in newClasses {
-                for activeClass in activeClasses {
-                    if let rule = findRule(newClass, activeClass) {
-                        results.append(InteractionResult(
-                            severity: rule.severity,
-                            substanceA: substanceName,
-                            substanceB: entry.substance,
-                            description: rule.description,
-                            source: .classRule,
-                        ))
-                    }
-                }
+            var overlapFactor = 1.0
+            var doseFactor = 1.0
+            if policy == .warn {
+                let gate = gatePair(prospective: prospective, active: track(for: entry), persistent: rule.isPersistent)
+                if gate.suppress { continue }
+                overlapFactor = gate.overlapFactor
+                doseFactor = gate.doseFactor
             }
+
+            let result = InteractionResult(
+                severity: rule.severity,
+                substanceA: substanceName,
+                substanceB: entry.substance,
+                description: rule.description,
+                overlapFactor: overlapFactor,
+                doseFactor: doseFactor,
+            )
+            merge(result, into: &byPair)
         }
 
-        // Sort by severity (dangerous first), deduplicate by substance pair
-        var uniqueResults: [InteractionResult] = []
-        var pairSeen = Set<String>()
-        for result in results.sorted(by: { $0.severity > $1.severity }) {
-            let key = [result.substanceA.lowercased(), result.substanceB.lowercased()].sorted().joined(separator: "|")
-            if !pairSeen.contains(key) {
-                pairSeen.insert(key)
-                uniqueResults.append(result)
-            }
-        }
-
-        return uniqueResults
+        return byPair.values.sorted { $0.displayScore > $1.displayScore }
     }
 
-    /// Check all substances in a batch against each other and against active entries
+    /// Check all substances in a batch against each other and against active entries.
     static func checkBatch(
         _ substances: [String],
         against activeEntries: [DoseEntry],
+        policy: InteractionPolicy = .warn,
     ) -> [InteractionResult] {
-        var allResults: [InteractionResult] = []
+        var byPair: [String: InteractionResult] = [:]
 
-        // Check each substance against active entries (skip if none)
+        // Each substance (logged "now") against the already-active entries.
         if !activeEntries.isEmpty {
             for substance in substances {
-                allResults.append(contentsOf: check(substance, against: activeEntries))
+                for result in check(substance, against: activeEntries, policy: policy) {
+                    merge(result, into: &byPair)
+                }
             }
         }
 
-        // Check substances within the batch against each other
+        // Within the batch the substances are co-administered, so they are
+        // concurrent by construction (overlap = 1) and carry no amounts here
+        // (dose = 1) — the rule fires at its base severity.
         for i in 0 ..< substances.count {
             for j in (i + 1) ..< substances.count {
-                let classesA = drugClasses(for: substances[i])
-                let classesB = drugClasses(for: substances[j])
-
-                for classA in classesA {
-                    for classB in classesB {
-                        if let rule = findRule(classA, classB) {
-                            allResults.append(InteractionResult(
-                                severity: rule.severity,
-                                substanceA: substances[i],
-                                substanceB: substances[j],
-                                description: rule.description,
-                                source: .classRule,
-                            ))
-                        }
-                    }
-                }
+                guard let rule = worstRule(drugClasses(for: substances[i]), drugClasses(for: substances[j])) else { continue }
+                merge(InteractionResult(
+                    severity: rule.severity,
+                    substanceA: substances[i],
+                    substanceB: substances[j],
+                    description: rule.description,
+                ), into: &byPair)
             }
         }
 
-        // Deduplicate keeping highest severity per pair
-        var best: [String: InteractionResult] = [:]
-        for result in allResults {
-            let key = [result.substanceA.lowercased(), result.substanceB.lowercased()].sorted().joined(separator: "|")
-            if let existing = best[key] {
-                if result.severity > existing.severity {
-                    best[key] = result
+        return byPair.values.sorted { $0.displayScore > $1.displayScore }
+    }
+
+    /// The highest-severity rule across every class-pair combination of two
+    /// substances, or `nil` if none interact.
+    private static func worstRule(_ classesA: [DrugClass], _ classesB: [DrugClass]) -> InteractionRule? {
+        var best: InteractionRule?
+        for a in classesA {
+            for b in classesB {
+                if let rule = findRule(a, b), best == nil || rule.severity > best!.severity {
+                    best = rule
                 }
-            } else {
-                best[key] = result
             }
         }
+        return best
+    }
 
-        return Array(best.values).sorted { $0.severity > $1.severity }
+    /// Keep the highest-scoring result per substance pair.
+    private static func merge(_ result: InteractionResult, into byPair: inout [String: InteractionResult]) {
+        let key = pairKey(result.substanceA, result.substanceB)
+        if let existing = byPair[key], existing.displayScore >= result.displayScore { return }
+        byPair[key] = result
+    }
+
+    private static func pairKey(_ a: String, _ b: String) -> String {
+        [a.lowercased(), b.lowercased()].sorted().joined(separator: "|")
     }
 
     // MARK: - Drug Class Mapping
@@ -860,6 +953,136 @@ enum InteractionChecker {
     private static func findRule(_ a: DrugClass, _ b: DrugClass) -> InteractionRule? {
         let key = [a.rawValue, b.rawValue].sorted().joined(separator: "|")
         return ruleLookup[key]
+    }
+
+    // MARK: - Relevance Gating
+
+    /// Drug classes whose interactions outlast the subjective effect curve, so
+    /// they bypass the effect-overlap gate and are never suppressed on dose.
+    /// See ``InteractionRule/isPersistent``.
+    static let persistentClasses: Set<DrugClass> = [.maoi, .lithium, .ssri, .snri, .tca]
+
+    /// Below this relevance (`overlap · dose`) the explorer marks a pair as
+    /// low-likelihood; warn surfaces suppress earlier, on the confident-low
+    /// signals in ``gatePair(prospective:active:persistent:)``.
+    static let lowRelevanceThreshold = 0.25
+
+    /// Effect-overlap peak below which two doses are treated as not concurrent.
+    private static let overlapSuppressThreshold = 0.05
+
+    /// Dose magnitude (`amount / heavy`) at or below which a participant is
+    /// treated as confidently sub-threshold — its presence in the pair is
+    /// negligible, so the *interaction* (not the drug itself) is irrelevant.
+    ///
+    /// This equals ``ActiveSubstanceState/minimumIntensity``, the floor
+    /// `computeDoseMagnitude` clamps to: a substance *with* dose-range data
+    /// whose magnitude bottoms out here is ≤5 % of a heavy dose. Substances
+    /// with no dose data resolve to ``ActiveSubstanceState/unknownIntensity``
+    /// (0.60) instead, so they are never mistaken for trivial — exactly the
+    /// "only suppress when we have good data" requirement.
+    private static let trivialMagnitude = ActiveSubstanceState.minimumIntensity
+
+    /// Magnitude window over which dose presence ramps `0 → 1` (smoothstep). At
+    /// or above ``presenceFull`` a dose counts fully; below ``presenceLow`` it
+    /// barely registers.
+    private static let presenceLow = 0.04
+    private static let presenceFull = 0.25
+
+    /// One dose's subjective-effect track on the wall clock: when it was taken
+    /// and the state whose ``TimelineCurveModel/effectShape(at:for:)`` gives its
+    /// strength over time.
+    private struct EffectTrack {
+        let state: ActiveSubstanceState
+        let start: Date
+        /// `false` when the amount is unknown (a prospective / name-only dose),
+        /// so dose presence is treated as neutral rather than confident.
+        let amountKnown: Bool
+
+        var magnitude: Double {
+            state.doseMagnitude
+        }
+        var effectEndMinutes: Double {
+            max(state.offsetEndMinutes, state.totalMinutes)
+        }
+    }
+
+    private struct GateResult {
+        let overlapFactor: Double
+        let doseFactor: Double
+        let suppress: Bool
+    }
+
+    /// Grade a single pair: its temporal overlap, combined dose presence, and
+    /// whether good data makes it confidently irrelevant (and so suppressible
+    /// on a warn surface). `persistent` rules skip both the effect-overlap and
+    /// dose suppression — they fire whenever co-present in the long window.
+    private static func gatePair(prospective: EffectTrack?, active: EffectTrack?, persistent: Bool) -> GateResult {
+        let presenceProspective = prospective.map { $0.amountKnown ? presence($0.magnitude) : 1.0 } ?? 1.0
+        let presenceActive = active.map { $0.amountKnown ? presence($0.magnitude) : 1.0 } ?? 1.0
+        let doseFactor = presenceProspective * presenceActive
+
+        let doseConfidentLow = !persistent && (
+            (active?.amountKnown == true && active!.magnitude <= trivialMagnitude)
+                || (prospective?.amountKnown == true && prospective!.magnitude <= trivialMagnitude)
+        )
+
+        var overlapFactor = 1.0
+        var overlapConfidentLow = false
+        if !persistent, let p = prospective, let a = active {
+            overlapFactor = effectOverlap(p, a)
+            overlapConfidentLow = overlapFactor < overlapSuppressThreshold
+        }
+
+        return GateResult(
+            overlapFactor: overlapFactor,
+            doseFactor: doseFactor,
+            suppress: overlapConfidentLow || doseConfidentLow,
+        )
+    }
+
+    /// Peak of the product of two doses' effect curves over the window where
+    /// they could co-occur. `0` when the curves never overlap in wall-clock
+    /// time (a morning dose long faded by an evening one).
+    private static func effectOverlap(_ a: EffectTrack, _ b: EffectTrack) -> Double {
+        let laterStart = max(a.start, b.start)
+        let endA = a.start.addingTimeInterval(a.effectEndMinutes * 60)
+        let endB = b.start.addingTimeInterval(b.effectEndMinutes * 60)
+        let windowEnd = min(endA, endB)
+        guard windowEnd > laterStart else { return 0 }
+
+        let steps = 64
+        let span = windowEnd.timeIntervalSince(laterStart)
+        var peak = 0.0
+        for i in 0 ... steps {
+            let t = laterStart.addingTimeInterval(span * Double(i) / Double(steps))
+            let shapeA = TimelineCurveModel.effectShape(at: t.timeIntervalSince(a.start) / 60, for: a.state)
+            let shapeB = TimelineCurveModel.effectShape(at: t.timeIntervalSince(b.start) / 60, for: b.state)
+            peak = max(peak, shapeA * shapeB)
+        }
+        return peak
+    }
+
+    /// Dose-presence weight in `[0, 1]`: ≈1 at a meaningful dose, →0 for a
+    /// clearly sub-threshold one. Smoothstep over `[presenceLow, presenceFull]`.
+    private static func presence(_ magnitude: Double) -> Double {
+        let t = min(1, max(0, (magnitude - presenceLow) / (presenceFull - presenceLow)))
+        return t * t * (3 - 2 * t)
+    }
+
+    /// Build the effect track for an already-logged entry (amount known).
+    private static func track(for entry: DoseEntry) -> EffectTrack? {
+        guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "") else { return nil }
+        return EffectTrack(state: state, start: entry.timestamp, amountKnown: true)
+    }
+
+    /// Build the effect track for a prospective dose from its name alone — it
+    /// starts "now" on its default route, and its amount is treated as unknown
+    /// (only the *shape* of the curve, which is dose-independent, is used).
+    private static func prospectiveTrack(for substanceName: String) -> EffectTrack? {
+        guard let substance = SubstanceLibrary.lookupByNameOrAlias(substanceName) else { return nil }
+        let entry = DoseEntry(substance: substanceName, amount: 1, route: substance.defaultRoute)
+        guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "") else { return nil }
+        return EffectTrack(state: state, start: entry.timestamp, amountKnown: false)
     }
 
     // MARK: - Active Entry Detection

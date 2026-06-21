@@ -4,8 +4,8 @@ import Testing
 
 @Suite("Interaction Rules Extended")
 struct InteractionRuleTests {
-    private func makeEntry(substance: String, timestamp: Date = .now) -> DoseEntry {
-        DoseEntry(substance: substance, amount: 10, route: .oral, timestamp: timestamp)
+    private func makeEntry(substance: String, amount: Double = 10, timestamp: Date = .now) -> DoseEntry {
+        DoseEntry(substance: substance, amount: amount, route: .oral, timestamp: timestamp)
     }
 
     // MARK: - Drug Class Overrides
@@ -153,7 +153,9 @@ struct InteractionRuleTests {
 
     @Test
     func `Stimulant + Stimulant is caution`() {
-        let entry = makeEntry(substance: "Caffeine")
+        // A realistic caffeine dose — 10 mg is below threshold and is now
+        // (correctly) gated out as a sub-threshold interaction.
+        let entry = makeEntry(substance: "Caffeine", amount: 100)
         let results = InteractionChecker.check("Cocaine", against: [entry])
         #expect(!results.isEmpty)
         #expect(results[0].severity == .caution)

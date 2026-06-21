@@ -190,7 +190,7 @@ struct ReportView: View {
         let range = dateRange
         filteredEntries = allEntries.filter { $0.timestamp >= range.start && $0.timestamp <= range.end }
         let substances = Array(Set(filteredEntries.map(\.substance)))
-        interactions = InteractionChecker.checkBatch(substances, against: filteredEntries)
+        interactions = InteractionChecker.checkBatch(substances, against: filteredEntries, policy: .explore)
     }
 
     private func generateReport() {

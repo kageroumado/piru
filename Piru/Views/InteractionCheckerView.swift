@@ -332,6 +332,6 @@ struct InteractionCheckerView: View {
             results = []
             return
         }
-        results = InteractionChecker.checkBatch(selected, against: [])
+        results = InteractionChecker.checkBatch(selected, against: [], policy: .explore)
     }
 }
