@@ -147,9 +147,12 @@ struct EntryDetailView: View {
         substanceInfo?.byVolumeDosing
     }
 
-    /// The substance is alcohol (the by-volume catalog is alcohol/ethanol only).
+    /// The substance is alcohol. Matched on the entry's own name (not the async-loaded `substanceInfo`,
+    /// which can be nil) so the acetaldehyde readout doesn't depend on substance resolution — the same
+    /// predicate the zero-order timeline curve uses.
     private var isAlcoholEntry: Bool {
-        byVolumeCapability != nil
+        let name = entry.substance.trimmingCharacters(in: .whitespaces).lowercased()
+        return name == "alcohol" || name == "ethanol"
     }
 
     /// Grams of ethanol in this committed dose, when the unit is a mass; drives the acetaldehyde load.
