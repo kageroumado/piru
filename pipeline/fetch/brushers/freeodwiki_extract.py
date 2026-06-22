@@ -153,7 +153,9 @@ def strip_md(s: str) -> str:
 
 
 def clean_cell(s: str) -> str:
-    return strip_md(s).strip(" |：:⇣").strip()
+    # ⇣ (U+21E3) and ⬇ (U+2B07) are both decorative "route below" arrows the wiki
+    # prefixes onto per-route section headers; strip them so the route name matches.
+    return strip_md(s).strip(" |：:⇣⬇").strip()
 
 
 def match_route(text: str) -> str | None:
@@ -281,6 +283,21 @@ def parse_page(path: Path) -> dict | None:
             continue
         label = clean_cell(cells[0])
         value = cells[1]
+
+        # Per-route section header — a table row whose first cell is just a route
+        # name and whose value cell is empty ("| [口服] | |" then a "---" separator
+        # and a per-route dose/duration grid). This is distinct from the inline
+        # "⇣ [route]" and "**[route]** (Bioavailability)" headers above. Without it
+        # each route's grid collapses onto the default "oral" and the last table
+        # wins — e.g. morphine's intravenous ladder overwriting its oral ladder.
+        # The empty-value + short-label guard keeps prose/bold section headers
+        # (剂量 / 持续时间 / 给药途径) from matching a single-char route keyword.
+        if not clean_cell(value) and 0 < len(label) <= 6:
+            r = match_route(label)
+            if r:
+                current_route = r
+                interaction_table = False
+                continue
 
         # Interaction table header toggles capture of the emoji-severity rows.
         if "相互作用" in label:

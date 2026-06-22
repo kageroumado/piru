@@ -12,6 +12,7 @@ Run from the repo root:
 """
 
 import importlib.util
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -21,6 +22,18 @@ _spec = importlib.util.spec_from_file_location(
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 parse = _mod.parse_dose_value
+parse_page = _mod.parse_page
+
+
+def _parse_md(text: str) -> dict:
+    """Run parse_page over an in-memory markdown fixture."""
+    with tempfile.NamedTemporaryFile("w", suffix=".md", encoding="utf-8", delete=False) as fh:
+        fh.write(text)
+        path = Path(fh.name)
+    try:
+        return parse_page(path) or {}
+    finally:
+        path.unlink()
 
 
 class TestMicrogramMuVariants(unittest.TestCase):
@@ -92,6 +105,58 @@ class TestRobustnessGuards(unittest.TestCase):
 
     def test_no_numbers_returns_none(self):
         self.assertIsNone(parse("（待测定）"))
+
+
+class TestPerRouteSectionHeaders(unittest.TestCase):
+    def test_plain_route_header_rows_split_routes(self):
+        # Morphine layout: "| [口服] | |" then "---" then a per-route grid, twice.
+        # Without route-header detection the second table overwrites the first
+        # under the default "oral".
+        md = (
+            "| [口服](/x.md) | |\n"
+            "| --- | --- |\n"
+            "| **[剂量](/x.md)** | |\n"
+            "| [阈值](/x.md) | < 10 mg |\n"
+            "| [严重](/x.md) | 30 mg + |\n"
+            "\n"
+            "| [静脉注射](/x.md) | |\n"
+            "| --- | --- |\n"
+            "| **[剂量](/x.md)** | |\n"
+            "| [阈值](/x.md) | < 3.33 mg |\n"
+            "| [严重](/x.md) | 10 mg + |\n"
+        )
+        doses = _parse_md(md)["doses"]
+        self.assertEqual(set(doses), {"oral", "intravenous"})
+        self.assertEqual(doses["oral"]["threshold"], 10.0)
+        self.assertEqual(doses["intravenous"]["threshold"], 3.33)
+
+    def test_arrow_bold_route_headers_split_routes(self):
+        # 25I-NBOMe layout: "**⬇ [舌下含服]**" / "**⬇ [鼻吸]**" (U+2B07 arrow,
+        # distinct from the ⇣ that the inline header branch handles).
+        md = (
+            "| **⬇ [舌下含服](/x.md)** | |\n"
+            "| [阈值](/x.md) | 50 µg |\n"
+            "| [中等](/x.md) | 500 - 700 µg |\n"
+            "| **⬇ [鼻吸](/x.md#鼻吸)** | |\n"
+            "| [阈值](/x.md) | 40 µg |\n"
+            "| [中等](/x.md) | 400 - 600 µg |\n"
+        )
+        doses = _parse_md(md)["doses"]
+        self.assertEqual(set(doses), {"sublingual", "insufflation"})
+        self.assertEqual(doses["sublingual"]["threshold"], 50.0)
+        self.assertEqual(doses["insufflation"]["threshold"], 40.0)
+
+    def test_bold_section_headers_are_not_mistaken_for_routes(self):
+        # "**[剂量]**" / "**持续时间**" are empty-value bold headers that must NOT
+        # match a route (they share the short-cell shape with a route header).
+        md = (
+            "| **[剂量](/x.md)** | |\n"
+            "| [阈值](/x.md) | 100 mg |\n"
+            "| **持续时间** | |\n"
+            "| [总时长](/x.md) | 4 - 6 小时 |\n"
+        )
+        doses = _parse_md(md)["doses"]
+        self.assertEqual(set(doses), {"oral"})  # stays on the default route
 
 
 if __name__ == "__main__":

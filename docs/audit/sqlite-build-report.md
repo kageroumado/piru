@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-06-22.0 → `Piru/Data/piru-substances.sqlite` (17,367,040 bytes, sha256 `7fda1d333faf490d8afc3a5892db35d26e1b9489b69d8eb88b1eecf11e1e7560`)
+Built 2026-06-22.0 → `Piru/Data/piru-substances.sqlite` (17,367,040 bytes, sha256 `b0792b5917b41217cfc244a6c3808adb08d96d70cd703ef61d0b018d8ed9d1a6`)
 
 ## Row counts
 
@@ -12,7 +12,7 @@ Built 2026-06-22.0 → `Piru/Data/piru-substances.sqlite` (17,367,040 bytes, sha
 | citations | 1,832 |
 | categories | 1,852 |
 | tags | 7,804 |
-| dose_ranges | 2,892 |
+| dose_ranges | 2,898 |
 | durations | 9,454 |
 | half_lives | 278 |
 | mechanisms_summary | 1,050 |
@@ -57,4 +57,4 @@ Built 2026-06-22.0 → `Piru/Data/piru-substances.sqlite` (17,367,040 bytes, sha
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
-| freeodwiki | 321 | 0 | 27 | 0 |
+| freeodwiki | 327 | 0 | 27 | 0 |

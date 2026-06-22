@@ -3173,7 +3173,23 @@
   "categories": [],
   "tags": [],
   "doses": {
-   "oral": {
+   "sublingual": {
+    "unit": "µg",
+    "threshold": 50.0,
+    "light": {
+     "min": 200.0,
+     "max": 500.0
+    },
+    "common": {
+     "min": 500.0,
+     "max": 700.0
+    },
+    "strong": {
+     "min": 700.0,
+     "max": 1000.0
+    }
+   },
+   "insufflation": {
     "unit": "µg",
     "threshold": 50.0,
     "light": {
@@ -6924,7 +6940,41 @@
    "芳基环己胺类物质"
   ],
   "doses": {
+   "inhalation": {
+    "unit": "mg",
+    "threshold": 2.0,
+    "light": {
+     "min": 5.0,
+     "max": 10.0
+    },
+    "common": {
+     "min": 10.0,
+     "max": 20.0
+    },
+    "strong": {
+     "min": 20.0,
+     "max": 25.0
+    },
+    "heavy": 25.0
+   },
    "oral": {
+    "unit": "mg",
+    "threshold": 5.0,
+    "light": {
+     "min": 5.0,
+     "max": 10.0
+    },
+    "common": {
+     "min": 10.0,
+     "max": 20.0
+    },
+    "strong": {
+     "min": 20.0,
+     "max": 30.0
+    },
+    "heavy": 30.0
+   },
+   "insufflation": {
     "unit": "mg",
     "threshold": 5.0,
     "light": {
@@ -23376,6 +23426,23 @@
   "doses": {
    "oral": {
     "unit": "mg",
+    "threshold": 60.0,
+    "light": {
+     "min": 100.0,
+     "max": 150.0
+    },
+    "common": {
+     "min": 150.0,
+     "max": 225.0
+    },
+    "strong": {
+     "min": 225.0,
+     "max": 325.0
+    },
+    "heavy": 325.0
+   },
+   "insufflation": {
+    "unit": "mg",
     "threshold": 5.0,
     "light": {
      "min": 15.0,
@@ -27232,6 +27299,23 @@
   "doses": {
    "oral": {
     "unit": "mg",
+    "threshold": 10.0,
+    "light": {
+     "min": 10.0,
+     "max": 15.0
+    },
+    "common": {
+     "min": 15.0,
+     "max": 20.0
+    },
+    "strong": {
+     "min": 20.0,
+     "max": 30.0
+    },
+    "heavy": 30.0
+   },
+   "intravenous": {
+    "unit": "mg",
     "threshold": 3.33,
     "light": {
      "min": 3.33,
@@ -27244,8 +27328,7 @@
     "strong": {
      "min": 7.5,
      "max": 10.0
-    },
-    "heavy": 30.0
+    }
    }
   },
   "durations": {
@@ -35399,6 +35482,23 @@
   ],
   "doses": {
    "oral": {
+    "unit": "mg",
+    "threshold": 10.0,
+    "light": {
+     "min": 20.0,
+     "max": 30.0
+    },
+    "common": {
+     "min": 30.0,
+     "max": 50.0
+    },
+    "strong": {
+     "min": 50.0,
+     "max": 60.0
+    },
+    "heavy": 60.0
+   },
+   "insufflation": {
     "unit": "mg",
     "threshold": 5.0,
     "light": {
