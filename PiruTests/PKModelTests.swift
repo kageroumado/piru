@@ -428,3 +428,129 @@ struct PKModelTests {
 extension Tag {
     @Tag static var pharmacokinetics: Self
 }
+
+@Suite("PKModel saturable kinetics", .tags(.pharmacokinetics))
+struct PKModelSaturableTests {
+    // Body / Vd shared by the synthetic cases below.
+    private static let weight = 70.0
+    private static let vdPerKg = 0.6 // 42 L
+
+    // MARK: - Reduces to first-order at C ≪ Km
+
+    @Test
+    func `At C ≪ Km saturable elimination matches the closed-form first-order curve`() {
+        let ke = PKModel.ke(fromHalfLifeMinutes: 300)
+        let ka = PKModel.defaultKa(ke: ke)
+        // Huge Km so the dose never approaches it; Vmax = ke·Km makes the effective rate = ke.
+        let km = 1e7
+        let vmax = ke * km
+        let curve = PKModel.saturableCurve(
+            dose: 100, bioavailability: 1, vdPerKg: Self.vdPerKg, weightKg: Self.weight,
+            ka: ka, saturation: .elimination(km: km, vmax: vmax),
+            durationMinutes: 1_200, stepMinutes: 1,
+        )
+        let vd = Self.vdPerKg * Self.weight
+        let analyticPeak = (1.0 * 100 / vd) * PKModel.cmax(ke: ke, ka: ka)
+        let relErr = abs(curve.peakParent - analyticPeak) / analyticPeak
+        #expect(relErr < 0.01) // RK4 vs analytic agree to <1%
+    }
+
+    // MARK: - Saturable elimination (the dangerous ceiling)
+
+    /// Ethanol-like zero-order kinetics: Vmax ≈ 2.5 mg/L/min (~0.15 g/L/h BAC fall), Km ≈ 90 mg/L.
+    private static let ethanol = PKModel.Saturation.elimination(km: 90, vmax: 2.5)
+
+    @Test
+    func `Above Km, elimination is zero-order — concentration declines at a constant ≈ Vmax slope`() {
+        let curve = PKModel.saturableCurve(
+            dose: 40_000, bioavailability: 1, vdPerKg: Self.vdPerKg, weightKg: Self.weight,
+            ka: 0.05, saturation: Self.ethanol, durationMinutes: 1_200, stepMinutes: 1,
+        )
+        // Sample the descending limb where C is well above Km and absorption is finished (t ≈ 300 min).
+        let i = 300
+        let c = curve.parent[i]
+        let slope = curve.parent[i + 1] - curve.parent[i] // mg/L per minute
+        #expect(c > 90 * 3) // still firmly in the zero-order regime
+        // Capacity-limited: the decline is capped at ≈ Vmax and far slower than first-order would give.
+        #expect(abs(slope) > 1.8 && abs(slope) <= 2.5) // near the zero-order ceiling (Vmax = 2.5)
+        let firstOrderRate = (2.5 / 90) * c // what a first-order drug (ke = Vmax/Km) would shed here
+        #expect(abs(slope) < firstOrderRate * 0.5) // dramatically slower — the supralinear danger
+    }
+
+    @Test
+    func `Saturable elimination accumulates supralinearly — doubling dose more than doubles exposure`() {
+        func auc(dose: Double) -> Double {
+            PKModel.saturableCurve(
+                dose: dose, bioavailability: 1, vdPerKg: Self.vdPerKg, weightKg: Self.weight,
+                ka: 0.05, saturation: Self.ethanol, durationMinutes: 2_000, stepMinutes: 1,
+            ).effectAUC
+        }
+        let single = auc(dose: 20_000)
+        let doubled = auc(dose: 40_000)
+        // First-order would give exactly 2×; capacity-limited clearance makes it markedly supralinear.
+        #expect(doubled / single > 2.5)
+    }
+
+    // MARK: - Saturable activation (the effect ceiling)
+
+    /// Synthetic prodrug → active metabolite: formation saturates at Km = 5 mg/L. Conversion is a
+    /// *minor* parent-clearance route (Vmax ≪ parentKe·Km), like codeine→morphine (~10%) — so the
+    /// parent stays first-order/linear while the metabolite's formation hits its capacity ceiling.
+    private static func activation() -> PKModel.Saturation {
+        .activation(
+            km: 5,
+            vmax: 0.005,
+            fractionConverted: 0.1,
+            parentEliminationKe: PKModel.ke(fromHalfLifeMinutes: 180),
+            metaboliteKe: PKModel.ke(fromHalfLifeMinutes: 120),
+        )
+    }
+
+    private static func activationCurve(dose: Double) -> PKModel.SaturableCurve {
+        PKModel.saturableCurve(
+            dose: dose, bioavailability: 1, vdPerKg: vdPerKg, weightKg: weight,
+            ka: 0.02, saturation: activation(), durationMinutes: 1_500, stepMinutes: 1,
+        )
+    }
+
+    @Test
+    func `Parent peak scales linearly with dose; metabolite peak ceilings (sublinear past the knee)`() throws {
+        let low = Self.activationCurve(dose: 100) // C peak ≪ Km
+        let mid = Self.activationCurve(dose: 1_000) // C peak ≈ 5× Km
+        let parentRatio = mid.peakParent / low.peakParent
+        let metRatio = try (#require(mid.metabolite?.max())) / #require(low.metabolite?.max())
+        // Parent is linear (no saturable step on it): ~10× for a 10× dose.
+        #expect(parentRatio > 9 && parentRatio < 11)
+        // Metabolite formation is capacity-limited, so its peak grows much less than 10×.
+        #expect(metRatio < parentRatio)
+        #expect(metRatio < 7)
+    }
+
+    @Test
+    func `Past the knee, extra dose buys metabolite duration (AUC), not peak`() {
+        let mid = Self.activationCurve(dose: 1_000)
+        let high = Self.activationCurve(dose: 4_000) // 4× dose, both above the knee
+        let peakRatio = high.peakEffect / mid.peakEffect
+        let aucRatio = high.effectAUC / mid.effectAUC
+        #expect(peakRatio < 4) // peak plateaus (would be 4× if linear)
+        #expect(aucRatio > peakRatio) // the tail lengthens — duration outgrows peak
+    }
+
+    // MARK: - Guards & invariants
+
+    @Test
+    func `Saturable curve is non-negative everywhere`() {
+        let curve = PKModel.saturableCurve(
+            dose: 40_000, bioavailability: 1, vdPerKg: Self.vdPerKg, weightKg: Self.weight,
+            ka: 0.05, saturation: Self.ethanol, durationMinutes: 1_200, stepMinutes: 1,
+        )
+        #expect(curve.parent.allSatisfy { $0 >= 0 })
+    }
+
+    @Test
+    func `Invalid inputs and .none return a degenerate curve`() {
+        #expect(PKModel.saturableCurve(dose: 0, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ka: 0.05, saturation: Self.ethanol, durationMinutes: 600).parent == [0])
+        #expect(PKModel.saturableCurve(dose: 100, bioavailability: 1, vdPerKg: 0.6, weightKg: 70, ka: 0.05, saturation: .none, durationMinutes: 600).parent == [0])
+        #expect(PKModel.saturableCurve(dose: 100, bioavailability: 0, vdPerKg: 0.6, weightKg: 70, ka: 0.05, saturation: Self.ethanol, durationMinutes: 600).parent == [0])
+    }
+}
