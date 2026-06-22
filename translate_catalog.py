@@ -70,6 +70,17 @@ T = {
         "来自 %2$@ 的 %1$@ 耐受 · 预测（模型，%3$@）。",
         "來自 %2$@ 的 %1$@ 耐受 · 預測（模型，%3$@）。",
     ),
+    # Pharmacology axis Stage 4d — combination metabolite / cocaethylene (2026-06-22)
+    "Combination Products": ("组合产物", "組合產物"),
+    "Cocaethylene": ("可卡乙烯", "古柯乙烯"),
+    "Cocaine and alcohol together form cocaethylene — an active stimulant your body makes only while both are present. It lasts noticeably longer than cocaine, so the stimulant effect (and its strain) is drawn out.": (
+        "可卡因与酒精同时使用时，身体会生成可卡乙烯——一种只在两者同时存在时才形成的活性兴奋剂。它的持续时间明显长于可卡因，因此兴奋作用（及其带来的负担）会被拉长。",
+        "古柯鹼與酒精同時使用時，身體會生成古柯乙烯——一種只在兩者同時存在時才形成的活性興奮劑。它的持續時間明顯長於古柯鹼，因此興奮作用（及其帶來的負擔）會被拉長。",
+    ),
+    'Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated "18–25× sudden death" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it\'s worth avoiding the mix.)': (
+        "相比单用可卡因，可卡乙烯会给心脏和肝脏带来额外负担，因此这种组合对身体的伤害更大。（广为流传的“猝死风险增加18–25倍”的说法并无证据支持——但对心脏和肝脏的额外负担是真实的，因此值得避免这种混用。）",
+        "相比單用古柯鹼，古柯乙烯會給心臟和肝臟帶來額外負擔，因此這種組合對身體的傷害更大。（廣為流傳的「猝死風險增加18–25倍」的說法並無證據支持——但對心臟和肝臟的額外負擔是真實的，因此值得避免這種混用。）",
+    ),
     # Pharmacology axis Stage 4c — metabolic modulation (2026-06-21)
     "%@ may raise %@ levels (%@).": (
         "%1$@ 可能升高 %2$@ 的血药浓度（%3$@）。",
@@ -2983,6 +2994,11 @@ if __name__ == "__main__":
         "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly.",
         "The old “never mix” warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them.",
         "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.",
+        # Pharmacology axis Stage 4d — combination metabolite / cocaethylene (2026-06-22)
+        "Combination Products",
+        "Cocaethylene",
+        "Cocaine and alcohol together form cocaethylene — an active stimulant your body makes only while both are present. It lasts noticeably longer than cocaine, so the stimulant effect (and its strain) is drawn out.",
+        'Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated "18–25× sudden death" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it\'s worth avoiding the mix.)',
         # Pharmacology axis Stage 2 — Tolerance tool (2026-06-21)
         "Tolerance",
         "Predicted receptor tolerance and recovery",

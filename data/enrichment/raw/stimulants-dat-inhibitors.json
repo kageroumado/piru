@@ -174,9 +174,9 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "cocaethylene",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmid:8926741",
-        "notes": "Transesterification when co-ingested with ethanol; cocaethylene has DAT Ki similar to cocaine, longer t1/2 (~2.5h), and 5x greater hERG block (IC50 1.2 \u00b5M)."
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:14636972",
+        "notes": "Forms only with co-ingested ethanol (CES1/hCE1 transesterification; Laizure 2003 PMID 12485947). ~17% of the cocaine dose converts, route-dependent (oral 34 / IV 24 / smoked 18%; Harris 2003 PMID 14636972). Equipotent to cocaine at DAT but weaker at SERT/NET (more dopamine-selective; Hearn 1991 PMID 1988563); longer half-life ~1.7-2 h vs cocaine ~1 h (Perez-Reyes 1994). hERG IC50 1.2-4.0 \u00b5M (O'Leary 2002 PMID 11744013), comparable to cocaine ~4.4 \u00b5M -- a cardiac-caution signal, NOT the debunked 18-25x sudden-death claim."
       }
     ],
     "off_targets": [
@@ -184,7 +184,7 @@
         "target": "hERG/Kv11.1",
         "ki_or_ic50_nm": 4400,
         "concern_level": "moderate",
-        "clinical_consequence": "QT prolongation at supratherapeutic plasma cocaine; cocaethylene metabolite is 4x more potent (IC50 1.2 \u00b5M)",
+        "clinical_consequence": "QT prolongation at supratherapeutic plasma cocaine; the cocaethylene metabolite blocks hERG comparably (IC50 1.2-4.0 \u00b5M vs cocaine ~4.4 \u00b5M)",
         "reference": "pmid:11306689"
       },
       {

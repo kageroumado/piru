@@ -32,6 +32,7 @@ struct EntryFormView: View {
     @State private var attenuations: [EffectAttenuationResult] = []
     @State private var crossTolerance: [CrossToleranceReadout] = []
     @State private var metabolicEffects: [MetabolicModulation.Effect] = []
+    @State private var combinationMetabolites: [CombinationMetabolite.Formation] = []
     @State private var substanceLocked = false
     @FocusState private var amountFocused: Bool
 
@@ -154,6 +155,14 @@ struct EntryFormView: View {
                         Section {
                             ForEach(metabolicEffects) { effect in
                                 MetabolicModulationBanner(effect: effect)
+                            }
+                        }
+                    }
+
+                    if !combinationMetabolites.isEmpty {
+                        Section {
+                            ForEach(combinationMetabolites) { formation in
+                                CombinationMetaboliteBanner(formation: formation)
                             }
                         }
                     }
@@ -346,6 +355,7 @@ struct EntryFormView: View {
             crossTolerance = []
             attenuations = []
             metabolicEffects = []
+            combinationMetabolites = []
             return
         }
         crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
@@ -360,6 +370,10 @@ struct EntryFormView: View {
             coPresentSubstances: coPresent,
             context: context,
         )
+
+        // Combination-generated active species (Stage 4d): gated on the precursors being concurrently
+        // onboard (the prospective dose + what `activeEntries` says is still active). v1 = cocaethylene.
+        combinationMetabolites = CombinationMetabolite.formed(among: [substance] + coPresent)
 
         // A 30-day window covers even long-half-life antidepressants (norfluoxetine), then the half-life
         // presence gate in `EffectAttenuation` decides what is still onboard.

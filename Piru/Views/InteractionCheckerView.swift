@@ -8,6 +8,7 @@ struct InteractionCheckerView: View {
     @State private var selected: [String] = []
     @State private var results: [InteractionResult] = []
     @State private var metabolicEffects: [MetabolicModulation.Effect] = []
+    @State private var combinationMetabolites: [CombinationMetabolite.Formation] = []
     @State private var searchText = ""
     @State private var searchResults: [Substance] = []
     @State private var showSearchResults = false
@@ -49,6 +50,7 @@ struct InteractionCheckerView: View {
                 searchSection
                 selectedSection
                 resultsSection
+                combinationSection
                 metabolicSection
                 frequentlyUsedSection
             }
@@ -333,10 +335,41 @@ struct InteractionCheckerView: View {
         guard selected.count >= 2 else {
             results = []
             metabolicEffects = []
+            combinationMetabolites = []
             return
         }
         results = InteractionChecker.checkBatch(selected, against: [], policy: .explore)
         metabolicEffects = MetabolicModulation.checkerEffects(among: selected)
+        combinationMetabolites = CombinationMetabolite.formed(among: selected)
+    }
+
+    // MARK: - Combination metabolites (Stage 4d)
+
+    @ViewBuilder
+    private var combinationSection: some View {
+        if selected.count >= 2, !combinationMetabolites.isEmpty {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Combination Products")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .textCase(.uppercase)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
+
+                ForEach(Array(combinationMetabolites.enumerated()), id: \.offset) { index, formation in
+                    if index > 0 {
+                        Divider().padding(.leading, 46)
+                    }
+                    CombinationMetaboliteBanner(formation: formation)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                }
+                .padding(.bottom, 4)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .themeCard()
+        }
     }
 
     // MARK: - Metabolic modulation (Stage 4c)
