@@ -360,3 +360,77 @@ extension PKModel {
         return SaturableCurve(stepMinutes: h, parent: parent, metabolite: metabolite)
     }
 }
+
+// MARK: - Zero-order (capacity-limited) elimination — the alcohol shape
+
+extension PKModel {
+    /// Kinetics for a substance whose clearing enzyme is **saturated across its normal dose range**, so
+    /// elimination runs at a fixed mass-per-time (*zero-order*) rather than halving each half-life
+    /// (*first-order*). Ethanol is the canonical case — alcohol dehydrogenase maxes out at a very low
+    /// blood level — and its defining consequence is that **duration scales with dose**: two drinks
+    /// clear in ~2 h, eight in ~8 h, declining roughly *linearly*, not exponentially. The generic
+    /// fixed-width phase bell cannot express that; this can.
+    ///
+    /// This is the lightweight analytic sibling of the ``Saturation/elimination`` RK4 integrator used by
+    /// the ceiling tool. Where the integrator draws a quantitative mg/L curve at a real body weight, this
+    /// produces only the **normalized `[0, 1]` shape** the timeline needs — and for that, body weight
+    /// *cancels*: both the peak BAC and the linear decline rate scale as `1/Vd`, so `BAC/peakBAC` is
+    /// identical for every weight. The shape therefore needs only the gram dose, not the user's weight.
+    nonisolated struct ZeroOrderKinetics: Equatable {
+        /// Bioavailability `F ∈ (0, 1]`.
+        let bioavailability: Double
+        /// Whole-body maximal elimination rate, **mg/min** (ethanol: 95 mg/min, Norberg 2000).
+        let vmaxMgPerMin: Double
+        /// First-order absorption rate constant, per minute.
+        let ka: Double
+    }
+
+    /// Canonical ethanol zero-order kinetics — kept numerically in lockstep with the ceiling tool's
+    /// `SaturablePharmacology` ethanol profile (Norberg, Gabrielsson, Jones & Hahn 2000, PMID 10792196).
+    nonisolated static let ethanolZeroOrder = ZeroOrderKinetics(bioavailability: 0.9, vmaxMgPerMin: 95, ka: 0.05)
+
+    /// Body content (mg still in the body) at `minutes`: first-order absorption from a gut depot, minus
+    /// constant zero-order elimination. `M(t) = F·D·(1 − e^{−ka·t}) − Vmax·t`, floored at 0 once cleared.
+    nonisolated static func zeroOrderBodyContent(doseMg: Double, at minutes: Double, kinetics k: ZeroOrderKinetics) -> Double {
+        guard doseMg > 0, minutes >= 0, k.bioavailability > 0, k.vmaxMgPerMin > 0, k.ka > 0 else { return 0 }
+        let fd = k.bioavailability * doseMg
+        let absorbed = fd * (1 - exp(-k.ka * minutes))
+        return max(0, absorbed - k.vmaxMgPerMin * minutes)
+    }
+
+    /// Time (minutes) of peak body content — where the absorption flux falls to the elimination rate
+    /// (`F·D·ka·e^{−ka·t} = Vmax`). Returns 0 when the dose is too small to ever out-pace elimination
+    /// (`F·D·ka ≤ Vmax`), i.e. there is no real peak and the caller should fall back to the phase bell.
+    nonisolated static func zeroOrderPeakMinutes(doseMg: Double, kinetics k: ZeroOrderKinetics) -> Double {
+        guard doseMg > 0, k.ka > 0, k.bioavailability > 0 else { return 0 }
+        let fd = k.bioavailability * doseMg
+        let ratio = k.vmaxMgPerMin / (fd * k.ka)
+        guard ratio > 0, ratio < 1 else { return 0 }
+        return -log(ratio) / k.ka
+    }
+
+    /// Minutes until body content returns to ~0 (all drug cleared) — the dose-scaled curve width.
+    /// Bisects `M(t) = 0` on the descending side; the linear-elimination upper bound is `F·D/Vmax`.
+    nonisolated static func zeroOrderClearMinutes(doseMg: Double, kinetics k: ZeroOrderKinetics) -> Double {
+        let peak = zeroOrderPeakMinutes(doseMg: doseMg, kinetics: k)
+        guard peak > 0 else { return 0 }
+        var lo = peak
+        var hi = peak + k.bioavailability * doseMg / k.vmaxMgPerMin + 60
+        for _ in 0 ..< 60 {
+            let mid = (lo + hi) / 2
+            if zeroOrderBodyContent(doseMg: doseMg, at: mid, kinetics: k) > 0 { lo = mid } else { hi = mid }
+        }
+        return hi
+    }
+
+    /// Normalized `[0, 1]` effect shape (≡ `BAC / peakBAC`) at `minutes` for a zero-order substance, or
+    /// `nil` for a dose too small to form a peak (caller falls back to the generic phase curve).
+    nonisolated static func zeroOrderShape(doseMg: Double, at minutes: Double, kinetics k: ZeroOrderKinetics) -> Double? {
+        guard minutes >= 0 else { return nil }
+        let peakT = zeroOrderPeakMinutes(doseMg: doseMg, kinetics: k)
+        guard peakT > 0 else { return nil }
+        let peak = zeroOrderBodyContent(doseMg: doseMg, at: peakT, kinetics: k)
+        guard peak > 0 else { return nil }
+        return min(1, max(0, zeroOrderBodyContent(doseMg: doseMg, at: minutes, kinetics: k) / peak))
+    }
+}

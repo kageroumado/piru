@@ -309,8 +309,39 @@ nonisolated enum TimelineCurveModel {
     /// old smoothstep+sine. The asymmetry users expect (fast rise, slow fall)
     /// comes from the offset window being wider than the come-up window in the
     /// data, not from the constants. Tuned with the offline curve tools.
+    /// Zero-order elimination kinetics + the logged dose in **milligrams** for a substance whose
+    /// clearing enzyme saturates across its dose range (alcohol). `nil` for every first-order
+    /// substance, or when the dose can't be read as a mass — both fall back to the phase bell.
+    nonisolated static func zeroOrderKinetics(for s: ActiveSubstanceState) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
+        let kinetics: PKModel.ZeroOrderKinetics
+        switch s.substanceName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "alcohol", "ethanol": kinetics = PKModel.ethanolZeroOrder
+        default: return nil
+        }
+        guard let mg = zeroOrderDoseMilligrams(amount: s.amount, unit: s.unit) else { return nil }
+        return (kinetics, mg)
+    }
+
+    /// The logged amount in milligrams, but only for a true mass unit — alcohol is canonically logged
+    /// as grams of ethanol (by-volume conversion). A volume unit (mL of a *drink*) isn't a mass and
+    /// returns `nil` so the caller falls back rather than mistaking drink mL for ethanol mg.
+    nonisolated static func zeroOrderDoseMilligrams(amount: Double, unit: String) -> Double? {
+        guard amount.isFinite, amount > 0 else { return nil }
+        switch unit.trimmingCharacters(in: .whitespaces).lowercased() {
+        case "g", "gram", "grams": return amount * 1_000
+        case "mg", "milligram", "milligrams": return amount
+        default: return nil
+        }
+    }
+
     nonisolated static func effectShape(at minutes: Double, for s: ActiveSubstanceState) -> Double {
         guard minutes >= 0 else { return 0 }
+        // Zero-order substances (alcohol) ignore the fixed phase windows: their curve is a dose-scaled
+        // linear-decline BAC shape, so duration grows with dose — the defining property the bell can't show.
+        if let (kinetics, doseMg) = zeroOrderKinetics(for: s),
+           let shape = PKModel.zeroOrderShape(doseMg: doseMg, at: minutes, kinetics: kinetics) {
+            return shape
+        }
         let onsetEnd = s.onsetEndMinutes
         let peakEnd = max(s.peakEndMinutes, onsetEnd + 2)
         let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
@@ -391,6 +422,11 @@ nonisolated enum TimelineCurveModel {
     /// (an explicit `total` or an afterglow phase can sit beyond it). Capped at
     /// the display window.
     nonisolated static func curveExtent(for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
+        // Zero-order substances clear in a dose-scaled time (≈ F·Dose/Vmax), not at a fixed offset.
+        if let (kinetics, doseMg) = zeroOrderKinetics(for: s) {
+            let clear = PKModel.zeroOrderClearMinutes(doseMg: doseMg, kinetics: kinetics)
+            if clear > 0 { return min(max(clear * 1.04, 1), Self.maxDisplayMinutes) }
+        }
         let peakEnd = max(s.peakEndMinutes, s.comeupEndMinutes)
         let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
         // The falling Gaussian sits at ~5% of peak at `offsetEnd`; draw ½σ further
