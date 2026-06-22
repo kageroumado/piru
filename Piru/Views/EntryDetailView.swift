@@ -147,6 +147,21 @@ struct EntryDetailView: View {
         substanceInfo?.byVolumeDosing
     }
 
+    /// The substance is alcohol (the by-volume catalog is alcohol/ethanol only).
+    private var isAlcoholEntry: Bool {
+        byVolumeCapability != nil
+    }
+
+    /// Grams of ethanol in this committed dose, when the unit is a mass; drives the acetaldehyde load.
+    private var entryGramsEthanol: Double? {
+        guard isAlcoholEntry else { return nil }
+        switch entry.unit.trimmingCharacters(in: .whitespaces).lowercased() {
+        case "g", "gram", "grams": return entry.amount
+        case "mg", "milligram", "milligrams": return entry.amount / 1_000
+        default: return nil
+        }
+    }
+
     private var draftEnteredVolumeML: Double? {
         guard let v = Double(draftVolumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
         return Measurement(value: v, unit: draftVolumeUnit).converted(to: .milliliters).value
@@ -314,6 +329,10 @@ struct EntryDetailView: View {
             } header: {
                 Text("Timeline")
             }
+        }
+
+        if isAlcoholEntry, UserProfileStore.shared.aldh2Deficient {
+            AcetaldehydeCard(gramsEthanol: entryGramsEthanol)
         }
 
         if let info = substanceInfo {

@@ -222,7 +222,20 @@
       }
     },
     "Beer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啤酒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啤酒"
+          }
+        }
+      }
     },
     "Biweekly" : {
       "localizations" : {
@@ -651,7 +664,20 @@
       }
     },
     "Pint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品脱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品脫"
+          }
+        }
+      }
     },
     "Rectal" : {
       "localizations" : {
@@ -738,7 +764,20 @@
       }
     },
     "Shot" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烈酒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烈酒"
+          }
+        }
+      }
     },
     "Specific days" : {
       "localizations" : {
@@ -871,7 +910,20 @@
       }
     },
     "Wine" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄酒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄酒"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

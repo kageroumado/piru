@@ -110,10 +110,15 @@ struct SettingsView: View {
                         Label("Grapefruit dose logging", systemImage: "carrot")
                     }
                     .tint(Theme.accent)
+
+                    Toggle(isOn: aldh2Binding) {
+                        Label("I get the alcohol flush", systemImage: "wineglass")
+                    }
+                    .tint(Theme.accent)
                 } header: {
                     Text("Metabolism")
                 } footer: {
-                    Text("Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels.")
+                    Text("Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. All three are shown only where they actually change a drug's levels or risk.")
                 }
 
                 Section("Data") {
@@ -192,6 +197,13 @@ struct SettingsView: View {
         Binding(
             get: { profileStore.grapefruitLoggingEnabled },
             set: { profileStore.setGrapefruitLoggingEnabled($0) },
+        )
+    }
+
+    private var aldh2Binding: Binding<Bool> {
+        Binding(
+            get: { profileStore.aldh2Deficient },
+            set: { profileStore.setALDH2Deficient($0) },
         )
     }
 

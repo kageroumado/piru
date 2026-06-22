@@ -191,6 +191,49 @@ struct UserProfileStoreTests {
         #expect(second.smokesTobacco)
         #expect(second.grapefruitLoggingEnabled)
     }
+
+    // MARK: - ALDH2 phenotype (Stage 5)
+
+    @Test
+    func `ALDH2 flag defaults off`() throws {
+        let store = try makeStore()
+        #expect(!store.aldh2Deficient)
+    }
+
+    @Test
+    func `ALDH2 flag persists across stores and is independent of other flags`() throws {
+        let container = try makeContainer()
+        let first = UserProfileStore()
+        first.configure(container: container, legacyPrefsDBURL: nil)
+        first.setALDH2Deficient(true)
+
+        let second = UserProfileStore()
+        second.configure(container: container, legacyPrefsDBURL: nil)
+        #expect(second.aldh2Deficient)
+        #expect(!second.smokesTobacco) // independent of the 4c flags
+        #expect(!second.grapefruitLoggingEnabled)
+    }
+
+    @Test
+    func `Setting same ALDH2 value is a no-op and clears cleanly`() throws {
+        let store = try makeStore()
+        store.setALDH2Deficient(true)
+        store.setALDH2Deficient(true)
+        #expect(store.aldh2Deficient)
+        store.setALDH2Deficient(false)
+        #expect(!store.aldh2Deficient)
+    }
+}
+
+@Suite("AcetaldehydeCard load")
+struct AcetaldehydeLoadTests {
+    @Test
+    func `Load band scales with standard drinks`() {
+        // 14 g ≈ 1 standard drink → elevated; ~3 drinks → high; heavy → very high.
+        #expect(AcetaldehydeCard.Load(standardDrinks: 1) == .elevated)
+        #expect(AcetaldehydeCard.Load(standardDrinks: 2) == .high)
+        #expect(AcetaldehydeCard.Load(standardDrinks: 5) == .veryHigh)
+    }
 }
 
 @Suite("Source priority")

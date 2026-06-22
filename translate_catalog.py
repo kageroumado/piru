@@ -2856,6 +2856,28 @@ T = {
     "%lld g": ("%lld g", "%lld g"),
     "Input": ("输入", "輸入"),
     "Volume unit": ("容量单位", "容量單位"),
+    # Alcohol ALDH2 / acetaldehyde (2026-06-22, Stage 5)
+    "I get the alcohol flush": ("我喝酒会脸红", "我喝酒會臉紅"),
+    "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. All three are shown only where they actually change a drug's levels or risk.": (
+        "烟草烟雾会加快 CYP1A2，从而降低某些药物（如咖啡因和奥氮平）的水平。西柚会减慢 CYP3A4，升高另一些药物的水平——开启西柚记录后，可在受影响物质的单次剂量上标记。喝一点酒就脸红（面部发红、心跳加快、恶心）提示携带 ALDH2 变异——开启后即可在酒精记录中看到它放任堆积的毒性副产物乙醛。这三项仅在确实改变某药物水平或风险时才显示。",
+        "菸草煙霧會加快 CYP1A2，從而降低某些藥物（如咖啡因和奧氮平）的水平。葡萄柚會減慢 CYP3A4，升高另一些藥物的水平——開啟葡萄柚記錄後，可在受影響物質的單次劑量上標記。喝一點酒就臉紅（面部發紅、心跳加快、噁心）提示攜帶 ALDH2 變異——開啟後即可在酒精記錄中看到它放任堆積的毒性副產物乙醛。這三項僅在確實改變某藥物水平或風險時才顯示。",
+    ),
+    "Acetaldehyde": ("乙醛", "乙醛"),
+    "Acetaldehyde (ALDH2)": ("乙醛（ALDH2）", "乙醛（ALDH2）"),
+    "Elevated": ("偏高", "偏高"),
+    "Very high": ("极高", "極高"),
+    "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.": (
+        "你的 ALDH2 变异清除乙醛——酒精的第一个毒性副产物——的速度很慢，因此它会堆积并滞留。这种堆积正是脸红、心跳加快和恶心的原因，而乙醛是一级致癌物（IARC）：对喝酒会脸红的人来说，每一杯都带来更高的长期咽喉与食道癌风险。少喝就意味着更少的乙醛——没有任何分量能像对别人那样被干净地清除掉。",
+        "你的 ALDH2 變異清除乙醛——酒精的第一個毒性副產物——的速度很慢，因此它會堆積並滯留。這種堆積正是臉紅、心跳加快和噁心的原因，而乙醛是一級致癌物（IARC）：對喝酒會臉紅的人來說，每一杯都帶來更高的長期咽喉與食道癌風險。少喝就意味著更少的乙醛——沒有任何分量能像對別人那樣被乾淨地清除掉。",
+    ),
+    "Avoid mixing alcohol with metronidazole or certain other antibiotics — they block this same step and can make even a small drink severe.": (
+        "避免将酒精与甲硝唑或某些其他抗生素同用——它们会阻断同一步骤，可能使哪怕一小杯也变得严重。",
+        "避免將酒精與甲硝唑或某些其他抗生素同用——它們會阻斷同一步驟，可能使哪怕一小杯也變得嚴重。",
+    ),
+    "Based on your self-reported alcohol flush · educational, not a measured level.": (
+        "依据你自报的喝酒脸红 · 仅供参考，并非实测水平。",
+        "依據你自報的喝酒臉紅 · 僅供參考，並非實測水平。",
+    ),
 }
 
 # Widget translations
@@ -3513,6 +3535,16 @@ if __name__ == "__main__":
         "%lld g",
         "Input",
         "Volume unit",
+        # Alcohol ALDH2 / acetaldehyde (2026-06-22, Stage 5)
+        "I get the alcohol flush",
+        "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. All three are shown only where they actually change a drug's levels or risk.",
+        "Acetaldehyde",
+        "Acetaldehyde (ALDH2)",
+        "Elevated",
+        "Very high",
+        "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.",
+        "Avoid mixing alcohol with metronidazole or certain other antibiotics — they block this same step and can make even a small drink severe.",
+        "Based on your self-reported alcohol flush · educational, not a measured level.",
     }
 
     print("--- Piru main app catalog ---")

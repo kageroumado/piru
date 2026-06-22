@@ -35,17 +35,26 @@ final class UserProfileRecord {
     /// physiological fact. Defaulted for lightweight migration.
     var grapefruitLoggingEnabled: Bool = false
 
+    /// Whether the user carries an ALDH2 loss-of-function variant ("Asian flush") — self-reported via
+    /// the alcohol-flush question. While set, the alcohol vertical surfaces an acetaldehyde-accumulation
+    /// readout (the real toxic intermediate that ALDH2 clears slowly in carriers). Off by default;
+    /// defaulted so the migration stays additive/lightweight. A genuine physiological flag, not a
+    /// presentation preference.
+    var aldh2Deficient: Bool = false
+
     init(
         disclosureTierRaw: String = "harm-reduction",
         bodyWeightKg: Double? = nil,
         weightSourceRaw: String = "estimated",
         smokesTobacco: Bool = false,
         grapefruitLoggingEnabled: Bool = false,
+        aldh2Deficient: Bool = false,
     ) {
         self.disclosureTierRaw = disclosureTierRaw
         self.bodyWeightKg = bodyWeightKg
         self.weightSourceRaw = weightSourceRaw
         self.smokesTobacco = smokesTobacco
         self.grapefruitLoggingEnabled = grapefruitLoggingEnabled
+        self.aldh2Deficient = aldh2Deficient
     }
 }

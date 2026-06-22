@@ -74,6 +74,10 @@ final class UserProfileStore {
     /// Whether the per-dose "had grapefruit" toggle is shown in the dose logger (off by default).
     private(set) var grapefruitLoggingEnabled: Bool = false
 
+    /// Whether the user carries an ALDH2 loss-of-function variant ("alcohol flush"). Self-reported,
+    /// off by default; gates the acetaldehyde readout in the alcohol vertical (Stage 5 / Foundation B).
+    private(set) var aldh2Deficient: Bool = false
+
     // MARK: - Configuration
 
     /// Bind to the app's shared container. Call once at launch, before any view reads profile state.
@@ -97,6 +101,7 @@ final class UserProfileStore {
             weightSource = .estimated
             smokesTobacco = false
             grapefruitLoggingEnabled = false
+            aldh2Deficient = false
             return
         }
         disclosureTier = UserProfile(rawValue: record.disclosureTierRaw) ?? .harmReduction
@@ -105,6 +110,7 @@ final class UserProfileStore {
             ?? (record.bodyWeightKg == nil ? .estimated : .manual)
         smokesTobacco = record.smokesTobacco
         grapefruitLoggingEnabled = record.grapefruitLoggingEnabled
+        aldh2Deficient = record.aldh2Deficient
     }
 
     private static var defaultLegacyPrefsDBURL: URL {
@@ -139,6 +145,14 @@ final class UserProfileStore {
         guard value != grapefruitLoggingEnabled else { return }
         grapefruitLoggingEnabled = value
         ensureRecord().grapefruitLoggingEnabled = value
+        save()
+    }
+
+    /// Persist the self-reported ALDH2 ("alcohol flush") phenotype flag.
+    func setALDH2Deficient(_ value: Bool) {
+        guard value != aldh2Deficient else { return }
+        aldh2Deficient = value
+        ensureRecord().aldh2Deficient = value
         save()
     }
 
