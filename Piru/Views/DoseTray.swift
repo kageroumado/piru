@@ -36,6 +36,12 @@ struct StagedDose: Identifiable {
     /// Per-dose "had grapefruit" flag (Stage 4c). Only ever toggled for CYP3A4-heavy
     /// substrates when grapefruit logging is enabled; carried onto the committed entry.
     var hadGrapefruit = false
+    /// By-volume metadata recorded when a custom drink is logged (alcohol),
+    /// carried onto the committed entry's structured fields so it round-trips on
+    /// edit. `nil` for preset/grams doses.
+    var volumeML: Double?
+    var abv: Double?
+    var drinkName: String?
 
     init(
         substanceName: String,
@@ -246,9 +252,15 @@ final class DoseTrayModel {
             return
         }
         let saltForm = librarySubstance?.saltForms(for: route).first
+        // By-volume substances (alcohol) start empty so the drink presets build the
+        // dose up from zero, rather than adding onto a reference-dose default.
+        let isByVolume = librarySubstance?.byVolumeDosing.map { unit == $0.canonicalUnit } ?? false
+        let seedAmount = isByVolume
+            ? 0
+            : (StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm) ?? 0)
         let draft = StagedDose(
             substanceName: substance,
-            amount: StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm) ?? 0,
+            amount: seedAmount,
             unit: unit,
             route: route,
             saltForm: saltForm,
@@ -862,6 +874,30 @@ private struct StagedDoseEditor: View {
     @State private var isGrapefruitSubstrate = false
     @State private var profileStore = UserProfileStore.shared
 
+    // By-volume custom logger (alcohol): a two-tier strength + volume input with an
+    // optional drink name. The By Drink / By Weight choice persists across doses.
+    @AppStorage("alcoholEditorByDrink") private var byDrinkPreferred = true
+    @State private var volumeText = ""
+    @State private var abvText = ""
+    @State private var drinkName = ""
+    @State private var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
+
+    private var enteredVolumeML: Double? {
+        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
+        return Measurement(value: v, unit: volumeUnit).converted(to: .milliliters).value
+    }
+
+    private var enteredABV: Double? {
+        guard let a = Double(abvText.replacingOccurrences(of: ",", with: ".")), a > 0 else { return nil }
+        return a
+    }
+
+    private var customDrinkGrams: Double? {
+        guard let cap = byVolumeCapability, let ml = enteredVolumeML, let abv = enteredABV else { return nil }
+        let g = cap.canonicalAmount(volumeML: ml, strength: abv)
+        return g > 0 ? g : nil
+    }
+
     private static let unitChoices = ["µg", "mg", "g", "mL"]
     /// One shared height for the route/note pills — a TextField's intrinsic
     /// height differs from a Menu label's, so padding alone won't match them.
@@ -871,42 +907,15 @@ private struct StagedDoseEditor: View {
         VStack(alignment: .leading, spacing: 12) {
             header
 
-            VStack(alignment: .center, spacing: 5) {
-                HStack(spacing: 8) {
-                    stepButton(systemImage: "minus") {
-                        setAmount(max(0, item.amount - amountStep))
-                    }
-                    amountField
-                    stepButton(systemImage: "plus") {
-                        setAmount(item.amount + amountStep)
-                    }
+            if byVolumeCapability != nil {
+                byVolumeModeToggle
+                if byDrinkPreferred {
+                    customDrinkLogger
+                } else {
+                    stepperBlock
                 }
-                // A quick breathing pulse on value change, like the system
-                // steppers nudge their surroundings.
-                .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
-                    content.scaleEffect(scale)
-                } animation: { _ in
-                    .snappy(duration: 0.15)
-                }
-                // Breakdown and/or dose level under the stepper — the level
-                // re-classifies live as the amount changes.
-                if item.breakdownLabel != nil || item.doseLevel != nil {
-                    HStack(spacing: 5) {
-                        if let breakdown = item.breakdownLabel {
-                            Text(verbatim: "= \(breakdown) \(item.unit)")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        if item.breakdownLabel != nil, item.doseLevel != nil {
-                            Text(verbatim: "·").foregroundStyle(.tertiary)
-                        }
-                        if let level = item.doseLevel {
-                            Text(String(localized: level.displayName).lowercased())
-                                .foregroundStyle(level.labelColor)
-                        }
-                    }
-                    .font(.caption.weight(.medium))
-                    .frame(maxWidth: .infinity)
-                }
+            } else {
+                stepperBlock
             }
 
             HStack(spacing: 8) {
@@ -932,11 +941,20 @@ private struct StagedDoseEditor: View {
                 suppressAmountSync = true
                 amountText = item.amount.doseFormatted
             }
-            if item.amount <= 0 { amountFocused = true }
+            // Don't pop the keyboard for by-volume substances — the drink presets
+            // are the primary action, not manual amount entry.
+            if item.amount <= 0, byVolumeCapability == nil { amountFocused = true }
             if profileStore.grapefruitLoggingEnabled {
                 isGrapefruitSubstrate = MetabolicModulation
                     .majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: item.substanceName))
                     .contains(.cyp3a4)
+            }
+            // Seed the custom-drink fields from a dose already logged by volume, so
+            // re-opening it shows its strength/volume/name.
+            if byVolumeCapability != nil, let ml = item.volumeML, let abv = item.abv {
+                volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
+                abvText = ByVolumeDefaults.format(abv)
+                drinkName = item.drinkName ?? ""
             }
         }
         .onChange(of: noteFocused) {
@@ -944,6 +962,24 @@ private struct StagedDoseEditor: View {
             if !noteFocused, item.note.isEmpty {
                 withAnimation(.snappy) { noteExpanded = false }
             }
+        }
+        // Keep the staged grams + by-volume metadata synced with the custom logger.
+        .onChange(of: customDrinkGrams) { syncCustomDrink() }
+        .onChange(of: drinkName) { syncCustomDrink() }
+        .onChange(of: byDrinkPreferred) {
+            if byDrinkPreferred {
+                syncCustomDrink()
+            } else {
+                // Switching to By Weight drops the drink metadata; the grams stay.
+                item.volumeML = nil
+                item.abv = nil
+                item.drinkName = nil
+            }
+        }
+        .onChange(of: volumeUnit) { old, new in
+            ByVolumeDefaults.preferredVolumeUnit = new
+            guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
+            volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
         }
     }
 
@@ -1003,6 +1039,95 @@ private struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .frame(maxWidth: 180, alignment: .leading)
+    }
+
+    /// By-volume capability for this staged substance (alcohol), gated on the
+    /// canonical "g" unit so the drink chips show only when the dose is in grams.
+    private var byVolumeCapability: ByVolumeDosing? {
+        guard item.unit == "g" else { return nil }
+        return item.librarySubstance?.byVolumeDosing
+    }
+
+    /// The amount +/− stepper and its breakdown/level readout — the default for
+    /// every substance, and the "By Weight" mode for alcohol.
+    private var stepperBlock: some View {
+        VStack(alignment: .center, spacing: 5) {
+            HStack(spacing: 8) {
+                stepButton(systemImage: "minus") {
+                    setAmount(max(0, item.amount - amountStep))
+                }
+                amountField
+                stepButton(systemImage: "plus") {
+                    setAmount(item.amount + amountStep)
+                }
+            }
+            .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
+                content.scaleEffect(scale)
+            } animation: { _ in
+                .snappy(duration: 0.15)
+            }
+            if item.breakdownLabel != nil || item.doseLevel != nil {
+                HStack(spacing: 5) {
+                    if let breakdown = item.breakdownLabel {
+                        Text(verbatim: "= \(breakdown) \(item.unit)")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    if item.breakdownLabel != nil, item.doseLevel != nil {
+                        Text(verbatim: "·").foregroundStyle(.tertiary)
+                    }
+                    if let level = item.doseLevel {
+                        Text(String(localized: level.displayName).lowercased())
+                            .foregroundStyle(level.labelColor)
+                    }
+                }
+                .font(.caption.weight(.medium))
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    /// By Drink (the two-tier strength + volume logger) vs By Weight (the grams
+    /// stepper). The choice persists across doses via `byDrinkPreferred`.
+    private var byVolumeModeToggle: some View {
+        Picker("Input", selection: $byDrinkPreferred) {
+            Text("By Drink").tag(true)
+            Text("By Weight").tag(false)
+        }
+        .pickerStyle(.segmented)
+        .labelsHidden()
+    }
+
+    /// The custom drink logger (alcohol): strength + volume + optional name, with
+    /// a live grams readout. Syncs the computed grams + metadata onto the staged
+    /// dose so a custom drink commits and round-trips like a preset.
+    @ViewBuilder
+    private var customDrinkLogger: some View {
+        if let capability = byVolumeCapability {
+            ByVolumeDoseInputView(
+                capability: capability,
+                volumeText: $volumeText,
+                abvText: $abvText,
+                volumeUnit: $volumeUnit,
+                grams: customDrinkGrams,
+                readoutColor: item.doseLevel?.labelColor,
+                showsPresets: false,
+                name: $drinkName,
+            )
+        }
+    }
+
+    /// Push the custom drink's grams + metadata onto the staged dose. Only writes
+    /// once a usable volume + strength is entered, so opening the logger on a dose
+    /// already staged from preset chips never wipes its grams.
+    private func syncCustomDrink() {
+        guard byDrinkPreferred, byVolumeCapability != nil, let grams = customDrinkGrams else { return }
+        item.components = [StagedDose.Component(amount: (grams * 10).rounded() / 10)]
+        item.unit = byVolumeCapability?.canonicalUnit ?? "g"
+        item.volumeML = enteredVolumeML
+        item.abv = enteredABV
+        item.drinkName = drinkName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            ? nil
+            : drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     /// Per-dose "had grapefruit" toggle (Stage 4c) — shown only for CYP3A4-heavy substrates when

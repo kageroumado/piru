@@ -36,6 +36,13 @@ struct EntryDetailView: View {
     @State private var showLocationPicker = false
     @FocusState private var amountFocused: Bool
 
+    // By-volume editing (alcohol %ABV → grams) — mirror of EntryFormView's state.
+    @State private var draftByVolumeMode = false
+    @State private var draftVolumeText = ""
+    @State private var draftABVText = ""
+    @State private var draftDrinkName = ""
+    @State private var draftVolumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
+
     private let defaultUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
 
     // MARK: - Derived
@@ -134,6 +141,44 @@ struct EntryDetailView: View {
         substanceInfo?.saltForms(for: draftRoute) ?? []
     }
 
+    // MARK: By-volume draft helpers
+
+    private var byVolumeCapability: ByVolumeDosing? {
+        substanceInfo?.byVolumeDosing
+    }
+
+    private var draftEnteredVolumeML: Double? {
+        guard let v = Double(draftVolumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
+        return Measurement(value: v, unit: draftVolumeUnit).converted(to: .milliliters).value
+    }
+
+    private var draftEnteredABV: Double? {
+        guard let a = Double(draftABVText.replacingOccurrences(of: ",", with: ".")), a > 0 else { return nil }
+        return a
+    }
+
+    private var draftByVolumeGrams: Double? {
+        guard let cap = byVolumeCapability, let ml = draftEnteredVolumeML, let abv = draftEnteredABV else { return nil }
+        let g = cap.canonicalAmount(volumeML: ml, strength: abv)
+        return g > 0 ? g : nil
+    }
+
+    private var draftTrimmedDrinkName: String? {
+        let t = draftDrinkName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return t.isEmpty ? nil : t
+    }
+
+    private func applyDraftDrinkPreset(_ preset: DrinkPreset) {
+        draftVolumeText = ByVolumeDefaults.format(preset.volume.converted(to: draftVolumeUnit).value)
+        draftABVText = ByVolumeDefaults.format(preset.defaultABV)
+    }
+
+    private func syncDraftByVolumeAmount() {
+        guard draftByVolumeMode else { return }
+        draftUnit = byVolumeCapability?.canonicalUnit ?? "g"
+        draftAmount = draftByVolumeGrams.map { ByVolumeDefaults.format($0) } ?? ""
+    }
+
     private var currentUnits: [String] {
         guard let sub = substanceInfo else { return defaultUnits }
         let routeUnits = sub.routes.map(\.unit)
@@ -164,6 +209,14 @@ struct EntryDetailView: View {
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 8, for: .scrollContent)
         .background(Theme.background)
+        // Keep the draft amount/unit synced with the by-volume fields in drink mode.
+        .onChange(of: draftByVolumeGrams) { syncDraftByVolumeAmount() }
+        .onChange(of: draftByVolumeMode) { if draftByVolumeMode { syncDraftByVolumeAmount() } }
+        .onChange(of: draftVolumeUnit) { old, new in
+            ByVolumeDefaults.preferredVolumeUnit = new
+            guard let v = Double(draftVolumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
+            draftVolumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
+        }
         .navigationTitle(entry.substance)
         .navigationBarTitleDisplayMode(.large)
         .animation(.snappy(duration: 0.28), value: isEditing)
@@ -355,6 +408,12 @@ struct EntryDetailView: View {
         }
     }
 
+    /// "IPA · 568 mL · 6% ABV" for a dose logged by volume, else nil.
+    private var byVolumeDisplayLine: String? {
+        guard let ml = entry.volumeML, let abv = entry.abv else { return nil }
+        return ByVolumeBreadcrumb.make(name: entry.drinkName, volumeML: ml, abv: abv)
+    }
+
     private var readHero: some View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 3) {
@@ -385,6 +444,11 @@ struct EntryDetailView: View {
                 Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
+                if let drinkLine = byVolumeDisplayLine {
+                    Label(drinkLine, systemImage: "wineglass")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(substanceColor)
+                }
             }
 
             liveStatus
@@ -414,20 +478,41 @@ struct EntryDetailView: View {
     @ViewBuilder
     private var editContent: some View {
         Section {
-            HStack {
-                TextField("Amount", text: $draftAmount)
-                    .keyboardType(.decimalPad)
-                    .focused($amountFocused)
-                    .foregroundStyle(draftDoseLevel?.swiftUIColor ?? .primary)
-                if let level = draftDoseLevel {
-                    DoseLevelBadge(level: level)
-                        .transition(.opacity.combined(with: .scale))
-                        .animation(.easeInOut(duration: 0.2), value: level)
+            if byVolumeCapability != nil {
+                Picker("Input", selection: $draftByVolumeMode) {
+                    Text("By Drink").tag(true)
+                    Text("By Weight").tag(false)
                 }
-                Picker("Unit", selection: $draftUnit) {
-                    ForEach(currentUnits, id: \.self) { Text($0) }
-                }
+                .pickerStyle(.segmented)
                 .labelsHidden()
+            }
+            if draftByVolumeMode, let capability = byVolumeCapability {
+                ByVolumeDoseInputView(
+                    capability: capability,
+                    volumeText: $draftVolumeText,
+                    abvText: $draftABVText,
+                    volumeUnit: $draftVolumeUnit,
+                    grams: draftByVolumeGrams,
+                    readoutColor: draftDoseLevel?.swiftUIColor,
+                    name: $draftDrinkName,
+                    onSelectPreset: applyDraftDrinkPreset,
+                )
+            } else {
+                HStack {
+                    TextField("Amount", text: $draftAmount)
+                        .keyboardType(.decimalPad)
+                        .focused($amountFocused)
+                        .foregroundStyle(draftDoseLevel?.swiftUIColor ?? .primary)
+                    if let level = draftDoseLevel {
+                        DoseLevelBadge(level: level)
+                            .transition(.opacity.combined(with: .scale))
+                            .animation(.easeInOut(duration: 0.2), value: level)
+                    }
+                    Picker("Unit", selection: $draftUnit) {
+                        ForEach(currentUnits, id: \.self) { Text($0) }
+                    }
+                    .labelsHidden()
+                }
             }
             Picker("Route", selection: $draftRoute) {
                 ForEach(availableRoutes) { route in
@@ -586,6 +671,22 @@ struct EntryDetailView: View {
         } else {
             draftLocation = nil
         }
+
+        // By-volume round-trip: if this entry was logged by volume, restore the
+        // drink-mode fields from its structured volume/ABV/name.
+        draftByVolumeMode = false
+        if byVolumeCapability != nil, let ml = entry.volumeML, let abv = entry.abv {
+            draftByVolumeMode = true
+            // Display the stored millilitres in the current unit without mutating
+            // `draftVolumeUnit` (which would fire the conversion onChange on the
+            // already-seeded text).
+            draftVolumeText = ByVolumeDefaults.format(
+                Measurement(value: ml, unit: .milliliters).converted(to: draftVolumeUnit).value,
+            )
+            draftABVText = ByVolumeDefaults.format(abv)
+            draftDrinkName = entry.drinkName ?? ""
+        }
+
         isEditing = true
     }
 
@@ -613,6 +714,10 @@ struct EntryDetailView: View {
         entry.saltForm = draftSaltForm
         entry.timestamp = draftTimestamp
         entry.notes = draftNotes.isEmpty ? nil : draftNotes
+        // By-volume metadata, set when logged as a drink, cleared otherwise.
+        entry.volumeML = draftByVolumeMode ? draftEnteredVolumeML : nil
+        entry.abv = draftByVolumeMode ? draftEnteredABV : nil
+        entry.drinkName = draftByVolumeMode ? draftTrimmedDrinkName : nil
         entry.tags = Array(Set(draftTags + TagExtractor.extractTags(from: draftNotes)))
         entry.locationName = draftLocation?.name
         entry.latitude = draftLocation?.latitude

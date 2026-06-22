@@ -39,6 +39,9 @@
     "Afterglow" : {
 
     },
+    "Beer" : {
+
+    },
     "Biweekly" : {
 
     },
@@ -99,7 +102,13 @@
     "Peak" : {
 
     },
+    "Pint" : {
+
+    },
     "Rectal" : {
+
+    },
+    "Shot" : {
 
     },
     "Specific days" : {
@@ -118,6 +127,9 @@
 
     },
     "Weekly" : {
+
+    },
+    "Wine" : {
 
     }
   },

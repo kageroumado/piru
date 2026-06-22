@@ -250,6 +250,14 @@ extension Substance {
         return candidates.lazy.compactMap { Self.unitAliasTable[$0] }.first ?? []
     }
 
+    /// By-volume dose-input capability (concentration × measured volume → canonical
+    /// mass), looked up by canonical name or alias. Non-nil only for the curated
+    /// adopters (alcohol in v1); the dose form renders the by-volume panel when set.
+    var byVolumeDosing: ByVolumeDosing? {
+        let candidates = [name.lowercased()] + aliases.map { $0.lowercased() }
+        return candidates.lazy.compactMap { ByVolumeDosing.catalog[$0] }.first
+    }
+
     /// Convert an amount-in-some-unit to this substance's native unit for the
     /// given route, against the route's **default-salt** unit.
     ///

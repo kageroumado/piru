@@ -87,6 +87,18 @@ final class DoseEntry {
     /// every other dose, which keeps the migration additive and lightweight.
     var hadGrapefruit: Bool?
 
+    /// By-volume input metadata for drinks logged by concentration × volume
+    /// (alcohol). ``amount`` remains the canonical grams the PK/ladder run on;
+    /// these record *how it was measured* so the dose round-trips as a drink on
+    /// edit and can be shown in its natural terms. All `nil` for every dose not
+    /// logged by volume, keeping the migration additive and lightweight.
+    var volumeML: Double?
+    /// Strength as percent alcohol-by-volume, paired with ``volumeML``.
+    var abv: Double?
+    /// Optional user-given drink name (e.g. "IPA"), shown in place of the bare
+    /// substance where present.
+    var drinkName: String?
+
     /// The dose's location as a coordinate, or `nil` unless both ``latitude`` and
     /// ``longitude`` are set. A named place may have no coordinate (e.g. a
     /// free-typed label), so a non-nil ``locationName`` does not imply this.
@@ -124,6 +136,9 @@ final class DoseEntry {
         latitude: Double? = nil,
         longitude: Double? = nil,
         hadGrapefruit: Bool? = nil,
+        volumeML: Double? = nil,
+        abv: Double? = nil,
+        drinkName: String? = nil,
     ) {
         self.substance = substance
         self.amount = max(0, amount)
@@ -138,5 +153,8 @@ final class DoseEntry {
         self.latitude = latitude
         self.longitude = longitude
         self.hadGrapefruit = hadGrapefruit
+        self.volumeML = volumeML
+        self.abv = abv
+        self.drinkName = drinkName
     }
 }

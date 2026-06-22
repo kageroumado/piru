@@ -277,6 +277,22 @@
         }
       }
     },
+    "% ABV" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "% 酒精度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "% 酒精度"
+          }
+        }
+      }
+    },
     "%@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1303,6 +1319,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 條記錄,涉及 %lld 種物質"
+          }
+        }
+      }
+    },
+    "%lld g" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld g"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld g"
           }
         }
       }
@@ -5652,6 +5684,22 @@
         }
       }
     },
+    "Beer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啤酒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啤酒"
+          }
+        }
+      }
+    },
     "Before a Restore" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6168,6 +6216,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按類別瀏覽"
+          }
+        }
+      }
+    },
+    "By Drink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按飲品"
+          }
+        }
+      }
+    },
+    "By Weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按重量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按重量"
           }
         }
       }
@@ -11592,6 +11672,22 @@
         }
       }
     },
+    "Enter a volume and strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入容量和浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入容量和濃度"
+          }
+        }
+      }
+    },
     "Enter a weight between 20 and 300 kg." : {
       "localizations" : {
         "zh-Hans" : {
@@ -11864,6 +11960,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅為估算。請結合您的產品並諮詢臨床醫師核實。"
+          }
+        }
+      }
+    },
+    "ethanol · ≈ %@ standard drinks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "乙醇 · ≈ %@ 标准杯"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "乙醇 · ≈ %@ 標準杯"
           }
         }
       }
@@ -15009,6 +15121,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最初被分類為血清素再攝取增強劑,但現在被理解為主要作為 μ-阿片受體 (MOR) 和 δ-阿片受體的完全激動劑。中腦邊緣系統中的 MOR 激活產生抗鬱、抗焦慮和鎮痛效應。也調節海馬和杏仁核中的麩胺酸能神經傳導和神經可塑性。"
+          }
+        }
+      }
+    },
+    "Input" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入"
           }
         }
       }
@@ -19170,6 +19298,22 @@
         }
       }
     },
+    "Optional" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可選"
+          }
+        }
+      }
+    },
     "Optional dose tiers, in your chosen unit. Leave blank to keep the library values." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20226,6 +20370,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捏合以放大或縮小"
+          }
+        }
+      }
+    },
+    "Pint" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品脱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品脫"
           }
         }
       }
@@ -24776,6 +24936,22 @@
         }
       }
     },
+    "Shot" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烈酒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烈酒"
+          }
+        }
+      }
+    },
     "Show %lld more doses" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26195,6 +26371,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "將溶液存放在標識清楚、兒童無法打開的容器中。"
+          }
+        }
+      }
+    },
+    "Strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度"
           }
         }
       }
@@ -29092,6 +29284,22 @@
         }
       }
     },
+    "Volume" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "容量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "容量"
+          }
+        }
+      }
+    },
     "Volume to Dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29104,6 +29312,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量體積"
+          }
+        }
+      }
+    },
+    "Volume unit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "容量单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "容量單位"
           }
         }
       }
@@ -29496,6 +29720,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我們為何詢問"
+          }
+        }
+      }
+    },
+    "Wine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄酒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄酒"
           }
         }
       }

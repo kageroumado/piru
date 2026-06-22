@@ -27,7 +27,18 @@ struct SubstanceGroup: Identifiable {
     private var chipEntries: [(amount: Double, unit: String, sortOrder: Double)] = []
 
     var doses: [DoseChip] {
-        chipEntries
+        // Alcohol (and any by-volume substance) presents its drink presets as the
+        // tappable chips — Beer/Wine/Shot/Pint, each carrying that drink's grams —
+        // instead of the raw grams the user happened to log. Tapping stages the
+        // grams and accumulates exactly like any dose chip.
+        if let byVolume = librarySubstance?.byVolumeDosing {
+            return byVolume.drinkPresets.map { preset in
+                let ml = preset.volume.converted(to: .milliliters).value
+                let grams = (byVolume.canonicalAmount(volumeML: ml, strength: preset.defaultABV) * 10).rounded() / 10
+                return DoseChip(amount: grams, unit: byVolume.canonicalUnit, label: preset.name, systemImage: preset.systemImage)
+            }
+        }
+        return chipEntries
             .sorted { $0.sortOrder < $1.sortOrder }
             .map { DoseChip(amount: $0.amount, unit: $0.unit) }
     }
@@ -51,13 +62,25 @@ struct SubstanceGroup: Identifiable {
     }
 }
 
-/// A single tappable dose amount within a `SubstanceGroup`.
+/// A single tappable dose amount within a `SubstanceGroup`. Carries an optional
+/// drink label + icon for by-volume substances (alcohol), where the chip reads
+/// "🍺 Beer" rather than a bare gram amount.
 struct DoseChip: Identifiable {
     let amount: Double
     let unit: String
+    let label: LocalizedStringResource?
+    let systemImage: String?
+
+    init(amount: Double, unit: String, label: LocalizedStringResource? = nil, systemImage: String? = nil) {
+        self.amount = amount
+        self.unit = unit
+        self.label = label
+        self.systemImage = systemImage
+    }
 
     var id: String {
-        "\(amount)|\(unit)"
+        if let label { return "\(String(localized: label))|\(amount)|\(unit)" }
+        return "\(amount)|\(unit)"
     }
 
     var formattedAmount: String {

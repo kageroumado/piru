@@ -221,6 +221,9 @@
         }
       }
     },
+    "Beer" : {
+
+    },
     "Biweekly" : {
       "localizations" : {
         "zh-Hans" : {
@@ -647,6 +650,9 @@
         }
       }
     },
+    "Pint" : {
+
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -730,6 +736,9 @@
           }
         }
       }
+    },
+    "Shot" : {
+
     },
     "Specific days" : {
       "localizations" : {
@@ -860,6 +869,9 @@
           }
         }
       }
+    },
+    "Wine" : {
+
     }
   },
   "version" : "1.0"

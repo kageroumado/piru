@@ -24,6 +24,15 @@ struct EntryFormView: View {
     @State private var location: PickedLocation?
     @State private var showLocationPicker = false
 
+    // By-volume input (alcohol %ABV → grams). When `byVolumeMode`, the panel owns
+    // these and syncs the computed grams into `amount`/`unit` so the dose badge,
+    // dose reference, and save path stay unchanged.
+    @State private var byVolumeMode = false
+    @State private var volumeText = ""
+    @State private var abvText = ""
+    @State private var drinkName = ""
+    @State private var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
+
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
     @State private var savedEntry: DoseEntry?
@@ -121,6 +130,40 @@ struct EntryFormView: View {
         return currentDoseRange.level(for: normalizedAmount)
     }
 
+    // MARK: By-volume input
+
+    /// Whether the selected substance offers by-volume dosing (alcohol).
+    private var byVolumeAvailable: Bool {
+        selectedSubstance?.byVolumeDosing != nil
+    }
+
+    /// Entered volume normalized to millilitres (the canonical unit the grams math
+    /// works in), regardless of the display unit.
+    private var enteredVolumeML: Double? {
+        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
+        return Measurement(value: v, unit: volumeUnit).converted(to: .milliliters).value
+    }
+
+    private var enteredABV: Double? {
+        guard let a = Double(abvText.replacingOccurrences(of: ",", with: ".")), a > 0 else { return nil }
+        return a
+    }
+
+    /// Canonical grams for the current volume + strength, via the capability's own
+    /// density. nil until both fields hold usable values.
+    private var byVolumeGrams: Double? {
+        guard let cap = selectedSubstance?.byVolumeDosing,
+              let ml = enteredVolumeML, let abv = enteredABV else { return nil }
+        let g = cap.canonicalAmount(volumeML: ml, strength: abv)
+        return g > 0 ? g : nil
+    }
+
+    /// Trimmed drink name, nil when blank.
+    private var trimmedDrinkName: String? {
+        let t = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return t.isEmpty ? nil : t
+    }
+
     private var worstSeverity: InteractionSeverity? {
         interactionWarnings.first?.severity
     }
@@ -199,20 +242,41 @@ struct EntryFormView: View {
                     }
 
                     Section("Dosage") {
-                        HStack {
-                            TextField("Amount", text: $amount)
-                                .keyboardType(.decimalPad)
-                                .focused($amountFocused)
-                                .foregroundStyle(currentDoseLevel?.swiftUIColor ?? .primary)
-                            if let level = currentDoseLevel {
-                                DoseLevelBadge(level: level)
-                                    .transition(.opacity.combined(with: .scale))
-                                    .animation(.easeInOut(duration: 0.2), value: level)
+                        if byVolumeAvailable {
+                            Picker("Input", selection: $byVolumeMode) {
+                                Text("By Drink").tag(true)
+                                Text("By Weight").tag(false)
                             }
-                            Picker("Unit", selection: $unit) {
-                                ForEach(currentUnits, id: \.self) { Text($0) }
-                            }
+                            .pickerStyle(.segmented)
                             .labelsHidden()
+                        }
+                        if byVolumeMode, let capability = selectedSubstance?.byVolumeDosing {
+                            ByVolumeDoseInputView(
+                                capability: capability,
+                                volumeText: $volumeText,
+                                abvText: $abvText,
+                                volumeUnit: $volumeUnit,
+                                grams: byVolumeGrams,
+                                readoutColor: currentDoseLevel?.swiftUIColor,
+                                name: $drinkName,
+                                onSelectPreset: applyDrinkPreset,
+                            )
+                        } else {
+                            HStack {
+                                TextField("Amount", text: $amount)
+                                    .keyboardType(.decimalPad)
+                                    .focused($amountFocused)
+                                    .foregroundStyle(currentDoseLevel?.swiftUIColor ?? .primary)
+                                if let level = currentDoseLevel {
+                                    DoseLevelBadge(level: level)
+                                        .transition(.opacity.combined(with: .scale))
+                                        .animation(.easeInOut(duration: 0.2), value: level)
+                                }
+                                Picker("Unit", selection: $unit) {
+                                    ForEach(currentUnits, id: \.self) { Text($0) }
+                                }
+                                .labelsHidden()
+                            }
                         }
                         Picker("Route", selection: $route) {
                             ForEach(availableRoutes) { r in
@@ -287,6 +351,15 @@ struct EntryFormView: View {
                 .listRowBackground(Theme.cardBackground)
             }
             .onChange(of: substance) { checkInteractions() }
+            // Keep `amount`/`unit` (which drive the dose badge, dose reference, and
+            // save path) in sync with the by-volume fields while in drink mode.
+            .onChange(of: byVolumeGrams) { syncByVolumeAmount() }
+            .onChange(of: byVolumeMode) { if byVolumeMode { syncByVolumeAmount() } }
+            .onChange(of: volumeUnit) { old, new in
+                ByVolumeDefaults.preferredVolumeUnit = new
+                guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
+                volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
+            }
             // Cross-tolerance + effect-attenuation need history beyond 48 h, so they run off the
             // synchronous interaction path and only re-run when the substance changes (not per keystroke).
             .task(id: isEditing ? "" : substance) { refreshPharmacologyReadouts() }
@@ -319,6 +392,7 @@ struct EntryFormView: View {
     private func useCustomSubstance() {
         selectedSubstance = nil
         availableRoutes = RouteOfAdministration.allCases
+        byVolumeMode = false
         checkInteractions()
     }
 
@@ -328,7 +402,25 @@ struct EntryFormView: View {
         saltForm = sub.saltForms(for: sub.defaultRoute).first
         unit = sub.unit(for: sub.defaultRoute, saltForm: saltForm)
         availableRoutes = sub.orderedRoutes
+        // Default a new alcohol entry to the natural by-volume input. Editing an
+        // existing entry leaves the mode at its manual default (Stage 2 round-trips).
+        byVolumeMode = !isEditing && sub.byVolumeDosing != nil
         checkInteractions()
+    }
+
+    /// Pre-fill the volume + strength from a tapped preset, converting the preset's
+    /// canonical millilitres into the currently-selected display unit.
+    private func applyDrinkPreset(_ preset: DrinkPreset) {
+        volumeText = ByVolumeDefaults.format(preset.volume.converted(to: volumeUnit).value)
+        abvText = ByVolumeDefaults.format(preset.defaultABV)
+    }
+
+    /// Push the computed by-volume grams into `amount`/`unit` so every downstream
+    /// consumer (dose badge, dose reference, save) sees a normal gram dose.
+    private func syncByVolumeAmount() {
+        guard byVolumeMode else { return }
+        unit = selectedSubstance?.byVolumeDosing?.canonicalUnit ?? "g"
+        amount = byVolumeGrams.map { ByVolumeDefaults.format($0) } ?? ""
     }
 
     private func checkInteractions() {
@@ -402,6 +494,22 @@ struct EntryFormView: View {
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
                 availableRoutes = match.orderedRoutes
+
+                // By-volume round-trip: if this entry was logged by volume, restore
+                // the drink-mode fields from the notes breadcrumb and hide it from
+                // the visible note. On save the breadcrumb is regenerated, so it
+                // never duplicates.
+                if match.byVolumeDosing != nil, let ml = entry.volumeML, let abv = entry.abv {
+                    byVolumeMode = true
+                    // Display the stored millilitres in the current unit without
+                    // mutating `volumeUnit` (which would fire the conversion
+                    // onChange on the already-seeded text).
+                    volumeText = ByVolumeDefaults.format(
+                        Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value,
+                    )
+                    abvText = ByVolumeDefaults.format(abv)
+                    drinkName = entry.drinkName ?? ""
+                }
             }
             return
         }
@@ -448,6 +556,11 @@ struct EntryFormView: View {
             return (parsedAmount, unit)
         }()
 
+        let finalNotes: String? = notes.isEmpty ? nil : notes
+        // By-volume metadata (alcohol logged as a drink) — stored structured
+        // alongside the canonical grams, or cleared when not in drink mode.
+        let byVolume = byVolumeMode ? (enteredVolumeML, enteredABV, trimmedDrinkName) : (nil, nil, nil)
+
         if let entry {
             let previousTimestamp = entry.timestamp
             let previousSubstanceName = entry.substance
@@ -457,7 +570,10 @@ struct EntryFormView: View {
             entry.route = route
             entry.saltForm = saltForm
             entry.timestamp = timestamp
-            entry.notes = notes.isEmpty ? nil : notes
+            entry.notes = finalNotes
+            entry.volumeML = byVolume.0
+            entry.abv = byVolume.1
+            entry.drinkName = byVolume.2
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             entry.tags = allTags
             entry.locationName = location?.name
@@ -493,11 +609,14 @@ struct EntryFormView: View {
                 route: route,
                 saltForm: saltForm,
                 timestamp: timestamp,
-                notes: notes.isEmpty ? nil : notes,
+                notes: finalNotes,
                 tags: allTags,
                 locationName: location?.name,
                 latitude: location?.latitude,
                 longitude: location?.longitude,
+                volumeML: byVolume.0,
+                abv: byVolume.1,
+                drinkName: byVolume.2,
             )
             modelContext.insert(newEntry)
             SessionService.assignSession(for: newEntry, in: modelContext)

@@ -926,6 +926,9 @@ struct QuickLogView: View {
                     latitude: location?.latitude,
                     longitude: location?.longitude,
                     hadGrapefruit: item.hadGrapefruit ? true : nil,
+                    volumeML: item.volumeML,
+                    abv: item.abv,
+                    drinkName: item.drinkName,
                 )
                 context.insert(entry)
                 SessionService.assignSession(for: entry, in: context)

@@ -195,7 +195,7 @@ struct SubstanceCardView: View {
                 )
             }
         } label: {
-            Text("\(chip.formattedAmount) \(chip.unit)")
+            chipLabel(chip)
                 .font(.subheadline.weight(.medium))
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
@@ -210,7 +210,7 @@ struct SubstanceCardView: View {
                 }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Log \(chip.formattedAmount) \(chip.unit)")
+        .accessibilityLabel(chip.label.map { Text("Log \($0)") } ?? Text("Log \(chip.formattedAmount) \(chip.unit)"))
         .contextMenu {
             Button {
                 onMoveChip(group, chip, true)
@@ -222,6 +222,21 @@ struct SubstanceCardView: View {
             Button(role: .destructive) {
                 onRemoveChip(group, chip)
             } label: { Label("Remove from Quick Log", systemImage: "trash") }
+        }
+    }
+
+    /// Drink chips (alcohol) show their icon + name; ordinary chips show the
+    /// gram/mg amount.
+    @ViewBuilder
+    private func chipLabel(_ chip: DoseChip) -> some View {
+        if let label = chip.label {
+            if let systemImage = chip.systemImage {
+                Label(label, systemImage: systemImage)
+            } else {
+                Text(label)
+            }
+        } else {
+            Text("\(chip.formattedAmount) \(chip.unit)")
         }
     }
 

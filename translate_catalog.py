@@ -2840,6 +2840,22 @@ T = {
         "GHB 的清除通路会饱和，因此剂量与效应并不成正比，容错空间很小。请精确量取，两次服用之间充分等待（绝不要因为“还没起效”就追加），并把任何其他抑制剂——尤其是酒精——视为会叠加危险。肝功能受损会进一步降低阈值。目前没有可靠的人体 Km/Vmax 数据，因此只显示趋势方向而不绘制曲线。",
         "GHB 的清除通路會飽和，因此劑量與效應並不成正比，容錯空間很小。請精確量取，兩次服用之間充分等待（絕不要因為“還沒起效”就追加），並把任何其他抑制劑——尤其是酒精——視為會疊加危險。肝功能受損會進一步降低閾值。目前沒有可靠的人體 Km/Vmax 數據，因此只顯示趨勢方向而不繪製曲線。",
     ),
+    # Alcohol by-volume input (2026-06-22)
+    "By Drink": ("按饮品", "按飲品"),
+    "By Weight": ("按重量", "按重量"),
+    "Volume": ("容量", "容量"),
+    "Strength": ("浓度", "濃度"),
+    "% ABV": ("% 酒精度", "% 酒精度"),
+    "Optional": ("可选", "可選"),
+    "Beer": ("啤酒", "啤酒"),
+    "Wine": ("葡萄酒", "葡萄酒"),
+    "Shot": ("烈酒", "烈酒"),
+    "Pint": ("品脱", "品脫"),
+    "Enter a volume and strength": ("输入容量和浓度", "輸入容量和濃度"),
+    "ethanol · ≈ %@ standard drinks": ("乙醇 · ≈ %@ 标准杯", "乙醇 · ≈ %@ 標準杯"),
+    "%lld g": ("%lld g", "%lld g"),
+    "Input": ("输入", "輸入"),
+    "Volume unit": ("容量单位", "容量單位"),
 }
 
 # Widget translations
@@ -3481,6 +3497,22 @@ if __name__ == "__main__":
         "Exposure rises steeply and faster than dose — a small step up can disproportionately increase how much your body sees. The gap between a recreational and a dangerous dose is small.",
         "Nonlinearity appears already at moderate recreational doses: a controlled study saw ~40% more exposure going from 25 to 35 mg/kg, and the regulated product's exposure rises ~3.8× when the dose doubles.",
         "GHB's clearing pathway saturates, so dose and effect are not proportional and the margin for error is thin. Measure precisely, wait fully between doses (never re-dose because “it hasn't hit yet”), and treat any other depressant — especially alcohol — as compounding the danger. Liver impairment lowers the threshold further. No reliable human Km/Vmax exists, so the direction is shown without a drawn curve.",
+        # Alcohol by-volume input (2026-06-22)
+        "By Drink",
+        "By Weight",
+        "Volume",
+        "Strength",
+        "% ABV",
+        "Optional",
+        "Beer",
+        "Wine",
+        "Shot",
+        "Pint",
+        "Enter a volume and strength",
+        "ethanol · ≈ %@ standard drinks",
+        "%lld g",
+        "Input",
+        "Volume unit",
     }
 
     print("--- Piru main app catalog ---")
