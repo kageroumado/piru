@@ -4289,6 +4289,22 @@
         }
       }
     },
+    "After about a %lld-day break your opioid tolerance has fallen to roughly %lld%% of full — close to none. A dose that felt fine before the break can stop your breathing now. This is the most common way people overdose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在大约 %lld 天的间断后，你的阿片耐受已降至约满值的 %lld%%——几乎为零。间断前让你感觉没问题的剂量，现在可能让你停止呼吸。这是最常见的过量方式。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在大約 %lld 天的間斷後，你的阿片耐受已降至約滿值的 %lld%%——幾乎為零。間斷前讓你感覺沒問題的劑量，現在可能讓你停止呼吸。這是最常見的過量方式。"
+          }
+        }
+      }
+    },
     "Afterglow" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4823,6 +4839,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮痛劑"
+          }
+        }
+      }
+    },
+    "And you can't use naloxone (Narcan) on yourself once that happens. Have someone with you who can, keep naloxone where they can reach it, and start much lower than your old dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "而一旦发生，你无法给自己使用纳洛酮（Narcan）。请让能帮你的人陪在身边，把纳洛酮放在他们够得到的地方，并且从远低于你以前的剂量开始。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "而一旦發生，你無法給自己使用納洛酮（Narcan）。請讓能幫你的人陪在身邊，把納洛酮放在他們夠得到的地方，並且從遠低於你以前的劑量開始。"
           }
         }
       }
@@ -14489,6 +14521,22 @@
         }
       }
     },
+    "If a dose is too much, you don't feel it coming — breathing just stops and you black out with no warning. There's no moment where you notice and react." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果剂量过量，你不会有任何预兆——呼吸会直接停止，你会在毫无征兆的情况下失去意识。没有让你察觉并作出反应的时机。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果劑量過量，你不會有任何預兆——呼吸會直接停止，你會在毫無徵兆的情況下失去意識。沒有讓你察覺並作出反應的時機。"
+          }
+        }
+      }
+    },
     "If nauseous, small sips of water and lying on your side help." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20842,6 +20890,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依據受體佔據率預測 · %@。"
+          }
+        }
+      }
+    },
+    "Predicted from your logged use (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依据你的记录使用情况预测（模型，%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依據你的記錄使用情況預測（模型，%@）。"
           }
         }
       }
@@ -30430,6 +30494,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的血清素系統正承受壓力。請休息並照顧好自己。"
+          }
+        }
+      }
+    },
+    "Your tolerance has dropped" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的耐受已下降"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的耐受已下降"
           }
         }
       }

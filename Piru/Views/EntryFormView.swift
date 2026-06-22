@@ -40,6 +40,7 @@ struct EntryFormView: View {
     @State private var combinedDepression: CombinedDepressionResult?
     @State private var attenuations: [EffectAttenuationResult] = []
     @State private var crossTolerance: [CrossToleranceReadout] = []
+    @State private var opioidReset: OpioidResetRisk?
     @State private var metabolicEffects: [MetabolicModulation.Effect] = []
     @State private var combinationMetabolites: [CombinationMetabolite.Formation] = []
     @State private var substanceLocked = false
@@ -175,6 +176,12 @@ struct EntryFormView: View {
                     if let combinedDepression, combinedDepression.hasMeaningfulLoad {
                         Section {
                             CombinedDepressionBanner(result: combinedDepression)
+                        }
+                    }
+
+                    if let opioidReset {
+                        Section {
+                            OpioidSafetyBanner(risk: opioidReset)
                         }
                     }
 
@@ -445,12 +452,14 @@ struct EntryFormView: View {
     private func refreshPharmacologyReadouts() {
         guard !substance.isEmpty, !isEditing else {
             crossTolerance = []
+            opioidReset = nil
             attenuations = []
             metabolicEffects = []
             combinationMetabolites = []
             return
         }
         crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
+        opioidReset = ToleranceStore.shared.opioidResetRisk(forSubstance: substance)
 
         // Metabolic modulation (Stage 4c, readout-only): co-active CYP inhibitors/inducers onboard, the
         // smoking profile flag, and the substance's own auto-modulation. Grapefruit is a per-dose flag

@@ -2878,6 +2878,24 @@ T = {
         "依据你自报的喝酒脸红 · 仅供参考，并非实测水平。",
         "依據你自報的喝酒臉紅 · 僅供參考，並非實測水平。",
     ),
+    # Opioid safety axis — reset-after-break overdose (2026-06-22, Stage 5)
+    "Your tolerance has dropped": ("你的耐受已下降", "你的耐受已下降"),
+    "If a dose is too much, you don't feel it coming — breathing just stops and you black out with no warning. There's no moment where you notice and react.": (
+        "如果剂量过量，你不会有任何预兆——呼吸会直接停止，你会在毫无征兆的情况下失去意识。没有让你察觉并作出反应的时机。",
+        "如果劑量過量，你不會有任何預兆——呼吸會直接停止，你會在毫無徵兆的情況下失去意識。沒有讓你察覺並作出反應的時機。",
+    ),
+    "And you can't use naloxone (Narcan) on yourself once that happens. Have someone with you who can, keep naloxone where they can reach it, and start much lower than your old dose.": (
+        "而一旦发生，你无法给自己使用纳洛酮（Narcan）。请让能帮你的人陪在身边，把纳洛酮放在他们够得到的地方，并且从远低于你以前的剂量开始。",
+        "而一旦發生，你無法給自己使用納洛酮（Narcan）。請讓能幫你的人陪在身邊，把納洛酮放在他們夠得到的地方，並且從遠低於你以前的劑量開始。",
+    ),
+    "After about a %lld-day break your opioid tolerance has fallen to roughly %lld%% of full — close to none. A dose that felt fine before the break can stop your breathing now. This is the most common way people overdose.": (
+        "在大约 %lld 天的间断后，你的阿片耐受已降至约满值的 %lld%%——几乎为零。间断前让你感觉没问题的剂量，现在可能让你停止呼吸。这是最常见的过量方式。",
+        "在大約 %lld 天的間斷後，你的阿片耐受已降至約滿值的 %lld%%——幾乎為零。間斷前讓你感覺沒問題的劑量，現在可能讓你停止呼吸。這是最常見的過量方式。",
+    ),
+    "Predicted from your logged use (model, %@).": (
+        "依据你的记录使用情况预测（模型，%@）。",
+        "依據你的記錄使用情況預測（模型，%@）。",
+    ),
 }
 
 # Widget translations
@@ -3545,6 +3563,12 @@ if __name__ == "__main__":
         "Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.",
         "Avoid mixing alcohol with metronidazole or certain other antibiotics — they block this same step and can make even a small drink severe.",
         "Based on your self-reported alcohol flush · educational, not a measured level.",
+        # Opioid safety axis (2026-06-22, Stage 5)
+        "Your tolerance has dropped",
+        "If a dose is too much, you don't feel it coming — breathing just stops and you black out with no warning. There's no moment where you notice and react.",
+        "And you can't use naloxone (Narcan) on yourself once that happens. Have someone with you who can, keep naloxone where they can reach it, and start much lower than your old dose.",
+        "After about a %lld-day break your opioid tolerance has fallen to roughly %lld%% of full — close to none. A dose that felt fine before the break can stop your breathing now. This is the most common way people overdose.",
+        "Predicted from your logged use (model, %@).",
     }
 
     print("--- Piru main app catalog ---")

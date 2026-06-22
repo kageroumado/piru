@@ -43,6 +43,32 @@ struct CrossToleranceReadout: Identifiable {
     }
 }
 
+/// A predicted **reset-after-break overdose** risk for a μ-opioid about to be logged (Stage 5 opioid
+/// safety axis). Fires *only* in the genuine relapse window: the user built real μ-opioid tolerance,
+/// then a break let availability recover toward naïve — so a dose that was tolerated before the break
+/// can now stop their breathing. Deliberately narrow (false positives spend trust); a naïve first-timer
+/// and a still-actively-using person both fail the gate.
+struct OpioidResetRisk: Identifiable {
+    /// Lowest μ-opioid availability reached before the break — how tolerant they had become (≤ 1).
+    let peakAvailability: Double
+    /// Current μ-opioid availability, recovered toward naïve over the break.
+    let currentAvailability: Double
+    /// Whole days since the last opioid dose (the break length).
+    let breakDays: Int
+    /// The opioids that drove the prior tolerance, most-recent first.
+    let contributors: [String]
+    let confidence: ConfidenceTier
+
+    var id: String {
+        "opioid-reset"
+    }
+
+    /// Current response as a percentage of a rested/naïve system — how hard the old dose now hits.
+    var currentResponsePercent: Int {
+        Int((min(1, max(0, currentAvailability)) * 100).rounded())
+    }
+}
+
 /// Owns the user's **per-target tolerance state**, recomputed by replaying the dose log through
 /// ``PDModel`` — the lead thread of `Specs/pharmacology-axis-meta-plan.md` (Stage 1).
 ///
@@ -199,6 +225,100 @@ final class ToleranceStore {
             ))
         }
         return readouts.sorted { $0.availability < $1.availability }
+    }
+
+    // MARK: - Opioid reset-after-break overdose (Stage 5 safety axis)
+
+    /// Peak μ-opioid availability ≤ this counts as having built genuine tolerance (≥ ~40% depressed).
+    static let opioidTolerantThreshold = 0.6
+    /// Current μ-opioid availability ≥ this counts as having recovered toward naïve over the break.
+    static let opioidRecoveredThreshold = 0.78
+    /// Minimum availability regained (current − peak) for the reset to be meaningful, not noise.
+    static let opioidMinRecovery = 0.18
+    /// Minimum gap since the last opioid dose to count as a break (days). Below this they're still
+    /// actively using and the dose matches their tolerance — not a reset.
+    static let opioidMinBreakDays = 5.0
+
+    /// Predicted reset-after-break overdose risk for a μ-opioid about to be logged. Fetches the opioid
+    /// window from the store's own context and replays it; returns `nil` (no warning) unless the full
+    /// relapse pattern holds. See ``opioidResetRisk(forSubstance:entries:now:weightKg:resolve:)``.
+    func opioidResetRisk(forSubstance name: String, now: Date = .now) -> OpioidResetRisk? {
+        guard let context else { return nil }
+        // Reach back far enough to see a long break after a using period (the classic post-detox window).
+        let cutoff = now.addingTimeInterval(-Self.defaultLookbackDays * 86_400)
+        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate<DoseEntry> { $0.timestamp >= cutoff })
+        guard let entries = try? context.fetch(descriptor) else { return nil }
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        return Self.opioidResetRisk(forSubstance: name, entries: entries, now: now, weightKg: weightKg) {
+            SubstanceStore.shared.pharmacologyParameters(forSubstanceName: $0)
+        }
+    }
+
+    /// Pure reset-after-break computation (the testable core). Fires only when **all** hold:
+    /// 1. the prospective substance is a μ-opioid agonist (a respiratory depressant — the reset axis);
+    /// 2. the user has prior μ-opioid doses (a naïve first-timer is *not* a reset, even at full availability);
+    /// 3. a genuine break since the last opioid dose (``opioidMinBreakDays``);
+    /// 4. real prior tolerance — peak (lowest) μ-opioid availability before the break ≤ ``opioidTolerantThreshold``;
+    /// 5. that availability has since recovered toward naïve (≥ ``opioidRecoveredThreshold`` *and* by
+    ///    ≥ ``opioidMinRecovery``), so the old dose now lands on a far less tolerant system.
+    @MainActor
+    static func opioidResetRisk(
+        forSubstance name: String,
+        entries: [DoseEntry],
+        now: Date,
+        weightKg: Double,
+        resolve: (String) -> PharmacologyParameters?,
+    ) -> OpioidResetRisk? {
+        var paramCache: [String: PharmacologyParameters?] = [:]
+        func params(_ s: String) -> PharmacologyParameters? {
+            if let cached = paramCache[s] { return cached }
+            let p = resolve(s)
+            paramCache[s] = p
+            return p
+        }
+        func engagesMuOpioid(_ p: PharmacologyParameters) -> Bool {
+            p.targets.contains { ReceptorClasses.classify(target: $0.target, action: $0.action) == .muOpioid }
+        }
+
+        // 1. The prospective substance must be a μ-opioid agonist.
+        guard let prospective = params(name), engagesMuOpioid(prospective) else { return nil }
+
+        // 2. Prior μ-opioid doses (occupancy-computable, so they actually drove tolerance), recency-first.
+        let past = entries.filter { $0.timestamp <= now }.sorted { $0.timestamp > $1.timestamp }
+        let opioidPast = past.filter { e in
+            guard let p = params(e.substance), p.canComputeOccupancy else { return false }
+            return engagesMuOpioid(p)
+        }
+        guard let lastDose = opioidPast.first else { return nil }
+
+        // 3. A genuine break since the last opioid dose.
+        let breakInterval = now.timeIntervalSince(lastDose.timestamp)
+        guard breakInterval >= opioidMinBreakDays * 86_400 else { return nil }
+
+        /// 4. Real prior tolerance: the lowest μ-opioid availability reached by the end of the using period.
+        func muAvailability(at instant: Date) -> Double? {
+            let states = simulate(entries: opioidPast, now: instant, weightKg: weightKg, resolve: resolve)
+            return states.values.filter { $0.receptorClass == .muOpioid }.map(\.availability).min()
+        }
+        guard let peakAvail = muAvailability(at: lastDose.timestamp), peakAvail <= opioidTolerantThreshold else { return nil }
+
+        // 5. …that has since recovered toward naïve over the break.
+        guard let currentAvail = muAvailability(at: now),
+              currentAvail >= opioidRecoveredThreshold,
+              currentAvail - peakAvail >= opioidMinRecovery else { return nil }
+
+        var seen = Set<String>()
+        let contributors = opioidPast.map(\.substance).filter { seen.insert($0).inserted }
+        let confidence = simulate(entries: opioidPast, now: lastDose.timestamp, weightKg: weightKg, resolve: resolve)
+            .values.filter { $0.receptorClass == .muOpioid }.map(\.confidence).min() ?? .low
+
+        return OpioidResetRisk(
+            peakAvailability: peakAvail,
+            currentAvailability: currentAvail,
+            breakDays: Int((breakInterval / 86_400).rounded(.down)),
+            contributors: contributors,
+            confidence: confidence,
+        )
     }
 
     // MARK: - Pure replay (the testable core)
