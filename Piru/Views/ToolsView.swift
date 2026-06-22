@@ -10,6 +10,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case recovery
     case pharma
     case tolerance
+    case ceiling
     case inventory
 
     var id: String {
@@ -25,6 +26,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .recovery: "Recovery Guide"
         case .pharma: "Pharma Search"
         case .tolerance: "Tolerance"
+        case .ceiling: "Ceiling Effect"
         case .inventory: "Inventory"
         }
     }
@@ -38,6 +40,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .recovery: "Comedown and aftercare tips"
         case .pharma: "Search by receptor and affinity"
         case .tolerance: "Predicted receptor tolerance and recovery"
+        case .ceiling: "When dose and exposure aren't proportional"
         case .inventory: "Track how much you have on hand"
         }
     }
@@ -50,6 +53,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .recovery: "heart.text.square"
         case .pharma: "pills"
         case .tolerance: "chart.line.downtrend.xyaxis"
+        case .ceiling: "chart.line.uptrend.xyaxis"
         case .inventory: "shippingbox"
         }
     }

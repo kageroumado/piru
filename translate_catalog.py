@@ -2743,6 +2743,103 @@ T = {
         "当某次记录达到这么多种不同物质时，时间线会将重叠的曲线拆分为独立的堆叠泳道——每种物质一条——让繁忙的记录依然清晰可读。关闭后，所有曲线始终叠加在同一张图上。",
         "當某次記錄達到這麼多種不同物質時，時間線會將重疊的曲線拆分為獨立的堆疊泳道——每種物質一條——讓繁忙的記錄依然清晰可讀。關閉後，所有曲線始終疊加在同一張圖上。",
     ),
+    # Pharmacology axis Stage 6 — Ceiling Effect tool (2026-06-22)
+    "Ceiling Effect": ("封顶效应", "封頂效應"),
+    "When dose and exposure aren't proportional": (
+        "当剂量与暴露不成正比时",
+        "當劑量與暴露不成正比時",
+    ),
+    "When dose and effect aren't proportional": (
+        "当剂量与效应不成正比时",
+        "當劑量與效應不成正比時",
+    ),
+    "For most substances, twice the dose means roughly twice the exposure. For these few, an enzyme runs out of capacity — so exposure can climb much faster than the dose (a warning), or an effect can stop climbing entirely (a ceiling). Shapes are model predictions, relative — not absolute concentrations.": (
+        "对大多数物质而言，剂量加倍，暴露量大致也加倍。但对这少数几种，某种酶的处理能力会达到上限——于是暴露量可能远比剂量增长得快（一种警示），或者效应会彻底停止增长（封顶）。这些曲线是模型预测的相对形状，并非绝对浓度。",
+        "對大多數物質而言，劑量加倍，暴露量大致也加倍。但對這少數幾種，某種酶的處理能力會達到上限——於是暴露量可能遠比劑量增長得快（一種警示），或者效應會徹底停止增長（封頂）。這些曲線是模型預測的相對形狀，並非絕對濃度。",
+    ),
+    "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in days.": (
+        "每条曲线代表一个剂量；高度是血液中的水平，曲线下面积是你的总暴露量。时间以天为单位。",
+        "每條曲線代表一個劑量；高度是血液中的水平，曲線下面積是你的總暴露量。時間以天為單位。",
+    ),
+    "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in hours.": (
+        "每条曲线代表一个剂量；高度是血液中的水平，曲线下面积是你的总暴露量。时间以小时为单位。",
+        "每條曲線代表一個劑量；高度是血液中的水平，曲線下面積是你的總暴露量。時間以小時為單位。",
+    ),
+    "%@× the dose isn't %@× the exposure — the largest curve here holds about %@× the total exposure of one reference dose.": (
+        "%@ 倍剂量并不等于 %@ 倍暴露——图中最大的曲线所含的总暴露量约为单个参考剂量的 %@ 倍。",
+        "%@ 倍劑量並不等於 %@ 倍暴露——圖中最大的曲線所含的總暴露量約為單個參考劑量的 %@ 倍。",
+    ),
+    "Ceiling on effect — described, not drawn (no precise dose knee).": (
+        "效应封顶——以文字说明，未绘制曲线（没有精确的剂量拐点）。",
+        "效應封頂——以文字說明，未繪製曲線（沒有精確的劑量拐點）。",
+    ),
+    "Steep, supralinear — described, not drawn (no reliable human kinetics).": (
+        "陡峭、超线性——以文字说明，未绘制曲线（缺乏可靠的人体动力学数据）。",
+        "陡峭、超線性——以文字說明，未繪製曲線（缺乏可靠的人體動力學數據）。",
+    ),
+    "Saturable elimination — exposure climbs faster than dose": (
+        "可饱和消除——暴露量比剂量增长得更快",
+        "可飽和消除——暴露量比劑量增長得更快",
+    ),
+    "Saturable activation — effect hits a ceiling": (
+        "可饱和激活——效应触及上限",
+        "可飽和激活——效應觸及上限",
+    ),
+    "1 drink": ("1 杯", "1 杯"),
+    "%lld drinks": ("%lld 杯", "%lld 杯"),
+    "%lld mg": ("%lld 毫克", "%lld 毫克"),
+    "Alcohol (ethanol)": ("酒精（乙醇）", "酒精（乙醇）"),
+    "Phenytoin": ("苯妥英", "苯妥英"),
+    "GHB / GBL": ("GHB / GBL", "GHB / GBL"),
+    "Codeine → morphine": ("可待因 → 吗啡", "可待因 → 嗎啡"),
+    "Clearance is capped at ~1 drink/hour, so each extra drink stacks on top of the last and lingers — total exposure climbs far faster than the number of drinks.": (
+        "清除速度被限制在约每小时 1 杯，因此每多喝一杯都会叠加在上一杯之上并滞留更久——总暴露量的增长远快于杯数。",
+        "清除速度被限制在約每小時 1 杯，因此每多喝一杯都會疊加在上一杯之上並滯留更久——總暴露量的增長遠快於杯數。",
+    ),
+    "Elimination is already maxed out after about one drink, so there is no “safe extra” that clears as fast as the first.": (
+        "大约一杯之后消除速度就已达到上限，因此并不存在能像第一杯那样快速清除的“安全的额外一杯”。",
+        "大約一杯之後消除速度就已達到上限，因此並不存在能像第一杯那樣快速清除的“安全的額外一杯”。",
+    ),
+    "Alcohol is the classic zero-order drug: above a very low blood level the enzyme that clears it (alcohol dehydrogenase) is fully saturated and works at a fixed rate. Doubling the drinks more than doubles how long alcohol stays in your system and the area under the curve. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 “flush” variant does the opposite for acetaldehyde.": (
+        "酒精是典型的零级动力学药物：当血液浓度高于一个很低的水平后，清除它的酶（乙醇脱氢酶）便完全饱和，以固定速率工作。杯数翻倍，酒精在体内停留的时间和曲线下面积会增加一倍以上。长期大量饮酒会在一定程度上加快清除（诱导 CYP2E1）；而 ALDH2“脸红”变异对乙醛的作用恰好相反。",
+        "酒精是典型的零級動力學藥物：當血液濃度高於一個很低的水平後，清除它的酶（乙醇脫氫酶）便完全飽和，以固定速率工作。杯數翻倍，酒精在體內停留的時間和曲線下面積會增加一倍以上。長期大量飲酒會在一定程度上加快清除（誘導 CYP2E1）；而 ALDH2“臉紅”變異對乙醛的作用恰好相反。",
+    ),
+    "The clearing enzyme is already half-saturated inside the normal dose range, so a small dose increase near the top can roughly double the level into toxicity.": (
+        "在正常剂量范围内，清除它的酶就已经半饱和，因此在范围上限附近，剂量稍有增加就可能使血药水平大致翻倍，进入中毒区间。",
+        "在正常劑量範圍內，清除它的酶就已經半飽和，因此在範圍上限附近，劑量稍有增加就可能使血藥水平大致翻倍，進入中毒區間。",
+    ),
+    "Saturation begins within the therapeutic window itself — the curve bends up where most other drugs would still be a straight line.": (
+        "饱和就发生在治疗窗之内——在大多数其他药物仍是直线的地方，这条曲线已经向上弯折。",
+        "飽和就發生在治療窗之內——在大多數其他藥物仍是直線的地方，這條曲線已經向上彎折。",
+    ),
+    "Phenytoin is hydroxylated by a saturable liver enzyme system (CYP2C9/CYP2C19). Because its Km lies below the therapeutic range, dose and level are not proportional: titrate in small steps and confirm with blood levels. CYP2C9/2C19 poor metabolizers, age, and interacting drugs shift the knee lower. Shown as relative shape — phenytoin is individualized by therapeutic drug monitoring.": (
+        "苯妥英由一套可饱和的肝酶系统（CYP2C9/CYP2C19）羟基化代谢。由于其 Km 低于治疗范围，剂量与血药水平并不成正比：应小幅调整剂量并通过血药浓度确认。CYP2C9/2C19 慢代谢者、年龄以及相互作用的药物都会使拐点提前。此处仅显示相对形状——苯妥英需通过治疗药物监测进行个体化调整。",
+        "苯妥英由一套可飽和的肝酶系統（CYP2C9/CYP2C19）羥基化代謝。由於其 Km 低於治療範圍，劑量與血藥水平並不成正比：應小幅調整劑量並透過血藥濃度確認。CYP2C9/2C19 慢代謝者、年齡以及相互作用的藥物都會使拐點提前。此處僅顯示相對形狀——苯妥英需透過治療藥物監測進行個體化調整。",
+    ),
+    "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration, not more pain relief.": (
+        "可待因只有转化为吗啡才能起效，而大多数人的 CYP2D6 酶限制了能生成的吗啡量——因此超过某一点后，增加可待因只会带来更多副作用和更长的持续时间，而非更强的镇痛。",
+        "可待因只有轉化為嗎啡才能起效，而大多數人的 CYP2D6 酶限制了能生成的嗎啡量——因此超過某一點後，增加可待因只會帶來更多副作用和更長的持續時間，而非更強的鎮痛。",
+    ),
+    "The limit is set by how much CYP2D6 enzyme you have, not by a specific milligram dose. The analgesic plateau around ~60 mg is a clinical observation, not a kinetic ceiling.": (
+        "这个上限取决于你拥有多少 CYP2D6 酶，而非某个具体的毫克剂量。约 60 毫克左右的镇痛平台是临床观察结果，并非动力学封顶。",
+        "這個上限取決於你擁有多少 CYP2D6 酶，而非某個具體的毫克劑量。約 60 毫克左右的鎮痛平台是臨床觀察結果，並非動力學封頂。",
+    ),
+    "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: “ultra-rapid metabolizers” convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while “poor metabolizers” get little relief. So this is not a green light to take more.": (
+        "这个封顶只针对阿片效应——并不涵盖可待因的其他风险。两点重要提醒：“超快代谢者”会把多得多的可待因转化为吗啡，在普通剂量下就可能达到危险水平（FDA 对这类人群禁用可待因），而“慢代谢者”几乎得不到缓解。所以这并不是可以多服的许可。",
+        "這個封頂只針對阿片效應——並不涵蓋可待因的其他風險。兩點重要提醒：“超快代謝者”會把多得多的可待因轉化為嗎啡，在普通劑量下就可能達到危險水平（FDA 對這類人群禁用可待因），而“慢代謝者”幾乎得不到緩解。所以這並不是可以多服的許可。",
+    ),
+    "Exposure rises steeply and faster than dose — a small step up can disproportionately increase how much your body sees. The gap between a recreational and a dangerous dose is small.": (
+        "暴露量陡峭上升，且比剂量增长得更快——小幅增加剂量就可能使身体承受的量不成比例地增加。娱乐剂量与危险剂量之间的差距很小。",
+        "暴露量陡峭上升，且比劑量增長得更快——小幅增加劑量就可能使身體承受的量不成比例地增加。娛樂劑量與危險劑量之間的差距很小。",
+    ),
+    "Nonlinearity appears already at moderate recreational doses: a controlled study saw ~40% more exposure going from 25 to 35 mg/kg, and the regulated product's exposure rises ~3.8× when the dose doubles.": (
+        "非线性在中等娱乐剂量时就已出现：一项对照研究发现，从 25 增至 35 毫克/千克时暴露量增加约 40%，而获批产品在剂量翻倍时暴露量上升约 3.8 倍。",
+        "非線性在中等娛樂劑量時就已出現：一項對照研究發現，從 25 增至 35 毫克/千克時暴露量增加約 40%，而獲批產品在劑量翻倍時暴露量上升約 3.8 倍。",
+    ),
+    "GHB's clearing pathway saturates, so dose and effect are not proportional and the margin for error is thin. Measure precisely, wait fully between doses (never re-dose because “it hasn't hit yet”), and treat any other depressant — especially alcohol — as compounding the danger. Liver impairment lowers the threshold further. No reliable human Km/Vmax exists, so the direction is shown without a drawn curve.": (
+        "GHB 的清除通路会饱和，因此剂量与效应并不成正比，容错空间很小。请精确量取，两次服用之间充分等待（绝不要因为“还没起效”就追加），并把任何其他抑制剂——尤其是酒精——视为会叠加危险。肝功能受损会进一步降低阈值。目前没有可靠的人体 Km/Vmax 数据，因此只显示趋势方向而不绘制曲线。",
+        "GHB 的清除通路會飽和，因此劑量與效應並不成正比，容錯空間很小。請精確量取，兩次服用之間充分等待（絕不要因為“還沒起效”就追加），並把任何其他抑制劑——尤其是酒精——視為會疊加危險。肝功能受損會進一步降低閾值。目前沒有可靠的人體 Km/Vmax 數據，因此只顯示趨勢方向而不繪製曲線。",
+    ),
 }
 
 # Widget translations
@@ -3353,6 +3450,37 @@ if __name__ == "__main__":
         "Stack Busy Sessions",
         "Stack From",
         "When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph.",
+        # Pharmacology axis Stage 6 — Ceiling Effect tool (2026-06-22)
+        "Ceiling Effect",
+        "When dose and exposure aren't proportional",
+        "When dose and effect aren't proportional",
+        "For most substances, twice the dose means roughly twice the exposure. For these few, an enzyme runs out of capacity — so exposure can climb much faster than the dose (a warning), or an effect can stop climbing entirely (a ceiling). Shapes are model predictions, relative — not absolute concentrations.",
+        "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in days.",
+        "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in hours.",
+        "%@× the dose isn't %@× the exposure — the largest curve here holds about %@× the total exposure of one reference dose.",
+        "Ceiling on effect — described, not drawn (no precise dose knee).",
+        "Steep, supralinear — described, not drawn (no reliable human kinetics).",
+        "Saturable elimination — exposure climbs faster than dose",
+        "Saturable activation — effect hits a ceiling",
+        "1 drink",
+        "%lld drinks",
+        "%lld mg",
+        "Alcohol (ethanol)",
+        "Phenytoin",
+        "GHB / GBL",
+        "Codeine → morphine",
+        "Clearance is capped at ~1 drink/hour, so each extra drink stacks on top of the last and lingers — total exposure climbs far faster than the number of drinks.",
+        "Elimination is already maxed out after about one drink, so there is no “safe extra” that clears as fast as the first.",
+        "Alcohol is the classic zero-order drug: above a very low blood level the enzyme that clears it (alcohol dehydrogenase) is fully saturated and works at a fixed rate. Doubling the drinks more than doubles how long alcohol stays in your system and the area under the curve. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 “flush” variant does the opposite for acetaldehyde.",
+        "The clearing enzyme is already half-saturated inside the normal dose range, so a small dose increase near the top can roughly double the level into toxicity.",
+        "Saturation begins within the therapeutic window itself — the curve bends up where most other drugs would still be a straight line.",
+        "Phenytoin is hydroxylated by a saturable liver enzyme system (CYP2C9/CYP2C19). Because its Km lies below the therapeutic range, dose and level are not proportional: titrate in small steps and confirm with blood levels. CYP2C9/2C19 poor metabolizers, age, and interacting drugs shift the knee lower. Shown as relative shape — phenytoin is individualized by therapeutic drug monitoring.",
+        "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration, not more pain relief.",
+        "The limit is set by how much CYP2D6 enzyme you have, not by a specific milligram dose. The analgesic plateau around ~60 mg is a clinical observation, not a kinetic ceiling.",
+        "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: “ultra-rapid metabolizers” convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while “poor metabolizers” get little relief. So this is not a green light to take more.",
+        "Exposure rises steeply and faster than dose — a small step up can disproportionately increase how much your body sees. The gap between a recreational and a dangerous dose is small.",
+        "Nonlinearity appears already at moderate recreational doses: a controlled study saw ~40% more exposure going from 25 to 35 mg/kg, and the regulated product's exposure rises ~3.8× when the dose doubles.",
+        "GHB's clearing pathway saturates, so dose and effect are not proportional and the margin for error is thin. Measure precisely, wait fully between doses (never re-dose because “it hasn't hit yet”), and treat any other depressant — especially alcohol — as compounding the danger. Liver impairment lowers the threshold further. No reliable human Km/Vmax exists, so the direction is shown without a drawn curve.",
     }
 
     print("--- Piru main app catalog ---")

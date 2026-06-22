@@ -124,6 +124,7 @@ private struct PushRouteView: View {
         case .recovery: ComedownGuideView()
         case .pharma: AdvancedSearchView()
         case .tolerance: ToleranceToolView()
+        case .ceiling: CeilingEffectToolView()
         case .inventory: InventoryListView()
         }
     }
