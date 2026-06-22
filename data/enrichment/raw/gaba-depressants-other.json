@@ -2935,5 +2935,45 @@
     "shared_safety": "Universal feature: dose-dependent respiratory depression. Synergy with other GABA-A PAMs (BZs, Z-drugs), opioids, and ethanol → leading cause of accidental overdose death. Barbiturates lethal via direct GABA-A channel opening at supratherapeutic doses (no ceiling). Gabapentinoids implicated in opioid-overdose deaths (UK Schedule 3 reclassification 2019). Withdrawal mechanisms: GABA-A downregulation + NMDA upregulation (ethanol, BZs, barbiturates) → seizures, delirium tremens. GABA-B receptor downregulation (GHB, phenibut, chronic baclofen) → protracted withdrawal with psychiatric sequelae. GHB has a narrow therapeutic index (sedative dose ~250-500 μM brain conc; coma at 600-800 μM).",
     "sar_summary": "GABA-B: β-aryl GABA scaffold (phenibut → baclofen p-chloro → 4-F phenibut). para-chloro (baclofen) gives highest selectivity and potency; para-F (4-F phenibut) gives lipophilicity boost + duration. α2δ ligands: β-amino acid scaffold, cyclohexyl ring (gabapentin) vs isobutyl (pregabalin) vs bicyclic (mirogabalin). Pregabalin's stereochemistry and methyl branching give ~6x α2δ-1 affinity boost. Barbiturates: 5,5-disubstitution at the pyrimidinetrione ring; alkyl side chains (pentobarb) give anaesthesia (higher direct activation), aryl side chain (phenobarb) gives anticonvulsant efficacy with less direct activation. Quinazolinones (methaqualone, mecloqualone, etaqualone, mebroqualone, methylmethaqualone, SL-164): substitution on the 3-aryl group and the 2-methyl/ethyl modulates potency at the etomidate-site GABA-A pocket. GHB analogues: 4-OH on butyric acid is essential; GBL (lactone) is prodrug; 1,4-BD (diol) is two-step prodrug.",
     "key_references": ["pmid:2467611", "pmid:15567424", "pmid:10591456", "pmid:22778411", "pmid:8395712", "pmid:15801823", "pmid:26101061", "pmid:6323949", "pmid:23026953", "pmid:26195733", "pmid:11061418", "pmid:30627427", "pmid:16968519"]
+  },
+  {
+    "name": "Tizanidine",
+    "aliases_added": [
+      "Zanaflex",
+      "Sirdalud"
+    ],
+    "cas": "51322-75-9",
+    "inchikey": "XFYDIVBRZNQMJC-UHFFFAOYSA-N",
+    "pubchem_cid": 5487,
+    "class_context_id": "gaba-depressants-other",
+    "metabolism": [
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:15060511",
+        "notes": "Near-complete presystemic CYP1A2 metabolism (oral bioavailability ~34% from extensive first-pass; only ~2.7% excreted unchanged). Clearance is CYP1A2-dominated, so strong CYP1A2 inhibitors cause very large PK interactions: fluvoxamine raised tizanidine AUC ~33-fold (range 14-103x) with SBP falling to ~79-80 mmHg (Granfors 2004, PMID 15060511); ciprofloxacin raised AUC ~10-fold (Granfors 2004, PMID 15536460). FDA-contraindicated with fluvoxamine and ciprofloxacin; CYP1A2 induction by tobacco smoking lowers tizanidine exposure."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "Fluvoxamine",
+        "mechanism": "CYP1A2 inhibition (tizanidine is a near-exclusive CYP1A2 substrate)",
+        "ki_um": null,
+        "clinical_effect": "Tizanidine AUC +33x, severe hypotension and sedation; FDA-contraindicated.",
+        "reference": "pmid:15060511"
+      },
+      {
+        "with": "Ciprofloxacin",
+        "mechanism": "CYP1A2 inhibition (presystemic first-pass)",
+        "ki_um": null,
+        "clinical_effect": "Tizanidine AUC +10x, marked hypotension; FDA-contraindicated.",
+        "reference": "pmid:15536460"
+      }
+    ],
+    "confidence": "high",
+    "notes": "Closes the Stage-4c MetabolicModulation gap: tizanidine previously had no CYP1A2 metabolism row, so its grade-A CYP1A2-inhibitor interactions were not surfaced. Grounded in the 2026-06-22 alpha-2/beta-blocker paper-review run (alpha2-betablocker-evidence.json)."
   }
 ]

@@ -2433,7 +2433,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "mg",
+    "unit": "µg",
     "threshold": 25.0,
     "light": {
      "min": 50.0,
@@ -2563,7 +2563,7 @@
   "tags": [],
   "doses": {
    "sublingual": {
-    "unit": "mg",
+    "unit": "µg",
     "threshold": 100.0,
     "light": {
      "min": 250.0,
@@ -2720,7 +2720,7 @@
   ],
   "doses": {
    "sublingual": {
-    "unit": "mg",
+    "unit": "µg",
     "threshold": 50.0,
     "light": {
      "min": 100.0,
@@ -3022,7 +3022,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "mg",
+    "unit": "µg",
     "threshold": 50.0,
     "light": {
      "min": 200.0,
@@ -3174,7 +3174,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "l",
+    "unit": "µg",
     "threshold": 50.0,
     "light": {
      "min": 200.0,
@@ -3184,11 +3184,7 @@
      "min": 500.0,
      "max": 700.0
     },
-    "strong": 700.0,
-    "heavy": {
-     "min": 25.0,
-     "max": 2.0
-    }
+    "strong": 700.0
    }
   },
   "durations": {
@@ -3334,7 +3330,7 @@
   "tags": [],
   "doses": {
    "sublingual": {
-    "unit": "g",
+    "unit": "µg",
     "threshold": 100.0,
     "light": {
      "min": 100.0,
@@ -7363,10 +7359,6 @@
     "strong": {
      "min": 10.0,
      "max": 15.0
-    },
-    "heavy": {
-     "min": 15.0,
-     "max": 4.0
     }
    }
   },
@@ -14533,7 +14525,7 @@
   ],
   "doses": {
    "oral": {
-    "unit": "mg",
+    "unit": "ml",
     "threshold": 0.3,
     "light": {
      "min": 0.3,
@@ -26144,7 +26136,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "mg",
+    "unit": "g",
     "threshold": {
      "min": 0.15,
      "max": 0.25
@@ -26189,7 +26181,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "g",
+    "unit": "µg",
     "threshold": 25.0,
     "light": {
      "min": 50.0,
@@ -27253,10 +27245,7 @@
      "min": 7.5,
      "max": 10.0
     },
-    "heavy": {
-     "min": 10.0,
-     "max": 2.0
-    }
+    "heavy": 30.0
    }
   },
   "durations": {
@@ -27340,7 +27329,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "mg",
+    "unit": "g",
     "threshold": {
      "min": 0.25,
      "max": 0.5
@@ -32073,7 +32062,7 @@
   "tags": [],
   "doses": {
    "oral": {
-    "unit": "mg",
+    "unit": "µg",
     "threshold": 50.0,
     "light": {
      "min": 100.0,
@@ -33172,10 +33161,6 @@
     "strong": {
      "min": 16.0,
      "max": 40.0
-    },
-    "heavy": {
-     "min": 40.0,
-     "max": 5.0
     }
    }
   },
@@ -36137,7 +36122,7 @@
   ],
   "doses": {
    "oral": {
-    "unit": "g",
+    "unit": "µg",
     "threshold": 25.0,
     "light": {
      "min": 50.0,
@@ -38243,7 +38228,7 @@
   ],
   "doses": {
    "intravenous": {
-    "unit": "g",
+    "unit": "µg",
     "threshold": 0.1,
     "light": {
      "min": 1.0,
@@ -38587,7 +38572,7 @@
   ],
   "doses": {
    "oral": {
-    "unit": "g",
+    "unit": "µg",
     "threshold": {
      "min": 5.0,
      "max": 10.0

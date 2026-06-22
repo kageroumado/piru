@@ -91,7 +91,49 @@ DURATION_UNITS = [
     ("min", 1.0),
 ]
 
-DOSE_UNITS = ["µg", "ug", "mcg", "mg", "ng", "ml", "g", "l"]  # longest-ish first
+# Micrograms are written with both the Greek small mu (μ, U+03BC) and the micro
+# sign (µ, U+00B5) across FreeOD Wiki pages — sometimes within a single page
+# (e.g. 25N-NBOMe mixes both). Fold every mu variant to the micro sign before
+# unit detection so "μg" reads as micrograms instead of falling through to a
+# bare "g" substring match — the bug that silently relabeled microgram doses
+# (clonidine, fentanyl, sufentanil, several NBOMes) as grams. See parse_dose_value.
+# Greek small mu (U+03BC), micro sign (U+00B5), math italic small mu (U+1D707).
+_MU_VARIANTS = "μµ\U0001d707"
+_MU_TABLE = {ord(c): "µ" for c in _MU_VARIANTS}
+
+# Canonical unit per recognized token. The source uses latin (µg/mg/g/ml…) AND
+# native Chinese units (微克/毫克/克/毫升…); the old detector knew neither Greek
+# mu nor any Chinese unit, so those cells defaulted to "mg" — turning a 50 微克
+# dose into 50 mg (1000×) and gram doses into milligrams. Two-character Chinese
+# units (微克/毫克) must precede the one-character ones (克) in the alternation
+# below so the longer, more specific token wins.
+_UNIT_CANON = {
+    "µg": "µg",
+    "ug": "µg",
+    "mcg": "µg",
+    "微克": "µg",
+    "mg": "mg",
+    "毫克": "mg",
+    "ng": "ng",
+    "纳克": "ng",
+    "kg": "kg",
+    "千克": "kg",
+    "µl": "µl",
+    "微升": "µl",
+    "ml": "ml",
+    "毫升": "ml",
+    "g": "g",
+    "克": "g",
+    "l": "l",
+    "升": "l",
+}
+
+# A unit only counts when it is attached to a number, longest/most-specific
+# match first, with a trailing word boundary. Anchoring to a digit and bounding
+# the tail stops a bare "g"/"l" from matching inside "µg"/"mg"/"ml" or a stray
+# latin letter in a prose cell (e.g. a "…fatal…" warning row that used to parse
+# as unit "l").
+_UNIT_RE = re.compile(r"\d\s*(µg|mcg|ug|mg|ng|kg|ml|µl|微克|毫克|纳克|千克|毫升|微升|g|l|克|升)\b")
 
 _NUM_RE = re.compile(r"\d+(?:\.\d+)?")
 _LINK_RE = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")  # [txt](url) and ![alt](url)
@@ -126,22 +168,24 @@ def match_route(text: str) -> str | None:
     return None
 
 
-def parse_dose_value(raw: str) -> tuple[str, object, str] | None:
+def parse_dose_value(raw: str) -> tuple[str, object, str | None] | None:
     """Parse a dose cell. Returns (kind, value, unit) where kind is 'scalar' or
-    'range'; value is float or {'min','max'}. Unit defaults to mg."""
-    s = strip_md(raw)
+    'range', value is float or {'min','max'}, and unit is the detected unit or
+    None when the cell carries no recognizable number-attached unit (the caller
+    then keeps the route's existing unit rather than guessing 'mg')."""
+    s = strip_md(raw).translate(_MU_TABLE)
     s = s.replace("~", "-").replace("–", "-").replace("—", "-")
     s = re.sub(r"(?<=\d),(?=\d)", "", s)  # 1,000 -> 1000
-    unit = "mg"
-    for u in DOSE_UNITS:
-        if u in s.lower():
-            unit = "µg" if u in ("ug", "mcg") else u
-            break
+    m = _UNIT_RE.search(s.lower())
+    unit = _UNIT_CANON.get(m.group(1)) if m else None
     nums = [float(n) for n in _NUM_RE.findall(s)]
     if not nums:
         return None
     if len(nums) >= 2:
-        return ("range", {"min": nums[0], "max": nums[1]}, unit)
+        lo, hi = nums[0], nums[1]
+        if lo > hi:
+            return None  # garbled cell (e.g. prose row with stray numbers)
+        return ("range", {"min": lo, "max": hi}, unit)
     return ("scalar", nums[0], unit)
 
 
@@ -207,7 +251,6 @@ def parse_page(path: Path) -> dict | None:
     }
 
     current_route = "oral"
-    saw_route = False
     interaction_table = False
 
     for raw_line in lines:
@@ -218,7 +261,6 @@ def parse_page(path: Path) -> dict | None:
             r = match_route(line.split("⇣", 1)[1])
             if r:
                 current_route = r
-                saw_route = True
                 continue
         stripped = line.strip()
         if stripped.startswith("**") and (
@@ -229,7 +271,6 @@ def parse_page(path: Path) -> dict | None:
             r = match_route(stripped)
             if r:
                 current_route = r
-                saw_route = True
                 continue
 
         if not is_table_row(line):
@@ -285,11 +326,13 @@ def parse_page(path: Path) -> dict | None:
             parsed = parse_dose_value(value)
             if parsed:
                 kind, val, unit = parsed
-                d = rec["doses"].setdefault(current_route, {"unit": unit})
+                d = rec["doses"].setdefault(current_route, {"unit": "mg"})
                 d[DOSE_TIERS[label]] = val
-                d["unit"] = unit
-                if saw_route:
-                    pass
+                # Only a recognized, number-attached unit overrides the route's
+                # default — a prose/garbled tier row must not clobber the real
+                # unit set by a sibling row (the per-route unit is shared).
+                if unit:
+                    d["unit"] = unit
             continue
 
         # Duration phase rows.
