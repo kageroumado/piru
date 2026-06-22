@@ -130,6 +130,12 @@ struct ToleranceToolView: View {
                 }
             }
             .padding(.vertical, 4)
+
+            NavigationLink {
+                ToleranceExplainerView()
+            } label: {
+                Label("How tolerance works", systemImage: "book")
+            }
         }
     }
 

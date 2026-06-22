@@ -2896,6 +2896,90 @@ T = {
         "依据你的记录使用情况预测（模型，%@）。",
         "依據你的記錄使用情況預測（模型，%@）。",
     ),
+    # Tolerance-mechanism explainer (2026-06-22, Stage 5)
+    "How tolerance works": ("耐受是如何形成的", "耐受是如何形成的"),
+    "Three kinds of tolerance": ("三种耐受", "三種耐受"),
+    "Availability — the real tolerance": ("可用度——真正的耐受", "可用度——真正的耐受"),
+    "With repeated use a receptor gets less responsive, so the same dose does less. We show it as your predicted response versus rested (≈X%). It recovers when you stop — over days to weeks depending on the receptor. This is the honest “tolerance” for opioids, psychedelics, benzodiazepines, dissociatives, and cannabis.": (
+        "反复使用后，受体的反应性下降，因此同样的剂量效果变弱。我们用相对于休息状态的预测反应（≈X%）来表示。停用后它会恢复——视受体不同，需数天到数周。这才是阿片类、致幻剂、苯二氮䓬、解离剂和大麻真正意义上的“耐受”。",
+        "反覆使用後，受體的反應性下降，因此同樣的劑量效果變弱。我們用相對於休息狀態的預測反應（≈X%）來表示。停用後它會恢復——視受體不同，需數天到數週。這才是阿片類、致幻劑、苯二氮䓬、解離劑和大麻真正意義上的「耐受」。",
+    ),
+    "Within-session redose": ("同次内追加", "同次內追加"),
+    "Separately, a second dose the same session often lands weaker — fast desensitization (tachyphylaxis). It recovers overnight, so it's shown apart from the slow tolerance above. Chasing it with more rarely works and stacks risk.": (
+        "另外，同一次使用中追加的第二剂往往更弱——这是快速脱敏（速发耐受）。它会在一夜之间恢复，因此与上面的慢性耐受分开显示。靠加量去追效果通常无效，反而叠加风险。",
+        "另外，同一次使用中追加的第二劑往往更弱——這是快速脫敏（速發耐受）。它會在一夜之間恢復，因此與上面的慢性耐受分開顯示。靠加量去追效果通常無效，反而疊加風險。",
+    ),
+    "Recovery-state load — not a multiplier": ("恢复状态负荷——不是倍率", "恢復狀態負荷——不是倍率"),
+    "For stimulants and serotonin releasers there is no honest “tolerance %” to multiply a dose by. The slow change is a months-long recovery state of the whole system, not a take-more signal. We show that as a bounded load bar instead of a fake number — refusing to imply a dose you should escalate to.": (
+        "对于兴奋剂和血清素释放剂，并不存在可以拿来乘剂量的诚实“耐受百分比”。其缓慢变化是整个系统长达数月的恢复状态，而非“可以加量”的信号。我们用一个有上限的负荷条来表示，而不是给出一个假数字——拒绝暗示你应该加到的剂量。",
+        "對於興奮劑和血清素釋放劑，並不存在可以拿來乘劑量的誠實「耐受百分比」。其緩慢變化是整個系統長達數月的恢復狀態，而非「可以加量」的信號。我們用一個有上限的負荷條來表示，而不是給出一個假數字——拒絕暗示你應該加到的劑量。",
+    ),
+    "These are model predictions of how repeated use changes each receptor — never a measurement. Each figure carries a confidence tier.": (
+        "这些是模型对反复使用如何改变各受体的预测——绝非实测。每个数字都附有置信等级。",
+        "這些是模型對反覆使用如何改變各受體的預測——絕非實測。每個數字都附有置信等級。",
+    ),
+    "Cross-tolerance": ("交叉耐受", "交叉耐受"),
+    "Tolerance is shared by receptor, not by name": (
+        "耐受按受体共享，而非按名称",
+        "耐受按受體共享，而非按名稱",
+    ),
+    "Two different drugs that hit the same receptor share tolerance. Recent LSD lowers a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance here is tracked per receptor target, and why a “new” drug in the same family can still be blunted.": (
+        "作用于同一受体的两种不同药物会共享耐受。近期用过 LSD 会削弱蘑菇的体验，因为两者都作用于 5-HT2A；一种苯二氮䓬的耐受会带到另一种；一种阿片也会带到下一种。这正是本工具按受体靶点追踪耐受的原因，也是为什么同一类的“新”药仍可能被削弱。",
+        "作用於同一受體的兩種不同藥物會共享耐受。近期用過 LSD 會削弱蘑菇的體驗，因為兩者都作用於 5-HT2A；一種苯二氮䓬的耐受會帶到另一種；一種阿片也會帶到下一種。這正是本工具按受體靶點追蹤耐受的原因，也是為什麼同一類的「新」藥仍可能被削弱。",
+    ),
+    "By mechanism": ("按机制", "按機制"),
+    "Recovery timescales and tolerance behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.": (
+        "各受体类别的恢复时间尺度与耐受行为均依据已发表文献校准。每项下方的注释是校准依据；徽章表示这些动力学的可靠程度。",
+        "各受體類別的恢復時間尺度與耐受行為均依據已發表文獻校準。每項下方的註釋是校準依據；徽章表示這些動力學的可靠程度。",
+    ),
+    "Dose-response tolerance": ("剂量反应耐受", "劑量反應耐受"),
+    "Recovery-state load": ("恢复状态负荷", "恢復狀態負荷"),
+    "Recovers in days": ("数天内恢复", "數天內恢復"),
+    "Recovers over ~a week": ("约一周内恢复", "約一週內恢復"),
+    "Recovers over weeks": ("数周内恢复", "數週內恢復"),
+    "Recovers over a month+": ("一个多月内恢复", "一個多月內恢復"),
+    "Recovers over months": ("数月内恢复", "數月內恢復"),
+    "Strong and fast: a second trip soon after is much weaker. Resets within a few days.": (
+        "强而快：短期内再次体验会弱很多。数天内重置。",
+        "強而快：短期內再次體驗會弱很多。數天內重置。",
+    ),
+    "Real tolerance that resets after a break — which is exactly what makes returning to an old dose dangerous.": (
+        "真实的耐受会在间断后重置——这正是回到旧剂量之所以危险的原因。",
+        "真實的耐受會在間斷後重置——這正是回到舊劑量之所以危險的原因。",
+    ),
+    "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous — taper.": (
+        "既有耐受也有躯体依赖；长期大量使用后骤停可能危险——应逐步减量。",
+        "既有耐受也有軀體依賴；長期大量使用後驟停可能危險——應逐步減量。",
+    ),
+    "Builds its own tolerance, and can also blunt opioid tolerance when taken together.": (
+        "会形成自身耐受，同时使用还可能削弱阿片类的耐受。",
+        "會形成自身耐受，同時使用還可能削弱阿片類的耐受。",
+    ),
+    "Fast and real, but recovers fairly quickly once you stop.": (
+        "又快又真实，但停用后恢复得相当快。",
+        "又快又真實，但停用後恢復得相當快。",
+    ),
+    "Clean, predictable tolerance — the caffeine case, the textbook example.": (
+        "干净、可预测的耐受——咖啡因的情形，教科书式的例子。",
+        "乾淨、可預測的耐受——咖啡因的情形，教科書式的例子。",
+    ),
+    "No single “tolerance %” fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more.": (
+        "没有单一的“耐受百分比”能概括：既有同次内的快速衰减，又有长达数月的缓慢恢复状态——并非加量的信号。",
+        "沒有單一的「耐受百分比」能概括：既有同次內的快速衰減，又有長達數月的緩慢恢復狀態——並非加量的信號。",
+    ),
+    "A reversible-leaning change at the serotonin transporter — a recovery-state indicator, not a dose multiplier.": (
+        "血清素转运体上偏向可逆的变化——是恢复状态指标，而非剂量倍率。",
+        "血清素轉運體上偏向可逆的變化——是恢復狀態指標，而非劑量倍率。",
+    ),
+    "Mostly fast receptor desensitization that recovers between uses rather than a lasting dose multiplier.": (
+        "主要是快速的受体脱敏，在两次使用之间恢复，而非持久的剂量倍率。",
+        "主要是快速的受體脫敏，在兩次使用之間恢復，而非持久的劑量倍率。",
+    ),
+    "Where the numbers come from": ("数字从何而来", "數字從何而來"),
+    "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the tolerance kinetics are calibrated to published human recovery studies. Every parameter is graded, and anything resting on a class default is flagged. Nothing here is measured from you — it's predicted from your dose log and these curated values.": (
+        "结合亲和力来自 NIMH PDSP Kᵢ 数据库及原始文献；耐受动力学依据已发表的人体恢复研究校准。每个参数都经过分级，任何依赖类别默认值的内容都会被标注。这里没有任何数据是从你身上测得的——而是依据你的剂量记录和这些经过整理的数值预测得出。",
+        "結合親和力來自 NIMH PDSP Kᵢ 資料庫及原始文獻；耐受動力學依據已發表的人體恢復研究校準。每個參數都經過分級，任何依賴類別預設值的內容都會被標註。這裡沒有任何數據是從你身上測得的——而是依據你的劑量記錄和這些經過整理的數值預測得出。",
+    ),
 }
 
 # Widget translations
@@ -3569,6 +3653,39 @@ if __name__ == "__main__":
         "And you can't use naloxone (Narcan) on yourself once that happens. Have someone with you who can, keep naloxone where they can reach it, and start much lower than your old dose.",
         "After about a %lld-day break your opioid tolerance has fallen to roughly %lld%% of full — close to none. A dose that felt fine before the break can stop your breathing now. This is the most common way people overdose.",
         "Predicted from your logged use (model, %@).",
+        # Tolerance-mechanism explainer (2026-06-22, Stage 5)
+        "How tolerance works",
+        "Three kinds of tolerance",
+        "Availability — the real tolerance",
+        "With repeated use a receptor gets less responsive, so the same dose does less. We show it as your predicted response versus rested (≈X%). It recovers when you stop — over days to weeks depending on the receptor. This is the honest “tolerance” for opioids, psychedelics, benzodiazepines, dissociatives, and cannabis.",
+        "Within-session redose",
+        "Separately, a second dose the same session often lands weaker — fast desensitization (tachyphylaxis). It recovers overnight, so it's shown apart from the slow tolerance above. Chasing it with more rarely works and stacks risk.",
+        "Recovery-state load — not a multiplier",
+        "For stimulants and serotonin releasers there is no honest “tolerance %” to multiply a dose by. The slow change is a months-long recovery state of the whole system, not a take-more signal. We show that as a bounded load bar instead of a fake number — refusing to imply a dose you should escalate to.",
+        "These are model predictions of how repeated use changes each receptor — never a measurement. Each figure carries a confidence tier.",
+        "Cross-tolerance",
+        "Tolerance is shared by receptor, not by name",
+        "Two different drugs that hit the same receptor share tolerance. Recent LSD lowers a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance here is tracked per receptor target, and why a “new” drug in the same family can still be blunted.",
+        "By mechanism",
+        "Recovery timescales and tolerance behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.",
+        "Dose-response tolerance",
+        "Recovery-state load",
+        "Recovers in days",
+        "Recovers over ~a week",
+        "Recovers over weeks",
+        "Recovers over a month+",
+        "Recovers over months",
+        "Strong and fast: a second trip soon after is much weaker. Resets within a few days.",
+        "Real tolerance that resets after a break — which is exactly what makes returning to an old dose dangerous.",
+        "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous — taper.",
+        "Builds its own tolerance, and can also blunt opioid tolerance when taken together.",
+        "Fast and real, but recovers fairly quickly once you stop.",
+        "Clean, predictable tolerance — the caffeine case, the textbook example.",
+        "No single “tolerance %” fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more.",
+        "A reversible-leaning change at the serotonin transporter — a recovery-state indicator, not a dose multiplier.",
+        "Mostly fast receptor desensitization that recovers between uses rather than a lasting dose multiplier.",
+        "Where the numbers come from",
+        "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the tolerance kinetics are calibrated to published human recovery studies. Every parameter is graded, and anything resting on a class default is flagged. Nothing here is measured from you — it's predicted from your dose log and these curated values.",
     }
 
     print("--- Piru main app catalog ---")
