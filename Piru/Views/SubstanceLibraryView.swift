@@ -519,6 +519,8 @@ struct SubstanceDetailView: View {
     // applied the first time the section was rendered).
     @State private var overviewExpanded: Bool?
     @State private var mechanismExpanded: Bool?
+    @State private var monoamineProfileExpanded: Bool?
+    @State private var monoamineProfile: MonoamineProfile?
     @State private var receptorLitExpanded: Bool?
     @State private var pharmacokineticsExpanded: Bool?
     /// Contraindications & cautions — verbose clinical data, collapsed by default
@@ -1535,6 +1537,19 @@ struct SubstanceDetailView: View {
                     }
                 }
 
+                if policy.showsMechanism, let monoamineProfile {
+                    CollapsibleSection(
+                        "Monoamine Profile",
+                        systemImage: "slider.horizontal.below.square.filled.and.square",
+                        isExpanded: Binding(
+                            get: { monoamineProfileExpanded ?? true },
+                            set: { monoamineProfileExpanded = $0 },
+                        ),
+                    ) {
+                        MonoamineProfileCard(profile: monoamineProfile, accent: substance.category.color)
+                    }
+                }
+
                 if policy.showsReceptorLiterature, !literatureBindings.isEmpty {
                     CollapsibleSection(
                         "Receptor Literature",
@@ -1659,11 +1674,16 @@ struct SubstanceDetailView: View {
             // shown to every tier so users can see where each fact came from.
             provenance = store.provenance(forSubstanceName: substance.name)
 
-            // Receptor literature is pharma-nerd-only — skip the query for
-            // other tiers.
-            if policy.showsReceptorLiterature {
-                literatureBindings = store.bindings(forSubstanceName: substance.name)
+            // Binding rows feed two surfaces: the pharma-nerd "Receptor Literature" list AND the
+            // broader harm-reduction "Monoamine Profile" card (DA↔5-HT character, releaser/blocker,
+            // valvulopathy / mis-sold-as-MDMA flags). The card loads for the mechanism audience (like
+            // the metabolic-education surface), so fetch once when either surface is shown.
+            if policy.showsMechanism || policy.showsReceptorLiterature {
+                let binds = store.bindings(forSubstanceName: substance.name)
+                monoamineProfile = MonoamineProfile.from(bindings: binds, substanceName: substance.name)
+                literatureBindings = policy.showsReceptorLiterature ? binds : []
             } else {
+                monoamineProfile = nil
                 literatureBindings = []
             }
 
@@ -2222,9 +2242,9 @@ private struct ReceptorLiteratureRow: View {
                     .font(.caption2)
                 Text(hit.sourceSlug)
                     .font(.caption2.monospaced())
+                ProvenanceBadge(confidence: hit.confidence, species: hit.species, sourceSlug: hit.sourceSlug)
                 if let species = hit.species, !species.isEmpty {
-                    Text("·")
-                    Text(species).italic()
+                    Text(species).italic().lineLimit(1)
                 }
                 Spacer()
                 if let pmid = hit.pmid, let url = URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") {

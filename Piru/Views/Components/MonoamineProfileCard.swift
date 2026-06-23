@@ -1,0 +1,243 @@
+import SwiftUI
+
+/// A substance's monoamine-transporter character distilled from its DAT/NET/SERT bindings: whether it
+/// **releases** (substrate efflux, MDMA-like) or **blocks** (reuptake inhibition, cocaine-like), and
+/// where it sits on the **dopamine ↔ serotonin** axis — the empathogen↔stimulant spectrum that predicts
+/// the *character* of a stimulant without shipping a false single potency. Plus two harm-reduction
+/// flags: the 5-HT2B valvulopathy antitarget, and the "mis-sold as MDMA" adulterant warning for the
+/// DAT-dominant blocker cathinones.
+///
+/// Everything is derived from the substance's own graded bindings (the same rows the Receptor Literature
+/// section shows), so it stays faithful: a substance with no DAT+SERT data simply gets no card.
+struct MonoamineProfile {
+    enum Mechanism { case releaser, blocker, hybrid }
+    /// Which endpoint the ratio is read from — release EC₅₀ (substrate) or uptake-inhibition IC₅₀ (blocker).
+    enum Basis { case release, uptake }
+
+    let mechanism: Mechanism
+    let basis: Basis
+    /// SERT-over-DAT potency ratio *within one assay* (release EC₅₀ or uptake IC₅₀). Higher = more
+    /// dopamine/catecholamine-leaning; < 1 = serotonin-leaning. `nil` when DAT or SERT is missing.
+    let datSertRatio: Double?
+    /// 0 (serotonin-leaning) … 1 (strongly dopaminergic), log-scaled — the spectrum marker position.
+    let leanPosition: Double?
+    /// Carries a functional 5-HT2B agonist binding (the fenfluramine/MDA valvular-heart antitarget that
+    /// MDMA does *not* engage).
+    let engages5HT2B: Bool
+    /// Frequently sold on the street as MDMA/"molly" despite being a pharmacological reuptake blocker —
+    /// longer, more stimulant/anxiogenic, more dangerous on an empathogen-style redose.
+    let misSoldAsMDMA: Bool
+
+    /// Substances commonly pressed/sold as "MDMA" or "molly" but pharmacologically DAT-dominant blockers.
+    private static let misSoldNames: Set<String> = [
+        "eutylone", "n-ethylpentylone", "nep", "ephylone", "n-ethylnorpentylone", "pentylone",
+    ]
+
+    /// Build the profile from a substance's binding rows. Returns `nil` unless the substance has at least
+    /// one DAT/NET/SERT release or uptake-inhibition row to characterize.
+    static func from(bindings: [SubstanceStore.BindingHit], substanceName: String) -> MonoamineProfile? {
+        func best(_ target: String, _ action: String) -> Double? {
+            bindings
+                .filter { $0.target.uppercased().hasPrefix(target) && $0.action == action }
+                .compactMap { action == "releasingAgent" ? $0.ec50Nm : $0.ic50Nm }
+                .min()
+        }
+        let datRel = best("DAT", "releasingAgent")
+        let sertRel = best("SERT", "releasingAgent")
+        let netRel = best("NET", "releasingAgent")
+        let datUp = best("DAT", "reuptakeInhibitor")
+        let sertUp = best("SERT", "reuptakeInhibitor")
+        let netUp = best("NET", "reuptakeInhibitor")
+
+        // A transporter is "released" if it has a substrate-efflux row, and "block-only" if it has an
+        // uptake-inhibition row but NO release row. A normal releaser *also* inhibits uptake (it competes
+        // as a substrate), so uptake data alone does NOT make a substance a hybrid — only release at one
+        // transporter together with block-only at another does (e.g. butylone: DAT blocker, SERT substrate).
+        let anyReleased = datRel != nil || sertRel != nil || netRel != nil
+        let datBlockOnly = datUp != nil && datRel == nil
+        let sertBlockOnly = sertUp != nil && sertRel == nil
+        let netBlockOnly = netUp != nil && netRel == nil
+        let anyBlockOnly = datBlockOnly || sertBlockOnly || netBlockOnly
+        guard anyReleased || anyBlockOnly else { return nil }
+
+        let mechanism: Mechanism = if anyReleased, anyBlockOnly {
+            .hybrid
+        } else if anyReleased {
+            .releaser
+        } else {
+            .blocker
+        }
+        let basis: Basis = anyReleased ? .release : .uptake
+        let dat = anyReleased ? datRel : datUp
+        let sert = anyReleased ? sertRel : sertUp
+
+        var ratio: Double?
+        var position: Double?
+        if let d = dat, d > 0, let s = sert, s > 0 {
+            let r = s / d
+            ratio = r
+            // Map log₁₀(ratio) from −1 (serotonin-leaning) … +3 (strongly dopaminergic) onto 0…1.
+            position = min(max((log10(r) + 1) / 4, 0), 1)
+        }
+
+        let engages5HT2B = bindings.contains {
+            $0.target.uppercased().hasPrefix("5-HT2B") && $0.action == "agonist"
+        }
+        let misSold = mechanism != .releaser
+            && misSoldNames.contains(substanceName.lowercased().trimmingCharacters(in: .whitespaces))
+
+        return MonoamineProfile(
+            mechanism: mechanism,
+            basis: basis,
+            datSertRatio: ratio,
+            leanPosition: position,
+            engages5HT2B: engages5HT2B,
+            misSoldAsMDMA: misSold,
+        )
+    }
+
+    var mechanismLabel: LocalizedStringResource {
+        switch mechanism {
+        case .releaser: "Substrate releaser"
+        case .blocker: "Reuptake blocker"
+        case .hybrid: "Mixed (releaser / blocker)"
+        }
+    }
+
+    var mechanismDetail: LocalizedStringResource {
+        switch mechanism {
+        case .releaser: "Reverses the transporters to pump monoamines out (substrate efflux) — the MDMA/amphetamine-type mechanism."
+        case .blocker: "Blocks reuptake without triggering release (cocaine/methylphenidate-type) — a different tolerance and redose profile from a releaser."
+        case .hybrid: "Releases at one transporter while blocking another — an intermediate profile; a single α-alkyl or N-ethyl group flips DAT from substrate to blocker."
+        }
+    }
+
+    var leanLabel: LocalizedStringResource {
+        guard let r = datSertRatio else { return "Balance not characterized (DAT or SERT data missing)" }
+        switch r {
+        case ..<0.8: return "Serotonin-leaning (entactogenic)"
+        case 0.8 ..< 3: return "Balanced — empathogen-like"
+        case 3 ..< 15: return "Dopamine-leaning — more stimulant in character"
+        default: return "Strongly dopaminergic (SERT-sparing)"
+        }
+    }
+}
+
+/// The card surfacing a ``MonoamineProfile`` — mechanism, the dopamine↔serotonin spectrum marker, and
+/// the valvulopathy / mis-sold-as-MDMA flags. Shown in substance detail for any monoamine
+/// releaser/blocker.
+struct MonoamineProfileCard: View {
+    let profile: MonoamineProfile
+    let accent: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 6) {
+                Image(systemName: mechanismIcon)
+                    .foregroundStyle(accent)
+                Text(profile.mechanismLabel)
+                    .font(.subheadline.weight(.semibold))
+            }
+            Text(profile.mechanismDetail)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if profile.leanPosition != nil {
+                spectrum
+            }
+
+            if profile.engages5HT2B {
+                flag(
+                    icon: "heart.text.square",
+                    tint: .orange,
+                    text: "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it.",
+                )
+            }
+            if profile.misSoldAsMDMA {
+                flag(
+                    icon: "exclamationmark.triangle.fill",
+                    tint: .red,
+                    text: "Often mis-sold as MDMA / \u{201C}molly,\u{201D} but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.",
+                )
+            }
+
+            Text("Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
+    private var mechanismIcon: String {
+        switch profile.mechanism {
+        case .releaser: "arrow.up.backward.and.arrow.down.forward"
+        case .blocker: "hand.raised.fill"
+        case .hybrid: "arrow.triangle.2.circlepath"
+        }
+    }
+
+    // MARK: - Dopamine ↔ serotonin spectrum
+
+    private var spectrum: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [.indigo, Theme.secondaryLabel.opacity(0.5), .orange],
+                                startPoint: .leading,
+                                endPoint: .trailing,
+                            ),
+                        )
+                        .frame(height: 8)
+                    Circle()
+                        .fill(.white)
+                        .overlay(Circle().stroke(accent, lineWidth: 2))
+                        .frame(width: 16, height: 16)
+                        .shadow(radius: 1)
+                        .offset(x: geo.size.width * (profile.leanPosition ?? 0.5) - 8)
+                }
+                .frame(height: 16)
+            }
+            .frame(height: 16)
+
+            HStack {
+                Text("Serotonin").font(.caption2).foregroundStyle(.indigo)
+                Spacer()
+                Text("Dopamine").font(.caption2).foregroundStyle(.orange)
+            }
+
+            HStack(spacing: 6) {
+                Text(profile.leanLabel)
+                    .font(.caption.weight(.medium))
+                if let r = profile.datSertRatio {
+                    Text("· DAT:SERT \(ratioText(r))")
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+        }
+    }
+
+    private func flag(icon: String, tint: Color, text: LocalizedStringResource) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: icon)
+                .font(.caption)
+                .foregroundStyle(tint)
+            Text(text)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+    }
+
+    private func ratioText(_ r: Double) -> String {
+        if r >= 100 { return String(format: "%.0f", r) }
+        if r >= 10 { return String(format: "%.0f", r) }
+        return String(format: "%.1f", r)
+    }
+}
