@@ -33,7 +33,6 @@ struct DataStorageView: View {
     @State private var exportedFileToClean: URL?
 
     // Restore flow.
-    @State private var showingFileImporter = false
     @State private var showingRestorePassphrase = false
     @State private var pendingData: Data?
     @State private var pendingIsICloud = false
@@ -45,8 +44,20 @@ struct DataStorageView: View {
     // Plain (unencrypted) export/import — Piru-native & PsychonautWiki JSON.
     @State private var plainExportDocument: PiruDocument?
     @State private var showingPlainExporter = false
-    @State private var showingPlainImporter = false
     @State private var generatingFormat: ExportFormat?
+
+    /// Which file the single shared importer should pick. SwiftUI only honours one
+    /// `.fileImporter` per view, so the plain-JSON and encrypted-restore pickers
+    /// are driven by this one enum rather than two competing modifiers.
+    @State private var importKind: ImportKind?
+
+    private enum ImportKind: Identifiable {
+        case plainJSON
+        case encrypted
+        var id: Self {
+            self
+        }
+    }
 
     // Export / import option popovers.
     @State private var showingExportOptions = false
@@ -88,8 +99,16 @@ struct DataStorageView: View {
                 notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
             }
         }
-        .fileImporter(isPresented: $showingPlainImporter, allowedContentTypes: [.json]) { result in
-            handlePlainImport(result)
+        .fileImporter(
+            isPresented: importerBinding,
+            allowedContentTypes: importKind == .encrypted ? [.data] : [.json],
+        ) { result in
+            let kind = importKind
+            importKind = nil
+            switch kind {
+            case .encrypted: handlePickedFile(result)
+            case .plainJSON, .none: handlePlainImport(result)
+            }
         }
         .sheet(isPresented: $showingExportPassphrase) {
             PassphraseSheet(mode: .create) { passphrase in runExport(passphrase: passphrase) }
@@ -103,9 +122,6 @@ struct DataStorageView: View {
         }
         .sheet(item: $exported, onDismiss: cleanupExportedFile) { item in
             ShareSheet(items: [item.url])
-        }
-        .fileImporter(isPresented: $showingFileImporter, allowedContentTypes: [.data]) { result in
-            handlePickedFile(result)
         }
         .sheet(isPresented: $showingReport) { ReportView() }
         .confirmationDialog("Restore Backup", isPresented: $showingStrategyDialog, titleVisibility: .visible) {
@@ -247,17 +263,17 @@ struct DataStorageView: View {
                 title: "Piru Backup",
                 subtitle: "A complete backup you can restore into Piru",
                 systemImage: "arrow.up.doc",
-            ) { showingExportOptions = false; exportPlain(.piru) }
+            ) { afterPopoverDismiss { exportPlain(.piru) } }
             optionRow(
                 title: "PsychonautWiki Format",
                 subtitle: "For importing into the PsychonautWiki app",
                 systemImage: "arrow.up.doc",
-            ) { showingExportOptions = false; exportPlain(.psyLog) }
+            ) { afterPopoverDismiss { exportPlain(.psyLog) } }
             optionRow(
                 title: "Encrypted Backup…",
                 subtitle: "Passphrase-protected — save or send it anywhere",
                 systemImage: "lock.doc",
-            ) { showingExportOptions = false; showingExportPassphrase = true }
+            ) { afterPopoverDismiss { showingExportPassphrase = true } }
         }
     }
 
@@ -268,24 +284,42 @@ struct DataStorageView: View {
                 title: "Import from a File…",
                 subtitle: "A Piru or PsychonautWiki JSON file",
                 systemImage: "arrow.down.doc",
-            ) { showingImportOptions = false; showingPlainImporter = true }
+            ) { afterPopoverDismiss { importKind = .plainJSON } }
             optionRow(
                 title: "Restore Encrypted Backup…",
                 subtitle: "A passphrase-protected .piruenc file",
                 systemImage: "lock.doc",
-            ) { showingImportOptions = false; showingFileImporter = true }
+            ) { afterPopoverDismiss { importKind = .encrypted } }
             if manager.iCloudAvailable {
                 optionRow(
                     title: "Restore Latest iCloud Backup",
                     subtitle: "From your automatic iCloud backups",
                     systemImage: "arrow.clockwise.icloud",
                 ) {
-                    showingImportOptions = false
-                    pendingIsICloud = true
-                    pendingPassphrase = nil
-                    showingStrategyDialog = true
+                    afterPopoverDismiss {
+                        pendingIsICloud = true
+                        pendingPassphrase = nil
+                        showingStrategyDialog = true
+                    }
                 }
             }
+        }
+    }
+
+    /// Dismisses whichever option popover is open, then runs `action` once the
+    /// popover's dismissal animation has finished.
+    ///
+    /// Presenting a file importer/exporter (or confirmation dialog) in the *same*
+    /// update cycle that dismisses the popover makes SwiftUI swallow the new
+    /// presentation — both target the same anchor, and the popover dismissal
+    /// wins. Waiting one dismissal out lets the follow-up present reliably. This
+    /// was the cause of "Import from File" doing nothing when tapped.
+    private func afterPopoverDismiss(_ action: @escaping () -> Void) {
+        showingExportOptions = false
+        showingImportOptions = false
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(450))
+            action()
         }
     }
 
@@ -515,6 +549,10 @@ struct DataStorageView: View {
 
     private var noticeBinding: Binding<Bool> {
         Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })
+    }
+
+    private var importerBinding: Binding<Bool> {
+        Binding(get: { importKind != nil }, set: { if !$0 { importKind = nil } })
     }
 
     // MARK: - Actions
