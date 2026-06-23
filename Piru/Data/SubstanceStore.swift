@@ -99,6 +99,9 @@ final class SubstanceStore {
     private var allCache: [Substance]?
     private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
     private var nonEmptyCategoriesCache: [SubstanceCategory]?
+    /// Benzodiazepine diazepam-equivalences for the converter tool — one batched
+    /// query, cached after first load. Cleared with the other source-derived caches.
+    private var benzoEquivalenceCache: [BenzoEquivalence]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -299,6 +302,7 @@ final class SubstanceStore {
         batchByName = nil
         substancesByCategoryCache.removeAll(keepingCapacity: true)
         nonEmptyCategoriesCache = nil
+        benzoEquivalenceCache = nil
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
@@ -926,6 +930,50 @@ final class SubstanceStore {
         }
         substancesByCategoryCache[category] = filtered
         return filtered
+    }
+
+    /// Every benzodiazepine carrying a cited diazepam-equivalence, name-sorted,
+    /// for the equivalence converter tool. One batched window query picks the
+    /// highest-priority enabled source per substance — the same resolution
+    /// ``resolvedDiazepamEquivalent(db:substanceID:)`` does per detail, but
+    /// without N+1-resolving every benzo's full record. Cached after first load.
+    func benzoEquivalences() -> [BenzoEquivalence] {
+        if let cached = benzoEquivalenceCache { return cached }
+        let order = enabledSourceOrder
+        guard !order.isEmpty else { return [] }
+        let priorityCaseSQL = Self.priorityCaseSQL(order)
+        let enabledSourceListSQL = Self.enabledSourceListSQL(order)
+        let result: [BenzoEquivalence] = (try? substancesDB.read { db in
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, s.display_name AS display_name,
+                       d.dose_mg AS dose_mg, d.equivalent_diazepam_mg AS eq_mg,
+                       d.display_text AS display_text
+                  FROM (
+                    SELECT de.*, ROW_NUMBER() OVER (
+                        PARTITION BY de.substance_id
+                        ORDER BY \(priorityCaseSQL) ASC) AS rn
+                      FROM diazepam_equivalents de
+                      JOIN sources src ON src.id = de.source_id
+                     WHERE src.slug IN (\(enabledSourceListSQL))
+                  ) d
+                  JOIN substances s ON s.id = d.substance_id
+                 WHERE d.rn = 1
+                 ORDER BY s.canonical_name COLLATE NOCASE
+            """)
+            return rows.map { row in
+                BenzoEquivalence(
+                    name: row["name"],
+                    displayName: (row["display_name"] as String?) ?? row["name"],
+                    equivalent: DiazepamEquivalent(
+                        doseMg: row["dose_mg"],
+                        equivalentDiazepamMg: row["eq_mg"],
+                        displayText: row["display_text"],
+                    ),
+                )
+            }
+        }) ?? []
+        benzoEquivalenceCache = result
+        return result
     }
 
     /// Categories that have at least one browsable substance after resolution.

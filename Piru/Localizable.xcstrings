@@ -36,6 +36,9 @@
         }
       }
     },
+    "—" : {
+
+    },
     "·" : {
       "localizations" : {
         "zh-Hans" : {
@@ -193,6 +196,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "(%lldx)"
+          }
+        }
+      }
+    },
+    "(≈ %@ mg diazepam)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（≈ %@ mg 地西泮）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（≈ %@ mg 地西泮）"
           }
         }
       }
@@ -865,6 +884,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 可能升高 %2$@ 的血藥濃度（%3$@）。"
+          }
+        }
+      }
+    },
+    "%@ mg %@ ≈ %@ mg %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ mg %@ ≈ %@ mg %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ mg %@ ≈ %@ mg %@"
           }
         }
       }
@@ -2039,6 +2074,22 @@
         }
       }
     },
+    "~%@ h" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%@ 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%@ 小時"
+          }
+        }
+      }
+    },
     "~%@ hours" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2123,6 +2174,22 @@
     "~%lld doses left" : {
 
     },
+    "~%lld h" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 小時"
+          }
+        }
+      }
+    },
     "~%lld hours" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2135,6 +2202,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "~%lld 小時"
+          }
+        }
+      }
+    },
+    "~%lld min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld 分鐘"
           }
         }
       }
@@ -2246,6 +2329,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "≈ %@ %@ 元素含量"
+          }
+        }
+      }
+    },
+    "≈ %@ mg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ mg"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ mg"
           }
         }
       }
@@ -2510,6 +2609,38 @@
         }
       }
     },
+    "11-OH-THC" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC"
+          }
+        }
+      }
+    },
+    "11-OH-THC (edibles)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC（食用大麻）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11-OH-THC（食用大麻）"
+          }
+        }
+      }
+    },
     "30D" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2652,6 +2783,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "涼爽、昏暗的房間有助於緩解頭痛和過度刺激。"
+          }
+        }
+      }
+    },
+    "A cross-taper usually switches from a short- to a long-half-life benzo: the longer drug self-tapers more smoothly. Diazepam's long-acting active metabolites stretch its effective half-life well beyond the parent." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交叉减量通常是从短半衰期的苯二氮䓬换成长半衰期的：作用更长的药物会更平稳地自我递减。地西泮的长效活性代谢物使其有效半衰期远超母体药物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交叉減量通常是從短半衰期的苯二氮䓬換成長半衰期的：作用更長的藥物會更平穩地自我遞減。地西泮的長效活性代謝物使其有效半衰期遠超母體藥物。"
           }
         }
       }
@@ -5147,6 +5294,22 @@
         }
       }
     },
+    "Approximate — equivalence tables disagree. Treat this as a ballpark, not a precise dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅为近似——各等效换算表并不一致。请将其视为大致参考，而非精确剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅為近似——各等效換算表並不一致。請將其視為大致參考，而非精確劑量。"
+          }
+        }
+      }
+    },
     "Are you sure you want to delete all your data? This action cannot be undone." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5729,6 +5892,22 @@
         }
       }
     },
+    "Based on first-pass metabolism of oral THC · educational, not a measured level. Onset and duration vary with dose, product, and tolerance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于口服 THC 的首过代谢 · 仅供教育参考，并非实测值。起效与持续时间因剂量、产品和耐受性而异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於口服 THC 的首過代謝 · 僅供教育參考，並非實測值。起效與持續時間因劑量、產品和耐受性而異。"
+          }
+        }
+      }
+    },
     "Based on your self-reported alcohol flush · educational, not a measured level." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5888,6 +6067,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Befrienders Kenya"
+          }
+        }
+      }
+    },
+    "Benzo Equivalence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "苯二氮䓬等效换算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "苯二氮䓬等效換算"
           }
         }
       }
@@ -7363,6 +7558,22 @@
         }
       }
     },
+    "Cited equivalence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引用的等效数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引用的等效資料"
+          }
+        }
+      }
+    },
     "Class Not Found" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7989,6 +8200,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "常用 %1$@–%2$@ %3$@"
+          }
+        }
+      }
+    },
+    "Compare benzodiazepine doses against diazepam, or convert between two — the way clinicians do when switching for a taper." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将苯二氮䓬的剂量与地西泮比较，或在两种之间换算——就像临床医生在为减量而换药时所做的那样。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將苯二氮䓬的劑量與地西泮比較，或在兩種之間換算——就像臨床醫師在為減量而換藥時所做的那樣。"
+          }
+        }
+      }
+    },
+    "Compare benzodiazepine doses to diazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将苯二氮䓬剂量与地西泮比较"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將苯二氮䓬劑量與地西泮比較"
           }
         }
       }
@@ -11231,6 +11474,22 @@
         }
       }
     },
+    "Edibles also come on slowly — usually 30 minutes to 2 hours — and last much longer, often 6–10 hours. That slow start is the redose trap: wait at least 2 hours before taking more, or you can stack a far stronger, longer dose than you meant to." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食用大麻起效也很慢——通常为 30 分钟到 2 小时——而且持续时间长得多，常达 6–10 小时。这种缓慢起效正是重复用药的陷阱：再次服用前至少等待 2 小时，否则你可能叠加出远比预期更强、更长的剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食用大麻起效也很慢——通常為 30 分鐘到 2 小時——而且持續時間長得多，常達 6–10 小時。這種緩慢起效正是重複用藥的陷阱：再次服用前至少等待 2 小時，否則你可能疊加出遠比預期更強、更長的劑量。"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11864,6 +12123,22 @@
         }
       }
     },
+    "Enter a dose to convert." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入剂量以进行换算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入劑量以進行換算。"
+          }
+        }
+      }
+    },
     "Enter a number." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12053,6 +12328,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "酶抑制劑"
+          }
+        }
+      }
+    },
+    "Equivalences are approximate and contested. Use the cited value as a starting estimate, not a precise dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等效值只是近似且存在争议。请将引用值作为起始估计，而非精确剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等效值只是近似且存在爭議。請將引用值作為起始估計，而非精確劑量。"
+          }
+        }
+      }
+    },
+    "Equivalent Dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等效剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等效劑量"
           }
         }
       }
@@ -17378,6 +17685,22 @@
         }
       }
     },
+    "mg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        }
+      }
+    },
     "Milestones" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18297,6 +18620,22 @@
         }
       }
     },
+    "Never stop a benzodiazepine abruptly. Withdrawal can be dangerous (seizures); a slow taper is the safe path." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切勿骤然停用苯二氮䓬。戒断可能有危险（癫痫发作）；缓慢递减才是安全之道。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切勿驟然停用苯二氮䓬。戒斷可能有危險（癲癇發作）；緩慢遞減才是安全之道。"
+          }
+        }
+      }
+    },
     "New Custom Substance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18733,6 +19072,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無已記錄的條目"
+          }
+        }
+      }
+    },
+    "No numeric equivalence is available for the target substance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目标物质没有可用的数值等效数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目標物質沒有可用的數值等效資料。"
+          }
+        }
+      }
+    },
+    "No numeric equivalence is available for this substance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该物质没有可用的数值等效数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該物質沒有可用的數值等效資料。"
           }
         }
       }
@@ -20676,6 +21047,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為此物質選擇顏色"
+          }
+        }
+      }
+    },
+    "Pick both substances and a dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择两种物质并输入剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請選擇兩種物質並輸入劑量。"
           }
         }
       }
@@ -23974,6 +24361,22 @@
         }
       }
     },
+    "Search benzodiazepines" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索苯二氮䓬"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋苯二氮䓬"
+          }
+        }
+      }
+    },
     "Search by receptor and affinity" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24236,7 +24639,6 @@
       }
     },
     "Select" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24280,6 +24682,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請至少選擇一天。"
+          }
+        }
+      }
+    },
+    "Select Benzodiazepine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择苯二氮䓬"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇苯二氮䓬"
           }
         }
       }
@@ -25673,6 +26091,22 @@
         }
       }
     },
+    "Single-dose equivalence isn't steady-state equivalence — long-acting metabolites accumulate over days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单次剂量的等效并不等于稳态下的等效——长效代谢物会在数日内累积。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單次劑量的等效並不等於穩態下的等效——長效代謝物會在數日內累積。"
+          }
+        }
+      }
+    },
     "Sip some water — a glass every 30-60 minutes. Don't overdo it, just stay steady." : {
       "localizations" : {
         "zh-Hans" : {
@@ -26171,6 +26605,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "來源"
+          }
+        }
+      }
+    },
+    "Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide, not a single clinical truth." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源：TripSit 苯二氮䓬数据集。不同参考来源（Ashton、厂商、临床）的等效值各异；这些仅供参考，并非唯一的临床标准。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源：TripSit 苯二氮䓬資料集。不同參考來源（Ashton、廠商、臨床）的等效值各異；這些僅供參考，並非唯一的臨床標準。"
           }
         }
       }
@@ -27410,6 +27860,22 @@
         }
       }
     },
+    "Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC — an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口服的 THC 会先经过肝脏，其中大部分被转化为 11-羟基-THC——一种活性代谢物，它更容易进入大脑，并且与 CB1 受体的结合远比 THC 本身更强。这就是为什么按毫克计算，食用大麻通常比吸食同等剂量感觉更强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口服的 THC 會先經過肝臟，其中大部分被轉化為 11-羥基-THC——一種活性代謝物，它更容易進入大腦，並且與 CB1 受體的結合遠比 THC 本身更強。這就是為什麼按毫克計算，食用大麻通常比吸食同等劑量感覺更強。"
+          }
+        }
+      }
+    },
     "Synthetic thyroxine (T4) that is converted to the active triiodothyronine (T3) by deiodinase enzymes in peripheral tissues. T3 binds to nuclear thyroid hormone receptors, modulating gene transcription to increase basal metabolic rate, cardiac output, oxygen consumption, and protein synthesis. Replaces deficient endogenous thyroid hormone in hypothyroidism." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -28275,6 +28741,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "該化合物沒有經過驗證的人體劑量數據。以下資訊僅供參考 — 原始文獻請參閱所連結的來源。請勿根據相關化合物推算劑量。"
+          }
+        }
+      }
+    },
+    "This converts and compares — it is not a taper schedule. Plan any dose reduction with a clinician." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本工具用于换算与比较，并非减量方案。任何减量都应与临床医生一起制定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本工具用於換算與比較，並非減量方案。任何減量都應與臨床醫師一起制定。"
           }
         }
       }

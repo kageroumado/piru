@@ -125,6 +125,7 @@ private struct PushRouteView: View {
         case .pharma: AdvancedSearchView()
         case .tolerance: ToleranceToolView()
         case .ceiling: CeilingEffectToolView()
+        case .benzoEquivalence: BenzoEquivalenceToolView()
         case .inventory: InventoryListView()
         }
     }
