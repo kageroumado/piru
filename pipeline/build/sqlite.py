@@ -5256,6 +5256,44 @@ class Build:
     # "Alprazolam - 0.5mg ~=10mg Diazepam." → (0.5, 10.0)
     _DIAZ_RE = re.compile(r"(\d+(?:\.\d+)?)\s*mg\b.*?(\d+(?:\.\d+)?)\s*mg", re.IGNORECASE)
 
+    # Designer/research-chemical benzos are ABSENT from the Ashton Manual AND from
+    # clinical equivalence tables (WHO ECDD, ASAM); every circulating diazepam-equivalence
+    # multiplier for them is back-derived folklore (a folklore potency × a clinical anchor
+    # → a grade-D product). Ship NONE — honest prose with NO parseable number, so the
+    # converter offers no false-precision conversion — rather than the TripSit point.
+    # Faithful-over-comprehensive (RC-expansion B4, 2026-06-23).
+    _BENZO_EQUIV_NONE = {
+        "clonazolam",
+        "flualprazolam",
+        "flubromazolam",
+        "bromazolam",
+        "diclazepam",
+        "flubromazepam",
+        "deschloroetizolam",
+        "metizolam",
+        "flunitrazolam",
+        "norflurazepam",
+        "pyrazolam",
+        "adinazolam",
+        "nifoxipam",
+        "meclonazepam",
+    }
+    _BENZO_EQUIV_NONE_TEXT = (
+        "No validated diazepam-equivalence. Designer benzodiazepine — absent from the Ashton "
+        "Manual and clinical equivalence tables (WHO ECDD, ASAM); the multipliers circulating "
+        "online are back-derived folklore. Dose by its own threshold, never by a diazepam "
+        "conversion, and watch for very different half-lives within the class."
+    )
+    # Etizolam is the one defensible member (licensed in JP/IT/IN, with controlled human PK),
+    # but even it is an anxiolytic BAND, not a fixed point.
+    _BENZO_EQUIV_BAND_TEXT = {
+        "etizolam": (
+            "Etizolam ~1 mg ≈ 5–10 mg diazepam (anxiolytic-equivalent; contested / "
+            "endpoint-dependent). The only designer benzo with a defensible band — licensed, "
+            "with controlled human PK (parent t½ 3.4 h + α-hydroxyetizolam ~8.2 h)."
+        ),
+    }
+
     def ingest_benzos_cited(self, path: Path) -> None:
         """Enrichment-only (0 novel). Attaches cross-benzo diazepam-equivalency,
         plus the curated prose fields (discontinuation warning, summary, oral
@@ -5281,17 +5319,30 @@ class Build:
                 continue
             prose = rec.get("x_dose_to_diazepam")
             if prose:
+                # Key the honesty filter on the RESOLVED substance, not the record:
+                # benzos-cited ships one record per trade name (Depas, F-lam, …), so a
+                # brand-named record would otherwise insert the folklore point first and
+                # the canonical-named record's NONE-row would collide on the PRIMARY KEY.
+                crow = self.cur.execute(
+                    "SELECT normalized_name FROM substances WHERE id=?", (sid,)
+                ).fetchone()
+                canon = crow[0] if crow and crow[0] else normalise(name)
                 dose_mg = equiv_mg = None
-                m = self._DIAZ_RE.search(prose)
-                if m:
-                    dose_mg = float(m.group(1))
-                    equiv_mg = float(m.group(2))
+                if canon in self._BENZO_EQUIV_NONE:
+                    # Folklore equivalence — ship NONE: honest prose, no parseable number.
+                    display = self._BENZO_EQUIV_NONE_TEXT
+                else:
+                    m = self._DIAZ_RE.search(prose)
+                    if m:
+                        dose_mg = float(m.group(1))
+                        equiv_mg = float(m.group(2))
+                    display = self._BENZO_EQUIV_BAND_TEXT.get(canon, prose.strip())
                 self.add_diazepam_equivalent(
                     sid,
                     slug,
                     dose_mg=dose_mg,
                     equivalent_diazepam_mg=equiv_mg,
-                    display_text=prose.strip(),
+                    display_text=display,
                 )
             # x_summary → a plain description; x_avoid → a contraindication
             # (discontinuation/combination warning, not a boxed warning);
