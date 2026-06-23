@@ -315,5 +315,31 @@
     "bindings": [
       { "target": "DAT", "action": "reuptakeInhibitor", "confidence": "MEDIUM", "reference": "PMID 22537794", "notes": "Armodafinil = R-(−)-enantiomer of modafinil (~3× the S-enantiomer's DAT affinity), same atypical-DAT-inhibitor mechanism in kind. NOT an NMDA/sigma-1 'neuro-nootropic'." }
     ]
+  },
+  {
+    "_comment": "BENZOFURAN lean-pass gaps (2026-06-23). 5-APB/6-APB/5-APDB/6-APDB already carry full enrichment records; these three had zero bindings. Benzofurans are entactogen-type (MDMA-like) substrate releasers; the standout safety axis is submicromolar 5-HT2B PARTIAL AGONISM (the fenfluramine/MDA valvular-heart antitarget MDMA does NOT engage) — a mechanistic red flag for chronic/repeated dosing, never an observed human outcome. 5-EAPB is the exception (N-ethylation abolishes 5-HT2B). Release triples are rat-synaptosome (use within-assay DAT:SERT ratios); 'Benzo Fury' deaths are polydrug.",
+    "name": "5-MAPB",
+    "bindings": [
+      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 41, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat brain synaptosome release. Same-assay triple DAT 41 / NET 24 / SERT 64 nM → DAT:SERT 1.56 (balanced, MDMA-like entactogen). Use within-assay ratios." },
+      { "target": "NET", "action": "releasingAgent", "ec50_nm": 24, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome — same-assay with DAT 41 / SERT 64." },
+      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 64, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome. DAT:SERT 1.56 — balanced entactogen-type releaser." }
+    ]
+  },
+  {
+    "name": "6-MAPB",
+    "bindings": [
+      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 20, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat brain synaptosome release. Same-assay triple DAT 20 / NET 14 / SERT 33 nM → DAT:SERT 1.65 (balanced, MDMA-like entactogen). Use within-assay ratios." },
+      { "target": "NET", "action": "releasingAgent", "ec50_nm": 14, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome — same-assay with DAT 20 / SERT 33." },
+      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 33, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome. DAT:SERT 1.65 — balanced entactogen-type releaser." }
+    ]
+  },
+  {
+    "name": "5-EAPB",
+    "bindings": [
+      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 720, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters. Same-assay uptake-inhibition triple NET 560 / DAT 4900 / SERT 720 nM (SERT/NET-leaning, weak DAT). A clean release triple was not verified this pass. THE 5-HT2B EXCEPTION: unlike its benzofuran siblings, 5-EAPB shows NO functional 5-HT2B activation (Emax 0% up to <20 µM) — N-ethylation abolishes the valvulopathy antitarget, so the family-wide 5-HT2B red flag must NOT be applied to it." },
+      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 560, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters — same-assay with DAT 4900 / SERT 720; most potent of the triple." },
+      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 4900, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters — weak DAT (4.9 µM), SERT/NET-leaning." },
+      { "target": "5-HT2A", "action": "agonist", "ec50_nm": 7600, "emax_pct": 29, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015 — weak 5-HT2A partial agonist (EC50 7.6 µM, Emax 29%, Ki 2.7 µM)." }
+    ]
   }
 ]
