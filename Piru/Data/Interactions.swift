@@ -533,6 +533,75 @@ enum InteractionChecker {
         // Mirtazapine (NaSSA — both antihistamine AND serotonergic)
         map["mirtazapine"] = [.antihistamine, .ssri]
 
+        // ── RC-expansion (2026-06-23): cathinones, designer benzos, eugeroics ──
+        // Grounded in the Foundation-C RC evidence runs. The cathinone class is NOT a
+        // uniform "releaser" family: membership is set per the substance's measured
+        // mechanism flag (releaser vs hybrid vs pure blocker) and DAT:SERT lean, so the
+        // engine applies the right interaction rules (empathogen blunting/serotonin
+        // danger vs plain stimulant) instead of a class-wide assumption.
+
+        // Substrate RELEASERS — balanced DAT:SERT (~1.8–2.4) reads empathogen-like
+        // (mephedrone/methylone/4-CMC), so they ride the MDMA-style [.empathogen, .stimulant]
+        // bucket (SSRI blunting + MAOI serotonin-toxicity rules apply).
+        for name in ["Mephedrone", "4-MMC", "Methylone", "bk-MDMA", "4-CMC", "Clephedrone", "Ethylone", "bk-MDEA"] {
+            map[name.lowercased()] = [.empathogen, .stimulant]
+        }
+        // Catecholamine-leaning releasers (DAT:SERT ≥4) and the uncharacterised CMC/MMC
+        // isomers → stimulant-leaning. Kept SEPARATE from their para-isomers (no aliasing).
+        for name in ["3-MMC", "Metaphedrone", "2-MMC", "3-CMC", "Clophedrone", "2-CMC"] {
+            map[name.lowercased()] = [.stimulant]
+        }
+        // HYBRIDS — a single α-alkyl/N-ethyl substituent flips DAT substrate→blocker.
+        // SERT-substrate hybrids keep a mild empathogenic lean; DAT/NET-blocker hybrids
+        // and the pure blocker NEP are stimulant-only (NOT empathogens, despite mis-sale).
+        for name in ["Butylone", "bk-MBDB", "4-MEC", "Mexedrone"] {
+            map[name.lowercased()] = [.stimulant, .empathogen]
+        }
+        for name in ["Pentylone", "Eutylone", "bk-EBDB", "N-Ethylpentylone", "NEP", "Ephylone"] {
+            map[name.lowercased()] = [.stimulant]
+        }
+        // Pure pyrrolidinophenone reuptake BLOCKERS — stimulant ONLY (must NOT ride the
+        // empathogen/releaser bucket). SERT-sparing → no serotonergic edge.
+        for name in ["MDPV", "Alpha-PVP", "α-PVP", "a-PVP", "Flakka", "Alpha-PHP", "α-PHP", "Alpha-PiHP", "α-PiHP", "MDPBP", "MDPPP"] {
+            map[name.lowercased()] = [.stimulant]
+        }
+        // …EXCEPT naphyrone — the family outlier that potently blocks SERT (~46 nM), a
+        // genuine serotonin adder. Data-driven edge; the rest of the family does NOT inherit it.
+        for name in ["Naphyrone", "NRG-1", "Naphthylpyrovalerone"] {
+            map[name.lowercased()] = [.stimulant, .serotonergic]
+        }
+        // 4-MA: balanced serotonin releaser + MAO-A inhibitor (PMA-class) — serotonin-toxicity /
+        // hyperthermia danger. RING-POSITION-SPECIFIC: do NOT propagate to the fluoro isomers.
+        for name in ["4-MA", "4-methylamphetamine", "PAL-313"] {
+            map[name.lowercased()] = [.stimulant, .serotonergic]
+        }
+        // Fluoro/methyl amphetamine analogues — plain stimulant releasers (catecholamine-
+        // selective; 4-FA's para serotonergic lean is character, not a danger-class flag).
+        for name in ["2-FA", "3-FA", "4-FA", "2-FMA", "3-FMA", "4-FMA"] {
+            map[name.lowercased()] = [.stimulant]
+        }
+        // Memantine — moderate-affinity, FAST-off NMDA open-channel blocker. Routed to
+        // .dissociative (no dedicated NMDA bucket), but it is NOT ketamine/PCP-strength.
+        map["memantine"] = [.dissociative]
+        // Adrafinil — hepatic prodrug of modafinil; bromantane — weak indirect dopaminergic
+        // (TH/AAAD upregulation). Both stimulant-like. (Modafinil/armodafinil already .stimulant.)
+        map["adrafinil"] = [.stimulant]
+        map["bromantane"] = [.stimulant]
+        // O-DSMT (M1) — potent pure µ-agonist (the opioid limb of tramadol). Plain opioid:
+        // the serotonergic/seizure liability lives with the PARENT, not the metabolite.
+        map["o-dsmt"] = [.opioid]
+        map["o-desmethyltramadol"] = [.opioid]
+        // Designer benzodiazepines — interact like classical benzos (additive CNS/respiratory
+        // depression with opioids/alcohol/Z-drugs). Diazepam-equivalence is a separate honesty
+        // problem (see BenzoEquivalence) — class membership here only drives interaction rules.
+        for name in [
+            "Clonazolam", "Flualprazolam", "Flubromazolam", "Bromazolam", "Diclazepam",
+            "Flubromazepam", "Etizolam", "Deschloroetizolam", "Metizolam", "Flunitrazolam",
+            "Adinazolam", "Nifoxipam", "Norflurazepam", "Pyrazolam", "Meclonazepam",
+        ] {
+            map[name.lowercased()] = [.benzodiazepine]
+        }
+
         return map
     }()
 

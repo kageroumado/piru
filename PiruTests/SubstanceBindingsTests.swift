@@ -61,4 +61,31 @@ struct SubstanceBindingsTests {
         let hasKetamine = rows.contains { $0.substanceName.lowercased().contains("keta") }
         #expect(hasKetamine, "Expected substanceContains:'keta' to surface Ketamine et al.")
     }
+
+    @Test
+    func `Binding-target normalization strips assay parentheticals and receptor suffix`() {
+        // The graded flagship layer uses bare target names ("DAT"); the enrichment
+        // layer appends the assay in parens ("DAT (release, [3H]-DA …)"). Both must
+        // collapse to one summary row so a substance doesn't show duplicate DAT/NET/SERT.
+        let cases: [(String, String)] = [
+            ("DAT", "dat"),
+            ("DAT (release, [3H]-DA from rat synaptosomes)", "dat"),
+            ("α2δ-1", "α2δ-1"),
+            ("α2δ-1 (porcine cerebral cortex)", "α2δ-1"),
+            ("NMDA", "nmda"),
+            ("NMDA receptor (PCP site)", "nmda"),
+            ("5-HT3 receptor", "5-ht3"),
+        ]
+        for (input, expected) in cases {
+            #expect(
+                SubstanceStore.normalizedBindingTarget(input) == expected,
+                "normalizedBindingTarget(\(input)) → \(SubstanceStore.normalizedBindingTarget(input)), expected \(expected)",
+            )
+        }
+        // The two DAT spellings must normalize identically (the collapse guarantee).
+        #expect(
+            SubstanceStore.normalizedBindingTarget("DAT")
+                == SubstanceStore.normalizedBindingTarget("DAT (release, [3H]-DA from rat synaptosomes)"),
+        )
+    }
 }

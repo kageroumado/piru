@@ -27,12 +27,16 @@ import Foundation
 /// Lisdexamfetamine was **dropped** from the spec's proposed seed: its activation is rate-limited, not
 /// capacity-saturated (linear through ≥250 mg), so it is not a ceiling substance.
 enum SaturablePharmacology {
-    /// Which enzymatic step saturates — the two attachment points of the same Michaelis-Menten term.
+    /// Which step saturates — the attachment points of the same capacity-limited (Michaelis-Menten) term.
     enum Mechanism {
         /// The *clearing* enzyme saturates → supralinear accumulation (the warning).
         case elimination
         /// The *activating* enzyme (prodrug → active species) saturates → a ceiling on effect.
         case activation
+        /// The *absorbing* carrier saturates (capacity-limited intestinal uptake) → fractional
+        /// bioavailability FALLS with dose, so total exposure climbs SUB-proportionally. The benign
+        /// ceiling — extra drug simply isn't absorbed; the directional inverse of saturable elimination.
+        case absorption
     }
 
     /// Quantitative kinetics — present only when the substance has clean human Km/Vmax and the
@@ -92,6 +96,51 @@ enum SaturablePharmacology {
         }
     }
 
+    /// Saturable-*absorption* kinetics — a capacity-limited intestinal carrier (gabapentin's
+    /// system-L / LAT1) whose fractional bioavailability `F` FALLS as the single dose rises, so total
+    /// exposure climbs SUB-proportionally with dose: the benign, sublinear inverse of the elimination
+    /// ceiling. Modeled from an empirical F-vs-dose table; clearance is ordinary first-order (absorption,
+    /// not elimination, is what saturates), so each example curve is a Bateman scaled by the absorbed
+    /// amount `dose · F(dose)`.
+    struct Absorption {
+        /// Empirical `(single-dose mg, bioavailability fraction)` points, ascending by dose.
+        let fByDose: [(doseMg: Double, f: Double)]
+        /// Volume of distribution per kg, **L/kg**.
+        let vdPerKg: Double
+        /// Terminal elimination half-life, **minutes** (first-order — the ceiling is on absorption).
+        let halfLifeMin: Double
+        /// First-order absorption rate constant, per minute.
+        let ka: Double
+        /// The dose treated as "1 unit" — the smallest example single dose (milligrams).
+        let referenceDoseMg: Double
+        /// Example doses (as multiples of the reference dose) drawn as overlaid curves.
+        let exampleDoseMultiples: [Double]
+        /// How the per-curve dose labels read.
+        let doseLabel: Kinetics.DoseLabel
+        /// Plotted time window (minutes).
+        let displayWindowMinutes: Double
+        /// Window over which total exposure (AUC) is integrated.
+        let integrationMinutes: Double
+        /// Integration / sampling step (minutes).
+        let stepMinutes: Double
+
+        /// Linearly-interpolated bioavailability `F` at a single `dose` (clamped to the table ends).
+        func bioavailability(atDoseMg dose: Double) -> Double {
+            guard let first = fByDose.first, let last = fByDose.last else { return 1 }
+            if dose <= first.doseMg { return first.f }
+            if dose >= last.doseMg { return last.f }
+            for i in 1 ..< fByDose.count {
+                let lo = fByDose[i - 1], hi = fByDose[i]
+                if dose <= hi.doseMg {
+                    let span = hi.doseMg - lo.doseMg
+                    let t = span > 0 ? (dose - lo.doseMg) / span : 0
+                    return lo.f + t * (hi.f - lo.f)
+                }
+            }
+            return last.f
+        }
+    }
+
     /// A curated ceiling-effect profile for one substance.
     struct Profile: Identifiable {
         /// Canonical substance name, matched case-insensitively against the library / dose log.
@@ -100,8 +149,10 @@ enum SaturablePharmacology {
         let displayName: LocalizedStringResource
         let mechanism: Mechanism
         let confidence: ConfidenceTier
-        /// Quantitative kinetics, or `nil` for a qualitative (knee + direction only) profile.
+        /// Quantitative saturable-*elimination* kinetics, or `nil` for a qualitative / non-elimination profile.
         let kinetics: Kinetics?
+        /// Quantitative saturable-*absorption* kinetics (sublinear ceiling), or `nil`.
+        var absorption: Absorption?
         /// One-line takeaway — the headline message.
         let headline: LocalizedStringResource
         /// Where the curve bends and why (the "knee").
@@ -115,13 +166,13 @@ enum SaturablePharmacology {
             substanceName
         }
         var isQuantitative: Bool {
-            kinetics != nil
+            kinetics != nil || absorption != nil
         }
     }
 
     // MARK: - The seed
 
-    static let profiles: [Profile] = [ethanol, phenytoin, codeine, ghb]
+    static let profiles: [Profile] = [ethanol, phenytoin, gabapentin, codeine, tramadol, ghb]
 
     /// Case-insensitive lookup by substance name (canonical or display alias handled by the caller).
     static func profile(forSubstanceName name: String) -> Profile? {
@@ -186,6 +237,37 @@ enum SaturablePharmacology {
         citation: "FDA Dilantin label (NDA 084349); Ludden et al. 1977 (PMID 837647); Ismail et al. 1990 (PMID 2089048).",
     )
 
+    /// **Gabapentin** — the first clean *absorption*-side ceiling (the elimination seeds ethanol/phenytoin
+    /// bend the other way). Its intestinal uptake rides the saturable system-L / LAT1 amino-acid carrier,
+    /// so fractional bioavailability falls with dose (~60% at 900 mg/day → ~27% at 4800 mg/day) and total
+    /// exposure climbs markedly *sub*-proportionally — the benign ceiling. Pregabalin, same class, is the
+    /// teaching counterpoint: a different transporter mode gives it dose-LINEAR ~90% F (no knee).
+    /// FDA NEURONTIN label F-vs-dose; Stewart 1993 / Gidal 1998 carrier mechanism (gate-clean, HIGH).
+    private static let gabapentin = Profile(
+        substanceName: "Gabapentin",
+        displayName: "Gabapentin",
+        mechanism: .absorption,
+        confidence: .high,
+        kinetics: nil,
+        absorption: Absorption(
+            // Single-dose mg ≈ one of three divided daily doses; F from the FDA label's daily-dose table.
+            fByDose: [(300, 0.60), (400, 0.47), (800, 0.34), (1_200, 0.33), (1_600, 0.27)],
+            vdPerKg: 0.8,
+            halfLifeMin: 360,
+            ka: 0.01,
+            referenceDoseMg: 300,
+            exampleDoseMultiples: [1, 2, 3, 4],
+            doseLabel: .milligrams(perUnit: 300),
+            displayWindowMinutes: 1_440,
+            integrationMinutes: 2_880,
+            stepMinutes: 5,
+        ),
+        headline: "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure.",
+        knee: "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less.",
+        detail: "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, not a danger, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape, not absolute level.",
+        citation: "FDA NEURONTIN label (NDA 020235); Stewart et al. 1993 (PMID 8456077); Gidal et al. 1998 (PMID 9714500); Gee et al. 1996 (PMID 8621444).",
+    )
+
     // MARK: - Qualitative profiles (no curve)
 
     /// **Codeine → morphine** — an *activation* ceiling, but a phenotype-limited one. The CYP2D6 step is
@@ -202,6 +284,24 @@ enum SaturablePharmacology {
         knee: "The limit is set by how much CYP2D6 enzyme you have, not by a specific milligram dose. The analgesic plateau around ~60 mg is a clinical observation, not a kinetic ceiling.",
         detail: "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: \u{201C}ultra-rapid metabolizers\u{201D} convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while \u{201C}poor metabolizers\u{201D} get little relief. So this is not a green light to take more.",
         citation: "Frontiers Pharmacol 2024 (PMC11096448); CPIC 2021 (PMC8249478); Kirchheiner et al. 2007 (PMID 16819548).",
+    )
+
+    /// **Tramadol** — the *inverse* of the codeine activation ceiling. Both rely on CYP2D6 to make their
+    /// active opioid (codeine→morphine, tramadol→M1/O-DSMT), but the safety valence flips with phenotype:
+    /// in poor/normal metabolizers the opioid effect plateaus (a ceiling), while CYP2D6 *ultra-rapid*
+    /// metabolizers over-convert with NO receptor ceiling — an uncapped activation tail that has caused
+    /// fatal respiratory depression at ordinary doses (FDA-contraindicated in children). Ships qualitative:
+    /// the phenotype categories (PM/IM/EM/UM) don't interpolate to a drawable dose knee.
+    private static let tramadol = Profile(
+        substanceName: "Tramadol",
+        displayName: "Tramadol → O-DSMT (M1)",
+        mechanism: .activation,
+        confidence: .high,
+        kinetics: nil,
+        headline: "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; \u{201C}ultra-rapid metabolizers\u{201D} have no such cap and can reach dangerous levels at ordinary doses.",
+        knee: "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling.",
+        detail: "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. \u{201C}Cleaner\u{201D} is not \u{201C}safer.\u{201D} Described, not drawn.",
+        citation: "Gillen et al. 2000 (PMID 10961373); Stamer et al. 2003 (PMID 14499440); FDA ULTRAM label (NDA 020281); CPIC CYP2D6/tramadol (PMID 33387367).",
     )
 
     /// **GHB / GBL** — saturable elimination with a genuinely steep human dose-exposure curve, but no
@@ -303,6 +403,69 @@ enum SaturablePharmacology {
             curves: curves,
             windowMinutes: kinetics.displayWindowMinutes,
             exposureMultipleAtMax: maxAUC / refAUC,
+            maxDoseMultiple: maxMultiple,
+        )
+    }
+
+    /// Build the overlaid concentration-time curves for a saturable-*absorption* profile.
+    ///
+    /// Same visual language as ``concentrationChart(for:weightKg:)``, but the nonlinearity lives in
+    /// *absorption*: each example dose is scaled by its dose-dependent bioavailability `F(dose)` (which
+    /// falls as the dose rises) and then cleared first-order. So a higher dose is a curve that grows
+    /// *less* than proportionally — the area it encloses (total exposure) lags behind the dose, the
+    /// mirror image of the elimination ceiling. Levels are normalized to the reference dose's peak; the
+    /// largest dose's exposure multiple (< its dose multiple) is returned for the caption.
+    static func absorptionChart(for a: Absorption, weightKg: Double) -> ConcentrationChart? {
+        guard a.vdPerKg > 0, a.halfLifeMin > 0, a.ka > 0, weightKg > 0,
+              !a.exampleDoseMultiples.isEmpty, a.stepMinutes > 0 else { return nil }
+        let ke = log(2) / a.halfLifeMin
+
+        func conc(multiple: Double, at minutes: Double) -> Double {
+            let dose = multiple * a.referenceDoseMg
+            return PKModel.concentrationAbsolute(
+                dose: dose,
+                bioavailability: a.bioavailability(atDoseMg: dose),
+                vdPerKg: a.vdPerKg,
+                weightKg: weightKg,
+                ke: ke,
+                ka: a.ka,
+                at: minutes,
+            )
+        }
+
+        let displaySteps = max(Int(a.displayWindowMinutes / a.stepMinutes), 1)
+        func peak(multiple: Double) -> Double {
+            (0 ... displaySteps).map { conc(multiple: multiple, at: Double($0) * a.stepMinutes) }.max() ?? 0
+        }
+        let refPeak = max(peak(multiple: 1), .leastNonzeroMagnitude)
+
+        let curves: [DoseCurve] = a.exampleDoseMultiples.sorted().map { multiple in
+            let points = (0 ... displaySteps).map { i -> ConcentrationPoint in
+                let m = Double(i) * a.stepMinutes
+                return ConcentrationPoint(minutes: m, level: conc(multiple: multiple, at: m) / refPeak)
+            }
+            return DoseCurve(doseMultiple: multiple, label: a.doseLabel.text(multiple: multiple), points: points)
+        }
+
+        /// Trapezoidal AUC over the integration window so the exposure ratio isn't truncated.
+        func auc(multiple: Double) -> Double {
+            let n = max(Int(a.integrationMinutes / a.stepMinutes), 1)
+            var sum = 0.0
+            var prev = conc(multiple: multiple, at: 0)
+            for i in 1 ... n {
+                let c = conc(multiple: multiple, at: Double(i) * a.stepMinutes)
+                sum += (prev + c) / 2 * a.stepMinutes
+                prev = c
+            }
+            return sum
+        }
+        let maxMultiple = a.exampleDoseMultiples.max() ?? 1
+        let refAUC = max(auc(multiple: 1), .leastNonzeroMagnitude)
+
+        return ConcentrationChart(
+            curves: curves,
+            windowMinutes: a.displayWindowMinutes,
+            exposureMultipleAtMax: auc(multiple: maxMultiple) / refAUC,
             maxDoseMultiple: maxMultiple,
         )
     }

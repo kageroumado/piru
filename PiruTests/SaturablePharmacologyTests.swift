@@ -9,12 +9,51 @@ struct SaturablePharmacologyTests {
     // MARK: - Seed shape
 
     @Test
-    func `seed has the four curated profiles, two quantitative two qualitative`() {
+    func `seed has the six curated profiles, three quantitative three qualitative`() {
         let names = Set(SaturablePharmacology.profiles.map(\.substanceName))
-        #expect(names == ["Alcohol", "Phenytoin", "Codeine", "GHB"])
+        #expect(names == ["Alcohol", "Phenytoin", "Gabapentin", "Codeine", "Tramadol", "GHB"])
 
+        // Quantitative = a drawable curve: the two elimination ceilings + the gabapentin absorption ceiling.
         let quantitative = SaturablePharmacology.profiles.filter(\.isQuantitative).map(\.substanceName)
-        #expect(Set(quantitative) == ["Alcohol", "Phenytoin"])
+        #expect(Set(quantitative) == ["Alcohol", "Phenytoin", "Gabapentin"])
+    }
+
+    @Test
+    func `gabapentin is the absorption ceiling — exposure climbs SUB-linearly (the inverse of elimination)`() throws {
+        let gaba = try #require(SaturablePharmacology.profile(forSubstanceName: "Gabapentin"))
+        #expect(gaba.mechanism == .absorption)
+        #expect(gaba.kinetics == nil)
+        let absorption = try #require(gaba.absorption)
+        let chart = try #require(SaturablePharmacology.absorptionChart(for: absorption, weightKg: Self.weight))
+
+        // Saturable absorption ⇒ bioavailability falls with dose ⇒ 4× the dose buys LESS than 4× exposure.
+        #expect(chart.maxDoseMultiple == 4)
+        #expect(chart.exposureMultipleAtMax < chart.maxDoseMultiple)
+        // …but more dose still means more total exposure (just sublinearly), never less.
+        #expect(chart.exposureMultipleAtMax > 1)
+        #expect(chart.curves.map(\.doseMultiple) == [1, 2, 3, 4])
+    }
+
+    @Test
+    func `gabapentin bioavailability is monotonically non-increasing in dose and clamps at the table ends`() throws {
+        let a = try #require(SaturablePharmacology.profile(forSubstanceName: "Gabapentin")?.absorption)
+        // Falls across the measured range.
+        #expect(a.bioavailability(atDoseMg: 300) > a.bioavailability(atDoseMg: 1_600))
+        // Interpolates between points (600 mg sits between 400 and 800).
+        let f600 = a.bioavailability(atDoseMg: 600)
+        #expect(f600 < a.bioavailability(atDoseMg: 400))
+        #expect(f600 > a.bioavailability(atDoseMg: 800))
+        // Clamps below/above the table.
+        #expect(a.bioavailability(atDoseMg: 100) == a.bioavailability(atDoseMg: 300))
+        #expect(a.bioavailability(atDoseMg: 5_000) == a.bioavailability(atDoseMg: 1_600))
+    }
+
+    @Test
+    func `tramadol ships qualitative — the CYP2D6 ultra-rapid breach has no interpolable dose knee`() {
+        let tramadol = SaturablePharmacology.profile(forSubstanceName: "Tramadol")
+        #expect(tramadol?.mechanism == .activation)
+        #expect(tramadol?.kinetics == nil)
+        #expect(tramadol?.absorption == nil)
     }
 
     @Test

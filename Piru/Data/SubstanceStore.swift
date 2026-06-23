@@ -1570,6 +1570,14 @@ final class SubstanceStore {
     /// ("GABA-A α4β3δ (extrasynaptic)") stay distinct from the coarse target.
     static func normalizedBindingTarget(_ target: String) -> String {
         var t = target.lowercased().trimmingCharacters(in: .whitespaces)
+        // Drop a trailing assay/qualifier parenthetical so a measured row stated
+        // under a wordier name ("DAT (release, [3H]-DA …)", "α2δ-1 (porcine
+        // cortex)", "NMDA receptor (PCP site)") collapses onto its clean canonical
+        // target ("dat", "α2δ-1", "nmda") — the graded flagship rows use the bare
+        // target name, the enrichment layer often appends the assay in parens.
+        if let paren = t.firstIndex(of: "(") {
+            t = String(t[..<paren]).trimmingCharacters(in: .whitespaces)
+        }
         for suffix in [" receptors", " receptor"] where t.hasSuffix(suffix) {
             t = String(t.dropLast(suffix.count)).trimmingCharacters(in: .whitespaces)
             break
@@ -1608,7 +1616,7 @@ final class SubstanceStore {
                    AND src.slug IN (\(enabledSourceListSQL))
             )
              WHERE rn = 1
-             ORDER BY affinity DESC, ki_nm ASC NULLS LAST
+             ORDER BY affinity DESC, ki_nm ASC NULLS LAST, LENGTH(target) ASC
              LIMIT 20
         """, arguments: [substanceID])
 

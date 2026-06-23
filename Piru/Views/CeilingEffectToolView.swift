@@ -44,6 +44,8 @@ struct CeilingEffectToolView: View {
         for p in SaturablePharmacology.profiles {
             if let k = p.kinetics, let chart = SaturablePharmacology.concentrationChart(for: k, weightKg: weight) {
                 result[p.substanceName] = chart
+            } else if let a = p.absorption, let chart = SaturablePharmacology.absorptionChart(for: a, weightKg: weight) {
+                result[p.substanceName] = chart
             }
         }
         charts = result
@@ -75,9 +77,9 @@ struct CeilingEffectToolView: View {
         VStack(alignment: .leading, spacing: 12) {
             header(for: sub)
 
-            if sub.kinetics != nil, let chart = charts[sub.substanceName] {
+            if sub.isQuantitative, let chart = charts[sub.substanceName] {
                 concentrationChart(chart, tint: tint(for: sub))
-                exposureReadout(chart)
+                exposureReadout(chart, for: sub)
             } else {
                 qualitativeMarker(for: sub)
             }
@@ -194,11 +196,17 @@ struct CeilingEffectToolView: View {
         }
     }
 
-    private func exposureReadout(_ chart: SaturablePharmacology.ConcentrationChart) -> some View {
+    private func exposureReadout(_ chart: SaturablePharmacology.ConcentrationChart, for sub: SaturablePharmacology.Profile) -> some View {
         let dose = multipleText(chart.maxDoseMultiple)
-        return Text("\(dose)× the dose isn't \(dose)× the exposure — the largest curve here holds about \(multipleText(chart.exposureMultipleAtMax))× the total exposure of one reference dose.")
-            .font(.caption.weight(.medium))
-            .foregroundStyle(.orange)
+        let exposure = multipleText(chart.exposureMultipleAtMax)
+        let isAbsorption = sub.mechanism == .absorption
+        return Text(
+            isAbsorption
+                ? "\(dose)× the dose is only about \(exposure)× the exposure — past the knee, extra drug mostly isn't absorbed."
+                : "\(dose)× the dose isn't \(dose)× the exposure — the largest curve here holds about \(exposure)× the total exposure of one reference dose.",
+        )
+        .font(.caption.weight(.medium))
+        .foregroundStyle(isAbsorption ? .blue : .orange)
     }
 
     // MARK: - Qualitative marker
@@ -224,16 +232,29 @@ struct CeilingEffectToolView: View {
     // MARK: - Helpers
 
     private func tint(for sub: SaturablePharmacology.Profile) -> Color {
-        // Elimination is the danger (supralinear); activation is the relatively-safer ceiling.
-        sub.mechanism == .elimination ? .orange : .teal
+        // Elimination is the danger (supralinear); activation is the relatively-safer effect ceiling;
+        // absorption is the benign sublinear brake (extra drug just isn't absorbed).
+        switch sub.mechanism {
+        case .elimination: .orange
+        case .activation: .teal
+        case .absorption: .blue
+        }
     }
 
     private func mechanismIcon(_ mechanism: SaturablePharmacology.Mechanism) -> String {
-        mechanism == .elimination ? "chart.line.uptrend.xyaxis" : "chart.line.flattrend.xyaxis"
+        switch mechanism {
+        case .elimination: "chart.line.uptrend.xyaxis"
+        case .activation: "chart.line.flattrend.xyaxis"
+        case .absorption: "chart.line.downtrend.xyaxis"
+        }
     }
 
     private func mechanismLabel(_ mechanism: SaturablePharmacology.Mechanism) -> LocalizedStringResource {
-        mechanism == .elimination ? "Saturable elimination — exposure climbs faster than dose" : "Saturable activation — effect hits a ceiling"
+        switch mechanism {
+        case .elimination: "Saturable elimination — exposure climbs faster than dose"
+        case .activation: "Saturable activation — effect hits a ceiling"
+        case .absorption: "Saturable absorption — exposure climbs slower than dose"
+        }
     }
 
     /// Whole numbers shown as integers; otherwise one decimal below 10, integer at or above 10.
