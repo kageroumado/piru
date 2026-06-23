@@ -155,6 +155,16 @@ struct EntryDetailView: View {
         return name == "alcohol" || name == "ethanol"
     }
 
+    /// The entry is cannabis taken **orally** (an edible/oil/capsule). Matched on the entry's own name
+    /// + route — the only place the 11-OH-THC first-pass story is the dominant, actionable effect.
+    /// Inhaled cannabis is deliberately excluded (little first-pass conversion, no slow-onset redose trap).
+    private var isOralCannabisEntry: Bool {
+        guard entry.route == .oral else { return false }
+        let name = entry.substance.trimmingCharacters(in: .whitespaces).lowercased()
+        return name == "cannabis" || name == "thc" || name == "marijuana" || name == "weed"
+            || name == "edible" || name == "edibles" || name == "delta-9-thc" || name == "δ9-thc"
+    }
+
     /// Grams of ethanol in this committed dose, when the unit is a mass; drives the acetaldehyde load.
     private var entryGramsEthanol: Double? {
         guard isAlcoholEntry else { return nil }
@@ -336,6 +346,10 @@ struct EntryDetailView: View {
 
         if isAlcoholEntry, UserProfileStore.shared.aldh2Deficient {
             AcetaldehydeCard(gramsEthanol: entryGramsEthanol)
+        }
+
+        if isOralCannabisEntry {
+            ElevenHydroxyTHCCard()
         }
 
         if let info = substanceInfo {
