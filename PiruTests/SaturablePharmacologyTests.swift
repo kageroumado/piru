@@ -57,6 +57,25 @@ struct SaturablePharmacologyTests {
     }
 
     @Test
+    func `gabapentinoid comparison — gabapentin F falls with dose, pregabalin stays flat and higher`() throws {
+        let gaba = SaturablePharmacology.GabapentinoidComparison.gabapentin
+            .sorted { $0.doseMgPerDay < $1.doseMgPerDay }
+        let pre = SaturablePharmacology.GabapentinoidComparison.pregabalin
+
+        // Gabapentin: bioavailability is non-increasing in dose, and strictly lower at the top.
+        let gabaF = gaba.map(\.bioavailabilityPct)
+        #expect(zip(gabaF, gabaF.dropFirst()).allSatisfy { $0 >= $1 })
+        let first = try #require(gabaF.first)
+        let last = try #require(gabaF.last)
+        #expect(first > last)
+
+        // Pregabalin: flat (a single F value across its whole range) and above gabapentin's best.
+        #expect(Set(pre.map(\.bioavailabilityPct)).count == 1)
+        let preF = try #require(pre.first?.bioavailabilityPct)
+        #expect(preF > first)
+    }
+
+    @Test
     func `lookup is case-insensitive and trims whitespace`() {
         #expect(SaturablePharmacology.profile(forSubstanceName: "  alcohol ")?.substanceName == "Alcohol")
         #expect(SaturablePharmacology.profile(forSubstanceName: "CODEINE")?.substanceName == "Codeine")

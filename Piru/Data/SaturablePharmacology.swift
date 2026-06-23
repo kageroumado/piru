@@ -180,6 +180,49 @@ enum SaturablePharmacology {
         return profiles.first { $0.substanceName.lowercased() == needle }
     }
 
+    // MARK: - Gabapentinoid absorption contrast (teaching pair, not a ceiling profile)
+
+    /// The gabapentinoid absorption contrast — **same α2δ-1 drug class, opposite dose→exposure
+    /// behaviour**, the first absorption-side teaching pair. Gabapentin's intestinal uptake saturates
+    /// (system-L / LAT1) so oral bioavailability FALLS with dose; pregabalin uses the carrier in a
+    /// non-saturating regime and stays dose-LINEAR (~90% at any dose). Pregabalin has no knee, so it is
+    /// NOT a ceiling ``Profile`` (never in ``profiles``) — it exists only as this comparison.
+    enum GabapentinoidComparison {
+        /// One (daily-dose, bioavailability) sample on a drug's F-vs-dose line.
+        struct Point: Identifiable {
+            /// Total daily dose, **mg/day** (divided across the day).
+            let doseMgPerDay: Double
+            /// Absolute oral bioavailability at that dose, **percent**.
+            let bioavailabilityPct: Double
+            var id: Double {
+                doseMgPerDay
+            }
+        }
+
+        /// Gabapentin — saturable: F falls from ~60% to ~27% across the label dose range
+        /// (FDA NEURONTIN, Clinical Pharmacology/Absorption).
+        static let gabapentin: [Point] = [
+            Point(doseMgPerDay: 900, bioavailabilityPct: 60),
+            Point(doseMgPerDay: 1_200, bioavailabilityPct: 47),
+            Point(doseMgPerDay: 2_400, bioavailabilityPct: 34),
+            Point(doseMgPerDay: 3_600, bioavailabilityPct: 33),
+            Point(doseMgPerDay: 4_800, bioavailabilityPct: 27),
+        ]
+
+        /// Pregabalin — dose-linear: F ≥ ~90% independent of dose (Bockbrader 2010). Drawn flat across
+        /// its therapeutic range; the same value would hold at any dose.
+        static let pregabalin: [Point] = [
+            Point(doseMgPerDay: 150, bioavailabilityPct: 90),
+            Point(doseMgPerDay: 300, bioavailabilityPct: 90),
+            Point(doseMgPerDay: 450, bioavailabilityPct: 90),
+            Point(doseMgPerDay: 600, bioavailabilityPct: 90),
+        ]
+
+        static let headline: LocalizedStringResource = "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put."
+        static let detail: LocalizedStringResource = "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)"
+        static let citation = "FDA NEURONTIN label (NDA 020235); Gidal et al. 1998 (PMID 9714500); Bockbrader et al. 2010 (PMID 20818832)."
+    }
+
     // MARK: - Quantitative profiles (drawable)
 
     /// **Ethanol** — the textbook capacity-limited (zero-order) elimination drug. Km is so far below

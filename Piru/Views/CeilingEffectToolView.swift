@@ -27,6 +27,12 @@ struct CeilingEffectToolView: View {
                 aboutSection
                 ForEach(SaturablePharmacology.profiles) { profile in
                     Section { card(for: profile) }
+                    // The gabapentinoid teaching pair sits right after gabapentin's absorption ceiling:
+                    // same α2δ target, opposite dose→exposure behaviour (pregabalin is dose-linear, so
+                    // it isn't a ceiling profile of its own — it only makes sense as this contrast).
+                    if profile.substanceName == "Gabapentin" {
+                        Section { gabapentinoidComparisonCard }
+                    }
                 }
             }
             .listRowBackground(Theme.cardBackground)
@@ -121,6 +127,123 @@ struct CeilingEffectToolView: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
+        }
+    }
+
+    // MARK: - Gabapentinoid comparison card
+
+    private var gabapentinoidComparisonCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Same class, opposite behavior")
+                    .font(.headline)
+                Spacer()
+                ConfidenceBadge(tier: .high)
+            }
+            HStack(spacing: 6) {
+                Image(systemName: "arrow.triangle.swap")
+                    .font(.caption2)
+                    .foregroundStyle(.blue)
+                Text("Gabapentin vs pregabalin — one absorbing target, two opposite dose curves")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+
+            gabapentinoidComparisonChart
+
+            HStack(spacing: 16) {
+                comparisonLegend(color: .blue, label: "Gabapentin — falls with dose")
+                comparisonLegend(color: .green, label: "Pregabalin — flat ~90%")
+            }
+            Text("Fraction reaching your blood (up the side) against dose (along the bottom, as a multiple of the usual starting dose).")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+
+            Text(SaturablePharmacology.GabapentinoidComparison.headline)
+                .font(.subheadline.weight(.medium))
+            Text(SaturablePharmacology.GabapentinoidComparison.detail)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text(SaturablePharmacology.GabapentinoidComparison.citation)
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.top, 2)
+        }
+        .padding(.vertical, 6)
+    }
+
+    /// Bioavailability (%) vs dose, normalized to each drug's starting dose so the *shape* contrast —
+    /// gabapentin's saturating decline vs pregabalin's flat line — reads on a shared x-axis despite the
+    /// two being dosed at very different milligrams.
+    private var gabapentinoidComparisonChart: some View {
+        let gaba = SaturablePharmacology.GabapentinoidComparison.gabapentin
+        let pre = SaturablePharmacology.GabapentinoidComparison.pregabalin
+        let gabaBase = gaba.first?.doseMgPerDay ?? 900
+        let preBase = pre.first?.doseMgPerDay ?? 150
+        let maxMultiple = (gaba.map { $0.doseMgPerDay / gabaBase }.max() ?? 5) + 0.3
+        return Chart {
+            ForEach(gaba) { p in
+                LineMark(
+                    x: .value("Dose", p.doseMgPerDay / gabaBase),
+                    y: .value("Bioavailability", p.bioavailabilityPct),
+                    series: .value("Drug", "Gabapentin"),
+                )
+                .foregroundStyle(.blue)
+                .lineStyle(StrokeStyle(lineWidth: 2))
+                PointMark(
+                    x: .value("Dose", p.doseMgPerDay / gabaBase),
+                    y: .value("Bioavailability", p.bioavailabilityPct),
+                )
+                .foregroundStyle(.blue)
+                .symbolSize(36)
+            }
+            ForEach(pre) { p in
+                LineMark(
+                    x: .value("Dose", p.doseMgPerDay / preBase),
+                    y: .value("Bioavailability", p.bioavailabilityPct),
+                    series: .value("Drug", "Pregabalin"),
+                )
+                .foregroundStyle(.green)
+                .lineStyle(StrokeStyle(lineWidth: 2))
+                PointMark(
+                    x: .value("Dose", p.doseMgPerDay / preBase),
+                    y: .value("Bioavailability", p.bioavailabilityPct),
+                )
+                .foregroundStyle(.green)
+                .symbolSize(36)
+            }
+        }
+        .chartYScale(domain: 0 ... 100)
+        .chartYAxis {
+            AxisMarks(values: [0, 25, 50, 75, 100]) { value in
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
+                AxisValueLabel {
+                    if let v = value.as(Int.self) { Text("\(v)%").font(.caption2) }
+                }
+            }
+        }
+        .chartXScale(domain: 1 ... maxMultiple)
+        .chartXAxis {
+            AxisMarks(values: [1, 2, 3, 4, 5]) { value in
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
+                AxisValueLabel {
+                    if let v = value.as(Int.self) { Text("\(v)×").font(.caption2) }
+                }
+            }
+        }
+        .chartLegend(.hidden)
+        .frame(height: 160)
+        .accessibilityLabel("Bioavailability versus dose: gabapentin falls as the dose rises, pregabalin stays flat.")
+    }
+
+    private func comparisonLegend(color: Color, label: LocalizedStringResource) -> some View {
+        HStack(spacing: 4) {
+            Capsule()
+                .fill(color)
+                .frame(width: 14, height: 3)
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 
