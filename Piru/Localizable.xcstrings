@@ -29077,7 +29077,20 @@
 
     },
     "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在常用剂量范围内该载体就已趋于饱和：生物利用度从 900 mg/日 时的约 60% 降至 4800 mg/日 时的约 27%，因此每加大一档，获益越来越少。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在常用劑量範圍內該載體就已趨於飽和：生物利用度從 900 mg/日 時的約 60% 降至 4800 mg/日 時的約 27%，因此每加大一檔，獲益越來越少。"
+          }
+        }
+      }
     },
     "The clearing enzyme is already half-saturated inside the normal dose range, so a small dose increase near the top can roughly double the level into toxicity." : {
       "localizations" : {
@@ -29344,7 +29357,20 @@
       }
     },
     "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "并不存在固定的毫克拐点——其上限（或没有上限）取决于你的 CYP2D6 活性。慢代谢者获得的阿片效应很弱，却仍保留曲马多的 5-羟色胺／癫痫风险；超快代谢者则会突破通常的封顶。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "並不存在固定的毫克拐點——其上限（或沒有上限）取決於你的 CYP2D6 活性。慢代謝者獲得的鴉片效應很弱，卻仍保留曲馬多的 5-羥色胺／癲癇風險；超快代謝者則會突破通常的封頂。"
+          }
+        }
+      }
     },
     "These are model predictions of how repeated use changes each receptor — never a measurement. Each figure carries a confidence tier." : {
       "localizations" : {
@@ -30315,7 +30341,20 @@
       }
     },
     "Tramadol → O-DSMT (M1)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曲马多 → O-DSMT (M1)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曲馬多 → O-DSMT (M1)"
+          }
+        }
+      }
     },
     "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses." : {
       "localizations" : {

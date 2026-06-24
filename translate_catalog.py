@@ -119,6 +119,15 @@ T = {
         "%@ 倍劑量僅約帶來 %@ 倍暴露量——越過拐點後，多出的藥物大多不再被吸收。",
     ),
     # SaturablePharmacology — gabapentinoid comparison + gabapentin/tramadol profiles
+    "Tramadol → O-DSMT (M1)": ("曲马多 → O-DSMT (M1)", "曲馬多 → O-DSMT (M1)"),
+    "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less.": (
+        "在常用剂量范围内该载体就已趋于饱和：生物利用度从 900 mg/日 时的约 60% 降至 4800 mg/日 时的约 27%，因此每加大一档，获益越来越少。",
+        "在常用劑量範圍內該載體就已趨於飽和：生物利用度從 900 mg/日 時的約 60% 降至 4800 mg/日 時的約 27%，因此每加大一檔，獲益越來越少。",
+    ),
+    "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling.": (
+        "并不存在固定的毫克拐点——其上限（或没有上限）取决于你的 CYP2D6 活性。慢代谢者获得的阿片效应很弱，却仍保留曲马多的 5-羟色胺／癫痫风险；超快代谢者则会突破通常的封顶。",
+        "並不存在固定的毫克拐點——其上限（或沒有上限）取決於你的 CYP2D6 活性。慢代謝者獲得的鴉片效應很弱，卻仍保留曲馬多的 5-羥色胺／癲癇風險；超快代謝者則會突破通常的封頂。",
+    ),
     "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put.": (
         "两种作用于同一靶点的药物，在加大剂量时表现相反：加巴喷丁吸收的比例下降，普瑞巴林则保持不变。",
         "兩種作用於同一靶點的藥物，在加大劑量時表現相反：加巴噴丁吸收的比例下降，普瑞巴林則保持不變。",
@@ -3413,6 +3422,9 @@ if __name__ == "__main__":
         "Bioavailability versus dose: gabapentin falls as the dose rises, pregabalin stays flat.",
         "Saturable absorption — exposure climbs slower than dose",
         "%@× the dose is only about %@× the exposure — past the knee, extra drug mostly isn't absorbed.",
+        "Tramadol → O-DSMT (M1)",
+        "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less.",
+        "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling.",
         "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put.",
         "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)",
         "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure.",
