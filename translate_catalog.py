@@ -9,6 +9,140 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology axis — RC-expansion UI: monoamine profile / provenance / contraceptive
+    # caution / gabapentinoid ceiling (2026-06-24). Terminology grounded in a Chinese
+    # clinical-pharmacology register: 5-羟色胺 (not 血清素), 再摄取 (not 重摄取),
+    # 激动剂 (not 兴奋剂), 拮抗剂 for receptors; CYP/DAT/SERT/MDMA/α2δ kept in Latin.
+    # MonoamineProfileCard — section header + mechanism labels
+    "Monoamine Profile": ("单胺特征", "單胺特徵"),
+    "Substrate releaser": ("释放剂（转运体底物）", "釋放劑（轉運體底物）"),
+    "Reuptake blocker": ("再摄取抑制剂", "再攝取抑制劑"),
+    "Mixed (releaser / blocker)": ("混合型（释放剂／抑制剂）", "混合型（釋放劑／抑制劑）"),
+    "Reverses the transporters to pump monoamines out (substrate efflux) — the MDMA/amphetamine-type mechanism.": (
+        "逆转转运体方向，将单胺类递质泵出细胞（底物外排）——即 MDMA／苯丙胺类的作用机制。",
+        "逆轉轉運體方向，將單胺類遞質泵出細胞（底物外排）——即 MDMA／安非他命類的作用機制。",
+    ),
+    "Blocks reuptake without triggering release (cocaine/methylphenidate-type) — a different tolerance and redose profile from a releaser.": (
+        "阻断再摄取但不促进释放（可卡因／哌甲酯类）——其耐受性与再用药特征与释放剂不同。",
+        "阻斷再攝取但不促進釋放（古柯鹼／派醋甲酯類）——其耐受性與再用藥特徵與釋放劑不同。",
+    ),
+    "Releases at one transporter while blocking another — an intermediate profile; a single α-alkyl or N-ethyl group flips DAT from substrate to blocker.": (
+        "在一种转运体上促进释放，在另一种上阻断再摄取——属中间类型；仅一个 α-烷基或 N-乙基取代即可使 DAT 由底物转为阻滞。",
+        "在一種轉運體上促進釋放，在另一種上阻斷再攝取——屬中間類型；僅一個 α-烷基或 N-乙基取代即可使 DAT 由底物轉為阻滯。",
+    ),
+    # MonoamineProfileCard — lean labels
+    "Balance not characterized (DAT or SERT data missing)": (
+        "未能确定平衡（缺少 DAT 或 SERT 数据）",
+        "未能確定平衡（缺少 DAT 或 SERT 資料）",
+    ),
+    "Serotonin-leaning (entactogenic)": ("偏向 5-羟色胺（致共情类）", "偏向 5-羥色胺（致共情類）"),
+    "Balanced — empathogen-like": ("较为均衡——类似促共情剂", "較為均衡——類似促共情劑"),
+    "Dopamine-leaning — more stimulant in character": (
+        "偏向多巴胺——兴奋作用更突出",
+        "偏向多巴胺——興奮作用更突出",
+    ),
+    "Strongly dopaminergic (SERT-sparing)": (
+        "强多巴胺能（对 SERT 作用很弱）",
+        "強多巴胺能（對 SERT 作用很弱）",
+    ),
+    "Serotonin": ("5-羟色胺", "5-羥色胺"),
+    "Dopamine": ("多巴胺", "多巴胺"),
+    # MonoamineProfileCard — harm-reduction flags + footnote
+    "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it.": (
+        "5-HT2B 受体部分激动剂——与心脏瓣膜病相关的有害脱靶受体（如芬氟拉明／MDA）。对反复或长期用药是机制层面的警示信号；MDMA 不激动该受体。",
+        "5-HT2B 受體部分激動劑——與心臟瓣膜病相關的有害脫靶受體（如芬氟拉明／MDA）。對反覆或長期用藥是機制層面的警示信號；MDMA 不激動該受體。",
+    ),
+    "Often mis-sold as MDMA / “molly,” but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.": (
+        "常被冒充为 MDMA／“molly”出售，但其药理上是再摄取抑制剂——作用更持久、更偏兴奋和致焦虑，按 empathogen 方式追加剂量时更危险。",
+        "常被冒充為 MDMA／「molly」出售，但其藥理上是再攝取抑制劑——作用更持久、更偏興奮和致焦慮，按 empathogen 方式追加劑量時更危險。",
+    ),
+    "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers.": (
+        "依据该物质经分级的 DAT/NET/SERT 结合数据得出。转运体效价多为同一实验内的相对比值，而非跨平台的绝对数值。",
+        "依據該物質經分級的 DAT/NET/SERT 結合資料得出。轉運體效價多為同一實驗內的相對比值，而非跨平台的絕對數值。",
+    ),
+    # ProvenanceBadge — method labels + accessibility
+    "Human": ("人体", "人體"),
+    "Rat": ("大鼠", "大鼠"),
+    "Mouse": ("小鼠", "小鼠"),
+    "Animal": ("动物", "動物"),
+    "In-vitro": ("体外", "體外"),
+    "Aggregated": ("综合来源", "綜合來源"),
+    "human assay": ("人体实验", "人體實驗"),
+    "rat assay": ("大鼠实验", "大鼠實驗"),
+    "mouse assay": ("小鼠实验", "小鼠實驗"),
+    "animal assay": ("动物实验", "動物實驗"),
+    "in-vitro assay": ("体外实验", "體外實驗"),
+    "aggregator source": ("综合来源", "綜合來源"),
+    "Evidence source: %@, %@": ("数据来源：%@，%@", "數據來源：%@，%@"),
+    # ContraceptionCautionBanner
+    "May reduce hormonal birth-control efficacy": (
+        "可能降低激素类避孕药的效果",
+        "可能降低激素類避孕藥的效果",
+    ),
+    "Induces %@, which clears the hormones in the combined pill, patch, ring, implant and hormonal IUD — lowering their levels. Anyone relying on hormonal contraception should consider a backup method. Often noted on the label, but easy to miss.": (
+        "可诱导 %@，加速复方口服避孕药、避孕贴剂、阴道避孕环、皮下埋植剂及含激素宫内节育器中激素的代谢，从而降低其血药浓度。依赖激素类避孕的人群应考虑采用备用避孕措施。说明书中通常有提示，但容易被忽略。",
+        "可誘導 %@，加速複方口服避孕藥、避孕貼劑、陰道避孕環、皮下埋植劑及含激素宮內節育器中激素的代謝，從而降低其血藥濃度。依賴激素類避孕的人群應考慮採用備用避孕措施。說明書中通常有提示，但容易被忽略。",
+    ),
+    # MetabolicModulation catalog — modafinil / armodafinil as CYP3A4 inducers
+    "Modafinil": ("莫达非尼", "莫達非尼"),
+    "Armodafinil": ("阿莫达非尼", "阿莫達非尼"),
+    "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.": (
+        "莫达非尼可诱导 CYP3A4，降低经其清除的药物的血药浓度——包括全身性激素避孕药中的激素。",
+        "莫達非尼可誘導 CYP3A4，降低經其清除的藥物的血藥濃度——包括全身性激素避孕藥中的激素。",
+    ),
+    "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.": (
+        "阿莫达非尼可诱导 CYP3A4，降低经其清除的药物的血药浓度——包括全身性激素避孕药中的激素。",
+        "阿莫達非尼可誘導 CYP3A4，降低經其清除的藥物的血藥濃度——包括全身性激素避孕藥中的激素。",
+    ),
+    # CeilingEffectToolView — gabapentinoid comparison card + readouts
+    "Same class, opposite behavior": ("同类药物，行为相反", "同類藥物，行為相反"),
+    "Gabapentin vs pregabalin — one absorbing target, two opposite dose curves": (
+        "加巴喷丁与普瑞巴林——同一吸收靶点，两条相反的剂量曲线",
+        "加巴噴丁與普瑞巴林——同一吸收靶點，兩條相反的劑量曲線",
+    ),
+    "Gabapentin — falls with dose": ("加巴喷丁——随剂量下降", "加巴噴丁——隨劑量下降"),
+    "Pregabalin — flat ~90%": ("普瑞巴林——稳定在约 90%", "普瑞巴林——穩定在約 90%"),
+    "Fraction reaching your blood (up the side) against dose (along the bottom, as a multiple of the usual starting dose).": (
+        "进入血液的比例（纵轴）随剂量（横轴，以常用起始剂量的倍数表示）的变化。",
+        "進入血液的比例（縱軸）隨劑量（橫軸，以常用起始劑量的倍數表示）的變化。",
+    ),
+    "Bioavailability versus dose: gabapentin falls as the dose rises, pregabalin stays flat.": (
+        "生物利用度随剂量的变化：加巴喷丁随剂量升高而下降，普瑞巴林保持平稳。",
+        "生物利用度隨劑量的變化：加巴噴丁隨劑量升高而下降，普瑞巴林保持平穩。",
+    ),
+    "Saturable absorption — exposure climbs slower than dose": (
+        "可饱和吸收——暴露量的上升慢于剂量",
+        "可飽和吸收——暴露量的上升慢於劑量",
+    ),
+    "%@× the dose is only about %@× the exposure — past the knee, extra drug mostly isn't absorbed.": (
+        "%@ 倍剂量仅约带来 %@ 倍暴露量——越过拐点后，多出的药物大多不再被吸收。",
+        "%@ 倍劑量僅約帶來 %@ 倍暴露量——越過拐點後，多出的藥物大多不再被吸收。",
+    ),
+    # SaturablePharmacology — gabapentinoid comparison + gabapentin/tramadol profiles
+    "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put.": (
+        "两种作用于同一靶点的药物，在加大剂量时表现相反：加巴喷丁吸收的比例下降，普瑞巴林则保持不变。",
+        "兩種作用於同一靶點的藥物，在加大劑量時表現相反：加巴噴丁吸收的比例下降，普瑞巴林則保持不變。",
+    ),
+    "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)": (
+        "两者都结合电压门控钙通道的 α2δ-1 亚基——但加巴喷丁依赖一种可饱和的肠道载体（system-L／LAT1），因此随着剂量升高，吸收的比例下降（约 60% → 约 27%），暴露量趋于平缓。这正是加巴喷丁每日需分多次服用、以及单次大剂量收效甚微的原因。普瑞巴林利用同一载体但不会使其饱和，因此在任何剂量下都保持约 90% 的吸收——可预测、与剂量成比例、更易于滴定。（普瑞巴林在低得多的毫克数下即有效，因此其曲线位于剂量轴的低端。）",
+        "兩者都結合電壓門控鈣通道的 α2δ-1 亞基——但加巴噴丁依賴一種可飽和的腸道載體（system-L／LAT1），因此隨著劑量升高，吸收的比例下降（約 60% → 約 27%），暴露量趨於平緩。這正是加巴噴丁每日需分多次服用、以及單次大劑量收效甚微的原因。普瑞巴林利用同一載體但不會使其飽和，因此在任何劑量下都保持約 90% 的吸收——可預測、與劑量成比例、更易於滴定。（普瑞巴林在低得多的毫克數下即有效，因此其曲線位於劑量軸的低端。）",
+    ),
+    "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure.": (
+        "加巴喷丁由一种容量有限的载体吸收，因此随着剂量升高，进入血液的比例反而下降——服用两倍的量，带来的暴露量远不到两倍。",
+        "加巴噴丁由一種容量有限的載體吸收，因此隨著劑量升高，進入血液的比例反而下降——服用兩倍的量，帶來的暴露量遠不到兩倍。",
+    ),
+    "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, not a danger, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape, not absolute level.": (
+        "这与酒精／苯妥英的“封顶”恰好相反：那里是清除酶饱和、暴露量失控上升；而这里是吸收转运体（system-L／LAT1）饱和、暴露量趋于平缓——这是一种内在的制动，而非危险，不过它也限制了单次大剂量的获益，并且正是加巴喷丁每日分多次服用的原因。普瑞巴林虽属同一药物类别，却以不同方式利用该转运体，在任何剂量下都保持约 90% 的吸收（与剂量呈线性）——是同类药物中一个清晰的对照。此处显示的是相对形态，而非绝对水平。",
+        "這與酒精／苯妥英的「封頂」恰好相反：那裡是清除酶飽和、暴露量失控上升；而這裡是吸收轉運體（system-L／LAT1）飽和、暴露量趨於平緩——這是一種內在的制動，而非危險，不過它也限制了單次大劑量的獲益，並且正是加巴噴丁每日分多次服用的原因。普瑞巴林雖屬同一藥物類別，卻以不同方式利用該轉運體，在任何劑量下都保持約 90% 的吸收（與劑量呈線性）——是同類藥物中一個清晰的對照。此處顯示的是相對形態，而非絕對水平。",
+    ),
+    "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses.": (
+        "曲马多只有在 CYP2D6 将其转化为 M1 后才成为强效阿片类药物——而生成多少取决于你的基因，而不仅仅是剂量。多数人会达到平台；“超快代谢者”则没有这种上限，在普通剂量下也可能达到危险水平。",
+        "曲馬多只有在 CYP2D6 將其轉化為 M1 後才成為強效鴉片類藥物——而生成多少取決於你的基因，而不僅僅是劑量。多數人會達到平台；「超快代謝者」則沒有這種上限，在普通劑量下也可能達到危險水平。",
+    ),
+    "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described, not drawn.": (
+        "这是可待因的镜像：同样的 CYP2D6 活化步骤，危险却相反。两点提醒。(1) 反复给药会提高曲马多自身的吸收（首过代谢饱和，生物利用度由约 75% 升至 90–100%），因此稳态血药浓度高于单次剂量的预测值。(2) 阿片效应几乎完全由代谢物 M1／O-DSMT（一种强效的 3.4 nM µ 受体激动剂）承载，因此强效 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮、奎尼丁）会削弱镇痛作用，同时保留——甚至升高——原药的 5-羟色胺能及致癫痫风险。“更干净”并不等于“更安全”。此处为文字描述，未绘制曲线。",
+        "這是可待因的鏡像：同樣的 CYP2D6 活化步驟，危險卻相反。兩點提醒。(1) 反覆給藥會提高曲馬多自身的吸收（首過代謝飽和，生物利用度由約 75% 升至 90–100%），因此穩態血藥濃度高於單次劑量的預測值。(2) 鴉片效應幾乎完全由代謝物 M1／O-DSMT（一種強效的 3.4 nM µ 受體激動劑）承載，因此強效 CYP2D6 抑制劑（帕羅西汀、氟西汀、安非他酮、奎尼丁）會削弱鎮痛作用，同時保留——甚至升高——原藥的 5-羥色胺能及致癲癇風險。「更乾淨」並不等於「更安全」。此處為文字描述，未繪製曲線。",
+    ),
     # Pharmacology axis Stage 3b — Combined depression index (2026-06-21)
     "Combined depression": ("综合抑制", "綜合抑制"),
     "Combined respiratory depression peaks around %@.": (
@@ -3234,6 +3368,57 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology axis — RC-expansion UI (2026-06-24)
+        "Monoamine Profile",
+        "Substrate releaser",
+        "Reuptake blocker",
+        "Mixed (releaser / blocker)",
+        "Reverses the transporters to pump monoamines out (substrate efflux) — the MDMA/amphetamine-type mechanism.",
+        "Blocks reuptake without triggering release (cocaine/methylphenidate-type) — a different tolerance and redose profile from a releaser.",
+        "Releases at one transporter while blocking another — an intermediate profile; a single α-alkyl or N-ethyl group flips DAT from substrate to blocker.",
+        "Balance not characterized (DAT or SERT data missing)",
+        "Serotonin-leaning (entactogenic)",
+        "Balanced — empathogen-like",
+        "Dopamine-leaning — more stimulant in character",
+        "Strongly dopaminergic (SERT-sparing)",
+        "Serotonin",
+        "Dopamine",
+        "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it.",
+        "Often mis-sold as MDMA / “molly,” but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.",
+        "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers.",
+        "Human",
+        "Rat",
+        "Mouse",
+        "Animal",
+        "In-vitro",
+        "Aggregated",
+        "human assay",
+        "rat assay",
+        "mouse assay",
+        "animal assay",
+        "in-vitro assay",
+        "aggregator source",
+        "Evidence source: %@, %@",
+        "May reduce hormonal birth-control efficacy",
+        "Induces %@, which clears the hormones in the combined pill, patch, ring, implant and hormonal IUD — lowering their levels. Anyone relying on hormonal contraception should consider a backup method. Often noted on the label, but easy to miss.",
+        "Modafinil",
+        "Armodafinil",
+        "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.",
+        "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.",
+        "Same class, opposite behavior",
+        "Gabapentin vs pregabalin — one absorbing target, two opposite dose curves",
+        "Gabapentin — falls with dose",
+        "Pregabalin — flat ~90%",
+        "Fraction reaching your blood (up the side) against dose (along the bottom, as a multiple of the usual starting dose).",
+        "Bioavailability versus dose: gabapentin falls as the dose rises, pregabalin stays flat.",
+        "Saturable absorption — exposure climbs slower than dose",
+        "%@× the dose is only about %@× the exposure — past the knee, extra drug mostly isn't absorbed.",
+        "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put.",
+        "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)",
+        "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure.",
+        "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, not a danger, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape, not absolute level.",
+        "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses.",
+        "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described, not drawn.",
         # Pharmacology axis Stage 3b — Combined depression index (2026-06-21)
         "Combined depression",
         "Combined respiratory depression peaks around %@.",
@@ -3327,7 +3512,6 @@ if __name__ == "__main__":
         "Nicotinic (nAChR)",
         "Predicted, not measured",
         "These are model predictions of how repeated use changes each receptor's responsiveness — never a measurement. Tolerance is shown per mechanism, because one universal “tolerance %” is wrong for some classes (stimulants especially).",
-        "Based on an estimated %lld kg body weight — set yours in Settings for accuracy.",
         "Nothing to show yet",
         "Log doses of substances with receptor data and your predicted tolerance will appear here. Targets you haven't engaged recently read as fully rested.",
         "Shared by %@ — tolerance to one carries to the others.",
@@ -3674,7 +3858,6 @@ if __name__ == "__main__":
         "For most substances, twice the dose means roughly twice the exposure. For these few, an enzyme runs out of capacity — so exposure can climb much faster than the dose (a warning), or an effect can stop climbing entirely (a ceiling). Shapes are model predictions, relative — not absolute concentrations.",
         "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in days.",
         "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in hours.",
-        "%@× the dose isn't %@× the exposure — the largest curve here holds about %@× the total exposure of one reference dose.",
         "Ceiling on effect — described, not drawn (no precise dose knee).",
         "Steep, supralinear — described, not drawn (no reliable human kinetics).",
         "Saturable elimination — exposure climbs faster than dose",
