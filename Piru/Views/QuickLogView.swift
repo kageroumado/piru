@@ -962,6 +962,7 @@ struct QuickLogView: View {
                 )
             }
             try? context.save()
+            DoseLogService.shared.changed()
 
             // Tier 2 — after the dismissal animation: bookkeeping that isn't
             // on screen (curated-list maintenance, wellness notifications,

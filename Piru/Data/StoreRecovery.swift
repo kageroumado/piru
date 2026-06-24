@@ -79,7 +79,7 @@ nonisolated enum StoreRecovery {
 
     /// Canonical store location (shared App Group container), with the same
     /// fallbacks the app uses so a misconfigured entitlement still launches.
-    static func canonicalStoreURL() -> URL {
+    nonisolated static func canonicalStoreURL() -> URL {
         let base = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)
             ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? URL(fileURLWithPath: NSTemporaryDirectory())

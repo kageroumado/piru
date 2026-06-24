@@ -9,7 +9,7 @@ import Foundation
 ///
 /// Lives in `Shared` (pure, no SwiftUI) so any target can carry the grade; the on-screen badge is a
 /// separate view in the app target.
-enum ConfidenceTier: String, Codable, CaseIterable, Comparable {
+nonisolated enum ConfidenceTier: String, Codable, CaseIterable, Comparable {
     /// Literature Kᵢ/EC₅₀ + a measured Vd for this specific substance/target.
     case high
     /// Class-default (tier-mapped) parameters, or a single-source / caveated value.

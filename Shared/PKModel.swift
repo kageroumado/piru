@@ -114,6 +114,9 @@ enum PKModel {
         hillCoefficient: Double = 1,
     ) -> Double {
         guard concentration > 0, halfMax > 0, hillCoefficient > 0 else { return 0 }
+        // Fast path for simple mass action (the overwhelmingly common case): avoid two `pow` calls,
+        // which dominate this function and it is evaluated per contributor per integration step.
+        if hillCoefficient == 1 { return concentration / (halfMax + concentration) }
         let cH = pow(concentration, hillCoefficient)
         let kH = pow(halfMax, hillCoefficient)
         return cH / (kH + cH)

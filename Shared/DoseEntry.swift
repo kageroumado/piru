@@ -23,6 +23,13 @@ import SwiftData
 /// - ``amount`` is clamped to be non-negative at construction time.
 @Model
 final class DoseEntry {
+    // `timestamp` is the dominant sort/filter key across the app — the journal's reverse-chron
+    // `@Query`, the tolerance replay's lookback windows, both dose-entry warning predicates
+    // (`timestamp >= cutoff`), the widget, and session recovery all sort or range-filter on it — so an
+    // index earns its (small, append-time) cost many times over at 3k+ rows. `id` is also indexed for
+    // the exact-match lookups deep links / edits / dedup do (`#Predicate { $0.id == … }`, fetchLimit 1).
+    #Index<DoseEntry>([\.timestamp], [\.id])
+
     /// Stable identity for cross-boundary references — route payloads, deep
     /// links, notification keys, and the Piru export format. `persistentModelID`
     /// can't serve this role: it isn't Codable-friendly across launches and

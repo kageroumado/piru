@@ -647,6 +647,9 @@ struct EntryFormView: View {
         // Add to the active session immediately, now that the colour exists.
         startLiveActivityIfNeeded()
 
+        // Wake the derived caches (tolerance engine) — debounced + recomputed off-main.
+        DoseLogService.shared.changed()
+
         // A new-entry save completes the logging flow that may span multiple
         // sheets (e.g. QuickLog → "From Library" → EntryForm). Dismiss the
         // entire stack so the user lands back at root. An edit, by contrast,

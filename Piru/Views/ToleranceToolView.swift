@@ -46,7 +46,7 @@ struct ToleranceToolView: View {
         .appNavigationBar("Tolerance")
         // Lazy replay: the 18-month integration runs only while this tool is open, and re-runs when
         // the dose log or body weight changes — kept off the launch / dose-write hot path (Stage 2a).
-        .task(id: recomputeSignature) { tolerance.recompute(from: entries) }
+        .task(id: recomputeSignature) { await tolerance.recompute(from: entries) }
     }
 
     // MARK: - Recompute trigger

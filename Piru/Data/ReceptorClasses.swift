@@ -15,7 +15,7 @@ import Foundation
 /// constants are calibrated to reproduce the *shape* the literature agrees on (clustered dosing
 /// suppresses, spacing recovers; the acute pool moves within a session while the slow axis does not),
 /// not a false-precision percentage. A dedicated κ/τ evidence pass can upgrade any row later.
-enum ReceptorClasses {
+nonisolated enum ReceptorClasses {
     // MARK: - Time-constant vocabulary (minutes)
 
     private enum T {

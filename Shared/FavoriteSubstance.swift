@@ -3,6 +3,10 @@ import SwiftData
 
 @Model
 final class FavoriteSubstance {
+    // The quick-log + reorder views sort by `sortOrder` then `createdAt` (reverse), so a compound
+    // index matches that exact ordering. `substance` is already `@Attribute(.unique)` (implicit index).
+    #Index<FavoriteSubstance>([\.sortOrder, \.createdAt])
+
     @Attribute(.unique) var substance: String
     var createdAt: Date
     /// User-defined position in the Favorites section (lower = first). New

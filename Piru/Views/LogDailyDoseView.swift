@@ -170,6 +170,7 @@ struct LogMedicationsView: View {
         }
 
         startLiveActivityForBatch()
+        DoseLogService.shared.changed()
 
         // Medication log completes a logging flow; clear the entire chain back
         // to root.

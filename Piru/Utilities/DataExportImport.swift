@@ -817,6 +817,9 @@ enum DataExportImport {
         // Cluster any session-less imports (PsyLog/legacy) into sessions. The
         // native importer assigns its own sessions, so this is a no-op for it.
         SessionService.assignUnassignedDoses(in: context)
+
+        // One debounced tick wakes the tolerance cache after a bulk import (the burst coalesces).
+        DoseLogService.shared.changed()
     }
 
     @MainActor

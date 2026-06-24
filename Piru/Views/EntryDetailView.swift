@@ -809,6 +809,7 @@ struct EntryDetailView: View {
             allColors: Array(substanceColors),
         )
         InventoryService.recomputeAll(in: modelContext)
+        DoseLogService.shared.changed()
         WidgetCenter.shared.reloadAllTimelines()
         dismiss()
     }

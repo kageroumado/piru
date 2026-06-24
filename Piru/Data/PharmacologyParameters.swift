@@ -7,7 +7,7 @@ import Foundation
 /// best graded volume of distribution + bioavailability + half-life, and the engaged targets with
 /// their half-saturation constants — each value carrying the confidence tier it was graded at, so the
 /// engine can run on verified numbers and the UI can badge how much to trust the prediction.
-struct PharmacologyParameters {
+nonisolated struct PharmacologyParameters {
     /// Which constant a target's ``TargetEngagement/halfMaxNanomolar`` is, by mechanism.
     enum HalfMaxKind: String {
         /// Binding affinity (agonist / antagonist / PAM).

@@ -61,6 +61,9 @@ enum DoseFrequency: String, Codable, CaseIterable, Identifiable {
 /// always supply a default so existing user data migrates without prompting.
 @Model
 final class DailyDoseItem {
+    // Every daily-dose surface (settings, quick-log, the item form) fetches sorted by `sortOrder`.
+    #Index<DailyDoseItem>([\.sortOrder])
+
     /// The substance's display name.
     var substance: String
     /// Quantity of one dose in ``unit``.

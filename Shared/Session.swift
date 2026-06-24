@@ -27,6 +27,11 @@ import SwiftData
 /// session never deletes its doses — they simply become unassigned.
 @Model
 final class Session {
+    // `startDate` drives every chronological session list and the journal's day-grouping/windowed
+    // load, so it's indexed. `id` is already `@Attribute(.unique)` (an implicit index), so it needs no
+    // explicit one.
+    #Index<Session>([\.startDate])
+
     /// Stable identifier for routing and deep links (`PersistentIdentifier`
     /// isn't URL-stable). Unique; safe because CloudKit mirroring is disabled.
     @Attribute(.unique) var id: UUID
