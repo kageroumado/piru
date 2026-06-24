@@ -153,4 +153,44 @@ struct MetabolicModulationTests {
         let effects = MetabolicModulation.checkerEffects(among: ["Midazolam", "Triazolam"])
         #expect(effects.isEmpty)
     }
+
+    // MARK: - Contraceptive-efficacy caution
+
+    @Test
+    func `Modafinil and armodafinil are CYP3A4 inducers and flag a contraceptive caution`() throws {
+        for name in ["Modafinil", "modafinil", "Provigil", "Armodafinil", "Nuvigil"] {
+            let caution = try #require(
+                MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: name),
+                "expected a caution for \(name)",
+            )
+            #expect(caution.enzyme == .cyp3a4)
+            #expect(caution.direction == .induces)
+        }
+    }
+
+    @Test
+    func `The contraceptive caution generalizes to every moderate-or-stronger 3A4 inducer`() {
+        // It is a class property of being a 3A4 inducer, not a modafinil special case.
+        for name in ["Rifampicin", "Carbamazepine", "St John's Wort"] {
+            #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: name) != nil, "\(name)")
+        }
+    }
+
+    @Test
+    func `Non-inducers (inhibitors, unrelated drugs) get no contraceptive caution`() {
+        // A 3A4 *inhibitor* raises levels — it must not fire the induction caution.
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Ritonavir") == nil)
+        // A 1A2 inducer is not a 3A4 inducer.
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Caffeine") == nil)
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Midazolam") == nil)
+    }
+
+    @Test
+    func `A co-present modafinil lowers a CYP3A4 substrate's levels in the checker`() throws {
+        // The new catalog entry also enriches the interaction checker, not just the detail caution.
+        let effects = MetabolicModulation.checkerEffects(among: ["Modafinil", "Midazolam"])
+        let mod = try #require(effects.first { $0.modulatorID == "modafinil" })
+        #expect(mod.substrate == "Midazolam")
+        #expect(!mod.raisesLevels) // induction → lower levels
+    }
 }

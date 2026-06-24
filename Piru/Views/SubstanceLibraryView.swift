@@ -544,6 +544,9 @@ struct SubstanceDetailView: View {
     /// (Stage 4c). Loaded for non-casual tiers from a dedicated metabolism fetch so the card reaches
     /// harm-reduction users even though the full PK table is pharma-nerd-only.
     @State private var metabolicEducation: [MetabolicModulation.Effect] = []
+    /// Set when this substance is a meaningful CYP3A4 inducer (modafinil, rifampicin, …) → it can lower
+    /// hormonal-contraception levels. Ungated (a safety fact, like a boxed warning), loaded for every tier.
+    @State private var contraceptionCaution: MetabolicModulation.Modulator?
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
     private var profile: UserProfile {
@@ -1594,6 +1597,15 @@ struct SubstanceDetailView: View {
                     }
                 }
 
+                // Enzyme-induction contraceptive caution — a CYP3A4 inducer (modafinil, rifampicin, …)
+                // can lower hormonal-contraception levels. Ungated (a safety fact), kept to one compact
+                // note since it only applies to people on hormonal birth control.
+                if let contraceptionCaution {
+                    Section {
+                        ContraceptionCautionBanner(inducer: contraceptionCaution)
+                    }
+                }
+
                 // Medical context (indications / contraindications / boxed warnings)
                 // — shown for any compound that has clinical data. Net-new surface.
                 medicalInfoSection
@@ -1673,6 +1685,10 @@ struct SubstanceDetailView: View {
             // Always fetch provenance — per-field source attribution is
             // shown to every tier so users can see where each fact came from.
             provenance = store.provenance(forSubstanceName: substance.name)
+
+            // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil, rifampicin, …) can lower
+            // hormonal-contraception levels. Ungated like a boxed warning: a safety fact for every tier.
+            contraceptionCaution = MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: substance.name)
 
             // Binding rows feed two surfaces: the pharma-nerd "Receptor Literature" list AND the
             // broader harm-reduction "Monoamine Profile" card (DA↔5-HT character, releaser/blocker,

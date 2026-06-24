@@ -214,6 +214,28 @@ nonisolated enum MetabolicModulation {
             matchers: ["st john's wort", "st. john's wort", "st johns wort", "hypericum", "hypericum perforatum"],
             note: "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product).",
         ),
+        Modulator(
+            id: "modafinil",
+            displayName: "Modafinil",
+            origin: .substance,
+            enzyme: .cyp3a4,
+            direction: .induces,
+            strength: .moderate,
+            confidence: .high,
+            matchers: ["modafinil", "provigil", "modalert", "modvigil"],
+            note: "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.",
+        ),
+        Modulator(
+            id: "armodafinil",
+            displayName: "Armodafinil",
+            origin: .substance,
+            enzyme: .cyp3a4,
+            direction: .induces,
+            strength: .moderate,
+            confidence: .high,
+            matchers: ["armodafinil", "nuvigil", "waklert", "artvigil"],
+            note: "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.",
+        ),
         // Self-edge — a drug inactivating the enzyme that clears it (auto-modulation).
         Modulator(
             id: "mdma-cyp2d6",
@@ -266,6 +288,23 @@ nonisolated enum MetabolicModulation {
             confidence: m.confidence,
             note: m.note,
         )
+    }
+
+    // MARK: - Contraceptive-efficacy caution
+
+    /// When `name` is a meaningful **CYP3A4 inducer**, the catalog entry behind a heads-up that it can
+    /// lower the levels — and thus the efficacy — of systemic hormonal contraception. The estrogen and
+    /// progestin in the combined pill, patch, ring, implant and hormonal IUD are CYP3A4 substrates, so
+    /// any drug that meaningfully induces 3A4 (rifampicin, carbamazepine, St John's Wort, modafinil,
+    /// armodafinil) can reduce them. This is a *class property* of being a 3A4 inducer, derived from the
+    /// catalog rather than hard-coded per drug. Weak inducers are excluded (the threshold is `.moderate`).
+    /// Returns `nil` for everything that is not such an inducer.
+    static func contraceptiveEfficacyCaution(forSubstance name: String) -> Modulator? {
+        let lower = name.lowercased()
+        return catalog.first {
+            $0.origin == .substance && $0.enzyme == .cyp3a4 && $0.direction == .induces
+                && $0.strength >= .moderate && $0.matchers.contains(lower)
+        }
     }
 
     // MARK: - Analysis
