@@ -39,193 +39,19 @@ struct QuickLogView: View {
     @State private var searchActive = false
     @FocusState private var searchFocused: Bool
 
-    /// Gates the empty-state placeholder: it must not show until the first
-    /// rebuild has actually run, or the sheet briefly flashes "No Previous
-    /// Substances" on every open before the (now warm-cache, fast) caches fill.
-    @State private var hasLoaded = false
-
-    @State private var cachedCards: [SubstanceCard] = []
-    @State private var cachedFavoriteSet: Set<String> = []
-    @State private var cachedFavoriteOrder: [String: Int] = [:]
-    @State private var cachedHistoryNames: Set<String> = []
-    @State private var cachedLibraryResults: [Substance] = []
-    @State private var cachedColorLookup: [String: String] = [:]
-
-    /// Everything derived from the (large) `allEntries` query is computed once
-    /// per change and cached — otherwise each of these scanned the full dose
-    /// history on *every* `body` evaluation, which is what made tapping a chip
-    /// (a body re-eval) and opening the sheet cost hundreds of ms in the trace.
-    /// Lowercased substance names logged today — drives the routine "done" check.
-    @State private var cachedLoggedToday: Set<String> = []
-    /// Most-recent entry per lowercased substance name — feeds each card's PK badge.
-    @State private var cachedMostRecent: [String: DoseEntry] = [:]
-    /// Distinct dose locations, most recent first — the tray's location panel.
-    @State private var cachedRecentLocations: [PickedLocation] = []
-    /// Tag suggestions (used-most-first + common extras) — the tray's tag panel.
-    @State private var cachedTagSuggestions: [String] = []
-
-    /// Favorite/recent card partitions and the favorite-only library rows.
-    /// Cached off the body so the per-eval filter/sort + library lookups (read
-    /// twice — toolbar *and* scroll content) don't run on every chip tap.
-    @State private var cachedFavoriteCards: [SubstanceCard] = []
-    @State private var cachedNonFavoriteCards: [SubstanceCard] = []
-    @State private var cachedFavoriteLibrarySubstances: [Substance] = []
-
-    /// Routine pills — the sort+filter+grouping that builds them ran on every
-    /// body eval (≈18 ms in the profiler); cached off the body and rebuilt only
-    /// when the routines, daily items, or today's log change.
-    @State private var cachedDailyGroups: [DailyCategoryGroup] = []
-
-    // MARK: - Grouping
-
-    private func rebuildColorLookup() {
-        cachedColorLookup = Array(substanceColors).hexColorMap
-    }
-
-    /// Cheap content fingerprint of the dose history, used as the rebuild
-    /// trigger. `allEntries.count` alone misses an in-place edit (re-dating a
-    /// dose, renaming its substance, retagging): the count is unchanged, so
-    /// the caches would go stale. Hashing the fields the derived caches
-    /// depend on closes that gap.
-    private var entriesSignature: Int {
-        var hasher = Hasher()
-        for entry in allEntries {
-            hasher.combine(entry.persistentModelID)
-            hasher.combine(entry.timestamp)
-            hasher.combine(entry.substance)
-            hasher.combine(entry.tags)
-            hasher.combine(entry.locationName)
-        }
-        return hasher.finalize()
-    }
-
-    /// Recompute everything derived from `allEntries` in a single pass. Called
-    /// on open and whenever the history changes (a logged dose) — never from
-    /// `body`, so chip taps and sheet presentation no longer re-scan the whole
-    /// dose history. `allEntries` is newest-first, which every consumer relies
-    /// on (today's slice stops at the first non-today row; most-recent wins).
-    private func rebuildEntryDerived() {
-        var loggedToday: Set<String> = []
-        var mostRecent: [String: DoseEntry] = [:]
-        var seenLocations = Set<String>()
-        var locations: [PickedLocation] = []
-        var tagCounts: [String: Int] = [:]
-        var stillToday = true
-
-        for entry in allEntries {
-            let lower = entry.substance.lowercased()
-            if mostRecent[lower] == nil { mostRecent[lower] = entry }
-            if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
-                loggedToday.insert(lower)
-            } else {
-                stillToday = false
-            }
-            for tag in entry.tags {
-                tagCounts[tag, default: 0] += 1
-            }
-            if locations.count < 10,
-               let name = entry.locationName, !name.isEmpty,
-               let latitude = entry.latitude, let longitude = entry.longitude,
-               seenLocations.insert(name).inserted {
-                locations.append(PickedLocation(name: name, latitude: latitude, longitude: longitude))
-            }
-        }
-
-        let used = tagCounts.sorted { $0.value > $1.value }.map(\.key)
-        let extras = TagExtractor.suggestions.filter { !used.contains($0) }
-
-        cachedLoggedToday = loggedToday
-        cachedMostRecent = mostRecent
-        cachedRecentLocations = locations
-        cachedTagSuggestions = Array((used + extras).prefix(8))
-        // `makeDailyGroups` reads `cachedLoggedToday` (the "done" check), so it
-        // must rebuild after that's assigned above.
-        cachedDailyGroups = makeDailyGroups()
-    }
-
-    private func rebuildCards() {
-        let newCards: [SubstanceCard]
-        let newHistoryNames: Set<String>
-
-        let colorLookup = cachedColorLookup
-
-        var groupMap: [String: SubstanceGroup] = [:]
-
-        // Cards are built from the curated quick-log list (seeded once from
-        // history, then maintained on log), not raw history — so a removed chip
-        // stays gone and the order is the user's, not just recency.
-        for dose in quickLogDoses {
-            let nameLower = dose.substance.lowercased()
-            let key = "\(nameLower)|\(dose.route.rawValue)"
-            if var group = groupMap[key] {
-                group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
-                groupMap[key] = group
-            } else {
-                var group = SubstanceGroup(
-                    substanceName: dose.substance,
-                    route: dose.route,
-                    colorHex: colorLookup[nameLower],
-                    // Batch-cache lookup (class/routes/doses/salts/durations) —
-                    // all a card needs — instead of the heavy per-substance SQL
-                    // resolve, which cold-stalled the first open. Same path the
-                    // journal uses; pre-warmed via `ensureAllLoaded()` on open.
-                    librarySubstance: SubstanceLibrary.timelineLookup(nameLower),
-                    latestTimestamp: dose.lastUsedAt,
-                )
-                group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
-                groupMap[key] = group
-            }
-        }
-
-        var cardMap: [String: [SubstanceGroup]] = [:]
-        for group in groupMap.values {
-            cardMap[group.id.components(separatedBy: "|").first ?? "", default: []].append(group)
-        }
-
-        newCards = cardMap.values.map { routes in
-            let sorted = routes.sorted { $0.latestTimestamp > $1.latestTimestamp }
-            let first = sorted[0]
-            return SubstanceCard(
-                substanceName: first.substanceName,
-                colorHex: first.colorHex,
-                routes: sorted,
-                latestTimestamp: sorted[0].latestTimestamp,
-            )
-        }.sorted { $0.latestTimestamp > $1.latestTimestamp }
-
-        newHistoryNames = Set(newCards.map(\.id))
-
-        cachedCards = newCards
-        cachedHistoryNames = newHistoryNames
-        rebuildFavorites()
-    }
-
-    private func rebuildFavorites() {
-        cachedFavoriteSet = Set(favorites.map { $0.substance.lowercased() })
-        // `uniquingKeysWith` guards against two casings of one name colliding
-        // when lowercased (the unique attribute is case-sensitive).
-        cachedFavoriteOrder = Dictionary(
-            favorites.enumerated().map { ($0.element.substance.lowercased(), $0.offset) },
-            uniquingKeysWith: { first, _ in first },
-        )
-
-        // Favorites hold their user-given positions (the reorder sheet) instead
-        // of jumping around with logging recency like the Recent section.
-        cachedFavoriteCards = cachedCards
-            .filter { cachedFavoriteSet.contains($0.id) }
-            .sorted { (cachedFavoriteOrder[$0.id] ?? .max) < (cachedFavoriteOrder[$1.id] ?? .max) }
-        cachedNonFavoriteCards = cachedCards.filter { !cachedFavoriteSet.contains($0.id) }
-        cachedFavoriteLibrarySubstances = favorites
-            .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
-            .compactMap { SubstanceLibrary.timelineLookup($0.substance.lowercased()) }
-    }
+    /// Every derived dataset the screen renders lives on this `@Observable`
+    /// model, not inline on the view struct. Storing the (array-of-`Substance`)
+    /// caches on the value-type view made every `body` pass deep-copy the whole
+    /// dataset — `initializeWithCopy` dominated a 784 ms first-render trace; the
+    /// reference-typed model drops the view's stored surface to a few flags.
+    @State private var content = QuickLogContentModel()
 
     // MARK: - Favorites
 
     private var filteredCustomSubstances: [Substance] {
         guard !searchText.isEmpty else { return [] }
         let query = searchText.lowercased()
-        let libraryNames = Set(cachedLibraryResults.map { $0.name.lowercased() })
+        let libraryNames = Set(content.cachedLibraryResults.map { $0.name.lowercased() })
         return customSubstanceStore.all
             .filter { custom in
                 let nameLower = custom.name.lowercased()
@@ -234,7 +60,7 @@ struct QuickLogView: View {
                 // relabelled substance is findable by the name the user gave it.
                 let matches = nameLower.contains(query) || (!displayLower.isEmpty && displayLower.contains(query))
                 return matches
-                    && !cachedHistoryNames.contains(nameLower)
+                    && !content.cachedHistoryNames.contains(nameLower)
                     && !libraryNames.contains(nameLower)
             }
             // Resolve through the library so an override of a shipped substance
@@ -254,12 +80,7 @@ struct QuickLogView: View {
     }
 
     private func toggleFavorite(_ name: String) {
-        let lowered = name.lowercased()
-        if FavoriteService.toggle(name, in: modelContext) {
-            cachedFavoriteSet.insert(lowered)
-        } else {
-            cachedFavoriteSet.remove(lowered)
-        }
+        content.setFavorite(name, on: FavoriteService.toggle(name, in: modelContext))
     }
 
     // MARK: - Body
@@ -268,13 +89,13 @@ struct QuickLogView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    if !hasLoaded {
+                    if !content.hasLoaded {
                         // Loading: render nothing (the dock stays put) rather than
                         // the empty-state placeholder — the caches fill within a
                         // frame or two off the warm batch cache, so this avoids the
                         // jarring "No Previous Substances" flash on open.
                         EmptyView()
-                    } else if cachedCards.isEmpty, cachedDailyGroups.isEmpty {
+                    } else if content.cachedCards.isEmpty, content.cachedDailyGroups.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
@@ -326,7 +147,7 @@ struct QuickLogView: View {
                 }
                 // Edit (reorder favorites) lives in the nav bar as an icon,
                 // per convention — not as a text button in a section header.
-                if !cachedFavoriteCards.isEmpty || !cachedFavoriteLibrarySubstances.isEmpty {
+                if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
                             showFavoritesEditor = true
@@ -372,10 +193,10 @@ struct QuickLogView: View {
                 QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
                 RoutineMigrator.seedIfNeeded(context: modelContext)
                 seedFavoriteOrderIfNeeded()
-                rebuildColorLookup()
-                rebuildEntryDerived()
-                rebuildCards()
-                hasLoaded = true
+                content.rebuildColorLookup(substanceColors: substanceColors)
+                content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
+                content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
+                content.markLoaded()
                 if let prestagedRoutine {
                     stageRoutine(named: prestagedRoutine)
                 }
@@ -383,23 +204,23 @@ struct QuickLogView: View {
             .task(id: quickLogDoses.count) {
                 try? await Task.sleep(for: .milliseconds(200))
                 guard !Task.isCancelled else { return }
-                rebuildCards()
+                content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
             }
             // A logged dose (here or elsewhere) changes the history-derived
             // caches — refresh them off the body, keyed on a content signature
             // so in-place edits invalidate too.
-            .onChange(of: entriesSignature) {
-                rebuildEntryDerived()
+            .onChange(of: QuickLogContentModel.entriesSignature(allEntries)) {
+                content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
             }
             .onChange(of: substanceColors.count) {
-                rebuildColorLookup()
-                rebuildCards()
+                content.rebuildColorLookup(substanceColors: substanceColors)
+                content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
             }
             // Keyed on names, not count — a reorder changes order only.
-            .onChange(of: favorites.map(\.substance)) { rebuildFavorites() }
+            .onChange(of: favorites.map(\.substance)) { content.rebuildFavorites(favorites: favorites) }
             // Routine pills depend on the routine rows + daily items; refresh
             // the cache when either is edited (the Manage Routines sheet).
-            .onChange(of: routineSignature) { cachedDailyGroups = makeDailyGroups() }
+            .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines) }
             .onChange(of: searchFocused) {
                 if !searchFocused, searchText.isEmpty {
                     withAnimation(.snappy) { searchActive = false }
@@ -407,13 +228,15 @@ struct QuickLogView: View {
             }
             .task(id: searchText) {
                 guard !searchText.isEmpty else {
-                    cachedLibraryResults = []
+                    content.setLibraryResults([])
                     return
                 }
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }
-                cachedLibraryResults = SubstanceLibrary.search(searchText)
-                    .filter { !cachedHistoryNames.contains($0.name.lowercased()) }
+                content.setLibraryResults(
+                    SubstanceLibrary.search(searchText)
+                        .filter { !content.cachedHistoryNames.contains($0.name.lowercased()) },
+                )
             }
         }
         // Swipe-down dismissal is off: scrolling the list and dragging in the
@@ -497,8 +320,8 @@ struct QuickLogView: View {
     private var trayDock: some View {
         DoseTrayView(
             model: tray,
-            tagSuggestions: cachedTagSuggestions,
-            recentLocations: cachedRecentLocations,
+            tagSuggestions: content.cachedTagSuggestions,
+            recentLocations: content.cachedRecentLocations,
             onAddMore: activateSearch,
             onCommit: commitTray,
         )
@@ -577,11 +400,11 @@ struct QuickLogView: View {
     private var dockResults: [QuickLogSearchResult] {
         let query = searchText.lowercased()
         guard !query.isEmpty else { return [] }
-        var results: [QuickLogSearchResult] = cachedCards
+        var results: [QuickLogSearchResult] = content.cachedCards
             .filter { $0.id.contains(query) }
             .prefix(2)
             .map { .recent($0) }
-        results += cachedLibraryResults.prefix(3).map { .library($0) }
+        results += content.cachedLibraryResults.prefix(3).map { .library($0) }
         results += filteredCustomSubstances.prefix(1).map { .custom($0) }
         return Array(results.prefix(4))
     }
@@ -612,17 +435,17 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
-        if !cachedDailyGroups.isEmpty {
+        if !content.cachedDailyGroups.isEmpty {
             dailySection
         }
 
-        if !cachedFavoriteCards.isEmpty || !cachedFavoriteLibrarySubstances.isEmpty {
+        if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
             Section {
-                ForEach(cachedFavoriteCards) { card in
+                ForEach(content.cachedFavoriteCards) { card in
                     cardView(card, isFavorite: true)
                         .id("\(card.id)_fav")
                 }
-                ForEach(cachedFavoriteLibrarySubstances) { substance in
+                ForEach(content.cachedFavoriteLibrarySubstances) { substance in
                     libraryRow(substance)
                 }
             } header: {
@@ -641,14 +464,14 @@ struct QuickLogView: View {
             }
         }
 
-        if !cachedNonFavoriteCards.isEmpty {
+        if !content.cachedNonFavoriteCards.isEmpty {
             Section {
-                ForEach(cachedNonFavoriteCards) { card in
+                ForEach(content.cachedNonFavoriteCards) { card in
                     cardView(card, isFavorite: false)
                         .id("\(card.id)_recent")
                 }
             } header: {
-                if !cachedFavoriteCards.isEmpty {
+                if !content.cachedFavoriteCards.isEmpty {
                     Label("Recent", systemImage: "clock")
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
@@ -659,17 +482,6 @@ struct QuickLogView: View {
     }
 
     // MARK: - Daily routine
-
-    /// "Prescriptions" reconceived: pre-set daily drugs (meds, supplements,
-    /// anything routine) as first-class cards whose item-chips stage into the
-    /// same tray as everything else.
-    private struct DailyCategoryGroup: Identifiable {
-        let id: String
-        let title: String
-        let icon: String
-        let items: [DailyDoseItem]
-        let remaining: [DailyDoseItem]
-    }
 
     /// Cheap change-signature for the routine pills' inputs (tiny N), used to
     /// invalidate `cachedDailyGroups` on an in-place edit from the settings
@@ -687,56 +499,10 @@ struct QuickLogView: View {
         return parts
     }
 
-    private func makeDailyGroups() -> [DailyCategoryGroup] {
-        guard !dailyDoseItems.isEmpty else { return [] }
-        let loggedToday = cachedLoggedToday
-
-        func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
-            items.filter { !loggedToday.contains($0.substance.lowercased()) }
-        }
-
-        // Routines flow through the day: timed ones first by clock,
-        // untimed after in the user's arranged order.
-        let ordered = routines.sorted {
-            ($0.timeMinutes ?? .max, $0.sortOrder) < ($1.timeMinutes ?? .max, $1.sortOrder)
-        }
-
-        var groups: [DailyCategoryGroup] = []
-        var claimed: Set<String> = []
-        for routine in ordered {
-            claimed.insert(routine.name)
-            let items = dailyDoseItems.filter { $0.category == routine.name }
-            guard !items.isEmpty else { continue }
-            groups.append(DailyCategoryGroup(
-                id: routine.name,
-                title: routine.name,
-                icon: RoutineIcon.symbol(for: routine.name),
-                items: items,
-                remaining: remaining(in: items),
-            ))
-        }
-
-        // Items whose category has no routine row (first launch before
-        // seeding, or an import) still get a pill so nothing is unreachable.
-        let orphans = dailyDoseItems.filter { !claimed.contains($0.category) }
-        if !orphans.isEmpty {
-            for (category, items) in Dictionary(grouping: orphans, by: \.category).sorted(by: { $0.key < $1.key }) {
-                groups.append(DailyCategoryGroup(
-                    id: category.isEmpty ? "·uncategorized" : category,
-                    title: category.isEmpty ? String(localized: "Routine") : category,
-                    icon: RoutineIcon.symbol(for: category),
-                    items: items,
-                    remaining: remaining(in: items),
-                ))
-            }
-        }
-        return groups
-    }
-
     private var dailySection: some View {
         Section {
             FlowLayout(spacing: 8) {
-                ForEach(cachedDailyGroups) { group in
+                ForEach(content.cachedDailyGroups) { group in
                     routinePill(group)
                 }
             }
@@ -780,14 +546,14 @@ struct QuickLogView: View {
             .padding(.vertical, 9)
             .background(
                 allStaged
-                    ? AnyShapeStyle(Theme.accent)
-                    : done ? AnyShapeStyle(Color.green.opacity(0.12)) : AnyShapeStyle(Theme.accent.opacity(0.12)),
+                    ? Theme.accent
+                    : done ? Color.green.opacity(0.12) : Theme.accent.opacity(0.12),
                 in: Capsule(),
             )
             .foregroundStyle(
                 allStaged
-                    ? AnyShapeStyle(.white)
-                    : done ? AnyShapeStyle(Color.green) : AnyShapeStyle(Theme.accent),
+                    ? Color.white
+                    : done ? Color.green : Theme.accent,
             )
         }
         .buttonStyle(.plain)
@@ -822,7 +588,7 @@ struct QuickLogView: View {
             route: item.route,
             amount: item.amount,
             unit: item.unit,
-            colorHex: cachedColorLookup[item.substance.lowercased()],
+            colorHex: content.cachedColorLookup[item.substance.lowercased()],
             librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
             isFromDailySet: true,
             isBackgroundMed: item.isBackgroundMed,
@@ -838,7 +604,7 @@ struct QuickLogView: View {
         SubstanceCardView(
             card: card,
             isFavorite: isFavorite,
-            lastEntry: cachedMostRecent[card.id],
+            badge: content.cachedMostRecent[card.id],
             tray: tray,
             onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card.substanceName) } },
             onMoveChip: { group, chip, toFront in moveChip(group: group, chip: chip, toFront: toFront) },
@@ -995,7 +761,7 @@ struct QuickLogView: View {
         guard let dose = quickLogDose(for: group, chip: chip) else { return }
         modelContext.delete(dose)
         try? modelContext.save()
-        withAnimation(.snappy) { rebuildCards() }
+        withAnimation(.snappy) { content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites) }
     }
 
     /// Move a chip to the front (or back) of its (substance, route) group by
@@ -1010,7 +776,7 @@ struct QuickLogView: View {
             dose.sortOrder = (siblings.map(\.sortOrder).max() ?? 0) + 1
         }
         try? modelContext.save()
-        withAnimation(.snappy) { rebuildCards() }
+        withAnimation(.snappy) { content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites) }
     }
 
     /// Library / custom search results stage an amount-less draft that opens
@@ -1023,7 +789,7 @@ struct QuickLogView: View {
                 substance: substance.name,
                 route: substance.defaultRoute,
                 unit: substance.defaultUnit,
-                colorHex: cachedColorLookup[substance.name.lowercased()],
+                colorHex: content.cachedColorLookup[substance.name.lowercased()],
                 librarySubstance: substance,
             )
             searchActive = false
@@ -1040,7 +806,7 @@ struct QuickLogView: View {
                 substance: prefill.substance,
                 route: prefill.route,
                 unit: prefill.unit,
-                colorHex: cachedColorLookup[prefill.substance.lowercased()],
+                colorHex: content.cachedColorLookup[prefill.substance.lowercased()],
                 librarySubstance: SubstanceLibrary.timelineLookup(prefill.substance.lowercased()),
             )
             searchActive = false

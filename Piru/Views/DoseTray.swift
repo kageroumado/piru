@@ -202,7 +202,25 @@ final class DoseTrayModel {
     /// How many of a given chip are staged (drives the chip's count badge).
     func quantity(substance: String, route: RouteOfAdministration, amount: Double, unit: String) -> Int {
         guard let index = stagedIndex(substance: substance, route: route, unit: unit) else { return 0 }
-        return staged[index].components.first { $0.amount.doseFormatted == amount.doseFormatted }?.count ?? 0
+        return staged[index].components.first { Self.sameAmount($0.amount, amount) }?.count ?? 0
+    }
+
+    /// Match two chip amounts at their *display* resolution, replacing a
+    /// `doseFormatted` **string** comparison that allocated a formatted string
+    /// per component on every staged-chip lookup — this ran inside `body` via
+    /// the card's count badge. Mirrors `doseFormatted`'s magnitude-dependent
+    /// rounding (0 dp ≥100, 1 dp ≥10, else 2 dp) so the perceived chip identity
+    /// is unchanged — the editor's text round-trip of 31.700000000000003 →
+    /// "31.7" → 31.7 still matches its chip — just without the allocation.
+    private static func sameAmount(_ lhs: Double, _ rhs: Double) -> Bool {
+        displayKey(lhs) == displayKey(rhs)
+    }
+
+    /// Integer key at `doseFormatted`'s rounding for this magnitude.
+    private static func displayKey(_ value: Double) -> Int {
+        let magnitude = Swift.abs(value)
+        let scale: Double = magnitude >= 100 ? 1 : magnitude >= 10 ? 10 : 100
+        return Int((value * scale).rounded())
     }
 
     /// Stage a chip. Same substance + route + unit merges into the existing
@@ -220,7 +238,7 @@ final class DoseTrayModel {
         isBackgroundMed: Bool = false,
     ) {
         if let index = stagedIndex(substance: substance, route: route, unit: unit) {
-            if let componentIndex = staged[index].components.firstIndex(where: { $0.amount.doseFormatted == amount.doseFormatted }) {
+            if let componentIndex = staged[index].components.firstIndex(where: { Self.sameAmount($0.amount, amount) }) {
                 staged[index].components[componentIndex].count += 1
             } else {
                 staged[index].components.append(.init(amount: amount))

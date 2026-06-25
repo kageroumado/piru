@@ -13,7 +13,12 @@ import SwiftUI
 struct SubstanceCardView: View {
     let card: SubstanceCard
     let isFavorite: Bool
-    let lastEntry: DoseEntry?
+    /// Precomputed PK badge for this card's most recent dose, built in
+    /// `QuickLogContentModel` when the history-derived caches rebuild — so the
+    /// per-card `DosePK.status` call (two `SubstanceLibrary` lookups + PK math)
+    /// and the live-`DoseEntry` reads no longer run inside `body` on every
+    /// render.
+    let badge: CardPKBadge?
     let tray: DoseTrayModel
     let onToggleFavorite: () -> Void
     let onMoveChip: (SubstanceGroup, DoseChip, Bool) -> Void
@@ -34,10 +39,7 @@ struct SubstanceCardView: View {
     }
 
     var body: some View {
-        let pkStatus = lastEntry.flatMap {
-            DosePK.status(substanceName: card.substanceName, route: $0.route, lastDoseTimestamp: $0.timestamp)
-        }
-        let showsBadge = (pkStatus?.remainingPercent ?? 0) > 5
+        let showsBadge = badge?.showsBadge ?? false
 
         return VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
@@ -50,16 +52,16 @@ struct SubstanceCardView: View {
                 // tap to expand the full advice when it actually matters. The
                 // badge hides while the card is open so the same fact never
                 // shows twice; tapping the card collapses it back.
-                if showsBadge, let pkStatus, let lastEntry, !expandedPK {
+                if showsBadge, let badge, !expandedPK {
                     Button {
                         withAnimation(.snappy) { expandedPK = true }
                     } label: {
                         DosePKBadge(
-                            remainingPercent: pkStatus.remainingPercent,
-                            lastDoseAmount: lastEntry.amount,
-                            unit: lastEntry.unit,
-                            waitMinutes: pkStatus.waitMinutes,
-                            lastDoseTimestamp: lastEntry.timestamp,
+                            remainingPercent: badge.remainingPercent,
+                            lastDoseAmount: badge.lastDoseAmount,
+                            unit: badge.lastDoseUnit,
+                            waitMinutes: badge.waitMinutes,
+                            lastDoseTimestamp: badge.lastDoseTimestamp,
                         )
                     }
                     .buttonStyle(.plain)
@@ -77,16 +79,16 @@ struct SubstanceCardView: View {
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
             }
 
-            if showsBadge, expandedPK, let lastEntry {
+            if showsBadge, expandedPK, let badge {
                 Button {
                     withAnimation(.snappy) { expandedPK = false }
                 } label: {
                     DoseSuggestionCard(
                         substanceName: card.substanceName,
-                        lastDoseAmount: lastEntry.amount,
-                        lastDoseTimestamp: lastEntry.timestamp,
-                        unit: lastEntry.unit,
-                        route: lastEntry.route,
+                        lastDoseAmount: badge.lastDoseAmount,
+                        lastDoseTimestamp: badge.lastDoseTimestamp,
+                        unit: badge.lastDoseUnit,
+                        route: badge.lastDoseRoute,
                     )
                 }
                 .buttonStyle(.plain)
