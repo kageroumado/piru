@@ -44,7 +44,11 @@ final class JournalModel {
     /// view extends the window as the user scrolls to the bottom. `true` while
     /// older sessions remain unbuilt — drives the load-more sentinel.
     private(set) var hasMoreSessions = false
-    private static let sessionPageSize = 25
+    // First page is small so the Journal's first appear builds a handful of
+    // session cards (each carrying a PK graph) instead of 25 — the eager build
+    // of the full window was the bulk of the Journal first-render hang. The view
+    // grows the window on scroll, so deeper history is one scroll away.
+    private static let sessionPageSize = 12
     private var sessionWindow = sessionPageSize
 
     /// Same guard for the grouping pass (bucketing + day-card formatting).

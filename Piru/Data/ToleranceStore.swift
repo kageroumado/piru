@@ -148,6 +148,13 @@ final class ToleranceStore {
     private func startBackgroundRefresh() {
         backgroundRefreshTask?.cancel()
         backgroundRefreshTask = Task { [weak self] in
+            // Let the first paint settle before the initial replay: it resolves
+            // pharmacology (pk + bindings) per dosed substance on the main actor,
+            // which competed with launch rendering. The warm snapshot is only
+            // read by the tool and the dose-entry readout, so a short delay is
+            // invisible.
+            try? await Task.sleep(for: .seconds(1.5))
+            if Task.isCancelled { return }
             await self?.recomputeFromStore()
             let ticks = DoseLogService.shared.changes.debounce(for: .seconds(2))
             for await _ in ticks {
