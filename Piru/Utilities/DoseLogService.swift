@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import WidgetKit
 
 /// The single choke point for **mutating the dose log**, and the one place a "the dose log changed"
 /// signal is emitted. Derived caches (the tolerance engine) subscribe to ``changes`` and refresh in the
@@ -28,9 +29,24 @@ final class DoseLogService {
     let changes: AsyncStream<Void>
     private let continuation: AsyncStream<Void>.Continuation
 
+    /// The in-flight deferred-bookkeeping task. Superseded (not abandoned) by a
+    /// fresh ``scheduleDeferredBookkeeping(forSubstances:in:bookkeeping:)`` — see
+    /// that method's note on why pending work accumulates rather than dropping.
+    private var deferralTask: Task<Void, Never>?
+    /// Substances whose inventory still needs a scoped recompute, unioned across
+    /// every schedule since the last flush.
+    private var pendingSubstances: Set<String> = []
+    /// Per-site notification work (one closure per commit) still owed, run in
+    /// order on the next flush. `@MainActor` — they touch `@Model` entries.
+    private var pendingBookkeeping: [@MainActor () -> Void] = []
+
     init() {
         (changes, continuation) = AsyncStream.makeStream(bufferingPolicy: .bufferingNewest(1))
     }
+
+    /// Delay before the deferred bookkeeping runs — long enough to clear a
+    /// sheet's dismissal animation so it doesn't drop frames.
+    private static let deferralDelay: Duration = .milliseconds(450)
 
     /// Canonical single-dose log: insert, assign its session, save, fire harm-reduction notifications,
     /// then signal. For the entry-form path and the Watch receiver — callers that log exactly one dose.
@@ -54,5 +70,46 @@ final class DoseLogService {
     /// this only emits the change tick that wakes the derived caches.
     func changed() {
         continuation.yield(())
+    }
+
+    /// Schedule the post-commit bookkeeping that **isn't on screen** — the scoped
+    /// inventory recompute (its stock math runs off-main), the per-entry
+    /// harm-reduction notifications, and one `WidgetCenter` timeline reload — to
+    /// run *after* the UI transition settles. This is the work that, run
+    /// synchronously before `dismiss()`, dropped frames on the dismissal: the
+    /// blanket `InventoryService.recomputeAll` (O(items × doses) on main) and the
+    /// `reloadAllTimelines()` IPC.
+    ///
+    /// Uses the utility-`Task` + `Task.sleep` deferral idiom (not
+    /// `DispatchQueue.main.asyncAfter`): cancellable, and the scheduler can stall
+    /// it further while the main actor is busy — "run it when resources are
+    /// free." A rapid second commit **supersedes** the timer but *accumulates*
+    /// its work: `substances` is unioned and the `bookkeeping` closure is queued,
+    /// so coalescing only ever merges the two flushes (one widget reload, one
+    /// inventory pass over the union) — it never drops a recompute or a
+    /// notification. `bookkeeping` carries the site-specific notification work
+    /// (e.g. `DoseNotificationManager.doseLogged` per created entry); the
+    /// inventory recompute + widget reload are owned here.
+    func scheduleDeferredBookkeeping(
+        forSubstances substances: Set<String>,
+        in context: ModelContext,
+        bookkeeping: @escaping @MainActor () -> Void = {},
+    ) {
+        pendingSubstances.formUnion(substances)
+        pendingBookkeeping.append(bookkeeping)
+        deferralTask?.cancel()
+        deferralTask = Task(priority: .utility) { [weak self] in
+            try? await Task.sleep(for: Self.deferralDelay)
+            guard !Task.isCancelled, let self else { return }
+            let substances = self.pendingSubstances
+            let bookkeeping = self.pendingBookkeeping
+            self.pendingSubstances = []
+            self.pendingBookkeeping = []
+            await InventoryService.recompute(forSubstances: substances, offMainIn: context)
+            for work in bookkeeping {
+                work()
+            }
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 }

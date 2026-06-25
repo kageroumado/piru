@@ -15,24 +15,36 @@ struct LibraryBrowseView: View {
     /// a cold full resolve on the main thread the first time) is wasted work.
     @State private var visibleFamilies: [LibraryFamily] = []
     @State private var favoriteSubstances: [Substance] = []
+    /// Gates the card flow on the batch cache being warm, so the screen never
+    /// flashes a half-built list (or pays a cold resolve in `body`). The browse
+    /// data resolves off-main on its own connection, so this placeholder is
+    /// brief — and it never blocks the rest of the UI.
+    @State private var loaded = false
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 12) {
-                if !favoriteSubstances.isEmpty {
-                    LibraryFavoritesCard(substances: favoriteSubstances, total: favoriteSubstances.count)
+            if loaded {
+                LazyVStack(spacing: 12) {
+                    if !favoriteSubstances.isEmpty {
+                        LibraryFavoritesCard(substances: favoriteSubstances, total: favoriteSubstances.count)
+                    }
+                    ForEach(visibleFamilies) { family in
+                        LibraryFamilyCard(
+                            family: family,
+                            isExpanded: expanded.contains(family.id),
+                            toggle: { toggle(family.id) },
+                        )
+                    }
                 }
-                ForEach(visibleFamilies) { family in
-                    LibraryFamilyCard(
-                        family: family,
-                        isExpanded: expanded.contains(family.id),
-                        toggle: { toggle(family.id) },
-                    )
-                }
+                .padding(.horizontal, 16)
+                .padding(.top, 4)
+                .padding(.bottom, 28)
+            } else {
+                ProgressView()
+                    .controlSize(.large)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 80)
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 4)
-            .padding(.bottom, 28)
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -44,6 +56,7 @@ struct LibraryBrowseView: View {
             // with nothing browsable never shows a dead card.
             visibleFamilies = LibraryFamily.browsable
             rebuildFavorites()
+            loaded = true
         }
         .onChange(of: favoritesSignature) { rebuildFavorites() }
     }
@@ -211,10 +224,12 @@ private struct LibraryFamilyCard: View {
         }
     }
 
-    /// Substance count for a single navigating card (nil for umbrellas).
+    /// Substance count for a single navigating card (nil for umbrellas). Reads
+    /// the cheap histogram for categories so a card's count never forces the
+    /// full per-category `Substance` materialization.
     private var groupCount: Int? {
         switch family.source {
-        case let .category(category): SubstanceLibrary.substances(in: category).count
+        case let .category(category): SubstanceLibrary.categorySummary()[category] ?? 0
         case let .tag(tag): SubstanceLibrary.substances(taggedWith: tag).count
         case nil: nil
         }
@@ -272,7 +287,7 @@ private struct LibrarySubclassRow: View {
     let sub: LibrarySubclass
 
     private var count: Int {
-        SubstanceLibrary.substances(in: sub.category).count
+        SubstanceLibrary.categorySummary()[sub.category] ?? 0
     }
 
     var body: some View {

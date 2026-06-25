@@ -67,17 +67,23 @@ private struct PushRouteView: View {
             ComedownGuideView()
 
         case let .substance(name):
-            // Resolve via the detail path (not the lean `.all` batch list) so
-            // detail-only fields — mechanism, chemistry identifiers, molar mass,
-            // peptide profile, and per-route protocol dosing — are hydrated.
+            // Push a **lightweight shell** (the warm batch projection's hot
+            // fields) so the detail header + dose card render instantly off the
+            // push; `SubstanceDetailView` then resolves the heavy detail-only
+            // fields — mechanism, chemistry identifiers, molar mass, peptide
+            // profile, per-route protocol dosing — in a `.task` off the push.
             //
-            // If a *stored* name no longer resolves to a canonical substance
-            // (renamed/merged since it was saved — e.g. "Magnesium" was split
-            // into specific salts), show an explicit not-found state rather than
-            // a blank screen. Alias fallback is deliberately avoided: some
-            // aliases are polluted ("magnesium" → Salicylic acid), so it would
-            // mis-resolve to an unrelated substance.
-            if let substance = SubstanceLibrary.lookup(name) {
+            // The shell is only available once the batch cache is warm (the
+            // common case after browsing); otherwise fall back to the full
+            // resolve, which also gates the not-found state. If a *stored* name
+            // no longer resolves to a canonical substance (renamed/merged since
+            // it was saved — e.g. "Magnesium" was split into specific salts),
+            // show an explicit not-found state rather than a blank screen. Alias
+            // fallback is deliberately avoided: some aliases are polluted
+            // ("magnesium" → Salicylic acid), so it would mis-resolve.
+            if let shell = SubstanceLibrary.shell(name) {
+                SubstanceDetailView(substance: shell)
+            } else if let substance = SubstanceLibrary.lookup(name) {
                 SubstanceDetailView(substance: substance)
             } else {
                 ContentUnavailableView(

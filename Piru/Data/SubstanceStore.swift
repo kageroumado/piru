@@ -80,7 +80,21 @@ final class SubstanceStore {
 
     static let shared = SubstanceStore()
 
+    /// Foreground (UI-interactive) connection. Per-field `resolveSubstance`
+    /// reads, category counts, lookups — the queries a tap is waiting on — go
+    /// here.
     private let substancesDB: DatabaseQueue
+    /// Second read-only connection to the **same** bundled file, reserved for
+    /// the heavy off-main batch reads (the launch `prewarmTask`, the lazy
+    /// `categorySummary`/`all` materialization). A `DatabaseQueue` serializes
+    /// *all* access through one SQLite connection, so the ~500 ms batch resolve
+    /// run on `substancesDB` would block every foreground read behind it — the
+    /// tab-switch / detail-push hangs in the trace. The file is opened read-only
+    /// and never written, so two independent connections read it concurrently
+    /// (no WAL needed — DELETE-mode read-only allows multiple shared-lock
+    /// readers). Keeping the batch on its own connection is what lets a detail
+    /// push resolve immediately while the prewarm is still running.
+    private let substancesBatchDB: DatabaseQueue
     private let userPrefsDB: DatabaseQueue
 
     /// Ordered list of enabled source slugs (highest priority first). Re-read
@@ -99,6 +113,12 @@ final class SubstanceStore {
     private var allCache: [Substance]?
     private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
     private var nonEmptyCategoriesCache: [SubstanceCategory]?
+    /// Browse-category histogram — every category (primary + curated
+    /// `extraBrowseCategories`) a browse-surfacing substance lands in, with its
+    /// count. Drives the Library cards' counts and the `nonEmptyCategories` /
+    /// `browsable` gating without per-category `.filter` passes over `all`.
+    /// Built in one bucketing sweep; invalidated in lockstep with `allCache`.
+    private var categorySummaryCache: [SubstanceCategory: Int]?
     /// Benzodiazepine diazepam-equivalences for the converter tool — one batched
     /// query, cached after first load. Cleared with the other source-derived caches.
     private var benzoEquivalenceCache: [BenzoEquivalence]?
@@ -175,6 +195,17 @@ final class SubstanceStore {
             fatalError("Failed to open substances DB at \(substancesDBURL.path): \(error)")
         }
 
+        // Second read-only connection for off-main batch reads (see the property
+        // doc). Same file, same read-only config; a distinct `label` so it's
+        // identifiable in Instruments / GRDB logs.
+        var batchConfig = bundleConfig
+        batchConfig.label = "piru-substances-batch"
+        do {
+            self.substancesBatchDB = try DatabaseQueue(path: substancesDBURL.path, configuration: batchConfig)
+        } catch {
+            fatalError("Failed to open substances batch DB at \(substancesDBURL.path): \(error)")
+        }
+
         var prefsConfig = Configuration()
         prefsConfig.label = "piru-user-prefs"
         do {
@@ -196,7 +227,9 @@ final class SubstanceStore {
         // struct building on this background task; we only hop back to main to
         // publish the finished array into the cache.
         if prewarmsAllCache {
-            let prewarmDB = substancesDB
+            // Read on the dedicated batch connection so this ~500 ms resolve
+            // never blocks a foreground per-field read on `substancesDB`.
+            let prewarmDB = substancesBatchDB
             let prewarmOrder = enabledSourceOrder
             prewarmTask = Task.detached(priority: .userInitiated) {
                 let resolved = Self.loadAllSubstancesBatch(db: prewarmDB, order: prewarmOrder)
@@ -302,6 +335,7 @@ final class SubstanceStore {
         batchByName = nil
         substancesByCategoryCache.removeAll(keepingCapacity: true)
         nonEmptyCategoriesCache = nil
+        categorySummaryCache = nil
         benzoEquivalenceCache = nil
     }
 
@@ -468,7 +502,18 @@ final class SubstanceStore {
             await prewarmTask.value
             if allCache != nil { return }
         }
-        _ = all
+        // Cold path — the prewarm was disabled, or it published under a source
+        // order that's since changed (`reloadSourceOrder` nils `allCache`).
+        // Resolve off-main on the batch connection and publish; never pay the
+        // ~500 ms batch build synchronously on the main actor.
+        let db = substancesBatchDB
+        let order = enabledSourceOrder
+        let resolved = await Task.detached(priority: .userInitiated) {
+            Self.loadAllSubstancesBatch(db: db, order: order)
+        }.value
+        guard allCache == nil, enabledSourceOrder == order else { return }
+        allCache = resolved
+        batchByName = nil
     }
 
     /// The name/alias-keyed view over the batch cache, built lazily on first
@@ -498,6 +543,18 @@ final class SubstanceStore {
     /// overlay-aware lookup, which also covers custom-only substances).
     func timelineRow(_ nameOrAlias: String) -> Substance? {
         batchIndex()[nameOrAlias.lowercased()]
+    }
+
+    /// Exact-canonical lightweight projection for the **detail shell** — the hot
+    /// header/dose/duration fields from the warm batch cache, with **no** heavy
+    /// per-field resolve. Returns `nil` unless the batch cache is already warm
+    /// **and** the name is a canonical substance (same exactness as ``lookup``),
+    /// so a detail push renders its header instantly from cache when it can, and
+    /// the caller cleanly falls back to the full resolve otherwise. Never
+    /// triggers a cold `all` build on the calling (main) actor.
+    func shellRow(_ name: String) -> Substance? {
+        guard allCache != nil, nameIndex[name.lowercased()] != nil else { return nil }
+        return batchIndex()[name.lowercased()]
     }
 
     /// Batch-load every substance with ~12 SQL queries instead of ~21k
@@ -915,6 +972,30 @@ final class SubstanceStore {
         allNames.count
     }
 
+    /// Browse-category histogram: for every category a card might show, the
+    /// count of browse-surfacing substances that land in it (under their
+    /// primary `category` **or** any curated `extraBrowseCategories`). This is
+    /// exactly `substances(in: c).count` for each `c`, computed in **one**
+    /// bucketing sweep over the batch projection instead of one `.filter` pass
+    /// per category — so the Library cards' counts are a single dict lookup.
+    ///
+    /// Cheap on its own (no per-substance `resolveSubstance`), but it does read
+    /// `all`. Call it after ``ensureAllLoaded()`` so the underlying batch cache
+    /// is warm and this stays a pure in-memory bucketing — never a cold
+    /// main-thread resolve.
+    func categorySummary() -> [SubstanceCategory: Int] {
+        if let cached = categorySummaryCache { return cached }
+        var counts: [SubstanceCategory: Int] = [:]
+        for substance in all where substance.displayClass.surfacesInBrowse {
+            counts[substance.category, default: 0] += 1
+            for extra in substance.extraBrowseCategories where extra != substance.category {
+                counts[extra, default: 0] += 1
+            }
+        }
+        categorySummaryCache = counts
+        return counts
+    }
+
     /// Substances in a single category. Uses the per-substance category
     /// resolver, so a substance whose categories differ across sources lands
     /// in whichever category the highest-priority enabled source assigns.
@@ -977,13 +1058,12 @@ final class SubstanceStore {
     }
 
     /// Categories that have at least one browsable substance after resolution.
+    /// Derived from the ``categorySummary()`` histogram so it can never disagree
+    /// with the cards' counts.
     var nonEmptyCategories: [SubstanceCategory] {
         if let cached = nonEmptyCategoriesCache { return cached }
-        var cats = Set(all.lazy.filter(\.displayClass.surfacesInBrowse).map(\.category))
-        for s in all where s.displayClass.surfacesInBrowse {
-            cats.formUnion(s.extraBrowseCategories)
-        }
-        let result = SubstanceCategory.allCases.filter(cats.contains)
+        let summary = categorySummary()
+        let result = SubstanceCategory.allCases.filter { (summary[$0] ?? 0) > 0 }
         nonEmptyCategoriesCache = result
         return result
     }
@@ -2279,6 +2359,21 @@ enum SubstanceLibrary {
     }
     static func substances(in category: SubstanceCategory) -> [Substance] {
         SubstanceStore.shared.substances(in: category)
+    }
+
+    /// Browse-category histogram (count per browse category) — the cheap path
+    /// for the Library cards' counts. See ``SubstanceStore/categorySummary()``.
+    static func categorySummary() -> [SubstanceCategory: Int] {
+        SubstanceStore.shared.categorySummary()
+    }
+
+    /// Exact-canonical lightweight detail shell from the warm batch cache, or
+    /// `nil` (cache cold, or not a canonical substance). See
+    /// ``SubstanceStore/shellRow(_:)``. Overlay-aware so a personalized display
+    /// name shows on the shell too.
+    static func shell(_ name: String) -> Substance? {
+        guard let row = SubstanceStore.shared.shellRow(name) else { return nil }
+        return overlayCustom(library: row, query: name)
     }
 
     /// Browsable substances flagged with a metadata `tag` (e.g. `"common"`,

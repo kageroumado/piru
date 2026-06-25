@@ -108,11 +108,15 @@ extension LibraryFamily {
     /// a class with nothing browsable never shows a dead card. Shared by the
     /// Library browse flow and the Search screen's class grid.
     static var browsable: [LibraryFamily] {
-        all.compactMap { family in
+        // Count from the cheap histogram, not by materializing every category's
+        // `Substance` list — those rows are built lazily only when a list is
+        // actually opened.
+        let summary = SubstanceLibrary.categorySummary()
+        return all.compactMap { family in
             guard family.isUmbrella else {
-                return family.hasSubstances ? family : nil
+                return family.hasSubstances(summary: summary) ? family : nil
             }
-            let live = family.subclasses.filter { !SubstanceLibrary.substances(in: $0.category).isEmpty }
+            let live = family.subclasses.filter { (summary[$0.category] ?? 0) > 0 }
             guard !live.isEmpty else { return nil }
             var pruned = family
             pruned.subclasses = live
@@ -120,10 +124,11 @@ extension LibraryFamily {
         }
     }
 
-    /// Whether a single card's source has any browsable substances.
-    private var hasSubstances: Bool {
+    /// Whether a single card's source has any browsable substances — a histogram
+    /// lookup for categories; tags still need their cross-category scan.
+    private func hasSubstances(summary: [SubstanceCategory: Int]) -> Bool {
         switch source {
-        case let .category(category): !SubstanceLibrary.substances(in: category).isEmpty
+        case let .category(category): (summary[category] ?? 0) > 0
         case let .tag(tag): !SubstanceLibrary.substances(taggedWith: tag).isEmpty
         case .none: false
         }

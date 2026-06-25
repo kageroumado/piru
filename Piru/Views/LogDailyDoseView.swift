@@ -142,10 +142,12 @@ struct LogMedicationsView: View {
 
     private func logSelected() {
         let now = Date.now
+        var affected: Set<String> = []
 
         for item in items {
             let isOn = toggleStates[itemKey(for: item)] ?? true
             guard isOn else { continue }
+            affected.insert(item.substance)
 
             let entry = DoseEntry(
                 substance: item.substance,
@@ -171,6 +173,11 @@ struct LogMedicationsView: View {
 
         startLiveActivityForBatch()
         DoseLogService.shared.changed()
+
+        // Refresh the affected items' stock cache + the widget off the commit
+        // path, through the shared deferred funnel — a tracked daily med's
+        // consumption should reflect in inventory without blocking the dismissal.
+        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: modelContext)
 
         // Medication log completes a logging flow; clear the entire chain back
         // to root.

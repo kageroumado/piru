@@ -369,7 +369,7 @@ struct EntryFormView: View {
             }
             // Cross-tolerance + effect-attenuation need history beyond 48 h, so they run off the
             // synchronous interaction path and only re-run when the substance changes (not per keystroke).
-            .task(id: isEditing ? "" : substance) { refreshPharmacologyReadouts() }
+            .task(id: isEditing ? "" : substance) { await refreshPharmacologyReadouts() }
             .onChange(of: notes) {
                 let extracted = TagExtractor.extractTags(from: notes)
                 for tag in extracted where !entryTags.contains(tag) {
@@ -449,7 +449,7 @@ struct EntryFormView: View {
     /// synchronous interaction path and keyed on the substance alone (neither depends on the dose's
     /// amount): the cross-tolerance state, and the effect-attenuation blunting from blockers still
     /// pharmacologically onboard (half-life-gated, so a chronic SSRI taken days ago still counts).
-    private func refreshPharmacologyReadouts() {
+    private func refreshPharmacologyReadouts() async {
         guard !substance.isEmpty, !isEditing else {
             crossTolerance = []
             opioidReset = nil
@@ -459,7 +459,7 @@ struct EntryFormView: View {
             return
         }
         crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
-        opioidReset = ToleranceStore.shared.opioidResetRisk(forSubstance: substance)
+        opioidReset = await ToleranceStore.shared.opioidResetRisk(forSubstance: substance)
 
         // Metabolic modulation (Stage 4c, readout-only): co-active CYP inhibitors/inducers onboard, the
         // smoking profile flag, and the substance's own auto-modulation. Grapefruit is a per-dose flag
@@ -570,9 +570,14 @@ struct EntryFormView: View {
         // alongside the canonical grams, or cleared when not in drink mode.
         let byVolume = byVolumeMode ? (enteredVolumeML, enteredABV, trimmedDrinkName) : (nil, nil, nil)
 
+        // An edit can move the dose between substances; the deferred inventory
+        // recompute must touch both the old and the new one.
+        var editedPreviousSubstance: String?
+
         if let entry {
             let previousTimestamp = entry.timestamp
             let previousSubstanceName = entry.substance
+            editedPreviousSubstance = previousSubstanceName
             entry.substance = substance
             entry.amount = storedAmount
             entry.unit = storedUnit
@@ -631,13 +636,7 @@ struct EntryFormView: View {
             SessionService.assignSession(for: newEntry, in: modelContext)
             QuickLogManager.record(substance: substance, route: route, amount: storedAmount, unit: storedUnit, fixedOrder: quickLogFixedOrder, context: modelContext)
             savedEntry = newEntry
-
-            // Schedule wellness notifications & check cumulative dose
-            DoseNotificationManager.doseLogged(entry: newEntry, recentEntries: Array(recentEntries))
         }
-
-        InventoryService.recomputeAll(in: modelContext)
-        WidgetCenter.shared.reloadAllTimelines()
 
         // Auto-assign a stable palette colour for a brand-new substance up front
         // (the same colour the graph already uses), so the live activity and
@@ -650,11 +649,27 @@ struct EntryFormView: View {
         // Wake the derived caches (tolerance engine) — debounced + recomputed off-main.
         DoseLogService.shared.changed()
 
+        // Defer the non-visible bookkeeping (scoped inventory recompute, harm-
+        // reduction notifications, one widget reload) past the dismissal so it
+        // never drops frames on the slide-down. A new dose fires its wellness
+        // notifications here; an edit only needs the inventory/widget refresh —
+        // its reminders were rescheduled immediately above.
+        let isNewEntry = entry == nil
+        let notifyEntry = savedEntry
+        let recents = Array(recentEntries)
+        var affected: Set<String> = [substance]
+        if let editedPreviousSubstance { affected.insert(editedPreviousSubstance) }
+        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: modelContext) {
+            if isNewEntry, let notifyEntry {
+                DoseNotificationManager.doseLogged(entry: notifyEntry, recentEntries: recents)
+            }
+        }
+
         // A new-entry save completes the logging flow that may span multiple
         // sheets (e.g. QuickLog → "From Library" → EntryForm). Dismiss the
         // entire stack so the user lands back at root. An edit, by contrast,
         // should return to wherever the form was opened from.
-        if entry == nil {
+        if isNewEntry {
             navigator.dismissAll()
         } else {
             navigator.dismiss()

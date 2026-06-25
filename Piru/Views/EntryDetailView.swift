@@ -775,8 +775,12 @@ struct EntryDetailView: View {
         // must drop them and reschedule from its new time.
         DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp)
 
-        InventoryService.recomputeAll(in: modelContext)
-        WidgetCenter.shared.reloadAllTimelines()
+        // Inventory recompute (scoped to the old + new substance) and the widget
+        // reload are deferred off the edit-commit path — neither is on screen.
+        DoseLogService.shared.scheduleDeferredBookkeeping(
+            forSubstances: [entry.substance, previousSubstanceName],
+            in: modelContext,
+        )
         isEditing = false
     }
 
@@ -808,9 +812,9 @@ struct EntryDetailView: View {
             timestamp: timestamp,
             allColors: Array(substanceColors),
         )
-        InventoryService.recomputeAll(in: modelContext)
         DoseLogService.shared.changed()
-        WidgetCenter.shared.reloadAllTimelines()
+        // Scoped inventory recompute + widget reload deferred past the dismissal.
+        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: [name], in: modelContext)
         dismiss()
     }
 }

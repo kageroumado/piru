@@ -1,6 +1,6 @@
 import Foundation
 
-enum AdherenceStatus {
+nonisolated enum AdherenceStatus {
     case complete
     case partial
     case missed
@@ -33,14 +33,21 @@ enum AdherenceCalculator {
 
     /// Whether a prescription item is due on a given date, based on its frequency and start date.
     static func isDue(_ item: DailyDoseItem, on date: Date) -> Bool {
+        isDue(startDate: item.startDate, frequency: item.frequency, frequencyDays: item.frequencyDays, on: date)
+    }
+
+    /// The scheduling core over plain values, shared by the `@Model` `isDue`
+    /// above and the `Sendable`-snapshot streak scan. `nonisolated` so the
+    /// off-main year pass can call it.
+    nonisolated static func isDue(startDate: Date, frequency: DoseFrequency, frequencyDays: [Int], on date: Date) -> Bool {
         let calendar = Calendar.current
         let day = calendar.startOfDay(for: date)
-        let start = calendar.startOfDay(for: item.startDate)
+        let start = calendar.startOfDay(for: startDate)
 
         // Not due before the prescription start date
         guard day >= start else { return false }
 
-        switch item.frequency {
+        switch frequency {
         case .daily:
             return true
 
@@ -67,7 +74,7 @@ enum AdherenceCalculator {
 
         case .specificDays:
             let weekday = calendar.component(.weekday, from: day)
-            return item.frequencyDays.contains(weekday)
+            return frequencyDays.contains(weekday)
         }
     }
 
@@ -108,11 +115,18 @@ enum AdherenceCalculator {
     }
 
     static func currentStreak(adherenceData: [DayAdherence]) -> Int {
+        streak(fromDays: adherenceData.map { (date: $0.date, status: $0.status) })
+    }
+
+    /// The streak walk over `(date, status)` pairs — the part of the adherence
+    /// computation `currentStreak(adherenceData:)` actually reads. Factored out
+    /// (and `nonisolated`) so the off-main year scan shares the exact same logic.
+    nonisolated static func streak(fromDays days: [(date: Date, status: AdherenceStatus)]) -> Int {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: .now)
 
         // Filter to only days that had items due (skip .noData days)
-        let actionable = adherenceData
+        let actionable = days
             .filter { $0.status != .noData }
             .sorted { $0.date > $1.date }
 
@@ -129,7 +143,7 @@ enum AdherenceCalculator {
             var check = calendar.date(byAdding: .day, value: -1, to: cursor)!
             var gapOk = true
             while check > dayStart {
-                if let gapDay = adherenceData.first(where: { calendar.isDate($0.date, inSameDayAs: check) }),
+                if let gapDay = days.first(where: { calendar.isDate($0.date, inSameDayAs: check) }),
                    gapDay.status == .missed {
                     gapOk = false
                     break
@@ -149,5 +163,64 @@ enum AdherenceCalculator {
         }
 
         return streak
+    }
+
+    // MARK: - Off-main year scan (Sendable snapshots)
+
+    /// Sendable snapshot of a dose's matching fields for the off-main streak scan.
+    struct EntrySnapshot {
+        let substance: String
+        let timestamp: Date
+    }
+
+    /// Sendable snapshot of a daily item's scheduling/matching fields.
+    struct DailyItemSnapshot {
+        let substance: String
+        let startDate: Date
+        let frequency: DoseFrequency
+        let frequencyDays: [Int]
+    }
+
+    /// Per-day adherence **status** over Sendable snapshots — all the streak
+    /// needs. Mirrors ``adherence(for:entries:dailyItems:)``'s status derivation
+    /// without materializing the non-`Sendable` `DayAdherence`/`ItemAdherence`.
+    nonisolated static func dayStatus(for date: Date, entries: [EntrySnapshot], items: [DailyItemSnapshot]) -> AdherenceStatus {
+        let calendar = Calendar.current
+        let dayStart = calendar.startOfDay(for: date)
+        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
+        let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
+
+        let dueItems = items.filter { isDue(startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays, on: date) }
+        guard !dueItems.isEmpty else { return .noData }
+
+        var matched = 0
+        for item in dueItems where dayEntries.contains(where: { $0.substance.lowercased() == item.substance.lowercased() }) {
+            matched += 1
+        }
+        if matched == dueItems.count { return .complete }
+        return matched > 0 ? .partial : .missed
+    }
+
+    /// Current streak over a span of days (default the past year), computed
+    /// **off the main actor** from Sendable snapshots — the heavy part of the
+    /// Insights adherence card. Equivalent to building each day's
+    /// ``adherence(for:entries:dailyItems:)`` and calling
+    /// ``currentStreak(adherenceData:)``, but without touching `@Model`s.
+    nonisolated static func currentStreak(
+        spanningDays dayCount: Int,
+        endingAt now: Date,
+        entries: [EntrySnapshot],
+        items: [DailyItemSnapshot],
+    ) -> Int {
+        let calendar = Calendar.current
+        guard let start = calendar.date(byAdding: .day, value: -dayCount, to: now) else { return 0 }
+        var days: [(date: Date, status: AdherenceStatus)] = []
+        var day = start
+        while day <= now {
+            days.append((date: day, status: dayStatus(for: day, entries: entries, items: items)))
+            guard let next = calendar.date(byAdding: .day, value: 1, to: day) else { break }
+            day = next
+        }
+        return streak(fromDays: days)
     }
 }

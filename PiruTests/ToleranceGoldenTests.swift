@@ -160,13 +160,12 @@ struct ToleranceGoldenTests {
         }
     }
 
-    /// Times the **dose-entry warning path** over the live log. `crossToleranceReadouts` and
-    /// `opioidResetRisk` run synchronously on the main actor when the entry form appears, so their wall
-    /// time decides whether they're acceptable on-main (a >~400 ms stall is perceptible) or must move
-    /// off-main / read the warm cache. A μ-opioid substance is chosen so the opioid-reset gate runs its
-    /// full multi-replay rather than bailing early.
+    /// Times the **dose-entry warning path** over the live log. `crossToleranceReadouts` reads the warm
+    /// cache and `opioidResetRisk` now replays **off-main**, so their wall time decides whether the
+    /// entry-form refresh stalls (a >~400 ms stall is perceptible). A μ-opioid substance is chosen so the
+    /// opioid-reset gate runs its full multi-replay rather than bailing early.
     @Test(.enabled(if: hasStore))
-    func `Dose-entry warning path timing on the live log`() throws {
+    func `Dose-entry warning path timing on the live log`() async throws {
         let container = try ModelContainer(
             for: Schema(StoreRecovery.models),
             configurations: ModelConfiguration(url: Self.storeURL, allowsSave: false, cloudKitDatabase: .none),
@@ -191,7 +190,7 @@ struct ToleranceGoldenTests {
         let crossElapsed = clock.now - crossStart
 
         let opioidStart = clock.now
-        let opioidReset = tolerance.opioidResetRisk(forSubstance: substance)
+        let opioidReset = await tolerance.opioidResetRisk(forSubstance: substance)
         let opioidElapsed = clock.now - opioidStart
 
         print("[warning-path] entries=\(entries.count) crossTolerance=\(crossElapsed) (\(cross.count) readouts) opioidReset=\(opioidElapsed) (\(opioidReset == nil ? "no risk" : "fired")) substance=\(substance)")

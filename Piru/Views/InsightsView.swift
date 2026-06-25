@@ -25,7 +25,7 @@ struct InsightsView: View {
         }
         .background(Theme.background)
         .appNavigationBar("Insights")
-        .task(id: changeToken) { recompute() }
+        .task(id: changeToken) { await recompute() }
     }
 
     /// Re-derive summaries when the underlying data changes. Keyed on a content
@@ -127,24 +127,30 @@ struct InsightsView: View {
         }
     }
 
-    private func recompute() {
+    private func recompute() async {
         let cal = Calendar.current
         var entriesByDay: [Date: [DoseEntry]] = [:]
         for entry in allEntries {
             entriesByDay[cal.startOfDay(for: entry.timestamp), default: []].append(entry)
         }
 
-        adherence = computeAdherence(cal: cal, entriesByDay: entriesByDay)
+        // Instant on-main readout: this month's adherence rate + the other cards.
+        adherence = computeMonthAdherence(cal: cal, entriesByDay: entriesByDay)
         usage = computeUsage()
         active = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
+
+        // The 365-day streak scan is the heavy part — run it off-main over
+        // Sendable snapshots, then merge it into the (already-shown) summary.
+        await refreshStreak()
     }
 
-    private func computeAdherence(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> AdherenceSummary {
+    /// This-month adherence rate only — the instant readout. The streak is filled
+    /// in afterward by ``refreshStreak()`` (off-main), so this returns `streak: 0`.
+    private func computeMonthAdherence(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> AdherenceSummary {
         guard !dailyItems.isEmpty else {
             return AdherenceSummary(streak: 0, monthPct: 0, hasData: false)
         }
 
-        // This-month adherence rate.
         let monthStart = cal.date(from: cal.dateComponents([.year, .month], from: .now)) ?? .now
         let range = cal.range(of: .day, in: .month, for: monthStart) ?? 1 ..< 2
         var month: [DayAdherence] = []
@@ -158,20 +164,28 @@ struct InsightsView: View {
         let taken = actionable.reduce(0) { $0 + $1.takenCount }
         let pct = due > 0 ? Int((Double(taken) / Double(due)) * 100) : 0
 
-        // Current streak across the past year.
-        var all: [DayAdherence] = []
-        if let yearAgo = cal.date(byAdding: .day, value: -365, to: .now) {
-            var day = yearAgo
-            while day <= .now {
-                let dayEntries = entriesByDay[cal.startOfDay(for: day)] ?? []
-                all.append(AdherenceCalculator.adherence(for: day, entries: dayEntries, dailyItems: dailyItems))
-                guard let next = cal.date(byAdding: .day, value: 1, to: day) else { break }
-                day = next
-            }
-        }
-        let streak = AdherenceCalculator.currentStreak(adherenceData: all)
+        return AdherenceSummary(streak: 0, monthPct: pct, hasData: due > 0)
+    }
 
-        return AdherenceSummary(streak: streak, monthPct: pct, hasData: due > 0 || streak > 0)
+    /// Compute the past-year streak off the main actor over `Sendable` snapshots
+    /// and merge it into the current month summary.
+    private func refreshStreak() async {
+        guard !dailyItems.isEmpty else { return }
+        let entrySnaps = allEntries.map {
+            AdherenceCalculator.EntrySnapshot(substance: $0.substance, timestamp: $0.timestamp)
+        }
+        let itemSnaps = dailyItems.map {
+            AdherenceCalculator.DailyItemSnapshot(
+                substance: $0.substance, startDate: $0.startDate,
+                frequency: $0.frequency, frequencyDays: $0.frequencyDays,
+            )
+        }
+        let now = Date.now
+        let streak = await Task.detached(priority: .utility) {
+            AdherenceCalculator.currentStreak(spanningDays: 365, endingAt: now, entries: entrySnaps, items: itemSnaps)
+        }.value
+        guard let current = adherence else { return }
+        adherence = AdherenceSummary(streak: streak, monthPct: current.monthPct, hasData: current.hasData || streak > 0)
     }
 
     private func computeUsage() -> UsageSummary {

@@ -45,16 +45,40 @@ enum InventoryMath {
         DoseUnit.convert(amount, from: from, to: to)
     }
 
+    /// A `Sendable` snapshot of one consumption dose, so the stock replay can run
+    /// **off the main actor** over plain values (a `DoseEntry` is a non-`Sendable`
+    /// `@Model`). Built on the actor that owns the entries; replayed anywhere.
+    struct DoseSnapshot {
+        let amount: Double
+        let unit: String
+        let timestamp: Date
+    }
+
     /// Stock = replay(manual events ∪ converted doses), floored at 0 on the way
     /// down. Restocks/initial add; adjustments and consumption floor at 0 so an
     /// overdraw is forgiven (30 − log 50 → 0; a later +100 → 100).
     static func quantity(for item: InventoryItem, in ctx: ModelContext) -> Double {
+        replayQuantity(
+            unit: item.unit,
+            events: item.manualEvents,
+            doses: doses(for: item, in: ctx).map {
+                DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
+            },
+        )
+    }
+
+    /// The pure stock replay over `Sendable` snapshots — the single
+    /// implementation `quantity(for:in:)` (on-main) and the off-main scoped
+    /// recompute both go through, so their results are identical by construction.
+    /// `nonisolated` so the scoped log-path recompute can run it in a detached
+    /// task while the main actor drives the dismissal animation.
+    nonisolated static func replayQuantity(unit: String, events: [ManualEvent], doses: [DoseSnapshot]) -> Double {
         struct Tick { let date: Date; let delta: Double; let floors: Bool }
-        var ticks: [Tick] = item.manualEvents.map {
+        var ticks: [Tick] = events.map {
             Tick(date: $0.date, delta: $0.amount, floors: $0.kind == .adjustment)
         }
-        for dose in doses(for: item, in: ctx) {
-            guard let converted = convert(dose.amount, from: dose.unit, to: item.unit) else { continue }
+        for dose in doses {
+            guard let converted = DoseUnit.convert(dose.amount, from: dose.unit, to: unit) else { continue }
             ticks.append(Tick(date: dose.timestamp, delta: -converted, floors: true))
         }
         var balance = 0.0
@@ -229,6 +253,56 @@ enum InventoryService {
         for item in items {
             recompute(item, in: ctx, notify: notify)
         }
+    }
+
+    /// Refresh only the items whose substance matches one of `names`
+    /// (case-insensitive) — the log path's scoped replacement for the blanket
+    /// ``recomputeAll(in:notify:)``. A logged dose can only change the stock of
+    /// the items tracking *that* substance, so recomputing the rest is wasted
+    /// O(all-items × all-doses) work on the commit path. For the affected items
+    /// the result is identical to ``recomputeAll(in:notify:)`` by construction
+    /// (both call ``recompute(_:in:notify:)``).
+    static func recompute(forSubstances names: Set<String>, in ctx: ModelContext, notify: Bool = true) {
+        guard !names.isEmpty else { return }
+        let lowered = Set(names.map { $0.lowercased() })
+        let items = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
+        for item in items where lowered.contains(item.substance.lowercased()) {
+            recompute(item, in: ctx, notify: notify)
+        }
+    }
+
+    /// The off-main scoped recompute used by the deferred log-path bookkeeping.
+    /// The `@Model` fetch + dose snapshot + cache write all stay on the main
+    /// actor (SwiftData is main-actor bound); only the pure stock replay runs in
+    /// a detached task. Equivalent to ``recompute(forSubstances:in:notify:)`` —
+    /// same affected items, same per-item ``replayQuantity`` math — just with the
+    /// arithmetic moved off the actor that's driving the dismissal animation.
+    static func recompute(forSubstances names: Set<String>, offMainIn ctx: ModelContext, notify: Bool = true) async {
+        guard !names.isEmpty else { return }
+        let lowered = Set(names.map { $0.lowercased() })
+        let affected = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
+            .filter { lowered.contains($0.substance.lowercased()) }
+        guard !affected.isEmpty else { return }
+
+        // Snapshot each affected item's unit/events + its matching doses on the actor.
+        let snapshots: [(unit: String, events: [ManualEvent], doses: [InventoryMath.DoseSnapshot])] = affected.map { item in
+            let doses = InventoryMath.doses(for: item, in: ctx).map {
+                InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
+            }
+            return (item.unit, item.manualEvents, doses)
+        }
+
+        // Pure stock replay off the main actor.
+        let quantities = await Task.detached(priority: .utility) {
+            snapshots.map { InventoryMath.replayQuantity(unit: $0.unit, events: $0.events, doses: $0.doses) }
+        }.value
+
+        // Apply the cache writes + low-stock evaluation back on the actor.
+        for (item, quantity) in zip(affected, quantities) {
+            item.currentQuantity = quantity
+            evaluateLowStock(item, notify: notify)
+        }
+        try? ctx.save()
     }
 
     // MARK: - Helpers

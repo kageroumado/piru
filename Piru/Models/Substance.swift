@@ -202,11 +202,12 @@ enum DoseLevel: String, CaseIterable {
 
 enum DoseUnit {
     /// Conversion factor from each mass unit to milligrams.
-    private static let toMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1_000]
+    private nonisolated static let toMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1_000]
 
     /// Convert a dose amount between compatible mass units (µg, mg, g).
     /// Returns `nil` if either unit is not a convertible mass unit (e.g. mL, IU).
-    static func convert(_ amount: Double, from: String, to: String) -> Double? {
+    /// `nonisolated` (pure) so the off-main inventory replay can call it.
+    nonisolated static func convert(_ amount: Double, from: String, to: String) -> Double? {
         guard from != to else { return amount }
         guard let fromFactor = toMg[from], let toFactor = toMg[to] else { return nil }
         return amount * fromFactor / toFactor

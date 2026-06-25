@@ -962,27 +962,26 @@ struct QuickLogView: View {
                 )
             }
             try? context.save()
+            // Curated-list maintenance is a site-specific immediate bit (it
+            // records the chips the user actually tapped), kept prompt so a
+            // reopened tray reflects them right away.
+            QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context)
             DoseLogService.shared.changed()
 
-            // Tier 2 — after the dismissal animation: bookkeeping that isn't
-            // on screen (curated-list maintenance, wellness notifications,
-            // widget reload). Running it now would drop frames *during* the
-            // slide-down; none of it is visible until the next quick-log open
-            // or a widget refresh, so it waits for the transition to settle.
-            DispatchQueue.main.asyncAfter(deadline: .now() + Self.postCommitDelay) {
-                QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context)
+            // Tier 2 — after the dismissal animation: the bookkeeping that isn't
+            // on screen (wellness notifications, scoped inventory recompute, one
+            // widget reload). Routed through the same deferred funnel the entry
+            // form uses; running it now would drop frames *during* the slide-down,
+            // and none of it is visible until the next quick-log open or a widget
+            // refresh.
+            let affected = Set(stagedItems.map(\.substanceName))
+            DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: context) {
                 for entry in createdEntries {
                     DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
                 }
-                InventoryService.recomputeAll(in: context)
-                WidgetCenter.shared.reloadAllTimelines()
             }
         }
     }
-
-    /// Delay before the non-visible post-commit bookkeeping runs — long enough
-    /// to clear the sheet's dismissal animation so it doesn't drop frames.
-    private static let postCommitDelay: TimeInterval = 0.45
 
     // MARK: - Quick-log list curation
 

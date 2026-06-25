@@ -334,4 +334,51 @@ struct InventoryTests {
         // current = 700 - 70 = 630 -> 63 days left.
         #expect(result.daysLeft == 63)
     }
+
+    // MARK: - Scoped recompute (log-path optimization)
+
+    /// The log path's `recompute(forSubstances:)` must land the **affected**
+    /// item's cache on the same value the blanket `recomputeAll` does, and must
+    /// leave items for *other* substances untouched (that's the whole point —
+    /// O(affected × doses), not O(all-items × doses)).
+    @Test
+    func `Scoped recompute equals recomputeAll for the affected item, skips others`() throws {
+        let ctx = try makeContext()
+        let other = "ZZOtherInventorySubstance"
+        let affected = makeItem(ctx, unit: "mg", initial: 100)
+        let untouched = makeItem(ctx, substance: other, unit: "mg", initial: 100)
+        logDose(ctx, amount: 30, at: 1)
+        logDose(ctx, substance: other, amount: 40, at: 1)
+
+        // Baseline from the blanket recompute.
+        InventoryService.recomputeAll(in: ctx)
+        let affectedExpected = affected.currentQuantity // 70
+        let untouchedExpected = untouched.currentQuantity // 60
+
+        // Poison both caches so the scoped pass has to write the affected one.
+        affected.currentQuantity = -1
+        untouched.currentQuantity = -1
+        InventoryService.recompute(forSubstances: [drug], in: ctx)
+
+        #expect(affected.currentQuantity == affectedExpected)
+        #expect(untouched.currentQuantity == -1) // never recomputed
+        #expect(untouchedExpected == 60) // sanity on the baseline
+    }
+
+    /// The off-main scoped recompute (deferred log bookkeeping) must produce the
+    /// same cached quantity as the synchronous path — same affected items, same
+    /// `replayQuantity` math, just moved off the actor.
+    @Test
+    func `Off-main scoped recompute matches the on-main recompute`() async throws {
+        let ctx = try makeContext()
+        let item = makeItem(ctx, unit: "g", initial: 5)
+        logDose(ctx, amount: 200, unit: "mg", at: 1) // 0.2 g
+
+        InventoryService.recomputeAll(in: ctx)
+        let expected = item.currentQuantity // 4.8
+
+        item.currentQuantity = -1
+        await InventoryService.recompute(forSubstances: [drug], offMainIn: ctx)
+        #expect(item.currentQuantity == expected)
+    }
 }

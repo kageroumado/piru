@@ -315,7 +315,10 @@ struct SubstanceCategoryListView: View {
         return hasher.finalize()
     }
 
-    private func rebuildList() {
+    private func rebuildList() async {
+        // The list itself is a warm-cache dict filter on the main actor; the
+        // O(n log n) sort over a full category is the work, so it runs off-main
+        // over the `Sendable` `[Substance]` and publishes the result back.
         let list: [Substance] = if let tag {
             SubstanceLibrary.substances(taggedWith: tag)
         } else if let category {
@@ -325,23 +328,28 @@ struct SubstanceCategoryListView: View {
             // aliases (e.g. "magnesium" is also an alias of Salicylic acid).
             favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
         }
+        let favNames = Set(favorites.map { $0.substance.lowercased() })
+        let mode = sortMode
+        let browse = isBrowse
+
         // Category browse is sortable (popularity surfaces well-known substances
         // above obscure research chemicals); Favorites keep the user's own order.
-        if isBrowse {
-            switch sortMode {
+        let sorted = await Task.detached(priority: .userInitiated) {
+            guard browse else { return list }
+            switch mode {
             case .name:
-                sortedSubstances = list.sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
+                return list.sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
             case .popularity:
-                sortedSubstances = list.sorted {
+                return list.sorted {
                     $0.popularity != $1.popularity
                         ? $0.popularity > $1.popularity
                         : $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending
                 }
             }
-        } else {
-            sortedSubstances = list
-        }
-        favoriteNames = Set(favorites.map { $0.substance.lowercased() })
+        }.value
+
+        sortedSubstances = sorted
+        favoriteNames = favNames
     }
 
     var body: some View {
@@ -370,7 +378,7 @@ struct SubstanceCategoryListView: View {
         .background(Theme.background)
         .task(id: listSignature) {
             await SubstanceStore.shared.ensureAllLoaded()
-            rebuildList()
+            await rebuildList()
         }
         .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.large)
@@ -465,10 +473,15 @@ struct SubstanceRowView: View {
 // MARK: - Substance Detail
 
 struct SubstanceDetailView: View {
-    /// The library substance as resolved by the browse list (no personal
-    /// override applied). Overrides are layered on reactively via `substance`,
-    /// so personalizations show on entry and update live after editing.
-    let baseSubstance: Substance
+    /// The library substance backing this view. Pushed as a **lightweight shell**
+    /// (the batch projection's hot fields — name, category, routes/doses,
+    /// durations, half-life, aliases) so the header and dose/duration card render
+    /// instantly off the navigation push; ``upgradeToFullRecord()`` then resolves
+    /// the heavy detail-only fields (mechanism, chemistry identifiers, molar mass,
+    /// medical info, protocol dosing, peptide) in a `.task` and swaps them in, so
+    /// those sections reveal progressively. Overrides are layered on reactively
+    /// via `substance`, so personalizations show on entry and update live.
+    @State private var baseSubstance: Substance
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
     @Query private var historyEntries: [DoseEntry]
@@ -892,7 +905,7 @@ struct SubstanceDetailView: View {
     private let mainEffectsLimit = 6
 
     init(substance: Substance) {
-        self.baseSubstance = substance
+        _baseSubstance = State(initialValue: substance)
         let name = substance.name
         _historyEntries = Query(
             filter: #Predicate<DoseEntry> { entry in
@@ -901,6 +914,18 @@ struct SubstanceDetailView: View {
             sort: \DoseEntry.timestamp,
             order: .reverse,
         )
+    }
+
+    /// Resolve the full per-field record (mechanism, chemistry identifiers, molar
+    /// mass, indications/contraindications, protocol dosing, peptide profile) and
+    /// swap it in. Runs off the push in a `.task`; the hot header/dose fields
+    /// already render from the shell, and the full record carries the same name,
+    /// routes, and category, so only the heavy sections pop in. No-op when the
+    /// canonical row can't be resolved (keeps the shell).
+    private func upgradeToFullRecord() {
+        if let full = SubstanceLibrary.lookup(baseSubstance.name) {
+            baseSubstance = full
+        }
     }
 
     private var isFavorite: Bool {
@@ -1721,6 +1746,10 @@ struct SubstanceDetailView: View {
             } else {
                 metabolicEducation = []
             }
+        }
+        .task(id: baseSubstance.name) {
+            // Upgrade the pushed shell to the full resolved record off the push.
+            upgradeToFullRecord()
         }
         .task(id: historySignature) {
             rebuildHistoryStats()
