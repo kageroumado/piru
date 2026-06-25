@@ -581,6 +581,7 @@ struct EntryListView: View {
                                 }
                             } label: {
                                 SessionCardView(card: card, colorMap: model.colorMap, inGroup: true)
+                                    .equatable()
                             }
                             .buttonStyle(.plain)
 
@@ -800,7 +801,14 @@ private struct SubstanceGroupHeader: View {
 /// `JournalModel.rebuildGroups`) so the card's mini graph never re-derives PK
 /// curves while scrolling. Text — time label, substance summary, dose count — is
 /// formatted **once here** rather than on every `SessionCardView` body pass.
-struct SessionCard: Identifiable {
+/// Equatable so SwiftUI can skip a `SessionCardView` body re-eval when the parent
+/// hands it a content-identical card — the progressive derive republishes the
+/// card array (prefix paint, then tail), and without this every card re-rendered
+/// on the second pass even when nothing about it changed (confirmed via
+/// `_printChanges`). All stored fields are Equatable (value types, plus `@Model`
+/// `Session`/`DoseEntry` which compare by identity, and `ActiveSubstanceState` /
+/// `DoseMarker` which are `Hashable`).
+struct SessionCard: Identifiable, Equatable {
     /// The session's stable id, used for navigation. For a (rare) session-less
     /// straggler this is a fresh UUID and the card is non-navigable.
     let id: UUID
@@ -861,7 +869,7 @@ struct SessionCard: Identifiable {
 
 /// A day header plus the sessions that started that day — the unit the Journal
 /// list renders as a `Section`.
-struct SessionDay: Identifiable {
+struct SessionDay: Identifiable, Equatable {
     let date: Date
     let dateTitle: String
     let weekday: String
@@ -892,13 +900,23 @@ struct SessionDay: Identifiable {
 /// per-session timeline) for a normal session, or a compact "Medications" row
 /// for a maintenance session (only background meds). The card is content, so it
 /// sits on `themeCard` — never glass.
-struct SessionCardView: View {
+struct SessionCardView: View, Equatable {
     let card: SessionCard
     let colorMap: [String: Color]
     /// When the card is a row inside a day's shared grouped container, it drops
     /// its own background (the container draws it) and relies on hairline
     /// dividers for separation.
     var inGroup: Bool = false
+
+    /// Compare only the real inputs (not the `@AppStorage`/`@State` wrappers) so
+    /// `.equatable()` at the call site lets SwiftUI keep the existing instance
+    /// when the card's content is unchanged. The Journal's progressive derive
+    /// re-runs `EntryListView.body` several times on open (the @Query results +
+    /// the model's prefix/tail publishes each land separately); without this skip
+    /// every card re-rendered ~6× per open and re-subscribed its @AppStorage.
+    static func == (lhs: SessionCardView, rhs: SessionCardView) -> Bool {
+        lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.colorMap == rhs.colorMap
+    }
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
