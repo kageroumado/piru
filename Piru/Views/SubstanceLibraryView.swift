@@ -39,9 +39,16 @@ struct SubstanceLibraryView: View {
                 searchResults = []
                 return
             }
+            // Debounce, then rank + resolve OFF the main actor — the ranking
+            // scans the whole name/alias index and the resolution used to run the
+            // heavy per-substance SQL for every result, so doing it inline stalled
+            // the keyboard on each keystroke. The `.task(id:)` cancels the prior
+            // run when the text changes, so only the latest query resolves.
             try? await Task.sleep(for: .milliseconds(150))
             guard !Task.isCancelled else { return }
-            searchResults = SubstanceLibrary.search(searchText)
+            let results = await SubstanceLibrary.searchAsync(searchText)
+            guard !Task.isCancelled else { return }
+            searchResults = results
         }
         .task(id: favoritesSignature) {
             favoriteNames = Set(favorites.map { $0.substance.lowercased() })

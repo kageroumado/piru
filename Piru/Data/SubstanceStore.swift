@@ -131,6 +131,13 @@ final class SubstanceStore {
     /// Built lazily on first access; invalidated in lockstep with `allCache`.
     private var batchByName: [String: Substance]?
 
+    /// Row id → lightweight `Substance`, derived from the batch cache. Lets
+    /// ``search(_:limit:)`` resolve its ranked ids from the warm cache instead of
+    /// running the heavy per-substance ``resolveSubstance`` (≈21 SQL each) for
+    /// every one of up to `limit` results — which made each settled keystroke
+    /// fire ~1k SQL queries on the main actor. Invalidated with `batchByName`.
+    private var batchByID: [Int64: Substance]?
+
     /// The in-flight (or finished) off-main prefill of `allCache` started in
     /// `init`. ``ensureAllLoaded()`` awaits it so the journal derive resolves
     /// from the batch cache (dict hits) instead of paying ~50 cold heavy reads
@@ -240,6 +247,7 @@ final class SubstanceStore {
                     guard let self, self.allCache == nil, self.enabledSourceOrder == prewarmOrder else { return }
                     self.allCache = resolved
                     self.batchByName = nil
+                    self.batchByID = nil
                 }
             }
         }
@@ -333,6 +341,7 @@ final class SubstanceStore {
         resolvedCache.removeAll(keepingCapacity: true)
         allCache = nil
         batchByName = nil
+        batchByID = nil
         substancesByCategoryCache.removeAll(keepingCapacity: true)
         nonEmptyCategoriesCache = nil
         categorySummaryCache = nil
@@ -467,9 +476,10 @@ final class SubstanceStore {
     /// Look up by canonical name OR any alias (case-insensitive).
     ///
     /// **Raw library row — bypasses the user's custom-substance overlay.**
-    /// `fileprivate` so ``SubstanceLibrary/lookupByNameOrAlias(_:)`` (the
-    /// overlay-aware façade below) is the only resolution path for app code.
-    fileprivate func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
+    /// App code must resolve through the overlay-aware ``SubstanceLibrary``
+    /// façade (now in its own file, so this is `internal` rather than
+    /// `fileprivate`); the façade remains the only intended resolution path.
+    func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
         let key = nameOrAlias.lowercased()
         let id = nameIndex[key] ?? aliasIndex[key]
         guard let id else { return nil }
@@ -484,6 +494,7 @@ final class SubstanceStore {
         let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: enabledSourceOrder)
         allCache = resolved
         batchByName = nil
+        batchByID = nil
         // Intentionally NOT writing to resolvedCache: the batch path omits
         // mechanism / subjective effects / tolerance (loaded by lookup() on
         // demand for the detail view). Poisoning the per-substance cache
@@ -514,6 +525,7 @@ final class SubstanceStore {
         guard allCache == nil, enabledSourceOrder == order else { return }
         allCache = resolved
         batchByName = nil
+        batchByID = nil
     }
 
     /// The name/alias-keyed view over the batch cache, built lazily on first
@@ -534,6 +546,21 @@ final class SubstanceStore {
         }
         batchByName = index
         return index
+    }
+
+    /// Row id → lightweight `Substance`, built once from the batch cache and the
+    /// `nameIndex` (canonical name → id). Lets ``search`` resolve ranked ids
+    /// without SQL. Warms `all` via ``batchIndex()`` on first use.
+    private func batchByIDIndex() -> [Int64: Substance] {
+        if let batchByID { return batchByID }
+        let byName = batchIndex()
+        var map: [Int64: Substance] = [:]
+        map.reserveCapacity(nameIndex.count)
+        for (key, id) in nameIndex where map[id] == nil {
+            if let substance = byName[key] { map[id] = substance }
+        }
+        batchByID = map
+        return map
     }
 
     /// Lightweight library row for the journal/timeline path — category, routes,
@@ -1071,7 +1098,42 @@ final class SubstanceStore {
     // MARK: - Search
 
     /// Ranked search: exact name → alias → prefix → contains → fuzzy.
+    ///
+    /// Resolves from the warm batch cache (no per-result SQL). Synchronous entry
+    /// kept for tests and non-interactive callers; the interactive search field
+    /// uses ``searchAsync(_:limit:)`` so the ranking never runs on the main thread.
     func search(_ query: String, limit: Int = 50) -> [Substance] {
+        Self.rankedSearch(
+            query, nameIndex: nameIndex, aliasIndex: aliasIndex,
+            idToSubstance: batchByIDIndex(), limit: limit,
+        )
+    }
+
+    /// Off-main ranked search: snapshot the (Sendable) indexes on the main actor,
+    /// then rank + resolve on a background task. The keystroke handler awaits this
+    /// instead of calling `search` directly, so neither the index scan / fuzzy
+    /// pass nor result resolution stalls the keyboard. The snapshots are
+    /// copy-on-write dictionaries, so handing them to the detached task is cheap.
+    func searchAsync(_ query: String, limit: Int = 50) async -> [Substance] {
+        await ensureAllLoaded()
+        let names = nameIndex
+        let aliases = aliasIndex
+        let byID = batchByIDIndex()
+        return await Task.detached(priority: .userInitiated) {
+            Self.rankedSearch(query, nameIndex: names, aliasIndex: aliases, idToSubstance: byID, limit: limit)
+        }.value
+    }
+
+    /// Pure ranking over the index snapshots — runnable on any thread. Order is
+    /// identical to the original (exact → prefix → contains → fuzzy); only the
+    /// resolution changed from per-id SQL to a batch-cache dict hit.
+    nonisolated static func rankedSearch(
+        _ query: String,
+        nameIndex: [String: Int64],
+        aliasIndex: [String: Int64],
+        idToSubstance: [Int64: Substance],
+        limit: Int,
+    ) -> [Substance] {
         let q = query.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else { return [] }
 
@@ -1098,14 +1160,12 @@ final class SubstanceStore {
         }
         if ranked.count < limit, q.count >= 4 {
             let needed = limit - ranked.count
-            ranked.append(contentsOf: fuzzyMatch(q, excluding: seen, limit: needed))
+            ranked.append(contentsOf: fuzzyMatch(q, nameIndex: nameIndex, excluding: seen, limit: needed))
         }
-        return ranked.prefix(limit).compactMap { id in
-            resolveSubstance(id: id, canonicalName: nil)
-        }
+        return ranked.prefix(limit).compactMap { idToSubstance[$0] }
     }
 
-    private func fuzzyMatch(_ query: String, excluding seen: Set<Int64>, limit: Int) -> [Int64] {
+    private nonisolated static func fuzzyMatch(_ query: String, nameIndex: [String: Int64], excluding seen: Set<Int64>, limit: Int) -> [Int64] {
         let maxDist = max(1, Int(Double(query.count) * 0.3))
         var matches: [(Int64, Int)] = []
         for (key, id) in nameIndex where !seen.contains(id) {
@@ -1115,7 +1175,7 @@ final class SubstanceStore {
         return matches.sorted { $0.1 < $1.1 }.prefix(limit).map(\.0)
     }
 
-    private func levenshtein(_ a: String, _ b: String) -> Int {
+    private nonisolated static func levenshtein(_ a: String, _ b: String) -> Int {
         let a = Array(a), b = Array(b)
         if a.isEmpty { return b.count }
         if b.isEmpty { return a.count }
@@ -2360,121 +2420,5 @@ final class SubstanceStore {
                 return rows.map { ($0["target"], $0["n"]) }
             }
         } catch { return [] }
-    }
-}
-
-// MARK: - Static façade
-
-/// Static façade matching the legacy `SubstanceLibrary` API. Lets every call
-/// site keep working with a stable shape while the store underneath is
-/// GRDB-backed. Inlined into call sites would be the long-term cleanup, but
-/// the façade is zero-cost so a one-line `enum` is the right level of
-/// abstraction for the migration to land cleanly.
-///
-/// ## User-defined overlay
-///
-/// Single-substance lookups (`lookup`, `lookupByNameOrAlias`) consult
-/// ``CustomSubstanceStore`` and overlay any user-defined entry on top of the
-/// library result. This is what makes the timeline / PK pipeline pick up
-/// user-corrected duration profiles for substances where the bundled DB has
-/// nothing useful (e.g. 2-MMC, where neither piru-curated nor TripSit ships
-/// duration data). The collection-level APIs (`all`, `substances(in:)`,
-/// `search`) deliberately stay library-only — the Library tab keeps its
-/// existing "Custom substances" section instead of folding them into the
-/// main listing, which would surprise users who expect that section to be
-/// authoritative.
-@MainActor
-enum SubstanceLibrary {
-    static var all: [Substance] {
-        SubstanceStore.shared.all
-    }
-    static var count: Int {
-        SubstanceStore.shared.count
-    }
-    static var nonEmptyCategories: [SubstanceCategory] {
-        SubstanceStore.shared.nonEmptyCategories
-    }
-    static func substances(in category: SubstanceCategory) -> [Substance] {
-        SubstanceStore.shared.substances(in: category)
-    }
-
-    /// Browse-category histogram (count per browse category) — the cheap path
-    /// for the Library cards' counts. See ``SubstanceStore/categorySummary()``.
-    static func categorySummary() -> [SubstanceCategory: Int] {
-        SubstanceStore.shared.categorySummary()
-    }
-
-    /// Exact-canonical lightweight detail shell from the warm batch cache, or
-    /// `nil` (cache cold, or not a canonical substance). See
-    /// ``SubstanceStore/shellRow(_:)``. Overlay-aware so a personalized display
-    /// name shows on the shell too.
-    static func shell(_ name: String) -> Substance? {
-        guard let row = SubstanceStore.shared.shellRow(name) else { return nil }
-        return overlayCustom(library: row, query: name)
-    }
-
-    /// Browsable substances flagged with a metadata `tag` (e.g. `"common"`,
-    /// `"research-chemical"`). Unlike ``substances(in:)`` this cuts *across*
-    /// categories — the Library's Common card surfaces alcohol, caffeine, and
-    /// cannabis side by side regardless of their resolved class.
-    static func substances(taggedWith tag: String) -> [Substance] {
-        SubstanceStore.shared.all.filter {
-            $0.displayClass.surfacesInBrowse && $0.tags.contains(tag)
-        }
-    }
-
-    static func lookup(_ name: String) -> Substance? {
-        overlayCustom(library: SubstanceStore.shared.lookup(name), query: name)
-    }
-
-    static func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
-        overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
-    }
-
-    /// Overlay-aware lookup for the **journal / timeline** path. Resolves the
-    /// library row from the lightweight batch cache (``SubstanceStore/timelineRow(_:)``)
-    /// — category, routes, dose-ranges, durations, half-life — which is all the
-    /// timeline derive needs, then applies any custom override. Falls back to the
-    /// full heavy lookup when the batch cache hasn't matched (cold cache, or a
-    /// custom-only substance with no library row), so it never silently drops an
-    /// override or a custom. Use this from per-entry resolution where the heavy
-    /// chem/mechanism fields are irrelevant; use ``lookupByNameOrAlias(_:)`` when
-    /// the full detail record is required.
-    static func timelineLookup(_ nameOrAlias: String) -> Substance? {
-        if let row = SubstanceStore.shared.timelineRow(nameOrAlias) {
-            return overlayCustom(library: row, query: nameOrAlias)
-        }
-        return overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
-    }
-
-    static func search(_ query: String, limit: Int = 50) -> [Substance] {
-        SubstanceStore.shared.search(query, limit: limit)
-    }
-
-    /// Resolve the user-defined entry that should overlay (or replace) the
-    /// library result, then apply it. Looks up the custom by the library's
-    /// canonical name first — the canonical match is what the user is most
-    /// likely to recognise as "their" substance — and falls back to the raw
-    /// query so a custom-only entry (no library row at all) still resolves.
-    private static func overlayCustom(library: Substance?, query: String) -> Substance? {
-        let customs = CustomSubstanceStore.shared
-
-        if let library {
-            let custom = customs.first(whereName: library.name)
-            return custom.map { library.applyingOverride(from: $0) } ?? library
-        }
-
-        // No library row matched the query. Try a custom by its canonical name,
-        // then by its personal display name — so a relabelled substance is
-        // resolvable by the name the user gave it ("joint" → the THC override).
-        guard let custom = customs.first(whereName: query) ?? customs.first(whereDisplayName: query) else {
-            return nil
-        }
-        // A personal override of a library substance still has that substance's
-        // canonical name; re-resolve and overlay so dose/duration come through.
-        if let underlying = SubstanceStore.shared.lookupByNameOrAlias(custom.name) {
-            return underlying.applyingOverride(from: custom)
-        }
-        return custom.asSubstance
     }
 }

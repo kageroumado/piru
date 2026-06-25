@@ -300,7 +300,17 @@ struct EntryListView: View {
             }
             await rebuildAll(animated: !isFirst)
         }
-        .onChange(of: searchText) { resetWindowAndRegroup() }
+        // Debounce the search filter: re-filtering the whole history runs on the
+        // main actor, so doing it on every keystroke stalled typing. An empty
+        // query (clearing search) regroups immediately. The `.task(id:)` cancels
+        // the prior pending filter when the text changes again.
+        .task(id: searchText) {
+            if !searchText.isEmpty {
+                try? await Task.sleep(for: .milliseconds(150))
+                guard !Task.isCancelled else { return }
+            }
+            resetWindowAndRegroup()
+        }
         .onChange(of: selectedTag) { resetWindowAndRegroup() }
         .onChange(of: grouping) { resetWindowAndRegroup() }
         .onChange(of: filterCategories) { resetWindowAndRegroup() }

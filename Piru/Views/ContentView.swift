@@ -391,7 +391,11 @@ private struct SearchSurface: View {
             // builder collapses to zero height without changing identity).
             .safeAreaBar(edge: .top) {
                 if phase != .landing {
-                    scopePicker
+                    // A separate `View` type, not a computed property, so its
+                    // segmented `Picker` only rebuilds when `scope`/`token`
+                    // change — not on every `searchText` keystroke (which re-runs
+                    // `SearchSurface.body` because it forwards the binding).
+                    ScopePickerBar(scope: $scope, token: pickerToken)
                 }
             }
             // Large "Search" title at rest; suppressed once focused (the
@@ -433,26 +437,6 @@ private struct SearchSurface: View {
         }
     }
 
-    /// Full-width scope selector pinned above the results, matching the Music
-    /// app's prominent top toggle. A native segmented Picker (not
-    /// `.searchScopes`, whose bar can't be widened/enlarged and renders
-    /// inconsistently with a tab-bar search field).
-    private var scopePicker: some View {
-        Picker("Search scope", selection: $scope) {
-            ForEach(SearchTabScope.allCases) { scope in
-                Text(scope.title).tag(scope)
-            }
-        }
-        .pickerStyle(.segmented)
-        .controlSize(.large)
-        .labelsHidden()
-        .id(pickerToken)
-        .frame(height: 44)
-        .padding(.horizontal)
-        .padding(.top, 4)
-        .padding(.bottom, 8)
-    }
-
     /// Enlarges the scope picker's title font while the picker is visible.
     /// SwiftUI's segmented `Picker` ignores a `.font` on its labels, so the
     /// global `UISegmentedControl` appearance proxy is the only lever; bumping
@@ -464,6 +448,32 @@ private struct SearchSurface: View {
         UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
         UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
         if active { pickerToken += 1 }
+    }
+}
+
+/// Full-width scope selector pinned above the results, matching the Music app's
+/// prominent top toggle. A native segmented Picker (not `.searchScopes`, whose
+/// bar can't be widened/enlarged and renders inconsistently with a tab-bar
+/// search field). Its own `View` type so the Picker only rebuilds when the
+/// scope or font token changes — not on every keystroke of the search field.
+private struct ScopePickerBar: View {
+    @Binding var scope: SearchTabScope
+    let token: Int
+
+    var body: some View {
+        Picker("Search scope", selection: $scope) {
+            ForEach(SearchTabScope.allCases) { scope in
+                Text(scope.title).tag(scope)
+            }
+        }
+        .pickerStyle(.segmented)
+        .controlSize(.large)
+        .labelsHidden()
+        .id(token)
+        .frame(height: 44)
+        .padding(.horizontal)
+        .padding(.top, 4)
+        .padding(.bottom, 8)
     }
 }
 
