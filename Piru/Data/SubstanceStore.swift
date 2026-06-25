@@ -2297,11 +2297,12 @@ final class SubstanceStore {
     /// row* (the flagship seed) over an un-graded one for the Vd, so the engine runs on the verified
     /// number when one exists and degrades to whatever is available otherwise.
     func pharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
-        // Read molar mass from the warm batch cache (it carries `molarMass`)
-        // rather than the heavy per-substance `lookup` — this runs per unique
-        // dosed substance during the launch tolerance recompute, and the full
-        // resolve here was the launch-window `resolveSubstance` cost.
-        let molarMass = SubstanceLibrary.timelineLookup(name)?.molarMass
+        // Must be the full lookup, not the batch cache: the batch projection's
+        // `molarMass` comes from a single `molecular_weight` column that is null
+        // for many substances, whereas the full resolve derives it via the
+        // per-source priority resolution. Reading it from the cache returned nil
+        // and made occupancy uncomputable (it feeds concentration).
+        let molarMass = SubstanceLibrary.lookup(name)?.molarMass
         let pk = pharmacokinetics(forSubstanceName: name)
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
