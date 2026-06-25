@@ -89,19 +89,31 @@ extension LibraryFamily {
     }
 
     /// The most recognizable substances in a single card's source, by curated
-    /// popularity — shown as the card's example line. Drawn live so the names
-    /// always reflect the real data.
+    /// popularity — shown as the card's example line.
+    ///
+    /// Memoized per source: resolving it materializes the source's *entire*
+    /// `[Substance]` list (each a ~40-field value) just to take the top three
+    /// names, and it was called from the card's `body` — so on the Library /
+    /// Search browse grids it re-materialized every category on every render and
+    /// dominated those first-render hangs. The top-three-by-popularity is
+    /// effectively static (curated popularity over the curated catalog), so
+    /// caching the resolved names is safe; a source reorder that reshuffled them
+    /// is cosmetic and refreshes on relaunch.
+    @MainActor private static var exemplarsCache: [Source: [String]] = [:]
+
     static func exemplars(for source: Source?, limit: Int = 3) -> [String] {
-        let list: [Substance]
-        switch source {
-        case let .category(category): list = SubstanceLibrary.substances(in: category)
-        case let .tag(tag): list = SubstanceLibrary.substances(taggedWith: tag)
-        case .none: return []
+        guard let source else { return [] }
+        if limit == 3, let cached = exemplarsCache[source] { return cached }
+        let list: [Substance] = switch source {
+        case let .category(category): SubstanceLibrary.substances(in: category)
+        case let .tag(tag): SubstanceLibrary.substances(taggedWith: tag)
         }
-        return list
+        let result = list
             .sorted { $0.popularity > $1.popularity }
             .prefix(limit)
             .map(\.displayTitle)
+        if limit == 3 { exemplarsCache[source] = result }
+        return result
     }
 
     /// Families with their empty sub-classes (and empty single cards) pruned, so
