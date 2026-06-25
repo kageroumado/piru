@@ -949,34 +949,46 @@ final class ToleranceStore {
         states = loaded
     }
 
+    /// Write the durable ``ToleranceState`` cache **off the main actor**.
+    ///
+    /// The save flushes to the SQLite store and, at launch, showed up as a ~190 ms main-thread block
+    /// (SwiftData store flush) right after the off-main replay. Because these rows are a *cache* —
+    /// written only here and re-read only at launch via ``loadCachedSnapshot()``, with the in-memory
+    /// ``states`` being the live source of truth the UI observes — the write can run on a throwaway
+    /// background ``ModelContext`` created from the (Sendable) container, so it never touches the main
+    /// thread. Overlapping writes self-heal (last-writer-wins on a cache); the 2 s debounce + signature
+    /// gate already make concurrent persists rare.
     private func persist(_ computed: [String: TargetTolerance], now: Date) {
-        guard let context else { return }
-        let existing = (try? context.fetch(FetchDescriptor<ToleranceState>())) ?? []
-        var byTarget = Dictionary(existing.map { ($0.target, $0) }, uniquingKeysWith: { a, _ in a })
+        guard let container else { return }
+        Task.detached(priority: .utility) {
+            let context = ModelContext(container)
+            let existing = (try? context.fetch(FetchDescriptor<ToleranceState>())) ?? []
+            var byTarget = Dictionary(existing.map { ($0.target, $0) }, uniquingKeysWith: { a, _ in a })
 
-        for (target, t) in computed {
-            if let row = byTarget[target] {
-                row.availability = t.availability
-                row.acute = t.acute
-                row.load = t.load
-                row.lastUpdated = now
-            } else {
-                context.insert(ToleranceState(
-                    target: target, availability: t.availability, acute: t.acute,
-                    load: t.load, lastUpdated: now,
-                ))
+            for (target, t) in computed {
+                if let row = byTarget[target] {
+                    row.availability = t.availability
+                    row.acute = t.acute
+                    row.load = t.load
+                    row.lastUpdated = now
+                } else {
+                    context.insert(ToleranceState(
+                        target: target, availability: t.availability, acute: t.acute,
+                        load: t.load, lastUpdated: now,
+                    ))
+                }
+                byTarget[target] = nil
             }
-            byTarget[target] = nil
-        }
-        // Targets no longer driven by any in-window dose: reset their cached row to naïve rather than
-        // deleting (keeps a stable row set; a target that recovers fully reads as availability 1).
-        for (_, stale) in byTarget {
-            stale.availability = 1
-            stale.acute = 1
-            stale.load = 0
-            stale.lastUpdated = now
-        }
+            // Targets no longer driven by any in-window dose: reset their cached row to naïve rather
+            // than deleting (keeps a stable row set; a target that recovers fully reads as availability 1).
+            for (_, stale) in byTarget {
+                stale.availability = 1
+                stale.acute = 1
+                stale.load = 0
+                stale.lastUpdated = now
+            }
 
-        try? context.save()
+            try? context.save()
+        }
     }
 }

@@ -13,11 +13,18 @@ nonisolated extension Double {
 
     private func trimZeros(format: String) -> String {
         let s = String(format: format, self)
-        if s.contains(".") {
-            let trimmed = s.replacingOccurrences(of: "0+$", with: "", options: .regularExpression)
-            return trimmed.hasSuffix(".") ? String(trimmed.dropLast()) : trimmed
+        guard s.contains(".") else { return s }
+        // Manual trailing-zero (then trailing-dot) trim — avoids compiling an
+        // NSRegularExpression on every call. doseFormatted is hit per chip label
+        // and inside hot equality paths, so the regex showed up in profiles.
+        var end = s.endIndex
+        while end > s.startIndex, s[s.index(before: end)] == "0" {
+            end = s.index(before: end)
         }
-        return s
+        if end > s.startIndex, s[s.index(before: end)] == "." {
+            end = s.index(before: end)
+        }
+        return String(s[s.startIndex ..< end])
     }
 }
 

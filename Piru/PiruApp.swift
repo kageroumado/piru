@@ -89,6 +89,10 @@ struct PiruApp: App {
                     // Touch the store so its singleton init runs (opens the
                     // SQLite, seeds preferences) before the first view query.
                     _ = SubstanceStore.shared.count
+                    // Warm the search-history store (opens its App Group suite +
+                    // decodes the recent list) at launch so the first Search-tab
+                    // open doesn't pay the cold first-touch on its hot path.
+                    _ = SearchHistoryStore.shared.recent
                     // Backfill sessions for any pre-session-model history. Idempotent
                     // and failure-isolated (only sets the optional relationship).
                     SessionService.ensureSessionsPopulated(in: container.mainContext)

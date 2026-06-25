@@ -1307,7 +1307,14 @@ struct Substance: Identifiable {
         // names a reader recognises lead. A stable partition keeps source order
         // within each group. In a Chinese UI the source order already reads well.
         guard !SubstanceStore.contentLanguage.isChinese else { return resolved }
-        return resolved.filter { !$0.containsHan } + resolved.filter(\.containsHan)
+        // Single pass: computing `containsHan` once per alias rather than twice
+        // (the old `filter(!han) + filter(han)` evaluated it for every alias twice).
+        var latin: [String] = []
+        var han: [String] = []
+        for alias in resolved {
+            if alias.containsHan { han.append(alias) } else { latin.append(alias) }
+        }
+        return latin + han
     }
 
     /// Casing/spacing-insensitive identity key for an alias.

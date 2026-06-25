@@ -1264,7 +1264,44 @@ final class SubstanceStore {
     /// run on a background thread during the off-main batch prewarm (see
     /// ``loadAllSubstancesBatch(db:order:)``) as well as from the main-actor
     /// per-substance resolvers.
+    ///
+    /// These are rebuilt on *every* `resolveSubstance`/`resolveRoutes` call (and
+    /// several times within each), yet the enabled-source order changes only
+    /// when the user reorders sources — so the string-building (per-slug escape +
+    /// join) showed up in launch profiles. A single-entry memo keyed by the
+    /// order (value-compared, cheaper than rebuilding) collapses the repeats.
+    /// The lock keeps it correct across the main-actor resolvers and the
+    /// off-main batch prewarm sharing the same `static`.
+    private struct SourceOrderSQL {
+        let order: [String]
+        let priorityCase: String
+        let enabledList: String
+    }
+
+    private nonisolated static let sourceOrderSQLMemo = OSAllocatedUnfairLock<SourceOrderSQL?>(initialState: nil)
+
+    private nonisolated static func sourceOrderSQL(_ order: [String]) -> SourceOrderSQL {
+        sourceOrderSQLMemo.withLock { memo in
+            if let memo, memo.order == order { return memo }
+            let built = SourceOrderSQL(
+                order: order,
+                priorityCase: buildPriorityCaseSQL(order),
+                enabledList: buildEnabledSourceListSQL(order),
+            )
+            memo = built
+            return built
+        }
+    }
+
     private nonisolated static func priorityCaseSQL(_ order: [String]) -> String {
+        sourceOrderSQL(order).priorityCase
+    }
+
+    private nonisolated static func enabledSourceListSQL(_ order: [String]) -> String {
+        sourceOrderSQL(order).enabledList
+    }
+
+    private nonisolated static func buildPriorityCaseSQL(_ order: [String]) -> String {
         guard !order.isEmpty else {
             return "999"
         }
@@ -1274,7 +1311,7 @@ final class SubstanceStore {
         return "CASE src.slug \(cases) ELSE 999 END"
     }
 
-    private nonisolated static func enabledSourceListSQL(_ order: [String]) -> String {
+    private nonisolated static func buildEnabledSourceListSQL(_ order: [String]) -> String {
         if order.isEmpty { return "''" }
         return order.map { "'\($0.replacingOccurrences(of: "'", with: "''"))'" }.joined(separator: ", ")
     }

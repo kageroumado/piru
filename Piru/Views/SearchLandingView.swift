@@ -55,7 +55,12 @@ private struct RecentlySearchedGroup: View {
     @State private var history = SearchHistoryStore.shared
 
     private var substances: [Substance] {
-        history.recent.compactMap { SubstanceLibrary.lookup($0) }
+        // Resolve from the warm batch cache, not the heavy per-substance SQL
+        // path (`lookup` runs ~21 queries each). The row view only renders
+        // name/category/subtitle/isStub — all present on the lightweight
+        // projection — so this avoids blocking the main thread when the recent
+        // groups rebuild during the keyboard/focus transition.
+        history.recent.compactMap { SubstanceLibrary.timelineLookup($0) }
     }
 
     var body: some View {
@@ -76,16 +81,28 @@ private struct RecentlySearchedGroup: View {
 
 /// The most recently-taken substances from the dose log, capped to `limit`.
 private struct RecentDosesGroup: View {
-    var limit: Int
+    let limit: Int
 
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
+    @Query private var recentEntries: [DoseEntry]
+
+    init(limit: Int) {
+        self.limit = limit
+        // Bound the fetch: enough rows to surface `limit` distinct substances
+        // even with repeats, without faulting the entire dose log (the unbounded
+        // query faulted hundreds of `DoseEntry.substance` on the focus transition).
+        var descriptor = FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
+        descriptor.fetchLimit = max(limit * 15, 90)
+        descriptor.propertiesToFetch = [\.substance]
+        _recentEntries = Query(descriptor)
+    }
 
     private var substances: [Substance] {
         var seen = Set<String>()
         var result: [Substance] = []
         for entry in recentEntries {
             let key = entry.substance.lowercased()
-            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
+            // Warm batch cache, not the heavy ~21-query resolve (see RecentlySearchedGroup).
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.timelineLookup(key) {
                 result.append(substance)
                 if result.count >= limit { break }
             }

@@ -808,6 +808,9 @@ struct SessionCard: Identifiable {
     let substanceSummary: String
     let doseCountText: String
 
+    /// Built once rather than per card — the clock format is constant.
+    private static let clock = Date.FormatStyle.dateTime.hour().minute()
+
     init(session: Session?, entries: [DoseEntry], states: [ActiveSubstanceState], markers: [DoseMarker]) {
         self.session = session
         self.entries = entries
@@ -819,15 +822,20 @@ struct SessionCard: Identifiable {
 
         let start = entries.first?.timestamp ?? session?.startDate ?? .now
         startDate = start
-        let clock = Date.FormatStyle.dateTime.hour().minute()
         if let end = entries.last?.timestamp, end.timeIntervalSince(start) >= 60 {
-            timeLabel = "\(start.formatted(clock)) – \(end.formatted(clock))"
+            timeLabel = "\(start.formatted(Self.clock)) – \(end.formatted(Self.clock))"
         } else {
-            timeLabel = start.formatted(clock)
+            timeLabel = start.formatted(Self.clock)
         }
 
-        let names = entries.map(\.substance)
-        let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
+        // Order-preserving dedup without the NSOrderedSet/NSObject bridge — this
+        // runs per windowed card inside the synchronous regroup, so the bridge
+        // showed up in first-render profiles.
+        var seen = Set<String>()
+        var unique: [String] = []
+        for name in entries.map(\.substance) where seen.insert(name).inserted {
+            unique.append(name)
+        }
         uniqueSubstances = unique
         if unique.count <= 3 {
             substanceSummary = unique.joined(separator: ", ")
