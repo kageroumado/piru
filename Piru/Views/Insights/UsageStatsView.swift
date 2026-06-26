@@ -8,15 +8,11 @@ struct UsageStatsView: View {
 
     @State private var model = UsageStatsModel()
     @State private var timeRange: TimeRange = .thirtyDays
-    @State private var selectedTrendSubstance: String?
-    @State private var trendSearch = ""
     @State private var activityExpanded = false
     @State private var selectedCategory: SubstanceCategory?
     @State private var activityCategoryFilter: SubstanceCategory?
     @State private var categoryAngleValue: Int?
     @State private var selectedActivityDay: Date?
-    @State private var trendZoom: CGFloat = 1.0
-    @State private var trendGestureStartZoom: CGFloat = 1.0
     @State private var availableWidth: CGFloat = 350
 
     typealias DaySubstance = UsageStatsModel.DaySubstance
@@ -79,7 +75,7 @@ struct UsageStatsView: View {
                         summaryRow
                         frequencyChart
                         timelineChart
-                        doseTrendChart
+                        DoseTrendSection(model: model, availableWidth: availableWidth)
                         timeOfDayChart
                         categoryBreakdownChart
                     }
@@ -193,7 +189,7 @@ struct UsageStatsView: View {
                 let activityCategories: [(category: SubstanceCategory, count: Int)] = {
                     var counts: [SubstanceCategory: Int] = [:]
                     for item in data {
-                        let cat = SubstanceLibrary.lookup(item.key.substance.lowercased())?.category ?? .other
+                        let cat = model.substanceCategory[item.key.substance.lowercased()] ?? .other
                         counts[cat, default: 0] += item.count
                     }
                     return counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
@@ -241,7 +237,7 @@ struct UsageStatsView: View {
 
                 // Filter chart data and legend by selected category
                 let chartData = if let catFilter = activityCategoryFilter {
-                    data.filter { (SubstanceLibrary.lookup($0.key.substance.lowercased())?.category ?? .other) == catFilter }
+                    data.filter { (model.substanceCategory[$0.key.substance.lowercased()] ?? .other) == catFilter }
                 } else {
                     data
                 }
@@ -258,7 +254,7 @@ struct UsageStatsView: View {
                 )
 
                 let legendSubstances = if let catFilter = activityCategoryFilter {
-                    uniqueSubstances.filter { (SubstanceLibrary.lookup($0.name.lowercased())?.category ?? .other) == catFilter }
+                    uniqueSubstances.filter { (model.substanceCategory[$0.name.lowercased()] ?? .other) == catFilter }
                 } else {
                     uniqueSubstances
                 }
@@ -358,97 +354,6 @@ struct UsageStatsView: View {
             .dateTime.month(.abbreviated).day()
         case .ninetyDays, .all:
             .dateTime.month(.abbreviated)
-        }
-    }
-
-    // MARK: - Dose Trends
-
-    @ViewBuilder
-    private var doseTrendChart: some View {
-        let substances = model.trendSubstances
-        if !substances.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Dose Trends")
-                    .font(.headline)
-
-                HStack(spacing: 8) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .font(.subheadline)
-                    TextField("Search substances...", text: $trendSearch)
-                        .textFieldStyle(.plain)
-                        .font(.subheadline)
-                        .autocorrectionDisabled()
-                }
-                .padding(8)
-                .themeCapsule()
-
-                let names = substances.map(\.name)
-                let filtered = trendSearch.isEmpty
-                    ? names
-                    : names.filter { $0.localizedCaseInsensitiveContains(trendSearch) }
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(filtered, id: \.self) { name in
-                            let isSelected = selectedTrendSubstance == name
-                            Button {
-                                selectedTrendSubstance = isSelected ? nil : name
-                            } label: {
-                                Text(name)
-                                    .font(.caption.weight(.medium))
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 5)
-                                    .background(
-                                        isSelected
-                                            ? (model.colorMap[name.lowercased()] ?? Theme.accent)
-                                            : Color.clear,
-                                    )
-                                    .foregroundStyle(isSelected ? .white : .primary)
-                                    .clipShape(Capsule())
-                                    .overlay(Capsule().stroke(.quaternary))
-                            }
-                        }
-                    }
-                }
-
-                if let selected = selectedTrendSubstance,
-                   names.contains(selected) {
-                    let (data, unit, weekly, maLookup, mixedUnits) = model.trendData(for: selected, zoom: trendZoom)
-                    let color = model.colorMap[selected.lowercased()] ?? Theme.accent
-
-                    if data.isEmpty {
-                        Text("No entries for \(selected)")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    } else {
-                        let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, availableWidth - 64)
-                        let pointSpacing = data.count > 1 ? trendChartWidth / CGFloat(data.count - 1) : trendChartWidth
-                        let strideN = max(1, Int(ceil(90 / pointSpacing)))
-
-                        DoseTrendInnerChart(
-                            data: data,
-                            maLookup: maLookup,
-                            color: color,
-                            unit: unit,
-                            weekly: weekly,
-                            mixedUnits: mixedUnits,
-                            chartWidth: trendChartWidth,
-                            strideN: strideN,
-                            zoom: $trendZoom,
-                            gestureStartZoom: $trendGestureStartZoom,
-                        )
-                    }
-                } else {
-                    Text("Select a substance to see dose trends")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.vertical, 20)
-                }
-            }
-            .padding()
-            .themeCard()
         }
     }
 
@@ -576,6 +481,112 @@ private struct TimeOfDayChartContent: View {
         }
         .padding()
         .themeCard()
+    }
+}
+
+// MARK: - Dose Trends
+
+/// The "Dose Trends" card, extracted so its own churning state — the substance
+/// picker, the search field, and especially the pinch-zoom — lives here instead
+/// of on `UsageStatsView`. The magnify gesture fires up to 120 Hz; owning
+/// `trendZoom` locally means a zoom frame re-evaluates only this small card, not
+/// the whole Usage screen (frequency / timeline / category charts + their
+/// substance-category lookups). Reads the shared `UsageStatsModel` by reference.
+private struct DoseTrendSection: View {
+    let model: UsageStatsModel
+    let availableWidth: CGFloat
+
+    @State private var selectedTrendSubstance: String?
+    @State private var trendSearch = ""
+    @State private var trendZoom: CGFloat = 1.0
+    @State private var trendGestureStartZoom: CGFloat = 1.0
+
+    var body: some View {
+        let substances = model.trendSubstances
+        if !substances.isEmpty {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Dose Trends")
+                    .font(.headline)
+
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .font(.subheadline)
+                    TextField("Search substances...", text: $trendSearch)
+                        .textFieldStyle(.plain)
+                        .font(.subheadline)
+                        .autocorrectionDisabled()
+                }
+                .padding(8)
+                .themeCapsule()
+
+                let names = substances.map(\.name)
+                let filtered = trendSearch.isEmpty
+                    ? names
+                    : names.filter { $0.localizedCaseInsensitiveContains(trendSearch) }
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(filtered, id: \.self) { name in
+                            let isSelected = selectedTrendSubstance == name
+                            Button {
+                                selectedTrendSubstance = isSelected ? nil : name
+                            } label: {
+                                Text(name)
+                                    .font(.caption.weight(.medium))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 5)
+                                    .background(
+                                        isSelected
+                                            ? (model.colorMap[name.lowercased()] ?? Theme.accent)
+                                            : Color.clear,
+                                    )
+                                    .foregroundStyle(isSelected ? .white : .primary)
+                                    .clipShape(Capsule())
+                                    .overlay(Capsule().stroke(.quaternary))
+                            }
+                        }
+                    }
+                }
+
+                if let selected = selectedTrendSubstance,
+                   names.contains(selected) {
+                    let (data, unit, weekly, maLookup, mixedUnits) = model.trendData(for: selected, zoom: trendZoom)
+                    let color = model.colorMap[selected.lowercased()] ?? Theme.accent
+
+                    if data.isEmpty {
+                        Text("No entries for \(selected)")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    } else {
+                        let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, availableWidth - 64)
+                        let pointSpacing = data.count > 1 ? trendChartWidth / CGFloat(data.count - 1) : trendChartWidth
+                        let strideN = max(1, Int(ceil(90 / pointSpacing)))
+
+                        DoseTrendInnerChart(
+                            data: data,
+                            maLookup: maLookup,
+                            color: color,
+                            unit: unit,
+                            weekly: weekly,
+                            mixedUnits: mixedUnits,
+                            chartWidth: trendChartWidth,
+                            strideN: strideN,
+                            zoom: $trendZoom,
+                            gestureStartZoom: $trendGestureStartZoom,
+                        )
+                    }
+                } else {
+                    Text("Select a substance to see dose trends")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 20)
+                }
+            }
+            .padding()
+            .themeCard()
+        }
     }
 }
 

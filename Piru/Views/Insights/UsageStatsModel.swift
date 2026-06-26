@@ -29,9 +29,14 @@ final class UsageStatsModel {
         let substance: String
     }
 
-    /// One point on the dose-trend chart (a day or week bucket total).
-    struct TrendDataPoint: Identifiable {
-        let id = UUID()
+    /// One point on the dose-trend chart (a day or week bucket total). Identity
+    /// is the bucket's `date` (unique within a series) — a content-derived id, so
+    /// two recomputes that produce the same buckets compare `Equatable`-equal and
+    /// the trend cache's no-op guard can skip a redundant republish.
+    struct TrendDataPoint: Identifiable, Equatable {
+        var id: Date {
+            date
+        }
         let date: Date
         let total: Double
     }
@@ -62,6 +67,10 @@ final class UsageStatsModel {
     private(set) var categoryCounts: [(category: SubstanceCategory, count: Int)] = []
     /// Per-category substance counts (most-logged first) for the drill-down.
     private(set) var categorySubstanceCounts: [SubstanceCategory: [(substance: String, count: Int)]] = [:]
+    /// Lowercased substance name → category. Lets the activity chart's
+    /// category-filter run an O(1) dict lookup instead of a `SubstanceLibrary`
+    /// facade lookup per item in `body`.
+    private(set) var substanceCategory: [String: SubstanceCategory] = [:]
     /// Top-10 substances by entry count.
     private(set) var frequencyData: [(substance: String, count: Int)] = []
     /// Aggregated entries per day (1 bar per day) for the compact chart.
@@ -125,6 +134,7 @@ final class UsageStatsModel {
         let category = Self.categoryAggregation(entries: entries, categoryOf: categoryOf)
         categoryCounts = category.counts
         categorySubstanceCounts = category.substanceCounts
+        substanceCategory = category.substanceCategory
     }
 
     /// Trend chart data for one substance from the current filtered entries,
@@ -228,12 +238,18 @@ final class UsageStatsModel {
     static func categoryAggregation(
         entries: [CachedEntry],
         categoryOf: @MainActor (String) -> SubstanceCategory,
-    ) -> (counts: [(category: SubstanceCategory, count: Int)], substanceCounts: [SubstanceCategory: [(substance: String, count: Int)]]) {
+    ) -> (counts: [(category: SubstanceCategory, count: Int)], substanceCounts: [SubstanceCategory: [(substance: String, count: Int)]], substanceCategory: [String: SubstanceCategory]) {
         var categoryCounts: [SubstanceCategory: Int] = [:]
         var substanceByCat: [SubstanceCategory: [String: Int]] = [:]
+        var substanceCategory: [String: SubstanceCategory] = [:]
 
         for entry in entries {
-            let cat = categoryOf(entry.substance)
+            let key = entry.substance.lowercased()
+            let cat = substanceCategory[key] ?? {
+                let resolved = categoryOf(entry.substance)
+                substanceCategory[key] = resolved
+                return resolved
+            }()
             categoryCounts[cat, default: 0] += 1
             substanceByCat[cat, default: [:]][entry.substance, default: 0] += 1
         }
@@ -246,7 +262,7 @@ final class UsageStatsModel {
             counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
         }
 
-        return (counts, substanceCounts)
+        return (counts, substanceCounts, substanceCategory)
     }
 
     /// Build trend data for a substance, auto-aggregating to daily averages

@@ -7,6 +7,10 @@ struct AdherenceView: View {
 
     @State private var displayedMonth: Date = .now
     @State private var monthAdherence: [DayAdherence] = []
+    /// Same data keyed by `startOfDay` so each calendar cell is an O(1) lookup
+    /// instead of a linear `first { isDate(...) }` scan — the grid did O(days²)
+    /// per body pass.
+    @State private var monthAdherenceByDay: [Date: DayAdherence] = [:]
     @State private var streak: Int = 0
     @State private var selectedDay: DayAdherence?
 
@@ -29,8 +33,8 @@ struct AdherenceView: View {
                 .padding()
             }
             .background(Theme.background)
-            .task(id: EntriesFingerprint.make(allEntries)) { recompute() }
-            .onChange(of: displayedMonth) { recompute() }
+            .task(id: EntriesFingerprint.make(allEntries)) { await recompute() }
+            .onChange(of: displayedMonth) { recomputeMonth() }
             .sheet(item: $selectedDay) { day in
                 AdherenceDayDetailSheet(day: day)
                     .presentationDetents([.medium])
@@ -126,7 +130,7 @@ struct AdherenceView: View {
             // and would otherwise collide on `id: \.self`.
             ForEach(Array(days.enumerated()), id: \.offset) { _, date in
                 if let date {
-                    let adherence = monthAdherence.first { calendar.isDate($0.date, inSameDayAs: date) }
+                    let adherence = monthAdherenceByDay[calendar.startOfDay(for: date)]
                     let isToday = calendar.isDateInToday(date)
                     let isFuture = date > .now
 
@@ -160,7 +164,17 @@ struct AdherenceView: View {
         return Double(totalTaken) / Double(totalDue)
     }
 
-    private func recompute() {
+    /// Recompute the visible month (instant, ~30 days on main) then the streak
+    /// (the heavy 365-day scan, off-main). Mirrors `InsightsView`'s pattern.
+    private func recompute() async {
+        recomputeMonth()
+        await refreshStreak()
+    }
+
+    /// The displayed month's per-day adherence — cheap (~30 days), so it stays
+    /// synchronous for an instant calendar on month-nav. Publishes both the
+    /// ordered array (for the rate) and the by-day dict (for O(1) cells).
+    private func recomputeMonth() {
         // Pre-group entries by day — O(N) once instead of O(N) per day
         var entriesByDay: [Date: [DoseEntry]] = [:]
         for entry in allEntries {
@@ -172,24 +186,39 @@ struct AdherenceView: View {
         let range = calendar.range(of: .day, in: .month, for: start)!
 
         var data: [DayAdherence] = []
+        var byDay: [Date: DayAdherence] = [:]
         for dayOffset in range {
             let date = calendar.date(byAdding: .day, value: dayOffset - 1, to: start)!
-            let dayEntries = entriesByDay[calendar.startOfDay(for: date)] ?? []
-            data.append(AdherenceCalculator.adherence(for: date, entries: dayEntries, dailyItems: dailyItems))
+            let dayStart = calendar.startOfDay(for: date)
+            let adherence = AdherenceCalculator.adherence(for: date, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems)
+            data.append(adherence)
+            byDay[dayStart] = adherence
         }
 
         monthAdherence = data
+        monthAdherenceByDay = byDay
+    }
 
-        // Compute streak across all time (last 365 days)
-        let yearAgo = calendar.date(byAdding: .day, value: -365, to: .now)!
-        var allData: [DayAdherence] = []
-        var d = yearAgo
-        while d <= .now {
-            let dayEntries = entriesByDay[calendar.startOfDay(for: d)] ?? []
-            allData.append(AdherenceCalculator.adherence(for: d, entries: dayEntries, dailyItems: dailyItems))
-            d = calendar.date(byAdding: .day, value: 1, to: d)!
+    /// The 365-day streak scan, run off the main actor over `Sendable`
+    /// snapshots — it used to block the first paint and every month-nav.
+    private func refreshStreak() async {
+        guard !dailyItems.isEmpty else {
+            streak = 0
+            return
         }
-        streak = AdherenceCalculator.currentStreak(adherenceData: allData)
+        let entrySnaps = allEntries.map {
+            AdherenceCalculator.EntrySnapshot(substance: $0.substance, timestamp: $0.timestamp)
+        }
+        let itemSnaps = dailyItems.map {
+            AdherenceCalculator.DailyItemSnapshot(
+                substance: $0.substance, startDate: $0.startDate,
+                frequency: $0.frequency, frequencyDays: $0.frequencyDays,
+            )
+        }
+        let now = Date.now
+        streak = await Task.detached(priority: .utility) {
+            AdherenceCalculator.currentStreak(spanningDays: 365, endingAt: now, entries: entrySnaps, items: itemSnaps)
+        }.value
     }
 
     private func daysInMonth() -> [Date?] {
