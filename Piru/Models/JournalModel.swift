@@ -161,6 +161,7 @@ final class JournalModel {
     func rebuildDerived(
         entries: [DoseEntry],
         colors: [SubstanceColor],
+        grouping: JournalGrouping,
         onPrefixReady: () -> Void = {},
     ) async {
         deriveGeneration += 1
@@ -279,7 +280,13 @@ final class JournalModel {
         // (resolved after the phase-1 regroup) actually changed `derived`. When
         // the prefix already covered everything, the phase-1 regroup was
         // complete and the final regroup harmlessly no-ops on the same signature.
-        if resolvedCount > prefixResolved {
+        //
+        // Day grouping is windowed to the prefix, so resolving only out-of-window
+        // tail entries leaves the visible cards byte-identical — invalidating the
+        // groups cache there just republishes the same `sessionDays`. The
+        // non-windowed groupings (Substance / Category) *do* show tail entries, so
+        // they must still re-bucket.
+        if resolvedCount > prefixResolved, grouping != .byDay {
             lastGroupsSignature = nil
         }
         rebuildFacets(entries: entries)

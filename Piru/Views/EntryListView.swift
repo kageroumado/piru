@@ -164,7 +164,7 @@ struct EntryListView: View {
     /// in; the initial appear paints without animation.
     private func rebuildAll(animated: Bool) async {
         model.refreshColorMap(substanceColors)
-        await model.rebuildDerived(entries: entries, colors: substanceColors) {
+        await model.rebuildDerived(entries: entries, colors: substanceColors, grouping: grouping) {
             applyRegroup(animated: animated)
         }
         applyRegroup(animated: animated)
@@ -214,7 +214,12 @@ struct EntryListView: View {
     }
 
     private func list(proxy: ScrollViewProxy) -> some View {
-        List {
+        // Resolve the active-session card *once* per body pass — the lookup scans
+        // sessionDays × sessions × entries, and it was previously re-run for the
+        // hero card, the hero's id check, and the Day grouping separately.
+        let activeCard = activeSessionCard
+        let activeID = activeCard?.id
+        return List {
             if !isSearchSurface, !model.tags.isEmpty {
                 tagChipBar
                     .listRowInsets(EdgeInsets())
@@ -226,7 +231,7 @@ struct EntryListView: View {
             // no "Today" header (its card is pulled from the day list below).
             if showActiveHero {
                 ActiveSessionHeroCard(
-                    card: activeSessionCard,
+                    card: activeCard,
                     states: ActiveSessionManager.shared.activeSubstanceStates,
                     colorMap: model.colorMap,
                     onTap: {
@@ -234,7 +239,7 @@ struct EntryListView: View {
                         // accessory's sheet). Fall back to the live-session sheet
                         // only if the card hasn't been matched yet (e.g. the day
                         // groups are mid-rebuild right after logging).
-                        if let id = activeSessionCardID {
+                        if let id = activeID {
                             navigator.push(.session(id: id))
                         } else {
                             guard navigator.sheetStack.isEmpty else { return }
@@ -250,7 +255,7 @@ struct EntryListView: View {
             // Main content
             switch grouping {
             case .recent: recentContent
-            case .byDay: sessionGroupedContent
+            case .byDay: sessionGroupedContent(activeID: activeID)
             case .bySubstance: substanceGroupedContent
             case .byCategory: categoryGroupedContent
             }
@@ -542,9 +547,8 @@ struct EntryListView: View {
     /// is a `Section`; its rows are the sessions that started that day, newest
     /// first. A maintenance session (only background meds) renders as a compact
     /// row; everything else is a full card with a mini per-session timeline.
-    private var sessionGroupedContent: some View {
-        let activeID = activeSessionCardID
-        return Group {
+    private func sessionGroupedContent(activeID: UUID?) -> some View {
+        Group {
             sessionDayRows(activeID: activeID)
             // Load-more sentinel: when the last built day scrolls into view, pull
             // in the next page of older sessions. Removed once the whole history
