@@ -642,7 +642,11 @@ private struct QuickLogCardList: View {
     @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
 
     var body: some View {
-        LazyVStack(alignment: .leading, spacing: 16) {
+        // Snapshot staged counts once per staging change; each card takes only
+        // its own slice, so a card whose staged state is unchanged is skipped by
+        // its `.equatable()` rather than re-diffing every chip + context menu.
+        let staged = tray.stagedCountsBySubstance()
+        return LazyVStack(alignment: .leading, spacing: 16) {
             if !content.hasLoaded {
                 // Loading: render nothing (the dock stays put) rather than
                 // the empty-state placeholder — the caches fill within a
@@ -656,21 +660,21 @@ private struct QuickLogCardList: View {
                     description: Text("Search for a substance to log your first entry."),
                 )
             } else {
-                scrollContentInner
+                scrollContentInner(staged: staged)
             }
         }
     }
 
     @ViewBuilder
-    private var scrollContentInner: some View {
+    private func scrollContentInner(staged: [String: StagedChipCounts]) -> some View {
         if !content.cachedDailyGroups.isEmpty {
-            dailySection
+            dailySection(staged: staged)
         }
 
         if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
             Section {
                 ForEach(content.cachedFavoriteCards) { card in
-                    cardView(card, isFavorite: true)
+                    cardView(card, isFavorite: true, staged: staged)
                         .id("\(card.id)_fav")
                 }
                 ForEach(content.cachedFavoriteLibrarySubstances) { substance in
@@ -695,7 +699,7 @@ private struct QuickLogCardList: View {
         if !content.cachedNonFavoriteCards.isEmpty {
             Section {
                 ForEach(content.cachedNonFavoriteCards) { card in
-                    cardView(card, isFavorite: false)
+                    cardView(card, isFavorite: false, staged: staged)
                         .id("\(card.id)_recent")
                 }
             } header: {
@@ -711,11 +715,11 @@ private struct QuickLogCardList: View {
 
     // MARK: - Daily routine
 
-    private var dailySection: some View {
+    private func dailySection(staged: [String: StagedChipCounts]) -> some View {
         Section {
             FlowLayout(spacing: 8) {
                 ForEach(content.cachedDailyGroups) { group in
-                    routinePill(group)
+                    routinePill(group, staged: staged)
                 }
             }
         } header: {
@@ -736,12 +740,12 @@ private struct QuickLogCardList: View {
     /// anything already staged. The checkmark is informational ("all of these
     /// were logged today"); the pill stays tappable for re-logs. Long-press
     /// to edit the routine itself.
-    private func routinePill(_ group: DailyCategoryGroup) -> some View {
+    private func routinePill(_ group: DailyCategoryGroup, staged: [String: StagedChipCounts]) -> some View {
         let done = group.remaining.isEmpty
-        let allStaged = group.items.allSatisfy { stagedQuantity($0) > 0 }
+        let allStaged = group.items.allSatisfy { stagedQuantity($0, staged: staged) > 0 }
         return Button {
             withAnimation(.snappy) {
-                for item in group.items where stagedQuantity(item) == 0 {
+                for item in group.items where stagedQuantity(item, staged: staged) == 0 {
                     stageDailyItem(item)
                 }
             }
@@ -778,8 +782,8 @@ private struct QuickLogCardList: View {
         }
     }
 
-    private func stagedQuantity(_ item: DailyDoseItem) -> Int {
-        tray.quantity(substance: item.substance, route: item.route, amount: item.amount, unit: item.unit)
+    private func stagedQuantity(_ item: DailyDoseItem, staged: [String: StagedChipCounts]) -> Int {
+        staged[item.substance.lowercased()]?.count(route: item.route, amount: item.amount, unit: item.unit) ?? 0
     }
 
     private func stageDailyItem(_ item: DailyDoseItem) {
@@ -800,16 +804,20 @@ private struct QuickLogCardList: View {
     /// Builds the extracted ``SubstanceCardView`` for a recent/favorite card,
     /// wiring the list-owned actions (favorite toggle + curated-list edits)
     /// while the card itself owns its layout and ephemeral expansion state.
-    private func cardView(_ card: SubstanceCard, isFavorite: Bool) -> some View {
+    private func cardView(_ card: SubstanceCard, isFavorite: Bool, staged: [String: StagedChipCounts]) -> some View {
         SubstanceCardView(
             card: card,
             isFavorite: isFavorite,
             badge: content.cachedMostRecent[card.id],
+            stagedCounts: staged[card.id] ?? .empty,
             tray: tray,
             onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card.substanceName) } },
             onMoveChip: { group, chip, toFront in moveChip(group: group, chip: chip, toFront: toFront) },
             onRemoveChip: { group, chip in removeChip(group: group, chip: chip) },
         )
+        // Skip rebuilding this card (its chip buttons + context menus) when its
+        // content and staged slice are unchanged — the staging-cascade fix.
+        .equatable()
     }
 
     private func toggleFavorite(_ name: String) {

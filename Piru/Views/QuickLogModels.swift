@@ -5,7 +5,7 @@ import SwiftData
 
 /// A recent/favorite substance with its route groups, backing one card in the
 /// quick-log list. Built from the curated `QuickLogDose` rows, not raw history.
-struct SubstanceCard: Identifiable {
+struct SubstanceCard: Identifiable, Equatable {
     let substanceName: String
     let colorHex: String?
     let routes: [SubstanceGroup]
@@ -18,7 +18,7 @@ struct SubstanceCard: Identifiable {
 
 /// One (substance, route) pairing within a card, carrying its curated dose
 /// chips sorted for display.
-struct SubstanceGroup: Identifiable {
+struct SubstanceGroup: Identifiable, Equatable {
     let id: String
     let substanceName: String
     let route: RouteOfAdministration
@@ -26,6 +26,19 @@ struct SubstanceGroup: Identifiable {
     let librarySubstance: Substance?
     var latestTimestamp: Date
     private var chipEntries: [(amount: Double, unit: String, sortOrder: Double)] = []
+
+    /// Hand-written because `chipEntries` is a tuple array (no synthesized
+    /// `Equatable`). Compares the display-relevant surface — identity, colour,
+    /// recency, the resolved library substance, and the rendered chips — which is
+    /// exactly what a card's body draws, so two equal groups are visually
+    /// interchangeable (and the card's `.equatable()` can skip rebuilding them).
+    static func == (lhs: SubstanceGroup, rhs: SubstanceGroup) -> Bool {
+        lhs.id == rhs.id
+            && lhs.colorHex == rhs.colorHex
+            && lhs.latestTimestamp == rhs.latestTimestamp
+            && lhs.librarySubstance?.id == rhs.librarySubstance?.id
+            && lhs.doses == rhs.doses
+    }
 
     var doses: [DoseChip] {
         // Alcohol (and any by-volume substance) presents its drink presets as the
@@ -66,7 +79,7 @@ struct SubstanceGroup: Identifiable {
 /// A single tappable dose amount within a `SubstanceGroup`. Carries an optional
 /// drink label + icon for by-volume substances (alcohol), where the chip reads
 /// "🍺 Beer" rather than a bare gram amount.
-struct DoseChip: Identifiable {
+struct DoseChip: Identifiable, Equatable {
     let amount: Double
     let unit: String
     let label: LocalizedStringResource?
@@ -109,7 +122,7 @@ struct DailyCategoryGroup: Identifiable {
 /// the last-dose field reads run once per history change in the model, not per
 /// card on every `body` evaluation. Carries the narrow last-dose values the
 /// card's badge + expanded card need, never the live `DoseEntry`.
-struct CardPKBadge {
+struct CardPKBadge: Equatable {
     let remainingPercent: Double
     let waitMinutes: Double
     let lastDoseAmount: Double

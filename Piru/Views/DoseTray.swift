@@ -171,6 +171,34 @@ enum TrayTime: Equatable {
     }
 }
 
+// MARK: - Staged Chip Counts
+
+/// A staged chip's identity within one substance: route + unit + the amount at
+/// display resolution (so the editor's `31.700000000000003 → "31.7"` round-trip
+/// still matches its chip). Keys a value snapshot of staged counts.
+struct StagedChipKey: Hashable {
+    let route: RouteOfAdministration
+    let unit: String
+    let amountKey: Int
+}
+
+/// A value snapshot of one substance's staged chip counts. Passed to
+/// ``SubstanceCardView`` so a card reflects staged state through a *comparable*
+/// input instead of reading the live `DoseTrayModel` — reading the model would
+/// re-render **every** card on any staging change, re-diffing thousands of chip
+/// buttons and context menus per logging session. With a value snapshot, only
+/// the card whose slice actually changed re-renders (its `.equatable()` skips
+/// the rest).
+struct StagedChipCounts: Equatable {
+    fileprivate let counts: [StagedChipKey: Int]
+    static let empty = StagedChipCounts(counts: [:])
+
+    /// Staged count for one chip, matched at display resolution.
+    func count(route: RouteOfAdministration, amount: Double, unit: String) -> Int {
+        counts[StagedChipKey(route: route, unit: unit, amountKey: DoseTrayModel.displayKey(amount))] ?? 0
+    }
+}
+
 // MARK: - Tray Model
 
 /// Staging state for the quick-log tray. Owned by `QuickLogView` so dose chips
@@ -205,6 +233,26 @@ final class DoseTrayModel {
         return staged[index].components.first { Self.sameAmount($0.amount, amount) }?.count ?? 0
     }
 
+    /// Snapshot every staged chip count, bucketed by lowercased substance name,
+    /// as ``StagedChipCounts`` value types. Built once per staging change (the
+    /// card list reads this in `body`); each card then takes only its own slice,
+    /// so a card whose staged state is unchanged is skipped by its `.equatable()`
+    /// instead of re-diffing all its chips. Keyed identically to ``quantity`` —
+    /// `(substance, route, unit, amount-at-display-resolution)`.
+    func stagedCountsBySubstance() -> [String: StagedChipCounts] {
+        var byName: [String: [StagedChipKey: Int]] = [:]
+        for dose in staged {
+            let name = dose.substanceName.lowercased()
+            var keyed = byName[name] ?? [:]
+            for component in dose.components {
+                let key = StagedChipKey(route: dose.route, unit: dose.unit, amountKey: Self.displayKey(component.amount))
+                keyed[key, default: 0] += component.count
+            }
+            byName[name] = keyed
+        }
+        return byName.mapValues { StagedChipCounts(counts: $0) }
+    }
+
     /// Match two chip amounts at their *display* resolution, replacing a
     /// `doseFormatted` **string** comparison that allocated a formatted string
     /// per component on every staged-chip lookup — this ran inside `body` via
@@ -217,7 +265,7 @@ final class DoseTrayModel {
     }
 
     /// Integer key at `doseFormatted`'s rounding for this magnitude.
-    private static func displayKey(_ value: Double) -> Int {
+    fileprivate static func displayKey(_ value: Double) -> Int {
         let magnitude = Swift.abs(value)
         let scale: Double = magnitude >= 100 ? 1 : magnitude >= 10 ? 10 : 100
         return Int((value * scale).rounded())

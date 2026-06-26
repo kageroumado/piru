@@ -10,7 +10,7 @@ import SwiftUI
 /// card's PK badge or "+N" chip-fold used to mutate a parent `@State` set and
 /// re-run the *entire* `QuickLogView.body` (dock, toolbar, every other card,
 /// re-measuring every `ViewThatFits`); now it re-renders just this card.
-struct SubstanceCardView: View {
+struct SubstanceCardView: View, Equatable {
     let card: SubstanceCard
     let isFavorite: Bool
     /// Precomputed PK badge for this card's most recent dose, built in
@@ -19,10 +19,31 @@ struct SubstanceCardView: View {
     /// and the live-`DoseEntry` reads no longer run inside `body` on every
     /// render.
     let badge: CardPKBadge?
+    /// This card's staged chip counts, as a *value* snapshot. The card used to
+    /// read `tray.quantity(...)` per chip in `body`, which subscribed it to the
+    /// whole `DoseTrayModel` — so any staging change anywhere re-ran every card's
+    /// body and re-diffed thousands of chip buttons + context menus. Taking a
+    /// comparable slice instead lets `.equatable()` skip every card but the one
+    /// whose own staged state changed. The `tray` is kept for *actions* only
+    /// (staging on tap), which don't subscribe the body.
+    let stagedCounts: StagedChipCounts
     let tray: DoseTrayModel
     let onToggleFavorite: () -> Void
     let onMoveChip: (SubstanceGroup, DoseChip, Bool) -> Void
     let onRemoveChip: (SubstanceGroup, DoseChip) -> Void
+
+    /// Compare only the rendered inputs — not the `tray` reference (a single
+    /// shared instance) or the parent-supplied action closures (uncomparable, and
+    /// they capture only stable references). Paired with `.equatable()` at the
+    /// call site, this lets SwiftUI keep the existing card instance when its
+    /// content + staged state are unchanged, instead of rebuilding its chip
+    /// buttons and context menus on every sibling's staging change.
+    static func == (lhs: SubstanceCardView, rhs: SubstanceCardView) -> Bool {
+        lhs.card == rhs.card
+            && lhs.isFavorite == rhs.isFavorite
+            && lhs.badge == rhs.badge
+            && lhs.stagedCounts == rhs.stagedCounts
+    }
 
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     /// Tracked inventory items — drives the passive "X left" hint. A `@Query`
@@ -184,7 +205,7 @@ struct SubstanceCardView: View {
     /// the count ("took two pills" — one bigger entry, never two). A filled
     /// background + count badge mirror the staged state.
     private func doseChip(_ chip: DoseChip, group: SubstanceGroup) -> some View {
-        let stagedCount = tray.quantity(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
+        let stagedCount = stagedCounts.count(route: group.route, amount: chip.amount, unit: chip.unit)
         return Button {
             withAnimation(.snappy) {
                 tray.stage(
