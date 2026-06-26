@@ -6,105 +6,114 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.appNavigator) private var navigator
 
-    @State private var searchText = ""
-    @State private var librarySearchText = ""
-
-    /// Which dataset the Search tab is currently querying. Seeded from the tab
-    /// the user came from (Library → library, anything else → library), then
-    /// user-switchable via the scope picker.
-    @State private var searchScope: SearchTabScope = .library
-
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
-    @State private var showDiscordPrompt = false
-
-    /// Launch-time store health. When the persistent store can't be opened the app
-    /// runs in-memory; we surface a reassuring alert (the data is safe, not lost).
-    @State private var storeLaunch = StoreLaunchState.shared
-    @State private var dismissedStoreAlert = false
-    @State private var preparingDiagnostics = false
-    @State private var diagnosticsFile: DiagnosticsFile?
-    @State private var diagnosticsError: String?
-
     /// Shared namespace for the quick-log zoom transition. The floating add
     /// button and the session accessory's add button tag themselves as the
     /// source; the presented quick-log sheet grows out of whichever is on
     /// screen instead of sliding up from the bottom (Mail-style).
     @Namespace private var quickLogZoom
 
+    /// A thin root. `MainTabView` now owns its own search state (no bindings in),
+    /// so it has zero stored inputs and SwiftUI skips re-evaluating it whenever
+    /// this body re-runs (scene-phase change). The launch chrome — onboarding,
+    /// the Discord invite, the store-health alert + diagnostics — lives in
+    /// self-owning `ViewModifier`s so their `@State` churn stays out of this body
+    /// (and out of the tab tree). No more `.equatable()` band-aid: an input-free
+    /// view is trivially comparable.
     var body: some View {
-        @Bindable var navigator = navigator
-        // `MainTabView` is a dedicated `Equatable` struct, not a computed
-        // property: this `body` observes `navigator.sheetStack` (via
-        // `.sheetStackPresenter`, which must watch it to present sheets), so it
-        // re-runs on every sheet open/close. Extracting the tab view lets SwiftUI
-        // skip rebuilding it on those re-runs — the journal no longer re-renders
-        // behind a presenting sheet. Its real inputs still update it via
-        // `@Observable` tracking; only `scopePickerToken` gates the comparison.
-        MainTabView(
-            searchScope: $searchScope,
-            searchText: $searchText,
-            librarySearchText: $librarySearchText,
-        )
-        .equatable()
-        .onChange(of: navigator.selectedTab) { oldValue, newValue in
-            if newValue == .search {
-                // Seed the scope from where the user came from; Library is
-                // the natural default from Tools/Insights/Search itself.
-                searchScope = (oldValue == .journal) ? .journal : .library
+        MainTabView()
+            .environment(\.quickLogZoomNamespace, quickLogZoom)
+            .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
+            .modifier(OnboardingGateModifier())
+            .modifier(DiscordInviteModifier())
+            .modifier(StoreDiagnosticsModifier())
+            .onOpenURL { handleDeepLink($0) }
+            .onChange(of: scenePhase) {
+                if scenePhase == .active {
+                    ActiveSessionManager.shared.refresh()
+                }
             }
-            searchText = ""
-            librarySearchText = ""
-        }
-        .environment(\.quickLogZoomNamespace, quickLogZoom)
-        .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
-        .fullScreenCover(isPresented: .init(
+    }
+
+    // MARK: - Deep Linking
+
+    private func handleDeepLink(_ url: URL) {
+        guard let outcome = DeepLink.decode(url) else { return }
+        navigator.apply(outcome)
+    }
+}
+
+// MARK: - Launch Chrome Modifiers
+
+/// Presents onboarding until the user completes it. Owns the `@AppStorage` flag
+/// so its toggling never re-runs the root body.
+private struct OnboardingGateModifier: ViewModifier {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
+    func body(content: Content) -> some View {
+        content.fullScreenCover(isPresented: .init(
             get: { !hasCompletedOnboarding },
             set: { if !$0 { hasCompletedOnboarding = true } },
         )) {
             OnboardingView()
         }
-        .sheet(isPresented: $showDiscordPrompt) {
-            DiscordPromptView()
-        }
-        .task {
-            // Invite to Discord once per launch (after onboarding, so modals
-            // don't stack) until the user dismisses it forever.
-            guard hasCompletedOnboarding, !discordDismissed else { return }
-            try? await Task.sleep(for: .seconds(0.8))
-            if hasCompletedOnboarding, !discordDismissed {
-                showDiscordPrompt = true
+    }
+}
+
+/// Invites the user to Discord once per launch (after onboarding, so modals
+/// don't stack) until they dismiss it forever. Owns the presentation `@State`.
+private struct DiscordInviteModifier: ViewModifier {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
+    @State private var showDiscordPrompt = false
+
+    func body(content: Content) -> some View {
+        content
+            .sheet(isPresented: $showDiscordPrompt) {
+                DiscordPromptView()
             }
-        }
-        .onOpenURL { url in
-            handleDeepLink(url)
-        }
-        .onChange(of: scenePhase) {
-            if scenePhase == .active {
-                ActiveSessionManager.shared.refresh()
+            .task {
+                guard hasCompletedOnboarding, !discordDismissed else { return }
+                try? await Task.sleep(for: .seconds(0.8))
+                if hasCompletedOnboarding, !discordDismissed {
+                    showDiscordPrompt = true
+                }
             }
-        }
-        .alert("Your Data Is Safe", isPresented: storeUnavailableAlertBinding) {
-            Button("Send Logs to Developer") { prepareDiagnostics() }
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data.")
-        }
-        .sheet(item: $diagnosticsFile, onDismiss: cleanupDiagnostics) { file in
-            ShareSheet(items: [file.url])
-        }
-        .alert("Couldn't Prepare Logs", isPresented: diagnosticsErrorBinding) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(diagnosticsError ?? "")
-        }
-        .overlay {
-            if preparingDiagnostics {
-                ProgressView().controlSize(.large)
-                    .padding(24)
-                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+    }
+}
+
+/// Launch-time store-health reassurance: when the persistent store can't be
+/// opened the app runs in-memory and this surfaces a "your data is safe" alert
+/// plus an off-main diagnostics export. Owns all of that churning `@State`.
+private struct StoreDiagnosticsModifier: ViewModifier {
+    @State private var storeLaunch = StoreLaunchState.shared
+    @State private var dismissedStoreAlert = false
+    @State private var preparingDiagnostics = false
+    @State private var diagnosticsFile: DiagnosticsFile?
+    @State private var diagnosticsError: String?
+
+    func body(content: Content) -> some View {
+        content
+            .alert("Your Data Is Safe", isPresented: storeUnavailableAlertBinding) {
+                Button("Send Logs to Developer") { prepareDiagnostics() }
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data.")
             }
-        }
+            .sheet(item: $diagnosticsFile, onDismiss: cleanupDiagnostics) { file in
+                ShareSheet(items: [file.url])
+            }
+            .alert("Couldn't Prepare Logs", isPresented: diagnosticsErrorBinding) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(diagnosticsError ?? "")
+            }
+            .overlay {
+                if preparingDiagnostics {
+                    ProgressView().controlSize(.large)
+                        .padding(24)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+                }
+            }
     }
 
     private var diagnosticsErrorBinding: Binding<Bool> {
@@ -138,13 +147,6 @@ struct ContentView: View {
         if let url = diagnosticsFile?.url { try? FileManager.default.removeItem(at: url) }
         diagnosticsFile = nil
     }
-
-    // MARK: - Deep Linking
-
-    private func handleDeepLink(_ url: URL) {
-        guard let outcome = DeepLink.decode(url) else { return }
-        navigator.apply(outcome)
-    }
 }
 
 // MARK: - Main Tab View
@@ -162,23 +164,23 @@ struct ContentView: View {
 /// that genuinely affect it (selected tab, nav paths, active-session state,
 /// search text) still update it through `@Observable` tracking or the leaf
 /// views' own bindings, independent of the `==` comparison.
-private struct MainTabView: View, Equatable {
+private struct MainTabView: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
 
-    @Binding var searchScope: SearchTabScope
-    @Binding var searchText: String
-    @Binding var librarySearchText: String
+    /// Search state owned here (not threaded down as bindings from the root), so
+    /// this view has zero stored inputs and SwiftUI skips re-evaluating it when
+    /// the root body re-runs for unrelated chrome/scene churn. The old
+    /// `Equatable` + `== { true }` band-aid is gone — an input-free view is
+    /// trivially comparable.
+    @State private var searchScope: SearchTabScope = .library
+    @State private var searchText = ""
+    @State private var librarySearchText = ""
 
-    /// Always equal: nothing `ContentView.body` changes when it re-runs (it does
-    /// so on every sheet open/close, via `.sheetStackPresenter`) needs to rebuild
-    /// the tab view. Everything that should update it flows through `@Observable`
-    /// tracking (selected tab, nav paths, `ActiveSessionManager`) or the leaf
-    /// views' bindings (`searchScope`, `searchText`), all of which fire
-    /// regardless of this comparison.
-    static func == (_: MainTabView, _: MainTabView) -> Bool {
-        true
-    }
+    /// Whether the journal stack's top screen is the active session's detail.
+    /// Computed off `body` (in `.task(id:)`) so the membership `fetch` it needs
+    /// never runs during a body pass.
+    @State private var viewingActiveSessionDay = false
 
     var body: some View {
         @Bindable var navigator = navigator
@@ -238,6 +240,22 @@ private struct MainTabView: View, Equatable {
                 navigator.present(.quickLog(routine: nil))
             },
         )
+        .onChange(of: navigator.selectedTab) { oldValue, newValue in
+            if newValue == .search {
+                // Seed the scope from where the user came from; Library is the
+                // natural default from Tools/Insights/Search itself.
+                searchScope = (oldValue == .journal) ? .journal : .library
+            }
+            searchText = ""
+            librarySearchText = ""
+        }
+        // Derive the "viewing the active session's day" flag reactively instead
+        // of fetching in `body`. The key changes when the journal's top route,
+        // the selected tab, or the active doses change — exactly when the answer
+        // can flip.
+        .task(id: activeSessionDayKey) {
+            viewingActiveSessionDay = computeViewingActiveSessionDay()
+        }
     }
 
     // MARK: Tab Content
@@ -282,11 +300,23 @@ private struct MainTabView: View, Equatable {
             && ActiveSessionManager.shared.hasActiveSession
     }
 
+    /// Identity for the `viewingActiveSessionDay` task: changes exactly when the
+    /// answer could — the selected tab, the journal's top route, or the active
+    /// doses. Read here in `body` (these are already observed for the accessory),
+    /// so the membership `fetch` runs in the keyed task rather than per body pass.
+    private var activeSessionDayKey: String {
+        let top = navigator.path(for: .journal).last.map { "\($0)" } ?? "none"
+        let stamps = ActiveSessionManager.shared.activeSubstanceStates
+            .map { "\($0.doseTimestamp.timeIntervalSince1970)" }
+            .joined(separator: ",")
+        return "\(navigator.selectedTab)|\(top)|\(stamps)"
+    }
+
     /// True when the journal stack's top screen is the detail for the session the
     /// active doses belong to. The session accessory would only echo what that
     /// screen already shows, so we hide it there. Matches by membership: the
     /// viewed session contains the active session's earliest dose.
-    private var viewingActiveSessionDay: Bool {
+    private func computeViewingActiveSessionDay() -> Bool {
         guard navigator.selectedTab == .journal,
               case let .session(id) = navigator.path(for: .journal).last
         else { return false }

@@ -12,7 +12,10 @@ final class ActiveSessionManager {
     static let shared = ActiveSessionManager()
 
     private(set) var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
-    var cachedColorMap: [String: String] = [:]
+    /// Substance → colour hex, refreshed alongside `activeEntries`. `private(set)`
+    /// like its siblings so an external write can't invalidate accessory
+    /// consumers out from under the manager (all writers are internal).
+    private(set) var cachedColorMap: [String: String] = [:]
 
     private var pruneTask: Task<Void, Never>?
 
