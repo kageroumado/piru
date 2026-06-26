@@ -291,6 +291,16 @@ final class CustomSubstanceStore {
         return fallback ?? canonicalName
     }
 
+    /// The personal display-name override for `substance`, or `nil` when none
+    /// differs from the library title. Resolve this in the parent list (which
+    /// holds the store) and pass the value into `SubstanceRowView` so each row
+    /// doesn't subscribe to the whole override set — one personalization then
+    /// re-evaluates only the affected row, not every visible row.
+    func personalName(for substance: Substance) -> String? {
+        let resolved = displayName(for: substance.name, fallback: substance.displayTitle)
+        return resolved == substance.displayTitle ? nil : resolved
+    }
+
     // MARK: - Persistence
 
     private func sortInPlace() {

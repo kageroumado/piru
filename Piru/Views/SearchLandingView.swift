@@ -125,6 +125,7 @@ private struct RecentDosesGroup: View {
 /// section would over-inset it). Each row pushes the substance detail.
 private struct SubstanceRowsCard: View {
     let substances: [Substance]
+    @State private var customStore = CustomSubstanceStore.shared
 
     var body: some View {
         VStack(spacing: 0) {
@@ -134,7 +135,7 @@ private struct SubstanceRowsCard: View {
                 }
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
                     HStack(spacing: 8) {
-                        SubstanceRowView(substance: substance)
+                        SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
                         Image(systemName: "chevron.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)

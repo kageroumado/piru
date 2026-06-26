@@ -14,6 +14,9 @@ struct SubstanceLibraryView: View {
     @State private var searchResults: [Substance] = []
     /// Cached so each search-result row's swipe action doesn't rebuild the set.
     @State private var favoriteNames: Set<String> = []
+    /// Held here so the row's personal-name override is resolved once per row
+    /// in this body (one subscription) rather than each row subscribing itself.
+    @State private var customStore = CustomSubstanceStore.shared
 
     var body: some View {
         Group {
@@ -87,7 +90,7 @@ struct SubstanceLibraryView: View {
             Section("\(searchResults.count) results") {
                 ForEach(searchResults) { substance in
                     NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance)
+                        SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
                     }
                     .swipeActions(edge: .trailing) {
                         let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -222,6 +225,7 @@ struct SubstanceLibraryView: View {
 /// tab to every dose mutation for the sake of these ten rows.
 private struct RecentSubstancesSection: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
+    @State private var customStore = CustomSubstanceStore.shared
 
     /// Resolved once per dose-history change instead of per body — each rebuild
     /// is up to 10 synchronous `SubstanceLibrary.lookup` calls.
@@ -270,7 +274,7 @@ private struct RecentSubstancesSection: View {
             Section("Recent") {
                 ForEach(recentSubstances) { substance in
                     NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance)
+                        SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
                     }
                     .listRowBackground(Theme.cardBackground)
                 }
@@ -289,6 +293,7 @@ struct SubstanceCategoryListView: View {
     var tag: String?
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
+    @State private var customStore = CustomSubstanceStore.shared
 
     enum SortMode: String, CaseIterable { case popularity, name }
     @State private var sortMode: SortMode = .popularity
@@ -366,7 +371,7 @@ struct SubstanceCategoryListView: View {
                     // Pass the list's category so a mixed compound from another
                     // family (e.g. a balanced stimulant in Empathogens) shows a
                     // disambiguating class chip; pure members stay chip-free.
-                    SubstanceRowView(substance: substance, contextCategory: category)
+                    SubstanceRowView(substance: substance, contextCategory: category, personalName: customStore.personalName(for: substance))
                 }
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -417,18 +422,16 @@ struct SubstanceRowView: View {
     /// stimulant like 3-MMC in Empathogens reads "Stimulant") — the colour dot +
     /// label disambiguate why it's here.
     var contextCategory: SubstanceCategory?
-    @State private var customStore = CustomSubstanceStore.shared
+    /// Personal display-name override (resolved by the parent list, which holds
+    /// the `CustomSubstanceStore`), or `nil` for the library title. Injected as a
+    /// plain value so the row holds no store reference — it stays value-comparable
+    /// and SwiftUI skips it on an unrelated re-render.
+    var personalName: String?
 
     /// Show the class chip in a cross-category list, or when this row's primary
     /// class differs from the list it's appearing in (a cross-listed mixed case).
     private var showsCategoryBadge: Bool {
         contextCategory == nil || substance.category != contextCategory
-    }
-
-    /// Personal display-name override, if it differs from the library title.
-    private var personalName: String? {
-        let resolved = customStore.displayName(for: substance.name, fallback: substance.displayTitle)
-        return resolved == substance.displayTitle ? nil : resolved
     }
 
     var body: some View {
