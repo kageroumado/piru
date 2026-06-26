@@ -7,11 +7,11 @@ import SwiftUI
 /// amount stays a component inside it so the chips can mirror staged state.
 /// A staged chip is already a complete dose; everything else here is optional
 /// enrichment.
-struct StagedDose: Identifiable {
+struct StagedDose: Identifiable, Equatable {
     /// One tapped chip (or typed amount) inside a staged dose. Re-tapping the
     /// same chip bumps `count` ("took two pills"); tapping a different amount
     /// adds a component ("a 150 and a 182").
-    struct Component: Identifiable {
+    struct Component: Identifiable, Equatable {
         let id = UUID()
         var amount: Double
         var count: Int = 1
@@ -422,11 +422,7 @@ struct DoseTrayView: View {
                         .padding(.top, 4)
                         .padding(.bottom, 10)
                     } else {
-                        TrayRow(dose: item, namespace: morphNamespace) {
-                            withAnimation(.snappy) { _ = model.expandedItemIDs.insert(item.id) }
-                        } onDelete: {
-                            withAnimation(.snappy) { model.remove(item) }
-                        }
+                        TrayRow(dose: item, model: model, namespace: morphNamespace)
                     }
                     Divider().padding(.leading, 26)
                 }
@@ -742,14 +738,26 @@ struct DoseTrayView: View {
 /// reveals delete (with full-swipe to remove).
 private struct TrayRow: View {
     let dose: StagedDose
+    /// Stable reference, not parent closures: the row toggles its own
+    /// expansion / removal through the model. With no closures and an
+    /// `Equatable` `dose`, SwiftUI can compare `TrayRow` and skip the body of
+    /// a collapsed row whose dose didn't change — so editing one staged
+    /// amount no longer re-evaluates every other row.
+    let model: DoseTrayModel
     let namespace: Namespace.ID
-    let onTap: () -> Void
-    let onDelete: () -> Void
 
     @State private var offset: CGFloat = 0
 
     private static let revealWidth: CGFloat = 64
     private static let fullSwipeThreshold: CGFloat = 180
+
+    private func expand() {
+        withAnimation(.snappy) { _ = model.expandedItemIDs.insert(dose.id) }
+    }
+
+    private func delete() {
+        withAnimation(.snappy) { model.remove(dose) }
+    }
 
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -824,7 +832,7 @@ private struct TrayRow: View {
             if offset != 0 {
                 withAnimation(.snappy) { offset = 0 }
             } else {
-                onTap()
+                expand()
             }
         }
     }
@@ -832,7 +840,7 @@ private struct TrayRow: View {
     /// A compact red capsule, not a full-height block — centered in the
     /// revealed strip with breathing room on every side.
     private var deleteBackdrop: some View {
-        Button(action: onDelete) {
+        Button(action: delete) {
             Image(systemName: "trash.fill")
                 .font(.subheadline)
                 .foregroundStyle(.white)
@@ -852,7 +860,7 @@ private struct TrayRow: View {
             }
             .onEnded { value in
                 if offset < -Self.fullSwipeThreshold || value.predictedEndTranslation.width < -Self.fullSwipeThreshold * 1.5 {
-                    onDelete()
+                    delete()
                 } else if offset < -Self.revealWidth / 2 {
                     withAnimation(.snappy) { offset = -Self.revealWidth }
                 } else {
