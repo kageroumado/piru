@@ -79,43 +79,32 @@ struct QuickLogView: View {
         }
     }
 
-    private func toggleFavorite(_ name: String) {
-        content.setFavorite(name, on: FavoriteService.toggle(name, in: modelContext))
-    }
-
     // MARK: - Body
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 16) {
-                    if !content.hasLoaded {
-                        // Loading: render nothing (the dock stays put) rather than
-                        // the empty-state placeholder — the caches fill within a
-                        // frame or two off the warm batch cache, so this avoids the
-                        // jarring "No Previous Substances" flash on open.
-                        EmptyView()
-                    } else if content.cachedCards.isEmpty, content.cachedDailyGroups.isEmpty {
-                        ContentUnavailableView(
-                            "No Previous Substances",
-                            systemImage: "magnifyingglass",
-                            description: Text("Search for a substance to log your first entry."),
-                        )
-                    } else {
-                        scrollContentInner
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.top, 4)
-                .padding(.bottom, 64)
-                // Tapping anywhere outside the dock ends a search — the
-                // standard iOS dismissal, no dimming, no Cancel button.
-                .simultaneousGesture(
-                    TapGesture().onEnded {
-                        if searchActive { cancelSearch() }
-                    },
-                    isEnabled: searchActive,
-                )
+                // The scroll content (routines, favorites, recent cards) is a
+                // closure-free child: it takes only the two stable references it
+                // needs (`content`, `tray`) and owns its own `@Query`s/actions,
+                // so a search keystroke — which re-runs *this* body through
+                // `searchText`/`dockResults` — no longer cascades into every
+                // card. With no parent closures to defeat SwiftUI's view-value
+                // comparison, the framework skips this subtree when the parent
+                // re-renders for reasons it doesn't depend on. See
+                // ``QuickLogCardList``.
+                QuickLogCardList(content: content, tray: tray)
+                    .padding(.horizontal)
+                    .padding(.top, 4)
+                    .padding(.bottom, 64)
+                    // Tapping anywhere outside the dock ends a search — the
+                    // standard iOS dismissal, no dimming, no Cancel button.
+                    .simultaneousGesture(
+                        TapGesture().onEnded {
+                            if searchActive { cancelSearch() }
+                        },
+                        isEnabled: searchActive,
+                    )
             }
             .safeAreaInset(edge: .bottom) { dock }
             .scrollDismissesKeyboard(.interactively)
@@ -433,54 +422,6 @@ struct QuickLogView: View {
         CrisisKeywords.matches(searchText)
     }
 
-    @ViewBuilder
-    private var scrollContentInner: some View {
-        if !content.cachedDailyGroups.isEmpty {
-            dailySection
-        }
-
-        if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
-            Section {
-                ForEach(content.cachedFavoriteCards) { card in
-                    cardView(card, isFavorite: true)
-                        .id("\(card.id)_fav")
-                }
-                ForEach(content.cachedFavoriteLibrarySubstances) { substance in
-                    libraryRow(substance)
-                }
-            } header: {
-                // Accent-tinted star vs. the neutral "Recent" clock gives the two
-                // sections a clear at-a-glance distinction (icon colour carries the
-                // meaning; the labels alone read identically).
-                Label {
-                    Text("Favorites")
-                        .foregroundStyle(Theme.secondaryLabel)
-                } icon: {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(Theme.accent)
-                }
-                .font(.footnote.weight(.semibold))
-                .textCase(.uppercase)
-            }
-        }
-
-        if !content.cachedNonFavoriteCards.isEmpty {
-            Section {
-                ForEach(content.cachedNonFavoriteCards) { card in
-                    cardView(card, isFavorite: false)
-                        .id("\(card.id)_recent")
-                }
-            } header: {
-                if !content.cachedFavoriteCards.isEmpty {
-                    Label("Recent", systemImage: "clock")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .textCase(.uppercase)
-                }
-            }
-        }
-    }
-
     // MARK: - Daily routine
 
     /// Cheap change-signature for the routine pills' inputs (tiny N), used to
@@ -497,73 +438,6 @@ struct QuickLogView: View {
             parts.append("i:\(item.substance)|\(item.category)|\(item.sortOrder)")
         }
         return parts
-    }
-
-    private var dailySection: some View {
-        Section {
-            FlowLayout(spacing: 8) {
-                ForEach(content.cachedDailyGroups) { group in
-                    routinePill(group)
-                }
-            }
-        } header: {
-            Label {
-                Text("Routines")
-                    .foregroundStyle(Theme.secondaryLabel)
-            } icon: {
-                Image(systemName: "repeat")
-                    .foregroundStyle(Theme.accent)
-            }
-            .font(.footnote.weight(.semibold))
-            .textCase(.uppercase)
-        }
-    }
-
-    /// A routine is one pill — a *shortcut* that stages its whole set into
-    /// the tray in one tap (the eight-supplements use case), idempotent for
-    /// anything already staged. The checkmark is informational ("all of these
-    /// were logged today"); the pill stays tappable for re-logs. Long-press
-    /// to edit the routine itself.
-    private func routinePill(_ group: DailyCategoryGroup) -> some View {
-        let done = group.remaining.isEmpty
-        let allStaged = group.items.allSatisfy { stagedQuantity($0) > 0 }
-        return Button {
-            withAnimation(.snappy) {
-                for item in group.items where stagedQuantity(item) == 0 {
-                    stageDailyItem(item)
-                }
-            }
-        } label: {
-            HStack(spacing: 6) {
-                Image(systemName: done ? "checkmark" : group.icon)
-                    .imageScale(.small)
-                Text(group.title)
-                Text(verbatim: "· \(group.items.count)")
-                    .opacity(0.75)
-            }
-            .font(.subheadline.weight(.semibold))
-            .padding(.horizontal, 14)
-            .padding(.vertical, 9)
-            .background(
-                allStaged
-                    ? Theme.accent
-                    : done ? Color.green.opacity(0.12) : Theme.accent.opacity(0.12),
-                in: Capsule(),
-            )
-            .foregroundStyle(
-                allStaged
-                    ? Color.white
-                    : done ? Color.green : Theme.accent,
-            )
-        }
-        .buttonStyle(.plain)
-        .contextMenu {
-            Button {
-                navigator.present(.dailyDoseSettings)
-            } label: {
-                Label("Edit Routine…", systemImage: "pencil")
-            }
-        }
     }
 
     private func stagedQuantity(_ item: DailyDoseItem) -> Int {
@@ -593,51 +467,6 @@ struct QuickLogView: View {
             isFromDailySet: true,
             isBackgroundMed: item.isBackgroundMed,
         )
-    }
-
-    // MARK: - Substance Card
-
-    /// Builds the extracted ``SubstanceCardView`` for a recent/favorite card,
-    /// wiring the parent-owned actions (favorite toggle + curated-list edits)
-    /// while the card itself owns its layout and ephemeral expansion state.
-    private func cardView(_ card: SubstanceCard, isFavorite: Bool) -> some View {
-        SubstanceCardView(
-            card: card,
-            isFavorite: isFavorite,
-            badge: content.cachedMostRecent[card.id],
-            tray: tray,
-            onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card.substanceName) } },
-            onMoveChip: { group, chip, toFront in moveChip(group: group, chip: chip, toFront: toFront) },
-            onRemoveChip: { group, chip in removeChip(group: group, chip: chip) },
-        )
-    }
-
-    // MARK: - Library Row
-
-    private func libraryRow(_ substance: Substance) -> some View {
-        Button {
-            openLibrarySubstance(substance)
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "pill")
-                    .foregroundStyle(Theme.secondaryLabel)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(substance.name)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(.primary)
-                    Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .padding(14)
-            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 20))
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Actions
@@ -749,36 +578,6 @@ struct QuickLogView: View {
         }
     }
 
-    // MARK: - Quick-log list curation
-
-    /// The curated row backing a chip, matched by substance + route + measurement.
-    private func quickLogDose(for group: SubstanceGroup, chip: DoseChip) -> QuickLogDose? {
-        let key = QuickLogDose.makeKey(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
-        return quickLogDoses.first { $0.key == key }
-    }
-
-    private func removeChip(group: SubstanceGroup, chip: DoseChip) {
-        guard let dose = quickLogDose(for: group, chip: chip) else { return }
-        modelContext.delete(dose)
-        try? modelContext.save()
-        withAnimation(.snappy) { content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites) }
-    }
-
-    /// Move a chip to the front (or back) of its (substance, route) group by
-    /// rewriting its `sortOrder` just past the current min/max.
-    private func moveChip(group: SubstanceGroup, chip: DoseChip, toFront: Bool) {
-        guard let dose = quickLogDose(for: group, chip: chip) else { return }
-        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)"
-        let siblings = quickLogDoses.filter { key == "\($0.substance.lowercased())|\($0.route.rawValue)" }
-        if toFront {
-            dose.sortOrder = (siblings.map(\.sortOrder).min() ?? 0) - 1
-        } else {
-            dose.sortOrder = (siblings.map(\.sortOrder).max() ?? 0) + 1
-        }
-        try? modelContext.save()
-        withAnimation(.snappy) { content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites) }
-    }
-
     /// Library / custom search results stage an amount-less draft that opens
     /// expanded in the tray with the amount field focused — the full entry
     /// form no longer participates in quick logging.
@@ -812,5 +611,281 @@ struct QuickLogView: View {
             searchActive = false
             searchText = ""
         }
+    }
+}
+
+// MARK: - Card List
+
+/// The quick-log scroll content — routines, favorites, and recent cards.
+///
+/// Extracted from `QuickLogView` as a **closure-free** child: it takes only the
+/// two stable references it needs (`content`, `tray`) and owns its own `@Query`s
+/// and list-mutating actions, so it passes *no* parent closures. That matters
+/// because closures can't be compared — a view holding them is always treated as
+/// changed, forcing its body to re-run whenever the parent does. `QuickLogView`'s
+/// body re-runs on every search keystroke (it reads `searchText`/`dockResults`),
+/// which used to cascade into every `SubstanceCardView`/`OneRowChips` body (a
+/// phone SwiftUI trace of the search/dock flow showed ~28k view-body updates
+/// dominated by that chain). With only stable references here, SwiftUI's
+/// view-value comparison finds this subtree unchanged and skips it when the
+/// parent re-renders for state the list doesn't depend on. The cards still update
+/// through their own observation (the `content` caches, `tray` staging) — which
+/// is exactly the scope we want.
+private struct QuickLogCardList: View {
+    let content: QuickLogContentModel
+    let tray: DoseTrayModel
+
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
+
+    @Query private var quickLogDoses: [QuickLogDose]
+    @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
+
+    var body: some View {
+        LazyVStack(alignment: .leading, spacing: 16) {
+            if !content.hasLoaded {
+                // Loading: render nothing (the dock stays put) rather than
+                // the empty-state placeholder — the caches fill within a
+                // frame or two off the warm batch cache, so this avoids the
+                // jarring "No Previous Substances" flash on open.
+                EmptyView()
+            } else if content.cachedCards.isEmpty, content.cachedDailyGroups.isEmpty {
+                ContentUnavailableView(
+                    "No Previous Substances",
+                    systemImage: "magnifyingglass",
+                    description: Text("Search for a substance to log your first entry."),
+                )
+            } else {
+                scrollContentInner
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var scrollContentInner: some View {
+        if !content.cachedDailyGroups.isEmpty {
+            dailySection
+        }
+
+        if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
+            Section {
+                ForEach(content.cachedFavoriteCards) { card in
+                    cardView(card, isFavorite: true)
+                        .id("\(card.id)_fav")
+                }
+                ForEach(content.cachedFavoriteLibrarySubstances) { substance in
+                    libraryRow(substance)
+                }
+            } header: {
+                // Accent-tinted star vs. the neutral "Recent" clock gives the two
+                // sections a clear at-a-glance distinction (icon colour carries the
+                // meaning; the labels alone read identically).
+                Label {
+                    Text("Favorites")
+                        .foregroundStyle(Theme.secondaryLabel)
+                } icon: {
+                    Image(systemName: "star.fill")
+                        .foregroundStyle(Theme.accent)
+                }
+                .font(.footnote.weight(.semibold))
+                .textCase(.uppercase)
+            }
+        }
+
+        if !content.cachedNonFavoriteCards.isEmpty {
+            Section {
+                ForEach(content.cachedNonFavoriteCards) { card in
+                    cardView(card, isFavorite: false)
+                        .id("\(card.id)_recent")
+                }
+            } header: {
+                if !content.cachedFavoriteCards.isEmpty {
+                    Label("Recent", systemImage: "clock")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .textCase(.uppercase)
+                }
+            }
+        }
+    }
+
+    // MARK: - Daily routine
+
+    private var dailySection: some View {
+        Section {
+            FlowLayout(spacing: 8) {
+                ForEach(content.cachedDailyGroups) { group in
+                    routinePill(group)
+                }
+            }
+        } header: {
+            Label {
+                Text("Routines")
+                    .foregroundStyle(Theme.secondaryLabel)
+            } icon: {
+                Image(systemName: "repeat")
+                    .foregroundStyle(Theme.accent)
+            }
+            .font(.footnote.weight(.semibold))
+            .textCase(.uppercase)
+        }
+    }
+
+    /// A routine is one pill — a *shortcut* that stages its whole set into
+    /// the tray in one tap (the eight-supplements use case), idempotent for
+    /// anything already staged. The checkmark is informational ("all of these
+    /// were logged today"); the pill stays tappable for re-logs. Long-press
+    /// to edit the routine itself.
+    private func routinePill(_ group: DailyCategoryGroup) -> some View {
+        let done = group.remaining.isEmpty
+        let allStaged = group.items.allSatisfy { stagedQuantity($0) > 0 }
+        return Button {
+            withAnimation(.snappy) {
+                for item in group.items where stagedQuantity(item) == 0 {
+                    stageDailyItem(item)
+                }
+            }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: done ? "checkmark" : group.icon)
+                    .imageScale(.small)
+                Text(group.title)
+                Text(verbatim: "· \(group.items.count)")
+                    .opacity(0.75)
+            }
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(
+                allStaged
+                    ? Theme.accent
+                    : done ? Color.green.opacity(0.12) : Theme.accent.opacity(0.12),
+                in: Capsule(),
+            )
+            .foregroundStyle(
+                allStaged
+                    ? Color.white
+                    : done ? Color.green : Theme.accent,
+            )
+        }
+        .buttonStyle(.plain)
+        .contextMenu {
+            Button {
+                navigator.present(.dailyDoseSettings)
+            } label: {
+                Label("Edit Routine…", systemImage: "pencil")
+            }
+        }
+    }
+
+    private func stagedQuantity(_ item: DailyDoseItem) -> Int {
+        tray.quantity(substance: item.substance, route: item.route, amount: item.amount, unit: item.unit)
+    }
+
+    private func stageDailyItem(_ item: DailyDoseItem) {
+        tray.stage(
+            substance: item.substance,
+            route: item.route,
+            amount: item.amount,
+            unit: item.unit,
+            colorHex: content.cachedColorLookup[item.substance.lowercased()],
+            librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
+            isFromDailySet: true,
+            isBackgroundMed: item.isBackgroundMed,
+        )
+    }
+
+    // MARK: - Substance Card
+
+    /// Builds the extracted ``SubstanceCardView`` for a recent/favorite card,
+    /// wiring the list-owned actions (favorite toggle + curated-list edits)
+    /// while the card itself owns its layout and ephemeral expansion state.
+    private func cardView(_ card: SubstanceCard, isFavorite: Bool) -> some View {
+        SubstanceCardView(
+            card: card,
+            isFavorite: isFavorite,
+            badge: content.cachedMostRecent[card.id],
+            tray: tray,
+            onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card.substanceName) } },
+            onMoveChip: { group, chip, toFront in moveChip(group: group, chip: chip, toFront: toFront) },
+            onRemoveChip: { group, chip in removeChip(group: group, chip: chip) },
+        )
+    }
+
+    private func toggleFavorite(_ name: String) {
+        content.setFavorite(name, on: FavoriteService.toggle(name, in: modelContext))
+    }
+
+    // MARK: - Library Row
+
+    private func libraryRow(_ substance: Substance) -> some View {
+        Button {
+            openLibrarySubstance(substance)
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "pill")
+                    .foregroundStyle(Theme.secondaryLabel)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(substance.name)
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(.primary)
+                    Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            .padding(14)
+            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// Staging-only counterpart to `QuickLogView.openLibrarySubstance` — a card
+    /// in the list isn't a search surface, so it stages a draft without the
+    /// search-state reset the dock version performs.
+    private func openLibrarySubstance(_ substance: Substance) {
+        withAnimation(.snappy) {
+            tray.stageDraft(
+                substance: substance.name,
+                route: substance.defaultRoute,
+                unit: substance.defaultUnit,
+                colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                librarySubstance: substance,
+            )
+        }
+    }
+
+    // MARK: - Quick-log list curation
+
+    /// The curated row backing a chip, matched by substance + route + measurement.
+    private func quickLogDose(for group: SubstanceGroup, chip: DoseChip) -> QuickLogDose? {
+        let key = QuickLogDose.makeKey(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
+        return quickLogDoses.first { $0.key == key }
+    }
+
+    private func removeChip(group: SubstanceGroup, chip: DoseChip) {
+        guard let dose = quickLogDose(for: group, chip: chip) else { return }
+        modelContext.delete(dose)
+        try? modelContext.save()
+        withAnimation(.snappy) { content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites) }
+    }
+
+    /// Move a chip to the front (or back) of its (substance, route) group by
+    /// rewriting its `sortOrder` just past the current min/max.
+    private func moveChip(group: SubstanceGroup, chip: DoseChip, toFront: Bool) {
+        guard let dose = quickLogDose(for: group, chip: chip) else { return }
+        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)"
+        let siblings = quickLogDoses.filter { key == "\($0.substance.lowercased())|\($0.route.rawValue)" }
+        if toFront {
+            dose.sortOrder = (siblings.map(\.sortOrder).min() ?? 0) - 1
+        } else {
+            dose.sortOrder = (siblings.map(\.sortOrder).max() ?? 0) + 1
+        }
+        try? modelContext.save()
+        withAnimation(.snappy) { content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites) }
     }
 }
