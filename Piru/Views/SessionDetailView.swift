@@ -73,27 +73,11 @@ struct SessionDetailView: View {
         return hasher.finalize()
     }
 
-    /// Height of the grown-in-place timeline — a modest step up from the embedded
-    /// 168pt, enough to read without the distorted full-screen stretch.
-    private static let enlargedGraphHeight: CGFloat = 320
-
     /// Distinct substances drawn on the timeline — the lane count once the graph
-    /// switches to small multiples. Precomputed in ``resolvedDay``.
+    /// switches to small multiples. Precomputed in ``resolvedDay``; passed to
+    /// ``SessionTimelineSection`` for its height calc.
     private var laneCount: Int {
         resolvedDay.laneCount
-    }
-
-    /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
-    /// heights; lane-mode days grow with the lane count so each horizon strip
-    /// keeps a readable minimum instead of being crushed to a sliver. Clamped so
-    /// a very busy day still fits a scrollable card.
-    private func graphHeight(enlarged: Bool) -> CGFloat {
-        let base = enlarged ? Self.enlargedGraphHeight : GraphMetrics.embedded
-        guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
-        let perLane: CGFloat = enlarged ? 46 : 32
-        let axisOverhead: CGFloat = 40
-        let ideal = CGFloat(laneCount) * perLane + axisOverhead
-        return max(base, min(ideal, enlarged ? 560 : 380))
     }
 
     /// The day's resolved timeline + interaction warnings, derived **synchronously
@@ -294,87 +278,16 @@ struct SessionDetailView: View {
                     // doses) would render an empty axis, so we drop the whole
                     // section and let the entry list speak for itself.
                     if !substanceStates.isEmpty {
-                        Section {
-                            if graphExpanded {
-                                AnimatableHeight(height: graphHeight(enlarged: timelineEnlarged)) {
-                                    TimelineGraphView(
-                                        substances: substanceStates,
-                                        currentTime: .now,
-                                        compact: false,
-                                        markers: doseMarkers,
-                                        stackRedoses: stackRedoses,
-                                        dayBounded: true,
-                                        synchronous: true,
-                                    )
-                                }
-                                .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
-                                // Tight insets are scoped to the graph row alone so it
-                                // spans nearly edge-to-edge; the header/footer keep the
-                                // List's default inset and so line up with the "N
-                                // entries" header below.
-                                .listRowInsets(EdgeInsets(
-                                    top: GraphMetrics.section / 2,
-                                    leading: GraphMetrics.cardInset / 2,
-                                    bottom: GraphMetrics.section / 2,
-                                    trailing: GraphMetrics.cardInset / 2,
-                                ))
-                            }
-                        } header: {
-                            HStack(spacing: GraphMetrics.section) {
-                                Button {
-                                    withAnimation { graphExpanded.toggle() }
-                                } label: {
-                                    HStack {
-                                        Text("Timeline")
-                                        Image(systemName: "chevron.right")
-                                            .font(.caption2.weight(.semibold))
-                                            .rotationEffect(.degrees(graphExpanded ? 90 : 0))
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                                .buttonStyle(.plain)
-
-                                Spacer()
-
-                                if isToday, hasOngoingDose {
-                                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
-                                    Button {
-                                        toggleLiveActivity()
-                                    } label: {
-                                        HStack(spacing: 4) {
-                                            Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
-                                            Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
-                                        }
-                                        .font(.caption2.weight(.semibold))
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .buttonBorderShape(.capsule)
-                                    .controlSize(.mini)
-                                    .tint(Theme.accent)
-                                    .textCase(nil)
-                                }
-
-                                if graphExpanded {
-                                    Button {
-                                        timelineEnlarged.toggle()
-                                    } label: {
-                                        Image(
-                                            systemName: timelineEnlarged
-                                                ? "arrow.down.right.and.arrow.up.left"
-                                                : "arrow.up.backward.and.arrow.down.forward",
-                                        )
-                                        .font(.caption.weight(.semibold))
-                                    }
-                                    .buttonStyle(.plain)
-                                    .foregroundStyle(Theme.accent)
-                                    .accessibilityLabel(Text(timelineEnlarged ? "Shrink timeline" : "Expand timeline"))
-                                }
-                            }
-                        } footer: {
-                            if graphExpanded {
-                                Text("Drag to pan, pinch to zoom, hold to inspect")
-                            }
-                        }
+                        SessionTimelineSection(
+                            states: substanceStates,
+                            markers: doseMarkers,
+                            laneCount: laneCount,
+                            graphExpanded: $graphExpanded,
+                            timelineEnlarged: $timelineEnlarged,
+                            isToday: isToday,
+                            hasOngoingDose: hasOngoingDose,
+                            onToggleLiveActivity: toggleLiveActivity,
+                        )
                     }
 
                     if let note = session.note, !note.isEmpty {
@@ -386,23 +299,11 @@ struct SessionDetailView: View {
                     }
 
                     // Entries
-                    Section {
-                        let cores = resolvedDay.entryCores
-                        ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
-                            DayEntryRow(
-                                entry: entry,
-                                display: DayEntryDisplay(
-                                    core: cores[index],
-                                    color: colorFor(entry),
-                                ),
-                                showRelativeTime: isRecentDay,
-                                canSplit: index != 0,
-                            )
-                            .equatable()
-                        }
-                    } header: {
-                        Text("^[\(entries.count) entry](inflect: true)")
+                    let cores = resolvedDay.entryCores
+                    let displays = entries.enumerated().map { index, entry in
+                        DayEntryDisplay(core: cores[index], color: colorFor(entry))
                     }
+                    SessionEntryListSection(entries: entries, displays: displays, isRecentDay: isRecentDay)
 
                     // A single "Summary" section folds together the day's derived
                     // signals — interaction warnings (expand in place), cumulative
@@ -613,7 +514,7 @@ struct SessionDetailView: View {
             dayBounded: true,
             synchronous: true,
         )
-        .frame(width: DayLogImageExporter.timelineWidth, height: graphHeight(enlarged: false))
+        .frame(width: DayLogImageExporter.timelineWidth, height: SessionTimelineSection.graphHeight(enlarged: false, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold))
         .background(Color(white: 0.09))
         .environment(\.colorScheme, .dark)
 
@@ -707,6 +608,147 @@ private struct DayLogShareSheet: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_: UIActivityViewController, context _: Context) {}
+}
+
+// MARK: - Session Detail Sections
+
+/// The day-detail's timeline graph section. Its expand/enlarge state lives on the
+/// parent (so the accessory and title stay in sync) and is threaded in as
+/// bindings; the live-activity toggle is a parent action.
+private struct SessionTimelineSection: View {
+    let states: [ActiveSubstanceState]
+    let markers: [DoseMarker]
+    let laneCount: Int
+    @Binding var graphExpanded: Bool
+    @Binding var timelineEnlarged: Bool
+    let isToday: Bool
+    let hasOngoingDose: Bool
+    let onToggleLiveActivity: () -> Void
+
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
+    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
+
+    static let enlargedGraphHeight: CGFloat = 320
+
+    /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
+    /// heights; lane-mode days grow with the lane count so each horizon strip
+    /// keeps a readable minimum. Static so the parent's export path can reuse it.
+    static func graphHeight(enlarged: Bool, laneCount: Int, laneModeEnabled: Bool, laneModeThreshold: Int) -> CGFloat {
+        let base = enlarged ? enlargedGraphHeight : GraphMetrics.embedded
+        guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
+        let perLane: CGFloat = enlarged ? 46 : 32
+        let axisOverhead: CGFloat = 40
+        let ideal = CGFloat(laneCount) * perLane + axisOverhead
+        return max(base, min(ideal, enlarged ? 560 : 380))
+    }
+
+    var body: some View {
+        Section {
+            if graphExpanded {
+                AnimatableHeight(height: Self.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold)) {
+                    TimelineGraphView(
+                        substances: states,
+                        currentTime: .now,
+                        compact: false,
+                        markers: markers,
+                        stackRedoses: stackRedoses,
+                        dayBounded: true,
+                        synchronous: true,
+                    )
+                }
+                .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
+                // Tight insets scoped to the graph row alone so it spans nearly
+                // edge-to-edge; the header/footer keep the List's default inset.
+                .listRowInsets(EdgeInsets(
+                    top: GraphMetrics.section / 2,
+                    leading: GraphMetrics.cardInset / 2,
+                    bottom: GraphMetrics.section / 2,
+                    trailing: GraphMetrics.cardInset / 2,
+                ))
+            }
+        } header: {
+            HStack(spacing: GraphMetrics.section) {
+                Button {
+                    withAnimation { graphExpanded.toggle() }
+                } label: {
+                    HStack {
+                        Text("Timeline")
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                            .rotationEffect(.degrees(graphExpanded ? 90 : 0))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
+
+                if isToday, hasOngoingDose {
+                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
+                    Button {
+                        onToggleLiveActivity()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
+                            Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
+                        }
+                        .font(.caption2.weight(.semibold))
+                    }
+                    .buttonStyle(.bordered)
+                    .buttonBorderShape(.capsule)
+                    .controlSize(.mini)
+                    .tint(Theme.accent)
+                    .textCase(nil)
+                }
+
+                if graphExpanded {
+                    Button {
+                        timelineEnlarged.toggle()
+                    } label: {
+                        Image(
+                            systemName: timelineEnlarged
+                                ? "arrow.down.right.and.arrow.up.left"
+                                : "arrow.up.backward.and.arrow.down.forward",
+                        )
+                        .font(.caption.weight(.semibold))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Theme.accent)
+                    .accessibilityLabel(Text(timelineEnlarged ? "Shrink timeline" : "Expand timeline"))
+                }
+            }
+        } footer: {
+            if graphExpanded {
+                Text("Drag to pan, pinch to zoom, hold to inspect")
+            }
+        }
+    }
+}
+
+/// The day-detail's dose-row list. Takes value inputs only — `entries` for the
+/// row actions, prebuilt `displays` for rendering — so it skips re-evaluation
+/// when the parent re-runs for graph-state toggles.
+private struct SessionEntryListSection: View {
+    let entries: [DoseEntry]
+    let displays: [DayEntryDisplay]
+    let isRecentDay: Bool
+
+    var body: some View {
+        Section {
+            ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
+                DayEntryRow(
+                    entry: entry,
+                    display: displays[index],
+                    showRelativeTime: isRecentDay,
+                    canSplit: index != 0,
+                )
+                .equatable()
+            }
+        } header: {
+            Text("^[\(entries.count) entry](inflect: true)")
+        }
+    }
 }
 
 private struct TimeAdjustSheet: View {
