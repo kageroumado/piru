@@ -268,9 +268,9 @@ struct EntryListView: View {
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
         .toolbar {
             if !isSearchSurface {
-                ToolbarItem(placement: .topBarTrailing) { groupingToolbarMenu }
+                ToolbarItem(placement: .topBarTrailing) { JournalGroupingMenu(grouping: $grouping) }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                ToolbarItem(placement: .topBarTrailing) { filterToolbarMenu }
+                ToolbarItem(placement: .topBarTrailing) { JournalFilterMenu(model: model, filterCategories: $filterCategories) }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
                     AppOverflowMenu {
@@ -367,104 +367,6 @@ struct EntryListView: View {
 
     /// Grouping picker as a plain toolbar item — the system bar supplies the
     /// glass capsule, so the label is just text + chevron.
-    private var groupingToolbarMenu: some View {
-        Menu {
-            Picker("Group by", selection: $grouping) {
-                ForEach(JournalGrouping.allCases, id: \.self) { mode in
-                    Label(mode.displayName, systemImage: mode.icon).tag(mode)
-                }
-            }
-        } label: {
-            HStack(spacing: 4) {
-                Text(grouping.displayName)
-                    .lineLimit(1)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.bold))
-            }
-            .fixedSize(horizontal: true, vertical: false)
-            .font(.subheadline.weight(.semibold))
-        }
-    }
-
-    /// Active state: an accent-filled circle nested inside the item's platter,
-    /// Phone-app style. A prominent `Menu` can't replace the platter the way a
-    /// prominent `Button` does (it renders via the generic bordered path), and
-    /// the platter's own tint API isn't public — so the filled circle is sized
-    /// *down* (regular control size + a small label frame) to sit within the
-    /// platter ring instead of fighting it. A Button-with-overlay-Menu hybrid
-    /// matched the platter exactly but swallowed the first tap.
-    @ViewBuilder
-    private var filterToolbarMenu: some View {
-        if hasActiveFilters {
-            Menu {
-                filterMenuContent
-            } label: {
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.system(size: 15, weight: .semibold))
-                    .frame(width: 20, height: 20)
-            }
-            .menuStyle(.button)
-            .buttonStyle(.glassProminent)
-            .buttonBorderShape(.circle)
-            .controlSize(.regular)
-            .tint(Theme.accent)
-            .accessibilityLabel(Text("Filter"))
-        } else {
-            Menu {
-                filterMenuContent
-            } label: {
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.system(size: 17, weight: .semibold))
-            }
-            .accessibilityLabel(Text("Filter"))
-        }
-    }
-
-    /// Shared menu body for both filter button states.
-    @ViewBuilder
-    private var filterMenuContent: some View {
-        // Category is the only meaningful filter here — the list already
-        // shows every day in order, so a time window adds nothing. Each
-        // category is a checkmark toggle (activate/deactivate in place).
-        if !model.categories.isEmpty {
-            Section("Category") {
-                ForEach(model.categories, id: \.self) { category in
-                    Button {
-                        toggleCategory(category)
-                    } label: {
-                        Label {
-                            Text(category.displayName)
-                        } icon: {
-                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
-                        }
-                    }
-                }
-            }
-        }
-
-        if hasActiveFilters {
-            Section {
-                Button("Clear Filters", role: .destructive) {
-                    clearFilters()
-                }
-            }
-        }
-    }
-
-    private func toggleCategory(_ category: SubstanceCategory) {
-        if filterCategories.contains(category) {
-            filterCategories.remove(category)
-        } else {
-            filterCategories.insert(category)
-        }
-        // The regroup (and Day-window reset) is driven by `onChange(of:
-        // filterCategories)` so the filter and the window stay in lockstep.
-    }
-
-    private func clearFilters() {
-        filterCategories = []
-    }
-
     // MARK: - Tag Chip Bar
 
     private var tagChipBar: some View {
@@ -736,6 +638,115 @@ struct EntryListView: View {
                     Button { showingCalendar = false } label: { Image(systemName: "xmark") }
                 }
             }
+        }
+    }
+}
+
+// MARK: - Toolbar Menus
+
+/// The Journal's "group by" toolbar menu. Owns only the grouping binding.
+private struct JournalGroupingMenu: View {
+    @Binding var grouping: JournalGrouping
+
+    var body: some View {
+        Menu {
+            Picker("Group by", selection: $grouping) {
+                ForEach(JournalGrouping.allCases, id: \.self) { mode in
+                    Label(mode.displayName, systemImage: mode.icon).tag(mode)
+                }
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Text(grouping.displayName)
+                    .lineLimit(1)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.bold))
+            }
+            .fixedSize(horizontal: true, vertical: false)
+            .font(.subheadline.weight(.semibold))
+        }
+    }
+}
+
+/// The Journal's category-filter toolbar menu. Reads the model's available
+/// categories and toggles the parent's `filterCategories` set through the
+/// binding (the parent's `onChange(of:)` drives the regroup + Day-window reset).
+private struct JournalFilterMenu: View {
+    let model: JournalModel
+    @Binding var filterCategories: Set<SubstanceCategory>
+
+    private var hasActiveFilters: Bool {
+        !filterCategories.isEmpty
+    }
+
+    var body: some View {
+        // Active state: an accent-filled circle nested inside the item's platter,
+        // Phone-app style. A prominent `Menu` can't replace the platter the way a
+        // prominent `Button` does (it renders via the generic bordered path), and
+        // the platter's own tint API isn't public — so the filled circle is sized
+        // *down* (regular control size + a small label frame) to sit within the
+        // platter ring instead of fighting it.
+        if hasActiveFilters {
+            Menu {
+                menuContent
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 15, weight: .semibold))
+                    .frame(width: 20, height: 20)
+            }
+            .menuStyle(.button)
+            .buttonStyle(.glassProminent)
+            .buttonBorderShape(.circle)
+            .controlSize(.regular)
+            .tint(Theme.accent)
+            .accessibilityLabel(Text("Filter"))
+        } else {
+            Menu {
+                menuContent
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 17, weight: .semibold))
+            }
+            .accessibilityLabel(Text("Filter"))
+        }
+    }
+
+    /// Shared menu body for both filter button states.
+    @ViewBuilder
+    private var menuContent: some View {
+        // Category is the only meaningful filter here — the list already shows
+        // every day in order, so a time window adds nothing. Each category is a
+        // checkmark toggle (activate/deactivate in place).
+        if !model.categories.isEmpty {
+            Section("Category") {
+                ForEach(model.categories, id: \.self) { category in
+                    Button {
+                        toggleCategory(category)
+                    } label: {
+                        Label {
+                            Text(category.displayName)
+                        } icon: {
+                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
+                        }
+                    }
+                }
+            }
+        }
+
+        if hasActiveFilters {
+            Section {
+                Button("Clear Filters", role: .destructive) {
+                    filterCategories = []
+                }
+            }
+        }
+    }
+
+    private func toggleCategory(_ category: SubstanceCategory) {
+        if filterCategories.contains(category) {
+            filterCategories.remove(category)
+        } else {
+            filterCategories.insert(category)
         }
     }
 }
