@@ -3,20 +3,11 @@ import SwiftUI
 import UIKit
 
 struct SubstanceLibraryView: View {
-    @Environment(\.modelContext) private var modelContext
     @Binding var searchText: String
 
     /// When embedded in the Search tab: drop the "Library" header + category
     /// browse, showing only recent substances (empty) or results (typed).
     var isSearchSurface = false
-
-    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
-    @State private var searchResults: [Substance] = []
-    /// Cached so each search-result row's swipe action doesn't rebuild the set.
-    @State private var favoriteNames: Set<String> = []
-    /// Held here so the row's personal-name override is resolved once per row
-    /// in this body (one subscription) rather than each row subscribing itself.
-    @State private var customStore = CustomSubstanceStore.shared
 
     var body: some View {
         Group {
@@ -28,7 +19,10 @@ struct SubstanceLibraryView: View {
                     if searchText.isEmpty {
                         RecentSubstancesSection()
                     } else {
-                        searchResultsList
+                        // The search concern (results, help resources, and the
+                        // favorites @Query) lives in its own child so the browse
+                        // branch above never subscribes to favorites.
+                        SubstanceSearchResultsList(searchText: searchText)
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -37,6 +31,58 @@ struct SubstanceLibraryView: View {
             }
         }
         .appNavigationBar("Library", enabled: !isSearchSurface)
+    }
+}
+
+// MARK: - Search Results
+
+/// The Library/Search typed-query results: matched substances (with favorite
+/// swipe + personal-name override) plus the crisis "help resources" section.
+/// Owns the `favorites` @Query, the off-main search task, and the result state —
+/// so the Library tab's browse flow doesn't subscribe to any of it.
+private struct SubstanceSearchResultsList: View {
+    let searchText: String
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @State private var searchResults: [Substance] = []
+    /// Cached so each search-result row's swipe action doesn't rebuild the set.
+    @State private var favoriteNames: Set<String> = []
+    /// Held here so the row's personal-name override is resolved once per row
+    /// in this body (one subscription) rather than each row subscribing itself.
+    @State private var customStore = CustomSubstanceStore.shared
+
+    var body: some View {
+        Group {
+            if isHelpSearch {
+                helpResourcesSection
+            }
+
+            if searchResults.isEmpty, !isHelpSearch {
+                ContentUnavailableView(
+                    "No Results",
+                    systemImage: "magnifyingglass",
+                    description: Text("No substances match \"\(searchText)\""),
+                )
+            } else if !searchResults.isEmpty {
+                Section("\(searchResults.count) results") {
+                    ForEach(searchResults) { substance in
+                        NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                            SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
+                        }
+                        .swipeActions(edge: .trailing) {
+                            let isFav = favoriteNames.contains(substance.name.lowercased())
+                            Button {
+                                FavoriteService.toggle(substance.name, in: modelContext)
+                            } label: {
+                                Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
+                            }
+                            .tint(.yellow)
+                        }
+                        .listRowBackground(Theme.cardBackground)
+                    }
+                }
+            }
+        }
         .task(id: searchText) {
             guard !searchText.isEmpty else {
                 searchResults = []
@@ -68,43 +114,8 @@ struct SubstanceLibraryView: View {
         return hasher.finalize()
     }
 
-    // MARK: - Search Results
-
     private var isHelpSearch: Bool {
         CrisisKeywords.matches(searchText)
-    }
-
-    @ViewBuilder
-    private var searchResultsList: some View {
-        if isHelpSearch {
-            helpResourcesSection
-        }
-
-        if searchResults.isEmpty, !isHelpSearch {
-            ContentUnavailableView(
-                "No Results",
-                systemImage: "magnifyingglass",
-                description: Text("No substances match \"\(searchText)\""),
-            )
-        } else if !searchResults.isEmpty {
-            Section("\(searchResults.count) results") {
-                ForEach(searchResults) { substance in
-                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
-                    }
-                    .swipeActions(edge: .trailing) {
-                        let isFav = favoriteNames.contains(substance.name.lowercased())
-                        Button {
-                            FavoriteService.toggle(substance.name, in: modelContext)
-                        } label: {
-                            Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
-                        }
-                        .tint(.yellow)
-                    }
-                    .listRowBackground(Theme.cardBackground)
-                }
-            }
-        }
     }
 
     // MARK: - Help Resources
