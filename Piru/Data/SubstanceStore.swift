@@ -106,6 +106,14 @@ final class SubstanceStore {
     /// Cleared when the user changes source priority.
     private var resolvedCache: [String: Substance] = [:]
 
+    /// Substance row id → resolved molar mass (`molecular_weight`). Backs the lean
+    /// ``molarMass(forSubstanceName:)`` so the tolerance/PD engine can read one
+    /// column without paying a full ``resolveSubstance`` (≈18 SQL + chem/effects
+    /// decode) per dosed substance. Source-independent (the column is fixed for the
+    /// DB's lifetime), so unlike `resolvedCache` it is *not* cleared on a source
+    /// reorder; it is naturally discarded when the store is rebuilt for a DB update.
+    private var molarMassByID: [Int64: Double?] = [:]
+
     /// Cached `all`/`substances(in:)` results. Resolving 1600+ substances
     /// individually on every view body invalidation is what was making the
     /// Library tab feel laggy on entry. Cleared in lockstep with
@@ -2288,6 +2296,26 @@ final class SubstanceStore {
         }
     }
 
+    /// The substance's molar mass (`molecular_weight`, g/mol), resolved by **one** indexed query
+    /// against the same `substances` row the full ``resolveSubstance`` reads — cached per row id.
+    ///
+    /// The tolerance/PD engine needs only this single column from the heavy record, and resolves it
+    /// per unique dosed substance every recompute. Routing that through the full overlay-aware
+    /// ``SubstanceLibrary/lookup(_:)`` paid a ~18-subquery + chem/effects/mechanism decode (and a
+    /// SHA-256 id) for one `Double`, on the main actor — the post-commit recompute's multi-second
+    /// hang on a cold `resolvedCache`. (The custom overlay never carries a molar mass, so reading the
+    /// library column directly matches the full path.)
+    func molarMass(forSubstanceName name: String) -> Double? {
+        guard let id = nameIndex[name.lowercased()] else { return nil }
+        if let cached = molarMassByID[id] { return cached }
+        let resolved = try? substancesDB.read { db in
+            try Double.fetchOne(db, sql: "SELECT molecular_weight FROM substances WHERE id = ?", arguments: [id])
+        }
+        let value = resolved ?? nil
+        molarMassByID[id] = value
+        return value
+    }
+
     /// Resolved inputs for the absolute-exposure → occupancy pipeline (the pharmacology axis's
     /// Foundation A): the best graded Vd + bioavailability + half-life from `pk_routes`, the molar
     /// mass, and the engaged targets (Kᵢ/EC₅₀/IC₅₀) from `bindings` — each carrying its confidence.
@@ -2297,12 +2325,14 @@ final class SubstanceStore {
     /// row* (the flagship seed) over an un-graded one for the Vd, so the engine runs on the verified
     /// number when one exists and degrades to whatever is available otherwise.
     func pharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
-        // Must be the full lookup, not the batch cache: the batch projection's
-        // `molarMass` comes from a single `molecular_weight` column that is null
-        // for many substances, whereas the full resolve derives it via the
-        // per-source priority resolution. Reading it from the cache returned nil
-        // and made occupancy uncomputable (it feeds concentration).
-        let molarMass = SubstanceLibrary.lookup(name)?.molarMass
+        // Lean single-column read of the SAME authoritative `substances.molecular_weight`
+        // the full `resolveSubstance` returns — not the timeline batch projection (which
+        // omits molecular_weight entirely, so reading it there returned nil and made
+        // occupancy uncomputable; that was f2c2c04's regression). Going through the full
+        // `lookup` here cost a ~18-query + SHA + localization resolve *per unique dosed
+        // substance on the main actor*, which the background tolerance recompute pays in a
+        // tight loop — a multi-second main-thread hang on a cold `resolvedCache`.
+        let molarMass = molarMass(forSubstanceName: name)
         let pk = pharmacokinetics(forSubstanceName: name)
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
