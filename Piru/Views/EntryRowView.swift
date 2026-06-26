@@ -1,27 +1,46 @@
 import SwiftUI
 
+/// The substance-resolved, render-ready facts about one logged dose, computed
+/// **once** when the day's entries change (memoized in `SessionDetailView`'s
+/// `resolvedDay`) — never in a row `body`. Resolving the substance + dose level
+/// is the expensive part the day detail used to repeat per row on every
+/// unrelated screen toggle. Value type + `Equatable` so the row diffs cheaply.
+struct DayEntryCore: Equatable {
+    let entryID: UUID
+    let timestamp: Date
+    let displayName: String
+    let amount: Double
+    let unit: String
+    let route: RouteOfAdministration
+    let doseLevel: DoseLevel?
+    let tags: [String]
+}
+
+/// A `DayEntryCore` plus the row's resolved colour. Colour is applied at the
+/// row-build site (a cheap `colorMap` lookup) rather than memoized with the
+/// substance resolve, so a recolour doesn't force the heavy resolve to re-run.
+struct DayEntryDisplay: Equatable {
+    let core: DayEntryCore
+    let color: Color
+}
+
+/// One dose row's content: colour dot + name, the route · amount · level phrase,
+/// tags, and the clock/relative time. Renders purely from a `DayEntryDisplay` —
+/// it does **no** substance lookup of its own (that happens once, upstream).
 struct EntryRowView: View {
-    let entry: DoseEntry
-    var color: Color?
+    let display: DayEntryDisplay
     /// Whether to show the "13h ago" relative line under the clock time. Set by
     /// the day detail for today/yesterday so every row in a recent day matches;
     /// older days show the clock time alone, keeping the column symmetric.
     var showRelativeTime: Bool = false
-    @State private var customStore = CustomSubstanceStore.shared
 
     /// Leading inset that aligns the secondary line under the name (past the
     /// colour dot + its spacing).
     private static let textInset: CGFloat = 18
 
-    private var doseLevel: DoseLevel? {
-        guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
-              let doseRange = substance.doseRange(for: entry.route) else { return nil }
-        return doseRange.level(for: entry.amount)
-    }
-
     /// Elapsed time since the dose, e.g. "45m ago", "13h 25m ago", or "1d ago".
     private var relativeTime: String {
-        let elapsed = max(0, Date.now.timeIntervalSince(entry.timestamp))
+        let elapsed = max(0, Date.now.timeIntervalSince(display.core.timestamp))
         let totalMinutes = Int(elapsed / 60)
         guard totalMinutes >= 1 else { return String(localized: "just now") }
         let hours = totalMinutes / 60
@@ -43,12 +62,10 @@ struct EntryRowView: View {
         HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 8) {
-                    if let color {
-                        Circle()
-                            .fill(color)
-                            .frame(width: 10, height: 10)
-                    }
-                    Text(customStore.displayName(for: entry.substance))
+                    Circle()
+                        .fill(display.color)
+                        .frame(width: 10, height: 10)
+                    Text(display.core.displayName)
                         .font(.headline)
                 }
                 VStack(alignment: .leading, spacing: 4) {
@@ -61,13 +78,13 @@ struct EntryRowView: View {
                         // Lowercased so the line reads as a phrase — "rectal · 20
                         // mg" — not a title. A no-op for the case-less CJK
                         // localizations.
-                        Text(String(localized: entry.route.localizedName).lowercased())
+                        Text(String(localized: display.core.route.localizedName).lowercased())
                             .foregroundStyle(Theme.secondaryLabel)
                         Text(verbatim: "·").foregroundStyle(.tertiary)
-                        Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                        Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
                             .foregroundStyle(.primary)
                             .fontWeight(.semibold)
-                        if let doseLevel {
+                        if let doseLevel = display.core.doseLevel {
                             Text(verbatim: "·").foregroundStyle(.tertiary)
                             // Same weight as the route (regular) — only the
                             // amount carries emphasis; the level reads via colour.
@@ -76,18 +93,18 @@ struct EntryRowView: View {
                         }
                     }
                     .font(.subheadline)
-                    if !entry.tags.isEmpty {
-                        TagChipsView(tags: entry.tags, compact: true)
+                    if !display.core.tags.isEmpty {
+                        TagChipsView(tags: display.core.tags, compact: true)
                     }
                 }
-                .padding(.leading, color == nil ? 0 : Self.textInset)
+                .padding(.leading, Self.textInset)
             }
 
             Spacer()
 
             TimelineView(.periodic(from: .now, by: 60)) { _ in
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
+                    Text(display.core.timestamp.formatted(date: .omitted, time: .shortened))
                         .font(.subheadline)
                     if showRelativeTime {
                         Text(relativeTime)

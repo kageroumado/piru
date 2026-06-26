@@ -7,7 +7,7 @@ struct SessionDetailView: View {
     @Environment(\.appNavigator) private var navigator
     let session: Session
     @Query private var substanceColors: [SubstanceColor]
-    @Query(sort: \Session.startDate, order: .reverse) private var allSessions: [Session]
+    @Environment(\.sessionEditingService) private var editing
 
     /// The session's doses in time order — the view's working set, replacing the
     /// former calendar-day `@Query` window.
@@ -25,21 +25,24 @@ struct SessionDetailView: View {
     @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
 
     /// The session immediately before this one in time — the target for
-    /// "Merge with previous".
-    private var previousSession: Session? {
-        allSessions.first {
-            $0.startDate < session.startDate && $0.persistentModelID != session.persistentModelID
-        }
+    /// "Merge with previous". A bounded one-row fetch resolved when the menu
+    /// opens, replacing a whole-table `@Query` that re-ran this view's body on
+    /// every change to any session. `startDate < session.startDate` already
+    /// excludes self, so no id guard is needed.
+    private func fetchPreviousSession() -> Session? {
+        let cutoff = session.startDate
+        var descriptor = FetchDescriptor<Session>(
+            predicate: #Predicate { $0.startDate < cutoff },
+            sortBy: [SortDescriptor(\.startDate, order: .reverse)],
+        )
+        descriptor.fetchLimit = 1
+        return try? modelContext.fetch(descriptor).first
     }
 
-    @State private var entryToAdjustTime: DoseEntry?
-    @State private var entryToMove: DoseEntry?
     @State private var showRename = false
     @State private var titleDraft = ""
     @State private var showNoteEditor = false
     @State private var noteDraft = ""
-    @State private var showColorPicker = false
-    @State private var colorPickerSubstance = ""
     @State private var graphExpanded = true
     /// Expansion of the interaction warnings inside the Summary section. Collapsed
     /// by default — the severity-tinted count already signals their presence.
@@ -115,6 +118,34 @@ struct SessionDetailView: View {
                 interactions: interactions,
                 cumulativeDoses: Self.computeCumulativeDoses(entries),
                 laneCount: laneNames.count,
+                entryCores: Self.computeEntryCores(entries),
+            )
+        }
+    }
+
+    /// Resolve each dose row's substance facts once. Caches the per-substance
+    /// `SubstanceLibrary` lookup so repeated substances in a session don't
+    /// re-resolve, and applies the `CustomSubstanceStore` display-name override.
+    private static func computeEntryCores(_ entries: [DoseEntry]) -> [DayEntryCore] {
+        var substanceCache: [String: Substance?] = [:]
+        func substance(_ name: String) -> Substance? {
+            let key = name.lowercased()
+            if let cached = substanceCache[key] { return cached }
+            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
+            substanceCache[key] = resolved
+            return resolved
+        }
+        return entries.map { entry in
+            let doseLevel = substance(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount)
+            return DayEntryCore(
+                entryID: entry.id,
+                timestamp: entry.timestamp,
+                displayName: CustomSubstanceStore.shared.displayName(for: entry.substance),
+                amount: entry.amount,
+                unit: entry.unit,
+                route: entry.route,
+                doseLevel: doseLevel,
+                tags: entry.tags,
             )
         }
     }
@@ -248,7 +279,8 @@ struct SessionDetailView: View {
     }
 
     var body: some View {
-        List {
+        @Bindable var editing = editing
+        return List {
             Group {
                 if entries.isEmpty {
                     ContentUnavailableView(
@@ -355,21 +387,18 @@ struct SessionDetailView: View {
 
                     // Entries
                     Section {
-                        ForEach(entries) { entry in
+                        let cores = resolvedDay.entryCores
+                        ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
                             DayEntryRow(
                                 entry: entry,
-                                color: colorFor(entry),
+                                display: DayEntryDisplay(
+                                    core: cores[index],
+                                    color: colorFor(entry),
+                                ),
                                 showRelativeTime: isRecentDay,
-                                canSplit: entry !== entries.first,
-                                onDelete: { deleteEntry(entry) },
-                                onAdjustTime: { entryToAdjustTime = entry },
-                                onChangeColor: {
-                                    colorPickerSubstance = entry.substance
-                                    showColorPicker = true
-                                },
-                                onSplit: { splitSession(at: entry) },
-                                onMove: { entryToMove = entry },
+                                canSplit: index != 0,
                             )
+                            .equatable()
                         }
                     } header: {
                         Text("^[\(entries.count) entry](inflect: true)")
@@ -441,13 +470,13 @@ struct SessionDetailView: View {
         .sheet(isPresented: $showNoteEditor) {
             SessionNoteEditor(note: noteDraft) { SessionService.setNote($0, for: session) }
         }
-        .sheet(item: $entryToAdjustTime) { entry in
+        .sheet(item: $editing.entryToAdjustTime) { entry in
             NavigationStack {
                 TimeAdjustSheet(entry: entry)
             }
             .presentationDetents([.medium])
         }
-        .sheet(item: $entryToMove) { entry in
+        .sheet(item: $editing.entryToMove) { entry in
             MoveToSessionView(dose: entry)
                 .presentationDetents([.medium, .large])
         }
@@ -457,17 +486,17 @@ struct SessionDetailView: View {
                     .presentationDetents([.medium, .large])
             }
         }
-        .sheet(isPresented: $showColorPicker) {
+        .sheet(item: $editing.recolorRequest) { request in
             SubstanceColorPickerView(
-                substanceName: colorPickerSubstance,
+                substanceName: request.substanceName,
                 takenColors: Array(substanceColors).takenColorMap,
             ) { hex in
-                if let existing = substanceColors.first(where: { $0.substance.lowercased() == colorPickerSubstance.lowercased() }) {
+                if let existing = substanceColors.first(where: { $0.substance.lowercased() == request.substanceName.lowercased() }) {
                     existing.hexColor = hex
                 } else {
-                    modelContext.insert(SubstanceColor(substance: colorPickerSubstance, hexColor: hex))
+                    modelContext.insert(SubstanceColor(substance: request.substanceName, hexColor: hex))
                 }
-                showColorPicker = false
+                editing.recolorRequest = nil
             }
             .presentationDetents([.large])
         }
@@ -488,7 +517,7 @@ struct SessionDetailView: View {
             } label: {
                 Label(session.note == nil ? "Add Note" : "Edit Note", systemImage: "note.text")
             }
-            if let previous = previousSession {
+            if let previous = fetchPreviousSession() {
                 Divider()
                 Button {
                     withAnimation { SessionService.merge(previous, into: session, in: modelContext) }
@@ -499,31 +528,6 @@ struct SessionDetailView: View {
         } label: {
             Image(systemName: "ellipsis")
         }
-    }
-
-    /// Split the session so `entry` and every later dose become a new session.
-    private func splitSession(at entry: DoseEntry) {
-        withAnimation { _ = SessionService.split(session, at: entry, in: modelContext) }
-    }
-
-    private func deleteEntry(_ entry: DoseEntry) {
-        // Capture before delete — the entry is invalid afterwards.
-        let id = entry.id
-        let name = entry.substance
-        let timestamp = entry.timestamp
-
-        DoseNotificationManager.doseDeleted(timestamp: timestamp)
-        withAnimation {
-            modelContext.delete(entry)
-        }
-
-        // Also remove from live activity if active
-        ActiveSessionManager.shared.removeDose(
-            id: id,
-            substanceName: name,
-            timestamp: timestamp,
-            allColors: Array(substanceColors),
-        )
     }
 
     private func colorFor(_ entry: DoseEntry) -> Color {
@@ -642,6 +646,11 @@ private struct ResolvedDay {
     /// Distinct timeline lanes, precomputed so `graphHeight` doesn't rebuild two
     /// name Sets on every height-animation frame.
     var laneCount: Int = 0
+    /// Render-ready, substance-resolved facts for each dose row, in `entries`
+    /// order. Built here (once per content change) so the heavy per-row resolve
+    /// — `SubstanceLibrary` lookup + dose-level classification + display-name
+    /// override — never runs in a row `body`.
+    var entryCores: [DayEntryCore] = []
 }
 
 /// Hosts a fixed-height child whose height is itself the animation driver.
@@ -739,26 +748,38 @@ private struct TimeAdjustSheet: View {
 /// instead of re-instantiating the deep `NavigationLink`+swipe+contextMenu
 /// modifier chain per entry on every list rebuild — which dominated day-view
 /// entry as `makeViewList` + `swift_conformsToProtocol` churn.
-private struct DayEntryRow: View {
+private struct DayEntryRow: View, Equatable {
+    /// The dose model — used only by the swipe/menu *actions* (never read in
+    /// `body`), so it never makes the row observe the entry. Kept out of `==`:
+    /// all displayed content is compared via `display`, which is rebuilt from
+    /// the entry upstream whenever it changes.
     let entry: DoseEntry
-    let color: Color
+    let display: DayEntryDisplay
     let showRelativeTime: Bool
     /// `true` for any dose after the first — splitting "here" leaves doses behind.
     let canSplit: Bool
-    let onDelete: () -> Void
-    let onAdjustTime: () -> Void
-    let onChangeColor: () -> Void
-    let onSplit: () -> Void
-    let onMove: () -> Void
 
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.sessionEditingService) private var editing
+    @Environment(\.modelContext) private var modelContext
+
+    /// Compare on the render-ready `display` (a value type) + the two flags
+    /// only — never on the `entry` reference (a SwiftData `@Model`; two refs to
+    /// the same object always compare equal, which would freeze content updates).
+    /// So a detail-screen toggle that leaves this row's data unchanged skips its
+    /// body entirely.
+    static func == (lhs: DayEntryRow, rhs: DayEntryRow) -> Bool {
+        lhs.display == rhs.display
+            && lhs.showRelativeTime == rhs.showRelativeTime
+            && lhs.canSplit == rhs.canSplit
+    }
 
     var body: some View {
-        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp, id: entry.id)) {
-            EntryRowView(entry: entry, color: color, showRelativeTime: showRelativeTime)
+        NavigationLink(value: PushRoute.entry(timestamp: display.core.timestamp, id: display.core.entryID)) {
+            EntryRowView(display: display, showRelativeTime: showRelativeTime)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive, action: onDelete) {
+            Button(role: .destructive) { editing.delete(entry, in: modelContext) } label: {
                 Label("Delete", systemImage: "trash")
             }
         }
@@ -771,10 +792,10 @@ private struct DayEntryRow: View {
             .tint(.orange)
         }
         .contextMenu {
-            Button(action: onAdjustTime) {
+            Button { editing.requestAdjustTime(entry) } label: {
                 Label("Adjust Time", systemImage: "clock")
             }
-            Button(action: onChangeColor) {
+            Button { editing.requestRecolor(entry.substance) } label: {
                 Label("Change Color", systemImage: "paintbrush")
             }
             Button {
@@ -783,15 +804,15 @@ private struct DayEntryRow: View {
                 Label("Edit", systemImage: "pencil")
             }
             if canSplit {
-                Button(action: onSplit) {
+                Button { editing.split(at: entry, in: modelContext) } label: {
                     Label("Split Session Here", systemImage: "scissors")
                 }
             }
-            Button(action: onMove) {
+            Button { editing.requestMove(entry) } label: {
                 Label("Move to Session…", systemImage: "arrow.right.arrow.left")
             }
             Divider()
-            Button(role: .destructive, action: onDelete) {
+            Button(role: .destructive) { editing.delete(entry, in: modelContext) } label: {
                 Label("Delete", systemImage: "trash")
             }
         }
