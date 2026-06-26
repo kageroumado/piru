@@ -54,6 +54,15 @@ final class JournalModel {
     /// Same guard for the grouping pass (bucketing + day-card formatting).
     private var lastGroupsSignature: Int?
 
+    /// Bumped every time `derived` is *published with a change* (the phase-1
+    /// prefix resolve, and the phase-2 tail when it resolved anything new). Folded
+    /// into ``rebuildGroups``'s signature so a regroup that ran against an empty or
+    /// stale `derived` — e.g. the search `.task` firing its `regroup()` while the
+    /// entries `.task` is still suspended at the cold-launch batch-cache `await` —
+    /// is *superseded* once the real states land, instead of poisoning
+    /// `lastGroupsSignature` and short-circuiting the graphs-bearing rebuild.
+    private var derivedRevision = 0
+
     /// Per-entry content fingerprint from the last derive, keyed by identity.
     /// The diff engine compares each entry's current fingerprint against this to
     /// decide what to re-resolve — so a new dose against five years of history
@@ -161,7 +170,6 @@ final class JournalModel {
     func rebuildDerived(
         entries: [DoseEntry],
         colors: [SubstanceColor],
-        grouping: JournalGrouping,
         onPrefixReady: () -> Void = {},
     ) async {
         deriveGeneration += 1
@@ -243,6 +251,7 @@ final class JournalModel {
         let prefixResolved = resolvedCount
         if prefixChanged {
             derived = newDerived
+            derivedRevision += 1
             onPrefixReady()
         }
 
@@ -276,18 +285,16 @@ final class JournalModel {
         derived = newDerived
         fingerprints = newFingerprints
         lastColorSignature = colorSignature
-        // Only force the caller's final regroup to re-bucket when the *tail*
-        // (resolved after the phase-1 regroup) actually changed `derived`. When
-        // the prefix already covered everything, the phase-1 regroup was
-        // complete and the final regroup harmlessly no-ops on the same signature.
-        //
-        // Day grouping is windowed to the prefix, so resolving only out-of-window
-        // tail entries leaves the visible cards byte-identical — invalidating the
-        // groups cache there just republishes the same `sessionDays`. The
-        // non-windowed groupings (Substance / Category) *do* show tail entries, so
-        // they must still re-bucket.
-        if resolvedCount > prefixResolved, grouping != .byDay {
-            lastGroupsSignature = nil
+        // Bump the revision when the *tail* (resolved after the phase-1 regroup)
+        // changed `derived`, so the caller's final `rebuildGroups` — and any later
+        // regroup — rebuilds the affected cards instead of no-opping on a stale
+        // signature. The revision (not a blunt `lastGroupsSignature = nil`) is what
+        // distinguishes "derived changed, rebuild" from "same filters, skip", so a
+        // windowed Day grouping whose visible cards are unchanged still settles to
+        // a byte-identical `sessionDays` cheaply (SessionCardView is `Equatable`),
+        // while a non-windowed grouping showing tail entries re-buckets correctly.
+        if resolvedCount > prefixResolved || !removed.isEmpty {
+            derivedRevision += 1
         }
         rebuildFacets(entries: entries)
     }
@@ -336,6 +343,13 @@ final class JournalModel {
         // The Day window is part of the signature so `growSessionWindow()` /
         // `resetSessionWindow()` re-bucket, while an unrelated re-entry no-ops.
         sigHasher.combine(sessionWindow)
+        // The derive revision so a regroup that ran against an empty/stale
+        // `derived` (the cold-launch race: search `.task` regroups before the
+        // entries `.task` resolves the prefix) is superseded once the real states
+        // land — otherwise the matching signature short-circuits the rebuild and
+        // the cards keep their empty graphs until an unrelated change forces a
+        // re-bucket.
+        sigHasher.combine(derivedRevision)
         let signature = sigHasher.finalize()
         guard signature != lastGroupsSignature else { return }
         lastGroupsSignature = signature

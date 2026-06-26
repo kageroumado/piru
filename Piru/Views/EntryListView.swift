@@ -164,7 +164,7 @@ struct EntryListView: View {
     /// in; the initial appear paints without animation.
     private func rebuildAll(animated: Bool) async {
         model.refreshColorMap(substanceColors)
-        await model.rebuildDerived(entries: entries, colors: substanceColors, grouping: grouping) {
+        await model.rebuildDerived(entries: entries, colors: substanceColors) {
             applyRegroup(animated: animated)
         }
         applyRegroup(animated: animated)
