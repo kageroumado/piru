@@ -240,15 +240,22 @@ struct SubstanceExtendedTests {
             name: "A", aliases: [], category: .stimulant,
             defaultRoute: .oral, routes: [], effects: [],
         )
-        // Since id is a new UUID each time, s1 == s1 should be true (same object)
+        // Equality is by `id`, which is deterministic from the name.
         #expect(s1 == s1)
     }
 
     @Test
-    func `Two substances with different IDs are not equal`() {
-        let s1 = Substance(name: "A", aliases: [], category: .stimulant, defaultRoute: .oral, routes: [], effects: [])
-        let s2 = Substance(name: "A", aliases: [], category: .stimulant, defaultRoute: .oral, routes: [], effects: [])
-        #expect(s1 != s2) // Different UUIDs
+    func `Identity is deterministic from the canonical name`() {
+        // `Substance.id` is derived from the canonical name, so two constructions
+        // of the *same* substance are equal (identity-stable across re-resolves),
+        // while distinct names are not. This is what lets `ForEach` reuse rows
+        // when a search re-resolves instead of replacing the whole collection.
+        let a1 = Substance(name: "A", aliases: [], category: .stimulant, defaultRoute: .oral, routes: [], effects: [])
+        let a2 = Substance(name: "A", aliases: [], category: .stimulant, defaultRoute: .oral, routes: [], effects: [])
+        let b = Substance(name: "B", aliases: [], category: .stimulant, defaultRoute: .oral, routes: [], effects: [])
+        #expect(a1 == a2) // same name → same deterministic id
+        #expect(a1.id == a2.id)
+        #expect(a1 != b) // different name → different id
     }
 
     // MARK: - Empty query

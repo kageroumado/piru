@@ -1,3 +1,4 @@
+import CryptoKit
 import SwiftUI
 
 // MARK: - Codable Helpers
@@ -1082,6 +1083,25 @@ struct Citation: Codable, Hashable {
 struct Substance: Identifiable {
     let id: UUID
     let name: String
+
+    /// A deterministic identity derived from the canonical name, so the *same*
+    /// substance gets the *same* `id` across every construction — a decode, an
+    /// overlay merge, a search re-resolve. `ForEach` can then reuse a row when a
+    /// search narrows ("caffe" → "caffei") instead of tearing down and rebuilding
+    /// every row (a fresh `UUID()` per construction made the whole collection look
+    /// replaced each keystroke). Canonical names are unique in the bundled DB, so
+    /// this stays collision-free; `Equatable`/`Hashable` still key on `id`, which
+    /// now means "same substance by name".
+    nonisolated static func deterministicID(forName name: String) -> UUID {
+        var bytes = [UInt8](SHA256.hash(data: Data(name.lowercased().utf8)))
+        // Stamp RFC-4122 version (4) + variant bits so it's a well-formed UUID.
+        bytes[6] = (bytes[6] & 0x0F) | 0x40
+        bytes[8] = (bytes[8] & 0x3F) | 0x80
+        return UUID(uuid: (
+            bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
+            bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15],
+        ))
+    }
     /// Optional human-facing title override (e.g. "2,3-MDMA" for the compound
     /// whose canonical `name` is "2,3-Methylenedioxymethamphetamine"). When set,
     /// the UI shows this as the primary title and demotes `name` to the subtitle.
@@ -1212,7 +1232,7 @@ struct Substance: Identifiable {
         iupacName: String? = nil,
         physicochemical: Physicochemical? = nil,
     ) {
-        self.id = UUID()
+        self.id = Self.deterministicID(forName: name)
         self.name = name
         self.displayName = displayName
         self.aliases = aliases
@@ -1595,8 +1615,12 @@ extension Substance: Codable {
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        id = UUID()
-        name = try c.decode(String.self, forKey: .name)
+        let name = try c.decode(String.self, forKey: .name)
+        self.name = name
+        // Deterministic from the canonical name (not persisted — `id` isn't a
+        // coding key), so a decoded substance shares identity with its
+        // resolver-built twin.
+        id = Self.deterministicID(forName: name)
         displayName = try c.decodeIfPresent(String.self, forKey: .displayName)
         aliases = try c.decode([String].self, forKey: .aliases)
         category = try c.decode(SubstanceCategory.self, forKey: .category)

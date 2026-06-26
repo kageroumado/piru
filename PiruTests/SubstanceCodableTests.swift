@@ -99,8 +99,10 @@ struct SubstanceCodableTests {
         #expect(decoded.toleranceInfo?.buildRate == "rapid")
         #expect(decoded.halfLifeMinutes == 300)
         #expect(decoded.sources == ["PubMed"])
-        // id is regenerated, not preserved
-        #expect(decoded.id != original.id)
+        // id isn't a coding key — it's derived deterministically from the
+        // canonical name, so a decoded substance shares identity with its
+        // in-memory twin (same name → same id).
+        #expect(decoded.id == original.id)
     }
 
     @Test
