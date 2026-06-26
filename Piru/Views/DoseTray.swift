@@ -219,8 +219,22 @@ final class DoseTrayModel {
     private(set) var stageTick = 0
     private(set) var incrementTick = 0
 
-    var isEmpty: Bool {
-        staged.isEmpty
+    /// Stored — *not* computed from `staged` — so a view reading it (the
+    /// toolbar's close button, the dock's face selection in `QuickLogView.body`)
+    /// subscribes to *this* flag rather than the whole `staged` array. Maintained
+    /// only at the count-change sites (`stage` append / `stageDraft` / `remove`),
+    /// and only when the value actually flips, so stepping a dose's amount or
+    /// re-tapping a chip — which mutate `staged` but not its count — no longer
+    /// re-runs `QuickLogView.body`. `isCommittable` stays computed: it depends on
+    /// per-dose amounts and is read only inside `DoseTrayView`, which must
+    /// re-render on those edits anyway.
+    private(set) var isEmpty = true
+
+    /// Re-sync the stored ``isEmpty`` after a count change, notifying only on a
+    /// real flip (an `@Observable` set always notifies, even for an equal value).
+    private func syncEmptiness() {
+        let nowEmpty = staged.isEmpty
+        if nowEmpty != isEmpty { isEmpty = nowEmpty }
     }
 
     var isCommittable: Bool {
@@ -305,6 +319,7 @@ final class DoseTrayModel {
                 isBackgroundMed: isBackgroundMed,
             ))
             stageTick += 1
+            syncEmptiness()
         }
     }
 
@@ -336,11 +351,13 @@ final class DoseTrayModel {
         staged.append(draft)
         expandedItemIDs.insert(draft.id)
         stageTick += 1
+        syncEmptiness()
     }
 
     func remove(_ item: StagedDose) {
         staged.removeAll { $0.id == item.id }
         expandedItemIDs.remove(item.id)
+        syncEmptiness()
     }
 
     /// Staged rows merge on substance + route + unit; the distinct amounts

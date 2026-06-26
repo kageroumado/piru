@@ -274,8 +274,10 @@ struct QuickLogView: View {
         // Every result-set change resizes the surface — animate it, same as
         // the bare⇄full flip GlassDock already animates.
         .animation(.snappy, value: dockResults.map(\.id))
-        .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
-        .sensoryFeedback(.increase, trigger: tray.incrementTick)
+        // Staging haptics live in a leaf (below), not here: reading the tick
+        // counters in this body would re-run the whole `QuickLogView.body` on
+        // every stage/increment.
+        .background(StagingHaptics(tray: tray))
     }
 
     /// The field's visual: bare on the glass platter while nothing is typed
@@ -611,6 +613,23 @@ struct QuickLogView: View {
             searchActive = false
             searchText = ""
         }
+    }
+}
+
+// MARK: - Staging Haptics
+
+/// A zero-size leaf that fires the staging haptics. It exists so the tick-counter
+/// reads (`stageTick` / `incrementTick`) live *here* and not in `QuickLogView.body`
+/// — reading the `@Observable` counters in the parent body would re-run the whole
+/// quick-log screen on every chip tap. Mounted always-present via `.background`,
+/// so it fires regardless of which dock face is showing.
+private struct StagingHaptics: View {
+    let tray: DoseTrayModel
+
+    var body: some View {
+        Color.clear
+            .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
+            .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
 }
 
