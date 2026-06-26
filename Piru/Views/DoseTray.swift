@@ -329,7 +329,6 @@ struct DoseTrayView: View {
     /// The location chip expands into an inline panel (like the tag panel) —
     /// current location + recent places; the full search stays a sheet.
     @State private var locationPanelExpanded = false
-    @State private var locationModel = LocationSearchModel()
     /// Ties each collapsed row to its expanded editor so the name, amount,
     /// route, and chevron morph in place instead of cross-fading.
     @Namespace private var morphNamespace
@@ -365,13 +364,18 @@ struct DoseTrayView: View {
             }
 
             if model.sharedDetailsExpanded {
-                sharedDetails
+                TraySharedDetailsPanel(model: model, tagSuggestions: tagSuggestions)
                     .padding(.top, 12)
             }
 
             if locationPanelExpanded {
-                locationPanel
-                    .padding(.top, 12)
+                TrayLocationPanel(
+                    model: model,
+                    recentLocations: recentLocations,
+                    panelExpanded: $locationPanelExpanded,
+                    onFindPlace: { showLocationPicker = true },
+                )
+                .padding(.top, 12)
             }
 
             HStack(spacing: 8) {
@@ -570,7 +574,49 @@ struct DoseTrayView: View {
     /// Inline location options, Calendar-style: current location, the last
     /// few places, and a row that opens the full search sheet. Selection
     /// collapses the panel.
-    private var locationPanel: some View {
+    // MARK: Commit
+
+    private var commitButton: some View {
+        Button(action: onCommit) {
+            Text(commitLabel)
+                .font(.headline)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                // The dock contract: the Log button and the search field
+                // share one frame, so the faces morph into one another.
+                .frame(height: GlassDockMetrics.controlHeight)
+                .background(Theme.accent, in: Capsule())
+        }
+        .buttonStyle(.plain)
+        .disabled(!model.isCommittable)
+        .opacity(model.isCommittable ? 1 : 0.5)
+    }
+
+    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
+    /// committed blind.
+    private var commitLabel: String {
+        let base = model.staged.count == 1
+            ? String(localized: "Log Dose")
+            : String(localized: "Log \(model.staged.count) Doses")
+        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
+    }
+}
+
+// MARK: - Location Panel
+
+/// The tray's inline location options (Calendar-style): current location, the
+/// last few places, "Find a Place…" (which opens the parent's full picker via
+/// `onFindPlace`), and a remove row. Owns its own `LocationSearchModel`; writes
+/// the picked place onto the model and collapses the panel through the binding.
+private struct TrayLocationPanel: View {
+    @Bindable var model: DoseTrayModel
+    let recentLocations: [PickedLocation]
+    @Binding var panelExpanded: Bool
+    let onFindPlace: () -> Void
+
+    @State private var locationModel = LocationSearchModel()
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             locationRow(
                 icon: "location.fill",
@@ -582,7 +628,7 @@ struct DoseTrayView: View {
                     guard let picked = await locationModel.requestCurrentLocation() else { return }
                     withAnimation(.snappy) {
                         model.location = picked
-                        locationPanelExpanded = false
+                        panelExpanded = false
                     }
                 }
             }
@@ -596,14 +642,14 @@ struct DoseTrayView: View {
                 ) {
                     withAnimation(.snappy) {
                         model.location = model.location == place ? nil : place
-                        locationPanelExpanded = false
+                        panelExpanded = false
                     }
                 }
             }
 
             Divider().padding(.leading, 26)
             locationRow(icon: "magnifyingglass", title: String(localized: "Find a Place…")) {
-                showLocationPicker = true
+                onFindPlace()
             }
 
             if model.location != nil {
@@ -611,7 +657,7 @@ struct DoseTrayView: View {
                 locationRow(icon: "xmark", title: String(localized: "Remove location"), tint: .red) {
                     withAnimation(.snappy) {
                         model.location = nil
-                        locationPanelExpanded = false
+                        panelExpanded = false
                     }
                 }
             }
@@ -658,9 +704,22 @@ struct DoseTrayView: View {
         .buttonStyle(.plain)
         .disabled(showsProgress)
     }
+}
 
-    /// Expanded shared panel: custom time picker (when active) + tag chips.
-    private var sharedDetails: some View {
+// MARK: - Shared Details Panel
+
+/// The tray's expanded shared panel: the custom date picker (when a custom time
+/// is active) and the tag chips. Reads/writes the model directly; rendered only
+/// while `model.sharedDetailsExpanded`.
+private struct TraySharedDetailsPanel: View {
+    @Bindable var model: DoseTrayModel
+    let tagSuggestions: [String]
+
+    private var allTagChoices: [String] {
+        tagSuggestions + model.tags.filter { !tagSuggestions.contains($0) }.sorted()
+    }
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if case let .custom(date) = model.time {
                 DatePicker(
@@ -697,37 +756,6 @@ struct DoseTrayView: View {
                 }
             }
         }
-    }
-
-    private var allTagChoices: [String] {
-        tagSuggestions + model.tags.filter { !tagSuggestions.contains($0) }.sorted()
-    }
-
-    // MARK: Commit
-
-    private var commitButton: some View {
-        Button(action: onCommit) {
-            Text(commitLabel)
-                .font(.headline)
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                // The dock contract: the Log button and the search field
-                // share one frame, so the faces morph into one another.
-                .frame(height: GlassDockMetrics.controlHeight)
-                .background(Theme.accent, in: Capsule())
-        }
-        .buttonStyle(.plain)
-        .disabled(!model.isCommittable)
-        .opacity(model.isCommittable ? 1 : 0.5)
-    }
-
-    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
-    /// committed blind.
-    private var commitLabel: String {
-        let base = model.staged.count == 1
-            ? String(localized: "Log Dose")
-            : String(localized: "Log \(model.staged.count) Doses")
-        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
     }
 }
 
