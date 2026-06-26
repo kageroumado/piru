@@ -4,8 +4,13 @@ import SwiftUI
 /// full `DoseSuggestionCard` and the compact `DosePKBadge`.
 enum DosePK {
     static func status(substanceName: String, route: RouteOfAdministration, lastDoseTimestamp: Date) -> (remainingPercent: Double, waitMinutes: Double)? {
+        // Only half-life + duration are needed, both carried by the lightweight batch
+        // cache — resolve **once** through it rather than two full overlay-aware
+        // `lookupByNameOrAlias` calls (≈18 SQL + chem/mechanism decode each). This runs
+        // per unique recent substance when the quick-log card list rebuilds.
+        let substance = SubstanceLibrary.timelineLookup(substanceName)
         let halfLife: Double
-        if let hl = SubstanceLibrary.lookupByNameOrAlias(substanceName)?.halfLifeMinutes, hl > 0 {
+        if let hl = substance?.halfLifeMinutes, hl > 0 {
             halfLife = hl
         } else if let hl = HalfLifeDatabase.halfLife(for: substanceName), hl > 0 {
             halfLife = hl
@@ -16,7 +21,7 @@ enum DosePK {
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
         guard ke > 0 else { return nil }
 
-        let duration = SubstanceLibrary.lookupByNameOrAlias(substanceName)?.resolveDuration(for: route)
+        let duration = substance?.resolveDuration(for: route)
 
         let ka: Double
         if let duration {
