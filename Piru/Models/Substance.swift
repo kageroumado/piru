@@ -1274,7 +1274,12 @@ struct Substance: Identifiable {
     /// spelling for drugs with US/international name variants (Acetaminophen vs
     /// Paracetamol), else the curated override, else the canonical `name`. A
     /// leading pictograph is stripped (see ``titlePictograph``).
-    var displayTitle: String {
+    ///
+    /// `nonisolated` (pure — regional-name resolve + pictograph strip over the
+    /// struct's own stored fields) so off-main callers can read it: the Library's
+    /// sort runs in a `Task.detached` where the project-default `MainActor`
+    /// isolation would otherwise forbid the access (a Release-only warning).
+    nonisolated var displayTitle: String {
         let base = RegionalSubstanceName.resolve(canonicalName: name) ?? displayName ?? name
         return Substance.strippingLeadingPictograph(base).text
     }
@@ -1289,7 +1294,7 @@ struct Substance: Identifiable {
 
     /// Splits a leading emoji (a default-emoji-presentation scalar) off a title:
     /// "🍰 Cake" → ("Cake", "🍰"). Ordinary names pass through unchanged.
-    static func strippingLeadingPictograph(_ s: String) -> (text: String, pictograph: String?) {
+    nonisolated static func strippingLeadingPictograph(_ s: String) -> (text: String, pictograph: String?) {
         guard let first = s.first,
               let scalar = first.unicodeScalars.first,
               scalar.properties.isEmojiPresentation
