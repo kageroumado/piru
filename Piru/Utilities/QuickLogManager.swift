@@ -24,6 +24,11 @@ enum QuickLogManager {
     /// chips. Ranks each (substance, route) group's distinct measurements by
     /// frequency (recency as tiebreak) and keeps the top ``perGroupLimit``.
     /// Idempotent: guarded by a flag and a "no rows yet" check.
+    ///
+    /// Seeds from the screen's already-loaded recent window (`history`) rather
+    /// than its own full-table fetch — 120 days is plenty to surface a user's
+    /// familiar chips, and lifetime-exhaustive ranking isn't worth a second pass
+    /// over the whole dose table on first open.
     static func seedIfNeeded(history: [DoseEntry], context: ModelContext) {
         guard !defaults.bool(forKey: seededKey) else { return }
         let existing = (try? context.fetchCount(FetchDescriptor<QuickLogDose>())) ?? 0

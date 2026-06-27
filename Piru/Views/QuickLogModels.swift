@@ -168,6 +168,14 @@ final class QuickLogContentModel {
     /// Tag suggestions (used-most-first + common extras) — the tray's tag panel.
     private(set) var cachedTagSuggestions: [String] = []
 
+    /// Max recent (non-favorite) cards rendered. ~50 distinct substances can
+    /// accumulate in the curated list, but the quick-log surface is for the
+    /// handful you reach for repeatedly — anything older is one search away.
+    /// Capping the rendered set is the lever on `QuickLogView.body` cost (each
+    /// card is a `SubstanceCardView` with chip rows + context menus); favorites
+    /// are exempt because they're explicitly pinned.
+    static let recentCardLimit = 10
+
     private(set) var cachedFavoriteCards: [SubstanceCard] = []
     private(set) var cachedNonFavoriteCards: [SubstanceCard] = []
     private(set) var cachedFavoriteLibrarySubstances: [Substance] = []
@@ -213,6 +221,12 @@ final class QuickLogContentModel {
     /// `body`. `allEntries` is newest-first, which every consumer relies on
     /// (today's slice stops at the first non-today row; most-recent wins).
     func rebuildEntryDerived(allEntries: [DoseEntry], dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
+        // The PK badge is only ever read for a *displayed* card (favorites + the
+        // capped recents), so resolve `DosePK.status` for those substances only —
+        // not the whole 120-day history (~50 substances). Requires `rebuildCards`
+        // to have run first (the `.task` orders it so).
+        let displayed = Set(cachedFavoriteCards.map(\.id)).union(cachedNonFavoriteCards.map(\.id))
+
         var loggedToday: Set<String> = []
         var mostRecentEntry: [String: DoseEntry] = [:]
         var seenLocations = Set<String>()
@@ -222,7 +236,7 @@ final class QuickLogContentModel {
 
         for entry in allEntries {
             let lower = entry.substance.lowercased()
-            if mostRecentEntry[lower] == nil { mostRecentEntry[lower] = entry }
+            if displayed.contains(lower), mostRecentEntry[lower] == nil { mostRecentEntry[lower] = entry }
             if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
                 loggedToday.insert(lower)
             } else {
@@ -338,7 +352,11 @@ final class QuickLogContentModel {
         cachedFavoriteCards = cachedCards
             .filter { cachedFavoriteSet.contains($0.id) }
             .sorted { (cachedFavoriteOrder[$0.id] ?? .max) < (cachedFavoriteOrder[$1.id] ?? .max) }
-        cachedNonFavoriteCards = cachedCards.filter { !cachedFavoriteSet.contains($0.id) }
+        cachedNonFavoriteCards = Array(
+            cachedCards
+                .filter { !cachedFavoriteSet.contains($0.id) }
+                .prefix(Self.recentCardLimit),
+        )
         cachedFavoriteLibrarySubstances = favorites
             .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
             .compactMap { SubstanceLibrary.timelineLookup($0.substance.lowercased()) }

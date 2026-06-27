@@ -3,15 +3,57 @@ import SwiftUI
 import UIKit
 import WidgetKit
 
+/// Thin wrapper that pins the recent-history window before building the screen.
+///
+/// ``QuickLogView`` holds a `@Query` over `DoseEntry` for its recency-derived
+/// surfaces (today's active-percent badges, recent tags/locations). That query
+/// must be **bounded** — the full dose table is years of rows the quick-log
+/// screen never needs, yet loading it on every open kept the whole history
+/// resident and made three consumers pay O(history). A `@Query` predicate can't
+/// call `Date.now`/`addingTimeInterval`, so the cutoff is computed here as plain
+/// `@State` and handed to the screen, which builds its `@Query` from it in
+/// `init`. (Re-initialising the screen with a new cutoff preserves its `@State`
+/// — view identity is stable — so even a refreshed cutoff never drops a staged
+/// tray; but a sheet is short-lived, so one capture at present is enough.)
+struct QuickLogSheet: View {
+    var prestagedRoutine: String?
+
+    /// Days of dose history the quick-log surfaces treat as "recent". Must
+    /// exceed the longest plausible "still-active PK badge" horizon: a dose
+    /// older than this shows no active-percent badge, which is correct — its
+    /// body load has long since decayed below the badge's 5% floor. 120 days
+    /// clears even long-half-life substances (fluoxetine ≈ 70 days to a 5% load)
+    /// with margin, while keeping the resident array small.
+    private static let recentWindowDays: TimeInterval = 120
+
+    /// Captured once when the sheet's state first initialises (a fresh sheet per
+    /// present), so the window doesn't drift mid-session. A few hours of drift
+    /// across a 120-day window is irrelevant, so it never needs refreshing.
+    @State private var cutoff = Date.now.addingTimeInterval(-recentWindowDays * 86_400)
+
+    var body: some View {
+        QuickLogView(prestagedRoutine: prestagedRoutine, historyCutoff: cutoff)
+    }
+}
+
 struct QuickLogView: View {
     /// Stage this routine's items into the tray on open — the landing state
     /// for a routine-reminder notification tap (`piru://quicklog?routine=`).
     var prestagedRoutine: String?
 
+    /// Lower bound for ``allEntries`` — see ``QuickLogSheet``. Stored so the
+    /// explicit `init` can build the windowed `@Query` from it.
+    let historyCutoff: Date
+
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
 
-    @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var allEntries: [DoseEntry]
+    /// Recent dose history only (since ``historyCutoff``), newest-first — every
+    /// consumer (`rebuildEntryDerived`, the notification check) relies on the
+    /// reverse-chronological order and needs no more than this window. Built in
+    /// `init` because a `#Predicate` can't compute the cutoff itself.
+    @Query private var allEntries: [DoseEntry]
+
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
@@ -45,6 +87,18 @@ struct QuickLogView: View {
     /// dataset — `initializeWithCopy` dominated a 784 ms first-render trace; the
     /// reference-typed model drops the view's stored surface to a few flags.
     @State private var content = QuickLogContentModel()
+
+    init(prestagedRoutine: String? = nil, historyCutoff: Date) {
+        self.prestagedRoutine = prestagedRoutine
+        self.historyCutoff = historyCutoff
+        _allEntries = Query(
+            FetchDescriptor(
+                predicate: #Predicate<DoseEntry> { $0.timestamp >= historyCutoff },
+                sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
+            ),
+            transaction: Transaction(animation: nil),
+        )
+    }
 
     // MARK: - Favorites
 
@@ -183,8 +237,11 @@ struct QuickLogView: View {
                 RoutineMigrator.seedIfNeeded(context: modelContext)
                 seedFavoriteOrderIfNeeded()
                 content.rebuildColorLookup(substanceColors: substanceColors)
-                content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
+                // Cards first: `rebuildEntryDerived` scopes its per-substance PK
+                // badge work to the *displayed* set (favorites + the 10 recents),
+                // so the card caches must exist before it runs.
                 content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
+                content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
                 content.markLoaded()
                 if let prestagedRoutine {
                     stageRoutine(named: prestagedRoutine)

@@ -114,6 +114,17 @@ final class SubstanceStore {
     /// reorder; it is naturally discarded when the store is rebuilt for a DB update.
     private var molarMassByID: [Int64: Double?] = [:]
 
+    /// Memoized ``pharmacologyParameters(forSubstanceName:)`` per substance name.
+    /// The tolerance recompute resolves params for *every* unique dosed substance
+    /// on the main actor each time the dose log changes; uncached, that re-ran a
+    /// fresh `pk_routes` + `bindings` SQL fetch **and row decode** per substance
+    /// (~50 for a heavy log) — a multi-second main-thread hang on every post-commit
+    /// replay. Like ``molarMassByID`` the result is a pure function of the bundled
+    /// DB row (by `substance_id`, no source-priority or overlay), stable for the
+    /// DB's lifetime — so it is *not* cleared on a source reorder and is discarded
+    /// naturally when the store is rebuilt for a DB update.
+    private var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
+
     /// Cached `all`/`substances(in:)` results. Resolving 1600+ substances
     /// individually on every view body invalidation is what was making the
     /// Library tab feel laggy on entry. Cleared in lockstep with
@@ -2325,6 +2336,13 @@ final class SubstanceStore {
     /// row* (the flagship seed) over an un-graded one for the Vd, so the engine runs on the verified
     /// number when one exists and degrades to whatever is available otherwise.
     func pharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
+        if let cached = pharmacologyParamsByName[name] { return cached }
+        let resolved = resolvePharmacologyParameters(forSubstanceName: name)
+        pharmacologyParamsByName[name] = resolved
+        return resolved
+    }
+
+    private func resolvePharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
         // Lean single-column read of the SAME authoritative `substances.molecular_weight`
         // the full `resolveSubstance` returns — not the timeline batch projection (which
         // omits molecular_weight entirely, so reading it there returned nil and made
