@@ -1129,12 +1129,6 @@ enum InteractionChecker {
             description: "Additive CNS depression — may increase sedation and respiratory depression risk.",
         ),
         InteractionRule(
-            classA: .opioid,
-            classB: .ssri,
-            severity: .caution,
-            description: "Serotonin syndrome risk with some opioids (tramadol, meperidine, fentanyl) — monitor for symptoms.",
-        ),
-        InteractionRule(
             classA: .cannabinoid,
             classB: .alcohol,
             severity: .caution,

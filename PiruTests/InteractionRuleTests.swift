@@ -82,6 +82,35 @@ struct InteractionRuleTests {
         }
     }
 
+    // MARK: - SSRI + opioid is per-substance, not a blanket opioid rule
+
+    @Test
+    func `A non-serotonergic opioid does not trigger an SSRI serotonin rule`() {
+        // The old blanket `.opioid + .ssri` rule fired "serotonin syndrome risk" on every opioid, which is
+        // noise: oxycodone/morphine/kratom/heroin aren't serotonergic. The genuinely-serotonergic opioids
+        // ride `.serotonergic` and are covered below — so a plain opioid + SSRI must surface no SS rule.
+        for opioid in ["Oxycodone", "Morphine", "Kratom", "Heroin"] {
+            let results = InteractionChecker.check(opioid, against: [makeEntry(substance: "Sertraline")])
+            #expect(
+                !results.contains { $0.description.localizedCaseInsensitiveContains("serotonin") },
+                "\(opioid) + SSRI should not raise a serotonin-syndrome rule",
+            )
+        }
+    }
+
+    @Test
+    func `A serotonergic opioid still raises a serotonin rule with an SSRI`() {
+        // Tramadol/meperidine are `.serotonergic` — their real SSRI interaction survives the blanket-rule
+        // removal via the `.serotonergic + .ssri` rule.
+        for opioid in ["Tramadol", "Meperidine"] {
+            let results = InteractionChecker.check(opioid, against: [makeEntry(substance: "Sertraline")])
+            #expect(
+                results.contains { $0.description.localizedCaseInsensitiveContains("serotonin") },
+                "\(opioid) + SSRI should still raise a serotonin rule",
+            )
+        }
+    }
+
     // MARK: - Dangerous Interactions
 
     @Test
