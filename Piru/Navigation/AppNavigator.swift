@@ -193,6 +193,13 @@ final class AppNavigator {
         if let tab = outcome.tab {
             selectedTab = tab
         }
+        // A push path replaces the target tab's stack — a deep link to a tool
+        // or session is a "land me here" intent, not an append onto wherever
+        // the user already was. Targets the outcome's tab (falling back to the
+        // now-selected tab) so `piru://tool/tolerance` lands on Tools.
+        if let path = outcome.path {
+            setPath(path, in: outcome.tab)
+        }
         if let sheet = outcome.sheet {
             // A link targeting the kind of sheet that's already on top is a
             // no-op: `piru://quicklog?routine=…` while quick-log is open must

@@ -61,69 +61,6 @@ struct MetabolicModulationTests {
         #expect(effect.raisesLevels)
     }
 
-    // MARK: - Active effects against real data
-
-    @Test
-    func `Grapefruit raises a CYP3A4 substrate's levels`() throws {
-        let effects = MetabolicModulation.activeEffects(
-            loggingSubstance: "Midazolam",
-            context: .init(grapefruitThisDose: true),
-        )
-        let gf = try #require(effects.first { $0.modulatorID == "grapefruit" })
-        #expect(gf.raisesLevels)
-        #expect(gf.enzyme == .cyp3a4)
-    }
-
-    @Test
-    func `Smoking lowers a CYP1A2 substrate's levels`() throws {
-        let effects = MetabolicModulation.activeEffects(
-            loggingSubstance: "Olanzapine",
-            context: .init(smokes: true),
-        )
-        let smoke = try #require(effects.first { $0.modulatorID == "smoking" })
-        #expect(!smoke.raisesLevels) // induction → lower levels
-        #expect(smoke.enzyme == .cyp1a2)
-    }
-
-    @Test
-    func `Smoking does not fire on a non-1A2 substrate`() {
-        // Midazolam is cleared by CYP3A4, not CYP1A2 — the smoking flag must stay silent.
-        let effects = MetabolicModulation.activeEffects(
-            loggingSubstance: "Midazolam",
-            context: .init(smokes: true),
-        )
-        #expect(!effects.contains { $0.modulatorID == "smoking" })
-    }
-
-    @Test
-    func `A co-present CYP3A4 inhibitor raises the substrate`() throws {
-        let effects = MetabolicModulation.activeEffects(
-            loggingSubstance: "Midazolam",
-            coPresentSubstances: ["Ritonavir"],
-        )
-        let rito = try #require(effects.first { $0.modulatorID == "ritonavir" })
-        #expect(rito.raisesLevels)
-    }
-
-    @Test
-    func `MDMA surfaces its CYP2D6 self-edge`() throws {
-        let effects = MetabolicModulation.activeEffects(loggingSubstance: "MDMA")
-        let selfEdge = try #require(effects.first { $0.origin == .selfEdge })
-        #expect(selfEdge.enzyme == .cyp2d6)
-        #expect(selfEdge.modulatorID == "mdma-cyp2d6")
-    }
-
-    @Test
-    func `A substance with no metabolism data produces no effects`() {
-        // Caffeine ships no metabolism rows, so nothing can fire — honest silence.
-        let effects = MetabolicModulation.activeEffects(
-            loggingSubstance: "Caffeine",
-            coPresentSubstances: ["Ritonavir"],
-            context: .init(grapefruitThisDose: true, smokes: true),
-        )
-        #expect(effects.isEmpty)
-    }
-
     // MARK: - Educational + checker surfaces
 
     @Test

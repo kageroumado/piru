@@ -45,17 +45,6 @@ struct SheetRouteView: View {
                 }
             }
 
-        case let .entryForm(prefill):
-            if let prefill {
-                EntryFormView(
-                    prefillSubstance: prefill.substance,
-                    prefillRoute: prefill.route,
-                    prefillUnit: prefill.unit,
-                )
-            } else {
-                EntryFormView()
-            }
-
         case let .entryEdit(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in
                 EntryFormView(entry: entry)

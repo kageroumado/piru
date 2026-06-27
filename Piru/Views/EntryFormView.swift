@@ -8,9 +8,6 @@ struct EntryFormView: View {
     @Environment(\.appNavigator) private var navigator
 
     var entry: DoseEntry?
-    private var prefillSubstanceName: String?
-    private var prefillRoute: RouteOfAdministration?
-    private var prefillUnit: String?
 
     @State private var substance = ""
     @State private var amount = ""
@@ -36,41 +33,18 @@ struct EntryFormView: View {
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
     @State private var savedEntry: DoseEntry?
-    @State private var interactionWarnings: [InteractionResult] = []
-    @State private var combinedDepression: CombinedDepressionResult?
-    @State private var attenuations: [EffectAttenuationResult] = []
-    @State private var crossTolerance: [CrossToleranceReadout] = []
-    @State private var opioidReset: OpioidResetRisk?
-    @State private var metabolicEffects: [MetabolicModulation.Effect] = []
-    @State private var combinationMetabolites: [CombinationMetabolite.Formation] = []
     @State private var substanceLocked = false
     @FocusState private var amountFocused: Bool
 
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
 
     @Query private var substanceColors: [SubstanceColor]
+    /// Last 48 h of doses — feeds the harm-reduction reminder (re)scheduling on save.
     @Query private var recentEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
 
-    init(entry: DoseEntry? = nil) {
+    init(entry: DoseEntry) {
         self.entry = entry
-        self.prefillSubstanceName = nil
-        self.prefillRoute = nil
-        self.prefillUnit = nil
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        _recentEntries = Query(
-            filter: #Predicate<DoseEntry> { e in
-                e.timestamp >= cutoff
-            },
-            sort: \DoseEntry.timestamp,
-        )
-    }
-
-    init(prefillSubstance: String, prefillRoute: RouteOfAdministration? = nil, prefillUnit: String? = nil) {
-        self.entry = nil
-        self.prefillSubstanceName = prefillSubstance
-        self.prefillRoute = prefillRoute
-        self.prefillUnit = prefillUnit
         let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { e in
@@ -165,73 +139,10 @@ struct EntryFormView: View {
         return t.isEmpty ? nil : t
     }
 
-    private var worstSeverity: InteractionSeverity? {
-        interactionWarnings.first?.severity
-    }
-
     var body: some View {
         NavigationStack {
             Form {
                 Group {
-                    if let combinedDepression, combinedDepression.hasMeaningfulLoad {
-                        Section {
-                            CombinedDepressionBanner(result: combinedDepression)
-                        }
-                    }
-
-                    if let opioidReset {
-                        Section {
-                            OpioidSafetyBanner(risk: opioidReset)
-                        }
-                    }
-
-                    if !attenuations.isEmpty {
-                        Section {
-                            ForEach(attenuations) { attenuation in
-                                EffectAttenuationBanner(result: attenuation)
-                            }
-                        }
-                    }
-
-                    if !crossTolerance.isEmpty {
-                        Section {
-                            ForEach(crossTolerance) { readout in
-                                CrossToleranceBanner(readout: readout)
-                            }
-                        }
-                    }
-
-                    if !metabolicEffects.isEmpty {
-                        Section {
-                            ForEach(metabolicEffects) { effect in
-                                MetabolicModulationBanner(effect: effect)
-                            }
-                        }
-                    }
-
-                    if !combinationMetabolites.isEmpty {
-                        Section {
-                            ForEach(combinationMetabolites) { formation in
-                                CombinationMetaboliteBanner(formation: formation)
-                            }
-                        }
-                    }
-
-                    // Interaction warnings — shown at top
-                    if !interactionWarnings.isEmpty {
-                        Section {
-                            ForEach(Array(interactionWarnings.enumerated()), id: \.offset) { _, warning in
-                                InteractionWarningRow(warning: warning)
-                            }
-                        } header: {
-                            Label(
-                                interactionWarnings.count == 1 ? "Interaction Warning" : "\(interactionWarnings.count) Interaction Warnings",
-                                systemImage: worstSeverity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle",
-                            )
-                            .foregroundStyle((worstSeverity ?? .caution).color)
-                        }
-                    }
-
                     Section("Substance") {
                         SubstanceSearchField(text: $substance, locked: substanceLocked, favoriteNames: Array(favorites).favoriteSet) { selected in
                             selectSubstance(selected)
@@ -357,7 +268,6 @@ struct EntryFormView: View {
                 }
                 .listRowBackground(Theme.cardBackground)
             }
-            .onChange(of: substance) { checkInteractions() }
             // Keep `amount`/`unit` (which drive the dose badge, dose reference, and
             // save path) in sync with the by-volume fields while in drink mode.
             .onChange(of: byVolumeGrams) { syncByVolumeAmount() }
@@ -367,9 +277,6 @@ struct EntryFormView: View {
                 guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
                 volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
             }
-            // Cross-tolerance + effect-attenuation need history beyond 48 h, so they run off the
-            // synchronous interaction path and only re-run when the substance changes (not per keystroke).
-            .task(id: isEditing ? "" : substance) { await refreshPharmacologyReadouts() }
             .onChange(of: notes) {
                 let extracted = TagExtractor.extractTags(from: notes)
                 for tag in extracted where !entryTags.contains(tag) {
@@ -400,7 +307,6 @@ struct EntryFormView: View {
         selectedSubstance = nil
         availableRoutes = RouteOfAdministration.allCases
         byVolumeMode = false
-        checkInteractions()
     }
 
     private func selectSubstance(_ sub: Substance) {
@@ -412,7 +318,6 @@ struct EntryFormView: View {
         // Default a new alcohol entry to the natural by-volume input. Editing an
         // existing entry leaves the mode at its manual default (Stage 2 round-trips).
         byVolumeMode = !isEditing && sub.byVolumeDosing != nil
-        checkInteractions()
     }
 
     /// Pre-fill the volume + strength from a tapped preset, converting the preset's
@@ -428,61 +333,6 @@ struct EntryFormView: View {
         guard byVolumeMode else { return }
         unit = selectedSubstance?.byVolumeDosing?.canonicalUnit ?? "g"
         amount = byVolumeGrams.map { ByVolumeDefaults.format($0) } ?? ""
-    }
-
-    private func checkInteractions() {
-        guard !substance.isEmpty, !isEditing else {
-            interactionWarnings = []
-            combinedDepression = nil
-            return
-        }
-        let active = InteractionChecker.activeEntries(from: recentEntries)
-        interactionWarnings = InteractionChecker.check(substance, against: active)
-
-        // Combined CNS/respiratory-depression index over the active depressant stack + this dose.
-        let prospective = DoseEntry(substance: substance, amount: parsedAmount ?? 0, unit: unit, route: route, timestamp: .now)
-        let depression = CombinedDepression.analyze(entries: active + [prospective])
-        combinedDepression = (depression?.totalCount ?? 0) >= 2 ? depression : nil
-    }
-
-    /// Pharmacology readouts that need history beyond the 48 h interaction window, computed off the
-    /// synchronous interaction path and keyed on the substance alone (neither depends on the dose's
-    /// amount): the cross-tolerance state, and the effect-attenuation blunting from blockers still
-    /// pharmacologically onboard (half-life-gated, so a chronic SSRI taken days ago still counts).
-    private func refreshPharmacologyReadouts() async {
-        guard !substance.isEmpty, !isEditing else {
-            crossTolerance = []
-            opioidReset = nil
-            attenuations = []
-            metabolicEffects = []
-            combinationMetabolites = []
-            return
-        }
-        crossTolerance = ToleranceStore.shared.crossToleranceReadouts(forSubstance: substance)
-        opioidReset = await ToleranceStore.shared.opioidResetRisk(forSubstance: substance)
-
-        // Metabolic modulation (Stage 4c, readout-only): co-active CYP inhibitors/inducers onboard, the
-        // smoking profile flag, and the substance's own auto-modulation. Grapefruit is a per-dose flag
-        // set in the quick-log tray, so it is not part of this form's banner.
-        let coPresent = InteractionChecker.activeEntries(from: Array(recentEntries)).map(\.substance)
-        let context = MetabolicModulation.Context(smokes: UserProfileStore.shared.smokesTobacco)
-        metabolicEffects = MetabolicModulation.activeEffects(
-            loggingSubstance: substance,
-            coPresentSubstances: coPresent,
-            context: context,
-        )
-
-        // Combination-generated active species (Stage 4d): gated on the precursors being concurrently
-        // onboard (the prospective dose + what `activeEntries` says is still active). v1 = cocaethylene.
-        combinationMetabolites = CombinationMetabolite.formed(among: [substance] + coPresent)
-
-        // A 30-day window covers even long-half-life antidepressants (norfluoxetine), then the half-life
-        // presence gate in `EffectAttenuation` decides what is still onboard.
-        let cutoff = Date.now.addingTimeInterval(-30 * 86_400)
-        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate<DoseEntry> { $0.timestamp >= cutoff })
-        let history = (try? modelContext.fetch(descriptor)) ?? []
-        let prospective = DoseEntry(substance: substance, amount: 1, unit: unit, route: route, timestamp: .now)
-        attenuations = EffectAttenuation.analyze(entries: history + [prospective])
     }
 
     private func loadEntry() {
@@ -519,22 +369,6 @@ struct EntryFormView: View {
                     abvText = ByVolumeDefaults.format(abv)
                     drinkName = entry.drinkName ?? ""
                 }
-            }
-            return
-        }
-
-        if let prefillName = prefillSubstanceName, !prefillName.isEmpty {
-            substance = prefillName
-            if let match = SubstanceLibrary.search(prefillName).first,
-               match.name.lowercased() == prefillName.lowercased() {
-                selectSubstance(match)
-            }
-            if let r = prefillRoute { route = r }
-            if let u = prefillUnit { unit = u }
-            substanceLocked = true
-            checkInteractions()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                amountFocused = true
             }
         }
     }

@@ -117,25 +117,6 @@ struct DeepLinkTests {
         #expect(decode("piru://entry/not-a-number") == nil)
     }
 
-    @Test
-    func `piru://entryform without query presents a blank form`() {
-        let outcome = decode("piru://entryform")
-        #expect(outcome?.sheet == .entryForm(prefill: nil))
-    }
-
-    @Test
-    func `piru://entryform with all query params presents a prefilled form`() {
-        let outcome = decode("piru://entryform?substance=MDMA&route=oral&unit=mg")
-        let expectedPayload = EntryPrefillPayload(substance: "MDMA", route: .oral, unit: "mg")
-        #expect(outcome?.sheet == .entryForm(prefill: expectedPayload))
-    }
-
-    @Test
-    func `entryform with a partial prefill query (missing route) ignores the prefill`() {
-        let outcome = decode("piru://entryform?substance=MDMA&unit=mg")
-        #expect(outcome?.sheet == .entryForm(prefill: nil))
-    }
-
     // MARK: - Medications
 
     @Test
@@ -148,6 +129,109 @@ struct DeepLinkTests {
     @Test
     func `piru://meds with no category returns nil`() {
         #expect(decode("piru://meds") == nil)
+    }
+
+    // MARK: - Tool push routes
+
+    @Test(arguments: [
+        ("piru://tool/tolerance", Tool.tolerance),
+        ("piru://tool/ceiling", .ceiling),
+        ("piru://tool/recovery", .recovery),
+        ("piru://tool/pharma", .pharma),
+        ("piru://tool/calculator", .calculator),
+        ("piru://tool/volumetric", .volumetric),
+        ("piru://tool/interactions", .interactions),
+        ("piru://tool/inventory", .inventory),
+    ])
+    func `piru://tool/<name> pushes the tool on the Tools tab`(url: String, expected: Tool) {
+        let outcome = decode(url)
+        #expect(outcome?.tab == .tools)
+        #expect(outcome?.path == [.tool(expected)])
+        #expect(outcome?.sheet == nil)
+    }
+
+    @Test
+    func `piru://tool matches the raw value case-insensitively`() {
+        // Hand-typed links shouldn't have to know the camelCase spelling.
+        let outcome = decode("piru://tool/benzoequivalence")
+        #expect(outcome?.path == [.tool(.benzoEquivalence)])
+    }
+
+    @Test
+    func `piru://tool with an unknown name returns nil`() {
+        #expect(decode("piru://tool/nonsense") == nil)
+    }
+
+    @Test
+    func `piru://tool with no name returns nil`() {
+        #expect(decode("piru://tool") == nil)
+    }
+
+    @Test
+    func `A tool snapshot round-trips through encode → decode`() {
+        let snap = NavigatorSnapshot(selectedTab: .tools, paths: [.tools: [.tool(.tolerance)]])
+        let url = DeepLink.encode(snap)
+        #expect(url?.absoluteString == "piru://tool/tolerance")
+        let outcome = url.flatMap(DeepLink.decode)
+        #expect(outcome?.path == [.tool(.tolerance)])
+    }
+
+    // MARK: - Session push routes
+
+    @Test
+    func `piru://session/<uuid> pushes session detail on the Journal tab`() throws {
+        let id = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000005"))
+        let outcome = decode("piru://session/\(id.uuidString)")
+        #expect(outcome?.tab == .journal)
+        #expect(outcome?.path == [.session(id: id)])
+        #expect(outcome?.sheet == nil)
+    }
+
+    @Test
+    func `piru://session with a malformed id returns nil`() {
+        #expect(decode("piru://session/not-a-uuid") == nil)
+    }
+
+    @Test
+    func `A session snapshot round-trips through encode → decode`() throws {
+        let id = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000006"))
+        let snap = NavigatorSnapshot(selectedTab: .journal, paths: [.journal: [.session(id: id)]])
+        let url = DeepLink.encode(snap)
+        #expect(url?.absoluteString == "piru://session/\(id.uuidString)")
+        let outcome = url.flatMap(DeepLink.decode)
+        #expect(outcome?.path == [.session(id: id)])
+    }
+
+    // MARK: - Substance push routes
+
+    @Test
+    func `piru://substance/<name> pushes substance detail on the Library tab`() {
+        let outcome = decode("piru://substance/Amphetamine")
+        #expect(outcome?.tab == .library)
+        #expect(outcome?.path == [.substance(name: "Amphetamine")])
+    }
+
+    @Test
+    func `piru://substance decodes a percent-encoded multi-word name`() {
+        let outcome = decode("piru://substance/Psilocybin%20mushrooms")
+        #expect(outcome?.path == [.substance(name: "Psilocybin mushrooms")])
+    }
+
+    @Test
+    func `A substance snapshot round-trips through encode → decode`() {
+        let snap = NavigatorSnapshot(selectedTab: .library, paths: [.library: [.substance(name: "MDMA")]])
+        let url = DeepLink.encode(snap)
+        #expect(url?.absoluteString == "piru://substance/MDMA")
+        #expect(url.flatMap(DeepLink.decode)?.path == [.substance(name: "MDMA")])
+    }
+
+    @MainActor
+    @Test
+    func `Applying a tool outcome replaces the Tools push stack`() {
+        let nav = AppNavigator(selectedTab: .journal, storage: makeIsolatedDefaults())
+        nav.apply(DeepLinkOutcome(tab: .tools, path: [.tool(.ceiling)]))
+        #expect(nav.selectedTab == .tools)
+        #expect(nav.path(for: .tools) == [.tool(.ceiling)])
     }
 
     // MARK: - Unsupported URLs

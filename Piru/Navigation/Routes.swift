@@ -74,7 +74,6 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
     case entryDetail(timestamp: Date, id: UUID?)
-    case entryForm(prefill: EntryPrefillPayload?)
     /// Edit an existing entry. Carries the entry's stable `id` so a batch of
     /// doses sharing one timestamp resolves to the exact row the user acted on;
     /// `timestamp` stays as the fallback for id-less/legacy payloads.

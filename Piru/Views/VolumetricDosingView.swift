@@ -33,10 +33,15 @@ struct VolumetricDosingView: View {
 
                 Picker("Mode", selection: $mode) {
                     ForEach(Mode.allCases) { m in
-                        Text(m.displayName).tag(m)
+                        Text(m.displayName)
+                            .tag(m)
+                            // Stable per-segment identifier — a `.segmented` Picker otherwise exposes no
+                            // addressable label for its options to UI automation.
+                            .accessibilityIdentifier("volumetric-mode-\(m.rawValue)")
                     }
                 }
                 .pickerStyle(.segmented)
+                .accessibilityIdentifier("volumetric-mode-picker")
 
                 inputCard
                 resultCard

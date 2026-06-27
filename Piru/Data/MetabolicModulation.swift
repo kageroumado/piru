@@ -309,19 +309,6 @@ nonisolated enum MetabolicModulation {
 
     // MARK: - Analysis
 
-    /// The non-dose context flags that apply at log time.
-    struct Context {
-        /// The user marked "had grapefruit" on this dose.
-        var grapefruitThisDose = false
-        /// The user's profile says they smoke tobacco regularly.
-        var smokes = false
-
-        init(grapefruitThisDose: Bool = false, smokes: Bool = false) {
-            self.grapefruitThisDose = grapefruitThisDose
-            self.smokes = smokes
-        }
-    }
-
     /// Pure match: the catalog modulators in `modulators` whose enzyme is one of `substrateEnzymes`,
     /// rendered as effects on `substrateName`. The caller pre-filters `modulators` to those actually
     /// active in context; this stays pure for testing.
@@ -351,35 +338,6 @@ nonisolated enum MetabolicModulation {
             }
         }
         return effects(substrateName: name, substrateEnzymes: enzymes, modulators: mods)
-    }
-
-    /// **Active** effects at dose-entry time for `name`: the context flags currently set, the self-edge
-    /// (when logging the self substance), and any co-present logged drug that modulates a clearing
-    /// enzyme of `name`. Pulls the substrate's metabolism from the store.
-    @MainActor
-    static func activeEffects(
-        loggingSubstance name: String,
-        coPresentSubstances: [String] = [],
-        context: Context = Context(),
-    ) -> [Effect] {
-        let enzymes = majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: name))
-        guard !enzymes.isEmpty else { return [] }
-        let lower = name.lowercased()
-        let coPresent = Set(coPresentSubstances.map { $0.lowercased() })
-
-        let active = catalog.filter { m in
-            guard enzymes.contains(m.enzyme) else { return false }
-            switch m.origin {
-            case .context:
-                return (m.id == "grapefruit" && context.grapefruitThisDose)
-                    || (m.id == "smoking" && context.smokes)
-            case .selfEdge:
-                return m.matchers.contains(lower)
-            case .substance:
-                return m.matchers.contains { coPresent.contains($0) }
-            }
-        }
-        return effects(substrateName: name, substrateEnzymes: enzymes, modulators: active)
     }
 
     /// **Interaction-checker** effects among a set of hypothetically co-present substances: each pair

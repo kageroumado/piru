@@ -162,7 +162,7 @@ struct AppNavigatorTests {
     @Test
     func `present with replacingTop swaps the top instead of nesting`() {
         let nav = makeNavigator()
-        nav.present(.entryForm(prefill: nil))
+        nav.present(.entryEdit(timestamp: Date(timeIntervalSince1970: 1), id: nil))
         nav.present(.colorPicker(substance: "Caffeine"), replacingTop: true)
         #expect(nav.sheetStack.count == 1)
         #expect(nav.sheetStack.first == .colorPicker(substance: "Caffeine", remaining: []))
@@ -220,7 +220,7 @@ struct AppNavigatorTests {
     func `Setting snapshot clamps sheetStack to maxSheetDepth`() {
         let nav = makeNavigator()
         var snap = NavigatorSnapshot()
-        snap.sheetStack = [.settings, .help, .quickLog(routine: nil), .sessionDetail, .entryForm(prefill: nil)]
+        snap.sheetStack = [.settings, .help, .quickLog(routine: nil), .sessionDetail, .entryEdit(timestamp: Date(timeIntervalSince1970: 1), id: nil)]
         nav.snapshot = snap
         #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
         // First N from the snapshot survive — deeper items are dropped.
@@ -233,7 +233,7 @@ struct AppNavigatorTests {
     func `Color picker queue advances via replacingTop, then dismisses when empty`() throws {
         let nav = makeNavigator()
         // Form presents itself, then on Save replaces with the first picker.
-        nav.present(.entryForm(prefill: nil))
+        nav.present(.entryEdit(timestamp: Date(timeIntervalSince1970: 1), id: nil))
         nav.present(.colorPicker(substance: "A", remaining: ["B", "C"]), replacingTop: true)
 
         // Simulate the picker advancing the queue.
@@ -256,7 +256,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         // Simulate QuickLog → From Library → EntryForm.
         nav.present(.quickLog(routine: nil))
-        nav.present(.entryForm(prefill: EntryPrefillPayload(substance: "Caffeine", route: .oral, unit: "mg")))
+        nav.present(.entryEdit(timestamp: Date(timeIntervalSince1970: 2), id: nil))
         #expect(nav.sheetStack.count == 2)
         // The save handler for a new entry should land us back at root.
         nav.dismissAll()
@@ -381,8 +381,6 @@ struct RoutesCodableTests {
             timestamp: Date(timeIntervalSince1970: 100),
             id: UUID(uuidString: "00000000-0000-0000-0000-000000000062"),
         ),
-        .entryForm(prefill: nil),
-        .entryForm(prefill: EntryPrefillPayload(substance: "MDMA", route: .oral, unit: "mg")),
         .entryEdit(timestamp: Date(timeIntervalSince1970: 200), id: nil),
         .entryEdit(
             timestamp: Date(timeIntervalSince1970: 200),
@@ -421,7 +419,7 @@ struct RoutesCodableTests {
                 .library: [.substance(name: "DMT")],
             ],
             sheetStack: [
-                .entryForm(prefill: EntryPrefillPayload(substance: "MDMA", route: .insufflation, unit: "mg")),
+                .entryEdit(timestamp: Date(timeIntervalSince1970: 5), id: nil),
                 .colorPicker(substance: "MDMA", remaining: ["Caffeine"]),
             ],
         )

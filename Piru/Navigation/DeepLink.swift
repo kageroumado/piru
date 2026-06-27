@@ -24,11 +24,18 @@ import Foundation
 /// - `piru://entry/<unix-timestamp>[?id=<uuid>]` → present
 ///   `.entryDetail(timestamp:id:)`; `id` is the dose's stable identity, and
 ///   id-less URLs (pre-V4 links, the Live Activity) resolve by timestamp
-/// - `piru://entryform?substance=&route=&unit=` → present `.entryForm`
-///   with optional prefill (omit the query for a blank form)
 ///
 /// **Medication sheets**:
 /// - `piru://meds/<category>` → present `.dailyDoseLog(category:)`
+///
+/// **Push destinations** (replace the target tab's stack):
+/// - `piru://tool/<name>` → Tools tab, push that tool full-screen. `<name>`
+///   matches a `Tool` raw value case-insensitively (`tolerance`, `ceiling`,
+///   `benzoEquivalence`, `pharma`, `calculator`, `volumetric`, `recovery`,
+///   `interactions`, `inventory`).
+/// - `piru://session/<uuid>` → Journal tab, push that session's detail.
+/// - `piru://substance/<name>` → Library tab, push that substance's detail
+///   (percent-encode spaces, e.g. `piru://substance/Psilocybin%20mushrooms`).
 ///
 /// The encoder always emits a single URL describing the *top* of the modal
 /// stack (or just the tab when no modal is presented). Multi-level stacks
@@ -44,10 +51,16 @@ nonisolated struct DeepLinkOutcome: Hashable {
     /// `nil` means "no sheet to present" (the URL is tab-only or
     /// unrepresentable).
     var sheet: SheetRoute?
+    /// `nil` means "leave the tab's push stack untouched". A non-nil value
+    /// *replaces* the target tab's stack — used by tool and session deep
+    /// links (`piru://tool/<name>`, `piru://session/<id>`) which push a
+    /// full-screen destination rather than presenting a modal.
+    var path: [PushRoute]?
 
-    init(tab: AppTab? = nil, sheet: SheetRoute? = nil) {
+    init(tab: AppTab? = nil, sheet: SheetRoute? = nil, path: [PushRoute]? = nil) {
         self.tab = tab
         self.sheet = sheet
+        self.path = path
     }
 }
 
@@ -109,26 +122,43 @@ nonisolated enum DeepLink {
                 sheet: .entryDetail(timestamp: timestamp, id: query["id"].flatMap(UUID.init(uuidString:))),
             )
 
-        case "entryform":
-            let prefill: EntryPrefillPayload? = {
-                guard
-                    let substance = query["substance"],
-                    let routeRaw = query["route"],
-                    let route = RouteOfAdministration(rawValue: routeRaw),
-                    let unit = query["unit"]
-                else { return nil }
-                return EntryPrefillPayload(substance: substance, route: route, unit: unit)
-            }()
-            return DeepLinkOutcome(
-                tab: overrideTab ?? .journal,
-                sheet: .entryForm(prefill: prefill),
-            )
-
         case "meds":
             guard let category = pathSegments.first else { return nil }
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
                 sheet: .dailyDoseLog(category: category),
+            )
+
+        case "tool":
+            // `piru://tool/<rawValue>` pushes a tool onto the Tools tab.
+            // Raw values are matched case-insensitively so hand-typed links
+            // like `piru://tool/benzoequivalence` resolve the camelCase case.
+            guard let toolRaw = pathSegments.first,
+                  let tool = Tool.allCases.first(where: { $0.rawValue.lowercased() == toolRaw.lowercased() })
+            else { return nil }
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .tools,
+                path: [.tool(tool)],
+            )
+
+        case "session":
+            // `piru://session/<uuid>` pushes a session detail onto the Journal tab.
+            guard let idString = pathSegments.first,
+                  let id = UUID(uuidString: idString) else { return nil }
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .journal,
+                path: [.session(id: id)],
+            )
+
+        case "substance":
+            // `piru://substance/<name>` pushes a substance detail onto the Library tab.
+            // The name is the rest of the path (percent-decoded by URLComponents), so
+            // multi-word names like `piru://substance/Psilocybin%20mushrooms` resolve.
+            let name = pathSegments.joined(separator: "/")
+            guard !name.isEmpty else { return nil }
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .library,
+                path: [.substance(name: name)],
             )
 
         default:
@@ -146,11 +176,47 @@ nonisolated enum DeepLink {
     /// `.colorPicker`), encoding returns `nil`.
     static func encode(_ snapshot: NavigatorSnapshot) -> URL? {
         if snapshot.sheetStack.isEmpty {
+            // No modal: encode the top of the selected tab's push stack if it
+            // has a canonical URL form (tool / session), otherwise just the tab.
+            if let top = snapshot.paths[snapshot.selectedTab]?.last,
+               let url = encode(push: top, tab: snapshot.selectedTab) {
+                return url
+            }
             return URL(string: "\(scheme)://\(snapshot.selectedTab.rawValue)")
         }
 
         guard let top = snapshot.sheetStack.last else { return nil }
         return encode(sheet: top, tab: snapshot.selectedTab)
+    }
+
+    /// Canonical URL for a push route, or `nil` for app-internal pushes that
+    /// aren't deep-linkable. Only tools and sessions round-trip.
+    private static func encode(push route: PushRoute, tab: AppTab) -> URL? {
+        var components = URLComponents()
+        components.scheme = scheme
+        switch route {
+        case let .tool(tool):
+            components.host = "tool"
+            components.path = "/\(tool.rawValue)"
+            if tab != .tools {
+                components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
+            }
+        case let .session(id):
+            components.host = "session"
+            components.path = "/\(id.uuidString)"
+            if tab != .journal {
+                components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
+            }
+        case let .substance(name):
+            components.host = "substance"
+            components.path = "/\(name)"
+            if tab != .library {
+                components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
+            }
+        default:
+            return nil
+        }
+        return components.url
     }
 
     private static func encode(sheet: SheetRoute, tab: AppTab) -> URL? {
@@ -178,16 +244,6 @@ nonisolated enum DeepLink {
             components.path = "/\(timestamp.timeIntervalSince1970)"
             if let id {
                 components.queryItems = [URLQueryItem(name: "id", value: id.uuidString)]
-            }
-
-        case let .entryForm(prefill):
-            components.host = "entryform"
-            if let prefill {
-                components.queryItems = [
-                    URLQueryItem(name: "substance", value: prefill.substance),
-                    URLQueryItem(name: "route", value: prefill.route.rawValue),
-                    URLQueryItem(name: "unit", value: prefill.unit),
-                ]
             }
 
         case let .dailyDoseLog(category):
