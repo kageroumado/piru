@@ -10295,6 +10295,22 @@
         }
       }
     },
+    "Detail level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "详细程度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細程度"
+          }
+        }
+      }
+    },
     "Diazepam equivalent" : {
       "localizations" : {
         "zh-Hans" : {

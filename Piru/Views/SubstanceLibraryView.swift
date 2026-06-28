@@ -1780,6 +1780,24 @@ struct SubstanceDetailView: View {
                     .accessibilityLabel("Personalize substance")
                 }
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                // Detail-level (tier) switcher — makes the Casual / Curious / Pharma-Nerd
+                // density switchable in place instead of buried in Settings.
+                Menu {
+                    Picker("Detail level", selection: Binding(
+                        get: { profile },
+                        set: { profileStore.setDisclosureTier($0) },
+                    )) {
+                        ForEach(UserProfile.allCases) { tier in
+                            Label(tier.displayName, systemImage: tier.icon).tag(tier)
+                        }
+                    }
+                } label: {
+                    Image(systemName: profile.icon)
+                        .foregroundStyle(Theme.accent)
+                }
+                .accessibilityLabel("Detail level")
+            }
         }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
             // Always fetch provenance — per-field source attribution is

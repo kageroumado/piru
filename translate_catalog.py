@@ -9,6 +9,8 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher.
+    "Detail level": ("详细程度", "詳細程度"),
     # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
@@ -3533,6 +3535,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology card hybrid redesign (2026-06-29)
+        "Detail level",
         # Pharmacology card round-3 phase-2 (2026-06-28)
         "Renal excretion",
         "Biliary excretion",
