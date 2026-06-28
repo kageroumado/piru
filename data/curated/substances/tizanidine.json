@@ -54,7 +54,25 @@
     "Hepatotoxicity risk with chronic use"
   ],
   "halfLifeMinutes": 150,
+  "mechanismOfAction": {
+    "summary": "Centrally acting alpha-2 adrenergic receptor agonist that reduces spasticity by inhibiting excitatory neurotransmitter release and enhancing presynaptic inhibition of motor neurons; may also potentiate the inhibitory neurotransmitter glycine.",
+    "description": "Short-acting central alpha-2 agonist, structurally a short-duration clonidine analogue. Extensively metabolised by hepatic CYP1A2 to inactive metabolites, so CYP1A2 inhibitors (e.g. fluvoxamine, ciprofloxacin) markedly raise tizanidine exposure and are contraindicated.",
+    "primaryTargets": [
+      "α2-adrenergic"
+    ],
+    "bindings": [
+      {
+        "target": "α2-adrenergic",
+        "action": "agonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://www.ncbi.nlm.nih.gov/books/NBK519505/"
+    ]
+  },
   "sources": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK519505/",
     "https://en.wikipedia.org/wiki/Tizanidine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5484"
   ],
@@ -63,6 +81,7 @@
     "alpha2-agonist",
     "sedating",
     "antispasmodic",
+    "cyp1a2-substrate",
     "prescription-only"
   ]
 }

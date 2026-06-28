@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-06-23.0 → `Piru/Data/piru-substances.sqlite` (17,391,616 bytes, sha256 `c4f6158bccdb34ba46794b30d7cca0002d8350f7b9ba9b0511e8710ecf12de8b`)
+Built 2026-06-28.0 → `Piru/Data/piru-substances.sqlite` (17,379,328 bytes, sha256 `765260b6535df00a34d604942ba3625c2fe3466352a266a3197246b02a3be471`)
 
 ## Row counts
 
@@ -9,20 +9,20 @@ Built 2026-06-23.0 → `Piru/Data/piru-substances.sqlite` (17,391,616 bytes, sha
 | substances | 1,933 |
 | aliases | 5,824 |
 | sources | 17 |
-| citations | 1,858 |
+| citations | 1,860 |
 | categories | 1,852 |
-| tags | 7,804 |
-| dose_ranges | 2,898 |
-| durations | 9,454 |
-| half_lives | 278 |
-| mechanisms_summary | 1,050 |
-| effects | 2,996 |
+| tags | 7,811 |
+| dose_ranges | 2,899 |
+| durations | 9,458 |
+| half_lives | 279 |
+| mechanisms_summary | 1,051 |
+| effects | 2,997 |
 | subjective_effects | 24,023 |
 | tolerance | 335 |
 | indications | 1,141 |
 | contraindications | 1,674 |
 | diazepam_equivalents | 33 |
-| bindings | 1,259 |
+| bindings | 1,260 |
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
@@ -41,10 +41,10 @@ Built 2026-06-23.0 → `Piru/Data/piru-substances.sqlite` (17,391,616 bytes, sha
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 490 | 276 | 625 | 2,610 |
+| piru-curated | 491 | 277 | 626 | 2,617 |
 | peer-review-primary | 0 | 983 | 0 | 1,751 |
 | psychonautwiki | 389 | 0 | 77 | 324 |
-| tripsit | 596 | 0 | 430 | 1,282 |
+| tripsit | 596 | 0 | 429 | 1,282 |
 | drug.community | 889 | 0 | 215 | 126 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 166 | 0 | 175 | 454 |

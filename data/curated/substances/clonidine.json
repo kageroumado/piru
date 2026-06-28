@@ -1,0 +1,72 @@
+{
+  "name": "Clonidine",
+  "aliases": [
+    "Catapres",
+    "Catapres-TTS",
+    "Kapvay",
+    "Duraclon",
+    "Nexiclon XR"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "µg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 25,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 300
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 45
+        },
+        "peak": {
+          "min": 60,
+          "max": 90
+        },
+        "offset": {
+          "min": 360,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Central alpha-2 adrenergic and imidazoline (I1) receptor agonist — reduces sympathetic outflow from the CNS",
+    "Sedation and drowsiness",
+    "Lowered blood pressure and heart rate (hypotension, bradycardia)",
+    "Dry mouth",
+    "Abrupt discontinuation can cause rebound hypertension"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK459124/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2803"
+  ],
+  "tags": [
+    "antihypertensive",
+    "alpha2-agonist",
+    "sedating",
+    "adhd",
+    "opioid-withdrawal",
+    "prescription-only"
+  ]
+}
