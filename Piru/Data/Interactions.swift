@@ -530,8 +530,12 @@ enum InteractionChecker {
             map[name.lowercased()] = [.betaBlocker]
         }
 
-        // Mirtazapine (NaSSA — both antihistamine AND serotonergic)
-        map["mirtazapine"] = [.antihistamine, .ssri]
+        // Mirtazapine (NaSSA): a strong H1 antagonist that raises 5-HT/NE *release* via presynaptic
+        // α2 blockade while antagonising postsynaptic 5-HT2/5-HT3 — it does NOT inhibit serotonin
+        // reuptake, so it is neither a SERT blocker (`.ssri`, which would predict false MDMA blunting)
+        // nor a dangerous serotonin adder (`.serotonergic`). Modelled by its faithful acute property:
+        // antihistaminergic sedation.
+        map["mirtazapine"] = [.antihistamine]
 
         // ── RC-expansion (2026-06-23): cathinones, designer benzos, eugeroics ──
         // Grounded in the Foundation-C RC evidence runs. The cathinone class is NOT a
