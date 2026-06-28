@@ -594,6 +594,12 @@ struct SubstanceDetailView: View {
     private var policy: DisclosurePolicy {
         .init(profile: profile)
     }
+    /// The class-specific hero for the unified Pharmacology card (opioid / benzo / dissociative receptor
+    /// panel). `nil` for monoamine and other classes, which fall back to the slider/target grid and keep
+    /// the separate Receptor Literature section.
+    private var pharmacologyHero: PharmacologyHero? {
+        PharmacologyHero.resolve(category: substance.category, bindings: Self.dedupedLiterature(visibleLiteratureBindings))
+    }
     private var displayClass: CompoundDisplayClass {
         substance.displayClass
     }
@@ -1605,7 +1611,7 @@ struct SubstanceDetailView: View {
                             set: { mechanismExpanded = $0 },
                         ),
                     ) {
-                        PharmacologyCard(moa: moa, monoamine: monoamineProfile, category: substance.category)
+                        PharmacologyCard(moa: moa, monoamine: monoamineProfile, category: substance.category, hero: pharmacologyHero)
                         if let slug = provenance?.mechanismSource {
                             SourceAttributionRow(
                                 slug: slug,
@@ -1616,7 +1622,9 @@ struct SubstanceDetailView: View {
                     }
                 }
 
-                if policy.showsReceptorLiterature, !visibleLiteratureBindings.isEmpty {
+                // Suppressed for receptor-panel classes (opioid/benzo/dissociative): their hero already
+                // carries the primary receptors, so a second table would duplicate it.
+                if policy.showsReceptorLiterature, pharmacologyHero == nil, !visibleLiteratureBindings.isEmpty {
                     CollapsibleSection(
                         "Receptor Literature",
                         systemImage: "function",
@@ -1803,7 +1811,9 @@ struct SubstanceDetailView: View {
             if policy.showsMechanism || policy.showsReceptorLiterature {
                 let binds = store.bindings(forSubstanceName: substance.name)
                 monoamineProfile = MonoamineProfile.from(bindings: binds, substanceName: substance.name)
-                literatureBindings = policy.showsReceptorLiterature ? binds : []
+                // Loaded for the mechanism audience too (not just pharma-nerd): the unified card's
+                // class hero (opioid/benzo/dissociative receptor panel) is built from these rows.
+                literatureBindings = binds
             } else {
                 monoamineProfile = nil
                 literatureBindings = []

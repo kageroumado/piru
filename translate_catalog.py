@@ -12,6 +12,25 @@ T = {
     # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher + merged card.
     "Detail level": ("详细程度", "詳細程度"),
     "Pharmacology": ("药理学", "藥理學"),
+    # Step 3 — class-specific receptor-panel heroes (opioid / benzo / dissociative).
+    "Minor / off-targets": ("次要／脱靶", "次要／脫靶"),
+    "Full μ-opioid agonist": ("μ-阿片受体完全激动剂", "μ-阿片受體完全激動劑"),
+    "Partial μ-opioid agonist": ("μ-阿片受体部分激动剂", "μ-阿片受體部分激動劑"),
+    "μ-opioid antagonist": ("μ-阿片受体拮抗剂", "μ-阿片受體拮抗劑"),
+    "GABA-A positive modulator": ("GABA-A 正向调节剂", "GABA-A 正向調節劑"),
+    "Amplifies GABA — it doesn't open the channel on its own.": (
+        "增强 GABA 的作用——它本身并不打开通道。",
+        "增強 GABA 的作用——它本身並不打開通道。",
+    ),
+    "NMDA channel blocker": ("NMDA 通道阻滞剂", "NMDA 通道阻滯劑"),
+    "Lower IC₅₀ / Kᵢ = more potent block.": (
+        "IC₅₀／Kᵢ 越低 = 阻断作用越强。",
+        "IC₅₀／Kᵢ 越低 = 阻斷作用越強。",
+    ),
+    "Sedation": ("镇静", "鎮靜"),
+    "Anxiolysis": ("抗焦虑", "抗焦慮"),
+    "Muscle": ("肌肉松弛", "肌肉鬆弛"),
+    "Memory": ("记忆", "記憶"),
     # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
@@ -3539,6 +3558,18 @@ if __name__ == "__main__":
         # Pharmacology card hybrid redesign (2026-06-29)
         "Detail level",
         "Pharmacology",
+        "Minor / off-targets",
+        "Full μ-opioid agonist",
+        "Partial μ-opioid agonist",
+        "μ-opioid antagonist",
+        "GABA-A positive modulator",
+        "Amplifies GABA — it doesn't open the channel on its own.",
+        "NMDA channel blocker",
+        "Lower IC₅₀ / Kᵢ = more potent block.",
+        "Sedation",
+        "Anxiolysis",
+        "Muscle",
+        "Memory",
         # Pharmacology card round-3 phase-2 (2026-06-28)
         "Renal excretion",
         "Biliary excretion",

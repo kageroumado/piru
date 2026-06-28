@@ -12,6 +12,9 @@ struct PharmacologyCard: View {
     let moa: MechanismOfAction
     let monoamine: MonoamineProfile?
     let category: SubstanceCategory
+    /// Class-specific receptor-panel hero (opioid/benzo/dissociative). When present it replaces the
+    /// monoamine slider + target grid, and the separate Receptor Literature section is suppressed.
+    var hero: PharmacologyHero?
 
     private var accent: Color {
         category.color
@@ -44,19 +47,59 @@ struct PharmacologyCard: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            if let monoamine { monoamineHero(monoamine) }
-            if !moa.bindings.isEmpty {
-                targetGrid
-            } else if !moa.primaryTargets.isEmpty {
-                HStack(spacing: 0) {
-                    Text("Primary Targets: ").font(.caption.weight(.medium))
-                    Text(moa.primaryTargets.joined(separator: " · ")).font(.caption)
+            if let hero {
+                heroSection(hero)
+            } else {
+                if let monoamine { monoamineHero(monoamine) }
+                if !moa.bindings.isEmpty {
+                    targetGrid
+                } else if !moa.primaryTargets.isEmpty {
+                    HStack(spacing: 0) {
+                        Text("Primary Targets: ").font(.caption.weight(.medium))
+                        Text(moa.primaryTargets.joined(separator: " · ")).font(.caption)
+                    }
+                    .foregroundStyle(Theme.secondaryLabel)
                 }
-                .foregroundStyle(Theme.secondaryLabel)
+                if let monoamine { flags(monoamine) }
             }
-            if let monoamine { flags(monoamine) }
         }
         .padding(.vertical, 2)
+    }
+
+    // MARK: - Class-specific receptor-panel hero (opioid / benzo / dissociative)
+
+    private func heroSection(_ hero: PharmacologyHero) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if let character = hero.character {
+                Text(character)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(accent)
+                    .padding(.horizontal, 10).padding(.vertical, 4)
+                    .background(Capsule().fill(accent.opacity(0.14)))
+            }
+            switch hero.kind {
+            case .opioid, .benzo: ReceptorPanel(rows: hero.rows, accent: accent)
+            case .dissociative: PotencyBars(bars: hero.bars, accent: accent)
+            }
+            if let note = hero.note {
+                Text(note)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let minor = hero.minor {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Minor / off-targets")
+                        .font(.caption.weight(.semibold)).foregroundStyle(Theme.secondaryLabel)
+                    Text(minor).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                }
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Theme.secondaryLabel.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
+            }
+        }
+        .padding(.top, 2)
     }
 
     // MARK: - Target / strength grid (the "model" layer)

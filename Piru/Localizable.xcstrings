@@ -5098,6 +5098,22 @@
         }
       }
     },
+    "Amplifies GABA — it doesn't open the channel on its own." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增强 GABA 的作用——它本身并不打开通道。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增強 GABA 的作用——它本身並不打開通道。"
+          }
+        }
+      }
+    },
     "An amino acid analogue of glutamate found in tea leaves. Crosses the blood-brain barrier and increases brain levels of GABA, serotonin, and dopamine. May antagonize glutamate at AMPA receptors and modulate α-wave brain activity. Promotes relaxation without sedation, and may attenuate the anxiogenic effects of caffeine when co-administered." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5468,6 +5484,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "抗精神病藥"
+          }
+        }
+      }
+    },
+    "Anxiolysis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗焦虑"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗焦慮"
           }
         }
       }
@@ -14297,6 +14329,22 @@
         }
       }
     },
+    "Full μ-opioid agonist" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "μ-阿片受体完全激动剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "μ-阿片受體完全激動劑"
+          }
+        }
+      }
+    },
     "Full μ-Opioid Agonist and NMDA Receptor Antagonist" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14440,6 +14488,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "GABA-A 正向變構調節劑(喹唑酮類)"
+          }
+        }
+      }
+    },
+    "GABA-A positive modulator" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 正向调节剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 正向調節劑"
           }
         }
       }
@@ -18073,6 +18137,22 @@
         }
       }
     },
+    "Lower IC₅₀ / Kᵢ = more potent block." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IC₅₀／Kᵢ 越低 = 阻断作用越强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IC₅₀／Kᵢ 越低 = 阻斷作用越強。"
+          }
+        }
+      }
+    },
     "Lower Ki means tighter binding. Affinity below ~100 nM is usually considered high." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18581,6 +18661,22 @@
         }
       }
     },
+    "Memory" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记忆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記憶"
+          }
+        }
+      }
+    },
     "Mental Helse" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18769,6 +18865,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mind Sjalvmordslinjen"
+          }
+        }
+      }
+    },
+    "Minor / off-targets" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次要／脱靶"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次要／脫靶"
           }
         }
       }
@@ -19516,6 +19628,22 @@
         }
       }
     },
+    "Muscle" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肌肉松弛"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肌肉鬆弛"
+          }
+        }
+      }
+    },
     "Music you know well is one of the most powerful grounding tools — especially during a psychedelic experience." : {
       "localizations" : {
         "zh-Hans" : {
@@ -19964,6 +20092,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "NMDA 拮抗劑 — 氯胺酮、右美沙芬、苯環利定。"
+          }
+        }
+      }
+    },
+    "NMDA channel blocker" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NMDA 通道阻滞剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NMDA 通道阻滯劑"
           }
         }
       }
@@ -21488,6 +21632,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "對多巴胺 D3 和 D2 受體為部分激動劑,對 D3 受體有優先親和力。中腦邊緣通路中的 D3 受體佔用可能特別有利於陰性症狀、認知缺陷和快感缺失。也作為 5-HT1A 的部分激動劑和 5-HT2A/2B 受體的拮抗劑。具有半衰期非常長的活性代謝物。"
+          }
+        }
+      }
+    },
+    "Partial μ-opioid agonist" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "μ-阿片受体部分激动剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "μ-阿片受體部分激動劑"
           }
         }
       }
@@ -25953,6 +26114,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分組"
+          }
+        }
+      }
+    },
+    "Sedation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜"
           }
         }
       }
@@ -33331,6 +33508,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "κ-鴉片受體激動劑 — 鼠尾草、沙維諾林A。"
+          }
+        }
+      }
+    },
+    "μ-opioid antagonist" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "μ-阿片受体拮抗剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "μ-阿片受體拮抗劑"
           }
         }
       }
