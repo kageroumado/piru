@@ -48,9 +48,9 @@ T = {
     "Serotonin": ("5-羟色胺", "5-羥色胺"),
     "Dopamine": ("多巴胺", "多巴胺"),
     # MonoamineProfileCard — harm-reduction flags + footnote
-    "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it.": (
-        "5-HT2B 受体部分激动剂——与心脏瓣膜病相关的有害脱靶受体（如芬氟拉明／MDA）。对反复或长期用药是机制层面的警示信号；MDMA 不激动该受体。",
-        "5-HT2B 受體部分激動劑——與心臟瓣膜病相關的有害脫靶受體（如芬氟拉明／MDA）。對反覆或長期用藥是機制層面的警示信號；MDMA 不激動該受體。",
+    "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing.": (
+        "激动 5-HT2B——与心脏瓣膜病相关的有害脱靶受体。长期激动 5-HT2B 正是芬氟拉明致心脏毒性的原因，因此对反复或大剂量用药，这是机制层面的警示。",
+        "激動 5-HT2B——與心臟瓣膜病相關的有害脫靶受體。長期激動 5-HT2B 正是芬氟拉明致心臟毒性的原因，因此對反覆或大劑量用藥，這是機制層面的警示。",
     ),
     "Often mis-sold as MDMA / “molly,” but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.": (
         "常被冒充为 MDMA／“molly”出售，但其药理上是再摄取抑制剂——作用更持久、更偏兴奋和致焦虑，按 empathogen 方式追加剂量时更危险。",
@@ -232,6 +232,18 @@ T = {
     "%@ may lower %@ levels (%@).": (
         "%1$@ 可能降低 %2$@ 的血药浓度（%3$@）。",
         "%1$@ 可能降低 %2$@ 的血藥濃度（%3$@）。",
+    ),
+    "%@ may raise %@ levels.": (
+        "%1$@ 可能升高 %2$@ 的血药浓度。",
+        "%1$@ 可能升高 %2$@ 的血藥濃度。",
+    ),
+    "%@ may lower %@ levels.": (
+        "%1$@ 可能降低 %2$@ 的血药浓度。",
+        "%1$@ 可能降低 %2$@ 的血藥濃度。",
+    ),
+    "Predicted": (
+        "预测",
+        "預測",
     ),
     "Repeated %@ doses build up faster than the dose suggests.": (
         "重复服用 %@ 会比剂量显示的更快累积。",
@@ -3392,8 +3404,11 @@ if __name__ == "__main__":
         "Strongly dopaminergic (SERT-sparing)",
         "Serotonin",
         "Dopamine",
-        "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it.",
+        "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing.",
         "Often mis-sold as MDMA / “molly,” but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.",
+        "%@ may raise %@ levels.",
+        "%@ may lower %@ levels.",
+        "Predicted",
         "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers.",
         "Human",
         "Rat",

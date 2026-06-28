@@ -26,9 +26,6 @@ struct ReceptorLiteratureRow: View {
                 Text(hit.sourceSlug)
                     .font(.caption2.monospaced())
                 ProvenanceBadge(confidence: hit.confidence, species: hit.species, sourceSlug: hit.sourceSlug)
-                if let species = hit.species, !species.isEmpty {
-                    Text(species).italic().lineLimit(1)
-                }
                 Spacer()
                 if let pmid = hit.pmid, let url = URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") {
                     Link(destination: url) {

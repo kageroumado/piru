@@ -844,6 +844,7 @@
 
     },
     "%@ may feel weaker — %@ blocks the %@ it needs to work." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -860,6 +861,7 @@
       }
     },
     "%@ may lower %@ levels (%@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -875,7 +877,24 @@
         }
       }
     },
+    "%@ may lower %@ levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能降低 %2$@ 的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能降低 %2$@ 的血藥濃度。"
+          }
+        }
+      }
+    },
     "%@ may raise %@ levels (%@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -887,6 +906,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 可能升高 %2$@ 的血藥濃度（%3$@）。"
+          }
+        }
+      }
+    },
+    "%@ may raise %@ levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能升高 %2$@ 的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 可能升高 %2$@ 的血藥濃度。"
           }
         }
       }
@@ -1410,6 +1445,7 @@
       }
     },
     "%lld Interaction Warnings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2616,6 +2652,7 @@
       }
     },
     "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4491,6 +4528,7 @@
       }
     },
     "After about a %lld-day break your opioid tolerance has fallen to roughly %lld%% of full — close to none. A dose that felt fine before the break can stop your breathing now. This is the most common way people overdose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5078,6 +5116,7 @@
       }
     },
     "And you can't use naloxone (Narcan) on yourself once that happens. Have someone with you who can, keep naloxone where they can reach it, and start much lower than your old dose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12344,6 +12383,22 @@
         }
       }
     },
+    "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激动 5-HT2B——与心脏瓣膜病相关的有害脱靶受体。长期激动 5-HT2B 正是芬氟拉明致心脏毒性的原因，因此对反复或大剂量用药，这是机制层面的警示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激動 5-HT2B——與心臟瓣膜病相關的有害脫靶受體。長期激動 5-HT2B 正是芬氟拉明致心臟毒性的原因，因此對反覆或大劑量用藥，這是機制層面的警示。"
+          }
+        }
+      }
+    },
     "Enhanced CNS depression — risk of respiratory depression and death." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15394,6 +15449,7 @@
       }
     },
     "If a dose is too much, you don't feel it coming — breathing just stops and you black out with no warning. There's no moment where you notice and react." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22008,7 +22064,24 @@
         }
       }
     },
+    "Predicted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预测"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預測"
+          }
+        }
+      }
+    },
     "Predicted ~%@ reduced effect · predicted (model, %@). Reduced effect, not a danger warning." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22057,6 +22130,7 @@
       }
     },
     "Predicted from your logged use (model, %@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23404,6 +23478,7 @@
       }
     },
     "Reduced response predicted — ~%lld%% of rested." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26152,6 +26227,7 @@
       }
     },
     "Serotonin syndrome risk with some opioids (tramadol, meperidine, fentanyl) — monitor for symptoms." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26545,6 +26621,7 @@
       }
     },
     "Shared %@ tolerance · predicted (model, %@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26561,6 +26638,7 @@
       }
     },
     "Shared %@ tolerance from %@ · predicted (model, %@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32365,6 +32443,7 @@
       }
     },
     "Your tolerance has dropped" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

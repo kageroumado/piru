@@ -15,30 +15,32 @@ struct MetabolicModulationBanner: View {
                 .foregroundStyle(.secondary)
                 .font(.title3)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(headline)
                     .font(.subheadline.weight(.semibold))
-                Text(subtitle)
+                Text(effect.note)
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
+                HStack(spacing: 6) {
+                    ConfidenceBadge(tier: effect.confidence)
+                    Text("Predicted")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
             }
             Spacer(minLength: 0)
         }
     }
 
+    /// The enzyme is deliberately omitted from the headline — the note below already names it
+    /// ("inhibits intestinal CYP3A4 …"), so repeating "(CYP3A4)" in the title is redundant.
     private var headline: String {
         if effect.origin == .selfEdge {
             return String(localized: "Repeated \(effect.substrate) doses build up faster than the dose suggests.")
         }
         let modulator = String(localized: effect.modulatorName)
         return effect.raisesLevels
-            ? String(localized: "\(modulator) may raise \(effect.substrate) levels (\(effect.enzyme.displayName)).")
-            : String(localized: "\(modulator) may lower \(effect.substrate) levels (\(effect.enzyme.displayName)).")
-    }
-
-    private var subtitle: String {
-        let confidence = String(localized: effect.confidence.label)
-        let note = String(localized: effect.note)
-        return String(localized: "\(note) · predicted (model, \(confidence)).")
+            ? String(localized: "\(modulator) may raise \(effect.substrate) levels.")
+            : String(localized: "\(modulator) may lower \(effect.substrate) levels.")
     }
 }

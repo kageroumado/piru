@@ -128,16 +128,19 @@ struct MonoamineProfile {
 /// releaser/blocker.
 struct MonoamineProfileCard: View {
     let profile: MonoamineProfile
-    let accent: Color
+
+    /// Fixed spectrum endpoints, tied to the effect-family card colors so the axis reads the same on
+    /// every substance: serotonin = empathogen pink, dopamine = stimulant orange.
+    private var serotoninColor: Color {
+        SubstanceCategory.empathogen.color
+    }
+    private var dopamineColor: Color {
+        SubstanceCategory.stimulant.color
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 6) {
-                Image(systemName: mechanismIcon)
-                    .foregroundStyle(accent)
-                Text(profile.mechanismLabel)
-                    .font(.subheadline.weight(.semibold))
-            }
+            mechanismChip
             Text(profile.mechanismDetail)
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -168,12 +171,19 @@ struct MonoamineProfileCard: View {
         }
     }
 
-    private var mechanismIcon: String {
-        switch profile.mechanism {
-        case .releaser: "arrow.up.backward.and.arrow.down.forward"
-        case .blocker: "hand.raised.fill"
-        case .hybrid: "arrow.triangle.2.circlepath"
-        }
+    /// The releaser ⇄ blocker character as a tinted capsule — the single most useful axis for a
+    /// stimulant/empathogen, so it leads the card. Neutral tint (no red "releaser" icon).
+    private var mechanismChip: some View {
+        Text(profile.mechanismLabel)
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(
+                Capsule().fill(Theme.secondaryLabel.opacity(0.12)),
+            )
+            .overlay(
+                Capsule().strokeBorder(Theme.secondaryLabel.opacity(0.18), lineWidth: 0.5),
+            )
     }
 
     // MARK: - Dopamine ↔ serotonin spectrum
@@ -185,7 +195,7 @@ struct MonoamineProfileCard: View {
                     Capsule()
                         .fill(
                             LinearGradient(
-                                colors: [.indigo, Theme.secondaryLabel.opacity(0.5), .orange],
+                                colors: [serotoninColor, dopamineColor],
                                 startPoint: .leading,
                                 endPoint: .trailing,
                             ),
@@ -193,9 +203,9 @@ struct MonoamineProfileCard: View {
                         .frame(height: 8)
                     Circle()
                         .fill(.white)
-                        .overlay(Circle().stroke(accent, lineWidth: 2))
                         .frame(width: 16, height: 16)
-                        .shadow(radius: 1)
+                        .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
+                        .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
                         .offset(x: geo.size.width * (profile.leanPosition ?? 0.5) - 8)
                 }
                 .frame(height: 16)
@@ -203,9 +213,9 @@ struct MonoamineProfileCard: View {
             .frame(height: 16)
 
             HStack {
-                Text("Serotonin").font(.caption2).foregroundStyle(.indigo)
+                Text("Serotonin").font(.caption2.weight(.medium)).foregroundStyle(serotoninColor)
                 Spacer()
-                Text("Dopamine").font(.caption2).foregroundStyle(.orange)
+                Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
             }
 
             HStack(spacing: 6) {
@@ -235,9 +245,13 @@ struct MonoamineProfileCard: View {
         .background(tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
     }
 
+    /// A DAT:SERT ratio reads meaningfully only within a band — past ~100:1 the lean label ("Strongly
+    /// dopaminergic") carries the signal and a raw "21797" is just noise. Clamp the extremes.
     private func ratioText(_ r: Double) -> String {
-        if r >= 100 { return String(format: "%.0f", r) }
+        if r >= 100 { return ">100" }
         if r >= 10 { return String(format: "%.0f", r) }
-        return String(format: "%.1f", r)
+        if r >= 1 { return String(format: "%.1f", r) }
+        if r >= 0.01 { return String(format: "%.2f", r) }
+        return "<0.01"
     }
 }

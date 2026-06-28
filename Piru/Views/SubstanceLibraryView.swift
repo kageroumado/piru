@@ -1595,7 +1595,7 @@ struct SubstanceDetailView: View {
                             set: { monoamineProfileExpanded = $0 },
                         ),
                     ) {
-                        MonoamineProfileCard(profile: monoamineProfile, accent: substance.category.color)
+                        MonoamineProfileCard(profile: monoamineProfile)
                     }
                 }
 
@@ -1915,13 +1915,42 @@ struct SubstanceDetailView: View {
         let floor = literatureBindings
             .compactMap { [$0.kiNm, $0.ec50Nm, $0.ic50Nm].compactMap(\.self).min() }
             .min()
-        return literatureBindings.filter { hit in
+        let capped = literatureBindings.filter { hit in
             // Drop curated tier-only rows (no measured value) — they drive the MOA dot table, not this
             // literature list, and would otherwise render as empty rows.
             guard hit.kiNm != nil || hit.ec50Nm != nil || hit.ic50Nm != nil else { return false }
             guard let ki = hit.kiNm, ki >= 10_000 else { return true }
             if let floor, ki <= floor * 10 { return true }
             return false
+        }
+        return Self.dedupedLiterature(capped)
+    }
+
+    /// Collapse the literature list: when a (target, action) has any **human** row, drop its non-human
+    /// (in-vitro / animal) rows — "who cares about in vitro when we have human data" — then remove exact
+    /// duplicate measurements (same target+action+value across sources), so MDMA's 5-HT2A 7800 ×2 and
+    /// DAT 22000 ×2 collapse to one. Order is preserved (the store already sorts Kᵢ-tightest first, then
+    /// functional EC₅₀/IC₅₀), so binding affinities still lead the functional transporter rows.
+    private static func dedupedLiterature(_ rows: [SubstanceStore.BindingHit]) -> [SubstanceStore.BindingHit] {
+        func isHuman(_ s: String?) -> Bool {
+            (s ?? "").lowercased().contains("human")
+        }
+        let humanTAs = Set(rows.filter { isHuman($0.species) }.map { "\($0.target)|\($0.action)" })
+        let preferred = rows.filter { hit in
+            humanTAs.contains("\(hit.target)|\(hit.action)") ? isHuman(hit.species) : true
+        }
+        var seen = Set<String>()
+        return preferred.filter { hit in
+            let value = if let ki = hit.kiNm {
+                "ki\(ki)"
+            } else if let ec = hit.ec50Nm {
+                "ec\(ec)"
+            } else if let ic = hit.ic50Nm {
+                "ic\(ic)"
+            } else {
+                "na"
+            }
+            return seen.insert("\(hit.target)|\(hit.action)|\(value)").inserted
         }
     }
 
