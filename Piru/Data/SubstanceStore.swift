@@ -83,7 +83,7 @@ final class SubstanceStore {
     /// Foreground (UI-interactive) connection. Per-field `resolveSubstance`
     /// reads, category counts, lookups — the queries a tap is waiting on — go
     /// here.
-    private let substancesDB: DatabaseQueue
+    let substancesDB: DatabaseQueue
     /// Second read-only connection to the **same** bundled file, reserved for
     /// the heavy off-main batch reads (the launch `prewarmTask`, the lazy
     /// `categorySummary`/`all` materialization). A `DatabaseQueue` serializes
@@ -94,7 +94,7 @@ final class SubstanceStore {
     /// (no WAL needed — DELETE-mode read-only allows multiple shared-lock
     /// readers). Keeping the batch on its own connection is what lets a detail
     /// push resolve immediately while the prewarm is still running.
-    private let substancesBatchDB: DatabaseQueue
+    let substancesBatchDB: DatabaseQueue
     private let userPrefsDB: DatabaseQueue
 
     /// Ordered list of enabled source slugs (highest priority first). Re-read
@@ -112,7 +112,7 @@ final class SubstanceStore {
     /// decode) per dosed substance. Source-independent (the column is fixed for the
     /// DB's lifetime), so unlike `resolvedCache` it is *not* cleared on a source
     /// reorder; it is naturally discarded when the store is rebuilt for a DB update.
-    private var molarMassByID: [Int64: Double?] = [:]
+    var molarMassByID: [Int64: Double?] = [:]
 
     /// Memoized ``pharmacologyParameters(forSubstanceName:)`` per substance name.
     /// The tolerance recompute resolves params for *every* unique dosed substance
@@ -123,7 +123,7 @@ final class SubstanceStore {
     /// DB row (by `substance_id`, no source-priority or overlay), stable for the
     /// DB's lifetime — so it is *not* cleared on a source reorder and is discarded
     /// naturally when the store is rebuilt for a DB update.
-    private var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
+    var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
 
     /// Cached `all`/`substances(in:)` results. Resolving 1600+ substances
     /// individually on every view body invalidation is what was making the
@@ -166,7 +166,7 @@ final class SubstanceStore {
     /// All substance canonical names (lowercased) → row id. Built once at
     /// startup so `lookup` / `lookupByNameOrAlias` / `search` don't pay the
     /// full SQL scan tax.
-    private var nameIndex: [String: Int64] = [:]
+    private(set) var nameIndex: [String: Int64] = [:]
     private var aliasIndex: [String: Int64] = [:]
     private(set) var allNames: [String] = []
 
@@ -613,7 +613,7 @@ final class SubstanceStore {
     private nonisolated static let routeRanks: [RouteOfAdministration: Int] = Dictionary(
         uniqueKeysWithValues: RouteOfAdministration.allCases.enumerated().map { ($1, $0) },
     )
-    private nonisolated static func routeRank(_ r: RouteOfAdministration) -> Int {
+    nonisolated static func routeRank(_ r: RouteOfAdministration) -> Int {
         routeRanks[r] ?? Int.max
     }
 
@@ -2216,262 +2216,5 @@ final class SubstanceStore {
             logger.error("effectsByCategory(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
-    }
-
-    /// Every binding row associated with a specific substance, resolved by
-    /// canonical name. Used by the detail view's "Receptor Literature"
-    /// disclosure (pharma-nerd tier) to show the full Ki/EC50 table with
-    /// per-row source attribution. Returns rows sorted by tightest Ki first.
-    func bindings(forSubstanceName name: String) -> [BindingHit] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
-        do {
-            return try substancesDB.read { db in
-                let rows = try Row.fetchAll(db, sql: """
-                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
-                           s.canonical_name AS substance_name,
-                           src.slug AS source_slug,
-                           c.doi, c.pmid
-                      FROM bindings b
-                      JOIN substances s ON s.id = b.substance_id
-                      JOIN sources    src ON src.id = b.source_id
-                      LEFT JOIN citations c ON c.id = b.citation_id
-                     WHERE b.substance_id = ?
-                     ORDER BY b.ki_nm ASC NULLS LAST, b.ec50_nm ASC NULLS LAST
-                """, arguments: [substanceID])
-                return rows.map { row in
-                    BindingHit(
-                        id: row["id"],
-                        substanceName: row["substance_name"],
-                        target: row["target"],
-                        action: row["action"],
-                        kiNm: row["ki_nm"],
-                        ec50Nm: row["ec50_nm"],
-                        ic50Nm: row["ic50_nm"],
-                        species: row["species"],
-                        sourceSlug: row["source_slug"],
-                        doi: row["doi"],
-                        pmid: row["pmid"],
-                        confidence: ConfidenceTier(grade: row["confidence"]),
-                    )
-                }
-            }
-        } catch {
-            logger.error("bindings(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
-            return []
-        }
-    }
-
-    /// Per-route pharmacokinetic rows for a substance, across all sources, with
-    /// per-row citation. Drives the detail view's Pharmacokinetics disclosure.
-    /// Ordered by route rank (oral first) then tightest study.
-    func pharmacokinetics(forSubstanceName name: String) -> [PKRouteHit] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
-        do {
-            return try substancesDB.read { db in
-                let rows = try Row.fetchAll(db, sql: """
-                    SELECT p.id, p.route, p.bioavailability_pct, p.cmax_ng_per_ml, p.tmax_min,
-                           p.half_life_min, p.vd_l_per_kg, p.clearance_ml_per_min_per_kg,
-                           p.protein_binding_pct, p.dose_in_study_mg, p.subject_n, p.demographics,
-                           p.notes, p.confidence, src.slug AS source_slug, c.doi, c.pmid
-                      FROM pk_routes p
-                      JOIN sources src ON src.id = p.source_id
-                      LEFT JOIN citations c ON c.id = p.citation_id
-                     WHERE p.substance_id = ?
-                """, arguments: [substanceID])
-                return rows.map { row in
-                    PKRouteHit(
-                        id: row["id"],
-                        route: row["route"],
-                        bioavailabilityPct: row["bioavailability_pct"],
-                        cmaxNgPerMl: row["cmax_ng_per_ml"],
-                        tmaxMin: row["tmax_min"],
-                        halfLifeMin: row["half_life_min"],
-                        vdLPerKg: row["vd_l_per_kg"],
-                        clearanceMlPerMinPerKg: row["clearance_ml_per_min_per_kg"],
-                        proteinBindingPct: row["protein_binding_pct"],
-                        doseInStudyMg: row["dose_in_study_mg"],
-                        subjectN: (row["subject_n"] as Int64?).map(Int.init),
-                        demographics: row["demographics"],
-                        sourceSlug: row["source_slug"],
-                        doi: row["doi"],
-                        pmid: (row["pmid"] as Int64?).map(Int.init),
-                        notes: row["notes"],
-                        confidence: ConfidenceTier(grade: row["confidence"]),
-                    )
-                }
-                .sorted { Self.routeRank(RouteOfAdministration.from(string: $0.route)) < Self.routeRank(RouteOfAdministration.from(string: $1.route)) }
-            }
-        } catch {
-            logger.error("pharmacokinetics(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
-            return []
-        }
-    }
-
-    /// The substance's molar mass (`molecular_weight`, g/mol), resolved by **one** indexed query
-    /// against the same `substances` row the full ``resolveSubstance`` reads — cached per row id.
-    ///
-    /// The tolerance/PD engine needs only this single column from the heavy record, and resolves it
-    /// per unique dosed substance every recompute. Routing that through the full overlay-aware
-    /// ``SubstanceLibrary/lookup(_:)`` paid a ~18-subquery + chem/effects/mechanism decode (and a
-    /// SHA-256 id) for one `Double`, on the main actor — the post-commit recompute's multi-second
-    /// hang on a cold `resolvedCache`. (The custom overlay never carries a molar mass, so reading the
-    /// library column directly matches the full path.)
-    func molarMass(forSubstanceName name: String) -> Double? {
-        guard let id = nameIndex[name.lowercased()] else { return nil }
-        if let cached = molarMassByID[id] { return cached }
-        let resolved = try? substancesDB.read { db in
-            try Double.fetchOne(db, sql: "SELECT molecular_weight FROM substances WHERE id = ?", arguments: [id])
-        }
-        let value = resolved ?? nil
-        molarMassByID[id] = value
-        return value
-    }
-
-    /// Resolved inputs for the absolute-exposure → occupancy pipeline (the pharmacology axis's
-    /// Foundation A): the best graded Vd + bioavailability + half-life from `pk_routes`, the molar
-    /// mass, and the engaged targets (Kᵢ/EC₅₀/IC₅₀) from `bindings` — each carrying its confidence.
-    ///
-    /// This is the single accessor Stage 1's tolerance/PD engine consumes. Stage 0 ships it plus a
-    /// peak-occupancy convenience used by the dose-dependence gate. It deliberately *prefers a graded
-    /// row* (the flagship seed) over an un-graded one for the Vd, so the engine runs on the verified
-    /// number when one exists and degrades to whatever is available otherwise.
-    func pharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
-        if let cached = pharmacologyParamsByName[name] { return cached }
-        let resolved = resolvePharmacologyParameters(forSubstanceName: name)
-        pharmacologyParamsByName[name] = resolved
-        return resolved
-    }
-
-    private func resolvePharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
-        // Lean single-column read of the SAME authoritative `substances.molecular_weight`
-        // the full `resolveSubstance` returns — not the timeline batch projection (which
-        // omits molecular_weight entirely, so reading it there returned nil and made
-        // occupancy uncomputable; that was f2c2c04's regression). Going through the full
-        // `lookup` here cost a ~18-query + SHA + localization resolve *per unique dosed
-        // substance on the main actor*, which the background tolerance recompute pays in a
-        // tight loop — a multi-second main-thread hang on a cold `resolvedCache`.
-        let molarMass = molarMass(forSubstanceName: name)
-        let pk = pharmacokinetics(forSubstanceName: name)
-        // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
-        // with an F or half-life from another. That cross-pairing silently double-counts F when a
-        // stored "Vd" is actually an apparent V/F (e.g. MDMA, where no IV arm exists): C = F·dose/(V/F·wt)
-        // would embed F twice. Prefer the highest-confidence row that carries a Vd (pharmacokinetics()
-        // is oral-first, so .first is deterministic); fall back to the best row for half-life only when
-        // no Vd exists (occupancy needs a Vd regardless, so it stays uncomputable — correct).
-        let vdRows = pk.filter { $0.vdLPerKg != nil }
-        let primaryRow = vdRows.first { $0.confidence != .unverified }
-            ?? vdRows.first
-            ?? pk.first { $0.confidence != .unverified }
-            ?? pk.first
-        let vd = primaryRow?.vdLPerKg
-        let f = primaryRow?.bioavailabilityPct.map { $0 / 100 }
-        let halfLife = primaryRow?.halfLifeMin
-
-        var seenTargets = Set<String>()
-        let targets = bindings(forSubstanceName: name).compactMap { b -> PharmacologyParameters.TargetEngagement? in
-            guard let action = BindingAction(rawValue: b.action) else { return nil }
-            // Half-saturation constant for the Hill occupancy curve, by mechanism: Kᵢ (binding) is
-            // preferred because it *is* fractional receptor occupancy; EC₅₀ (functional release) and
-            // IC₅₀ (reuptake inhibition) are used only when no Kᵢ exists. Do not "promote" EC₅₀ over a
-            // present Kᵢ — for LSD that would swap 4 nM for 261 nM (~65× different occupancy).
-            let halfMax: Double?
-            let kind: PharmacologyParameters.HalfMaxKind
-            if let ki = b.kiNm { halfMax = ki; kind = .ki } else if let ec = b.ec50Nm { halfMax = ec; kind = .ec50 } else if let ic = b.ic50Nm { halfMax = ic; kind = .ic50 } else { halfMax = nil; kind = .ki }
-            guard let halfMax, halfMax > 0 else { return nil }
-            return .init(
-                target: b.target, action: action, halfMaxNanomolar: halfMax,
-                kind: kind, confidence: b.confidence,
-            )
-        }
-        // Tightest (most potent) first, then collapse duplicate target+action+kind rows (which a
-        // future substance-merge could introduce, since bindings has no DB-level dedup) so each
-        // engaged target appears once and `TargetEngagement.id` stays unique for any ForEach.
-        .sorted { $0.halfMaxNanomolar < $1.halfMaxNanomolar }
-        .filter { seenTargets.insert($0.id).inserted }
-
-        // Vd resolution with a class-default fallback (meta-plan Foundation A — "tier-mapped fallback
-        // elsewhere"). A graded Vd is always preferred; when none exists but the substance engages a
-        // classifiable target, fall back to that receptor class's CNS-distribution default (e.g. LSD,
-        // which the evidence run left without a Vd) so the tolerance engine can still resolve occupancy
-        // library-wide — flagged `.unverified` so the UI badges exactly how much to trust it. Without a
-        // graded Vd *and* without a classifiable target there is nothing to stand in for, so it stays
-        // nil (occupancy uncomputable — correct).
-        let resolvedVd: Double?
-        let resolvedVdConfidence: ConfidenceTier
-        if let vd {
-            resolvedVd = vd
-            resolvedVdConfidence = primaryRow?.confidence ?? .unverified
-        } else if let primaryTarget = targets.first {
-            resolvedVd = ReceptorClasses.parameters(forTarget: primaryTarget.target, action: primaryTarget.action).classDefaultVdLPerKg
-            resolvedVdConfidence = .unverified
-        } else {
-            resolvedVd = nil
-            resolvedVdConfidence = .unverified
-        }
-
-        return PharmacologyParameters(
-            substanceName: name,
-            molarMassGramsPerMole: molarMass,
-            vdLPerKg: resolvedVd,
-            bioavailabilityFraction: f,
-            halfLifeMinutes: halfLife,
-            vdConfidence: resolvedVdConfidence,
-            targets: targets,
-        )
-    }
-
-    /// Metabolism rows (enzymes/pathways + metabolites) for a substance, with
-    /// per-row citation. Ordered by fraction-of-clearance (largest first), then
-    /// enzyme name. Drives the Pharmacokinetics disclosure's metabolism block.
-    func metabolism(forSubstanceName name: String) -> [MetabolismHit] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
-        do {
-            return try substancesDB.read { db in
-                let rows = try Row.fetchAll(db, sql: """
-                    SELECT m.id, m.enzyme, m.fraction_of_clearance_pct, m.metabolite_name,
-                           m.metabolite_active, m.metabolite_potency_vs_parent_pct, m.notes,
-                           src.slug AS source_slug, c.doi, c.pmid
-                      FROM metabolism m
-                      JOIN sources src ON src.id = m.source_id
-                      LEFT JOIN citations c ON c.id = m.citation_id
-                     WHERE m.substance_id = ?
-                     ORDER BY m.fraction_of_clearance_pct DESC NULLS LAST, m.enzyme ASC
-                """, arguments: [substanceID])
-                return rows.map { row in
-                    MetabolismHit(
-                        id: row["id"],
-                        enzyme: row["enzyme"],
-                        fractionOfClearancePct: row["fraction_of_clearance_pct"],
-                        metaboliteName: row["metabolite_name"],
-                        metaboliteActive: (row["metabolite_active"] as Int64?).map { $0 != 0 },
-                        metabolitePotencyVsParentPct: row["metabolite_potency_vs_parent_pct"],
-                        sourceSlug: row["source_slug"],
-                        doi: row["doi"],
-                        pmid: (row["pmid"] as Int64?).map(Int.init),
-                        notes: row["notes"],
-                    )
-                }
-            }
-        } catch {
-            logger.error("metabolism(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
-            return []
-        }
-    }
-
-    /// Distinct binding targets sorted by how many substances hit them.
-    /// Powers an autocomplete / chip picker in the advanced-search UI.
-    func availableBindingTargets() -> [(target: String, substanceCount: Int)] {
-        do {
-            return try substancesDB.read { db in
-                let rows = try Row.fetchAll(db, sql: """
-                    SELECT target, COUNT(DISTINCT substance_id) AS n
-                      FROM bindings
-                     WHERE target IS NOT NULL AND target <> ''
-                     GROUP BY target
-                     ORDER BY n DESC, target ASC
-                """)
-                return rows.map { ($0["target"], $0["n"]) }
-            }
-        } catch { return [] }
     }
 }

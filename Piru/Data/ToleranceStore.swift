@@ -137,11 +137,11 @@ final class ToleranceStore {
         let doses = entries.map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
-        var params: [String: PharmacologyParameters] = [:]
-        var resolved = Set<String>()
-        for dose in doses where resolved.insert(dose.substance).inserted {
-            params[dose.substance] = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: dose.substance)
-        }
+        // Resolve pharmacology off the main actor: the per-substance Kᵢ/PK/molar-mass reads run on
+        // SubstanceStore's batch connection, not in a tight loop on main (the post-commit hang the
+        // 1.5 s launch delay only masked).
+        let uniqueNames = Array(Set(doses.map(\.substance)))
+        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
 
         let computed = await Self.computeOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
         states = computed
