@@ -245,6 +245,10 @@ T = {
         "预测",
         "預測",
     ),
+    "Fraction-of-clearance estimates and major metabolites from primary literature. Which enzymes clear a drug is what grapefruit, smoking, and interacting medications act on — see Metabolism Interactions below.": (
+        "清除分数估计值与主要代谢物，来自原始文献。哪些酶负责清除药物，正是西柚、吸烟和相互作用药物所作用的对象——参见下方的“代谢相互作用”。",
+        "清除分數估計值與主要代謝物，來自原始文獻。哪些酶負責清除藥物，正是西柚、吸菸和交互作用藥物所作用的對象——參見下方的「代謝交互作用」。",
+    ),
     "Repeated %@ doses build up faster than the dose suggests.": (
         "重复服用 %@ 会比剂量显示的更快累积。",
         "重複服用 %@ 會比劑量顯示的更快累積。",
@@ -3409,6 +3413,7 @@ if __name__ == "__main__":
         "%@ may raise %@ levels.",
         "%@ may lower %@ levels.",
         "Predicted",
+        "Fraction-of-clearance estimates and major metabolites from primary literature. Which enzymes clear a drug is what grapefruit, smoking, and interacting medications act on — see Metabolism Interactions below.",
         "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers.",
         "Human",
         "Rat",

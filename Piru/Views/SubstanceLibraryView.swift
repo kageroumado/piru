@@ -557,6 +557,7 @@ struct SubstanceDetailView: View {
     @State private var monoamineProfile: MonoamineProfile?
     @State private var receptorLitExpanded: Bool?
     @State private var pharmacokineticsExpanded: Bool?
+    @State private var metabolismExpanded: Bool?
     /// Contraindications & cautions — verbose clinical data, collapsed by default
     /// so the screen reads like a harm-reduction app, not a drug monograph.
     @State private var cautionsExpanded = false
@@ -1616,7 +1617,7 @@ struct SubstanceDetailView: View {
                     }
                 }
 
-                if policy.showsPharmacokinetics, !pkRoutes.isEmpty || !metabolismRows.isEmpty {
+                if policy.showsPharmacokinetics, !pkRoutes.isEmpty {
                     CollapsibleSection(
                         "Pharmacokinetics",
                         systemImage: "waveform.path.ecg",
@@ -1626,6 +1627,22 @@ struct SubstanceDetailView: View {
                         ),
                     ) {
                         pharmacokineticsBody
+                    }
+                }
+
+                // Metabolism (CYP enzymes / metabolites) — split out of Pharmacokinetics into its own
+                // section and placed next to the metabolic-interaction banners below: it's the more
+                // actionable, grapefruit-adjacent half of the PK story.
+                if policy.showsPharmacokinetics, !metabolismRows.isEmpty {
+                    CollapsibleSection(
+                        "Metabolism",
+                        systemImage: "arrow.triangle.branch",
+                        isExpanded: Binding(
+                            get: { metabolismExpanded ?? policy.pharmacokineticsDefaultExpanded },
+                            set: { metabolismExpanded = $0 },
+                        ),
+                    ) {
+                        metabolismBody
                     }
                 }
 
@@ -1972,26 +1989,28 @@ struct SubstanceDetailView: View {
     /// Literature layout — dense, attributed, pharma-nerd-only.
     private var pharmacokineticsBody: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if !pkRoutes.isEmpty {
-                ForEach(pkRoutes) { hit in
-                    PKRouteRow(hit: hit, accent: substance.category.color)
-                    if hit.id != pkRoutes.last?.id { Divider() }
-                }
-            }
-            if !metabolismRows.isEmpty {
-                if !pkRoutes.isEmpty {
-                    Divider().padding(.vertical, 2)
-                }
-                Text("Metabolism")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                ForEach(metabolismRows) { hit in
-                    MetabolismRow(hit: hit, accent: substance.category.color)
-                    if hit.id != metabolismRows.last?.id { Divider() }
-                }
+            ForEach(pkRoutes) { hit in
+                PKRouteRow(hit: hit, accent: substance.category.color)
+                if hit.id != pkRoutes.last?.id { Divider() }
             }
             Text("Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.top, 4)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.vertical, 4)
+    }
+
+    /// The CYP/enzyme clearance pathways and their metabolites — its own section now, sitting next to the
+    /// grapefruit/smoking interaction banners (which act on these same enzymes).
+    private var metabolismBody: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(metabolismRows) { hit in
+                MetabolismRow(hit: hit, accent: substance.category.color)
+                if hit.id != metabolismRows.last?.id { Divider() }
+            }
+            Text("Fraction-of-clearance estimates and major metabolites from primary literature. Which enzymes clear a drug is what grapefruit, smoking, and interacting medications act on — see Metabolism Interactions below.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.top, 4)
