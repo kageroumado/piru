@@ -33,14 +33,16 @@ struct MetabolicModulationBanner: View {
     }
 
     /// The enzyme is deliberately omitted from the headline — the note below already names it
-    /// ("inhibits intestinal CYP3A4 …"), so repeating "(CYP3A4)" in the title is redundant.
+    /// ("inhibits intestinal CYP3A4 …"), so repeating "(CYP3A4)" in the title is redundant. So is the
+    /// substrate: we're on its own card, "raise levels" can only mean this drug's levels. No trailing
+    /// period — these read as labels, not sentences.
     private var headline: String {
         if effect.origin == .selfEdge {
-            return String(localized: "Repeated \(effect.substrate) doses build up faster than the dose suggests.")
+            return String(localized: "Repeated doses build up faster than the dose suggests")
         }
         let modulator = String(localized: effect.modulatorName)
         return effect.raisesLevels
-            ? String(localized: "\(modulator) may raise \(effect.substrate) levels.")
-            : String(localized: "\(modulator) may lower \(effect.substrate) levels.")
+            ? String(localized: "\(modulator) may raise levels")
+            : String(localized: "\(modulator) may lower levels")
     }
 }

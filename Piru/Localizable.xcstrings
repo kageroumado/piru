@@ -878,6 +878,7 @@
       }
     },
     "%@ may lower %@ levels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -889,6 +890,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 可能降低 %2$@ 的血藥濃度。"
+          }
+        }
+      }
+    },
+    "%@ may lower levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 可能降低其血药浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 可能降低其血藥濃度"
           }
         }
       }
@@ -911,6 +928,7 @@
       }
     },
     "%@ may raise %@ levels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -922,6 +940,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 可能升高 %2$@ 的血藥濃度。"
+          }
+        }
+      }
+    },
+    "%@ may raise levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 可能升高其血药浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 可能升高其血藥濃度"
           }
         }
       }
@@ -3253,6 +3287,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "結構獨特的非氮萜類化合物,作為高效且選擇性的 κ-阿片受體 (KOR) 激動劑。與幾乎所有其他精神活性化合物不同,對血清素 5-HT2A 受體無顯著活性。屏狀核和前額葉皮質中的 KOR 激活產生強烈的解離和致幻效應。按重量計算,是最強效的天然存在的精神活性化合物。"
+          }
+        }
+      }
+    },
+    "A summary of how the drug affects the brain's three main signalling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概述药物如何影响大脑三种主要的信号化学物质——5-羟色胺、多巴胺和去甲肾上腺素——以及它是促进释放还是阻断再摄取。滑块显示它更偏向哪一种。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概述藥物如何影響大腦三種主要的訊號化學物質——5-羥色胺、多巴胺和去甲腎上腺素——以及它是促進釋放還是阻斷再攝取。滑桿顯示它更偏向哪一種。"
           }
         }
       }
@@ -12041,6 +12092,23 @@
         }
       }
     },
+    "Educated predictions from typical pharmacology, not measured for you." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据典型药代动力学作出的推断，并非针对你本人测量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據典型藥代動力學作出的推斷，並非針對你本人測量。"
+          }
+        }
+      }
+    },
     "Effects" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12917,6 +12985,23 @@
         }
       }
     },
+    "Estimates from primary literature, not measured for you." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据为原始文献中的估计值，并非针对你本人测量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數據為原始文獻中的估計值，並非針對你本人測量。"
+          }
+        }
+      }
+    },
     "Estimates only. Verify against your product and a clinician." : {
       "localizations" : {
         "zh-Hans" : {
@@ -13057,6 +13142,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日常物質，以大多數人熟知的名稱呈現。"
+          }
+        }
+      }
+    },
+    "Everyday things — foods like grapefruit, smoking, or the drug's own buildup over repeated doses — can speed up or slow down how fast it's cleared, which raises or lowers its levels in the body." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常因素——如西柚等食物、吸烟，或反复用药导致药物自身蓄积——都可能加快或减慢其清除速度，从而升高或降低其在体内的浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常因素——如葡萄柚等食物、吸菸，或反覆用藥導致藥物自身蓄積——都可能加快或減慢其清除速度，從而升高或降低其在體內的濃度。"
           }
         }
       }
@@ -13876,6 +13978,7 @@
       }
     },
     "Fraction-of-clearance estimates and major metabolites from primary literature. Which enzymes clear a drug is what grapefruit, smoking, and interacting medications act on — see Metabolism Interactions below." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15428,6 +15531,22 @@
         }
       }
     },
+    "How the drug acts in the body — which receptors and transporters it targets, and what it does at each (switches them on, blocks them, and so on). The dots show how strongly it acts at each target." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物在体内如何起作用——它作用于哪些受体和转运体，以及在每个靶点上做什么（激活、阻断等）。圆点表示它在各靶点上的作用强度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物在體內如何起作用——它作用於哪些受體和轉運體，以及在每個靶點上做什麼（激活、阻斷等）。圓點表示它在各靶點上的作用強度。"
+          }
+        }
+      }
+    },
     "How this is calculated" : {
 
     },
@@ -15475,6 +15594,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "感覺如何取決於您服用了什麼、多少,以及您的身體化學。"
+          }
+        }
+      }
+    },
+    "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体如何分解药物——由哪些肝酶完成、生成哪些副产物（代谢物），以及这些代谢物是否仍具活性。百分比是每种酶在清除中的大致占比。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體如何分解藥物——由哪些肝酶完成、生成哪些副產物（代謝物），以及這些代謝物是否仍具活性。百分比是每種酶在清除中的大致占比。"
           }
         }
       }
@@ -22212,6 +22348,7 @@
       }
     },
     "PMID %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22324,6 +22461,7 @@
       }
     },
     "Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24224,6 +24362,7 @@
       }
     },
     "Repeated %@ doses build up faster than the dose suggests." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24235,6 +24374,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重複服用 %@ 會比劑量顯示的更快累積。"
+          }
+        }
+      }
+    },
+    "Repeated doses build up faster than the dose suggests" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反复用药会比单次剂量所暗示的更快蓄积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反覆用藥會比單次劑量所暗示的更快蓄積"
           }
         }
       }
@@ -28579,6 +28734,7 @@
       }
     },
     "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

@@ -1,12 +1,18 @@
 import SwiftUI
 
-/// A plain-language "what does this mean?" bottom sheet for the dense pharmacology cards. Surfaced from an
-/// (i) button in a card's header; explains each term in simple vocabulary (and parks the scientific symbol
-/// here, off the card face). iOS 26 system sheet — medium detent, drag indicator, Done button.
+/// A plain-language "what is this?" bottom sheet for the dense pharmacology cards. Surfaced from an
+/// (i) button in a card's header; explains, in simple vocabulary, what the card shows (generic — never
+/// about the specific drug). Some topics lead with a short "about" paragraph, some add a term glossary,
+/// and most close with a one-line caveat. iOS 26 system sheet — medium detent, drag indicator, an
+/// xmark close on the leading edge (matching the app's other sheets).
 struct PharmacologyGlossarySheet: View {
     enum Topic: String, Identifiable {
-        case pharmacokinetics
+        case mechanism
+        case monoamine
         case receptor
+        case pharmacokinetics
+        case metabolism
+        case metabolismInteractions
         var id: String {
             rawValue
         }
@@ -18,27 +24,43 @@ struct PharmacologyGlossarySheet: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    ForEach(entries) { entry in
-                        VStack(alignment: .leading, spacing: 3) {
-                            HStack(spacing: 6) {
-                                Text(entry.term)
-                                    .font(.subheadline.weight(.semibold))
-                                if let symbol = entry.symbol {
-                                    Text(symbol)
-                                        .font(.caption.monospaced())
-                                        .foregroundStyle(Theme.secondaryLabel)
-                                }
-                            }
-                            Text(entry.explanation)
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        .padding(.vertical, 2)
+                if let about {
+                    Section {
+                        Text(about)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                } footer: {
-                    Text(footer)
+                }
+                if !entries.isEmpty {
+                    Section {
+                        ForEach(entries) { entry in
+                            VStack(alignment: .leading, spacing: 3) {
+                                HStack(spacing: 6) {
+                                    Text(entry.term)
+                                        .font(.subheadline.weight(.semibold))
+                                    if let symbol = entry.symbol {
+                                        Text(symbol)
+                                            .font(.caption.monospaced())
+                                            .foregroundStyle(Theme.secondaryLabel)
+                                    }
+                                }
+                                Text(entry.explanation)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.vertical, 2)
+                        }
+                    }
+                }
+                if let caveat {
+                    Section {
+                        Text(caveat)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
             }
             .listRowBackground(Theme.cardBackground)
@@ -47,8 +69,9 @@ struct PharmacologyGlossarySheet: View {
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel(Text("Close"))
                 }
             }
         }
@@ -58,17 +81,42 @@ struct PharmacologyGlossarySheet: View {
 
     private var title: LocalizedStringResource {
         switch topic {
-        case .pharmacokinetics: "Pharmacokinetics"
+        case .mechanism: "Mechanism of Action"
+        case .monoamine: "Monoamine Profile"
         case .receptor: "Receptor data"
+        case .pharmacokinetics: "Pharmacokinetics"
+        case .metabolism: "Metabolism"
+        case .metabolismInteractions: "Metabolism Interactions"
         }
     }
 
-    private var footer: LocalizedStringResource {
+    private var about: LocalizedStringResource? {
+        switch topic {
+        case .mechanism:
+            "How the drug acts in the body — which receptors and transporters it targets, and what it does at each (switches them on, blocks them, and so on). The dots show how strongly it acts at each target."
+        case .monoamine:
+            "A summary of how the drug affects the brain's three main signalling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward."
+        case .metabolism:
+            "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance."
+        case .metabolismInteractions:
+            "Everyday things — foods like grapefruit, smoking, or the drug's own buildup over repeated doses — can speed up or slow down how fast it's cleared, which raises or lowers its levels in the body."
+        case .receptor, .pharmacokinetics:
+            nil
+        }
+    }
+
+    private var caveat: LocalizedStringResource? {
         switch topic {
         case .pharmacokinetics:
             "These are population averages from research — your own values vary with genetics, body size, and how the drug is taken."
         case .receptor:
             "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab."
+        case .metabolism:
+            "Estimates from primary literature, not measured for you."
+        case .metabolismInteractions:
+            "Educated predictions from typical pharmacology, not measured for you."
+        case .mechanism, .monoamine:
+            nil
         }
     }
 
@@ -83,6 +131,7 @@ struct PharmacologyGlossarySheet: View {
         switch topic {
         case .pharmacokinetics: Self.pkEntries
         case .receptor: Self.receptorEntries
+        case .mechanism, .monoamine, .metabolism, .metabolismInteractions: []
         }
     }
 

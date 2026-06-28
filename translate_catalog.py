@@ -9,6 +9,38 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology card harmony pass — round 2 (2026-06-28): shorter metabolic-modulation headlines
+    # (drop substrate + period; we're on the substance's own card) + per-card help-sheet "about" text.
+    "Repeated doses build up faster than the dose suggests": (
+        "反复用药会比单次剂量所暗示的更快蓄积",
+        "反覆用藥會比單次劑量所暗示的更快蓄積",
+    ),
+    "%@ may raise levels": ("%@ 可能升高其血药浓度", "%@ 可能升高其血藥濃度"),
+    "%@ may lower levels": ("%@ 可能降低其血药浓度", "%@ 可能降低其血藥濃度"),
+    "How the drug acts in the body — which receptors and transporters it targets, and what it does at each (switches them on, blocks them, and so on). The dots show how strongly it acts at each target.": (
+        "药物在体内如何起作用——它作用于哪些受体和转运体，以及在每个靶点上做什么（激活、阻断等）。圆点表示它在各靶点上的作用强度。",
+        "藥物在體內如何起作用——它作用於哪些受體和轉運體，以及在每個靶點上做什麼（激活、阻斷等）。圓點表示它在各靶點上的作用強度。",
+    ),
+    "A summary of how the drug affects the brain's three main signalling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward.": (
+        "概述药物如何影响大脑三种主要的信号化学物质——5-羟色胺、多巴胺和去甲肾上腺素——以及它是促进释放还是阻断再摄取。滑块显示它更偏向哪一种。",
+        "概述藥物如何影響大腦三種主要的訊號化學物質——5-羥色胺、多巴胺和去甲腎上腺素——以及它是促進釋放還是阻斷再攝取。滑桿顯示它更偏向哪一種。",
+    ),
+    "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance.": (
+        "身体如何分解药物——由哪些肝酶完成、生成哪些副产物（代谢物），以及这些代谢物是否仍具活性。百分比是每种酶在清除中的大致占比。",
+        "身體如何分解藥物——由哪些肝酶完成、生成哪些副產物（代謝物），以及這些代謝物是否仍具活性。百分比是每種酶在清除中的大致占比。",
+    ),
+    "Everyday things — foods like grapefruit, smoking, or the drug's own buildup over repeated doses — can speed up or slow down how fast it's cleared, which raises or lowers its levels in the body.": (
+        "日常因素——如西柚等食物、吸烟，或反复用药导致药物自身蓄积——都可能加快或减慢其清除速度，从而升高或降低其在体内的浓度。",
+        "日常因素——如葡萄柚等食物、吸菸，或反覆用藥導致藥物自身蓄積——都可能加快或減慢其清除速度，從而升高或降低其在體內的濃度。",
+    ),
+    "Estimates from primary literature, not measured for you.": (
+        "数据为原始文献中的估计值，并非针对你本人测量。",
+        "數據為原始文獻中的估計值，並非針對你本人測量。",
+    ),
+    "Educated predictions from typical pharmacology, not measured for you.": (
+        "根据典型药代动力学作出的推断，并非针对你本人测量。",
+        "根據典型藥代動力學作出的推斷，並非針對你本人測量。",
+    ),
     # Pharmacology card harmony pass (2026-06-28) — receptor binding/functional tags, PK + receptor
     # plain-language help sheet, "Additional Info" rename. Simple-vocabulary register to match the
     # English (these are the "complex things made understandable" glossary entries).
@@ -3482,6 +3514,16 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology card harmony pass — round 2 (2026-06-28)
+        "Repeated doses build up faster than the dose suggests",
+        "%@ may raise levels",
+        "%@ may lower levels",
+        "How the drug acts in the body — which receptors and transporters it targets, and what it does at each (switches them on, blocks them, and so on). The dots show how strongly it acts at each target.",
+        "A summary of how the drug affects the brain's three main signalling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward.",
+        "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance.",
+        "Everyday things — foods like grapefruit, smoking, or the drug's own buildup over repeated doses — can speed up or slow down how fast it's cleared, which raises or lowers its levels in the body.",
+        "Estimates from primary literature, not measured for you.",
+        "Educated predictions from typical pharmacology, not measured for you.",
         # Pharmacology card harmony pass (2026-06-28)
         "binding",
         "functional",

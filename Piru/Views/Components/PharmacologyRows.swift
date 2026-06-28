@@ -8,46 +8,48 @@ import SwiftUI
 struct ReceptorLiteratureRow: View {
     let hit: SubstanceStore.BindingHit
     let accent: Color
+    /// Strength tier (1–3) for the dots, supplied by the parent so it can be reconciled with the
+    /// Mechanism card (a target's MOA tier wins over an absolute-band guess — see `strengthTier(for:)`).
+    let strengthTier: Int?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        let target = splitTarget(hit.target)
+        return VStack(alignment: .leading, spacing: 4) {
+            // Clean name row: just the receptor + its strength dots. The site/enantiomer qualifier is
+            // demoted to a chip on its own line so a long "(MK-801 site, S-enantiomer)" can't shove the
+            // dots off the name or wrap it raggedly.
             HStack(alignment: .firstTextBaseline) {
-                Text(hit.target)
+                Text(target.name)
                     .font(.subheadline.weight(.semibold))
-                // Humanise the raw action slug via the shared BindingAction enum so it reads
-                // "Releasing Agent" (localised), matching the Mechanism card — not "releasingAgent".
-                actionText
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
                 Spacer()
-                if let m = measurement {
-                    AffinityDots(filled: m.tier, tint: accent)
+                if let strengthTier {
+                    AffinityDots(filled: strengthTier, tint: accent)
                 }
             }
-            if let m = measurement {
-                // Plain-language "binding" vs "functional" tag in front of the raw value so the
-                // dots above read consistently with the Mechanism card without the reader needing
-                // to know that Kᵢ (binding) and EC₅₀/IC₅₀ (functional) live on different scales.
-                HStack(spacing: 5) {
-                    Text(m.kind)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                    Text(verbatim: "·")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
+            if let qualifier = target.qualifier {
+                qualifierChip(qualifier)
+            }
+            // One descriptor line, single font so it aligns: action · binding/functional · value.
+            HStack(spacing: 5) {
+                actionText
+                if let m = measurement {
+                    Text(verbatim: "·").foregroundStyle(Theme.secondaryLabel)
+                    Text(m.kind).foregroundStyle(Theme.secondaryLabel)
+                    Text(verbatim: "·").foregroundStyle(Theme.secondaryLabel)
                     Text(m.value)
-                        .font(.subheadline.monospacedDigit())
+                        .fontWeight(.semibold)
+                        .monospacedDigit()
                         .foregroundStyle(accent)
                 }
             }
+            .font(.caption)
+            .foregroundStyle(.secondary)
             HStack(spacing: 6) {
                 Image(systemName: "doc.text.magnifyingglass")
                     .font(.caption2)
-                Text(pharmaSourceName(hit.sourceSlug))
-                    .font(.caption2)
+                sourceNameLink(pharmaSourceName(hit.sourceSlug), doi: hit.doi, pmid: hit.pmid, accent: accent)
                 ProvenanceBadge(confidence: hit.confidence, species: hit.species, sourceSlug: hit.sourceSlug)
                 Spacer()
-                citationLink(doi: hit.doi, pmid: hit.pmid, accent: accent)
             }
             .font(.caption)
             .foregroundStyle(Theme.secondaryLabel)
@@ -56,6 +58,8 @@ struct ReceptorLiteratureRow: View {
 
     @ViewBuilder
     private var actionText: some View {
+        // Humanise the raw action slug via the shared BindingAction enum so it reads "Releasing Agent"
+        // (localised), matching the Mechanism card — not "releasingAgent".
         if let action = BindingAction(rawValue: hit.action) {
             Text(action.displayName)
         } else {
@@ -63,20 +67,34 @@ struct ReceptorLiteratureRow: View {
         }
     }
 
-    /// The one measurement this row carries, resolved to a (strength tier, plain-language kind,
-    /// value label) triple. Kᵢ is binding affinity; EC₅₀/IC₅₀ are functional potency.
-    private var measurement: (tier: Int, kind: LocalizedStringResource, value: String)? {
-        if let ki = hit.kiNm {
-            return (affinityTier(forNm: ki), "binding", "Ki \(formatNm(ki)) nM")
-        }
-        if let ec = hit.ec50Nm {
-            return (affinityTier(forNm: ec), "functional", "EC50 \(formatNm(ec)) nM")
-        }
-        if let ic = hit.ic50Nm {
-            return (affinityTier(forNm: ic), "functional", "IC50 \(formatNm(ic)) nM")
-        }
+    private func qualifierChip(_ text: String) -> some View {
+        Text(text)
+            .font(.caption2)
+            .foregroundStyle(Theme.secondaryLabel)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 2)
+            .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+    }
+
+    /// The one measurement this row carries, resolved to a (plain-language kind, value label) pair.
+    /// Kᵢ is binding affinity; EC₅₀/IC₅₀ are functional potency.
+    private var measurement: (kind: LocalizedStringResource, value: String)? {
+        if let ki = hit.kiNm { return ("binding", "Ki \(formatNm(ki)) nM") }
+        if let ec = hit.ec50Nm { return ("functional", "EC50 \(formatNm(ec)) nM") }
+        if let ic = hit.ic50Nm { return ("functional", "IC50 \(formatNm(ic)) nM") }
         return nil
     }
+}
+
+/// Split a receptor label into its base name and an optional parenthetical qualifier:
+/// "NMDA (MK-801 site, S-enantiomer)" → ("NMDA", "MK-801 site, S-enantiomer").
+func splitTarget(_ target: String) -> (name: String, qualifier: String?) {
+    guard let open = target.range(of: " (") else { return (target, nil) }
+    let name = String(target[..<open.lowerBound])
+    var qualifier = String(target[open.upperBound...])
+    if qualifier.hasSuffix(")") { qualifier.removeLast() }
+    qualifier = qualifier.trimmingCharacters(in: .whitespaces)
+    return (name, qualifier.isEmpty ? nil : qualifier)
 }
 
 /// Ki/EC50 display formatter shared with `AdvancedSearchView` — precision
@@ -120,28 +138,29 @@ func pharmaSourceName(_ slug: String) -> String {
     AppSources.slugToName[slug] ?? SubstanceStore.shared.sourceDisplayName(forSlug: slug)
 }
 
-/// A PMID/DOI citation link with a trailing ↗ glyph so it reads as tappable. Shared by the receptor,
-/// PK, and metabolism rows.
-@ViewBuilder
-func citationLink(doi: String?, pmid: Int?, accent: Color) -> some View {
-    if let pmid, let url = URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") {
-        Link(destination: url) { CitationLinkLabel(text: Text(verbatim: "PMID \(pmid)"), accent: accent) }
-    } else if let doi, !doi.isEmpty, let url = URL(string: "https://doi.org/\(doi)") {
-        Link(destination: url) { CitationLinkLabel(text: Text(verbatim: "DOI"), accent: accent) }
-    }
+/// The deep link for a row's citation, preferring PMID over DOI.
+func citationURL(doi: String?, pmid: Int?) -> URL? {
+    if let pmid { return URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") }
+    if let doi, !doi.isEmpty { return URL(string: "https://doi.org/\(doi)") }
+    return nil
 }
 
-private struct CitationLinkLabel: View {
-    let text: Text
-    let accent: Color
-
-    var body: some View {
-        HStack(spacing: 2) {
-            text.font(.caption2)
-            Image(systemName: "arrow.up.right")
-                .font(.system(size: 9, weight: .semibold))
+/// The source name rendered as its own citation link (name + trailing ↗) when a DOI/PMID exists, else
+/// plain text. Folds the old "PubMed … (spacer) … DOI↗" split into one tappable element so the name and
+/// its link stop sitting at opposite ends of the row.
+@ViewBuilder
+func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> some View {
+    if let url = citationURL(doi: doi, pmid: pmid) {
+        Link(destination: url) {
+            HStack(spacing: 2) {
+                Text(name).font(.caption2)
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 9, weight: .semibold))
+            }
+            .foregroundStyle(accent)
         }
-        .foregroundStyle(accent)
+    } else {
+        Text(name).font(.caption2)
     }
 }
 
@@ -234,8 +253,9 @@ struct MetabolismRow: View {
             }
             if let metabolite = hit.metaboliteName, !metabolite.isEmpty {
                 // The metabolite is the row's headline fact — give it body weight, not the caption it
-                // used to share with the source slug below.
-                HStack(spacing: 6) {
+                // used to share with the source slug below. Baseline-align so the active/inactive chip
+                // sits on the metabolite's line instead of floating below it.
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
                     Image(systemName: "arrow.turn.down.right")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
@@ -258,18 +278,18 @@ struct MetabolismRow: View {
     }
 }
 
-/// Shared source/citation footer for the PK + metabolism rows — a friendly source name, an optional
-/// italic detail (PK demographics), and a PMID/DOI link with a tappable ↗ glyph.
+/// Shared source/citation footer for the PK + metabolism rows — the friendly source name *is* the
+/// citation link (name + ↗), followed by an optional italic detail (PK demographics). Left-aligned so
+/// the source and its link read as one element instead of sitting at opposite ends of the row.
 private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
     HStack(spacing: 6) {
         Image(systemName: "doc.text.magnifyingglass").font(.caption2)
-        Text(pharmaSourceName(slug)).font(.caption2)
+        sourceNameLink(pharmaSourceName(slug), doi: doi, pmid: pmid, accent: accent)
         if let detail, !detail.isEmpty {
             Text(verbatim: "·").font(.caption2)
             Text(detail).font(.caption2).italic().lineLimit(1)
         }
         Spacer()
-        citationLink(doi: doi, pmid: pmid, accent: accent)
     }
     .foregroundStyle(Theme.secondaryLabel)
 }

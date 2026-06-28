@@ -575,6 +575,8 @@ struct SubstanceDetailView: View {
     /// Drives the push to the grouped "All effects" screen from the Effects
     /// header's "Show All" (a header NavigationLink isn't reliably hittable).
     @State private var showAllEffects = false
+    /// Drives the push to the full Inventory list from the stock card's "Show All".
+    @State private var showAllInventory = false
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
     @State private var pkRoutes: [SubstanceStore.PKRouteHit] = []
     @State private var metabolismRows: [SubstanceStore.MetabolismHit] = []
@@ -1091,7 +1093,20 @@ struct SubstanceDetailView: View {
                 }
             }
         } header: {
-            Text("Inventory")
+            HStack {
+                Text("Inventory")
+                Spacer()
+                Button { showAllInventory = true } label: {
+                    HStack(spacing: 2) {
+                        Text("Show All")
+                        Image(systemName: "chevron.right").font(.caption2)
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.accent)
+                    .textCase(nil)
+                }
+                .buttonStyle(.borderless)
+            }
         }
     }
 
@@ -1582,6 +1597,7 @@ struct SubstanceDetailView: View {
                     CollapsibleSection(
                         "Mechanism of Action",
                         systemImage: "atom",
+                        onInfo: { glossaryTopic = .mechanism },
                         isExpanded: Binding(
                             get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
                             set: { mechanismExpanded = $0 },
@@ -1602,6 +1618,7 @@ struct SubstanceDetailView: View {
                     CollapsibleSection(
                         "Monoamine Profile",
                         systemImage: "slider.horizontal.below.square.filled.and.square",
+                        onInfo: { glossaryTopic = .monoamine },
                         isExpanded: Binding(
                             get: { monoamineProfileExpanded ?? true },
                             set: { monoamineProfileExpanded = $0 },
@@ -1646,6 +1663,7 @@ struct SubstanceDetailView: View {
                     CollapsibleSection(
                         "Metabolism",
                         systemImage: "arrow.triangle.branch",
+                        onInfo: { glossaryTopic = .metabolism },
                         isExpanded: Binding(
                             get: { metabolismExpanded ?? policy.pharmacokineticsDefaultExpanded },
                             set: { metabolismExpanded = $0 },
@@ -1663,7 +1681,13 @@ struct SubstanceDetailView: View {
                             MetabolicModulationBanner(effect: effect)
                         }
                     } header: {
-                        Label("Metabolism Interactions", systemImage: "fork.knife")
+                        // Not "fork.knife" — smoking and enzyme induction aren't eating; an up/down glyph
+                        // reads as "these change the drug's levels". Trailing (i) explains the section.
+                        sectionHeaderWithInfo(
+                            "Metabolism Interactions",
+                            systemImage: "arrow.up.arrow.down",
+                            topic: .metabolismInteractions,
+                        )
                     }
                 }
 
@@ -1699,6 +1723,9 @@ struct SubstanceDetailView: View {
         }
         .sheet(item: $glossaryTopic) { topic in
             PharmacologyGlossarySheet(topic: topic)
+        }
+        .navigationDestination(isPresented: $showAllInventory) {
+            InventoryListView()
         }
         .toolbar {
             if activeSubstanceRoute != nil {
@@ -1979,13 +2006,61 @@ struct SubstanceDetailView: View {
         let rows = visibleLiteratureBindings
         return VStack(alignment: .leading, spacing: 8) {
             ForEach(rows) { hit in
-                ReceptorLiteratureRow(hit: hit, accent: substance.category.color)
+                ReceptorLiteratureRow(hit: hit, accent: substance.category.color, strengthTier: strengthTier(for: hit))
                 if hit.id != rows.last?.id {
                     Divider()
                 }
             }
         }
         .padding(.vertical, 4)
+    }
+
+    /// Strength tier (1–3) for a literature row's dots. A target's curated **Mechanism-of-Action tier
+    /// wins** when it matches — so the two cards never disagree (ketamine's NMDA reads 3/3 on both, not
+    /// 3 on Mechanism and 2 here just because its Kᵢ sits in the µM range). Off-targets with no MOA entry
+    /// fall back to absolute affinity bands.
+    private func strengthTier(for hit: SubstanceStore.BindingHit) -> Int? {
+        guard let nm = hit.kiNm ?? hit.ec50Nm ?? hit.ic50Nm else { return nil }
+        if let moaTier = moaTierByTarget[Self.normalizeTargetName(hit.target)] { return moaTier }
+        return affinityTier(forNm: nm)
+    }
+
+    /// Curated MOA affinity tier keyed by normalized target name, so receptor rows can inherit it.
+    private var moaTierByTarget: [String: Int] {
+        guard let moa = composedMechanism else { return [:] }
+        var map: [String: Int] = [:]
+        for binding in moa.bindings {
+            let key = Self.normalizeTargetName(binding.target)
+            map[key] = max(map[key] ?? 0, binding.affinity.rawValue)
+        }
+        return map
+    }
+
+    /// "NMDA (MK-801 site, S-enantiomer)" and "NMDA" both normalize to "nmda", so an enantiomer-qualified
+    /// literature row still matches its plain MOA target.
+    static func normalizeTargetName(_ target: String) -> String {
+        let base = target.split(separator: "(", maxSplits: 1).first.map(String.init) ?? target
+        return base.trimmingCharacters(in: .whitespaces).lowercased()
+    }
+
+    /// A plain `Section` header (icon + title) with a trailing (i) that opens the card's help sheet —
+    /// the equivalent of `CollapsibleSection`'s `onInfo` for the non-collapsible interaction sections.
+    private func sectionHeaderWithInfo(
+        _ title: LocalizedStringResource,
+        systemImage: String,
+        topic: PharmacologyGlossarySheet.Topic,
+    ) -> some View {
+        HStack {
+            Label(title, systemImage: systemImage)
+            Spacer()
+            Button { glossaryTopic = topic } label: {
+                Image(systemName: "info.circle")
+                    .foregroundStyle(Theme.accent)
+                    .textCase(nil)
+            }
+            .buttonStyle(.borderless)
+            .accessibilityLabel("What do these mean?")
+        }
     }
 
     /// Per-route PK (bioavailability/tmax/half-life) above the CYP metabolism
@@ -1997,11 +2072,6 @@ struct SubstanceDetailView: View {
                 PKRouteRow(hit: hit, accent: substance.category.color)
                 if hit.id != pkRoutes.last?.id { Divider() }
             }
-            Text("Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 4)
-                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.vertical, 4)
     }
@@ -2014,11 +2084,6 @@ struct SubstanceDetailView: View {
                 MetabolismRow(hit: hit, accent: substance.category.color)
                 if hit.id != metabolismRows.last?.id { Divider() }
             }
-            Text("Fraction-of-clearance estimates and major metabolites from primary literature. Which enzymes clear a drug is what grapefruit, smoking, and interacting medications act on — see Metabolism Interactions below.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 4)
-                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.vertical, 4)
     }
