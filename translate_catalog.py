@@ -9,6 +9,75 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology card harmony pass (2026-06-28) — receptor binding/functional tags, PK + receptor
+    # plain-language help sheet, "Additional Info" rename. Simple-vocabulary register to match the
+    # English (these are the "complex things made understandable" glossary entries).
+    "binding": ("结合", "結合"),
+    "functional": ("功能", "功能"),
+    "Binding": ("结合", "結合"),
+    "Functional": ("功能", "功能"),
+    "What do these mean?": ("这些是什么意思？", "這些是什麼意思？"),
+    "Receptor data": ("受体数据", "受體數據"),
+    "Additional Info": ("更多信息", "更多資訊"),
+    "Strength dots": ("强度圆点", "強度圓點"),
+    "nM (nanomolar)": ("nM（纳摩尔）", "nM（奈莫耳）"),
+    "Human vs animal": ("人体与动物数据", "人體與動物數據"),
+    "These are population averages from research — your own values vary with genetics, body size, and how the drug is taken.": (
+        "这些是研究得出的群体平均值——你的实际数值会因遗传、体型以及用药方式而不同。",
+        "這些是研究得出的群體平均值——你的實際數值會因遺傳、體型以及用藥方式而不同。",
+    ),
+    "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab.": (
+        "更强并不代表更危险——它只是表示在实验室中药物与该靶点结合的紧密程度。",
+        "更強並不代表更危險——它只是表示在實驗室中藥物與該靶點結合的緊密程度。",
+    ),
+    "How much of a dose actually reaches your bloodstream. Swallowing a drug usually delivers less than injecting it.": (
+        "一次用药中真正进入血液的比例。口服通常比注射进入血液的量更少。",
+        "一次用藥中真正進入血液的比例。口服通常比注射進入血液的量更少。",
+    ),
+    "How long after taking it the level in your blood is highest — roughly when effects peak.": (
+        "用药后多久血液中的浓度达到最高——大致也是效果最强的时刻。",
+        "用藥後多久血液中的濃度達到最高——大致也是效果最強的時刻。",
+    ),
+    "The time for your body to clear half of what's left. It takes about five half-lives to clear almost all of it.": (
+        "身体清除掉其中一半所需的时间。大约经过五个半衰期才能几乎完全清除。",
+        "身體清除掉其中一半所需的時間。大約經過五個半衰期才能幾乎完全清除。",
+    ),
+    "The share that rides along stuck to blood proteins. Only the unbound rest is free to act.": (
+        "附着在血浆蛋白上随之运行的比例。只有未结合的那部分才能发挥作用。",
+        "附著在血漿蛋白上隨之運行的比例。只有未結合的那部分才能發揮作用。",
+    ),
+    "How widely the drug spreads from blood into the rest of the body. A bigger number means it soaks into tissues rather than staying in the blood.": (
+        "药物从血液扩散到全身其他部位的广泛程度。数值越大，表示它越多渗入组织而非停留在血液中。",
+        "藥物從血液擴散到全身其他部位的廣泛程度。數值越大，表示它越多滲入組織而非停留在血液中。",
+    ),
+    "How fast your body removes the drug, mostly via the liver and kidneys.": (
+        "身体清除药物的速度，主要通过肝脏和肾脏。",
+        "身體清除藥物的速度，主要透過肝臟和腎臟。",
+    ),
+    "The highest concentration reached in the blood after a dose.": (
+        "一次用药后血液中达到的最高浓度。",
+        "一次用藥後血液中達到的最高濃度。",
+    ),
+    "A quick read of how potent the drug is at that target — three dots is strong, one is weak. The same scale is used on the Mechanism card.": (
+        "快速判断药物对该靶点的作用强度——三个点表示强，一个点表示弱。与「作用机制」卡片使用同一标准。",
+        "快速判斷藥物對該靶點的作用強度——三個點表示強，一個點表示弱。與「作用機制」卡片使用同一標準。",
+    ),
+    "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip.": (
+        "衡量药物与靶点结合的紧密程度（Ki）。数值越小，结合越紧密。",
+        "衡量藥物與靶點結合的緊密程度（Ki）。數值越小，結合越緊密。",
+    ),
+    "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. Also smaller = more potent.": (
+        "衡量真正激活或阻断靶点（而不仅仅是附着其上）所需的剂量。同样是数值越小、作用越强。",
+        "衡量真正激活或阻斷靶點（而不僅僅是附著其上）所需的劑量。同樣是數值越小、作用越強。",
+    ),
+    "The concentration unit these values use. Lower numbers always mean the drug works at smaller amounts.": (
+        "这些数值所用的浓度单位。数字越小，表示药物在更低的量下就能起作用。",
+        "這些數值所用的濃度單位。數字越小，表示藥物在更低的量下就能起作用。",
+    ),
+    "Many values come from animal or lab-dish studies. Human data is the most reliable — the source tag tells you which it is.": (
+        "许多数值来自动物或体外（培养皿）实验。人体数据最为可靠——来源标签会标明属于哪一种。",
+        "許多數值來自動物或體外（培養皿）實驗。人體數據最為可靠——來源標籤會標明屬於哪一種。",
+    ),
     # Pharmacology axis — RC-expansion UI: monoamine profile / provenance / contraceptive
     # caution / gabapentinoid ceiling (2026-06-24). Terminology grounded in a Chinese
     # clinical-pharmacology register: 5-羟色胺 (not 血清素), 再摄取 (not 重摄取),
@@ -3413,6 +3482,31 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology card harmony pass (2026-06-28)
+        "binding",
+        "functional",
+        "Binding",
+        "Functional",
+        "What do these mean?",
+        "Receptor data",
+        "Additional Info",
+        "Strength dots",
+        "nM (nanomolar)",
+        "Human vs animal",
+        "These are population averages from research — your own values vary with genetics, body size, and how the drug is taken.",
+        "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab.",
+        "How much of a dose actually reaches your bloodstream. Swallowing a drug usually delivers less than injecting it.",
+        "How long after taking it the level in your blood is highest — roughly when effects peak.",
+        "The time for your body to clear half of what's left. It takes about five half-lives to clear almost all of it.",
+        "The share that rides along stuck to blood proteins. Only the unbound rest is free to act.",
+        "How widely the drug spreads from blood into the rest of the body. A bigger number means it soaks into tissues rather than staying in the blood.",
+        "How fast your body removes the drug, mostly via the liver and kidneys.",
+        "The highest concentration reached in the blood after a dose.",
+        "A quick read of how potent the drug is at that target — three dots is strong, one is weak. The same scale is used on the Mechanism card.",
+        "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip.",
+        "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. Also smaller = more potent.",
+        "The concentration unit these values use. Lower numbers always mean the drug works at smaller amounts.",
+        "Many values come from animal or lab-dish studies. Human data is the most reliable — the source tag tells you which it is.",
         # Pharmacology axis — RC-expansion UI (2026-06-24)
         "Monoamine Profile",
         "Substrate releaser",

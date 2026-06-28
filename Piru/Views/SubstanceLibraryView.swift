@@ -505,6 +505,7 @@ struct SubstanceDetailView: View {
     @State private var baseSubstance: Substance
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.openURL) private var openURL
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
     @Query private var inventoryItems: [InventoryItem]
@@ -558,6 +559,8 @@ struct SubstanceDetailView: View {
     @State private var receptorLitExpanded: Bool?
     @State private var pharmacokineticsExpanded: Bool?
     @State private var metabolismExpanded: Bool?
+    /// The plain-language help sheet shown from a card header's (i) button (PK / receptor data).
+    @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
     /// Contraindications & cautions — verbose clinical data, collapsed by default
     /// so the screen reads like a harm-reduction app, not a drug monograph.
     @State private var cautionsExpanded = false
@@ -791,8 +794,14 @@ struct SubstanceDetailView: View {
 
     /// PubChem cell — a tappable link out to the curated chemistry record. Lives
     /// in Chemistry (not Info): it's a chemical identifier, same as the rest.
+    ///
+    /// A borderless `Button` (not a `Link`): a lone `Link` in a Form/List row gets
+    /// promoted to a full-row tap target, so the *whole* Chemistry card opened
+    /// PubChem. Borderless keeps the hit area to this one cell.
     private func pubChemCell(cid: Int, url: URL) -> some View {
-        Link(destination: url) {
+        Button {
+            openURL(url)
+        } label: {
             VStack(alignment: .leading, spacing: 3) {
                 Text("PubChem CID")
                     .font(.caption2)
@@ -804,8 +813,10 @@ struct SubstanceDetailView: View {
                 }
                 .foregroundStyle(Theme.accent)
             }
+            .contentShape(Rectangle())
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .buttonStyle(.borderless)
     }
 
     /// Effects — the merged surface. Curated subjective effects (rich tier) read
@@ -1444,7 +1455,7 @@ struct SubstanceDetailView: View {
     /// Name / aliases / route / chemistry — demoted below dosing and collapsed.
     /// Chemists who want the full identity follow the PubChem link.
     private var infoDisclosure: some View {
-        CollapsibleSection("Info", systemImage: "info.circle", isExpanded: $infoExpanded) {
+        CollapsibleSection("Additional Info", systemImage: "info.circle", isExpanded: $infoExpanded) {
             let extras = infoExtraCells
             Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
                 GridRow {
@@ -1604,16 +1615,13 @@ struct SubstanceDetailView: View {
                     CollapsibleSection(
                         "Receptor Literature",
                         systemImage: "function",
+                        onInfo: { glossaryTopic = .receptor },
                         isExpanded: Binding(
                             get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
                             set: { receptorLitExpanded = $0 },
                         ),
                     ) {
                         receptorLiteratureBody
-                        Text("Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting.")
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .padding(.top, 4)
                     }
                 }
 
@@ -1621,6 +1629,7 @@ struct SubstanceDetailView: View {
                     CollapsibleSection(
                         "Pharmacokinetics",
                         systemImage: "waveform.path.ecg",
+                        onInfo: { glossaryTopic = .pharmacokinetics },
                         isExpanded: Binding(
                             get: { pharmacokineticsExpanded ?? policy.pharmacokineticsDefaultExpanded },
                             set: { pharmacokineticsExpanded = $0 },
@@ -1655,8 +1664,6 @@ struct SubstanceDetailView: View {
                         }
                     } header: {
                         Label("Metabolism Interactions", systemImage: "fork.knife")
-                    } footer: {
-                        Text("How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you.")
                     }
                 }
 
@@ -1689,6 +1696,9 @@ struct SubstanceDetailView: View {
         .navigationBarTitleDisplayMode(.large)
         .navigationDestination(isPresented: $showAllEffects) {
             AllEffectsView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
+        }
+        .sheet(item: $glossaryTopic) { topic in
+            PharmacologyGlossarySheet(topic: topic)
         }
         .toolbar {
             if activeSubstanceRoute != nil {
@@ -1898,13 +1908,7 @@ struct SubstanceDetailView: View {
                                 .fontWeight(.medium)
                             Text(binding.action.displayName)
                                 .foregroundStyle(.secondary)
-                            HStack(spacing: 2) {
-                                ForEach(0 ..< 3, id: \.self) { i in
-                                    Circle()
-                                        .fill(i < binding.affinity.rawValue ? substance.category.color : substance.category.color.opacity(0.15))
-                                        .frame(width: 6, height: 6)
-                                }
-                            }
+                            AffinityDots(filled: binding.affinity.rawValue, tint: substance.category.color)
                         }
                     }
                 }
@@ -2126,6 +2130,10 @@ private struct CollapsibleSection<Content: View>: View {
     let title: LocalizedStringResource
     let systemImage: String
     var count: Int?
+    /// When set, a trailing (i) button appears in the header that runs this action — used to open a
+    /// plain-language help sheet for the denser cards. Borderless so it captures its own tap and
+    /// doesn't also toggle the disclosure.
+    var onInfo: (() -> Void)?
     @Binding var isExpanded: Bool
     @ViewBuilder var content: () -> Content
 
@@ -2133,12 +2141,14 @@ private struct CollapsibleSection<Content: View>: View {
         _ title: LocalizedStringResource,
         systemImage: String,
         count: Int? = nil,
+        onInfo: (() -> Void)? = nil,
         isExpanded: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content,
     ) {
         self.title = title
         self.systemImage = systemImage
         self.count = count
+        self.onInfo = onInfo
         _isExpanded = isExpanded
         self.content = content
     }
@@ -2158,6 +2168,16 @@ private struct CollapsibleSection<Content: View>: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 1)
                             .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+                    }
+                    if let onInfo {
+                        Spacer(minLength: 0)
+                        Button(action: onInfo) {
+                            Image(systemName: "info.circle")
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.accent)
+                        }
+                        .buttonStyle(.borderless)
+                        .accessibilityLabel("What do these mean?")
                     }
                 }
             }

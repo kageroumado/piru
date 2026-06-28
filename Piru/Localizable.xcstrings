@@ -3175,6 +3175,22 @@
         }
       }
     },
+    "A quick read of how potent the drug is at that target — three dots is strong, one is weak. The same scale is used on the Mechanism card." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速判断药物对该靶点的作用强度——三个点表示强，一个点表示弱。与「作用机制」卡片使用同一标准。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速判斷藥物對該靶點的作用強度——三個點表示強，一個點表示弱。與「作用機制」卡片使用同一標準。"
+          }
+        }
+      }
+    },
     "A redose right now would land ~%lld%% as strong — within-session tachyphylaxis, recovers overnight." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4312,6 +4328,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在加入研究化學品…"
+          }
+        }
+      }
+    },
+    "Additional Info" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多信息"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多資訊"
           }
         }
       }
@@ -6323,6 +6355,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "苯並呋喃類共感劑(單胺釋放劑)"
+          }
+        }
+      }
+    },
+    "binding" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結合"
+          }
+        }
+      }
+    },
+    "Binding" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結合"
           }
         }
       }
@@ -10410,6 +10474,7 @@
       }
     },
     "DOI" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14091,6 +14156,38 @@
         }
       }
     },
+    "functional" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "功能"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "功能"
+          }
+        }
+      }
+    },
+    "Functional" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "功能"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "功能"
+          }
+        }
+      }
+    },
     "GABA (benzos / alcohol)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15250,7 +15347,24 @@
         }
       }
     },
+    "How fast your body removes the drug, mostly via the liver and kidneys." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体清除药物的速度，主要通过肝脏和肾脏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體清除藥物的速度，主要透過肝臟和腎臟。"
+          }
+        }
+      }
+    },
     "How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15282,6 +15396,38 @@
         }
       }
     },
+    "How long after taking it the level in your blood is highest — roughly when effects peak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药后多久血液中的浓度达到最高——大致也是效果最强的时刻。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥後多久血液中的濃度達到最高——大致也是效果最強的時刻。"
+          }
+        }
+      }
+    },
+    "How much of a dose actually reaches your bloodstream. Swallowing a drug usually delivers less than injecting it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次用药中真正进入血液的比例。口服通常比注射进入血液的量更少。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次用藥中真正進入血液的比例。口服通常比注射進入血液的量更少。"
+          }
+        }
+      }
+    },
     "How this is calculated" : {
 
     },
@@ -15297,6 +15443,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "耐受是如何形成的"
+          }
+        }
+      }
+    },
+    "How widely the drug spreads from blood into the rest of the body. A bigger number means it soaks into tissues rather than staying in the blood." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物从血液扩散到全身其他部位的广泛程度。数值越大，表示它越多渗入组织而非停留在血液中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物從血液擴散到全身其他部位的廣泛程度。數值越大，表示它越多滲入組織而非停留在血液中。"
           }
         }
       }
@@ -15346,6 +15508,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "人體實驗"
+          }
+        }
+      }
+    },
+    "Human vs animal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人体与动物数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人體與動物數據"
           }
         }
       }
@@ -16112,6 +16290,7 @@
       }
     },
     "Info" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16862,6 +17041,7 @@
       }
     },
     "Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17848,6 +18028,22 @@
         }
       }
     },
+    "Many values come from animal or lab-dish studies. Human data is the most reliable — the source tag tells you which it is." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "许多数值来自动物或体外（培养皿）实验。人体数据最为可靠——来源标签会标明属于哪一种。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "許多數值來自動物或體外（培養皿）實驗。人體數據最為可靠——來源標籤會標明屬於哪一種。"
+          }
+        }
+      }
+    },
     "Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock." : {
 
     },
@@ -17911,6 +18107,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。"
+          }
+        }
+      }
+    },
+    "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "衡量药物与靶点结合的紧密程度（Ki）。数值越小，结合越紧密。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "衡量藥物與靶點結合的緊密程度（Ki）。數值越小，結合越緊密。"
+          }
+        }
+      }
+    },
+    "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. Also smaller = more potent." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "衡量真正激活或阻断靶点（而不仅仅是附着其上）所需的剂量。同样是数值越小、作用越强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "衡量真正激活或阻斷靶點（而不僅僅是附著其上）所需的劑量。同樣是數值越小、作用越強。"
           }
         }
       }
@@ -19445,6 +19673,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "夜間\n0–6"
+          }
+        }
+      }
+    },
+    "nM (nanomolar)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "nM（纳摩尔）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "nM（奈莫耳）"
           }
         }
       }
@@ -23167,6 +23411,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最近"
+          }
+        }
+      }
+    },
+    "Receptor data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體數據"
           }
         }
       }
@@ -28254,6 +28514,22 @@
         }
       }
     },
+    "Strength dots" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "强度圆点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強度圓點"
+          }
+        }
+      }
+    },
     "Strong" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28298,6 +28574,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "強加密"
+          }
+        }
+      }
+    },
+    "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更强并不代表更危险——它只是表示在实验室中药物与该靶点结合的紧密程度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更強並不代表更危險——它只是表示在實驗室中藥物與該靶點結合的緊密程度。"
           }
         }
       }
@@ -29266,6 +29558,22 @@
         }
       }
     },
+    "The concentration unit these values use. Lower numbers always mean the drug works at smaller amounts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些数值所用的浓度单位。数字越小，表示药物在更低的量下就能起作用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些數值所用的濃度單位。數字越小，表示藥物在更低的量下就能起作用。"
+          }
+        }
+      }
+    },
     "The crash is your nervous system demanding rest and replenishment." : {
       "localizations" : {
         "zh-Hans" : {
@@ -29330,6 +29638,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "迷糊感會消散。需要數小時,而非數分鐘。"
+          }
+        }
+      }
+    },
+    "The highest concentration reached in the blood after a dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次用药后血液中达到的最高浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次用藥後血液中達到的最高濃度。"
           }
         }
       }
@@ -29482,6 +29806,22 @@
         }
       }
     },
+    "The share that rides along stuck to blood proteins. Only the unbound rest is free to act." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "附着在血浆蛋白上随之运行的比例。只有未结合的那部分才能发挥作用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "附著在血漿蛋白上隨之運行的比例。只有未結合的那部分才能發揮作用。"
+          }
+        }
+      }
+    },
     "The slow axis here is a recovery-state indicator, not an effect multiplier." : {
       "localizations" : {
         "zh-Hans" : {
@@ -29510,6 +29850,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這裡的慢變化是一種 SERT 結合關聯，傾向可逆——並非已證實的神經毒性，也不是劑量乘數。它是一個恢復狀態指標。"
+          }
+        }
+      }
+    },
+    "The time for your body to clear half of what's left. It takes about five half-lives to clear almost all of it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体清除掉其中一半所需的时间。大约经过五个半衰期才能几乎完全清除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體清除掉其中一半所需的時間。大約經過五個半衰期才能幾乎完全清除。"
           }
         }
       }
@@ -29558,6 +29914,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些是模型對反覆使用如何改變各受體反應性的預測——並非實測。耐受性按機制分別顯示，因為單一通用的「耐受性百分比」對某些類別（尤其是興奮劑）是錯誤的。"
+          }
+        }
+      }
+    },
+    "These are population averages from research — your own values vary with genetics, body size, and how the drug is taken." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些是研究得出的群体平均值——你的实际数值会因遗传、体型以及用药方式而不同。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些是研究得出的群體平均值——你的實際數值會因遺傳、體型以及用藥方式而不同。"
           }
         }
       }
@@ -31711,6 +32083,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "健康提醒會自動發送補水和睡眠提示。階段通知會在起效、上升期和巔峰時提醒您 — 需要物質具備時長資料。"
+          }
+        }
+      }
+    },
+    "What do these mean?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些是什么意思？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些是什麼意思？"
           }
         }
       }
