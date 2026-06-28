@@ -185,53 +185,7 @@
       ]
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 162.9,
-          "tmax_min": 144,
-          "auc_0_inf_ng_h_per_ml": 1833,
-          "half_life_min": 414,
-          "vd_l_per_kg": 5.5,
-          "clearance_ml_per_min_per_kg": 10.3,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 76,
-          "subject_n": 17,
-          "subject_demographics": "8 male, 4 female (mixed); mean age 21.5; mean weight 76.7 kg; dose 1.0 mg/kg",
-          "reference": "doi:10.1097/FTD.0b013e3181a8b626",
-          "notes": "Kolbrich et al 2008. CL/F = 0.62 L/h/kg = ~10.3 mL/min/kg."
-        },
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 291.8,
-          "tmax_min": 144,
-          "auc_0_inf_ng_h_per_ml": 3485,
-          "half_life_min": 486,
-          "vd_l_per_kg": 5.5,
-          "clearance_ml_per_min_per_kg": 8.0,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 122,
-          "subject_n": 17,
-          "subject_demographics": "1.6 mg/kg dose; CL drops from 10.3 to 8.0 mL/min/kg between doses — classic nonlinear PK",
-          "reference": "doi:10.1097/FTD.0b013e3181a8b626",
-          "notes": "Doubling the dose more than doubles AUC — the canonical evidence of CYP2D6 mechanism-based inhibition."
-        },
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 236.4,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "dose_in_study_mg": 125,
-          "subject_n": 8,
-          "subject_demographics": "male",
-          "reference": "doi:10.1046/j.1365-2125.2000.00121.x",
-          "notes": "de la Torre 2000. Cmax at 150 mg = 464.5 ng/mL (almost 2× that of 125 mg)."
-        }
-      ],
+      "routes": [],
       "concentration_effect": [
         {
           "effect": "subjective intensity (VAS) and systolic BP increase",

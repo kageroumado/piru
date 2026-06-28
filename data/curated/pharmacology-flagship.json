@@ -113,7 +113,7 @@
   {
     "name": "MDMA",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 6.5, "half_life_min": 522, "confidence": "MEDIUM", "reference": "10.1097/00007691-200404000-00009", "notes": "Apparent V/F ~6.5 L/kg (453 L ÷ 70 kg; oral, true Vd likely lower). Racemic oral t½ ~8.7 h (R ~11–14 h, S ~4–5 h). Non-linear PK from CYP2D6 autoinhibition → t½ rises with dose. Absolute oral F is definitionally underivable (no human IV arm)." }
+      { "route": "oral", "vd_l_per_kg": 6.5, "tmax_min": 120, "half_life_min": 522, "confidence": "MEDIUM", "reference": "10.1097/00007691-200404000-00009", "notes": "Tmax ~2 h. Apparent V/F ~6.5 L/kg (453 L ÷ 70 kg; oral, true Vd likely lower). Racemic oral t½ ~8.7 h (R ~11–14 h, S ~4–5 h). Non-linear PK from CYP2D6 autoinhibition → t½ rises with dose. Absolute oral F is definitionally underivable (no human IV arm)." }
     ],
     "bindings": [
       { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1690, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Human SERT release EC50 ~1.69 µM (HEK293); rat synaptosome ~74 nM — ~23× cross-platform disagreement, use within-assay ratios. MDMA is 5-HT-leaning (SERT most potent in the synaptosome platform)." },

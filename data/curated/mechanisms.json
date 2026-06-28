@@ -1641,7 +1641,7 @@
   {
     "name": "Methamphetamine",
     "summary": "Monoamine-Releasing Stimulant",
-    "description": "A substrate-type releasing agent (not a reuptake blocker): it is carried into monoaminergic neurons and drives reverse transport of norepinephrine and dopamine \u2014 and, weakly but genuinely, serotonin \u2014 through NET, DAT, and SERT. In rat synaptosomes it releases norepinephrine most potently, dopamine close behind, and serotonin roughly 30\u00d7 weaker, so it is catecholamine-dominant yet measurably more serotonergic than amphetamine. It also agonizes TAAR1 (modulating its own release) and is a VMAT2 substrate that collapses the vesicular gradient, redistributing stored monoamines for efflux.",
+    "description": "A substrate-type releasing agent (not a reuptake blocker): it is carried into monoaminergic neurons and drives reverse transport of norepinephrine, dopamine, and serotonin through NET, DAT, and SERT. In rat synaptosomes it releases norepinephrine most potently, dopamine close behind, and serotonin about 30\u00d7 weaker \u2014 catecholamine-dominant, but more serotonergic than amphetamine. It also agonizes TAAR1 (modulating its own release) and is a VMAT2 substrate that collapses the vesicular gradient, redistributing stored monoamines for efflux.",
     "bindings": [
       {"target": "NET", "action": "releasingAgent", "affinity_tier": 3},
       {"target": "DAT", "action": "releasingAgent", "affinity_tier": 3},

@@ -184,6 +184,22 @@ enum MechanismOfActionDatabase {
         ],
     )
 
+    /// Methamphetamine — the amphetamine releaser set plus SERT, which it touches
+    /// measurably (it is more serotonergic than amphetamine). The DB's measured SERT
+    /// potency sets the displayed dot tier; the editorial tier here is just a fallback.
+    /// Summary/description text comes from the curated `mechanisms.json` entry at runtime.
+    private static let methamphetamine = moa(
+        "Monoamine Releasing Agent",
+        "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
+        [
+            b("DAT", .releasingAgent, .primary),
+            b("NET", .releasingAgent, .primary),
+            b("SERT", .releasingAgent, .weak),
+            b("TAAR1", .agonist, .significant),
+            b("VMAT2", .modulator, .significant),
+        ],
+    )
+
     /// Substrate-type (releaser) cathinones — mephedrone, methylone, the MMC
     /// series, etc. Enter the terminal via the transporter and reverse it.
     private static let cathinoneReleaser = moa(
@@ -479,7 +495,7 @@ enum MechanismOfActionDatabase {
         for n in ["amphetamine", "dextroamphetamine"] {
             d[n] = amphetamine
         }
-        d["methamphetamine"] = amphetamine
+        d["methamphetamine"] = methamphetamine
 
         // ── Substituted Cathinones ────────────────────────────────
         // Releasers (substrate-type: DA/NE/5-HT release via transporter reversal)

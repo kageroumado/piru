@@ -3486,6 +3486,22 @@
         }
       }
     },
+    "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激活 5-HT2B；长期或大量使用与心脏瓣膜损害（瓣膜病变）相关。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活化 5-HT2B；長期或大量使用與心臟瓣膜損害（瓣膜病變）相關。"
+          }
+        }
+      }
+    },
     "Activates melatonin MT1 and MT2 receptors in the suprachiasmatic nucleus (SCN), the master circadian clock. MT1 activation suppresses SCN neuronal firing, promoting sleep onset. MT2 activation shifts the circadian phase, entraining the sleep-wake cycle. Endogenous melatonin is produced by the pineal gland in response to darkness; exogenous melatonin mimics this signal." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12565,6 +12581,7 @@
       }
     },
     "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12756,6 +12773,9 @@
           }
         }
       }
+    },
+    "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol." : {
+
     },
     "Enters monoaminergic nerve terminals via dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, then reverses their function to release stored neurotransmitters into the synaptic cleft. Also activates trace amine-associated receptor 1 (TAAR1), inhibits vesicular monoamine transporter 2 (VMAT2), and weakly inhibits monoamine oxidase. The net effect is a substantial increase in synaptic dopamine, norepinephrine, and to a lesser extent serotonin." : {
       "localizations" : {

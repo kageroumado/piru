@@ -541,16 +541,6 @@
     "human_pk": {
       "routes": [
         {
-          "route": "oral",
-          "bioavailability_pct": 67,
-          "tmax_min": 180,
-          "half_life_min": 600,
-          "vd_l_per_kg": 3.7,
-          "protein_binding_pct": 20,
-          "reference": "doi:10.1124/dmd.30.10.1059",
-          "notes": "Cook et al. — d-meth oral t1/2 9–12 h, Vd 3–4 L/kg, F 67%; intranasal F 79%; smoked F 67–90%"
-        },
-        {
           "route": "intranasal",
           "bioavailability_pct": 79,
           "tmax_min": 15,

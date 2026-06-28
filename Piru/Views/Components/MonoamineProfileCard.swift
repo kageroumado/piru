@@ -154,7 +154,7 @@ struct MonoamineProfileCard: View {
                 flag(
                     icon: "heart.text.square",
                     tint: .orange,
-                    text: "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing.",
+                    text: "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.",
                 )
             }
             if profile.misSoldAsMDMA {

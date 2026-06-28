@@ -13,6 +13,11 @@ T = {
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
     "Biliary excretion": ("经胆汁排泄", "經膽汁排泄"),
+    # 5-HT2B valvulopathy flag — plain, drug-relevant copy (dropped fenfluramine / "mechanistic flag").
+    "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.": (
+        "激活 5-HT2B；长期或大量使用与心脏瓣膜损害（瓣膜病变）相关。",
+        "活化 5-HT2B；長期或大量使用與心臟瓣膜損害（瓣膜病變）相關。",
+    ),
     # Pharmacology card harmony pass — round 3 (2026-06-28): receptor strength help-sheet copy now
     # spells out the measurement-aware bands.
     "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.": (
@@ -3531,6 +3536,7 @@ if __name__ == "__main__":
         # Pharmacology card round-3 phase-2 (2026-06-28)
         "Renal excretion",
         "Biliary excretion",
+        "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.",
         # Pharmacology card harmony pass — round 3 (2026-06-28)
         "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.",
         "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. These run about 10× higher than binding, so the dots use a matching scale (under 1 µM strong, over 10 µM weak).",
