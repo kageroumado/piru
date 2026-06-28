@@ -241,7 +241,62 @@ struct MetabolismRow: View {
     let hit: SubstanceStore.MetabolismHit
     let accent: Color
 
+    /// An *elimination* row (renal/biliary excretion of the unchanged parent) is not metabolism — there's
+    /// no enzyme turning the drug into something else, so a "→ unchanged parent [active]" arrow is wrong on
+    /// two counts (it isn't a metabolite, and an unchanged drug isn't an "active metabolite"). Detect those
+    /// rows and render a plain excretion line instead. Robust across the curated encodings: the metabolite
+    /// is literally the unchanged parent, OR there's no metabolite and the enzyme field describes excretion.
+    /// (Phenibut, whose enzyme note mentions excretion but which *does* list real hydroxylation metabolites,
+    /// deliberately stays a metabolism row.)
+    private var isElimination: Bool {
+        if let metabolite = hit.metaboliteName?.lowercased(), metabolite.hasPrefix("unchanged") {
+            return true
+        }
+        let hasMetabolite = !(hit.metaboliteName ?? "").isEmpty
+        if hasMetabolite { return false }
+        let enzyme = hit.enzyme.lowercased()
+        return enzyme.contains("renal") || enzyme.contains("urinary")
+            || enzyme.contains("biliary") || enzyme.contains("excret")
+    }
+
+    /// Plain-language headline for an elimination line, localised — almost everything here is renal.
+    private var eliminationLabel: LocalizedStringResource {
+        let enzyme = hit.enzyme.lowercased()
+        if enzyme.contains("biliary") || enzyme.contains("fecal") || enzyme.contains("faecal") {
+            return "Biliary excretion"
+        }
+        return "Renal excretion"
+    }
+
     var body: some View {
+        if isElimination { eliminationBody } else { metabolismBody }
+    }
+
+    /// Elimination line: a kidney/drop glyph, "Renal excretion", and the cleared fraction — no metabolite
+    /// arrow and no active/inactive chip, because an unchanged-drug excretion fraction is neither.
+    private var eliminationBody: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Image(systemName: "drop")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(eliminationLabel)
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                if let frac = hit.fractionOfClearancePct {
+                    Text("\(SubstanceDetailView.chemNumber(frac))%")
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 2)
+                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                }
+            }
+            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+        }
+    }
+
+    private var metabolismBody: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .firstTextBaseline) {
                 Text(hit.enzyme)

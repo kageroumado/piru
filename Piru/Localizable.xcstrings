@@ -6410,6 +6410,22 @@
         }
       }
     },
+    "Biliary excretion" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "经胆汁排泄"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "經膽汁排泄"
+          }
+        }
+      }
+    },
     "binding" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24342,6 +24358,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除位置"
+          }
+        }
+      }
+    },
+    "Renal excretion" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "经肾排泄"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "經腎排泄"
           }
         }
       }

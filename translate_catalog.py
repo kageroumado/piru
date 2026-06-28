@@ -9,6 +9,10 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
+    # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
+    "Renal excretion": ("经肾排泄", "經腎排泄"),
+    "Biliary excretion": ("经胆汁排泄", "經膽汁排泄"),
     # Pharmacology card harmony pass — round 3 (2026-06-28): receptor strength help-sheet copy now
     # spells out the measurement-aware bands.
     "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.": (
@@ -3524,6 +3528,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology card round-3 phase-2 (2026-06-28)
+        "Renal excretion",
+        "Biliary excretion",
         # Pharmacology card harmony pass — round 3 (2026-06-28)
         "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.",
         "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. These run about 10× higher than binding, so the dots use a matching scale (under 1 µM strong, over 10 µM weak).",
