@@ -53,6 +53,28 @@
           "notes": null
         },
         {
+          "target": "NMDA (MK-801 site, S-enantiomer)",
+          "ic50_nm": 600,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "recombinant human GluN1/GluN2A NMDA receptor (Xenopus oocytes)",
+          "radioligand_or_probe": "two-electrode voltage-clamp electrophysiology (channel-block IC50)",
+          "reference": "doi:10.1038/s41586-021-03769-9",
+          "is_review": false,
+          "notes": "Zhang et al. 2021 Nature (PMID 34321660). S-ketamine IC50 0.60 µM at the human NMDA receptor; ~4× more potent than R-ketamine, matching Oye 1992 human-brain data."
+        },
+        {
+          "target": "NMDA (MK-801 site, R-enantiomer)",
+          "ic50_nm": 2390,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "recombinant human GluN1/GluN2A NMDA receptor (Xenopus oocytes)",
+          "radioligand_or_probe": "two-electrode voltage-clamp electrophysiology (channel-block IC50)",
+          "reference": "doi:10.1038/s41586-021-03769-9",
+          "is_review": false,
+          "notes": "Zhang et al. 2021 Nature (PMID 34321660). R-ketamine IC50 2.39 µM at the human NMDA receptor."
+        },
+        {
           "target": "σ1 (racemate)",
           "ki_nm": 139000,
           "action": "agonist",
