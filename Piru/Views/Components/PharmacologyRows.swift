@@ -75,34 +75,67 @@ struct PKRouteRow: View {
     let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(RouteOfAdministration.from(string: hit.route).localizedName)
                 .font(.subheadline.weight(.semibold))
             if !metrics.isEmpty {
-                Text(metrics.joined(separator: "  ·  "))
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                FlowLayout(spacing: 6) {
+                    ForEach(metrics) { metric in
+                        PKMetricChip(label: metric.label, symbol: metric.symbol, value: metric.value)
+                    }
+                }
             }
             sourceLine(slug: hit.sourceSlug, detail: hit.demographics, doi: hit.doi, pmid: hit.pmid, accent: accent)
         }
     }
 
-    /// Only the populated metrics, each prefixed with its standard pharmacology
-    /// symbol so the row reads without a header. These are international
-    /// scientific notation (Tmax, t½, Vd, ng/mL …) — rendered verbatim, not
-    /// localized, like the units everywhere else in the app.
-    private var metrics: [String] {
+    /// One populated PK metric: a plain-language label (so "what does this mean?" is answered without a
+    /// glossary), the standard scientific symbol kept as a subtitle, and the value with its verbatim unit.
+    private struct PKMetric: Identifiable {
+        let id: String
+        let label: LocalizedStringResource
+        let symbol: String
+        let value: String
+    }
+
+    private var metrics: [PKMetric] {
         let n = SubstanceDetailView.chemNumber
-        var out: [String] = []
-        if let v = hit.bioavailabilityPct { out.append("F \(n(v))%") }
-        if let v = hit.tmaxMin { out.append("Tmax \(pkMinutes(v))") }
-        if let v = hit.halfLifeMin { out.append("t½ \(pkMinutes(v))") }
-        if let v = hit.proteinBindingPct { out.append("PPB \(n(v))%") }
-        if let v = hit.vdLPerKg { out.append("Vd \(n(v)) L/kg") }
-        if let v = hit.clearanceMlPerMinPerKg { out.append("CL \(n(v)) mL/min/kg") }
-        if let v = hit.cmaxNgPerMl { out.append("Cmax \(n(v)) ng/mL") }
+        var out: [PKMetric] = []
+        if let v = hit.bioavailabilityPct { out.append(.init(id: "F", label: "Bioavailability", symbol: "F", value: "\(n(v))%")) }
+        if let v = hit.tmaxMin { out.append(.init(id: "Tmax", label: "Time to peak", symbol: "Tmax", value: pkMinutes(v))) }
+        if let v = hit.halfLifeMin { out.append(.init(id: "t12", label: "Half-life", symbol: "t½", value: pkMinutes(v))) }
+        if let v = hit.proteinBindingPct { out.append(.init(id: "PPB", label: "Protein binding", symbol: "PPB", value: "\(n(v))%")) }
+        if let v = hit.vdLPerKg { out.append(.init(id: "Vd", label: "Distribution", symbol: "Vd", value: "\(n(v)) L/kg")) }
+        if let v = hit.clearanceMlPerMinPerKg { out.append(.init(id: "CL", label: "Clearance", symbol: "CL", value: "\(n(v)) mL/min/kg")) }
+        if let v = hit.cmaxNgPerMl { out.append(.init(id: "Cmax", label: "Peak level", symbol: "Cmax", value: "\(n(v)) ng/mL")) }
         return out
+    }
+}
+
+/// A labeled mini-stat chip for one pharmacokinetic value: plain-language term on top, the value with its
+/// unit below, and the scientific symbol as a faint trailing tag. Replaces the dense " · "-joined run-on
+/// line so each number is scannable and self-explaining.
+private struct PKMetricChip: View {
+    let label: LocalizedStringResource
+    let symbol: String
+    let value: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 1) {
+            HStack(spacing: 4) {
+                Text(label)
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+                Text(symbol)
+                    .font(.caption2.monospaced())
+                    .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
+            }
+            Text(value)
+                .font(.subheadline.weight(.semibold).monospacedDigit())
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(Theme.secondaryLabel.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -172,6 +205,8 @@ private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?,
 /// `min`/`h` are universal SI-adjacent unit symbols — rendered verbatim.
 private func pkMinutes(_ minutes: Double) -> String {
     if minutes < 60 { return "\(SubstanceDetailView.chemNumber(minutes)) min" }
-    let hours = minutes / 60
+    // Round to one decimal so 155 min reads "2.6 h", not "2.58333 h"; chemNumber then drops a trailing
+    // ".0" so a clean hour stays "3 h".
+    let hours = (minutes / 6).rounded() / 10
     return "\(SubstanceDetailView.chemNumber(hours)) h"
 }

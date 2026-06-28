@@ -7929,6 +7929,22 @@
         }
       }
     },
+    "Clearance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除率"
+          }
+        }
+      }
+    },
     "Clearance is capped at ~1 drink/hour, so each extra drink stacks on top of the last and lingers — total exposure climbs far faster than the number of drinks." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10339,6 +10355,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其特徵是相對於 D2 具有高 5-HT2A 親和力,以及獨特的快速 D2 解離(「快速脫離」理論)。對 D1、D3、D4、蕈毒鹼 M1/M4、組胺 H1 和 α1/α2-腎上腺素受體有顯著親和力。這種廣泛的受體譜是其在難治性精神分裂症中獨特療效的基礎。M1/M4 蕈毒鹼活性可能對認知益處有貢獻。顆粒性白血球缺乏症的風險需要血液監測。"
+          }
+        }
+      }
+    },
+    "Distribution" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分布容积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分布容積"
           }
         }
       }
@@ -21233,6 +21265,22 @@
         }
       }
     },
+    "Peak level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "峰浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "峰濃度"
+          }
+        }
+      }
+    },
     "Peptide" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22621,6 +22669,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "避光保存"
+          }
+        }
+      }
+    },
+    "Protein binding" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血浆蛋白结合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血漿蛋白結合"
           }
         }
       }
@@ -30025,6 +30089,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "服用時間"
+          }
+        }
+      }
+    },
+    "Time to peak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达峰时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達峰時間"
           }
         }
       }
