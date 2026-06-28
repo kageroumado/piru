@@ -1787,31 +1787,36 @@ final class SubstanceStore {
             substanceID: substanceID, language: language,
         )
 
-        // Union-merge bindings across sources (curated ∪ measured), deduped by
-        // (target, action): when both a curated row (ordinal `affinity_tier`, no
-        // Ki) and a measured row (numeric `ki_nm`) describe the same target+action,
-        // keep the measured one — it carries the real affinity. The displayed tier
-        // is COALESCE(affinity_tier, tier-derived-from-Ki) so curated rows keep
-        // their intended emphasis (e.g. mitragynine's α2-adrenergic survives even
-        // though the measured opioid panel omits it). Ordered primary-first.
+        // Union-merge bindings across sources (curated ∪ measured) into ONE row per
+        // (target, action), taking the STRONGEST tier any source attests. Each row's
+        // tier is COALESCE(affinity_tier, tier-from-Kᵢ, tier-from-EC₅₀/IC₅₀): a
+        // curated ordinal when present, else derived from the measured affinity, else
+        // from the functional potency of a releaser/blocker row. We then GROUP BY and
+        // take MAX(tier) so the displayed emphasis never collapses to "weak" — the old
+        // ROW_NUMBER dedup tie-broke on Kᵢ presence alone, so a curated tier-3 row (no
+        // Kᵢ) or a potent releaser EC₅₀ row lost to a tierless sibling and the target
+        // showed 1 dot (MDMA's SERT — its defining action — rendered weak). EC₅₀/IC₅₀
+        // get their own tiering because releaser/reuptake rows carry no Kᵢ at all.
         let bindingRows = try Row.fetchAll(db, sql: """
-            SELECT target, action, affinity, ki_nm FROM (
-                SELECT b.target, b.action,
+            SELECT target, action, MAX(tier) AS affinity, MIN(ki_nm) AS ki_nm FROM (
+                SELECT b.target, b.action, b.ki_nm,
                        COALESCE(b.affinity_tier,
-                                CASE WHEN b.ki_nm IS NOT NULL AND b.ki_nm < 100 THEN 3
-                                     WHEN b.ki_nm IS NOT NULL AND b.ki_nm < 1000 THEN 2
-                                     ELSE 1 END) AS affinity,
-                       b.ki_nm,
-                       ROW_NUMBER() OVER (
-                           PARTITION BY b.target, b.action
-                           ORDER BY (b.ki_nm IS NOT NULL) DESC, b.ki_nm ASC
-                       ) AS rn
+                                CASE WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   <  100 THEN 3
+                                     WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   < 1000 THEN 2
+                                     WHEN b.ki_nm   IS NOT NULL                       THEN 1
+                                     WHEN b.ec50_nm IS NOT NULL AND b.ec50_nm <  300 THEN 3
+                                     WHEN b.ec50_nm IS NOT NULL AND b.ec50_nm < 3000 THEN 2
+                                     WHEN b.ec50_nm IS NOT NULL                       THEN 1
+                                     WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm <  300 THEN 3
+                                     WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm < 3000 THEN 2
+                                     WHEN b.ic50_nm IS NOT NULL                       THEN 1
+                                     ELSE 1 END) AS tier
                   FROM bindings b
                   JOIN sources src ON src.id = b.source_id
                  WHERE b.substance_id = ?
                    AND src.slug IN (\(enabledSourceListSQL))
             )
-             WHERE rn = 1
+             GROUP BY target, action
              ORDER BY affinity DESC, ki_nm ASC NULLS LAST, LENGTH(target) ASC
              LIMIT 20
         """, arguments: [substanceID])

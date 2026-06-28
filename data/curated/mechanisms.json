@@ -1637,5 +1637,45 @@
         "affinity_tier": 3
       }
     ]
+  },
+  {
+    "name": "Methamphetamine",
+    "summary": "Monoamine-Releasing Stimulant",
+    "description": "A substrate-type releasing agent (not a reuptake blocker): it is carried into monoaminergic neurons and drives reverse transport of norepinephrine and dopamine \u2014 and, weakly but genuinely, serotonin \u2014 through NET, DAT, and SERT. In rat synaptosomes it releases norepinephrine most potently, dopamine close behind, and serotonin roughly 30\u00d7 weaker, so it is catecholamine-dominant yet measurably more serotonergic than amphetamine. It also agonizes TAAR1 (modulating its own release) and is a VMAT2 substrate that collapses the vesicular gradient, redistributing stored monoamines for efflux.",
+    "bindings": [
+      {"target": "NET", "action": "releasingAgent", "affinity_tier": 3},
+      {"target": "DAT", "action": "releasingAgent", "affinity_tier": 3},
+      {"target": "SERT", "action": "releasingAgent", "affinity_tier": 1},
+      {"target": "TAAR1", "action": "agonist", "affinity_tier": 2},
+      {"target": "VMAT2", "action": "modulator", "affinity_tier": 2}
+    ]
+  },
+  {
+    "name": "Amphetamine",
+    "summary": "Catecholamine-Releasing Agent",
+    "description": "A substrate-type releasing agent rather than a reuptake blocker: it enters catecholaminergic neurons through NET and DAT and triggers reverse transport, dumping norepinephrine and dopamine into the synapse. In rat synaptosomes norepinephrine release is most potent, dopamine close behind, and serotonin release is very weak \u2014 present but near-SERT-sparing, making amphetamine more catecholamine-selective than methamphetamine. It additionally agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
+    "bindings": [
+      {"target": "NET", "action": "releasingAgent", "affinity_tier": 3},
+      {"target": "DAT", "action": "releasingAgent", "affinity_tier": 3},
+      {"target": "SERT", "action": "releasingAgent", "affinity_tier": 1},
+      {"target": "TAAR1", "action": "agonist", "affinity_tier": 2},
+      {"target": "VMAT2", "action": "modulator", "affinity_tier": 2}
+    ]
+  },
+  {
+    "name": "Diazepam",
+    "summary": "GABA-A Positive Allosteric Modulator",
+    "description": "Binds the benzodiazepine site of the GABA-A receptor and enhances the inhibitory effect of GABA, increasing the frequency of chloride-channel opening and neuronal hyperpolarization. This produces anxiolytic, sedative, muscle-relaxant, and anticonvulsant effects. It does not open the channel on its own \u2014 it only potentiates GABA already present, which is why it is comparatively safe in isolated overdose but dangerous combined with other CNS depressants.",
+    "bindings": [
+      {"target": "GABA-A", "action": "positiveAllostericModulator", "affinity_tier": 3}
+    ]
+  },
+  {
+    "name": "Alprazolam",
+    "summary": "GABA-A Positive Allosteric Modulator",
+    "description": "Binds the benzodiazepine site of the GABA-A receptor and potentiates GABA-mediated chloride conductance, increasing neuronal inhibition. High potency and rapid onset give it strong anxiolytic and panic-suppressing effects with marked sedation. It enhances GABA already present rather than directly gating the channel; tolerance and a pronounced withdrawal syndrome develop with sustained use.",
+    "bindings": [
+      {"target": "GABA-A", "action": "positiveAllostericModulator", "affinity_tier": 3}
+    ]
   }
 ]

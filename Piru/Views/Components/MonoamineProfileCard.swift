@@ -151,7 +151,7 @@ struct MonoamineProfileCard: View {
                 flag(
                     icon: "heart.text.square",
                     tint: .orange,
-                    text: "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it.",
+                    text: "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing.",
                 )
             }
             if profile.misSoldAsMDMA {

@@ -42,6 +42,37 @@ struct SubstanceAuditExportTests {
         try runExport(forNames: SubstanceAuditExportTests.commonNames, fileName: "substance-audit-common.md", title: "Common Substances — Data Audit")
     }
 
+    /// The deliberately **enriched** pharmacology set — the flagship seed + RC-expansion groups
+    /// (cathinones, pyrrolidinophenones, fluoroamphetamines, tramadol/O-DSMT, gabapentinoids, eugeroics,
+    /// benzofurans) read straight from `data/curated/pharmacology-flagship.json`, unioned with the
+    /// Common-20. Scoping to the flagship roster (rather than "any substance with a stray upstream Kᵢ /
+    /// PK row") keeps the audit to the ~50 substances that actually got the expanded receptor / monoamine
+    /// / PK / metabolism treatment — the ones with the tricky issues.
+    @MainActor
+    static func enrichedNames() -> [String] {
+        var names = Set(commonNames)
+        names.formUnion(flagshipNames())
+        // Resolve each through the store so we audit names the DB actually carries (and de-dup by canon).
+        let resolved = names.compactMap { SubstanceLibrary.lookupByNameOrAlias($0)?.name }
+        return Set(resolved).sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
+    }
+
+    /// The `name` of every entry in the curated flagship seed. Read from the repo's curated JSON (the
+    /// same source the pipeline ingests) via the `#filePath`-resolved repo root.
+    static func flagshipNames() -> [String] {
+        let url = repoRoot()
+            .appendingPathComponent("data/curated/pharmacology-flagship.json")
+        guard let data = try? Data(contentsOf: url),
+              let arr = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else { return [] }
+        return arr.compactMap { $0["name"] as? String }
+    }
+
+    @Test
+    @MainActor
+    func `Export enriched-pharmacology audit markdown`() throws {
+        try runExport(forNames: Self.enrichedNames(), fileName: "substance-audit-enriched.md", title: "Enriched Pharmacology — Data Audit")
+    }
+
     @Test(.enabled(if: ProcessInfo.processInfo.environment["PIRU_AUDIT_EXPORT_ALL"] != nil))
     @MainActor
     func `Export full-catalog audit markdown`() throws {
@@ -126,9 +157,12 @@ enum AuditSerializer {
             m += mechanismSection(moa)
         }
 
-        // Receptor literature (Ki/EC50)
+        // Computed monoamine profile + receptor literature (Ki/EC50) — both read the same bindings.
         let lit = SubstanceStore.shared.bindings(forSubstanceName: s.name)
-        if !lit.isEmpty { m += receptorLiteratureSection(lit) }
+        if !lit.isEmpty {
+            m += monoamineProfileSection(lit, name: s.name)
+            m += receptorLiteratureSection(lit)
+        }
 
         // Pharmacokinetics + metabolism
         let pk = SubstanceStore.shared.pharmacokinetics(forSubstanceName: s.name)
@@ -266,12 +300,37 @@ enum AuditSerializer {
         return m
     }
 
+    /// The 10 µM relevance cutoff — a Kᵢ at/above this is "no meaningful affinity" by the standard
+    /// receptor-pharmacology convention. Applied to **Kᵢ only** (off-target binding noise like ketamine's
+    /// σ / µ-opioid); functional EC₅₀/IC₅₀ transporter rows are never capped (a releaser's DAT EC₅₀ is
+    /// legitimately tens of µM yet is the primary mechanism). The audit flags what the cap would hide.
+    static let kiCapNanomolar: Double = 10_000
+
     private static func receptorLiteratureSection(_ hits: [SubstanceStore.BindingHit]) -> String {
-        var m = "### Receptor literature (Ki/EC50)\n\n| Target | Action | Ki (nM) | EC50 (nM) | Species | Source | Ref |\n|---|---|---|---|---|---|---|\n"
+        var m = "### Receptor literature (Ki/EC50)\n\n| Target | Action | Ki (nM) | EC50 (nM) | IC50 (nM) | Species | Source | Ref | 10µM cap |\n|---|---|---|---|---|---|---|---|---|\n"
         for h in hits {
             let ref = h.pmid.map { "PMID:\($0)" } ?? (h.doi.map { "doi:\($0)" } ?? "")
-            m += "| \(h.target) | \(h.action) | \(h.kiNm.map(fmt) ?? "") | \(h.ec50Nm.map(fmt) ?? "") | \(h.species ?? "") | \(h.sourceSlug) | \(ref) |\n"
+            let capped = (h.kiNm.map { $0 >= kiCapNanomolar } ?? false) ? "HIDE" : ""
+            m += "| \(h.target) | \(h.action) | \(h.kiNm.map(fmt) ?? "") | \(h.ec50Nm.map(fmt) ?? "") | \(h.ic50Nm.map(fmt) ?? "") | \(h.species ?? "") | \(h.sourceSlug) | \(ref) | \(capped) |\n"
         }
+        return m + "\n"
+    }
+
+    /// The computed ``MonoamineProfile`` — exactly what the detail view's Monoamine Profile card derives
+    /// from these same binding rows (mechanism, DAT:SERT lean, 5-HT2B / mis-sold flags). Surfacing it in
+    /// the audit makes the card's classification reviewable without a screenshot.
+    private static func monoamineProfileSection(_ hits: [SubstanceStore.BindingHit], name: String) -> String {
+        guard let p = MonoamineProfile.from(bindings: hits, substanceName: name) else { return "" }
+        var m = "### Monoamine profile (computed card)\n\n"
+        m += "- **Mechanism:** \(String(localized: p.mechanismLabel))\n"
+        if let r = p.datSertRatio {
+            m += "- **DAT:SERT ratio:** \(fmt(r)) → \(String(localized: p.leanLabel))\n"
+        } else {
+            m += "- **DAT:SERT ratio:** — (DAT or SERT data missing)\n"
+        }
+        if let pos = p.leanPosition { m += "- **Spectrum marker (0 = serotonin … 1 = dopamine):** \(String(format: "%.2f", pos))\n" }
+        if p.engages5HT2B { m += "- **5-HT2B agonist flag:** YES (shows valvulopathy callout)\n" }
+        if p.misSoldAsMDMA { m += "- **Mis-sold-as-MDMA flag:** YES\n" }
         return m + "\n"
     }
 

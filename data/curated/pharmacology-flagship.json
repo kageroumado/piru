@@ -341,5 +341,28 @@
       { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 4900, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters — weak DAT (4.9 µM), SERT/NET-leaning." },
       { "target": "5-HT2A", "action": "agonist", "ec50_nm": 7600, "emax_pct": 29, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015 — weak 5-HT2A partial agonist (EC50 7.6 µM, Emax 29%, Ki 2.7 µM)." }
     ]
+  },
+  {
+   "_comment": "METHAMPHETAMINE + AMPHETAMINE (2026-06-28). Substrate-releaser EC50 triples (rat brain synaptosome, Rothman 2001 PMID 11071707; amph reproduced by Banks/Bauer 2014 PMID 24796848) + human PK. NET most potent, DAT close, SERT weak-but-present (meth ~30x, amph ~70x weaker than DAT). action=releasingAgent (NOT reuptakeInhibitor — they are substrates, contrasted with methylphenidate). Carry within-assay ratios, not cross-platform nM.",
+   "name": "Methamphetamine",
+   "pk_routes": [
+   {"route": "oral", "bioavailability_pct": 67, "tmax_min": 180, "half_life_min": 600, "vd_l_per_kg": 3.7, "protein_binding_pct": 53, "confidence": "MEDIUM", "reference": "DOI 10.1111/j.1360-0443.2009.02564.x", "notes": "Cruickshank & Dyer 2009 Addiction review (oral F ~67%, Tmax ~3 h, t1/2 ~9-12 h); Vd 3.2-4.2 L/kg Cook 1993 (Drug Metab Dispos 21:717); protein binding 53% / Vd 5.3 L/kg Schepers 2003 PMID 12507968. Vd range 3.2-5.3 L/kg across sources."}
+   ],
+   "bindings": [
+   {"target": "NET", "action": "releasingAgent", "ec50_nm": 12.3, "confidence": "MEDIUM", "reference": "PMID 11071707", "notes": "Rothman 2001 Synapse, (+)-methamphetamine NE release, rat brain synaptosome. Same-assay triple NET 12.3 / DAT 24.5 / SERT 736."},
+   {"target": "DAT", "action": "releasingAgent", "ec50_nm": 24.5, "confidence": "MEDIUM", "reference": "PMID 11071707", "notes": "Rothman 2001 Synapse, (+)-methamphetamine DA release, rat brain synaptosome."},
+   {"target": "SERT", "action": "releasingAgent", "ec50_nm": 736, "confidence": "MEDIUM", "reference": "PMID 11071707", "notes": "Rothman 2001 Synapse, (+)-methamphetamine 5-HT release, rat brain synaptosome — weak but present; Baumann 2012 reports ~1292 nM, carry as ~736-1292 nM."}
+   ]
+  },
+  {
+   "name": "Amphetamine",
+   "pk_routes": [
+   {"route": "oral", "bioavailability_pct": 75, "tmax_min": 180, "half_life_min": 630, "vd_l_per_kg": 4.0, "protein_binding_pct": 20, "confidence": "MEDIUM", "reference": "PMID 28910145", "notes": "Markowitz & Patrick 2017 (oral F ~75%); d-amph t1/2 ~9.8-11 h (Adderall IR/XR FDA labels); Vd ~4 L/kg (StatPearls) / oral Vz/F ~5.4 L/kg (Roberts 2015 PMID 26329917); Tmax ~3 h and protein binding ~16-20% are textbook (LOW-MEDIUM)."}
+   ],
+   "bindings": [
+   {"target": "NET", "action": "releasingAgent", "ec50_nm": 7.2, "confidence": "MEDIUM", "reference": "PMID 24796848", "notes": "Banks/Bauer 2014 reproducing Rothman 2001 (PMID 11071707); (+)-amphetamine NE release, rat brain synaptosome (Rothman 7.07 nM)."},
+   {"target": "DAT", "action": "releasingAgent", "ec50_nm": 24.8, "confidence": "MEDIUM", "reference": "PMID 24796848", "notes": "Banks/Bauer 2014 reproducing Rothman 2001; (+)-amphetamine DA release, rat synaptosome. Same-platform runs span DAT 5-24.8 nM."},
+   {"target": "SERT", "action": "releasingAgent", "ec50_nm": 1765, "confidence": "MEDIUM", "reference": "PMID 24796848", "notes": "Banks/Bauer 2014 reproducing Rothman 2001; (+)-amphetamine 5-HT release, rat synaptosome — very weak (near-SERT-sparing); undetectable to 10 uM in some runs (Schindler/Baumann 2021 PMID 33082158)."}
+   ]
   }
 ]
