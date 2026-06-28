@@ -554,7 +554,6 @@ struct SubstanceDetailView: View {
     // applied the first time the section was rendered).
     @State private var overviewExpanded: Bool?
     @State private var mechanismExpanded: Bool?
-    @State private var monoamineProfileExpanded: Bool?
     @State private var monoamineProfile: MonoamineProfile?
     @State private var receptorLitExpanded: Bool?
     @State private var pharmacokineticsExpanded: Bool?
@@ -1593,9 +1592,12 @@ struct SubstanceDetailView: View {
                 // Effects — curated summary + grouped "All effects" navigation.
                 effectsSection
 
+                // Unified Pharmacology card — merges the former Mechanism-of-Action and
+                // Monoamine-Profile sections (hybrid redesign step 2). The monoamine slider hero
+                // appears inline when the substance has a monoamine profile.
                 if policy.showsMechanism, let moa = composedMechanism {
                     CollapsibleSection(
-                        "Mechanism of Action",
+                        "Pharmacology",
                         systemImage: "atom",
                         onInfo: { glossaryTopic = .mechanism },
                         isExpanded: Binding(
@@ -1603,7 +1605,7 @@ struct SubstanceDetailView: View {
                             set: { mechanismExpanded = $0 },
                         ),
                     ) {
-                        mechanismBody(moa)
+                        PharmacologyCard(moa: moa, monoamine: monoamineProfile, category: substance.category)
                         if let slug = provenance?.mechanismSource {
                             SourceAttributionRow(
                                 slug: slug,
@@ -1611,20 +1613,6 @@ struct SubstanceDetailView: View {
                                 deepLink: sourceDeepLink(slug),
                             )
                         }
-                    }
-                }
-
-                if policy.showsMechanism, let monoamineProfile {
-                    CollapsibleSection(
-                        "Monoamine Profile",
-                        systemImage: "slider.horizontal.below.square.filled.and.square",
-                        onInfo: { glossaryTopic = .monoamine },
-                        isExpanded: Binding(
-                            get: { monoamineProfileExpanded ?? true },
-                            set: { monoamineProfileExpanded = $0 },
-                        ),
-                    ) {
-                        MonoamineProfileCard(profile: monoamineProfile)
                     }
                 }
 
@@ -1924,61 +1912,7 @@ struct SubstanceDetailView: View {
         provenance?.routesBySource[route]?.durationSource
     }
 
-    // MARK: - Mechanism + Literature bodies
-
-    private func mechanismBody(_ moa: MechanismOfAction) -> some View {
-        // The category-coloured emphasis is for a short *headline* summary. Some compounds (heroin) carry
-        // a multi-paragraph essay in the summary field — colouring that whole wall reads as a scary red
-        // block, so fall back to calm body styling once it's clearly prose, not a title.
-        let summaryIsHeadline = moa.summary.count <= 90 && !moa.summary.contains(". ")
-        return VStack(alignment: .leading, spacing: 8) {
-            if !moa.summary.isEmpty {
-                Text(moa.summary)
-                    .font(summaryIsHeadline ? .subheadline.weight(.semibold) : .subheadline)
-                    .foregroundStyle(summaryIsHeadline ? substance.category.color : Color.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            if !moa.description.isEmpty {
-                Text(moa.description)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            if !moa.bindings.isEmpty {
-                Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
-                    GridRow {
-                        Text("Target")
-                        Text("Action")
-                        Text(verbatim: "")
-                    }
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-
-                    ForEach(moa.bindings) { binding in
-                        GridRow {
-                            Text(binding.target)
-                                .fontWeight(.medium)
-                            Text(binding.action.displayName)
-                                .foregroundStyle(.secondary)
-                            AffinityDots(filled: binding.affinity.rawValue, tint: substance.category.color)
-                        }
-                    }
-                }
-                .font(.caption)
-            } else if !moa.primaryTargets.isEmpty {
-                HStack(spacing: 0) {
-                    Text("Primary Targets: ")
-                        .font(.caption.weight(.medium))
-                    Text(moa.primaryTargets.joined(separator: " · "))
-                        .font(.caption)
-                }
-                .foregroundStyle(Theme.secondaryLabel)
-            }
-        }
-        .padding(.vertical, 2)
-    }
+    // MARK: - Literature bodies
 
     /// The receptor rows worth showing: the 10 µM relevance cap. Drops a **Kᵢ-based** off-target binding
     /// ≥ 10,000 nM (the standard "no meaningful affinity" cutoff) — ketamine's σ/µ/κ, meth's σ2, MDMA's

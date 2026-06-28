@@ -9827,6 +9827,9 @@
         }
       }
     },
+    "DAT:SERT %@" : {
+
+    },
     "Data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22051,6 +22054,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "藥理資料彙編自上述來源——社群減害資料庫、FDA 藥品標籤以及同行評審文獻。僅供減害與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。"
+          }
+        }
+      }
+    },
+    "Pharmacology" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药理学"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥理學"
           }
         }
       }

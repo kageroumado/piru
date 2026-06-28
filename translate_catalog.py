@@ -9,8 +9,9 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
-    # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher.
+    # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher + merged card.
     "Detail level": ("详细程度", "詳細程度"),
+    "Pharmacology": ("药理学", "藥理學"),
     # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
@@ -3537,6 +3538,7 @@ if __name__ == "__main__":
     NEW_KEYS = {
         # Pharmacology card hybrid redesign (2026-06-29)
         "Detail level",
+        "Pharmacology",
         # Pharmacology card round-3 phase-2 (2026-06-28)
         "Renal excretion",
         "Biliary excretion",
