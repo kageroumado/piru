@@ -46,12 +46,28 @@ enum MechanismOfActionDatabase {
         let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (template ?? categoryMoa ?? dbMechanism)
         guard let textSource else { return nil }
 
-        let bindings: [ReceptorBinding] = if let template, !template.bindings.isEmpty {
+        let baseBindings: [ReceptorBinding] = if let template, !template.bindings.isEmpty {
             template.bindings
         } else if let dbBindings = dbMechanism?.bindings, !dbBindings.isEmpty {
             dbBindings
         } else {
             categoryMoa?.bindings ?? textSource.bindings
+        }
+
+        // The strength dots are a single systematic scale (`ReceptorStrength`, measurement-aware bands).
+        // A class template / hardcoded entry supplies the clean target set, actions, and editorial tiers,
+        // but where the DB carries a *measured* tier for that target it WINS — so the Mechanism card's
+        // dots match the Receptor Literature card (e.g. ketamine NMDA reads moderate from its ~300 nM Kᵢ,
+        // not the template's "primary"). Targets the DB doesn't measure (downstream AMPA/mTOR) keep the
+        // template tier. `dbMechanism.bindings` already encodes measured-wins in `SubstanceStore`.
+        let dbTierByTarget = Dictionary(
+            (dbMechanism?.bindings ?? []).map { (SubstanceStore.normalizedBindingTarget($0.target), $0.affinity) },
+            uniquingKeysWith: { max($0, $1) },
+        )
+        let bindings = baseBindings.map { binding -> ReceptorBinding in
+            guard let dbTier = dbTierByTarget[SubstanceStore.normalizedBindingTarget(binding.target)],
+                  dbTier != binding.affinity else { return binding }
+            return ReceptorBinding(target: binding.target, action: binding.action, affinity: dbTier)
         }
 
         return MechanismOfAction(

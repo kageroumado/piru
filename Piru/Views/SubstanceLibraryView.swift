@@ -1909,15 +1909,24 @@ struct SubstanceDetailView: View {
     // MARK: - Mechanism + Literature bodies
 
     private func mechanismBody(_ moa: MechanismOfAction) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(moa.summary)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(substance.category.color)
+        // The category-coloured emphasis is for a short *headline* summary. Some compounds (heroin) carry
+        // a multi-paragraph essay in the summary field — colouring that whole wall reads as a scary red
+        // block, so fall back to calm body styling once it's clearly prose, not a title.
+        let summaryIsHeadline = moa.summary.count <= 90 && !moa.summary.contains(". ")
+        return VStack(alignment: .leading, spacing: 8) {
+            if !moa.summary.isEmpty {
+                Text(moa.summary)
+                    .font(summaryIsHeadline ? .subheadline.weight(.semibold) : .subheadline)
+                    .foregroundStyle(summaryIsHeadline ? substance.category.color : Color.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
-            Text(moa.description)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+            if !moa.description.isEmpty {
+                Text(moa.description)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
             if !moa.bindings.isEmpty {
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
@@ -1971,7 +1980,15 @@ struct SubstanceDetailView: View {
             if let floor, ki <= floor * 10 { return true }
             return false
         }
-        return Self.dedupedLiterature(capped)
+        // Strongest receptors first: by strength tier desc, then more-potent-first within a tier.
+        return Self.dedupedLiterature(capped).sorted { lhs, rhs in
+            let lt = strengthTier(for: lhs) ?? 0
+            let rt = strengthTier(for: rhs) ?? 0
+            if lt != rt { return lt > rt }
+            let lv = lhs.kiNm ?? lhs.ec50Nm ?? lhs.ic50Nm ?? .greatestFiniteMagnitude
+            let rv = rhs.kiNm ?? rhs.ec50Nm ?? rhs.ic50Nm ?? .greatestFiniteMagnitude
+            return lv < rv
+        }
     }
 
     /// Collapse the literature list: when a (target, action) has any **human** row, drop its non-human
@@ -2015,32 +2032,11 @@ struct SubstanceDetailView: View {
         .padding(.vertical, 4)
     }
 
-    /// Strength tier (1–3) for a literature row's dots. A target's curated **Mechanism-of-Action tier
-    /// wins** when it matches — so the two cards never disagree (ketamine's NMDA reads 3/3 on both, not
-    /// 3 on Mechanism and 2 here just because its Kᵢ sits in the µM range). Off-targets with no MOA entry
-    /// fall back to absolute affinity bands.
+    /// Strength tier (1–3) for a literature row's dots — the single, systematic `ReceptorStrength`
+    /// model (measurement-aware bands). The Mechanism card computes the *same* bands from the *same*
+    /// measured values in SQL, so the two cards agree by construction (no per-target inheritance hack).
     private func strengthTier(for hit: SubstanceStore.BindingHit) -> Int? {
-        guard let nm = hit.kiNm ?? hit.ec50Nm ?? hit.ic50Nm else { return nil }
-        if let moaTier = moaTierByTarget[Self.normalizeTargetName(hit.target)] { return moaTier }
-        return affinityTier(forNm: nm)
-    }
-
-    /// Curated MOA affinity tier keyed by normalized target name, so receptor rows can inherit it.
-    private var moaTierByTarget: [String: Int] {
-        guard let moa = composedMechanism else { return [:] }
-        var map: [String: Int] = [:]
-        for binding in moa.bindings {
-            let key = Self.normalizeTargetName(binding.target)
-            map[key] = max(map[key] ?? 0, binding.affinity.rawValue)
-        }
-        return map
-    }
-
-    /// "NMDA (MK-801 site, S-enantiomer)" and "NMDA" both normalize to "nmda", so an enantiomer-qualified
-    /// literature row still matches its plain MOA target.
-    static func normalizeTargetName(_ target: String) -> String {
-        let base = target.split(separator: "(", maxSplits: 1).first.map(String.init) ?? target
-        return base.trimmingCharacters(in: .whitespaces).lowercased()
+        ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm)
     }
 
     /// A plain `Section` header (icon + title) with a trailing (i) that opens the card's help sheet —

@@ -191,13 +191,13 @@ struct PharmacologyGlossarySheet: View {
             id: "binding",
             term: "Binding",
             symbol: "Ki",
-            explanation: "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip.",
+            explanation: "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.",
         ),
         .init(
             id: "functional",
             term: "Functional",
             symbol: "EC50 / IC50",
-            explanation: "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. Also smaller = more potent.",
+            explanation: "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. These run about 10× higher than binding, so the dots use a matching scale (under 1 µM strong, over 10 µM weak).",
         ),
         .init(
             id: "nM",

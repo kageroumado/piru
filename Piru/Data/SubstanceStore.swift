@@ -1789,28 +1789,30 @@ final class SubstanceStore {
 
         // Union-merge bindings across sources (curated ∪ measured) into ONE row per
         // (target, action), taking the STRONGEST tier any source attests. Each row's
-        // tier is COALESCE(affinity_tier, tier-from-Kᵢ, tier-from-EC₅₀/IC₅₀): a
-        // curated ordinal when present, else derived from the measured affinity, else
-        // from the functional potency of a releaser/blocker row. We then GROUP BY and
-        // take MAX(tier) so the displayed emphasis never collapses to "weak" — the old
-        // ROW_NUMBER dedup tie-broke on Kᵢ presence alone, so a curated tier-3 row (no
-        // Kᵢ) or a potent releaser EC₅₀ row lost to a tierless sibling and the target
-        // showed 1 dot (MDMA's SERT — its defining action — rendered weak). EC₅₀/IC₅₀
-        // get their own tiering because releaser/reuptake rows carry no Kᵢ at all.
+        // tier is the **measurement-aware potency band** (`ReceptorStrength`): measured
+        // affinity/potency WINS, with the curated `affinity_tier` only a fallback for
+        // tier-only rows that carry no Kᵢ/EC₅₀/IC₅₀ (e.g. mitragynine). Measured-wins is
+        // what keeps this card in lock-step with the Receptor Literature card, which
+        // computes the same bands from the same values. Binding (Kᵢ) and functional
+        // (EC₅₀/IC₅₀) get different cutoffs because a releaser's EC₅₀ runs ~10× higher
+        // than a blocker's Kᵢ for the same strength. We GROUP BY and take MAX(tier) so a
+        // potent assay never loses to a weaker sibling. Keep these cutoffs identical to
+        // `ReceptorStrength` in Substance.swift.
         let bindingRows = try Row.fetchAll(db, sql: """
-            SELECT target, action, MAX(tier) AS affinity, MIN(ki_nm) AS ki_nm FROM (
+            SELECT target, action, MAX(tier) AS affinity, MAX(measured) AS measured, MIN(ki_nm) AS ki_nm FROM (
                 SELECT b.target, b.action, b.ki_nm,
-                       COALESCE(b.affinity_tier,
-                                CASE WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   <  100 THEN 3
-                                     WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   < 1000 THEN 2
-                                     WHEN b.ki_nm   IS NOT NULL                       THEN 1
-                                     WHEN b.ec50_nm IS NOT NULL AND b.ec50_nm <  300 THEN 3
-                                     WHEN b.ec50_nm IS NOT NULL AND b.ec50_nm < 3000 THEN 2
-                                     WHEN b.ec50_nm IS NOT NULL                       THEN 1
-                                     WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm <  300 THEN 3
-                                     WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm < 3000 THEN 2
-                                     WHEN b.ic50_nm IS NOT NULL                       THEN 1
-                                     ELSE 1 END) AS tier
+                       CASE WHEN b.ki_nm IS NOT NULL OR b.ec50_nm IS NOT NULL OR b.ic50_nm IS NOT NULL
+                            THEN 1 ELSE 0 END AS measured,
+                       CASE WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   <   100 THEN 3
+                            WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   <  1000 THEN 2
+                            WHEN b.ki_nm   IS NOT NULL                        THEN 1
+                            WHEN b.ec50_nm IS NOT NULL AND b.ec50_nm <  1000 THEN 3
+                            WHEN b.ec50_nm IS NOT NULL AND b.ec50_nm < 10000 THEN 2
+                            WHEN b.ec50_nm IS NOT NULL                        THEN 1
+                            WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm <  1000 THEN 3
+                            WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm < 10000 THEN 2
+                            WHEN b.ic50_nm IS NOT NULL                        THEN 1
+                            ELSE COALESCE(b.affinity_tier, 1) END AS tier
                   FROM bindings b
                   JOIN sources src ON src.id = b.source_id
                  WHERE b.substance_id = ?
@@ -1818,24 +1820,46 @@ final class SubstanceStore {
             )
              GROUP BY target, action
              ORDER BY affinity DESC, ki_nm ASC NULLS LAST, LENGTH(target) ASC
-             LIMIT 20
+             LIMIT 40
         """, arguments: [substanceID])
 
-        let rawBindings: [ReceptorBinding] = bindingRows.compactMap { row in
+        struct RawHit {
+            let target: String
+            let action: BindingAction
+            let tier: Int
+            let measured: Bool
+        }
+        let rawHits: [RawHit] = bindingRows.compactMap { row in
             guard let target: String = row["target"],
                   let actionRaw: String = row["action"],
                   let action = BindingAction(rawValue: actionRaw) else { return nil }
-            let affRaw: Int = row["affinity"]
-            let affinity = BindingAffinity(rawValue: affRaw) ?? .significant
-            return ReceptorBinding(target: target, action: action, affinity: affinity)
+            return RawHit(target: target, action: action, tier: row["affinity"], measured: (row["measured"] as Int) == 1)
         }
-        // Collapse one row per receptor for the *summary* table: a measured row
-        // often restates a curated target under a wordier name ("NMDA receptor"
-        // vs "NMDA", "5-HT3" twice). Rows arrive ordered affinity-desc, so the
-        // first per normalized target is the strongest/curated one; the full
-        // per-assay detail still shows in the Receptor Literature disclosure.
-        var seenTargets = Set<String>()
-        let bindings = rawBindings.filter { seenTargets.insert(Self.normalizedBindingTarget($0.target)).inserted }
+        // Collapse one row per receptor for the *summary* table: a measured row often restates a curated
+        // target under a wordier name ("NMDA (MK-801 site, S-enantiomer)" vs the curated "NMDA"). We keep
+        // the cleanest name and the curated action label, but take the **measured tier** when any measured
+        // assay exists — so the summary's dots match the Receptor Literature card's (which also computes
+        // `ReceptorStrength` from the same measured values) instead of showing the editorial tier. The full
+        // per-assay detail still lives in the Receptor Literature disclosure.
+        var groupOrder: [String] = []
+        var groups: [String: [RawHit]] = [:]
+        for hit in rawHits {
+            let key = Self.normalizedBindingTarget(hit.target)
+            if groups[key] == nil { groupOrder.append(key) }
+            groups[key, default: []].append(hit)
+        }
+        let bindings: [ReceptorBinding] = groupOrder.compactMap { key in
+            guard let hits = groups[key], !hits.isEmpty else { return nil }
+            let measured = hits.filter(\.measured)
+            let tier = (measured.isEmpty ? hits : measured).map(\.tier).max() ?? 1
+            // Prefer a curated (clean, editorial) action label; else the strongest measured row's action.
+            let action = hits.first { !$0.measured }?.action
+                ?? measured.max(by: { $0.tier < $1.tier })?.action
+                ?? hits[0].action
+            let name = hits.map(\.target).min { $0.count < $1.count } ?? hits[0].target
+            return ReceptorBinding(target: name, action: action, affinity: BindingAffinity(rawValue: tier) ?? .significant)
+        }
+        .sorted { $0.affinity > $1.affinity }
 
         // Surface measured bindings even when no curated summary row exists —
         // the detail view's mechanism composer fills missing summary text from

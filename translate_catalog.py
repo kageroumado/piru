@@ -9,6 +9,16 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Pharmacology card harmony pass — round 3 (2026-06-28): receptor strength help-sheet copy now
+    # spells out the measurement-aware bands.
+    "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.": (
+        "衡量药物与靶点结合的紧密程度（Ki）。数值越小，结合越紧密——低于 100 nM 为强，高于 1000 nM 为弱。",
+        "衡量藥物與靶點結合的緊密程度（Ki）。數值越小，結合越緊密——低於 100 nM 為強，高於 1000 nM 為弱。",
+    ),
+    "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. These run about 10× higher than binding, so the dots use a matching scale (under 1 µM strong, over 10 µM weak).": (
+        "衡量真正激活或阻断靶点（而非仅仅附着其上）所需的剂量。其数值通常比结合亲和力高约 10 倍，因此圆点采用相应的刻度（低于 1 µM 为强，高于 10 µM 为弱）。",
+        "衡量真正激活或阻斷靶點（而非僅僅附著其上）所需的劑量。其數值通常比結合親和力高約 10 倍，因此圓點採用相應的刻度（低於 1 µM 為強，高於 10 µM 為弱）。",
+    ),
     # Pharmacology card harmony pass — round 2 (2026-06-28): shorter metabolic-modulation headlines
     # (drop substrate + period; we're on the substance's own card) + per-card help-sheet "about" text.
     "Repeated doses build up faster than the dose suggests": (
@@ -3514,6 +3524,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Pharmacology card harmony pass — round 3 (2026-06-28)
+        "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak.",
+        "Measures the dose needed to actually switch the target on or block it, rather than just stick to it. These run about 10× higher than binding, so the dots use a matching scale (under 1 µM strong, over 10 µM weak).",
         # Pharmacology card harmony pass — round 2 (2026-06-28)
         "Repeated doses build up faster than the dose suggests",
         "%@ may raise levels",

@@ -924,6 +924,22 @@ enum BindingAction: String, Codable {
         case .modulator: "Modulator"
         }
     }
+
+    /// A small glyph that visually splits the *kind* of action — releasers (efflux, the
+    /// MDMA/amphetamine mechanism) read differently at a glance from agonists (activate) and
+    /// blockers/antagonists (shut down). Distinct shapes, no colour, so it stays calm.
+    var symbolName: String {
+        switch self {
+        case .agonist, .partialAgonist: "bolt.fill" // activates the target
+        case .inverseAgonist: "bolt.slash.fill"
+        case .releasingAgent: "arrow.up.forward.circle.fill" // pumps the neurotransmitter out
+        case .reuptakeInhibitor: "arrow.uturn.up.circle" // blocks the re-uptake pump
+        case .antagonist, .channelBlocker, .enzymeInhibitor: "hand.raised.fill" // blocks
+        case .positiveAllostericModulator: "plus.circle"
+        case .negativeAllostericModulator: "minus.circle"
+        case .modulator: "slider.horizontal.3"
+        }
+    }
 }
 
 enum BindingAffinity: Int, Codable, Comparable {
@@ -933,6 +949,42 @@ enum BindingAffinity: Int, Codable, Comparable {
 
     static func < (lhs: BindingAffinity, rhs: BindingAffinity) -> Bool {
         lhs.rawValue < rhs.rawValue
+    }
+}
+
+/// The single, systematic source of truth for the 3-tier receptor "strength" dots — shared by the
+/// Mechanism card, the Receptor Literature card, and (eventually) advanced-search sorting/comparison,
+/// so a substance never shows one strength in one place and another elsewhere.
+///
+/// **Measurement-aware bands.** Binding affinity (Kᵢ/Kd) and functional potency (EC₅₀/IC₅₀) live on
+/// different concentration scales — a releaser's EC₅₀ runs ~10× higher than a blocker's Kᵢ for the same
+/// "strong" — so each measurement type gets its own thresholds. Lower concentration = more potent = more
+/// dots. Tier 3 = strong, 2 = moderate, 1 = weak (at *that* target, releaser or blocker alike).
+///
+/// The SQL in `SubstanceStore.resolvedMechanism` mirrors these exact cutoffs; keep them in lock-step.
+enum ReceptorStrength {
+    /// Resolve a binding's tier from whichever measurement it carries, preferring binding affinity
+    /// (Kᵢ) over functional potency (EC₅₀, then IC₅₀). Returns nil when the row has no measured value.
+    static func tier(kiNm: Double?, ec50Nm: Double?, ic50Nm: Double?) -> Int? {
+        if let ki = kiNm { return bindingTier(ki) }
+        if let ec = ec50Nm { return functionalTier(ec) }
+        if let ic = ic50Nm { return functionalTier(ic) }
+        return nil
+    }
+
+    /// Binding affinity (Kᵢ/Kd) bands: < 100 nM strong, 100–1000 nM moderate, ≥ 1000 nM weak.
+    static func bindingTier(_ nm: Double) -> Int {
+        if nm < 100 { return 3 }
+        if nm < 1_000 { return 2 }
+        return 1
+    }
+
+    /// Functional potency (EC₅₀/IC₅₀) bands, shifted ~10× from binding: < 1 µM strong, 1–10 µM moderate,
+    /// ≥ 10 µM weak — so a potent releaser (MDMA NET EC₅₀ ≈ 77 nM) reads strong, not weak.
+    static func functionalTier(_ nm: Double) -> Int {
+        if nm < 1_000 { return 3 }
+        if nm < 10_000 { return 2 }
+        return 1
     }
 }
 

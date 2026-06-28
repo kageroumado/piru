@@ -14,36 +14,35 @@ struct ReceptorLiteratureRow: View {
 
     var body: some View {
         let target = splitTarget(hit.target)
-        return VStack(alignment: .leading, spacing: 4) {
-            // Clean name row: just the receptor + its strength dots. The site/enantiomer qualifier is
-            // demoted to a chip on its own line so a long "(MK-801 site, S-enantiomer)" can't shove the
-            // dots off the name or wrap it raggedly.
-            HStack(alignment: .firstTextBaseline) {
-                Text(target.name)
-                    .font(.subheadline.weight(.semibold))
-                Spacer()
-                if let strengthTier {
-                    AffinityDots(filled: strengthTier, tint: accent)
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .top, spacing: 8) {
+                // Left: the receptor, its site/enantiomer qualifier (a chip on its own line so a long
+                // "(MK-801 site, S-enantiomer)" can't shove the name around), and the action.
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(target.name)
+                        .font(.subheadline.weight(.semibold))
+                    if let qualifier = target.qualifier {
+                        qualifierChip(qualifier)
+                    }
+                    actionLabel
                 }
-            }
-            if let qualifier = target.qualifier {
-                qualifierChip(qualifier)
-            }
-            // One descriptor line, single font so it aligns: action · binding/functional · value.
-            HStack(spacing: 5) {
-                actionText
+                Spacer(minLength: 8)
+                // Right: dots with the value directly beneath them — strength + the number it came from
+                // are the primary, semantically-paired fact, so they stack together.
                 if let m = measurement {
-                    Text(verbatim: "·").foregroundStyle(Theme.secondaryLabel)
-                    Text(m.kind).foregroundStyle(Theme.secondaryLabel)
-                    Text(verbatim: "·").foregroundStyle(Theme.secondaryLabel)
-                    Text(m.value)
-                        .fontWeight(.semibold)
-                        .monospacedDigit()
-                        .foregroundStyle(accent)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        if let strengthTier {
+                            AffinityDots(filled: strengthTier, tint: accent)
+                        }
+                        Text(m.value)
+                            .font(.caption.weight(.semibold).monospacedDigit())
+                            .foregroundStyle(accent)
+                        Text(m.kind)
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
             HStack(spacing: 6) {
                 Image(systemName: "doc.text.magnifyingglass")
                     .font(.caption2)
@@ -56,14 +55,22 @@ struct ReceptorLiteratureRow: View {
         }
     }
 
+    /// The action with its kind-glyph (releaser vs agonist vs blocker) so the mechanism splits visually.
+    /// Humanised + localised via BindingAction — "Releasing Agent", not "releasingAgent".
     @ViewBuilder
-    private var actionText: some View {
-        // Humanise the raw action slug via the shared BindingAction enum so it reads "Releasing Agent"
-        // (localised), matching the Mechanism card — not "releasingAgent".
+    private var actionLabel: some View {
         if let action = BindingAction(rawValue: hit.action) {
-            Text(action.displayName)
+            HStack(spacing: 4) {
+                Image(systemName: action.symbolName)
+                    .font(.caption2)
+                Text(action.displayName)
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
         } else {
             Text(hit.action)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 
