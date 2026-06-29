@@ -165,16 +165,9 @@ struct PharmacologyHero {
     }
 
     /// "Kᵢ 0.21 nM" / "EC₅₀ 1.7 µM" — symbol from which field is populated; nM under 1000, else µM.
+    /// Shares one formatter (`concLabel`) with the grouped receptor-literature rows so values read identically.
     private static func concText(_ h: SubstanceStore.BindingHit) -> String {
-        let (sym, value): (String, Double?) = if let ki = h.kiNm { ("Kᵢ", ki) }
-        else if let ec = h.ec50Nm { ("EC₅₀", ec) }
-        else if let ic = h.ic50Nm { ("IC₅₀", ic) }
-        else { ("", nil) }
-        guard let value else { return "—" }
-        if value < 1_000 { return "\(sym) \(formatNm(value)) nM" }
-        let um = value / 1_000
-        let umText = um >= 100 ? String(format: "%.0f", um) : (um >= 10 ? String(format: "%.1f", um) : String(format: "%.2f", um))
-        return "\(sym) \(umText) µM"
+        concLabel(kiNm: h.kiNm, ec50Nm: h.ec50Nm, ic50Nm: h.ic50Nm)
     }
 
     /// Leftover (non-hero) bindings as a compact footnote — the weak σ / opioid off-targets, etc.
@@ -232,8 +225,9 @@ struct PharmacologyHero {
 
 // MARK: - Views
 
-/// Shared species + citation trailing cluster used by both the panel rows and the potency bars.
-private struct SpeciesCite: View {
+/// Shared species + citation trailing cluster used by the panel rows, the potency bars, and the grouped
+/// receptor-literature table — so the "Human" badge + ↗ link read identically across every pharmacology surface.
+struct SpeciesCite: View {
     let species: String?
     let citation: URL?
 
@@ -241,6 +235,8 @@ private struct SpeciesCite: View {
         if let species, species != "—", !species.isEmpty {
             Text(species.prefix(1).uppercased() + species.dropFirst())
                 .font(.caption2.weight(.semibold))
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
                 .foregroundStyle(species.lowercased() == "human" ? Color(red: 0.11, green: 0.48, blue: 0.20) : Theme.secondaryLabel)
                 .padding(.horizontal, 7).padding(.vertical, 2)
                 .background((species.lowercased() == "human" ? Color.green : Theme.secondaryLabel).opacity(0.16), in: Capsule())

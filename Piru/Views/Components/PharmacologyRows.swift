@@ -5,91 +5,137 @@ import SwiftUI
 // `SubstanceLibraryView` so the detail file stays under the length budget and
 // these redesignable cards live in one obvious place.
 
-struct ReceptorLiteratureRow: View {
-    let hit: SubstanceStore.BindingHit
+/// The **grouped receptor-literature** table for monoamine drugs (the redesign's evidence block, step 4):
+/// one cluster per receptor, laid out on a `Grid` so the `dots · value · species · ↗` columns line up
+/// identically whether the receptor carries a single measurement (rendered inline next to its name) or
+/// several (each its own sub-row, labelled only by what distinguishes it — an enantiomer/site qualifier,
+/// or Release vs Reuptake). The Grid keeps the columns aligned even when a row has no species badge — a
+/// trailing-cluster `HStack` would otherwise shove the dots right on those rows.
+/// Receptor-panel classes (opioid/benzo/dissociative) never reach here — their class hero already carries this.
+struct GroupedReceptorLiterature: View {
+    let rows: [SubstanceStore.BindingHit]
     let accent: Color
-    /// Strength tier (1–3) for the dots, supplied by the parent so it can be reconciled with the
-    /// Mechanism card (a target's MOA tier wins over an absolute-band guess — see `strengthTier(for:)`).
-    let strengthTier: Int?
+
+    private struct Group: Identifiable {
+        let id: String
+        let rows: [SubstanceStore.BindingHit]
+    }
+
+    /// Group by base receptor name, preserving the parent's strength-sorted order (first appearance wins).
+    private var groups: [Group] {
+        var order: [String] = []
+        var byName: [String: [SubstanceStore.BindingHit]] = [:]
+        for hit in rows {
+            let name = splitTarget(hit.target).name
+            if byName[name] == nil { order.append(name) }
+            byName[name, default: []].append(hit)
+        }
+        return order.map { Group(id: $0, rows: byName[$0] ?? []) }
+    }
 
     var body: some View {
-        let target = splitTarget(hit.target)
-        return VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .top, spacing: 8) {
-                // Left: the receptor, its site/enantiomer qualifier (a chip on its own line so a long
-                // "(MK-801 site, S-enantiomer)" can't shove the name around), and the action.
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(target.name)
-                        .font(.subheadline.weight(.semibold))
-                    if let qualifier = target.qualifier {
-                        qualifierChip(qualifier)
-                    }
-                    actionLabel
+        Grid(alignment: .leading, horizontalSpacing: 10, verticalSpacing: 9) {
+            ForEach(Array(groups.enumerated()), id: \.element.id) { index, group in
+                if index > 0 {
+                    Divider().gridCellUnsizedAxes(.horizontal).gridCellColumns(5)
                 }
-                Spacer(minLength: 8)
-                // Right: dots with the value directly beneath them — strength + the number it came from
-                // are the primary, semantically-paired fact, so they stack together.
-                if let m = measurement {
-                    VStack(alignment: .trailing, spacing: 2) {
-                        if let strengthTier {
-                            AffinityDots(filled: strengthTier, tint: accent)
+                if group.rows.count == 1, let only = group.rows.first {
+                    GridRow {
+                        inlineTitle(name: group.id, hit: only).lineLimit(1)
+                        dotsCell(only)
+                        valueCell(only)
+                        speciesCell(only)
+                        linkCell(only)
+                    }
+                } else {
+                    GridRow {
+                        Text(group.id).font(.subheadline.weight(.bold))
+                    }
+                    ForEach(group.rows) { hit in
+                        GridRow {
+                            label(hit)
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                                .lineLimit(1)
+                            dotsCell(hit)
+                            valueCell(hit)
+                            speciesCell(hit)
+                            linkCell(hit)
                         }
-                        Text(m.value)
-                            .font(.caption.weight(.semibold).monospacedDigit())
-                            .foregroundStyle(accent)
-                        Text(m.kind)
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
-            HStack(spacing: 6) {
-                Image(systemName: "doc.text.magnifyingglass")
-                    .font(.caption2)
-                sourceNameLink(pharmaSourceName(hit.sourceSlug), doi: hit.doi, pmid: hit.pmid, accent: accent)
-                ProvenanceBadge(confidence: hit.confidence, species: hit.species, sourceSlug: hit.sourceSlug)
-                Spacer()
-            }
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
         }
+        .padding(.vertical, 4)
     }
 
-    /// The action with its kind-glyph (releaser vs agonist vs blocker) so the mechanism splits visually.
-    /// Humanised + localised via BindingAction — "Releasing Agent", not "releasingAgent".
+    /// Column 1 for a single-measurement receptor: name + its action concatenated into one `Text` so the
+    /// dots/value/species/link columns start at the same place as the multi-row sub-rows.
+    private func inlineTitle(name: String, hit: SubstanceStore.BindingHit) -> Text {
+        Text(name).font(.subheadline.weight(.bold)).foregroundColor(.primary)
+            + Text(verbatim: "  ")
+            + label(hit).font(.caption).foregroundColor(Theme.secondaryLabel)
+    }
+
+    // MARK: column cells (shared by inline + sub-rows so every column lines up)
+
+    private func dotsCell(_ hit: SubstanceStore.BindingHit) -> some View {
+        let tier = ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm) ?? 1
+        return AffinityDots(filled: tier, tint: accent)
+    }
+
+    private func valueCell(_ hit: SubstanceStore.BindingHit) -> some View {
+        Text(concLabel(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm))
+            .font(.caption.weight(.semibold).monospacedDigit())
+            .foregroundStyle(accent)
+            .gridColumnAlignment(.trailing)
+    }
+
+    /// The species badge (green for human, grey otherwise). An empty cell when the row carries no species —
+    /// the Grid still reserves the column so the citation arrow stays aligned across rows.
     @ViewBuilder
-    private var actionLabel: some View {
-        if let action = BindingAction(rawValue: hit.action) {
-            HStack(spacing: 4) {
-                Image(systemName: action.symbolName)
-                    .font(.caption2)
-                Text(action.displayName)
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
+    private func speciesCell(_ hit: SubstanceStore.BindingHit) -> some View {
+        if let species = hit.species, !species.isEmpty, species != "—" {
+            let isHuman = species.lowercased() == "human"
+            Text(species.prefix(1).uppercased() + species.dropFirst())
+                .font(.caption2.weight(.semibold))
+                .lineLimit(1)
+                .foregroundStyle(isHuman ? Color(red: 0.11, green: 0.48, blue: 0.20) : Theme.secondaryLabel)
+                .padding(.horizontal, 7).padding(.vertical, 2)
+                .background((isHuman ? Color.green : Theme.secondaryLabel).opacity(0.16), in: Capsule())
         } else {
-            Text(hit.action)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Color.clear.frame(width: 0, height: 0)
         }
     }
 
-    private func qualifierChip(_ text: String) -> some View {
-        Text(text)
-            .font(.caption2)
-            .foregroundStyle(Theme.secondaryLabel)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 2)
-            .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+    @ViewBuilder
+    private func linkCell(_ hit: SubstanceStore.BindingHit) -> some View {
+        if let url = citationURL(doi: hit.doi, pmid: hit.pmid) {
+            Link(destination: url) {
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        } else {
+            Color.clear.frame(width: 0, height: 0)
+        }
     }
 
-    /// The one measurement this row carries, resolved to a (plain-language kind, value label) pair.
-    /// Kᵢ is binding affinity; EC₅₀/IC₅₀ are functional potency.
-    private var measurement: (kind: LocalizedStringResource, value: String)? {
-        if let ki = hit.kiNm { return ("binding", "Ki \(formatNm(ki)) nM") }
-        if let ec = hit.ec50Nm { return ("functional", "EC50 \(formatNm(ec)) nM") }
-        if let ic = hit.ic50Nm { return ("functional", "IC50 \(formatNm(ic)) nM") }
-        return nil
+    /// What sets this row apart from its siblings: the receptor's site/enantiomer qualifier if any,
+    /// otherwise its action — shortened to **Release / Reuptake** for the two transporter mechanisms (the
+    /// pair that actually co-occurs on one transporter), full display name otherwise. The binding-vs-
+    /// functional distinction is dropped from the row (it lives in the help sheet) — the Kᵢ/EC₅₀/IC₅₀
+    /// symbol in the value already carries it.
+    private func label(_ hit: SubstanceStore.BindingHit) -> Text {
+        if let qualifier = splitTarget(hit.target).qualifier {
+            return Text(verbatim: qualifier)
+        }
+        switch BindingAction(rawValue: hit.action) {
+        case .releasingAgent: return Text("Release")
+        case .reuptakeInhibitor: return Text("Reuptake")
+        case let .some(action): return Text(action.displayName)
+        case .none: return Text(verbatim: hit.action)
+        }
     }
 }
 
@@ -110,6 +156,22 @@ func formatNm(_ value: Double) -> String {
     if value >= 100 { return String(format: "%.0f", value) }
     if value >= 10 { return String(format: "%.1f", value) }
     return String(format: "%.2f", value)
+}
+
+/// "Kᵢ 50 nM" / "EC₅₀ 1.7 µM" — the symbol from whichever field is populated, nM under 1000 else µM.
+/// Shared by the grouped receptor-literature rows and the class-hero panels so values read identically.
+/// The subscript symbols and SI units are universal, so the string is rendered verbatim (no localization).
+func concLabel(kiNm: Double?, ec50Nm: Double?, ic50Nm: Double?) -> String {
+    let (symbol, value): (String, Double?) = if let ki = kiNm { ("Kᵢ", ki) }
+    else if let ec = ec50Nm { ("EC₅₀", ec) }
+    else if let ic = ic50Nm { ("IC₅₀", ic) }
+    else { ("", nil) }
+    guard let value else { return "—" }
+    if value < 1_000 { return "\(symbol) \(formatNm(value)) nM" }
+    let micromolar = value / 1_000
+    let umText = micromolar >= 100 ? String(format: "%.0f", micromolar)
+        : (micromolar >= 10 ? String(format: "%.1f", micromolar) : String(format: "%.2f", micromolar))
+    return "\(symbol) \(umText) µM"
 }
 
 /// Map a half-max concentration (nM) to a 1–3 strength tier for the dot scale. Absolute potency

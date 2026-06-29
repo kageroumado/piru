@@ -6475,6 +6475,7 @@
       }
     },
     "binding" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14363,6 +14364,7 @@
       }
     },
     "functional" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24352,6 +24354,22 @@
         }
       }
     },
+    "Release" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放"
+          }
+        }
+      }
+    },
     "Release window" : {
       "localizations" : {
         "zh-Hans" : {
@@ -25192,6 +25210,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重試"
+          }
+        }
+      }
+    },
+    "Reuptake" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再摄取抑制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再攝取抑制"
           }
         }
       }

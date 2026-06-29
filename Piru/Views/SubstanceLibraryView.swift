@@ -1982,16 +1982,8 @@ struct SubstanceDetailView: View {
     }
 
     private var receptorLiteratureBody: some View {
-        let rows = visibleLiteratureBindings
-        return VStack(alignment: .leading, spacing: 8) {
-            ForEach(rows) { hit in
-                ReceptorLiteratureRow(hit: hit, accent: substance.category.color, strengthTier: strengthTier(for: hit))
-                if hit.id != rows.last?.id {
-                    Divider()
-                }
-            }
-        }
-        .padding(.vertical, 4)
+        GroupedReceptorLiterature(rows: visibleLiteratureBindings, accent: substance.category.color)
+            .padding(.vertical, 4)
     }
 
     /// Strength tier (1–3) for a literature row's dots — the single, systematic `ReceptorStrength`

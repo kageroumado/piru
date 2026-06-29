@@ -31,6 +31,9 @@ T = {
     "Anxiolysis": ("抗焦虑", "抗焦慮"),
     "Muscle": ("肌肉松弛", "肌肉鬆弛"),
     "Memory": ("记忆", "記憶"),
+    # Step 4 — grouped receptor-literature table: short transporter-mechanism row labels.
+    "Release": ("释放", "釋放"),
+    "Reuptake": ("再摄取抑制", "再攝取抑制"),
     # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
@@ -3570,6 +3573,8 @@ if __name__ == "__main__":
         "Anxiolysis",
         "Muscle",
         "Memory",
+        "Release",
+        "Reuptake",
         # Pharmacology card round-3 phase-2 (2026-06-28)
         "Renal excretion",
         "Biliary excretion",
