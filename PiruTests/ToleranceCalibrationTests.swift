@@ -37,6 +37,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: 600,
             vdConfidence: .high,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "DAT", action: .reuptakeInhibitor, halfMaxNanomolar: halfMaxNanomolar, kind: .ki, confidence: .high),
             ],
@@ -57,6 +58,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: 180,
             vdConfidence: .high,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
@@ -77,8 +79,34 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: 180,
             vdConfidence: .high,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "5-HT2A", action: .agonist, halfMaxNanomolar: 10, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
+    /// A synthetic **SERT releaser** (5-HT releasing agent) for the Stage E synthesis split. PK-complete
+    /// and routed to ``ReceptorClasses/ReceptorClass/serotonergicReleaser`` via the releasing-agent
+    /// action; differs only in ``PharmacologyParameters/suppressesSerotoninSynthesis`` so the two test
+    /// substances exercise the same class on two recovery clocks (MDMA-type weeks vs 4-MMC-type days).
+    static func serotoninReleaser(
+        name: String, referenceDoseMg: Double?, suppressesSynthesis: Bool, halfMaxNanomolar: Double = 200,
+    ) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: 193,
+            vdLPerKg: 5,
+            bioavailabilityFraction: 1,
+            bioavailabilityConfidence: .high,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: 420,
+            vdConfidence: .high,
+            referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: suppressesSynthesis,
+            targets: [
+                .init(target: "SERT", action: .releasingAgent, halfMaxNanomolar: halfMaxNanomolar, kind: .ec50, confidence: .high),
             ],
         )
     }
@@ -100,6 +128,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: nil,
             vdConfidence: .unverified,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
             ],
@@ -120,6 +149,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: 2_880,
             vdConfidence: .high,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
@@ -140,6 +170,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: nil,
             vdConfidence: .unverified,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
             ],
@@ -159,6 +190,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: 180,
             vdConfidence: .high,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
@@ -179,6 +211,7 @@ struct ToleranceCalibrationTests {
             halfLifeMinutes: nil,
             vdConfidence: .unverified,
             referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
             targets: [
                 .init(target: "CB1", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
             ],
@@ -470,5 +503,78 @@ struct ToleranceCalibrationTests {
 
         let incomplete = ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now)
         #expect(incomplete.contains("RC-Cannabinoid")) // honestly surfaced as "can't predict yet"
+    }
+
+    // MARK: - 14. Serotonin-synthesis split: MDMA-type recovers over weeks, 4-MMC-type over days (Stage E)
+
+    @Test
+    func `A synthesis-suppressing entactogen retains a far larger right-shift than a cathinone releaser after ten days`() throws {
+        // Two SERT releasers, identical PK, differing only in the synthesis flag — same class, two clocks.
+        let params = [
+            "TestMDMA": Self.serotoninReleaser(name: "TestMDMA", referenceDoseMg: 120, suppressesSynthesis: true),
+            "TestMephedrone": Self.serotoninReleaser(name: "TestMephedrone", referenceDoseMg: 150, suppressesSynthesis: false),
+        ]
+        // A single dose of each, one hour before the reference instant; the SAME history is read 1 d and
+        // 10 d later (pure idle decay), so the only thing that diverges is the slow synthesis pool.
+        let mdmaDose = Self.dailyDoses("TestMDMA", mg: 100, days: 1)
+        let mephedroneDose = Self.dailyDoses("TestMephedrone", mg: 100, days: 1)
+        func shift(_ doses: [ToleranceStore.SimDose], at now: Date) throws -> Double {
+            let states = ToleranceStore.simulate(doses: doses, params: params, now: now, weightKg: 70)
+            return try #require(states[.serotonergicReleaser]).shiftFactor
+        }
+        let oneDay = Self.now.addingTimeInterval(86_400)
+        let tenDays = Self.now.addingTimeInterval(10 * 86_400)
+        let mdma1d = try shift(mdmaDose, at: oneDay)
+        let mmc1d = try shift(mephedroneDose, at: oneDay)
+        let mdma10d = try shift(mdmaDose, at: tenDays)
+        let mmc10d = try shift(mephedroneDose, at: tenDays)
+
+        #expect(mdma1d > 1 && mmc1d > 1 && mdma10d > 1 && mmc10d > 1) // residual shift remains throughout
+
+        // Comparable when fresh: at +1 d both are dominated by the shared fast acute/adaptive pools.
+        let ratioFresh = (mdma1d - 1) / (mmc1d - 1)
+        #expect(ratioFresh < 2)
+
+        // The slow synthesis pool (τ≈14 d) outlives the fast adaptive pool (τ≈4 d), so the MDMA-type
+        // substance pulls proportionally further ahead as the days pass — and is absolutely larger at +10 d.
+        let ratioAfterTenDays = (mdma10d - 1) / (mmc10d - 1)
+        #expect(ratioAfterTenDays > ratioFresh)
+        #expect(mdma10d > mmc10d)
+    }
+
+    // MARK: - 15. The synthesis pool is gated by the per-substance flag
+
+    @Test
+    func `The synthesis pool accrues only for a synthesis-suppressing substance`() throws {
+        let params = [
+            "TestMDMA": Self.serotoninReleaser(name: "TestMDMA", referenceDoseMg: 120, suppressesSynthesis: true),
+            "TestMephedrone": Self.serotoninReleaser(name: "TestMephedrone", referenceDoseMg: 150, suppressesSynthesis: false),
+        ]
+        let mdma = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestMDMA", mg: 100, days: 3), params: params, now: Self.now, weightKg: 70,
+        )
+        let mephedrone = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestMephedrone", mg: 100, days: 3), params: params, now: Self.now, weightKg: 70,
+        )
+        let mdmaState = try #require(mdma[.serotonergicReleaser])
+        let mephedroneState = try #require(mephedrone[.serotonergicReleaser])
+
+        #expect(mdmaState.sSynthesis > 0) // the suppressor drives the slow synthesis pool
+        #expect(mephedroneState.sSynthesis == 0) // the cathinone releaser spares synthesis → no slow pool
+        // The fast pools build the same for both (same PK + occupancy) — only the synthesis layer differs.
+        #expect(abs(mdmaState.sAdaptive - mephedroneState.sAdaptive) < 1e-9)
+    }
+
+    // MARK: - 16. A non-SERT class never accrues the synthesis pool
+
+    @Test
+    func `A non-SERT class never accrues the synthesis pool`() throws {
+        // The stimulant class has `synthesisShiftMax == 0`, so its synthesis layer is inert regardless.
+        let params = ["TestStimulant": Self.stimulant(referenceDoseMg: 60)]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestStimulant", mg: 40, days: 10), params: params, now: Self.now, weightKg: 70,
+        )
+        let stim = try #require(states[.catecholamineStimulant])
+        #expect(stim.sSynthesis == 0)
     }
 }

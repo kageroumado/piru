@@ -349,6 +349,10 @@ extension SubstanceStore {
             halfLifeMinutes: halfLife,
             vdConfidence: resolvedVdConfidence,
             referenceDoseMg: referenceDoseMg,
+            // Per-substance serotonin-synthesis suppression (§3.4): set by membership in the curated
+            // entactogen set, so MDMA-type releasers route onto the weeks-scale synthesis pool while
+            // the cathinones (spared synthesis) reset in days. Both resolver paths funnel through here.
+            suppressesSerotoninSynthesis: ToleranceStore.serotoninSynthesisSuppressors.contains(name.lowercased()),
             targets: targets,
         )
     }

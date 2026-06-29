@@ -10,9 +10,9 @@ import SwiftData
 /// result of that replay, so the UI and the widget can read the current tolerance without
 /// re-integrating the whole history on every view.
 ///
-/// Tolerance is represented as a **dose-response right-shift** `S = exp(sAcute + sAdaptive + sDeep)`,
-/// each `s` an ln-shift contribution from one timescale (see `PDModel`). A naïve/rested state is all
-/// three at `0` (`S = 1`).
+/// Tolerance is represented as a **dose-response right-shift**
+/// `S = exp(sAcute + sAdaptive + sDeep + sSynthesis)`, each `s` an ln-shift contribution from one
+/// timescale (see `PDModel`). A naïve/rested state is all layers at `0` (`S = 1`).
 ///
 /// Fields are deliberately primitive so the model carries no dependency on Piru-only types and
 /// compiles into every target that opens the store — including the widget, whose container schema
@@ -40,6 +40,12 @@ final class ToleranceState {
     /// escalation threshold so therapeutic users never accrue it.
     var sDeep: Double
 
+    /// Synthesis ln-shift `sSynthesis ≥ 0` — the slow serotonin-synthesis pool (τ ≈ weeks) that only
+    /// the synthesis-suppressing SERT releasers (MDMA-type entactogens) drive, so they recover on a
+    /// weeks clock while the cathinone releasers reset in days (`Specs/tolerance-faithful-model.md`
+    /// §3.4). `0` for every class without an active synthesis layer.
+    var sSynthesis: Double
+
     /// When this snapshot was last recomputed (the replay's "now").
     var lastUpdated: Date
 
@@ -48,12 +54,14 @@ final class ToleranceState {
         sAcute: Double = 0,
         sAdaptive: Double = 0,
         sDeep: Double = 0,
+        sSynthesis: Double = 0,
         lastUpdated: Date = .now,
     ) {
         self.target = target
         self.sAcute = sAcute
         self.sAdaptive = sAdaptive
         self.sDeep = sDeep
+        self.sSynthesis = sSynthesis
         self.lastUpdated = lastUpdated
     }
 }

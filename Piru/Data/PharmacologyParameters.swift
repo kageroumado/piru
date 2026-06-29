@@ -77,6 +77,14 @@ nonisolated struct PharmacologyParameters {
     /// `0` and the deep gate closed (the conservative fallback: no deep tolerance without evidence of
     /// how much constitutes "heavy").
     let referenceDoseMg: Double?
+    /// Whether this substance suppresses **serotonin synthesis** (TPH), the per-substance data field
+    /// that splits the SERT releaser class onto two recovery clocks (`Specs/tolerance-faithful-model.md`
+    /// §3.4). `true` for the methylenedioxy entactogens (MDMA, MDA, …) whose metabolites down-regulate
+    /// the synthesis machinery — recovery waits weeks (the slow synthesis pool). `false` for the
+    /// cathinone releasers (mephedrone/4-MMC) which spare synthesis and reset in days on
+    /// receptor/transporter resensitisation alone. Resolved by membership in
+    /// ``ToleranceStore/serotoninSynthesisSuppressors``; gates the engine's parallel synthesis layer.
+    let suppressesSerotoninSynthesis: Bool
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
 

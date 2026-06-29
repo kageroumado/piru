@@ -16,6 +16,10 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// Deep ln-shift `sDeep ≥ 0` — entrenched, months-scale neuroadaptation (gated off for
     /// therapeutic users).
     let sDeep: Double
+    /// Synthesis ln-shift `sSynthesis ≥ 0` — the slow serotonin-synthesis pool (τ ≈ weeks) that only
+    /// the synthesis-suppressing SERT releasers (MDMA-type entactogens) drive (§3.4). `0` for every
+    /// other class and for the cathinone releasers, which spare synthesis and reset on the fast pool.
+    let sSynthesis: Double
     /// Representative peak occupancy at the user's usual dose for this class (the median of the
     /// contributors' single-dose peaks) — the gauge's reference point for ``responseFraction``.
     let representativeOccupancy: Double
@@ -42,10 +46,11 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
         receptorClass
     }
 
-    /// The total dose-response right-shift `S = exp(sAcute + sAdaptive + sDeep) ≥ 1` — `1` is naïve,
-    /// larger means the curve has shifted further right (the same dose does less).
+    /// The total dose-response right-shift `S = exp(sAcute + sAdaptive + sDeep + sSynthesis) ≥ 1` —
+    /// `1` is naïve, larger means the curve has shifted further right (the same dose does less). The
+    /// synthesis layer keeps an MDMA-type entactogen toleranced for weeks after the fast pool relaxes.
     var shiftFactor: Double {
-        Foundation.exp(sAcute + sAdaptive + sDeep)
+        Foundation.exp(sAcute + sAdaptive + sDeep + sSynthesis)
     }
 
     /// The gauge: fraction of the naïve effect you'd feel at your usual dose under the current
@@ -124,6 +129,15 @@ final class ToleranceStore {
     nonisolated static let opioidMMEPerMg: [String: Double] = [
         "morphine": 1, "codeine": 0.15, "hydrocodone": 1, "oxycodone": 1.5,
         "oxymorphone": 3, "hydromorphone": 4, "tramadol": 0.2,
+    ]
+
+    /// Entactogens whose metabolites suppress serotonin synthesis (TPH) → weeks-scale recovery, unlike
+    /// the cathinone releasers (mephedrone etc.) which spare synthesis and reset in days (§3.4). Keyed
+    /// by canonical name, lowercased. Methylenedioxy entactogens only — **not** cathinones: membership
+    /// resolves ``PharmacologyParameters/suppressesSerotoninSynthesis``, which gates the SERT class's
+    /// slow synthesis pool so the two recover on different clocks within the same mechanism class.
+    nonisolated static let serotoninSynthesisSuppressors: Set<String> = [
+        "mdma", "mda", "mdea", "mbdb", "mdoh",
     ]
 
     /// Current per-class tolerance snapshot, keyed by mechanism class. Observation-tracked; views read
@@ -578,6 +592,7 @@ final class ToleranceStore {
                         halfMaxNanomolar: engagement.halfMaxNanomolar,
                         confidence: Swift.min(sourceParams.vdConfidence, sourceParams.bioavailabilityConfidence, sourceParams.doseScaleConfidence, engagement.confidence, confidenceFloor),
                         escalation: escalation,
+                        suppressesSynthesis: sourceParams.suppressesSerotoninSynthesis,
                     ),
                 )
                 let canonical = ReceptorClasses.canonicalTarget(engagement.target)
@@ -685,6 +700,7 @@ final class ToleranceStore {
         return ClassTolerance(
             receptorClass: work.receptorClass,
             sAcute: state.sAcute, sAdaptive: state.sAdaptive, sDeep: state.sDeep,
+            sSynthesis: state.sSynthesis,
             representativeOccupancy: work.representativeOccupancy,
             confidence: Swift.min(inputConfidence, params.confidence),
             subTargets: work.subTargets, contributors: work.contributorSubstances,
@@ -752,6 +768,10 @@ final class ToleranceStore {
         /// that spawned this contributor — the deep-layer gate's signal (`0` when the substance has
         /// no reference dose, which keeps the gate closed). Identical across all of a dose's targets.
         let escalation: Double
+        /// Whether the source substance suppresses serotonin synthesis (§3.4) — drives the SERT class's
+        /// slow synthesis pool. `true` only for the MDMA-type entactogens; the fallback surrogates
+        /// follow their representative (MDMA ⇒ `true`). Identical across all of a dose's targets.
+        let suppressesSynthesis: Bool
     }
 
     /// One co-active substance's tolerance-modulation contribution at one affected class.
@@ -795,10 +815,14 @@ final class ToleranceStore {
         params: ReceptorClasses.Parameters,
         totalMinutes: Double,
         step: Double,
-    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sAcuteSafety: Double, sAdaptiveSafety: Double) {
+    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sSynthesis: Double, sAcuteSafety: Double, sAdaptiveSafety: Double) {
         var sAcute = 0.0
         var sAdaptive = 0.0
         var sDeep = 0.0
+        // The slow serotonin-synthesis pool (Stage E) — gated per-cell on whether any currently-active
+        // contributor is a synthesis suppressor (MDMA-type), so the SERT class recovers over weeks for
+        // entactogens but only days for the cathinones. `0` for every class with `synthesisShiftMax 0`.
+        var sSynthesis = 0.0
         // The differential safety endpoint's two parallel ln-shift layers (Stage C) — acute + adaptive
         // only, no deep, no escalation gate; driven by the same occupancy. Left at 0 when the class has
         // no endpoint (the result then `exp`s to a neutral `1`, but `tolerance(for:)` reports `nil`).
@@ -806,7 +830,7 @@ final class ToleranceStore {
         var sAdaptiveSafety = 0.0
         let safetyEndpoint = params.safetyEndpoint
         guard totalMinutes > 0, step > 0, !rawContributors.isEmpty else {
-            return (sAcute, sAdaptive, sDeep, sAcuteSafety, sAdaptiveSafety)
+            return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety)
         }
 
         let contributors = rawContributors.sorted { $0.onset < $1.onset }
@@ -826,7 +850,7 @@ final class ToleranceStore {
         }
 
         let lastCell = Int((totalMinutes / step).rounded(.up)) - 1
-        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sAcuteSafety, sAdaptiveSafety) }
+        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety) }
 
         /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): each ln-shift layer
         /// decays toward 0 (with no active contributor the escalation gate is closed anyway, so deep
@@ -838,6 +862,7 @@ final class ToleranceStore {
             sAcute *= exp(-minutes / params.tauAcuteMinutes)
             sAdaptive *= exp(-minutes / params.tauAdaptiveMinutes)
             sDeep *= exp(-minutes / params.tauDeepMinutes)
+            sSynthesis *= exp(-minutes / params.tauSynthesisMinutes)
             if let safetyEndpoint {
                 sAcuteSafety *= exp(-minutes / safetyEndpoint.tauAcuteMinutes)
                 sAdaptiveSafety *= exp(-minutes / safetyEndpoint.tauAdaptiveMinutes)
@@ -879,6 +904,9 @@ final class ToleranceStore {
                 // The peak escalation among the *currently-active* contributors drives the deep gate.
                 var complement = 1.0
                 var maxEscalation = 0.0
+                // Whether any currently-active contributor suppresses serotonin synthesis (§3.4) —
+                // the slow synthesis pool's drive (OR over survivors).
+                var anySynthesisSuppressor = false
                 var writeIndex = 0
                 for readIndex in activeContributors.indices {
                     let contributor = activeContributors[readIndex]
@@ -886,6 +914,7 @@ final class ToleranceStore {
                     if writeIndex != readIndex { activeContributors[writeIndex] = contributor }
                     writeIndex += 1
                     if contributor.escalation > maxEscalation { maxEscalation = contributor.escalation }
+                    if contributor.suppressesSynthesis { anySynthesisSuppressor = true }
                     let concentration = contributor.prefactorNanomolar
                         * PKModel.concentration(at: midpoint - contributor.onset, ke: contributor.ke, ka: contributor.ka)
                     if concentration > 0 {
@@ -940,6 +969,15 @@ final class ToleranceStore {
                     current: sDeep, shiftMax: params.deepShiftMax, occupancy: occupancy,
                     drive: gate, dtMinutes: cellLength, tauMinutes: params.tauDeepMinutes,
                 )
+                // The slow synthesis pool (Stage E, §3.4): same occupancy, driven only while a
+                // synthesis-suppressing contributor is active — so MDMA-type entactogens build this
+                // weeks-τ pool while the cathinone releasers (drive 0) never do. Inert for every class
+                // whose `synthesisShiftMax` is 0 (no shift accrues regardless of the drive).
+                sSynthesis = PDModel.stepShift(
+                    current: sSynthesis, shiftMax: params.synthesisShiftMax, occupancy: occupancy,
+                    drive: anySynthesisSuppressor ? 1 : 0, dtMinutes: cellLength,
+                    tauMinutes: params.tauSynthesisMinutes,
+                )
 
                 // The differential safety endpoint's two parallel layers (Stage C) — same occupancy,
                 // its own kinetics, no deep and no escalation gate. The acute layer is `drive: 1`; the
@@ -960,7 +998,7 @@ final class ToleranceStore {
 
         // Final idle tail from the last fine-stepped cell to `now` (covers a partial last cell exactly).
         recover(totalMinutes - Double(lastSteppedCell + 1) * step)
-        return (sAcute, sAdaptive, sDeep, sAcuteSafety, sAdaptiveSafety)
+        return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety)
     }
 
     // MARK: - Persistence (cache)
@@ -981,6 +1019,7 @@ final class ToleranceStore {
             loaded[receptorClass] = ClassTolerance(
                 receptorClass: receptorClass,
                 sAcute: row.sAcute, sAdaptive: row.sAdaptive, sDeep: row.sDeep,
+                sSynthesis: row.sSynthesis,
                 representativeOccupancy: 0.5,
                 confidence: .unverified,
                 subTargets: [], contributors: [],
@@ -1013,11 +1052,12 @@ final class ToleranceStore {
                     row.sAcute = t.sAcute
                     row.sAdaptive = t.sAdaptive
                     row.sDeep = t.sDeep
+                    row.sSynthesis = t.sSynthesis
                     row.lastUpdated = now
                 } else {
                     context.insert(ToleranceState(
                         target: key, sAcute: t.sAcute, sAdaptive: t.sAdaptive,
-                        sDeep: t.sDeep, lastUpdated: now,
+                        sDeep: t.sDeep, sSynthesis: t.sSynthesis, lastUpdated: now,
                     ))
                 }
                 byKey[key] = nil
@@ -1032,6 +1072,7 @@ final class ToleranceStore {
                     stale.sAcute = 0
                     stale.sAdaptive = 0
                     stale.sDeep = 0
+                    stale.sSynthesis = 0
                     stale.lastUpdated = now
                 }
             }

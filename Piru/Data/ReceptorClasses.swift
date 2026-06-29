@@ -148,6 +148,15 @@ nonisolated enum ReceptorClasses {
         let deepShiftMax: Double
         /// Deep-layer build/recover time-constant (minutes) — months.
         let tauDeepMinutes: Double
+        /// Synthesis-layer ln-shift ceiling — the slow serotonin-synthesis pool that splits the SERT
+        /// releaser class onto two recovery clocks (`Specs/tolerance-faithful-model.md` §3.4). `0` ⇒
+        /// the class has no synthesis layer, so it never accrues regardless of the per-substance flag.
+        /// Only the serotonergic releaser class is non-zero; it engages only for the substances flagged
+        /// ``PharmacologyParameters/suppressesSerotoninSynthesis`` (MDMA-type entactogens).
+        let synthesisShiftMax: Double
+        /// Synthesis-layer build/recover time-constant (minutes) — weeks (the slow TPH-machinery
+        /// recovery). Inert for the nine classes whose ``synthesisShiftMax`` is `0`.
+        let tauSynthesisMinutes: Double
         /// Dose-relative **escalation** factor (`dose ÷ the substance's heavy ceiling`) at which the
         /// deep layer begins to engage. `2.0` means deep tolerance only starts accruing once dosing
         /// runs at twice the heavy dose. For classes with `deepShiftMax == 0` this is inert (a
@@ -186,7 +195,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 2.5, tauAdaptiveMinutes: 3.5 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .hppd, confidence: .medium,
                 classDefaultVdLPerKg: 4.0,
                 sourceNote: "§3: subjective tachyphylaxis ~3–4 d (controlled-human, flagship-corrected); near-total in-class cross-tolerance. No acute or deep layer. Grade medium.",
@@ -199,7 +210,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 2.0, tauAdaptiveMinutes: 20 * T.day,
-                deepShiftMax: 1.5, tauDeepMinutes: 6 * T.month, deepEscThreshold: 2.0, deepEscWidth: 3.0,
+                deepShiftMax: 1.5, tauDeepMinutes: 6 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2.0, deepEscWidth: 3.0,
                 safetyAxis: .resetOverdose, confidence: .low,
                 classDefaultVdLPerKg: 3.0,
                 sourceNote: "§3: ED50 right-shift 3–30× (controlled; the folkloric '100–300×' is palliative end-of-life dosing). Recovery t½ ~14 d → τ≈20 d (PMC1666403). Deep = escalation-gated entrenched tolerance; reset-after-break overdose safety axis. Grade low.",
@@ -221,7 +234,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0.8, tauAcuteMinutes: 9 * T.hour,
                 adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 12 * T.day,
-                deepShiftMax: 1.6, tauDeepMinutes: 9 * T.month, deepEscThreshold: 2.0, deepEscWidth: 3.0,
+                deepShiftMax: 1.6, tauDeepMinutes: 9 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2.0, deepEscWidth: 3.0,
                 safetyAxis: .stimulantLoad, confidence: .low,
                 classDefaultVdLPerKg: 4.0,
                 sourceNote: "§3: acute vesicular reserve-pool tachyphylaxis (subjective gone 3–4 h, τ 6–12 h; de Wit 1996). Adaptive modest (ADHD response stable, ~2.7%/10 y). Deep only on heavy chronic escalation (DAT recovers +20–26% over 12–17 mo; felt tolerance lags density). NET/cardio does not tolerate (Stage C endpoint). Grade low.",
@@ -235,16 +250,21 @@ nonisolated enum ReceptorClasses {
                 ),
             )
         case .serotonergicReleaser:
-            // MDMA-type SERT releasers: a within-session acute fade plus a weeks-scale adaptive shift
-            // (reversible-leaning). No deep layer in Stage A (the per-substance synthesis-suppression
-            // split is Stage E).
+            // SERT releasers, split per-substance onto two recovery clocks (§3.4). A within-session
+            // acute fade plus a *fast adaptive* pool (τ≈4 d — receptor/transporter resensitisation,
+            // which is the whole story for the cathinone releasers like 4-MMC, days-scale). The slow
+            // **synthesis** pool (τ≈2 wk) engages only for the substances that suppress serotonin
+            // synthesis (MDMA-type entactogens; the per-substance ``suppressesSerotoninSynthesis``
+            // flag) — so MDMA recovers over weeks while mephedrone resets in days, same class.
             Parameters(
                 acuteShiftMax: 0.5, tauAcuteMinutes: 12 * T.hour,
-                adaptiveShiftMax: 1.5, tauAdaptiveMinutes: 3 * T.week,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 4 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 1.0, tauSynthesisMinutes: 14 * T.day,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .serotonergicLoad, confidence: .low,
                 classDefaultVdLPerKg: 5.0,
-                sourceNote: "§3: MDMA-type weeks-scale depletion. Per-substance synthesis split (MDMA TPH-suppression slow vs 4-MMC fast) is Stage E. No deep layer. Grade low.",
+                sourceNote: "§3.4: two recovery clocks. Fast adaptive pool (receptor/transporter resensitisation, τ≈4 d) — the whole story for the cathinone releasers (4-MMC/mephedrone), which spare synthesis and reset in 2–4 d. Slow synthesis pool (τ≈14 d, single-dose inferred, range 3–14 d) driven only by the synthesis-suppressing entactogens: MDMA-type TPH suppression is *metabolite*-mediated, so recovery waits weeks. Rejected Shulgin's untested 3-month rule and both damage/harmless extremes. Grade low (human L).",
                 safetyEndpoint: nil,
             )
         case .gaba:
@@ -254,7 +274,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 1.1, tauAdaptiveMinutes: 14 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 1.1,
                 sourceNote: "§3: sedative tolerance 2–4× fast (~3–5 d); far less elastic than opioids. Anxiolytic tolerance slow/absent (Stage C differential). Dependence/kindling safety axis. Grade low.",
@@ -266,7 +288,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 3 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .cumulativeToxicity, confidence: .low,
                 classDefaultVdLPerKg: 3.0,
                 sourceNote: "§3: days-scale adaptive shift; also a μ-opioid tolerance modulator (ToleranceModulation). Cumulative-toxicity axis (e.g. ketamine bladder). Grade low.",
@@ -277,7 +301,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 1.2, tauAdaptiveMinutes: 4 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 3.4,
                 sourceNote: "§3: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift. Grade low.",
@@ -288,7 +314,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 5 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 0.6,
                 sourceNote: "§3: clean adenosine-receptor up-regulation tolerance over days (caffeine); no within-session pool. Grade low.",
@@ -299,7 +327,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0.8, tauAcuteMinutes: 2 * T.hour,
                 adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 1 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 2.6,
                 sourceNote: "§3: nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive shift. Grade low.",
@@ -310,7 +340,9 @@ nonisolated enum ReceptorClasses {
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 0.7, tauAdaptiveMinutes: 7 * T.day,
-                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepEscThreshold: 2, deepEscWidth: 3,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .none, confidence: .unverified,
                 classDefaultVdLPerKg: 1.0,
                 sourceNote: "No curated tolerance class — generic class-default kinetics. Unverified.",
