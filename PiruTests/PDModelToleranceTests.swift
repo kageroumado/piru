@@ -89,19 +89,21 @@ struct PDModelToleranceTests {
     // MARK: - deepGate
 
     @Test
-    func `Deep gate is zero below threshold and one above the band`() {
-        #expect(PDModel.deepGate(adaptiveShift: 0.1, threshold: 0.3, width: 0.15) == 0)
-        #expect(PDModel.deepGate(adaptiveShift: 0.3, threshold: 0.3, width: 0.15) == 0) // at the edge
-        #expect(abs(PDModel.deepGate(adaptiveShift: 0.45, threshold: 0.3, width: 0.15) - 1) < 1e-9) // past the band
+    func `Deep gate is zero below the escalation threshold and one above the band`() {
+        // Escalation factor = dose ÷ heavy ceiling; gate ramps from threshold (2×) to threshold+width (5×).
+        #expect(PDModel.deepGate(escalation: 1.0, threshold: 2, width: 3) == 0) // at/below heavy
+        #expect(PDModel.deepGate(escalation: 2.0, threshold: 2, width: 3) == 0) // at the edge
+        #expect(abs(PDModel.deepGate(escalation: 5.0, threshold: 2, width: 3) - 1) < 1e-9) // past the band
         // Smooth and monotone across the band.
-        let mid = PDModel.deepGate(adaptiveShift: 0.375, threshold: 0.3, width: 0.15)
+        let mid = PDModel.deepGate(escalation: 3.5, threshold: 2, width: 3)
         #expect(mid > 0 && mid < 1)
         #expect(abs(mid - 0.5) < 1e-9) // smoothstep(0.5) = 0.5
     }
 
     @Test
-    func `A large threshold keeps the deep gate closed (classes with no deep layer)`() {
-        #expect(PDModel.deepGate(adaptiveShift: 2.5, threshold: 99, width: 1) == 0)
+    func `Escalation at or below the heavy ceiling keeps the deep gate closed`() {
+        #expect(PDModel.deepGate(escalation: 0, threshold: 2, width: 3) == 0) // no reference dose
+        #expect(PDModel.deepGate(escalation: 1.5, threshold: 2, width: 3) == 0) // ordinary use
     }
 
     // MARK: - responseFraction

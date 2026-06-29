@@ -67,6 +67,16 @@ nonisolated struct PharmacologyParameters {
     let halfLifeMinutes: Double?
     /// Confidence of the resolved ``vdLPerKg`` (`.unverified` when no graded Vd row exists).
     let vdConfidence: ConfidenceTier
+    /// The substance's **reference "heavy" dose** in mg — the denominator of the dose-relative
+    /// *escalation* factor (`dose ÷ referenceDoseMg`) that gates the deep tolerance layer.
+    ///
+    /// Resolved from the substance's own primary dose ladder (oral first, else the first route with a
+    /// range): `heavy ?? strong.upperBound ?? common.upperBound`. Expressed in the **logged
+    /// preparation's** mg (the same units the logged dose is in), so the escalation ratio carries no
+    /// `doseScale`. `nil` when the substance has no dose ladder — which keeps the escalation factor at
+    /// `0` and the deep gate closed (the conservative fallback: no deep tolerance without evidence of
+    /// how much constitutes "heavy").
+    let referenceDoseMg: Double?
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
 

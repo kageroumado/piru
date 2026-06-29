@@ -445,6 +445,9 @@ final class ToleranceStore {
             // for pure compounds.
             let prefactorNanomolar = (f * doseMg * p.doseScale / vd) / 1_000 / mw * 1e9
             let onset = dose.timestamp.timeIntervalSince(start) / 60
+            // Dose-relative escalation = logged mg ÷ the substance's heavy ceiling (both in
+            // preparation mg, so no doseScale). 0 when no reference dose ⇒ the deep gate stays closed.
+            let escalation = (p.referenceDoseMg ?? 0) > 0 ? doseMg / p.referenceDoseMg! : 0
 
             // Most-potent *surviving* target per class (p.targets is tightest-first, so the first per
             // class wins) — drives any modulation edge's presence curve.
@@ -473,6 +476,7 @@ final class ToleranceStore {
                         prefactorNanomolar: prefactorNanomolar,
                         halfMaxNanomolar: engagement.halfMaxNanomolar,
                         confidence: Swift.min(p.vdConfidence, p.bioavailabilityConfidence, p.doseScaleConfidence, engagement.confidence),
+                        escalation: escalation,
                     ),
                 )
                 let canonical = ReceptorClasses.canonicalTarget(engagement.target)
@@ -593,6 +597,10 @@ final class ToleranceStore {
         let prefactorNanomolar: Double
         let halfMaxNanomolar: Double
         let confidence: ConfidenceTier
+        /// Dose-relative **escalation** factor `dose ÷ the substance's heavy ceiling` for the dose
+        /// that spawned this contributor — the deep-layer gate's signal (`0` when the substance has
+        /// no reference dose, which keeps the gate closed). Identical across all of a dose's targets.
+        let escalation: Double
     }
 
     /// One co-active substance's tolerance-modulation contribution at one affected class.
@@ -664,8 +672,8 @@ final class ToleranceStore {
         guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep) }
 
         /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): each ln-shift layer
-        /// decays toward 0 (the deep gate also closes as the adaptive layer relaxes). Exact for the
-        /// linear leaky integrators.
+        /// decays toward 0 (with no active contributor the escalation gate is closed anyway, so deep
+        /// only relaxes). Exact for the linear leaky integrators.
         func recover(_ minutes: Double) {
             guard minutes > 0 else { return }
             sAcute *= exp(-minutes / params.tauAcuteMinutes)
@@ -705,13 +713,16 @@ final class ToleranceStore {
 
                 // Combined occupancy = union `1 − ∏(1 − occupancyᵢ)`, computed inline while compacting
                 // expired contributors in place — no per-cell allocation (the hot path over a dense log).
+                // The peak escalation among the *currently-active* contributors drives the deep gate.
                 var complement = 1.0
+                var maxEscalation = 0.0
                 var writeIndex = 0
                 for readIndex in activeContributors.indices {
                     let contributor = activeContributors[readIndex]
                     if contributor.expiry < midpoint { continue }
                     if writeIndex != readIndex { activeContributors[writeIndex] = contributor }
                     writeIndex += 1
+                    if contributor.escalation > maxEscalation { maxEscalation = contributor.escalation }
                     let concentration = contributor.prefactorNanomolar
                         * PKModel.concentration(at: midpoint - contributor.onset, ke: contributor.ke, ka: contributor.ka)
                     if concentration > 0 {
@@ -745,15 +756,18 @@ final class ToleranceStore {
                     }
                 }
 
-                // Advance the three ln-shift layers. The deep gate reads the adaptive layer at
-                // cell-start (before its update), so deep only engages once the adaptive shift is
-                // sustained above the escalation threshold.
+                // Advance the three ln-shift layers. The deep gate is driven by the *dose-relative
+                // escalation* (dose ÷ heavy ceiling) of the active contributors, not the adaptive
+                // shift: saturating occupancy makes therapeutic and heavy dosing look identical at the
+                // receptor, so only the dose-to-heavy ratio separates "significant escalation". Deep
+                // therefore accrues only when a dose is both well above the heavy ceiling (the gate)
+                // and sustained (the months-τ leaky integrator × the occupancy term).
                 sAcute = PDModel.stepShift(
                     current: sAcute, shiftMax: params.acuteShiftMax, occupancy: occupancy,
                     drive: 1, dtMinutes: cellLength, tauMinutes: params.tauAcuteMinutes,
                 )
                 let gate = PDModel.deepGate(
-                    adaptiveShift: sAdaptive, threshold: params.deepGateThreshold, width: params.deepGateWidth,
+                    escalation: maxEscalation, threshold: params.deepEscThreshold, width: params.deepEscWidth,
                 )
                 sAdaptive = PDModel.stepShift(
                     current: sAdaptive, shiftMax: params.adaptiveShiftMax, occupancy: occupancy,

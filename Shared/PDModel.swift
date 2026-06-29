@@ -24,8 +24,12 @@ import Foundation
 /// - **Adaptive** (`drive = μ`, the modulation factor, τ ≈ days–weeks): the baseline shift people
 ///   mean by "tolerance".
 /// - **Deep** (`drive = gate`, τ ≈ months): entrenched neuroadaptation. The gate (see ``deepGate``)
-///   keeps it **off** until the adaptive layer is sustained-high (the escalation threshold), and
-///   `shiftMax_deep` provides the asymptote — so therapeutic users never accrue it.
+///   keeps it **off** until the dose is sustained well **above the substance's heavy ceiling** (the
+///   *dose-relative escalation* signal — see ``deepGate(escalation:threshold:width:)``), and
+///   `shiftMax_deep` provides the asymptote — so therapeutic users never accrue it. Keying the gate
+///   on escalation rather than on the adaptive shift is the principled fix: transporter occupancy
+///   saturates, so therapeutic and heavy dosing look identical at the receptor — only the dose
+///   relative to the heavy ceiling distinguishes "significant escalation".
 ///
 /// The user-facing gauge is the **response fraction** at the usual dose (see ``responseFraction``),
 /// and recovery milestones are the times for `S(t)` to decay back through gauge thresholds (see
@@ -45,7 +49,7 @@ enum PDModel {
     ///   - shiftMax: the layer's ln-shift ceiling (gain); `0` disables the layer (target ≡ 0).
     ///   - occupancy: `O(t)` ∈ [0, 1] over this step (the PD bridge from ``PKModel``).
     ///   - drive: the layer's gate factor — `1` (acute), the modulation `μ` (adaptive), or the deep
-    ///     ``deepGate`` (deep).
+    ///     ``deepGate(escalation:threshold:width:)`` (deep).
     ///   - dtMinutes: step length (minutes); must be > 0.
     ///   - tauMinutes: the layer's build/recover time-constant (minutes); must be > 0.
     /// - Returns: the advanced ln-shift contribution.
@@ -63,16 +67,20 @@ enum PDModel {
         return target + (current - target) * decay
     }
 
-    /// Smoothstep gate for the **deep** layer: `0` while the adaptive shift sits below `threshold`,
-    /// ramping smoothly to `1` once it exceeds `threshold + width`. So the deep (months-scale,
-    /// entrenched) layer only engages after sustained escalation — a therapeutic user, whose adaptive
-    /// layer stays low, never lights it.
+    /// Smoothstep gate for the **deep** layer, keyed on the **dose-relative escalation** factor
+    /// `escalation = dose ÷ the substance's heavy ceiling`: `0` while escalation sits below
+    /// `threshold`, ramping smoothly to `1` once it exceeds `threshold + width`. So the deep
+    /// (months-scale, entrenched) layer only engages once dosing runs sustainedly above the heavy
+    /// ceiling — a therapeutic user, dosing at/below the ladder, never lights it. Escalation rather
+    /// than the adaptive shift is the gate signal because saturating occupancy makes therapeutic and
+    /// heavy dosing indistinguishable at the receptor (the Stage-A bug); the dose-to-heavy ratio is
+    /// what actually separates "significant escalation" from ordinary use.
     ///
-    /// `smoothstep(t) = t²(3 − 2t)` with `t = clamp((adaptiveShift − threshold)/width, 0, 1)` — C¹ at
+    /// `smoothstep(t) = t²(3 − 2t)` with `t = clamp((escalation − threshold)/width, 0, 1)` — C¹ at
     /// both edges, so the deep layer fades in without a kink.
-    nonisolated static func deepGate(adaptiveShift: Double, threshold: Double, width: Double) -> Double {
-        guard width > 0 else { return adaptiveShift >= threshold ? 1 : 0 }
-        let t = max(0, min(1, (adaptiveShift - threshold) / width))
+    nonisolated static func deepGate(escalation: Double, threshold: Double, width: Double) -> Double {
+        guard width > 0 else { return escalation >= threshold ? 1 : 0 }
+        let t = max(0, min(1, (escalation - threshold) / width))
         return t * t * (3 - 2 * t)
     }
 

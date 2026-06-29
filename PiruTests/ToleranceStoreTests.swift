@@ -81,13 +81,15 @@ struct ToleranceStoreTests {
 
     @Test
     func `Heavy clustered stimulant dosing engages the deep layer; occasional dosing does not`() throws {
-        // Same substance, different *pattern*: heavy sustained escalation vs a light occasional dose.
+        // Same substance, different *pattern*: heavy sustained escalation well above the heavy ceiling
+        // (Amphetamine's heavy dose is ~50–75 mg, so 250 mg ×4/day is escalation factor ≳ 3–5, opening
+        // the dose-relative deep gate) vs a light occasional dose that never escalates.
         let heavy = ToleranceStore.simulate(
-            entries: Self.clusteredDoses("Amphetamine", mg: 60, days: 30, perDay: 4),
+            entries: Self.clusteredDoses("Amphetamine", mg: 250, days: 30, perDay: 4),
             now: Self.now, weightKg: 70, resolve: Self.resolve,
         )
-        // Occasional: a single 10 mg dose every 4 days — the adaptive layer relaxes between doses, so
-        // it never sustains above the deep-gate escalation threshold.
+        // Occasional: a single 10 mg dose every 4 days — well below the heavy ceiling, so the
+        // dose-relative escalation gate stays closed regardless of frequency.
         let occasionalEntries: [DoseEntry] = (0 ..< 8).map { index in
             DoseEntry(
                 substance: "Amphetamine", amount: 10, unit: "mg", route: .oral,

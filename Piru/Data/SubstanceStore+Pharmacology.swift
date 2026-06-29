@@ -186,6 +186,11 @@ extension SubstanceStore {
         // substance on the main actor*. The cached instance reads serve interactive callers
         // (detail view, effect attenuation); the tolerance recompute uses the off-main batch
         // path below so it never resolves on the main actor.
+        // The escalation reference comes from the **logged** substance's own dose ladder (Kratom's,
+        // not mitragynine's), since the logged dose and the ladder are both in preparation mg.
+        let referenceDoseMg = substanceID(forNameOrAlias: name).flatMap {
+            Self.referenceDoseMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
+        }
         return Self.assemblePharmacologyParameters(
             name: name,
             molarMass: molarMass(forSubstanceName: routed.name),
@@ -193,6 +198,7 @@ extension SubstanceStore {
             bindingHits: bindings(forSubstanceName: routed.name),
             doseScale: routed.scale,
             doseScaleConfidence: routed.confidence,
+            referenceDoseMg: referenceDoseMg,
         )
     }
 
@@ -213,9 +219,21 @@ extension SubstanceStore {
             },
             uniquingKeysWith: { first, _ in first },
         )
+        // The escalation reference uses the **logged** substance's own dose ladder (preparation mg),
+        // so it is keyed by the logged name's own id — not the active-compound id used for binding/PK.
+        let referenceDoseIDs = Dictionary(
+            names.compactMap { name -> (String, Int64)? in
+                guard let id = substanceID(forNameOrAlias: name) else { return nil }
+                return (name.lowercased(), id)
+            },
+            uniquingKeysWith: { first, _ in first },
+        )
         let db = substancesBatchDB
+        let order = enabledSourceOrder
         return await Task.detached(priority: .utility) {
-            Self.resolvePharmacologyParametersBatch(names: names, ids: ids, db: db)
+            Self.resolvePharmacologyParametersBatch(
+                names: names, ids: ids, referenceDoseIDs: referenceDoseIDs, order: order, db: db,
+            )
         }.value
     }
 
@@ -223,12 +241,16 @@ extension SubstanceStore {
     /// entirely off the main actor. A name absent from `ids` (not in the bundled DB) still yields a
     /// params record with nil molar mass / no targets, which the engine treats as uncomputable.
     private nonisolated static func resolvePharmacologyParametersBatch(
-        names: [String], ids: [String: Int64], db queue: DatabaseQueue,
+        names: [String], ids: [String: Int64], referenceDoseIDs: [String: Int64],
+        order: [String], db queue: DatabaseQueue,
     ) -> [String: PharmacologyParameters] {
         var out: [String: PharmacologyParameters] = [:]
         for name in names where out[name] == nil {
             let id = ids[name.lowercased()]
             let routed = routePreparation(name)
+            let referenceDoseMg = referenceDoseIDs[name.lowercased()].flatMap {
+                Self.referenceDoseMg(substanceID: $0, db: queue, order: order)
+            }
             out[name] = assemblePharmacologyParameters(
                 name: name,
                 molarMass: id.flatMap { molarMass(substanceID: $0, db: queue) },
@@ -236,6 +258,7 @@ extension SubstanceStore {
                 bindingHits: id.map { bindingRows(substanceID: $0, db: queue) } ?? [],
                 doseScale: routed.scale,
                 doseScaleConfidence: routed.confidence,
+                referenceDoseMg: referenceDoseMg,
             )
         }
         return out
@@ -246,6 +269,7 @@ extension SubstanceStore {
     private nonisolated static func assemblePharmacologyParameters(
         name: String, molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
         doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
+        referenceDoseMg: Double? = nil,
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
@@ -324,6 +348,7 @@ extension SubstanceStore {
             doseScaleConfidence: doseScaleConfidence,
             halfLifeMinutes: halfLife,
             vdConfidence: resolvedVdConfidence,
+            referenceDoseMg: referenceDoseMg,
             targets: targets,
         )
     }
