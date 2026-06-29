@@ -1735,6 +1735,8 @@ struct SubstanceDetailView: View {
                     .accessibilityLabel("Share drug info")
                 }
             }
+            // Split the glass platter so Share sits on its own, separate from the overflow menu.
+            ToolbarSpacer(.fixed, placement: .topBarTrailing)
             ToolbarItem(placement: .topBarTrailing) {
                 // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
                 // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
@@ -1779,7 +1781,7 @@ struct SubstanceDetailView: View {
                         .pickerStyle(.inline)
                     }
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Image(systemName: "ellipsis")
                         .foregroundStyle(Theme.accent)
                 }
                 .accessibilityLabel("More")
