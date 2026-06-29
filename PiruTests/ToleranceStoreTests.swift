@@ -26,10 +26,27 @@ struct ToleranceStoreTests {
         }
     }
 
+    /// `perDay` doses spread evenly across each of `days` days — sustained high occupancy for the
+    /// heavy-chronic case that engages the deep layer.
+    static func clusteredDoses(
+        _ substance: String, mg: Double, days: Int, perDay: Int,
+    ) -> [DoseEntry] {
+        var entries: [DoseEntry] = []
+        for d in 0 ..< days {
+            let daysBack = Double(days - 1 - d)
+            for k in 0 ..< perDay {
+                let hourInDay = Double(k) * (24.0 / Double(perDay))
+                let ts = now.addingTimeInterval(-daysBack * 86_400 - (24 - hourInDay) * 3_600)
+                entries.append(DoseEntry(substance: substance, amount: mg, unit: "mg", route: .oral, timestamp: ts))
+            }
+        }
+        return entries
+    }
+
     // MARK: - Dose-dependence end-to-end
 
     @Test
-    func `Higher daily caffeine builds more adenosine tolerance than a lower dose`() throws {
+    func `Higher daily caffeine builds a larger adenosine right-shift than a lower dose`() throws {
         let high = ToleranceStore.simulate(
             entries: Self.dailyDoses("Caffeine", mg: 200, days: 10), now: Self.now, weightKg: 70, resolve: Self.resolve,
         )
@@ -40,25 +57,53 @@ struct ToleranceStoreTests {
         let lowA2A = try #require(low[.adenosine])
 
         #expect(highA2A.receptorClass == .adenosine)
-        #expect(highA2A.availability < lowA2A.availability) // the flaw closed: dose changes tolerance
-        #expect(highA2A.availability > 0 && highA2A.availability < 1)
+        #expect(highA2A.shiftFactor > lowA2A.shiftFactor) // the flaw closed: dose changes tolerance
+        #expect(highA2A.shiftFactor > 1) // a real right-shift built
+        #expect(highA2A.responseFraction > 0 && highA2A.responseFraction < 1)
     }
 
-    // MARK: - Stimulant: tachyphylaxis without allostatic tolerance, end-to-end
+    // MARK: - Stimulant: acute tachyphylaxis without a deep shift, end-to-end
 
     @Test
-    func `Therapeutic amphetamine: acute pool depleted near a dose, slow axis stays naïve`() throws {
-        // Recent last dose (1 h ago) so the acute pool is depleted at `now`.
+    func `Therapeutic amphetamine: acute layer engaged, deep layer stays off`() throws {
+        // Recent last dose (1 h ago) so the acute layer is engaged at `now`.
         let states = ToleranceStore.simulate(
             entries: Self.dailyDoses("Amphetamine", mg: 10, days: 7, lastDoseHoursAgo: 1),
             now: Self.now, weightKg: 70, resolve: Self.resolve,
         )
         let dat = try #require(states[.catecholamineStimulant])
         #expect(dat.receptorClass == .catecholamineStimulant)
-        #expect(dat.availability > 0.9) // no allostatic tolerance from therapeutic dosing
-        #expect(dat.acute < dat.availability) // acute pool is the moving axis
-        #expect(dat.load >= 0 && dat.load <= 1) // bounded recovery-state indicator
+        #expect(dat.sAcute > 0) // a recent dose engages the within-session acute layer
+        #expect(dat.sDeep < 0.05) // therapeutic dosing never engages the gated deep layer
+        #expect(dat.shiftFactor >= 1)
         #expect(dat.confidence <= .medium) // class-default kinetics cap confidence
+    }
+
+    @Test
+    func `Heavy clustered stimulant dosing engages the deep layer; occasional dosing does not`() throws {
+        // Same substance, different *pattern*: heavy sustained escalation vs a light occasional dose.
+        let heavy = ToleranceStore.simulate(
+            entries: Self.clusteredDoses("Amphetamine", mg: 60, days: 30, perDay: 4),
+            now: Self.now, weightKg: 70, resolve: Self.resolve,
+        )
+        // Occasional: a single 10 mg dose every 4 days — the adaptive layer relaxes between doses, so
+        // it never sustains above the deep-gate escalation threshold.
+        let occasionalEntries: [DoseEntry] = (0 ..< 8).map { index in
+            DoseEntry(
+                substance: "Amphetamine", amount: 10, unit: "mg", route: .oral,
+                timestamp: Self.now.addingTimeInterval(-Double(index) * 4 * 86_400 - 86_400),
+            )
+        }
+        let occasional = ToleranceStore.simulate(
+            entries: occasionalEntries, now: Self.now, weightKg: 70, resolve: Self.resolve,
+        )
+        let heavyDat = try #require(heavy[.catecholamineStimulant])
+        let occasionalDat = try #require(occasional[.catecholamineStimulant])
+
+        #expect(heavyDat.sDeep > 0) // escalation crosses the gate threshold → deep layer entrenches
+        #expect(heavyDat.sDeep > occasionalDat.sDeep)
+        #expect(occasionalDat.sDeep < 0.05) // occasional dosing keeps the gate closed
+        #expect(heavyDat.shiftFactor > occasionalDat.shiftFactor) // heavier pattern → larger total shift
     }
 
     // MARK: - Class-default Vd fallback

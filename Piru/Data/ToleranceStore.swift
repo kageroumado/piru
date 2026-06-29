@@ -9,12 +9,16 @@ import SwiftData
 /// `Specs/tolerance-tool-audit-and-redesign.md`).
 nonisolated struct ClassTolerance: Hashable, Identifiable {
     let receptorClass: ReceptorClasses.ReceptorClass
-    /// Slow availability `A_R` ∈ [0, 1] — 1 = naïve/rested.
-    let availability: Double
-    /// Within-session acute (redose) pool ∈ [0, 1].
-    let acute: Double
-    /// Allostatic load (ordinal recovery-state indicator; never an effect multiplier).
-    let load: Double
+    /// Acute ln-shift `sAcute ≥ 0` — within-session tachyphylaxis (the redose loop).
+    let sAcute: Double
+    /// Adaptive ln-shift `sAdaptive ≥ 0` — the days–weeks baseline shift people mean by "tolerance".
+    let sAdaptive: Double
+    /// Deep ln-shift `sDeep ≥ 0` — entrenched, months-scale neuroadaptation (gated off for
+    /// therapeutic users).
+    let sDeep: Double
+    /// Representative peak occupancy at the user's usual dose for this class (the median of the
+    /// contributors' single-dose peaks) — the gauge's reference point for ``responseFraction``.
+    let representativeOccupancy: Double
     /// Weakest-link confidence across the contributing substances' occupancy inputs and the class
     /// kinetics — the house "predicted (model, confidence)" tier.
     let confidence: ConfidenceTier
@@ -29,11 +33,23 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
         receptorClass
     }
 
-    /// One unified "how affected" axis ∈ [0, 1] for ranking — `max` of the availability drop and the
-    /// load, so classes whose availability axis is inert by design (stimulants: load carries it) and
-    /// classes with no load integrator (nicotinic: availability carries it) both rank correctly.
+    /// The total dose-response right-shift `S = exp(sAcute + sAdaptive + sDeep) ≥ 1` — `1` is naïve,
+    /// larger means the curve has shifted further right (the same dose does less).
+    var shiftFactor: Double {
+        Foundation.exp(sAcute + sAdaptive + sDeep)
+    }
+
+    /// The gauge: fraction of the naïve effect you'd feel at your usual dose under the current
+    /// right-shift (`1` = full, → small as `S` grows). See
+    /// ``PDModel/responseFraction(shiftFactor:representativeOccupancy:)``.
+    var responseFraction: Double {
+        PDModel.responseFraction(shiftFactor: shiftFactor, representativeOccupancy: representativeOccupancy)
+    }
+
+    /// One unified "how affected" axis ∈ [0, 1] for ranking and the state word — `1 − responseFraction`,
+    /// so a bigger right-shift (less response at the usual dose) ranks higher.
     var severity: Double {
-        Swift.max(1 - availability, load)
+        1 - responseFraction
     }
 }
 
@@ -58,14 +74,16 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
 final class ToleranceStore {
     static let shared = ToleranceStore()
 
-    /// Default integration timestep (minutes). The closed-form ``PDModel/stepAvailability`` is exact
-    /// for piecewise-constant occupancy, so a coarse grid stays accurate; 30 min balances fidelity
-    /// against the cost of replaying a long history.
+    /// Default integration timestep (minutes). The closed-form ``PDModel/stepShift`` is exact for
+    /// piecewise-constant occupancy, so a coarse grid stays accurate; 30 min balances fidelity against
+    /// the cost of replaying a long history.
     nonisolated static let defaultTimestepMinutes = 30.0
 
-    /// How far back the replay reaches. Beyond the longest recovery/decay τ (a few months) a dose's
-    /// contribution has decayed to nothing, so older history is dropped to bound the work.
-    nonisolated static let defaultLookbackDays = 547.0 // ~18 months
+    /// How far back the replay reaches. 90 days (3 months) fully captures the acute + adaptive layers;
+    /// a dose from long ago is irrelevant to current sensitivity, and the months-scale deep layer is
+    /// carried forward by the persisted checkpoint (a later stage), so the short window doesn't lose
+    /// long-run deep state on incremental updates.
+    nonisolated static let defaultLookbackDays = 90.0
 
     /// Current per-class tolerance snapshot, keyed by mechanism class. Observation-tracked; views read
     /// this. One entry per engaged class (aggregating all of that class's targets).
@@ -249,7 +267,7 @@ final class ToleranceStore {
     /// Each substance contributes a time-resolved occupancy curve at every target it engages
     /// (absolute molar concentration → Hill occupancy, Foundation A); contributions at a *shared*
     /// target combine via ``PDModel/combinedOccupancy(_:)``, and that combined occupancy drives the
-    /// per-target availability/acute/load ODEs with the class's ``ReceptorClasses/Parameters``.
+    /// per-class three-layer right-shift `S(t)` with the class's ``ReceptorClasses/Parameters``.
     /// A `Sendable` snapshot of one logged dose, so the heavy replay can run **off the main actor**
     /// (a SwiftData `DoseEntry` is a non-`Sendable` `@Model` and can't cross an isolation boundary).
     /// The unit→mg conversion is done while building the snapshot (on the actor that owns the entry).
@@ -297,7 +315,7 @@ final class ToleranceStore {
     /// Each substance-dose contributes a time-resolved occupancy curve at every target it engages
     /// (absolute molar concentration → Hill occupancy, Foundation A); contributions at a *shared* target
     /// combine via ``PDModel/combinedOccupancy(_:)``, and that combined occupancy drives the per-target
-    /// availability/acute/load ODEs with the class's ``ReceptorClasses/Parameters``.
+    /// three-layer right-shift `S(t)` with the class's ``ReceptorClasses/Parameters``.
     ///
     /// ## Why it is near-linear (not O(history × doses))
     /// A dose's occupancy decays to nothing within a handful of half-lives, so it is wasteful to
@@ -375,6 +393,9 @@ final class ToleranceStore {
         let contributorSubstances: [String]
         let contributors: [Contributor]
         let modulators: [ModulatorContributor]
+        /// Median single-dose peak occupancy across this class's contributors — the gauge's
+        /// representative occupancy at the usual dose.
+        let representativeOccupancy: Double
     }
 
     /// Shared, cheap (serial) preparation for both `simulate` variants: filter the log to the lookback
@@ -398,6 +419,8 @@ final class ToleranceStore {
 
         var contributorsByClass: [ReceptorClasses.ReceptorClass: [Contributor]] = [:]
         var subTargetsByClass: [ReceptorClasses.ReceptorClass: [String]] = [:]
+        // Single-dose peak occupancies per class — the gauge's representative-occupancy input (median).
+        var peaksByClass: [ReceptorClasses.ReceptorClass: [Double]] = [:]
         var seenSubTarget: [ReceptorClasses.ReceptorClass: Set<String>] = [:]
         // Substance names driving each class, in most-recent-first order (the "driven by" chips). The
         // log is walked oldest→newest, so the most recent dose of a substance wins its position.
@@ -437,6 +460,7 @@ final class ToleranceStore {
                     halfMaxNanomolar: engagement.halfMaxNanomolar,
                 )
                 guard peak >= minMeaningfulOccupancy else { continue }
+                peaksByClass[cls, default: []].append(peak)
 
                 if bestTargetByClass[cls] == nil { bestTargetByClass[cls] = engagement }
                 let expiry = onset + decayWindowMinutes(
@@ -488,6 +512,7 @@ final class ToleranceStore {
                 subTargets: subTargetsByClass[receptorClass] ?? [],
                 contributorSubstances: names,
                 contributors: contributors, modulators: modulatorsByClass[receptorClass] ?? [],
+                representativeOccupancy: median(peaksByClass[receptorClass] ?? []),
             )
         }
         return (work, now.timeIntervalSince(start) / 60)
@@ -506,10 +531,19 @@ final class ToleranceStore {
         let inputConfidence = work.contributors.map(\.confidence).min() ?? .unverified
         return ClassTolerance(
             receptorClass: work.receptorClass,
-            availability: state.availability, acute: state.acute, load: state.load,
+            sAcute: state.sAcute, sAdaptive: state.sAdaptive, sDeep: state.sDeep,
+            representativeOccupancy: work.representativeOccupancy,
             confidence: Swift.min(inputConfidence, params.confidence),
             subTargets: work.subTargets, contributors: work.contributorSubstances,
         )
+    }
+
+    /// Median of a peak-occupancy list (sorted middle element), `0` when empty — the gauge's
+    /// representative occupancy at the usual dose.
+    private nonisolated static func median(_ values: [Double]) -> Double {
+        guard !values.isEmpty else { return 0 }
+        let sorted = values.sorted()
+        return sorted[sorted.count / 2]
     }
 
     /// Single-dose **peak** fractional occupancy of one engagement, evaluated at the modeled Tmax — the
@@ -537,7 +571,7 @@ final class ToleranceStore {
     )
 
     /// Occupancy below which a contributor is treated as fully decayed and dropped from the integration.
-    /// At 1e-9 the discarded tail's effect on availability/load is ≪ 1e-6 (far below the integer-percent
+    /// At 1e-9 the discarded tail's effect on the ln-shift layers is ≪ 1e-6 (far below the integer-percent
     /// the UI shows); the golden test (`ToleranceGoldenTests`) pins the resulting numbers to the dense
     /// replay within 1e-6 to keep this honest.
     nonisolated static let occupancyPruneEpsilon = 1e-9
@@ -592,31 +626,30 @@ final class ToleranceStore {
         return Swift.max(tmax * 1.5, dtTail)
     }
 
-    /// Integrate one target's availability / acute / load over `[0, totalMinutes]`, fine-stepping only
-    /// inside the contributors' merged active windows and crossing idle gaps with the exact closed-form
-    /// recovery (see ``simulate(doses:params:now:weightKg:timestepMinutes:lookbackDays:)``).
+    /// Integrate one class's three right-shift layers (`sAcute`/`sAdaptive`/`sDeep`) over
+    /// `[0, totalMinutes]`, fine-stepping only inside the contributors' merged active windows and
+    /// crossing idle gaps with the exact closed-form layer decay (see
+    /// ``simulate(doses:params:now:weightKg:timestepMinutes:lookbackDays:)``).
     private nonisolated static func integrateTarget(
         contributors rawContributors: [Contributor],
         modulators rawModulators: [ModulatorContributor],
         params: ReceptorClasses.Parameters,
         totalMinutes: Double,
         step: Double,
-    ) -> (availability: Double, acute: Double, load: Double) {
-        var availability = 1.0
-        var acute = 1.0
-        var load = 0.0
+    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double) {
+        var sAcute = 0.0
+        var sAdaptive = 0.0
+        var sDeep = 0.0
         guard totalMinutes > 0, step > 0, !rawContributors.isEmpty else {
-            return (availability, acute, load)
+            return (sAcute, sAdaptive, sDeep)
         }
-        let hasAcute = params.hasAcutePool
-        let hasLoad = params.loadGain > 0
 
         let contributors = rawContributors.sorted { $0.onset < $1.onset }
         let modulators = rawModulators.sorted { $0.onset < $1.onset }
 
         // Merge contributor windows into the disjoint intervals where *some* contributor is active
-        // (occupancy ≥ ε). Outside them occupancy is 0, so availability/acute recover and load decays
-        // analytically — no need to walk the grid.
+        // (occupancy ≥ ε). Outside them occupancy is 0, so every layer decays toward 0 analytically —
+        // no need to walk the grid.
         var merged: [(lo: Double, hi: Double)] = []
         for c in contributors {
             if var last = merged.last, c.onset <= last.hi {
@@ -628,14 +661,16 @@ final class ToleranceStore {
         }
 
         let lastCell = Int((totalMinutes / step).rounded(.up)) - 1
-        guard lastCell >= 0 else { return (availability, acute, load) }
+        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep) }
 
-        /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): exact for the linear ODEs.
+        /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): each ln-shift layer
+        /// decays toward 0 (the deep gate also closes as the adaptive layer relaxes). Exact for the
+        /// linear leaky integrators.
         func recover(_ minutes: Double) {
             guard minutes > 0 else { return }
-            availability = 1 + (availability - 1) * exp(-minutes / params.tauSlowMinutes)
-            if hasAcute { acute = 1 + (acute - 1) * exp(-minutes / params.tauAcuteMinutes) }
-            if hasLoad { load *= exp(-minutes / params.tauLoadMinutes) }
+            sAcute *= exp(-minutes / params.tauAcuteMinutes)
+            sAdaptive *= exp(-minutes / params.tauAdaptiveMinutes)
+            sDeep *= exp(-minutes / params.tauDeepMinutes)
         }
 
         var activeContributors: [Contributor] = []
@@ -688,7 +723,7 @@ final class ToleranceStore {
                 }
                 let occupancy = 1 - complement
 
-                // μ_R(t): tolerance-modulation factor for the slow availability axis only (Stage 4b),
+                // μ(t): tolerance-modulation factor driving the adaptive layer only (Stage 4b),
                 // same inline-compaction pattern.
                 var modulation = 1.0
                 if !activeModulators.isEmpty {
@@ -710,29 +745,31 @@ final class ToleranceStore {
                     }
                 }
 
-                availability = PDModel.stepAvailability(
-                    availability: availability, occupancy: occupancy, dtMinutes: cellLength,
-                    kappa: params.kappaSlow, tauMinutes: params.tauSlowMinutes, modulation: modulation,
+                // Advance the three ln-shift layers. The deep gate reads the adaptive layer at
+                // cell-start (before its update), so deep only engages once the adaptive shift is
+                // sustained above the escalation threshold.
+                sAcute = PDModel.stepShift(
+                    current: sAcute, shiftMax: params.acuteShiftMax, occupancy: occupancy,
+                    drive: 1, dtMinutes: cellLength, tauMinutes: params.tauAcuteMinutes,
                 )
-                if hasAcute {
-                    acute = PDModel.stepAvailability(
-                        availability: acute, occupancy: occupancy, dtMinutes: cellLength,
-                        kappa: params.kappaAcute, tauMinutes: params.tauAcuteMinutes,
-                    )
-                }
-                if hasLoad {
-                    load = PDModel.stepLoad(
-                        load: load, occupancy: occupancy, dtMinutes: cellLength,
-                        tauMinutes: params.tauLoadMinutes, gain: params.loadGain,
-                    )
-                }
+                let gate = PDModel.deepGate(
+                    adaptiveShift: sAdaptive, threshold: params.deepGateThreshold, width: params.deepGateWidth,
+                )
+                sAdaptive = PDModel.stepShift(
+                    current: sAdaptive, shiftMax: params.adaptiveShiftMax, occupancy: occupancy,
+                    drive: modulation, dtMinutes: cellLength, tauMinutes: params.tauAdaptiveMinutes,
+                )
+                sDeep = PDModel.stepShift(
+                    current: sDeep, shiftMax: params.deepShiftMax, occupancy: occupancy,
+                    drive: gate, dtMinutes: cellLength, tauMinutes: params.tauDeepMinutes,
+                )
             }
             lastSteppedCell = lastCellInRun
         }
 
         // Final idle tail from the last fine-stepped cell to `now` (covers a partial last cell exactly).
         recover(totalMinutes - Double(lastSteppedCell + 1) * step)
-        return (availability, acute, load)
+        return (sAcute, sAdaptive, sDeep)
     }
 
     // MARK: - Persistence (cache)
@@ -747,10 +784,14 @@ final class ToleranceStore {
         var loaded: [ReceptorClasses.ReceptorClass: ClassTolerance] = [:]
         for row in rows {
             guard let receptorClass = ReceptorClasses.ReceptorClass(rawValue: row.target) else { continue }
+            // The cache only carries the three ln-shift layers; representativeOccupancy, sub-targets,
+            // contributors and the real confidence are recomputed on the first replay (the background
+            // refresh runs at launch), so warm them with neutral placeholders — overwritten promptly.
             loaded[receptorClass] = ClassTolerance(
                 receptorClass: receptorClass,
-                availability: row.availability, acute: row.acute, load: row.load,
-                confidence: ReceptorClasses.parameters(for: receptorClass).confidence,
+                sAcute: row.sAcute, sAdaptive: row.sAdaptive, sDeep: row.sDeep,
+                representativeOccupancy: 0.5,
+                confidence: .unverified,
                 subTargets: [], contributors: [],
             )
         }
@@ -776,28 +817,28 @@ final class ToleranceStore {
             for (receptorClass, t) in computed {
                 let key = receptorClass.rawValue
                 if let row = byKey[key] {
-                    row.availability = t.availability
-                    row.acute = t.acute
-                    row.load = t.load
+                    row.sAcute = t.sAcute
+                    row.sAdaptive = t.sAdaptive
+                    row.sDeep = t.sDeep
                     row.lastUpdated = now
                 } else {
                     context.insert(ToleranceState(
-                        target: key, availability: t.availability, acute: t.acute,
-                        load: t.load, lastUpdated: now,
+                        target: key, sAcute: t.sAcute, sAdaptive: t.sAdaptive,
+                        sDeep: t.sDeep, lastUpdated: now,
                     ))
                 }
                 byKey[key] = nil
             }
             // Leftover rows: legacy per-receptor cache keys (pre per-class refactor) aren't valid class
             // raw values — delete them. A class no longer driven by any in-window dose is reset to naïve
-            // rather than deleted (stable row set; a recovered class reads as availability 1).
+            // (all layers 0 ⇒ S = 1) rather than deleted (stable row set; a recovered class reads rested).
             for (key, stale) in byKey {
                 if ReceptorClasses.ReceptorClass(rawValue: key) == nil {
                     context.delete(stale)
                 } else {
-                    stale.availability = 1
-                    stale.acute = 1
-                    stale.load = 0
+                    stale.sAcute = 0
+                    stale.sAdaptive = 0
+                    stale.sDeep = 0
                     stale.lastUpdated = now
                 }
             }

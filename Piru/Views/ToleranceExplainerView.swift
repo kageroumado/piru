@@ -89,15 +89,9 @@ struct ToleranceExplainerView: View {
                 Spacer()
                 ConfidenceBadge(tier: p.confidence)
             }
-            HStack(spacing: 8) {
-                Label(toleranceKind(p), systemImage: p.usesEffectMultiplier ? "chart.line.downtrend.xyaxis" : "gauge.with.dots.needle.33percent")
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(p.usesEffectMultiplier ? Color.accentColor : .orange)
-                Spacer()
-                Label(recoveryDescriptor(p), systemImage: "clock.arrow.circlepath")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+            Label(recoveryDescriptor(p), systemImage: "clock.arrow.circlepath")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
             Text(meaning(cls))
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -131,14 +125,10 @@ struct ToleranceExplainerView: View {
         ]
     }
 
-    private func toleranceKind(_ p: ReceptorClasses.Parameters) -> LocalizedStringResource {
-        p.usesEffectMultiplier ? "Dose-response tolerance" : "Recovery-state load"
-    }
-
-    /// A qualitative recovery timescale from the class's slow time-constant (the load classes use the
-    /// months-long load decay, since their slow availability is not a meaningful effect axis).
+    /// A qualitative recovery timescale from the class's adaptive layer — the days–weeks baseline
+    /// shift that dominates how long sensitivity takes to return.
     private func recoveryDescriptor(_ p: ReceptorClasses.Parameters) -> LocalizedStringResource {
-        let tauDays = (p.usesEffectMultiplier ? p.tauSlowMinutes : p.tauLoadMinutes) / (60 * 24)
+        let tauDays = p.tauAdaptiveMinutes / (60 * 24)
         switch tauDays {
         case ..<2: return "Recovers in days"
         case ..<8: return "Recovers over ~a week"

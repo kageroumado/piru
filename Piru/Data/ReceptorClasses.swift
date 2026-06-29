@@ -1,20 +1,23 @@
 import Foundation
 
-/// Routes a receptor/transporter `target` to its **tolerance class** and that class's rate constants
-/// for the ``PDModel`` availability ODE. This is the curated, evidence-tiered table the engine reads
-/// instead of applying one universal "tolerance %" — the load-bearing design claim is that tolerance
-/// is *per-mechanism*, set by the target Piru already stores.
+/// Routes a receptor/transporter `target` to its **tolerance class** and that class's right-shift
+/// parameters for the ``PDModel`` layered `S(t)`. This is the curated, evidence-tiered table the
+/// engine reads instead of applying one universal "tolerance %" — the load-bearing design claim is
+/// that tolerance is *per-mechanism*, set by the target Piru already stores.
 ///
 /// ## Honesty
 /// Binding affinities (Kᵢ/EC₅₀/Vd) come from the citation-verified flagship evidence run; the
-/// **tolerance kinetics (κ, τ) here do not** — that run graded exposure/affinity, not adaptation
-/// rates, which are the field's softest numbers (over-claiming them is exactly the PsychonautWiki
-/// failure the engine refuses). So every class ships its kinetics flagged ``ConfidenceTier`` —
-/// `.medium` only where a controlled-human value anchors it (the psychedelic subjective-recovery
-/// window, flagship-corrected to ~3–4 d), `.low` (class-default, order-of-magnitude) otherwise. The
-/// constants are calibrated to reproduce the *shape* the literature agrees on (clustered dosing
-/// suppresses, spacing recovers; the acute pool moves within a session while the slow axis does not),
-/// not a false-precision percentage. A dedicated κ/τ evidence pass can upgrade any row later.
+/// **tolerance kinetics (the layer ln-shift ceilings and τ) here do not** — that run graded
+/// exposure/affinity, not adaptation rates, which are the field's softest numbers (over-claiming them
+/// is exactly the PsychonautWiki failure the engine refuses). So every class ships its kinetics
+/// flagged ``ConfidenceTier`` — `.medium` only where a controlled-human value anchors it (the
+/// psychedelic subjective-recovery window, flagship-corrected to ~3–4 d), `.low` (class-default,
+/// order-of-magnitude) otherwise. The constants are calibrated to reproduce the *shape* the
+/// literature agrees on (clustered dosing right-shifts the curve, spacing relaxes it; the acute layer
+/// moves within a session while the adaptive layer is the days–weeks baseline shift; the deep layer
+/// stays off for therapeutic users), not a false-precision percentage. These are the **Stage A
+/// initial** values; the Stage B literature pass (`Specs/tolerance-faithful-model.md` §3) refines
+/// them.
 nonisolated enum ReceptorClasses {
     // MARK: - Time-constant vocabulary (minutes)
 
@@ -81,29 +84,33 @@ nonisolated enum ReceptorClasses {
 
     // MARK: - Per-class parameters
 
-    /// Rate constants and policy for one tolerance class. `κ` is a per-minute depression rate; the
-    /// closed-form ``PDModel/stepAvailability(availability:occupancy:dtMinutes:kappa:tauMinutes:modulation:)``
-    /// makes the integration stable on any timestep, so these are calibrated by the per-episode
-    /// availability drop a saturating dose produces, not by a fragile Euler grid.
+    /// Right-shift parameters for one tolerance class: the three log-space layers that sum into
+    /// `ln S(t)` (see ``PDModel``), each a leaky integrator toward `shiftMax · occupancy · drive`.
+    /// Everything is now one unified shift — the old availability-multiplier-vs-load split is gone;
+    /// the gauge is the saturating ``PDModel/responseFraction(shiftFactor:representativeOccupancy:)``
+    /// at the user's usual dose. The closed-form
+    /// ``PDModel/stepShift(current:shiftMax:occupancy:drive:dtMinutes:tauMinutes:)`` keeps integration
+    /// stable on any timestep, so these are calibrated by the steady-state ln-shift a saturating dose
+    /// pattern produces, not by a fragile Euler grid.
     struct Parameters {
-        /// Slow availability-axis depression rate (per minute).
-        let kappaSlow: Double
-        /// Slow availability-axis recovery time-constant (minutes).
-        let tauSlowMinutes: Double
-        /// Whether the class has a meaningful within-session acute (redose) pool.
-        let hasAcutePool: Bool
-        /// Acute-pool depression rate (per minute) — large; recovers overnight.
-        let kappaAcute: Double
-        /// Acute-pool recovery time-constant (minutes) — hours.
+        /// Acute-layer ln-shift ceiling (within-session tachyphylaxis). `0` ⇒ the class has no acute
+        /// pool, so the layer never contributes.
+        let acuteShiftMax: Double
+        /// Acute-layer build/recover time-constant (minutes) — hours; recovers overnight.
         let tauAcuteMinutes: Double
-        /// Allostatic-load accrual gain (per minute) for the leaky integrator.
-        let loadGain: Double
-        /// Allostatic-load decay time-constant (minutes) — months.
-        let tauLoadMinutes: Double
-        /// Whether the *slow* availability is a valid multiplier on predicted effect. **False** for
-        /// stimulants/releasers (the wrong-signed "tolerance %"); for those the slow axis is a
-        /// recovery-state indicator only.
-        let usesEffectMultiplier: Bool
+        /// Adaptive-layer ln-shift ceiling — the days–weeks baseline shift people mean by "tolerance".
+        let adaptiveShiftMax: Double
+        /// Adaptive-layer build/recover time-constant (minutes) — days to ~2 weeks.
+        let tauAdaptiveMinutes: Double
+        /// Deep-layer ln-shift ceiling (entrenched neuroadaptation). `0` ⇒ no deep layer.
+        let deepShiftMax: Double
+        /// Deep-layer build/recover time-constant (minutes) — months.
+        let tauDeepMinutes: Double
+        /// Adaptive ln-shift value at which the deep layer begins to engage (the escalation
+        /// threshold). A large value (e.g. 99) with `deepShiftMax == 0` keeps the gate at 0 always.
+        let deepGateThreshold: Double
+        /// Width of the deep-layer smoothstep gate above ``deepGateThreshold``.
+        let deepGateWidth: Double
         /// The harm-reduction axis this class maps to.
         let safetyAxis: SafetyAxis
         /// Confidence in *these kinetics* (not the affinity data) — see the type doc.
@@ -114,123 +121,124 @@ nonisolated enum ReceptorClasses {
         let classDefaultVdLPerKg: Double
         /// Human-readable provenance/calibration note.
         let sourceNote: String
+
+        /// Whether the class has a meaningful within-session acute (redose) pool.
+        var hasAcutePool: Bool { acuteShiftMax > 0 }
     }
 
-    /// The curated kinetics for a class. Values are calibrated to the literature's *shape*; see the
+    /// The curated right-shift parameters for a class. These are the **Stage A initial** values
+    /// (Stage B refines them from the literature pass); calibrated to the literature's *shape*, see the
     /// type doc for the honesty stance and confidence grading.
     static func parameters(for receptorClass: ReceptorClass) -> Parameters {
         switch receptorClass {
         case .psychedelic5HT2A:
             // Subjective 5-HT2A tachyphylaxis recovers in ~3–4 d (controlled-human; flagship
-            // correction 2026-06-21 — the "10–14 d / 2-week reset" is a harm-reduction rule, not the
-            // measured τ). Near-total over consecutive days; psychedelics aren't redosed within a
-            // session, so no acute pool. Valid multiplier (near-complete in-class cross-tolerance).
+            // correction 2026-06-21). Near-total over consecutive days → a large adaptive ceiling;
+            // psychedelics aren't redosed within a session, so no acute layer; no deep layer.
             Parameters(
-                kappaSlow: 0.003, tauSlowMinutes: 3.5 * T.day,
-                hasAcutePool: false, kappaAcute: 0, tauAcuteMinutes: 4 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .hppd, confidence: .medium,
+                acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 2.5, tauAdaptiveMinutes: 3.5 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .hppd, confidence: .medium,
                 classDefaultVdLPerKg: 4.0,
-                sourceNote: "Subjective recovery ~3–4 d (controlled-human; flagship-corrected). κ class-default, calibrated to near-total consecutive-day tachyphylaxis.",
+                sourceNote: "Subjective recovery ~3–4 d (controlled-human; flagship-corrected). Adaptive ln-shift calibrated to near-total consecutive-day tachyphylaxis; no acute or deep layer.",
             )
         case .muOpioid:
-            // Days-to-weeks recovery; mild within-session pool. Valid multiplier. The reset-after-
-            // break overdose axis is the safety hand-off (Stage 5).
+            // Days-to-weeks adaptive shift, a mild within-session acute pool, and a gated deep layer:
+            // chronic escalation entrenches over months (the reset-after-break overdose axis is the
+            // safety hand-off, Stage C/F).
             Parameters(
-                kappaSlow: 0.0015, tauSlowMinutes: 10 * T.day,
-                hasAcutePool: true, kappaAcute: 0.004, tauAcuteMinutes: 4 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .resetOverdose, confidence: .low,
+                acuteShiftMax: 0.3, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 2.0, tauAdaptiveMinutes: 10 * T.day,
+                deepShiftMax: 1.5, tauDeepMinutes: 6 * T.month, deepGateThreshold: 1.4, deepGateWidth: 0.6,
+                safetyAxis: .resetOverdose, confidence: .low,
                 classDefaultVdLPerKg: 3.0,
-                sourceNote: "Days–weeks recovery (class-default order-of-magnitude). Safety axis: tolerance-reset overdose after a break.",
+                sourceNote: "Days–weeks adaptive shift + months-scale gated deep layer (class-default order-of-magnitude). Safety axis: tolerance-reset overdose after a break.",
             )
         case .catecholamineStimulant:
-            // The class the whole engine is built to get right. STRONG acute pool (vesicular
-            // depletion → the redose loop), recovers overnight. The slow axis is a *months*
-            // allostatic / recovery-state indicator with a deliberately small κ — and it is NOT an
-            // effect multiplier. A low therapeutic dose therefore shows acute tachyphylaxis but
-            // negligible allostatic change; chronic high exposure accrues real load.
-            // The slow *availability* axis is deliberately near-inert (κ≈0): transporter occupancy
-            // saturates at therapeutic doses, so availability can't distinguish dose, and a slow
-            // "tolerance %" there is the wrong-signed error this engine refuses. The slow signal is
-            // carried entirely by the bounded allostatic LOAD integrator (gain 1 → recovery-state in
-            // [0,1]), which is dose/frequency-dependent via the exposure integral.
+            // The flagship three-layer class. STRONG acute layer (vesicular depletion → the redose
+            // loop), recovers overnight. A modest adaptive baseline shift. The deep layer is OFF for
+            // therapeutic users (low adaptive shift keeps the gate closed) and only entrenches after
+            // heavy chronic escalation — months to recover, asymptoting at its ceiling.
             Parameters(
-                kappaSlow: 0.00001, tauSlowMinutes: 2 * T.month,
-                hasAcutePool: true, kappaAcute: 0.02, tauAcuteMinutes: 12 * T.hour,
-                loadGain: 1.0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: false, safetyAxis: .stimulantLoad, confidence: .low,
+                acuteShiftMax: 0.8, tauAcuteMinutes: 9 * T.hour,
+                adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 10 * T.day,
+                deepShiftMax: 1.6, tauDeepMinutes: 2 * T.month, deepGateThreshold: 0.30, deepGateWidth: 0.15,
+                safetyAxis: .stimulantLoad, confidence: .low,
                 classDefaultVdLPerKg: 4.0,
-                sourceNote: "Acute vesicular-depletion tachyphylaxis (overnight) + slow allostatic LOAD (months, NOT a multiplier; availability axis inert by design). κ/τ class-default; the 'stimulant tolerance %' is refused.",
+                sourceNote: "Acute vesicular-depletion tachyphylaxis (overnight) + modest adaptive shift + a deep layer gated OFF below escalation (months, asymptoting). Class-default kinetics.",
             )
         case .serotonergicReleaser:
-            // MDMA-type SERT releasers: weeks-scale, reversible-leaning. Partial — not a clean
-            // multiplier (the "magic loss" is self-report, the SERT change a confounded surrogate).
+            // MDMA-type SERT releasers: a within-session acute fade plus a weeks-scale adaptive shift
+            // (reversible-leaning). No deep layer in Stage A (the per-substance synthesis-suppression
+            // split is Stage E).
             Parameters(
-                kappaSlow: 0.0001, tauSlowMinutes: 3 * T.week,
-                hasAcutePool: true, kappaAcute: 0.01, tauAcuteMinutes: 12 * T.hour,
-                loadGain: 1.0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: false, safetyAxis: .serotonergicLoad, confidence: .low,
+                acuteShiftMax: 0.5, tauAcuteMinutes: 12 * T.hour,
+                adaptiveShiftMax: 1.5, tauAdaptiveMinutes: 3 * T.week,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .serotonergicLoad, confidence: .low,
                 classDefaultVdLPerKg: 5.0,
-                sourceNote: "Weeks-scale, reversible-leaning (no fitted human κ/τ — pilot). Slow signal is the bounded LOAD axis, a SERT-binding association surrogate — never 'neurotoxicity'.",
+                sourceNote: "Within-session acute fade + weeks-scale reversible-leaning adaptive shift (no fitted human kinetics — pilot). Per-substance MDMA-vs-cathinone clock is Stage E.",
             )
         case .gaba:
-            // Benzodiazepines / alcohol: days–weeks; dependence + kindling axis. Some redose pool.
+            // Benzodiazepines / alcohol: a redose pool plus a days–weeks adaptive shift; dependence +
+            // kindling is the safety hand-off.
             Parameters(
-                kappaSlow: 0.002, tauSlowMinutes: 10 * T.day,
-                hasAcutePool: true, kappaAcute: 0.008, tauAcuteMinutes: 6 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .dependenceKindling, confidence: .low,
+                acuteShiftMax: 0.4, tauAcuteMinutes: 6 * T.hour,
+                adaptiveShiftMax: 1.2, tauAdaptiveMinutes: 10 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 1.1,
-                sourceNote: "Days–weeks recovery (class-default). Safety axis: dependence + kindling on repeated withdrawal.",
+                sourceNote: "Days–weeks adaptive shift + a redose pool (class-default). Safety axis: dependence + kindling on repeated withdrawal.",
             )
         case .nmdaAntagonist:
-            // Ketamine / DXM / MXE: days; cumulative toxicity. Also a modulator of others' tolerance.
+            // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.
+            // Also a modulator of others' tolerance (ToleranceModulation).
             Parameters(
-                kappaSlow: 0.0015, tauSlowMinutes: 3 * T.day,
-                hasAcutePool: true, kappaAcute: 0.01, tauAcuteMinutes: 4 * T.hour,
-                loadGain: 1.0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .cumulativeToxicity, confidence: .low,
+                acuteShiftMax: 0.4, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 3 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .cumulativeToxicity, confidence: .low,
                 classDefaultVdLPerKg: 3.0,
-                sourceNote: "Days-scale recovery (class-default). Cumulative-toxicity axis (e.g. ketamine bladder).",
+                sourceNote: "Days-scale adaptive shift + a redose pool (class-default). Cumulative-toxicity axis (e.g. ketamine bladder).",
             )
         case .cannabinoidCB1:
-            // THC: fast, real, recoverable CB1 tolerance.
+            // THC: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift.
             Parameters(
-                kappaSlow: 0.0025, tauSlowMinutes: 4 * T.day,
-                hasAcutePool: true, kappaAcute: 0.004, tauAcuteMinutes: 6 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .none, confidence: .low,
+                acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
+                adaptiveShiftMax: 1.2, tauAdaptiveMinutes: 4 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 3.4,
-                sourceNote: "Fast, real, recoverable CB1 tolerance (class-default κ/τ).",
+                sourceNote: "Fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift (class-default).",
             )
         case .adenosine:
-            // Caffeine: clean, well-behaved tolerance over days.
+            // Caffeine: clean, well-behaved up-regulation tolerance over days; no within-session pool.
             Parameters(
-                kappaSlow: 0.0015, tauSlowMinutes: 5 * T.day,
-                hasAcutePool: false, kappaAcute: 0, tauAcuteMinutes: 4 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .none, confidence: .low,
+                acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 5 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 0.6,
-                sourceNote: "Clean adenosine-receptor up-regulation tolerance over days (class-default κ/τ).",
+                sourceNote: "Clean adenosine-receptor up-regulation tolerance over days (class-default); no within-session pool.",
             )
         case .nicotinic:
-            // Nicotine: desensitization-driven, fast acute + fast slow.
+            // Nicotine: desensitization-driven — a strong, fast acute layer plus a fast adaptive shift.
             Parameters(
-                kappaSlow: 0.004, tauSlowMinutes: 1 * T.day,
-                hasAcutePool: true, kappaAcute: 0.03, tauAcuteMinutes: 2 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: false, safetyAxis: .none, confidence: .low,
+                acuteShiftMax: 0.8, tauAcuteMinutes: 2 * T.hour,
+                adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 1 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 2.6,
-                sourceNote: "nAChR desensitization dominates (fast acute + fast slow); class-default κ/τ.",
+                sourceNote: "nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive shift (class-default).",
             )
         case .unknown:
             // Generic, deliberately weak default at the lowest confidence.
             Parameters(
-                kappaSlow: 0.001, tauSlowMinutes: 7 * T.day,
-                hasAcutePool: false, kappaAcute: 0, tauAcuteMinutes: 4 * T.hour,
-                loadGain: 0, tauLoadMinutes: 3 * T.month,
-                usesEffectMultiplier: true, safetyAxis: .none, confidence: .unverified,
+                acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 0.7, tauAdaptiveMinutes: 7 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month, deepGateThreshold: 99, deepGateWidth: 1,
+                safetyAxis: .none, confidence: .unverified,
                 classDefaultVdLPerKg: 1.0,
                 sourceNote: "No curated tolerance class — generic class-default kinetics.",
             )

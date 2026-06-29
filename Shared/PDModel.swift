@@ -8,149 +8,122 @@ import Foundation
 /// stateful orchestration (reading the dose log, resolving per-substance pharmacology, persisting a
 /// snapshot) lives in `ToleranceStore`; the per-class rate constants live in `ReceptorClasses`.
 ///
-/// ## The model
-/// One first-order ODE per receptor target `R`, integrated over the dose log:
+/// ## The model — a dose-response right-shift
+/// Tolerance is a **shift factor** `S(t) ≥ 1` that moves the dose-response curve right (loss of
+/// potency, slope preserved — what controlled ED50 studies measure): `ED50(t) = ED50_naive · S(t)`.
+/// `S` is built in **log space** from three additive layer contributions, each an exposure-driven
+/// leaky integrator with its own gain (ln-shift ceiling) and time-constant:
 /// ```
-/// dA_R/dt = (1 − A_R)/τ_R  −  κ_R · O_R(t) · A_R · μ_R(t)
-///             └ recovery ┘     └──────── depression ────────┘
+/// ln S(t) = s_acute + s_adaptive + s_deep
+/// ṡ_layer = (shiftMax_layer · O(t) · drive_layer − s_layer) / τ_layer
 /// ```
-/// - `A_R` ∈ [0, 1] is **availability** — 1 = naïve/rested, 0 = fully tolerant. Per target, shared
-///   across every substance that hits `R`, which is why cross-tolerance falls out for free (LSD
-///   depressing `A(5-HT2A)` lowers tomorrow's predicted psilocybin response — same state variable).
-/// - Recovery pulls `A_R` back toward 1 with the class time-constant `τ_R`.
-/// - Depression scales with **current occupancy** `O_R(t)` (so it is *dose-dependent* — the keystone
-///   the normalized-PK model could not express) and with **currently-available receptors** `A_R`
-///   (you can't downregulate what's already gone → the right saturating shape), times the modulation
-///   factor `μ_R(t)` (the memantine ↓ opioid case; default 1 until Stage 4).
+/// where `O(t)` ∈ [0, 1] is receptor occupancy from the replay. Each layer is solved **closed form**
+/// per step (identical structure across the three; see ``stepShift(current:shiftMax:occupancy:drive:dtMinutes:tauMinutes:)``).
 ///
-/// The same machinery, with different `(κ, τ)`, serves the two other tolerance axes a single
-/// availability variable can't capture (see ``ReceptorClass``):
-/// - **acute pool** (`κ` large, `τ` ≈ hours): within-session tachyphylaxis / the redose loop.
-/// - **allostatic load** (a leaky integrator of occupancy, `τ` ≈ months): a recovery-state
-///   indicator, *never* multiplied into effect — what honestly replaces the fake "stimulant
-///   tolerance %".
+/// - **Acute** (`drive = 1`, τ ≈ hours): within-session tachyphylaxis / the redose loop.
+/// - **Adaptive** (`drive = μ`, the modulation factor, τ ≈ days–weeks): the baseline shift people
+///   mean by "tolerance".
+/// - **Deep** (`drive = gate`, τ ≈ months): entrenched neuroadaptation. The gate (see ``deepGate``)
+///   keeps it **off** until the adaptive layer is sustained-high (the escalation threshold), and
+///   `shiftMax_deep` provides the asymptote — so therapeutic users never accrue it.
+///
+/// The user-facing gauge is the **response fraction** at the usual dose (see ``responseFraction``),
+/// and recovery milestones are the times for `S(t)` to decay back through gauge thresholds (see
+/// ``shiftDecayMinutes(layers:toShift:)``).
 enum PDModel {
-    // MARK: - Availability step (the tolerance ODE)
+    // MARK: - Right-shift layer step
 
-    /// Advance one availability variable across `dtMinutes`, treating occupancy as constant over the
-    /// step. Solved in **closed form** rather than by Euler: with occupancy held constant the ODE is
-    /// linear with constant coefficients,
-    /// ```
-    /// dA/dt = (1−A)/τ − κ·O·μ·A  =  a − (a + b)·A,   a = 1/τ,  b = κ·O·μ
-    /// ```
-    /// whose exact solution over the step is `A_ss + (A − A_ss)·e^{−(a+b)·dt}` with steady state
-    /// `A_ss = a/(a+b)`. This is **unconditionally stable for any `dt`** and exact for piecewise-
-    /// constant occupancy (Euler would overshoot/oscillate on a coarse grid). `A` stays in `[A_ss, A]`
-    /// so a value starting in `[0, 1]` never leaves it.
+    /// Advance one right-shift layer across `dtMinutes`, treating occupancy as constant over the
+    /// step. A leaky integrator relaxing toward `shiftMax·occupancy·drive`, solved in **closed form**
+    /// rather than by Euler: with the target held constant the ODE `ṡ = (target − s)/τ` has exact
+    /// solution `target + (s − target)·e^{−dt/τ}` — **unconditionally stable for any `dt`** and exact
+    /// for piecewise-constant occupancy. The same structure serves all three layers (acute, adaptive,
+    /// deep), distinguished only by their `(shiftMax, τ, drive)`.
     ///
     /// - Parameters:
-    ///   - availability: current `A_R` ∈ [0, 1].
-    ///   - occupancy: `O_R(t)` ∈ [0, 1] over this step (the PD bridge from ``PKModel/occupancy(concentration:halfMax:hillCoefficient:)``).
+    ///   - current: current ln-shift contribution `s_layer ≥ 0`.
+    ///   - shiftMax: the layer's ln-shift ceiling (gain); `0` disables the layer (target ≡ 0).
+    ///   - occupancy: `O(t)` ∈ [0, 1] over this step (the PD bridge from ``PKModel``).
+    ///   - drive: the layer's gate factor — `1` (acute), the modulation `μ` (adaptive), or the deep
+    ///     ``deepGate`` (deep).
     ///   - dtMinutes: step length (minutes); must be > 0.
-    ///   - kappa: per-class depression rate `κ_R` (per minute), from ``ReceptorClasses``.
-    ///   - tauMinutes: per-class recovery time-constant `τ_R` (minutes); must be > 0.
-    ///   - modulation: `μ_R(t)` tolerance-modulation factor (Stage 4); default 1.
-    /// - Returns: the advanced availability.
-    nonisolated static func stepAvailability(
-        availability: Double,
+    ///   - tauMinutes: the layer's build/recover time-constant (minutes); must be > 0.
+    /// - Returns: the advanced ln-shift contribution.
+    nonisolated static func stepShift(
+        current: Double,
+        shiftMax: Double,
         occupancy: Double,
+        drive: Double,
         dtMinutes: Double,
-        kappa: Double,
         tauMinutes: Double,
-        modulation: Double = 1,
     ) -> Double {
-        guard dtMinutes > 0, tauMinutes > 0 else { return availability }
-        let recovery = 1.0 / tauMinutes // a — constant pull toward 1
-        let depression = max(0, kappa * max(0, occupancy) * max(0, modulation)) // b coefficient on A
-        let relaxation = recovery + depression // a + b
-        guard relaxation > 0 else { return availability }
-        let steadyState = recovery / relaxation // A_ss = a/(a+b)
-        let decay = exp(-relaxation * dtMinutes)
-        return steadyState + (availability - steadyState) * decay
-    }
-
-    /// Integrate availability over a uniformly-sampled occupancy series, returning the availability
-    /// at each sample (length `occupancy.count + 1`: the initial value plus one per step). The driving
-    /// `occupancy[i]` is the occupancy held across the *i*-th step.
-    ///
-    /// This is the function the tolerance gate exercises: feed it a daily vs a weekly dosing pattern
-    /// and the trace reproduces the canonical dynamics — clustered doses drive `A` down faster than
-    /// `τ` recovers it (suppression accumulates), spacing lets it climb back between doses.
-    nonisolated static func availabilityTrace(
-        occupancy: [Double],
-        dtMinutes: Double,
-        kappa: Double,
-        tauMinutes: Double,
-        initial: Double = 1,
-        modulation: Double = 1,
-    ) -> [Double] {
-        var a = initial
-        var trace = [a]
-        trace.reserveCapacity(occupancy.count + 1)
-        for o in occupancy {
-            a = stepAvailability(
-                availability: a, occupancy: o, dtMinutes: dtMinutes,
-                kappa: kappa, tauMinutes: tauMinutes, modulation: modulation,
-            )
-            trace.append(a)
-        }
-        return trace
-    }
-
-    // MARK: - Allostatic load (leaky integrator)
-
-    /// Advance the **allostatic load** `L` across `dtMinutes` for constant occupancy — a leaky
-    /// integrator that relaxes toward the (gain-scaled) current occupancy with a months-scale `τ`:
-    /// `dL/dt = (γ·O − L)/τ`, steady state `γ·O`, solved closed-form. With `γ = 1` this keeps `L` in
-    /// `[0, 1]` (for `O ∈ [0, 1]`) as a **normalized cumulative-exposure / recovery-state indicator**.
-    ///
-    /// It is the honest slow-axis readout for the stimulant/releaser classes, where the *availability*
-    /// axis is deliberately near-inert (transporter occupancy saturates at therapeutic doses, so it
-    /// cannot distinguish dose — and a slow "tolerance %" there is the wrong-signed error this engine
-    /// refuses). Load instead integrates *exposure over time*: a brief occasional dose barely moves a
-    /// months-τ integrator, while chronic frequent high exposure climbs it — dose- and frequency-
-    /// dependent without relying on a saturating peak. It is **never** multiplied into a predicted
-    /// effect; it is a recovery-state display only.
-    nonisolated static func stepLoad(
-        load: Double,
-        occupancy: Double,
-        dtMinutes: Double,
-        tauMinutes: Double,
-        gain: Double = 1,
-    ) -> Double {
-        guard dtMinutes > 0, tauMinutes > 0 else { return load }
-        let target = max(0, gain) * max(0, occupancy)
+        guard dtMinutes > 0, tauMinutes > 0 else { return current }
+        let target = max(0, shiftMax) * max(0, min(1, occupancy)) * max(0, drive)
         let decay = exp(-dtMinutes / tauMinutes)
-        return target + (load - target) * decay
+        return target + (current - target) * decay
     }
 
-    // MARK: - Recovery / decay forecasts (closed-form ODE inverses)
-
-    /// Minutes for **availability** to climb from `current` to `target` (both in `[0, 1]`) with **no
-    /// further occupancy** — the recovery half of the ODE alone, `dA/dt = (1 − A)/τ`, whose solution is
-    /// `A(t) = 1 − (1 − current)·e^{−t/τ}`. Solving `A(t) = target` gives `t = −τ·ln((1−target)/(1−current))`.
+    /// Smoothstep gate for the **deep** layer: `0` while the adaptive shift sits below `threshold`,
+    /// ramping smoothly to `1` once it exceeds `threshold + width`. So the deep (months-scale,
+    /// entrenched) layer only engages after sustained escalation — a therapeutic user, whose adaptive
+    /// layer stays low, never lights it.
     ///
-    /// This is the "if you stop now" tolerance-break forecast the Stage-2 Tool renders. Returns `0`
-    /// when already at/above the goal, and `nil` when `target ≥ 1` (full reset is asymptotic — never
-    /// reached in finite time, so the UI must phrase it as "≈X% recovered", not "fully reset in N days")
-    /// or `τ` is non-positive.
-    nonisolated static func recoveryMinutes(from current: Double, to target: Double, tauMinutes: Double) -> Double? {
-        guard tauMinutes > 0 else { return nil }
-        if current >= target { return 0 }
-        guard target < 1 else { return nil }
-        let ratio = (1 - target) / (1 - current) // ∈ (0, 1) since current < target < 1
-        return -tauMinutes * log(ratio)
+    /// `smoothstep(t) = t²(3 − 2t)` with `t = clamp((adaptiveShift − threshold)/width, 0, 1)` — C¹ at
+    /// both edges, so the deep layer fades in without a kink.
+    nonisolated static func deepGate(adaptiveShift: Double, threshold: Double, width: Double) -> Double {
+        guard width > 0 else { return adaptiveShift >= threshold ? 1 : 0 }
+        let t = max(0, min(1, (adaptiveShift - threshold) / width))
+        return t * t * (3 - 2 * t)
     }
 
-    /// Minutes for **allostatic load** to decay from `current` to `target` (`target < current`) with no
-    /// further occupancy — the leaky integrator relaxing toward 0, `dL/dt = −L/τ`, `L(t) = current·e^{−t/τ}`,
-    /// so `t = τ·ln(current/target)`. Returns `0` when already at/below `target`, and `nil` when
-    /// `target ≤ 0` (decay to exactly zero is asymptotic) or `τ` is non-positive.
-    nonisolated static func loadDecayMinutes(from current: Double, to target: Double, tauMinutes: Double) -> Double? {
-        guard tauMinutes > 0 else { return nil }
-        if current <= target { return 0 }
-        guard target > 0 else { return nil }
-        return tauMinutes * log(current / target)
+    // MARK: - Gauge
+
+    /// The **response fraction** ∈ [0, 1] — how much of the naïve effect you'd feel at your usual dose
+    /// under the current right-shift `S`. The shift means effective dose is `D/S`; with occupancy
+    /// `O = C/(C+K)` and `C ∝ dose`, the occupancy at `D/S` is `C/(C + K·S)`, so the ratio to the
+    /// naïve occupancy `C/(C+K)` is `(r+1)/(r+S)` where `r = O_rep/(1 − O_rep) = C/K` from the
+    /// representative peak occupancy at the usual dose.
+    ///
+    /// Equals `1` at `S = 1` (naïve), decreasing as `S` grows; at low representative occupancy it is
+    /// ≈ `1/S`. This is the honest 5-bucket gauge's continuous source — a saturating output, not a
+    /// false percentage.
+    nonisolated static func responseFraction(shiftFactor: Double, representativeOccupancy: Double) -> Double {
+        guard shiftFactor > 0 else { return 1 }
+        let occupancy = max(0, min(0.999_999, representativeOccupancy))
+        let ratio = occupancy / (1 - occupancy)
+        return max(0, min(1, (ratio + 1) / (ratio + shiftFactor)))
+    }
+
+    // MARK: - Recovery forecast (closed-form decay inverse)
+
+    /// Minutes until the total right-shift `S` decays to `targetShift` with **no further occupancy**,
+    /// given the current per-layer `(s, τ)` contributions. With occupancy ≡ 0 each layer decays
+    /// `s_layer(t) = s_layer·e^{−t/τ}`, so `S(t) = exp(Σ s_layer·e^{−t/τ})` is strictly decreasing in
+    /// `t` toward `1` — found by bisection.
+    ///
+    /// This is the "if you stop now" tolerance-break forecast the Tool renders. Returns `0` when `S`
+    /// is already at/below `targetShift`, and `nil` when `targetShift < 1` (full reset to `S = 1` is
+    /// asymptotic — never reached in finite time, so a target below it is unreachable).
+    nonisolated static func shiftDecayMinutes(layers: [(s: Double, tau: Double)], toShift targetShift: Double) -> Double? {
+        let initialSum = layers.reduce(0) { $0 + max(0, $1.s) }
+        let currentShift = exp(initialSum)
+        if currentShift <= targetShift { return 0 }
+        guard targetShift >= 1 else { return nil }
+
+        func shiftAt(_ minutes: Double) -> Double {
+            exp(layers.reduce(0) { $0 + $1.s * exp(-minutes / max(1, $1.tau)) })
+        }
+
+        var low = 0.0
+        var high = 1.0
+        // Expand the bracket until S(high) is below the target (cap ~5 years of minutes).
+        while shiftAt(high) > targetShift, high < 2_628_000 { high *= 2 }
+        if shiftAt(high) > targetShift { return high }
+        for _ in 0 ..< 60 {
+            let mid = (low + high) / 2
+            if shiftAt(mid) > targetShift { low = mid } else { high = mid }
+        }
+        return (low + high) / 2
     }
 
     // MARK: - Cross-substance occupancy combination
@@ -159,7 +132,8 @@ enum PDModel {
     /// site-occupancy fraction via the probabilistic union `1 − Π(1 − Oᵢ)` — a site is engaged if any
     /// ligand engages it. Saturating, order-independent, stays in `[0, 1]`, and reduces to a single
     /// `Oᵢ` when only one ligand is present. This is the cross-substance analogue of the timeline's
-    /// single-substance dose superposition: it lets one `A_R` be driven by every drug hitting `R`.
+    /// single-substance dose superposition: it lets one class's right-shift be driven by every drug
+    /// hitting that target.
     nonisolated static func combinedOccupancy(_ occupancies: [Double]) -> Double {
         let complementProduct = occupancies.reduce(1.0) { acc, o in
             acc * (1 - min(1, max(0, o)))

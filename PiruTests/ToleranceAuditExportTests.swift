@@ -109,9 +109,6 @@ struct ToleranceAuditExportTests {
     private struct Row {
         let snapshot: ClassTolerance
         let params: ReceptorClasses.Parameters
-        var usesLoad: Bool {
-            !params.usesEffectMultiplier
-        }
         var isSafetyCritical: Bool {
             switch params.safetyAxis {
             case .resetOverdose, .dependenceKindling: true
@@ -123,8 +120,7 @@ struct ToleranceAuditExportTests {
     private static func visibleCardsSection(states: [ReceptorClasses.ReceptorClass: ClassTolerance]) -> String {
         let rows: [Row] = states.values.compactMap { snap in
             let p = ReceptorClasses.parameters(for: snap.receptorClass)
-            let interesting = (1 - snap.availability) > 0.03 || snap.load > 0.02 || (p.hasAcutePool && (1 - snap.acute) > 0.03)
-            guard interesting else { return nil }
+            guard snap.severity > 0.03 else { return nil }
             return Row(snapshot: snap, params: p)
         }
         .sorted { $0.snapshot.severity > $1.snapshot.severity }
@@ -143,15 +139,13 @@ struct ToleranceAuditExportTests {
     private static func cardMarkdown(_ row: Row) -> String {
         let s = row.snapshot
         var m = "#### \(loc(s.receptorClass.displayName)) — **\(loc(stateWord(s.severity)))**\n\n"
-        m += "- **class:** `\(s.receptorClass.rawValue)` · uses-multiplier \(row.params.usesEffectMultiplier)\n"
+        m += "- **class:** `\(s.receptorClass.rawValue)`\n"
         if !s.subTargets.isEmpty { m += "- **sub-targets:** \(s.subTargets.joined(separator: ", "))\n" }
         if !s.contributors.isEmpty { m += "- **driven by:** \(s.contributors.joined(separator: ", "))\n" }
-        m += "- **availability:** \(pct(s.availability))% · **acute:** \(pct(s.acute))% · **load:** \(pct(s.load))%\n"
+        m += "- **shift S:** \(String(format: "%.2f", s.shiftFactor))× · **sAcute/sAdaptive/sDeep:** \(fmt3(s.sAcute)) / \(fmt3(s.sAdaptive)) / \(fmt3(s.sDeep))\n"
+        m += "- **rep. occupancy:** \(pct(s.representativeOccupancy))% · **response:** \(pct(s.responseFraction))% of rested\n"
         m += "- **severity:** \(String(format: "%.3f", s.severity)) · **confidence:** \(loc(s.confidence.label))\n"
-        m += "- **facets:**"
-        if row.params.hasAcutePool, (1 - s.acute) > 0.03 { m += " redose lands ~\(pct(s.acute))% ·" }
-        if row.usesLoad { m += " load \(loc(loadWord(s.load))) ·" } else { m += " sensitivity ~\(pct(s.availability))% of rested ·" }
-        m += " if you stop now → \(recoveryValue(row))\n"
+        m += "- **facets:** sensitivity ~\(pct(s.responseFraction))% of rested · if you stop now → \(recoveryValue(row))\n"
         if let note = safetyNote(for: row.params.safetyAxis) { m += "- ⚠️ \(loc(note))\n" }
         return m + "\n"
     }
@@ -213,21 +207,17 @@ struct ToleranceAuditExportTests {
         }
     }
 
-    private static func loadWord(_ load: Double) -> LocalizedStringResource {
-        switch load {
-        case ..<0.15: "Low"
-        case ..<0.4: "Moderate"
-        default: "High"
-        }
-    }
-
     private static func recoveryValue(_ row: Row) -> String {
         let s = row.snapshot
-        if row.usesLoad {
-            guard let mins = PDModel.loadDecayMinutes(from: s.load, to: 0.1, tauMinutes: row.params.tauLoadMinutes), mins > 0 else { return "cleared" }
-            return durationPhrase(minutes: mins)
-        }
-        guard let mins = PDModel.recoveryMinutes(from: s.availability, to: 0.9, tauMinutes: row.params.tauSlowMinutes), mins > 0 else { return "nearly rested" }
+        let occupancy = min(0.999_999, max(0, s.representativeOccupancy))
+        let ratio = occupancy / (1 - occupancy)
+        let targetShift = max(1, (ratio + 1) / 0.9 - ratio)
+        let layers = [
+            (s: s.sAcute, tau: row.params.tauAcuteMinutes),
+            (s: s.sAdaptive, tau: row.params.tauAdaptiveMinutes),
+            (s: s.sDeep, tau: row.params.tauDeepMinutes),
+        ]
+        guard let mins = PDModel.shiftDecayMinutes(layers: layers, toShift: targetShift), mins > 0 else { return "nearly rested" }
         return durationPhrase(minutes: mins)
     }
 
@@ -250,6 +240,9 @@ struct ToleranceAuditExportTests {
 
     private static func pct(_ value: Double) -> Int {
         Int((min(1, max(0, value)) * 100).rounded())
+    }
+    private static func fmt3(_ value: Double) -> String {
+        String(format: "%.3f", value)
     }
     private static func fmt(_ v: Double) -> String {
         v >= 100 ? String(Int(v.rounded())) : String(format: "%.1f", v)

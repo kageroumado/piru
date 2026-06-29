@@ -2,9 +2,9 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Stage 4b — the tolerance-modulation graph `μ_R(t)`. An NMDA antagonist onboard attenuates opioid
+/// Stage 4b — the tolerance-modulation graph `μ(t)`. An NMDA antagonist onboard attenuates opioid
 /// tolerance *development*; the edge is concentration/overlap-gated by the modulator's presence curve,
-/// threaded into the availability ODE via ``PDModel/stepAvailability(modulation:)``.
+/// threaded into the **adaptive** right-shift layer as its `drive` (``PDModel/stepShift``).
 /// (`Specs/pharmacology-axis-meta-plan.md`, Stage 4b.)
 @Suite("ToleranceModulation")
 @MainActor
@@ -24,9 +24,10 @@ struct ToleranceModulationTests {
         }
     }
 
-    /// μ-opioid availability in the computed states (the opioid class is aggregated now).
-    static func opioidAvailability(_ states: [ReceptorClasses.ReceptorClass: ClassTolerance]) -> Double? {
-        states[.muOpioid]?.availability
+    /// μ-opioid adaptive ln-shift in the computed states (the opioid class is aggregated now) — the
+    /// layer the modulation `μ` drives, so it carries the attenuation effect.
+    static func opioidAdaptiveShift(_ states: [ReceptorClasses.ReceptorClass: ClassTolerance]) -> Double? {
+        states[.muOpioid]?.sAdaptive
     }
 
     // MARK: - The seed edge
@@ -46,7 +47,7 @@ struct ToleranceModulationTests {
     // MARK: - The modulation effect
 
     @Test
-    func `Co-administered NMDA antagonist leaves more opioid availability than opioid alone`() throws {
+    func `Co-administered NMDA antagonist builds less opioid tolerance than opioid alone`() throws {
         var opioidOnly: [DoseEntry] = []
         var withMemantine: [DoseEntry] = []
         for day in stride(from: 7.0, through: 1.0, by: -1.0) {
@@ -54,10 +55,10 @@ struct ToleranceModulationTests {
             withMemantine.append(Self.dose("Morphine", mg: 30, daysAgo: day))
             withMemantine.append(Self.dose("Memantine", mg: 20, daysAgo: day))
         }
-        let alone = try #require(Self.opioidAvailability(Self.simulate(opioidOnly)))
-        let modulated = try #require(Self.opioidAvailability(Self.simulate(withMemantine)))
-        // Memantine attenuates opioid tolerance development → availability stays higher.
-        #expect(modulated > alone)
+        let alone = try #require(Self.opioidAdaptiveShift(Self.simulate(opioidOnly)))
+        let modulated = try #require(Self.opioidAdaptiveShift(Self.simulate(withMemantine)))
+        // Memantine attenuates opioid tolerance development → a smaller adaptive right-shift.
+        #expect(modulated < alone)
     }
 
     @Test
@@ -67,6 +68,6 @@ struct ToleranceModulationTests {
             Self.dose("Memantine", mg: 20, daysAgo: 2),
             Self.dose("Memantine", mg: 20, daysAgo: 1),
         ])
-        #expect(Self.opioidAvailability(states) == nil)
+        #expect(Self.opioidAdaptiveShift(states) == nil)
     }
 }

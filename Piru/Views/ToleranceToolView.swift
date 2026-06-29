@@ -44,7 +44,7 @@ struct ToleranceToolView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .appNavigationBar("Tolerance")
-        // Lazy replay: the 18-month integration runs only while this tool is open, and re-runs when
+        // Lazy replay: the 90-day integration runs only while this tool is open, and re-runs when
         // the dose log or body weight changes — kept off the launch / dose-write hot path.
         .task(id: recomputeSignature) { await tolerance.recompute(from: entries) }
     }
@@ -63,11 +63,6 @@ struct ToleranceToolView: View {
         var id: ReceptorClasses.ReceptorClass {
             snapshot.receptorClass
         }
-        /// The slow availability axis is a valid effect multiplier only for some classes; otherwise the
-        /// honest slow readout is the bounded load.
-        var usesLoad: Bool {
-            !params.usesEffectMultiplier
-        }
         var isSafetyCritical: Bool {
             switch params.safetyAxis {
             case .resetOverdose, .dependenceKindling: true
@@ -79,10 +74,8 @@ struct ToleranceToolView: View {
     private var groupedRows: (attention: [Row], active: [Row]) {
         let rows = tolerance.states.values.compactMap { snap -> Row? in
             let p = ReceptorClasses.parameters(for: snap.receptorClass)
-            let interesting = (1 - snap.availability) > 0.03
-                || snap.load > 0.02
-                || (p.hasAcutePool && (1 - snap.acute) > 0.03)
-            guard interesting else { return nil }
+            // Any meaningful right-shift (response below ~97% of rested) is worth a card.
+            guard snap.severity > 0.03 else { return nil }
             return Row(snapshot: snap, params: p)
         }
         .sorted { $0.snapshot.severity > $1.snapshot.severity }
@@ -231,19 +224,8 @@ struct ToleranceToolView: View {
     private func facets(_ row: Row) -> some View {
         let snap = row.snapshot
         HStack(alignment: .top, spacing: 18) {
-            if row.params.hasAcutePool, (1 - snap.acute) > 0.03 {
-                facet(key: "Right now (redose)") {
-                    Text("lands ~\(pct(snap.acute))% as strong")
-                }
-            }
-            if row.usesLoad {
-                facet(key: "Recovery-state load") {
-                    Text(loadWord(snap.load))
-                }
-            } else {
-                facet(key: "Sensitivity") {
-                    Text("~\(pct(snap.availability))% of rested")
-                }
+            facet(key: "Sensitivity") {
+                Text("~\(pct(snap.responseFraction))% of rested")
             }
             facet(key: "If you stop now") {
                 Text(recoveryValue(row))
@@ -263,15 +245,20 @@ struct ToleranceToolView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    /// Time for sensitivity to climb back to ~90% of rested if dosing stops now — the minutes for the
+    /// right-shift `S` to decay to the `targetS` where ``ClassTolerance/responseFraction`` reaches 0.9
+    /// (solving `responseFraction(targetS, Orep) = 0.9` gives `targetS = (r+1)/0.9 − r`, clamped ≥ 1).
     private func recoveryValue(_ row: Row) -> LocalizedStringResource {
         let snap = row.snapshot
-        if row.usesLoad {
-            guard let mins = PDModel.loadDecayMinutes(from: snap.load, to: 0.1, tauMinutes: row.params.tauLoadMinutes), mins > 0 else {
-                return "cleared"
-            }
-            return "\(durationPhrase(minutes: mins))"
-        }
-        guard let mins = PDModel.recoveryMinutes(from: snap.availability, to: 0.9, tauMinutes: row.params.tauSlowMinutes), mins > 0 else {
+        let occupancy = min(0.999_999, max(0, snap.representativeOccupancy))
+        let ratio = occupancy / (1 - occupancy)
+        let targetShift = max(1, (ratio + 1) / 0.9 - ratio)
+        let layers = [
+            (s: snap.sAcute, tau: row.params.tauAcuteMinutes),
+            (s: snap.sAdaptive, tau: row.params.tauAdaptiveMinutes),
+            (s: snap.sDeep, tau: row.params.tauDeepMinutes),
+        ]
+        guard let mins = PDModel.shiftDecayMinutes(layers: layers, toShift: targetShift), mins > 0 else {
             return "nearly rested"
         }
         return "\(durationPhrase(minutes: mins))"
@@ -291,11 +278,7 @@ struct ToleranceToolView: View {
     }
 
     private func confidenceLine(_ row: Row) -> LocalizedStringResource {
-        let conf = row.snapshot.confidence.label
-        if row.usesLoad {
-            return "\(conf) · a recovery-state indicator, not a dose multiplier"
-        }
-        return "\(conf)"
+        "\(row.snapshot.confidence.label)"
     }
 
     // MARK: - Wording / colour
@@ -317,14 +300,6 @@ struct ToleranceToolView: View {
         case ..<0.6: .yellow
         case ..<0.85: .orange
         default: .red
-        }
-    }
-
-    private func loadWord(_ load: Double) -> LocalizedStringResource {
-        switch load {
-        case ..<0.15: "Low"
-        case ..<0.4: "Moderate"
-        default: "High"
         }
     }
 

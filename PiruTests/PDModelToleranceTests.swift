@@ -2,12 +2,12 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Pure-model gate for the tolerance engine (Stage 1 of the pharmacology axis). These exercise
-/// ``PDModel`` in isolation — no store, no DB — so the dynamics are proven before any wiring:
-/// clustered dosing suppresses availability while spacing recovers it (the psychedelic tachyphylaxis
-/// shape), and the acute pool moves within a session while the slow allostatic axis does not (the
-/// stimulant "tachyphylaxis-only, no allostatic tolerance" requirement).
-@Suite("PDModel tolerance dynamics")
+/// Pure-model gate for the tolerance engine's **right-shift** core (`Specs/tolerance-faithful-model.md`
+/// §1–2, Stage A). These exercise ``PDModel`` in isolation — no store, no DB — so the dynamics are
+/// proven before any wiring: clustered occupancy drives a layer's ln-shift up while spacing/idle decays
+/// it; the deep gate is off below the escalation threshold and on above it; the response-fraction gauge
+/// is 1 at `S = 1` and decreasing in `S`; and the recovery forecast is monotone.
+@Suite("PDModel right-shift dynamics")
 struct PDModelToleranceTests {
     /// A uniformly-sampled occupancy series: `days` days at `dtMinutes`, each dosing day a flat
     /// `peak`-occupancy pulse for the first `activeHours`, then zero; dosing every `everyDays` days.
@@ -27,171 +27,146 @@ struct PDModelToleranceTests {
         return series
     }
 
-    // MARK: - stepAvailability
+    /// Integrate one layer over an occupancy series with the closed-form ``PDModel/stepShift``.
+    static func shiftEnd(
+        occupancy: [Double], dtMinutes: Double, shiftMax: Double, tauMinutes: Double, drive: Double = 1,
+    ) -> Double {
+        var s = 0.0
+        for o in occupancy {
+            s = PDModel.stepShift(
+                current: s, shiftMax: shiftMax, occupancy: o, drive: drive,
+                dtMinutes: dtMinutes, tauMinutes: tauMinutes,
+            )
+        }
+        return s
+    }
+
+    // MARK: - stepShift
 
     @Test
-    func `Recovers toward 1 with no occupancy`() {
-        let a = PDModel.stepAvailability(availability: 0.5, occupancy: 0, dtMinutes: 1_440, kappa: 0.002, tauMinutes: 1_440)
-        #expect(a > 0.5)
-        #expect(a < 1)
+    func `Occupancy drives the layer up toward its ceiling`() {
+        // A long, fully-occupied step converges to shiftMax · O · drive.
+        let s = PDModel.stepShift(current: 0, shiftMax: 2.0, occupancy: 1, drive: 1, dtMinutes: 1_000_000, tauMinutes: 1_440)
+        #expect(abs(s - 2.0) < 1e-6)
     }
 
     @Test
-    func `Occupancy depresses availability`() {
-        let a = PDModel.stepAvailability(availability: 1, occupancy: 0.5, dtMinutes: 600, kappa: 0.003, tauMinutes: 5_040)
-        #expect(a < 1)
-        #expect(a > 0)
+    func `With no occupancy the layer decays toward zero`() {
+        let s = PDModel.stepShift(current: 1.5, shiftMax: 2.0, occupancy: 0, drive: 1, dtMinutes: 1_000_000, tauMinutes: 1_440)
+        #expect(s < 1e-3)
     }
 
     @Test
-    func `Never falls below the occupancy-pinned steady state`() {
-        // dA/dt = a − (a+b)A → A_ss = a/(a+b); a single step can't undershoot it.
-        let kappa = 0.01, occ = 1.0, tau = 5_040.0
-        let recovery = 1.0 / tau
-        let aSS = recovery / (recovery + kappa * occ)
-        let a = PDModel.stepAvailability(availability: 1, occupancy: occ, dtMinutes: 1_000_000, kappa: kappa, tauMinutes: tau)
-        #expect(a >= aSS - 1e-9)
-        #expect(abs(a - aSS) < 1e-6) // a huge step converges to steady state
+    func `A disabled layer (shiftMax 0) only decays, never grows`() {
+        let s = PDModel.stepShift(current: 0.4, shiftMax: 0, occupancy: 1, drive: 1, dtMinutes: 1_440, tauMinutes: 1_440)
+        #expect(s < 0.4) // pulled toward target 0
+        #expect(s >= 0)
+        let fromZero = PDModel.stepShift(current: 0, shiftMax: 0, occupancy: 1, drive: 1, dtMinutes: 1_440, tauMinutes: 1_440)
+        #expect(fromZero == 0)
     }
 
     @Test
     func `Guards: non-positive dt or tau is a no-op`() {
-        #expect(PDModel.stepAvailability(availability: 0.7, occupancy: 1, dtMinutes: 0, kappa: 0.01, tauMinutes: 100) == 0.7)
-        #expect(PDModel.stepAvailability(availability: 0.7, occupancy: 1, dtMinutes: 30, kappa: 0.01, tauMinutes: 0) == 0.7)
+        #expect(PDModel.stepShift(current: 0.7, shiftMax: 2, occupancy: 1, drive: 1, dtMinutes: 0, tauMinutes: 100) == 0.7)
+        #expect(PDModel.stepShift(current: 0.7, shiftMax: 2, occupancy: 1, drive: 1, dtMinutes: 30, tauMinutes: 0) == 0.7)
     }
 
-    // MARK: - Gate 1: psychedelic daily-vs-weekly tachyphylaxis
-
     @Test
-    func `Daily psychedelic dosing suppresses 5-HT2A availability; weekly recovers between doses`() throws {
+    func `Clustered occupancy builds more shift than spaced; idle relaxes it`() throws {
         let dt = 30.0
         let p = ReceptorClasses.parameters(for: .psychedelic5HT2A)
-        // LSD-like sub-saturation occupancy (~0.3) over a ~10 h active window.
         let daily = Self.occupancySeries(days: 14, dtMinutes: dt, peak: 0.3, activeHours: 10, everyDays: 1)
         let weekly = Self.occupancySeries(days: 14, dtMinutes: dt, peak: 0.3, activeHours: 10, everyDays: 7)
 
-        let dailyTrace = PDModel.availabilityTrace(occupancy: daily, dtMinutes: dt, kappa: p.kappaSlow, tauMinutes: p.tauSlowMinutes)
-        let weeklyTrace = PDModel.availabilityTrace(occupancy: weekly, dtMinutes: dt, kappa: p.kappaSlow, tauMinutes: p.tauSlowMinutes)
+        let dailyShift = Self.shiftEnd(occupancy: daily, dtMinutes: dt, shiftMax: p.adaptiveShiftMax, tauMinutes: p.tauAdaptiveMinutes)
+        let weeklyShift = Self.shiftEnd(occupancy: weekly, dtMinutes: dt, shiftMax: p.adaptiveShiftMax, tauMinutes: p.tauAdaptiveMinutes)
 
-        let dailyEnd = try #require(dailyTrace.last)
-        let weeklyEnd = try #require(weeklyTrace.last)
-
-        #expect(dailyEnd < 0.6) // clustered dosing leaves it substantially tolerant
-        #expect(weeklyEnd > 0.85) // a week is enough to recover toward naïve
-        #expect(dailyEnd < weeklyEnd)
-
-        // Accumulation: availability after one day is higher than after two weeks of daily dosing.
-        let stepsPerDay = Int((24 * 60) / dt)
-        #expect(dailyTrace[stepsPerDay] > dailyEnd)
+        #expect(dailyShift > weeklyShift) // clustered dosing right-shifts more
+        #expect(weeklyShift >= 0)
+        #expect(dailyShift <= p.adaptiveShiftMax + 1e-9) // never exceeds the ceiling
     }
 
-    // MARK: - Gate 2: stimulant tachyphylaxis-only, no allostatic tolerance
+    // MARK: - deepGate
 
     @Test
-    func `Therapeutic stimulant: acute pool depletes & recovers overnight, slow axis stays naïve`() throws {
-        let dt = 30.0
-        let p = ReceptorClasses.parameters(for: .catecholamineStimulant)
-        // Therapeutic stimulant saturates the transporter (~0.9) for a ~10 h day, dosed daily.
-        let occ = Self.occupancySeries(days: 7, dtMinutes: dt, peak: 0.9, activeHours: 10, everyDays: 1)
-
-        let acute = PDModel.availabilityTrace(occupancy: occ, dtMinutes: dt, kappa: p.kappaAcute, tauMinutes: p.tauAcuteMinutes)
-        let slow = PDModel.availabilityTrace(occupancy: occ, dtMinutes: dt, kappa: p.kappaSlow, tauMinutes: p.tauSlowMinutes)
-
-        let activeSteps = Int((10 * 60) / dt)
-        let stepsPerDay = Int((24 * 60) / dt)
-
-        // Acute tachyphylaxis: the pool is depleted by the end of the first active window…
-        #expect(acute[activeSteps] < 0.3)
-        // …and recovers overnight before the next day's dose.
-        #expect(acute[stepsPerDay] > 0.55)
-        // The slow allostatic axis barely moves → no allostatic tolerance from therapeutic dosing.
-        #expect(try #require(slow.last) > 0.95)
+    func `Deep gate is zero below threshold and one above the band`() {
+        #expect(PDModel.deepGate(adaptiveShift: 0.1, threshold: 0.3, width: 0.15) == 0)
+        #expect(PDModel.deepGate(adaptiveShift: 0.3, threshold: 0.3, width: 0.15) == 0) // at the edge
+        #expect(abs(PDModel.deepGate(adaptiveShift: 0.45, threshold: 0.3, width: 0.15) - 1) < 1e-9) // past the band
+        // Smooth and monotone across the band.
+        let mid = PDModel.deepGate(adaptiveShift: 0.375, threshold: 0.3, width: 0.15)
+        #expect(mid > 0 && mid < 1)
+        #expect(abs(mid - 0.5) < 1e-9) // smoothstep(0.5) = 0.5
     }
 
     @Test
-    func `Allostatic load is dose/frequency-dependent and bounded`() {
-        let dt = 30.0
-        let p = ReceptorClasses.parameters(for: .catecholamineStimulant)
-        func loadEnd(_ occ: [Double]) -> Double {
-            var load = 0.0
-            for o in occ {
-                load = PDModel.stepLoad(load: load, occupancy: o, dtMinutes: dt, tauMinutes: p.tauLoadMinutes, gain: p.loadGain)
-            }
-            return load
-        }
-        let chronic = loadEnd(Self.occupancySeries(days: 30, dtMinutes: dt, peak: 0.9, activeHours: 12, everyDays: 1))
-        let occasional = loadEnd(Self.occupancySeries(days: 30, dtMinutes: dt, peak: 0.9, activeHours: 12, everyDays: 7))
-
-        #expect(chronic > occasional)
-        #expect(chronic > occasional * 2) // meaningfully more, not marginal
-        #expect(occasional < 0.1) // occasional use barely accrues against a months-τ integrator
-        #expect(chronic <= 1.0) // bounded recovery-state indicator
+    func `A large threshold keeps the deep gate closed (classes with no deep layer)`() {
+        #expect(PDModel.deepGate(adaptiveShift: 2.5, threshold: 99, width: 1) == 0)
     }
 
-    // MARK: - combinedOccupancy / stepLoad units
+    // MARK: - responseFraction
+
+    @Test
+    func `Response fraction is 1 at S=1 and decreases as S grows`() {
+        let rested = PDModel.responseFraction(shiftFactor: 1, representativeOccupancy: 0.5)
+        #expect(abs(rested - 1) < 1e-12)
+        let shifted = PDModel.responseFraction(shiftFactor: 3, representativeOccupancy: 0.5)
+        let moreShifted = PDModel.responseFraction(shiftFactor: 6, representativeOccupancy: 0.5)
+        #expect(shifted < 1)
+        #expect(moreShifted < shifted)
+        #expect(moreShifted > 0)
+    }
+
+    @Test
+    func `At low occupancy the gauge approaches 1/S`() {
+        // r = O/(1−O) → 0 as O → 0, so (r+1)/(r+S) → 1/S.
+        let frac = PDModel.responseFraction(shiftFactor: 4, representativeOccupancy: 0.001)
+        #expect(abs(frac - 0.25) < 0.01)
+    }
+
+    @Test
+    func `At high occupancy the gauge is buffered (saturation cushions the shift)`() {
+        // A near-saturated receptor loses less response to the same shift than a barely-engaged one.
+        let lowOcc = PDModel.responseFraction(shiftFactor: 4, representativeOccupancy: 0.05)
+        let highOcc = PDModel.responseFraction(shiftFactor: 4, representativeOccupancy: 0.95)
+        #expect(highOcc > lowOcc)
+    }
+
+    // MARK: - shiftDecayMinutes
+
+    @Test
+    func `Decay forecast lands at the target shift when stepped forward`() throws {
+        let layers = [(s: 1.2, tau: 14_400.0), (s: 0.3, tau: 720.0)]
+        let target = 2.0
+        let mins = try #require(PDModel.shiftDecayMinutes(layers: layers, toShift: target))
+        let landed = exp(layers.reduce(0) { $0 + $1.s * exp(-mins / $1.tau) })
+        #expect(abs(landed - target) < 1e-3)
+        #expect(mins > 0)
+    }
+
+    @Test
+    func `Decay forecast: already-recovered is zero, sub-1 target is unreachable`() {
+        // S = exp(0.2) ≈ 1.22 already below target 1.5 → 0.
+        #expect(PDModel.shiftDecayMinutes(layers: [(0.2, 1_440)], toShift: 1.5) == 0)
+        // Full reset to S < 1 is asymptotic (S → 1 only).
+        #expect(PDModel.shiftDecayMinutes(layers: [(1.0, 1_440)], toShift: 0.9) == nil)
+    }
+
+    @Test
+    func `Decay forecast is monotone: a bigger shift takes longer to relax`() throws {
+        let shallow = try #require(PDModel.shiftDecayMinutes(layers: [(0.7, 1_440)], toShift: 1.2))
+        let deep = try #require(PDModel.shiftDecayMinutes(layers: [(1.6, 1_440)], toShift: 1.2))
+        #expect(deep > shallow)
+    }
+
+    // MARK: - combinedOccupancy
 
     @Test
     func `Combined occupancy is the probabilistic union`() {
         #expect(PDModel.combinedOccupancy([]) == 0)
         #expect(abs(PDModel.combinedOccupancy([0.5]) - 0.5) < 1e-9)
         #expect(abs(PDModel.combinedOccupancy([0.5, 0.5]) - 0.75) < 1e-9)
-        // Order-independent and clamped.
-        #expect(abs(PDModel.combinedOccupancy([0.5, 0.5]) - PDModel.combinedOccupancy([0.5, 0.5])) < 1e-9)
         #expect(PDModel.combinedOccupancy([1.0, 0.5]) == 1.0)
         #expect(PDModel.combinedOccupancy([2.0]) == 1.0) // over-unity input clamped
-    }
-
-    @Test
-    func `Load relaxes toward occupancy and decays to zero`() {
-        // Rises toward occupancy.
-        let up = PDModel.stepLoad(load: 0, occupancy: 0.8, dtMinutes: 100_000, tauMinutes: 1_000, gain: 1)
-        #expect(abs(up - 0.8) < 1e-3)
-        // Decays toward zero with no occupancy.
-        let down = PDModel.stepLoad(load: 0.8, occupancy: 0, dtMinutes: 100_000, tauMinutes: 1_000, gain: 1)
-        #expect(down < 1e-3)
-    }
-
-    // MARK: - Recovery / decay forecasts (Stage 2)
-
-    @Test
-    func `Recovery forecast inverts the recovery ODE`() throws {
-        let tau = 5_040.0 // 3.5 d
-        let mins = try #require(PDModel.recoveryMinutes(from: 0.5, to: 0.9, tauMinutes: tau))
-        // Stepping forward by the forecast with zero occupancy must land at the target.
-        let landed = PDModel.stepAvailability(availability: 0.5, occupancy: 0, dtMinutes: mins, kappa: 0.003, tauMinutes: tau)
-        #expect(abs(landed - 0.9) < 1e-6)
-        #expect(mins > 0)
-    }
-
-    @Test
-    func `Recovery forecast: already-recovered is zero, full reset is asymptotic`() {
-        #expect(PDModel.recoveryMinutes(from: 0.95, to: 0.9, tauMinutes: 5_040) == 0) // already past goal
-        #expect(PDModel.recoveryMinutes(from: 0.9, to: 0.9, tauMinutes: 5_040) == 0) // exactly at goal
-        #expect(PDModel.recoveryMinutes(from: 0.5, to: 1.0, tauMinutes: 5_040) == nil) // 100% never reached
-        #expect(PDModel.recoveryMinutes(from: 0.5, to: 0.9, tauMinutes: 0) == nil) // degenerate τ
-    }
-
-    @Test
-    func `Recovery forecast is monotone: deeper tolerance takes longer`() throws {
-        let tau = 5_040.0
-        let shallow = try #require(PDModel.recoveryMinutes(from: 0.7, to: 0.9, tauMinutes: tau))
-        let deep = try #require(PDModel.recoveryMinutes(from: 0.3, to: 0.9, tauMinutes: tau))
-        #expect(deep > shallow)
-    }
-
-    @Test
-    func `Load-decay forecast inverts the leaky integrator`() throws {
-        let tau = 129_600.0 // 3 months
-        let mins = try #require(PDModel.loadDecayMinutes(from: 0.6, to: 0.1, tauMinutes: tau))
-        let landed = PDModel.stepLoad(load: 0.6, occupancy: 0, dtMinutes: mins, tauMinutes: tau, gain: 1)
-        #expect(abs(landed - 0.1) < 1e-6)
-        #expect(mins > 0)
-    }
-
-    @Test
-    func `Load-decay forecast: already-below is zero, zero target is asymptotic`() {
-        #expect(PDModel.loadDecayMinutes(from: 0.05, to: 0.1, tauMinutes: 129_600) == 0) // already below
-        #expect(PDModel.loadDecayMinutes(from: 0.6, to: 0.0, tauMinutes: 129_600) == nil) // exact zero never reached
-        #expect(PDModel.loadDecayMinutes(from: 0.6, to: 0.1, tauMinutes: 0) == nil) // degenerate τ
     }
 }
