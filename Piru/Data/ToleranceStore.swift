@@ -28,6 +28,15 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// the card's "driven by" line. Same set the engine integrated, so the chips never disagree with
     /// the number.
     let contributors: [String]
+    /// Right-shift `S = exp(sAcuteSafety + sAdaptiveSafety) ≥ 1` of this class's **differential safety
+    /// endpoint** (opioid respiratory, stimulant cardiovascular), or `nil` for the classes without one.
+    /// It tolerizes on its own kinetics — shallower and faster-recovering for opioid respiratory, and
+    /// `1` always for the stimulant cardiovascular pressor (which does not tolerize) — so the gap to
+    /// ``shiftFactor`` is the safety story (Stage C). Defaults `nil`: the cache reload carries no
+    /// safety state, and it's `nil` for endpoint-less classes.
+    let safetyShiftFactor: Double?
+    /// Which harm axis ``safetyShiftFactor`` measures, or `nil` when the class has no endpoint.
+    let safetyEndpointKind: ReceptorClasses.SafetyEndpoint.Kind?
 
     var id: ReceptorClasses.ReceptorClass {
         receptorClass
@@ -50,6 +59,16 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// so a bigger right-shift (less response at the usual dose) ranks higher.
     var severity: Double {
         1 - responseFraction
+    }
+
+    /// The **danger ratio** between the desired effect and the safety endpoint, or `nil` for a class
+    /// without one. `> 1` means the desired effect is more toleranced than the safety endpoint — the
+    /// gap that makes a reset dose dangerous (opioid analgesia outruns respiratory protection) or a
+    /// redose toxic (the stimulant high outruns the un-toleranced pressor, where `safetyShiftFactor ≈ 1`
+    /// so this collapses to ``shiftFactor`` — how far the high has pulled ahead).
+    var safetyGap: Double? {
+        guard let safetyShiftFactor else { return nil }
+        return shiftFactor / max(1, safetyShiftFactor)
     }
 }
 
@@ -533,12 +552,19 @@ final class ToleranceStore {
             params: params, totalMinutes: totalMinutes, step: step,
         )
         let inputConfidence = work.contributors.map(\.confidence).min() ?? .unverified
+        // The differential safety endpoint's right-shift (Stage C) — `exp` of its two parallel ln-shift
+        // layers, or `nil` when the class has no endpoint. Same occupancy, its own kinetics.
+        let safetyShiftFactor: Double? = params.safetyEndpoint == nil
+            ? nil
+            : Foundation.exp(state.sAcuteSafety + state.sAdaptiveSafety)
         return ClassTolerance(
             receptorClass: work.receptorClass,
             sAcute: state.sAcute, sAdaptive: state.sAdaptive, sDeep: state.sDeep,
             representativeOccupancy: work.representativeOccupancy,
             confidence: Swift.min(inputConfidence, params.confidence),
             subTargets: work.subTargets, contributors: work.contributorSubstances,
+            safetyShiftFactor: safetyShiftFactor,
+            safetyEndpointKind: params.safetyEndpoint?.kind,
         )
     }
 
@@ -644,12 +670,18 @@ final class ToleranceStore {
         params: ReceptorClasses.Parameters,
         totalMinutes: Double,
         step: Double,
-    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double) {
+    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sAcuteSafety: Double, sAdaptiveSafety: Double) {
         var sAcute = 0.0
         var sAdaptive = 0.0
         var sDeep = 0.0
+        // The differential safety endpoint's two parallel ln-shift layers (Stage C) — acute + adaptive
+        // only, no deep, no escalation gate; driven by the same occupancy. Left at 0 when the class has
+        // no endpoint (the result then `exp`s to a neutral `1`, but `tolerance(for:)` reports `nil`).
+        var sAcuteSafety = 0.0
+        var sAdaptiveSafety = 0.0
+        let safetyEndpoint = params.safetyEndpoint
         guard totalMinutes > 0, step > 0, !rawContributors.isEmpty else {
-            return (sAcute, sAdaptive, sDeep)
+            return (sAcute, sAdaptive, sDeep, sAcuteSafety, sAdaptiveSafety)
         }
 
         let contributors = rawContributors.sorted { $0.onset < $1.onset }
@@ -669,16 +701,22 @@ final class ToleranceStore {
         }
 
         let lastCell = Int((totalMinutes / step).rounded(.up)) - 1
-        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep) }
+        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sAcuteSafety, sAdaptiveSafety) }
 
         /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): each ln-shift layer
         /// decays toward 0 (with no active contributor the escalation gate is closed anyway, so deep
-        /// only relaxes). Exact for the linear leaky integrators.
+        /// only relaxes). Exact for the linear leaky integrators. The safety endpoint's two layers
+        /// decay on their own time-constants — the opioid respiratory layer recovers *faster* than
+        /// the analgesic adaptive (τ 10 d vs 20 d), the source of the reset-after-break overdose gap.
         func recover(_ minutes: Double) {
             guard minutes > 0 else { return }
             sAcute *= exp(-minutes / params.tauAcuteMinutes)
             sAdaptive *= exp(-minutes / params.tauAdaptiveMinutes)
             sDeep *= exp(-minutes / params.tauDeepMinutes)
+            if let safetyEndpoint {
+                sAcuteSafety *= exp(-minutes / safetyEndpoint.tauAcuteMinutes)
+                sAdaptiveSafety *= exp(-minutes / safetyEndpoint.tauAdaptiveMinutes)
+            }
         }
 
         var activeContributors: [Contributor] = []
@@ -777,13 +815,27 @@ final class ToleranceStore {
                     current: sDeep, shiftMax: params.deepShiftMax, occupancy: occupancy,
                     drive: gate, dtMinutes: cellLength, tauMinutes: params.tauDeepMinutes,
                 )
+
+                // The differential safety endpoint's two parallel layers (Stage C) — same occupancy,
+                // its own kinetics, no deep and no escalation gate. The acute layer is `drive: 1`; the
+                // adaptive layer shares the primary's tolerance-modulation `μ`.
+                if let safetyEndpoint {
+                    sAcuteSafety = PDModel.stepShift(
+                        current: sAcuteSafety, shiftMax: safetyEndpoint.acuteShiftMax, occupancy: occupancy,
+                        drive: 1, dtMinutes: cellLength, tauMinutes: safetyEndpoint.tauAcuteMinutes,
+                    )
+                    sAdaptiveSafety = PDModel.stepShift(
+                        current: sAdaptiveSafety, shiftMax: safetyEndpoint.adaptiveShiftMax, occupancy: occupancy,
+                        drive: modulation, dtMinutes: cellLength, tauMinutes: safetyEndpoint.tauAdaptiveMinutes,
+                    )
+                }
             }
             lastSteppedCell = lastCellInRun
         }
 
         // Final idle tail from the last fine-stepped cell to `now` (covers a partial last cell exactly).
         recover(totalMinutes - Double(lastSteppedCell + 1) * step)
-        return (sAcute, sAdaptive, sDeep)
+        return (sAcute, sAdaptive, sDeep, sAcuteSafety, sAdaptiveSafety)
     }
 
     // MARK: - Persistence (cache)
@@ -807,6 +859,8 @@ final class ToleranceStore {
                 representativeOccupancy: 0.5,
                 confidence: .unverified,
                 subTargets: [], contributors: [],
+                // The cache carries no safety state — recomputed on the first replay (Stage C).
+                safetyShiftFactor: nil, safetyEndpointKind: nil,
             )
         }
         states = loaded

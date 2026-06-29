@@ -86,6 +86,44 @@ nonisolated enum ReceptorClasses {
         case hppd
     }
 
+    // MARK: - Differential safety endpoint
+
+    /// A **second** effect of a class that tolerizes *differently* from the desired effect — the
+    /// differential-tolerance safety story (`Specs/tolerance-faithful-model.md` §3.1, §3.3). Two
+    /// minimal log-space layers (acute + adaptive only — no deep, no escalation gate) run in parallel
+    /// to the primary three, driven by the *same* occupancy, so the gap between the desired effect's
+    /// right-shift and this endpoint's is observable:
+    /// - **Opioids:** analgesia/euphoria tolerize fast; **respiratory depression tolerizes shallower
+    ///   and recovers faster** → after a break the breathing is unprotected while the user still
+    ///   expects their old dose (the reset-after-break overdose mechanism, §3.1).
+    /// - **Stimulants:** the subjective high tolerizes; **cardiovascular/pressor effects do not**
+    ///   (`adaptiveShiftMax == 0` ⇒ the endpoint shift stays ≡ 1) → a toleranced high pushes redoses
+    ///   onto an un-toleranced pressor (redose toxicity, §3.3).
+    ///
+    /// The reset-overdose *warning* (peak/gap tracking and copy) is a later stage; Stage C only
+    /// produces the endpoint's shift factor faithfully so the gap is visible.
+    struct SafetyEndpoint {
+        /// Which harm axis this endpoint measures.
+        enum Kind: String {
+            /// Opioid respiratory depression — the reset-after-break overdose axis.
+            case respiratory
+            /// Stimulant cardiovascular/pressor load — the redose-toxicity axis.
+            case cardiovascular
+        }
+
+        /// The harm axis this endpoint tracks.
+        let kind: Kind
+        /// Acute-layer ln-shift ceiling (within-session). `0` ⇒ the endpoint has no acute pool.
+        let acuteShiftMax: Double
+        /// Acute-layer build/recover time-constant (minutes).
+        let tauAcuteMinutes: Double
+        /// Adaptive-layer ln-shift ceiling — the days–weeks endpoint shift. `0` ⇒ the endpoint does
+        /// not tolerize at all (the stimulant cardiovascular case ⇒ its shift factor is always `1`).
+        let adaptiveShiftMax: Double
+        /// Adaptive-layer build/recover time-constant (minutes).
+        let tauAdaptiveMinutes: Double
+    }
+
     // MARK: - Per-class parameters
 
     /// Right-shift parameters for one tolerance class: the three log-space layers that sum into
@@ -128,6 +166,9 @@ nonisolated enum ReceptorClasses {
         let classDefaultVdLPerKg: Double
         /// Human-readable provenance/calibration note.
         let sourceNote: String
+        /// A parallel **differential safety endpoint** (opioid respiratory, stimulant cardiovascular)
+        /// that tolerizes on its own kinetics — `nil` for the eight classes without one (Stage C).
+        let safetyEndpoint: SafetyEndpoint?
 
         /// Whether the class has a meaningful within-session acute (redose) pool.
         var hasAcutePool: Bool { acuteShiftMax > 0 }
@@ -149,6 +190,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .hppd, confidence: .medium,
                 classDefaultVdLPerKg: 4.0,
                 sourceNote: "§3: subjective tachyphylaxis ~3–4 d (controlled-human, flagship-corrected); near-total in-class cross-tolerance. No acute or deep layer. Grade medium.",
+                safetyEndpoint: nil,
             )
         case .muOpioid:
             // Days-to-weeks adaptive shift (recovery t½ ~14 d ⇒ τ≈20 d), a mild within-session acute
@@ -161,6 +203,14 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .resetOverdose, confidence: .low,
                 classDefaultVdLPerKg: 3.0,
                 sourceNote: "§3: ED50 right-shift 3–30× (controlled; the folkloric '100–300×' is palliative end-of-life dosing). Recovery t½ ~14 d → τ≈20 d (PMC1666403). Deep = escalation-gated entrenched tolerance; reset-after-break overdose safety axis. Grade low.",
+                // §3.1: respiratory depression tolerizes shallower than analgesia (ceiling 1.0 vs the
+                // analgesic 2.0) and recovers faster (τ 10 d vs 20 d) — so after a break the breathing
+                // is unprotected while the user still expects their old dose (the reset-OD mechanism).
+                safetyEndpoint: SafetyEndpoint(
+                    kind: .respiratory,
+                    acuteShiftMax: 0.15, tauAcuteMinutes: 4 * T.hour,
+                    adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 10 * T.day,
+                ),
             )
         case .catecholamineStimulant:
             // The flagship three-layer class. STRONG acute layer (vesicular reserve-pool depletion →
@@ -175,6 +225,14 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .stimulantLoad, confidence: .low,
                 classDefaultVdLPerKg: 4.0,
                 sourceNote: "§3: acute vesicular reserve-pool tachyphylaxis (subjective gone 3–4 h, τ 6–12 h; de Wit 1996). Adaptive modest (ADHD response stable, ~2.7%/10 y). Deep only on heavy chronic escalation (DAT recovers +20–26% over 12–17 mo; felt tolerance lags density). NET/cardio does not tolerate (Stage C endpoint). Grade low.",
+                // §3.3: the cardiovascular/pressor effect does NOT tolerize (both ceilings 0 ⇒ the
+                // endpoint shift stays ≡ 1). Its value is the contrast — the subjective high tolerizes
+                // and pulls ahead of an un-toleranced pressor, the redose-toxicity gap.
+                safetyEndpoint: SafetyEndpoint(
+                    kind: .cardiovascular,
+                    acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                    adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day,
+                ),
             )
         case .serotonergicReleaser:
             // MDMA-type SERT releasers: a within-session acute fade plus a weeks-scale adaptive shift
@@ -187,6 +245,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .serotonergicLoad, confidence: .low,
                 classDefaultVdLPerKg: 5.0,
                 sourceNote: "§3: MDMA-type weeks-scale depletion. Per-substance synthesis split (MDMA TPH-suppression slow vs 4-MMC fast) is Stage E. No deep layer. Grade low.",
+                safetyEndpoint: nil,
             )
         case .gaba:
             // Benzodiazepines / alcohol: a redose pool plus a days-scale adaptive shift (sedative
@@ -199,6 +258,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 1.1,
                 sourceNote: "§3: sedative tolerance 2–4× fast (~3–5 d); far less elastic than opioids. Anxiolytic tolerance slow/absent (Stage C differential). Dependence/kindling safety axis. Grade low.",
+                safetyEndpoint: nil,
             )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.
@@ -210,6 +270,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .cumulativeToxicity, confidence: .low,
                 classDefaultVdLPerKg: 3.0,
                 sourceNote: "§3: days-scale adaptive shift; also a μ-opioid tolerance modulator (ToleranceModulation). Cumulative-toxicity axis (e.g. ketamine bladder). Grade low.",
+                safetyEndpoint: nil,
             )
         case .cannabinoidCB1:
             // THC: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift.
@@ -220,6 +281,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 3.4,
                 sourceNote: "§3: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift. Grade low.",
+                safetyEndpoint: nil,
             )
         case .adenosine:
             // Caffeine: clean, well-behaved up-regulation tolerance over days; no within-session pool.
@@ -230,6 +292,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 0.6,
                 sourceNote: "§3: clean adenosine-receptor up-regulation tolerance over days (caffeine); no within-session pool. Grade low.",
+                safetyEndpoint: nil,
             )
         case .nicotinic:
             // Nicotine: desensitization-driven — a strong, fast acute layer plus a fast adaptive shift.
@@ -240,6 +303,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: 2.6,
                 sourceNote: "§3: nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive shift. Grade low.",
+                safetyEndpoint: nil,
             )
         case .unknown:
             // Generic, deliberately weak default at the lowest confidence.
@@ -250,6 +314,7 @@ nonisolated enum ReceptorClasses {
                 safetyAxis: .none, confidence: .unverified,
                 classDefaultVdLPerKg: 1.0,
                 sourceNote: "No curated tolerance class — generic class-default kinetics. Unverified.",
+                safetyEndpoint: nil,
             )
         }
     }
