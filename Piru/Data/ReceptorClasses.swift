@@ -239,10 +239,36 @@ nonisolated enum ReceptorClasses {
 
     // MARK: - Routing
 
-    /// Classify a target string (optionally informed by its `action`) into a tolerance class. Matching
-    /// is case-insensitive and prefix/substring-based to absorb the DB's qualifying suffixes
-    /// (`"GABA-A α1β2γ2"`, `"nAChR α4β2"`, `"Adenosine A2A"`). Falls back to ``ReceptorClass/unknown``.
-    static func classify(target: String, action _: BindingAction? = nil) -> ReceptorClass {
+    /// The **mechanism-defining** binding actions for each tolerance class. An engagement is assigned
+    /// to a class only when its target *and* its action match — direction matters, and it is
+    /// per-class, not a global "agonists only" rule:
+    /// - A 5-HT2A **antagonist** (mirtazapine) is not a psychedelic; an α7 nAChR **antagonist**
+    ///   (memantine) is not nicotine — both are off-mechanism and drop out.
+    /// - But caffeine (an adenosine **antagonist**) and ketamine (an NMDA **channel blocker**) are
+    ///   correct, because antagonism *is* the tolerance mechanism of those classes.
+    /// Used by the tolerance engine; `classify(target:)` with no action stays target-only (legacy) for
+    /// CNS-distribution Vd fallback and cache reload, where direction is irrelevant.
+    static func mechanismActions(for receptorClass: ReceptorClass) -> Set<BindingAction> {
+        switch receptorClass {
+        case .psychedelic5HT2A: [.agonist, .partialAgonist]
+        case .muOpioid: [.agonist, .partialAgonist]
+        case .catecholamineStimulant: [.releasingAgent, .reuptakeInhibitor]
+        // SERT *releasers* (MDMA-type) only — plain reuptake inhibition is the SSRI / cocaine story,
+        // a different tolerance, so cocaine/DXM SERT blockade does not become a "serotonin releaser".
+        case .serotonergicReleaser: [.releasingAgent]
+        case .gaba: [.positiveAllostericModulator, .agonist]
+        case .nmdaAntagonist: [.antagonist, .channelBlocker, .negativeAllostericModulator]
+        case .cannabinoidCB1: [.agonist, .partialAgonist]
+        case .adenosine: [.antagonist]
+        case .nicotinic: [.agonist, .partialAgonist]
+        case .unknown: []
+        }
+    }
+
+    /// Classify a target string into a tolerance class by name only — case-insensitive prefix/substring
+    /// matching to absorb the DB's qualifying suffixes (`"GABA-A α1β2γ2"`, `"nAChR α4β2"`,
+    /// `"Adenosine A2A"`). Falls back to ``ReceptorClass/unknown``.
+    private static func matchTarget(_ target: String) -> ReceptorClass {
         let t = target.lowercased()
 
         if t.contains("5-ht2a") || t.contains("5ht2a") { return .psychedelic5HT2A }
@@ -259,8 +285,36 @@ nonisolated enum ReceptorClasses {
         return .unknown
     }
 
+    /// Classify a target into its tolerance class. With no `action`, this is name-only (legacy — used
+    /// for the Vd fallback and cache reload). With an `action`, the **mechanism-direction gate**
+    /// applies: a target whose action isn't in ``mechanismActions(for:)`` is off-mechanism and returns
+    /// ``ReceptorClass/unknown`` (so it drives no tolerance card).
+    static func classify(target: String, action: BindingAction? = nil) -> ReceptorClass {
+        let cls = matchTarget(target)
+        guard cls != .unknown, let action else { return cls }
+        return mechanismActions(for: cls).contains(action) ? cls : .unknown
+    }
+
     /// The tolerance parameters for a target string — `classify` then `parameters(for:)`.
     static func parameters(forTarget target: String, action: BindingAction? = nil) -> Parameters {
         parameters(for: classify(target: target, action: action))
+    }
+
+    /// A display-canonical receptor name for the card breakdown: strips parenthetical qualifiers
+    /// (`"(recombinant human)"`, `"(MK-801 site, S-enantiomer)"`, `"(PCP site)"`), enantiomer prefixes
+    /// (`"(+)-"`, `"(−)-"`), and a trailing `" receptor"`, so `"5-HT3 receptor"`, `"NMDA receptor (PCP
+    /// site)"`, and `"MOR (+)-tramadol"` collapse to `"5-HT3"`, `"NMDA"`, `"MOR"`. Best-effort
+    /// normalisation for the sub-target list — the pipeline owns the authoritative cleanup (Phase 2).
+    static func canonicalTarget(_ raw: String) -> String {
+        var s = raw
+        // Drop a parenthetical qualifier *and everything after it* first — this also removes the
+        // " (−)-tramadol" / " (MK-801 site, …)" enantiomer/site suffixes, so `"NET (−)-tramadol"` and
+        // `"NMDA (MK-801 site, S-enantiomer)"` collapse to `"NET"` / `"NMDA"`.
+        if let open = s.range(of: " (") { s = String(s[..<open.lowerBound]) }
+        for prefix in ["(+)-", "(−)-", "(-)-", "(±)-"] {
+            s = s.replacingOccurrences(of: prefix, with: "")
+        }
+        if s.hasSuffix(" receptor") { s = String(s.dropLast(" receptor".count)) }
+        return s.trimmingCharacters(in: .whitespaces)
     }
 }

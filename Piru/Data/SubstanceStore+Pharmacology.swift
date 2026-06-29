@@ -263,7 +263,10 @@ extension SubstanceStore {
             resolvedVd = vd
             resolvedVdConfidence = primaryRow?.confidence ?? .unverified
         } else if let primaryTarget = targets.first {
-            resolvedVd = ReceptorClasses.parameters(forTarget: primaryTarget.target, action: primaryTarget.action).classDefaultVdLPerKg
+            // Target-only classification: the Vd fallback is about CNS distribution, not tolerance
+            // mechanism, so it must not be gated by the binding *direction* (an antagonist primary
+            // still distributes like its receptor class).
+            resolvedVd = ReceptorClasses.parameters(forTarget: primaryTarget.target).classDefaultVdLPerKg
             resolvedVdConfidence = .unverified
         } else {
             resolvedVd = nil

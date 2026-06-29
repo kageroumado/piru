@@ -2,10 +2,12 @@ import AsyncAlgorithms
 import Foundation
 import SwiftData
 
-/// A snapshot of tolerance state at one receptor target, derived by replaying the dose log. The
-/// value type the UI reads (Stage 2); the SwiftData ``ToleranceState`` row is its cached persistence.
-nonisolated struct TargetTolerance: Hashable, Identifiable {
-    let target: String
+/// A snapshot of tolerance state for one **mechanism class**, derived by replaying the dose log and
+/// aggregating every engaged target in that class (DAT+NET → Stimulants, all NMDA sites →
+/// Dissociatives, …). The value type the UI reads (Stage 2); the SwiftData ``ToleranceState`` row is
+/// its cached persistence. One card per class — the redesign's unit (see
+/// `Specs/tolerance-tool-audit-and-redesign.md`).
+nonisolated struct ClassTolerance: Hashable, Identifiable {
     let receptorClass: ReceptorClasses.ReceptorClass
     /// Slow availability `A_R` ∈ [0, 1] — 1 = naïve/rested.
     let availability: Double
@@ -16,9 +18,22 @@ nonisolated struct TargetTolerance: Hashable, Identifiable {
     /// Weakest-link confidence across the contributing substances' occupancy inputs and the class
     /// kinetics — the house "predicted (model, confidence)" tier.
     let confidence: ConfidenceTier
+    /// Canonical sub-targets in this class that some logged dose engaged (for the card's breakdown).
+    let subTargets: [String]
+    /// Logged substances driving this class (those that passed the mechanism + occupancy gates), for
+    /// the card's "driven by" line. Same set the engine integrated, so the chips never disagree with
+    /// the number.
+    let contributors: [String]
 
-    var id: String {
-        target
+    var id: ReceptorClasses.ReceptorClass {
+        receptorClass
+    }
+
+    /// One unified "how affected" axis ∈ [0, 1] for ranking — `max` of the availability drop and the
+    /// load, so classes whose availability axis is inert by design (stimulants: load carries it) and
+    /// classes with no load integrator (nicotinic: availability carries it) both rank correctly.
+    var severity: Double {
+        Swift.max(1 - availability, load)
     }
 }
 
@@ -52,8 +67,15 @@ final class ToleranceStore {
     /// contribution has decayed to nothing, so older history is dropped to bound the work.
     nonisolated static let defaultLookbackDays = 547.0 // ~18 months
 
-    /// Current per-target tolerance snapshot, keyed by target. Observation-tracked; views read this.
-    private(set) var states: [String: TargetTolerance] = [:]
+    /// Current per-class tolerance snapshot, keyed by mechanism class. Observation-tracked; views read
+    /// this. One entry per engaged class (aggregating all of that class's targets).
+    private(set) var states: [ReceptorClasses.ReceptorClass: ClassTolerance] = [:]
+
+    /// Logged substances inside the window that engaged a tolerance-bearing mechanism but could not be
+    /// modeled (missing PK / Kᵢ — ``PharmacologyParameters/canComputeOccupancy`` false). Surfaced by the
+    /// UI as an honest "can't predict yet" state so a class never silently reads as rested (the
+    /// heavy-kratom → "Opioids: nearly recovered" safety trap). Observation-tracked.
+    private(set) var incompleteDataSubstances: [String] = []
 
     /// Signature of the inputs behind the current ``states`` (dose-log content + body weight + an hourly
     /// time bucket). A repeat ``recompute(from:now:)`` with the same signature is a no-op, so re-opening
@@ -145,8 +167,33 @@ final class ToleranceStore {
 
         let computed = await Self.computeOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
         states = computed
+        incompleteDataSubstances = Self.incompleteData(doses: doses, params: params, now: now)
         lastSignature = signature
         persist(computed, now: now)
+    }
+
+    /// Logged substances inside the window that *would* drive a tolerance class but can't be modeled
+    /// because their occupancy inputs are incomplete (no Vd / F / half-life / molar mass / graded
+    /// target). These are surfaced as "can't predict yet" rather than silently contributing nothing —
+    /// the heavy-kratom safety case. A substance with no tolerance-bearing target at all (action /
+    /// mechanism mismatch only) is *not* incomplete data, just out of scope, so it isn't listed.
+    private nonisolated static func incompleteData(
+        doses: [SimDose], params: [String: PharmacologyParameters], now: Date,
+    ) -> [String] {
+        let cutoff = now.addingTimeInterval(-defaultLookbackDays * 86_400)
+        var seen = Set<String>()
+        var result: [String] = []
+        for dose in doses.sorted(by: { $0.timestamp > $1.timestamp })
+            where dose.timestamp <= now && dose.timestamp >= cutoff {
+            guard !seen.contains(dose.substance) else { continue }
+            guard let p = params[dose.substance], !p.canComputeOccupancy else { continue }
+            // Only flag substances whose *named* targets include a recognised tolerance mechanism
+            // (so a vitamin with a stray binding row doesn't show up as "incomplete tolerance data").
+            guard p.targets.contains(where: { ReceptorClasses.classify(target: $0.target, action: $0.action) != .unknown }) else { continue }
+            seen.insert(dose.substance)
+            result.append(dose.substance)
+        }
+        return result
     }
 
     /// Run the parallel replay off the main actor and off the shared cooperative pool by pinning it to
@@ -157,7 +204,7 @@ final class ToleranceStore {
     /// Structured (cancellation propagates) — no manual continuation, no `concurrentPerform`.
     private nonisolated static func computeOffMain(
         doses: [SimDose], params: [String: PharmacologyParameters], now: Date, weightKg: Double,
-    ) async -> [String: TargetTolerance] {
+    ) async -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
         await withTaskExecutorPreference(replayExecutor) {
             await simulateConcurrently(doses: doses, params: params, now: now, weightKg: weightKg)
         }
@@ -189,9 +236,9 @@ final class ToleranceStore {
         return "\(count)|\(combined)|\(Int(now.timeIntervalSince1970 / 3_600))|\(weightKg)"
     }
 
-    /// Current availability at a target, or `nil` if untracked (treated as naïve `1` by callers).
-    func tolerance(forTarget target: String) -> TargetTolerance? {
-        states[target]
+    /// Current tolerance at a mechanism class, or `nil` if untracked (treated as naïve by callers).
+    func tolerance(for receptorClass: ReceptorClasses.ReceptorClass) -> ClassTolerance? {
+        states[receptorClass]
     }
 
     // MARK: - Pure replay (the testable core)
@@ -230,7 +277,7 @@ final class ToleranceStore {
         timestepMinutes: Double = defaultTimestepMinutes,
         lookbackDays: Double = defaultLookbackDays,
         resolve: (String) -> PharmacologyParameters?,
-    ) -> [String: TargetTolerance] {
+    ) -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
         let doses = entries.map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
@@ -268,14 +315,14 @@ final class ToleranceStore {
         weightKg: Double,
         timestepMinutes: Double = defaultTimestepMinutes,
         lookbackDays: Double = defaultLookbackDays,
-    ) -> [String: TargetTolerance] {
-        guard let prepared = buildTargetWork(
+    ) -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
+        guard let prepared = buildClassWork(
             doses: doses, params: params, now: now, weightKg: weightKg, lookbackDays: lookbackDays,
         ) else { return [:] }
 
-        var result = [String: TargetTolerance](minimumCapacity: prepared.work.count)
+        var result = [ReceptorClasses.ReceptorClass: ClassTolerance](minimumCapacity: prepared.work.count)
         for work in prepared.work {
-            result[work.target] = tolerance(for: work, totalMinutes: prepared.totalMinutes, step: timestepMinutes)
+            result[work.receptorClass] = tolerance(for: work, totalMinutes: prepared.totalMinutes, step: timestepMinutes)
         }
         return result
     }
@@ -300,52 +347,61 @@ final class ToleranceStore {
         weightKg: Double,
         timestepMinutes: Double = defaultTimestepMinutes,
         lookbackDays: Double = defaultLookbackDays,
-    ) async -> [String: TargetTolerance] {
-        guard let prepared = buildTargetWork(
+    ) async -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
+        guard let prepared = buildClassWork(
             doses: doses, params: params, now: now, weightKg: weightKg, lookbackDays: lookbackDays,
         ) else { return [:] }
         let totalMinutes = prepared.totalMinutes
         let step = timestepMinutes
 
-        return await withTaskGroup(of: (String, TargetTolerance).self) { group in
+        return await withTaskGroup(of: ClassTolerance.self) { group in
             for work in prepared.work {
-                group.addTask { (work.target, tolerance(for: work, totalMinutes: totalMinutes, step: step)) }
+                group.addTask { tolerance(for: work, totalMinutes: totalMinutes, step: step) }
             }
-            var result = [String: TargetTolerance](minimumCapacity: prepared.work.count)
-            for await (target, state) in group {
-                result[target] = state
+            var result = [ReceptorClasses.ReceptorClass: ClassTolerance](minimumCapacity: prepared.work.count)
+            for await state in group {
+                result[state.receptorClass] = state
             }
             return result
         }
     }
 
-    /// One target's full replay input: its contributors, its receptor class, and the modulators acting on
-    /// that class. `Sendable` so it can be handed to a `TaskGroup` child for off-actor integration.
-    private struct TargetWork {
-        let target: String
+    /// One mechanism class's full replay input: the contributors aggregated across *all* its engaged
+    /// targets, the canonical sub-targets (for the card breakdown), and the modulators acting on the
+    /// class. `Sendable` so it can be handed to a `TaskGroup` child for off-actor integration.
+    private struct ClassWork {
         let receptorClass: ReceptorClasses.ReceptorClass
+        let subTargets: [String]
+        let contributorSubstances: [String]
         let contributors: [Contributor]
         let modulators: [ModulatorContributor]
     }
 
     /// Shared, cheap (serial) preparation for both `simulate` variants: filter the log to the lookback
-    /// window, turn each dose into per-target ``Contributor``s (and per-class tolerance modulators), and
-    /// group them into independent ``TargetWork`` units. Returns `nil` when there is nothing to replay.
-    private nonisolated static func buildTargetWork(
+    /// window, turn each dose into per-target ``Contributor``s, and **group them by mechanism class**
+    /// (action-aware, so a 5-HT2A antagonist isn't a psychedelic), so DAT+NET → one Stimulants unit and
+    /// every NMDA site → one Dissociatives unit. Weak off-target engagements (peak occupancy below
+    /// ``minMeaningfulOccupancy``) are dropped so they neither spawn a class nor pollute a contributor
+    /// list. Returns `nil` when there is nothing to replay.
+    private nonisolated static func buildClassWork(
         doses: [SimDose],
         params: [String: PharmacologyParameters],
         now: Date,
         weightKg: Double,
         lookbackDays: Double,
-    ) -> (work: [TargetWork], totalMinutes: Double)? {
+    ) -> (work: [ClassWork], totalMinutes: Double)? {
         let cutoff = now.addingTimeInterval(-lookbackDays * 86_400)
         let relevant = doses
             .filter { $0.timestamp <= now && $0.timestamp >= cutoff }
             .sorted { $0.timestamp < $1.timestamp }
         guard let start = relevant.first?.timestamp, weightKg > 0 else { return nil }
 
-        var contributorsByTarget: [String: [Contributor]] = [:]
-        var classByTarget: [String: ReceptorClasses.ReceptorClass] = [:]
+        var contributorsByClass: [ReceptorClasses.ReceptorClass: [Contributor]] = [:]
+        var subTargetsByClass: [ReceptorClasses.ReceptorClass: [String]] = [:]
+        var seenSubTarget: [ReceptorClasses.ReceptorClass: Set<String>] = [:]
+        // Substance names driving each class, in most-recent-first order (the "driven by" chips). The
+        // log is walked oldest→newest, so the most recent dose of a substance wins its position.
+        var substanceRecency: [ReceptorClasses.ReceptorClass: [String: Double]] = [:]
         // Tolerance-modulation contributors keyed by the *affected* class (Stage 4b): an NMDA
         // antagonist onboard lowers μ-opioid tolerance development, etc.
         var modulatorsByClass: [ReceptorClasses.ReceptorClass: [ModulatorContributor]] = [:]
@@ -365,17 +421,27 @@ final class ToleranceStore {
             let prefactorNanomolar = (f * doseMg / vd) / 1_000 / mw * 1e9
             let onset = dose.timestamp.timeIntervalSince(start) / 60
 
-            // Most-potent target per class (p.targets is tightest-first, so the first per class wins) —
-            // used both to route the contributor and to drive any modulation edge's presence curve.
+            // Most-potent *surviving* target per class (p.targets is tightest-first, so the first per
+            // class wins) — drives any modulation edge's presence curve.
             var bestTargetByClass: [ReceptorClasses.ReceptorClass: PharmacologyParameters.TargetEngagement] = [:]
             for engagement in p.targets {
+                // Mechanism-direction gate: off-mechanism engagements (a 5-HT2A antagonist, an α7
+                // antagonist) classify to `.unknown` and are skipped — no card.
                 let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
+                guard cls != .unknown else { continue }
+                // Meaningfulness gate: skip engagements barely occupied at this dose (weak off-targets).
+                let peak = peakOccupancy(
+                    prefactorNanomolar: prefactorNanomolar, ke: ke, ka: ka,
+                    halfMaxNanomolar: engagement.halfMaxNanomolar,
+                )
+                guard peak >= minMeaningfulOccupancy else { continue }
+
                 if bestTargetByClass[cls] == nil { bestTargetByClass[cls] = engagement }
                 let expiry = onset + decayWindowMinutes(
                     ke: ke, ka: ka, prefactorNanomolar: prefactorNanomolar,
                     halfMaxNanomolar: engagement.halfMaxNanomolar,
                 )
-                contributorsByTarget[engagement.target, default: []].append(
+                contributorsByClass[cls, default: []].append(
                     Contributor(
                         onset: onset, expiry: expiry, ke: ke, ka: ka,
                         prefactorNanomolar: prefactorNanomolar,
@@ -383,7 +449,11 @@ final class ToleranceStore {
                         confidence: Swift.min(p.vdConfidence, engagement.confidence),
                     ),
                 )
-                classByTarget[engagement.target] = cls
+                let canonical = ReceptorClasses.canonicalTarget(engagement.target)
+                if seenSubTarget[cls, default: []].insert(canonical).inserted {
+                    subTargetsByClass[cls, default: []].append(canonical)
+                }
+                substanceRecency[cls, default: [:]][dose.substance] = onset
             }
 
             // Register this dose as a tolerance modulator for any class it modulates. Presence is the
@@ -406,34 +476,50 @@ final class ToleranceStore {
                 }
             }
         }
-        guard !contributorsByTarget.isEmpty else { return nil }
+        guard !contributorsByClass.isEmpty else { return nil }
 
-        let work = contributorsByTarget.map { target, contributors -> TargetWork in
-            let receptorClass = classByTarget[target] ?? .unknown
-            return TargetWork(
-                target: target, receptorClass: receptorClass,
+        let work = contributorsByClass.map { receptorClass, contributors -> ClassWork in
+            let recency = substanceRecency[receptorClass] ?? [:]
+            let names = recency.sorted { $0.value > $1.value }.map(\.key)
+            return ClassWork(
+                receptorClass: receptorClass,
+                subTargets: subTargetsByClass[receptorClass] ?? [],
+                contributorSubstances: names,
                 contributors: contributors, modulators: modulatorsByClass[receptorClass] ?? [],
             )
         }
         return (work, now.timeIntervalSince(start) / 60)
     }
 
-    /// Integrate one prepared ``TargetWork`` into its tolerance snapshot — the unit of work both `simulate`
+    /// Integrate one prepared ``ClassWork`` into its tolerance snapshot — the unit of work both `simulate`
     /// drivers run (serially or as a `TaskGroup` child).
     private nonisolated static func tolerance(
-        for work: TargetWork, totalMinutes: Double, step: Double,
-    ) -> TargetTolerance {
+        for work: ClassWork, totalMinutes: Double, step: Double,
+    ) -> ClassTolerance {
         let params = ReceptorClasses.parameters(for: work.receptorClass)
         let state = integrateTarget(
             contributors: work.contributors, modulators: work.modulators,
             params: params, totalMinutes: totalMinutes, step: step,
         )
         let inputConfidence = work.contributors.map(\.confidence).min() ?? .unverified
-        return TargetTolerance(
-            target: work.target, receptorClass: work.receptorClass,
+        return ClassTolerance(
+            receptorClass: work.receptorClass,
             availability: state.availability, acute: state.acute, load: state.load,
             confidence: Swift.min(inputConfidence, params.confidence),
+            subTargets: work.subTargets, contributors: work.contributorSubstances,
         )
+    }
+
+    /// Single-dose **peak** fractional occupancy of one engagement, evaluated at the modeled Tmax — the
+    /// meaningfulness gate in ``buildClassWork``. A receptor barely touched at a typical dose shouldn't
+    /// spawn a tolerance card or appear as a contributor.
+    private nonisolated static func peakOccupancy(
+        prefactorNanomolar: Double, ke: Double, ka: Double, halfMaxNanomolar: Double,
+    ) -> Double {
+        guard ke > 0, ka > 0, halfMaxNanomolar > 0, prefactorNanomolar > 0 else { return 0 }
+        let tmax = PKModel.tmax(ke: ke, ka: ka)
+        let peakConc = prefactorNanomolar * PKModel.concentration(at: tmax, ke: ke, ka: ka)
+        return peakConc / (peakConc + halfMaxNanomolar)
     }
 
     // MARK: - Private
@@ -453,6 +539,13 @@ final class ToleranceStore {
     /// the UI shows); the golden test (`ToleranceGoldenTests`) pins the resulting numbers to the dense
     /// replay within 1e-6 to keep this honest.
     nonisolated static let occupancyPruneEpsilon = 1e-9
+
+    /// Minimum single-dose **peak occupancy** for an engagement to count toward its class (the
+    /// meaningfulness gate in ``buildClassWork``). Below ~5% the receptor is barely engaged at a
+    /// typical dose, so it shouldn't spawn a card or a contributor (drops weak off-targets such as
+    /// ketamine's ~28 µM κ-opioid). Distinct from ``occupancyPruneEpsilon``, which is the numeric
+    /// integration tail cutoff.
+    nonisolated static let minMeaningfulOccupancy = 0.05
 
     /// One substance-dose's contribution to one target: PK shape + the nM prefactor + that target's
     /// half-saturation constant, plus the `[onset, expiry]` active window that bounds the integration.
@@ -642,16 +735,21 @@ final class ToleranceStore {
 
     // MARK: - Persistence (cache)
 
+    /// Reload the cached per-class snapshot. The `ToleranceState.target` column stores the
+    /// ``ReceptorClasses/ReceptorClass`` raw value now (the entity is a disposable cache; the column
+    /// name is kept to avoid a non-additive rename). Sub-targets aren't persisted — they're recomputed
+    /// on the next replay, which the background refresh kicks off at launch anyway.
     private func loadCachedSnapshot() {
         guard let context else { return }
         guard let rows = try? context.fetch(FetchDescriptor<ToleranceState>()) else { return }
-        var loaded: [String: TargetTolerance] = [:]
+        var loaded: [ReceptorClasses.ReceptorClass: ClassTolerance] = [:]
         for row in rows {
-            loaded[row.target] = TargetTolerance(
-                target: row.target,
-                receptorClass: ReceptorClasses.classify(target: row.target),
+            guard let receptorClass = ReceptorClasses.ReceptorClass(rawValue: row.target) else { continue }
+            loaded[receptorClass] = ClassTolerance(
+                receptorClass: receptorClass,
                 availability: row.availability, acute: row.acute, load: row.load,
-                confidence: ReceptorClasses.parameters(forTarget: row.target).confidence,
+                confidence: ReceptorClasses.parameters(for: receptorClass).confidence,
+                subTargets: [], contributors: [],
             )
         }
         states = loaded
@@ -666,34 +764,40 @@ final class ToleranceStore {
     /// background ``ModelContext`` created from the (Sendable) container, so it never touches the main
     /// thread. Overlapping writes self-heal (last-writer-wins on a cache); the 2 s debounce + signature
     /// gate already make concurrent persists rare.
-    private func persist(_ computed: [String: TargetTolerance], now: Date) {
+    private func persist(_ computed: [ReceptorClasses.ReceptorClass: ClassTolerance], now: Date) {
         guard let container else { return }
         Task.detached(priority: .utility) {
             let context = ModelContext(container)
             let existing = (try? context.fetch(FetchDescriptor<ToleranceState>())) ?? []
-            var byTarget = Dictionary(existing.map { ($0.target, $0) }, uniquingKeysWith: { a, _ in a })
+            var byKey = Dictionary(existing.map { ($0.target, $0) }, uniquingKeysWith: { a, _ in a })
 
-            for (target, t) in computed {
-                if let row = byTarget[target] {
+            for (receptorClass, t) in computed {
+                let key = receptorClass.rawValue
+                if let row = byKey[key] {
                     row.availability = t.availability
                     row.acute = t.acute
                     row.load = t.load
                     row.lastUpdated = now
                 } else {
                     context.insert(ToleranceState(
-                        target: target, availability: t.availability, acute: t.acute,
+                        target: key, availability: t.availability, acute: t.acute,
                         load: t.load, lastUpdated: now,
                     ))
                 }
-                byTarget[target] = nil
+                byKey[key] = nil
             }
-            // Targets no longer driven by any in-window dose: reset their cached row to naïve rather
-            // than deleting (keeps a stable row set; a target that recovers fully reads as availability 1).
-            for (_, stale) in byTarget {
-                stale.availability = 1
-                stale.acute = 1
-                stale.load = 0
-                stale.lastUpdated = now
+            // Leftover rows: legacy per-receptor cache keys (pre per-class refactor) aren't valid class
+            // raw values — delete them. A class no longer driven by any in-window dose is reset to naïve
+            // rather than deleted (stable row set; a recovered class reads as availability 1).
+            for (key, stale) in byKey {
+                if ReceptorClasses.ReceptorClass(rawValue: key) == nil {
+                    context.delete(stale)
+                } else {
+                    stale.availability = 1
+                    stale.acute = 1
+                    stale.load = 0
+                    stale.lastUpdated = now
+                }
             }
 
             try? context.save()

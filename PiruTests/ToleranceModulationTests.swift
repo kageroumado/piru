@@ -18,15 +18,15 @@ struct ToleranceModulationTests {
         )
     }
 
-    static func simulate(_ entries: [DoseEntry]) -> [String: TargetTolerance] {
+    static func simulate(_ entries: [DoseEntry]) -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
         ToleranceStore.simulate(entries: entries, now: now, weightKg: 70) {
             SubstanceStore.shared.pharmacologyParameters(forSubstanceName: $0)
         }
     }
 
-    /// Lowest μ-opioid availability across the computed states (the most-tolerant opioid target).
-    static func opioidAvailability(_ states: [String: TargetTolerance]) -> Double? {
-        states.values.filter { $0.receptorClass == .muOpioid }.map(\.availability).min()
+    /// μ-opioid availability in the computed states (the opioid class is aggregated now).
+    static func opioidAvailability(_ states: [ReceptorClasses.ReceptorClass: ClassTolerance]) -> Double? {
+        states[.muOpioid]?.availability
     }
 
     // MARK: - The seed edge

@@ -36,8 +36,8 @@ struct ToleranceStoreTests {
         let low = ToleranceStore.simulate(
             entries: Self.dailyDoses("Caffeine", mg: 50, days: 10), now: Self.now, weightKg: 70, resolve: Self.resolve,
         )
-        let highA2A = try #require(high["Adenosine A2A"])
-        let lowA2A = try #require(low["Adenosine A2A"])
+        let highA2A = try #require(high[.adenosine])
+        let lowA2A = try #require(low[.adenosine])
 
         #expect(highA2A.receptorClass == .adenosine)
         #expect(highA2A.availability < lowA2A.availability) // the flaw closed: dose changes tolerance
@@ -53,7 +53,7 @@ struct ToleranceStoreTests {
             entries: Self.dailyDoses("Amphetamine", mg: 10, days: 7, lastDoseHoursAgo: 1),
             now: Self.now, weightKg: 70, resolve: Self.resolve,
         )
-        let dat = try #require(states["DAT"])
+        let dat = try #require(states[.catecholamineStimulant])
         #expect(dat.receptorClass == .catecholamineStimulant)
         #expect(dat.availability > 0.9) // no allostatic tolerance from therapeutic dosing
         #expect(dat.acute < dat.availability) // acute pool is the moving axis
