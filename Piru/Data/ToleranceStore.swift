@@ -104,6 +104,28 @@ final class ToleranceStore {
     /// long-run deep state on incremental updates.
     nonisolated static let defaultLookbackDays = 90.0
 
+    /// The canonical PK-complete **class representative** for each class whose PK-less members should
+    /// still build tolerance: a substance with no full pharmacokinetics is modeled *as* this stand-in
+    /// at an equivalent dose (Stage D missing-PK fallback, `Specs/tolerance-faithful-model.md` §4), so
+    /// an RC benzo with only a dose ladder still accrues GABA tolerance. Classes absent here have no
+    /// fallback — their PK-less members stay listed as "can't predict yet".
+    nonisolated static let classRepresentative: [ReceptorClasses.ReceptorClass: String] = [
+        .gaba: "Diazepam",
+        .muOpioid: "Morphine",
+        .catecholamineStimulant: "Amphetamine",
+        .serotonergicReleaser: "MDMA",
+    ]
+
+    /// Oral **morphine-milligram-equivalent** factors (CDC 2022, §3.1) — morphine-mg per 1 mg of the
+    /// named opioid. The principled equivalent dose when a PK-less opioid is one of these named drugs
+    /// (the fallback then models it as Morphine at `dose × factor` mg); a novel/unlisted opioid falls
+    /// back to the generic dose-fraction proxy instead. Fentanyl (mcg) and methadone's tiered
+    /// nonlinearity are intentionally omitted from this simple linear table.
+    nonisolated static let opioidMMEPerMg: [String: Double] = [
+        "morphine": 1, "codeine": 0.15, "hydrocodone": 1, "oxycodone": 1.5,
+        "oxymorphone": 3, "hydromorphone": 4, "tramadol": 0.2,
+    ]
+
     /// Current per-class tolerance snapshot, keyed by mechanism class. Observation-tracked; views read
     /// this. One entry per engaged class (aggregating all of that class's targets).
     private(set) var states: [ReceptorClasses.ReceptorClass: ClassTolerance] = [:]
@@ -198,8 +220,9 @@ final class ToleranceStore {
         }
         // Resolve pharmacology off the main actor: the per-substance Kᵢ/PK/molar-mass reads run on
         // SubstanceStore's batch connection, not in a tight loop on main (the post-commit hang the
-        // 1.5 s launch delay only masked).
-        let uniqueNames = Array(Set(doses.map(\.substance)))
+        // 1.5 s launch delay only masked). The class representatives are resolved alongside the logged
+        // substances so the PK-less fallback (Stage D) has their PK template in `params`.
+        let uniqueNames = Array(Set(doses.map(\.substance) + Self.classRepresentative.values))
         let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
 
         let computed = await Self.computeOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
@@ -214,7 +237,13 @@ final class ToleranceStore {
     /// target). These are surfaced as "can't predict yet" rather than silently contributing nothing —
     /// the heavy-kratom safety case. A substance with no tolerance-bearing target at all (action /
     /// mechanism mismatch only) is *not* incomplete data, just out of scope, so it isn't listed.
-    private nonisolated static func incompleteData(
+    ///
+    /// Stage D: a PK-less substance that a **class representative** *can* model (the missing-PK
+    /// fallback below builds surrogate contributors for at least one of its classes) is no longer
+    /// incomplete — it's predicted, just at a degraded confidence. Only a substance with no
+    /// representative-backed fallback for any of its classes stays listed here. The eligibility test
+    /// mirrors ``fallbackClasses(for:params:)`` so the two never disagree.
+    nonisolated static func incompleteData(
         doses: [SimDose], params: [String: PharmacologyParameters], now: Date,
     ) -> [String] {
         let cutoff = now.addingTimeInterval(-defaultLookbackDays * 86_400)
@@ -227,10 +256,33 @@ final class ToleranceStore {
             // Only flag substances whose *named* targets include a recognised tolerance mechanism
             // (so a vitamin with a stray binding row doesn't show up as "incomplete tolerance data").
             guard p.targets.contains(where: { ReceptorClasses.classify(target: $0.target, action: $0.action) != .unknown }) else { continue }
+            // A representative-backed fallback can still model it ⇒ not incomplete.
+            guard fallbackClasses(for: p, params: params).isEmpty else { continue }
             seen.insert(dose.substance)
             result.append(dose.substance)
         }
         return result
+    }
+
+    /// The tolerance classes a **PK-less** substance can still be modeled in via a class representative
+    /// (Stage D missing-PK fallback): each class whose named, mechanism-gated targets it engages and
+    /// for which a PK-complete ``classRepresentative`` plus both reference doses (the substance's own
+    /// and the representative's) exist. Empty ⇒ genuinely unmodelable (stays "can't predict yet").
+    /// Shared by ``buildClassWork`` (which builds the surrogate contributors) and ``incompleteData``.
+    private nonisolated static func fallbackClasses(
+        for substanceParams: PharmacologyParameters, params: [String: PharmacologyParameters],
+    ) -> Set<ReceptorClasses.ReceptorClass> {
+        guard substanceParams.referenceDoseMg != nil else { return [] }
+        var classes: Set<ReceptorClasses.ReceptorClass> = []
+        for engagement in substanceParams.targets {
+            let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
+            guard cls != .unknown,
+                  let repName = classRepresentative[cls],
+                  let rep = params[repName], rep.canComputeOccupancy, rep.referenceDoseMg != nil
+            else { continue }
+            classes.insert(cls)
+        }
+        return classes
     }
 
     /// Run the parallel replay off the main actor and off the shared cooperative pool by pinning it to
@@ -322,6 +374,11 @@ final class ToleranceStore {
         var resolved = Set<String>()
         for dose in doses where resolved.insert(dose.substance).inserted {
             if let p = resolve(dose.substance) { params[dose.substance] = p }
+        }
+        // Resolve the class representatives too, so the PK-less fallback (Stage D) can model a logged
+        // substance as its representative at an equivalent dose.
+        for repName in Self.classRepresentative.values where resolved.insert(repName).inserted {
+            if let p = resolve(repName) { params[repName] = p }
         }
         return simulate(
             doses: doses, params: params, now: now, weightKg: weightKg,
@@ -448,34 +505,59 @@ final class ToleranceStore {
         // antagonist onboard lowers μ-opioid tolerance development, etc.
         var modulatorsByClass: [ReceptorClasses.ReceptorClass: [ModulatorContributor]] = [:]
 
-        for dose in relevant {
-            guard let p = params[dose.substance], p.canComputeOccupancy,
-                  let vdPerKg = p.vdLPerKg, let mw = p.molarMassGramsPerMole,
-                  let f = p.bioavailabilityFraction, let halfLife = p.halfLifeMinutes,
-                  let doseMg = dose.amountMg
-            else { continue }
+        /// The PK + occupancy prefactor a substance's pharmacology resolves to for one dose, plus the
+        /// most-potent surviving engagement per class — the modulator-presence driver the direct path
+        /// reuses. `nil` when the source can't compute occupancy.
+        struct DoseExposure {
+            let ke: Double
+            let ka: Double
+            let prefactorNanomolar: Double
+            let bestTargetByClass: [ReceptorClasses.ReceptorClass: PharmacologyParameters.TargetEngagement]
+        }
+
+        /// Build per-target ``Contributor``s for one dose from `sourceParams`' PK + targets, grouping
+        /// them into the shared by-class accumulators. The reusable inner block both paths run:
+        /// - **Direct** — `sourceParams` is the substance's own pharmacology, `restrictToClass` nil,
+        ///   `confidenceFloor` `.high` (a no-op `min`) ⇒ unchanged behaviour.
+        /// - **Fallback (Stage D)** — `sourceParams` is a class representative's, `restrictToClass`
+        ///   pins it to the one class being surrogate-modeled (so Morphine→MOR only, not its
+        ///   off-targets), and `confidenceFloor` (`.low` MME / `.unverified` dose-fraction) is
+        ///   `min`-combined into every contributor so the class badges as predicted-not-measured.
+        ///
+        /// `doseMg` is the *effective* dose to expose at (the logged mg directly, or the
+        /// representative-equivalent mg); `loggedName` is always the user's logged substance so the
+        /// "driven by" chips keep their name. Returns the dose's ``DoseExposure`` (for the direct
+        /// path's modulators), or `nil` when the source PK is insufficient.
+        func appendContributors(
+            sourceParams: PharmacologyParameters, doseMg: Double, escalation: Double, onset: Double,
+            loggedName: String, restrictToClass: ReceptorClasses.ReceptorClass?,
+            confidenceFloor: ConfidenceTier,
+        ) -> DoseExposure? {
+            guard sourceParams.canComputeOccupancy,
+                  let vdPerKg = sourceParams.vdLPerKg, let mw = sourceParams.molarMassGramsPerMole,
+                  let f = sourceParams.bioavailabilityFraction, let halfLife = sourceParams.halfLifeMinutes
+            else { return nil }
             let vd = vdPerKg * weightKg
-            guard vd > 0, mw > 0, halfLife > 0 else { continue }
+            guard vd > 0, mw > 0, halfLife > 0 else { return nil }
             let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
             let ka = PKModel.defaultKa(ke: ke)
             // molar = (F·dose·scale/Vd)·shape /1000 /MW ; ×1e9 → nM (fu = 1, Stage 1). One
             // concentration() call per contributor per step then multiplies this prefactor. `doseScale`
             // converts a logged *preparation* mass to active-compound mass (Kratom→mitragynine etc.); 1
             // for pure compounds.
-            let prefactorNanomolar = (f * doseMg * p.doseScale / vd) / 1_000 / mw * 1e9
-            let onset = dose.timestamp.timeIntervalSince(start) / 60
-            // Dose-relative escalation = logged mg ÷ the substance's heavy ceiling (both in
-            // preparation mg, so no doseScale). 0 when no reference dose ⇒ the deep gate stays closed.
-            let escalation = (p.referenceDoseMg ?? 0) > 0 ? doseMg / p.referenceDoseMg! : 0
+            let prefactorNanomolar = (f * doseMg * sourceParams.doseScale / vd) / 1_000 / mw * 1e9
 
-            // Most-potent *surviving* target per class (p.targets is tightest-first, so the first per
+            // Most-potent *surviving* target per class (targets are tightest-first, so the first per
             // class wins) — drives any modulation edge's presence curve.
             var bestTargetByClass: [ReceptorClasses.ReceptorClass: PharmacologyParameters.TargetEngagement] = [:]
-            for engagement in p.targets {
+            for engagement in sourceParams.targets {
                 // Mechanism-direction gate: off-mechanism engagements (a 5-HT2A antagonist, an α7
                 // antagonist) classify to `.unknown` and are skipped — no card.
                 let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
                 guard cls != .unknown else { continue }
+                // Fallback path: only build the representative's targets that fall in the one class
+                // being surrogate-modeled.
+                if let restrictToClass, cls != restrictToClass { continue }
                 // Meaningfulness gate: skip engagements barely occupied at this dose (weak off-targets).
                 let peak = peakOccupancy(
                     prefactorNanomolar: prefactorNanomolar, ke: ke, ka: ka,
@@ -494,7 +576,7 @@ final class ToleranceStore {
                         onset: onset, expiry: expiry, ke: ke, ka: ka,
                         prefactorNanomolar: prefactorNanomolar,
                         halfMaxNanomolar: engagement.halfMaxNanomolar,
-                        confidence: Swift.min(p.vdConfidence, p.bioavailabilityConfidence, p.doseScaleConfidence, engagement.confidence),
+                        confidence: Swift.min(sourceParams.vdConfidence, sourceParams.bioavailabilityConfidence, sourceParams.doseScaleConfidence, engagement.confidence, confidenceFloor),
                         escalation: escalation,
                     ),
                 )
@@ -502,25 +584,68 @@ final class ToleranceStore {
                 if seenSubTarget[cls, default: []].insert(canonical).inserted {
                     subTargetsByClass[cls, default: []].append(canonical)
                 }
-                substanceRecency[cls, default: [:]][dose.substance] = onset
+                substanceRecency[cls, default: [:]][loggedName] = onset
             }
+            return DoseExposure(ke: ke, ka: ka, prefactorNanomolar: prefactorNanomolar, bestTargetByClass: bestTargetByClass)
+        }
 
-            // Register this dose as a tolerance modulator for any class it modulates. Presence is the
-            // occupancy of its most-potent target *of the modulating class*, so the edge fires only
-            // while the modulator is actually onboard (concentration/overlap-gated).
-            for (modClass, best) in bestTargetByClass {
-                for edge in ToleranceModulation.edges(forModulatorClass: modClass) {
-                    let expiry = onset + decayWindowMinutes(
-                        ke: ke, ka: ka, prefactorNanomolar: prefactorNanomolar,
-                        halfMaxNanomolar: best.halfMaxNanomolar,
-                    )
-                    modulatorsByClass[edge.affectedClass, default: []].append(
-                        ModulatorContributor(
-                            onset: onset, expiry: expiry, ke: ke, ka: ka,
-                            prefactorNanomolar: prefactorNanomolar,
+        for dose in relevant {
+            guard let p = params[dose.substance], let doseMg = dose.amountMg else { continue }
+            let onset = dose.timestamp.timeIntervalSince(start) / 60
+
+            if p.canComputeOccupancy {
+                // Direct path — model the substance on its own pharmacology (unchanged behaviour).
+                // Dose-relative escalation = logged mg ÷ the substance's heavy ceiling (both in
+                // preparation mg, so no doseScale). 0 when no reference dose ⇒ the deep gate stays closed.
+                let escalation = (p.referenceDoseMg ?? 0) > 0 ? doseMg / p.referenceDoseMg! : 0
+                guard let exposure = appendContributors(
+                    sourceParams: p, doseMg: doseMg, escalation: escalation, onset: onset,
+                    loggedName: dose.substance, restrictToClass: nil, confidenceFloor: .high,
+                ) else { continue }
+
+                // Register this dose as a tolerance modulator for any class it modulates. Presence is
+                // the occupancy of its most-potent target *of the modulating class*, so the edge fires
+                // only while the modulator is actually onboard (concentration/overlap-gated). Direct
+                // path only — a PK-less modulator can't be time-resolved (Stage D).
+                for (modClass, best) in exposure.bestTargetByClass {
+                    for edge in ToleranceModulation.edges(forModulatorClass: modClass) {
+                        let expiry = onset + decayWindowMinutes(
+                            ke: exposure.ke, ka: exposure.ka, prefactorNanomolar: exposure.prefactorNanomolar,
                             halfMaxNanomolar: best.halfMaxNanomolar,
-                            muFactor: edge.muFactor,
-                        ),
+                        )
+                        modulatorsByClass[edge.affectedClass, default: []].append(
+                            ModulatorContributor(
+                                onset: onset, expiry: expiry, ke: exposure.ke, ka: exposure.ka,
+                                prefactorNanomolar: exposure.prefactorNanomolar,
+                                halfMaxNanomolar: best.halfMaxNanomolar,
+                                muFactor: edge.muFactor,
+                            ),
+                        )
+                    }
+                }
+            } else if let refSub = p.referenceDoseMg, refSub > 0 {
+                // Stage D missing-PK fallback — model the substance AS its class representative at an
+                // equivalent dose, so an RC benzo with only a dose ladder still accrues GABA tolerance.
+                // The deep gate still uses the *substance's own* escalation (dose ÷ its heavy ceiling).
+                let escalation = doseMg / refSub
+                for cls in fallbackClasses(for: p, params: params) {
+                    guard let repName = Self.classRepresentative[cls], let rep = params[repName],
+                          let refRep = rep.referenceDoseMg, refRep > 0 else { continue }
+                    let equivalentDoseMg: Double
+                    let confidenceFloor: ConfidenceTier
+                    if cls == .muOpioid, let mme = Self.opioidMMEPerMg[dose.substance.lowercased()] {
+                        // Named opioid → CDC morphine-mg-equivalent, modeled as Morphine at that dose.
+                        equivalentDoseMg = doseMg * mme
+                        confidenceFloor = .low
+                    } else {
+                        // Generic dose-fraction proxy: the same fraction of the heavy ceiling, expressed
+                        // in the representative's mg.
+                        equivalentDoseMg = (doseMg / refSub) * refRep
+                        confidenceFloor = .unverified
+                    }
+                    _ = appendContributors(
+                        sourceParams: rep, doseMg: equivalentDoseMg, escalation: escalation, onset: onset,
+                        loggedName: dose.substance, restrictToClass: cls, confidenceFloor: confidenceFloor,
                     )
                 }
             }

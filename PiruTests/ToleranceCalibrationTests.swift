@@ -83,6 +83,108 @@ struct ToleranceCalibrationTests {
         )
     }
 
+    // MARK: - Synthetic pharmacology (Stage D missing-PK fallback)
+
+    /// A **PK-less** benzodiazepine surrogate: a GABA-A PAM target but no Vd / F / half-life / molar
+    /// mass, so ``PharmacologyParameters/canComputeOccupancy`` is false. The Stage D fallback must
+    /// model it as the Diazepam representative at a dose-fraction-equivalent dose.
+    static func pkLessBenzo(name: String = "RC-Benzo", referenceDoseMg: Double?) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: nil,
+            vdLPerKg: nil,
+            bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: nil,
+            vdConfidence: .unverified,
+            referenceDoseMg: referenceDoseMg,
+            targets: [
+                .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
+            ],
+        )
+    }
+
+    /// A PK-complete **Diazepam** representative (GABA-A PAM) — the class stand-in the GABA fallback
+    /// resolves `ToleranceStore.classRepresentative[.gaba]` to.
+    static func diazepam(referenceDoseMg: Double) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: "Diazepam",
+            molarMassGramsPerMole: 285,
+            vdLPerKg: 1.1,
+            bioavailabilityFraction: 1,
+            bioavailabilityConfidence: .high,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: 2_880,
+            vdConfidence: .high,
+            referenceDoseMg: referenceDoseMg,
+            targets: [
+                .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
+    /// A **PK-less** opioid surrogate named so the CDC MME table (``ToleranceStore/opioidMMEPerMg``)
+    /// can recognise it — a MOR agonist with no PK. The Stage D fallback models it as Morphine.
+    static func pkLessOpioid(name: String, referenceDoseMg: Double?) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: nil,
+            vdLPerKg: nil,
+            bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: nil,
+            vdConfidence: .unverified,
+            referenceDoseMg: referenceDoseMg,
+            targets: [
+                .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
+            ],
+        )
+    }
+
+    /// A PK-complete **Morphine** representative (MOR agonist) — `classRepresentative[.muOpioid]`.
+    static func morphine(referenceDoseMg: Double) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: "Morphine",
+            molarMassGramsPerMole: 285,
+            vdLPerKg: 3,
+            bioavailabilityFraction: 1,
+            bioavailabilityConfidence: .high,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: 180,
+            vdConfidence: .high,
+            referenceDoseMg: referenceDoseMg,
+            targets: [
+                .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
+    /// A **PK-less** cannabinoid surrogate (CB1 agonist) whose class has **no** representative —
+    /// the unmodelable case that must stay listed as incomplete data.
+    static func pkLessCannabinoid(name: String = "RC-Cannabinoid", referenceDoseMg: Double?) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: nil,
+            vdLPerKg: nil,
+            bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: nil,
+            vdConfidence: .unverified,
+            referenceDoseMg: referenceDoseMg,
+            targets: [
+                .init(target: "CB1", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
+            ],
+        )
+    }
+
     /// `days` once-daily doses of `substance`, the most recent ending `endingHoursBeforeNow` before
     /// the supplied reference instant.
     static func dailyDoses(
@@ -272,5 +374,101 @@ struct ToleranceCalibrationTests {
         #expect(psychedelic.safetyShiftFactor == nil)
         #expect(psychedelic.safetyEndpointKind == nil)
         #expect(psychedelic.safetyGap == nil)
+    }
+
+    // MARK: - 10. PK-less benzo still builds GABA tolerance via the Diazepam representative
+
+    @Test
+    func `A PK-less benzo still accrues GABA tolerance, modeled as the Diazepam representative`() throws {
+        // RC-Benzo: GABA-A PAM, 5 mg heavy ceiling, no PK. Diazepam: PK-complete, 30 mg heavy ceiling.
+        // 10 mg/day RC-Benzo → dose-fraction equiv (10/5)·30 = 60 mg diazepam → real GABA right-shift.
+        let params = [
+            "RC-Benzo": Self.pkLessBenzo(referenceDoseMg: 5),
+            "Diazepam": Self.diazepam(referenceDoseMg: 30),
+        ]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("RC-Benzo", mg: 10, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let gaba = try #require(states[.gaba]) // previously dropped → only in incompleteData
+        #expect(gaba.responseFraction < 1) // the surrogate exposure produced a right-shift
+        #expect(gaba.shiftFactor > 1)
+        #expect(gaba.confidence == .unverified) // dose-fraction surrogate → unverified floor
+        #expect(gaba.contributors == ["RC-Benzo"]) // the user's logged name, not the representative's
+
+        // And it is no longer reported as incomplete data — the fallback can model it.
+        let incomplete = ToleranceStore.incompleteData(
+            doses: Self.dailyDoses("RC-Benzo", mg: 10, days: 14), params: params, now: Self.now,
+        )
+        #expect(!incomplete.contains("RC-Benzo"))
+    }
+
+    // MARK: - 11. Dose-fraction sanity: surrogate at the heavy ceiling ≈ the representative at its own
+
+    @Test
+    func `A PK-less benzo at its own heavy ceiling matches Diazepam dosed at the representative ceiling`() throws {
+        let params = [
+            "RC-Benzo": Self.pkLessBenzo(referenceDoseMg: 5),
+            "Diazepam": Self.diazepam(referenceDoseMg: 30),
+        ]
+        // RC-Benzo at 5 mg (= its heavy ceiling) ⇒ equiv (5/5)·30 = 30 mg diazepam.
+        let surrogate = ToleranceStore.simulate(
+            doses: Self.dailyDoses("RC-Benzo", mg: 5, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        // Diazepam logged directly at 30 mg (= the representative's heavy ceiling).
+        let direct = ToleranceStore.simulate(
+            doses: Self.dailyDoses("Diazepam", mg: 30, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let surrogateGaba = try #require(surrogate[.gaba])
+        let directGaba = try #require(direct[.gaba])
+        // Same PK, same dose, same schedule ⇒ the right-shift matches (it is literally the
+        // representative's contribution, only the logged name and confidence floor differ).
+        #expect(abs(surrogateGaba.shiftFactor - directGaba.shiftFactor) < 1e-6)
+    }
+
+    // MARK: - 12. MME path: a named opioid uses its CDC morphine-equivalent at the .low floor
+
+    @Test
+    func `A named PK-less opioid is modeled at its CDC morphine-milligram-equivalent`() throws {
+        let params = [
+            "oxycodone": Self.pkLessOpioid(name: "oxycodone", referenceDoseMg: 20),
+            "Morphine": Self.morphine(referenceDoseMg: 60),
+        ]
+        // oxycodone MME = 1.5 ⇒ a 30 mg dose is modeled as Morphine at 45 mg. The named-opioid path
+        // carries the .low floor (a principled equivalence), not the .unverified dose-fraction floor.
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("oxycodone", mg: 30, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let opioid = try #require(states[.muOpioid])
+        #expect(opioid.shiftFactor > 1)
+        #expect(opioid.confidence == .low) // MME equivalence floor, above dose-fraction's unverified
+        #expect(opioid.contributors == ["oxycodone"])
+
+        // Cross-check the morphine-equivalent magnitude: the same exposure as logging Morphine at the
+        // 1.5× dose directly (45 mg) — the MME path is exactly "model as Morphine at dose × factor".
+        let viaMorphine = ToleranceStore.simulate(
+            doses: Self.dailyDoses("Morphine", mg: 45, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let morphineGaba = try #require(viaMorphine[.muOpioid])
+        #expect(abs(opioid.shiftFactor - morphineGaba.shiftFactor) < 1e-6)
+    }
+
+    // MARK: - 13. No representative ⇒ stays incomplete, builds nothing
+
+    @Test
+    func `A PK-less substance whose class has no representative builds nothing and stays incomplete`() throws {
+        // CB1 has no class representative, so the fallback can't model it.
+        let params = ["RC-Cannabinoid": Self.pkLessCannabinoid(referenceDoseMg: 10)]
+        let doses = Self.dailyDoses("RC-Cannabinoid", mg: 20, days: 14)
+        let states = ToleranceStore.simulate(doses: doses, params: params, now: Self.now, weightKg: 70)
+        #expect(states[.cannabinoidCB1] == nil) // no surrogate contributors → no card
+        #expect(states.isEmpty)
+
+        let incomplete = ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now)
+        #expect(incomplete.contains("RC-Cannabinoid")) // honestly surfaced as "can't predict yet"
     }
 }
