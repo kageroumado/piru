@@ -117,11 +117,12 @@ struct ToleranceExplainerView: View {
 
     // MARK: - Class copy
 
-    /// Classes in a teaching order (multiplier-valid first, then the load classes), `.unknown` omitted.
+    /// Classes in a teaching order (multiplier-valid first, then the load classes, then the
+    /// rebound-hosting adrenergics last — they barely tolerize), `.unknown` omitted.
     private var orderedClasses: [ReceptorClasses.ReceptorClass] {
         [
             .psychedelic5HT2A, .muOpioid, .gaba, .nmdaAntagonist, .cannabinoidCB1, .adenosine,
-            .catecholamineStimulant, .serotonergicReleaser, .nicotinic,
+            .catecholamineStimulant, .serotonergicReleaser, .nicotinic, .alpha2Agonist, .betaBlocker,
         ]
     }
 
@@ -158,6 +159,10 @@ struct ToleranceExplainerView: View {
             "A reversible-leaning change at the serotonin transporter — a recovery-state indicator, not a dose multiplier."
         case .nicotinic:
             "Mostly fast receptor desensitization that recovers between uses rather than a lasting dose multiplier."
+        case .alpha2Agonist:
+            "Barely builds tolerance — the real risk is stopping suddenly: blood pressure can rebound hard. Taper, don't quit cold."
+        case .betaBlocker:
+            "Barely builds tolerance — the real risk is stopping suddenly: heart rate and blood pressure can rebound. Taper, don't quit cold."
         case .unknown:
             "Generic class-default kinetics at the lowest confidence."
         }

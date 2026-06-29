@@ -111,6 +111,31 @@ struct ToleranceCalibrationTests {
         )
     }
 
+    /// A synthetic **adrenergic** substance (Stage F) — a PK-complete stand-in with one adrenergic
+    /// target, so the routing and rebound-axis assertions depend on the model alone. `target`/`action`
+    /// pick the class: `"α2A adrenergic"`/`.agonist` → α₂-agonist, `"β1 / β2 adrenergic"`/`.antagonist`
+    /// → β-blocker.
+    static func adrenergic(
+        name: String, target: String, action: BindingAction, referenceDoseMg: Double?,
+    ) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: 230,
+            vdLPerKg: 2.5,
+            bioavailabilityFraction: 1,
+            bioavailabilityConfidence: .high,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: 720,
+            vdConfidence: .high,
+            referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
+            targets: [
+                .init(target: target, action: action, halfMaxNanomolar: 20, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
     // MARK: - Synthetic pharmacology (Stage D missing-PK fallback)
 
     /// A **PK-less** benzodiazepine surrogate: a GABA-A PAM target but no Vd / F / half-life / molar
@@ -576,5 +601,100 @@ struct ToleranceCalibrationTests {
         )
         let stim = try #require(states[.catecholamineStimulant])
         #expect(stim.sSynthesis == 0)
+    }
+
+    // MARK: - 17. α₂-agonist routes to its class and hosts the rebound axis (Stage F)
+
+    @Test
+    func `An α2-adrenergic agonist routes to the alpha2Agonist class and hosts the rebound axis`() throws {
+        // Routing is mechanism-gated: the α2 adrenergic target with an agonist action is the class.
+        #expect(ReceptorClasses.classify(target: "α2A adrenergic", action: .agonist) == .alpha2Agonist)
+
+        // Dosed → a faint .alpha2Agonist card appears (the adaptive shift exists only to host the warning).
+        let params = ["TestClonidine": Self.adrenergic(
+            name: "TestClonidine", target: "α2A adrenergic", action: .agonist, referenceDoseMg: 0.3,
+        )]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestClonidine", mg: 0.2, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let alpha2 = try #require(states[.alpha2Agonist])
+        #expect(alpha2.shiftFactor >= 1) // a (faint) right-shift, never a regression below naïve
+
+        // The class hands tolerance off to the α₂ discontinuation-rebound safety axis.
+        #expect(ReceptorClasses.parameters(for: .alpha2Agonist).safetyAxis == .alpha2Rebound)
+    }
+
+    // MARK: - 18. β-blocker routes to its class and hosts the rebound axis (Stage F)
+
+    @Test
+    func `A β-adrenergic antagonist routes to the betaBlocker class and hosts the rebound axis`() throws {
+        #expect(ReceptorClasses.classify(target: "β1 / β2 adrenergic", action: .antagonist) == .betaBlocker)
+
+        let params = ["TestPropranolol": Self.adrenergic(
+            name: "TestPropranolol", target: "β1 / β2 adrenergic", action: .antagonist, referenceDoseMg: 40,
+        )]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestPropranolol", mg: 40, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let beta = try #require(states[.betaBlocker])
+        #expect(beta.shiftFactor >= 1)
+
+        #expect(ReceptorClasses.parameters(for: .betaBlocker).safetyAxis == .betaRebound)
+    }
+
+    // MARK: - 19. α₁-adrenergic is out of scope (no tolerance class)
+
+    @Test
+    func `An α1-adrenergic target is not a tolerance class`() {
+        // α₁ is a different receptor than the α₂ autoreceptor — deliberately routes to unknown (§3.5).
+        #expect(ReceptorClasses.classify(target: "α1 adrenergic", action: .antagonist) == .unknown)
+        #expect(ReceptorClasses.classify(target: "α1A adrenergic (human)", action: .agonist) == .unknown)
+    }
+
+    // MARK: - 20. GABA-A subunit strings still route to GABA, not the new α₂ branch (regression)
+
+    @Test
+    func `A GABA-A subunit string still routes to GABA despite containing α2`() {
+        // "GABA-A α2β2γ2" contains both "α2" and "β"; the gaba branch must win (it precedes adrenergic,
+        // and the string has no "adrenergic" keyword anyway). A regression here would misroute benzos.
+        #expect(ReceptorClasses.classify(target: "GABA-A α2β2γ2", action: .positiveAllostericModulator) == .gaba)
+        #expect(ReceptorClasses.classify(target: "GABA-A α1β2γ2", action: .positiveAllostericModulator) == .gaba)
+    }
+
+    // MARK: - 20b. A PK-less adrenergic is NOT surfaced as incomplete tolerance data (§3.5 intent)
+
+    @Test
+    func `A PK-less adrenergic builds no card and is not listed as incomplete tolerance data`() throws {
+        // Mirrors the real bundled-DB state: clonidine/propranolol have adrenergic targets but no molar
+        // mass, so canComputeOccupancy is false and there is no class representative. Unlike a PK-less
+        // benzo/opioid (which the fallback models) or a PK-less cannabinoid (honestly "can't predict
+        // yet"), the rebound-hosting adrenergics must produce *nothing* — no card, no incomplete flag.
+        let params = ["TestClonidine": PharmacologyParameters(
+            substanceName: "TestClonidine",
+            molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: 0.3,
+            suppressesSerotoninSynthesis: false,
+            targets: [.init(target: "α2A adrenergic", action: .agonist, halfMaxNanomolar: 20, kind: .ki, confidence: .low)],
+        )]
+        let doses = Self.dailyDoses("TestClonidine", mg: 0.2, days: 14)
+        let states = ToleranceStore.simulate(doses: doses, params: params, now: Self.now, weightKg: 70)
+        #expect(states[.alpha2Agonist] == nil) // no PK, no representative → no card
+        #expect(states.isEmpty)
+
+        let incomplete = ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now)
+        #expect(!incomplete.contains("TestClonidine")) // hosts a rebound warning, not a missing prediction
+    }
+
+    // MARK: - 21. Real-substance routing smoke (classify-only, no PK needed)
+
+    @Test
+    func `Clonidine and propranolol target strings route to their adrenergic classes`() {
+        // The verified DB target strings (clonidine α2 agonist/partialAgonist, propranolol β antagonist).
+        #expect(ReceptorClasses.classify(target: "α2A adrenergic (rat)", action: .partialAgonist) == .alpha2Agonist)
+        #expect(ReceptorClasses.classify(target: "α2-adrenergic", action: .agonist) == .alpha2Agonist)
+        #expect(ReceptorClasses.classify(target: "β1 / β2 adrenergic (human)", action: .antagonist) == .betaBlocker)
     }
 }

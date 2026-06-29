@@ -269,7 +269,13 @@ final class ToleranceStore {
             guard let p = params[dose.substance], !p.canComputeOccupancy else { continue }
             // Only flag substances whose *named* targets include a recognised tolerance mechanism
             // (so a vitamin with a stray binding row doesn't show up as "incomplete tolerance data").
-            guard p.targets.contains(where: { ReceptorClasses.classify(target: $0.target, action: $0.action) != .unknown }) else { continue }
+            // The rebound-hosting adrenergic classes (§3.5) are excluded: they barely tolerize and have
+            // no PK-less representative by design, so a PK-less clonidine/propranolol is not "missing a
+            // prediction" — there is no tolerance curve to predict. (It just produces no card.)
+            guard p.targets.contains(where: {
+                let cls = ReceptorClasses.classify(target: $0.target, action: $0.action)
+                return cls != .unknown && !cls.hostsReboundWarningOnly
+            }) else { continue }
             // A representative-backed fallback can still model it ⇒ not incomplete.
             guard fallbackClasses(for: p, params: params).isEmpty else { continue }
             seen.insert(dose.substance)

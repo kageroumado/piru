@@ -225,6 +225,8 @@ struct ToleranceAuditExportTests {
         switch axis {
         case .resetOverdose: "Reset-overdose risk after a break — restart low, keep naloxone accessible."
         case .dependenceKindling: "Dependence + kindling — taper, don't quit cold."
+        case .alpha2Rebound: "α₂-agonist discontinuation rebound — taper, don't stop cold (rebound hypertension)."
+        case .betaRebound: "β-blocker discontinuation rebound — taper, don't stop cold (rebound tachycardia/hypertension)."
         case .stimulantLoad, .serotonergicLoad, .cumulativeToxicity, .hppd, .none: nil
         }
     }

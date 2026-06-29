@@ -272,7 +272,9 @@ struct ToleranceToolView: View {
             "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you."
         case .dependenceKindling:
             "Repeated GABA depressant use builds dependence; abrupt stops after heavy use can be dangerous. Taper rather than quitting cold."
-        case .stimulantLoad, .serotonergicLoad, .cumulativeToxicity, .hppd, .none:
+        // .alpha2Rebound / .betaRebound carry no copy yet — the adrenergic rebound warning text is a
+        // later stage (Stage H); the engine just hosts the axis for now.
+        case .stimulantLoad, .serotonergicLoad, .cumulativeToxicity, .hppd, .alpha2Rebound, .betaRebound, .none:
             nil
         }
     }

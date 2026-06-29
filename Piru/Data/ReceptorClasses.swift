@@ -55,8 +55,27 @@ nonisolated enum ReceptorClasses {
         case adenosine
         /// Nicotinic ACh receptors (nicotine): desensitization-driven, fast.
         case nicotinic
+        /// α₂-adrenergic agonists (clonidine, guanfacine): little efficacy tolerance — a faint reading
+        /// that *hosts* the discontinuation **rebound** warning (`Specs/tolerance-faithful-model.md` §3.5).
+        case alpha2Agonist
+        /// β-adrenergic antagonists (propranolol, metoprolol): little efficacy tolerance — a faint
+        /// reading that *hosts* the discontinuation **rebound** warning (§3.5).
+        case betaBlocker
         /// No curated class — generic class-default kinetics at the lowest confidence.
         case unknown
+
+        /// Whether the class exists only to **host a discontinuation-rebound warning** rather than
+        /// predict a meaningful tolerance curve — the adrenergics (`Specs/tolerance-faithful-model.md`
+        /// §3.5). Such a class has no PK-less class representative *by design* (there is no clean dose
+        /// equivalence), so a PK-less member must not be surfaced as "incomplete tolerance data": there
+        /// is no tolerance to predict, complete PK or not. A PK-complete member still produces its faint
+        /// card via the normal occupancy path.
+        var hostsReboundWarningOnly: Bool {
+            switch self {
+            case .alpha2Agonist, .betaBlocker: true
+            default: false
+            }
+        }
 
         /// Short user-facing name for the tolerance class — the Stage-2 Tool card headline.
         var displayName: LocalizedStringResource {
@@ -70,6 +89,8 @@ nonisolated enum ReceptorClasses {
             case .cannabinoidCB1: "Cannabinoids (CB1)"
             case .adenosine: "Adenosine (caffeine)"
             case .nicotinic: "Nicotinic (nAChR)"
+            case .alpha2Agonist: "α₂-agonists (clonidine)"
+            case .betaBlocker: "Beta-blockers (propranolol)"
             case .unknown: "Other"
             }
         }
@@ -84,6 +105,13 @@ nonisolated enum ReceptorClasses {
         case dependenceKindling
         case cumulativeToxicity
         case hppd
+        /// α₂-agonist discontinuation rebound — noradrenaline-surge rebound hypertension on abrupt or
+        /// too-rapid taper (clonidine/guanfacine; §3.5). The class shows little efficacy tolerance, so
+        /// this rebound axis — not a right-shift — is the reason it hosts a card.
+        case alpha2Rebound
+        /// β-blocker discontinuation rebound — receptor-upregulation rebound hypertension/tachycardia on
+        /// abrupt stop (propranolol/metoprolol; §3.5). Likewise a rebound axis, not a tolerance curve.
+        case betaRebound
     }
 
     // MARK: - Differential safety endpoint
@@ -335,6 +363,36 @@ nonisolated enum ReceptorClasses {
                 sourceNote: "§3: nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive shift. Grade low.",
                 safetyEndpoint: nil,
             )
+        case .alpha2Agonist:
+            // §3.5: α₂-agonists develop little efficacy tolerance — a faint adaptive shift only so a
+            // card appears to carry the rebound warning. Everything else inert; the real hazard is the
+            // discontinuation rebound safety axis, not a right-shift.
+            Parameters(
+                acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 0.2, tauAdaptiveMinutes: 7 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
+                safetyAxis: .alpha2Rebound, confidence: .low,
+                classDefaultVdLPerKg: 2.0,
+                sourceNote: "α2-agonists show little efficacy tolerance; the hazard is rebound hypertension on abrupt/too-fast discontinuation (Geyskes 1979; taper, β-blocker first if co-stopping). §3.5.",
+                safetyEndpoint: nil,
+            )
+        case .betaBlocker:
+            // §3.5: β-blockers develop little efficacy tolerance — a faint adaptive shift only so a card
+            // appears to carry the rebound warning. The 'unopposed-α' stimulant scare is debunked (no
+            // severe interaction); the genuine hazard is rebound on abrupt stop, the safety axis below.
+            Parameters(
+                acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                adaptiveShiftMax: 0.15, tauAdaptiveMinutes: 7 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                deepEscThreshold: 2, deepEscWidth: 3,
+                safetyAxis: .betaRebound, confidence: .low,
+                classDefaultVdLPerKg: 3.0,
+                sourceNote: "β-blockers show little efficacy tolerance; rebound hypertension/tachycardia (receptor upregulation) on abrupt stop — taper. 'Unopposed-α' with cocaine/stimulant is debunked, NOT a severe interaction (§3.5).",
+                safetyEndpoint: nil,
+            )
         case .unknown:
             // Generic, deliberately weak default at the lowest confidence.
             Parameters(
@@ -375,6 +433,8 @@ nonisolated enum ReceptorClasses {
         case .cannabinoidCB1: [.agonist, .partialAgonist]
         case .adenosine: [.antagonist]
         case .nicotinic: [.agonist, .partialAgonist]
+        case .alpha2Agonist: [.agonist, .partialAgonist]
+        case .betaBlocker: [.antagonist]
         case .unknown: []
         }
     }
@@ -391,6 +451,13 @@ nonisolated enum ReceptorClasses {
         if t.contains("dat") || t.contains("net") || t.contains("dopamine transporter")
             || t.contains("norepinephrine transporter") || t.contains("noradrenaline transporter") { return .catecholamineStimulant }
         if t.contains("gaba") { return .gaba }
+        // Adrenergic / adrenoceptor targets, keyed *after* gaba so GABA-A subunit strings (e.g.
+        // "GABA-A α2β2γ2", which contain "α2") route to gaba first. α1 / unspecified adrenergic
+        // deliberately fall through to `.unknown` — a different receptor, out of scope (§3.5).
+        if t.contains("adrenergic") || t.contains("adrenoceptor") {
+            if t.contains("α2") || t.contains("alpha-2") || t.contains("alpha2") || t.contains("alpha 2") { return .alpha2Agonist }
+            if t.contains("β") || t.contains("beta") { return .betaBlocker }
+        }
         if t.contains("nmda") { return .nmdaAntagonist }
         if t.contains("cb1") || t.contains("cannabinoid") { return .cannabinoidCB1 }
         if t.contains("adenosine") { return .adenosine }
