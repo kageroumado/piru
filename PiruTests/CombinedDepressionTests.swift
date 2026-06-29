@@ -148,11 +148,14 @@ struct CombinedDepressionEndToEndTests {
     // MARK: - Graceful degradation
 
     @Test
-    func `A mixed stack uses occupancy for the opioid and the surrogate for the benzo`() throws {
+    func `A mixed stack uses occupancy for the opioid and the surrogate for alcohol`() throws {
         let result = try #require(Self.analyze([
-            Self.dose("Morphine", mg: 30), Self.dose("Diazepam", mg: 10),
+            Self.dose("Morphine", mg: 30), Self.dose("Alcohol", mg: 20_000),
         ]))
-        // Morphine resolves real MOR occupancy; diazepam ships without a molar mass → surrogate.
+        // Morphine resolves real MOR occupancy; alcohol ships no half-life in its pk_routes, so
+        // occupancy is uncomputable and it falls back to the drug-class surrogate curve. (Diazepam
+        // used to be the surrogate example, but it now resolves a backfilled molar mass + GABA-A
+        // occupancy — it's modeled.)
         #expect(result.modeledCount == 1)
         #expect(result.totalCount == 2)
         #expect(!result.isFullyModeled)
@@ -160,12 +163,15 @@ struct CombinedDepressionEndToEndTests {
     }
 
     @Test
-    func `A surrogate-only depressant pair still produces a readout, not a drop`() throws {
+    func `A stack with an unmodelable depressant still produces a readout, not a drop`() throws {
+        // Alcohol can't be occupancy-modeled (no pk half-life), so it always degrades to the
+        // surrogate path. The combined readout must survive that — a non-empty, meaningful load with
+        // at least one surrogate contributor — rather than dropping the substance.
         let result = try #require(Self.analyze([
-            Self.dose("Diazepam", mg: 10), Self.dose("Alcohol", mg: 20_000),
+            Self.dose("Alcohol", mg: 20_000), Self.dose("GHB", mg: 2_000),
         ]))
         #expect(result.totalCount == 2)
-        #expect(result.modeledCount == 0)
+        #expect(result.modeledCount < result.totalCount) // alcohol degrades to surrogate
         #expect(result.hasMeaningfulLoad)
     }
 

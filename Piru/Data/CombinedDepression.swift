@@ -317,12 +317,12 @@ nonisolated enum CombinedDepression {
                 )!
                 let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
                 let ka = PKModel.defaultKa(ke: ke)
-                let prefactorNanomolar = (f * doseMg / vd) / 1_000 / mw * 1e9
+                let prefactorNanomolar = (f * doseMg * params.doseScale / vd) / 1_000 / mw * 1e9
                 let halfMax = depressantTarget.halfMaxNanomolar
                 let tail = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
                 return ResolvedContributor(
                     substance: entry.substance, mechanism: mechanism, doseWeight: 1,
-                    confidence: Swift.min(params.vdConfidence, depressantTarget.confidence),
+                    confidence: Swift.min(params.vdConfidence, params.bioavailabilityConfidence, params.doseScaleConfidence, depressantTarget.confidence),
                     isModeled: true,
                     start: entry.timestamp,
                     end: entry.timestamp.addingTimeInterval(tail * 60),

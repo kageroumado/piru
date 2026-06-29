@@ -416,9 +416,11 @@ final class ToleranceStore {
             guard vd > 0, mw > 0, halfLife > 0 else { continue }
             let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
             let ka = PKModel.defaultKa(ke: ke)
-            // molar = (F·dose/Vd)·shape /1000 /MW ; ×1e9 → nM (fu = 1, Stage 1). One concentration()
-            // call per contributor per step then multiplies this prefactor.
-            let prefactorNanomolar = (f * doseMg / vd) / 1_000 / mw * 1e9
+            // molar = (F·dose·scale/Vd)·shape /1000 /MW ; ×1e9 → nM (fu = 1, Stage 1). One
+            // concentration() call per contributor per step then multiplies this prefactor. `doseScale`
+            // converts a logged *preparation* mass to active-compound mass (Kratom→mitragynine etc.); 1
+            // for pure compounds.
+            let prefactorNanomolar = (f * doseMg * p.doseScale / vd) / 1_000 / mw * 1e9
             let onset = dose.timestamp.timeIntervalSince(start) / 60
 
             // Most-potent *surviving* target per class (p.targets is tightest-first, so the first per
@@ -446,7 +448,7 @@ final class ToleranceStore {
                         onset: onset, expiry: expiry, ke: ke, ka: ka,
                         prefactorNanomolar: prefactorNanomolar,
                         halfMaxNanomolar: engagement.halfMaxNanomolar,
-                        confidence: Swift.min(p.vdConfidence, engagement.confidence),
+                        confidence: Swift.min(p.vdConfidence, p.bioavailabilityConfidence, p.doseScaleConfidence, engagement.confidence),
                     ),
                 )
                 let canonical = ReceptorClasses.canonicalTarget(engagement.target)

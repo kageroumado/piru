@@ -51,6 +51,19 @@ nonisolated struct PharmacologyParameters {
     /// Confidence of ``bioavailabilityFraction``: the source row's grade when F was
     /// measured, `.unverified` when it was defaulted to 1.0.
     let bioavailabilityConfidence: ConfidenceTier
+    /// Active-fraction multiplier applied to a logged dose before the exposure math:
+    /// **mg of active compound per mg of the logged substance**.
+    ///
+    /// `1.0` for a pure compound (no scaling). For a *preparation* routed to its
+    /// active constituent (Cannabis→THC, Mushrooms→psilocybin, Kratom→mitragynine —
+    /// see ``SubstanceStore/preparationRouting``) the pharmacology comes from the
+    /// active compound's row and this scales the logged plant/preparation mass to
+    /// active-compound mass. Every dose→concentration site multiplies by it.
+    let doseScale: Double
+    /// Confidence of ``doseScale`` — `.high` for a pure compound (no scaling),
+    /// lower for an *estimated* preparation content fraction (potency varies by
+    /// strain/species). Caps ``occupancyConfidence`` like the other inputs.
+    let doseScaleConfidence: ConfidenceTier
     let halfLifeMinutes: Double?
     /// Confidence of the resolved ``vdLPerKg`` (`.unverified` when no graded Vd row exists).
     let vdConfidence: ConfidenceTier
@@ -72,7 +85,7 @@ nonisolated struct PharmacologyParameters {
     /// Vd, the bioavailability, and the primary target). A graded Vd with an un-graded Kᵢ is only as
     /// trustworthy as the Kᵢ; a defaulted F (`.unverified`) likewise caps the whole prediction.
     var occupancyConfidence: ConfidenceTier {
-        Swift.min(vdConfidence, bioavailabilityConfidence, primaryTarget?.confidence ?? .unverified)
+        Swift.min(vdConfidence, bioavailabilityConfidence, doseScaleConfidence, primaryTarget?.confidence ?? .unverified)
     }
 
     /// Peak fractional occupancy/engagement of the primary target for a single oral dose, evaluated
@@ -87,7 +100,7 @@ nonisolated struct PharmacologyParameters {
         let ka = PKModel.defaultKa(ke: ke)
         let peak = PKModel.tmax(ke: ke, ka: ka)
         let molar = PKModel.concentrationMolar(
-            dose: doseMg, bioavailability: bioavailabilityFraction, vdPerKg: vdLPerKg,
+            dose: doseMg * doseScale, bioavailability: bioavailabilityFraction, vdPerKg: vdLPerKg,
             weightKg: weightKg, molarMassGramsPerMole: molarMassGramsPerMole, ke: ke, ka: ka, at: peak,
         )
         let freeNanomolar = fu * molar * 1e9 // mol/L → nM, matching the half-max unit

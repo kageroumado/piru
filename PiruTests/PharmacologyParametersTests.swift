@@ -114,6 +114,34 @@ struct PharmacologyParametersTests {
         #expect(p.occupancyConfidence == .unverified) // F is the weakest link
     }
 
+    /// Phase 2b: a logged *preparation* resolves its pharmacology from its active constituent and
+    /// scales the dose. Kratom (dosed in g of leaf) routes to mitragynine (a μ-opioid partial agonist)
+    /// at ~1.5% content — completing the kratom opioid-tolerance safety fix.
+    @Test
+    func `Kratom routes to mitragynine pharmacology with a content-fraction dose scale`() throws {
+        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Kratom")
+        #expect(p.doseScale == 0.015) // ~15 mg/g mitragynine in dried leaf
+        #expect(p.doseScaleConfidence == .low) // potency varies → badged
+        #expect(p.canComputeOccupancy) // was dropped entirely (no MW/Vd/target) before routing
+        let primary = try #require(p.primaryTarget)
+        #expect(ReceptorClasses.classify(target: primary.target, action: primary.action) == .muOpioid)
+        // A logged plant dose occupies the target as the equivalent active-compound mass would.
+        let kratomPeak = try #require(p.peakPrimaryOccupancy(doseMg: 5_000, weightKg: 75))
+        let mito = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Mitragynine")
+        let mitoPeak = try #require(mito.peakPrimaryOccupancy(doseMg: 5_000 * 0.015, weightKg: 75))
+        #expect(abs(kratomPeak - mitoPeak) < 1e-9)
+    }
+
+    /// Cannabis curated doses are already mg Δ9-THC, so routing to THC is a pure param-alias (scale 1.0).
+    @Test
+    func `Cannabis routes to THC at full scale`() throws {
+        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Cannabis")
+        #expect(p.doseScale == 1.0) // doses already expressed as active THC mass
+        #expect(p.canComputeOccupancy)
+        let primary = try #require(p.primaryTarget)
+        #expect(ReceptorClasses.classify(target: primary.target, action: primary.action) == .cannabinoidCB1)
+    }
+
     /// Regression: the pipeline backfills `molecular_weight` from a present `formula` (it used to only
     /// *correct* an existing mass, never fill a null one). Diazepam shipped with formula C16H13ClN2O
     /// but a null MW, which made its GABA tolerance uncomputable.

@@ -151,7 +151,33 @@ extension SubstanceStore {
         return resolved
     }
 
+    /// Preparations whose pharmacology lives in an active constituent, mapped to that
+    /// compound and a **content fraction** (mg active ÷ mg preparation). See
+    /// `Specs/tolerance-plant-active-routing.md`. The logged substance keeps its own name
+    /// (the "driven by" chip still says "Kratom"); only the pharmacology rows + dose scale
+    /// come from the active compound, badged at the routing's confidence because the content
+    /// fraction is an estimate.
+    nonisolated static let preparationRouting: [String: (active: String, fraction: Double, confidence: ConfidenceTier)] = [
+        // Curated Cannabis doses are already expressed in mg Δ9-THC, so the logged mg *is*
+        // active mass (fraction 1.0); .medium because whole-plant entourage/CBD is ignored.
+        "cannabis": ("THC", 1.0, .medium),
+        // ~0.8% psilocybin by dry weight (P. cubensis, 0.5–1.0% range); potency varies widely.
+        "mushrooms": ("Psilocybin", 0.008, .low),
+        // ~15 mg/g mitragynine in dried leaf (12–21 mg/g range); extract products run higher.
+        "kratom": ("Mitragynine", 0.015, .low),
+    ]
+
+    /// Route a logged name to the compound its pharmacology should be read from, plus the
+    /// dose scale + confidence to carry. A pure compound routes to itself at scale 1.0.
+    nonisolated static func routePreparation(_ name: String) -> (name: String, scale: Double, confidence: ConfidenceTier) {
+        if let r = preparationRouting[name.lowercased()] {
+            return (r.active, r.fraction, r.confidence)
+        }
+        return (name, 1.0, .high)
+    }
+
     private func resolvePharmacologyParameters(forSubstanceName name: String) -> PharmacologyParameters {
+        let routed = Self.routePreparation(name)
         // Lean single-column read of the SAME authoritative `substances.molecular_weight`
         // the full `resolveSubstance` returns — not the timeline batch projection (which
         // omits molecular_weight entirely, so reading it there returned nil and made
@@ -160,11 +186,13 @@ extension SubstanceStore {
         // substance on the main actor*. The cached instance reads serve interactive callers
         // (detail view, effect attenuation); the tolerance recompute uses the off-main batch
         // path below so it never resolves on the main actor.
-        Self.assemblePharmacologyParameters(
+        return Self.assemblePharmacologyParameters(
             name: name,
-            molarMass: molarMass(forSubstanceName: name),
-            pk: pharmacokinetics(forSubstanceName: name),
-            bindingHits: bindings(forSubstanceName: name),
+            molarMass: molarMass(forSubstanceName: routed.name),
+            pk: pharmacokinetics(forSubstanceName: routed.name),
+            bindingHits: bindings(forSubstanceName: routed.name),
+            doseScale: routed.scale,
+            doseScaleConfidence: routed.confidence,
         )
     }
 
@@ -178,7 +206,9 @@ extension SubstanceStore {
     func pharmacologyParametersBatchOffMain(forNames names: [String]) async -> [String: PharmacologyParameters] {
         let ids = Dictionary(
             names.compactMap { name -> (String, Int64)? in
-                guard let id = substanceID(forNameOrAlias: name) else { return nil }
+                // Preparations resolve their id from the active compound (Kratom→Mitragynine), so
+                // the off-main row reads pull the active pharmacology while keyed by the logged name.
+                guard let id = substanceID(forNameOrAlias: Self.routePreparation(name).name) else { return nil }
                 return (name.lowercased(), id)
             },
             uniquingKeysWith: { first, _ in first },
@@ -198,11 +228,14 @@ extension SubstanceStore {
         var out: [String: PharmacologyParameters] = [:]
         for name in names where out[name] == nil {
             let id = ids[name.lowercased()]
+            let routed = routePreparation(name)
             out[name] = assemblePharmacologyParameters(
                 name: name,
                 molarMass: id.flatMap { molarMass(substanceID: $0, db: queue) },
                 pk: id.map { pharmacokineticsRows(substanceID: $0, db: queue) } ?? [],
                 bindingHits: id.map { bindingRows(substanceID: $0, db: queue) } ?? [],
+                doseScale: routed.scale,
+                doseScaleConfidence: routed.confidence,
             )
         }
         return out
@@ -212,6 +245,7 @@ extension SubstanceStore {
     /// cached instance path and the off-main batch path share identical resolution logic.
     private nonisolated static func assemblePharmacologyParameters(
         name: String, molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
+        doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
@@ -286,6 +320,8 @@ extension SubstanceStore {
             vdLPerKg: resolvedVd,
             bioavailabilityFraction: f,
             bioavailabilityConfidence: fConfidence,
+            doseScale: doseScale,
+            doseScaleConfidence: doseScaleConfidence,
             halfLifeMinutes: halfLife,
             vdConfidence: resolvedVdConfidence,
             targets: targets,
