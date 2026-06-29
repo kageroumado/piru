@@ -1736,63 +1736,53 @@ struct SubstanceDetailView: View {
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    toggleFavorite()
-                } label: {
-                    // Favorited keeps its semantic gold; the resting state shares
-                    // the accent tint with the other bar buttons.
-                    Image(systemName: isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(isFavorite ? Color.yellow : Theme.accent)
-                }
-                .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                // No override yet → open personalization directly (a one-item
-                // menu was pointless). With an override, offer Edit + Reset.
-                if let override = personalOverride {
-                    Menu {
+                // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
+                // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
+                // (tier) switcher all fold in here; the tier choices render as an inline checkmark list.
+                Menu {
+                    Button {
+                        toggleFavorite()
+                    } label: {
+                        Label(
+                            isFavorite ? "Remove from Favorites" : "Add to Favorites",
+                            systemImage: isFavorite ? "star.slash" : "star",
+                        )
+                    }
+
+                    Section {
                         Button {
                             navigator.present(.personalizeSubstance(name: baseSubstance.name))
                         } label: {
-                            Label("Edit Personalization…", systemImage: "slider.horizontal.3")
+                            Label(
+                                personalOverride != nil ? "Edit Personalization…" : "Personalize Substance…",
+                                systemImage: "slider.horizontal.3",
+                            )
                         }
-                        Button(role: .destructive) {
-                            customStore.delete(override)
-                        } label: {
-                            Label("Reset Personalization", systemImage: "arrow.uturn.backward")
+                        if let override = personalOverride {
+                            Button(role: .destructive) {
+                                customStore.delete(override)
+                            } label: {
+                                Label("Reset Personalization", systemImage: "arrow.uturn.backward")
+                            }
                         }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                            .foregroundStyle(Theme.accent)
                     }
-                    .accessibilityLabel("Personalize substance")
-                } else {
-                    Button {
-                        navigator.present(.personalizeSubstance(name: baseSubstance.name))
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                            .foregroundStyle(Theme.accent)
-                    }
-                    .accessibilityLabel("Personalize substance")
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                // Detail-level (tier) switcher — makes the Casual / Curious / Pharma-Nerd
-                // density switchable in place instead of buried in Settings.
-                Menu {
-                    Picker("Detail level", selection: Binding(
-                        get: { profile },
-                        set: { profileStore.setDisclosureTier($0) },
-                    )) {
-                        ForEach(UserProfile.allCases) { tier in
-                            Label(tier.displayName, systemImage: tier.icon).tag(tier)
+
+                    Section("Detail level") {
+                        Picker("Detail level", selection: Binding(
+                            get: { profile },
+                            set: { profileStore.setDisclosureTier($0) },
+                        )) {
+                            ForEach(UserProfile.allCases) { tier in
+                                Label(tier.displayName, systemImage: tier.icon).tag(tier)
+                            }
                         }
+                        .pickerStyle(.inline)
                     }
                 } label: {
-                    Image(systemName: profile.icon)
+                    Image(systemName: "ellipsis.circle")
                         .foregroundStyle(Theme.accent)
                 }
-                .accessibilityLabel("Detail level")
+                .accessibilityLabel("More")
             }
         }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {

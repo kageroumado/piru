@@ -22043,6 +22043,7 @@
       }
     },
     "Personalize substance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22054,6 +22055,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "個人化物質"
+          }
+        }
+      }
+    },
+    "Personalize Substance…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个性化此物质…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人化此物質…"
           }
         }
       }

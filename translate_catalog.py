@@ -34,6 +34,9 @@ T = {
     # Step 4 — grouped receptor-literature table: short transporter-mechanism row labels.
     "Release": ("释放", "釋放"),
     "Reuptake": ("再摄取抑制", "再攝取抑制"),
+    # Navbar consolidation: Share + one overflow "More" menu (Files-app pattern).
+    "More": ("更多", "更多"),
+    "Personalize Substance…": ("个性化此物质…", "個人化此物質…"),
     # Pharmacology card round-3 phase-2 (2026-06-28): elimination rows in the Metabolism card render as a
     # plain excretion line instead of a bogus "→ unchanged parent [active]" metabolite.
     "Renal excretion": ("经肾排泄", "經腎排泄"),
@@ -3575,6 +3578,8 @@ if __name__ == "__main__":
         "Memory",
         "Release",
         "Reuptake",
+        "More",
+        "Personalize Substance…",
         # Pharmacology card round-3 phase-2 (2026-06-28)
         "Renal excretion",
         "Biliary excretion",
