@@ -82,4 +82,47 @@ struct PharmacologyParametersTests {
         let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Caffeine")
         #expect(p.occupancyConfidence == .medium)
     }
+
+    /// Regression: a substance dosed by a common **alias** resolves its full pharmacology. "LSD" is an
+    /// alias of canonical "Lysergic Acid Diethylamide"; the per-field accessors used to resolve via
+    /// `nameIndex` (canonical only), so LSD came back empty and the tolerance engine silently dropped
+    /// it ("missing molar mass, Vd, F, half-life, any target"). Both names must resolve identically.
+    @Test
+    func `Substance dosed by alias resolves the same pharmacology as its canonical name`() {
+        let byAlias = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "LSD")
+        let byCanonical = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Lysergic Acid Diethylamide")
+        #expect(byAlias.canComputeOccupancy)
+        #expect(byAlias.molarMassGramsPerMole != nil)
+        // Resolving by alias yields the *same* row's pharmacology as the canonical name — the whole bug.
+        #expect(byAlias.primaryTarget?.id == byCanonical.primaryTarget?.id)
+        #expect(byAlias.vdLPerKg == byCanonical.vdLPerKg)
+        #expect(byAlias.molarMassGramsPerMole == byCanonical.molarMassGramsPerMole)
+        #expect(byAlias.targets.contains { $0.target.contains("5-HT2A") }) // LSD's signature psychedelic target is present
+        #expect(!byCanonical.targets.isEmpty)
+    }
+
+    /// Regression: when no oral F was measured the resolver defaults bioavailability to 1.0, flagged
+    /// `.unverified`. MDMA's absolute oral F is "definitionally underivable without an IV arm" and its
+    /// stored Vd is an apparent V/F, so F = 1 is the consistent reading — and it keeps the canonical
+    /// MDMA serotonergic tolerance computable instead of silently dropped.
+    @Test
+    func `Unmeasured bioavailability defaults to 1.0 and caps occupancy confidence at unverified`() {
+        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "MDMA")
+        #expect(p.bioavailabilityFraction == 1.0)
+        #expect(p.bioavailabilityConfidence == .unverified)
+        #expect(p.canComputeOccupancy) // was dropped (F nil) before the default
+        #expect(p.occupancyConfidence == .unverified) // F is the weakest link
+    }
+
+    /// Regression: the pipeline backfills `molecular_weight` from a present `formula` (it used to only
+    /// *correct* an existing mass, never fill a null one). Diazepam shipped with formula C16H13ClN2O
+    /// but a null MW, which made its GABA tolerance uncomputable.
+    @Test
+    func `Diazepam resolves a molar mass and computes occupancy`() {
+        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Diazepam")
+        let mw = p.molarMassGramsPerMole
+        #expect(mw != nil)
+        #expect((mw ?? 0) > 280 && (mw ?? 0) < 290) // C16H13ClN2O ≈ 284.74
+        #expect(p.canComputeOccupancy)
+    }
 }

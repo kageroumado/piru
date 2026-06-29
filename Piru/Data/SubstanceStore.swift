@@ -499,10 +499,22 @@ final class SubstanceStore {
     /// façade (now in its own file, so this is `internal` rather than
     /// `fileprivate`); the façade remains the only intended resolution path.
     func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
-        let key = nameOrAlias.lowercased()
-        let id = nameIndex[key] ?? aliasIndex[key]
-        guard let id else { return nil }
+        guard let id = substanceID(forNameOrAlias: nameOrAlias) else { return nil }
         return resolveSubstance(id: id, canonicalName: nameOrAlias)
+    }
+
+    /// Resolve a substance *name or alias* to its library id, mirroring
+    /// ``lookupByNameOrAlias(_:)``'s canonical-then-alias precedence.
+    ///
+    /// The per-field pharmacology and detail accessors resolve through this rather
+    /// than `nameIndex` alone, so a substance dosed or queried by a common alias
+    /// (e.g. `"LSD"` → canonical `"Lysergic Acid Diethylamide"`) still resolves its
+    /// bindings / PK / molar-mass instead of returning empty. Without it the
+    /// tolerance engine saw LSD as having *no* pharmacology at all and silently
+    /// dropped it.
+    func substanceID(forNameOrAlias name: String) -> Int64? {
+        let key = name.lowercased()
+        return nameIndex[key] ?? aliasIndex[key]
     }
 
     /// All substances in the library. Lazily resolves on first access; the
@@ -2098,7 +2110,7 @@ final class SubstanceStore {
     /// priority order as the field resolvers themselves, so the slug shown
     /// in the UI matches the source that actually won the field.
     func provenance(forSubstanceName name: String) -> SubstanceProvenance? {
-        guard let substanceID = nameIndex[name.lowercased()] else { return nil }
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
         do {
             return try substancesDB.read { db in
                 let categorySource = try fieldSource(
@@ -2213,7 +2225,7 @@ final class SubstanceStore {
     /// `Substance.effects` union drives the browse/search paths; this is the
     /// grouped view used only when a user drills into the full taxonomy.
     func effectsByCategory(forSubstanceName name: String) -> [EffectGroup] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         let language = languageOverride ?? Self.contentLanguage
         do {
             let rows = try substancesDB.read { db in

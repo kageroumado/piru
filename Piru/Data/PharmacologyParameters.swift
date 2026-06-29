@@ -35,8 +35,22 @@ nonisolated struct PharmacologyParameters {
     let substanceName: String
     let molarMassGramsPerMole: Double?
     let vdLPerKg: Double?
-    /// Oral bioavailability as a fraction in `(0, 1]`, or nil when unknown.
+    /// Oral bioavailability as a fraction in `(0, 1]`.
+    ///
+    /// When no F was measured the resolver defaults this to **1.0** (full
+    /// fraction-absorbed) rather than leaving it nil — see
+    /// ``bioavailabilityConfidence``. Absolute oral F is "definitionally
+    /// underivable without an IV arm" for most recreational drugs (per the
+    /// pharmacology-evidence discipline), and the stored Vd for such drugs is
+    /// already an *apparent* Vd (V/F) — so `C = F·dose/((V/F)·wt)` is consistent
+    /// with `F = 1` (the F cancels), and a separately-invented F would double-count
+    /// it. Defaulting to 1 keeps occupancy computable (it errs toward *showing*
+    /// tolerance, which is the safety-positive direction) while the confidence
+    /// badge marks the prediction unverified.
     let bioavailabilityFraction: Double?
+    /// Confidence of ``bioavailabilityFraction``: the source row's grade when F was
+    /// measured, `.unverified` when it was defaulted to 1.0.
+    let bioavailabilityConfidence: ConfidenceTier
     let halfLifeMinutes: Double?
     /// Confidence of the resolved ``vdLPerKg`` (`.unverified` when no graded Vd row exists).
     let vdConfidence: ConfidenceTier
@@ -55,9 +69,10 @@ nonisolated struct PharmacologyParameters {
     }
 
     /// Overall occupancy confidence = the weakest link among the inputs that feed it (the resolved
-    /// Vd and the primary target). A graded Vd with an un-graded Kᵢ is only as trustworthy as the Kᵢ.
+    /// Vd, the bioavailability, and the primary target). A graded Vd with an un-graded Kᵢ is only as
+    /// trustworthy as the Kᵢ; a defaulted F (`.unverified`) likewise caps the whole prediction.
     var occupancyConfidence: ConfidenceTier {
-        Swift.min(vdConfidence, primaryTarget?.confidence ?? .unverified)
+        Swift.min(vdConfidence, bioavailabilityConfidence, primaryTarget?.confidence ?? .unverified)
     }
 
     /// Peak fractional occupancy/engagement of the primary target for a single oral dose, evaluated

@@ -1420,30 +1420,46 @@ def apply_pubchem_freebase(con, props: dict) -> dict:
 
 
 def reconcile_formula_mass(con, tolerance: float = 0.02) -> dict:
-    """Replace ``molecular_weight`` with the mass computed from ``formula`` when
-    the two disagree beyond ``tolerance`` (2%).
+    """Recompute ``molecular_weight`` from ``formula`` — *backfilling* a missing
+    mass and *correcting* a stored one that disagrees beyond ``tolerance`` (2%).
 
-    A formula has exactly one molecular weight, so a stored mass that doesn't
-    match it is wrong — almost always a *salt* mass left on a *free-base* formula
-    (amphetamine C9H13N tagged 368.5 sulfate; MDMA C11H15NO2 tagged 229.71 HCl),
-    because ``apply_pubchem_freebase`` skips the MW when the formula already
-    matches PubChem. This recomputes from the formula itself, so it's source-
-    independent. Rows whose formula contains an element we don't weigh (peptide
-    3-letter codes) are left untouched. Returns the per-substance changes."""
+    A formula has exactly one molecular weight, so:
+
+    - a row with a formula but **no** stored mass should get one (e.g. Diazepam
+      C16H13ClN2O → 284.74; ~11 rows arrived from upstream with a formula but a
+      null MW, which silently broke the tolerance/occupancy pipeline that needs a
+      molar mass); and
+    - a stored mass that **doesn't match** the formula is wrong — almost always a
+      *salt* mass left on a *free-base* formula (amphetamine C9H13N tagged 368.5
+      sulfate; MDMA C11H15NO2 tagged 229.71 HCl), because ``apply_pubchem_freebase``
+      skips the MW when the formula already matches PubChem.
+
+    Both recompute from the formula itself, so it's source-independent. Rows whose
+    formula contains an element we don't weigh (peptide 3-letter codes) are left
+    untouched. Returns the per-substance changes."""
     cur = con.cursor()
     changed: list[str] = []
+    filled: list[str] = []
     for sid, name, formula, mw in cur.execute(
         "SELECT id, canonical_name, formula, molecular_weight FROM substances "
-        "WHERE formula IS NOT NULL AND molecular_weight IS NOT NULL"
+        "WHERE formula IS NOT NULL"
     ).fetchall():
         computed = formula_mass(formula)
         if computed is None or computed <= 0:
             continue
-        if abs(mw - computed) / computed > tolerance:
+        if mw is None:
+            cur.execute("UPDATE substances SET molecular_weight = ? WHERE id = ?", (computed, sid))
+            filled.append(f"{name}: ∅→{computed} ({formula})")
+        elif abs(mw - computed) / computed > tolerance:
             cur.execute("UPDATE substances SET molecular_weight = ? WHERE id = ?", (computed, sid))
             changed.append(f"{name}: {mw}→{computed} ({formula})")
     con.commit()
-    return {"changed": len(changed), "names": changed}
+    return {
+        "changed": len(changed),
+        "filled": len(filled),
+        "names": changed,
+        "filled_names": filled,
+    }
 
 
 def dedup_pk_routes(con) -> dict:
@@ -6850,12 +6866,16 @@ def main() -> int:
             file=sys.stderr,
         )
 
-    # Recompute molecular_weight from the formula wherever the two disagree — a
-    # salt mass left on a free-base formula (amphetamine, MDMA). Runs after all
-    # formula corrections so the formula is final. Source-independent.
+    # Recompute molecular_weight from the formula — backfill a missing mass
+    # (Diazepam et al. arrived with a formula but null MW, breaking occupancy) and
+    # correct a salt mass left on a free-base formula (amphetamine, MDMA). Runs
+    # after all formula corrections so the formula is final. Source-independent.
     fm = reconcile_formula_mass(build.cur.connection)
-    print(f"Formula↔mass reconciled: {fm['changed']}", file=sys.stderr)
-    for c in fm["names"]:
+    print(
+        f"Formula↔mass reconciled: {fm['changed']} corrected, {fm['filled']} backfilled",
+        file=sys.stderr,
+    )
+    for c in fm["names"] + fm["filled_names"]:
         print(f"  {c}", file=sys.stderr)
 
     # Drop exact-duplicate pharmacokinetic rows (alprazolam's five identical

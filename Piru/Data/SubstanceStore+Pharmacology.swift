@@ -14,7 +14,7 @@ extension SubstanceStore {
     /// disclosure (pharma-nerd tier) to show the full Ki/EC50 table with
     /// per-row source attribution. Returns rows sorted by tightest Ki first.
     func bindings(forSubstanceName name: String) -> [BindingHit] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         return Self.bindingRows(substanceID: substanceID, db: substancesDB)
     }
 
@@ -62,7 +62,7 @@ extension SubstanceStore {
     /// per-row citation. Drives the detail view's Pharmacokinetics disclosure.
     /// Ordered by route rank (oral first) then tightest study.
     func pharmacokinetics(forSubstanceName name: String) -> [PKRouteHit] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         return Self.pharmacokineticsRows(substanceID: substanceID, db: substancesDB)
     }
 
@@ -120,7 +120,7 @@ extension SubstanceStore {
     /// hang on a cold `resolvedCache`. (The custom overlay never carries a molar mass, so reading the
     /// library column directly matches the full path.)
     func molarMass(forSubstanceName name: String) -> Double? {
-        guard let id = nameIndex[name.lowercased()] else { return nil }
+        guard let id = substanceID(forNameOrAlias: name) else { return nil }
         if let cached = molarMassByID[id] { return cached }
         let value = Self.molarMass(substanceID: id, db: substancesDB)
         molarMassByID[id] = value
@@ -178,7 +178,7 @@ extension SubstanceStore {
     func pharmacologyParametersBatchOffMain(forNames names: [String]) async -> [String: PharmacologyParameters] {
         let ids = Dictionary(
             names.compactMap { name -> (String, Int64)? in
-                guard let id = nameIndex[name.lowercased()] else { return nil }
+                guard let id = substanceID(forNameOrAlias: name) else { return nil }
                 return (name.lowercased(), id)
             },
             uniquingKeysWith: { first, _ in first },
@@ -225,7 +225,14 @@ extension SubstanceStore {
             ?? pk.first { $0.confidence != .unverified }
             ?? pk.first
         let vd = primaryRow?.vdLPerKg
-        let f = primaryRow?.bioavailabilityPct.map { $0 / 100 }
+        // Bioavailability: use the measured F when the coherent row carries one; otherwise default to
+        // 1.0 (full fraction-absorbed), flagged `.unverified`. Absolute oral F is underivable without
+        // an IV arm for most recreational drugs, and their stored Vd is an apparent V/F — so F = 1 is
+        // the *consistent* reading (the F cancels in C = F·dose/((V/F)·wt)), never an invented number.
+        // See `PharmacologyParameters.bioavailabilityFraction`.
+        let measuredF = primaryRow?.bioavailabilityPct.map { $0 / 100 }
+        let f = measuredF ?? 1.0
+        let fConfidence: ConfidenceTier = measuredF != nil ? (primaryRow?.confidence ?? .unverified) : .unverified
         let halfLife = primaryRow?.halfLifeMin
 
         var seenTargets = Set<String>()
@@ -278,6 +285,7 @@ extension SubstanceStore {
             molarMassGramsPerMole: molarMass,
             vdLPerKg: resolvedVd,
             bioavailabilityFraction: f,
+            bioavailabilityConfidence: fConfidence,
             halfLifeMinutes: halfLife,
             vdConfidence: resolvedVdConfidence,
             targets: targets,
@@ -288,7 +296,7 @@ extension SubstanceStore {
     /// per-row citation. Ordered by fraction-of-clearance (largest first), then
     /// enzyme name. Drives the Pharmacokinetics disclosure's metabolism block.
     func metabolism(forSubstanceName name: String) -> [MetabolismHit] {
-        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         do {
             return try substancesDB.read { db in
                 let rows = try Row.fetchAll(db, sql: """
