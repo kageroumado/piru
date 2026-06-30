@@ -108,6 +108,7 @@
       }
     },
     "· from %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -471,6 +472,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ · 預測（模型，%@）。"
+          }
+        }
+      }
+    },
+    "%@ · S ≈ %@×" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · S ≈ %@×"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · S ≈ %@×"
           }
         }
       }
@@ -977,6 +994,7 @@
       }
     },
     "%@ to ~90%% if you stop now." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -993,6 +1011,7 @@
       }
     },
     "%@ to clear if you stop now." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1870,7 +1889,20 @@
 
     },
     "%lldd" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天"
+          }
+        }
+      }
     },
     "%lldd ago" : {
       "localizations" : {
@@ -1996,6 +2028,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 分鐘"
+          }
+        }
+      }
+    },
+    "%lldmo" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個月"
+          }
+        }
+      }
+    },
+    "%lldwk" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 周"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 週"
           }
         }
       }
@@ -2702,6 +2766,9 @@
         }
       }
     },
+    "5-HT₂A receptor" : {
+
+    },
     "7D" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2941,6 +3008,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "結構與吡拉西坦類相關但藥理學獨特的二肽益智劑。調節 AMPA 和 NMDA 麩胺酸受體,增強長時程增強 (LTP) 和突觸可塑性。增加腦源性神經滋養因子 (BDNF) 和神經生長因子 (NGF) 的表達。在遠低於吡拉西坦的劑量下即有效,提示存在麩胺酸能調節之外的其他機制。"
+          }
+        }
+      }
+    },
+    "A fast within-session fade, plus a modest, slower shift with heavy use. A bigger dose still works — but ramps the comedown and the risk, while the effect on your heart barely fades." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一次使用内会很快减弱，大量使用时还会有一点更慢的变化。加大剂量仍然有用——但落差和风险都会跟着上去，而对心脏的负担几乎不会减弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一次使用內會很快減弱，大量使用時還會有一點更慢的變化。加大劑量仍然有用——但落差和風險都會跟著上去，而對心臟的負擔幾乎不會減弱。"
           }
         }
       }
@@ -3226,6 +3309,7 @@
       }
     },
     "A redose right now would land ~%lld%% as strong — within-session tachyphylaxis, recovers overnight." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3242,6 +3326,7 @@
       }
     },
     "A reversible-leaning change at the serotonin transporter — a recovery-state indicator, not a dose multiplier." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3253,6 +3338,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素轉運體上偏向可逆的變化——是恢復狀態指標，而非劑量倍率。"
+          }
+        }
+      }
+    },
+    "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below. Chasing it with more rarely works and stacks the risk." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一次之后没多久再补一剂，效果会更弱——快速释放的那一部分被用得差不多了（快速耐受）。它过一夜就会补回来，所以和下面那种慢一点的耐受是两回事。靠多用来追效果很少奏效，反而把风险叠上去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一次之後沒多久再補一劑，效果會更弱——快速釋放的那一部分被用得差不多了（快速耐受）。它過一夜就會補回來，所以和下面那種慢一點的耐受是兩回事。靠多用來追效果很少奏效，反而把風險疊上去。"
           }
         }
       }
@@ -3986,6 +4087,38 @@
         }
       }
     },
+    "acute" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "急性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "急性"
+          }
+        }
+      }
+    },
+    "adaptive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "适应性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "適應性"
+          }
+        }
+      }
+    },
     "Add" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4575,6 +4708,9 @@
         }
       }
     },
+    "Adenosine receptor" : {
+
+    },
     "Adherence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4611,6 +4747,7 @@
 
     },
     "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4622,6 +4759,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中斷一段時間後，你的鴉片類耐受會下降——之前沒問題的劑量可能讓你停止呼吸。缺氧來得很突然，毫無預兆。請從低劑量重新開始，並讓身邊的人能隨時拿到納洛酮。"
+          }
+        }
+      }
+    },
+    "After a break, tolerance drops fast — a dose that felt fine before can stop your breathing. Restart low." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停一阵子后耐受会掉得很快——以前没事的剂量，这时可能让你停止呼吸。重新开始一定要减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停一陣子後耐受會掉得很快——以前沒事的劑量，這時可能讓你停止呼吸。重新開始一定要減量。"
           }
         }
       }
@@ -4866,6 +5019,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部效應（%lld）"
+          }
+        }
+      }
+    },
+    "All mechanisms, one axis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有机制，同一坐标轴"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有機制，同一座標軸"
           }
         }
       }
@@ -5780,6 +5949,7 @@
       }
     },
     "Availability — the real tolerance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6214,6 +6384,38 @@
         }
       }
     },
+    "Barely builds tolerance — the real risk is stopping suddenly: blood pressure can rebound hard. Taper, don't quit cold." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几乎不会形成耐受——真正的风险是突然停用：血压可能猛烈反弹。要逐渐减量，别一下子停掉。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾乎不會形成耐受——真正的風險是突然停用：血壓可能猛烈反彈。要逐漸減量，別一下子停掉。"
+          }
+        }
+      }
+    },
+    "Barely builds tolerance — the real risk is stopping suddenly: heart rate and blood pressure can rebound. Taper, don't quit cold." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几乎不会形成耐受——真正的风险是突然停用：心率和血压可能反弹。要逐渐减量，别一下子停掉。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾乎不會形成耐受——真正的風險是突然停用：心率和血壓可能反彈。要逐漸減量，別一下子停掉。"
+          }
+        }
+      }
+    },
     "Based on an estimated %lld kg body weight — set yours in Settings for accuracy." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6458,6 +6660,12 @@
         }
       }
     },
+    "Beta-blockers" : {
+
+    },
+    "Beta-blockers (propranolol)" : {
+
+    },
     "Biliary excretion" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6507,7 +6715,24 @@
         }
       }
     },
+    "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates, not a measurement of you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结合亲和力来自 NIMH PDSP Kᵢ 数据库和原始文献；恢复动力学则照着已发表的人体研究校准。每个参数都标了可信度，凡是用了类别默认值的都会标出来。卡片是根据你的剂量记录和这些经过整理的数值预测出来的——是估计，不是对你本人的实测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結合親和力來自 NIMH PDSP Kᵢ 資料庫和原始文獻；恢復動力學則照著已發表的人體研究校準。每個參數都標了可信度，凡是用了類別預設值的都會標出來。卡片是根據你的劑量記錄和這些經過整理的數值預測出來的——是估計，不是對你本人的實測。"
+          }
+        }
+      }
+    },
     "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the tolerance kinetics are calibrated to published human recovery studies. Every parameter is graded, and anything resting on a class default is flagged. Nothing here is measured from you — it's predicted from your dose log and these curated values." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6998,6 +7223,7 @@
       }
     },
     "Builds its own tolerance, and can also blunt opioid tolerance when taken together." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7009,6 +7235,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "會形成自身耐受，同時使用還可能削弱阿片類的耐受。"
+          }
+        }
+      }
+    },
+    "Builds its own tolerance, and can also slow opioid tolerance when taken together." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自己会形成耐受，和阿片一起用时，还能减慢阿片耐受的形成。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自己會形成耐受，和鴉片一起用時，還能減慢鴉片耐受的形成。"
           }
         }
       }
@@ -7060,6 +7302,9 @@
           }
         }
       }
+    },
+    "Caffeine" : {
+
     },
     "Caffeine in moderation can help with grogginess." : {
       "localizations" : {
@@ -7185,6 +7430,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "平靜並減緩中樞神經系統。"
+          }
+        }
+      }
+    },
+    "Can't predict yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还无法预测"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還無法預測"
           }
         }
       }
@@ -7335,6 +7596,9 @@
         }
       }
     },
+    "Cannabis" : {
+
+    },
     "Carbamazepine" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7427,6 +7691,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心血管壓力和潛在的血清素相互作用 — 監測心率和血壓。"
+          }
+        }
+      }
+    },
+    "Cards" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片"
           }
         }
       }
@@ -7527,6 +7807,9 @@
           }
         }
       }
+    },
+    "CB1 receptor" : {
+
     },
     "Ceiling Effect" : {
       "localizations" : {
@@ -8046,6 +8329,7 @@
       }
     },
     "Clean, predictable tolerance — the caffeine case, the textbook example." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8057,6 +8341,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "乾淨、可預測的耐受——咖啡因的情形，教科書式的例子。"
+          }
+        }
+      }
+    },
+    "Clean, predictable tolerance — the caffeine case." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "干净、好预测的耐受——咖啡因就是这种。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "乾淨、好預測的耐受——咖啡因就是這種。"
           }
         }
       }
@@ -10106,6 +10406,22 @@
         }
       }
     },
+    "deep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深层"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深層"
+          }
+        }
+      }
+    },
     "Default route" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10525,6 +10841,9 @@
         }
       }
     },
+    "Dissociatives" : {
+
+    },
     "Dissociatives (NMDA)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10929,6 +11248,22 @@
         }
       }
     },
+    "Don't stop beta-blockers cold after regular use — heart rate and blood pressure can rebound. Taper." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规律使用 β 受体阻滞剂后别一下子停掉——心率和血压可能反弹。要逐渐减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "規律使用 β 受體阻滯劑後別一下子停掉——心率和血壓可能反彈。要逐漸減量。"
+          }
+        }
+      }
+    },
     "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10941,6 +11276,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在使用 beta 受體阻滯劑期間，不要突然停用可樂定類藥物——可能使血壓驟升至危險水平。請緩慢減量。"
+          }
+        }
+      }
+    },
+    "Don't stop α₂-agonists cold after regular use — blood pressure can rebound. Taper." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规律使用 α₂ 激动剂后别一下子停掉——血压可能反弹。要逐渐减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "規律使用 α₂ 激動劑後別一下子停掉——血壓可能反彈。要逐漸減量。"
           }
         }
       }
@@ -11106,6 +11457,9 @@
           }
         }
       }
+    },
+    "Dopamine/noradrenaline transporter (DAT/NET)" : {
+
     },
     "Dosage" : {
       "localizations" : {
@@ -11302,6 +11656,7 @@
       }
     },
     "Dose-response tolerance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11819,6 +12174,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "例如：早晨、鍛鍊前、夜間"
+          }
+        }
+      }
+    },
+    "Each card blends these into one reading: how much of your usual dose you'd feel now, and how long until it returns if you stop." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每张卡片把这几样合成一个结果：你现在还能感受到平时剂量的多少，以及停下来后要多久才能恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每張卡片把這幾樣合成一個結果：你現在還能感受到平時劑量的多少，以及停下來後要多久才能恢復。"
+          }
+        }
+      }
+    },
+    "Each line is a mechanism recovering — a steeper climb means a faster reset." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条线是一种机制在恢复——爬得越陡，重置得越快。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條線是一種機制在恢復——爬得越陡，重置得越快。"
+          }
+        }
+      }
+    },
+    "Each line is a mechanism recovering — a steeper climb means a faster reset. Showing the first 60 days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条线是一种机制在恢复——爬得越陡，重置得越快。这里只显示前 60 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條線是一種機制在恢復——爬得越陡，重置得越快。這裡只顯示前 60 天。"
           }
         }
       }
@@ -12632,6 +13035,22 @@
         }
       }
     },
+    "Engaged layers: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "涉及的层：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "涉及的層：%@"
+          }
+        }
+      }
+    },
     "Engages 5-HT2B — the valvular-heart-disease antitarget. Chronic 5-HT2B agonism is what made fenfluramine cardiotoxic, so it is a mechanistic flag for repeated or heavy dosing." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13295,6 +13714,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不屬於以上任何類別的物質。"
+          }
+        }
+      }
+    },
+    "Everything's rested — nothing recovering right now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一切都休息好了——现在没有在恢复的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一切都休息好了——現在沒有在恢復的。"
           }
         }
       }
@@ -14002,6 +14437,7 @@
       }
     },
     "For stimulants and serotonin releasers there is no honest “tolerance %” to multiply a dose by. The slow change is a months-long recovery state of the whole system, not a take-more signal. We show that as a bounded load bar instead of a fake number — refusing to imply a dose you should escalate to." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14510,6 +14946,9 @@
         }
       }
     },
+    "GABA-A receptor" : {
+
+    },
     "GABA-A Receptor Agonist (α1-Selective)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14724,7 +15163,20 @@
       }
     },
     "Generic class-default kinetics at the lowest confidence." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "采用通用的类别默认动力学，可信度最低。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "採用通用的類別預設動力學，可信度最低。"
+          }
+        }
+      }
     },
     "Gentle sensory input (music, soft textures) can help you reconnect." : {
       "localizations" : {
@@ -15344,6 +15796,38 @@
         }
       }
     },
+    "Heavy chronic use has shifted your baseline; the deepest part recovers over months." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长期大量使用已经把你的基线压低了；最深的那部分要几个月才能恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長期大量使用已經把你的基線壓低了；最深的那部分要幾個月才能恢復。"
+          }
+        }
+      }
+    },
+    "Heavy regular use builds dependence — stopping abruptly can be dangerous. Taper." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长期大量使用会形成依赖——突然停用可能很危险。要逐渐减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長期大量使用會形成依賴——突然停用可能很危險。要逐漸減量。"
+          }
+        }
+      }
+    },
     "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part — give rescue breaths and call for help even after naloxone." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15436,6 +15920,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "苯二氮䓬累積劑量較高會損害記憶和協調能力。留在安全的地方。"
+          }
+        }
+      }
+    },
+    "high tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受高"
+          }
+        }
+      }
+    },
+    "High tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受较高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受較高"
           }
         }
       }
@@ -17785,6 +18301,22 @@
         }
       }
     },
+    "Little tolerance builds — the thing to watch is stopping suddenly." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几乎不会形成耐受——要当心的是突然停用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾乎不會形成耐受——要當心的是突然停用。"
+          }
+        }
+      }
+    },
     "Live Activity" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17970,6 +18502,22 @@
         }
       }
     },
+    "Log a few doses and your predicted tolerance shows up here. Anything you haven't taken recently counts as no tolerance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记几次剂量，你的预测耐受就会出现在这里。最近没用过的都算没耐受。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記幾次劑量，你的預測耐受就會出現在這裡。最近沒用過的都算沒耐受。"
+          }
+        }
+      }
+    },
     "Log all" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -18036,6 +18584,7 @@
       }
     },
     "Log doses of substances with receptor data and your predicted tolerance will appear here. Targets you haven't engaged recently read as fully rested." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18085,6 +18634,22 @@
     },
     "LogD" : {
 
+    },
+    "Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已经记下了，但缺少模型需要的药代动力学数据——所以这里它看不清，这和没耐受不是一回事。%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已經記下了，但缺少模型需要的藥代動力學數據——所以這裡它看不清，這和沒耐受不是一回事。%@。"
+          }
+        }
+      }
     },
     "LogP" : {
 
@@ -18807,6 +19372,22 @@
         }
       }
     },
+    "Mild tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻微耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕微耐受"
+          }
+        }
+      }
+    },
     "Milestones" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19005,6 +19586,38 @@
         }
       }
     },
+    "Model estimates from your dose log and your body weight." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型根据你的剂量记录和体重估算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型根據你的劑量記錄和體重估算。"
+          }
+        }
+      }
+    },
+    "Model estimates from your dose log, assuming a %lld kg body weight — set yours in Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型根据你的剂量记录估算，假设体重为 %lld kg——在设置里填上你自己的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型根據你的劑量記錄估算，假設體重為 %lld kg——在設定裡填上你自己的。"
+          }
+        }
+      }
+    },
     "Moderate" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -19018,6 +19631,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中等"
+          }
+        }
+      }
+    },
+    "Moderate tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等耐受"
           }
         }
       }
@@ -19333,7 +19962,24 @@
         }
       }
     },
+    "Mostly fast receptor desensitization that recovers between uses rather than a lasting change." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要是受体的快速脱敏，在两次使用之间就会恢复，而不是一种持久的变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要是受體的快速去敏感化，在兩次使用之間就會恢復，而不是一種持久的變化。"
+          }
+        }
+      }
+    },
     "Mostly fast receptor desensitization that recovers between uses rather than a lasting dose multiplier." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19678,6 +20324,9 @@
         }
       }
     },
+    "nAChR" : {
+
+    },
     "NAM" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19759,6 +20408,7 @@
       }
     },
     "Nearly recovered." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19967,7 +20617,11 @@
         }
       }
     },
+    "Nicotine" : {
+
+    },
     "Nicotine tolerance is mostly fast receptor desensitization that recovers between uses — a single “tolerance %” wouldn't capture it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20113,6 +20767,9 @@
           }
         }
       }
+    },
+    "NMDA receptor" : {
+
     },
     "NMDA Receptor Antagonist (Dissociative)" : {
       "localizations" : {
@@ -20508,6 +21165,7 @@
       }
     },
     "No single “tolerance %” fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20617,6 +21275,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無物質"
+          }
+        }
+      }
+    },
+    "no tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒耐受"
+          }
+        }
+      }
+    },
+    "No tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒耐受"
           }
         }
       }
@@ -20749,6 +21439,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "非選擇性 β-阻滯劑兼 α1 拮抗與抗氧化特性"
+          }
+        }
+      }
+    },
+    "none" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無"
           }
         }
       }
@@ -21062,6 +21768,22 @@
         }
       }
     },
+    "now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在"
+          }
+        }
+      }
+    },
     "Now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21189,6 +21911,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在此裝置上"
+          }
+        }
+      }
+    },
+    "One card per mechanism" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每种机制一张卡片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每種機制一張卡片"
           }
         }
       }
@@ -21492,6 +22230,22 @@
     },
     "Out of stock" : {
 
+    },
+    "Over days to weeks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几天到几周之间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾天到幾週之間"
+          }
+        }
+      }
     },
     "Over the next hours" : {
       "localizations" : {
@@ -22894,6 +23648,7 @@
       }
     },
     "Predicted response vs. rested: ~%lld%%" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22910,6 +23665,7 @@
       }
     },
     "Predicted, not measured" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23404,6 +24160,9 @@
         }
       }
     },
+    "Psychedelics" : {
+
+    },
     "Psychedelics (5-HT2A)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23742,7 +24501,24 @@
         }
       }
     },
+    "Real tolerance that drops after a break — which is exactly what makes returning to an old dose dangerous." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实打实的耐受，停一阵子就会掉——这正是为什么回到以前的剂量会很危险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實打實的耐受，停一陣子就會掉——這正是為什麼回到以前的劑量會很危險。"
+          }
+        }
+      }
+    },
     "Real tolerance that resets after a break — which is exactly what makes returning to an old dose dangerous." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23882,6 +24658,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "受體標靶"
+          }
+        }
+      }
+    },
+    "Receptors and enzymes adjust, and your baseline shifts down — this is the tolerance most people mean, and what the bar on each card shows. It returns once you stop, at a pace set by the receptor." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体和酶会做出调整，你的基线也往下移——大多数人说的耐受就是这种，每张卡片上那条进度条显示的也是它。你一停它就会回来，快慢由受体决定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體和酶會做出調整，你的基線也往下移——大多數人說的耐受就是這種，每張卡片上那條進度條顯示的也是它。你一停它就會回來，快慢由受體決定。"
           }
         }
       }
@@ -24030,6 +24822,38 @@
         }
       }
     },
+    "Recovers to about 90%% in %@ if you stop now, and fully over months." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果现在停用，大约 %@ 内恢复到 90%% 左右，几个月内完全恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果現在停用，大約 %@ 內恢復到 90%% 左右，幾個月內完全恢復。"
+          }
+        }
+      }
+    },
+    "Recovers to about 90%% in %@ if you stop now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果现在停用，大约 %@ 内恢复到 90%% 左右。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果現在停用，大約 %@ 內恢復到 90%% 左右。"
+          }
+        }
+      }
+    },
     "Recovery" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -24063,6 +24887,22 @@
         }
       }
     },
+    "Recovery chart" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复图"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復圖"
+          }
+        }
+      }
+    },
     "Recovery Guide" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24079,7 +24919,40 @@
         }
       }
     },
+    "Recovery if you stop now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在停用的话，恢复情况"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在停用的話，恢復情況"
+          }
+        }
+      }
+    },
+    "Recovery timescales and behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一类受体的恢复时间和表现，都是照着已发表的文献校准的。每条下面的小字是校准依据；徽章表示这些动力学数据有多可靠。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一類受體的恢復時間和表現，都是照著已發表的文獻校準的。每條下面的小字是校準依據；徽章表示這些動力學數據有多可靠。"
+          }
+        }
+      }
+    },
     "Recovery timescales and tolerance behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24112,6 +24985,7 @@
       }
     },
     "Recovery-state load" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24128,6 +25002,7 @@
       }
     },
     "Recovery-state load — not a multiplier" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24144,6 +25019,7 @@
       }
     },
     "Recovery-state load: high" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24160,6 +25036,7 @@
       }
     },
     "Recovery-state load: low" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24176,6 +25053,7 @@
       }
     },
     "Recovery-state load: moderate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25637,6 +26515,22 @@
     "Running low on %@" : {
 
     },
+    "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply, not just the receptors." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用着用着会减弱，要好几周才回得来。MDMA 这类更慢，因为它伤的是血清素的供应，不只是受体。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用著用著會減弱，要好幾週才回得來。MDMA 這類更慢，因為它傷的是血清素的供應，不只是受體。"
+          }
+        }
+      }
+    },
     "S" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26201,6 +27095,9 @@
         }
       }
     },
+    "Sedatives" : {
+
+    },
     "Sedatives & Depressants" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26696,6 +27593,9 @@
         }
       }
     },
+    "Sensitivity" : {
+
+    },
     "Sensory" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -26714,6 +27614,7 @@
       }
     },
     "Separately, a second dose the same session often lands weaker — fast desensitization (tachyphylaxis). It recovers overnight, so it's shown apart from the slow tolerance above. Chasing it with more rarely works and stacks risk." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26908,6 +27809,9 @@
           }
         }
       }
+    },
+    "Serotonin releasers" : {
+
     },
     "Serotonin releasers (SERT)" : {
       "localizations" : {
@@ -27119,6 +28023,9 @@
           }
         }
       }
+    },
+    "Serotonin transporter (SERT)" : {
+
     },
     "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)" : {
       "extractionState" : "stale",
@@ -27368,6 +28275,22 @@
         }
       }
     },
+    "Setting & a break" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "环境和中断"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "環境和中斷"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27499,6 +28422,7 @@
       }
     },
     "Shared by %@ — tolerance to one carries to the others." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28875,6 +29799,7 @@
       }
     },
     "Stimulant tolerance isn't one number you can multiply a dose by. The fast part is within a session (a redose lands weaker); the slow part is a months-long recovery state, not a “take more” signal." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29572,6 +30497,22 @@
         }
       }
     },
+    "Suppresses the enzyme that makes serotonin, so recovery takes weeks, not days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会抑制生成血清素的那种酶，所以恢复要几周，而不是几天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它會抑制生成血清素的那種酶，所以恢復要幾週，而不是幾天。"
+          }
+        }
+      }
+    },
     "Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC — an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked." : {
       "localizations" : {
         "zh-Hans" : {
@@ -29584,6 +30525,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "口服的 THC 會先經過肝臟，其中大部分被轉化為 11-羥基-THC——一種活性代謝物，它更容易進入大腦，並且與 CB1 受體的結合遠比 THC 本身更強。這就是為什麼按毫克計算，食用大麻通常比吸食同等劑量感覺更強。"
+          }
+        }
+      }
+    },
+    "synthesis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合成"
           }
         }
       }
@@ -30147,6 +31104,22 @@
         }
       }
     },
+    "The high fades with tolerance, but the load on your heart and blood pressure doesn't." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兴奋感会随耐受减弱，但对心脏和血压的负担不会。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "興奮感會隨耐受減弱，但對心臟和血壓的負擔不會。"
+          }
+        }
+      }
+    },
     "The highest concentration reached in the blood after a dose." : {
       "localizations" : {
         "zh-Hans" : {
@@ -30159,6 +31132,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一次用藥後血液中達到的最高濃度。"
+          }
+        }
+      }
+    },
+    "The idea" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原理"
           }
         }
       }
@@ -30328,6 +31317,7 @@
       }
     },
     "The slow axis here is a recovery-state indicator, not an effect multiplier." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30344,6 +31334,7 @@
       }
     },
     "The slow change here is a SERT-binding association, reversible-leaning — not proven neurotoxicity, and not a dose multiplier. It's a recovery-state indicator." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30392,6 +31383,7 @@
       }
     },
     "These are model predictions of how repeated use changes each receptor — never a measurement. Each figure carries a confidence tier." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30408,6 +31400,7 @@
       }
     },
     "These are model predictions of how repeated use changes each receptor's responsiveness — never a measurement. Tolerance is shown per mechanism, because one universal “tolerance %” is wrong for some classes (stimulants especially)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30516,6 +31509,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此計算器使用一房室口服藥動學模型,包含吸收和消除兩個階段。如有已知的持續時間資料(起效 + 上升期),則吸收速率會由此估算;否則使用預設的 4× 消除速率比。族群平均消除半衰期來源於 FDA 批准的處方資訊、已發表的藥動學研究(PubMed)、DrugBank 以及成熟的藥理學參考資料(《古德曼&吉爾曼治療學的藥理學基礎》、《Stahl 精神藥理學精要》)。部分研究化學品和新型物質的半衰期是根據結構類似的化合物估算的,可能不夠可靠。\n\n實際藥動學因個人代謝、遺傳、肝腎功能、體成分、年齡、藥物相互作用、耐受性和給藥途徑而顯著不同。多房室分布、蛋白質結合、活性代謝物和腸肝循環未被納入考慮。多藥聯用可能不可預測地改變消除速率。\n\n這些數字是族群的近似平均值 — 不能替代臨床監測或專業醫療建議。請始終諮詢合格的醫療專業人員。"
+          }
+        }
+      }
+    },
+    "This can entrench a deeper change that takes months to relax. It shows up only well past everyday or therapeutic doses — steady use doesn't reach it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这会留下一种更深的变化，要好几个月才松得下来。它只在远超日常或治疗剂量时才出现——正常用量碰不到它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會留下一種更深的變化，要好幾個月才鬆得下來。它只在遠超日常或治療劑量時才出現——正常用量碰不到它。"
           }
         }
       }
@@ -30826,6 +31835,7 @@
       }
     },
     "Three kinds of tolerance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30837,6 +31847,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "三種耐受"
+          }
+        }
+      }
+    },
+    "Three timescales" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三种时间尺度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三種時間尺度"
           }
         }
       }
@@ -31212,6 +32238,22 @@
         }
       }
     },
+    "Tolerance is partly learned in context: your body braces in a familiar place. In a new setting, or after a change in routine, that bracing doesn't fire — so the same dose hits harder than expected. With opioids especially, a dose that felt fine before can become dangerous after a break or in a new environment." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受有一部分是跟环境一起学会的：在熟悉的地方，你的身体会提前做好准备。换个新环境，或者作息一变，这种准备就不会启动——所以同样的剂量会比预想的更猛。阿片尤其要注意：以前没事的剂量，在中断之后或者换了环境之后可能变得危险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受有一部分是跟環境一起學會的：在熟悉的地方，你的身體會提前做好準備。換個新環境，或者作息一變，這種準備就不會啟動——所以同樣的劑量會比預想的更猛。鴉片尤其要注意：以前沒事的劑量，在中斷之後或者換了環境之後可能變得危險。"
+          }
+        }
+      }
+    },
     "Tolerance is shared by receptor, not by name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31554,7 +32596,24 @@
         }
       }
     },
+    "Two different drugs that hit the same receptor share tolerance. Recent LSD blunts a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance is tracked per receptor here, and why a “new” drug in the same family can still feel weak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两种不同的药只要作用在同一个受体上，就会共享耐受。最近用过 LSD 会让蘑菇的体验变弱，因为两者都作用在 5-HT2A 上；一种苯二氮䓬会带到另一种；一种阿片会带到下一种。所以这里的耐受是按受体来算的，也是为什么同一类里一种“新”药用起来还是可能很弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩種不同的藥只要作用在同一個受體上，就會共享耐受。最近用過 LSD 會讓蘑菇的體驗變弱，因為兩者都作用在 5-HT2A 上；一種苯二氮平會帶到另一種；一種鴉片會帶到下一種。所以這裡的耐受是按受體來算的，也是為什麼同一類裡一種「新」藥用起來還是可能很弱。"
+          }
+        }
+      }
+    },
     "Two different drugs that hit the same receptor share tolerance. Recent LSD lowers a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance here is tracked per receptor target, and why a “new” drug in the same family can still be blunted." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31996,6 +33055,22 @@
         }
       }
     },
+    "Use a drug repeatedly and your brain learns to expect it, then pushes back to cancel the effect — so the same dose does less. That push-back is tolerance. Stop, and it relaxes back. It's not the drug “running out”; it's your system re-balancing around it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一种药你反复用，大脑就学会了预判它，然后反过来抵消它的作用——所以同样的剂量效果就变小了。这种反向的推力就是耐受。你一停，它又会慢慢松回去。这不是药“用完了”，而是你的身体在围着它重新找平衡。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一種藥你反覆用，大腦就學會了預判它，然後反過來抵消它的作用——所以同樣的劑量效果就變小了。這種反向的推力就是耐受。你一停，它又會慢慢鬆回去。這不是藥「用完了」，而是你的身體在圍著它重新找平衡。"
+          }
+        }
+      }
+    },
     "Use a milligram scale and graduated cylinder for accuracy." : {
       "localizations" : {
         "zh-Hans" : {
@@ -32180,6 +33255,22 @@
         }
       }
     },
+    "Very high tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受很高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受很高"
+          }
+        }
+      }
+    },
     "Vial amount" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32192,6 +33283,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "瓶內總量"
+          }
+        }
+      }
+    },
+    "View as" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示方式"
           }
         }
       }
@@ -32769,6 +33876,22 @@
         }
       }
     },
+    "When you stop, that push-back is briefly left unopposed — which is why withdrawal or a comedown often feels like the mirror of the drug's effects (a stimulant's flatness, an opioid's aches)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你一停，这股反向的推力会有一阵子没了对手——所以戒断或者落差感往往像药效的镜像（兴奋剂之后的提不起劲、阿片之后的浑身酸痛）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你一停，這股反向的推力會有一陣子沒了對手——所以戒斷或者落差感往往像藥效的鏡像（興奮劑之後的提不起勁、鴉片之後的渾身痠痛）。"
+          }
+        }
+      }
+    },
     "Where the numbers come from" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32785,6 +33908,22 @@
         }
       }
     },
+    "Where you use it matters" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在哪儿用也有影响"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在哪兒用也有影響"
+          }
+        }
+      }
+    },
     "While you wait or if you just need to calm down:" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32797,6 +33936,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在等待時,或如果您只是想冷靜下來:"
+          }
+        }
+      }
+    },
+    "Why stopping can feel like the opposite" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为什么一停反而像反过来了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為什麼一停反而像反過來了"
           }
         }
       }
@@ -32833,7 +33988,24 @@
         }
       }
     },
+    "With heavy, prolonged use" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长期大量使用之后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長期大量使用之後"
+          }
+        }
+      }
+    },
     "With repeated use a receptor gets less responsive, so the same dose does less. We show it as your predicted response versus rested (≈X%). It recovers when you stop — over days to weeks depending on the receptor. This is the honest “tolerance” for opioids, psychedelics, benzodiazepines, dissociatives, and cannabis." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32849,7 +34021,24 @@
         }
       }
     },
+    "Within a session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一次使用之内"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一次使用之內"
+          }
+        }
+      }
+    },
     "Within-session redose" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33168,6 +34357,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的身體正在處理並排出該物質。"
+          }
+        }
+      }
+    },
+    "Your brain adapts to what you keep giving it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你一直用，大脑就会去适应它"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你一直用，大腦就會去適應它"
           }
         }
       }
@@ -33497,6 +34702,15 @@
         }
       }
     },
+    "α₂-adrenoceptor" : {
+
+    },
+    "α₂-agonists" : {
+
+    },
+    "α₂-agonists (clonidine)" : {
+
+    },
     "β-Adrenergic Receptor Antagonist" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33512,6 +34726,9 @@
           }
         }
       }
+    },
+    "β-adrenoceptor" : {
+
     },
     "β-Lactam Antibiotic (Cell Wall Synthesis Inhibitor)" : {
       "extractionState" : "stale",
@@ -33579,6 +34796,9 @@
           }
         }
       }
+    },
+    "μ-opioid receptor (MOR)" : {
+
     },
     "μ-Opioid Receptor (MOR) Full Agonist" : {
       "localizations" : {
