@@ -30,24 +30,30 @@ final class ToleranceState {
     @Attribute(.unique) var target: String
 
     /// Acute ln-shift `sAcute ≥ 0` — within-session tachyphylaxis (τ ≈ hours), the redose loop.
-    var sAcute: Double
+    ///
+    /// All four `s` layers carry a property-level `= 0` default (a naïve state), not just an init
+    /// default: SwiftData's automatic lightweight migration backfills *existing* rows from the
+    /// property default, and CoreData rejects an in-place migration that adds a mandatory attribute
+    /// with no default ("missing attribute values on mandatory destination attribute"). The init
+    /// default alone only covers rows created in code, not the migration of a pre-change store.
+    var sAcute: Double = 0
 
     /// Adaptive ln-shift `sAdaptive ≥ 0` — the baseline shift people mean by "tolerance"
     /// (τ ≈ days–weeks).
-    var sAdaptive: Double
+    var sAdaptive: Double = 0
 
     /// Deep ln-shift `sDeep ≥ 0` — entrenched neuroadaptation (τ ≈ months), gated off below an
     /// escalation threshold so therapeutic users never accrue it.
-    var sDeep: Double
+    var sDeep: Double = 0
 
     /// Synthesis ln-shift `sSynthesis ≥ 0` — the slow serotonin-synthesis pool (τ ≈ weeks) that only
     /// the synthesis-suppressing SERT releasers (MDMA-type entactogens) drive, so they recover on a
     /// weeks clock while the cathinone releasers reset in days (`Specs/tolerance-faithful-model.md`
     /// §3.4). `0` for every class without an active synthesis layer.
-    var sSynthesis: Double
+    var sSynthesis: Double = 0
 
     /// When this snapshot was last recomputed (the replay's "now").
-    var lastUpdated: Date
+    var lastUpdated: Date = Date.distantPast
 
     init(
         target: String,

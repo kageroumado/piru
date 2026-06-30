@@ -141,7 +141,7 @@ private nonisolated struct PsyLogFile: Codable {
     var experiences: [PsyLogExperience]
     var substanceCompanions: [PsyLogCompanion]
     var customUnits: [PsyLogCustomUnit]
-    var customSubstances: [PsyLogCustomSubstance]
+    var customSubstances: [PiruCustomSubstanceData]
     var dailyDoseItems: [PsyLogDailyDoseItem]
 
     private enum CodingKeys: String, CodingKey {
@@ -163,7 +163,7 @@ private nonisolated struct PsyLogFile: Codable {
         experiences: [PsyLogExperience],
         companions: [PsyLogCompanion],
         dailyDoseItems: [PsyLogDailyDoseItem] = [],
-        customSubstances: [PsyLogCustomSubstance] = [],
+        customSubstances: [PiruCustomSubstanceData] = [],
     ) {
         self.experiences = experiences
         self.substanceCompanions = companions
@@ -183,7 +183,7 @@ private nonisolated struct PsyLogFile: Codable {
         // substance objects. Decode whichever shape is present; treat anything
         // unparseable as empty so a malformed `customSubstances` field never
         // blocks an import that would otherwise succeed.
-        if let parsed = try? c.decodeIfPresent([PsyLogCustomSubstance].self, forKey: .customSubstances) {
+        if let parsed = try? c.decodeIfPresent([PiruCustomSubstanceData].self, forKey: .customSubstances) {
             customSubstances = parsed
         } else {
             customSubstances = []
@@ -358,13 +358,15 @@ private nonisolated struct PsyLogDailyDoseItem: Codable {
     var sortOrder: Int
 }
 
-/// Piru-native shape for a user-defined substance inside a PsyLog-format
-/// export. Mirrors ``CustomSubstanceEntry`` so Piru→Piru round-trips preserve
-/// every field — including the duration profile, which is what restores
-/// timeline-graph behaviour for substances the bundled library lacks data
-/// for. Cross-app PsyLog files typically omit this key or carry an empty
-/// string array; the file-level decoder treats both as "no customs".
-private nonisolated struct PsyLogCustomSubstance: Codable {
+/// Piru-native wire shape for a user-defined substance — part of ``PiruFile``,
+/// **not** the PsyLog format (which carries no custom substances at all). Named
+/// like its `Piru*Data` siblings. Mirrors ``CustomSubstanceEntry`` so Piru→Piru
+/// round-trips preserve every field — display name, dose ladder, duration, and
+/// half-life — which is what restores a user's personalization and the timeline
+/// graph for substances the bundled library lacks data for. A genuine PsyLog
+/// file omits this key entirely (or carries an empty string-array placeholder);
+/// the file-level decoder treats both as "no customs".
+private nonisolated struct PiruCustomSubstanceData: Codable {
     var id: UUID
     var name: String
     var category: SubstanceCategory
@@ -373,6 +375,14 @@ private nonisolated struct PsyLogCustomSubstance: Codable {
     var notes: String
     var duration: DurationProfile?
     var createdAt: Int64
+    // Personalization fields (v1.4). Optional, so synthesized `Codable` decodes
+    // them as `nil` when absent — older files and cross-app PsyLog files that
+    // never carried them still import. Previously these were *omitted entirely*
+    // from the wire shape, so a user's personal label, dose ladder, and half-life
+    // were silently dropped on every Piru→Piru round-trip and weren't backed up.
+    var displayName: String?
+    var doses: DoseRange?
+    var halfLifeMinutes: Double?
 
     @MainActor
     init(_ entry: CustomSubstanceEntry) {
@@ -384,6 +394,9 @@ private nonisolated struct PsyLogCustomSubstance: Codable {
         self.notes = entry.notes
         self.duration = entry.duration
         self.createdAt = entry.createdAt.msSince1970
+        self.displayName = entry.displayName
+        self.doses = entry.doses
+        self.halfLifeMinutes = entry.halfLifeMinutes
     }
 
     @MainActor
@@ -391,11 +404,14 @@ private nonisolated struct PsyLogCustomSubstance: Codable {
         CustomSubstanceEntry(
             id: id,
             name: name,
+            displayName: displayName,
             category: category,
             defaultRoute: defaultRoute,
             unit: unit,
             notes: notes,
+            doses: doses,
             duration: duration,
+            halfLifeMinutes: halfLifeMinutes,
             createdAt: Date(ms: createdAt),
         )
     }
@@ -497,7 +513,7 @@ private nonisolated struct PiruFile: Codable {
     var substanceColors: [PiruColorData]
     var userColors: [PiruUserColorData]
     var favorites: [PiruFavoriteData]
-    var customSubstances: [PsyLogCustomSubstance]
+    var customSubstances: [PiruCustomSubstanceData]
     /// Optional for back-compat: files written before inventory tracking omit
     /// the key, which decodes to `nil` (treated as empty). Mirrors the
     /// `id`/`saltForm` optional-on-decode pattern the dose data uses.
@@ -772,7 +788,7 @@ enum DataExportImport {
             substanceColors: colors.map { PiruColorData(substance: $0.substance, hexColor: $0.hexColor) },
             userColors: userColors.map { PiruUserColorData(hex: $0.hex, name: $0.name, createdAt: $0.createdAt.msSince1970) },
             favorites: favorites.map { PiruFavoriteData(substance: $0.substance, createdAt: $0.createdAt.msSince1970) },
-            customSubstances: customStore.all.map(PsyLogCustomSubstance.init),
+            customSubstances: customStore.all.map(PiruCustomSubstanceData.init),
             inventory: inventoryItems.map { item in
                 PiruInventoryData(
                     substance: item.substance,
@@ -1098,7 +1114,7 @@ enum DataExportImport {
 
     /// Merge imported custom substances into the store: add new ones, update
     /// same-name matches (keeping the existing row's UUID), skip exact dupes.
-    private static func importCustomSubstances(_ list: [PsyLogCustomSubstance], into customStore: CustomSubstanceStore) {
+    private static func importCustomSubstances(_ list: [PiruCustomSubstanceData], into customStore: CustomSubstanceStore) {
         var existingByName: [String: CustomSubstanceEntry] = Dictionary(
             customStore.all.map { ($0.name.lowercased(), $0) },
             uniquingKeysWith: { first, _ in first },
@@ -1111,11 +1127,14 @@ enum DataExportImport {
                 let merged = CustomSubstanceEntry(
                     id: existing.id,
                     name: incoming.name,
+                    displayName: incoming.displayName,
                     category: incoming.category,
                     defaultRoute: incoming.defaultRoute,
                     unit: incoming.unit,
                     notes: incoming.notes,
+                    doses: incoming.doses,
                     duration: incoming.duration,
+                    halfLifeMinutes: incoming.halfLifeMinutes,
                     createdAt: incoming.createdAt,
                 )
                 customStore.update(merged)

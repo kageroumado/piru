@@ -72,6 +72,7 @@ nonisolated enum StoreRecovery {
             InventoryItem.self,
             UserProfileRecord.self,
             ToleranceState.self,
+            CustomSubstanceRecord.self,
         ]
     }
 

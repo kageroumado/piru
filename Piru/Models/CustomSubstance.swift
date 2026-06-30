@@ -1,5 +1,9 @@
 import Foundation
 import Observation
+import OSLog
+import SwiftData
+
+private nonisolated let customSubstanceLogger = Logger(subsystem: "dev.yumeji.piru", category: "CustomSubstance")
 
 /// A user-defined substance, persisted as JSON in App Group UserDefaults.
 /// We intentionally avoid SwiftData here: custom substances were added to the
@@ -188,15 +192,27 @@ extension Substance {
     }
 }
 
-/// Observable singleton storing custom substances as JSON in the App Group
-/// UserDefaults. Both the main app and widget/Live-Activity extensions can
-/// read from the same suite.
+/// Observable singleton storing custom substances in the SwiftData store, so
+/// they're backed up and recovered with the rest of the user's data.
+///
+/// Backed by ``CustomSubstanceRecord`` (in `Shared/`); the value-type
+/// ``CustomSubstanceEntry`` stays the public currency so the ~15 read sites and
+/// the overlay engine are unchanged. They were *formerly* a JSON blob in
+/// App-Group `UserDefaults` (key `piru.customSubstances.v1`); ``configure(container:)``
+/// runs a one-time, verify-before-delete migration of that blob into the store.
+///
+/// A lightweight `[canonicalName.lowercased(): displayName]` map is still
+/// mirrored into the app group (``displayNameMapKey``) so the widget/Live-Activity
+/// targets can apply personal display names without reading the store.
 @Observable @MainActor
 final class CustomSubstanceStore {
     static let shared = CustomSubstanceStore()
 
-    private static let storageKey = "piru.customSubstances.v1"
     private static let appGroupID = "group.dev.yumeji.piru"
+    /// Legacy App-Group `UserDefaults` key for the pre-migration JSON blob. Read
+    /// once by ``migrateFromDefaultsIfNeeded()`` and removed after the rows are
+    /// verified in the store.
+    private static let legacyStorageKey = "piru.customSubstances.v1"
     /// Lightweight `[canonicalName.lowercased(): displayName]` map mirrored into
     /// the app group so the widget/Live-Activity targets can apply personal
     /// display names without linking the full custom-substance model.
@@ -204,54 +220,100 @@ final class CustomSubstanceStore {
 
     private(set) var all: [CustomSubstanceEntry] = []
 
-    private let defaults: UserDefaults
+    /// The SwiftData context. `nil` until ``configure(container:)`` (or
+    /// ``forTesting(context:)``) binds it — reads return empty, writes no-op.
+    private var context: ModelContext?
 
-    /// Designated init used by the shared singleton; tests use `forTesting`.
-    private init(defaults: UserDefaults) {
-        self.defaults = defaults
-        load()
+    /// Strong reference to the context's container. A `ModelContext` does **not**
+    /// keep its `ModelContainer` alive, so without this the container can be
+    /// deallocated out from under us (e.g. a test helper that builds a container,
+    /// hands us its `mainContext`, and returns) — and the next `fetch` traps.
+    private var heldContainer: ModelContainer?
+
+    /// App-group defaults, used only for the legacy-blob migration and the
+    /// widget display-name mirror — never as the substances' system of record.
+    private let mirrorDefaults: UserDefaults
+
+    private init(mirrorDefaults: UserDefaults) {
+        self.mirrorDefaults = mirrorDefaults
     }
 
     private convenience init() {
-        let suite = UserDefaults(suiteName: Self.appGroupID) ?? .standard
-        self.init(defaults: suite)
+        self.init(mirrorDefaults: UserDefaults(suiteName: Self.appGroupID) ?? .standard)
     }
 
-    /// Test-only factory that takes an explicit UserDefaults instance.
-    static func forTesting(defaults: UserDefaults) -> CustomSubstanceStore {
-        CustomSubstanceStore(defaults: defaults)
+    /// Bind to the app's shared container at launch (before any view reads
+    /// custom substances), run the one-time `UserDefaults` → store migration,
+    /// and load `all`. Idempotent.
+    func configure(container: ModelContainer) {
+        heldContainer = container
+        context = container.mainContext
+        migrateFromDefaultsIfNeeded()
+        reload()
+    }
+
+    /// Test-only factory bound to an explicit (usually in-memory) context. The
+    /// mirror/migration defaults default to a throwaway suite so tests never
+    /// touch the real App Group; migration tests pass an explicit one carrying a
+    /// seeded legacy blob. Runs the same migrate-then-load as ``configure(container:)``.
+    static func forTesting(
+        context: ModelContext,
+        mirrorDefaults: UserDefaults? = nil,
+    ) -> CustomSubstanceStore {
+        let defaults = mirrorDefaults ?? UserDefaults(suiteName: "piru.tests.\(UUID().uuidString)")!
+        let store = CustomSubstanceStore(mirrorDefaults: defaults)
+        store.heldContainer = context.container
+        store.context = context
+        store.migrateFromDefaultsIfNeeded()
+        store.reload()
+        return store
     }
 
     // MARK: - Mutations
 
     func add(_ entry: CustomSubstanceEntry) {
-        // Enforce unique lowercased names. A duplicate would later trap the
-        // import merge (which builds a `[name: entry]` dictionary via
-        // `Dictionary(_:uniquingKeysWith:)`) and the launch-time name index.
-        // Replace any existing same-named custom rather than appending a second.
-        all.removeAll { $0.name.lowercased() == entry.name.lowercased() }
-        all.append(entry)
-        sortInPlace()
-        persist()
+        guard let context else { return }
+        // Enforce unique lowercased names — replace any existing same-named
+        // custom rather than inserting a second, so lookups stay unambiguous.
+        let needle = entry.name.lowercased()
+        for record in fetchRecords() where record.name.lowercased() == needle {
+            context.delete(record)
+        }
+        context.insert(CustomSubstanceRecord(entry))
+        save()
+        reload()
     }
 
     func update(_ entry: CustomSubstanceEntry) {
-        guard let idx = all.firstIndex(where: { $0.id == entry.id }) else { return }
-        all[idx] = entry
-        sortInPlace()
-        persist()
+        guard let context else { return }
+        if let record = fetchRecords().first(where: { $0.id == entry.id }) {
+            record.apply(entry)
+        } else {
+            context.insert(CustomSubstanceRecord(entry))
+        }
+        save()
+        reload()
     }
 
     func delete(_ entry: CustomSubstanceEntry) {
-        all.removeAll { $0.id == entry.id }
-        persist()
+        guard let context else { return }
+        for record in fetchRecords() where record.id == entry.id {
+            context.delete(record)
+        }
+        save()
+        reload()
     }
 
     func delete(at offsets: IndexSet) {
-        for idx in offsets.sorted(by: >) where idx < all.count {
-            all.remove(at: idx)
+        // `all` is the sorted projection the UI renders, so offsets index it.
+        let targets = offsets.compactMap { $0 < all.count ? all[$0] : nil }
+        guard !targets.isEmpty, let context else { return }
+        let ids = Set(targets.map(\.id))
+        for record in fetchRecords() where ids.contains(record.id) {
+            context.delete(record)
         }
-        persist()
+        save()
+        reload()
     }
 
     // MARK: - Queries
@@ -303,24 +365,27 @@ final class CustomSubstanceStore {
 
     // MARK: - Persistence
 
-    private func sortInPlace() {
-        all.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    private func fetchRecords() -> [CustomSubstanceRecord] {
+        guard let context else { return [] }
+        return (try? context.fetch(FetchDescriptor<CustomSubstanceRecord>())) ?? []
     }
 
-    private func load() {
-        guard let data = defaults.data(forKey: Self.storageKey) else { return }
-        if let decoded = try? JSONDecoder().decode([CustomSubstanceEntry].self, from: data) {
-            all = decoded
-            sortInPlace()
-        }
+    private func save() {
+        try? context?.save()
     }
 
-    private func persist() {
-        if let data = try? JSONEncoder().encode(all) {
-            defaults.set(data, forKey: Self.storageKey)
-        }
-        // Mirror the personal display names into a plain [String: String] map the
-        // widget/Live-Activity targets can read without the full model.
+    /// Refresh the in-memory `all` projection from the store and re-publish the
+    /// widget display-name mirror. Called after every mutation.
+    private func reload() {
+        all = fetchRecords()
+            .map(\.asEntry)
+            .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        writeMirror()
+    }
+
+    /// Mirror the personal display names into a plain `[String: String]` map the
+    /// widget/Live-Activity targets can read without the full model.
+    private func writeMirror() {
         let displayMap = Dictionary(
             all.compactMap { entry -> (String, String)? in
                 guard let dn = entry.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty else { return nil }
@@ -328,6 +393,103 @@ final class CustomSubstanceStore {
             },
             uniquingKeysWith: { first, _ in first },
         )
-        defaults.set(displayMap, forKey: Self.displayNameMapKey)
+        mirrorDefaults.set(displayMap, forKey: Self.displayNameMapKey)
+    }
+
+    // MARK: - One-time migration off UserDefaults
+
+    /// Copy the legacy `UserDefaults` JSON blob into the store **once**, verify
+    /// every entry landed, then delete the blob. If verification fails (the
+    /// historical "SwiftData silently drops the insert" failure mode), the blob
+    /// is *kept* so the next launch retries — data is never lost to a half-done
+    /// migration. Idempotent: a no-op once the blob is gone.
+    private func migrateFromDefaultsIfNeeded() {
+        guard let context, let data = mirrorDefaults.data(forKey: Self.legacyStorageKey) else { return }
+
+        guard let entries = try? JSONDecoder().decode([CustomSubstanceEntry].self, from: data),
+              !entries.isEmpty
+        else {
+            // Empty or unreadable blob — nothing to preserve, clear it.
+            mirrorDefaults.removeObject(forKey: Self.legacyStorageKey)
+            return
+        }
+
+        var present = Set(fetchRecords().map { $0.name.lowercased() })
+        for entry in entries where !present.contains(entry.name.lowercased()) {
+            context.insert(CustomSubstanceRecord(entry))
+            present.insert(entry.name.lowercased())
+        }
+        save()
+
+        // Verify every legacy substance is now represented in the store before
+        // discarding the blob — this catches a dropped insert / failed save.
+        let stored = Set(fetchRecords().map { $0.name.lowercased() })
+        let migrated = entries.allSatisfy { stored.contains($0.name.lowercased()) }
+        if migrated {
+            mirrorDefaults.removeObject(forKey: Self.legacyStorageKey)
+            customSubstanceLogger.notice("Migrated \(entries.count, privacy: .public) custom substances from UserDefaults into the store.")
+        } else {
+            customSubstanceLogger.error("Custom-substance migration failed verification; keeping the UserDefaults blob to retry next launch.")
+        }
+    }
+}
+
+// MARK: - Record ⇄ Entry mapping
+
+/// Bridges the store-resident ``CustomSubstanceRecord`` (primitive fields, in
+/// `Shared/`) and the typed value-type ``CustomSubstanceEntry`` (the UI/overlay
+/// currency). Lives in the Piru target because it touches `DoseRange`,
+/// `DurationProfile`, and `SubstanceCategory`, which aren't in `Shared/`.
+@MainActor
+extension CustomSubstanceRecord {
+    /// Build a store record from a value-type entry (Codable sub-structs encode
+    /// to opaque JSON blobs the widget never has to decode). `@MainActor` because
+    /// `DoseRange`/`DurationProfile`/`CustomSubstanceEntry` carry main-actor-isolated
+    /// Codable conformances under the module's default isolation.
+    convenience init(_ entry: CustomSubstanceEntry) {
+        self.init(
+            id: entry.id,
+            name: entry.name,
+            displayName: entry.displayName,
+            categoryRaw: entry.category.rawValue,
+            defaultRouteRaw: entry.defaultRoute.rawValue,
+            unit: entry.unit,
+            notes: entry.notes,
+            dosesData: entry.doses.flatMap { try? JSONEncoder().encode($0) },
+            durationData: entry.duration.flatMap { try? JSONEncoder().encode($0) },
+            halfLifeMinutes: entry.halfLifeMinutes,
+            createdAt: entry.createdAt,
+        )
+    }
+
+    /// Overwrite this record's mutable fields from an edited entry. `id` is the
+    /// identity and `createdAt` is provenance — both are left untouched.
+    func apply(_ entry: CustomSubstanceEntry) {
+        name = entry.name
+        displayName = entry.displayName
+        categoryRaw = entry.category.rawValue
+        defaultRouteRaw = entry.defaultRoute.rawValue
+        unit = entry.unit
+        notes = entry.notes
+        dosesData = entry.doses.flatMap { try? JSONEncoder().encode($0) }
+        durationData = entry.duration.flatMap { try? JSONEncoder().encode($0) }
+        halfLifeMinutes = entry.halfLifeMinutes
+    }
+
+    /// The value-type projection consumed by the UI and the overlay engine.
+    var asEntry: CustomSubstanceEntry {
+        CustomSubstanceEntry(
+            id: id,
+            name: name,
+            displayName: displayName,
+            category: SubstanceCategory(rawValue: categoryRaw) ?? .other,
+            defaultRoute: RouteOfAdministration(rawValue: defaultRouteRaw) ?? .oral,
+            unit: unit,
+            notes: notes,
+            doses: dosesData.flatMap { try? JSONDecoder().decode(DoseRange.self, from: $0) },
+            duration: durationData.flatMap { try? JSONDecoder().decode(DurationProfile.self, from: $0) },
+            halfLifeMinutes: halfLifeMinutes,
+            createdAt: createdAt,
+        )
     }
 }

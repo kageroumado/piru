@@ -305,21 +305,18 @@ struct DataExportImportRoundTripTests {
 
     // MARK: Custom substances — release-blocker overlay path
 
-    /// Isolated CustomSubstanceStore backed by a per-test UserDefaults suite
-    /// — running the round-trip against `.shared` would pollute the user's
-    /// real App Group on every CI run.
-    private func makeIsolatedCustomStore() -> CustomSubstanceStore {
-        let suite = "piru.tests.\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suite)!
-        defaults.removePersistentDomain(forName: suite)
-        return CustomSubstanceStore.forTesting(defaults: defaults)
+    /// Isolated CustomSubstanceStore backed by its own in-memory store — running
+    /// the round-trip against `.shared` would pollute the user's real store.
+    private func makeIsolatedCustomStore() throws -> CustomSubstanceStore {
+        let container = try makeTestContainer()
+        return CustomSubstanceStore.forTesting(context: container.mainContext)
     }
 
     @Test
     func `Custom substances survive export → import with duration preserved`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
-        let store = makeIsolatedCustomStore()
+        let store = try makeIsolatedCustomStore()
 
         let duration = DurationProfile(
             onset: DurationRange(min: 5, max: 15),
@@ -358,7 +355,7 @@ struct DataExportImportRoundTripTests {
         #expect((customs.first?["duration"] as? [String: Any])?["peak"] != nil)
 
         // Importing into a fresh store recreates the same entry.
-        let freshStore = makeIsolatedCustomStore()
+        let freshStore = try makeIsolatedCustomStore()
         let freshContext = try ModelContext(makeTestContainer())
         try DataExportImport.importJSON(data: data, context: freshContext, customStore: freshStore)
 
@@ -372,10 +369,45 @@ struct DataExportImportRoundTripTests {
     }
 
     @Test
+    func `Custom personalization (display name, doses, half-life) survives export → import`() throws {
+        let context = try ModelContext(makeTestContainer())
+        let store = try makeIsolatedCustomStore()
+
+        store.add(CustomSubstanceEntry(
+            name: "THC",
+            displayName: "joint",
+            category: .stimulant,
+            doses: DoseRange(common: 5 ... 10, heavy: 30),
+            halfLifeMinutes: 180,
+        ))
+        context.insert(DoseEntry(
+            substance: "Caffeine",
+            amount: 100,
+            unit: "mg",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
+
+        let data = try DataExportImport.exportJSON(context: context, customStore: store)
+
+        let freshStore = try makeIsolatedCustomStore()
+        let freshContext = try ModelContext(makeTestContainer())
+        try DataExportImport.importJSON(data: data, context: freshContext, customStore: freshStore)
+
+        let imported = try #require(freshStore.all.first)
+        // These three were silently dropped by the old wire format — they're the
+        // whole point of the backup-fidelity fix.
+        #expect(imported.displayName == "joint")
+        #expect(imported.doses?.common == 5 ... 10)
+        #expect(imported.doses?.heavy == 30)
+        #expect(imported.halfLifeMinutes == 180)
+    }
+
+    @Test
     func `Re-importing the same file is idempotent (no duplicate customs)`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
-        let store = makeIsolatedCustomStore()
+        let store = try makeIsolatedCustomStore()
 
         store.add(CustomSubstanceEntry(name: "MyCustom", category: .stimulant))
         context.insert(DoseEntry(
@@ -397,7 +429,7 @@ struct DataExportImportRoundTripTests {
     func `Imported custom replaces existing entry with the same name`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
-        let store = makeIsolatedCustomStore()
+        let store = try makeIsolatedCustomStore()
 
         // Existing custom — different category and no duration.
         let preExisting = CustomSubstanceEntry(
@@ -413,7 +445,7 @@ struct DataExportImportRoundTripTests {
 
         // Build a JSON containing a different "Foo" with a duration profile.
         let exportContext = try ModelContext(makeTestContainer())
-        let sourceStore = makeIsolatedCustomStore()
+        let sourceStore = try makeIsolatedCustomStore()
         sourceStore.add(CustomSubstanceEntry(
             name: "Foo",
             category: .stimulant,
