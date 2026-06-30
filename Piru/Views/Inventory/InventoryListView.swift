@@ -88,15 +88,15 @@ private struct InventorySummaryRow: View {
     let colorMap: [String: Color]
 
     var body: some View {
-        VStack(spacing: 4) {
-            HStack(spacing: 8) {
-                SubstanceDot(name: item.substance, colorMap: colorMap)
+        VStack(spacing: 8) {
+            HStack(spacing: 10) {
+                SubstanceDot(name: item.substance, colorMap: colorMap, size: 12)
                 Text(item.displayTitle)
-                    .font(.subheadline)
+                    .font(.headline)
                     .foregroundStyle(.primary)
                     .lineLimit(1)
                 Spacer(minLength: 8)
-                StockAmountText(item: item, style: .subheadline)
+                StockAmountText(item: item, style: .headline)
             }
             if let fraction = item.fillFraction {
                 InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
@@ -143,6 +143,7 @@ struct InventoryListView: View {
                         } label: {
                             InventoryRow(item: item, colorMap: colorMap)
                         }
+                        .listRowBackground(Theme.cardBackground)
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -175,12 +176,12 @@ private struct InventoryRow: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 10) {
-                SubstanceDot(name: item.substance, colorMap: colorMap)
+                SubstanceDot(name: item.substance, colorMap: colorMap, size: 12)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(item.displayTitle)
-                        .font(.body)
+                        .font(.title3.weight(.semibold))
                         .foregroundStyle(.primary)
                         .lineLimit(1)
                     if let subtitle {
@@ -190,14 +191,13 @@ private struct InventoryRow: View {
                     }
                 }
                 Spacer(minLength: 8)
-                StockAmountText(item: item, style: .body)
+                StockAmountText(item: item, style: .title3)
             }
             if let fraction = item.fillFraction {
                 InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
             }
         }
-        .padding(.vertical, 2)
-        .listRowBackground(Theme.cardBackground)
+        .padding(.vertical, 4)
     }
 
     /// "~N doses left" when a dose size is tracked; for an Out item the last-dose
@@ -232,12 +232,12 @@ struct StockAmountText: View {
                 .font(style.weight(.semibold))
                 .foregroundStyle(status.numberColor)
         } else {
-            HStack(spacing: 3) {
-                Text(item.currentQuantity.doseFormatted)
+            HStack(alignment: .firstTextBaseline, spacing: 3) {
+                Text(item.currentQuantity.inventoryFormatted)
                     .font(style.weight(.semibold))
                     .foregroundStyle(status.numberColor)
                 Text(item.unit)
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }

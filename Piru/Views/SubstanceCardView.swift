@@ -153,7 +153,7 @@ struct SubstanceCardView: View, Equatable {
 
     private func stockHintText(_ item: InventoryItem) -> String {
         if item.stockStatus == .out { return String(localized: "Out of stock") }
-        return String(localized: "\(item.currentQuantity.doseFormatted) \(item.unit) left")
+        return String(localized: "\(item.currentQuantity.inventoryFormatted) \(item.unit) left")
     }
 
     private func routeSection(_ group: SubstanceGroup) -> some View {

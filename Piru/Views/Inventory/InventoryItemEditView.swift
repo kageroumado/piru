@@ -60,6 +60,11 @@ struct InventoryItemEditView: View {
         return options
     }
 
+    /// Dose-anchored stepper increment for this substance + the unit being edited.
+    private var stepBasis: Double? {
+        InventoryMath.referenceDose(substance: item.substance, saltForm: item.saltForm, unit: unit)
+    }
+
     init(item: InventoryItem) {
         self.item = item
         _unit = State(initialValue: item.unit)
@@ -73,34 +78,46 @@ struct InventoryItemEditView: View {
         NavigationStack {
             Form {
                 Section {
-                    Picker("Unit", selection: $unit) {
-                        ForEach(unitChoices, id: \.self) { Text($0).tag($0) }
-                    }
-                }
-
-                Section {
-                    amountField("On hand", value: $onHand)
+                    InventoryStepperRow(
+                        value: $onHand,
+                        unit: unit,
+                        stepBasis: stepBasis,
+                        unitChoices: unitChoices,
+                        onUnitChange: { unit = $0 },
+                    )
+                } header: {
+                    Text("On hand")
                 } footer: {
                     Text("The exact amount you have now. Changing it is logged as a correction.")
                 }
+                .listRowBackground(Theme.cardBackground)
 
                 Section {
-                    amountField("Baseline (100%)", value: $baseline)
+                    InventoryStepperRow(value: $baseline, unit: unit, stepBasis: stepBasis)
+                } header: {
+                    Text("Baseline (100%)")
                 } footer: {
                     Text("The amount that counts as a full supply for the bar. Set to 0 to hide the bar.")
                 }
+                .listRowBackground(Theme.cardBackground)
 
                 Section {
-                    amountField("Single dose", value: $doseSize)
+                    InventoryStepperRow(value: $doseSize, unit: unit, stepBasis: stepBasis)
+                } header: {
+                    Text("Single dose")
                 } footer: {
                     Text("Used to show how many doses you have left. Set to 0 to disable.")
                 }
+                .listRowBackground(Theme.cardBackground)
 
                 Section {
-                    amountField("Warn when below", value: $threshold)
+                    InventoryStepperRow(value: $threshold, unit: unit, stepBasis: stepBasis)
+                } header: {
+                    Text("Warn when below")
                 } footer: {
                     Text("Your remaining amount stands out once it drops below this. Set to 0 to disable.")
                 }
+                .listRowBackground(Theme.cardBackground)
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
@@ -116,18 +133,6 @@ struct InventoryItemEditView: View {
                         .accessibilityLabel("Save")
                 }
             }
-        }
-    }
-
-    private func amountField(_ label: LocalizedStringKey, value: Binding<Double>) -> some View {
-        HStack {
-            Text(label)
-            Spacer()
-            TextField("0", value: value, format: .number)
-                .keyboardType(.decimalPad)
-                .multilineTextAlignment(.trailing)
-                .frame(maxWidth: 120)
-            Text(unit).foregroundStyle(Theme.secondaryLabel)
         }
     }
 

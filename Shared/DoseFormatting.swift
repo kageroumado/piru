@@ -11,6 +11,15 @@ nonisolated extension Double {
         return trimZeros(format: "%.2f") // <1 → "0.68"
     }
 
+    /// `doseFormatted` with thousands separators — for stock figures, which run
+    /// large (a 50,000 mg jar, 124,000 IU). Same rounding tiers as
+    /// ``doseFormatted`` so it reads consistently, just grouped.
+    var inventoryFormatted: String {
+        let absV = Swift.abs(self)
+        let fraction = absV >= 100 ? 0 : (absV >= 10 ? 1 : 2)
+        return formatted(.number.precision(.fractionLength(0 ... fraction)).grouping(.automatic))
+    }
+
     private func trimZeros(format: String) -> String {
         let s = String(format: format, self)
         guard s.contains(".") else { return s }

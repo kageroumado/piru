@@ -45,10 +45,9 @@ struct InventoryItemForm: View {
 
     @State private var substanceName: String
     @State private var unit: String
-    @State private var amount: Double = 0
+    @State private var amount: Double
     @State private var useBaseline = false
     @State private var note = ""
-    @State private var showNote = false
     /// The library match for the typed name, when one was picked. `nil` for a
     /// custom (off-library) substance — still trackable, just no unit default.
     @State private var selectedSubstance: Substance?
@@ -61,6 +60,33 @@ struct InventoryItemForm: View {
         self.prefillSalt = prefillSalt
         _substanceName = State(initialValue: existingItem?.substance ?? prefillSubstance ?? "")
         _unit = State(initialValue: existingItem?.unit ?? "mg")
+        _amount = State(initialValue: Self.initialAmount(for: existingItem))
+    }
+
+    /// A restock opens pre-filled with what you last bought (the most recent
+    /// restock / initial amount), falling back to ~10 strong doses; a fresh add
+    /// starts at 0 until a substance is picked (`selectSubstance` then seeds it).
+    @MainActor
+    private static func initialAmount(for item: InventoryItem?) -> Double {
+        guard let item else { return 0 }
+        let lastBuy = item.manualEvents
+            .filter { $0.kind == .restock || $0.kind == .initial }
+            .max { $0.date < $1.date }?.amount
+        if let lastBuy, lastBuy > 0 { return lastBuy }
+        if let strong = InventoryMath.representativeStrongDose(
+            substance: item.substance, saltForm: item.saltForm, unit: item.unit,
+        ) {
+            return roundToTwoSignificantFigures(strong * 10)
+        }
+        return 0
+    }
+
+    /// Round a seed amount to two significant figures so the default reads as a
+    /// clean number (3,250 → 3,300) rather than a noisy midpoint.
+    private static func roundToTwoSignificantFigures(_ value: Double) -> Double {
+        guard value > 0 else { return value }
+        let magnitude = pow(10, floor(log10(value)) - 1)
+        return (value / magnitude).rounded() * magnitude
     }
 
     private var isRestock: Bool {
@@ -68,6 +94,26 @@ struct InventoryItemForm: View {
     }
     private var substanceFixed: Bool {
         existingItem != nil || prefillSubstance != nil
+    }
+    private var itemSalt: String? {
+        existingItem?.saltForm ?? prefillSalt
+    }
+
+    /// The dose-anchored stepper increment for this substance + unit.
+    private var stepBasis: Double? {
+        InventoryMath.referenceDose(substance: substanceName, saltForm: itemSalt, unit: unit)
+    }
+
+    /// Resolved substance name (no salt) for the nav title.
+    private var titleName: String {
+        SubstanceLibrary.lookup(substanceName)?.displayTitle ?? substanceName
+    }
+
+    /// "Restock · Caffeine" / "Track · Caffeine" / "Track Substance".
+    private var navTitle: String {
+        if isRestock { return String(localized: "Restock · \(titleName)") }
+        if substanceFixed { return String(localized: "Track · \(titleName)") }
+        return String(localized: "Track Substance")
     }
 
     /// The picker's choices, always including the currently-selected unit so a
@@ -102,7 +148,7 @@ struct InventoryItemForm: View {
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
-            .navigationTitle(isRestock ? "Restock" : "Track Substance")
+            .navigationTitle(navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -120,6 +166,8 @@ struct InventoryItemForm: View {
 
     // MARK: - Sections
 
+    /// Only the generic add-from-manager form shows a substance picker; opened
+    /// from a substance (track or restock) the substance lives in the nav title.
     @ViewBuilder
     private var substanceSection: some View {
         if !substanceFixed {
@@ -140,75 +188,62 @@ struct InventoryItemForm: View {
             } header: {
                 Text("Substance")
             }
-        } else {
-            Section {
-                LabeledContent("Substance") {
-                    Text(displaySubstance).foregroundStyle(Theme.secondaryLabel)
-                }
-            }
+            .listRowBackground(Theme.cardBackground)
         }
     }
 
-    /// Adopt a picked library substance: lock in its canonical name and default
-    /// the unit from its primary route (peptides, etc. aren't oral), which the
-    /// user can still change.
+    /// Adopt a picked library substance: lock in its canonical name, default the
+    /// unit from its primary route (peptides, etc. aren't oral), and seed the
+    /// starting amount with roughly ten strong doses — a sensible "fresh supply"
+    /// the user can adjust. Both stay user-editable.
     private func selectSubstance(_ substance: Substance) {
         selectedSubstance = substance
         substanceName = substance.name
-        let resolved = substance.unit(for: substance.defaultRoute, saltForm: prefillSalt)
+        let route = substance.defaultRoute
+        let resolved = substance.unit(for: route, saltForm: prefillSalt)
         unit = resolved.isEmpty ? "mg" : resolved
+        if amount == 0,
+           let strong = InventoryMath.representativeStrongDose(
+               substance: substance.name, saltForm: prefillSalt, unit: unit,
+           ) {
+            amount = Self.roundToTwoSignificantFigures(strong * 10)
+        }
     }
 
     private var amountSection: some View {
         Section {
-            HStack {
-                Text(isRestock ? "Amount added" : "Starting amount")
-                Spacer()
-                TextField("0", value: $amount, format: .number)
-                    .keyboardType(.decimalPad)
-                    .multilineTextAlignment(.trailing)
-                    .frame(maxWidth: 120)
-                if isRestock {
-                    Text(unit).foregroundStyle(Theme.secondaryLabel)
-                } else {
-                    Picker("", selection: $unit) {
-                        ForEach(unitChoices, id: \.self) { Text($0).tag($0) }
-                    }
-                    .labelsHidden()
-                }
-            }
+            InventoryStepperRow(
+                value: $amount,
+                unit: unit,
+                stepBasis: stepBasis,
+                unitChoices: isRestock ? nil : unitChoices,
+                onUnitChange: isRestock ? nil : { unit = $0 },
+            )
+        } header: {
+            Text(isRestock ? "Amount added" : "Starting amount")
         }
+        .listRowBackground(Theme.cardBackground)
     }
 
     private var baselineSection: some View {
         Section {
             Toggle(baselineLabel, isOn: $useBaseline)
+                .tint(Theme.accent)
         } footer: {
             Text("Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock.")
         }
+        .listRowBackground(Theme.cardBackground)
     }
 
+    /// The note field is always present; an empty note simply isn't saved.
     private var noteSection: some View {
         Section {
-            if showNote {
-                TextField("Note", text: $note, axis: .vertical)
-                    .lineLimit(1 ... 3)
-            } else {
-                Button {
-                    withAnimation { showNote = true }
-                } label: {
-                    Label("Add Note", systemImage: "text.alignleft")
-                }
-            }
+            TextField("Add note…", text: $note, axis: .vertical)
+                .lineLimit(1 ... 4)
+        } header: {
+            Text("Note")
         }
-    }
-
-    private var displaySubstance: String {
-        let resolved = SubstanceLibrary.lookup(substanceName)?.displayTitle ?? substanceName
-        if let salt = prefillSalt ?? existingItem?.saltForm, !salt.isEmpty {
-            return "\(resolved) · \(salt)"
-        }
-        return resolved
+        .listRowBackground(Theme.cardBackground)
     }
 
     // MARK: - Commit

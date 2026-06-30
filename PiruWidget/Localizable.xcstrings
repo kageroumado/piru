@@ -46,6 +46,40 @@
         }
       }
     },
+    "%@ %@ of %@ left." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %@ %@，共 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %@ %@，共 %@。"
+          }
+        }
+      }
+    },
+    "%@ left" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还剩 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還剩 %@"
+          }
+        }
+      }
+    },
     "%lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -80,6 +114,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld 個劑量"
+          }
+        }
+      }
+    },
+    "%lld left" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %lld 项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %lld 項"
           }
         }
       }
@@ -446,7 +497,20 @@
       }
     },
     "Inventory" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存"
+          }
+        }
+      }
     },
     "Last Dose" : {
       "localizations" : {
@@ -578,7 +642,20 @@
       }
     },
     "Nothing tracked" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未追踪任何物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未追蹤任何物質"
+          }
+        }
+      }
     },
     "Offset" : {
       "localizations" : {
@@ -645,7 +722,20 @@
       }
     },
     "Out" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用尽"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用盡"
+          }
+        }
+      }
     },
     "Peak" : {
       "localizations" : {

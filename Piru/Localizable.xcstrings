@@ -609,6 +609,18 @@
             "state" : "new",
             "value" : "%1$@ %2$@ of %3$@ left."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %@ %@，共 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %@ %@，共 %@。"
+          }
         }
       }
     },
@@ -858,7 +870,20 @@
       }
     },
     "%@ left" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还剩 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還剩 %@"
+          }
+        }
+      }
     },
     "%@ may feel weaker — %@ blocks the %@ it needs to work." : {
       "extractionState" : "stale",
@@ -1108,6 +1133,18 @@
             "state" : "new",
             "value" : "%1$@, %2$@ %3$@ in stock"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，库存 %@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，庫存 %@ %@"
+          }
         }
       }
     },
@@ -1118,11 +1155,36 @@
             "state" : "new",
             "value" : "%1$@, %2$@ %3$@ in stock, low"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，库存 %@ %@，偏低"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，庫存 %@ %@，偏低"
+          }
         }
       }
     },
     "%@, out of stock" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，库存用尽"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，庫存用盡"
+          }
+        }
+      }
     },
     "%@, source: %@" : {
       "localizations" : {
@@ -2324,11 +2386,36 @@
             "state" : "new",
             "value" : "~%1$lld doses · %2$@ left"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩约 %lld 次 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩約 %lld 次 · %@"
+          }
         }
       }
     },
     "~%lld doses left" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩约 %lld 次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩約 %lld 次"
+          }
+        }
+      }
     },
     "~%lld h" : {
       "localizations" : {
@@ -4235,7 +4322,20 @@
       }
     },
     "Add Inventory Item" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加库存项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增庫存項目"
+          }
+        }
+      }
     },
     "Add Item" : {
       "localizations" : {
@@ -4744,7 +4844,20 @@
       }
     },
     "Adjustment" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "校正"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "校正"
+          }
+        }
+      }
     },
     "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
       "extractionState" : "stale",
@@ -5216,7 +5329,20 @@
       }
     },
     "Amount added" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补充数量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補充數量"
+          }
+        }
+      }
     },
     "AMP-Activated Protein Kinase (AMPK) Activator" : {
       "extractionState" : "stale",
@@ -6481,7 +6607,20 @@
       }
     },
     "Baseline (100%)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基准量 (100%)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準量 (100%)"
+          }
+        }
+      }
     },
     "Be easy with yourself — profound experiences need time to settle." : {
       "localizations" : {
@@ -9474,6 +9613,23 @@
         }
       }
     },
+    "Counting" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量计数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量計數"
+          }
+        }
+      }
+    },
     "Course" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9926,7 +10082,20 @@
       }
     },
     "Custom substance — its doses count by exact name match." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义物质——其剂量按名称精确匹配计入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂物質——其劑量按名稱精確匹配計入。"
+          }
+        }
+      }
     },
     "Custom substance (no dose data)" : {
       "localizations" : {
@@ -10076,7 +10245,20 @@
       }
     },
     "Daily avg %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日均 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日均 %@"
+          }
+        }
+      }
     },
     "Daily Medications" : {
       "localizations" : {
@@ -10402,6 +10584,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天連續"
+          }
+        }
+      }
+    },
+    "Decrease" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减少"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減少"
           }
         }
       }
@@ -11721,7 +11919,20 @@
       }
     },
     "Doses in other units aren't counted." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他单位的剂量不计入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他單位的劑量不計入。"
+          }
+        }
+      }
     },
     "Doses logged before this hour are grouped with the previous day's session — so a 02:00 dose joins the night before instead of starting a new day at midnight. Set to 12 AM for classic calendar-day grouping." : {
       "extractionState" : "stale",
@@ -13474,7 +13685,20 @@
       }
     },
     "Estimated from your average daily use over the last 7 days. Shown only when you've dosed on most days, so a one-off doesn't skew it." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去 7 天的日均用量估算。仅在大多数日子都用药时显示，以免偶尔一次造成偏差。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據你過去 7 天的日均用量估算。僅在大多數日子都用藥時顯示，以免偶爾一次造成偏差。"
+          }
+        }
+      }
     },
     "Estimates based on pharmacokinetic modeling. Actual levels may vary." : {
       "localizations" : {
@@ -16005,7 +16229,20 @@
       }
     },
     "History" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "历史记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "歷史記錄"
+          }
+        }
+      }
     },
     "HMG-CoA Reductase Inhibitor (Statin)" : {
       "localizations" : {
@@ -16185,7 +16422,20 @@
       }
     },
     "How this is calculated" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何计算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何計算"
+          }
+        }
+      }
     },
     "How tolerance works" : {
       "localizations" : {
@@ -16950,6 +17200,22 @@
         }
       }
     },
+    "Increase" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加"
+          }
+        }
+      }
+    },
     "Increased anxiety and vasoconstriction — stimulants can intensify difficult trips." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17226,7 +17492,20 @@
       }
     },
     "Initial" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初始量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初始量"
+          }
+        }
+      }
     },
     "Initially classified as a serotonin reuptake enhancer, but now understood to primarily act as a full agonist at μ-opioid receptors (MOR) and δ-opioid receptors. MOR activation in the mesolimbic system produces antidepressant, anxiolytic, and analgesic effects. Also modulates glutamatergic neurotransmission and neuroplasticity in the hippocampus and amygdala." : {
       "extractionState" : "stale",
@@ -17439,7 +17718,20 @@
       }
     },
     "Inventory" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存"
+          }
+        }
+      }
     },
     "Inverse Agonist" : {
       "localizations" : {
@@ -17943,7 +18235,20 @@
       }
     },
     "last dose %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次剂量 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次劑量 %@"
+          }
+        }
+      }
     },
     "LD50 (dermal, rodent)" : {
       "localizations" : {
@@ -18883,7 +19188,20 @@
       }
     },
     "Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将此操作后的数量标记为满量，进度条便能显示你的充足程度。如果这不是一次补满，请关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將此操作後的數量標記為滿量，進度條便能顯示你的充足程度。如果這不是一次補滿，請關閉。"
+          }
+        }
+      }
     },
     "max" : {
       "localizations" : {
@@ -20966,7 +21284,20 @@
       }
     },
     "No Inventory Yet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無庫存"
+          }
+        }
+      }
     },
     "No known interactions found." : {
       "localizations" : {
@@ -21097,7 +21428,20 @@
       }
     },
     "No restocks or doses yet." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有补充或剂量记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無補充或劑量記錄。"
+          }
+        }
+      }
     },
     "No Results" : {
       "localizations" : {
@@ -21590,7 +21934,20 @@
       }
     },
     "Not tracked" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未追踪"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未追蹤"
+          }
+        }
+      }
     },
     "Note" : {
       "localizations" : {
@@ -21897,7 +22254,20 @@
       }
     },
     "On hand" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现有量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現有量"
+          }
+        }
+      }
     },
     "On This Device" : {
       "localizations" : {
@@ -22223,13 +22593,39 @@
       }
     },
     "Out" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用尽"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用盡"
+          }
+        }
+      }
     },
     "Out of %@" : {
 
     },
     "Out of stock" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "库存用尽"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存用盡"
+          }
+        }
+      }
     },
     "Over days to weeks" : {
       "localizations" : {
@@ -23269,7 +23665,20 @@
       }
     },
     "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。导入的条目会添加到你的日志中（重复项会跳过）。加密备份的恢复可以合并或替换。库存包含在 Piru 和加密备份中，但不包含在 PsychonautWiki 文件中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。匯入的條目會新增到你的日誌中（重複項會略過）。加密備份的還原可以合併或取代。庫存包含在 Piru 和加密備份中，但不包含在 PsychonautWiki 檔案中。"
+          }
+        }
+      }
     },
     "Piru Backup" : {
       "localizations" : {
@@ -25897,7 +26306,36 @@
       }
     },
     "Restock" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补充"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補充"
+          }
+        }
+      }
+    },
+    "Restock · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补充 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補充 · %@"
+          }
+        }
+      }
     },
     "Restore" : {
       "localizations" : {
@@ -26510,7 +26948,20 @@
       }
     },
     "Run-out estimate" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用尽预估"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用盡預估"
+          }
+        }
+      }
     },
     "Running low on %@" : {
 
@@ -28241,7 +28692,20 @@
       }
     },
     "Set as new baseline" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设为新基准量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設為新基準量"
+          }
+        }
+      }
     },
     "Set manually" : {
       "localizations" : {
@@ -28650,7 +29114,20 @@
       }
     },
     "Single dose" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单次剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單次劑量"
+          }
+        }
+      }
     },
     "Single dose %@ %@ · daily avg %@" : {
       "localizations" : {
@@ -28658,6 +29135,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Single dose %1$@ %2$@ · daily avg %3$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单次剂量 %@ %@ · 日均 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單次劑量 %@ %@ · 日均 %@"
           }
         }
       }
@@ -29587,7 +30076,20 @@
       }
     },
     "Starting amount" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初始数量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初始數量"
+          }
+        }
+      }
     },
     "Starting from" : {
       "localizations" : {
@@ -30986,7 +31488,20 @@
       }
     },
     "The amount that counts as a full supply for the bar. Set to 0 to hide the bar." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作为进度条满量基准的数量。设为 0 可隐藏进度条。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作為進度條滿量基準的數量。設為 0 可隱藏進度條。"
+          }
+        }
+      }
     },
     "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less." : {
       "localizations" : {
@@ -31086,7 +31601,20 @@
       }
     },
     "The exact amount you have now. Changing it is logged as a correction." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你当前的确切数量。修改后会记录为一次校正。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你目前的確切數量。修改後會記錄為一次校正。"
+          }
+        }
+      }
     },
     "The foggy feeling will clear. Give it hours, not minutes." : {
       "localizations" : {
@@ -32387,13 +32915,68 @@
 
     },
     "Track" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤"
+          }
+        }
+      }
+    },
+    "Track · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤 · %@"
+          }
+        }
+      }
     },
     "Track a Substance" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤物質"
+          }
+        }
+      }
     },
     "Track a substance to see how much you have left as you log doses." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪某种物质，随着记录剂量查看剩余用量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤某種物質，隨著記錄劑量查看剩餘用量。"
+          }
+        }
+      }
     },
     "Track active substances on your Lock Screen and Dynamic Island." : {
       "localizations" : {
@@ -32412,10 +32995,36 @@
       }
     },
     "Track how much you have on hand" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪你的现有用量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤你的現有用量"
+          }
+        }
+      }
     },
     "Track Substance" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤物質"
+          }
+        }
+      }
     },
     "Tracking started. Effects on the way." : {
       "localizations" : {
@@ -33104,7 +33713,20 @@
       }
     },
     "Use as baseline" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用作基准量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用作基準量"
+          }
+        }
+      }
     },
     "Use at least %lld characters. A phrase of several words is stronger and easier to remember than a short password." : {
       "localizations" : {
@@ -33188,7 +33810,20 @@
       }
     },
     "Used to show how many doses you have left. Set to 0 to disable." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于显示你还剩多少次剂量。设为 0 可停用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用於顯示你還剩多少次劑量。設為 0 可停用。"
+          }
+        }
+      }
     },
     "Vandrevala Foundation" : {
       "localizations" : {
@@ -33600,7 +34235,20 @@
       }
     },
     "Warn when below" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低于此值时提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低於此值時提醒"
+          }
+        }
+      }
     },
     "Weak μ-Opioid Agonist and Serotonin-Norepinephrine Reuptake Inhibitor" : {
       "extractionState" : "stale",
@@ -34263,7 +34911,20 @@
       }
     },
     "You're out of %@. Restock when you can." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的 %@ 已用尽。请尽快补充。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的 %@ 已用盡。請盡快補充。"
+          }
+        }
+      }
     },
     "You're safe. If the experience was intense, remind yourself: it's temporary." : {
       "localizations" : {
@@ -34586,7 +35247,20 @@
       }
     },
     "Your remaining amount stands out once it drops below this. Set to 0 to disable." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当剩余量低于此值时会突出显示。设为 0 可停用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當剩餘量低於此值時會突出顯示。設為 0 可停用。"
+          }
+        }
+      }
     },
     "Your serotonin receptors are returning to their normal sensitivity." : {
       "localizations" : {

@@ -39,7 +39,7 @@ struct InventoryItemDetailView: View {
                 Button {
                     navigator.present(.inventoryItemEdit(id: item.id))
                 } label: {
-                    Image(systemName: "pencil")
+                    Image(systemName: "square.and.pencil")
                 }
                 .accessibilityLabel("Edit")
             }
@@ -57,30 +57,36 @@ struct InventoryItemDetailView: View {
 
     private var headerSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 14) {
-                StockAmountText(item: item, style: .largeTitle)
+            VStack(spacing: 14) {
+                heroAmount
                     .accessibilityLabel(accessibilityAmount)
+
+                if let supplyLine = inventorySupplyLine(for: item, runOut: runOut) {
+                    VStack(spacing: 4) {
+                        Text(supplyLine)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                        if let runOut {
+                            Button {
+                                showBasisInfo = true
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "info.circle")
+                                    Text(basisLine(runOut))
+                                }
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("How this is calculated")
+                        }
+                    }
+                }
 
                 if let fraction = item.fillFraction {
                     InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
-                }
-
-                if let runOut {
-                    Text(runOutLine(runOut))
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                    HStack(spacing: 6) {
-                        Text(basisLine(runOut))
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                        Button {
-                            showBasisInfo = true
-                        } label: {
-                            Image(systemName: "info.circle").font(.caption)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("How this is calculated")
-                    }
+                        .padding(.horizontal, 4)
+                        .padding(.top, 2)
                 }
 
                 Button {
@@ -91,10 +97,33 @@ struct InventoryItemDetailView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(Theme.accent)
                 .padding(.top, 2)
             }
-            .padding(.vertical, 6)
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
+            .padding(.vertical, 8)
             .listRowBackground(Theme.cardBackground)
+        }
+    }
+
+    /// The centered hero amount — a big number with its unit, or "Out".
+    @ViewBuilder
+    private var heroAmount: some View {
+        let status = item.stockStatus
+        if status == .out {
+            Text("Out")
+                .font(.system(size: 38, weight: .bold))
+                .foregroundStyle(status.numberColor)
+        } else {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text(item.currentQuantity.inventoryFormatted)
+                    .font(.system(size: 38, weight: .bold))
+                    .foregroundStyle(status.numberColor)
+                Text(item.unit)
+                    .font(.title3.weight(.medium))
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
         }
     }
 
@@ -128,8 +157,10 @@ struct InventoryItemDetailView: View {
             } label: {
                 HistoryRowLabel(
                     glyph: "pills",
+                    tint: Theme.secondaryLabel,
                     title: String(localized: "Dose"),
-                    amount: "−\(dose.amount.doseFormatted) \(dose.unit)",
+                    amount: "−\(dose.amount.inventoryFormatted) \(dose.unit)",
+                    amountColor: Theme.secondaryLabel,
                     date: dose.timestamp,
                     note: nil,
                 )
@@ -143,8 +174,10 @@ struct InventoryItemDetailView: View {
         case let .manual(event):
             HistoryRowLabel(
                 glyph: glyph(for: event.kind),
+                tint: tint(for: event.kind),
                 title: title(for: event.kind),
                 amount: amountLabel(event),
+                amountColor: event.amount >= 0 ? .green : Theme.secondaryLabel,
                 date: event.date,
                 note: event.note,
             )
@@ -179,14 +212,10 @@ struct InventoryItemDetailView: View {
 
     // MARK: - Run-out copy
 
-    private func runOutLine(_ runOut: InventoryMath.RunOut) -> String {
-        inventoryRunOutLine(for: item, runOut: runOut)
-    }
-
     private func basisLine(_ runOut: InventoryMath.RunOut) -> String {
-        let avg = "\(runOut.dailyAvg.doseFormatted) \(item.unit)"
+        let avg = "\(runOut.dailyAvg.inventoryFormatted) \(item.unit)"
         if let size = item.doseSize, size > 0 {
-            return String(localized: "Single dose \(size.doseFormatted) \(item.unit) · daily avg \(avg)")
+            return String(localized: "Single dose \(size.inventoryFormatted) \(item.unit) · daily avg \(avg)")
         }
         return String(localized: "Daily avg \(avg)")
     }
@@ -196,6 +225,14 @@ struct InventoryItemDetailView: View {
         case .initial: "plus.circle"
         case .restock: "cart"
         case .adjustment: "slider.horizontal.3"
+        }
+    }
+
+    private func tint(for kind: ManualEvent.Kind) -> Color {
+        switch kind {
+        case .initial: Theme.accent
+        case .restock: .green
+        case .adjustment: .orange
         }
     }
 
@@ -209,7 +246,7 @@ struct InventoryItemDetailView: View {
 
     private func amountLabel(_ event: ManualEvent) -> String {
         let sign = event.amount >= 0 ? "+" : "−"
-        return "\(sign)\(abs(event.amount).doseFormatted) \(item.unit)"
+        return "\(sign)\(abs(event.amount).inventoryFormatted) \(item.unit)"
     }
 
     private var accessibilityAmount: String {
@@ -217,9 +254,9 @@ struct InventoryItemDetailView: View {
         case .out:
             String(localized: "\(item.substance), out of stock")
         case .low:
-            String(localized: "\(item.substance), \(item.currentQuantity.doseFormatted) \(item.unit) in stock, low")
+            String(localized: "\(item.substance), \(item.currentQuantity.inventoryFormatted) \(item.unit) in stock, low")
         case .ok:
-            String(localized: "\(item.substance), \(item.currentQuantity.doseFormatted) \(item.unit) in stock")
+            String(localized: "\(item.substance), \(item.currentQuantity.inventoryFormatted) \(item.unit) in stock")
         }
     }
 }
@@ -250,20 +287,22 @@ private enum HistoryRow: Identifiable {
 /// trailing signed amount).
 private struct HistoryRowLabel: View {
     let glyph: String
+    let tint: Color
     let title: String
     let amount: String
+    let amountColor: Color
     let date: Date
     let note: String?
 
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: glyph)
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(width: 18)
+                .font(.body)
+                .foregroundStyle(tint)
+                .frame(width: 26)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.subheadline)
+                    .font(.subheadline.weight(.medium))
                     .foregroundStyle(.primary)
                 if let note, !note.isEmpty {
                     Text(note)
@@ -277,8 +316,9 @@ private struct HistoryRowLabel: View {
             }
             Spacer(minLength: 8)
             Text(amount)
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.primary)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(amountColor)
+                .monospacedDigit()
         }
     }
 }

@@ -69,15 +69,25 @@ extension InventoryItem {
 
 // MARK: - Run-out formatting (shared by detail + substance card)
 
-/// One-line run-out copy: "~N doses · ~N weeks left" (dropping the doses part
-/// when no dose size is set).
+/// The one-line supply summary shown under the amount. Always surfaces the
+/// doses-left estimate when one can be made (explicit or reference dose), and
+/// appends the run-out duration when the rolling-average guard passes:
+///   "~24 doses · ~3 weeks left" / "~24 doses left" / "~3 weeks left".
+/// Returns `nil` only when nothing can be estimated (off-library, no history).
 @MainActor
-func inventoryRunOutLine(for item: InventoryItem, runOut: InventoryMath.RunOut) -> String {
-    let humanized = inventoryHumanizeDays(runOut.daysLeft)
-    if let doses = InventoryMath.dosesLeft(for: item) {
-        return String(localized: "~\(doses) doses · \(humanized) left")
+func inventorySupplyLine(for item: InventoryItem, runOut: InventoryMath.RunOut?) -> String? {
+    let doses = InventoryMath.dosesLeft(for: item)
+    if let runOut {
+        let humanized = inventoryHumanizeDays(runOut.daysLeft)
+        if let doses {
+            return String(localized: "~\(doses) doses · \(humanized) left")
+        }
+        return String(localized: "\(humanized) left")
     }
-    return String(localized: "\(humanized) left")
+    if let doses {
+        return String(localized: "~\(doses) doses left")
+    }
+    return nil
 }
 
 /// Humanize a days-left figure: `< 14` → days, `< 60` → weeks, else months.
@@ -109,6 +119,136 @@ struct InventorySupplyBar: View {
         }
         .frame(height: 6)
         .accessibilityHidden(true)
+    }
+}
+
+// MARK: - Amount stepper
+
+/// A "nice" step increment ≈10% of the current value, snapped to a 1 / 2.5 / 5 ×
+/// 10ᵏ series — the same heuristic the quick-log dose stepper uses
+/// (`DoseTray.niceStep`), so a 200,000 IU stock nudges by 25,000 while a 5 g bag
+/// nudges by 0.5.
+enum InventoryStep {
+    static func nice(for value: Double) -> Double {
+        let basis = max(abs(value), 1)
+        let raw = basis / 10
+        let magnitude = pow(10, floor(log10(raw)))
+        let normalized = raw / magnitude
+        let snapped: Double = normalized < 1.75 ? 1 : normalized < 3.75 ? 2.5 : normalized < 7.5 ? 5 : 10
+        return snapped * magnitude
+    }
+}
+
+/// The amount editor used across the inventory forms, styled to match the
+/// quick-log dose stepper: two neutral circular step buttons flanking a centered
+/// capsule field with a trailing unit. The value is a real text field, so people
+/// can nudge with `±` or type an exact figure. When `unitChoices` is supplied the
+/// unit becomes a trailing menu (the add form, where the unit isn't yet fixed);
+/// otherwise it's plain text.
+struct InventoryStepperRow: View {
+    @Binding var value: Double
+    let unit: String
+    /// A fixed dose-anchored increment basis (the substance's reference dose) so
+    /// caffeine nudges in ~5 mg regardless of the current value; falls back to a
+    /// value-relative step for off-library substances or a still-empty field.
+    var stepBasis: Double?
+    var unitChoices: [String]?
+    var onUnitChange: ((String) -> Void)?
+
+    @State private var stepTick = 0
+    @FocusState private var focused: Bool
+
+    private var step: Double {
+        if let stepBasis, stepBasis > 0 { return InventoryStep.nice(for: stepBasis) }
+        return InventoryStep.nice(for: value)
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            stepButton(systemImage: "minus") {
+                bump(to: max(0, value - step))
+            }
+            amountField
+            stepButton(systemImage: "plus") {
+                bump(to: value + step)
+            }
+        }
+        .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
+            content.scaleEffect(scale)
+        } animation: { _ in
+            .snappy(duration: 0.15)
+        }
+        .sensoryFeedback(.increase, trigger: stepTick)
+        .padding(.vertical, 4)
+    }
+
+    /// The number and its unit share a baseline so "50,000 mg" reads as one
+    /// figure; the pair is centered between the step buttons. The whole field is
+    /// tappable to type an exact amount.
+    private var amountField: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 5) {
+            TextField("0", value: $value, format: .number)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .fixedSize()
+                .font(.title2.weight(.semibold))
+                .monospacedDigit()
+                .focused($focused)
+            unitView
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 38)
+        .contentShape(Rectangle())
+        .onTapGesture { focused = true }
+    }
+
+    @ViewBuilder
+    private var unitView: some View {
+        if let unitChoices, let onUnitChange {
+            Menu {
+                ForEach(unitChoices, id: \.self) { choice in
+                    Button {
+                        onUnitChange(choice)
+                    } label: {
+                        if choice == unit {
+                            Label(choice, systemImage: "checkmark")
+                        } else {
+                            Text(choice)
+                        }
+                    }
+                }
+            } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    Text(unit)
+                    Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
+                }
+                .font(.body.weight(.medium))
+                .foregroundStyle(Theme.secondaryLabel)
+            }
+            .buttonStyle(.plain)
+        } else {
+            Text(unit)
+                .font(.body.weight(.medium))
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
+    private func stepButton(systemImage: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(.primary)
+                .frame(width: 38, height: 38)
+                .background(Color(.secondarySystemFill), in: Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(systemImage == "minus" ? "Decrease" : "Increase")
+    }
+
+    private func bump(to newValue: Double) {
+        stepTick += 1
+        // Snap to the step grid so repeated taps stay on round numbers.
+        value = (newValue / step).rounded() * step
     }
 }
 

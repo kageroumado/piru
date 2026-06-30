@@ -9,6 +9,89 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Substance inventory tracking (2026-06-30): manager, detail, restock/edit forms, stock cards, widget.
+    "Inventory": ("库存", "庫存"),
+    "No Inventory Yet": ("还没有库存", "尚無庫存"),
+    "Track a substance to see how much you have left as you log doses.": (
+        "追踪某种物质，随着记录剂量查看剩余用量。",
+        "追蹤某種物質，隨著記錄劑量查看剩餘用量。",
+    ),
+    "Track a Substance": ("追踪物质", "追蹤物質"),
+    "Track Substance": ("追踪物质", "追蹤物質"),
+    "Restock · %@": ("补充 · %@", "補充 · %@"),
+    "Track · %@": ("追踪 · %@", "追蹤 · %@"),
+    "Add Inventory Item": ("添加库存项目", "新增庫存項目"),
+    "Track how much you have on hand": ("追踪你的现有用量", "追蹤你的現有用量"),
+    "Starting amount": ("初始数量", "初始數量"),
+    "Amount added": ("补充数量", "補充數量"),
+    "Use as baseline": ("用作基准量", "用作基準量"),
+    "Set as new baseline": ("设为新基准量", "設為新基準量"),
+    "Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock.": (
+        "将此操作后的数量标记为满量，进度条便能显示你的充足程度。如果这不是一次补满，请关闭。",
+        "將此操作後的數量標記為滿量，進度條便能顯示你的充足程度。如果這不是一次補滿，請關閉。",
+    ),
+    "Custom substance — its doses count by exact name match.": (
+        "自定义物质——其剂量按名称精确匹配计入。",
+        "自訂物質——其劑量按名稱精確匹配計入。",
+    ),
+    "Restock": ("补充", "補充"),
+    "Track": ("追踪", "追蹤"),
+    "Not tracked": ("未追踪", "未追蹤"),
+    "On hand": ("现有量", "現有量"),
+    "Baseline (100%)": ("基准量 (100%)", "基準量 (100%)"),
+    "Single dose": ("单次剂量", "單次劑量"),
+    "Warn when below": ("低于此值时提醒", "低於此值時提醒"),
+    "Counting": ("剂量计数", "劑量計數"),
+    "The exact amount you have now. Changing it is logged as a correction.": (
+        "你当前的确切数量。修改后会记录为一次校正。",
+        "你目前的確切數量。修改後會記錄為一次校正。",
+    ),
+    "The amount that counts as a full supply for the bar. Set to 0 to hide the bar.": (
+        "作为进度条满量基准的数量。设为 0 可隐藏进度条。",
+        "作為進度條滿量基準的數量。設為 0 可隱藏進度條。",
+    ),
+    "Used to show how many doses you have left. Set to 0 to disable.": (
+        "用于显示你还剩多少次剂量。设为 0 可停用。",
+        "用於顯示你還剩多少次劑量。設為 0 可停用。",
+    ),
+    "Your remaining amount stands out once it drops below this. Set to 0 to disable.": (
+        "当剩余量低于此值时会突出显示。设为 0 可停用。",
+        "當剩餘量低於此值時會突出顯示。設為 0 可停用。",
+    ),
+    "History": ("历史记录", "歷史記錄"),
+    "No restocks or doses yet.": ("还没有补充或剂量记录。", "尚無補充或劑量記錄。"),
+    "Initial": ("初始量", "初始量"),
+    "Adjustment": ("校正", "校正"),
+    "Out": ("用尽", "用盡"),
+    "Out of stock": ("库存用尽", "庫存用盡"),
+    "Run-out estimate": ("用尽预估", "用盡預估"),
+    "Estimated from your average daily use over the last 7 days. Shown only when you've dosed on most days, so a one-off doesn't skew it.": (
+        "根据你过去 7 天的日均用量估算。仅在大多数日子都用药时显示，以免偶尔一次造成偏差。",
+        "根據你過去 7 天的日均用量估算。僅在大多數日子都用藥時顯示，以免偶爾一次造成偏差。",
+    ),
+    "How this is calculated": ("如何计算", "如何計算"),
+    "Daily avg %@": ("日均 %@", "日均 %@"),
+    "Single dose %@ %@ · daily avg %@": ("单次剂量 %@ %@ · 日均 %@", "單次劑量 %@ %@ · 日均 %@"),
+    "Doses in other units aren't counted.": ("其他单位的剂量不计入。", "其他單位的劑量不計入。"),
+    "last dose %@": ("上次剂量 %@", "上次劑量 %@"),
+    "~%lld doses left": ("剩约 %lld 次", "剩約 %lld 次"),
+    "~%lld doses · %@ left": ("剩约 %lld 次 · %@", "剩約 %lld 次 · %@"),
+    "%@ left": ("还剩 %@", "還剩 %@"),
+    "%@, %@ %@ in stock": ("%@，库存 %@ %@", "%@，庫存 %@ %@"),
+    "%@, %@ %@ in stock, low": ("%@，库存 %@ %@，偏低", "%@，庫存 %@ %@，偏低"),
+    "%@, out of stock": ("%@，库存用尽", "%@，庫存用盡"),
+    "Increase": ("增加", "增加"),
+    "Decrease": ("减少", "減少"),
+    "You're out of %@. Restock when you can.": (
+        "你的 %@ 已用尽。请尽快补充。",
+        "你的 %@ 已用盡。請盡快補充。",
+    ),
+    "Nothing tracked": ("未追踪任何物质", "未追蹤任何物質"),
+    "%@ %@ of %@ left.": ("剩 %@ %@，共 %@。", "剩 %@ %@，共 %@。"),
+    "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.": (
+        "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。导入的条目会添加到你的日志中（重复项会跳过）。加密备份的恢复可以合并或替换。库存包含在 Piru 和加密备份中，但不包含在 PsychonautWiki 文件中。",
+        "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。匯入的條目會新增到你的日誌中（重複項會略過）。加密備份的還原可以合併或取代。庫存包含在 Piru 和加密備份中，但不包含在 PsychonautWiki 檔案中。",
+    ),
     # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher + merged card.
     "Detail level": ("详细程度", "詳細程度"),
     "Pharmacology": ("药理学", "藥理學"),
@@ -3747,6 +3830,12 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Substance inventory tracking (2026-06-30) — strings added since last extraction.
+        "Counting",
+        "Increase",
+        "Decrease",
+        "Restock · %@",
+        "Track · %@",
         # Pharmacology card hybrid redesign (2026-06-29)
         "Detail level",
         "Pharmacology",
@@ -4524,6 +4613,13 @@ if __name__ == "__main__":
         "No active session",
         "Current Session",
         "See your current session's doses at a glance.",
+        # Inventory widget (2026-06-30) — stock readout strings the widget shows.
+        "Inventory",
+        "Nothing tracked",
+        "Out",
+        "%lld left",
+        "%@ left",
+        "%@ %@ of %@ left.",
     }
     widget_dict = {**T, **WT}
     n, added, missing = apply_translations(

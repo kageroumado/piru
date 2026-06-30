@@ -88,11 +88,58 @@ enum InventoryMath {
         return balance
     }
 
-    /// Whole doses remaining, only when a `doseSize` is set/non-zero.
-    /// Reads the cached ``InventoryItem/currentQuantity``.
+    /// Whole doses remaining. Uses the user's explicit `doseSize` when set, else
+    /// falls back to the library's reference dose for the substance — so a tracked
+    /// item shows "~N doses left" out of the box, before any "Single dose" is
+    /// entered. `nil` only for an off-library custom substance with no dose size.
+    @MainActor
     static func dosesLeft(for item: InventoryItem) -> Int? {
-        guard let size = item.doseSize, size > 0 else { return nil }
+        guard let size = effectiveDoseSize(for: item), size > 0 else { return nil }
         return Int((item.currentQuantity / size).rounded(.down))
+    }
+
+    /// The single-dose size used for "doses left": the user's `doseSize` if set,
+    /// otherwise the substance's reference dose.
+    @MainActor
+    static func effectiveDoseSize(for item: InventoryItem) -> Double? {
+        if let size = item.doseSize, size > 0 { return size }
+        return referenceDose(substance: item.substance, saltForm: item.saltForm, unit: item.unit)
+    }
+
+    /// The library's reference dose for a substance in `unit` — the anchor for
+    /// "doses left" estimates and stepper increments (so caffeine nudges in ~5 mg,
+    /// not 0.1 mg). Mirrors the quick-log tray's reference: common lower bound,
+    /// then progressively weaker fallbacks. `nil` when the unit isn't the
+    /// substance's native dosing unit (no false conversion).
+    @MainActor
+    static func referenceDose(substance: String, saltForm: String?, unit: String) -> Double? {
+        guard let match = SubstanceLibrary.lookup(substance) else { return nil }
+        let route = match.defaultRoute
+        guard let range = match.doseRange(for: route, saltForm: saltForm),
+              match.unit(for: route, saltForm: saltForm) == unit
+        else { return nil }
+        return range.common?.lowerBound
+            ?? range.light?.upperBound
+            ?? range.strong?.lowerBound
+            ?? range.threshold
+            ?? range.heavy
+    }
+
+    /// A representative "strong" dose (strong-tier midpoint, with fallbacks) — the
+    /// seed for a fresh item's amount (`10×` this). `nil` off-library.
+    @MainActor
+    static func representativeStrongDose(substance: String, saltForm: String?, unit: String) -> Double? {
+        guard let match = SubstanceLibrary.lookup(substance) else { return nil }
+        let route = match.defaultRoute
+        guard let range = match.doseRange(for: route, saltForm: saltForm),
+              match.unit(for: route, saltForm: saltForm) == unit
+        else { return nil }
+        if let strong = range.strong { return (strong.lowerBound + strong.upperBound) / 2 }
+        if let heavy = range.heavy { return heavy }
+        if let common = range.common { return common.upperBound }
+        if let light = range.light { return light.upperBound }
+        if let threshold = range.threshold { return threshold * 3 }
+        return nil
     }
 
     /// Run-out estimate from a rolling 7-day average, gated so it only shows for a
