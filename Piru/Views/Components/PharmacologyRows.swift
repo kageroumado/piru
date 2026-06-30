@@ -72,11 +72,18 @@ struct GroupedReceptorLiterature: View {
     /// Column 1 for a single-measurement receptor: name + its action concatenated into one `Text` so the
     /// dots/value/species/link columns start at the same place as the multi-row sub-rows.
     private func inlineTitle(name: String, hit: SubstanceStore.BindingHit) -> Text {
-        // Interpolating styled `Text` values (the iOS 26 replacement for the deprecated `Text + Text`)
-        // preserves each segment's own font/colour while joining them into one `Text`.
-        let nameText = Text(name).font(.subheadline.weight(.bold)).foregroundColor(.primary)
-        let actionText = label(hit).font(.caption).foregroundColor(Theme.secondaryLabel)
-        return Text("\(nameText)  \(actionText)")
+        // Build one styled `AttributedString` rather than interpolating `Text` segments: the
+        // interpolation form extracts a bogus `"%@  %@"` key into the string catalog, and `Text + Text`
+        // is deprecated in iOS 26 — the attributed run preserves each segment's font/colour with neither.
+        var title = AttributedString(name)
+        title.font = .subheadline.weight(.bold)
+        title.foregroundColor = .primary
+
+        var action = AttributedString(labelString(hit))
+        action.font = .caption
+        action.foregroundColor = Theme.secondaryLabel
+
+        return Text(title + AttributedString("  ") + action)
     }
 
     // MARK: column cells (shared by inline + sub-rows so every column lines up)
@@ -129,14 +136,21 @@ struct GroupedReceptorLiterature: View {
     /// functional distinction is dropped from the row (it lives in the help sheet) — the Kᵢ/EC₅₀/IC₅₀
     /// symbol in the value already carries it.
     private func label(_ hit: SubstanceStore.BindingHit) -> Text {
+        Text(verbatim: labelString(hit))
+    }
+
+    /// The resolved row label as a plain `String` — shared by ``label(_:)`` and the attributed
+    /// ``inlineTitle(name:hit:)`` so both render identically. "Release"/"Reuptake" and the action
+    /// display name resolve through the catalog; qualifiers and raw actions pass through verbatim.
+    private func labelString(_ hit: SubstanceStore.BindingHit) -> String {
         if let qualifier = splitTarget(hit.target).qualifier {
-            return Text(verbatim: qualifier)
+            return qualifier
         }
         switch BindingAction(rawValue: hit.action) {
-        case .releasingAgent: return Text("Release")
-        case .reuptakeInhibitor: return Text("Reuptake")
-        case let .some(action): return Text(action.displayName)
-        case .none: return Text(verbatim: hit.action)
+        case .releasingAgent: return String(localized: "Release")
+        case .reuptakeInhibitor: return String(localized: "Reuptake")
+        case let .some(action): return String(localized: action.displayName)
+        case .none: return hit.action
         }
     }
 }
