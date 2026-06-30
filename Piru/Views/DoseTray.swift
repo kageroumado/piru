@@ -636,9 +636,6 @@ struct DoseTrayView: View {
         .frame(maxWidth: 180, alignment: .leading)
     }
 
-    /// Inline location options, Calendar-style: current location, the last
-    /// few places, and a row that opens the full search sheet. Selection
-    /// collapses the panel.
     // MARK: Commit
 
     private var commitButton: some View {

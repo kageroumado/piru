@@ -1565,7 +1565,13 @@ struct TimelineGraphView: View, Equatable {
     /// by the fill path, which has already moved to the baseline start).
     private func addSmoothCurve(_ pts: [CGPoint], to path: inout Path, startNew: Bool) {
         guard pts.count >= 2 else {
-            if let p = pts.first { startNew ? path.move(to: p) : path.addLine(to: p) }
+            if let p = pts.first {
+                if startNew {
+                    path.move(to: p)
+                } else {
+                    path.addLine(to: p)
+                }
+            }
             return
         }
         let n = pts.count

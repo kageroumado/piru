@@ -164,10 +164,16 @@ func formatNm(_ value: Double) -> String {
 /// Shared by the grouped receptor-literature rows and the class-hero panels so values read identically.
 /// The subscript symbols and SI units are universal, so the string is rendered verbatim (no localization).
 func concLabel(kiNm: Double?, ec50Nm: Double?, ic50Nm: Double?) -> String {
-    let (symbol, value): (String, Double?) = if let ki = kiNm { ("Kᵢ", ki) }
-    else if let ec = ec50Nm { ("EC₅₀", ec) }
-    else if let ic = ic50Nm { ("IC₅₀", ic) }
-    else { ("", nil) }
+    let (symbol, value): (String, Double?) =
+        if let ki = kiNm {
+            ("Kᵢ", ki)
+        } else if let ec = ec50Nm {
+            ("EC₅₀", ec)
+        } else if let ic = ic50Nm {
+            ("IC₅₀", ic)
+        } else {
+            ("", nil)
+        }
     guard let value else { return "—" }
     if value < 1_000 { return "\(symbol) \(formatNm(value)) nM" }
     let micromolar = value / 1_000

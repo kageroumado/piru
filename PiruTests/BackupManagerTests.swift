@@ -3,15 +3,16 @@ import SwiftData
 import Testing
 @testable import Piru
 
+// Serialized: every export writes the same fixed temp filename
+// (DataExportImport.exportFilename) through the shared BackupManager, so
+// concurrent tests clobber each other's file between export and restore —
+// which surfaces as a spurious `.decryptionFailed` (different salt/key).
+///
 /// Integration tests for the encrypted-backup round-trip: export → encrypt →
 /// restore → verify. The passphrase path needs no iCloud or Keychain, so it
 /// runs cleanly in the test environment. This also proves backups carry the
 /// full Piru-native fidelity (sessions, per-dose location, background flag,
 /// tags, favourites) and that a wrong passphrase never destroys data.
-// Serialized: every export writes the same fixed temp filename
-// (DataExportImport.exportFilename) through the shared BackupManager, so
-// concurrent tests clobber each other's file between export and restore —
-// which surfaces as a spurious `.decryptionFailed` (different salt/key).
 @Suite("BackupManager — round-trip", .serialized)
 @MainActor
 struct BackupManagerRoundTripTests {
@@ -49,7 +50,7 @@ struct BackupManagerRoundTripTests {
 
         // The encrypted file must not contain readable plaintext.
         let raw = try Data(contentsOf: url)
-        #expect(!String(decoding: raw, as: UTF8.self).contains("MDMA"))
+        #expect(String(bytes: raw, encoding: .utf8)?.contains("MDMA") != true)
 
         try DataExportImport.deleteAll(context: context)
         try context.save()

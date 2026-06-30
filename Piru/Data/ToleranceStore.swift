@@ -371,12 +371,6 @@ final class ToleranceStore {
         let substance: String
         let amountMg: Double?
         let timestamp: Date
-
-        init(substance: String, amountMg: Double?, timestamp: Date) {
-            self.substance = substance
-            self.amountMg = amountMg
-            self.timestamp = timestamp
-        }
     }
 
     /// Replay a SwiftData dose log into per-target tolerance state. Thin `@MainActor` adapter over the

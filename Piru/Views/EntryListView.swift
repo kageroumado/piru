@@ -365,8 +365,6 @@ struct EntryListView: View {
 
     // MARK: - Header Controls
 
-    /// Grouping picker as a plain toolbar item — the system bar supplies the
-    /// glass capsule, so the label is just text + chevron.
     // MARK: - Tag Chip Bar
 
     private var tagChipBar: some View {

@@ -72,7 +72,7 @@ struct PDModelToleranceTests {
     }
 
     @Test
-    func `Clustered occupancy builds more shift than spaced; idle relaxes it`() throws {
+    func `Clustered occupancy builds more shift than spaced; idle relaxes it`() {
         let dt = 30.0
         let p = ReceptorClasses.parameters(for: .psychedelic5HT2A)
         let daily = Self.occupancySeries(days: 14, dtMinutes: dt, peak: 0.3, activeHours: 10, everyDays: 1)

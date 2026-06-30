@@ -1428,7 +1428,9 @@ final class SubstanceStore {
            let value = reference(oral) {
             return value
         }
-        for row in rows where reference(row) != nil { return reference(row) }
+        for row in rows where reference(row) != nil {
+            return reference(row)
+        }
         return nil
     }
 

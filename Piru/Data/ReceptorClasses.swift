@@ -245,7 +245,9 @@ nonisolated enum ReceptorClasses {
         let safetyEndpoint: SafetyEndpoint?
 
         /// Whether the class has a meaningful within-session acute (redose) pool.
-        var hasAcutePool: Bool { acuteShiftMax > 0 }
+        var hasAcutePool: Bool {
+            acuteShiftMax > 0
+        }
     }
 
     /// The curated right-shift parameters for a class — the **Stage B** literature-anchored table
