@@ -72,9 +72,11 @@ struct GroupedReceptorLiterature: View {
     /// Column 1 for a single-measurement receptor: name + its action concatenated into one `Text` so the
     /// dots/value/species/link columns start at the same place as the multi-row sub-rows.
     private func inlineTitle(name: String, hit: SubstanceStore.BindingHit) -> Text {
-        Text(name).font(.subheadline.weight(.bold)).foregroundColor(.primary)
-            + Text(verbatim: "  ")
-            + label(hit).font(.caption).foregroundColor(Theme.secondaryLabel)
+        // Interpolating styled `Text` values (the iOS 26 replacement for the deprecated `Text + Text`)
+        // preserves each segment's own font/colour while joining them into one `Text`.
+        let nameText = Text(name).font(.subheadline.weight(.bold)).foregroundColor(.primary)
+        let actionText = label(hit).font(.caption).foregroundColor(Theme.secondaryLabel)
+        return Text("\(nameText)  \(actionText)")
     }
 
     // MARK: column cells (shared by inline + sub-rows so every column lines up)
