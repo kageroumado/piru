@@ -243,6 +243,63 @@ struct ToleranceCalibrationTests {
         )
     }
 
+    /// A **PK-less** psychedelic surrogate (5-HT2A agonist, dose ladder only) — e.g. 4-AcO-DMT. The
+    /// Stage D fallback models it as the Psilocin representative.
+    static func pkLessPsychedelic(name: String = "RC-Psychedelic", referenceDoseMg: Double?) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
+            targets: [
+                .init(target: "5-HT2A", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
+            ],
+        )
+    }
+
+    /// PK-complete **Psilocin** representative (5-HT2A agonist) — `classRepresentative[.psychedelic5HT2A]`.
+    static func psilocin(referenceDoseMg: Double) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: "Psilocin",
+            molarMassGramsPerMole: 204, vdLPerKg: 4, bioavailabilityFraction: 0.5,
+            bioavailabilityConfidence: .high, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: 120, vdConfidence: .high, referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
+            targets: [
+                .init(target: "5-HT2A", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
+    /// A **PK-less** dissociative surrogate (NMDA channel blocker, dose ladder only). Fallback → Ketamine.
+    static func pkLessDissociative(name: String = "RC-Dissociative", referenceDoseMg: Double?) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: name,
+            molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
+            targets: [
+                .init(target: "NMDA", action: .channelBlocker, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
+            ],
+        )
+    }
+
+    /// PK-complete **Ketamine** representative (NMDA channel blocker) — `classRepresentative[.nmdaAntagonist]`.
+    static func ketamine(referenceDoseMg: Double) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: "Ketamine",
+            molarMassGramsPerMole: 238, vdLPerKg: 2.5, bioavailabilityFraction: 0.2,
+            bioavailabilityConfidence: .high, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: 180, vdConfidence: .high, referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
+            targets: [
+                .init(target: "NMDA", action: .channelBlocker, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
     /// `days` once-daily doses of `substance`, the most recent ending `endingHoursBeforeNow` before
     /// the supplied reference instant.
     static func dailyDoses(
@@ -383,8 +440,8 @@ struct ToleranceCalibrationTests {
 
         // Respiratory ln-shift = log(safetyShiftFactor); analgesic ln-shift = the adaptive layer (its
         // τ-20 d partner of the τ-10 d respiratory adaptive).
-        let respiratoryCessation = Foundation.log(try #require(cessation.safetyShiftFactor))
-        let respiratoryAfter = Foundation.log(try #require(recovered.safetyShiftFactor))
+        let respiratoryCessation = try Foundation.log(#require(cessation.safetyShiftFactor))
+        let respiratoryAfter = try Foundation.log(#require(recovered.safetyShiftFactor))
         #expect(cessation.sAdaptive > 0)
         #expect(respiratoryCessation > 0)
 
@@ -401,7 +458,7 @@ struct ToleranceCalibrationTests {
     func `Stimulant high tolerizes while the cardiovascular endpoint does not`() throws {
         // A looser Kᵢ gives a moderate representative occupancy, so responseFraction is a sensitive
         // gauge of the right-shift (the tight-Kᵢ default saturates the gauge ≈1 regardless of S).
-        let params = ["TestStimulant": Self.stimulant(referenceDoseMg: 60, halfMaxNanomolar: 2500)]
+        let params = ["TestStimulant": Self.stimulant(referenceDoseMg: 60, halfMaxNanomolar: 2_500)]
         // Heavy escalated dosing (5× the heavy ceiling) daily 90 d → the high tolerizes (deep engages),
         // so the user feels less than the naïve effect; the pressor endpoint never tolerizes.
         let states = ToleranceStore.simulate(
@@ -461,6 +518,39 @@ struct ToleranceCalibrationTests {
         #expect(!incomplete.contains("RC-Benzo"))
     }
 
+    @Test
+    func `A PK-less psychedelic still accrues 5-HT2A tolerance, modeled as the Psilocin representative`() throws {
+        // 4-AcO-DMT-style: a 5-HT2A agonist with a dose ladder but no PK. Without a representative it
+        // was stranded in "can't predict yet"; Psilocin now stands in for it.
+        let params = [
+            "RC-Psychedelic": Self.pkLessPsychedelic(referenceDoseMg: 30),
+            "Psilocin": Self.psilocin(referenceDoseMg: 20),
+        ]
+        let doses = Self.dailyDoses("RC-Psychedelic", mg: 30, days: 5)
+        let states = ToleranceStore.simulate(doses: doses, params: params, now: Self.now, weightKg: 70)
+        let psychedelic = try #require(states[.psychedelic5HT2A])
+        #expect(psychedelic.responseFraction < 1)
+        #expect(psychedelic.shiftFactor > 1)
+        #expect(psychedelic.confidence == .unverified)
+        #expect(psychedelic.contributors == ["RC-Psychedelic"])
+        #expect(!ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now).contains("RC-Psychedelic"))
+    }
+
+    @Test
+    func `A PK-less dissociative still accrues NMDA tolerance, modeled as the Ketamine representative`() throws {
+        let params = [
+            "RC-Dissociative": Self.pkLessDissociative(referenceDoseMg: 100),
+            "Ketamine": Self.ketamine(referenceDoseMg: 150),
+        ]
+        let doses = Self.dailyDoses("RC-Dissociative", mg: 100, days: 5)
+        let states = ToleranceStore.simulate(doses: doses, params: params, now: Self.now, weightKg: 70)
+        let nmda = try #require(states[.nmdaAntagonist])
+        #expect(nmda.responseFraction < 1)
+        #expect(nmda.confidence == .unverified)
+        #expect(nmda.contributors == ["RC-Dissociative"])
+        #expect(!ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now).contains("RC-Dissociative"))
+    }
+
     // MARK: - 11. Dose-fraction sanity: surrogate at the heavy ceiling ≈ the representative at its own
 
     @Test
@@ -518,7 +608,7 @@ struct ToleranceCalibrationTests {
     // MARK: - 13. No representative ⇒ stays incomplete, builds nothing
 
     @Test
-    func `A PK-less substance whose class has no representative builds nothing and stays incomplete`() throws {
+    func `A PK-less substance whose class has no representative builds nothing and stays incomplete`() {
         // CB1 has no class representative, so the fallback can't model it.
         let params = ["RC-Cannabinoid": Self.pkLessCannabinoid(referenceDoseMg: 10)]
         let doses = Self.dailyDoses("RC-Cannabinoid", mg: 20, days: 14)
@@ -666,7 +756,7 @@ struct ToleranceCalibrationTests {
     // MARK: - 20b. A PK-less adrenergic is NOT surfaced as incomplete tolerance data (§3.5 intent)
 
     @Test
-    func `A PK-less adrenergic builds no card and is not listed as incomplete tolerance data`() throws {
+    func `A PK-less adrenergic builds no card and is not listed as incomplete tolerance data`() {
         // Mirrors the real bundled-DB state: clonidine/propranolol have adrenergic targets but no molar
         // mass, so canComputeOccupancy is false and there is no class representative. Unlike a PK-less
         // benzo/opioid (which the fallback models) or a PK-less cannabinoid (honestly "can't predict

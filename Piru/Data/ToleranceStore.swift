@@ -119,6 +119,11 @@ final class ToleranceStore {
         .muOpioid: "Morphine",
         .catecholamineStimulant: "Amphetamine",
         .serotonergicReleaser: "MDMA",
+        // 4-AcO-DMT, 2C-E, 4-HO-MET and most research psychedelics/dissociatives ship a dose ladder
+        // but no full PK, so they need a stand-in too. Psilocin (oral F/Vd/t½ all known) is the
+        // 5-HT2A psychedelic representative; Ketamine the NMDA dissociative one.
+        .psychedelic5HT2A: "Psilocin",
+        .nmdaAntagonist: "Ketamine",
     ]
 
     /// Oral **morphine-milligram-equivalent** factors (CDC 2022, §3.1) — morphine-mg per 1 mg of the
@@ -525,9 +530,9 @@ final class ToleranceStore {
         // antagonist onboard lowers μ-opioid tolerance development, etc.
         var modulatorsByClass: [ReceptorClasses.ReceptorClass: [ModulatorContributor]] = [:]
 
-        /// The PK + occupancy prefactor a substance's pharmacology resolves to for one dose, plus the
-        /// most-potent surviving engagement per class — the modulator-presence driver the direct path
-        /// reuses. `nil` when the source can't compute occupancy.
+        // The PK + occupancy prefactor a substance's pharmacology resolves to for one dose, plus the
+        // most-potent surviving engagement per class — the modulator-presence driver the direct path
+        // reuses. `nil` when the source can't compute occupancy.
         struct DoseExposure {
             let ke: Double
             let ka: Double
