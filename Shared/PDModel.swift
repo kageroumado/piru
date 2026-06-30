@@ -95,9 +95,17 @@ enum PDModel {
     /// Equals `1` at `S = 1` (naïve), decreasing as `S` grows; at low representative occupancy it is
     /// ≈ `1/S`. This is the honest 5-bucket gauge's continuous source — a saturating output, not a
     /// false percentage.
+    ///
+    /// **Saturation cap.** The representative occupancy is clamped to `0.5` (the half-saturation /
+    /// ED50 point) before forming `r`. Past half-saturation the receptor is nearly full, so
+    /// right-shifting the dose barely moves *occupancy* — which would hide real tolerance for a drug
+    /// that saturates its target at a normal dose (a monoamine releaser at DAT is the worst case:
+    /// occupancy ≈ 1, so without the cap a meaningful `S` reads as "no tolerance"). The felt effect,
+    /// though, tolerizes regardless; evaluating at the steepest, most sensitive part of the curve is
+    /// the faithful reading. Below half-saturation nothing changes.
     nonisolated static func responseFraction(shiftFactor: Double, representativeOccupancy: Double) -> Double {
         guard shiftFactor > 0 else { return 1 }
-        let occupancy = max(0, min(0.999_999, representativeOccupancy))
+        let occupancy = max(0, min(0.5, representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
         return max(0, min(1, (ratio + 1) / (ratio + shiftFactor)))
     }
@@ -125,7 +133,9 @@ enum PDModel {
         var low = 0.0
         var high = 1.0
         // Expand the bracket until S(high) is below the target (cap ~5 years of minutes).
-        while shiftAt(high) > targetShift, high < 2_628_000 { high *= 2 }
+        while shiftAt(high) > targetShift, high < 2_628_000 {
+            high *= 2
+        }
         if shiftAt(high) > targetShift { return high }
         for _ in 0 ..< 60 {
             let mid = (low + high) / 2
