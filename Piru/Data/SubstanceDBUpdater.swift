@@ -174,6 +174,28 @@ final class SubstanceDBUpdater {
         state = .idle
     }
 
+    /// Launch-recovery: delete a corrupt / half-applied updated DB — the SQLite
+    /// file, its manifest, and any leftover `-wal`/`-shm` siblings — so the next
+    /// open falls back to the bundled DB. `static` so ``SubstanceStore`` can call
+    /// it during its own `init`, before any updater instance exists. Best-effort:
+    /// a missing file is fine, and a failed delete is logged but not fatal.
+    static func quarantineAppliedDB() {
+        let fm = FileManager.default
+        let targets = [
+            appliedSQLiteURL,
+            URL(fileURLWithPath: appliedSQLiteURL.path + "-wal"),
+            URL(fileURLWithPath: appliedSQLiteURL.path + "-shm"),
+            appliedManifestURL,
+        ]
+        for url in targets where fm.fileExists(atPath: url.path) {
+            do {
+                try fm.removeItem(at: url)
+            } catch {
+                updaterLogger.error("quarantineAppliedDB: failed to remove \(url.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            }
+        }
+    }
+
     // MARK: - Internals
 
     private func fetchRemoteManifestData() async throws -> Data {

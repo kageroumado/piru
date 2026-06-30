@@ -104,7 +104,16 @@ final class SubstanceStore {
 
     /// Cached resolved substances keyed by canonical name (case-insensitive).
     /// Cleared when the user changes source priority.
-    private var resolvedCache: [String: Substance] = [:]
+    ///
+    /// `@ObservationIgnored`: this (and every cache below) is internal
+    /// memoization, not observable UI state. It is filled *lazily inside a
+    /// getter* (``resolveSubstance``), so without this a SwiftUI body that read
+    /// the getter while the cache was cold would write an observed property
+    /// mid-`body` — the AttributeGraph `precondition_failure` crash seen in the
+    /// `HalfLifeCalculatorView` → `lookup` path. The sole *observable* input the
+    /// resolved values derive from is ``enabledSourceOrder``; the body-reachable
+    /// getters read it explicitly so source-priority changes still re-render.
+    @ObservationIgnored private var resolvedCache: [String: Substance] = [:]
 
     /// Substance row id → resolved molar mass (`molecular_weight`). Backs the lean
     /// ``molarMass(forSubstanceName:)`` so the tolerance/PD engine can read one
@@ -112,7 +121,7 @@ final class SubstanceStore {
     /// decode) per dosed substance. Source-independent (the column is fixed for the
     /// DB's lifetime), so unlike `resolvedCache` it is *not* cleared on a source
     /// reorder; it is naturally discarded when the store is rebuilt for a DB update.
-    var molarMassByID: [Int64: Double?] = [:]
+    @ObservationIgnored var molarMassByID: [Int64: Double?] = [:]
 
     /// Memoized ``pharmacologyParameters(forSubstanceName:)`` per substance name.
     /// The tolerance recompute resolves params for *every* unique dosed substance
@@ -123,24 +132,24 @@ final class SubstanceStore {
     /// DB row (by `substance_id`, no source-priority or overlay), stable for the
     /// DB's lifetime — so it is *not* cleared on a source reorder and is discarded
     /// naturally when the store is rebuilt for a DB update.
-    var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
+    @ObservationIgnored var pharmacologyParamsByName: [String: PharmacologyParameters] = [:]
 
     /// Cached `all`/`substances(in:)` results. Resolving 1600+ substances
     /// individually on every view body invalidation is what was making the
     /// Library tab feel laggy on entry. Cleared in lockstep with
     /// `resolvedCache`.
-    private var allCache: [Substance]?
-    private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
-    private var nonEmptyCategoriesCache: [SubstanceCategory]?
+    @ObservationIgnored private var allCache: [Substance]?
+    @ObservationIgnored private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
+    @ObservationIgnored private var nonEmptyCategoriesCache: [SubstanceCategory]?
     /// Browse-category histogram — every category (primary + curated
     /// `extraBrowseCategories`) a browse-surfacing substance lands in, with its
     /// count. Drives the Library cards' counts and the `nonEmptyCategories` /
     /// `browsable` gating without per-category `.filter` passes over `all`.
     /// Built in one bucketing sweep; invalidated in lockstep with `allCache`.
-    private var categorySummaryCache: [SubstanceCategory: Int]?
+    @ObservationIgnored private var categorySummaryCache: [SubstanceCategory: Int]?
     /// Benzodiazepine diazepam-equivalences for the converter tool — one batched
     /// query, cached after first load. Cleared with the other source-derived caches.
-    private var benzoEquivalenceCache: [BenzoEquivalence]?
+    @ObservationIgnored private var benzoEquivalenceCache: [BenzoEquivalence]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -148,20 +157,20 @@ final class SubstanceStore {
     /// routes/dose-ranges, durations, half-life, aliases) **without** the heavy
     /// per-substance `resolveSubstance` SQL (mechanism, bindings, chem identity).
     /// Built lazily on first access; invalidated in lockstep with `allCache`.
-    private var batchByName: [String: Substance]?
+    @ObservationIgnored private var batchByName: [String: Substance]?
 
     /// Row id → lightweight `Substance`, derived from the batch cache. Lets
     /// ``search(_:limit:)`` resolve its ranked ids from the warm cache instead of
     /// running the heavy per-substance ``resolveSubstance`` (≈21 SQL each) for
     /// every one of up to `limit` results — which made each settled keystroke
     /// fire ~1k SQL queries on the main actor. Invalidated with `batchByName`.
-    private var batchByID: [Int64: Substance]?
+    @ObservationIgnored private var batchByID: [Int64: Substance]?
 
     /// The in-flight (or finished) off-main prefill of `allCache` started in
     /// `init`. ``ensureAllLoaded()`` awaits it so the journal derive resolves
     /// from the batch cache (dict hits) instead of paying ~50 cold heavy reads
     /// on the main actor at launch.
-    private var prewarmTask: Task<Void, Never>?
+    @ObservationIgnored private var prewarmTask: Task<Void, Never>?
 
     /// All substance canonical names (lowercased) → row id. Built once at
     /// startup so `lookup` / `lookupByNameOrAlias` / `search` don't pay the
@@ -175,19 +184,52 @@ final class SubstanceStore {
     /// factsheets" rather than the raw slug "tripsit".
     private var sourceDisplayNames: [String: String] = [:]
 
+    /// The bundled substances DB the app shipped with. A missing resource is a
+    /// build/packaging error — it is byte-identical for every install, so it
+    /// can't be the device-specific launch crash; `fatalError` here asserts a
+    /// true invariant (and would surface immediately in development).
+    static func bundledSubstancesDBURL() -> URL {
+        guard let bundleURL = Bundle.main.url(forResource: "piru-substances", withExtension: "sqlite") else {
+            fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `python3 pipeline/build/sqlite.py` and add the result to the Piru target.")
+        }
+        return bundleURL
+    }
+
     /// Picks the SQLite file to open at launch. Prefers an opt-in updated
     /// copy in `Documents/` (sha256-verified at install time by
     /// ``SubstanceDBUpdater``) and falls back to the bundled resource the app
-    /// shipped with.
+    /// shipped with. The init recovers if the chosen file turns out to be
+    /// unopenable (see ``init(substancesDBURL:userPrefsDBURL:prewarmsAllCache:)``).
     static func resolveSubstancesDBURL() -> URL {
         let applied = SubstanceDBUpdater.appliedSQLiteURL
         if FileManager.default.fileExists(atPath: applied.path) {
             return applied
         }
-        guard let bundleURL = Bundle.main.url(forResource: "piru-substances", withExtension: "sqlite") else {
-            fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `python3 pipeline/build/sqlite.py` and add the result to the Piru target.")
+        return bundledSubstancesDBURL()
+    }
+
+    /// Open the writable user-prefs DB, recovering from on-disk corruption. The
+    /// prefs DB holds only source priorities / profile / overrides — all
+    /// re-seedable from bundled defaults — so a corrupt file or a bad leftover
+    /// `-wal`/`-shm` (commonly left when the app is killed mid-write) is deleted
+    /// and recreated rather than crashing the app at launch. Only a failure to
+    /// create even a *fresh* store stays fatal (a genuinely broken sandbox).
+    private static func openUserPrefs(at url: URL, configuration: Configuration) -> DatabaseQueue {
+        do {
+            return try DatabaseQueue(path: url.path, configuration: configuration)
+        } catch {
+            logger.error("user-prefs DB unopenable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); recreating from bundled defaults")
+            let fm = FileManager.default
+            let siblings = [url, URL(fileURLWithPath: url.path + "-wal"), URL(fileURLWithPath: url.path + "-shm")]
+            for sibling in siblings where fm.fileExists(atPath: sibling.path) {
+                try? fm.removeItem(at: sibling)
+            }
+            do {
+                return try DatabaseQueue(path: url.path, configuration: configuration)
+            } catch {
+                fatalError("Failed to recreate user-prefs DB at \(url.path): \(error)")
+            }
         }
-        return bundleURL
     }
 
     /// Designated initializer — the testability seam. Tests construct an
@@ -215,30 +257,49 @@ final class SubstanceStore {
         var bundleConfig = Configuration()
         bundleConfig.readonly = true
         bundleConfig.label = "piru-substances"
+        // Launch recovery: if the opt-in updated copy in Documents/ is corrupt
+        // or half-applied (app killed mid-copy, truncated download past the
+        // install-time sha256 check, …) the open throws. Rather than crash on
+        // every launch — the dominant build-21/22 launch crash — quarantine the
+        // bad applied DB and fall back to the bundled resource. A bundled-DB
+        // failure stays fatal (see ``bundledSubstancesDBURL``).
+        let openedSubstancesURL: URL
         do {
             self.substancesDB = try DatabaseQueue(path: substancesDBURL.path, configuration: bundleConfig)
+            openedSubstancesURL = substancesDBURL
         } catch {
-            fatalError("Failed to open substances DB at \(substancesDBURL.path): \(error)")
+            let bundleURL = Self.bundledSubstancesDBURL()
+            guard substancesDBURL != bundleURL else {
+                fatalError("Failed to open bundled substances DB at \(substancesDBURL.path): \(error)")
+            }
+            logger.error("Substances DB unopenable at \(substancesDBURL.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to bundled DB")
+            if substancesDBURL == SubstanceDBUpdater.appliedSQLiteURL {
+                logger.error("Quarantining the corrupt applied substance-DB update")
+                SubstanceDBUpdater.quarantineAppliedDB()
+            }
+            do {
+                self.substancesDB = try DatabaseQueue(path: bundleURL.path, configuration: bundleConfig)
+            } catch {
+                fatalError("Failed to open bundled substances DB at \(bundleURL.path): \(error)")
+            }
+            openedSubstancesURL = bundleURL
         }
 
         // Second read-only connection for off-main batch reads (see the property
         // doc). Same file, same read-only config; a distinct `label` so it's
-        // identifiable in Instruments / GRDB logs.
+        // identifiable in Instruments / GRDB logs. Opens the file we just
+        // verified openable above.
         var batchConfig = bundleConfig
         batchConfig.label = "piru-substances-batch"
         do {
-            self.substancesBatchDB = try DatabaseQueue(path: substancesDBURL.path, configuration: batchConfig)
+            self.substancesBatchDB = try DatabaseQueue(path: openedSubstancesURL.path, configuration: batchConfig)
         } catch {
-            fatalError("Failed to open substances batch DB at \(substancesDBURL.path): \(error)")
+            fatalError("Failed to open substances batch DB at \(openedSubstancesURL.path): \(error)")
         }
 
         var prefsConfig = Configuration()
         prefsConfig.label = "piru-user-prefs"
-        do {
-            self.userPrefsDB = try DatabaseQueue(path: userPrefsDBURL.path, configuration: prefsConfig)
-        } catch {
-            fatalError("Failed to open user-prefs DB at \(userPrefsDBURL.path): \(error)")
-        }
+        self.userPrefsDB = Self.openUserPrefs(at: userPrefsDBURL, configuration: prefsConfig)
 
         seedUserPrefsIfNeeded()
         reloadSourceOrder()
@@ -521,8 +582,13 @@ final class SubstanceStore {
     /// resolved array is *not* cached as a unit (resolvedCache caches per
     /// substance so partial fills still benefit from prior work).
     var all: [Substance] {
+        // Register the observation dependency on the one observable input these
+        // resolved values derive from, *before* the warm-cache early return —
+        // `allCache` is `@ObservationIgnored`, so a body that reads `all` would
+        // otherwise not re-render when the user reorders sources.
+        let order = enabledSourceOrder
         if let cached = allCache { return cached }
-        let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: enabledSourceOrder)
+        let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: order)
         allCache = resolved
         batchByName = nil
         batchByID = nil
@@ -1042,6 +1108,12 @@ final class SubstanceStore {
     /// is warm and this stays a pure in-memory bucketing — never a cold
     /// main-thread resolve.
     func categorySummary() -> [SubstanceCategory: Int] {
+        // Read the observed source-order input *before* the warm-cache early
+        // return so a SwiftUI body that reads this `@ObservationIgnored` cache
+        // still re-renders when the user reorders sources (which clears the
+        // cache via `reloadSourceOrder`). The accessor call is what registers
+        // the observation dependency; the value itself isn't needed here.
+        _ = enabledSourceOrder
         if let cached = categorySummaryCache { return cached }
         var counts: [SubstanceCategory: Int] = [:]
         for substance in all where substance.displayClass.surfacesInBrowse {
@@ -1058,6 +1130,7 @@ final class SubstanceStore {
     /// resolver, so a substance whose categories differ across sources lands
     /// in whichever category the highest-priority enabled source assigns.
     func substances(in category: SubstanceCategory) -> [Substance] {
+        _ = enabledSourceOrder // observation dependency; see `categorySummary()`
         if let cached = substancesByCategoryCache[category] { return cached }
         // Non-recreational compounds (antibiotics, …) stay searchable for
         // medication tracking but are hidden from recreational category browse.
@@ -1119,6 +1192,7 @@ final class SubstanceStore {
     /// Derived from the ``categorySummary()`` histogram so it can never disagree
     /// with the cards' counts.
     var nonEmptyCategories: [SubstanceCategory] {
+        _ = enabledSourceOrder // observation dependency; see `categorySummary()`
         if let cached = nonEmptyCategoriesCache { return cached }
         let summary = categorySummary()
         let result = SubstanceCategory.allCases.filter { (summary[$0] ?? 0) > 0 }
@@ -1231,6 +1305,7 @@ final class SubstanceStore {
     var languageOverride: ContentLanguage?
 
     private func resolveSubstance(id: Int64, canonicalName _: String?) -> Substance? {
+        _ = enabledSourceOrder // observation dependency; see `categorySummary()`
         let appLanguage = languageOverride ?? Self.contentLanguage
         // Language is part of the cache key so a mid-session app-language change
         // re-resolves locale-first text instead of serving stale-language rows.
