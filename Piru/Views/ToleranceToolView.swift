@@ -735,7 +735,7 @@ struct ToleranceToolView: View {
 
     private var combinedRecoveryCaption: LocalizedStringResource {
         recoveryWindowIsClipped
-            ? "Each line is a mechanism recovering if you stop now — a steeper climb means a faster reset. Showing the first 60 days."
+            ? "Each line is a mechanism recovering — a steeper climb means a faster reset. Showing the first 60 days."
             : "Each line is a mechanism recovering — a steeper climb means a faster reset."
     }
 
