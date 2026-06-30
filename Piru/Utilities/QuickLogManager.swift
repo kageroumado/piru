@@ -12,30 +12,32 @@ import SwiftData
 enum QuickLogManager {
     /// `@AppStorage` key for the "keep a fixed order" preference (default off).
     static let fixedOrderDefaultsKey = "quickLogFixedOrder"
-    private static let seededKey = "quickLogSeeded.v1"
-
-    private static var defaults: UserDefaults {
-        UserDefaults(suiteName: StoreRecovery.appGroupID) ?? .standard
-    }
 
     // MARK: - Seeding
 
-    /// One-time populate from dose history so existing users keep their familiar
-    /// chips. Ranks each (substance, route) group's distinct measurements by
-    /// frequency (recency as tiebreak) and keeps the top ``perGroupLimit``.
-    /// Idempotent: guarded by a flag and a "no rows yet" check.
+    /// Populate the curated list from dose history so existing users keep their
+    /// familiar chips. Ranks each (substance, route) group's distinct measurements
+    /// by frequency (recency as tiebreak) and keeps the top ``perGroupLimit``.
+    ///
+    /// Idempotent and self-healing: it seeds **only when the curated table is
+    /// empty**, and keys off nothing but that emptiness. There is deliberately no
+    /// persistent "already seeded" flag. The previous `quickLogSeeded` flag lived
+    /// in App-Group `UserDefaults`, which outlives the SwiftData store it
+    /// described — so any store reset that empties the table but leaves the flag
+    /// (a mid-cycle schema change that recreates a fresh store, "Delete All Data",
+    /// or a backup restore) permanently suppressed re-seeding and the quick-log
+    /// list came back empty after every restore. Tying seeding to the store's own
+    /// lifecycle fixes that. The one state this re-seeds is a list the user
+    /// emptied by hand — an acceptable trade, since the list is "seeded from your
+    /// history" by definition and a removed chip re-floats on its next log anyway.
     ///
     /// Seeds from the screen's already-loaded recent window (`history`) rather
     /// than its own full-table fetch — 120 days is plenty to surface a user's
     /// familiar chips, and lifetime-exhaustive ranking isn't worth a second pass
     /// over the whole dose table on first open.
     static func seedIfNeeded(history: [DoseEntry], context: ModelContext) {
-        guard !defaults.bool(forKey: seededKey) else { return }
         let existing = (try? context.fetchCount(FetchDescriptor<QuickLogDose>())) ?? 0
-        guard existing == 0 else {
-            defaults.set(true, forKey: seededKey)
-            return
-        }
+        guard existing == 0, !history.isEmpty else { return }
 
         struct Measure { var amount: Double; var unit: String; var count: Int; var last: Date }
         // groupKey -> (substance, route) and measureKey -> aggregated Measure.
@@ -71,7 +73,6 @@ enum QuickLogManager {
             }
         }
         try? context.save()
-        defaults.set(true, forKey: seededKey)
     }
 
     // MARK: - Maintenance on log
