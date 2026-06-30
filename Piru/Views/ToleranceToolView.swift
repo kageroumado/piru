@@ -26,6 +26,12 @@ struct ToleranceToolView: View {
     @State private var tolerance = ToleranceStore.shared
     @State private var profile = UserProfileStore.shared
 
+    /// How the engaged mechanisms are laid out — the choice surfaced by the **View as** switcher.
+    @State private var viewMode: ToleranceViewMode = .cards
+
+    /// Drives the **View as** thumbnail popover anchored on the toolbar button.
+    @State private var showsViewAsPopover = false
+
     var body: some View {
         List {
             Group {
@@ -35,8 +41,13 @@ struct ToleranceToolView: View {
                 if rows.isEmpty, tolerance.incompleteDataSubstances.isEmpty {
                     emptyState
                 } else {
-                    ForEach(rows) { row in
-                        Section { card(row) }
+                    switch viewMode {
+                    case .cards:
+                        ForEach(rows) { row in
+                            Section { card(row) }
+                        }
+                    case .recovery:
+                        combinedRecoverySection
                     }
                     incompleteDataSection
                 }
@@ -47,7 +58,10 @@ struct ToleranceToolView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .appNavigationBar("Tolerance")
-        .toolbar { tierMenu }
+        .toolbar {
+            viewAsMenu
+            tierMenu
+        }
         // Lazy replay: the 90-day integration runs only while this tool is open, and re-runs when
         // the dose log or body weight changes — kept off the launch / dose-write hot path.
         .task(id: recomputeSignature) { await tolerance.recompute(from: entries) }
@@ -83,6 +97,25 @@ struct ToleranceToolView: View {
 
     private var tierBinding: Binding<UserProfile> {
         Binding(get: { tier }, set: { profile.setDisclosureTier($0) })
+    }
+
+    /// The **View as** layout switcher — a button showing the current mode's glyph that opens a
+    /// thumbnail popover (one drawn preview per layout). Sits leading of the tier menu.
+    @ToolbarContentBuilder
+    private var viewAsMenu: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                showsViewAsPopover = true
+            } label: {
+                Image(systemName: viewMode.icon)
+                    .foregroundStyle(Theme.accent)
+            }
+            .accessibilityLabel("View as")
+            .popover(isPresented: $showsViewAsPopover) {
+                ViewAsSwitcher(selection: $viewMode) { showsViewAsPopover = false }
+                    .presentationCompactAdaptation(.popover)
+            }
+        }
     }
 
     // MARK: - Rows
@@ -292,7 +325,7 @@ struct ToleranceToolView: View {
         // Skip when essentially rested (a flat line at the top) or when the recovery window is under a
         // couple of hours — too short to plot without a degenerate, repeated-tick axis.
         if row.snapshot.responseFraction < 0.97, recoveryWindowMinutes(row) >= 120 {
-            let points = recoveryCurve(row)
+            let points = recoveryCurve(row, overMinutes: recoveryWindowMinutes(row))
             VStack(alignment: .leading, spacing: 6) {
                 Chart {
                     ForEach(points) { point in
@@ -349,17 +382,18 @@ struct ToleranceToolView: View {
         let percent: Double
     }
 
-    /// Forward-decay the engaged layers over `[0, W]` and convert each `S(t)` to a response fraction —
-    /// the curve starts at the **current** level (t = 0) and rises toward 1.0 as tolerance relaxes.
-    private func recoveryCurve(_ row: Row) -> [ChartPoint] {
+    /// Forward-decay the engaged layers over `[0, window]` and convert each `S(t)` to a response
+    /// fraction — the curve starts at the **current** level (t = 0) and rises toward 1.0 as tolerance
+    /// relaxes. Shared by the per-card chart (its own recovery window) and the combined chart (a
+    /// shared window across mechanisms), so the sampling math lives in exactly one place.
+    private func recoveryCurve(_ row: Row, overMinutes window: Double, sampleCount: Int = 24) -> [ChartPoint] {
         let snapshot = row.snapshot
         let params = row.params
         let occupancy = min(0.999_999, max(0, snapshot.representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
-        let window = max(recoveryWindowMinutes(row), 1)
-        let sampleCount = 24
+        let span = max(window, 1)
         return (0 ..< sampleCount).map { index in
-            let minutes = window * Double(index) / Double(sampleCount - 1)
+            let minutes = span * Double(index) / Double(sampleCount - 1)
             let shift = exp(
                 snapshot.sAcute * exp(-minutes / params.tauAcuteMinutes)
                     + snapshot.sAdaptive * exp(-minutes / params.tauAdaptiveMinutes)
@@ -568,6 +602,331 @@ struct ToleranceToolView: View {
     /// "A, B and C" style join for the contributor / incomplete-data lists.
     private func listPhrase(_ names: [String]) -> String {
         ListFormatter.localizedString(byJoining: names)
+    }
+
+    // MARK: - Combined recovery chart (.recovery mode)
+
+    /// One mechanism's recovery trajectory plus the legend metadata that names it.
+    private struct RecoverySeries: Identifiable {
+        let id: ReceptorClasses.ReceptorClass
+        let legendKey: String
+        let name: LocalizedStringResource
+        let color: Color
+        let points: [ChartPoint]
+        let recoveryPhrase: String
+        let severity: Double
+    }
+
+    /// Mechanisms worth plotting on the shared axis: meaningfully toleranced (`severity > 0.05`), sorted
+    /// by severity so the deepest reset is read first. Rested mechanisms would be flat lines pinned to
+    /// the top — clutter — so they're omitted.
+    private var recoveryRows: [Row] {
+        rows.filter { $0.snapshot.severity > 0.05 }
+            .sorted { $0.snapshot.severity > $1.snapshot.severity }
+    }
+
+    /// The shared X window (minutes) — the widest per-row recovery window, capped at 60 days so a
+    /// months-scale deep tail doesn't flatten the fast mechanisms into a single line at the bottom.
+    private var sharedRecoveryWindowMinutes: Double {
+        let widest = recoveryRows.map(recoveryWindowMinutes).max() ?? 0
+        return min(max(widest, Self.minimumSharedWindowMinutes), Self.maximumSharedWindowMinutes)
+    }
+
+    private static let maximumSharedWindowMinutes: Double = 60 * 1_440
+    private static let minimumSharedWindowMinutes: Double = 120
+
+    /// True when at least one mechanism's natural recovery window exceeds the shared cap — the chart is
+    /// then showing only the first 60 days, which the caption notes.
+    private var recoveryWindowIsClipped: Bool {
+        (recoveryRows.map(recoveryWindowMinutes).max() ?? 0) > Self.maximumSharedWindowMinutes
+    }
+
+    private func recoverySeries() -> [RecoverySeries] {
+        let window = sharedRecoveryWindowMinutes
+        return recoveryRows.map { row in
+            let recoveryMinutesTo90 = max(recoveryMinutes(row, toResponseFraction: 0.9) ?? 0, 0)
+            return RecoverySeries(
+                id: row.snapshot.receptorClass,
+                legendKey: String(reflecting: row.snapshot.receptorClass),
+                name: className(for: row.snapshot.receptorClass),
+                color: familyColor(row),
+                points: recoveryCurve(row, overMinutes: window, sampleCount: 28),
+                recoveryPhrase: durationPhrase(minutes: recoveryMinutesTo90),
+                severity: row.snapshot.severity,
+            )
+        }
+    }
+
+    /// Linear day ticks across the shared window — `now` at the origin, four evenly-spaced gridlines to
+    /// the window edge.
+    private var sharedAxisDays: [Double] {
+        let windowDays = sharedRecoveryWindowMinutes / 1_440
+        return [0, windowDays * 0.25, windowDays * 0.5, windowDays * 0.75, windowDays]
+    }
+
+    @ViewBuilder
+    private var combinedRecoverySection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Recovery if you stop now")
+                    .font(.headline)
+
+                let series = recoverySeries()
+                if series.isEmpty {
+                    Text("Everything's rested — nothing recovering right now.")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                } else {
+                    CombinedRecoveryChart(
+                        series: series,
+                        axisDays: sharedAxisDays,
+                        dayLabel: { axisDayLabel(days: $0) },
+                    )
+                    recoveryLegend(series)
+                    Text(combinedRecoveryCaption)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+            .padding(.vertical, 6)
+        }
+    }
+
+    private func recoveryLegend(_ series: [RecoverySeries]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(series) { item in
+                HStack(spacing: 8) {
+                    Circle()
+                        .fill(item.color)
+                        .frame(width: 9, height: 9)
+                    Text(item.name)
+                        .font(.caption.weight(.medium))
+                    Spacer(minLength: 8)
+                    // Already a resolved, localized phrase from `durationPhrase` — show verbatim so it
+                    // isn't re-looked-up as a catalog key.
+                    Text(verbatim: item.recoveryPhrase)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+        }
+    }
+
+    private var combinedRecoveryCaption: LocalizedStringResource {
+        recoveryWindowIsClipped
+            ? "Each line is a mechanism recovering if you stop now — a steeper climb means a faster reset. Showing the first 60 days."
+            : "Each line is a mechanism recovering if you stop now — a steeper climb means a faster reset."
+    }
+
+    // MARK: - View mode
+
+    /// The two ways to read the tool: per-mechanism **cards**, or every mechanism on one shared
+    /// **recovery** axis. Each mode carries its own toolbar glyph and the title/subtitle the **View as**
+    /// switcher shows.
+    enum ToleranceViewMode: CaseIterable, Identifiable {
+        case cards, recovery
+
+        var id: Self { self }
+
+        var icon: String {
+            switch self {
+            case .cards: "square.stack"
+            case .recovery: "chart.line.uptrend.xyaxis"
+            }
+        }
+
+        var title: LocalizedStringResource {
+            switch self {
+            case .cards: "Cards"
+            case .recovery: "Recovery chart"
+            }
+        }
+
+        var subtitle: LocalizedStringResource {
+            switch self {
+            case .cards: "One card per mechanism"
+            case .recovery: "All mechanisms, one axis"
+            }
+        }
+    }
+
+    // MARK: - View-as switcher (thumbnail popover)
+
+    /// The Apple-style layout picker shown in the **View as** popover: one row per ``ToleranceViewMode``
+    /// with a drawn thumbnail, title + subtitle, and a checkmark on the active row.
+    private struct ViewAsSwitcher: View {
+        @Binding var selection: ToleranceViewMode
+        let onSelect: () -> Void
+
+        var body: some View {
+            VStack(spacing: 0) {
+                ForEach(ToleranceViewMode.allCases) { mode in
+                    Button {
+                        selection = mode
+                        onSelect()
+                    } label: {
+                        row(for: mode)
+                    }
+                    .buttonStyle(.plain)
+
+                    if mode != ToleranceViewMode.allCases.last {
+                        Divider().padding(.leading, 72)
+                    }
+                }
+            }
+            .padding(.vertical, 6)
+            .frame(width: 270)
+        }
+
+        private func row(for mode: ToleranceViewMode) -> some View {
+            HStack(spacing: 12) {
+                ViewModeThumbnail(mode: mode)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(mode.title)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.primary)
+                    Text(mode.subtitle)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer(minLength: 8)
+                Image(systemName: "checkmark")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                    .opacity(selection == mode ? 1 : 0)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .contentShape(Rectangle())
+        }
+    }
+
+    /// A ~46×34 drawn preview of a layout (no image assets): stacked rounded rects for **cards**, two
+    /// rising polylines for the **recovery** chart.
+    private struct ViewModeThumbnail: View {
+        let mode: ToleranceViewMode
+
+        var body: some View {
+            RoundedRectangle(cornerRadius: 7)
+                .fill(Theme.inputBackground)
+                .frame(width: 46, height: 34)
+                .overlay { content }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 7)
+                        .strokeBorder(Color.secondary.opacity(0.16))
+                }
+        }
+
+        @ViewBuilder
+        private var content: some View {
+            switch mode {
+            case .cards: cardsPreview
+            case .recovery: recoveryPreview
+            }
+        }
+
+        private var cardsPreview: some View {
+            VStack(spacing: 3) {
+                ForEach(0 ..< 3, id: \.self) { _ in
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Theme.accent.opacity(0.55))
+                        .frame(height: 5)
+                }
+            }
+            .padding(.horizontal, 8)
+        }
+
+        private var recoveryPreview: some View {
+            Canvas { context, canvasSize in
+                let bottom = canvasSize.height - 5
+                let right = canvasSize.width - 5
+                stroke(
+                    in: context,
+                    from: CGPoint(x: 5, y: bottom),
+                    control: CGPoint(x: canvasSize.width * 0.45, y: bottom - 3),
+                    to: CGPoint(x: right, y: 7),
+                    color: .orange,
+                )
+                stroke(
+                    in: context,
+                    from: CGPoint(x: 5, y: bottom),
+                    control: CGPoint(x: canvasSize.width * 0.55, y: 8),
+                    to: CGPoint(x: right, y: 4),
+                    color: Color(red: 0.56, green: 0.27, blue: 0.79),
+                )
+            }
+            .padding(3)
+        }
+
+        private func stroke(
+            in context: GraphicsContext,
+            from start: CGPoint,
+            control: CGPoint,
+            to end: CGPoint,
+            color: Color,
+        ) {
+            var path = Path()
+            path.move(to: start)
+            path.addQuadCurve(to: end, control: control)
+            context.stroke(path, with: .color(color), lineWidth: 1.7)
+        }
+    }
+
+    // MARK: - Combined recovery chart view
+
+    /// The shared-axis recovery chart: one family-coloured ``LineMark`` series per mechanism, each
+    /// anchored by a "now" ``PointMark`` at its current level, on a linear days X axis (gridlines) and a
+    /// 0–100% Y axis (gridlines at 0/50/100). Family colours are applied per series with a manual legend
+    /// rendered by the parent, so each line keeps its exact family hue.
+    private struct CombinedRecoveryChart: View {
+        let series: [RecoverySeries]
+        let axisDays: [Double]
+        let dayLabel: (Double) -> String
+
+        var body: some View {
+            Chart(series) { item in
+                ForEach(item.points) { point in
+                    LineMark(
+                        x: .value("Days", point.day),
+                        y: .value("Sensitivity", point.percent),
+                        series: .value("Mechanism", item.legendKey),
+                    )
+                    .foregroundStyle(item.color)
+                    .interpolationMethod(.monotone)
+                }
+                if let start = item.points.first {
+                    PointMark(
+                        x: .value("Days", start.day),
+                        y: .value("Sensitivity", start.percent),
+                    )
+                    .foregroundStyle(item.color)
+                    .symbolSize(40)
+                }
+            }
+            .chartYScale(domain: 0 ... 100)
+            .chartYAxis {
+                AxisMarks(values: [0, 50, 100]) { value in
+                    AxisGridLine()
+                    AxisValueLabel {
+                        if let percent = value.as(Int.self) {
+                            Text("\(percent)%")
+                        }
+                    }
+                }
+            }
+            .chartXAxis {
+                AxisMarks(values: axisDays) { value in
+                    AxisGridLine()
+                    AxisTick()
+                    AxisValueLabel {
+                        if let days = value.as(Double.self) {
+                            Text(dayLabel(days))
+                        }
+                    }
+                }
+            }
+            .frame(height: 160)
+        }
     }
 }
 
