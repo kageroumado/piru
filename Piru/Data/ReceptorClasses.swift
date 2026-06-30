@@ -77,7 +77,8 @@ nonisolated enum ReceptorClasses {
             }
         }
 
-        /// Short user-facing name for the tolerance class — the Stage-2 Tool card headline.
+        /// Short user-facing name for the tolerance class — the Stage-2 Tool card headline, shown to
+        /// the **Curious** (harm-reduction) tier (the "(μ)"-style names with the mechanism in parens).
         var displayName: LocalizedStringResource {
             switch self {
             case .psychedelic5HT2A: "Psychedelics (5-HT2A)"
@@ -91,6 +92,42 @@ nonisolated enum ReceptorClasses {
             case .nicotinic: "Nicotinic (nAChR)"
             case .alpha2Agonist: "α₂-agonists (clonidine)"
             case .betaBlocker: "Beta-blockers (propranolol)"
+            case .unknown: "Other"
+            }
+        }
+
+        /// Plain, jargon-free class name for the **Casual** tier — no receptor parentheticals.
+        var casualName: LocalizedStringResource {
+            switch self {
+            case .psychedelic5HT2A: "Psychedelics"
+            case .muOpioid: "Opioids"
+            case .catecholamineStimulant: "Stimulants"
+            case .serotonergicReleaser: "Serotonin releasers"
+            case .gaba: "Sedatives"
+            case .nmdaAntagonist: "Dissociatives"
+            case .cannabinoidCB1: "Cannabis"
+            case .adenosine: "Caffeine"
+            case .nicotinic: "Nicotine"
+            case .alpha2Agonist: "α₂-agonists"
+            case .betaBlocker: "Beta-blockers"
+            case .unknown: "Other"
+            }
+        }
+
+        /// Precise receptor/transporter name for the **Pharma Nerd** tier.
+        var scientificName: LocalizedStringResource {
+            switch self {
+            case .psychedelic5HT2A: "5-HT₂A receptor"
+            case .muOpioid: "μ-opioid receptor (MOR)"
+            case .catecholamineStimulant: "Dopamine/noradrenaline transporter (DAT/NET)"
+            case .serotonergicReleaser: "Serotonin transporter (SERT)"
+            case .gaba: "GABA-A receptor"
+            case .nmdaAntagonist: "NMDA receptor"
+            case .cannabinoidCB1: "CB1 receptor"
+            case .adenosine: "Adenosine receptor"
+            case .nicotinic: "nAChR"
+            case .alpha2Agonist: "α₂-adrenoceptor"
+            case .betaBlocker: "β-adrenoceptor"
             case .unknown: "Other"
             }
         }
