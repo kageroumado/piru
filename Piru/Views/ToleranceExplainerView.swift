@@ -1,16 +1,20 @@
 import SwiftUI
 
-/// Educational explainer behind the **Tolerance** tool — what the numbers *mean* and where they come
-/// from (`Specs/pharmacology-axis-meta-plan.md`, Stage 5 follow-up). The tool shows per-target
-/// availability/load; this screen explains the three kinds of tolerance, cross-tolerance, and the
-/// per-mechanism kinetics — surfacing the curated, citation-graded `ReceptorClasses` data (each class's
-/// calibration `sourceNote` + ``ConfidenceTier``) so a curious user can see the basis, not just a bar.
+/// Educational explainer behind the **Tolerance** tool — what the cards *mean* and where the numbers
+/// come from. Frames tolerance as one thing (the brain adapting to a repeated input — an allostatic /
+/// predictive view, not the 2000s "receptors used up" picture), explains the three timescales that the
+/// engine models, cross-tolerance, and the conditioned/novel-setting danger, then surfaces the curated,
+/// citation-graded ``ReceptorClasses`` per-mechanism data (each class's `sourceNote` + ``ConfidenceTier``)
+/// so a curious user can see the basis, not just a bar. Copy is mechanism-first and matches the
+/// redesigned cards (`Specs/tolerance-faithful-model.md` §6, §8.5).
 struct ToleranceExplainerView: View {
     var body: some View {
         List {
             Group {
-                axesSection
+                frameSection
+                timescalesSection
                 crossToleranceSection
+                conditionedSection
                 mechanismSection
                 sourcesSection
             }
@@ -22,32 +26,53 @@ struct ToleranceExplainerView: View {
         .appNavigationBar("How tolerance works")
     }
 
-    // MARK: - The three axes
+    // MARK: - The idea
 
-    private var axesSection: some View {
+    private var frameSection: some View {
         Section {
             concept(
-                icon: "chart.line.downtrend.xyaxis",
+                icon: "brain.head.profile",
                 tint: .accentColor,
-                title: "Availability — the real tolerance",
-                body: "With repeated use a receptor gets less responsive, so the same dose does less. We show it as your predicted response versus rested (≈X%). It recovers when you stop — over days to weeks depending on the receptor. This is the honest \u{201C}tolerance\u{201D} for opioids, psychedelics, benzodiazepines, dissociatives, and cannabis.",
+                title: "Your brain adapts to what you keep giving it",
+                body: "Use a drug repeatedly and your brain learns to expect it, then pushes back to cancel the effect — so the same dose does less. That push-back is tolerance. Stop, and it relaxes back. It's not the drug \u{201C}running out\u{201D}; it's your system re-balancing around it.",
             )
+            concept(
+                icon: "arrow.uturn.backward",
+                tint: .teal,
+                title: "Why stopping can feel like the opposite",
+                body: "When you stop, that push-back is briefly left unopposed — which is why withdrawal or a comedown often feels like the mirror of the drug's effects (a stimulant's flatness, an opioid's aches).",
+            )
+        } header: {
+            Text("The idea")
+        }
+    }
+
+    // MARK: - Three timescales
+
+    private var timescalesSection: some View {
+        Section {
             concept(
                 icon: "clock.arrow.circlepath",
                 tint: .teal,
-                title: "Within-session redose",
-                body: "Separately, a second dose the same session often lands weaker — fast desensitization (tachyphylaxis). It recovers overnight, so it's shown apart from the slow tolerance above. Chasing it with more rarely works and stacks risk.",
+                title: "Within a session",
+                body: "A second dose soon after the first lands weaker — the fast-releasing pool runs thin (tachyphylaxis). It refills overnight, so it's separate from the slower tolerance below. Chasing it with more rarely works and stacks the risk.",
+            )
+            concept(
+                icon: "chart.line.downtrend.xyaxis",
+                tint: .accentColor,
+                title: "Over days to weeks",
+                body: "Receptors and enzymes adjust, and your baseline shifts down — this is the tolerance most people mean, and what the bar on each card shows. It returns once you stop, at a pace set by the receptor.",
             )
             concept(
                 icon: "gauge.with.dots.needle.33percent",
                 tint: .orange,
-                title: "Recovery-state load — not a multiplier",
-                body: "For stimulants and serotonin releasers there is no honest \u{201C}tolerance %\u{201D} to multiply a dose by. The slow change is a months-long recovery state of the whole system, not a take-more signal. We show that as a bounded load bar instead of a fake number — refusing to imply a dose you should escalate to.",
+                title: "With heavy, prolonged use",
+                body: "This can entrench a deeper change that takes months to relax. It shows up only well past everyday or therapeutic doses — steady use doesn't reach it.",
             )
         } header: {
-            Text("Three kinds of tolerance")
+            Text("Three timescales")
         } footer: {
-            Text("These are model predictions of how repeated use changes each receptor — never a measurement. Each figure carries a confidence tier.")
+            Text("Each card blends these into one reading: how much of your usual dose you'd feel now, and how long until it returns if you stop.")
         }
     }
 
@@ -59,10 +84,25 @@ struct ToleranceExplainerView: View {
                 icon: "arrow.triangle.branch",
                 tint: .purple,
                 title: "Tolerance is shared by receptor, not by name",
-                body: "Two different drugs that hit the same receptor share tolerance. Recent LSD lowers a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance here is tracked per receptor target, and why a \u{201C}new\u{201D} drug in the same family can still be blunted.",
+                body: "Two different drugs that hit the same receptor share tolerance. Recent LSD blunts a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance is tracked per receptor here, and why a \u{201C}new\u{201D} drug in the same family can still feel weak.",
             )
         } header: {
             Text("Cross-tolerance")
+        }
+    }
+
+    // MARK: - Conditioned / novel-setting
+
+    private var conditionedSection: some View {
+        Section {
+            concept(
+                icon: "mappin.and.ellipse",
+                tint: .orange,
+                title: "Where you use it matters",
+                body: "Tolerance is partly learned in context: your body braces in a familiar place. In a new setting, or after a change in routine, that bracing doesn't fire — so the same dose hits harder than expected. With opioids especially, a dose that felt fine before can become dangerous after a break or in a new environment.",
+            )
+        } header: {
+            Text("Setting & a break")
         }
     }
 
@@ -76,26 +116,26 @@ struct ToleranceExplainerView: View {
         } header: {
             Text("By mechanism")
         } footer: {
-            Text("Recovery timescales and tolerance behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.")
+            Text("Recovery timescales and behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.")
         }
     }
 
     private func mechanismRow(_ cls: ReceptorClasses.ReceptorClass) -> some View {
-        let p = ReceptorClasses.parameters(for: cls)
+        let parameters = ReceptorClasses.parameters(for: cls)
         return VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(cls.displayName)
                     .font(.subheadline.weight(.semibold))
                 Spacer()
-                ConfidenceBadge(tier: p.confidence)
+                ConfidenceBadge(tier: parameters.confidence)
             }
-            Label(recoveryDescriptor(p), systemImage: "clock.arrow.circlepath")
+            Label(recoveryDescriptor(parameters), systemImage: "clock.arrow.circlepath")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Text(meaning(cls))
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
-            Text(p.sourceNote)
+            Text(parameters.sourceNote)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel.opacity(0.8))
         }
@@ -107,7 +147,7 @@ struct ToleranceExplainerView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Label("Where the numbers come from", systemImage: "checkmark.seal")
                     .font(.subheadline.weight(.semibold))
-                Text("Binding affinities come from the NIMH PDSP K\u{1D62} database and primary literature; the tolerance kinetics are calibrated to published human recovery studies. Every parameter is graded, and anything resting on a class default is flagged. Nothing here is measured from you — it's predicted from your dose log and these curated values.")
+                Text("Binding affinities come from the NIMH PDSP K\u{1D62} database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates, not a measurement of you.")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -117,8 +157,8 @@ struct ToleranceExplainerView: View {
 
     // MARK: - Class copy
 
-    /// Classes in a teaching order (multiplier-valid first, then the load classes, then the
-    /// rebound-hosting adrenergics last — they barely tolerize), `.unknown` omitted.
+    /// Classes in a teaching order (the everyday-tolerance ones first, then the rebound-hosting
+    /// adrenergics last — they barely tolerize), `.unknown` omitted.
     private var orderedClasses: [ReceptorClasses.ReceptorClass] {
         [
             .psychedelic5HT2A, .muOpioid, .gaba, .nmdaAntagonist, .cannabinoidCB1, .adenosine,
@@ -128,8 +168,8 @@ struct ToleranceExplainerView: View {
 
     /// A qualitative recovery timescale from the class's adaptive layer — the days–weeks baseline
     /// shift that dominates how long sensitivity takes to return.
-    private func recoveryDescriptor(_ p: ReceptorClasses.Parameters) -> LocalizedStringResource {
-        let tauDays = p.tauAdaptiveMinutes / (60 * 24)
+    private func recoveryDescriptor(_ parameters: ReceptorClasses.Parameters) -> LocalizedStringResource {
+        let tauDays = parameters.tauAdaptiveMinutes / (60 * 24)
         switch tauDays {
         case ..<2: return "Recovers in days"
         case ..<8: return "Recovers over ~a week"
@@ -144,21 +184,21 @@ struct ToleranceExplainerView: View {
         case .psychedelic5HT2A:
             "Strong and fast: a second trip soon after is much weaker. Resets within a few days."
         case .muOpioid:
-            "Real tolerance that resets after a break — which is exactly what makes returning to an old dose dangerous."
+            "Real tolerance that drops after a break — which is exactly what makes returning to an old dose dangerous."
         case .gaba:
             "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous — taper."
         case .nmdaAntagonist:
-            "Builds its own tolerance, and can also blunt opioid tolerance when taken together."
+            "Builds its own tolerance, and can also slow opioid tolerance when taken together."
         case .cannabinoidCB1:
             "Fast and real, but recovers fairly quickly once you stop."
         case .adenosine:
-            "Clean, predictable tolerance — the caffeine case, the textbook example."
+            "Clean, predictable tolerance — the caffeine case."
         case .catecholamineStimulant:
-            "No single \u{201C}tolerance %\u{201D} fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more."
+            "A fast within-session fade, plus a modest, slower shift with heavy use. A bigger dose still works — but ramps the comedown and the risk, while the effect on your heart barely fades."
         case .serotonergicReleaser:
-            "A reversible-leaning change at the serotonin transporter — a recovery-state indicator, not a dose multiplier."
+            "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply, not just the receptors."
         case .nicotinic:
-            "Mostly fast receptor desensitization that recovers between uses rather than a lasting dose multiplier."
+            "Mostly fast receptor desensitization that recovers between uses rather than a lasting change."
         case .alpha2Agonist:
             "Barely builds tolerance — the real risk is stopping suddenly: blood pressure can rebound hard. Taper, don't quit cold."
         case .betaBlocker:

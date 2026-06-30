@@ -67,7 +67,9 @@ struct ToleranceToolView: View {
         .task(id: recomputeSignature) { await tolerance.recompute(from: entries) }
     }
 
-    private var tier: UserProfile { profile.disclosureTier }
+    private var tier: UserProfile {
+        profile.disclosureTier
+    }
 
     // MARK: - Recompute trigger
 
@@ -123,7 +125,9 @@ struct ToleranceToolView: View {
     private struct Row: Identifiable {
         let snapshot: ClassTolerance
         let params: ReceptorClasses.Parameters
-        var id: ReceptorClasses.ReceptorClass { snapshot.receptorClass }
+        var id: ReceptorClasses.ReceptorClass {
+            snapshot.receptorClass
+        }
 
         /// Classes pinned to the top of the flat list — the reset-overdose, dependence-kindling, and
         /// adrenergic discontinuation-rebound hosts. They lead regardless of how faint the right-shift is.
@@ -189,7 +193,7 @@ struct ToleranceToolView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Label("Nothing to show yet", systemImage: "checkmark.circle")
                     .font(.subheadline.weight(.semibold))
-                Text("Log doses of substances with receptor data and your predicted tolerance will appear here. Mechanisms you haven't engaged recently read as fully rested.")
+                Text("Log a few doses and your predicted tolerance shows up here. Anything you haven't taken recently counts as no tolerance.")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -205,7 +209,7 @@ struct ToleranceToolView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Label("Can't predict yet", systemImage: "questionmark.circle")
                         .font(.subheadline.weight(.semibold))
-                    Text("Logged, but missing the pharmacokinetics the model needs — so it's blind here, **not** \u{201C}rested\u{201D}. \(listPhrase(names)).")
+                    Text("Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. \(listPhrase(names)).")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -226,8 +230,10 @@ struct ToleranceToolView: View {
 
             gauge(row)
 
-            Text(lede(row))
-                .font(.subheadline)
+            if let lede = lede(row) {
+                Text(lede)
+                    .font(.subheadline)
+            }
 
             recoveryChart(row)
 
@@ -295,11 +301,17 @@ struct ToleranceToolView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(toleranceWord(row.snapshot.responseFraction)))
     }
 
     // MARK: - Lede
 
-    private func lede(_ row: Row) -> LocalizedStringResource {
+    /// The card's one-line summary — **only** when it adds something the gauge doesn't already show.
+    /// The plain level (mild / high / …) is read off the gauge, so a generic "Mild tolerance — your
+    /// usual dose does a little less" would just restate it; those return `nil`. MDMA-type synthesis
+    /// and the adrenergic rebound hosts carry real extra information, so they keep a line.
+    private func lede(_ row: Row) -> LocalizedStringResource? {
         let snapshot = row.snapshot
         switch snapshot.receptorClass {
         case .alpha2Agonist, .betaBlocker:
@@ -307,14 +319,19 @@ struct ToleranceToolView: View {
         case .serotonergicReleaser where snapshot.sSynthesis > 0.05:
             return "Suppresses the enzyme that makes serotonin, so recovery takes weeks, not days."
         default:
-            break
+            return nil
         }
-        switch bucket(snapshot.responseFraction) {
-        case .rested: return "No tolerance — a normal dose lands as expected."
-        case .mild: return "Mild tolerance — a normal dose lands a little weaker."
-        case .moderate: return "Moderate tolerance — a normal dose does noticeably less."
-        case .high: return "High tolerance — your usual dose does much less."
-        case .veryHigh: return "Very high tolerance — your usual dose does little."
+    }
+
+    /// The tolerance level in words — not shown as a card line (the gauge shows it), but used as the
+    /// gauge's VoiceOver label so screen-reader users get the level without reading five bars.
+    private func toleranceWord(_ responseFraction: Double) -> LocalizedStringResource {
+        switch bucket(responseFraction) {
+        case .rested: "No tolerance"
+        case .mild: "Mild tolerance"
+        case .moderate: "Moderate tolerance"
+        case .high: "High tolerance"
+        case .veryHigh: "Very high tolerance"
         }
     }
 
@@ -563,7 +580,11 @@ struct ToleranceToolView: View {
     /// Five tolerance buckets keyed on the response fraction — drives both the capsule word and the
     /// generic lede.
     private enum ToleranceBucket {
-        case rested, mild, moderate, high, veryHigh
+        case rested
+        case mild
+        case moderate
+        case high
+        case veryHigh
     }
 
     private func bucket(_ responseFraction: Double) -> ToleranceBucket {
@@ -617,11 +638,12 @@ struct ToleranceToolView: View {
         let severity: Double
     }
 
-    /// Mechanisms worth plotting on the shared axis: meaningfully toleranced (`severity > 0.05`), sorted
+    /// Mechanisms worth plotting on the shared axis: meaningfully toleranced (same `severity > 0.03`
+    /// gate as the cards, so a class can never be a card yet missing from the chart), sorted
     /// by severity so the deepest reset is read first. Rested mechanisms would be flat lines pinned to
     /// the top — clutter — so they're omitted.
     private var recoveryRows: [Row] {
-        rows.filter { $0.snapshot.severity > 0.05 }
+        rows.filter { $0.snapshot.severity > 0.03 }
             .sorted { $0.snapshot.severity > $1.snapshot.severity }
     }
 
@@ -664,7 +686,6 @@ struct ToleranceToolView: View {
         return [0, windowDays * 0.25, windowDays * 0.5, windowDays * 0.75, windowDays]
     }
 
-    @ViewBuilder
     private var combinedRecoverySection: some View {
         Section {
             VStack(alignment: .leading, spacing: 12) {
@@ -715,7 +736,7 @@ struct ToleranceToolView: View {
     private var combinedRecoveryCaption: LocalizedStringResource {
         recoveryWindowIsClipped
             ? "Each line is a mechanism recovering if you stop now — a steeper climb means a faster reset. Showing the first 60 days."
-            : "Each line is a mechanism recovering if you stop now — a steeper climb means a faster reset."
+            : "Each line is a mechanism recovering — a steeper climb means a faster reset."
     }
 
     // MARK: - View mode
@@ -724,9 +745,12 @@ struct ToleranceToolView: View {
     /// **recovery** axis. Each mode carries its own toolbar glyph and the title/subtitle the **View as**
     /// switcher shows.
     enum ToleranceViewMode: CaseIterable, Identifiable {
-        case cards, recovery
+        case cards
+        case recovery
 
-        var id: Self { self }
+        var id: Self {
+            self
+        }
 
         var icon: String {
             switch self {
