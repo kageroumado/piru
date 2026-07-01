@@ -53,8 +53,9 @@ struct DiscordPromptView: View {
                 dismissedForever = true
             })
         }
-        .padding(24)
-        .presentationDetents([.height(360)])
+        .padding(.horizontal, 24)
+        .padding(.top, 24)
+        .presentationDetents([.height(340)])
         .presentationDragIndicator(.visible)
     }
 }
