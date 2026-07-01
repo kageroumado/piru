@@ -25409,7 +25409,20 @@
       }
     },
     "Re-read from Health" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新从「健康」读取"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新從「健康」讀取"
+          }
+        }
+      }
     },
     "Reach out to someone you trust if you feel overwhelmed" : {
       "localizations" : {
@@ -34076,10 +34089,36 @@
       }
     },
     "Turn On Reminders" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟提醒"
+          }
+        }
+      }
     },
     "Turning On…" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在开启…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在開啟…"
+          }
+        }
+      }
     },
     "Two different drugs that hit the same receptor share tolerance. Recent LSD blunts a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance is tracked per receptor here, and why a “new” drug in the same family can still feel weak." : {
       "localizations" : {

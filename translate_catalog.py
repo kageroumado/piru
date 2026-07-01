@@ -58,6 +58,9 @@ T = {
         "可选的起效、上升期和巅峰提醒，让一切尽在掌握。",
         "可選的起效、上升期與巔峰提醒，讓一切盡在掌握。",
     ),
+    "Turn On Reminders": ("开启提醒", "開啟提醒"),
+    "Turning On…": ("正在开启…", "正在開啟…"),
+    "Re-read from Health": ("重新从「健康」读取", "重新從「健康」讀取"),
     "Not Now": ("暂不", "暫不"),
     "You're all set": ("一切就绪", "一切就緒"),
     "Tap the + button any time to log your first dose. Tips will point out the rest as you go.": (
@@ -3971,6 +3974,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Onboarding redesign (2026-07-01) — ternary-embedded labels Xcode didn't auto-extract.
+        "Turn On Reminders",
+        "Turning On…",
+        "Re-read from Health",
         # Substance inventory tracking (2026-06-30) — strings added since last extraction.
         "Counting",
         "Increase",
