@@ -139,6 +139,13 @@ struct ToleranceToolView: View {
         }
     }
 
+    /// Minimum severity for a non-safety class to earn a card — the "No tolerance" / "Mild" bucket
+    /// boundary (``bucket(_:)``: rested at responseFraction ≥ 0.90 ⇒ severity ≤ 0.10). Below it a card
+    /// would render while labelling itself "No tolerance" and quoting a "fades in under an hour"
+    /// recovery, which is noise — it's how a drug with only trace activity at the class's target (e.g.
+    /// amphetamine's weak SERT release) slipped into the chart. Safety-critical classes bypass it.
+    private static let minimumCardSeverity = 0.10
+
     /// Flat, safety-first ordering: the safety-critical classes (sorted by severity) lead, then the rest
     /// by severity. A safety-critical class is shown even when its right-shift is negligible (the
     /// adrenergic rebound hosts) so its discontinuation warning is never dropped.
@@ -146,7 +153,7 @@ struct ToleranceToolView: View {
         let all = tolerance.states.values.compactMap { snapshot -> Row? in
             let params = ReceptorClasses.parameters(for: snapshot.receptorClass)
             let row = Row(snapshot: snapshot, params: params)
-            guard snapshot.severity > 0.03 || row.isSafetyCritical else { return nil }
+            guard snapshot.severity > Self.minimumCardSeverity || row.isSafetyCritical else { return nil }
             return row
         }
         let critical = all.filter(\.isSafetyCritical).sorted { $0.snapshot.severity > $1.snapshot.severity }
