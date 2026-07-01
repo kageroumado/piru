@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 
 /// Shared `•••` overflow toolbar menu: optional per-screen `menuExtras`
 /// followed by the always-present Settings/Help. Used as a trailing
@@ -30,6 +31,7 @@ struct AppOverflowMenu<Extras: View>: View {
                 .font(.system(size: 17, weight: .semibold))
         }
         .accessibilityLabel(Text("More"))
+        .popoverTip(SettingsDataTip(), arrowEdge: .top)
     }
 
     private func present(_ route: SheetRoute) {

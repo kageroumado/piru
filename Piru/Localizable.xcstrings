@@ -6543,6 +6543,22 @@
         }
       }
     },
+    "Backups, export & import, and preferences are all under Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份、导入导出和偏好设置都在「设置」中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份、匯入匯出與偏好設定都在「設定」中。"
+          }
+        }
+      }
+    },
     "Bacterial DNA Gyrase and Topoisomerase IV Inhibitor" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21226,6 +21242,7 @@
       }
     },
     "Never show again" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36077,6 +36094,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的資料是安全的"
+          }
+        }
+      }
+    },
+    "Your data lives here" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据都在这里"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的資料都在這裡"
           }
         }
       }

@@ -61,6 +61,11 @@ T = {
     "Turn On Reminders": ("开启提醒", "開啟提醒"),
     "Turning On…": ("正在开启…", "正在開啟…"),
     "Re-read from Health": ("重新从「健康」读取", "重新從「健康」讀取"),
+    "Your data lives here": ("你的数据都在这里", "你的資料都在這裡"),
+    "Backups, export & import, and preferences are all under Settings.": (
+        "备份、导入导出和偏好设置都在「设置」中。",
+        "備份、匯入匯出與偏好設定都在「設定」中。",
+    ),
     "Not Now": ("暂不", "暫不"),
     "You're all set": ("一切就绪", "一切就緒"),
     "Tap the + button any time to log your first dose. Tips will point out the rest as you go.": (
@@ -3978,6 +3983,9 @@ if __name__ == "__main__":
         "Turn On Reminders",
         "Turning On…",
         "Re-read from Health",
+        # First-run nudge sequencing (2026-07-01) — settings/data discoverability tip.
+        "Your data lives here",
+        "Backups, export & import, and preferences are all under Settings.",
         # Substance inventory tracking (2026-06-30) — strings added since last extraction.
         "Counting",
         "Increase",

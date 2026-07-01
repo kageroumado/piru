@@ -60,11 +60,17 @@ private struct OnboardingGateModifier: ViewModifier {
     }
 }
 
-/// Invites the user to Discord once per launch (after onboarding, so modals
-/// don't stack) until they dismiss it forever. Owns the presentation `@State`.
+/// Invites the user to the community Discord — but only once they're genuinely engaged: past the
+/// first couple of sessions (`appLaunchCount >= 3`) and having logged at least one dose. Shown a
+/// single time, never in the first session, and never stacked on the first-run tips (a logged dose
+/// means the "log a dose" tip has already retired). A brand-new user is never ambushed; someone who
+/// keeps coming back gets a genuine invitation.
 private struct DiscordInviteModifier: ViewModifier {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("discordPromptShown") private var discordShown = false
     @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
+    @AppStorage("appLaunchCount") private var appLaunchCount = 0
+    @Environment(\.modelContext) private var modelContext
     @State private var showDiscordPrompt = false
 
     func body(content: Content) -> some View {
@@ -73,11 +79,14 @@ private struct DiscordInviteModifier: ViewModifier {
                 DiscordPromptView()
             }
             .task {
-                guard hasCompletedOnboarding, !discordDismissed else { return }
-                try? await Task.sleep(for: .seconds(0.8))
-                if hasCompletedOnboarding, !discordDismissed {
-                    showDiscordPrompt = true
-                }
+                guard hasCompletedOnboarding, !discordShown, !discordDismissed, appLaunchCount >= 3
+                else { return }
+                let hasDose = ((try? modelContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
+                guard hasDose else { return }
+                try? await Task.sleep(for: .seconds(1.0))
+                guard !discordShown, !discordDismissed else { return }
+                discordShown = true
+                showDiscordPrompt = true
             }
     }
 }

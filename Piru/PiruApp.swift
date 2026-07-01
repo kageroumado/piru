@@ -96,6 +96,13 @@ struct PiruApp: App {
                     _ = SubstanceStore.shared.count
                     // Set up first-run contextual tips (gated on onboarding completion).
                     OnboardingTips.configure()
+                    // First-run nudge sequencing: bump the launch counter and record whether a dose
+                    // has ever been logged, so the tips ladder (log a dose → where settings live) and
+                    // the Discord invite only surface once the user is genuinely engaged.
+                    let launches = UserDefaults.standard.integer(forKey: "appLaunchCount") + 1
+                    UserDefaults.standard.set(launches, forKey: "appLaunchCount")
+                    let hasDose = ((try? container.mainContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
+                    OnboardingTips.updateEngagement(hasLoggedDose: hasDose)
                     // Warm the search-history store (opens its App Group suite +
                     // decodes the recent list) at launch so the first Search-tab
                     // open doesn't pay the cold first-touch on its hot path.

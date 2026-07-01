@@ -23,11 +23,20 @@ enum OnboardingTips {
     static func markOnboardingComplete() {
         LogDoseTip.onboardingComplete = true
     }
+
+    /// Record whether the user has ever logged a dose. This advances the tip ladder: the "log a
+    /// dose" tip retires once true, and the "where your data lives" tip becomes eligible.
+    static func updateEngagement(hasLoggedDose: Bool) {
+        LogDoseTip.hasLoggedFirstDose = hasLoggedDose
+    }
 }
 
-/// Points at the "Log a dose" accessory the first time the Journal is seen after onboarding.
+/// Points at the "Log a dose" accessory the first time the Journal is seen after onboarding, and
+/// retires itself once the user has actually logged something.
 struct LogDoseTip: Tip {
     @Parameter static var onboardingComplete: Bool = false
+    /// Shared across the ladder — also read by ``SettingsDataTip`` to sequence after this one.
+    @Parameter static var hasLoggedFirstDose: Bool = false
 
     var title: Text {
         Text("Log your first dose")
@@ -41,6 +50,25 @@ struct LogDoseTip: Tip {
 
     var rules: [Rule] {
         #Rule(Self.$onboardingComplete) { $0 == true }
+        #Rule(Self.$hasLoggedFirstDose) { $0 == false }
+    }
+}
+
+/// Once the user has logged a dose, points at the ••• menu to reveal that backups, export/import,
+/// and preferences all live under Settings — the one thing the tour deliberately doesn't cover.
+struct SettingsDataTip: Tip {
+    var title: Text {
+        Text("Your data lives here")
+    }
+    var message: Text? {
+        Text("Backups, export & import, and preferences are all under Settings.")
+    }
+    var image: Image? {
+        Image(systemName: "gearshape")
+    }
+
+    var rules: [Rule] {
+        #Rule(LogDoseTip.$hasLoggedFirstDose) { $0 == true }
     }
 }
 
