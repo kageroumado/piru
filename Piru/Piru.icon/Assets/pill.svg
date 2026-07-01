@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <defs>
-    <linearGradient id="pt" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F6EAF1"/></linearGradient>
-    <linearGradient id="pb" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF91AC"/><stop offset="100%" stop-color="#EE678D"/></linearGradient>
+    <linearGradient id="pt" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F4EAF1"/></linearGradient>
+    <linearGradient id="pb" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F096AC"/><stop offset="100%" stop-color="#DE6F8D"/></linearGradient>
   </defs>
   <path d="M 332 257 Q 332 107 512 107 Q 692 107 692 257 L 692 512 L 332 512 Z" fill="url(#pt)"/>
   <path d="M 332 512 L 692 512 L 692 767 Q 692 917 512 917 Q 332 917 332 767 Z" fill="url(#pb)"/>
-  <line x1="332" y1="512" x2="692" y2="512" stroke="#EAD2E0" stroke-width="2.5"/>
+  <line x1="332" y1="512" x2="692" y2="512" stroke="#E6D3DF" stroke-width="2.5"/>
   <path d="M 374 167 Q 374 129 434 129 L 449 129 Q 394 152 386 212 L 374 257 Z" fill="white" opacity="0.4"/>
 </svg>
