@@ -94,6 +94,8 @@ struct PiruApp: App {
                     // Touch the store so its singleton init runs (opens the
                     // SQLite, seeds preferences) before the first view query.
                     _ = SubstanceStore.shared.count
+                    // Set up first-run contextual tips (gated on onboarding completion).
+                    OnboardingTips.configure()
                     // Warm the search-history store (opens its App Group suite +
                     // decodes the recent list) at launch so the first Search-tab
                     // open doesn't pay the cold first-touch on its hot path.

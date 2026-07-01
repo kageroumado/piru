@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import TipKit
 import UIKit
 
 struct ContentView: View {
@@ -585,6 +586,7 @@ private struct BottomAccessoryContent: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 11)
+            .popoverTip(LogDoseTip(), arrowEdge: .bottom)
             .animation(.snappy, value: showSessionPill)
         }
     }

@@ -1,6 +1,7 @@
 import ActivityKit
 import SwiftData
 import SwiftUI
+import TipKit
 
 struct SessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
@@ -700,6 +701,7 @@ private struct SessionTimelineSection: View {
                     .controlSize(.mini)
                     .tint(Theme.accent)
                     .textCase(nil)
+                    .popoverTip(isRunning ? nil : LiveActivityTip())
                 }
 
                 if graphExpanded {
