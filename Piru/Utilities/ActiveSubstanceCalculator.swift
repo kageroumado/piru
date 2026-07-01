@@ -205,7 +205,9 @@ extension ActiveSubstanceState {
         let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
         if let duration = substance.timelineDuration(for: entry.route) {
             return ActiveSubstanceState(
-                name: entry.substance,
+                // Canonical common name, so a dose logged under an alias (e.g. "Lysergic Acid
+                // Diethylamide") labels its curve "LSD" like the rest of the app.
+                name: substance.displayTitle,
                 colorHex: colorHex,
                 timestamp: entry.timestamp,
                 amount: entry.amount,
@@ -220,7 +222,7 @@ extension ActiveSubstanceState {
         }
         if let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {
             return ActiveSubstanceState(
-                synthesizedForName: entry.substance,
+                synthesizedForName: substance.displayTitle,
                 colorHex: colorHex,
                 timestamp: entry.timestamp,
                 amount: entry.amount,
@@ -263,7 +265,8 @@ extension ActiveSubstanceState {
                 states.append(state)
             } else {
                 markers.append(DoseMarker(
-                    substanceName: entry.substance,
+                    // Canonical name so the marker's label and its lane matching agree with the curves.
+                    substanceName: SubstanceLibrary.timelineLookup(entry.substance)?.displayTitle ?? entry.substance,
                     timestamp: entry.timestamp,
                     colorHex: hex,
                     amount: entry.amount,

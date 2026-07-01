@@ -836,6 +836,9 @@ struct SessionCard: Identifiable, Equatable {
     /// Clock label — a single start time, or "start – end" for a span.
     let timeLabel: String
     let uniqueSubstances: [String]
+    /// Canonical common names for display (raw `uniqueSubstances` stays keyed for colour lookups). A
+    /// dose logged under an alias reads by its canonical name — "LSD", not "Lysergic Acid Diethylamide".
+    let substanceDisplayList: [String]
     let substanceSummary: String
     let doseCountText: String
 
@@ -864,15 +867,21 @@ struct SessionCard: Identifiable, Equatable {
         // showed up in first-render profiles.
         var seen = Set<String>()
         var unique: [String] = []
-        for name in entries.map(\.substance) where seen.insert(name).inserted {
-            unique.append(name)
+        // Canonical display names, deduped independently so two aliases of the same drug collapse to one.
+        var seenDisplay = Set<String>()
+        var display: [String] = []
+        for name in entries.map(\.substance) {
+            if seen.insert(name).inserted { unique.append(name) }
+            let shown = SubstanceLibrary.timelineLookup(name)?.displayTitle ?? name
+            if seenDisplay.insert(shown.lowercased()).inserted { display.append(shown) }
         }
         uniqueSubstances = unique
-        if unique.count <= 3 {
-            substanceSummary = unique.joined(separator: ", ")
+        substanceDisplayList = display
+        if display.count <= 3 {
+            substanceSummary = display.joined(separator: ", ")
         } else {
-            let first = unique.prefix(3).joined(separator: ", ")
-            substanceSummary = String(localized: "\(first) +\(unique.count - 3) more")
+            let first = display.prefix(3).joined(separator: ", ")
+            substanceSummary = String(localized: "\(first) +\(display.count - 3) more")
         }
         doseCountText = entries.count == 1
             ? String(localized: "1 dose")
@@ -1229,7 +1238,10 @@ private struct ActiveSessionHeroCard: View {
     /// `lineLimit(1)`, so the system truncates only if the names genuinely don't
     /// fit, rather than pre-empting a name (e.g. "Memantine") that would.
     private var displayNames: String {
-        uniqueSubstances.joined(separator: ", ")
+        // Canonical common names (the no-card fallback reads `states`, whose names are already
+        // canonical); `uniqueSubstances` stays raw because it also keys the colour dots.
+        if let card { return card.substanceDisplayList.joined(separator: ", ") }
+        return uniqueSubstances.joined(separator: ", ")
     }
 
     private var uniqueSubstances: [String] {
