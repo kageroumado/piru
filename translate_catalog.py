@@ -9,6 +9,25 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Tolerance tool toolbar cleanup (2026-07-01) — Mail-style options menu + per-substance mode.
+    # ("By mechanism" already lives in the tolerance-explainer block below — reused here.)
+    "By substance": ("按物质", "按物質"),
+    "Display options": ("显示选项", "顯示選項"),
+    "Log a few doses and each substance's tolerance shows up here.": (
+        "记录几次剂量后，每种物质的耐受性都会显示在这里。",
+        "記錄幾次劑量後，每種物質的耐受性都會顯示在這裡。",
+    ),
+    "Show all %lld doses": ("显示全部 %lld 次剂量", "顯示全部 %lld 次劑量"),
+    "Show %lld latest doses": ("显示最近 %lld 次剂量", "顯示最近 %lld 次劑量"),
+    "Show less": ("收起", "收起"),
+    "Calculating each substance's contribution…": (
+        "正在计算每种物质的贡献……",
+        "正在計算每種物質的貢獻……",
+    ),
+    "Each card is that substance's own contribution. Mechanisms are shared, so your overall level (the chart above, or By mechanism) can be higher.": (
+        "每张卡片是该物质自身的贡献。机制是共享的，所以你的整体水平（上方图表或“按机制”）可能更高。",
+        "每張卡片是該物質自身的貢獻。機制是共享的，所以你的整體水平（上方圖表或「按機制」）可能更高。",
+    ),
     # Onboarding redesign (2026-07-01): 8-step first-run flow — welcome, privacy, tour, depth, weight, reminders, import, done, tips.
     "Track what you take — and understand how it affects your body.": (
         "记录你摄入的一切——并了解它如何影响你的身体。",
@@ -3999,6 +4018,16 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Tolerance tool toolbar cleanup (2026-07-01) — interpolated/ternary labels not auto-extracted.
+        "By mechanism",
+        "By substance",
+        "Display options",
+        "Log a few doses and each substance's tolerance shows up here.",
+        "Show all %lld doses",
+        "Show %lld latest doses",
+        "Show less",
+        "Calculating each substance's contribution…",
+        "Each card is that substance's own contribution. Mechanisms are shared, so your overall level (the chart above, or By mechanism) can be higher.",
         # Onboarding redesign (2026-07-01) — ternary-embedded labels Xcode didn't auto-extract.
         "Turn On Reminders",
         "Turning On…",
@@ -4675,7 +4704,6 @@ if __name__ == "__main__":
         "Cross-tolerance",
         "Tolerance is shared by receptor, not by name",
         "Two different drugs that hit the same receptor share tolerance. Recent LSD lowers a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance here is tracked per receptor target, and why a “new” drug in the same family can still be blunted.",
-        "By mechanism",
         "Recovery timescales and tolerance behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.",
         "Dose-response tolerance",
         "Recovery-state load",

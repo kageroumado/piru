@@ -26,11 +26,15 @@ struct ToleranceToolView: View {
     @State private var tolerance = ToleranceStore.shared
     @State private var profile = UserProfileStore.shared
 
-    /// How the engaged mechanisms are laid out — the choice surfaced by the **View as** switcher.
-    @State private var viewMode: ToleranceViewMode = .cards
+    /// What sits **below** the always-on combined recovery chart — mechanism cards or per-substance
+    /// rows. Chosen from the Mail-style options menu; the combined chart shows in both.
+    @State private var detailMode: ToleranceDetailMode = .perReceptor
 
-    /// Drives the **View as** thumbnail popover anchored on the toolbar button.
-    @State private var showsViewAsPopover = false
+    /// Drives the Mail-style options popover anchored on the single toolbar button.
+    @State private var showsOptions = false
+
+    /// Per-substance rows whose full dose history is expanded (keyed by logged substance name).
+    @State private var expandedSubstances: Set<String> = []
 
     var body: some View {
         List {
@@ -41,13 +45,16 @@ struct ToleranceToolView: View {
                 if rows.isEmpty, tolerance.incompleteDataSubstances.isEmpty {
                     emptyState
                 } else {
-                    switch viewMode {
-                    case .cards:
+                    // The combined recovery chart is the always-on hero — a small card that fits in
+                    // either mode; the detail below it is what the options menu switches.
+                    combinedRecoverySection
+                    switch detailMode {
+                    case .perReceptor:
                         ForEach(rows) { row in
                             Section { card(row) }
                         }
-                    case .recovery:
-                        combinedRecoverySection
+                    case .perSubstance:
+                        perSubstanceSection
                     }
                     incompleteDataSection
                 }
@@ -57,14 +64,25 @@ struct ToleranceToolView: View {
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .appNavigationBar("Tolerance")
+        .appNavigationBar("Tolerance", showsOverflow: false)
         .toolbar {
-            viewAsMenu
-            tierMenu
+            optionsButton
         }
         // Lazy replay: the 90-day integration runs only while this tool is open, and re-runs when
         // the dose log or body weight changes — kept off the launch / dose-write hot path.
         .task(id: recomputeSignature) { await tolerance.recompute(from: entries) }
+        // The per-substance "alone" replay is heavier still (one replay per substance), so it runs only
+        // once the per-substance view is actually selected — the default per-mechanism view never pays.
+        .task(id: perSubstanceTaskID) {
+            guard detailMode == .perSubstance else { return }
+            await tolerance.recomputePerSubstance(from: entries)
+        }
+    }
+
+    /// Task id for the per-substance replay: recomputes when the log/weight changes *or* when the user
+    /// switches into the per-substance view (so entering it triggers the first replay).
+    private var perSubstanceTaskID: String {
+        "\(detailMode == .perSubstance)|\(recomputeSignature)"
     }
 
     private var tier: UserProfile {
@@ -79,45 +97,31 @@ struct ToleranceToolView: View {
 
     // MARK: - Toolbar
 
+    /// The single, Mail-style options button: one glyph opening a popover that carries both the
+    /// display-mode thumbnail picker and the detail-tier list. Replaces the old pair of toolbar
+    /// controls (View-as switcher + tier menu) and the app overflow menu (dropped here — Settings/Help
+    /// are root-level, redundant on a pushed tool screen).
     @ToolbarContentBuilder
-    private var tierMenu: some ToolbarContent {
+    private var optionsButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            Menu {
-                Picker("Detail level", selection: tierBinding) {
-                    ForEach(UserProfile.allCases) { option in
-                        Label(option.displayName, systemImage: option.icon).tag(option)
-                    }
-                }
-                .pickerStyle(.inline)
+            Button {
+                showsOptions = true
             } label: {
+                // The current tier's glyph, so the button both opens the menu and advertises the active
+                // detail level (leaf / heart / atom) rather than a generic ellipsis.
                 Image(systemName: tier.icon)
                     .foregroundStyle(Theme.accent)
             }
-            .accessibilityLabel("Detail level")
+            .accessibilityLabel("Display options")
+            .popover(isPresented: $showsOptions) {
+                ToleranceOptionsMenu(mode: $detailMode, tier: tierBinding)
+                    .presentationCompactAdaptation(.popover)
+            }
         }
     }
 
     private var tierBinding: Binding<UserProfile> {
         Binding(get: { tier }, set: { profile.setDisclosureTier($0) })
-    }
-
-    /// The **View as** layout switcher — a button showing the current mode's glyph that opens a
-    /// thumbnail popover (one drawn preview per layout). Sits leading of the tier menu.
-    @ToolbarContentBuilder
-    private var viewAsMenu: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                showsViewAsPopover = true
-            } label: {
-                Image(systemName: viewMode.icon)
-                    .foregroundStyle(Theme.accent)
-            }
-            .accessibilityLabel("View as")
-            .popover(isPresented: $showsViewAsPopover) {
-                ViewAsSwitcher(selection: $viewMode) { showsViewAsPopover = false }
-                    .presentationCompactAdaptation(.popover)
-            }
-        }
     }
 
     // MARK: - Rows
@@ -697,7 +701,202 @@ struct ToleranceToolView: View {
         ListFormatter.localizedString(byJoining: names)
     }
 
-    // MARK: - Combined recovery chart (.recovery mode)
+    // MARK: - Per-substance rows
+
+    /// One logged substance's tolerance readout: **every** mechanism class it drives (MDMA touches
+    /// DAT/NET, SERT and 5-HT2A, each with its own level), highest-severity first, plus its dose
+    /// history. Only substances the model actually scored appear — the "can't predict yet" set stays in
+    /// ``incompleteDataSection``.
+    private struct SubstanceGroup: Identifiable {
+        let name: String
+        let displayName: String
+        let doses: [DoseEntry]
+        /// The mechanism classes this substance contributes to, sorted by severity (worst first).
+        let classes: [ClassTolerance]
+        var id: String {
+            name
+        }
+
+        /// The substance's worst mechanism — drives the leading dot's colour and the list ordering.
+        var topSeverity: Double {
+            classes.first?.severity ?? 0
+        }
+    }
+
+    /// Group the dose log by substance and attach each to **all** the mechanisms it drives — using the
+    /// substance's **alone** tolerance (its own doses replayed in isolation), so a card shows *that
+    /// substance's own contribution*, not the joint class number that amphetamine would dominate. Ordered
+    /// most-toleranced first.
+    private var substanceGroups: [SubstanceGroup] {
+        // Bucket every logged dose under its substance (entries arrive most-recent-first).
+        var dosesByName: [String: [DoseEntry]] = [:]
+        for entry in entries {
+            dosesByName[entry.substance, default: []].append(entry)
+        }
+
+        return tolerance.perSubstanceStates.compactMap { name, classStates -> SubstanceGroup? in
+            let doses = dosesByName[name] ?? []
+            let classes = classStates.values.sorted { $0.severity > $1.severity }
+            guard !doses.isEmpty, !classes.isEmpty else { return nil }
+            return SubstanceGroup(
+                name: name,
+                displayName: CustomSubstanceStore.shared.displayName(for: name),
+                doses: doses,
+                classes: classes,
+            )
+        }
+        .sorted { lhs, rhs in
+            lhs.topSeverity != rhs.topSeverity
+                ? lhs.topSeverity > rhs.topSeverity
+                : (lhs.doses.first?.timestamp ?? .distantPast) > (rhs.doses.first?.timestamp ?? .distantPast)
+        }
+    }
+
+    @ViewBuilder
+    private var perSubstanceSection: some View {
+        let groups = substanceGroups
+        if groups.isEmpty {
+            Section {
+                if tolerance.perSubstanceStates.isEmpty, !rows.isEmpty {
+                    // The per-substance replay is still running (first entry into this view).
+                    HStack(spacing: 8) {
+                        ProgressView()
+                        Text("Calculating each substance's contribution…")
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    .padding(.vertical, 4)
+                } else {
+                    Text("Log a few doses and each substance's tolerance shows up here.")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.vertical, 4)
+                }
+            }
+        } else {
+            Section {
+                Label("Each card is that substance's own contribution. Mechanisms are shared, so your overall level (the chart above, or By mechanism) can be higher.", systemImage: "person.fill.viewfinder")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .padding(.vertical, 4)
+            }
+            ForEach(groups) { group in
+                Section { substanceCard(group) }
+            }
+        }
+    }
+
+    private func substanceCard(_ group: SubstanceGroup) -> some View {
+        let topColor = group.classes.first?.receptorClass.familyColor ?? .secondary
+        let expanded = expandedSubstances.contains(group.name)
+        let total = group.doses.count
+        // Expanded view caps at the latest 20 — a heavy caffeine log runs to hundreds of rows, which
+        // would bury the rest of the list.
+        let cap = min(total, Self.expandedDoseLimit)
+        let shown = expanded ? Array(group.doses.prefix(cap)) : Array(group.doses.prefix(3))
+        return VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Circle().fill(topColor).frame(width: 9, height: 9)
+                Text(group.displayName)
+                    .font(.headline)
+                Spacer(minLength: 8)
+            }
+
+            // Every mechanism this substance drives, each with its own level and family-coloured bar.
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(group.classes) { snapshot in
+                    mechanismRow(snapshot)
+                }
+            }
+
+            Divider()
+
+            VStack(spacing: 8) {
+                ForEach(shown) { entry in
+                    doseRow(entry)
+                    if entry.id != shown.last?.id { Divider() }
+                }
+            }
+
+            if total > 3 {
+                Button {
+                    toggleExpanded(group.name)
+                } label: {
+                    Text(collapsedLabel(total: total, expanded: expanded))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderless)
+            }
+        }
+        .padding(.vertical, 6)
+    }
+
+    /// One mechanism line inside a per-substance card: the class name + its tolerance word, over a slim
+    /// family-coloured level bar.
+    private func mechanismRow(_ snapshot: ClassTolerance) -> some View {
+        let color = snapshot.receptorClass.familyColor
+        return VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 8) {
+                Circle().fill(color).frame(width: 7, height: 7)
+                Text(className(for: snapshot.receptorClass))
+                    .font(.subheadline)
+                Spacer(minLength: 8)
+                Text(toleranceWord(snapshot.responseFraction))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(color)
+            }
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.secondary.opacity(0.18))
+                    Capsule().fill(color)
+                        .frame(width: max(0, geo.size.width * min(1, max(0, snapshot.severity))))
+                }
+            }
+            .frame(height: 7)
+        }
+    }
+
+    /// One dose in a per-substance card — the Your-History row layout (amount + route on the left, the
+    /// timestamp on the right) so the two screens read identically.
+    private func doseRow(_ entry: DoseEntry) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                    .font(.subheadline)
+                Text(entry.route.localizedName)
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            Spacer()
+            Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
+    /// Most doses shown when a per-substance card is expanded — enough to see the recent pattern
+    /// without a hundreds-row wall.
+    private static let expandedDoseLimit = 20
+
+    /// The expand/collapse button's label: "Show less" when open, otherwise "Show all N doses" (when
+    /// they all fit) or "Show 20 latest doses" (when the log is capped).
+    private func collapsedLabel(total: Int, expanded: Bool) -> LocalizedStringResource {
+        if expanded { return "Show less" }
+        return total > Self.expandedDoseLimit
+            ? "Show \(Self.expandedDoseLimit) latest doses"
+            : "Show all \(total) doses"
+    }
+
+    private func toggleExpanded(_ name: String) {
+        if expandedSubstances.contains(name) {
+            expandedSubstances.remove(name)
+        } else {
+            expandedSubstances.insert(name)
+        }
+    }
+
+    // MARK: - Combined recovery chart (always shown)
 
     /// One mechanism's recovery trajectory plus the legend metadata that names it.
     private struct RecoverySeries: Identifiable {
@@ -811,160 +1010,192 @@ struct ToleranceToolView: View {
             : "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset."
     }
 
-    // MARK: - View mode
+    // MARK: - Detail mode
 
-    /// The two ways to read the tool: per-mechanism **cards**, or every mechanism on one shared
-    /// **recovery** axis. Each mode carries its own toolbar glyph and the title/subtitle the **View as**
-    /// switcher shows.
-    enum ToleranceViewMode: CaseIterable, Identifiable {
-        case cards
-        case recovery
+    /// What the options menu shows **below** the always-on combined recovery chart: per-mechanism
+    /// **cards** or per-substance **rows**. The combined chart shows in both; this only switches the
+    /// detail. Each case carries the caption its thumbnail shows in the picker.
+    enum ToleranceDetailMode: CaseIterable, Identifiable {
+        case perReceptor
+        case perSubstance
 
         var id: Self {
             self
         }
 
-        var icon: String {
-            switch self {
-            case .cards: "square.stack"
-            case .recovery: "chart.line.uptrend.xyaxis"
-            }
-        }
-
         var title: LocalizedStringResource {
             switch self {
-            case .cards: "Cards"
-            case .recovery: "Recovery chart"
-            }
-        }
-
-        var subtitle: LocalizedStringResource {
-            switch self {
-            case .cards: "One card per mechanism"
-            case .recovery: "All mechanisms, one axis"
+            case .perReceptor: "By mechanism"
+            case .perSubstance: "By substance"
             }
         }
     }
 
-    // MARK: - View-as switcher (thumbnail popover)
+    // MARK: - Options menu (Mail-style popover)
 
-    /// The Apple-style layout picker shown in the **View as** popover: one row per ``ToleranceViewMode``
-    /// with a drawn thumbnail, title + subtitle, and a checkmark on the active row.
-    private struct ViewAsSwitcher: View {
-        @Binding var selection: ToleranceViewMode
-        let onSelect: () -> Void
+    /// The single toolbar button's popover, modelled on Mail's view-options menu: a thumbnail picker
+    /// for the display mode across the top (two line-art phones with a radio each), a divider, then the
+    /// detail-tier checklist. Selecting keeps the popover open, so mode and tier can both be changed in
+    /// one visit.
+    private struct ToleranceOptionsMenu: View {
+        @Binding var mode: ToleranceDetailMode
+        @Binding var tier: UserProfile
 
         var body: some View {
             VStack(spacing: 0) {
-                ForEach(ToleranceViewMode.allCases) { mode in
-                    Button {
-                        selection = mode
-                        onSelect()
-                    } label: {
-                        row(for: mode)
-                    }
-                    .buttonStyle(.plain)
-
-                    if mode != ToleranceViewMode.allCases.last {
-                        Divider().padding(.leading, 72)
+                HStack(alignment: .top, spacing: 28) {
+                    ForEach(ToleranceDetailMode.allCases) { option in
+                        modeColumn(option)
                     }
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 18)
+                .padding(.bottom, 14)
+
+                Divider()
+
+                VStack(spacing: 0) {
+                    ForEach(UserProfile.allCases) { option in
+                        Button {
+                            tier = option
+                        } label: {
+                            tierRow(option)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical, 4)
             }
-            .padding(.vertical, 6)
-            .frame(width: 270)
+            .frame(width: 280)
         }
 
-        private func row(for mode: ToleranceViewMode) -> some View {
-            HStack(spacing: 12) {
-                ViewModeThumbnail(mode: mode)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(mode.title)
-                        .font(.subheadline.weight(.semibold))
+        private func modeColumn(_ option: ToleranceDetailMode) -> some View {
+            let selected = mode == option
+            return Button {
+                mode = option
+            } label: {
+                VStack(spacing: 8) {
+                    PhoneThumbnail(mode: option, selected: selected)
+                        .frame(width: 72, height: 148) // aspect 0.486 — the iPhone 17 bezel
+                    Text(option.title)
+                        .font(.subheadline)
                         .foregroundStyle(.primary)
-                    Text(mode.subtitle)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                    radio(selected: selected)
+                        .frame(width: 22, height: 22)
                 }
-                Spacer(minLength: 8)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text(option.title))
+            .accessibilityAddTraits(selected ? [.isSelected] : [])
+        }
+
+        private func radio(selected: Bool) -> some View {
+            ZStack {
+                if selected {
+                    Circle().fill(Theme.accent)
+                    Image(systemName: "checkmark")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(.white)
+                } else {
+                    Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
+                }
+            }
+        }
+
+        private func tierRow(_ option: UserProfile) -> some View {
+            HStack(spacing: 10) {
                 Image(systemName: "checkmark")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Theme.accent)
-                    .opacity(selection == mode ? 1 : 0)
+                    .opacity(tier == option ? 1 : 0)
+                    .frame(width: 16)
+                Image(systemName: option.icon)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 22)
+                Text(option.displayName)
+                    .foregroundStyle(.primary)
+                Spacer(minLength: 0)
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 9)
             .contentShape(Rectangle())
         }
     }
 
-    /// A ~46×34 drawn preview of a layout (no image assets): stacked rounded rects for **cards**, two
-    /// rising polylines for the **recovery** chart.
-    private struct ViewModeThumbnail: View {
-        let mode: ToleranceViewMode
+    /// A line-art iPhone silhouette drawn in a single colour (accent when selected, grey otherwise),
+    /// its screen sketched with the mode — stacked cards for **By mechanism**, list rows for **By
+    /// substance**. Proportions are taken from the Apple iPhone 17 bezel (aspect ≈ 0.485, continuous
+    /// corners) so it reads as a phone rather than an arbitrary rectangle. No image assets.
+    private struct PhoneThumbnail: View {
+        let mode: ToleranceDetailMode
+        let selected: Bool
 
         var body: some View {
-            RoundedRectangle(cornerRadius: 7)
-                .fill(Theme.inputBackground)
-                .frame(width: 46, height: 34)
-                .overlay { content }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 7)
-                        .strokeBorder(Color.secondary.opacity(0.16))
-                }
-        }
+            Canvas { context, size in
+                let color: Color = selected ? Theme.accent : .secondary
+                let line = max(1.6, size.width * 0.03)
 
-        @ViewBuilder
-        private var content: some View {
-            switch mode {
-            case .cards: cardsPreview
-            case .recovery: recoveryPreview
-            }
-        }
+                // Phone body — inset so the stroke sits fully inside the frame. Corner radius 0.16·width
+                // (the measured iPhone 17 corner extent, continuous), not a pill.
+                let body = CGRect(x: line, y: line, width: size.width - line * 2, height: size.height - line * 2)
+                let bodyPath = Path(roundedRect: body, cornerRadius: size.width * 0.16, style: .continuous)
+                context.stroke(bodyPath, with: .color(color), lineWidth: line)
 
-        private var cardsPreview: some View {
-            VStack(spacing: 3) {
-                ForEach(0 ..< 3, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(Theme.accent.opacity(0.55))
-                        .frame(height: 5)
-                }
-            }
-            .padding(.horizontal, 8)
-        }
-
-        private var recoveryPreview: some View {
-            Canvas { context, canvasSize in
-                let bottom = canvasSize.height - 5
-                let right = canvasSize.width - 5
-                stroke(
-                    in: context,
-                    from: CGPoint(x: 5, y: bottom),
-                    control: CGPoint(x: canvasSize.width * 0.45, y: bottom - 3),
-                    to: CGPoint(x: right, y: 7),
-                    color: .orange,
+                // The Dynamic Island floats inside the screen near the top (a display cutout, not part of
+                // the frame): centre ≈ 0.05·height down, a ~3.4:1 pill — the measured iPhone 17 geometry.
+                let islandW = body.width * 0.32
+                let islandH = body.height * 0.045
+                let island = CGRect(
+                    x: body.midX - islandW / 2,
+                    y: body.minY + body.height * 0.052 - islandH / 2,
+                    width: islandW, height: islandH,
                 )
-                stroke(
-                    in: context,
-                    from: CGPoint(x: 5, y: bottom),
-                    control: CGPoint(x: canvasSize.width * 0.55, y: 8),
-                    to: CGPoint(x: right, y: 4),
-                    color: Color(red: 0.56, green: 0.27, blue: 0.79),
+                context.fill(Path(roundedRect: island, cornerRadius: islandH / 2), with: .color(color))
+
+                // Content sits below the island with even side margins and a matching bottom inset, so it
+                // never touches the frame — and both modes share the same top edge.
+                let sideInset = body.width * 0.13
+                let contentTop = island.maxY + body.height * 0.04
+                let content = CGRect(
+                    x: body.minX + sideInset,
+                    y: contentTop,
+                    width: body.width - sideInset * 2,
+                    height: body.maxY - body.height * 0.06 - contentTop,
                 )
+                let tint = color.opacity(0.5)
+                switch mode {
+                case .perReceptor: drawCards(context, in: content, color: tint)
+                case .perSubstance: drawRows(context, in: content, color: tint)
+                }
             }
-            .padding(3)
         }
 
-        private func stroke(
-            in context: GraphicsContext,
-            from start: CGPoint,
-            control: CGPoint,
-            to end: CGPoint,
-            color: Color,
-        ) {
-            var path = Path()
-            path.move(to: start)
-            path.addQuadCurve(to: end, control: control)
-            context.stroke(path, with: .color(color), lineWidth: 1.7)
+        /// Three stacked card bars.
+        private func drawCards(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+            let count = 3
+            let gap = rect.height * 0.14
+            let h = (rect.height - gap * CGFloat(count - 1)) / CGFloat(count) * 0.6
+            for i in 0 ..< count {
+                let y = rect.minY + CGFloat(i) * (h + gap)
+                let bar = CGRect(x: rect.minX, y: y, width: rect.width, height: h)
+                context.fill(Path(roundedRect: bar, cornerRadius: h * 0.28), with: .color(color))
+            }
+        }
+
+        /// Four list rows: a leading dot + a line each. Rows are laid top-down with the same gap model as
+        /// the cards, so the first row begins at `rect.minY` — matching the cards' top padding.
+        private func drawRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+            let count = 4
+            let gap = rect.height * 0.12
+            let rowH = (rect.height - gap * CGFloat(count - 1)) / CGFloat(count)
+            let dot = min(rect.width * 0.15, rowH)
+            let lineH = max(2, rowH * 0.42)
+            for i in 0 ..< count {
+                let cy = rect.minY + CGFloat(i) * (rowH + gap) + rowH / 2
+                context.fill(Path(ellipseIn: CGRect(x: rect.minX, y: cy - dot / 2, width: dot, height: dot)), with: .color(color))
+                let lineRect = CGRect(x: rect.minX + dot * 1.6, y: cy - lineH / 2, width: rect.width - dot * 1.6, height: lineH)
+                context.fill(Path(roundedRect: lineRect, cornerRadius: lineH / 2), with: .color(color))
+            }
         }
     }
 

@@ -155,6 +155,15 @@ final class ToleranceStore {
     /// heavy-kratom → "Opioids: nearly recovered" safety trap). Observation-tracked.
     private(set) var incompleteDataSubstances: [String] = []
 
+    /// Per-substance **"alone" tolerance**: each logged substance replayed through the engine using
+    /// *only its own doses*, so the per-substance view can show what that substance alone contributes to
+    /// each mechanism (MDMA's own DAT/NET share, not the amphetamine that dominates the joint class
+    /// number). Keyed by logged substance name → its alone per-class snapshot. Populated **lazily** by
+    /// ``recomputePerSubstance(from:now:)`` only while the per-substance view is shown. Because the
+    /// class combination is non-linear (`1 − ∏(1−occ)`), these do **not** sum to the joint ``states``.
+    private(set) var perSubstanceStates: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]] = [:]
+    @ObservationIgnored private var perSubstanceSignature: String?
+
     /// Signature of the inputs behind the current ``states`` (dose-log content + body weight + an hourly
     /// time bucket). A repeat ``recompute(from:now:)`` with the same signature is a no-op, so re-opening
     /// the tool or returning to it serves the warm snapshot instead of replaying the whole log again.
@@ -249,6 +258,54 @@ final class ToleranceStore {
         incompleteDataSubstances = Self.incompleteData(doses: doses, params: params, now: now)
         lastSignature = signature
         persist(computed, now: now)
+    }
+
+    /// Replay **each logged substance independently** — its own doses only — to populate
+    /// ``perSubstanceStates`` for the per-substance view. Signature-gated (same dose log + weight ⇒
+    /// no-op, so flipping back to the view is free) and off-main. Called lazily by the view when the
+    /// per-substance mode appears, so the default per-mechanism view never pays for it.
+    func recomputePerSubstance(from entries: [DoseEntry], now: Date = .now) async {
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        let signature = Self.signature(entries: entries, weightKg: weightKg, now: now)
+        if signature == perSubstanceSignature { return }
+
+        let doses = entries.map {
+            SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
+        }
+        // Resolve pharmacology for every logged substance and the class representatives once (shared
+        // across the per-substance replays, exactly as the joint recompute does).
+        let uniqueNames = Array(Set(doses.map(\.substance) + Self.classRepresentative.values))
+        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+
+        perSubstanceStates = await Self.computePerSubstanceOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
+        perSubstanceSignature = signature
+    }
+
+    /// Partition the log by substance and replay each partition through the pure ``simulate`` core, so
+    /// every substance's contribution is modelled with the same physiology but in isolation. Runs on the
+    /// dedicated ``replayExecutor`` with the per-substance replays fanned out across a `TaskGroup`.
+    private nonisolated static func computePerSubstanceOffMain(
+        doses: [SimDose], params: [String: PharmacologyParameters], now: Date, weightKg: Double,
+    ) async -> [String: [ReceptorClasses.ReceptorClass: ClassTolerance]] {
+        var dosesByName: [String: [SimDose]] = [:]
+        for dose in doses {
+            dosesByName[dose.substance, default: []].append(dose)
+        }
+
+        return await withTaskExecutorPreference(replayExecutor) {
+            await withTaskGroup(of: (String, [ReceptorClasses.ReceptorClass: ClassTolerance]).self) { group in
+                for (name, subDoses) in dosesByName {
+                    group.addTask {
+                        (name, simulate(doses: subDoses, params: params, now: now, weightKg: weightKg))
+                    }
+                }
+                var result: [String: [ReceptorClasses.ReceptorClass: ClassTolerance]] = [:]
+                for await (name, states) in group where !states.isEmpty {
+                    result[name] = states
+                }
+                return result
+            }
+        }
     }
 
     /// Logged substances inside the window that *would* drive a tolerance class but can't be modeled
