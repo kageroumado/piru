@@ -874,7 +874,7 @@ private struct TrayRow: View {
                 // Same font and leading column as "Add another…" so the
                 // tray reads as one aligned list (the colour dot is gone —
                 // the chips already carry the substance colour).
-                Text(dose.substanceName)
+                Text(CustomSubstanceStore.shared.displayName(for: dose.substanceName))
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.primary)
                     .matchedGeometryEffect(id: "title-\(dose.id)", in: namespace)
@@ -1110,7 +1110,7 @@ private struct StagedDoseEditor: View {
                 .rotationEffect(.degrees(90))
                 .frame(width: 16)
                 .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
-            Text(item.substanceName)
+            Text(CustomSubstanceStore.shared.displayName(for: item.substanceName))
                 .font(.body.weight(.semibold))
                 .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
             Spacer()

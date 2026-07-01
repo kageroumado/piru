@@ -327,7 +327,7 @@ private struct RoutineItemRow: View {
         Button(action: onTap) {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(item.substance)
+                    Text(CustomSubstanceStore.shared.displayName(for: item.substance))
                         .font(.body)
                         .foregroundStyle(.primary)
                     Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(String(localized: item.route.localizedName))")

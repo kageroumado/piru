@@ -350,7 +350,17 @@ final class CustomSubstanceStore {
            let dn = entry.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty {
             return dn
         }
-        return fallback ?? canonicalName
+        if let fallback { return fallback }
+        // No caller-supplied fallback: resolve the library's display title so the
+        // common name reaches every logged-dose surface — journal, sessions,
+        // tolerance chips — instead of the long systematic name. Resolve by name OR
+        // ALIAS: a dose logged under a name that is now an alias (e.g. an old
+        // "Lysergic Acid Diethylamide" entry after LSD's canonical was shortened)
+        // still maps to the "LSD" row. `resolvedCache`-memoised.
+        if let library = SubstanceLibrary.lookupByNameOrAlias(canonicalName) {
+            return library.displayTitle
+        }
+        return canonicalName
     }
 
     /// The personal display-name override for `substance`, or `nil` when none

@@ -80,7 +80,7 @@ struct SubstanceColorPickerView: View {
                 .fill(previewColor)
                 .frame(width: 5, height: 44)
             VStack(alignment: .leading) {
-                Text(substanceName)
+                Text(CustomSubstanceStore.shared.displayName(for: substanceName))
                     .font(.title3.weight(.semibold))
                 Text("Pick a color for this substance")
                     .font(.subheadline)

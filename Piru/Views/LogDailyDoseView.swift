@@ -50,7 +50,7 @@ struct LogMedicationsView: View {
                         ForEach(items) { item in
                             Toggle(isOn: binding(for: item)) {
                                 VStack(alignment: .leading, spacing: 3) {
-                                    Text(item.substance)
+                                    Text(CustomSubstanceStore.shared.displayName(for: item.substance))
                                         .font(.body)
                                     Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(String(localized: item.route.localizedName))")
                                         .font(.subheadline)

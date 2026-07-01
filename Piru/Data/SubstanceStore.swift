@@ -568,11 +568,11 @@ final class SubstanceStore {
     /// ``lookupByNameOrAlias(_:)``'s canonical-then-alias precedence.
     ///
     /// The per-field pharmacology and detail accessors resolve through this rather
-    /// than `nameIndex` alone, so a substance dosed or queried by a common alias
-    /// (e.g. `"LSD"` → canonical `"Lysergic Acid Diethylamide"`) still resolves its
-    /// bindings / PK / molar-mass instead of returning empty. Without it the
-    /// tolerance engine saw LSD as having *no* pharmacology at all and silently
-    /// dropped it.
+    /// than `nameIndex` alone, so a substance dosed or queried by an alias
+    /// (e.g. a dose logged as `"Lysergic Acid Diethylamide"`, now an alias of
+    /// canonical `"LSD"`) still resolves its bindings / PK / molar-mass instead of
+    /// returning empty. Without it the tolerance engine would see such a dose as
+    /// having *no* pharmacology at all and silently drop it.
     func substanceID(forNameOrAlias name: String) -> Int64? {
         let key = name.lowercased()
         return nameIndex[key] ?? aliasIndex[key]

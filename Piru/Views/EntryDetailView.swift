@@ -245,7 +245,7 @@ struct EntryDetailView: View {
             guard let v = Double(draftVolumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
             draftVolumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
         }
-        .navigationTitle(entry.substance)
+        .navigationTitle(CustomSubstanceStore.shared.displayName(for: entry.substance))
         .navigationBarTitleDisplayMode(.large)
         .animation(.snappy(duration: 0.28), value: isEditing)
         .toolbar { toolbarContent }
@@ -258,7 +258,7 @@ struct EntryDetailView: View {
                 deleteEntry()
             }
         } message: {
-            Text("\(entry.amount.doseFormatted) \(entry.unit) \(entry.substance) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
+            Text("\(entry.amount.doseFormatted) \(entry.unit) \(CustomSubstanceStore.shared.displayName(for: entry.substance)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
         }
         .sheet(isPresented: $showColorPicker) {
             SubstanceColorPickerView(

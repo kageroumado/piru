@@ -1,17 +1,17 @@
 # Piru SQLite build report
 
-Built 2026-06-29.0 → `Piru/Data/piru-substances.sqlite` (17,391,616 bytes, sha256 `809a077631a44b6f1aa5a73bfa054fee306135fff188d1aebe8ec915dea99cd0`)
+Built 2026-07-01.0 → `Piru/Data/piru-substances.sqlite` (17,391,616 bytes, sha256 `0570f2baab66a06b11d45aaa3c3145a9cd02a8f7dd7c1792df3faf0b8a29818e`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,933 |
-| aliases | 5,824 |
+| aliases | 5,825 |
 | sources | 17 |
 | citations | 1,862 |
 | categories | 1,852 |
-| tags | 7,811 |
+| tags | 7,809 |
 | dose_ranges | 2,899 |
 | durations | 9,458 |
 | half_lives | 279 |
@@ -51,7 +51,7 @@ Built 2026-06-29.0 → `Piru/Data/piru-substances.sqlite` (17,391,616 bytes, sha
 | erowid-tihkal | 41 | 0 | 52 | 138 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 149 | 502 |
+| wikidata | 0 | 0 | 149 | 500 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
 | pyrls | 0 | 0 | 102 | 617 |
 | medtap | 0 | 0 | 0 | 0 |

@@ -1955,7 +1955,7 @@ COMMON_CARD_ALLOWLIST = {
     "cocaine",
     "heroin",
     "mdma",
-    "lysergic acid diethylamide",
+    "lsd",
     "mushrooms",
     "methamphetamine",
     "ketamine",
@@ -2592,6 +2592,12 @@ _NAME_REMAP: dict[str, str] = {
     # Wikidata long-form / synonym variants that never matched the enriched
     # canonical (different or absent InChIKey) and would otherwise be dropped as
     # content-less stubs — fold them so their name survives as a search alias.
+    # LSD's systematic name wins the InChIKey dedup over the curated "LSD" row
+    # (TripSit/drug.community/freeodwiki all ship the long form), leaving "LSD" an
+    # alias. Remap at ingest so the common name is the canonical and the systematic
+    # name folds to an alias — nobody calls it "Lysergic Acid Diethylamide".
+    "lysergic acid diethylamide": "LSD",
+    "d-lysergic acid diethylamide": "LSD",
     "dimethyltryptamine": "DMT",  # DMT = N,N-dimethyltryptamine
     "dimethyltryptamine fumarate": "DMT",  # DMT fumarate salt
     "dimethyltryptamine hydrochloride": "DMT",  # DMT HCl salt

@@ -221,7 +221,7 @@ struct SessionDetailView: View {
             Circle()
                 .fill(colorForName(item.substance))
                 .frame(width: 10, height: 10)
-            Text(item.substance)
+            Text(CustomSubstanceStore.shared.displayName(for: item.substance))
                 .font(.headline)
             Spacer()
             Text("\(item.total.doseFormatted) \(item.unit)")
@@ -958,7 +958,7 @@ private struct MoveToSessionView: View {
                                 Circle()
                                     .fill(doseColor)
                                     .frame(width: 12, height: 12)
-                                Text(dose.substance)
+                                Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
                                     .font(.headline)
                                 Spacer()
                                 Text("\(dose.amount.doseFormatted) \(dose.unit)")
@@ -1178,7 +1178,7 @@ private struct RetimeMoveView: View {
             } header: {
                 Text("New time on \(dayLabel)")
             } footer: {
-                Text("\(dose.substance) is logged on a different day. Pick a time within this session's day so the session stays a single day.")
+                Text("\(CustomSubstanceStore.shared.displayName(for: dose.substance)) is logged on a different day. Pick a time within this session's day so the session stays a single day.")
             }
         }
         .navigationTitle("Set Time")

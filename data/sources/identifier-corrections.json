@@ -785,7 +785,7 @@
     "cid": 66857735,
     "smiles": "C[C@@H](CNS(=O)(=O)C(C)C)C1=CC=C(C=C1)C2=CC=C(C=C2)C#N"
   },
-  "Lysergic Acid Diethylamide": {
+  "LSD": {
     "smiles": "CCN(CC)C(=O)[C@H]1CN([C@@H]2CC3=CNC4=CC=CC(=C34)C2=C1)C",
     "cid": 5761
   },

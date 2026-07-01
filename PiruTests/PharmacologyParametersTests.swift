@@ -83,10 +83,10 @@ struct PharmacologyParametersTests {
         #expect(p.occupancyConfidence == .medium)
     }
 
-    /// Regression: a substance dosed by a common **alias** resolves its full pharmacology. "LSD" is an
-    /// alias of canonical "Lysergic Acid Diethylamide"; the per-field accessors used to resolve via
-    /// `nameIndex` (canonical only), so LSD came back empty and the tolerance engine silently dropped
-    /// it ("missing molar mass, Vd, F, half-life, any target"). Both names must resolve identically.
+    /// Regression: a substance dosed by an **alias** resolves its full pharmacology. Canonical is now
+    /// "LSD"; the systematic "Lysergic Acid Diethylamide" is the alias. The per-field accessors used to
+    /// resolve via `nameIndex` (canonical only), so a dose logged under the non-canonical name came back
+    /// empty and the tolerance engine silently dropped it. Both names must resolve identically.
     @Test
     func `Substance dosed by alias resolves the same pharmacology as its canonical name`() {
         let byAlias = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "LSD")

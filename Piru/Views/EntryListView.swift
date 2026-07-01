@@ -765,7 +765,7 @@ private struct SubstanceEntryRow: View {
                 .fill(color)
                 .frame(width: 10, height: 10)
             VStack(alignment: .leading, spacing: 3) {
-                Text(entry.substance)
+                Text(CustomSubstanceStore.shared.displayName(for: entry.substance))
                     .font(.subheadline.weight(.semibold))
                 Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
                     .font(.caption)
@@ -1128,7 +1128,7 @@ private struct ActiveSessionHeroCard: View {
                 Circle()
                     .fill(color)
                     .frame(width: 7, height: 7)
-                Text(verbatim: state.substanceName)
+                Text(verbatim: CustomSubstanceStore.shared.displayName(for: state.substanceName))
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .lineLimit(1)

@@ -704,7 +704,7 @@ private struct SessionAccessoryInfo: View {
             let key = state.substanceName.lowercased()
             guard !seen.contains(key) else { return nil }
             seen.insert(key)
-            return state.substanceName
+            return CustomSubstanceStore.shared.displayName(for: state.substanceName)
         }.joined(separator: ", ")
     }
 

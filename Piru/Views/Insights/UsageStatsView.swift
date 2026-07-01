@@ -394,7 +394,7 @@ private struct FrequencyChartContent: View {
 
             ForEach(data, id: \.substance) { item in
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(item.substance)
+                    Text(CustomSubstanceStore.shared.displayName(for: item.substance))
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                     HStack(spacing: 6) {
@@ -852,7 +852,7 @@ private struct CategoryBreakdownContent: View {
                         Circle()
                             .fill(colorMap[item.substance.lowercased()] ?? category.color)
                             .frame(width: 8, height: 8)
-                        Text(item.substance)
+                        Text(CustomSubstanceStore.shared.displayName(for: item.substance))
                             .font(.caption2)
                         Text("\(item.count)")
                             .font(.caption2.weight(.semibold))

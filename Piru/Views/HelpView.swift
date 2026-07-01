@@ -574,7 +574,7 @@ struct HelpView: View {
                         .frame(width: 4, height: 40)
 
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(entry.substance)
+                        Text(CustomSubstanceStore.shared.displayName(for: entry.substance))
                             .font(.subheadline.weight(.semibold))
 
                         HStack(spacing: 4) {

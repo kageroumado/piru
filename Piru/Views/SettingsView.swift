@@ -448,7 +448,7 @@ struct SubstanceColorsListView: View {
                             Circle()
                                 .fill(sc.color)
                                 .frame(width: 24, height: 24)
-                            Text(sc.substance)
+                            Text(CustomSubstanceStore.shared.displayName(for: sc.substance))
                                 .foregroundStyle(.primary)
                             Spacer()
                             Text("Change")
