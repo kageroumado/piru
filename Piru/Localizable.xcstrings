@@ -2836,6 +2836,22 @@
         }
       }
     },
+    "1,500+ substances" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1,500+ 种物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1,500+ 種物質"
+          }
+        }
+      }
+    },
     "5-HT2B partial agonist — the valvular-heart-disease antitarget (fenfluramine/MDA). A mechanistic red flag for repeated or chronic dosing; MDMA does not engage it." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3116,6 +3132,7 @@
       }
     },
     "A few things to set up before you start." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3143,6 +3160,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "出自 1997 年一部諷刺媒體毒品恐慌的電視節目的虛構藥物——「Cake」並不存在，下面的內容也都是假的。據說它會過度刺激控制時間感的大腦區域「夏特納的巴松管（Shatner’s Bassoon）」。產自布拉格。"
+          }
+        }
+      }
+    },
+    "A heads-up when it's late enough that another dose could cost you sleep." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当时间已晚、再来一剂可能影响睡眠时，提前提醒你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當時間已晚、再來一劑可能影響睡眠時，提前提醒你。"
           }
         }
       }
@@ -3408,6 +3441,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "現在再次用藥，效果約為 ~%lld%%——同一次使用內的快速耐受，過夜即可恢復。"
+          }
+        }
+      }
+    },
+    "A reminder to drink water during stimulants and long sessions." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用兴奋剂或长时间用药时，提醒你补充水分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用興奮劑或長時間用藥時，提醒你補充水分。"
           }
         }
       }
@@ -4925,6 +4974,22 @@
         }
       }
     },
+    "Afternoon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下午"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下午"
+          }
+        }
+      }
+    },
     "Afternoon\n12–18" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5228,6 +5293,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "抗過敏與助眠抗組織胺藥。"
+          }
+        }
+      }
+    },
+    "Already keep a journal? Import a Piru backup or a PsyLog-format export — or start with a clean slate." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已经在记录了？导入 Piru 备份或 PsyLog 格式的导出文件——或者从头开始。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已經在記錄了？匯入 Piru 備份或 PsyLog 格式的匯出檔案——或者從頭開始。"
           }
         }
       }
@@ -6348,6 +6429,22 @@
         }
       }
     },
+    "Back up anytime" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時備份"
+          }
+        }
+      }
+    },
     "Back Up to iCloud" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6426,6 +6523,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "備份與安全"
+          }
+        }
+      }
+    },
+    "Backups are opt-in and end-to-end encrypted with your key." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份需你主动开启，并用你的密钥进行端到端加密。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份需你主動開啟，並用你的密鑰進行端到端加密。"
           }
         }
       }
@@ -7345,6 +7458,22 @@
         }
       }
     },
+    "Bring your history" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "带上你的历史记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帶上你的歷史記錄"
+          }
+        }
+      }
+    },
     "Browse by class" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7357,6 +7486,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按類別瀏覽"
+          }
+        }
+      }
+    },
+    "Browse by family — dosing, duration, effects, and interactions, sourced and cited." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按类别浏览——剂量、持续时间、效果与相互作用，皆有来源和引用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按類別瀏覽——劑量、持續時間、效果與相互作用，皆有來源與引用。"
           }
         }
       }
@@ -8204,6 +8349,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查看物質間的相互作用"
+          }
+        }
+      }
+    },
+    "Check interactions, model tolerance, track your stock, and dose liquids safely." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查相互作用、模拟耐受、追踪库存，并安全地量取液体剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查相互作用、模擬耐受、追蹤庫存，並安全地量取液體劑量。"
           }
         }
       }
@@ -9388,6 +9549,22 @@
         }
       }
     },
+    "Continue" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繼續"
+          }
+        }
+      }
+    },
     "Contraindications & Cautions" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9560,6 +9737,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法準備診斷檔案。"
+          }
+        }
+      }
+    },
+    "Couldn't read a weight from Health — you may not have granted access, or haven't logged one there. Set it above instead." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法从「健康」读取体重——你可能尚未授权，或还没有在那里记录过。请改在上方设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法從「健康」讀取體重——你可能尚未授權，或還沒有在那裡記錄過。請改在上方設定。"
           }
         }
       }
@@ -13781,6 +13974,22 @@
         }
       }
     },
+    "Evening" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚上"
+          }
+        }
+      }
+    },
     "Evening\n18–0" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13841,6 +14050,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每個備份都使用 AES-256-GCM 封裝——與現代安全通訊軟體採用的認證加密相同。任何竄改都會被偵測並拒絕。"
+          }
+        }
+      }
+    },
+    "Every dose lands on a timeline so you can see what's active — and when it fades." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一笔剂量都会落在时间轴上，让你看清什么正在起效——以及何时消退。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一筆劑量都會落在時間軸上，讓你看清什麼正在起效——以及何時消退。"
           }
         }
       }
@@ -15402,6 +15627,22 @@
         }
       }
     },
+    "Gentle reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "贴心的提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "貼心的提醒"
+          }
+        }
+      }
+    },
     "Gentle sensory input (music, soft textures) can help you reconnect." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15467,6 +15708,7 @@
       }
     },
     "Get hydration and sleep nudges automatically when you log a dose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15790,6 +16032,22 @@
       }
     },
     "Half-life" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期"
+          }
+        }
+      }
+    },
+    "Half-Life" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16389,6 +16647,22 @@
         }
       }
     },
+    "How much detail?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想看多少细节？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想看多少細節？"
+          }
+        }
+      }
+    },
     "How much of a dose actually reaches your bloodstream. Swallowing a drug usually delivers less than injecting it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -16627,6 +16901,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我經常吸菸"
+          }
+        }
+      }
+    },
+    "I'll Set This Later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍后再设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍後再設定"
           }
         }
       }
@@ -17004,8 +17294,23 @@
         }
       }
     },
+    "Import complete. Your data is ready." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入完成，你的数据已就绪。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入完成，你的資料已就緒。"
+          }
+        }
+      }
+    },
     "Import Data" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17066,6 +17371,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從檔案匯入…"
+          }
+        }
+      }
+    },
+    "Import from PsyLog or any app that shares its format — both old and new versions." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从 PsyLog 或任何使用该格式的应用导入——新旧版本均支持。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從 PsyLog 或任何使用該格式的應用程式匯入——新舊版本皆支援。"
           }
         }
       }
@@ -18025,6 +18346,22 @@
         }
       }
     },
+    "Keep tabs on what you have on hand and get a heads-up when it runs low." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时掌握你的现有量，库存不足时提醒你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時掌握你的現有量，庫存不足時提醒你。"
+          }
+        }
+      }
+    },
     "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18134,6 +18471,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Klimaka Crisis Line"
+          }
+        }
+      }
+    },
+    "Know the phases" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掌握各个阶段"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掌握各個階段"
           }
         }
       }
@@ -18623,6 +18976,7 @@
       }
     },
     "Live Activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18634,6 +18988,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "即時動態"
+          }
+        }
+      }
+    },
+    "Live Activity, when you want it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要时，随手开启实时活动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要時，隨手開啟即時動態"
           }
         }
       }
@@ -18905,6 +19275,22 @@
         }
       }
     },
+    "Log it in seconds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几秒即可记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾秒即可記錄"
+          }
+        }
+      }
+    },
     "Log Prescriptions" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18933,6 +19319,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄一些條目以查看使用統計。"
+          }
+        }
+      }
+    },
+    "Log your first dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录你的第一笔剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄你的第一筆劑量"
           }
         }
       }
@@ -20210,6 +20612,22 @@
         }
       }
     },
+    "Morning" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上午"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上午"
+          }
+        }
+      }
+    },
     "Morning\n6–12" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20823,6 +21241,22 @@
         }
       }
     },
+    "Never sold or shared" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "绝不出售或分享"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "絕不出售或分享"
+          }
+        }
+      }
+    },
     "Never stop a benzodiazepine abruptly. Withdrawal can be dangerous (seizures); a slow taper is the safe path." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20984,6 +21418,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "菸鹼型乙醯膽鹼受體 (nAChR) 激動劑"
+          }
+        }
+      }
+    },
+    "Night" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜間"
           }
         }
       }
@@ -21166,6 +21616,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有符合這些篩選條件的結合資料。"
+          }
+        }
+      }
+    },
+    "No cloud unless you ask" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "云端由你决定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雲端由你決定"
           }
         }
       }
@@ -21917,6 +22383,22 @@
         }
       }
     },
+    "Not Now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂不"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫不"
+          }
+        }
+      }
+    },
     "Not set" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22430,6 +22912,22 @@
         }
       }
     },
+    "Optional alerts for onset, come-up, and peak so nothing catches you off guard." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可选的起效、上升期和巅峰提醒，让一切尽在掌握。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可選的起效、上升期與巔峰提醒，讓一切盡在掌握。"
+          }
+        }
+      }
+    },
     "Optional dose tiers, in your chosen unit. Leave blank to keep the library values." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22458,6 +22956,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關於此物質的可選備註，供您參考。"
+          }
+        }
+      }
+    },
+    "Optional nudges that look out for you while a substance is active." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在物质起效期间为你留意的可选提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在物質起效期間為你留意的可選提醒。"
           }
         }
       }
@@ -23680,6 +24194,22 @@
         }
       }
     },
+    "Piru backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 備份"
+          }
+        }
+      }
+    },
     "Piru Backup" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23696,6 +24226,22 @@
         }
       }
     },
+    "Piru can keep it simple or go deep into the pharmacology. Change this anytime in Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 可以保持简洁，也可以深入药理。随时可在设置中更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 可以保持簡潔，也可以深入藥理。隨時可在設定中更改。"
+          }
+        }
+      }
+    },
     "Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23708,6 +24254,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 這次未能開啟你的日誌，目前正以暫時儲存空間執行。**沒有任何資料被刪除**——你的劑量和記錄仍安全保存在這部裝置上，未來的更新會自動還原它們。\n\n傳送記錄檔能幫助我們更快推出修正。記錄檔只描述儲存問題本身——絕不包含你的劑量資料。"
+          }
+        }
+      }
+    },
+    "Piru is built for sensitive data. Yours never leaves your device unless you choose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 专为敏感数据而打造。除非你选择，你的数据绝不会离开设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 專為敏感資料而打造。除非你選擇，你的資料絕不會離開裝置。"
           }
         }
       }
@@ -24336,6 +24898,22 @@
         }
       }
     },
+    "Private by design" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私为先"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱私為先"
+          }
+        }
+      }
+    },
     "Prodrug → GHB (GABA-B Agonist)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -24620,6 +25198,22 @@
         }
       }
     },
+    "PsyLog format" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PsyLog 格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PsyLog 格式"
+          }
+        }
+      }
+    },
     "PubChem CID" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24814,6 +25408,9 @@
         }
       }
     },
+    "Re-read from Health" : {
+
+    },
     "Reach out to someone you trust if you feel overwhelmed" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24879,6 +25476,7 @@
       }
     },
     "Read your weight from Apple Health so estimates fit your body — a drink hits harder the less you weigh. Read-only; change anytime in Settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25264,7 +25862,6 @@
       }
     },
     "Recovery" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26349,6 +26946,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原"
+          }
+        }
+      }
+    },
+    "Restore a full journal you exported from Piru." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复你从 Piru 导出的完整日志。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原你從 Piru 匯出的完整日誌。"
           }
         }
       }
@@ -27578,6 +28191,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一目了然地查看本次記錄的劑量。"
+          }
+        }
+      }
+    },
+    "See your patterns" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看清你的规律"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看清你的規律"
           }
         }
       }
@@ -30059,6 +30688,38 @@
         }
       }
     },
+    "Start a Live Activity to follow this session on your Lock Screen and Dynamic Island." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启实时活动，在锁定屏幕和灵动岛上追踪本次记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟即時動態，在鎖定畫面和靈動島上追蹤本次記錄。"
+          }
+        }
+      }
+    },
+    "Start Fresh" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从头开始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從頭開始"
+          }
+        }
+      }
+    },
     "Start Live Activity" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30071,6 +30732,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開啟即時動態"
+          }
+        }
+      }
+    },
+    "Start one from any active session to watch it on your Lock Screen." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从任何进行中的记录开启，即可在锁定屏幕上查看。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從任何進行中的記錄開啟，即可在鎖定畫面上查看。"
+          }
+        }
+      }
+    },
+    "Start Using Piru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始使用 Piru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始使用 Piru"
           }
         }
       }
@@ -30264,6 +30957,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保暖 — 您的體溫調節仍未恢復。"
+          }
+        }
+      }
+    },
+    "Stays on your device" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只留在你的设备上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只留在你的裝置上"
           }
         }
       }
@@ -31031,6 +31740,22 @@
         }
       }
     },
+    "Synced from Apple Health, and kept up to date. Check the number looks right." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已从 Apple 健康同步，并会保持更新。请确认上面的数字无误。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已從 Apple 健康同步，並會保持更新。請確認上面的數字無誤。"
+          }
+        }
+      }
+    },
     "synthesis" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31288,6 +32013,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點擊劑量選擇，然後點擊「新增」一起記錄。"
+          }
+        }
+      }
+    },
+    "Tap here any time to record what you've taken — it only takes a few seconds." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时点这里记录你所摄入的——只需几秒钟。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時點這裡記錄你所攝入的——只需幾秒鐘。"
+          }
+        }
+      }
+    },
+    "Tap the + button any time to log your first dose. Tips will point out the rest as you go." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时点按 + 按钮记录你的第一笔剂量。其余功能会在使用中通过提示为你指引。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時點按 + 按鈕記錄你的第一筆劑量。其餘功能會在使用中透過提示為你指引。"
           }
         }
       }
@@ -31828,6 +32585,22 @@
         }
       }
     },
+    "The same dose hits harder the less you weigh. Set yours so estimates fit your body — otherwise Piru assumes an average adult, about 60 kg." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重越轻，同样的剂量作用越强。设置你的体重，让估算贴合你的身体——否则 Piru 会按普通成年人（约 60 公斤）计算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體重越輕，同樣的劑量作用越強。設定你的體重，讓估算貼合你的身體——否則 Piru 會按普通成年人（約 60 公斤）計算。"
+          }
+        }
+      }
+    },
     "The share that rides along stuck to blood proteins. Only the unbound rest is free to act." : {
       "localizations" : {
         "zh-Hans" : {
@@ -31890,6 +32663,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "身體清除掉其中一半所需的時間。大約經過五個半衰期才能幾乎完全清除。"
+          }
+        }
+      }
+    },
+    "There are no ads and no trackers. Your data is yours alone." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有广告，也没有追踪器。你的数据只属于你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有廣告，也沒有追蹤器。你的資料只屬於你。"
           }
         }
       }
@@ -32863,6 +33652,22 @@
         }
       }
     },
+    "Tools that have your back" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为你保驾护航的工具"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你保駕護航的工具"
+          }
+        }
+      }
+    },
     "Topical formulation" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32979,6 +33784,7 @@
       }
     },
     "Track active substances on your Lock Screen and Dynamic Island." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33010,6 +33816,22 @@
         }
       }
     },
+    "Track it on your Lock Screen" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在锁定屏幕上追踪"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鎖定畫面上追蹤"
+          }
+        }
+      }
+    },
     "Track Substance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33022,6 +33844,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "追蹤物質"
+          }
+        }
+      }
+    },
+    "Track what you take — and understand how it affects your body." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录你摄入的一切——并了解它如何影响你的身体。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄你攝入的一切——並了解它如何影響你的身體。"
+          }
+        }
+      }
+    },
+    "Track your stock" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追踪你的库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤你的庫存"
           }
         }
       }
@@ -33204,6 +34058,28 @@
           }
         }
       }
+    },
+    "Turn on end-to-end encrypted backups whenever you're ready." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "准备好后，随时开启端到端加密备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "準備好後，隨時開啟端到端加密備份。"
+          }
+        }
+      }
+    },
+    "Turn On Reminders" : {
+
+    },
+    "Turning On…" : {
+
     },
     "Two different drugs that hit the same receptor share tolerance. Recent LSD blunts a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance is tracked per receptor here, and why a “new” drug in the same family can still feel weak." : {
       "localizations" : {
@@ -33648,6 +34524,22 @@
         }
       }
     },
+    "Usage over time, times of day, and what's in your system right now — at a glance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一目了然地查看长期用量、各时段分布，以及此刻体内的活性物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一目了然地查看長期用量、各時段分佈，以及此刻體內的活性物質。"
+          }
+        }
+      }
+    },
     "Use \"%@\"" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33762,6 +34654,7 @@
       }
     },
     "Use Body Weight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34136,7 +35029,6 @@
       }
     },
     "Volumetric" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34620,6 +35512,22 @@
         }
       }
     },
+    "Wind down for sleep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡前放松"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡前放鬆"
+          }
+        }
+      }
+    },
     "Wine" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34846,6 +35754,22 @@
         }
       }
     },
+    "You're all set" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一切就绪"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一切就緒"
+          }
+        }
+      }
+    },
     "You're coming back to baseline. Rest, eat something light. Give yourself time to process the experience." : {
       "localizations" : {
         "zh-Hans" : {
@@ -35022,6 +35946,22 @@
         }
       }
     },
+    "Your body weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的体重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的體重"
+          }
+        }
+      }
+    },
     "Your brain adapts to what you keep giving it" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35194,6 +36134,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的歷史"
+          }
+        }
+      }
+    },
+    "Your journal lives locally. No sign-up, no account required." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日志保存在本地。无需注册，无需账号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的日誌保存在本機。無需註冊，無需帳號。"
           }
         }
       }

@@ -9,6 +9,147 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Onboarding redesign (2026-07-01): 8-step first-run flow — welcome, privacy, tour, depth, weight, reminders, import, done, tips.
+    "Track what you take — and understand how it affects your body.": (
+        "记录你摄入的一切——并了解它如何影响你的身体。",
+        "記錄你攝入的一切——並了解它如何影響你的身體。",
+    ),
+    "Private by design": ("隐私为先", "隱私為先"),
+    "Piru is built for sensitive data. Yours never leaves your device unless you choose.": (
+        "Piru 专为敏感数据而打造。除非你选择，你的数据绝不会离开设备。",
+        "Piru 專為敏感資料而打造。除非你選擇，你的資料絕不會離開裝置。",
+    ),
+    "Stays on your device": ("只留在你的设备上", "只留在你的裝置上"),
+    "Your journal lives locally. No sign-up, no account required.": (
+        "你的日志保存在本地。无需注册，无需账号。",
+        "你的日誌保存在本機。無需註冊，無需帳號。",
+    ),
+    "No cloud unless you ask": ("云端由你决定", "雲端由你決定"),
+    "Backups are opt-in and end-to-end encrypted with your key.": (
+        "备份需你主动开启，并用你的密钥进行端到端加密。",
+        "備份需你主動開啟，並用你的密鑰進行端到端加密。",
+    ),
+    "Never sold or shared": ("绝不出售或分享", "絕不出售或分享"),
+    "There are no ads and no trackers. Your data is yours alone.": (
+        "没有广告，也没有追踪器。你的数据只属于你。",
+        "沒有廣告，也沒有追蹤器。你的資料只屬於你。",
+    ),
+    "How much detail?": ("想看多少细节？", "想看多少細節？"),
+    "Piru can keep it simple or go deep into the pharmacology. Change this anytime in Settings.": (
+        "Piru 可以保持简洁，也可以深入药理。随时可在设置中更改。",
+        "Piru 可以保持簡潔，也可以深入藥理。隨時可在設定中更改。",
+    ),
+    "Gentle reminders": ("贴心的提醒", "貼心的提醒"),
+    "Optional nudges that look out for you while a substance is active.": (
+        "在物质起效期间为你留意的可选提醒。",
+        "在物質起效期間為你留意的可選提醒。",
+    ),
+    "A reminder to drink water during stimulants and long sessions.": (
+        "使用兴奋剂或长时间用药时，提醒你补充水分。",
+        "使用興奮劑或長時間用藥時，提醒你補充水分。",
+    ),
+    "Wind down for sleep": ("睡前放松", "睡前放鬆"),
+    "A heads-up when it's late enough that another dose could cost you sleep.": (
+        "当时间已晚、再来一剂可能影响睡眠时，提前提醒你。",
+        "當時間已晚、再來一劑可能影響睡眠時，提前提醒你。",
+    ),
+    "Know the phases": ("掌握各个阶段", "掌握各個階段"),
+    "Optional alerts for onset, come-up, and peak so nothing catches you off guard.": (
+        "可选的起效、上升期和巅峰提醒，让一切尽在掌握。",
+        "可選的起效、上升期與巔峰提醒，讓一切盡在掌握。",
+    ),
+    "Not Now": ("暂不", "暫不"),
+    "You're all set": ("一切就绪", "一切就緒"),
+    "Tap the + button any time to log your first dose. Tips will point out the rest as you go.": (
+        "随时点按 + 按钮记录你的第一笔剂量。其余功能会在使用中通过提示为你指引。",
+        "隨時點按 + 按鈕記錄你的第一筆劑量。其餘功能會在使用中透過提示為你指引。",
+    ),
+    "Live Activity, when you want it": ("需要时，随手开启实时活动", "需要時，隨手開啟即時動態"),
+    "Start one from any active session to watch it on your Lock Screen.": (
+        "从任何进行中的记录开启，即可在锁定屏幕上查看。",
+        "從任何進行中的記錄開啟，即可在鎖定畫面上查看。",
+    ),
+    "Track your stock": ("追踪你的库存", "追蹤你的庫存"),
+    "Keep tabs on what you have on hand and get a heads-up when it runs low.": (
+        "随时掌握你的现有量，库存不足时提醒你。",
+        "隨時掌握你的現有量，庫存不足時提醒你。",
+    ),
+    "Back up anytime": ("随时备份", "隨時備份"),
+    "Turn on end-to-end encrypted backups whenever you're ready.": (
+        "准备好后，随时开启端到端加密备份。",
+        "準備好後，隨時開啟端到端加密備份。",
+    ),
+    "Start Using Piru": ("开始使用 Piru", "開始使用 Piru"),
+    "Log it in seconds": ("几秒即可记录", "幾秒即可記錄"),
+    "Every dose lands on a timeline so you can see what's active — and when it fades.": (
+        "每一笔剂量都会落在时间轴上，让你看清什么正在起效——以及何时消退。",
+        "每一筆劑量都會落在時間軸上，讓你看清什麼正在起效——以及何時消退。",
+    ),
+    "1,500+ substances": ("1,500+ 种物质", "1,500+ 種物質"),
+    "Browse by family — dosing, duration, effects, and interactions, sourced and cited.": (
+        "按类别浏览——剂量、持续时间、效果与相互作用，皆有来源和引用。",
+        "按類別瀏覽——劑量、持續時間、效果與相互作用，皆有來源與引用。",
+    ),
+    "Tools that have your back": ("为你保驾护航的工具", "為你保駕護航的工具"),
+    "Check interactions, model tolerance, track your stock, and dose liquids safely.": (
+        "检查相互作用、模拟耐受、追踪库存，并安全地量取液体剂量。",
+        "檢查相互作用、模擬耐受、追蹤庫存，並安全地量取液體劑量。",
+    ),
+    "See your patterns": ("看清你的规律", "看清你的規律"),
+    "Usage over time, times of day, and what's in your system right now — at a glance.": (
+        "一目了然地查看长期用量、各时段分布，以及此刻体内的活性物质。",
+        "一目了然地查看長期用量、各時段分佈，以及此刻體內的活性物質。",
+    ),
+    "Morning": ("上午", "上午"),
+    "Afternoon": ("下午", "下午"),
+    "Evening": ("晚上", "晚上"),
+    "Night": ("夜间", "夜間"),
+    "Half-Life": ("半衰期", "半衰期"),
+    "Your body weight": ("你的体重", "你的體重"),
+    "The same dose hits harder the less you weigh. Set yours so estimates fit your body — otherwise Piru assumes an average adult, about 60 kg.": (
+        "体重越轻，同样的剂量作用越强。设置你的体重，让估算贴合你的身体——否则 Piru 会按普通成年人（约 60 公斤）计算。",
+        "體重越輕，同樣的劑量作用越強。設定你的體重，讓估算貼合你的身體——否則 Piru 會按普通成年人（約 60 公斤）計算。",
+    ),
+    "I'll Set This Later": ("稍后再设置", "稍後再設定"),
+    "Synced from Apple Health, and kept up to date. Check the number looks right.": (
+        "已从 Apple 健康同步，并会保持更新。请确认上面的数字无误。",
+        "已從 Apple 健康同步，並會保持更新。請確認上面的數字無誤。",
+    ),
+    "Couldn't read a weight from Health — you may not have granted access, or haven't logged one there. Set it above instead.": (
+        "无法从「健康」读取体重——你可能尚未授权，或还没有在那里记录过。请改在上方设置。",
+        "無法從「健康」讀取體重——你可能尚未授權，或還沒有在那裡記錄過。請改在上方設定。",
+    ),
+    "Continue": ("继续", "繼續"),
+    "Bring your history": ("带上你的历史记录", "帶上你的歷史記錄"),
+    "Already keep a journal? Import a Piru backup or a PsyLog-format export — or start with a clean slate.": (
+        "已经在记录了？导入 Piru 备份或 PsyLog 格式的导出文件——或者从头开始。",
+        "已經在記錄了？匯入 Piru 備份或 PsyLog 格式的匯出檔案——或者從頭開始。",
+    ),
+    "Import complete. Your data is ready.": (
+        "导入完成，你的数据已就绪。",
+        "匯入完成，你的資料已就緒。",
+    ),
+    "Piru backup": ("Piru 备份", "Piru 備份"),
+    "Restore a full journal you exported from Piru.": (
+        "恢复你从 Piru 导出的完整日志。",
+        "還原你從 Piru 匯出的完整日誌。",
+    ),
+    "PsyLog format": ("PsyLog 格式", "PsyLog 格式"),
+    "Import from PsyLog or any app that shares its format — both old and new versions.": (
+        "从 PsyLog 或任何使用该格式的应用导入——新旧版本均支持。",
+        "從 PsyLog 或任何使用該格式的應用程式匯入——新舊版本皆支援。",
+    ),
+    "Start Fresh": ("从头开始", "從頭開始"),
+    "Log your first dose": ("记录你的第一笔剂量", "記錄你的第一筆劑量"),
+    "Tap here any time to record what you've taken — it only takes a few seconds.": (
+        "随时点这里记录你所摄入的——只需几秒钟。",
+        "隨時點這裡記錄你所攝入的——只需幾秒鐘。",
+    ),
+    "Track it on your Lock Screen": ("在锁定屏幕上追踪", "在鎖定畫面上追蹤"),
+    "Start a Live Activity to follow this session on your Lock Screen and Dynamic Island.": (
+        "开启实时活动，在锁定屏幕和灵动岛上追踪本次记录。",
+        "開啟即時動態，在鎖定畫面和靈動島上追蹤本次記錄。",
+    ),
     # Substance inventory tracking (2026-06-30): manager, detail, restock/edit forms, stock cards, widget.
     "Inventory": ("库存", "庫存"),
     "No Inventory Yet": ("还没有库存", "尚無庫存"),
