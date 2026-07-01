@@ -228,7 +228,7 @@ struct ToleranceToolView: View {
                 contributorChips(row)
             }
 
-            gauge(row)
+            toleranceBar(row)
 
             if let lede = lede(row) {
                 Text(lede)
@@ -268,7 +268,7 @@ struct ToleranceToolView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
                 ForEach(row.snapshot.contributors, id: \.self) { name in
-                    Text(name)
+                    Text(CustomSubstanceStore.shared.displayName(for: name))
                         .font(.caption2.weight(.medium))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
@@ -279,23 +279,75 @@ struct ToleranceToolView: View {
         }
     }
 
-    // MARK: - Gauge (how much of a normal dose you'd still feel)
+    // MARK: - Tolerance bar (segmented, part-to-whole: how toleranced you are, and from which layer)
 
-    private func gauge(_ row: Row) -> some View {
-        let lit = max(0, min(5, Int((row.snapshot.responseFraction * 5).rounded(.up))))
-        return VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 5) {
-                ForEach(0 ..< 5, id: \.self) { index in
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(index < lit ? familyColor(row) : Color.secondary.opacity(0.18))
-                        .frame(height: 8)
+    /// One coloured segment of the tolerance bar — a recovery layer's *attributed share* of the
+    /// overall right-shift. `widthFraction` is already the fraction of the **full track** this band
+    /// fills (overall severity × the band's ln-shift share), so the segments laid end-to-end fill the
+    /// bar to the overall tolerance level and split it by where that tolerance comes from.
+    private struct ToleranceBand: Identifiable {
+        let id: Int
+        let label: LocalizedStringResource
+        let widthFraction: Double
+        let color: Color
+    }
+
+    /// Decompose a class's tolerance into up to three timescale bands — **tachyphylaxis** (the acute
+    /// same-session/same-day pool), **tolerance** (the days-scale adaptive baseline shift, plus the
+    /// slow serotonin-synthesis pool for entactogens), and **deep** (months-scale entrenchment) —
+    /// ordered fast → slow. Each band's width is the overall severity apportioned by its share of the
+    /// summed ln-shift `ln S = Σ sₗ` (the additive latent behind the saturating gauge), so a faint
+    /// contributor draws a faint sliver and the whole bar reads as the overall tolerance.
+    private func bands(_ row: Row) -> [ToleranceBand] {
+        let snapshot = row.snapshot
+        let totalShift = snapshot.sAcute + snapshot.sAdaptive + snapshot.sDeep + snapshot.sSynthesis
+        guard totalShift > 0 else { return [] }
+        let severity = max(0, min(1, snapshot.severity))
+        let family = familyColor(row)
+        let raw: [(LocalizedStringResource, Double, Color)] = [
+            ("Tachyphylaxis", snapshot.sAcute, family.opacity(0.5)),
+            ("Tolerance", snapshot.sAdaptive + snapshot.sSynthesis, family.opacity(0.82)),
+            ("Deep", snapshot.sDeep, family),
+        ]
+        return raw.enumerated().compactMap { index, band in
+            let (label, shift, color) = band
+            guard shift > 0 else { return nil }
+            return ToleranceBand(id: index, label: label, widthFraction: severity * shift / totalShift, color: color)
+        }
+    }
+
+    private func toleranceBar(_ row: Row) -> some View {
+        let bandList = bands(row)
+        let multiBand = bandList.count > 1
+        return VStack(alignment: .leading, spacing: 6) {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.secondary.opacity(0.18))
+                    HStack(spacing: multiBand ? 1.5 : 0) {
+                        ForEach(bandList) { band in
+                            Rectangle()
+                                .fill(band.color)
+                                .frame(width: max(0, geo.size.width * band.widthFraction))
+                        }
+                    }
+                    .clipShape(Capsule())
                 }
             }
+            .frame(height: 10)
+
             if tier != .casual {
-                HStack {
-                    Text("high tolerance")
-                    Spacer()
-                    Text("no tolerance")
+                HStack(spacing: 10) {
+                    if multiBand {
+                        ForEach(bandList) { band in
+                            HStack(spacing: 4) {
+                                Circle().fill(band.color).frame(width: 7, height: 7)
+                                Text(band.label)
+                            }
+                        }
+                    }
+                    Spacer(minLength: 0)
+                    Text(toleranceWord(row.snapshot.responseFraction))
+                        .foregroundStyle(familyColor(row))
                 }
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -339,16 +391,16 @@ struct ToleranceToolView: View {
 
     @ViewBuilder
     private func recoveryChart(_ row: Row) -> some View {
-        // Skip when essentially rested (a flat line at the top) or when the recovery window is under a
-        // couple of hours — too short to plot without a degenerate, repeated-tick axis.
-        if row.snapshot.responseFraction < 0.97, recoveryWindowMinutes(row) >= 120 {
+        // Skip when essentially rested (nothing to plot) or when the recovery window is under a couple
+        // of hours — too short to plot without a degenerate, repeated-tick axis.
+        if row.snapshot.severity > 0.03, recoveryWindowMinutes(row) >= 120 {
             let points = recoveryCurve(row, overMinutes: recoveryWindowMinutes(row))
             VStack(alignment: .leading, spacing: 6) {
                 Chart {
                     ForEach(points) { point in
                         LineMark(
                             x: .value("Days", point.day),
-                            y: .value("Sensitivity", point.percent),
+                            y: .value("Tolerance", point.percent),
                         )
                         .foregroundStyle(familyColor(row))
                         .interpolationMethod(.monotone)
@@ -356,7 +408,7 @@ struct ToleranceToolView: View {
                     if let start = points.first {
                         PointMark(
                             x: .value("Days", start.day),
-                            y: .value("Sensitivity", start.percent),
+                            y: .value("Tolerance", start.percent),
                         )
                         .foregroundStyle(familyColor(row))
                         .symbolSize(45)
@@ -364,11 +416,11 @@ struct ToleranceToolView: View {
                 }
                 .chartYScale(domain: 0 ... 100)
                 .chartYAxis {
-                    AxisMarks(values: [0, 50, 100]) { value in
+                    AxisMarks(values: [0, 100]) { value in
                         AxisGridLine()
                         AxisValueLabel {
                             if let percent = value.as(Int.self) {
-                                Text("\(percent)%")
+                                Text(percent >= 100 ? "high" : "low")
                             }
                         }
                     }
@@ -384,7 +436,7 @@ struct ToleranceToolView: View {
                         }
                     }
                 }
-                .frame(height: 70)
+                .frame(height: 92)
 
                 Text(chartCaption(row))
                     .font(.caption2)
@@ -399,15 +451,16 @@ struct ToleranceToolView: View {
         let percent: Double
     }
 
-    /// Forward-decay the engaged layers over `[0, window]` and convert each `S(t)` to a response
-    /// fraction — the curve starts at the **current** level (t = 0) and rises toward 1.0 as tolerance
-    /// relaxes. Shared by the per-card chart (its own recovery window) and the combined chart (a
-    /// shared window across mechanisms), so the sampling math lives in exactly one place.
+    /// Forward-decay the engaged layers over `[0, window]` and convert each `S(t)` to a **tolerance
+    /// percentage** — the curve starts at the **current** tolerance (t = 0) and *descends* toward 0 as
+    /// the layers relax, matching the bar's orientation (full = strong tolerance). Uses the same
+    /// saturating ``PDModel/responseFraction`` (occupancy capped at ½) as the gauge, so the graph and
+    /// the bar can never disagree — the old inline `0.999_999` clamp pinned high-occupancy stimulants
+    /// at a flat 100% "sensitivity", reading as *no* tolerance while the bar showed moderate. Shared by
+    /// the per-card chart and the combined chart, so the sampling math lives in exactly one place.
     private func recoveryCurve(_ row: Row, overMinutes window: Double, sampleCount: Int = 24) -> [ChartPoint] {
         let snapshot = row.snapshot
         let params = row.params
-        let occupancy = min(0.999_999, max(0, snapshot.representativeOccupancy))
-        let ratio = occupancy / (1 - occupancy)
         let span = max(window, 1)
         return (0 ..< sampleCount).map { index in
             let minutes = span * Double(index) / Double(sampleCount - 1)
@@ -417,8 +470,10 @@ struct ToleranceToolView: View {
                     + snapshot.sDeep * exp(-minutes / params.tauDeepMinutes)
                     + snapshot.sSynthesis * exp(-minutes / params.tauSynthesisMinutes),
             )
-            let responseFraction = (ratio + 1) / (ratio + shift)
-            return ChartPoint(id: index, day: minutes / 1_440, percent: max(0, min(100, responseFraction * 100)))
+            let tolerance = 1 - PDModel.responseFraction(
+                shiftFactor: shift, representativeOccupancy: snapshot.representativeOccupancy,
+            )
+            return ChartPoint(id: index, day: minutes / 1_440, percent: max(0, min(100, tolerance * 100)))
         }
     }
 
@@ -429,29 +484,32 @@ struct ToleranceToolView: View {
     }
 
     private func chartCaption(_ row: Row) -> LocalizedStringResource {
-        let minutes = max(recoveryMinutes(row, toResponseFraction: 0.9) ?? 0, 0)
+        let minutes = max(recoveryMinutes(row, toTolerance: 0.10) ?? 0, 0)
         let phrase = durationPhrase(minutes: minutes)
         if row.snapshot.sDeep > 0.05 {
-            return "Recovers to about 90% in \(phrase) if you stop now, and fully over months."
+            return "Most of it fades in \(phrase) if you stop now — the deep part takes months."
         }
-        return "Recovers to about 90% in \(phrase) if you stop now."
+        return "Most of it fades in \(phrase) if you stop now."
     }
 
-    /// Recovery window `W` (minutes) for the chart's X axis — time for sensitivity to climb back to
-    /// ~95% if dosing stops now, capped at 180 days so the deep months-scale tail stays readable.
+    /// Recovery window `W` (minutes) for the chart's X axis — time for tolerance to fade to ~5% if
+    /// dosing stops now, capped at 180 days so the deep months-scale tail stays readable.
     private func recoveryWindowMinutes(_ row: Row) -> Double {
-        let minutes = recoveryMinutes(row, toResponseFraction: 0.95) ?? 0
+        let minutes = recoveryMinutes(row, toTolerance: 0.05) ?? 0
         return min(max(minutes, 0), 180 * 1_440)
     }
 
-    /// Minutes for the total right-shift `S` to decay to the value where ``ClassTolerance/responseFraction``
-    /// reaches `target` if dosing stops now (solving `(r+1)/(r+S) = target`). All four layers (acute,
-    /// adaptive, deep, synthesis) decay on their own time-constants.
-    private func recoveryMinutes(_ row: Row, toResponseFraction target: Double) -> Double? {
+    /// Minutes for **tolerance** to decay to `target` (∈ [0,1]) if dosing stops now. Tolerance is
+    /// `1 − responseFraction`, so the target response fraction is `1 − target`; inverting the saturating
+    /// gauge (occupancy capped at ½, exactly as ``PDModel/responseFraction``) gives the shift `S` at
+    /// which that response is reached, then all four layers decay on their own time-constants to it. The
+    /// ½ cap must match the curve/bar or the axis span and the plotted line would disagree.
+    private func recoveryMinutes(_ row: Row, toTolerance target: Double) -> Double? {
         let snapshot = row.snapshot
-        let occupancy = min(0.999_999, max(0, snapshot.representativeOccupancy))
+        let occupancy = min(0.5, max(0, snapshot.representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
-        let targetShift = max(1, (ratio + 1) / target - ratio)
+        let responseTarget = max(0.000_001, 1 - target)
+        let targetShift = max(1, (ratio + 1) / responseTarget - ratio)
         let layers = [
             (s: snapshot.sAcute, tau: row.params.tauAcuteMinutes),
             (s: snapshot.sAdaptive, tau: row.params.tauAdaptiveMinutes),
@@ -599,15 +657,22 @@ struct ToleranceToolView: View {
 
     // MARK: - Formatting
 
-    /// A coarse, days-only X-axis tick label — compact enough for the 70 pt chart (the load-bearing
-    /// recovery copy is the textual caption below the chart, not these ticks).
+    /// A compact X-axis tick label. Ticks sit at 0·W … 1·W in quarter-window steps, so a coarse
+    /// (whole-hour / whole-day) unit collides on adjacent ticks for short windows — the "1h · 2h · 2h"
+    /// bug. Each magnitude drops to the next-finer unit (minutes < 2 h, hours < 4 d, days < 4 wk) so
+    /// neighbouring ticks always round apart; the load-bearing recovery copy is the caption below.
     private func axisDayLabel(days: Double) -> String {
         let value = max(0, days)
         if value <= 0 { return String(localized: "now") }
-        if value < 1 { return String(localized: "\(max(1, Int((value * 24).rounded())))h") }
-        if value >= 60 { return String(localized: "\(Int((value / 30).rounded()))mo") }
-        if value >= 14 { return String(localized: "\(Int((value / 7).rounded()))wk") }
-        return String(localized: "\(Int(value.rounded()))d")
+        let hours = value * 24
+        if hours < 2 {
+            let mins = max(5, Int((hours * 60 / 5).rounded()) * 5)
+            return String(localized: "\(mins)m")
+        }
+        if value < 4 { return String(localized: "\(Int(hours.rounded()))h") }
+        if value < 28 { return String(localized: "\(Int(value.rounded()))d") }
+        if value < 120 { return String(localized: "\(Int((value / 7).rounded()))wk") }
+        return String(localized: "\(Int((value / 30).rounded()))mo")
     }
 
     private func durationPhrase(minutes: Double) -> String {
@@ -666,7 +731,7 @@ struct ToleranceToolView: View {
     private func recoverySeries() -> [RecoverySeries] {
         let window = sharedRecoveryWindowMinutes
         return recoveryRows.map { row in
-            let recoveryMinutesTo90 = max(recoveryMinutes(row, toResponseFraction: 0.9) ?? 0, 0)
+            let recoveryMinutesTo90 = max(recoveryMinutes(row, toTolerance: 0.10) ?? 0, 0)
             return RecoverySeries(
                 id: row.snapshot.receptorClass,
                 legendKey: String(reflecting: row.snapshot.receptorClass),
@@ -735,8 +800,8 @@ struct ToleranceToolView: View {
 
     private var combinedRecoveryCaption: LocalizedStringResource {
         recoveryWindowIsClipped
-            ? "Each line is a mechanism recovering — a steeper climb means a faster reset. Showing the first 60 days."
-            : "Each line is a mechanism recovering — a steeper climb means a faster reset."
+            ? "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset. Showing the first 60 days."
+            : "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset."
     }
 
     // MARK: - View mode
@@ -912,7 +977,7 @@ struct ToleranceToolView: View {
                 ForEach(item.points) { point in
                     LineMark(
                         x: .value("Days", point.day),
-                        y: .value("Sensitivity", point.percent),
+                        y: .value("Tolerance", point.percent),
                         series: .value("Mechanism", item.legendKey),
                     )
                     .foregroundStyle(item.color)
@@ -921,7 +986,7 @@ struct ToleranceToolView: View {
                 if let start = item.points.first {
                     PointMark(
                         x: .value("Days", start.day),
-                        y: .value("Sensitivity", start.percent),
+                        y: .value("Tolerance", start.percent),
                     )
                     .foregroundStyle(item.color)
                     .symbolSize(40)
@@ -929,11 +994,11 @@ struct ToleranceToolView: View {
             }
             .chartYScale(domain: 0 ... 100)
             .chartYAxis {
-                AxisMarks(values: [0, 50, 100]) { value in
+                AxisMarks(values: [0, 100]) { value in
                     AxisGridLine()
                     AxisValueLabel {
                         if let percent = value.as(Int.self) {
-                            Text("\(percent)%")
+                            Text(percent >= 100 ? "high" : "low")
                         }
                     }
                 }

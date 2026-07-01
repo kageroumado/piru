@@ -10829,6 +10829,22 @@
         }
       }
     },
+    "Deep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深层"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深層"
+          }
+        }
+      }
+    },
     "Default route" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12615,6 +12631,7 @@
       }
     },
     "Each line is a mechanism recovering — a steeper climb means a faster reset." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12631,6 +12648,7 @@
       }
     },
     "Each line is a mechanism recovering — a steeper climb means a faster reset. Showing the first 60 days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12642,6 +12660,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每條線是一種機制在恢復——爬得越陡，重置得越快。這裡只顯示前 60 天。"
+          }
+        }
+      }
+    },
+    "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条线是一种机制的耐受在消退——掉得越陡，重置得越快。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條線是一種機制的耐受在消退——掉得越陡，重置得越快。"
+          }
+        }
+      }
+    },
+    "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset. Showing the first 60 days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条线是一种机制的耐受在消退——掉得越陡，重置得越快。这里只显示前 60 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條線是一種機制的耐受在消退——掉得越陡，重置得越快。這裡只顯示前 60 天。"
           }
         }
       }
@@ -16374,6 +16424,22 @@
         }
       }
     },
+    "high" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高"
+          }
+        }
+      }
+    },
     "High" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16423,6 +16489,7 @@
       }
     },
     "high tolerance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19394,6 +19461,22 @@
         }
       }
     },
+    "low" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
+        }
+      }
+    },
     "Low confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20710,6 +20793,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最常記錄:%@"
+          }
+        }
+      }
+    },
+    "Most of it fades in %@ if you stop now — the deep part takes months." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果现在停用，大部分会在 %@ 内消退——最深的那部分要几个月。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果現在停用，大部分會在 %@ 內消退——最深的那部分要幾個月。"
+          }
+        }
+      }
+    },
+    "Most of it fades in %@ if you stop now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果现在停用，大部分会在 %@ 内消退。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果現在停用，大部分會在 %@ 內消退。"
           }
         }
       }
@@ -22107,6 +22222,7 @@
       }
     },
     "no tolerance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25860,6 +25976,7 @@
       }
     },
     "Recovers to about 90%% in %@ if you stop now, and fully over months." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25876,6 +25993,7 @@
       }
     },
     "Recovers to about 90%% in %@ if you stop now." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28702,9 +28820,6 @@
           }
         }
       }
-    },
-    "Sensitivity" : {
-
     },
     "Sensory" : {
       "extractionState" : "stale",
@@ -31847,6 +31962,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "半衰期 = %@"
+          }
+        }
+      }
+    },
+    "Tachyphylaxis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速耐受"
           }
         }
       }

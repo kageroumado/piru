@@ -256,18 +256,21 @@ nonisolated enum ReceptorClasses {
     static func parameters(for receptorClass: ReceptorClass) -> Parameters {
         switch receptorClass {
         case .psychedelic5HT2A:
-            // Subjective 5-HT2A tachyphylaxis recovers in ~3–4 d (controlled-human; flagship
-            // correction 2026-06-21). Near-total over consecutive days → a large adaptive ceiling;
-            // psychedelics aren't redosed within a session, so no acute layer; no deep layer.
+            // 5-HT2A tolerance has two clocks. A **same-day tachyphylaxis** pool (fast 5-HT2A
+            // internalisation/desensitisation — a same-day LSD re-dose is markedly weaker and largely
+            // gone by the next morning), carried by the acute layer (τ ≈ ¾ d). And the **multi-day
+            // adaptive shift** that builds over consecutive days toward near-total in-class
+            // cross-tolerance and recovers in ~3–4 d (controlled-human; flagship correction 2026-06-21).
+            // No deep layer (psychedelics don't entrench over months).
             Parameters(
-                acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
+                acuteShiftMax: 1.2, tauAcuteMinutes: 18 * T.hour,
                 adaptiveShiftMax: 2.5, tauAdaptiveMinutes: 3.5 * T.day,
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 deepEscThreshold: 2, deepEscWidth: 3,
                 safetyAxis: .hppd, confidence: .medium,
                 classDefaultVdLPerKg: 4.0,
-                sourceNote: "§3: subjective tachyphylaxis ~3–4 d (controlled-human, flagship-corrected); near-total in-class cross-tolerance. No acute or deep layer. Grade medium.",
+                sourceNote: "§3: acute same-day tachyphylaxis (fast 5-HT2A desensitisation, gone by next morning, τ≈18 h) + adaptive subjective tolerance ~3–4 d (controlled-human, flagship-corrected), near-total in-class cross-tolerance. No deep layer. Grade medium.",
                 safetyEndpoint: nil,
             )
         case .muOpioid:
