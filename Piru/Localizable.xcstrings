@@ -13861,6 +13861,7 @@
       }
     },
     "Enter a volume and strength" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36720,6 +36721,7 @@
       }
     },
     "Your drinks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
