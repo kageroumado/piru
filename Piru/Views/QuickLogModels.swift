@@ -25,7 +25,19 @@ struct SubstanceGroup: Identifiable, Equatable {
     let colorHex: String?
     let librarySubstance: Substance?
     var latestTimestamp: Date
-    private var chipEntries: [(amount: Double, unit: String, sortOrder: Double)] = []
+
+    /// One curated chip's backing data, including optional by-volume drink detail.
+    private struct ChipEntry {
+        var amount: Double
+        var unit: String
+        var sortOrder: Double
+        var volumeML: Double?
+        var abv: Double?
+        var drinkName: String?
+        var emoji: String?
+    }
+
+    private var chipEntries: [ChipEntry] = []
 
     /// Hand-written because `chipEntries` is a tuple array (no synthesized
     /// `Equatable`). Compares the display-relevant surface — identity, colour,
@@ -41,20 +53,14 @@ struct SubstanceGroup: Identifiable, Equatable {
     }
 
     var doses: [DoseChip] {
-        // Alcohol (and any by-volume substance) presents its drink presets as the
-        // tappable chips — Beer/Wine/Shot/Pint, each carrying that drink's grams —
-        // instead of the raw grams the user happened to log. Tapping stages the
-        // grams and accumulates exactly like any dose chip.
-        if let byVolume = librarySubstance?.byVolumeDosing {
-            return byVolume.drinkPresets.map { preset in
-                let ml = preset.volume.converted(to: .milliliters).value
-                let grams = (byVolume.canonicalAmount(volumeML: ml, strength: preset.defaultABV) * 10).rounded() / 10
-                return DoseChip(amount: grams, unit: byVolume.canonicalUnit, label: preset.name, systemImage: preset.systemImage)
-            }
-        }
-        return chipEntries
+        // Chips are the curated measurements the user actually logged. For a
+        // by-volume substance (alcohol) a chip carries the recorded drink detail
+        // (name / volume / % / grams) so it re-stages the exact drink; a plain
+        // mass dose is just its amount. No hard-coded presets here — those live
+        // in the editor's preset library, not the card.
+        chipEntries
             .sorted { $0.sortOrder < $1.sortOrder }
-            .map { DoseChip(amount: $0.amount, unit: $0.unit) }
+            .map { DoseChip(amount: $0.amount, unit: $0.unit, drinkName: $0.drinkName, emoji: $0.emoji, volumeML: $0.volumeML, abv: $0.abv) }
     }
 
     init(substanceName: String, route: RouteOfAdministration, colorHex: String?, librarySubstance: Substance?, latestTimestamp: Date) {
@@ -67,38 +73,92 @@ struct SubstanceGroup: Identifiable, Equatable {
     }
 
     /// Add a curated chip (sorted by `sortOrder` for display). Tracks the most
-    /// recent use so cards order by recency.
-    mutating func addChip(amount: Double, unit: String, sortOrder: Double, lastUsedAt: Date) {
-        chipEntries.append((amount: amount, unit: unit, sortOrder: sortOrder))
+    /// recent use so cards order by recency. By-volume detail rides along for
+    /// alcohol drinks; `nil` for ordinary mass doses.
+    mutating func addChip(
+        amount: Double,
+        unit: String,
+        sortOrder: Double,
+        lastUsedAt: Date,
+        volumeML: Double? = nil,
+        abv: Double? = nil,
+        drinkName: String? = nil,
+        emoji: String? = nil,
+    ) {
+        chipEntries.append(ChipEntry(
+            amount: amount, unit: unit, sortOrder: sortOrder,
+            volumeML: volumeML, abv: abv, drinkName: drinkName, emoji: emoji,
+        ))
         if lastUsedAt > latestTimestamp {
             latestTimestamp = lastUsedAt
         }
     }
+
+    /// Whether any chip in this group carries by-volume detail — the card then
+    /// renders the whole row as detailed drink chips (larger); otherwise plain
+    /// same-size gram/mass chips like every other card.
+    var usesDrinkChips: Bool {
+        chipEntries.contains { $0.drinkName != nil || $0.volumeML != nil || $0.abv != nil }
+    }
 }
 
-/// A single tappable dose amount within a `SubstanceGroup`. Carries an optional
-/// drink label + icon for by-volume substances (alcohol), where the chip reads
-/// "🍺 Beer" rather than a bare gram amount.
+/// A single tappable dose amount within a `SubstanceGroup`. For a by-volume
+/// substance (alcohol) a chip carries the recorded drink detail — emoji, name,
+/// volume, and %ABV — so it renders as "🍺 IPA · 330 mL · 6% · 16 g" and
+/// re-stages that exact drink; a plain mass dose is just its amount.
 struct DoseChip: Identifiable, Equatable {
     let amount: Double
     let unit: String
-    let label: LocalizedStringResource?
-    let systemImage: String?
+    let drinkName: String?
+    let emoji: String?
+    let volumeML: Double?
+    let abv: Double?
 
-    init(amount: Double, unit: String, label: LocalizedStringResource? = nil, systemImage: String? = nil) {
+    init(
+        amount: Double,
+        unit: String,
+        drinkName: String? = nil,
+        emoji: String? = nil,
+        volumeML: Double? = nil,
+        abv: Double? = nil,
+    ) {
         self.amount = amount
         self.unit = unit
-        self.label = label
-        self.systemImage = systemImage
+        self.drinkName = drinkName
+        self.emoji = emoji
+        self.volumeML = volumeML
+        self.abv = abv
     }
 
     var id: String {
-        if let label { return "\(String(localized: label))|\(amount)|\(unit)" }
-        return "\(amount)|\(unit)"
+        QuickLogDose.makeKey(
+            substance: "",
+            route: .oral,
+            amount: amount,
+            unit: unit,
+            volumeML: volumeML,
+            abv: abv,
+            drinkName: drinkName,
+        )
+    }
+
+    /// A drink chip carries measured/named detail; a plain dose is just grams.
+    var hasDrinkDetail: Bool {
+        drinkName != nil || volumeML != nil || abv != nil
     }
 
     var formattedAmount: String {
         amount.doseFormatted
+    }
+
+    /// Subtitle for a detailed drink chip: "330 mL · 6% · 16 g" (volume/strength
+    /// only shown when known); falls back to just the grams.
+    var detailLine: String {
+        var parts: [String] = []
+        if let volumeML { parts.append("\(Int(volumeML.rounded())) mL") }
+        if let abv { parts.append("\(ByVolumeDosing.formatTrimmed(abv))%") }
+        parts.append("\(formattedAmount) \(unit)")
+        return parts.joined(separator: " · ")
     }
 }
 
@@ -298,7 +358,16 @@ final class QuickLogContentModel {
             let nameLower = dose.substance.lowercased()
             let key = "\(nameLower)|\(dose.route.rawValue)"
             if var group = groupMap[key] {
-                group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
+                group.addChip(
+                    amount: dose.amount,
+                    unit: dose.unit,
+                    sortOrder: dose.sortOrder,
+                    lastUsedAt: dose.lastUsedAt,
+                    volumeML: dose.volumeML,
+                    abv: dose.abv,
+                    drinkName: dose.drinkName,
+                    emoji: dose.emoji,
+                )
                 groupMap[key] = group
             } else {
                 var group = SubstanceGroup(
@@ -312,7 +381,16 @@ final class QuickLogContentModel {
                     librarySubstance: SubstanceLibrary.timelineLookup(nameLower),
                     latestTimestamp: dose.lastUsedAt,
                 )
-                group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
+                group.addChip(
+                    amount: dose.amount,
+                    unit: dose.unit,
+                    sortOrder: dose.sortOrder,
+                    lastUsedAt: dose.lastUsedAt,
+                    volumeML: dose.volumeML,
+                    abv: dose.abv,
+                    drinkName: dose.drinkName,
+                    emoji: dose.emoji,
+                )
                 groupMap[key] = group
             }
         }

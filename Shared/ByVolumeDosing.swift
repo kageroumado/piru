@@ -65,6 +65,21 @@ struct ByVolumeDosing: Hashable {
         return volumeML * (abv / 100) * densityGramsPerML
     }
 
+    /// Inverse of ``grams(volumeML:abv:densityGramsPerML:)`` — the volume in mL
+    /// that yields `grams` of ethanol at the given `abv`. Used to keep the
+    /// By-Drink volume consistent when the dose is edited by grams (By Weight).
+    /// Non-finite / non-positive inputs yield 0.
+    static func volumeML(
+        grams: Double,
+        abv: Double,
+        densityGramsPerML: Double = ByVolumeDosing.ethanolDensityGramsPerML,
+    ) -> Double {
+        guard grams.isFinite, abv.isFinite, densityGramsPerML.isFinite,
+              grams > 0, abv > 0, densityGramsPerML > 0
+        else { return 0 }
+        return grams / ((abv / 100) * densityGramsPerML)
+    }
+
     /// Approximate US standard-drink equivalent of a grams-of-ethanol amount —
     /// the intuitive gloss shown alongside the canonical grams. Convention-dependent
     /// (US 14 g); label it as such, never a safety line.
@@ -116,6 +131,19 @@ struct DrinkPreset: Hashable, Identifiable {
     }
 }
 
+extension DrinkPreset.Kind {
+    /// Default emoji for the curated seed — the by-drink UI is emoji-first
+    /// (user presets carry a customizable emoji, seeded from these).
+    var emoji: String {
+        switch self {
+        case .beer: "🍺"
+        case .wine: "🍷"
+        case .shot: "🥃"
+        case .pint: "🍺"
+        }
+    }
+}
+
 // MARK: - Curated Catalog
 
 extension ByVolumeDosing {
@@ -141,7 +169,7 @@ extension ByVolumeDosing {
 
     /// Trim a numeric value for display/storage: integer when whole, else one
     /// decimal. Shared by the input field, the presets, and the breadcrumb.
-    static func formatTrimmed(_ value: Double) -> String {
+    nonisolated static func formatTrimmed(_ value: Double) -> String {
         guard value.isFinite else { return "0" }
         if value.rounded() == value {
             return String(Int(value))

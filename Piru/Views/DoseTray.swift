@@ -1,4 +1,6 @@
+import SwiftData
 import SwiftUI
+import UIKit
 
 // MARK: - Staged Dose
 
@@ -42,6 +44,9 @@ struct StagedDose: Identifiable, Equatable {
     var volumeML: Double?
     var abv: Double?
     var drinkName: String?
+    /// Emoji of the selected drink preset, carried onto the quick-log chip so a
+    /// re-logged drink keeps its glyph. Display-only; not persisted on `DoseEntry`.
+    var emoji: String?
 
     init(
         substanceName: String,
@@ -298,6 +303,10 @@ final class DoseTrayModel {
         librarySubstance: Substance?,
         isFromDailySet: Bool = false,
         isBackgroundMed: Bool = false,
+        volumeML: Double? = nil,
+        abv: Double? = nil,
+        drinkName: String? = nil,
+        emoji: String? = nil,
     ) {
         if let index = stagedIndex(substance: substance, route: route, unit: unit) {
             if let componentIndex = staged[index].components.firstIndex(where: { Self.sameAmount($0.amount, amount) }) {
@@ -307,7 +316,7 @@ final class DoseTrayModel {
             }
             incrementTick += 1
         } else {
-            staged.append(StagedDose(
+            var dose = StagedDose(
                 substanceName: substance,
                 amount: amount,
                 unit: unit,
@@ -317,7 +326,12 @@ final class DoseTrayModel {
                 librarySubstance: librarySubstance,
                 isFromDailySet: isFromDailySet,
                 isBackgroundMed: isBackgroundMed,
-            ))
+            )
+            dose.volumeML = volumeML
+            dose.abv = abv
+            dose.drinkName = drinkName
+            dose.emoji = emoji
+            staged.append(dose)
             stageTick += 1
             syncEmptiness()
         }
@@ -989,6 +1003,7 @@ private struct StagedDoseEditor: View {
     /// Computed once on appear; the metabolism lookup shouldn't run every render.
     @State private var isGrapefruitSubstrate = false
     @State private var profileStore = UserProfileStore.shared
+    @Environment(\.modelContext) private var modelContext
 
     // By-volume custom logger (alcohol): a two-tier strength + volume input with an
     // optional drink name. The By Drink / By Weight choice persists across doses.
@@ -996,7 +1011,23 @@ private struct StagedDoseEditor: View {
     @State private var volumeText = ""
     @State private var abvText = ""
     @State private var drinkName = ""
+    @State private var drinkEmoji = ""
     @State private var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
+    /// The by-drink preset surface: hidden (dials shown), the select/manage list
+    /// (dials hidden), or the add/edit form (dials shown + the new-preset row).
+    @State private var presetSurface: PresetSurface = .hidden
+    @FocusState private var abvFocused: Bool
+    @FocusState private var volumeFocused: Bool
+
+    enum PresetSurface: Equatable {
+        case hidden
+        case list(editing: Bool)
+        case form(editingID: PersistentIdentifier?)
+    }
+
+    /// Whether a saved preset pins the current volume (a 330 mL can) or is
+    /// strength-only (an IPA you pour freely). Toggled in the add/edit form.
+    @State private var presetIncludesVolume = true
 
     private var enteredVolumeML: Double? {
         guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
@@ -1014,6 +1045,27 @@ private struct StagedDoseEditor: View {
         return g > 0 ? g : nil
     }
 
+    /// Millilitre step for the volume stepper, unit-aware: 10 mL, or 0.5 fl oz.
+    private var volumeStep: Double {
+        volumeUnit == .fluidOunces ? 0.5 : 10
+    }
+
+    /// Bump the ABV field by `delta`, clamped to a sane 0–95% and reformatted.
+    private func adjustABV(_ delta: Double) {
+        let current = Double(abvText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        let next = min(95, max(0, ((current + delta) * 10).rounded() / 10))
+        abvText = next > 0 ? ByVolumeDefaults.format(next) : ""
+        stepTick += 1
+    }
+
+    /// Bump the volume field by one `volumeStep` in the displayed unit, clamped ≥ 0.
+    private func adjustVolume(_ steps: Double) {
+        let current = Double(volumeText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        let next = max(0, current + steps * volumeStep)
+        volumeText = next > 0 ? ByVolumeDefaults.format(next) : ""
+        stepTick += 1
+    }
+
     private static let unitChoices = ["µg", "mg", "g", "mL"]
     /// One shared height for the route/note pills — a TextField's intrinsic
     /// height differs from a Menu label's, so padding alone won't match them.
@@ -1023,10 +1075,27 @@ private struct StagedDoseEditor: View {
         VStack(alignment: .leading, spacing: 12) {
             header
 
-            if byVolumeCapability != nil {
+            if let capability = byVolumeCapability {
                 byVolumeModeToggle
                 if byDrinkPreferred {
-                    customDrinkLogger
+                    switch presetSurface {
+                    case let .list(editing):
+                        DrinkPresetList(
+                            substanceName: item.substanceName,
+                            capability: capability,
+                            selectedName: item.drinkName,
+                            editing: editing,
+                            onSelect: { apply(preset: $0) },
+                            onToggleEditing: { presetSurface = .list(editing: !editing) },
+                            onAdd: { beginAddingPreset() },
+                            onEdit: { beginEditingPreset($0) },
+                        )
+                    case .hidden, .form:
+                        byDrinkSteppers
+                        if case let .form(editingID) = presetSurface {
+                            newPresetRow(editingID: editingID, capability: capability)
+                        }
+                    }
                 } else {
                     stepperBlock
                 }
@@ -1035,6 +1104,9 @@ private struct StagedDoseEditor: View {
             }
 
             HStack(spacing: 8) {
+                if byVolumeCapability != nil, byDrinkPreferred {
+                    drinkTypeChip
+                }
                 routeMenu
                 SaltPicker(
                     forms: item.librarySubstance?.saltForms(for: item.route) ?? [],
@@ -1067,10 +1139,10 @@ private struct StagedDoseEditor: View {
             }
             // Seed the custom-drink fields from a dose already logged by volume, so
             // re-opening it shows its strength/volume/name.
-            if byVolumeCapability != nil, let ml = item.volumeML, let abv = item.abv {
-                volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
-                abvText = ByVolumeDefaults.format(abv)
+            if byVolumeCapability != nil {
+                seedByDrinkFieldsIfNeeded()
                 drinkName = item.drinkName ?? ""
+                drinkEmoji = item.emoji ?? ""
             }
         }
         .onChange(of: noteFocused) {
@@ -1080,16 +1152,26 @@ private struct StagedDoseEditor: View {
             }
         }
         // Keep the staged grams + by-volume metadata synced with the custom logger.
-        .onChange(of: customDrinkGrams) { syncCustomDrink() }
-        .onChange(of: drinkName) { syncCustomDrink() }
+        .onChange(of: customDrinkGrams) { if byDrinkPreferred { syncCustomDrink() } }
+        .onChange(of: drinkName) { if byDrinkPreferred { syncCustomDrink() } }
+        // In By Weight, editing grams re-projects the volume (holding ABV) so the
+        // By Drink fields stay consistent when the user flips back — never zeroed.
+        .onChange(of: item.amount) {
+            guard byVolumeCapability != nil, !byDrinkPreferred else { return }
+            reprojectVolumeFromGrams()
+        }
         .onChange(of: byDrinkPreferred) {
             if byDrinkPreferred {
+                // Re-derive the drink fields from the (possibly grams-edited) dose
+                // so By Drink is never blank, then re-sync the metadata.
+                seedByDrinkFieldsIfNeeded(force: true)
                 syncCustomDrink()
             } else {
-                // Switching to By Weight drops the drink metadata; the grams stay.
-                item.volumeML = nil
-                item.abv = nil
-                item.drinkName = nil
+                // Show the current grams in the weight field (the drink dials may
+                // have set item.amount without touching amountText).
+                presetSurface = .hidden
+                suppressAmountSync = true
+                amountText = item.amount > 0 ? item.amount.doseFormatted : ""
             }
         }
         .onChange(of: volumeUnit) { old, new in
@@ -1110,6 +1192,7 @@ private struct StagedDoseEditor: View {
                 .rotationEffect(.degrees(90))
                 .frame(width: 16)
                 .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
+                .accessibilityHidden(true)
             Text(CustomSubstanceStore.shared.displayName(for: item.substanceName))
                 .font(.body.weight(.semibold))
                 .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
@@ -1213,37 +1296,293 @@ private struct StagedDoseEditor: View {
         .labelsHidden()
     }
 
-    /// The custom drink logger (alcohol): strength + volume + optional name, with
-    /// a live grams readout. Syncs the computed grams + metadata onto the staged
-    /// dose so a custom drink commits and round-trips like a preset.
-    @ViewBuilder
-    private var customDrinkLogger: some View {
-        if let capability = byVolumeCapability {
-            ByVolumeDoseInputView(
-                capability: capability,
-                volumeText: $volumeText,
-                abvText: $abvText,
-                volumeUnit: $volumeUnit,
-                grams: customDrinkGrams,
-                readoutColor: item.doseLevel?.labelColor,
-                showsPresets: false,
-                name: $drinkName,
+    // MARK: By Drink (strength + volume steppers)
+
+    /// Strength (%ABV) and Volume steppers — same picker shape as the grams
+    /// field — plus a live grams / standard-drinks readout. Tap the number to
+    /// type; use −/+ to nudge without the keyboard.
+    private var byDrinkSteppers: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            byDrinkRow(
+                label: "Strength",
+                text: $abvText,
+                focus: $abvFocused,
+                trailing: Text("% ABV").font(.callout.weight(.medium)).foregroundStyle(Theme.secondaryLabel),
+                onDec: { adjustABV(-0.5) },
+                onInc: { adjustABV(0.5) },
+                decLabel: "Lower strength",
+                incLabel: "Raise strength",
             )
+            byDrinkRow(
+                label: "Volume",
+                text: $volumeText,
+                focus: $volumeFocused,
+                trailing: volumeUnitMenu,
+                onDec: { adjustVolume(-1) },
+                onInc: { adjustVolume(1) },
+                decLabel: "Lower volume",
+                incLabel: "Raise volume",
+            )
+            byDrinkReadout
         }
+    }
+
+    private func byDrinkRow(
+        label: LocalizedStringKey,
+        text: Binding<String>,
+        focus: FocusState<Bool>.Binding,
+        trailing: some View,
+        onDec: @escaping () -> Void,
+        onInc: @escaping () -> Void,
+        decLabel: LocalizedStringKey,
+        incLabel: LocalizedStringKey,
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(label)
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+            HStack(spacing: 8) {
+                stepButton(systemImage: "minus", action: onDec)
+                    .accessibilityLabel(decLabel)
+                HStack(spacing: 4) {
+                    TextField("0", text: text)
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.center)
+                        .font(.title.weight(.semibold))
+                        .focused(focus)
+                        .frame(maxWidth: 130)
+                    trailing
+                }
+                .frame(maxWidth: .infinity)
+                stepButton(systemImage: "plus", action: onInc)
+                    .accessibilityLabel(incLabel)
+            }
+        }
+    }
+
+    private var volumeUnitMenu: some View {
+        Menu {
+            Picker("Volume unit", selection: $volumeUnit) {
+                Text(verbatim: "mL").tag(UnitVolume.milliliters)
+                Text(verbatim: "fl oz").tag(UnitVolume.fluidOunces)
+            }
+        } label: {
+            HStack(spacing: 2) {
+                Text(volumeUnit == .fluidOunces ? "fl oz" : "mL")
+                    .font(.callout.weight(.medium))
+                Image(systemName: "chevron.up.chevron.down").font(.caption2)
+            }
+            .foregroundStyle(Theme.secondaryLabel)
+        }
+        .accessibilityLabel("Volume unit")
+    }
+
+    @ViewBuilder
+    private var byDrinkReadout: some View {
+        if let grams = customDrinkGrams {
+            let drinks = ByVolumeDosing.standardDrinks(grams: grams)
+            HStack(spacing: 6) {
+                Text("\(Int(grams.rounded())) g")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(item.doseLevel?.labelColor ?? .primary)
+                    .contentTransition(.numericText())
+                Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
+                    .foregroundStyle(Theme.secondaryLabel)
+                if let level = item.doseLevel {
+                    Text(verbatim: "·").foregroundStyle(.tertiary)
+                    Text(String(localized: level.displayName).lowercased())
+                        .foregroundStyle(level.labelColor)
+                }
+            }
+            .font(.subheadline.weight(.medium))
+            .frame(maxWidth: .infinity)
+        }
+        // No placeholder when empty — the strength/volume steppers are right above.
+    }
+
+    /// The drink-type chip in the Route·Note row: shows the current drink, and
+    /// toggles the preset list (select / add / manage) open and closed.
+    private var drinkTypeChip: some View {
+        Button {
+            withAnimation(.snappy) {
+                presetSurface = (presetSurface == .hidden) ? .list(editing: false) : .hidden
+            }
+        } label: {
+            HStack(spacing: 5) {
+                if !drinkEmoji.isEmpty { Text(drinkEmoji) }
+                Text(drinkName.isEmpty ? String(localized: "Drink") : drinkName)
+                    .lineLimit(1)
+                Image(systemName: presetSurface == .hidden ? "chevron.down" : "chevron.up")
+                    .imageScale(.small)
+            }
+            .font(.footnote.weight(.semibold))
+            .padding(.horizontal, 11)
+            .frame(height: Self.pillHeight)
+            .background(Theme.accent.opacity(0.15), in: Capsule())
+            .foregroundStyle(Theme.accent)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(drinkName.isEmpty ? Text("Choose drink") : Text("Drink: \(drinkName)"))
+        .accessibilityHint("Opens your drink presets")
+    }
+
+    // MARK: By Drink ⇄ By Weight sync
+
+    /// Fill the ABV/volume fields from the staged dose's structured metadata (or,
+    /// if it only has grams from a By-Weight edit, derive a volume at a default
+    /// strength) so By Drink is never blank. `force` overwrites existing text.
+    private func seedByDrinkFieldsIfNeeded(force: Bool = false) {
+        guard byVolumeCapability != nil else { return }
+        if !force, !(volumeText.isEmpty && abvText.isEmpty) { return }
+        if let abv = item.abv, let ml = item.volumeML {
+            abvText = ByVolumeDefaults.format(abv)
+            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
+        } else if item.amount > 0 {
+            // Grams-only dose: hold a default strength and back-derive the volume.
+            let abv = item.abv ?? 5
+            abvText = ByVolumeDefaults.format(abv)
+            let ml = ByVolumeDosing.volumeML(grams: item.amount, abv: abv)
+            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
+        }
+    }
+
+    /// In By Weight, keep `item.volumeML` consistent with the edited grams by
+    /// re-deriving volume at the held ABV — so flipping back to By Drink shows a
+    /// matching volume rather than a stale or zeroed one.
+    private func reprojectVolumeFromGrams() {
+        let abv = item.abv ?? 5
+        item.abv = abv
+        item.volumeML = item.amount > 0 ? ByVolumeDosing.volumeML(grams: item.amount, abv: abv) : nil
     }
 
     /// Push the custom drink's grams + metadata onto the staged dose. Only writes
     /// once a usable volume + strength is entered, so opening the logger on a dose
-    /// already staged from preset chips never wipes its grams.
+    /// already staged from a chip never wipes its grams.
     private func syncCustomDrink() {
         guard byDrinkPreferred, byVolumeCapability != nil, let grams = customDrinkGrams else { return }
         item.components = [StagedDose.Component(amount: (grams * 10).rounded() / 10)]
         item.unit = byVolumeCapability?.canonicalUnit ?? "g"
         item.volumeML = enteredVolumeML
         item.abv = enteredABV
-        item.drinkName = drinkName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            ? nil
-            : drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
+        item.drinkName = trimmed.isEmpty ? nil : trimmed
+        item.emoji = drinkEmoji.isEmpty ? nil : drinkEmoji
+    }
+
+    // MARK: Preset select / add
+
+    /// Fill the dials from a chosen preset and collapse the list. A volume-less
+    /// preset fills only the strength, leaving the current volume to dial.
+    private func apply(preset: CustomDrinkPreset) {
+        abvText = ByVolumeDefaults.format(preset.strengthABV)
+        if let ml = preset.volumeML {
+            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
+        }
+        drinkName = preset.name
+        drinkEmoji = preset.emoji
+        withAnimation(.snappy) { presetSurface = .hidden }
+        syncCustomDrink()
+    }
+
+    /// Enter the add-preset form, defaulting its name/emoji to whatever drink is
+    /// currently dialed so "save this drink" is one tap.
+    private func beginAddingPreset() {
+        presetIncludesVolume = enteredVolumeML != nil
+        if drinkEmoji.isEmpty { drinkEmoji = "🍺" }
+        withAnimation(.snappy) { presetSurface = .form(editingID: nil) }
+    }
+
+    /// Enter the edit form for an existing preset, loading its values into the
+    /// dials + name/emoji fields so the form shows what will change.
+    private func beginEditingPreset(_ preset: CustomDrinkPreset) {
+        abvText = ByVolumeDefaults.format(preset.strengthABV)
+        presetIncludesVolume = preset.volumeML != nil
+        if let ml = preset.volumeML {
+            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
+        }
+        drinkName = preset.name
+        drinkEmoji = preset.emoji
+        withAnimation(.snappy) { presetSurface = .form(editingID: preset.persistentModelID) }
+    }
+
+    /// The add/edit form: emoji · name · save (icon), plus a "fixed serving size"
+    /// toggle (strength + name define a preset; volume is optional). The strength
+    /// and volume come from the dials shown above it.
+    @ViewBuilder
+    private func newPresetRow(editingID: PersistentIdentifier?, capability _: ByVolumeDosing) -> some View {
+        let trimmedName = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
+        VStack(alignment: .leading, spacing: 9) {
+            HStack {
+                Text(editingID == nil ? "New preset" : "Edit preset")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(Theme.accent)
+                Spacer()
+                Button("Cancel") { withAnimation(.snappy) { presetSurface = .list(editing: false) } }
+                    .font(.footnote.weight(.semibold))
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            HStack(spacing: 8) {
+                EmojiField(text: $drinkEmoji)
+                    .frame(width: 46, height: 46)
+                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                    .accessibilityLabel("Drink emoji")
+                TextField("Name (e.g. IPA)", text: $drinkName)
+                    .textInputAutocapitalization(.words)
+                    .padding(.horizontal, 13)
+                    .frame(height: 46)
+                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                Button {
+                    savePreset(editingID: editingID)
+                } label: {
+                    Image(systemName: "checkmark")
+                        .font(.body.weight(.bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 46, height: 46)
+                        .background(trimmedName.isEmpty || enteredABV == nil ? AnyShapeStyle(Color.gray.opacity(0.4)) : AnyShapeStyle(Theme.accent), in: RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(.plain)
+                .disabled(trimmedName.isEmpty || enteredABV == nil)
+                .accessibilityLabel("Save preset")
+            }
+            Toggle("Fixed serving size", isOn: $presetIncludesVolume)
+                .font(.footnote)
+                .tint(Theme.accent)
+        }
+        .padding(12)
+        .background(Theme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    /// Insert or update the preset from the current dials + name/emoji, then
+    /// collapse the surface. Strength is required; volume is saved only when the
+    /// "fixed serving size" toggle is on.
+    private func savePreset(editingID: PersistentIdentifier?) {
+        let name = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty, let abv = enteredABV else { return }
+        let emoji = drinkEmoji.isEmpty ? "🍺" : drinkEmoji
+        let volume = presetIncludesVolume ? enteredVolumeML : nil
+
+        if let editingID, let existing = modelContext.model(for: editingID) as? CustomDrinkPreset {
+            existing.name = name
+            existing.emoji = emoji
+            existing.strengthABV = abv
+            existing.volumeML = volume
+        } else {
+            let lower = item.substanceName.lowercased()
+            var descriptor = FetchDescriptor<CustomDrinkPreset>(
+                predicate: #Predicate { $0.substanceName == lower },
+                sortBy: [SortDescriptor(\.sortOrder, order: .reverse)],
+            )
+            descriptor.fetchLimit = 1
+            let maxOrder = (try? modelContext.fetch(descriptor))?.first?.sortOrder ?? -1
+            modelContext.insert(CustomDrinkPreset(
+                name: name, emoji: emoji, strengthABV: abv, volumeML: volume,
+                substanceName: lower, sortOrder: maxOrder + 1,
+            ))
+        }
+        try? modelContext.save()
+        withAnimation(.snappy) { presetSurface = .hidden }
+        syncCustomDrink()
     }
 
     /// Per-dose "had grapefruit" toggle (Stage 4c) — shown only for CYP3A4-heavy substrates when
@@ -1435,5 +1774,196 @@ private struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .matchedGeometryEffect(id: "route-\(item.id)", in: namespace)
+    }
+}
+
+// MARK: - Drink Preset List
+
+/// The in-place preset surface for a by-volume substance (alcohol): select a
+/// saved drink, or manage the list (add / edit / delete). Seeds the curated
+/// defaults on first appearance so it's never empty. Replaces the dials while
+/// open — the drink chip toggles it.
+private struct DrinkPresetList: View {
+    let substanceName: String
+    let capability: ByVolumeDosing
+    let selectedName: String?
+    let editing: Bool
+    let onSelect: (CustomDrinkPreset) -> Void
+    let onToggleEditing: () -> Void
+    let onAdd: () -> Void
+    let onEdit: (CustomDrinkPreset) -> Void
+
+    @Environment(\.modelContext) private var modelContext
+    @Query private var presets: [CustomDrinkPreset]
+
+    init(
+        substanceName: String,
+        capability: ByVolumeDosing,
+        selectedName: String?,
+        editing: Bool,
+        onSelect: @escaping (CustomDrinkPreset) -> Void,
+        onToggleEditing: @escaping () -> Void,
+        onAdd: @escaping () -> Void,
+        onEdit: @escaping (CustomDrinkPreset) -> Void,
+    ) {
+        self.substanceName = substanceName
+        self.capability = capability
+        self.selectedName = selectedName
+        self.editing = editing
+        self.onSelect = onSelect
+        self.onToggleEditing = onToggleEditing
+        self.onAdd = onAdd
+        self.onEdit = onEdit
+        let lower = substanceName.lowercased()
+        _presets = Query(
+            filter: #Predicate { $0.substanceName == lower },
+            sort: [SortDescriptor(\.sortOrder), SortDescriptor(\.createdAt)],
+        )
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text("Your drinks")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                Spacer()
+                if !presets.isEmpty {
+                    Button(editing ? "Done" : "Edit", action: onToggleEditing)
+                        .font(.footnote.weight(.semibold))
+                        .buttonStyle(.plain)
+                        .foregroundStyle(Theme.accent)
+                }
+            }
+            ForEach(presets) { preset in
+                presetRow(preset)
+            }
+            Button(action: onAdd) {
+                HStack(spacing: 9) {
+                    Image(systemName: "plus.circle.fill")
+                    Text("Add preset")
+                    Spacer()
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Theme.accent)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 12)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+        }
+        .onAppear {
+            CustomDrinkPreset.seedIfNeeded(for: substanceName, capability: capability, context: modelContext)
+        }
+    }
+
+    @ViewBuilder
+    private func presetRow(_ preset: CustomDrinkPreset) -> some View {
+        let isSelected = !editing && selectedName?.caseInsensitiveCompare(preset.name) == .orderedSame
+        HStack(spacing: 11) {
+            Text(preset.emoji).font(.title3)
+            Text(preset.name).font(.subheadline.weight(.semibold))
+            Spacer()
+            if editing {
+                Button { onEdit(preset) } label: {
+                    Image(systemName: "pencil").foregroundStyle(Theme.secondaryLabel)
+                }
+                .buttonStyle(.plain)
+                .frame(width: 34, height: 34)
+                .accessibilityLabel("Edit \(preset.name)")
+                Button(role: .destructive) { delete(preset) } label: {
+                    Image(systemName: "trash").foregroundStyle(.red)
+                }
+                .buttonStyle(.plain)
+                .frame(width: 34, height: 34)
+                .accessibilityLabel("Delete \(preset.name)")
+            } else {
+                Text(preset.detailLabel)
+                    .font(.footnote)
+                    .foregroundStyle(Theme.secondaryLabel)
+                if isSelected {
+                    Image(systemName: "checkmark").font(.footnote.weight(.bold)).foregroundStyle(Theme.accent)
+                }
+            }
+        }
+        .padding(.vertical, 9)
+        .padding(.horizontal, 12)
+        .background(isSelected ? Theme.accent.opacity(0.12) : Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+        .contentShape(Rectangle())
+        .onTapGesture { if !editing { onSelect(preset) } }
+        .accessibilityElement(children: editing ? .contain : .combine)
+        .accessibilityAddTraits(editing ? [] : .isButton)
+        .accessibilityLabel(editing ? Text(preset.name) : Text("\(preset.name), \(preset.detailLabel)"))
+    }
+
+    private func delete(_ preset: CustomDrinkPreset) {
+        modelContext.delete(preset)
+        try? modelContext.save()
+    }
+}
+
+extension CustomDrinkPreset {
+    /// "330 mL · 5%" for a fixed-volume preset, or just "5%" for strength-only.
+    var detailLabel: String {
+        let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))%"
+        guard let volumeML else { return strength }
+        return "\(Int(volumeML.rounded())) mL · \(strength)"
+    }
+}
+
+// MARK: - Emoji Field
+
+/// A one-glyph text field that presents the system **emoji** keyboard, for the
+/// drink-preset emoji. Standard `UITextField` override of `textInputMode`; keeps
+/// only the last entered emoji so the field always holds a single glyph.
+private struct EmojiField: UIViewRepresentable {
+    @Binding var text: String
+
+    func makeUIView(context: Context) -> UITextField {
+        let field = EmojiUITextField()
+        field.text = text
+        field.delegate = context.coordinator
+        field.textAlignment = .center
+        field.font = .systemFont(ofSize: 24)
+        field.tintColor = .clear
+        field.setContentHuggingPriority(.required, for: .horizontal)
+        return field
+    }
+
+    func updateUIView(_ uiView: UITextField, context _: Context) {
+        if uiView.text != text { uiView.text = text }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(text: $text)
+    }
+
+    final class Coordinator: NSObject, UITextFieldDelegate {
+        @Binding var text: String
+        init(text: Binding<String>) {
+            _text = text
+        }
+
+        func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
+            // Keep only the newly typed glyph (single emoji), replacing any prior.
+            if string.isEmpty {
+                text = ""
+                textField.text = ""
+            } else {
+                text = string
+                textField.text = string
+            }
+            return false
+        }
+    }
+}
+
+/// `UITextField` that forces the emoji keyboard by advertising the emoji input mode.
+private final class EmojiUITextField: UITextField {
+    override var textInputContextIdentifier: String? {
+        ""
+    }
+    override var textInputMode: UITextInputMode? {
+        UITextInputMode.activeInputModes.first { $0.primaryLanguage == "emoji" } ?? super.textInputMode
     }
 }

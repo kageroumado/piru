@@ -73,6 +73,7 @@ nonisolated enum StoreRecovery {
             UserProfileRecord.self,
             ToleranceState.self,
             CustomSubstanceRecord.self,
+            CustomDrinkPreset.self,
         ]
     }
 

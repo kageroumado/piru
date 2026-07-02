@@ -72,6 +72,22 @@
         }
       }
     },
+    "· %@ std drinks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %@ 标准杯"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %@ 標準杯"
+          }
+        }
+      }
+    },
     "· %lld total" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1104,7 +1120,6 @@
       }
     },
     "%@, %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4528,6 +4543,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增您經常服用的處方。"
+          }
+        }
+      }
+    },
+    "Add preset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加预设"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增預設"
           }
         }
       }
@@ -8629,6 +8660,22 @@
         }
       }
     },
+    "Choose drink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇飲品"
+          }
+        }
+      }
+    },
     "Cited equivalence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10927,6 +10974,22 @@
         }
       }
     },
+    "Delete %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除 %@"
+          }
+        }
+      }
+    },
     "Delete Entry" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12354,6 +12417,38 @@
         }
       }
     },
+    "Drink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "飲品"
+          }
+        }
+      }
+    },
+    "Drink emoji" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮品表情"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "飲品表情"
+          }
+        }
+      }
+    },
     "Drink some water. Stimulants mask thirst — your body needs more fluids than you realize." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12526,6 +12621,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "喝水。裹上舒適的衣物。"
+          }
+        }
+      }
+    },
+    "Drink: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮品：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "飲品：%@"
           }
         }
       }
@@ -12986,6 +13097,22 @@
         }
       }
     },
+    "Edit %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯 %@"
+          }
+        }
+      }
+    },
     "Edit Entry" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13079,6 +13206,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯處方"
+          }
+        }
+      }
+    },
+    "Edit preset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑预设"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯預設"
           }
         }
       }
@@ -14952,6 +15095,25 @@
           }
         }
       }
+    },
+    "Fixed serving size" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定分量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定份量"
+          }
+        }
+      }
+    },
+    "fl oz" : {
+
     },
     "Fluvoxamine" : {
       "localizations" : {
@@ -19256,6 +19418,22 @@
         }
       }
     },
+    "Log %@, %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录 %@，%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄 %@，%@"
+          }
+        }
+      }
+    },
     "Log %lld Doses" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19620,6 +19798,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ki 越低表示結合越緊密。親和力低於約 100 nM 通常被視為較高。"
+          }
+        }
+      }
+    },
+    "Lower strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "降低浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "降低濃度"
+          }
+        }
+      }
+    },
+    "Lower volume" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减少容量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減少容量"
           }
         }
       }
@@ -20438,6 +20648,9 @@
           }
         }
       }
+    },
+    "mL" : {
+
     },
     "Modafinil" : {
       "localizations" : {
@@ -21308,6 +21521,22 @@
         }
       }
     },
+    "Name (e.g. IPA)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称（如 IPA）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名稱（如 IPA）"
+          }
+        }
+      }
+    },
     "Name (for the report header)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21515,6 +21744,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新條目"
+          }
+        }
+      }
+    },
+    "New preset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新预设"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新預設"
           }
         }
       }
@@ -23043,6 +23288,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開設定"
+          }
+        }
+      }
+    },
+    "Opens your drink presets" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开你的饮品预设"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟你的飲品預設"
           }
         }
       }
@@ -25575,6 +25836,38 @@
         }
       }
     },
+    "Raise strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提高浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提高濃度"
+          }
+        }
+      }
+    },
+    "Raise volume" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加容量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加容量"
+          }
+        }
+      }
+    },
     "Ramp Down" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28079,6 +28372,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存"
+          }
+        }
+      }
+    },
+    "Save preset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存预设"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存預設"
           }
         }
       }
@@ -36406,6 +36715,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的資料已還原。請強制結束並重新開啟 Piru 以載入。"
+          }
+        }
+      }
+    },
+    "Your drinks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的飲品"
           }
         }
       }

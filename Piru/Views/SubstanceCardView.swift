@@ -215,17 +215,21 @@ struct SubstanceCardView: View, Equatable {
                     unit: chip.unit,
                     colorHex: group.colorHex,
                     librarySubstance: group.librarySubstance,
+                    volumeML: chip.volumeML,
+                    abv: chip.abv,
+                    drinkName: chip.drinkName,
+                    emoji: chip.emoji,
                 )
             }
         } label: {
             chipLabel(chip)
                 .font(.subheadline.weight(.medium))
                 .padding(.horizontal, 12)
-                .padding(.vertical, 6)
+                .padding(.vertical, chip.hasDrinkDetail ? 8 : 6)
                 .background(stagedCount > 0 ? color : color.opacity(0.15))
                 .foregroundStyle(stagedCount > 0 ? .white : color)
-                .clipShape(Capsule())
-                .contentShape(Capsule())
+                .clipShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: 16, style: .continuous)) : AnyShape(Capsule()))
+                .contentShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: 16, style: .continuous)) : AnyShape(Capsule()))
                 .overlay(alignment: .topTrailing) {
                     if stagedCount > 1 {
                         chipCountBadge(stagedCount)
@@ -233,7 +237,7 @@ struct SubstanceCardView: View, Equatable {
                 }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(chip.label.map { Text("Log \($0)") } ?? Text("Log \(chip.formattedAmount) \(chip.unit)"))
+        .accessibilityLabel(chipAccessibilityLabel(chip))
         .contextMenu {
             Button {
                 onMoveChip(group, chip, true)
@@ -248,19 +252,38 @@ struct SubstanceCardView: View, Equatable {
         }
     }
 
-    /// Drink chips (alcohol) show their icon + name; ordinary chips show the
-    /// gram/mg amount.
+    /// Drink chips (alcohol recents) show emoji · name over a "volume · % · grams"
+    /// subtitle; ordinary chips show the bare gram/mg amount.
     @ViewBuilder
     private func chipLabel(_ chip: DoseChip) -> some View {
-        if let label = chip.label {
-            if let systemImage = chip.systemImage {
-                Label(label, systemImage: systemImage)
-            } else {
-                Text(label)
+        if chip.hasDrinkDetail {
+            VStack(alignment: .leading, spacing: 1) {
+                HStack(spacing: 5) {
+                    if let emoji = chip.emoji { Text(emoji) }
+                    if let name = chip.drinkName, !name.isEmpty {
+                        Text(name).fontWeight(.semibold)
+                    } else {
+                        Text("\(chip.formattedAmount) \(chip.unit)").fontWeight(.semibold)
+                    }
+                }
+                Text(chip.detailLine)
+                    .font(.caption2.weight(.semibold))
+                    .opacity(0.9)
             }
         } else {
             Text("\(chip.formattedAmount) \(chip.unit)")
         }
+    }
+
+    /// Spoken label: "Log IPA, 330 mL · 6% · 16 g" for a drink, else "Log 20 g".
+    private func chipAccessibilityLabel(_ chip: DoseChip) -> Text {
+        guard chip.hasDrinkDetail else {
+            return Text("Log \(chip.formattedAmount) \(chip.unit)")
+        }
+        if let name = chip.drinkName, !name.isEmpty {
+            return Text("Log \(name), \(chip.detailLine)")
+        }
+        return Text("Log \(chip.detailLine)")
     }
 
     private func chipCountBadge(_ count: Int) -> some View {

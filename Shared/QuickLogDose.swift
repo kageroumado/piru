@@ -35,6 +35,14 @@ final class QuickLogDose {
     /// When this dose was last logged — drives float-to-top and LRU eviction.
     var lastUsedAt: Date
 
+    /// By-volume detail (alcohol) captured from the logged drink so the chip can
+    /// render "🍺 IPA · 330 mL · 6% · 16 g" and re-stage the full drink, not a
+    /// bare gram amount. All `nil` for ordinary mass doses (additive columns).
+    var volumeML: Double?
+    var abv: Double?
+    var drinkName: String?
+    var emoji: String?
+
     init(
         substance: String,
         route: RouteOfAdministration,
@@ -42,6 +50,10 @@ final class QuickLogDose {
         unit: String,
         sortOrder: Double,
         lastUsedAt: Date = .now,
+        volumeML: Double? = nil,
+        abv: Double? = nil,
+        drinkName: String? = nil,
+        emoji: String? = nil,
     ) {
         self.substance = substance
         self.route = route
@@ -49,15 +61,48 @@ final class QuickLogDose {
         self.unit = unit
         self.sortOrder = sortOrder
         self.lastUsedAt = lastUsedAt
+        self.volumeML = volumeML
+        self.abv = abv
+        self.drinkName = drinkName
+        self.emoji = emoji
     }
 
-    /// Identity of the quick-log chip: `substance(lowercased)|route|amount|unit`.
+    /// Whether this chip carries by-volume detail (a named/measured drink) vs.
+    /// a plain gram amount — drives detailed vs. regular chip rendering.
+    var hasDrinkDetail: Bool {
+        drinkName != nil || volumeML != nil || abv != nil
+    }
+
+    /// Identity of the quick-log chip. For a by-volume drink it folds in the
+    /// drink's name/strength/volume so distinct drinks (an IPA vs. a cider that
+    /// happen to share grams) stay distinct chips; otherwise `substance|route|amount|unit`.
     var key: String {
-        Self.makeKey(substance: substance, route: route, amount: amount, unit: unit)
+        Self.makeKey(
+            substance: substance,
+            route: route,
+            amount: amount,
+            unit: unit,
+            volumeML: volumeML,
+            abv: abv,
+            drinkName: drinkName,
+        )
     }
 
-    static func makeKey(substance: String, route: RouteOfAdministration, amount: Double, unit: String) -> String {
-        "\(substance.lowercased())|\(route.rawValue)|\(amount)|\(unit)"
+    static func makeKey(
+        substance: String,
+        route: RouteOfAdministration,
+        amount: Double,
+        unit: String,
+        volumeML: Double? = nil,
+        abv: Double? = nil,
+        drinkName: String? = nil,
+    ) -> String {
+        let base = "\(substance.lowercased())|\(route.rawValue)|\(amount)|\(unit)"
+        guard volumeML != nil || abv != nil || drinkName != nil else { return base }
+        let name = (drinkName ?? "").lowercased()
+        let vol = volumeML.map { String($0) } ?? ""
+        let strength = abv.map { String($0) } ?? ""
+        return "\(base)|\(name)|\(vol)|\(strength)"
     }
 
     /// Maximum chips kept per (substance, route) group before least-recently-used

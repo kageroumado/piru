@@ -9,6 +9,27 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Alcohol by-drink logging (2026-07-02) — preset list, steppers, a11y labels.
+    "Drink": ("饮品", "飲品"),
+    "Choose drink": ("选择饮品", "選擇飲品"),
+    "Opens your drink presets": ("打开你的饮品预设", "開啟你的飲品預設"),
+    "Your drinks": ("你的饮品", "你的飲品"),
+    "Add preset": ("添加预设", "新增預設"),
+    "New preset": ("新预设", "新預設"),
+    "Edit preset": ("编辑预设", "編輯預設"),
+    "Save preset": ("保存预设", "儲存預設"),
+    "Fixed serving size": ("固定分量", "固定份量"),
+    "Name (e.g. IPA)": ("名称（如 IPA）", "名稱（如 IPA）"),
+    "Drink emoji": ("饮品表情", "飲品表情"),
+    "Lower strength": ("降低浓度", "降低濃度"),
+    "Raise strength": ("提高浓度", "提高濃度"),
+    "Lower volume": ("减少容量", "減少容量"),
+    "Raise volume": ("增加容量", "增加容量"),
+    "· %@ std drinks": ("· %@ 标准杯", "· %@ 標準杯"),
+    "Drink: %@": ("饮品：%@", "飲品：%@"),
+    "Edit %@": ("编辑 %@", "編輯 %@"),
+    "Delete %@": ("删除 %@", "刪除 %@"),
+    "Log %@, %@": ("记录 %@，%@", "記錄 %@，%@"),
     # Tolerance tool toolbar cleanup (2026-07-01) — Mail-style options menu + per-substance mode.
     # ("By mechanism" already lives in the tolerance-explainer block below — reused here.)
     "By substance": ("按物质", "按物質"),
@@ -4018,6 +4039,27 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Alcohol by-drink logging (2026-07-02) — added via CLI, not yet extracted.
+        "Drink",
+        "Choose drink",
+        "Opens your drink presets",
+        "Your drinks",
+        "Add preset",
+        "New preset",
+        "Edit preset",
+        "Save preset",
+        "Fixed serving size",
+        "Name (e.g. IPA)",
+        "Drink emoji",
+        "Lower strength",
+        "Raise strength",
+        "Lower volume",
+        "Raise volume",
+        "· %@ std drinks",
+        "Drink: %@",
+        "Edit %@",
+        "Delete %@",
+        "Log %@, %@",
         # Tolerance tool toolbar cleanup (2026-07-01) — interpolated/ternary labels not auto-extracted.
         "By mechanism",
         "By substance",

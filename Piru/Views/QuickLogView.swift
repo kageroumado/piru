@@ -151,6 +151,10 @@ struct QuickLogView: View {
                     .padding(.horizontal)
                     .padding(.top, 4)
                     .padding(.bottom, 64)
+                    // With a dose editor open in the dock, hide the cards behind it
+                    // from assistive tech so VoiceOver/Voice Control focus the
+                    // editor's controls instead of interleaving the dimmed list.
+                    .accessibilityHidden(!tray.expandedItemIDs.isEmpty)
                     // Tapping anywhere outside the dock ends a search — the
                     // standard iOS dismissal, no dimming, no Cancel button.
                     .simultaneousGesture(
@@ -594,7 +598,10 @@ struct QuickLogView: View {
                 // their own surface and don't mint quick-log chips.
                 if !item.isFromDailySet {
                     for component in item.components {
-                        curation.append(QuickLogManager.LoggedDose(substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit))
+                        curation.append(QuickLogManager.LoggedDose(
+                            substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit,
+                            volumeML: item.volumeML, abv: item.abv, drinkName: item.drinkName, emoji: item.emoji,
+                        ))
                     }
                 }
 
@@ -947,7 +954,15 @@ private struct QuickLogCardList: View {
 
     /// The curated row backing a chip, matched by substance + route + measurement.
     private func quickLogDose(for group: SubstanceGroup, chip: DoseChip) -> QuickLogDose? {
-        let key = QuickLogDose.makeKey(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
+        let key = QuickLogDose.makeKey(
+            substance: group.substanceName,
+            route: group.route,
+            amount: chip.amount,
+            unit: chip.unit,
+            volumeML: chip.volumeML,
+            abv: chip.abv,
+            drinkName: chip.drinkName,
+        )
         return quickLogDoses.first { $0.key == key }
     }
 

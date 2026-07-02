@@ -33,6 +33,9 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
     }
 
     private func candidateRow(visibleCount: Int) -> some View {
+        // `maxHeight: .infinity` lets every item grow to the row's tallest child
+        // (a two-line drink chip pulls the plain gram chips + trailing controls up
+        // to match), so the row reads as one even height. A no-op for uniform rows.
         HStack(spacing: 6) {
             ForEach(items.prefix(visibleCount)) { item in
                 chip(item)
@@ -40,23 +43,25 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
                     // "fits" and the widest always wins. The last candidate
                     // stays compressible as the give-up fallback.
                     .fixedSize(horizontal: visibleCount > 1, vertical: false)
+                    .frame(maxHeight: .infinity)
             }
             if visibleCount < items.count {
                 Button(action: onExpand) {
                     Text(verbatim: "+\(items.count - visibleCount)")
                         .font(.subheadline.weight(.medium))
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                        .frame(maxHeight: .infinity)
                         .background(Color(.secondarySystemFill))
                         .foregroundStyle(Theme.secondaryLabel)
                         .clipShape(Capsule())
                 }
                 .buttonStyle(.plain)
-                .fixedSize()
+                .fixedSize(horizontal: true, vertical: false)
                 .accessibilityLabel("Show \(items.count - visibleCount) more doses")
             }
             trailing()
-                .fixedSize()
+                .fixedSize(horizontal: true, vertical: false)
+                .frame(maxHeight: .infinity)
         }
     }
 }

@@ -134,11 +134,8 @@ struct ByVolumeDoseInputView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-        } else {
-            Text("Enter a volume and strength")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
         }
+        // No placeholder when empty — the volume/strength fields are right above.
     }
 }
 

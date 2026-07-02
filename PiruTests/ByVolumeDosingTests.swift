@@ -54,6 +54,31 @@ struct ByVolumeDosingTests {
         #expect(ByVolumeDosing.grams(volumeML: 330, abv: 5, densityGramsPerML: 0) == 0)
     }
 
+    // MARK: - Inverse (grams → volume)
+
+    @Test
+    func `volumeML inverts grams at a held ABV`() {
+        let g = ByVolumeDosing.grams(volumeML: 330, abv: 5)
+        let ml = ByVolumeDosing.volumeML(grams: g, abv: 5)
+        #expect(abs(ml - 330) < 1e-6)
+    }
+
+    @Test
+    func `volumeML round-trips a range of drinks`() {
+        for (vol, abv) in [(150.0, 13.0), (44.0, 40.0), (500.0, 8.0)] {
+            let g = ByVolumeDosing.grams(volumeML: vol, abv: abv)
+            #expect(abs(ByVolumeDosing.volumeML(grams: g, abv: abv) - vol) < 1e-6)
+        }
+    }
+
+    @Test
+    func `volumeML guards non-positive and non-finite inputs`() {
+        #expect(ByVolumeDosing.volumeML(grams: 0, abv: 5) == 0)
+        #expect(ByVolumeDosing.volumeML(grams: 13, abv: 0) == 0)
+        #expect(ByVolumeDosing.volumeML(grams: .nan, abv: 5) == 0)
+        #expect(ByVolumeDosing.volumeML(grams: 13, abv: .infinity) == 0)
+    }
+
     // MARK: - Standard-drink gloss
 
     @Test

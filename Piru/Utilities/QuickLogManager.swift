@@ -39,17 +39,28 @@ enum QuickLogManager {
         let existing = (try? context.fetchCount(FetchDescriptor<QuickLogDose>())) ?? 0
         guard existing == 0, !history.isEmpty else { return }
 
-        struct Measure { var amount: Double; var unit: String; var count: Int; var last: Date }
+        struct Measure {
+            var amount: Double; var unit: String; var count: Int; var last: Date
+            var volumeML: Double?; var abv: Double?; var drinkName: String?
+        }
         // groupKey -> (substance, route) and measureKey -> aggregated Measure.
         var groupMeta: [String: (substance: String, route: RouteOfAdministration)] = [:]
         var groupMeasures: [String: [String: Measure]] = [:]
 
         for entry in history {
             let groupKey = "\(entry.substance.lowercased())|\(entry.route.rawValue)"
-            let measureKey = "\(entry.amount)|\(entry.unit)"
+            // By-volume drinks (alcohol) key by their drink identity so distinct
+            // drinks seed as distinct detailed chips, not one merged grams chip.
+            let measureKey = QuickLogDose.makeKey(
+                substance: entry.substance, route: entry.route, amount: entry.amount, unit: entry.unit,
+                volumeML: entry.volumeML, abv: entry.abv, drinkName: entry.drinkName,
+            )
             groupMeta[groupKey] = (entry.substance, entry.route)
             var measures = groupMeasures[groupKey] ?? [:]
-            var m = measures[measureKey] ?? Measure(amount: entry.amount, unit: entry.unit, count: 0, last: .distantPast)
+            var m = measures[measureKey] ?? Measure(
+                amount: entry.amount, unit: entry.unit, count: 0, last: .distantPast,
+                volumeML: entry.volumeML, abv: entry.abv, drinkName: entry.drinkName,
+            )
             m.count += 1
             if entry.timestamp > m.last { m.last = entry.timestamp }
             measures[measureKey] = m
@@ -69,6 +80,9 @@ enum QuickLogManager {
                     unit: m.unit,
                     sortOrder: Double(index),
                     lastUsedAt: m.last,
+                    volumeML: m.volumeML,
+                    abv: m.abv,
+                    drinkName: m.drinkName,
                 ))
             }
         }
@@ -77,12 +91,18 @@ enum QuickLogManager {
 
     // MARK: - Maintenance on log
 
-    /// One freshly-logged dose to fold into the curated list.
+    /// One freshly-logged dose to fold into the curated list. By-volume detail
+    /// (alcohol) rides along so the chip becomes a re-loggable drink, not a bare
+    /// gram amount; `nil` for ordinary mass doses.
     struct LoggedDose {
         let substance: String
         let route: RouteOfAdministration
         let amount: Double
         let unit: String
+        var volumeML: Double?
+        var abv: Double?
+        var drinkName: String?
+        var emoji: String?
     }
 
     /// Record a freshly-logged dose. Convenience wrapper around the batch form.
@@ -130,7 +150,10 @@ enum QuickLogManager {
     ) {
         let name = dose.substance.lowercased()
         var group = all.filter { $0.substance.lowercased() == name && $0.route == dose.route }
-        let key = QuickLogDose.makeKey(substance: dose.substance, route: dose.route, amount: dose.amount, unit: dose.unit)
+        let key = QuickLogDose.makeKey(
+            substance: dose.substance, route: dose.route, amount: dose.amount, unit: dose.unit,
+            volumeML: dose.volumeML, abv: dose.abv, drinkName: dose.drinkName,
+        )
 
         if let existing = group.first(where: { $0.key == key }) {
             existing.lastUsedAt = .now
@@ -151,6 +174,10 @@ enum QuickLogManager {
             amount: dose.amount,
             unit: dose.unit,
             sortOrder: sortOrder,
+            volumeML: dose.volumeML,
+            abv: dose.abv,
+            drinkName: dose.drinkName,
+            emoji: dose.emoji,
         )
         context.insert(inserted)
         all.append(inserted)
