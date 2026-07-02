@@ -1505,52 +1505,62 @@ private struct StagedDoseEditor: View {
         withAnimation(.snappy) { presetSurface = .form(editingID: preset.persistentModelID) }
     }
 
-    /// The add/edit form: emoji · name · save (icon), plus a "fixed serving size"
-    /// toggle (strength + name define a preset; volume is optional). The strength
-    /// and volume come from the dials shown above it.
+    /// The add/edit form: an emoji + name row, a "fixed serving size" toggle, and
+    /// a full-width Cancel / Save pair. Strength + name define a preset; volume is
+    /// optional and comes from the dials shown above.
     @ViewBuilder
     private func newPresetRow(editingID: PersistentIdentifier?, capability _: ByVolumeDosing) -> some View {
         let trimmedName = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
-        VStack(alignment: .leading, spacing: 9) {
-            HStack {
-                Text(editingID == nil ? "New preset" : "Edit preset")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(Theme.accent)
-                Spacer()
-                Button("Cancel") { withAnimation(.snappy) { presetSurface = .list(editing: false) } }
-                    .font(.footnote.weight(.semibold))
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            HStack(spacing: 8) {
+        let canSave = !trimmedName.isEmpty && enteredABV != nil
+        VStack(alignment: .leading, spacing: 12) {
+            Text(editingID == nil ? "New preset" : "Edit preset")
+                .font(.subheadline.weight(.bold))
+                .foregroundStyle(Theme.accent)
+            HStack(spacing: 10) {
                 EmojiField(text: $drinkEmoji)
-                    .frame(width: 46, height: 46)
-                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                    .frame(width: 54, height: 54)
+                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     .accessibilityLabel("Drink emoji")
                 TextField("Name (e.g. IPA)", text: $drinkName)
                     .textInputAutocapitalization(.words)
-                    .padding(.horizontal, 13)
-                    .frame(height: 46)
-                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                    .font(.body)
+                    .padding(.horizontal, 15)
+                    .frame(height: 54)
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            }
+            Toggle("Fixed serving size", isOn: $presetIncludesVolume)
+                .font(.subheadline)
+                .tint(Theme.accent)
+            HStack(spacing: 10) {
+                Button {
+                    withAnimation(.snappy) { presetSurface = .list(editing: false) }
+                } label: {
+                    Text("Cancel")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 46)
+                        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        .foregroundStyle(.primary)
+                }
+                .buttonStyle(.plain)
                 Button {
                     savePreset(editingID: editingID)
                 } label: {
-                    Image(systemName: "checkmark")
-                        .font(.body.weight(.bold))
+                    Text("Save")
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 46)
+                        .background(canSave ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color.gray.opacity(0.4)), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                         .foregroundStyle(.white)
-                        .frame(width: 46, height: 46)
-                        .background(trimmedName.isEmpty || enteredABV == nil ? AnyShapeStyle(Color.gray.opacity(0.4)) : AnyShapeStyle(Theme.accent), in: RoundedRectangle(cornerRadius: 12))
                 }
                 .buttonStyle(.plain)
-                .disabled(trimmedName.isEmpty || enteredABV == nil)
+                .disabled(!canSave)
                 .accessibilityLabel("Save preset")
             }
-            Toggle("Fixed serving size", isOn: $presetIncludesVolume)
-                .font(.footnote)
-                .tint(Theme.accent)
         }
-        .padding(12)
-        .background(Theme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+        .padding(14)
+        .background(Theme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 
     /// Insert or update the preset from the current dials + name/emoji, then
@@ -1822,35 +1832,27 @@ private struct DrinkPresetList: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 7) {
+            ForEach(presets) { preset in
+                presetRow(preset)
+            }
             HStack {
-                Text("Your drinks")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(Theme.secondaryLabel)
+                Button(action: onAdd) {
+                    Label("Add preset", systemImage: "plus.circle.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.accent)
+                }
+                .buttonStyle(.plain)
                 Spacer()
                 if !presets.isEmpty {
                     Button(editing ? "Done" : "Edit", action: onToggleEditing)
-                        .font(.footnote.weight(.semibold))
+                        .font(.subheadline.weight(.semibold))
                         .buttonStyle(.plain)
                         .foregroundStyle(Theme.accent)
                 }
             }
-            ForEach(presets) { preset in
-                presetRow(preset)
-            }
-            Button(action: onAdd) {
-                HStack(spacing: 9) {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Add preset")
-                    Spacer()
-                }
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Theme.accent)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 12)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
+            .padding(.top, 2)
+            .padding(.horizontal, 4)
         }
         .onAppear {
             CustomDrinkPreset.seedIfNeeded(for: substanceName, capability: capability, context: modelContext)
@@ -1860,35 +1862,35 @@ private struct DrinkPresetList: View {
     @ViewBuilder
     private func presetRow(_ preset: CustomDrinkPreset) -> some View {
         let isSelected = !editing && selectedName?.caseInsensitiveCompare(preset.name) == .orderedSame
-        HStack(spacing: 11) {
-            Text(preset.emoji).font(.title3)
-            Text(preset.name).font(.subheadline.weight(.semibold))
+        HStack(spacing: 12) {
+            Text(preset.emoji).font(.title2)
+            Text(preset.name).font(.body.weight(.semibold))
             Spacer()
             if editing {
                 Button { onEdit(preset) } label: {
-                    Image(systemName: "pencil").foregroundStyle(Theme.secondaryLabel)
+                    Image(systemName: "pencil").font(.body).foregroundStyle(Theme.secondaryLabel)
                 }
                 .buttonStyle(.plain)
-                .frame(width: 34, height: 34)
+                .frame(width: 40, height: 40)
                 .accessibilityLabel("Edit \(preset.name)")
                 Button(role: .destructive) { delete(preset) } label: {
-                    Image(systemName: "trash").foregroundStyle(.red)
+                    Image(systemName: "trash").font(.body).foregroundStyle(.red)
                 }
                 .buttonStyle(.plain)
-                .frame(width: 34, height: 34)
+                .frame(width: 40, height: 40)
                 .accessibilityLabel("Delete \(preset.name)")
             } else {
                 Text(preset.detailLabel)
-                    .font(.footnote)
+                    .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                 if isSelected {
-                    Image(systemName: "checkmark").font(.footnote.weight(.bold)).foregroundStyle(Theme.accent)
+                    Image(systemName: "checkmark").font(.body.weight(.bold)).foregroundStyle(Theme.accent)
                 }
             }
         }
-        .padding(.vertical, 9)
-        .padding(.horizontal, 12)
-        .background(isSelected ? Theme.accent.opacity(0.12) : Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+        .padding(.vertical, 13)
+        .padding(.horizontal, 15)
+        .background(isSelected ? Theme.accent.opacity(0.12) : Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .contentShape(Rectangle())
         .onTapGesture { if !editing { onSelect(preset) } }
         .accessibilityElement(children: editing ? .contain : .combine)
