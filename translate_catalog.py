@@ -9,6 +9,16 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Tolerance improvements (2026-07-02): stimulant CV two-mechanism copy (§6) + Insights card (§7).
+    "Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses.": (
+        "一次嗨里，快感消退得比心脏的负担快——再加量去追，只会叠在一个还没缓下来的血压高峰上。把每次剂量间隔开。",
+        "一次嗨裡，快感消退得比心臟的負擔快——再加量去追，只會疊在一個還沒緩下來的血壓高峰上。把每次劑量間隔開。",
+    ),
+    "With regular use, your resting heart rate and blood pressure tend to settle over weeks.": (
+        "长期规律使用，你静息时的心率和血压通常会在几周内慢慢回落。",
+        "長期規律使用，你靜息時的心率和血壓通常會在幾週內慢慢回落。",
+    ),
+    "%lld mechanisms showing tolerance": ("%lld 个机制出现耐受", "%lld 個機制出現耐受"),
     # Alcohol by-drink logging (2026-07-02) — preset list, steppers, a11y labels.
     "Drink": ("饮品", "飲品"),
     "Choose drink": ("选择饮品", "選擇飲品"),
@@ -4039,6 +4049,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Tolerance improvements (2026-07-02) — CV copy (§6) + Insights card glance (§7), CLI-added.
+        "Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses.",
+        "With regular use, your resting heart rate and blood pressure tend to settle over weeks.",
+        "%lld mechanisms showing tolerance",
         # Alcohol by-drink logging (2026-07-02) — added via CLI, not yet extracted.
         "Drink",
         "Choose drink",

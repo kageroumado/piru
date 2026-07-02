@@ -465,8 +465,9 @@ struct ToleranceToolView: View {
     /// Forward-decay the engaged layers over `[0, window]` and convert each `S(t)` to a **tolerance
     /// percentage** — the curve starts at the **current** tolerance (t = 0) and *descends* toward 0 as
     /// the layers relax, matching the bar's orientation (full = strong tolerance). Uses the same
-    /// saturating ``PDModel/responseFraction`` (occupancy capped at ½) as the gauge, so the graph and
-    /// the bar can never disagree — the old inline `0.999_999` clamp pinned high-occupancy stimulants
+    /// saturating ``PDModel/responseFraction`` with the class's mechanism-aware cap (§5 — ½ for
+    /// release/reuptake proxies, uncapped for agonists) as the gauge, so the graph and the bar can never
+    /// disagree — the old inline `0.999_999` clamp pinned high-occupancy stimulants
     /// at a flat 100% "sensitivity", reading as *no* tolerance while the bar showed moderate. Shared by
     /// the per-card chart and the combined chart, so the sampling math lives in exactly one place.
     private func recoveryCurve(_ row: Row, overMinutes window: Double, sampleCount: Int = 24) -> [ChartPoint] {
@@ -483,6 +484,7 @@ struct ToleranceToolView: View {
             )
             let tolerance = 1 - PDModel.responseFraction(
                 shiftFactor: shift, representativeOccupancy: snapshot.representativeOccupancy,
+                occupancyCap: snapshot.receptorClass.usesSaturatingEffectProxy ? 0.5 : nil,
             )
             return ChartPoint(id: index, day: minutes / 1_440, percent: max(0, min(100, tolerance * 100)))
         }
@@ -512,12 +514,16 @@ struct ToleranceToolView: View {
 
     /// Minutes for **tolerance** to decay to `target` (∈ [0,1]) if dosing stops now. Tolerance is
     /// `1 − responseFraction`, so the target response fraction is `1 − target`; inverting the saturating
-    /// gauge (occupancy capped at ½, exactly as ``PDModel/responseFraction``) gives the shift `S` at
-    /// which that response is reached, then all four layers decay on their own time-constants to it. The
-    /// ½ cap must match the curve/bar or the axis span and the plotted line would disagree.
+    /// gauge (with the class's mechanism-aware cap, exactly as ``PDModel/responseFraction``) gives the
+    /// shift `S` at which that response is reached, then all four layers decay on their own time-constants
+    /// to it. The cap must match the curve/bar or the axis span and the plotted line would disagree.
     private func recoveryMinutes(_ row: Row, toTolerance target: Double) -> Double? {
         let snapshot = row.snapshot
-        let occupancy = min(0.5, max(0, snapshot.representativeOccupancy))
+        // Match the gauge's mechanism-aware cap (§5): capped at ½ for release/reuptake proxies, uncapped
+        // (just shy of 1 to avoid a divide-by-zero) for agonists — so the axis span never disagrees with
+        // the plotted line or the bar.
+        let cap = snapshot.receptorClass.usesSaturatingEffectProxy ? 0.5 : 0.999_999
+        let occupancy = min(cap, max(0, snapshot.representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
         let responseTarget = max(0.000_001, 1 - target)
         let targetShift = max(1, (ratio + 1) / responseTarget - ratio)
@@ -591,8 +597,18 @@ struct ToleranceToolView: View {
             break
         }
 
-        if snapshot.safetyEndpointKind == .cardiovascular, snapshot.responseFraction < 0.85 {
-            add("The high fades with tolerance, but the load on your heart and blood pressure doesn't.")
+        // §6: stimulant cardiovascular is two mechanisms. Lead with the in-session hazard (safety-critical,
+        // always) — the acute pressor doesn't tolerize, so chasing a faded high stacks fresh spikes. The
+        // chronic line is calm and shows only once the chronic (adaptive) endpoint is actually engaged, so
+        // it never implies dangerous cumulative load for a light/therapeutic user.
+        if snapshot.safetyEndpointKind == .cardiovascular {
+            add("Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses.")
+            if let cardiovascular = snapshot.safetyShiftFactor, cardiovascular > 1.05 {
+                add(
+                    "With regular use, your resting heart rate and blood pressure tend to settle over weeks.",
+                    tint: Theme.secondaryLabel, image: "clock.arrow.circlepath",
+                )
+            }
         }
 
         if tier != .casual, snapshot.sDeep > 0.05 {

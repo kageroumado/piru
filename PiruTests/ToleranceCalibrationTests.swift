@@ -25,7 +25,10 @@ struct ToleranceCalibrationTests {
     /// saturation that the escalation gate has to see *through*. `halfMaxNanomolar` is overridable so
     /// the safety-endpoint contrast test can use a looser Kᵢ — a moderate representative occupancy
     /// where ``ClassTolerance/responseFraction`` is a sensitive gauge of the right-shift.
-    static func stimulant(referenceDoseMg: Double?, halfMaxNanomolar: Double = 20) -> PharmacologyParameters {
+    static func stimulant(
+        referenceDoseMg: Double?, halfMaxNanomolar: Double = 20,
+        tmaxMinutes: Double? = nil, tmaxConfidence: ConfidenceTier = .unverified,
+    ) -> PharmacologyParameters {
         PharmacologyParameters(
             substanceName: "TestStimulant",
             molarMassGramsPerMole: 135,
@@ -41,12 +44,14 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "DAT", action: .reuptakeInhibitor, halfMaxNanomolar: halfMaxNanomolar, kind: .ki, confidence: .high),
             ],
+            tmaxMinutes: tmaxMinutes,
+            tmaxConfidence: tmaxConfidence,
         )
     }
 
     /// A synthetic **μ-opioid** substance (MOR agonist), for the recovery half-life calibration —
     /// the opioid adaptive layer carries the months-scale τ≈20 d (recovery t½ ≈ 14 d).
-    static func opioid(referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func opioid(referenceDoseMg: Double?, intrinsicEfficacy: Double = 1, halfMaxNanomolar: Double = 50) -> PharmacologyParameters {
         PharmacologyParameters(
             substanceName: "TestOpioid",
             molarMassGramsPerMole: 285,
@@ -60,14 +65,17 @@ struct ToleranceCalibrationTests {
             referenceDoseMg: referenceDoseMg,
             suppressesSerotoninSynthesis: false,
             targets: [
-                .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
+                .init(target: "MOR", action: .agonist, halfMaxNanomolar: halfMaxNanomolar, kind: .ki, confidence: .high),
             ],
+            intrinsicEfficacy: intrinsicEfficacy,
         )
     }
 
     /// A synthetic **psychedelic** substance (5-HT2A agonist) — an *endpoint-less* class, used to
     /// assert that classes without a differential safety endpoint report `nil` (Stage C).
-    static func psychedelic(referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func psychedelic(
+        referenceDoseMg: Double?, tmaxMinutes: Double? = nil, tmaxConfidence: ConfidenceTier = .unverified,
+    ) -> PharmacologyParameters {
         PharmacologyParameters(
             substanceName: "TestPsychedelic",
             molarMassGramsPerMole: 300,
@@ -83,6 +91,8 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "5-HT2A", action: .agonist, halfMaxNanomolar: 10, kind: .ki, confidence: .high),
             ],
+            tmaxMinutes: tmaxMinutes,
+            tmaxConfidence: tmaxConfidence,
         )
     }
 
@@ -452,15 +462,15 @@ struct ToleranceCalibrationTests {
         #expect(respiratoryDecayRatio < analgesicDecayRatio)
     }
 
-    // MARK: - 8. Stimulant: the high tolerizes, the cardiovascular pressor does not
+    // MARK: - 8. Stimulant CV = two mechanisms: chronic resting adapts, the acute pressor does not (§6)
 
     @Test
-    func `Stimulant high tolerizes while the cardiovascular endpoint does not`() throws {
+    func `Stimulant high tolerizes; the chronic cardiovascular endpoint adapts but the acute pressor does not`() throws {
         // A looser Kᵢ gives a moderate representative occupancy, so responseFraction is a sensitive
         // gauge of the right-shift (the tight-Kᵢ default saturates the gauge ≈1 regardless of S).
         let params = ["TestStimulant": Self.stimulant(referenceDoseMg: 60, halfMaxNanomolar: 2_500)]
         // Heavy escalated dosing (5× the heavy ceiling) daily 90 d → the high tolerizes (deep engages),
-        // so the user feels less than the naïve effect; the pressor endpoint never tolerizes.
+        // and the CHRONIC resting cardiovascular endpoint adapts over weeks — but less than the high.
         let states = ToleranceStore.simulate(
             doses: Self.dailyDoses("TestStimulant", mg: 300, days: 90),
             params: params, now: Self.now, weightKg: 70,
@@ -470,10 +480,20 @@ struct ToleranceCalibrationTests {
         #expect(stim.responseFraction < 0.9) // the subjective high is meaningfully toleranced
         let safetyShiftFactor = try #require(stim.safetyShiftFactor)
         #expect(stim.safetyEndpointKind == .cardiovascular)
-        #expect(abs(safetyShiftFactor - 1) < 1e-3) // the pressor does not tolerize ⇒ shift ≡ 1
+        #expect(safetyShiftFactor > 1) // §6: the chronic resting response adapts over weeks
+        #expect(stim.shiftFactor > safetyShiftFactor) // but the high pulls ahead — the redose-toxicity gap
         let safetyGap = try #require(stim.safetyGap)
-        #expect(safetyGap > 1) // the high has pulled ahead of the un-toleranced pressor
-        #expect(abs(safetyGap - stim.shiftFactor) < 1e-9) // safetyShiftFactor ≈ 1 ⇒ gap ≈ shiftFactor
+        #expect(safetyGap > 1)
+
+        // The ACUTE within-session pressor has no pool (acuteShiftMax 0): a single recent dose leaves the
+        // endpoint ≈ 1 (no chronic buildup yet), so a user redosing in-session still hits a fresh spike.
+        let acute = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestStimulant", mg: 300, days: 1),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let acuteStim = try #require(acute[.catecholamineStimulant])
+        let acuteEndpoint = try #require(acuteStim.safetyShiftFactor)
+        #expect(abs(acuteEndpoint - 1) < 0.02) // within-session pressor un-toleranced
     }
 
     // MARK: - 9. Endpoint-less classes report nil
@@ -786,5 +806,81 @@ struct ToleranceCalibrationTests {
         #expect(ReceptorClasses.classify(target: "α2A adrenergic (rat)", action: .partialAgonist) == .alpha2Agonist)
         #expect(ReceptorClasses.classify(target: "α2-adrenergic", action: .agonist) == .alpha2Agonist)
         #expect(ReceptorClasses.classify(target: "β1 / β2 adrenergic (human)", action: .antagonist) == .betaBlocker)
+    }
+
+    // MARK: - 22. Chronicity gate (§2): heavy but sustained engages deep; a heavy one-off binge does not
+
+    @Test
+    func `A heavy one-off binge stays out of the deep layer while sustained heavy use engages it`() throws {
+        let params = ["TestStimulant": Self.stimulant(referenceDoseMg: 60)]
+        // Both dose 5× the heavy ceiling, so magnitude is fully open for both — only chronicity differs.
+        let sustained = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestStimulant", mg: 300, days: 45),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let binge = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestStimulant", mg: 300, days: 1), // a single heavy dose
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let sustainedDeep = try #require(sustained[.catecholamineStimulant]).sDeep
+        let bingeDeep = try #require(binge[.catecholamineStimulant]).sDeep
+        #expect(sustainedDeep > 0) // sustained heavy use crosses the chronicity knee → deep entrenches
+        #expect(bingeDeep < 1e-4) // one binge (chronicity ≈ 0) never lights deep, despite full magnitude
+        #expect(sustainedDeep > bingeDeep * 100)
+    }
+
+    // MARK: - 23. Intrinsic efficacy (§5c): a partial agonist entrenches less per unit occupancy
+
+    @Test
+    func `A partial agonist builds a smaller adaptive shift than a full agonist at the same occupancy`() throws {
+        // Identical opioids save for intrinsic efficacy — the partial (mitragynine-like) drives less.
+        let params = [
+            "TestOpioid": Self.opioid(referenceDoseMg: 30, intrinsicEfficacy: 1),
+            "PartialOpioid": Self.opioid(referenceDoseMg: 30, intrinsicEfficacy: 0.4),
+        ]
+        // Rename the second so it routes as its own contributor set.
+        var partialParams = params
+        partialParams["PartialOpioid"] = PharmacologyParameters(
+            substanceName: "PartialOpioid", molarMassGramsPerMole: 285, vdLPerKg: 3,
+            bioavailabilityFraction: 1, bioavailabilityConfidence: .high, doseScale: 1,
+            doseScaleConfidence: .high, halfLifeMinutes: 180, vdConfidence: .high, referenceDoseMg: 30,
+            suppressesSerotoninSynthesis: false,
+            targets: [.init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high)],
+            intrinsicEfficacy: 0.4,
+        )
+        let full = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestOpioid", mg: 60, days: 14), params: partialParams, now: Self.now, weightKg: 70,
+        )
+        let partial = ToleranceStore.simulate(
+            doses: Self.dailyDoses("PartialOpioid", mg: 60, days: 14), params: partialParams, now: Self.now, weightKg: 70,
+        )
+        let fullAdaptive = try #require(full[.muOpioid]).sAdaptive
+        let partialAdaptive = try #require(partial[.muOpioid]).sAdaptive
+        #expect(fullAdaptive > 0)
+        #expect(partialAdaptive < fullAdaptive) // partial agonist entrenches less per unit occupancy
+        #expect(partialAdaptive > 0) // but still builds some tolerance
+    }
+
+    // MARK: - 24. Onset confidence (§3): a guessed Tmax badges the prediction down, an absent one doesn't
+
+    @Test
+    func `A low-confidence onset caps the class confidence; an absent onset does not`() throws {
+        // Uses the psychedelic class (kinetics confidence .medium) so the onset input is the deciding
+        // factor. A graded-low Tmax is a guessed input → it caps the class confidence at .low.
+        let guessed = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestPsychedelic", mg: 1, days: 3),
+            params: ["TestPsychedelic": Self.psychedelic(referenceDoseMg: 0.2, tmaxMinutes: 30, tmaxConfidence: .low)],
+            now: Self.now, weightKg: 70,
+        )
+        #expect(try #require(guessed[.psychedelic5HT2A]).confidence == .low)
+
+        // With no Tmax at all we fall back to 4·ke (unchanged behaviour), so the onset adds no
+        // uncertainty and the class keeps its otherwise-higher confidence (the .medium class kinetics).
+        let absent = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestPsychedelic", mg: 1, days: 3),
+            params: ["TestPsychedelic": Self.psychedelic(referenceDoseMg: 0.2)],
+            now: Self.now, weightKg: 70,
+        )
+        #expect(try #require(absent[.psychedelic5HT2A]).confidence > .low)
     }
 }

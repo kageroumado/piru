@@ -134,8 +134,7 @@ struct DeepLinkTests {
     // MARK: - Tool push routes
 
     @Test(arguments: [
-        ("piru://tool/tolerance", Tool.tolerance),
-        ("piru://tool/ceiling", .ceiling),
+        ("piru://tool/ceiling", Tool.ceiling),
         ("piru://tool/recovery", .recovery),
         ("piru://tool/pharma", .pharma),
         ("piru://tool/calculator", .calculator),
@@ -169,11 +168,37 @@ struct DeepLinkTests {
 
     @Test
     func `A tool snapshot round-trips through encode → decode`() {
-        let snap = NavigatorSnapshot(selectedTab: .tools, paths: [.tools: [.tool(.tolerance)]])
+        let snap = NavigatorSnapshot(selectedTab: .tools, paths: [.tools: [.tool(.ceiling)]])
         let url = DeepLink.encode(snap)
-        #expect(url?.absoluteString == "piru://tool/tolerance")
+        #expect(url?.absoluteString == "piru://tool/ceiling")
         let outcome = url.flatMap(DeepLink.decode)
-        #expect(outcome?.path == [.tool(.tolerance)])
+        #expect(outcome?.path == [.tool(.ceiling)])
+    }
+
+    // MARK: - Insight push routes (Tolerance moved here from Tools, §7)
+
+    @Test
+    func `piru://insight/tolerance pushes the tolerance insight on the Insights tab`() {
+        let outcome = decode("piru://insight/tolerance")
+        #expect(outcome?.tab == .insights)
+        #expect(outcome?.path == [.insight(.tolerance)])
+    }
+
+    @Test
+    func `The old piru://tool/tolerance link still resolves to the tolerance insight (back-compat)`() {
+        // Tolerance moved Tools → Insights; the legacy deep link (used for sim QA) must not break.
+        let outcome = decode("piru://tool/tolerance")
+        #expect(outcome?.tab == .insights)
+        #expect(outcome?.path == [.insight(.tolerance)])
+    }
+
+    @Test
+    func `An insight snapshot round-trips through encode → decode`() {
+        let snap = NavigatorSnapshot(selectedTab: .insights, paths: [.insights: [.insight(.tolerance)]])
+        let url = DeepLink.encode(snap)
+        #expect(url?.absoluteString == "piru://insight/tolerance")
+        let outcome = url.flatMap(DeepLink.decode)
+        #expect(outcome?.path == [.insight(.tolerance)])
     }
 
     // MARK: - Session push routes

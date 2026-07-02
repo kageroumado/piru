@@ -67,20 +67,21 @@ enum PDModel {
         return target + (current - target) * decay
     }
 
-    /// Smoothstep gate for the **deep** layer, keyed on the **dose-relative escalation** factor
-    /// `escalation = dose ÷ the substance's heavy ceiling`: `0` while escalation sits below
-    /// `threshold`, ramping smoothly to `1` once it exceeds `threshold + width`. So the deep
-    /// (months-scale, entrenched) layer only engages once dosing runs sustainedly above the heavy
-    /// ceiling — a therapeutic user, dosing at/below the ladder, never lights it. Escalation rather
-    /// than the adaptive shift is the gate signal because saturating occupancy makes therapeutic and
-    /// heavy dosing indistinguishable at the receptor (the Stage-A bug); the dose-to-heavy ratio is
-    /// what actually separates "significant escalation" from ordinary use.
+    /// A smoothstep gate ∈ [0, 1]: `0` while `value` sits below `threshold`, ramping smoothly (C¹ at
+    /// both edges — no kink) to `1` once it exceeds `threshold + width`. `smoothstep(t) = t²(3 − 2t)`
+    /// with `t = clamp((value − threshold)/width, 0, 1)`.
     ///
-    /// `smoothstep(t) = t²(3 − 2t)` with `t = clamp((escalation − threshold)/width, 0, 1)` — C¹ at
-    /// both edges, so the deep layer fades in without a kink.
-    nonisolated static func deepGate(escalation: Double, threshold: Double, width: Double) -> Double {
-        guard width > 0 else { return escalation >= threshold ? 1 : 0 }
-        let t = max(0, min(1, (escalation - threshold) / width))
+    /// The **deep** tolerance layer's drive is the *product* of two of these
+    /// (`Specs/tolerance-faithful-model-improvements.md` §2): a **magnitude** gate on the dose-relative
+    /// escalation factor (`dose ÷ heavy ceiling`) × a **chronicity** gate on the leaky duty-cycle
+    /// accumulator. Escalation rather than the adaptive shift is the magnitude signal because saturating
+    /// occupancy makes therapeutic and heavy dosing indistinguishable at the receptor; chronicity adds
+    /// the frequency/duration axis a per-dose magnitude cliff was blind to. Both must be high for deep to
+    /// accrue — a heavy one-off binge (chronicity ≈ 0) recovers, a therapeutic daily dose (magnitude ≈ 0)
+    /// stays stable.
+    nonisolated static func smoothstepGate(_ value: Double, threshold: Double, width: Double) -> Double {
+        guard width > 0 else { return value >= threshold ? 1 : 0 }
+        let t = max(0, min(1, (value - threshold) / width))
         return t * t * (3 - 2 * t)
     }
 
@@ -96,16 +97,23 @@ enum PDModel {
     /// ≈ `1/S`. This is the honest 5-bucket gauge's continuous source — a saturating output, not a
     /// false percentage.
     ///
-    /// **Saturation cap.** The representative occupancy is clamped to `0.5` (the half-saturation /
-    /// ED50 point) before forming `r`. Past half-saturation the receptor is nearly full, so
-    /// right-shifting the dose barely moves *occupancy* — which would hide real tolerance for a drug
-    /// that saturates its target at a normal dose (a monoamine releaser at DAT is the worst case:
-    /// occupancy ≈ 1, so without the cap a meaningful `S` reads as "no tolerance"). The felt effect,
-    /// though, tolerizes regardless; evaluating at the steepest, most sensitive part of the curve is
-    /// the faithful reading. Below half-saturation nothing changes.
-    nonisolated static func responseFraction(shiftFactor: Double, representativeOccupancy: Double) -> Double {
+    /// **Mechanism-aware saturation cap** (`Specs/tolerance-faithful-model-improvements.md` §5). The
+    /// uncapped ratio is the *physically exact* usual-dose occupancy ratio `O(D, K·S)/O(D, K)` — correct
+    /// for **agonists / PAMs / antagonists**, where usual-dose occupancy is the effect proxy (a heavy
+    /// opioid user at their elevated dose then shows realistic *residual* response, e.g. `r ≈ 9, S ≈ 10`
+    /// → ~0.53, "roughly half", not "barely anything"). For **release / reuptake** classes occupancy
+    /// saturates at recreational doses (a releaser at DAT sits at occupancy ≈ 1), so felt effect tracks
+    /// flux, not static occupancy — pass `occupancyCap = 0.5` to evaluate at the sensitive half-sat point
+    /// so a meaningful `S` doesn't wash out to "no tolerance". `occupancyCap == nil` ⇒ uncapped. The
+    /// caller decides per class via ``ReceptorClasses/ReceptorClass/usesSaturatingEffectProxy``.
+    nonisolated static func responseFraction(
+        shiftFactor: Double, representativeOccupancy: Double, occupancyCap: Double? = nil,
+    ) -> Double {
         guard shiftFactor > 0 else { return 1 }
-        let occupancy = max(0, min(0.5, representativeOccupancy))
+        let capped = occupancyCap.map { Swift.min($0, representativeOccupancy) } ?? representativeOccupancy
+        // Clamp just below 1 so a fully-saturated (uncapped) occupancy can't divide by zero — it then
+        // reads a large ratio and a response near `1`, which is the honest reading for that degenerate case.
+        let occupancy = max(0, min(0.999_999, capped))
         let ratio = occupancy / (1 - occupancy)
         return max(0, min(1, (ratio + 1) / (ratio + shiftFactor)))
     }
@@ -146,16 +154,24 @@ enum PDModel {
 
     // MARK: - Cross-substance occupancy combination
 
-    /// Combine the occupancy contributions of several ligands at one **shared** target into a single
-    /// site-occupancy fraction via the probabilistic union `1 − Π(1 − Oᵢ)` — a site is engaged if any
-    /// ligand engages it. Saturating, order-independent, stays in `[0, 1]`, and reduces to a single
-    /// `Oᵢ` when only one ligand is present. This is the cross-substance analogue of the timeline's
-    /// single-substance dose superposition: it lets one class's right-shift be driven by every drug
-    /// hitting that target.
-    nonisolated static func combinedOccupancy(_ occupancies: [Double]) -> Double {
-        let complementProduct = occupancies.reduce(1.0) { acc, o in
-            acc * (1 - min(1, max(0, o)))
+    /// Combine the occupancy contributions of several ligands at one **shared, competitive** target into
+    /// a single site-occupancy fraction via **Gaddum competitive summation** `Σrᵢ / (1 + Σrᵢ)`, where
+    /// each ligand's binding ratio `rᵢ = Oᵢ/(1 − Oᵢ) = Cᵢ/Kᵢ` is recovered from its individual occupancy
+    /// `Oᵢ`. This is the physically correct form for ligands *competing* for the same site: two ligands
+    /// each at half-saturation give `2/3 ≈ 0.667`, not the `0.75` the probabilistic union `1 − Π(1 − Oᵢ)`
+    /// over-counts (the union treats the site as if each ligand had its own independent copy). It is
+    /// order-independent, stays in `[0, 1]`, is *cheaper* than the union (one running sum, no products),
+    /// and — the load-bearing property — reduces **exactly** to a single `Oᵢ` when only one ligand is
+    /// present, so single-substance right-shifts are unchanged; only polydrug co-occupancy at one target
+    /// moves, downward toward the correct value.
+    nonisolated static func competitiveOccupancy(_ occupancies: [Double]) -> Double {
+        let sumRatio = occupancies.reduce(0.0) { acc, occupancy in
+            let clamped = min(1, max(0, occupancy))
+            // A ligand at (or above) full occupancy has an unbounded ratio — saturate the sum so the
+            // result is 1 without dividing by zero.
+            return clamped >= 1 ? .infinity : acc + clamped / (1 - clamped)
         }
-        return 1 - complementProduct
+        guard sumRatio.isFinite else { return 1 }
+        return sumRatio / (1 + sumRatio)
     }
 }

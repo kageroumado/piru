@@ -52,7 +52,17 @@ final class ToleranceState {
     /// §3.4). `0` for every class without an active synthesis layer.
     var sSynthesis: Double = 0
 
-    /// When this snapshot was last recomputed (the replay's "now").
+    /// Chronicity duty-cycle accumulator `∈ [0, 1]` — the leaky time-averaged occupancy (τ ≈ 21 d) that,
+    /// with dose-relative escalation, gates the deep layer (`Specs/tolerance-faithful-model-improvements.md`
+    /// §2). Persisted as part of the **slow-layer checkpoint** (§1): together with `sDeep`/`sSynthesis`
+    /// and `lastUpdated` (the checkpoint time), it lets the next replay seed the months-scale state the
+    /// 90-day window can't hold, instead of re-integrating it from zero each time. Additive defaulted
+    /// double ⇒ automatic lightweight migration, no plan.
+    var chronicExposure: Double = 0
+
+    /// When this snapshot was last recomputed (the replay's "now") — doubles as the **checkpoint
+    /// timestamp** for the slow-layer carry-forward (§1): the slow accumulators above are decayed forward
+    /// from here to the next replay's window start before seeding.
     var lastUpdated: Date = Date.distantPast
 
     init(
@@ -61,6 +71,7 @@ final class ToleranceState {
         sAdaptive: Double = 0,
         sDeep: Double = 0,
         sSynthesis: Double = 0,
+        chronicExposure: Double = 0,
         lastUpdated: Date = .now,
     ) {
         self.target = target
@@ -68,6 +79,7 @@ final class ToleranceState {
         self.sAdaptive = sAdaptive
         self.sDeep = sDeep
         self.sSynthesis = sSynthesis
+        self.chronicExposure = chronicExposure
         self.lastUpdated = lastUpdated
     }
 }

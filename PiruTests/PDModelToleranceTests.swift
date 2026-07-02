@@ -86,24 +86,30 @@ struct PDModelToleranceTests {
         #expect(dailyShift <= p.adaptiveShiftMax + 1e-9) // never exceeds the ceiling
     }
 
-    // MARK: - deepGate
+    // MARK: - smoothstepGate
 
     @Test
-    func `Deep gate is zero below the escalation threshold and one above the band`() {
-        // Escalation factor = dose ÷ heavy ceiling; gate ramps from threshold (2×) to threshold+width (5×).
-        #expect(PDModel.deepGate(escalation: 1.0, threshold: 2, width: 3) == 0) // at/below heavy
-        #expect(PDModel.deepGate(escalation: 2.0, threshold: 2, width: 3) == 0) // at the edge
-        #expect(abs(PDModel.deepGate(escalation: 5.0, threshold: 2, width: 3) - 1) < 1e-9) // past the band
+    func `Smoothstep gate is zero below the threshold and one above the band`() {
+        // C¹ ramp from threshold to threshold+width; the deep drive is magnitude × chronicity of these.
+        #expect(PDModel.smoothstepGate(1.0, threshold: 2, width: 3) == 0) // below
+        #expect(PDModel.smoothstepGate(2.0, threshold: 2, width: 3) == 0) // at the edge
+        #expect(abs(PDModel.smoothstepGate(5.0, threshold: 2, width: 3) - 1) < 1e-9) // past the band
         // Smooth and monotone across the band.
-        let mid = PDModel.deepGate(escalation: 3.5, threshold: 2, width: 3)
+        let mid = PDModel.smoothstepGate(3.5, threshold: 2, width: 3)
         #expect(mid > 0 && mid < 1)
         #expect(abs(mid - 0.5) < 1e-9) // smoothstep(0.5) = 0.5
     }
 
     @Test
-    func `Escalation at or below the heavy ceiling keeps the deep gate closed`() {
-        #expect(PDModel.deepGate(escalation: 0, threshold: 2, width: 3) == 0) // no reference dose
-        #expect(PDModel.deepGate(escalation: 1.5, threshold: 2, width: 3) == 0) // ordinary use
+    func `Magnitude gate soft-on near the heavy ceiling, chronicity gate near the duty knee`() {
+        // §2 magnitude knobs: soft-on as escalation approaches 1, ~0 well below, full by ~1.5×.
+        #expect(PDModel.smoothstepGate(0, threshold: 0.5, width: 1.0) == 0) // no reference dose
+        #expect(PDModel.smoothstepGate(0.3, threshold: 0.5, width: 1.0) == 0) // therapeutic ≪ heavy
+        #expect(PDModel.smoothstepGate(1.0, threshold: 0.5, width: 1.0) > 0) // at the heavy ceiling → counts
+        #expect(abs(PDModel.smoothstepGate(1.5, threshold: 0.5, width: 1.0) - 1) < 1e-9) // full by ~1.5×
+        // §2 chronicity knobs: a once-daily therapeutic duty (~0.15) sits below the knee.
+        #expect(PDModel.smoothstepGate(0.15, threshold: 0.25, width: 0.35) == 0)
+        #expect(abs(PDModel.smoothstepGate(0.6, threshold: 0.25, width: 0.35) - 1) < 1e-9) // full by ~0.6
     }
 
     // MARK: - responseFraction
@@ -134,6 +140,25 @@ struct PDModelToleranceTests {
         #expect(highOcc > lowOcc)
     }
 
+    @Test
+    func `Mechanism-aware cap: an agonist shows residual response uncapped, a releaser shows real tolerance capped`() {
+        // §5 regression — the over-read the mechanism-aware cap fixes. A heavy AGONIST (opioid/GABA)
+        // user at an elevated usual dose (high occupancy) with a big shift still feels a *residual*
+        // ~half — uncapped, the physically exact usual-dose ratio.
+        let agonist = PDModel.responseFraction(shiftFactor: 10, representativeOccupancy: 0.9, occupancyCap: nil)
+        #expect(agonist > 0.4 && agonist < 0.7) // "roughly half", not "barely anything"
+
+        // Capping the same agonist would pretend its escalated dose is a half-sat dose — throwing away
+        // the escalation and OVER-stating tolerance (the bug). Uncapped shows strictly more residual.
+        let agonistIfCapped = PDModel.responseFraction(shiftFactor: 10, representativeOccupancy: 0.9, occupancyCap: 0.5)
+        #expect(agonist > agonistIfCapped)
+
+        // A RELEASER saturates its transporter at recreational doses (occupancy ≈ 1); without the cap the
+        // same shift washes out to "no tolerance". Capped at the ED50, a meaningful shift surfaces.
+        let releaser = PDModel.responseFraction(shiftFactor: 10, representativeOccupancy: 0.96, occupancyCap: 0.5)
+        #expect(releaser < 0.25) // real tolerance surfaced, not hidden by saturation
+    }
+
     // MARK: - shiftDecayMinutes
 
     @Test
@@ -161,14 +186,18 @@ struct PDModelToleranceTests {
         #expect(deep > shallow)
     }
 
-    // MARK: - combinedOccupancy
+    // MARK: - competitiveOccupancy (Gaddum)
 
     @Test
-    func `Combined occupancy is the probabilistic union`() {
-        #expect(PDModel.combinedOccupancy([]) == 0)
-        #expect(abs(PDModel.combinedOccupancy([0.5]) - 0.5) < 1e-9)
-        #expect(abs(PDModel.combinedOccupancy([0.5, 0.5]) - 0.75) < 1e-9)
-        #expect(PDModel.combinedOccupancy([1.0, 0.5]) == 1.0)
-        #expect(PDModel.combinedOccupancy([2.0]) == 1.0) // over-unity input clamped
+    func `Competitive occupancy is Gaddum summation, exact for a single ligand`() {
+        #expect(PDModel.competitiveOccupancy([]) == 0)
+        // Single ligand: reduces exactly to its own occupancy (single-substance behaviour unchanged).
+        #expect(abs(PDModel.competitiveOccupancy([0.5]) - 0.5) < 1e-9)
+        #expect(abs(PDModel.competitiveOccupancy([0.9]) - 0.9) < 1e-9)
+        // Two half-sat ligands competing at one site → 2/3, NOT the union's 0.75 (the §4 fix).
+        #expect(abs(PDModel.competitiveOccupancy([0.5, 0.5]) - 2.0 / 3.0) < 1e-9)
+        // A fully-saturating ligand pins the site at 1 regardless of the others (no divide-by-zero).
+        #expect(PDModel.competitiveOccupancy([1.0, 0.5]) == 1.0)
+        #expect(PDModel.competitiveOccupancy([2.0]) == 1.0) // over-unity input clamped
     }
 }

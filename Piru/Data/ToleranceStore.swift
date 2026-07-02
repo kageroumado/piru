@@ -20,6 +20,10 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// the synthesis-suppressing SERT releasers (MDMA-type entactogens) drive (§3.4). `0` for every
     /// other class and for the cathinone releasers, which spare synthesis and reset on the fast pool.
     let sSynthesis: Double
+    /// Chronicity duty-cycle accumulator `∈ [0, 1]` (§2) — the leaky time-averaged occupancy (τ≈21 d)
+    /// that, with the escalation magnitude, gates the deep layer. Integrated over the year-long replay
+    /// window (see ``defaultLookbackDays``) so it reflects months of dosing pattern.
+    let chronicExposure: Double
     /// Representative peak occupancy at the user's usual dose for this class (the median of the
     /// contributors' single-dose peaks) — the gauge's reference point for ``responseFraction``.
     let representativeOccupancy: Double
@@ -57,7 +61,10 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// right-shift (`1` = full, → small as `S` grows). See
     /// ``PDModel/responseFraction(shiftFactor:representativeOccupancy:)``.
     var responseFraction: Double {
-        PDModel.responseFraction(shiftFactor: shiftFactor, representativeOccupancy: representativeOccupancy)
+        PDModel.responseFraction(
+            shiftFactor: shiftFactor, representativeOccupancy: representativeOccupancy,
+            occupancyCap: receptorClass.usesSaturatingEffectProxy ? 0.5 : nil,
+        )
     }
 
     /// One unified "how affected" axis ∈ [0, 1] for ranking and the state word — `1 − responseFraction`,
@@ -103,11 +110,21 @@ final class ToleranceStore {
     /// the cost of replaying a long history.
     nonisolated static let defaultTimestepMinutes = 30.0
 
-    /// How far back the replay reaches. 90 days (3 months) fully captures the acute + adaptive layers;
-    /// a dose from long ago is irrelevant to current sensitivity, and the months-scale deep layer is
-    /// carried forward by the persisted checkpoint (a later stage), so the short window doesn't lose
-    /// long-run deep state on incremental updates.
-    nonisolated static let defaultLookbackDays = 90.0
+    /// How far back the replay reaches — **1 year** (`Specs/tolerance-faithful-model-improvements.md`
+    /// §1, the deep carry-forward). The acute (τ ≈ hours) and adaptive (τ ≈ days–2 wk) layers self-forget
+    /// far inside this window — a dose 90 days old contributes < 2 % to adaptive and ~0 to acute — so a
+    /// longer window leaves them unchanged. The **deep** (τ ≈ 6–9 mo) and **synthesis** (τ ≈ 2 wk) layers,
+    /// however, need months of history to reflect real entrenchment; the previous 90-day window
+    /// structurally understated deep for exactly the long-term users it exists to represent.
+    ///
+    /// This restores a long window (the original design used 18 mo) *instead of* a persisted per-class
+    /// checkpoint: the event-driven integrator already closed-form-skips idle gaps and fine-steps only
+    /// inside each dose's active window, so extending the window to a year adds only the cost of the
+    /// extra active windows (milliseconds, off-main) — a single exact replay, rather than an incremental
+    /// checkpoint whose deep drive couples nonlinearly through the chronicity gate (§2) and is far harder
+    /// to make provably equal to a full replay. If profiling ever shows the yearly replay matters, a
+    /// suffix-resume checkpoint is the follow-up optimisation.
+    nonisolated static let defaultLookbackDays = 365.0
 
     /// The canonical PK-complete **class representative** for each class whose PK-less members should
     /// still build tolerance: a substance with no full pharmacokinetics is modeled *as* this stand-in
@@ -143,6 +160,19 @@ final class ToleranceStore {
     /// slow synthesis pool so the two recover on different clocks within the same mechanism class.
     nonisolated static let serotoninSynthesisSuppressors: Set<String> = [
         "mdma", "mda", "mdea", "mbdb", "mdoh",
+    ]
+
+    /// Curated **intrinsic efficacy** ∈ (0, 1] relative to a full agonist, keyed by canonical name
+    /// (lowercased) — the partials that entrench *less* tolerance per unit occupancy (§5c). Only the
+    /// well-established low-efficacy agonists are listed; everything absent defaults to a full-agonist
+    /// `1.0`. Mitragynine (Kratom's active, and the dominant opioid-class driver in real logs) is a
+    /// partial μ-agonist; buprenorphine is the textbook partial; tianeptine is a low-efficacy μ-agonist.
+    /// Low-confidence — a multiplier on the already-soft adaptive/synthesis drive.
+    nonisolated static let intrinsicEfficacyByName: [String: Double] = [
+        "mitragynine": 0.4,
+        "7-hydroxymitragynine": 0.6,
+        "buprenorphine": 0.5,
+        "tianeptine": 0.5,
     ]
 
     /// Current per-class tolerance snapshot, keyed by mechanism class. Observation-tracked; views read
@@ -419,7 +449,7 @@ final class ToleranceStore {
     ///
     /// Each substance contributes a time-resolved occupancy curve at every target it engages
     /// (absolute molar concentration → Hill occupancy, Foundation A); contributions at a *shared*
-    /// target combine via ``PDModel/combinedOccupancy(_:)``, and that combined occupancy drives the
+    /// target combine via ``PDModel/competitiveOccupancy(_:)``, and that combined occupancy drives the
     /// per-class three-layer right-shift `S(t)` with the class's ``ReceptorClasses/Parameters``.
     /// A `Sendable` snapshot of one logged dose, so the heavy replay can run **off the main actor**
     /// (a SwiftData `DoseEntry` is a non-`Sendable` `@Model` and can't cross an isolation boundary).
@@ -466,12 +496,12 @@ final class ToleranceStore {
     ///
     /// Each substance-dose contributes a time-resolved occupancy curve at every target it engages
     /// (absolute molar concentration → Hill occupancy, Foundation A); contributions at a *shared* target
-    /// combine via ``PDModel/combinedOccupancy(_:)``, and that combined occupancy drives the per-target
+    /// combine via ``PDModel/competitiveOccupancy(_:)``, and that combined occupancy drives the per-target
     /// three-layer right-shift `S(t)` with the class's ``ReceptorClasses/Parameters``.
     ///
     /// ## Why it is near-linear (not O(history × doses))
     /// A dose's occupancy decays to nothing within a handful of half-lives, so it is wasteful to
-    /// re-evaluate every dose at every 30-min step across an 18-month window. Each contributor instead
+    /// re-evaluate every dose at every 30-min step across a year-long window. Each contributor instead
     /// carries an **active window** `[onset, expiry]` (``decayWindowMinutes`` — where its occupancy
     /// crosses ``occupancyPruneEpsilon``), and per target the integrator (1) fine-steps the 30-min grid
     /// **only inside the union of active windows**, evaluating just the *currently* active contributors,
@@ -548,6 +578,9 @@ final class ToleranceStore {
         /// Median single-dose peak occupancy across this class's contributors — the gauge's
         /// representative occupancy at the usual dose.
         let representativeOccupancy: Double
+        /// Schedule-regularity gain factor `∈ (0, 1]` (§2, experimental): `1` for a perfectly regular
+        /// cadence (and for < 3 doses), lower for erratic dosing — multiplies the adaptive layer's gain.
+        let regularityFactor: Double
     }
 
     /// Shared, cheap (serial) preparation for both `simulate` variants: filter the log to the lookback
@@ -616,7 +649,14 @@ final class ToleranceStore {
             let vd = vdPerKg * weightKg
             guard vd > 0, mw > 0, halfLife > 0 else { return nil }
             let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-            let ka = PKModel.defaultKa(ke: ke)
+            // §3: a real absorption rate from onset/Tmax where the substance carries one, else the
+            // `4·ke` elimination-derived default. `peakOccupancy`, `decayWindowMinutes`, and the per-cell
+            // integration all read this same `ka`, so timing/amplitude stay internally consistent.
+            let ka = sourceParams.tmaxMinutes.map { PKModel.estimateKa(timeToPeak: $0, ke: ke) }
+                ?? PKModel.defaultKa(ke: ke)
+            // Only badge the prediction down for a *guessed onset*: with no Tmax we fall back to `4·ke`
+            // (unchanged behaviour), so the onset contributes no uncertainty (`.high` = min no-op).
+            let onsetConfidence: ConfidenceTier = sourceParams.tmaxMinutes == nil ? .high : sourceParams.tmaxConfidence
             // molar = (F·dose·scale/Vd)·shape /1000 /MW ; ×1e9 → nM (fu = 1, Stage 1). One
             // concentration() call per contributor per step then multiplies this prefactor. `doseScale`
             // converts a logged *preparation* mass to active-compound mass (Kratom→mitragynine etc.); 1
@@ -652,9 +692,10 @@ final class ToleranceStore {
                         onset: onset, expiry: expiry, ke: ke, ka: ka,
                         prefactorNanomolar: prefactorNanomolar,
                         halfMaxNanomolar: engagement.halfMaxNanomolar,
-                        confidence: Swift.min(sourceParams.vdConfidence, sourceParams.bioavailabilityConfidence, sourceParams.doseScaleConfidence, engagement.confidence, confidenceFloor),
+                        confidence: Swift.min(sourceParams.vdConfidence, sourceParams.bioavailabilityConfidence, sourceParams.doseScaleConfidence, onsetConfidence, engagement.confidence, confidenceFloor),
                         escalation: escalation,
                         suppressesSynthesis: sourceParams.suppressesSerotoninSynthesis,
+                        intrinsicEfficacy: sourceParams.intrinsicEfficacy,
                     ),
                 )
                 let canonical = ReceptorClasses.canonicalTarget(engagement.target)
@@ -738,9 +779,34 @@ final class ToleranceStore {
                 contributorSubstances: names,
                 contributors: contributors, modulators: modulatorsByClass[receptorClass] ?? [],
                 representativeOccupancy: median(peaksByClass[receptorClass] ?? []),
+                regularityFactor: scheduleRegularityFactor(contributors: contributors),
             )
         }
         return (work, now.timeIntervalSince(start) / 60)
+    }
+
+    /// Schedule-regularity gain factor `∈ (0, 1]` for a class (§2, **experimental / low-confidence**):
+    /// the same exposure on a *regular* cadence anticipates more than the same doses taken erratically,
+    /// so the adaptive layer's gain is weighted by dosing predictability. Measured as the inverse
+    /// coefficient of variation of inter-dose intervals: `regularity = 1/(1 + CV)`, mapped to
+    /// `0.7 + 0.3·regularity` so a perfectly regular cadence (`CV = 0`) is `1.0` (no change — the
+    /// calibration goldens dose on a fixed daily cadence and are untouched) and erratic dosing fades to
+    /// ~0.7. Returns `1` for fewer than three distinct doses (too little to judge a schedule). A
+    /// down-only weight — it never boosts drive above the un-weighted value.
+    private nonisolated static func scheduleRegularityFactor(contributors: [Contributor]) -> Double {
+        // Distinct dose onsets (a dose spawns one contributor per target at the same onset).
+        let onsets = Set(contributors.map(\.onset)).sorted()
+        guard onsets.count >= 3 else { return 1 }
+        var intervals: [Double] = []
+        for index in 1 ..< onsets.count {
+            intervals.append(onsets[index] - onsets[index - 1])
+        }
+        let mean = intervals.reduce(0, +) / Double(intervals.count)
+        guard mean > 0 else { return 1 }
+        let variance = intervals.reduce(0) { $0 + ($1 - mean) * ($1 - mean) } / Double(intervals.count)
+        let coefficientOfVariation = variance.squareRoot() / mean
+        let regularity = 1 / (1 + coefficientOfVariation)
+        return 0.7 + 0.3 * regularity
     }
 
     /// Integrate one prepared ``ClassWork`` into its tolerance snapshot — the unit of work both `simulate`
@@ -752,6 +818,7 @@ final class ToleranceStore {
         let state = integrateTarget(
             contributors: work.contributors, modulators: work.modulators,
             params: params, totalMinutes: totalMinutes, step: step,
+            regularityFactor: work.regularityFactor,
         )
         let inputConfidence = work.contributors.map(\.confidence).min() ?? .unverified
         // The differential safety endpoint's right-shift (Stage C) — `exp` of its two parallel ln-shift
@@ -763,6 +830,7 @@ final class ToleranceStore {
             receptorClass: work.receptorClass,
             sAcute: state.sAcute, sAdaptive: state.sAdaptive, sDeep: state.sDeep,
             sSynthesis: state.sSynthesis,
+            chronicExposure: state.chronicExposure,
             representativeOccupancy: work.representativeOccupancy,
             confidence: Swift.min(inputConfidence, params.confidence),
             subTargets: work.subTargets, contributors: work.contributorSubstances,
@@ -834,6 +902,10 @@ final class ToleranceStore {
         /// slow synthesis pool. `true` only for the MDMA-type entactogens; the fallback surrogates
         /// follow their representative (MDMA ⇒ `true`). Identical across all of a dose's targets.
         let suppressesSynthesis: Bool
+        /// Source substance's **intrinsic efficacy** ∈ (0, 1] (§5c) — scales the adaptive/synthesis
+        /// tolerance *drive* this contributor produces, so a partial agonist (mitragynine) entrenches
+        /// less per unit occupancy. `1` for a full agonist / unknown. Identical across a dose's targets.
+        let intrinsicEfficacy: Double
     }
 
     /// One co-active substance's tolerance-modulation contribution at one affected class.
@@ -877,7 +949,8 @@ final class ToleranceStore {
         params: ReceptorClasses.Parameters,
         totalMinutes: Double,
         step: Double,
-    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sSynthesis: Double, sAcuteSafety: Double, sAdaptiveSafety: Double) {
+        regularityFactor: Double = 1,
+    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sSynthesis: Double, sAcuteSafety: Double, sAdaptiveSafety: Double, chronicExposure: Double) {
         var sAcute = 0.0
         var sAdaptive = 0.0
         var sDeep = 0.0
@@ -885,6 +958,9 @@ final class ToleranceStore {
         // contributor is a synthesis suppressor (MDMA-type), so the SERT class recovers over weeks for
         // entactogens but only days for the cathinones. `0` for every class with `synthesisShiftMax 0`.
         var sSynthesis = 0.0
+        // The chronicity duty-cycle accumulator (§2) — the leaky time-averaged occupancy that gates the
+        // deep layer. Reaches months of history via the 1-year replay window (see `defaultLookbackDays`).
+        var chronicExposure = 0.0
         // The differential safety endpoint's two parallel ln-shift layers (Stage C) — acute + adaptive
         // only, no deep, no escalation gate; driven by the same occupancy. Left at 0 when the class has
         // no endpoint (the result then `exp`s to a neutral `1`, but `tolerance(for:)` reports `nil`).
@@ -892,7 +968,7 @@ final class ToleranceStore {
         var sAdaptiveSafety = 0.0
         let safetyEndpoint = params.safetyEndpoint
         guard totalMinutes > 0, step > 0, !rawContributors.isEmpty else {
-            return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety)
+            return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure)
         }
 
         let contributors = rawContributors.sorted { $0.onset < $1.onset }
@@ -912,7 +988,7 @@ final class ToleranceStore {
         }
 
         let lastCell = Int((totalMinutes / step).rounded(.up)) - 1
-        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety) }
+        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure) }
 
         /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): each ln-shift layer
         /// decays toward 0 (with no active contributor the escalation gate is closed anyway, so deep
@@ -925,6 +1001,7 @@ final class ToleranceStore {
             sAdaptive *= exp(-minutes / params.tauAdaptiveMinutes)
             sDeep *= exp(-minutes / params.tauDeepMinutes)
             sSynthesis *= exp(-minutes / params.tauSynthesisMinutes)
+            chronicExposure *= exp(-minutes / ReceptorClasses.tauChronicExposureMinutes)
             if let safetyEndpoint {
                 sAcuteSafety *= exp(-minutes / safetyEndpoint.tauAcuteMinutes)
                 sAdaptiveSafety *= exp(-minutes / safetyEndpoint.tauAdaptiveMinutes)
@@ -961,10 +1038,17 @@ final class ToleranceStore {
                     activeModulators.append(modulators[nextModulator]); nextModulator += 1
                 }
 
-                // Combined occupancy = union `1 − ∏(1 − occupancyᵢ)`, computed inline while compacting
-                // expired contributors in place — no per-cell allocation (the hot path over a dense log).
-                // The peak escalation among the *currently-active* contributors drives the deep gate.
-                var complement = 1.0
+                // Combined occupancy via **Gaddum competitive summation** (§4): `Σ(Cᵢ/Kᵢ)/(1 + Σ(Cᵢ/Kᵢ))`,
+                // the correct form for several ligands competing at one shared target. It reduces exactly
+                // to `C/(C+K)` for a single ligand (so single-substance behaviour is unchanged) but does
+                // not over-count co-occupancy the way the probabilistic union `1 − ∏(1 − Oᵢ)` did (two
+                // half-sat ligands → 0.667, not 0.75). Accumulated inline while compacting expired
+                // contributors in place — no per-cell allocation (the hot path over a dense log). The
+                // peak escalation among the *currently-active* contributors drives the deep gate.
+                var sumRatio = 0.0
+                // Σ efficacyᵢ·(Cᵢ/Kᵢ) — the numerator of the occupancy-weighted intrinsic efficacy that
+                // scales the adaptive/synthesis drive (§5c).
+                var sumEffRatio = 0.0
                 var maxEscalation = 0.0
                 // Whether any currently-active contributor suppresses serotonin synthesis (§3.4) —
                 // the slow synthesis pool's drive (OR over survivors).
@@ -980,13 +1064,20 @@ final class ToleranceStore {
                     let concentration = contributor.prefactorNanomolar
                         * PKModel.concentration(at: midpoint - contributor.onset, ke: contributor.ke, ka: contributor.ka)
                     if concentration > 0 {
-                        complement *= contributor.halfMaxNanomolar / (contributor.halfMaxNanomolar + concentration)
+                        let ratio = concentration / contributor.halfMaxNanomolar
+                        sumRatio += ratio
+                        sumEffRatio += contributor.intrinsicEfficacy * ratio
                     }
                 }
                 if writeIndex < activeContributors.count {
                     activeContributors.removeLast(activeContributors.count - writeIndex)
                 }
-                let occupancy = 1 - complement
+                let occupancy = sumRatio / (1 + sumRatio)
+                // Occupancy-weighted intrinsic efficacy of the currently-bound contributors (§5c): full
+                // agonists (efficacy 1) leave the drive unchanged and every single-full-agonist golden is
+                // untouched; a partial-agonist-dominated class (mitragynine at μ) entrenches less. `1`
+                // when nothing is bound this cell (no drive accrues then anyway).
+                let efficacyDrive = sumRatio > 0 ? sumEffRatio / sumRatio : 1
 
                 // μ(t): tolerance-modulation factor driving the adaptive layer only (Stage 4b),
                 // same inline-compaction pattern.
@@ -1010,22 +1101,38 @@ final class ToleranceStore {
                     }
                 }
 
-                // Advance the three ln-shift layers. The deep gate is driven by the *dose-relative
-                // escalation* (dose ÷ heavy ceiling) of the active contributors, not the adaptive
-                // shift: saturating occupancy makes therapeutic and heavy dosing look identical at the
-                // receptor, so only the dose-to-heavy ratio separates "significant escalation". Deep
-                // therefore accrues only when a dose is both well above the heavy ceiling (the gate)
-                // and sustained (the months-τ leaky integrator × the occupancy term).
+                // Chronicity duty-cycle accumulator (§2): a leaky integrator toward the current occupancy
+                // (shiftMax 1, drive 1, τ≈21 d) — it sits near the time-averaged occupancy, so many
+                // doses/day → high, once-daily therapeutic → ~0.1–0.2, occasional → ~0.
+                chronicExposure = PDModel.stepShift(
+                    current: chronicExposure, shiftMax: 1, occupancy: occupancy, drive: 1,
+                    dtMinutes: cellLength, tauMinutes: ReceptorClasses.tauChronicExposureMinutes,
+                )
+
+                // Advance the ln-shift layers. The **deep** layer's drive is the product of two
+                // smoothsteps (§2): how *heavy* dosing is (magnitude, on the dose-relative escalation) ×
+                // how *sustained* it is (chronicity, on `chronicExposure`). Neither alone suffices — a
+                // heavy one-off binge or a therapeutic daily dose both stay dark; deep entrenches only
+                // under sustained heavy use. Magnitude keys on escalation because saturating occupancy
+                // makes therapeutic and heavy dosing look identical at the receptor.
                 sAcute = PDModel.stepShift(
                     current: sAcute, shiftMax: params.acuteShiftMax, occupancy: occupancy,
                     drive: 1, dtMinutes: cellLength, tauMinutes: params.tauAcuteMinutes,
                 )
-                let gate = PDModel.deepGate(
-                    escalation: maxEscalation, threshold: params.deepEscThreshold, width: params.deepEscWidth,
+                let magnitude = PDModel.smoothstepGate(
+                    maxEscalation, threshold: ReceptorClasses.deepMagnitudeThreshold, width: ReceptorClasses.deepMagnitudeWidth,
                 )
+                let chronicity = PDModel.smoothstepGate(
+                    chronicExposure, threshold: ReceptorClasses.deepChronicityThreshold, width: ReceptorClasses.deepChronicityWidth,
+                )
+                let gate = magnitude * chronicity
+                // The adaptive layer's gain also carries the schedule-regularity factor (experimental,
+                // low-confidence): the same exposure on a regular cadence anticipates more than erratic
+                // dosing. `1` for perfectly regular (and for < 3 doses), ≤ 1 for erratic — never boosts.
                 sAdaptive = PDModel.stepShift(
                     current: sAdaptive, shiftMax: params.adaptiveShiftMax, occupancy: occupancy,
-                    drive: modulation, dtMinutes: cellLength, tauMinutes: params.tauAdaptiveMinutes,
+                    drive: modulation * efficacyDrive * regularityFactor, dtMinutes: cellLength,
+                    tauMinutes: params.tauAdaptiveMinutes,
                 )
                 sDeep = PDModel.stepShift(
                     current: sDeep, shiftMax: params.deepShiftMax, occupancy: occupancy,
@@ -1037,7 +1144,7 @@ final class ToleranceStore {
                 // whose `synthesisShiftMax` is 0 (no shift accrues regardless of the drive).
                 sSynthesis = PDModel.stepShift(
                     current: sSynthesis, shiftMax: params.synthesisShiftMax, occupancy: occupancy,
-                    drive: anySynthesisSuppressor ? 1 : 0, dtMinutes: cellLength,
+                    drive: (anySynthesisSuppressor ? 1 : 0) * efficacyDrive, dtMinutes: cellLength,
                     tauMinutes: params.tauSynthesisMinutes,
                 )
 
@@ -1060,7 +1167,7 @@ final class ToleranceStore {
 
         // Final idle tail from the last fine-stepped cell to `now` (covers a partial last cell exactly).
         recover(totalMinutes - Double(lastSteppedCell + 1) * step)
-        return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety)
+        return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure)
     }
 
     // MARK: - Persistence (cache)
@@ -1082,6 +1189,7 @@ final class ToleranceStore {
                 receptorClass: receptorClass,
                 sAcute: row.sAcute, sAdaptive: row.sAdaptive, sDeep: row.sDeep,
                 sSynthesis: row.sSynthesis,
+                chronicExposure: row.chronicExposure,
                 representativeOccupancy: 0.5,
                 confidence: .unverified,
                 subTargets: [], contributors: [],
@@ -1115,11 +1223,13 @@ final class ToleranceStore {
                     row.sAdaptive = t.sAdaptive
                     row.sDeep = t.sDeep
                     row.sSynthesis = t.sSynthesis
+                    row.chronicExposure = t.chronicExposure
                     row.lastUpdated = now
                 } else {
                     context.insert(ToleranceState(
                         target: key, sAcute: t.sAcute, sAdaptive: t.sAdaptive,
-                        sDeep: t.sDeep, sSynthesis: t.sSynthesis, lastUpdated: now,
+                        sDeep: t.sDeep, sSynthesis: t.sSynthesis,
+                        chronicExposure: t.chronicExposure, lastUpdated: now,
                     ))
                 }
                 byKey[key] = nil
@@ -1135,6 +1245,7 @@ final class ToleranceStore {
                     stale.sAdaptive = 0
                     stale.sDeep = 0
                     stale.sSynthesis = 0
+                    stale.chronicExposure = 0
                     stale.lastUpdated = now
                 }
             }

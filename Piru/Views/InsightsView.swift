@@ -17,6 +17,7 @@ struct InsightsView: View {
             VStack(alignment: .leading, spacing: 14) {
                 adherenceCard
                 usageCard
+                toleranceCard
                 inSystemCard
             }
             .padding(.horizontal)
@@ -70,6 +71,26 @@ struct InsightsView: View {
                     }
                 } else {
                     Text("No doses logged yet")
+                }
+            },
+        )
+    }
+
+    /// Tolerance is usage statistics — a summary of the user's own logged history — so it lives in
+    /// Insights (§7). The glance reads the warm ``ToleranceStore/states`` snapshot the background refresh
+    /// keeps current, so the card is free (no compute here).
+    private var toleranceCard: some View {
+        card(
+            icon: "chart.line.downtrend.xyaxis",
+            title: "Tolerance",
+            route: .insight(.tolerance),
+            detail: {
+                // Non-rested = responseFraction < 0.90 ⇒ severity > 0.10 (matches the tool's rested bucket).
+                let notable = ToleranceStore.shared.states.values.count(where: { $0.severity > 0.10 })
+                if notable > 0 {
+                    Text("\(notable) mechanisms showing tolerance")
+                } else {
+                    Text("Predicted receptor tolerance and recovery")
                 }
             },
         )

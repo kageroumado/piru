@@ -133,12 +133,27 @@ nonisolated enum DeepLink {
             // `piru://tool/<rawValue>` pushes a tool onto the Tools tab.
             // Raw values are matched case-insensitively so hand-typed links
             // like `piru://tool/benzoequivalence` resolve the camelCase case.
-            guard let toolRaw = pathSegments.first,
-                  let tool = Tool.allCases.first(where: { $0.rawValue.lowercased() == toolRaw.lowercased() })
+            guard let toolRaw = pathSegments.first else { return nil }
+            // Back-compat alias (§7): Tolerance moved from Tools to Insights, so the old
+            // `piru://tool/tolerance` links (used for sim QA) still resolve — to the new insight route.
+            if toolRaw.lowercased() == "tolerance" {
+                return DeepLinkOutcome(tab: overrideTab ?? .insights, path: [.insight(.tolerance)])
+            }
+            guard let tool = Tool.allCases.first(where: { $0.rawValue.lowercased() == toolRaw.lowercased() })
             else { return nil }
             return DeepLinkOutcome(
                 tab: overrideTab ?? .tools,
                 path: [.tool(tool)],
+            )
+
+        case "insight":
+            // `piru://insight/<rawValue>` pushes an insight detail onto the Insights tab.
+            guard let insightRaw = pathSegments.first,
+                  let insight = Insight.allCases.first(where: { $0.rawValue.lowercased() == insightRaw.lowercased() })
+            else { return nil }
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .insights,
+                path: [.insight(insight)],
             )
 
         case "session":
@@ -205,6 +220,12 @@ nonisolated enum DeepLink {
             components.host = "session"
             components.path = "/\(id.uuidString)"
             if tab != .journal {
+                components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
+            }
+        case let .insight(insight):
+            components.host = "insight"
+            components.path = "/\(insight.rawValue)"
+            if tab != .insights {
                 components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
             }
         case let .substance(name):

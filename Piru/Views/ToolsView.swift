@@ -9,7 +9,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case volumetric
     case recovery
     case pharma
-    case tolerance
     case ceiling
     case benzoEquivalence
     case inventory
@@ -26,7 +25,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "Volumetric Dosing"
         case .recovery: "Recovery Guide"
         case .pharma: "Pharma Search"
-        case .tolerance: "Tolerance"
         case .ceiling: "Ceiling Effect"
         case .benzoEquivalence: "Benzo Equivalence"
         case .inventory: "Inventory"
@@ -41,7 +39,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "Dilute and measure precise doses"
         case .recovery: "Comedown and aftercare tips"
         case .pharma: "Search by receptor and affinity"
-        case .tolerance: "Predicted receptor tolerance and recovery"
         case .ceiling: "When dose and exposure aren't proportional"
         case .benzoEquivalence: "Compare benzodiazepine doses to diazepam"
         case .inventory: "Track how much you have on hand"
@@ -55,7 +52,6 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .volumetric: "drop"
         case .recovery: "heart.text.square"
         case .pharma: "pills"
-        case .tolerance: "chart.line.downtrend.xyaxis"
         case .ceiling: "chart.line.uptrend.xyaxis"
         case .benzoEquivalence: "arrow.left.arrow.right"
         case .inventory: "shippingbox"

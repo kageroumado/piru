@@ -118,6 +118,7 @@ private struct PushRouteView: View {
         switch insight {
         case .adherence: AdherenceView().navigationTitle("Adherence")
         case .usage: UsageStatsView().navigationTitle("Usage")
+        case .tolerance: ToleranceToolView().navigationTitle("Tolerance")
         }
     }
 
@@ -129,7 +130,6 @@ private struct PushRouteView: View {
         case .volumetric: VolumetricDosingView()
         case .recovery: ComedownGuideView()
         case .pharma: AdvancedSearchView()
-        case .tolerance: ToleranceToolView()
         case .ceiling: CeilingEffectToolView()
         case .benzoEquivalence: BenzoEquivalenceToolView()
         case .inventory: InventoryListView()

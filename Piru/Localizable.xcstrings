@@ -1695,6 +1695,22 @@
         }
       }
     },
+    "%lld mechanisms showing tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个机制出现耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個機制出現耐受"
+          }
+        }
+      }
+    },
     "%lld mg" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32993,6 +33009,7 @@
       }
     },
     "The high fades with tolerance, but the load on your heart and blood pressure doesn't." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36190,6 +36207,22 @@
         }
       }
     },
+    "With regular use, your resting heart rate and blood pressure tend to settle over weeks." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长期规律使用，你静息时的心率和血压通常会在几周内慢慢回落。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長期規律使用，你靜息時的心率和血壓通常會在幾週內慢慢回落。"
+          }
+        }
+      }
+    },
     "With repeated use a receptor gets less responsive, so the same dose does less. We show it as your predicted response versus rested (≈X%). It recovers when you stop — over days to weeks depending on the receptor. This is the honest “tolerance” for opioids, psychedelics, benzodiazepines, dissociatives, and cannabis." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -36219,6 +36252,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同一次使用之內"
+          }
+        }
+      }
+    },
+    "Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次嗨里，快感消退得比心脏的负担快——再加量去追，只会叠在一个还没缓下来的血压高峰上。把每次剂量间隔开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次嗨裡，快感消退得比心臟的負擔快——再加量去追，只會疊在一個還沒緩下來的血壓高峰上。把每次劑量間隔開。"
           }
         }
       }

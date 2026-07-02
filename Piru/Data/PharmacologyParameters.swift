@@ -65,6 +65,16 @@ nonisolated struct PharmacologyParameters {
     /// strain/species). Caps ``occupancyConfidence`` like the other inputs.
     let doseScaleConfidence: ConfidenceTier
     let halfLifeMinutes: Double?
+    /// Time-to-peak (Tmax) in **minutes** for the coherent PK row, when the source carries one — used
+    /// to wire a *real* absorption rate `ka` (via ``PKModel/estimateKa(timeToPeak:ke:)``) instead of
+    /// the `4·ke` elimination-derived default, so a fast-onset insufflated stimulant and a slow oral
+    /// extended-release no longer share an absorption shape (`Specs/tolerance-faithful-model-improvements.md`
+    /// §3). `nil` ⇒ the engine falls back to ``PKModel/defaultKa(ke:)``.
+    let tmaxMinutes: Double?
+    /// Confidence of ``tmaxMinutes`` — the source PK row's grade when a Tmax was read, `.unverified`
+    /// (the neutral floor) when none was; folded into the contributor confidence so a guessed onset
+    /// badges the prediction down.
+    let tmaxConfidence: ConfidenceTier
     /// Confidence of the resolved ``vdLPerKg`` (`.unverified` when no graded Vd row exists).
     let vdConfidence: ConfidenceTier
     /// The substance's **reference "heavy" dose** in mg — the denominator of the dose-relative
@@ -85,8 +95,53 @@ nonisolated struct PharmacologyParameters {
     /// receptor/transporter resensitisation alone. Resolved by membership in
     /// ``ToleranceStore/serotoninSynthesisSuppressors``; gates the engine's parallel synthesis layer.
     let suppressesSerotoninSynthesis: Bool
+    /// **Intrinsic efficacy** relative to a full agonist ∈ (0, 1], scaling how much *tolerance drive*
+    /// a unit of occupancy produces (`Specs/tolerance-faithful-model-improvements.md` §5c). Tolerance
+    /// is driven by occupancy, but a partial/low-efficacy agonist entrenches less per unit occupancy —
+    /// so the adaptive and synthesis layers' drive is multiplied by this. `1.0` (default) for a full
+    /// agonist / when unknown; curated `< 1` for the known partials (mitragynine, buprenorphine,
+    /// tianeptine at μ). It scales the *drive*, not the deep escalation gate, and ships low-confidence.
+    let intrinsicEfficacy: Double
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
+
+    /// Explicit memberwise-shaped initializer with the newer inputs (Tmax, intrinsic efficacy) as
+    /// **trailing defaulted** parameters, so the many existing call sites (the resolver and the test
+    /// factories) that end at `targets:` keep compiling unchanged while the resolver can supply the new
+    /// values. Everything else mirrors the stored-property order.
+    init(
+        substanceName: String,
+        molarMassGramsPerMole: Double?,
+        vdLPerKg: Double?,
+        bioavailabilityFraction: Double?,
+        bioavailabilityConfidence: ConfidenceTier,
+        doseScale: Double,
+        doseScaleConfidence: ConfidenceTier,
+        halfLifeMinutes: Double?,
+        vdConfidence: ConfidenceTier,
+        referenceDoseMg: Double?,
+        suppressesSerotoninSynthesis: Bool,
+        targets: [TargetEngagement],
+        tmaxMinutes: Double? = nil,
+        tmaxConfidence: ConfidenceTier = .unverified,
+        intrinsicEfficacy: Double = 1,
+    ) {
+        self.substanceName = substanceName
+        self.molarMassGramsPerMole = molarMassGramsPerMole
+        self.vdLPerKg = vdLPerKg
+        self.bioavailabilityFraction = bioavailabilityFraction
+        self.bioavailabilityConfidence = bioavailabilityConfidence
+        self.doseScale = doseScale
+        self.doseScaleConfidence = doseScaleConfidence
+        self.halfLifeMinutes = halfLifeMinutes
+        self.tmaxMinutes = tmaxMinutes
+        self.tmaxConfidence = tmaxConfidence
+        self.vdConfidence = vdConfidence
+        self.referenceDoseMg = referenceDoseMg
+        self.suppressesSerotoninSynthesis = suppressesSerotoninSynthesis
+        self.intrinsicEfficacy = intrinsicEfficacy
+        self.targets = targets
+    }
 
     /// The most potent engaged target — the occupancy driver.
     var primaryTarget: TargetEngagement? {

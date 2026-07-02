@@ -199,6 +199,8 @@ extension SubstanceStore {
             doseScale: routed.scale,
             doseScaleConfidence: routed.confidence,
             referenceDoseMg: referenceDoseMg,
+            // §5c: keyed on the active compound (Kratom→Mitragynine), defaulting to full-agonist 1.0.
+            intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
         )
     }
 
@@ -259,6 +261,7 @@ extension SubstanceStore {
                 doseScale: routed.scale,
                 doseScaleConfidence: routed.confidence,
                 referenceDoseMg: referenceDoseMg,
+                intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
             )
         }
         return out
@@ -269,7 +272,7 @@ extension SubstanceStore {
     private nonisolated static func assemblePharmacologyParameters(
         name: String, molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
         doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
-        referenceDoseMg: Double? = nil,
+        referenceDoseMg: Double? = nil, intrinsicEfficacy: Double = 1,
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
@@ -292,6 +295,15 @@ extension SubstanceStore {
         let f = measuredF ?? 1.0
         let fConfidence: ConfidenceTier = measuredF != nil ? (primaryRow?.confidence ?? .unverified) : .unverified
         let halfLife = primaryRow?.halfLifeMin
+
+        // Time-to-peak for a real absorption rate (§3): prefer the coherent primary row's own Tmax, else
+        // the best-graded PK row that carries one. Tmax is a rate descriptor independent of the F/Vd
+        // apparent-V/F coupling, so borrowing it from another row (when the primary lacks one) is safe.
+        let tmaxRow = (primaryRow?.tmaxMin != nil)
+            ? primaryRow
+            : (pk.first { $0.confidence != .unverified && $0.tmaxMin != nil } ?? pk.first { $0.tmaxMin != nil })
+        let tmax = tmaxRow?.tmaxMin
+        let tmaxConfidence: ConfidenceTier = tmax != nil ? (tmaxRow?.confidence ?? .unverified) : .unverified
 
         var seenTargets = Set<String>()
         let targets = bindingHits.compactMap { b -> PharmacologyParameters.TargetEngagement? in
@@ -354,6 +366,9 @@ extension SubstanceStore {
             // the cathinones (spared synthesis) reset in days. Both resolver paths funnel through here.
             suppressesSerotoninSynthesis: ToleranceStore.serotoninSynthesisSuppressors.contains(name.lowercased()),
             targets: targets,
+            tmaxMinutes: tmax,
+            tmaxConfidence: tmaxConfidence,
+            intrinsicEfficacy: intrinsicEfficacy,
         )
     }
 

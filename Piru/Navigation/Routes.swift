@@ -43,6 +43,10 @@ nonisolated enum PushRoute: Hashable, Codable {
 nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable {
     case adherence
     case usage
+    /// Predicted per-mechanism tolerance and recovery — usage statistics derived from the user's own
+    /// logged history (like Adherence and Usage), so it lives in Insights, not Tools
+    /// (`Specs/tolerance-faithful-model-improvements.md` §7).
+    case tolerance
 
     var id: String {
         rawValue
