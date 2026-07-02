@@ -96,6 +96,10 @@ final class InventoryItem {
     var restocksData: Data = Data()
     /// When the user started tracking this item.
     var createdAt: Date = Date.now
+    /// User's manual list position. `0` for every item until the first drag, at
+    /// which point the whole list is renumbered `0…n`. While all items share `0`
+    /// the manager falls back to the status-based auto-sort (out → low → recent).
+    var sortOrder: Int = 0
 
     /// The manual side of the ledger, decoded from ``restocksData``.
     ///
@@ -119,6 +123,7 @@ final class InventoryItem {
         doseSize: Double? = nil,
         manualEvents: [ManualEvent] = [],
         createdAt: Date = .now,
+        sortOrder: Int = 0,
     ) {
         self.id = id
         self.substance = substance
@@ -132,5 +137,6 @@ final class InventoryItem {
         self.currentQuantity = 0
         self.restocksData = (try? JSONEncoder().encode(manualEvents)) ?? Data()
         self.createdAt = createdAt
+        self.sortOrder = sortOrder
     }
 }

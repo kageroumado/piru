@@ -114,12 +114,21 @@ struct InventoryListView: View {
     @Query private var items: [InventoryItem]
     @Query private var substanceColors: [SubstanceColor]
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.modelContext) private var modelContext
 
     private var colorMap: [String: Color] {
         Array(substanceColors).colorMap
     }
+
+    /// Display order: the user's manual arrangement once they've dragged a row,
+    /// otherwise the status-based auto-sort. Every item starts at `sortOrder == 0`,
+    /// so a list nobody has reordered stays status-sorted; the first drag renumbers
+    /// the whole list and `sortOrder` takes over from then on.
     private var sorted: [InventoryItem] {
-        inventorySorted(items)
+        if items.allSatisfy({ $0.sortOrder == 0 }) {
+            return inventorySorted(items)
+        }
+        return items.sorted { $0.sortOrder < $1.sortOrder }
     }
 
     var body: some View {
@@ -145,6 +154,8 @@ struct InventoryListView: View {
                         }
                         .listRowBackground(Theme.cardBackground)
                     }
+                    .onMove(perform: move)
+                    .onDelete(perform: delete)
                 }
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
@@ -154,6 +165,12 @@ struct InventoryListView: View {
         .navigationTitle("Inventory")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            if !items.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    EditButton()
+                }
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     navigator.present(.inventoryItemForm(id: nil))
@@ -162,6 +179,22 @@ struct InventoryListView: View {
                 }
                 .accessibilityLabel("Add Inventory Item")
             }
+        }
+    }
+
+    /// Persist the dragged order, renumbering the whole list so `sortOrder`
+    /// governs display from here on.
+    private func move(from source: IndexSet, to destination: Int) {
+        var ordered = sorted
+        ordered.move(fromOffsets: source, toOffset: destination)
+        InventoryService.reorder(ordered)
+    }
+
+    /// Stop tracking the swiped items.
+    private func delete(at offsets: IndexSet) {
+        let toDelete = offsets.map { sorted[$0] }
+        for item in toDelete {
+            InventoryService.delete(item, in: modelContext)
         }
     }
 }

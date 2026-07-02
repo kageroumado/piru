@@ -180,6 +180,16 @@ enum DoseNotificationManager {
         }
     }
 
+    /// Clear any pending or already-delivered low-stock alert for an item —
+    /// called when the user stops tracking it, so a stale "running low" banner
+    /// doesn't linger on the Lock Screen for something they no longer track.
+    static func cancelInventoryLowStock(itemID: UUID) {
+        let identifier = inventoryNotificationIdentifier(itemID)
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [identifier])
+        center.removeDeliveredNotifications(withIdentifiers: [identifier])
+    }
+
     private static let inventoryLowStockPrefix = "inventoryLowStock_"
 
     private static func inventoryNotificationIdentifier(_ id: UUID) -> String {

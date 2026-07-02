@@ -202,6 +202,7 @@ enum InventoryService {
             trackingStart: .now,
             lowStockThreshold: normalizedPositive(threshold),
             manualEvents: events,
+            sortOrder: nextSortOrder(in: ctx),
         )
         ctx.insert(item)
         ensureColor(for: item.substance, in: ctx)
@@ -243,6 +244,23 @@ enum InventoryService {
     /// negative value disables the bar.
     static func setBaseline(_ item: InventoryItem, value: Double?, in _: ModelContext) {
         item.baselineQuantity = normalizedPositive(value)
+    }
+
+    /// Stop tracking an item: remove any lingering low-stock alert, then delete
+    /// the record. Logged doses are untouched — inventory only *derives* from the
+    /// `DoseEntry` log, so deleting the tracker changes nothing about the history.
+    static func delete(_ item: InventoryItem, in ctx: ModelContext) {
+        DoseNotificationManager.cancelInventoryLowStock(itemID: item.id)
+        ctx.delete(item)
+    }
+
+    /// Persist a manual list order after a drag: renumber the whole list `0…n`
+    /// so ``InventoryItem/sortOrder`` becomes the single source of truth for
+    /// display order (and the status-based auto-sort no longer applies).
+    static func reorder(_ orderedItems: [InventoryItem]) {
+        for (index, item) in orderedItems.enumerated() {
+            item.sortOrder = index
+        }
     }
 
     /// Set the optional "single dose" size powering "~N doses left".
@@ -380,6 +398,16 @@ enum InventoryService {
                 itemID: item.id,
             )
         }
+    }
+
+    /// The `sortOrder` for a freshly tracked item. `0` while the list is still
+    /// status-sorted (every item at `0`), so a new item joins the auto-sort;
+    /// once the user has manually reordered, `max + 1` appends it to the bottom
+    /// instead of colliding at the top.
+    private static func nextSortOrder(in ctx: ModelContext) -> Int {
+        let existing = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
+        guard existing.contains(where: { $0.sortOrder != 0 }) else { return 0 }
+        return (existing.map(\.sortOrder).max() ?? -1) + 1
     }
 
     /// `nil` for non-positive inputs; the value otherwise. Centralizes the
