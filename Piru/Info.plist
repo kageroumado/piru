@@ -6,12 +6,6 @@
 	<array>
 		<string>com.piru.app.live-activity-refresh</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Piru reads your body weight from Health to make dose-exposure and alcohol-strength estimates accurate for your body. It is read only on your device and is never shared.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Piru reads your body weight from Health to personalize dose-exposure and alcohol-strength estimates. It does not write any data back to Health.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -23,10 +17,20 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Piru reads your body weight from Health to make dose-exposure and alcohol-strength estimates accurate for your body. It is read only on your device and is never shared.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Piru reads your body weight from Health to personalize dose-exposure and alcohol-strength estimates. It does not write any data back to Health.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>processing</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
