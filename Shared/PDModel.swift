@@ -105,7 +105,7 @@ enum PDModel {
     /// saturates at recreational doses (a releaser at DAT sits at occupancy ≈ 1), so felt effect tracks
     /// flux, not static occupancy — pass `occupancyCap = 0.5` to evaluate at the sensitive half-sat point
     /// so a meaningful `S` doesn't wash out to "no tolerance". `occupancyCap == nil` ⇒ uncapped. The
-    /// caller decides per class via ``ReceptorClasses/ReceptorClass/usesSaturatingEffectProxy``.
+    /// caller decides per class via ``ReceptorClasses/ReceptorClass/gaugeOccupancyCap``.
     nonisolated static func responseFraction(
         shiftFactor: Double, representativeOccupancy: Double, occupancyCap: Double? = nil,
     ) -> Double {

@@ -110,10 +110,26 @@ nonisolated enum ReceptorClasses {
         /// *is* the effect proxy, and capping it would pretend a heavy opioid/benzo user's escalated dose
         /// is a half-sat dose — throwing away their escalation and over-reading their tolerance (the
         /// opioid/GABA over-read). Uncapped, a heavy opioid user shows realistic *residual* response.
-        var usesSaturatingEffectProxy: Bool {
+        /// The occupancy the gauge should cap at before forming the response ratio, or `nil` to use the
+        /// true (uncapped) usual-dose occupancy — see ``PDModel/responseFraction(shiftFactor:representativeOccupancy:occupancyCap:)``.
+        ///
+        /// - **Release / reuptake** classes cap at the ED50 (`0.5`): occupancy saturates at recreational
+        ///   doses and felt effect tracks flux, not static occupancy, so evaluating at the sensitive
+        ///   half-sat point is honest (§5).
+        /// - **GABA is a provisional stopgap** (revisit with research — benzos are hard to display
+        ///   faithfully). Benzodiazepine GABA-A occupancy saturates like a releaser, so *uncapped* it
+        ///   washes a real right-shift out to "No tolerance"; the full `0.5` releaser cap *over*-corrects
+        ///   to "High". A gentle `0.9` cap surfaces the faithful **low-but-not-zero** reading for regular
+        ///   (non-daily) benzo use without implying dependence/withdrawal. This single value is the knob
+        ///   to calibrate once we've researched benzo tolerance display properly (see the benzo-display
+        ///   memory). Deviates from the spec §5 classification of PAMs as uncapped.
+        /// - **Agonists / antagonists** (opioid, psychedelic, …) are uncapped: usual-dose occupancy *is*
+        ///   the effect proxy, and capping would over-read a heavy user's escalation.
+        var gaugeOccupancyCap: Double? {
             switch self {
-            case .catecholamineStimulant, .serotonergicReleaser: true
-            default: false
+            case .catecholamineStimulant, .serotonergicReleaser: 0.5
+            case .gaba: 0.9
+            default: nil
             }
         }
 

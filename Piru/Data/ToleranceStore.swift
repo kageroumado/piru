@@ -63,7 +63,7 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     var responseFraction: Double {
         PDModel.responseFraction(
             shiftFactor: shiftFactor, representativeOccupancy: representativeOccupancy,
-            occupancyCap: receptorClass.usesSaturatingEffectProxy ? 0.5 : nil,
+            occupancyCap: receptorClass.gaugeOccupancyCap,
         )
     }
 

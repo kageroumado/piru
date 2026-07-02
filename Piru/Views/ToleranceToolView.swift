@@ -484,7 +484,7 @@ struct ToleranceToolView: View {
             )
             let tolerance = 1 - PDModel.responseFraction(
                 shiftFactor: shift, representativeOccupancy: snapshot.representativeOccupancy,
-                occupancyCap: snapshot.receptorClass.usesSaturatingEffectProxy ? 0.5 : nil,
+                occupancyCap: snapshot.receptorClass.gaugeOccupancyCap,
             )
             return ChartPoint(id: index, day: minutes / 1_440, percent: max(0, min(100, tolerance * 100)))
         }
@@ -522,7 +522,7 @@ struct ToleranceToolView: View {
         // Match the gauge's mechanism-aware cap (§5): capped at ½ for release/reuptake proxies, uncapped
         // (just shy of 1 to avoid a divide-by-zero) for agonists — so the axis span never disagrees with
         // the plotted line or the bar.
-        let cap = snapshot.receptorClass.usesSaturatingEffectProxy ? 0.5 : 0.999_999
+        let cap = snapshot.receptorClass.gaugeOccupancyCap ?? 0.999_999
         let occupancy = min(cap, max(0, snapshot.representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
         let responseTarget = max(0.000_001, 1 - target)
