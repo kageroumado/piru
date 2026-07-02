@@ -167,6 +167,22 @@ extension SubstanceStore {
         "kratom": ("Mitragynine", 0.015, .low),
     ]
 
+    /// The tolerance classes a substance's **pharmacological categories** imply (benzodiazepine → GABA,
+    /// opioid → μ, …), read from the `categories` table for one substance id. `nonisolated static` so the
+    /// off-main batch resolve can run it on the dedicated batch connection. Drives the category fallback
+    /// that rescues categorised-but-untargeted RC substances (§7 follow-up).
+    nonisolated static func toleranceCategoryClasses(substanceID id: Int64, db queue: DatabaseQueue) -> Set<ReceptorClasses.ReceptorClass> {
+        let raws: [String] = (try? queue.read { db in
+            try String.fetchAll(db, sql: "SELECT category FROM categories WHERE substance_id = ?", arguments: [id])
+        }) ?? []
+        var classes: Set<ReceptorClasses.ReceptorClass> = []
+        for raw in raws {
+            let category = SubstanceCategory(rawValue: raw) ?? SubstanceCategory.from(tripSitCategory: raw)
+            if let cls = ReceptorClasses.toleranceClass(forCategory: category) { classes.insert(cls) }
+        }
+        return classes
+    }
+
     /// Route a logged name to the compound its pharmacology should be read from, plus the
     /// dose scale + confidence to carry. A pure compound routes to itself at scale 1.0.
     nonisolated static func routePreparation(_ name: String) -> (name: String, scale: Double, confidence: ConfidenceTier) {
@@ -188,9 +204,15 @@ extension SubstanceStore {
         // path below so it never resolves on the main actor.
         // The escalation reference comes from the **logged** substance's own dose ladder (Kratom's,
         // not mitragynine's), since the logged dose and the ladder are both in preparation mg.
-        let referenceDoseMg = substanceID(forNameOrAlias: name).flatMap {
+        // The escalation reference *and* the category classes come from the **logged** substance's own
+        // row (Kratom's category, not mitragynine's), so a preparation keeps its own tolerance identity.
+        let loggedID = substanceID(forNameOrAlias: name)
+        let referenceDoseMg = loggedID.flatMap {
             Self.referenceDoseMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
         }
+        let categoryClasses = loggedID.map {
+            Self.toleranceCategoryClasses(substanceID: $0, db: substancesDB)
+        } ?? []
         return Self.assemblePharmacologyParameters(
             name: name,
             molarMass: molarMass(forSubstanceName: routed.name),
@@ -201,6 +223,7 @@ extension SubstanceStore {
             referenceDoseMg: referenceDoseMg,
             // §5c: keyed on the active compound (Kratom→Mitragynine), defaulting to full-agonist 1.0.
             intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
+            categoryClasses: categoryClasses,
         )
     }
 
@@ -250,9 +273,11 @@ extension SubstanceStore {
         for name in names where out[name] == nil {
             let id = ids[name.lowercased()]
             let routed = routePreparation(name)
-            let referenceDoseMg = referenceDoseIDs[name.lowercased()].flatMap {
+            let loggedID = referenceDoseIDs[name.lowercased()]
+            let referenceDoseMg = loggedID.flatMap {
                 Self.referenceDoseMg(substanceID: $0, db: queue, order: order)
             }
+            let categoryClasses = loggedID.map { Self.toleranceCategoryClasses(substanceID: $0, db: queue) } ?? []
             out[name] = assemblePharmacologyParameters(
                 name: name,
                 molarMass: id.flatMap { molarMass(substanceID: $0, db: queue) },
@@ -262,6 +287,7 @@ extension SubstanceStore {
                 doseScaleConfidence: routed.confidence,
                 referenceDoseMg: referenceDoseMg,
                 intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
+                categoryClasses: categoryClasses,
             )
         }
         return out
@@ -273,6 +299,7 @@ extension SubstanceStore {
         name: String, molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
         doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
         referenceDoseMg: Double? = nil, intrinsicEfficacy: Double = 1,
+        categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
@@ -369,6 +396,7 @@ extension SubstanceStore {
             tmaxMinutes: tmax,
             tmaxConfidence: tmaxConfidence,
             intrinsicEfficacy: intrinsicEfficacy,
+            categoryClasses: categoryClasses,
         )
     }
 

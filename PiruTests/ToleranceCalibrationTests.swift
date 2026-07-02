@@ -808,6 +808,50 @@ struct ToleranceCalibrationTests {
         #expect(ReceptorClasses.classify(target: "β1 / β2 adrenergic (human)", action: .antagonist) == .betaBlocker)
     }
 
+    // MARK: - 21b. Category fallback: a benzo with NO bindings still drives GABA via its category
+
+    @Test
+    func `A categorised benzo with no binding rows still accrues GABA tolerance via its category`() throws {
+        // Mirrors Bromazepam in the real DB: full dose ladder, but NO targets at all — so the target
+        // path can't classify it. Its Benzodiazepine category alone routes it to GABA → Diazepam.
+        let noTargetBenzo = PharmacologyParameters(
+            substanceName: "RC-CategoryBenzo",
+            molarMassGramsPerMole: 316, vdLPerKg: 1.2, bioavailabilityFraction: 0.84,
+            bioavailabilityConfidence: .high, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: 1_020, vdConfidence: .high, referenceDoseMg: 12,
+            suppressesSerotoninSynthesis: false,
+            targets: [], // ← the whole point: no receptor rows
+            categoryClasses: [.gaba],
+        )
+        let params = ["RC-CategoryBenzo": noTargetBenzo, "Diazepam": Self.diazepam(referenceDoseMg: 30)]
+        let doses = Self.dailyDoses("RC-CategoryBenzo", mg: 12, days: 14)
+        let states = ToleranceStore.simulate(doses: doses, params: params, now: Self.now, weightKg: 70)
+        let gaba = try #require(states[.gaba]) // previously silently dropped entirely
+        #expect(gaba.shiftFactor > 1)
+        #expect(gaba.contributors == ["RC-CategoryBenzo"]) // keeps the logged name
+        #expect(gaba.confidence == .unverified) // dose-fraction surrogate floor
+        // No longer stranded: not surfaced as incomplete, because the category fallback models it.
+        #expect(!ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now).contains("RC-CategoryBenzo"))
+    }
+
+    @Test
+    func `A categorised substance whose class has no representative stays incomplete`() {
+        // Category maps to a class (cannabinoid) that has NO representative → can't be modeled → honestly
+        // surfaced as "can't predict yet" rather than silently dropped.
+        let noTargetCannabinoid = PharmacologyParameters(
+            substanceName: "RC-CategoryCannabinoid",
+            molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
+            bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
+            halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: 10,
+            suppressesSerotoninSynthesis: false, targets: [], categoryClasses: [.cannabinoidCB1],
+        )
+        let params = ["RC-CategoryCannabinoid": noTargetCannabinoid]
+        let doses = Self.dailyDoses("RC-CategoryCannabinoid", mg: 10, days: 14)
+        let states = ToleranceStore.simulate(doses: doses, params: params, now: Self.now, weightKg: 70)
+        #expect(states[.cannabinoidCB1] == nil)
+        #expect(ToleranceStore.incompleteData(doses: doses, params: params, now: Self.now).contains("RC-CategoryCannabinoid"))
+    }
+
     // MARK: - 22. Chronicity gate (§2): heavy but sustained engages deep; a heavy one-off binge does not
 
     @Test

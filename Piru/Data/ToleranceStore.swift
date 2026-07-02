@@ -364,11 +364,14 @@ final class ToleranceStore {
             // The rebound-hosting adrenergic classes (§3.5) are excluded: they barely tolerize and have
             // no PK-less representative by design, so a PK-less clonidine/propranolol is not "missing a
             // prediction" — there is no tolerance curve to predict. (It just produces no card.)
-            guard p.targets.contains(where: {
+            // Tolerance-relevant if a named target classifies to a (non-rebound) mechanism OR the
+            // substance's category alone implies one (a designer benzo with no binding rows still is).
+            let hasTargetMechanism = p.targets.contains(where: {
                 let cls = ReceptorClasses.classify(target: $0.target, action: $0.action)
                 return cls != .unknown && !cls.hostsReboundWarningOnly
-            }) else { continue }
-            // A representative-backed fallback can still model it ⇒ not incomplete.
+            })
+            guard hasTargetMechanism || !p.categoryClasses.isEmpty else { continue }
+            // A representative-backed fallback (target- or category-inferred) can still model it ⇒ not incomplete.
             guard fallbackClasses(for: p, params: params).isEmpty else { continue }
             seen.insert(dose.substance)
             result.append(dose.substance)
@@ -377,21 +380,32 @@ final class ToleranceStore {
     }
 
     /// The tolerance classes a **PK-less** substance can still be modeled in via a class representative
-    /// (Stage D missing-PK fallback): each class whose named, mechanism-gated targets it engages and
-    /// for which a PK-complete ``classRepresentative`` plus both reference doses (the substance's own
-    /// and the representative's) exist. Empty ⇒ genuinely unmodelable (stays "can't predict yet").
-    /// Shared by ``buildClassWork`` (which builds the surrogate contributors) and ``incompleteData``.
+    /// (missing-PK fallback): each class it belongs to — by its named, mechanism-gated targets **or** by
+    /// its pharmacological category (benzodiazepine → GABA, opioid → μ, …) — for which a PK-complete
+    /// ``classRepresentative`` plus both reference doses (the substance's own and the representative's)
+    /// exist. Empty ⇒ genuinely unmodelable (stays "can't predict yet"). Shared by ``buildClassWork``
+    /// (which builds the surrogate contributors) and ``incompleteData``.
+    ///
+    /// The **category** path is what rescues the RC tail (`Specs/tolerance-faithful-model-improvements.md`
+    /// §7 follow-up): a designer benzo / fluoro-amphetamine / RC opioid that ships no binding rows still
+    /// drives its class, because its category alone identifies the mechanism. It composes with the target
+    /// path, so a substance with partial bindings still picks up any category class its targets missed.
     private nonisolated static func fallbackClasses(
         for substanceParams: PharmacologyParameters, params: [String: PharmacologyParameters],
     ) -> Set<ReceptorClasses.ReceptorClass> {
         guard substanceParams.referenceDoseMg != nil else { return [] }
+        func hasRepresentative(_ cls: ReceptorClasses.ReceptorClass) -> Bool {
+            guard let repName = classRepresentative[cls], let rep = params[repName] else { return false }
+            return rep.canComputeOccupancy && rep.referenceDoseMg != nil
+        }
         var classes: Set<ReceptorClasses.ReceptorClass> = []
         for engagement in substanceParams.targets {
             let cls = ReceptorClasses.classify(target: engagement.target, action: engagement.action)
-            guard cls != .unknown,
-                  let repName = classRepresentative[cls],
-                  let rep = params[repName], rep.canComputeOccupancy, rep.referenceDoseMg != nil
-            else { continue }
+            guard cls != .unknown, hasRepresentative(cls) else { continue }
+            classes.insert(cls)
+        }
+        // Category-inferred classes (independent of binding data) — the RC-tail rescue.
+        for cls in substanceParams.categoryClasses where hasRepresentative(cls) {
             classes.insert(cls)
         }
         return classes

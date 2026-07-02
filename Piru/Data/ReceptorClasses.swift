@@ -546,6 +546,33 @@ nonisolated enum ReceptorClasses {
         parameters(for: classify(target: target, action: action))
     }
 
+    /// Infer a substance's tolerance class from its **pharmacological category**, independent of any
+    /// binding data — so a benzodiazepine drives the GABA class and an opioid the μ class *even when the
+    /// bundled DB lists no receptor rows for it* (`Specs/tolerance-faithful-model-improvements.md` §7
+    /// follow-up). This is the class-level analogue of the target-based ``classify(target:action:)``:
+    /// the engine's missing-PK fallback (`ToleranceStore.fallbackClasses`) uses it to model an
+    /// untargeted-but-categorised substance as its class representative, rescuing the long RC tail
+    /// (designer benzos, fluoro-amphetamines, RC opioids) that ships without curated bindings.
+    ///
+    /// Only categories with a well-defined mechanism class map; the rest (nootropic, supplement,
+    /// gabapentinoid — whose target is α2δ, not a modelled tolerance class — etc.) return `nil`.
+    static func toleranceClass(forCategory category: SubstanceCategory) -> ReceptorClass? {
+        switch category {
+        case .stimulant, .eugeroic: .catecholamineStimulant
+        case .opioid: .muOpioid
+        // Benzodiazepine only — NOT the broad `.depressant` category, which the DB also pins on
+        // beta-blockers (propranolol), α₂-agonists (clonidine), antihistamines and anxiolytics that are
+        // not GABA drugs. The true GABAergic depressants (alcohol, barbiturates, GHB, baclofen) carry
+        // their own binding rows, so they route via the target path and don't need this fallback.
+        case .benzodiazepine: .gaba
+        case .psychedelic: .psychedelic5HT2A
+        case .dissociative: .nmdaAntagonist
+        case .empathogen: .serotonergicReleaser
+        case .cannabinoid: .cannabinoidCB1
+        default: nil
+        }
+    }
+
     /// A display-canonical receptor name for the card breakdown: strips parenthetical qualifiers
     /// (`"(recombinant human)"`, `"(MK-801 site, S-enantiomer)"`, `"(PCP site)"`), enantiomer prefixes
     /// (`"(+)-"`, `"(−)-"`), and a trailing `" receptor"`, so `"5-HT3 receptor"`, `"NMDA receptor (PCP

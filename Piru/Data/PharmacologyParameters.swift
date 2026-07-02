@@ -102,6 +102,12 @@ nonisolated struct PharmacologyParameters {
     /// agonist / when unknown; curated `< 1` for the known partials (mitragynine, buprenorphine,
     /// tianeptine at μ). It scales the *drive*, not the deep escalation gate, and ships low-confidence.
     let intrinsicEfficacy: Double
+    /// Tolerance classes inferred from the substance's **pharmacological category** (benzodiazepine →
+    /// GABA, opioid → μ, …), independent of binding data. Lets the missing-PK fallback model a
+    /// categorised-but-untargeted substance as its class representative even when the DB ships no
+    /// receptor rows for it (`Specs/tolerance-faithful-model-improvements.md` §7 follow-up). Empty when
+    /// the substance has no category that maps to a modelled tolerance class.
+    let categoryClasses: Set<ReceptorClasses.ReceptorClass>
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
 
@@ -125,6 +131,7 @@ nonisolated struct PharmacologyParameters {
         tmaxMinutes: Double? = nil,
         tmaxConfidence: ConfidenceTier = .unverified,
         intrinsicEfficacy: Double = 1,
+        categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
     ) {
         self.substanceName = substanceName
         self.molarMassGramsPerMole = molarMassGramsPerMole
@@ -140,6 +147,7 @@ nonisolated struct PharmacologyParameters {
         self.referenceDoseMg = referenceDoseMg
         self.suppressesSerotoninSynthesis = suppressesSerotoninSynthesis
         self.intrinsicEfficacy = intrinsicEfficacy
+        self.categoryClasses = categoryClasses
         self.targets = targets
     }
 
