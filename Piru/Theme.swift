@@ -71,8 +71,10 @@ struct ThemedBackground<S: Shape>: ViewModifier {
 }
 
 extension View {
-    func themeCard(cornerRadius: CGFloat = 16) -> some View {
-        modifier(ThemedBackground(shape: RoundedRectangle(cornerRadius: cornerRadius)))
+    /// Default corner radius `22` matches the system grouped-list / Library card
+    /// rounding (the 16 the app shipped with read too boxy next to them).
+    func themeCard(cornerRadius: CGFloat = 22) -> some View {
+        modifier(ThemedBackground(shape: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)))
     }
 
     /// Conditionally apply the card background — for rows that live inside a
