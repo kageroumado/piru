@@ -47,6 +47,10 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// logged history (like Adherence and Usage), so it lives in Insights, not Tools
     /// (`Specs/tolerance-faithful-model-improvements.md` §7).
     case tolerance
+    /// What's currently active in the body — the read-only "in your system" view.
+    /// Split out from the Half-Life Calculator (`Tool.calculator`) so each screen
+    /// has a single responsibility; the two cross-link to each other.
+    case inSystem
 
     var id: String {
         rawValue
