@@ -12,7 +12,7 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// Only substances that carry *some* PK signal (a half-life or any `pk_routes` field) are emitted;
 /// half-life falls back to the substance's own top-level ``Substance/halfLifeMinutes`` when no
 /// `pk_routes` row exists, so half-life-only substances still appear.
-nonisolated struct PharmaTableRow: Sendable, Identifiable {
+nonisolated struct PharmaTableRow: Identifiable {
     let name: String
     let category: SubstanceCategory?
     let route: String?
@@ -29,7 +29,9 @@ nonisolated struct PharmaTableRow: Sendable, Identifiable {
     let vdLPerKg: Double?
     let clearanceMlPerMinPerKg: Double?
 
-    var id: String { name }
+    var id: String {
+        name
+    }
 
     /// True when at least one PK figure is present.
     var hasAnyPK: Bool {
@@ -525,7 +527,7 @@ extension SubstanceStore {
 
     /// Immutable main-actor snapshot handed to the off-main resolve: the resolved identity + half-life
     /// fallback for one substance, keyed by its bundled-DB id (used to join the `pk_routes` pass).
-    private struct PharmaSubstanceSeed: Sendable {
+    private struct PharmaSubstanceSeed {
         let id: Int64
         let name: String
         let category: SubstanceCategory

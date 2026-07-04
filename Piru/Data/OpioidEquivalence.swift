@@ -16,7 +16,9 @@ struct OpioidEquivalence: Identifiable {
     let displayName: String
     let convertibility: Convertibility
 
-    var id: String { name }
+    var id: String {
+        name
+    }
 
     enum Convertibility {
         /// Pure full µ-agonist with a stable oral MME factor (morphine-mg per 1 mg).

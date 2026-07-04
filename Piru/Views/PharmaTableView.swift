@@ -296,7 +296,7 @@ struct PharmaTableView: View {
         .accessibilityLabel(rowAccessibilityLabel(row, params: params))
     }
 
-    private func dataCell(_ column: PharmaColumn, row: PharmaTableRow, params: PharmacologyParameters?, index: Int) -> some View {
+    private func dataCell(_ column: PharmaColumn, row: PharmaTableRow, params: PharmacologyParameters?, index _: Int) -> some View {
         // Distinguish "resolving" (receptor batch in flight) from "no data" so a Common-scope open never
         // flashes an empty Targets column as though the drug had no receptors.
         let awaiting = column.needsParams && params == nil && resolvingPharma
@@ -313,7 +313,7 @@ struct PharmaTableView: View {
     }
 
     private func rowBackground(_ index: Int) -> some View {
-        (index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.035))
+        index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.035)
     }
 
     // MARK: - States
@@ -388,12 +388,12 @@ struct PharmaTableView: View {
     private func sortedRows(_ rows: [PharmaTableRow]) -> [PharmaTableRow] {
         switch sortKey {
         case .name:
-            return rows.sorted { lhs, rhs in
+            rows.sorted { lhs, rhs in
                 let order = lhs.name.localizedCaseInsensitiveCompare(rhs.name)
                 return sortAscending ? order == .orderedAscending : order == .orderedDescending
             }
         case let .column(column) where column.isText:
-            return rows.sorted { lhs, rhs in
+            rows.sorted { lhs, rhs in
                 let left = column.textValue(lhs, params: pharmacologyByName[lhs.name])
                 let right = column.textValue(rhs, params: pharmacologyByName[rhs.name])
                 switch (left, right) {
@@ -409,7 +409,7 @@ struct PharmaTableView: View {
                 }
             }
         case let .column(column):
-            return rows.sorted { lhs, rhs in
+            rows.sorted { lhs, rhs in
                 let left = column.numericValue(lhs, params: pharmacologyByName[lhs.name])
                 let right = column.numericValue(rhs, params: pharmacologyByName[rhs.name])
                 switch (left, right) {
@@ -487,10 +487,9 @@ struct PharmaTableView: View {
         if value == value.rounded() {
             return String(Int(value))
         }
-        let formatted: String = value >= 100
+        return value >= 100
             ? String(Int(value.rounded()))
             : String(format: "%.1f", value)
-        return formatted
     }
 
     private func rowAccessibilityLabel(_ row: PharmaTableRow, params: PharmacologyParameters?) -> Text {
@@ -547,19 +546,27 @@ private enum PharmaColumn: String, CaseIterable, Identifiable {
     case vd
     case clearance
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     static let defaultColumns: [PharmaColumn] = [.mechanism, .targets, .halfLife, .potency]
     static let optionalColumns: [PharmaColumn] = [.tmax, .bioavailability, .cmax, .proteinBinding, .vd, .clearance]
 
-    var isDefault: Bool { Self.defaultColumns.contains(self) }
+    var isDefault: Bool {
+        Self.defaultColumns.contains(self)
+    }
 
     /// Textual columns (Mechanism, Targets) sort alphabetically, left-align, wrap to two lines, and get a
     /// wider cell — a Double sort / right-alignment doesn't apply to prose.
-    var isText: Bool { self == .mechanism || self == .targets }
+    var isText: Bool {
+        self == .mechanism || self == .targets
+    }
 
     /// Columns whose value comes from the (lazily-resolved) receptor parameters, not the base PK row.
-    var needsParams: Bool { self == .targets || self == .potency }
+    var needsParams: Bool {
+        self == .targets || self == .potency
+    }
 
     var width: CGFloat {
         switch self {
@@ -569,7 +576,9 @@ private enum PharmaColumn: String, CaseIterable, Identifiable {
         }
     }
 
-    var frameAlignment: Alignment { isText ? .leading : .trailing }
+    var frameAlignment: Alignment {
+        isText ? .leading : .trailing
+    }
 
     var title: LocalizedStringResource {
         switch self {

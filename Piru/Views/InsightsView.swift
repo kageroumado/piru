@@ -279,7 +279,9 @@ struct InsightsView: View {
     private struct DailyCount: Identifiable {
         let date: Date
         let count: Int
-        var id: Date { date }
+        var id: Date {
+            date
+        }
     }
 
     private struct AdherenceSummary {

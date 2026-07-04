@@ -9,7 +9,9 @@ struct EducationCard: View {
 
     private struct Item: Identifiable {
         let tool: Tool
-        var id: String { tool.id }
+        var id: String {
+            tool.id
+        }
     }
 
     private let items: [Item] = [
