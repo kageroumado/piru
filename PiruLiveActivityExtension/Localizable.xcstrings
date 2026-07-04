@@ -36,6 +36,9 @@
         }
       }
     },
+    "+%lld" : {
+
+    },
     "Afterglow" : {
 
     },
@@ -52,6 +55,9 @@
 
     },
     "Daily" : {
+
+    },
+    "Elapsed" : {
 
     },
     "Every 2 days" : {
@@ -106,6 +112,9 @@
 
     },
     "Rectal" : {
+
+    },
+    "Remaining" : {
 
     },
     "Shot" : {
