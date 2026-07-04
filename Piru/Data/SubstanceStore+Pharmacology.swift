@@ -4,6 +4,47 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
+/// One representative-per-substance pharmacokinetic projection, built for the Pharma table tool
+/// (`PharmaTableView`). Each substance contributes exactly one row — the preferred route (oral first,
+/// otherwise the row carrying the most PK fields / best confidence) — so the tool renders a flat,
+/// sortable spreadsheet across the whole library. `Sendable` so the resolve runs off the main actor.
+///
+/// Only substances that carry *some* PK signal (a half-life or any `pk_routes` field) are emitted;
+/// half-life falls back to the substance's own top-level ``Substance/halfLifeMinutes`` when no
+/// `pk_routes` row exists, so half-life-only substances still appear.
+nonisolated struct PharmaTableRow: Sendable, Identifiable {
+    let name: String
+    let category: SubstanceCategory?
+    let route: String?
+    /// The substance's mechanism/class one-liner (e.g. "Selective Serotonin Reuptake Inhibitor (SSRI)"),
+    /// resolved cheaply from ``MechanismOfActionDatabase`` (per-substance class template, else category
+    /// fallback) on the main actor while seeding — the Pharma table's default **Mechanism** column. The
+    /// richer receptor targets are layered on separately via ``PharmacologyParameters``.
+    let mechanismLabel: String?
+    let halfLifeMin: Double?
+    let tmaxMin: Double?
+    let bioavailabilityPct: Double?
+    let cmaxNgPerMl: Double?
+    let proteinBindingPct: Double?
+    let vdLPerKg: Double?
+    let clearanceMlPerMinPerKg: Double?
+
+    var id: String { name }
+
+    /// True when at least one PK figure is present.
+    var hasAnyPK: Bool {
+        halfLifeMin != nil || tmaxMin != nil || bioavailabilityPct != nil || cmaxNgPerMl != nil
+            || proteinBindingPct != nil || vdLPerKg != nil || clearanceMlPerMinPerKg != nil
+    }
+
+    /// The inclusion gate: a substance earns a row when it carries *some* PK signal **or** a resolvable
+    /// mechanism/class label — the table now leads with receptor/mechanism data, so a categorised drug
+    /// with no PK study still belongs (its Mechanism/Targets columns carry the story).
+    var hasAnyData: Bool {
+        hasAnyPK || mechanismLabel != nil
+    }
+}
+
 /// The pharmacology / pharmacokinetics read layer extracted from `SubstanceStore`: the per-substance
 /// binding, PK, molar-mass, metabolism, and resolved `PharmacologyParameters` reads. Split out so the
 /// core store stays under the file-length budget; the off-main batch resolve (`pharmacologyParametersBatchOffMain`)
@@ -453,5 +494,104 @@ extension SubstanceStore {
                 return rows.map { ($0["target"], $0["n"]) }
             }
         } catch { return [] }
+    }
+
+    /// Resolve one representative pharmacokinetic row per substance for the Pharma table tool, **off the
+    /// main actor**. Snapshots the resolved library (canonical name + source-priority category + top-level
+    /// half-life) on the main actor, then runs a single windowed SQL pass over `pk_routes` on the batch
+    /// connection to pick the preferred route per substance (oral first, else the row carrying the most PK
+    /// fields, best confidence). Substances with no `pk_routes` row keep their top-level half-life; rows
+    /// with no PK signal at all are dropped. The result is cache-worthy — recomputing per keystroke is not.
+    func pharmaTableRowsOffMain() async -> [PharmaTableRow] {
+        let substances: [PharmaSubstanceSeed] = SubstanceLibrary.all.compactMap { substance in
+            guard let id = substanceID(forNameOrAlias: substance.name) else { return nil }
+            // Cheap main-actor mechanism/class label (pure ``MechanismOfActionDatabase`` dictionary
+            // lookups — no heavy per-substance DB resolve): the per-substance class template if one is
+            // mapped, else the category fallback. Feeds the table's default Mechanism column and widens
+            // the inclusion gate so categorised-but-PK-less substances still appear.
+            let mechanism = MechanismOfActionDatabase.mechanism(for: substance.name)
+                ?? MechanismOfActionDatabase.categoryFallback(for: substance.category)
+            let mechanismLabel: String? = (mechanism?.summary).flatMap { $0.isEmpty ? nil : $0 }
+            return PharmaSubstanceSeed(
+                id: id, name: substance.name, category: substance.category,
+                mechanismLabel: mechanismLabel, halfLifeMin: substance.halfLifeMinutes,
+            )
+        }
+        let db = substancesBatchDB
+        return await Task.detached(priority: .utility) {
+            Self.buildPharmaTableRows(substances: substances, db: db)
+        }.value
+    }
+
+    /// Immutable main-actor snapshot handed to the off-main resolve: the resolved identity + half-life
+    /// fallback for one substance, keyed by its bundled-DB id (used to join the `pk_routes` pass).
+    private struct PharmaSubstanceSeed: Sendable {
+        let id: Int64
+        let name: String
+        let category: SubstanceCategory
+        let mechanismLabel: String?
+        let halfLifeMin: Double?
+    }
+
+    /// The single windowed `pk_routes` pass + merge. `nonisolated static` so it runs entirely off the main
+    /// actor on the batch connection. `ROW_NUMBER()` partitioned by substance picks the preferred route in
+    /// one query (SQLite window functions), so there is no per-substance read loop.
+    private nonisolated static func buildPharmaTableRows(
+        substances: [PharmaSubstanceSeed], db queue: DatabaseQueue,
+    ) -> [PharmaTableRow] {
+        var pkByID: [Int64: Row] = [:]
+        do {
+            let rows = try queue.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT substance_id, route, bioavailability_pct, cmax_ng_per_ml, tmax_min,
+                           half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct
+                      FROM (
+                        SELECT p.*,
+                               ROW_NUMBER() OVER (
+                                 PARTITION BY p.substance_id
+                                 ORDER BY (lower(p.route) = 'oral') DESC,
+                                          (lower(p.route) LIKE 'oral%') DESC,
+                                          ((p.bioavailability_pct IS NOT NULL) + (p.cmax_ng_per_ml IS NOT NULL)
+                                           + (p.tmax_min IS NOT NULL) + (p.half_life_min IS NOT NULL)
+                                           + (p.vd_l_per_kg IS NOT NULL) + (p.clearance_ml_per_min_per_kg IS NOT NULL)
+                                           + (p.protein_binding_pct IS NOT NULL)) DESC,
+                                          CASE upper(COALESCE(p.confidence, ''))
+                                              WHEN 'HIGH' THEN 0 WHEN 'MEDIUM' THEN 1 WHEN 'LOW' THEN 2 ELSE 3 END,
+                                          p.id
+                               ) AS rn
+                          FROM pk_routes p
+                      )
+                     WHERE rn = 1
+                """)
+            }
+            for row in rows {
+                let substanceID: Int64 = row["substance_id"]
+                pkByID[substanceID] = row
+            }
+        } catch {
+            logger.error("buildPharmaTableRows failed: \(error.localizedDescription, privacy: .public)")
+        }
+
+        var out: [PharmaTableRow] = []
+        out.reserveCapacity(substances.count)
+        for substance in substances {
+            let pk = pkByID[substance.id]
+            let halfLife: Double? = pk.flatMap { $0["half_life_min"] } ?? substance.halfLifeMin
+            let row = PharmaTableRow(
+                name: substance.name,
+                category: substance.category,
+                route: pk.flatMap { $0["route"] },
+                mechanismLabel: substance.mechanismLabel,
+                halfLifeMin: halfLife,
+                tmaxMin: pk.flatMap { $0["tmax_min"] },
+                bioavailabilityPct: pk.flatMap { $0["bioavailability_pct"] },
+                cmaxNgPerMl: pk.flatMap { $0["cmax_ng_per_ml"] },
+                proteinBindingPct: pk.flatMap { $0["protein_binding_pct"] },
+                vdLPerKg: pk.flatMap { $0["vd_l_per_kg"] },
+                clearanceMlPerMinPerKg: pk.flatMap { $0["clearance_ml_per_min_per_kg"] },
+            )
+            if row.hasAnyData { out.append(row) }
+        }
+        return out
     }
 }

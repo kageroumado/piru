@@ -119,6 +119,7 @@ private struct PushRouteView: View {
         case .adherence: AdherenceView().navigationTitle("Adherence")
         case .usage: UsageStatsView().navigationTitle("Usage")
         case .tolerance: ToleranceToolView().navigationTitle("Tolerance")
+        case .inSystem: InYourSystemView().navigationTitle("In Your System")
         }
     }
 
@@ -129,9 +130,11 @@ private struct PushRouteView: View {
         case .calculator: HalfLifeCalculatorView()
         case .volumetric: VolumetricDosingView()
         case .recovery: ComedownGuideView()
-        case .pharma: AdvancedSearchView()
+        case .pharma: PharmaTableView()
         case .ceiling: CeilingEffectToolView()
         case .benzoEquivalence: BenzoEquivalenceToolView()
+        case .opioidEquivalence: OpioidEquivalenceToolView()
+        case .toleranceInfo: ToleranceExplainerView()
         case .inventory: InventoryListView()
         }
     }

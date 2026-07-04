@@ -44,40 +44,22 @@ struct InventorySummaryCard: View {
     }
 
     var body: some View {
-        NavigationLink(value: PushRoute.tool(.inventory)) {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 14) {
-                    Image(systemName: Tool.inventory.icon)
-                        .font(.title2)
-                        .foregroundStyle(Theme.accent)
-                        .frame(width: 32)
-                    Text(Tool.inventory.name)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                    Spacer(minLength: 8)
-                    Image(systemName: "chevron.right")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-
-                if topItems.isEmpty {
-                    Text("Track how much you have on hand")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                } else {
-                    VStack(spacing: 10) {
-                        ForEach(topItems) { item in
-                            InventorySummaryRow(item: item, colorMap: colorMap)
-                        }
+        GlanceCard(icon: Tool.inventory.icon, title: Text(Tool.inventory.name), route: .tool(.inventory)) {
+            if topItems.isEmpty {
+                Text("Track how much you have on hand")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            } else {
+                VStack(spacing: 10) {
+                    ForEach(topItems) { item in
+                        InventorySummaryRow(item: item, colorMap: colorMap)
+                    }
+                    if items.count > topItems.count {
+                        GlanceMoreRow(count: items.count - topItems.count)
                     }
                 }
             }
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .themeCard()
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
     }
 }
 
@@ -89,14 +71,8 @@ private struct InventorySummaryRow: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            HStack(spacing: 10) {
-                SubstanceDot(name: item.substance, colorMap: colorMap, size: 12)
-                Text(item.displayTitle)
-                    .font(.headline)
-                    .foregroundStyle(.primary)
-                    .lineLimit(1)
-                Spacer(minLength: 8)
-                StockAmountText(item: item, style: .headline)
+            GlanceRow(dotColor: SubstancePalette.color(for: item.substance, colorMap: colorMap), title: Text(item.displayTitle)) {
+                StockAmountText(item: item, style: .subheadline)
             }
             if let fraction = item.fillFraction {
                 InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)

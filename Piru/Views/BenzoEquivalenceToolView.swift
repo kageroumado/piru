@@ -78,7 +78,7 @@ struct BenzoEquivalenceToolView: View {
 
     private var headerCard: some View {
         VStack(spacing: 6) {
-            Image(systemName: "arrow.left.arrow.right")
+            Image(systemName: "moon.fill")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
             Text("Benzo Equivalence")

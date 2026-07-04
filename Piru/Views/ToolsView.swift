@@ -11,6 +11,8 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case pharma
     case ceiling
     case benzoEquivalence
+    case opioidEquivalence
+    case toleranceInfo
     case inventory
 
     var id: String {
@@ -27,6 +29,8 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .pharma: "Pharma Search"
         case .ceiling: "Ceiling Effect"
         case .benzoEquivalence: "Benzo Equivalence"
+        case .opioidEquivalence: "Opioid Equivalence"
+        case .toleranceInfo: "How Tolerance Works"
         case .inventory: "Inventory"
         }
     }
@@ -38,9 +42,11 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .calculator: "Estimate active levels over time"
         case .volumetric: "Dilute and measure precise doses"
         case .recovery: "Comedown and aftercare tips"
-        case .pharma: "Search by receptor and affinity"
+        case .pharma: "Browse pharmacokinetics for every substance"
         case .ceiling: "When dose and exposure aren't proportional"
         case .benzoEquivalence: "Compare benzodiazepine doses to diazepam"
+        case .opioidEquivalence: "Convert opioid doses to morphine (MME)"
+        case .toleranceInfo: "Why effects fade and how receptors recover"
         case .inventory: "Track how much you have on hand"
         }
     }
@@ -53,30 +59,38 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .recovery: "heart.text.square"
         case .pharma: "pills"
         case .ceiling: "chart.line.uptrend.xyaxis"
-        case .benzoEquivalence: "arrow.left.arrow.right"
+        case .benzoEquivalence: "moon.fill"
+        case .opioidEquivalence: "cross.case"
+        case .toleranceInfo: "chart.line.downtrend.xyaxis"
         case .inventory: "shippingbox"
         }
     }
 }
 
-/// The Tools tab root: a hub list of tools, each pushing a full-screen view.
-/// Inventory is rendered as a richer summary card (see ``InventorySummaryCard``)
-/// rather than a plain row, so the user can glance at what's low without opening
-/// the manager.
+/// The Tools tab root: a hub of tools, each pushing a full-screen view.
+///
+/// Two safety-relevant tools lead as richer summary cards that glance their
+/// current state — Interactions surfaces the most important active interactions
+/// (``InteractionsSummaryCard``), Inventory shows what's low
+/// (``InventorySummaryCard``). The learn-oriented screens (ceiling effect,
+/// tolerance, recovery) are grouped under an expandable ``EducationCard``.
 struct ToolsView: View {
+    /// Plain tools rendered as `NavCardLabel` rows, in order.
+    private let rowTools: [Tool] = [.calculator, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
+
     var body: some View {
         ScrollView {
             VStack(spacing: 14) {
-                ForEach(Tool.allCases) { tool in
-                    if tool == .inventory {
-                        InventorySummaryCard()
-                    } else {
-                        NavigationLink(value: PushRoute.tool(tool)) {
-                            NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
-                                Text(tool.subtitle)
-                            }
-                        }
-                        .buttonStyle(.plain)
+                EducationCard()
+
+                InteractionsSummaryCard()
+                InventorySummaryCard()
+
+                ForEach(rowTools) { tool in
+                    GlanceCard(icon: tool.icon, title: Text(tool.name), route: .tool(tool)) {
+                        Text(tool.subtitle)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
