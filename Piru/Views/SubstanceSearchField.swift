@@ -162,7 +162,7 @@ struct SubstanceSearchField: View {
                     }
                 }
                 .frame(maxHeight: 280)
-                .background(Theme.cardBackground)
+                .background(CardBackground())
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
             }

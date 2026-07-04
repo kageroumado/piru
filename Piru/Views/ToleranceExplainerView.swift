@@ -18,7 +18,7 @@ struct ToleranceExplainerView: View {
                 mechanismSection
                 sourcesSection
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)

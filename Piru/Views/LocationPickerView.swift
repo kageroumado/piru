@@ -175,7 +175,7 @@ struct LocationPickerView: View {
                         }
                     }
                     .disabled(model.isLocating)
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
                 } footer: {
                     if model.authDenied {
                         Text("Location access is off. Turn it on in Settings to use your current location.")
@@ -197,7 +197,7 @@ struct LocationPickerView: View {
                                         .foregroundStyle(Theme.accent)
                                 }
                             }
-                            .listRowBackground(Theme.cardBackground)
+                            .listRowBackground(CardBackground())
                         }
                     }
                 }
@@ -224,7 +224,7 @@ struct LocationPickerView: View {
                                     }
                                 }
                             }
-                            .listRowBackground(Theme.cardBackground)
+                            .listRowBackground(CardBackground())
                         }
                     }
                 }

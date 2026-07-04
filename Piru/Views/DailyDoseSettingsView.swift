@@ -40,7 +40,7 @@ struct RoutinesSettingsView: View {
                         .buttonStyle(.borderedProminent)
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             } else {
                 Section {
                     ForEach(routines) { routine in
@@ -59,7 +59,7 @@ struct RoutinesSettingsView: View {
                         Label("New Routine", systemImage: "plus.circle")
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
 
                 if !unassignedItems.isEmpty {
                     Section("Unassigned") {
@@ -72,7 +72,7 @@ struct RoutinesSettingsView: View {
                             }
                         }
                     }
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
                 }
             }
         }
@@ -193,7 +193,7 @@ struct RoutineDetailView: View {
                 TextField("Routine Name", text: $name)
                     .onSubmit(applyRename)
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
 
             Section {
                 Toggle(isOn: hasTime) {
@@ -214,7 +214,7 @@ struct RoutineDetailView: View {
                     Text("A notification repeats daily at this time.")
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
 
             Section("Items") {
                 ForEach(routineItems) { item in
@@ -232,14 +232,14 @@ struct RoutineDetailView: View {
                     Label("Add Item", systemImage: "plus.circle")
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
 
             Section {
                 Button("Delete Routine", role: .destructive) {
                     deleteRoutine()
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)

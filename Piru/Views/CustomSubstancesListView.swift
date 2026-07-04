@@ -48,7 +48,7 @@ struct CustomSubstancesListView: View {
                 .onDelete { offsets in
                     store.delete(at: offsets)
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
         }
         .scrollContentBackground(.hidden)

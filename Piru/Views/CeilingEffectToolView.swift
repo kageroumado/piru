@@ -35,7 +35,7 @@ struct CeilingEffectToolView: View {
                     }
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)

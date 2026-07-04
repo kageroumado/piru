@@ -90,7 +90,7 @@ struct InventoryItemEditView: View {
                 } footer: {
                     Text("The exact amount you have now. Changing it is logged as a correction.")
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
 
                 Section {
                     InventoryStepperRow(value: $baseline, unit: unit, stepBasis: stepBasis)
@@ -99,7 +99,7 @@ struct InventoryItemEditView: View {
                 } footer: {
                     Text("The amount that counts as a full supply for the bar. Set to 0 to hide the bar.")
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
 
                 Section {
                     InventoryStepperRow(value: $doseSize, unit: unit, stepBasis: stepBasis)
@@ -108,7 +108,7 @@ struct InventoryItemEditView: View {
                 } footer: {
                     Text("Used to show how many doses you have left. Set to 0 to disable.")
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
 
                 Section {
                     InventoryStepperRow(value: $threshold, unit: unit, stepBasis: stepBasis)
@@ -117,7 +117,7 @@ struct InventoryItemEditView: View {
                 } footer: {
                     Text("Your remaining amount stands out once it drops below this. Set to 0 to disable.")
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)

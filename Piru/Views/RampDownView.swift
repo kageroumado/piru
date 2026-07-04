@@ -29,7 +29,7 @@ struct RampDownView: View {
                 actionSection
                 recoveryTipsSection
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)

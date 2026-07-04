@@ -60,7 +60,7 @@ struct HelpView: View {
                         copySection
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)

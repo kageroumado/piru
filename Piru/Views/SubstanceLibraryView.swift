@@ -78,7 +78,7 @@ private struct SubstanceSearchResultsList: View {
                             }
                             .tint(.yellow)
                         }
-                        .listRowBackground(Theme.cardBackground)
+                        .listRowBackground(CardBackground())
                     }
                 }
             }
@@ -287,7 +287,7 @@ private struct RecentSubstancesSection: View {
                     NavigationLink(value: PushRoute.substance(name: substance.name)) {
                         SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
                     }
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
                 }
             }
         }
@@ -394,7 +394,7 @@ struct SubstanceCategoryListView: View {
                     .tint(.yellow)
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
@@ -1728,7 +1728,7 @@ struct SubstanceDetailView: View {
 
                 sourcesAndReferencesSection
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -2283,7 +2283,7 @@ private struct AllEffectsView: View {
                 } header: {
                     Text(LocalizedStringKey(group.category))
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
 
             // Erowid lives here as its own group rather than crowding the
@@ -2301,7 +2301,7 @@ private struct AllEffectsView: View {
                 } footer: {
                     Text("First-hand reports from Erowid's Experience Vaults. Opens a search in your browser.")
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
         }
         .scrollContentBackground(.hidden)

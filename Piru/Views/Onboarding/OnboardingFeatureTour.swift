@@ -229,7 +229,7 @@ private struct JournalMock: View {
                 .allowsHitTesting(false)
             }
             .padding(12)
-            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 16))
+            .themeCard(cornerRadius: 16)
         }
     }
 }
@@ -347,7 +347,7 @@ private struct ToolsMock: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 24)
-                    .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 16))
+                    .themeCard(cornerRadius: 16)
                 }
             }
         }
@@ -385,7 +385,7 @@ private struct InsightsMock: View {
                 chart
             }
             .padding(14)
-            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 16))
+            .themeCard(cornerRadius: 16)
 
             HStack(spacing: 8) {
                 Image(systemName: "chart.bar.fill")
@@ -396,7 +396,7 @@ private struct InsightsMock: View {
                 Spacer()
             }
             .padding(14)
-            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 16))
+            .themeCard(cornerRadius: 16)
         }
     }
 

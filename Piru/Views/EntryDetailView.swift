@@ -232,7 +232,7 @@ struct EntryDetailView: View {
                     readContent
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 8, for: .scrollContent)

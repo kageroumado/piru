@@ -930,7 +930,7 @@ private struct QuickLogCardList: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(14)
-            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 20))
+            .themeCard(cornerRadius: 20)
         }
         .buttonStyle(.plain)
     }

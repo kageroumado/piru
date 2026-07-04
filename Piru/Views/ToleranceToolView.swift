@@ -59,7 +59,7 @@ struct ToleranceToolView: View {
                     incompleteDataSection
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)

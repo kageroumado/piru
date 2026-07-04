@@ -171,7 +171,7 @@ struct DataStorageView: View {
             } label: {
                 Label("Store Size", systemImage: "internaldrive")
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         } header: {
             Text("On This Device")
         } footer: {
@@ -188,9 +188,9 @@ struct DataStorageView: View {
             }
             .tint(Theme.accent)
             .disabled(!manager.iCloudAvailable)
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
 
-            statusRow.listRowBackground(Theme.cardBackground)
+            statusRow.listRowBackground(CardBackground())
         } header: {
             Text("Backup")
         } footer: {
@@ -379,7 +379,7 @@ struct DataStorageView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     // MARK: - Report
@@ -435,7 +435,7 @@ struct DataStorageView: View {
             }
         }
         .padding(.vertical, 2)
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     // MARK: - Recoverable copies
@@ -444,11 +444,11 @@ struct DataStorageView: View {
         Section {
             if loadingRecoverable {
                 HStack { ProgressView(); Text("Checking for recoverable copies…").foregroundStyle(Theme.secondaryLabel) }
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
             } else if recoverable.isEmpty {
                 Label("No recoverable copies on this device.", systemImage: "checkmark.shield")
                     .foregroundStyle(Theme.secondaryLabel).font(.footnote)
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
             } else {
                 ForEach(recoverable) { store in recoverableRow(store) }
             }
@@ -480,7 +480,7 @@ struct DataStorageView: View {
         }
         .buttonStyle(.plain)
         .disabled(store.rowCount <= 0)
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     // MARK: - Delete
@@ -490,7 +490,7 @@ struct DataStorageView: View {
             Button(role: .destructive) { showingDeleteConfirmation = true } label: {
                 Label("Delete Everything", systemImage: "trash")
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         } footer: {
             Text("Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.")
         }
@@ -504,7 +504,7 @@ struct DataStorageView: View {
         } label: {
             Label(title, systemImage: systemImage)
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     private func reasonTitle(_ reason: String) -> LocalizedStringKey {
@@ -752,7 +752,7 @@ private struct PassphraseSheet: View {
                 } footer: {
                     if mode == .create { strengthFooter }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
 
                 if mode == .create {
                     Section {
@@ -763,7 +763,7 @@ private struct PassphraseSheet: View {
                         }
                         .font(.footnote)
                     }
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
                 }
             }
             .scrollContentBackground(.hidden)

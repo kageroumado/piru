@@ -103,7 +103,7 @@ struct InventoryItemDetailView: View {
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
             .padding(.vertical, 8)
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
     }
 
@@ -136,11 +136,11 @@ struct InventoryItemDetailView: View {
                 Text("No restocks or doses yet.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
-                    .listRowBackground(Theme.cardBackground)
+                    .listRowBackground(CardBackground())
             } else {
                 ForEach(rows) { row in
                     rowView(row)
-                        .listRowBackground(Theme.cardBackground)
+                        .listRowBackground(CardBackground())
                 }
             }
         } header: {

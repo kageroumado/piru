@@ -63,7 +63,7 @@ struct PharmacologyGlossarySheet: View {
                     }
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
             .scrollContentBackground(.hidden)
             .background(Theme.background)
             .navigationTitle(title)

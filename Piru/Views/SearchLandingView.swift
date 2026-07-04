@@ -147,7 +147,7 @@ private struct SubstanceRowsCard: View {
                 .buttonStyle(.plain)
             }
         }
-        .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .themeCard(cornerRadius: 16)
     }
 }
 

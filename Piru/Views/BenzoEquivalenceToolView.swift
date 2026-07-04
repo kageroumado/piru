@@ -355,7 +355,7 @@ private struct BenzoPickerSheet: View {
                         }
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)

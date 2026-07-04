@@ -266,7 +266,7 @@ struct EntryFormView: View {
                         TagEditorView(tags: $entryTags)
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             // Keep `amount`/`unit` (which drive the dose badge, dose reference, and
             // save path) in sync with the by-volume fields while in drink mode.

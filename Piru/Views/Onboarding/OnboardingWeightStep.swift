@@ -28,7 +28,7 @@ struct OnboardingWeightStep: View {
                 InventoryStepperRow(value: $weightKg, unit: "kg", stepBasis: 10)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
-                    .background(Theme.cardBackground, in: Capsule())
+                    .themeCapsule()
 
                 connectButton
 

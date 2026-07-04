@@ -123,7 +123,7 @@ struct SubstanceCardView: View, Equatable {
             }
         }
         .padding(14)
-        .background(RoundedRectangle(cornerRadius: 20).fill(Theme.cardBackground))
+        .themeCard(cornerRadius: 20)
     }
 
     /// The matching tracked item for this card's substance (salt-agnostic — the

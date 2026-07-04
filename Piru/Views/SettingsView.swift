@@ -148,7 +148,7 @@ struct SettingsView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -277,7 +277,7 @@ struct NotificationSettingsView: View {
                     Text("Wellness reminders send hydration and sleep nudges automatically. Phase notifications alert you at onset, come-up, and peak — requires a substance with duration data.")
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -352,7 +352,7 @@ struct JournalSettingsView: View {
                     Text("Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.")
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -401,7 +401,7 @@ struct SubstanceDatabaseView: View {
                     Text("Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.")
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -462,7 +462,7 @@ struct SubstanceColorsListView: View {
                         modelContext.delete(substanceColors[index])
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
         }
         .scrollContentBackground(.hidden)

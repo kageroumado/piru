@@ -46,7 +46,7 @@ struct ComedownGuideView: View {
 
                 generalSection
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)

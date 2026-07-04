@@ -71,7 +71,7 @@ extension View {
     /// rows) so the "what you get" lists read as a cohesive card rather than floating text.
     func onboardingGroupedCard() -> some View {
         padding(18)
-            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .themeCard(cornerRadius: 22)
     }
 }
 
@@ -217,7 +217,7 @@ struct OnboardingDepthStep: View {
             .padding(.vertical, 6)
         }
         .buttonStyle(.plain)
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 }
 

@@ -154,7 +154,7 @@ struct MedicationItemFormView: View {
                         }
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)

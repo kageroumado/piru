@@ -188,7 +188,7 @@ struct InventoryItemForm: View {
             } header: {
                 Text("Substance")
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
     }
 
@@ -222,7 +222,7 @@ struct InventoryItemForm: View {
         } header: {
             Text(isRestock ? "Amount added" : "Starting amount")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     private var baselineSection: some View {
@@ -232,7 +232,7 @@ struct InventoryItemForm: View {
         } footer: {
             Text("Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock.")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     /// The note field is always present; an empty note simply isn't saved.
@@ -243,7 +243,7 @@ struct InventoryItemForm: View {
         } header: {
             Text("Note")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     // MARK: - Commit

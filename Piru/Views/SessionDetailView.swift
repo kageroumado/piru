@@ -329,7 +329,7 @@ struct SessionDetailView: View {
                     }
                 }
             }
-            .listRowBackground(Theme.cardBackground)
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -965,7 +965,7 @@ private struct MoveToSessionView: View {
                                     .font(.subheadline)
                                     .foregroundStyle(Theme.secondaryLabel)
                             }
-                            .listRowBackground(Theme.cardBackground)
+                            .listRowBackground(CardBackground())
                         }
 
                         if canMakeNewSession {
@@ -980,7 +980,7 @@ private struct MoveToSessionView: View {
                                             .foregroundStyle(Theme.accent)
                                     }
                                 }
-                                .listRowBackground(Theme.cardBackground)
+                                .listRowBackground(CardBackground())
                             } footer: {
                                 Text("Pull this dose into its own session.")
                             }
@@ -1004,7 +1004,7 @@ private struct MoveToSessionView: View {
                                         )
                                     }
                                     .buttonStyle(.plain)
-                                    .listRowBackground(Theme.cardBackground)
+                                    .listRowBackground(CardBackground())
                                 }
                             }
                         }

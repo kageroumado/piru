@@ -129,7 +129,7 @@ struct InventoryListView: View {
                         } label: {
                             InventoryRow(item: item, colorMap: colorMap)
                         }
-                        .listRowBackground(Theme.cardBackground)
+                        .listRowBackground(CardBackground())
                     }
                     .onMove(perform: move)
                     .onDelete(perform: delete)

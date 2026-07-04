@@ -70,6 +70,23 @@ struct ThemedBackground<S: Shape>: ViewModifier {
     }
 }
 
+/// The app's standard card fill as a standalone view — the same scheme-adaptive
+/// treatment ``themeCard`` applies (`.ultraThinMaterial` in light, a soft solid
+/// in dark), for `listRowBackground` and other spots that need the fill directly.
+/// Replaces the bare `Theme.cardBackground` (a cold `systemGray6` in light) so
+/// grouped Lists match the rest of the app.
+struct CardBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        if colorScheme == .dark {
+            Theme.cardBackground
+        } else {
+            Rectangle().fill(.ultraThinMaterial)
+        }
+    }
+}
+
 extension View {
     /// Default corner radius `22` matches the system grouped-list / Library card
     /// rounding (the 16 the app shipped with read too boxy next to them).

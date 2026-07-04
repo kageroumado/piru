@@ -76,7 +76,7 @@ struct LogMedicationsView: View {
                         .disabled(selectedCount == 0)
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
@@ -230,7 +230,7 @@ struct InteractionWarningSheet: View {
                         }
                     }
                 }
-                .listRowBackground(Theme.cardBackground)
+                .listRowBackground(CardBackground())
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)

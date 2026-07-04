@@ -54,7 +54,7 @@ struct BodyWeightView: View {
                     .accessibilityLabel("Estimated — set your weight for more accurate estimates.")
             }
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     private var sourceLabel: LocalizedStringResource {
@@ -75,7 +75,7 @@ struct BodyWeightView: View {
         } header: {
             Text("Why we ask")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     // MARK: - Manual entry
@@ -98,7 +98,7 @@ struct BodyWeightView: View {
         } header: {
             Text("Set manually")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     private func saveManual() {
@@ -153,7 +153,7 @@ struct BodyWeightView: View {
         } footer: {
             Text("Piru reads your latest body weight from Health, read-only. You can turn this off anytime in Settings ▸ Health ▸ Data Access.")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     private func syncFromHealth() async {
@@ -181,7 +181,7 @@ struct BodyWeightView: View {
         } footer: {
             Text("Reverts to the average-adult default (60 kg). Estimates will be marked estimated.")
         }
-        .listRowBackground(Theme.cardBackground)
+        .listRowBackground(CardBackground())
     }
 
     // MARK: - Helpers
