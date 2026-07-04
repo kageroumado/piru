@@ -84,7 +84,7 @@ struct InventoryItemDetailView: View {
                 }
 
                 if let fraction = item.fillFraction {
-                    InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
+                    InventorySupplyBar(fraction: fraction, tint: item.supplyBarTint(colorMap: colorMap), thickness: 12)
                         .padding(.horizontal, 4)
                         .padding(.top, 2)
                 }

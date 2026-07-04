@@ -38,6 +38,14 @@ extension InventoryItem {
         return .ok
     }
 
+    /// Supply-bar fill colour: the substance's own colour, semi-transparent, so
+    /// each bar reads as belonging to its row instead of an ambiguous gray.
+    /// Low/Out still draw attention through the amount-text colour.
+    @MainActor
+    func supplyBarTint(colorMap: [String: Color]) -> Color {
+        SubstancePalette.color(for: substance, colorMap: colorMap).opacity(0.5)
+    }
+
     /// A baseline is "set" only when it's a positive number; `nil` or `0` mean
     /// the supply bar is disabled.
     var hasBaseline: Bool {
@@ -106,6 +114,7 @@ func inventoryHumanizeDays(_ days: Double) -> String {
 struct InventorySupplyBar: View {
     let fraction: Double
     let tint: Color
+    var thickness: CGFloat = 6
 
     var body: some View {
         GeometryReader { geo in
@@ -117,7 +126,7 @@ struct InventorySupplyBar: View {
                     .frame(width: max(3, geo.size.width * fraction))
             }
         }
-        .frame(height: 6)
+        .frame(height: thickness)
         .accessibilityHidden(true)
     }
 }
