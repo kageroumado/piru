@@ -20,16 +20,31 @@ T = {
     "mechanism of action": ("作用机制", "作用機制"),
     "primary receptor targets": ("主要受体靶点", "主要受體靶點"),
     "primary target potency": ("主要靶点效价", "主要靶點效價"),
-    "Substances you log will appear here while they're still estimated to be in your body.": ("你记录的物质在预计仍留存于体内期间会显示在这里。", "你記錄的物質在預計仍留存於體內期間會顯示在這裡。"),
+    "Substances you log will appear here while they're still estimated to be in your body.": (
+        "你记录的物质在预计仍留存于体内期间会显示在这里。",
+        "你記錄的物質在預計仍留存於體內期間會顯示在這裡。",
+    ),
     "Related": ("相关", "相關"),
-    "Model a single dose's decay over time": ("模拟单次剂量随时间的衰减", "模擬單次劑量隨時間的衰減"),
-    "See what's active in your body right now": ("查看当前体内仍活跃的物质", "查看當前體內仍活躍的物質"),
+    "Model a single dose's decay over time": (
+        "模拟单次剂量随时间的衰减",
+        "模擬單次劑量隨時間的衰減",
+    ),
+    "See what's active in your body right now": (
+        "查看当前体内仍活跃的物质",
+        "查看當前體內仍活躍的物質",
+    ),
     "entries": ("条记录", "筆記錄"),
     "%@/day": ("%@/天", "%@/天"),
     "Past 2 weeks": ("过去两周", "過去兩週"),
-    "Doses logged per day over the past two weeks": ("过去两周每天记录的剂量数", "過去兩週每天記錄的劑量數"),
+    "Doses logged per day over the past two weeks": (
+        "过去两周每天记录的剂量数",
+        "過去兩週每天記錄的劑量數",
+    ),
     "%lld in the last 14 days": ("过去 14 天共 %lld 次", "過去 14 天共 %lld 次"),
-    "Track prescriptions in Settings to see adherence": ("在设置中追踪处方以查看依从性", "在設定中追蹤處方以查看依從性"),
+    "Track prescriptions in Settings to see adherence": (
+        "在设置中追踪处方以查看依从性",
+        "在設定中追蹤處方以查看依從性",
+    ),
     "%@ this month": ("本月 %@", "本月 %@"),
     "This month's adherence calendar": ("本月依从性日历", "本月依從性日曆"),
     "%lld showing tolerance": ("%lld 项出现耐受", "%lld 項出現耐受"),
@@ -46,32 +61,86 @@ T = {
     "Methadone": ("美沙酮", "美沙酮"),
     "Fentanyl (transdermal)": ("芬太尼（透皮）", "芬太尼（透皮）"),
     "Buprenorphine": ("丁丙诺啡", "丁丙諾啡"),
-    "Methadone's potency rises with dose (nonlinear) and its long, variable half-life makes any single factor unsafe. CDC removed its conversion factor. Never back-calculate a methadone dose from MME — this must be done by a clinician.": ("美沙酮的效价随剂量升高（非线性），且半衰期长而多变，任何单一换算系数都不安全。CDC 已取消其换算系数。切勿根据 MME 反推美沙酮剂量——这必须由临床医生完成。", "美沙酮的效價隨劑量升高（非線性），且半衰期長而多變，任何單一換算係數都不安全。CDC 已取消其換算係數。切勿根據 MME 反推美沙酮劑量——這必須由臨床醫生完成。"),
-    "Transdermal fentanyl is dosed in micrograms per hour, not milligrams — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table.": ("透皮芬太尼以微克/小时计量，而非毫克——没有口服毫克当量（CDC 使用约 2.4 MME 每 mcg/hr）。它无法套用基于毫克的换算表。", "透皮芬太尼以微克/小時計量，而非毫克——沒有口服毫克當量（CDC 使用約 2.4 MME 每 mcg/hr）。它無法套用基於毫克的換算表。"),
-    "Buprenorphine is a partial agonist with a ceiling on respiratory depression, so overdose risk doesn't scale linearly. CDC deliberately excludes it — MME does not apply.": ("丁丙诺啡是部分激动剂，对呼吸抑制存在封顶效应，因此过量风险不呈线性增长。CDC 有意将其排除——MME 不适用。", "丁丙諾啡是部分激動劑，對呼吸抑制存在封頂效應，因此過量風險不呈線性增長。CDC 有意將其排除——MME 不適用。"),
+    "Methadone's potency rises with dose (nonlinear) and its long, variable half-life makes any single factor unsafe. CDC removed its conversion factor. Never back-calculate a methadone dose from MME — this must be done by a clinician.": (
+        "美沙酮的效价随剂量升高（非线性），且半衰期长而多变，任何单一换算系数都不安全。CDC 已取消其换算系数。切勿根据 MME 反推美沙酮剂量——这必须由临床医生完成。",
+        "美沙酮的效價隨劑量升高（非線性），且半衰期長而多變，任何單一換算係數都不安全。CDC 已取消其換算係數。切勿根據 MME 反推美沙酮劑量——這必須由臨床醫生完成。",
+    ),
+    "Transdermal fentanyl is dosed in micrograms per hour, not milligrams — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table.": (
+        "透皮芬太尼以微克/小时计量，而非毫克——没有口服毫克当量（CDC 使用约 2.4 MME 每 mcg/hr）。它无法套用基于毫克的换算表。",
+        "透皮芬太尼以微克/小時計量，而非毫克——沒有口服毫克當量（CDC 使用約 2.4 MME 每 mcg/hr）。它無法套用基於毫克的換算表。",
+    ),
+    "Buprenorphine is a partial agonist with a ceiling on respiratory depression, so overdose risk doesn't scale linearly. CDC deliberately excludes it — MME does not apply.": (
+        "丁丙诺啡是部分激动剂，对呼吸抑制存在封顶效应，因此过量风险不呈线性增长。CDC 有意将其排除——MME 不适用。",
+        "丁丙諾啡是部分激動劑，對呼吸抑制存在封頂效應，因此過量風險不呈線性增長。CDC 有意將其排除——MME 不適用。",
+    ),
     "Opioid Equivalence": ("阿片等效换算", "阿片等效換算"),
-    "Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.": ("通过口服吗啡毫克当量（MME），使用 CDC 2022 换算系数，将一种阿片的剂量换算为另一种。", "透過口服嗎啡毫克當量（MME），使用 CDC 2022 換算係數，將一種阿片的劑量換算為另一種。"),
+    "Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.": (
+        "通过口服吗啡毫克当量（MME），使用 CDC 2022 换算系数，将一种阿片的剂量换算为另一种。",
+        "透過口服嗎啡毫克當量（MME），使用 CDC 2022 換算係數，將一種阿片的劑量換算為另一種。",
+    ),
     "≈ %@ mg oral morphine equivalent": ("≈ %@ mg 口服吗啡当量", "≈ %@ mg 口服嗎啡當量"),
-    "CDC daily-risk bands: ≥ %lld MME caution, ≥ %lld MME high-risk (per day).": ("CDC 每日风险分级：≥ %lld MME 需谨慎，≥ %lld MME 高风险（每日）。", "CDC 每日風險分級：≥ %lld MME 需謹慎，≥ %lld MME 高風險（每日）。"),
-    "If taken over a day, this is a high-risk daily MME.": ("若一天内服用，这属于高风险的每日 MME。", "若一天內服用，這屬於高風險的每日 MME。"),
-    "If taken over a day, this reaches the CDC caution band.": ("若一天内服用，这已达到 CDC 谨慎分级。", "若一天內服用，這已達到 CDC 謹慎分級。"),
+    "CDC daily-risk bands: ≥ %lld MME caution, ≥ %lld MME high-risk (per day).": (
+        "CDC 每日风险分级：≥ %lld MME 需谨慎，≥ %lld MME 高风险（每日）。",
+        "CDC 每日風險分級：≥ %lld MME 需謹慎，≥ %lld MME 高風險（每日）。",
+    ),
+    "If taken over a day, this is a high-risk daily MME.": (
+        "若一天内服用，这属于高风险的每日 MME。",
+        "若一天內服用，這屬於高風險的每日 MME。",
+    ),
+    "If taken over a day, this reaches the CDC caution band.": (
+        "若一天内服用，这已达到 CDC 谨慎分级。",
+        "若一天內服用，這已達到 CDC 謹慎分級。",
+    ),
     "Below the CDC daily caution band.": ("低于 CDC 每日谨慎分级。", "低於 CDC 每日謹慎分級。"),
-    "This opioid can't be linearly converted — see the note below.": ("该阿片无法进行线性换算——请参见下方说明。", "該阿片無法進行線性換算——請參見下方說明。"),
-    "The target opioid can't be linearly converted — see the note below.": ("目标阿片无法进行线性换算——请参见下方说明。", "目標阿片無法進行線性換算——請參見下方說明。"),
+    "This opioid can't be linearly converted — see the note below.": (
+        "该阿片无法进行线性换算——请参见下方说明。",
+        "該阿片無法進行線性換算——請參見下方說明。",
+    ),
+    "The target opioid can't be linearly converted — see the note below.": (
+        "目标阿片无法进行线性换算——请参见下方说明。",
+        "目標阿片無法進行線性換算——請參見下方說明。",
+    ),
     "Pick two opioids and a dose.": ("请选择两种阿片和一个剂量。", "請選擇兩種阿片和一個劑量。"),
     "Not a simple conversion": ("并非简单换算", "並非簡單換算"),
     "Incomplete cross-tolerance": ("不完全交叉耐受", "不完全交叉耐受"),
-    "When switching opioids, the equianalgesic dose is an over-estimate: tolerance to one opioid doesn't fully transfer to another. Clinicians start the new opioid **25–50% lower** than the calculated dose (more for high doses or frail/elderly people) and re-titrate. Never take the full converted dose.": ("更换阿片时，等效镇痛剂量会被高估：对一种阿片的耐受不会完全转移到另一种。临床医生会将新阿片的起始剂量定为比计算值 **低 25–50%**（剂量高或体弱/年长者更低），再重新滴定。切勿直接服用完整的换算剂量。", "更換阿片時，等效鎮痛劑量會被高估：對一種阿片的耐受不會完全轉移到另一種。臨床醫生會將新阿片的起始劑量定為比計算值 **低 25–50%**（劑量高或體弱/年長者更低），再重新滴定。切勿直接服用完整的換算劑量。"),
-    "MME is a population risk metric, not a precision dosing tool. CDC states the calculated MME should not be used to determine the dose when switching opioids.": ("MME 是群体风险指标，而非精确给药工具。CDC 指出，更换阿片时不应使用计算得出的 MME 来确定剂量。", "MME 是群體風險指標，而非精確給藥工具。CDC 指出，更換阿片時不應使用計算得出的 MME 來確定劑量。"),
-    "Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.": ("个体差异很大——遗传因素（如可待因、曲马多、羟考酮涉及的 CYP2D6）、肝肾功能都会改变实际效价。", "個體差異很大——遺傳因素（如可待因、曲馬多、羥考酮涉及的 CYP2D6）、肝腎功能都會改變實際效價。"),
-    "These oral factors don't cover every route or product. Transdermal, buccal, and IV forms differ.": ("这些口服换算系数并不涵盖所有给药途径或剂型。透皮、口颊和静脉剂型各不相同。", "這些口服換算係數並不涵蓋所有給藥途徑或劑型。透皮、口頰和靜脈劑型各不相同。"),
-    "Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Carry naloxone.": ("阿片与苯二氮䓬、酒精或其他抑制剂合用会大幅提高过量风险。请随身携带纳洛酮。", "阿片與苯二氮䓬、酒精或其他抑制劑合用會大幅提高過量風險。請隨身攜帶納洛酮。"),
-    "Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Tolerance also drops fast after a break — a dose you once handled can be fatal.": ("阿片与苯二氮䓬、酒精或其他抑制剂合用会大幅提高过量风险。而且中断一段时间后耐受会迅速下降——你以前能承受的剂量也可能致命。", "阿片與苯二氮䓬、酒精或其他抑制劑合用會大幅提高過量風險。而且中斷一段時間後耐受會迅速下降——你以前能承受的劑量也可能致命。"),
-    "Don't use alone and don't mix with other downers. An overdose is a sudden blackout with no warning — you can't naloxone yourself, so someone with you needs it and should call emergency services.": ("不要独自使用，也不要与其他抑制剂混用。过量会毫无预兆地突然失去意识——你无法给自己使用纳洛酮，因此身边的人需要备有纳洛酮，并应拨打急救电话。", "不要獨自使用，也不要與其他抑制劑混用。過量會毫無預兆地突然失去意識——你無法給自己使用納洛酮，因此身邊的人需要備有納洛酮，並應撥打急救電話。"),
-    "An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended.": ("阿片过量会毫无预兆地突然失去意识——你无法给自己使用纳洛酮。不要独自使用：身边的人需要备有纳洛酮，并应拨打急救电话。昏睡还可能导致呕吐物窒息或烧伤，因此绝不要在无人陪伴、可能昏睡过去的地方使用。", "阿片過量會毫無預兆地突然失去意識——你無法給自己使用納洛酮。不要獨自使用：身邊的人需要備有納洛酮，並應撥打急救電話。昏睡還可能導致嘔吐物窒息或燒傷，因此絕不要在無人陪伴、可能昏睡過去的地方使用。"),
+    "When switching opioids, the equianalgesic dose is an over-estimate: tolerance to one opioid doesn't fully transfer to another. Clinicians start the new opioid **25–50% lower** than the calculated dose (more for high doses or frail/elderly people) and re-titrate. Never take the full converted dose.": (
+        "更换阿片时，等效镇痛剂量会被高估：对一种阿片的耐受不会完全转移到另一种。临床医生会将新阿片的起始剂量定为比计算值 **低 25–50%**（剂量高或体弱/年长者更低），再重新滴定。切勿直接服用完整的换算剂量。",
+        "更換阿片時，等效鎮痛劑量會被高估：對一種阿片的耐受不會完全轉移到另一種。臨床醫生會將新阿片的起始劑量定為比計算值 **低 25–50%**（劑量高或體弱/年長者更低），再重新滴定。切勿直接服用完整的換算劑量。",
+    ),
+    "MME is a population risk metric, not a precision dosing tool. CDC states the calculated MME should not be used to determine the dose when switching opioids.": (
+        "MME 是群体风险指标，而非精确给药工具。CDC 指出，更换阿片时不应使用计算得出的 MME 来确定剂量。",
+        "MME 是群體風險指標，而非精確給藥工具。CDC 指出，更換阿片時不應使用計算得出的 MME 來確定劑量。",
+    ),
+    "Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.": (
+        "个体差异很大——遗传因素（如可待因、曲马多、羟考酮涉及的 CYP2D6）、肝肾功能都会改变实际效价。",
+        "個體差異很大——遺傳因素（如可待因、曲馬多、羥考酮涉及的 CYP2D6）、肝腎功能都會改變實際效價。",
+    ),
+    "These oral factors don't cover every route or product. Transdermal, buccal, and IV forms differ.": (
+        "这些口服换算系数并不涵盖所有给药途径或剂型。透皮、口颊和静脉剂型各不相同。",
+        "這些口服換算係數並不涵蓋所有給藥途徑或劑型。透皮、口頰和靜脈劑型各不相同。",
+    ),
+    "Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Carry naloxone.": (
+        "阿片与苯二氮䓬、酒精或其他抑制剂合用会大幅提高过量风险。请随身携带纳洛酮。",
+        "阿片與苯二氮䓬、酒精或其他抑制劑合用會大幅提高過量風險。請隨身攜帶納洛酮。",
+    ),
+    "Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Tolerance also drops fast after a break — a dose you once handled can be fatal.": (
+        "阿片与苯二氮䓬、酒精或其他抑制剂合用会大幅提高过量风险。而且中断一段时间后耐受会迅速下降——你以前能承受的剂量也可能致命。",
+        "阿片與苯二氮䓬、酒精或其他抑制劑合用會大幅提高過量風險。而且中斷一段時間後耐受會迅速下降——你以前能承受的劑量也可能致命。",
+    ),
+    "Don't use alone and don't mix with other downers. An overdose is a sudden blackout with no warning — you can't naloxone yourself, so someone with you needs it and should call emergency services.": (
+        "不要独自使用，也不要与其他抑制剂混用。过量会毫无预兆地突然失去意识——你无法给自己使用纳洛酮，因此身边的人需要备有纳洛酮，并应拨打急救电话。",
+        "不要獨自使用，也不要與其他抑制劑混用。過量會毫無預兆地突然失去意識——你無法給自己使用納洛酮，因此身邊的人需要備有納洛酮，並應撥打急救電話。",
+    ),
+    "An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended.": (
+        "阿片过量会毫无预兆地突然失去意识——你无法给自己使用纳洛酮。不要独自使用：身边的人需要备有纳洛酮，并应拨打急救电话。昏睡还可能导致呕吐物窒息或烧伤，因此绝不要在无人陪伴、可能昏睡过去的地方使用。",
+        "阿片過量會毫無預兆地突然失去意識——你無法給自己使用納洛酮。不要獨自使用：身邊的人需要備有納洛酮，並應撥打急救電話。昏睡還可能導致嘔吐物窒息或燒傷，因此絕不要在無人陪伴、可能昏睡過去的地方使用。",
+    ),
     "%lld%% tolerance": ("耐受 %lld%%", "耐受 %lld%%"),
     "Education": ("学习", "學習"),
-    "How dosing, tolerance, and recovery work": ("了解给药、耐受与恢复的原理", "了解給藥、耐受與恢復的原理"),
+    "How dosing, tolerance, and recovery work": (
+        "了解给药、耐受与恢复的原理",
+        "了解給藥、耐受與恢復的原理",
+    ),
     "Expand": ("展开", "展開"),
     "%@ + %@": ("%@ + %@", "%@ + %@"),
     "%@ and %@: %@": ("%@ 与 %@：%@", "%@ 與 %@：%@"),
@@ -85,7 +154,10 @@ T = {
     "Sorted ascending": ("升序排列", "升序排列"),
     "Sorted descending": ("降序排列", "降序排列"),
     "Loading pharmacokinetics…": ("正在加载药代动力学数据…", "正在載入藥物動力學資料…"),
-    "No substances match these filters.": ("没有物质符合这些筛选条件。", "沒有物質符合這些篩選條件。"),
+    "No substances match these filters.": (
+        "没有物质符合这些筛选条件。",
+        "沒有物質符合這些篩選條件。",
+    ),
     "Tmax": ("Tmax", "Tmax"),
     "Cmax": ("Cmax", "Cmax"),
     "Vd": ("Vd", "Vd"),
@@ -98,9 +170,18 @@ T = {
     "clearance": ("清除率", "清除率"),
     "%@ h": ("%@ 小时", "%@ 小時"),
     "How Tolerance Works": ("耐受性原理", "耐受性原理"),
-    "Convert opioid doses to morphine (MME)": ("将阿片剂量换算为吗啡（MME）", "將阿片劑量換算為嗎啡（MME）"),
-    "Why effects fade and how receptors recover": ("为何效果减弱以及受体如何恢复", "為何效果減弱以及受體如何恢復"),
-    "Browse pharmacokinetics for every substance": ("浏览每种物质的药代动力学", "瀏覽每種物質的藥物動力學"),
+    "Convert opioid doses to morphine (MME)": (
+        "将阿片剂量换算为吗啡（MME）",
+        "將阿片劑量換算為嗎啡（MME）",
+    ),
+    "Why effects fade and how receptors recover": (
+        "为何效果减弱以及受体如何恢复",
+        "為何效果減弱以及受體如何恢復",
+    ),
+    "Browse pharmacokinetics for every substance": (
+        "浏览每种物质的药代动力学",
+        "瀏覽每種物質的藥物動力學",
+    ),
     # Tolerance improvements (2026-07-02): stimulant CV two-mechanism copy (§6) + Insights card (§7).
     "Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses.": (
         "一次嗨里，快感消退得比心脏的负担快——再加量去追，只会叠在一个还没缓下来的血压高峰上。把每次剂量间隔开。",
@@ -1758,6 +1839,7 @@ T = {
     "Merge with Previous": ("与上一段合并", "與上一段合併"),
     "Note": ("备注", "備註"),
     "Split Session Here": ("在此拆分记录", "在此拆分記錄"),
+    "Split at Longest Break (%@)": ("在最长间隔处拆分（%@）", "在最長間隔處拆分（%@）"),
     "Session Note": ("记录备注", "記錄備註"),
     "Share session log": ("分享记录日志", "分享記錄日誌"),
     "No substances logged in this session.": (
@@ -4141,6 +4223,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Session split menu (2026-07-04).
+        "Split at Longest Break (%@)",
         # Opioid Equivalence + Pharma Table + Insights/Education (2026-07-04).
         "Loading pharmacology…",
         "Targets",

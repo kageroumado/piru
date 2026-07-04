@@ -110,6 +110,9 @@ struct PiruApp: App {
                     // Backfill sessions for any pre-session-model history. Idempotent
                     // and failure-isolated (only sets the optional relationship).
                     SessionService.ensureSessionsPopulated(in: container.mainContext)
+                    // One-time: break up multi-day sessions that the old flat-ceiling
+                    // heuristic chained together (nonstop redosing / long-acting tails).
+                    SessionService.resplitOverlongSessions(in: container.mainContext)
                     ActiveSessionManager.shared.recoverSession(container: container)
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).

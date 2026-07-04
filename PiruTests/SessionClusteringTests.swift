@@ -66,6 +66,50 @@ struct SessionClusteringTests {
         #expect(groups == [[0], [1]])
     }
 
+    // MARK: - Decaying ceiling / day cap
+
+    @Test
+    func `The same 4 h gap joins early in a session but splits once it has run long`() {
+        // Early: a 4 h gap on a fresh session (ceiling ~6 h) is one session.
+        #expect(SessionClustering.cluster([dose(0, effectHours: 4), dose(4, effectHours: 4)]) == [[0, 1]])
+
+        // Late: fill 18 h with 2 h-spaced doses, then the same 4 h gap. By 18 h in
+        // the ceiling has decayed to ~3.4 h, so the 4 h gap now starts a new session.
+        var doses = stride(from: 0.0, through: 18.0, by: 2.0).map { dose($0, effectHours: 4) }
+        doses.append(dose(22, effectHours: 4)) // 4 h after the 18 h dose
+        let groups = SessionClustering.cluster(doses)
+        #expect(groups.count == 2)
+        #expect(groups.last == [doses.count - 1])
+    }
+
+    @Test
+    func `Nonstop redosing is hard-capped at 24 h into separate day sessions`() throws {
+        // A dose every 2 h from 0…26 h — no gap ever exceeds the ceiling, but the
+        // 24 h hard cap forces a new session for the dose a full day after the
+        // first, so days can't chain.
+        let doses = stride(from: 0.0, through: 26.0, by: 2.0).map { dose($0, effectHours: 4) }
+        let groups = SessionClustering.cluster(doses)
+        // First session spans < 24 h; the 24 h dose opens the second.
+        #expect(groups.count == 2)
+        let firstSpan = try doses[#require(groups[0].last)].timestamp.timeIntervalSince(doses[#require(groups[0].first)].timestamp)
+        #expect(firstSpan < SessionClustering.Constants.horizon)
+        #expect(groups[1].contains(doses.count - 1)) // the 26 h dose joins the 24 h one
+    }
+
+    @Test
+    func `A long-acting tail is clamped so it cannot glue a later dose onto the session`() {
+        // A very long-acting dose (48 h modeled), a short one 3 h later, then a
+        // dose 5 h after that (8 h from the first). Without the effect-tail clamp
+        // the 48 h tail would keep the session "active" and absorb the last dose;
+        // clamped to 6 h, the last dose falls past the window and splits off.
+        let doses = [
+            dose(0, effectHours: 48),
+            dose(3, effectHours: 1),
+            dose(8, effectHours: 1),
+        ]
+        #expect(SessionClustering.cluster(doses) == [[0, 1], [2]])
+    }
+
     // MARK: - Floor / fallback behavior
 
     @Test
@@ -168,10 +212,10 @@ struct SessionClusteringTests {
     }
 
     @Test
-    func `A dose within the 8h ceiling of an edge can join keeping its time`() {
+    func `A dose within the ceiling of an edge can join keeping its time`() {
         let first = base
         let last = base.addingTimeInterval(4 * 3_600)
-        // 6h after the last dose — beyond the span but within the 8h ceiling.
+        // 6h after the last dose — beyond the span but at the ceilingMax edge.
         let after = last.addingTimeInterval(6 * 3_600)
         #expect(SessionClustering.canJoinKeepingTime(doseTime: after, sessionFirst: first, sessionLast: last))
         // 5h before the first dose — within the ceiling on the leading edge too.
@@ -180,14 +224,14 @@ struct SessionClusteringTests {
     }
 
     @Test
-    func `A dose beyond the 8h ceiling needs re-timing (cannot join as-is)`() {
+    func `A dose beyond the ceiling needs re-timing (cannot join as-is)`() {
         let first = base
         let last = base.addingTimeInterval(4 * 3_600)
         // ~37h after the last dose — a different day; must re-time.
         let nextDay = last.addingTimeInterval(37 * 3_600)
         #expect(!SessionClustering.canJoinKeepingTime(doseTime: nextDay, sessionFirst: first, sessionLast: last))
-        // Just past the ceiling on the trailing edge.
-        let justPast = last.addingTimeInterval(8 * 3_600 + 60)
+        // Just past the ceilingMax on the trailing edge.
+        let justPast = last.addingTimeInterval(6 * 3_600 + 60)
         #expect(!SessionClustering.canJoinKeepingTime(doseTime: justPast, sessionFirst: first, sessionLast: last))
     }
 }

@@ -213,4 +213,53 @@ enum SessionService {
     static func ensureSessionsPopulated(in context: ModelContext) {
         assignUnassignedDoses(in: context)
     }
+
+    // MARK: - One-time re-split of pre-cap overlong sessions
+
+    /// `UserDefaults` flag so ``resplitOverlongSessions(in:)`` runs exactly once.
+    private static let didResplitOverlongKey = "didResplitOverlongSessionsV1"
+
+    /// One-time migration for stores built under the *old* flat-ceiling
+    /// heuristic, which let nonstop redosing or a long-acting tail chain days
+    /// into a single multi-day session. Re-clusters every session whose span
+    /// exceeds ``SessionClustering/Constants/horizon`` under the current
+    /// (decaying-ceiling, day-capped) rule, so they break at their real rest
+    /// gaps.
+    ///
+    /// Deliberately gated to run **once** (a `UserDefaults` flag), because the
+    /// user owns grouping afterwards: an explicit merge that intentionally spans
+    /// >24 h must survive relaunch, so we don't re-split on every boot. Only
+    /// overlong sessions are touched — normal sessions, merges, titles and notes
+    /// are left intact; a re-split session's title/note stays on its first
+    /// fragment (the one that keeps the original ``Session`` object).
+    static func resplitOverlongSessions(in context: ModelContext) {
+        guard !UserDefaults.standard.bool(forKey: didResplitOverlongKey) else { return }
+        defer { UserDefaults.standard.set(true, forKey: didResplitOverlongKey) }
+
+        let sessions = (try? context.fetch(FetchDescriptor<Session>())) ?? []
+        for session in sessions {
+            let doses = session.orderedDoses
+            guard let first = doses.first?.timestamp, let last = doses.last?.timestamp,
+                  last.timeIntervalSince(first) > SessionClustering.Constants.horizon else { continue }
+
+            // Re-cluster this session's own doses under the current heuristic.
+            let groups = SessionClustering.cluster(doses.map(clusterDose))
+            guard groups.count > 1 else { continue }
+
+            // The first group stays in the original session (keeps title/note);
+            // each later group moves into a fresh session.
+            for group in groups.dropFirst() {
+                let moving = group.map { doses[$0] }
+                guard let start = moving.map(\.timestamp).min() else { continue }
+                let newSession = Session(startDate: start)
+                context.insert(newSession)
+                for dose in moving {
+                    dose.session = newSession
+                }
+                newSession.refreshStartDate()
+            }
+            session.refreshStartDate()
+        }
+        try? context.save()
+    }
 }

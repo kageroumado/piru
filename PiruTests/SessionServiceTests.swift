@@ -65,6 +65,64 @@ struct SessionServiceTests {
     }
 
     @Test
+    func `resplitOverlongSessions breaks a multi-day session at its rest gaps and keeps the title on the first piece`() throws {
+        let context = try makeContext()
+        // Build ONE session that the old flat-ceiling heuristic would have chained:
+        // dense 2 h-spaced doses spanning ~30 h with sub-ceiling crash gaps.
+        let session = Session(startDate: Date(timeIntervalSince1970: 1_700_000_000), title: "Bender")
+        context.insert(session)
+        let stamps = stride(from: 0.0, through: 30.0, by: 2.0)
+        for hours in stamps {
+            let dose = insert(context, hoursFromNow: hours)
+            dose.session = session
+        }
+        session.refreshStartDate()
+        try context.save()
+        #expect(try sessions(context).count == 1)
+
+        // Force the one-time gate open, then run the migration.
+        UserDefaults.standard.set(false, forKey: "didResplitOverlongSessionsV1")
+        SessionService.resplitOverlongSessions(in: context)
+
+        let result = try sessions(context)
+        #expect(result.count > 1) // the multi-day session was broken up
+        // No resulting session exceeds the 24 h day cap.
+        for piece in result {
+            let doses = piece.orderedDoses
+            if let first = doses.first?.timestamp, let last = doses.last?.timestamp {
+                #expect(last.timeIntervalSince(first) < SessionClustering.Constants.horizon)
+            }
+        }
+        // The title rides with the earliest piece (the retained original session).
+        let earliest = result.min { $0.startDate < $1.startDate }
+        #expect(earliest?.title == "Bender")
+        // Every dose still belongs to exactly one session — nothing orphaned.
+        let assigned = result.flatMap(\.orderedDoses)
+        #expect(assigned.count == Array(stamps).count)
+    }
+
+    @Test
+    func `resplitOverlongSessions runs once — a second call is a no-op even on a fresh overlong session`() throws {
+        let context = try makeContext()
+        UserDefaults.standard.set(false, forKey: "didResplitOverlongSessionsV1")
+        // First run trips the flag (no sessions to split here — just arm it).
+        SessionService.resplitOverlongSessions(in: context)
+
+        // A user later merges two days into a >24 h session on purpose.
+        let session = Session(startDate: Date(timeIntervalSince1970: 1_700_000_000))
+        context.insert(session)
+        for hours in stride(from: 0.0, through: 30.0, by: 2.0) {
+            insert(context, hoursFromNow: hours).session = session
+        }
+        session.refreshStartDate()
+        try context.save()
+
+        // The gate is spent, so the deliberate overlong session survives.
+        SessionService.resplitOverlongSessions(in: context)
+        #expect(try sessions(context).count == 1)
+    }
+
+    @Test
     func `Populate is idempotent — a second run creates no new sessions`() throws {
         let context = try makeContext()
         _ = [0.0, 1, 20].map { insert(context, hoursFromNow: $0) }

@@ -32216,6 +32216,22 @@
         }
       }
     },
+    "Split at Longest Break (%@)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在最长间隔处拆分（%@）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在最長間隔處拆分（%@）"
+          }
+        }
+      }
+    },
     "Split Session Here" : {
       "localizations" : {
         "zh-Hans" : {
