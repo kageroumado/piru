@@ -578,7 +578,7 @@ enum RampDownScheduler {
         case .empathogen:
             String(localized: "Your serotonin system is taking a hit. Please rest and take care of yourself.")
         case .opioid:
-            String(localized: "Be very careful. Don't mix with other downers. Have naloxone nearby if possible.")
+            String(localized: "Don't use alone and don't mix with other downers. An overdose is a sudden blackout with no warning — you can't naloxone yourself, so someone with you needs it and should call emergency services.")
         case .benzodiazepine:
             String(localized: "High cumulative benzo doses impair memory and coordination. Stay somewhere safe.")
         case .dissociative:
