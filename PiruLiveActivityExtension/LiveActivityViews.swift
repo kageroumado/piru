@@ -19,155 +19,255 @@ enum SessionTiming {
         }.max() ?? state.lastUpdated.addingTimeInterval(3_600)
     }
 
-    /// Elapsed fraction of the whole session, evaluated at `lastUpdated`
-    /// (content-push time). Clamped to `0...1`. Coarse — refreshes only when a
-    /// new content state is pushed (≈ every 60 s), which is fine for a ring.
-    static func progress(_ state: PiruActivityAttributes.ContentState) -> Double {
-        let start = earliestDose(state)
-        let end = latestEnd(state)
-        let span = end.timeIntervalSince(start)
-        guard span > 0 else { return 0 }
-        let elapsed = state.lastUpdated.timeIntervalSince(start)
-        return min(max(elapsed / span, 0), 1)
-    }
-
     /// Substance colors, falling back to the app's soft-pink accent when empty.
     static func colors(_ state: PiruActivityAttributes.ContentState) -> [Color] {
         let colors = state.activeSubstances.map { Color(hex: $0.colorHex) }
         return colors.isEmpty ? [Color(hex: "FFAACC")] : colors
     }
-}
 
-// MARK: - Radial Progress Glyph
-
-/// A clock-like radial gauge: a track that starts at 12 o'clock and sweeps
-/// clockwise through ~330°, ending near 11 o'clock (a ~30° "start/end seam"
-/// gap centered at the top). A solid progress arc fills from 12 o'clock by
-/// `progress × 330°`, tipped with a small indicator dot at its leading end.
-///
-/// Reads as "12 = beginning, clockwise = more time elapsed, 11 = end". Tinted
-/// by the substance color (single) or an `AngularGradient` of the substance
-/// colors (multiple).
-struct RadialProgressGlyph: View {
-    var progress: Double
-    var colors: [Color]
-    var lineWidth: CGFloat = 3
-
-    /// 330° of a full turn — the swept portion; the remaining 30° is the top gap.
-    private static let sweepFraction = 330.0 / 360.0
-
-    private var clamped: Double {
-        min(max(progress, 0), 1)
-    }
-
-    private var arcStyle: AnyShapeStyle {
-        if colors.count <= 1 {
-            return AnyShapeStyle(colors.first ?? Color(hex: "FFAACC"))
-        }
-        // Wrap back to the first color so the sweep reads continuously.
-        return AnyShapeStyle(
-            AngularGradient(
-                colors: colors + [colors[0]],
-                center: .center,
-                startAngle: .degrees(-90),
-                endAngle: .degrees(-90 + 330),
-            ),
-        )
-    }
-
-    var body: some View {
-        GeometryReader { geo in
-            let side = min(geo.size.width, geo.size.height)
-            let radius = (side - lineWidth) / 2
-            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-            // Leading tip of the progress arc: from top (12 o'clock), clockwise.
-            let tipAngle = Angle.degrees(-90 + Self.sweepFraction * 360 * clamped)
-            let tip = CGPoint(
-                x: center.x + radius * CGFloat(cos(tipAngle.radians)),
-                y: center.y + radius * CGFloat(sin(tipAngle.radians)),
-            )
-
-            ZStack {
-                // Faint background track (full 330° sweep).
-                Circle()
-                    .trim(from: 0, to: Self.sweepFraction)
-                    .stroke(
-                        .white.opacity(0.22),
-                        style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
-                    )
-                    .rotationEffect(.degrees(-90))
-
-                // Progress arc.
-                Circle()
-                    .trim(from: 0, to: Self.sweepFraction * clamped)
-                    .stroke(
-                        arcStyle,
-                        style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
-                    )
-                    .rotationEffect(.degrees(-90))
-
-                // Indicator dot at the leading end of the progress arc.
-                Circle()
-                    .fill(.white)
-                    .frame(width: lineWidth * 1.5, height: lineWidth * 1.5)
-                    .position(tip)
-                    .opacity(clamped > 0.001 ? 1 : 0)
+    /// The next phase boundary any active substance will cross, evaluated at
+    /// `lastUpdated`. `phase` is the phase being *entered* at `date`, tinted
+    /// with that substance's color. `nil` once every substance has fully run
+    /// its course (the app ends the activity around then anyway).
+    static func nextTransition(_ state: PiruActivityAttributes.ContentState) -> PhaseTransition? {
+        let now = state.lastUpdated
+        var next: PhaseTransition?
+        for sub in state.activeSubstances {
+            var boundaries: [(SessionPhase, Double)] = [
+                (.comeup, sub.onsetEndMinutes),
+                (.peak, sub.comeupEndMinutes),
+                (.offset, sub.peakEndMinutes),
+            ]
+            if sub.afterglowEndMinutes != nil {
+                boundaries.append((.afterglow, sub.offsetEndMinutes))
             }
-        }
-        .aspectRatio(1, contentMode: .fit)
-    }
-}
+            boundaries.append((.ended, sub.totalMinutes))
 
-// MARK: - Substance Header (name + color dot)
-
-/// A compact row of active-substance name chips with their color dots — the
-/// Lock Screen's answer to "what is currently active?".
-struct SubstanceHeaderView: View {
-    let substances: [ActiveSubstanceState]
-
-    private static let maxShown = 3
-
-    var body: some View {
-        HStack(spacing: 8) {
-            ForEach(Array(substances.prefix(Self.maxShown).enumerated()), id: \.offset) { _, sub in
-                HStack(spacing: 4) {
-                    Circle()
-                        .fill(Color(hex: sub.colorHex))
-                        .frame(width: 7, height: 7)
-                    Text(sub.substanceName)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.white)
-                        .lineLimit(1)
+            for (phase, minutes) in boundaries {
+                let date = sub.doseTimestamp.addingTimeInterval(minutes * 60)
+                guard date > now else { continue }
+                if next == nil || date < next!.date {
+                    next = PhaseTransition(phase: phase, date: date, color: Color(hex: sub.colorHex))
                 }
             }
-            if substances.count > Self.maxShown {
-                Text("+\(substances.count - Self.maxShown)")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.secondary)
-            }
-            Spacer(minLength: 0)
+        }
+        return next
+    }
+}
+
+/// An upcoming phase change: which phase begins, when, and the color of the
+/// substance it belongs to.
+struct PhaseTransition {
+    let phase: SessionPhase
+    let date: Date
+    let color: Color
+}
+
+/// Phases a dose transitions *into*, each with a glyph so the island can show
+/// "next phase in 0h42" without spending width on words.
+enum SessionPhase {
+    case comeup
+    case peak
+    case offset
+    case afterglow
+    case ended
+
+    var symbolName: String {
+        switch self {
+        case .comeup: "arrow.up.right"
+        case .peak: "sparkles"
+        case .offset: "arrow.down.right"
+        case .afterglow: "moon.stars"
+        case .ended: "checkmark.circle"
+        }
+    }
+
+    /// VoiceOver label. `.ended`'s countdown is literally the time remaining,
+    /// so it reuses the existing "Remaining" key.
+    var title: LocalizedStringKey {
+        switch self {
+        case .comeup: "Come-up"
+        case .peak: "Peak"
+        case .offset: "Offset"
+        case .afterglow: "Afterglow"
+        case .ended: "Remaining"
         }
     }
 }
 
-// MARK: - Labeled Timer
+// MARK: - Hours/Minutes Timer Format
 
-/// A caption label stacked over a self-updating timer counter.
-struct LabeledTimer: View {
-    let label: LocalizedStringKey
-    let date: Date
-    var alignment: HorizontalAlignment = .leading
+/// Compact hours+minutes with no seconds (e.g. `3h 2m`), auto-updating on
+/// minute boundaries via `Text(.dateRange(…), format: .hoursMinutes)`.
+///
+/// Two constraints picked this exact shape:
+/// - `Text(_:style: .timer)` always shows seconds and is greedy for width
+///   (it's what made the compact island stretch full-width on device).
+/// - The Live Activity render server decodes the format style from the
+///   archived view, so it must be a *Foundation* type — a custom
+///   `DiscreteFormatStyle` defined in this extension fails to decode and the
+///   system silently falls back to the all-text-redacted placeholder render.
+///   `Date.ComponentsFormatStyle` is built in and formats a `Range<Date>`, so
+///   `.dateRange(startingAt:)`/`.dateRange(endingAt:)` cover both count-up
+///   (elapsed) and count-down (next phase) without sign issues.
+extension FormatStyle where Self == Date.ComponentsFormatStyle {
+    static var hoursMinutes: Date.ComponentsFormatStyle {
+        .components(style: .narrow, fields: [.hour, .minute])
+    }
+}
+
+// MARK: - Session Rings
+
+/// Watch-activity-style concentric rings for the two most recent substances.
+///
+/// The full circle represents the whole session window (earliest dose →
+/// latest projected end). Each substance's arc runs from its own dose time to
+/// "now", so the session-opening dose starts at 12 o'clock and a later redose
+/// starts partway around — the ring doubles as a clock of the session.
+struct SessionRingsView: View {
+    let state: PiruActivityAttributes.ContentState
+    var lineWidth: CGFloat = 3
+
+    private struct Ring: Identifiable {
+        let id: Int
+        let color: Color
+        let startFraction: Double
+        let endFraction: Double
+    }
+
+    /// A just-dosed arc still shows a small nub, like a fresh Watch ring.
+    private static let minimumSweep = 0.02
+
+    private var rings: [Ring] {
+        let sessionStart = SessionTiming.earliestDose(state)
+        let span = SessionTiming.latestEnd(state).timeIntervalSince(sessionStart)
+        guard span > 0 else { return [] }
+
+        func fraction(_ date: Date) -> Double {
+            min(max(date.timeIntervalSince(sessionStart) / span, 0), 1)
+        }
+
+        let newestFirst = state.activeSubstances
+            .sorted { $0.doseTimestamp > $1.doseTimestamp }
+            .prefix(2)
+        return newestFirst.enumerated().map { index, sub in
+            let start = fraction(sub.doseTimestamp)
+            let subEnd = fraction(sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60))
+            let now = fraction(state.lastUpdated)
+            let end = min(max(min(now, subEnd), start + Self.minimumSweep), 1)
+            return Ring(id: index, color: Color(hex: sub.colorHex), startFraction: start, endFraction: end)
+        }
+    }
 
     var body: some View {
-        VStack(alignment: alignment, spacing: 1) {
-            Text(label)
+        ZStack {
+            ForEach(rings) { ring in
+                let inset = CGFloat(ring.id) * (lineWidth + 1.5)
+                ZStack {
+                    Circle()
+                        .stroke(ring.color.opacity(0.25), lineWidth: lineWidth)
+                    Circle()
+                        .trim(from: ring.startFraction, to: ring.endFraction)
+                        .stroke(
+                            ring.color,
+                            style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
+                        )
+                        .rotationEffect(.degrees(-90))
+                }
+                .padding(inset + lineWidth / 2)
+            }
+        }
+        .accessibilityHidden(true)
+    }
+}
+
+// MARK: - Timer Components
+
+/// "Elapsed" caption stacked over an auto-updating `1h 4m` counter.
+struct ElapsedTimerView: View {
+    let sessionStart: Date
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text("Elapsed")
                 .font(.caption2.weight(.medium))
                 .foregroundStyle(.secondary)
-            Text(date, style: .timer)
+            Text(.dateRange(startingAt: sessionStart), format: .hoursMinutes)
                 .font(.caption.monospacedDigit().weight(.semibold))
                 .foregroundStyle(.white)
-                .multilineTextAlignment(alignment == .trailing ? .trailing : .leading)
+                .lineLimit(1)
+                .frame(maxWidth: 56, alignment: .leading)
         }
+    }
+}
+
+/// Upcoming phase (name + glyph) with a countdown, e.g. "Peak ✦ / 46m".
+/// Icon tinted with the color of the substance whose boundary is next.
+struct NextPhaseView: View {
+    /// - `compact`: countdown + icon only (Dynamic Island compact trailing).
+    /// - `stacked`: name + icon over the countdown, trailing-aligned — mirrors
+    ///   `ElapsedTimerView`'s stacked style (expanded island + Lock Screen).
+    enum Style {
+        case compact
+        case stacked
+    }
+
+    let transition: PhaseTransition
+    var style: Style = .stacked
+
+    var body: some View {
+        Group {
+            switch style {
+            case .compact:
+                HStack(spacing: 4) {
+                    countdown
+                    icon(size: CompactMetrics.iconFontSize)
+                        .frame(width: CompactMetrics.iconSide, height: CompactMetrics.iconSide)
+                }
+            case .stacked:
+                // Mirror of the leading side's [ring + text stack]: the phase
+                // glyph matches the rings' 26 pt footprint.
+                HStack(spacing: 8) {
+                    VStack(alignment: .trailing, spacing: 1) {
+                        title
+                        countdown
+                    }
+                    icon(size: 17)
+                        .frame(width: 26, height: 26)
+                }
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text(transition.phase.title))
+        .accessibilityValue(Text(.dateRange(endingAt: transition.date), format: .hoursMinutes))
+    }
+
+    private var title: some View {
+        Text(transition.phase.title)
+            .font(.caption2.weight(.medium))
+            .foregroundStyle(.secondary)
+    }
+
+    /// Auto-updating text reserves width for its widest future string and the
+    /// ActivityKit renderer ignores `fixedSize()` — unbounded, it stretches the
+    /// compact island to full width, so it needs an explicit cap. The renderer
+    /// also ignores the *frame alignment* for the glyphs (they draw leading in
+    /// the reservation); `multilineTextAlignment(.trailing)` is what actually
+    /// right-aligns them, pushing the reservation's slack inward (invisible).
+    private var countdown: some View {
+        Text(.dateRange(endingAt: transition.date), format: .hoursMinutes)
+            .font(.caption.monospacedDigit().weight(.semibold))
+            .foregroundStyle(.white)
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .multilineTextAlignment(.trailing)
+            .frame(maxWidth: 50, alignment: .trailing)
+    }
+
+    private func icon(size: CGFloat) -> some View {
+        Image(systemName: transition.phase.symbolName)
+            .font(.system(size: size, weight: .semibold))
+            .foregroundStyle(transition.color)
     }
 }
 
@@ -185,58 +285,39 @@ struct LockScreenView: View {
     private var state: PiruActivityAttributes.ContentState {
         context.state
     }
-    private var substances: [ActiveSubstanceState] {
-        state.activeSubstances
-    }
     private var earliestDose: Date {
         SessionTiming.earliestDose(state)
     }
-    private var latestEnd: Date {
-        SessionTiming.latestEnd(state)
-    }
 
-    private var barColors: [Color] {
-        let colors = SessionTiming.colors(state)
-        return colors.count == 1 ? [colors[0], colors[0]] : colors
-    }
-
+    /// Lock Screen Live Activities are capped at 160 pt tall. The content stack
+    /// must stay comfortably under that or the system compresses spacing and
+    /// padding to force-fit — which reads as "broken padding". Budget:
+    /// graph 80 + timer row ~29 + spacing 8 + padding 24 ≈ 141.
     var body: some View {
         VStack(spacing: 8) {
-            // What's active — name(s) + color dots.
-            SubstanceHeaderView(substances: substances)
-
             // Timeline graph — updates when Live Activity state is pushed.
             TimelineGraphView(
-                substances: substances,
+                substances: state.activeSubstances,
                 currentTime: state.lastUpdated,
                 compact: true,
                 stackRedoses: stackRedoses,
                 synchronous: true,
             )
-            .frame(height: 72)
+            .frame(height: 80)
 
-            // Thin session-progress bar under the graph.
-            ProgressView(
-                timerInterval: earliestDose ... latestEnd,
-                countsDown: false,
-            ) {
-                EmptyView()
-            } currentValueLabel: {
-                EmptyView()
-            }
-            .tint(
-                LinearGradient(
-                    colors: barColors,
-                    startPoint: .leading,
-                    endPoint: .trailing,
-                ),
-            )
-
-            // Elapsed (left) / Remaining (right).
-            HStack(alignment: .firstTextBaseline) {
-                LabeledTimer(label: "Elapsed", date: earliestDose, alignment: .leading)
+            // Same design as the expanded island, below the graph: rings +
+            // stacked Elapsed (left), stacked next-phase (right). The rings
+            // carry session progress, so no separate bar.
+            HStack {
+                HStack(spacing: 8) {
+                    SessionRingsView(state: state)
+                        .frame(width: 26, height: 26)
+                    ElapsedTimerView(sessionStart: earliestDose)
+                }
                 Spacer(minLength: 12)
-                LabeledTimer(label: "Remaining", date: latestEnd, alignment: .trailing)
+                if let transition = SessionTiming.nextTransition(state) {
+                    NextPhaseView(transition: transition, style: .stacked)
+                }
             }
         }
         .padding(.horizontal, 16)
@@ -251,11 +332,13 @@ struct ExpandedLeadingView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        LabeledTimer(
-            label: "Elapsed",
-            date: SessionTiming.earliestDose(context.state),
-            alignment: .leading,
-        )
+        HStack(spacing: 8) {
+            SessionRingsView(state: context.state)
+                .frame(width: 26, height: 26)
+            ElapsedTimerView(sessionStart: SessionTiming.earliestDose(context.state))
+        }
+        .padding(.leading, 6)
+        .padding(.top, 2)
     }
 }
 
@@ -263,11 +346,13 @@ struct ExpandedTrailingView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        LabeledTimer(
-            label: "Remaining",
-            date: SessionTiming.latestEnd(context.state),
-            alignment: .trailing,
-        )
+        Group {
+            if let transition = SessionTiming.nextTransition(context.state) {
+                NextPhaseView(transition: transition, style: .stacked)
+            }
+        }
+        .padding(.trailing, 6)
+        .padding(.top, 2)
     }
 }
 
@@ -285,35 +370,53 @@ struct ExpandedBottomView: View {
             stackRedoses: stackRedoses,
             synchronous: true,
         )
-        .frame(height: 50)
+        .frame(height: 58)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 6)
     }
 }
 
 // MARK: - Dynamic Island Compact Views
 
+/// Mirror of the compact trailing side: icon on the outside, time on the
+/// inside — rings + elapsed. `CompactMetrics` keeps the two sides symmetric.
 struct CompactLeadingView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        RadialProgressGlyph(
-            progress: SessionTiming.progress(context.state),
-            colors: SessionTiming.colors(context.state),
-            lineWidth: 3,
-        )
-        .frame(width: 20, height: 20)
-        .padding(.leading, 2)
+        HStack(spacing: 4) {
+            SessionRingsView(state: context.state, lineWidth: 2.5)
+                .frame(width: CompactMetrics.iconSide, height: CompactMetrics.iconSide)
+            Text(.dateRange(startingAt: SessionTiming.earliestDose(context.state)), format: .hoursMinutes)
+                .font(.caption.monospacedDigit().weight(.semibold))
+                .foregroundStyle(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+                .frame(maxWidth: 50, alignment: .leading)
+        }
     }
+}
+
+/// Shared sizing for the compact island's two sides.
+enum CompactMetrics {
+    static let iconSide: CGFloat = 18
+    static let iconFontSize: CGFloat = 13
 }
 
 struct CompactTrailingView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        Text(SessionTiming.latestEnd(context.state), style: .timer)
-            .font(.caption2.monospacedDigit().weight(.medium))
-            .foregroundStyle(.white)
-            .frame(minWidth: 32)
-            .multilineTextAlignment(.trailing)
+        if let transition = SessionTiming.nextTransition(context.state) {
+            NextPhaseView(transition: transition, style: .compact)
+        } else {
+            // No upcoming boundary — the session has run its course (elapsed
+            // already lives on the leading side).
+            Image(systemName: "checkmark.circle")
+                .font(.system(size: CompactMetrics.iconFontSize, weight: .semibold))
+                .foregroundStyle(SessionTiming.colors(context.state).first ?? .white)
+                .frame(width: CompactMetrics.iconSide, height: CompactMetrics.iconSide)
+        }
     }
 }
 
@@ -323,31 +426,7 @@ struct MinimalView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        RadialProgressGlyph(
-            progress: SessionTiming.progress(context.state),
-            colors: SessionTiming.colors(context.state),
-            lineWidth: 2.5,
-        )
-        .frame(width: 18, height: 18)
+        SessionRingsView(state: context.state, lineWidth: 2.5)
+            .frame(width: 22, height: 22)
     }
-}
-
-// MARK: - Previews
-
-#Preview("Radial glyph") {
-    HStack(spacing: 20) {
-        RadialProgressGlyph(progress: 0.0, colors: [Color(hex: "FFAACC")])
-            .frame(width: 44, height: 44)
-        RadialProgressGlyph(progress: 0.35, colors: [Color(hex: "66CCFF")])
-            .frame(width: 44, height: 44)
-        RadialProgressGlyph(
-            progress: 0.72,
-            colors: [Color(hex: "FFAACC"), Color(hex: "66CCFF")],
-        )
-        .frame(width: 44, height: 44)
-        RadialProgressGlyph(progress: 1.0, colors: [Color(hex: "AAFF99")])
-            .frame(width: 44, height: 44)
-    }
-    .padding()
-    .background(.black)
 }
