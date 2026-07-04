@@ -13,7 +13,7 @@ struct AppOverflowMenu<Extras: View>: View {
     }
 
     var body: some View {
-        Menu {
+        let menu = Menu {
             menuExtras()
             // A trailing Section keeps the always-present app actions visually
             // grouped and below any per-screen extras, with no dangling
@@ -31,7 +31,14 @@ struct AppOverflowMenu<Extras: View>: View {
                 .font(.system(size: 17, weight: .semibold))
         }
         .accessibilityLabel(Text("More"))
-        .popoverTip(SettingsDataTip(), arrowEdge: .top)
+
+        // The "your data lives here" tip points at Settings — surface it once, on
+        // the Journal landing tab, rather than repeating on every tab's overflow.
+        if navigator.selectedTab == .journal {
+            menu.popoverTip(SettingsDataTip(), arrowEdge: .top)
+        } else {
+            menu
+        }
     }
 
     private func present(_ route: SheetRoute) {
