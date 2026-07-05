@@ -69,6 +69,12 @@ nonisolated enum DrugClass: String, Codable {
     case gabapentinoid
     case alcohol
     case ghb
+    /// Dual orexin receptor antagonists (suvorexant, lemborexant, daridorexant — the
+    /// modern DORA sleep meds). They block OX1R/OX2R rather than enhancing GABA, so they
+    /// carry additive next-day sedation / psychomotor / fall risk with other CNS
+    /// depressants but — critically — do NOT add brainstem respiratory depression. Hence
+    /// only `.caution` rules, never the benzo/opioid respiratory-synergy danger tier.
+    case orexinAntagonist
     case antihistamine
     case maoi
     case ssri
@@ -670,6 +676,7 @@ enum InteractionChecker {
         case .supplement: .supplement
         case .nootropic: .other
         case .depressant: .other
+        case .orexinAntagonist: .orexinAntagonist
         case .analgesic: .other
         case .antihistamine: .antihistamine
         // Deliriants are anticholinergic/antimuscarinic; their dominant interaction
@@ -940,6 +947,49 @@ enum InteractionChecker {
             classB: .alcohol,
             severity: .caution,
             description: "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.",
+        ),
+
+        // === OREXIN ANTAGONISTS (DORAs) ===
+        // Suvorexant / lemborexant / daridorexant. Grounded in the FDA labels + respiratory-safety
+        // literature: DORAs block OX1R/OX2R rather than enhancing GABA, so combining with other CNS
+        // depressants adds next-day sedation and psychomotor/fall risk, but they do NOT depress the
+        // brainstem respiratory drive — so the lethal respiratory synergy of benzo+opioid does not
+        // apply. All `.caution`, deliberately two tiers below that danger, with wording that says so.
+        InteractionRule(
+            classA: .orexinAntagonist,
+            classB: .opioid,
+            severity: .caution,
+            description: "Added drowsiness and next-day grogginess, with more fall and coordination risk. Unlike a benzo, an orexin antagonist doesn't suppress breathing, so this isn't the deadly opioid+benzo combination — but still use less, and don't drive.",
+        ),
+        InteractionRule(
+            classA: .orexinAntagonist,
+            classB: .alcohol,
+            severity: .caution,
+            description: "Alcohol stacks psychomotor and memory impairment on top of the sleep med (and raises lemborexant's blood levels) — expect worse next-day grogginess and unsteadiness. The labels advise against drinking with these.",
+        ),
+        InteractionRule(
+            classA: .orexinAntagonist,
+            classB: .benzodiazepine,
+            severity: .caution,
+            description: "Two sleep-promoting drugs stacked — additive next-day sedation and fall risk, and largely redundant. Not the respiratory danger of benzo+opioid, but heavier grogginess and impaired coordination.",
+        ),
+        InteractionRule(
+            classA: .orexinAntagonist,
+            classB: .gabapentinoid,
+            severity: .caution,
+            description: "Additive sedation and next-day grogginess — more drowsiness, dizziness, and fall risk. Use less and avoid driving.",
+        ),
+        InteractionRule(
+            classA: .orexinAntagonist,
+            classB: .ghb,
+            severity: .caution,
+            description: "Compounded sedation — stronger, deeper drowsiness. The orexin antagonist doesn't add respiratory depression itself, but GHB can, so keep doses low and don't combine when alone.",
+        ),
+        InteractionRule(
+            classA: .orexinAntagonist,
+            classB: .antihistamine,
+            severity: .caution,
+            description: "Both cause drowsiness — expect additive next-day sedation and grogginess. Use less and don't drive.",
         ),
         InteractionRule(
             classA: .dissociative,

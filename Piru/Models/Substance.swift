@@ -741,6 +741,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case ampakine = "AMPAkine"
     case eugeroic = "Eugeroic"
     case depressant = "Depressant"
+    case orexinAntagonist = "OrexinAntagonist"
     case antidepressant = "Antidepressant"
     case antipsychotic = "Antipsychotic"
     case analgesic = "Analgesic"
@@ -784,6 +785,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case "supplement", "vitamin", "steroid": .supplement
         case "peptide", "peptide-mimetic": .peptide
         case "gabapentinoid", "gabaergic": .gabapentinoid
+        case "orexinantagonist", "orexin antagonist", "orexin-antagonist", "dora": .orexinAntagonist
         case "anxiolytic", "hypnotic": .depressant
         case "anticonvulsant", "mood-stabilizer", "mood stabilizer", "antiepileptic": .anticonvulsant
         case "sympathomimetic": .stimulant
@@ -842,7 +844,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
             (0.06, 0.16, 0.24, 0.60)
         case .dissociative:
             (0.06, 0.17, 0.27, 0.56)
-        case .benzodiazepine, .depressant, .gabapentinoid:
+        case .benzodiazepine, .depressant, .gabapentinoid, .orexinAntagonist:
             (0.07, 0.18, 0.30, 0.52)
         case .cannabinoid:
             (0.06, 0.18, 0.26, 0.56)
@@ -867,6 +869,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case .ampakine: "AMPAkine"
         case .eugeroic: "Eugeroic"
         case .depressant: "Depressant"
+        case .orexinAntagonist: "Orexin Antagonist"
         case .antidepressant: "Antidepressant"
         case .antipsychotic: "Antipsychotic"
         case .analgesic: "Analgesic"
@@ -1797,6 +1800,7 @@ extension SubstanceCategory {
         case .ampakine: "sparkles"
         case .eugeroic: "sunrise.fill"
         case .depressant: "arrow.down.circle.fill"
+        case .orexinAntagonist: "moon.zzz.fill"
         case .antidepressant: "sun.max.fill"
         case .antipsychotic: "shield.fill"
         case .analgesic: "bandage.fill"
@@ -1830,6 +1834,7 @@ extension SubstanceCategory {
         case .ampakine: Color(red: 0.55, green: 0.85, blue: 0.45)
         case .eugeroic: Color(red: 0.95, green: 0.70, blue: 0.30)
         case .depressant: Color(red: 0.45, green: 0.55, blue: 0.72)
+        case .orexinAntagonist: Color(red: 0.42, green: 0.38, blue: 0.68)
         case .antidepressant: .yellow
         case .antipsychotic: .mint
         case .analgesic: .brown

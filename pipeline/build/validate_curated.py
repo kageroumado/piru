@@ -54,6 +54,7 @@ CATEGORIES = {
     "AMPAkine",
     "Eugeroic",
     "Depressant",
+    "OrexinAntagonist",
     "Antidepressant",
     "Antipsychotic",
     "Analgesic",

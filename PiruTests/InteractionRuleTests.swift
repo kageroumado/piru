@@ -264,6 +264,38 @@ struct InteractionRuleTests {
         }
     }
 
+    // MARK: - Orexin antagonists (DORAs)
+
+    @Test
+    func `DORAs resolve to the orexinAntagonist class, not interaction-invisible .other`() {
+        // Before: category Depressant → .other → zero rules (interaction-invisible).
+        // Now a real class so their additive-sedation cautions fire.
+        for name in ["Suvorexant", "Lemborexant", "Daridorexant"] {
+            #expect(InteractionChecker.drugClasses(for: name) == [.orexinAntagonist], "\(name)")
+        }
+    }
+
+    @Test
+    func `DORA + opioid is caution, never the benzo-opioid danger tier`() {
+        // DORAs add next-day sedation/fall risk but do NOT depress brainstem respiration,
+        // so this must read caution — explicitly below the benzo+opioid respiratory-death tier.
+        let entry = makeEntry(substance: "Morphine", amount: 30)
+        let results = InteractionChecker.check("Suvorexant", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "morphine" }
+        #expect(pair?.severity == .caution)
+        #expect(!results.contains { $0.severity == .dangerous }, "DORA + opioid must never be dangerous")
+    }
+
+    @Test
+    func `DORA + alcohol is caution, not the benzo+alcohol danger`() {
+        // Benzo + alcohol is dangerous; DORA + alcohol is additive impairment, not lethal synergy.
+        let entry = makeEntry(substance: "Alcohol", amount: 20)
+        let results = InteractionChecker.check("Lemborexant", against: [entry])
+        let pair = results.first { $0.substanceB.lowercased() == "alcohol" }
+        #expect(pair?.severity == .caution)
+        #expect(!results.contains { $0.severity == .dangerous })
+    }
+
     // MARK: - Symmetry
 
     @Test

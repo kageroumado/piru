@@ -141,6 +141,25 @@ struct MechanismOfActionTests {
         #expect(resolved?.summary == MechanismOfActionDatabase.categoryFallback(for: .stimulant)?.summary)
     }
 
+    @Test
+    func `DORAs resolve to an orexin-receptor mechanism, never the GABA depressant fallback`() {
+        // The bug: daridorexant/lemborexant/suvorexant were categorised Depressant and
+        // showed the generic "GABA + Glutamate" CNS-depressant text — pharmacologically
+        // wrong. With the .orexinAntagonist category they must resolve to OX1R/OX2R
+        // antagonism and carry NO GABA/glutamate bindings.
+        let resolved = MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: nil, substanceName: "Suvorexant", category: .orexinAntagonist,
+        )
+        #expect(resolved != nil)
+        #expect(resolved?.bindings.contains { $0.target == "OX1R" && $0.action == .antagonist } == true)
+        #expect(resolved?.bindings.contains { $0.target == "OX2R" && $0.action == .antagonist } == true)
+        #expect(
+            resolved?.bindings.contains { $0.target.localizedCaseInsensitiveContains("GABA") } == false,
+            "A DORA must not show any GABA binding",
+        )
+        #expect(resolved?.summary.localizedCaseInsensitiveContains("orexin") == true)
+    }
+
     // MARK: - Integration against the bundled database
 
     //
@@ -169,6 +188,27 @@ struct MechanismOfActionTests {
             resolved?.bindings.contains { $0.action == .modulator } == false,
             "Mephedrone must not show any .modulator placeholder bindings",
         )
+    }
+
+    @Test
+    @MainActor
+    func `Approved DORAs are categorised orexinAntagonist in the bundled DB and read OX receptors`() {
+        // Guards the pipeline → app wiring: the curated `OrexinAntagonist` category must
+        // survive the rebuild and drive the OX1R/OX2R mechanism (not the GABA fallback).
+        for name in ["Daridorexant", "Lemborexant", "Suvorexant"] {
+            guard let sub = SubstanceStore.shared.lookup(name) else {
+                Issue.record("\(name) missing from bundled DB"); continue
+            }
+            #expect(sub.category == .orexinAntagonist, "\(name) should be .orexinAntagonist, got \(sub.category)")
+            let resolved = MechanismOfActionDatabase.resolvedMechanism(
+                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            )
+            #expect(resolved?.bindings.contains { $0.target == "OX1R" } == true, "\(name) should list OX1R")
+            #expect(
+                resolved?.bindings.contains { $0.target.localizedCaseInsensitiveContains("GABA") } == false,
+                "\(name) must not show a GABA binding",
+            )
+        }
     }
 
     @Test

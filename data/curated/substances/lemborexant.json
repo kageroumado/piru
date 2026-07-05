@@ -3,7 +3,7 @@
   "aliases": [
     "Dayvigo"
   ],
-  "category": "Depressant",
+  "category": "OrexinAntagonist",
   "defaultRoute": "oral",
   "routes": [
     {
@@ -52,7 +52,7 @@
     "US Schedule IV controlled substance",
     "Does not significantly suppress slow-wave sleep"
   ],
-  "halfLifeMinutes": 1680,
+  "halfLifeMinutes": 1080,
   "sources": [
     "https://en.wikipedia.org/wiki/Lemborexant",
     "https://pubchem.ncbi.nlm.nih.gov/compound/49803313"

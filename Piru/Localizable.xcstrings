@@ -4843,6 +4843,22 @@
         }
       }
     },
+    "Added drowsiness and next-day grogginess, with more fall and coordination risk. Unlike a benzo, an orexin antagonist doesn't suppress breathing, so this isn't the deadly opioid+benzo combination — but still use less, and don't drive." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会增加困倦和次日昏沉，跌倒和协调障碍风险更高。与苯二氮䓬类不同，食欲素拮抗剂不会抑制呼吸，因此这不是致命的阿片+苯二氮䓬组合——但仍应减量，且不要开车。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會增加睏倦和隔日昏沉，跌倒和協調障礙風險更高。與苯二氮平類不同，食慾素拮抗劑不會抑制呼吸，因此這不是致命的鴉片+苯二氮平組合——但仍應減量，且不要開車。"
+          }
+        }
+      }
+    },
     "Adding mechanism data..." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5017,6 +5033,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮靜與低血壓疊加——睏倦和頭暈增加。"
+          }
+        }
+      }
+    },
+    "Additive sedation and next-day grogginess — more drowsiness, dizziness, and fall risk. Use less and avoid driving." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静作用和次日昏沉相加——更明显的困倦、头晕和跌倒风险。请减量并避免开车。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜作用和隔日昏沉相加——更明顯的睏倦、頭暈和跌倒風險。請減量並避免開車。"
           }
         }
       }
@@ -5312,6 +5344,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "酒精是典型的零級動力學藥物：當血液濃度高於一個很低的水平後，清除它的酶（乙醇脫氫酶）便完全飽和，以固定速率工作。杯數翻倍，酒精在體內停留的時間和曲線下面積會增加一倍以上。長期大量飲酒會在一定程度上加快清除（誘導 CYP2E1）；而 ALDH2“臉紅”變異對乙醛的作用恰好相反。"
+          }
+        }
+      }
+    },
+    "Alcohol stacks psychomotor and memory impairment on top of the sleep med (and raises lemborexant's blood levels) — expect worse next-day grogginess and unsteadiness. The labels advise against drinking with these." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒精会在这类安眠药之上叠加精神运动和记忆损害（并会升高莱博雷生的血药浓度）——次日昏沉和站立不稳会更明显。药品说明书建议服用期间不要饮酒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒精會在這類安眠藥之上疊加精神運動和記憶損害（並會升高萊博雷生的血藥濃度）——隔日昏沉和站立不穩會更明顯。藥品仿單建議服用期間不要飲酒。"
           }
         }
       }
@@ -7656,6 +7704,22 @@
         }
       }
     },
+    "Both cause drowsiness — expect additive next-day sedation and grogginess. Use less and don't drive." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两者都会引起困倦——次日镇静和昏沉会相加。请减量，且不要开车。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩者都會引起睏倦——隔日鎮靜和昏沉會相加。請減量，且不要開車。"
+          }
+        }
+      }
+    },
     "Both substances active" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9763,6 +9827,22 @@
         }
       }
     },
+    "Competitively blocks the orexin (hypocretin) receptors OX1R and OX2R, the targets of the wake-promoting neuropeptides orexin-A and orexin-B released from the lateral hypothalamus. Rather than broadly sedating the brain like a GABAergic hypnotic, it withdraws a specific \"stay awake\" drive that stabilizes arousal — permitting the natural transition into sleep with largely preserved sleep architecture and arousability. Because it does not enhance GABA or depress brainstem respiratory centers, it lacks the respiratory-depression synergy and dependence liability characteristic of benzodiazepines, Z-drugs, and other GABAergic sedatives." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "竞争性阻断食欲素（下丘脑分泌素）受体 OX1R 和 OX2R，这两种受体是外侧下丘脑释放的促醒神经肽食欲素-A 和食欲素-B 的作用靶点。它不像 GABA 能催眠药那样广泛抑制大脑，而是撤除一种维持觉醒的特定“保持清醒”驱动力——让人自然过渡到睡眠，同时基本保留睡眠结构和可唤醒性。由于它既不增强 GABA，也不抑制脑干呼吸中枢，因此没有苯二氮䓬类、Z 类药物及其他 GABA 能镇静剂所特有的呼吸抑制协同作用和依赖风险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "競爭性阻斷食慾素（下視丘分泌素）受體 OX1R 和 OX2R，這兩種受體是外側下視丘釋放的促醒神經肽食慾素-A 和食慾素-B 的作用標的。它不像 GABA 能催眠藥那樣廣泛抑制大腦，而是撤除一種維持覺醒的特定「保持清醒」驅動力——讓人自然過渡到睡眠，同時基本保留睡眠結構和可喚醒性。由於它既不增強 GABA，也不抑制腦幹呼吸中樞，因此沒有苯二氮平類、Z 類藥物及其他 GABA 能鎮靜劑所特有的呼吸抑制協同作用和依賴風險。"
+          }
+        }
+      }
+    },
     "Competitively blocks β-adrenergic receptors, preventing the effects of catecholamines. β1-selective agents primarily reduce heart rate and cardiac contractility. Non-selective agents also block β2 receptors in bronchial smooth muscle and peripheral vasculature. Used for hypertension, arrhythmias, heart failure, and performance anxiety." : {
       "localizations" : {
         "zh-Hans" : {
@@ -9839,6 +9919,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "疊加的嗜睡和協調受損。"
+          }
+        }
+      }
+    },
+    "Compounded sedation — stronger, deeper drowsiness. The orexin antagonist doesn't add respiratory depression itself, but GHB can, so keep doses low and don't combine when alone." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静作用叠加——困倦更强、更深。食欲素拮抗剂本身不会加重呼吸抑制，但 GHB 会，因此请保持低剂量，独处时不要合用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜作用疊加——睏倦更強、更深。食慾素拮抗劑本身不會加重呼吸抑制，但 GHB 會，因此請保持低劑量，獨處時不要合用。"
           }
         }
       }
@@ -13052,6 +13148,22 @@
     },
     "Drug" : {
 
+    },
+    "Dual Orexin Receptor Antagonist (DORA)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "双重食欲素受体拮抗剂（DORA）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雙重食慾素受體拮抗劑（DORA）"
+          }
+        }
+      }
     },
     "Duplicate Name" : {
       "localizations" : {
@@ -24425,6 +24537,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "口服膠囊"
+          }
+        }
+      }
+    },
+    "Orexin Antagonist" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食欲素拮抗剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食慾素拮抗劑"
           }
         }
       }
@@ -36197,6 +36325,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "兩種作用於同一靶點的藥物，在加大劑量時表現相反：加巴噴丁吸收的比例下降，普瑞巴林則保持不變。"
+          }
+        }
+      }
+    },
+    "Two sleep-promoting drugs stacked — additive next-day sedation and fall risk, and largely redundant. Not the respiratory danger of benzo+opioid, but heavier grogginess and impaired coordination." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两种促眠药叠加——次日镇静和跌倒风险相加，且大多重复。虽然不像苯二氮䓬+阿片那样有呼吸危险，但会带来更重的昏沉和协调障碍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩種促眠藥疊加——隔日鎮靜和跌倒風險相加，且大多重複。雖然不像苯二氮平+鴉片那樣有呼吸危險，但會帶來更重的昏沉和協調障礙。"
           }
         }
       }

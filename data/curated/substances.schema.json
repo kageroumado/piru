@@ -11,7 +11,7 @@
     "aliases": {"type": "array", "items": {"type": "string"}},
     "category": {"type": "string", "enum": [
       "Stimulant","Psychedelic","Dissociative","Dysdelic","Deliriant","Opioid","Benzodiazepine",
-      "GABAergic","Empathogen","Cannabinoid","Nootropic","AMPAkine","Eugeroic","Depressant",
+      "GABAergic","Empathogen","Cannabinoid","Nootropic","AMPAkine","Eugeroic","Depressant","OrexinAntagonist",
       "Antidepressant","Antipsychotic","Analgesic","Antihistamine","Cardiovascular","Antimicrobial",
       "Gastrointestinal","Respiratory","Endocrine","Immunological","Supplement","Peptide","Anticonvulsant","Other"]},
     "defaultRoute": {"type": "string"},

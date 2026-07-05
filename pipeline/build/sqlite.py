@@ -1845,6 +1845,7 @@ RECREATIONAL_CATEGORIES = {
 # Resolved categories that are medical/therapeutic. A compound here with a
 # recreational dose signal is DUAL_USE; without one it is MEDICAL_RX.
 MEDICAL_CATEGORIES = {
+    "OrexinAntagonist",
     "Antidepressant",
     "Antipsychotic",
     "Anticonvulsant",
@@ -2137,6 +2138,7 @@ _CATEGORY_ENUM = {
     "AMPAkine",
     "Eugeroic",
     "Depressant",
+    "OrexinAntagonist",
     "Antidepressant",
     "Antipsychotic",
     "Analgesic",
@@ -4913,11 +4915,14 @@ class Build:
                 "Psychedelic",
             ),
             ({"empathogen", "entactogen"}, "Empathogen"),
+            # Orexin antagonists (DORAs) before the sedative-hypnotic catch-all —
+            # they carry BOTH the `orexin-antagonist` and `sedative-hypnotic` tags,
+            # but their class is the orexin receptor, not GABAergic depression.
+            ({"orexin-antagonist", "DORA"}, "OrexinAntagonist"),
             (
                 {
                     "muscle-relaxant",
                     "Z-drug",
-                    "orexin-antagonist",
                     "sedative-hypnotic",
                     "barbiturate",
                 },

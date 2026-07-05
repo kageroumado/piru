@@ -360,6 +360,11 @@ enum MechanismOfActionDatabase {
             "Reduces central nervous system excitability, typically through enhancement of inhibitory GABAergic neurotransmission and/or reduction of excitatory glutamatergic neurotransmission. Produces sedation, anxiolysis, and muscle relaxation in a dose-dependent manner.",
             [b("GABA system", .modulator, .primary), b("Glutamate system", .antagonist, .primary)],
         ),
+        .orexinAntagonist: moa(
+            "Dual Orexin Receptor Antagonist (DORA)",
+            "Competitively blocks the orexin (hypocretin) receptors OX1R and OX2R, the targets of the wake-promoting neuropeptides orexin-A and orexin-B released from the lateral hypothalamus. Rather than broadly sedating the brain like a GABAergic hypnotic, it withdraws a specific \"stay awake\" drive that stabilizes arousal — permitting the natural transition into sleep with largely preserved sleep architecture and arousability. Because it does not enhance GABA or depress brainstem respiratory centers, it lacks the respiratory-depression synergy and dependence liability characteristic of benzodiazepines, Z-drugs, and other GABAergic sedatives.",
+            [b("OX1R", .antagonist, .primary), b("OX2R", .antagonist, .primary)],
+        ),
         .antidepressant: moa(
             "Antidepressant (Monoamine Modulator)",
             "Modulates monoamine neurotransmitter systems (serotonin, norepinephrine, and/or dopamine) through various mechanisms including reuptake inhibition, enzyme inhibition, or receptor modulation. The specific mechanism depends on the drug class. Therapeutic effects typically develop over 2–6 weeks.",

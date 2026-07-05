@@ -40,6 +40,21 @@ struct SubstanceCategoryTests {
     }
 
     @Test
+    func `Maps orexin antagonist variants (DORAs are not depressants)`() {
+        // DORAs block OX1R/OX2R — never fold them into the GABAergic depressant bucket.
+        for raw in ["orexin antagonist", "orexin-antagonist", "orexinantagonist", "DORA"] {
+            #expect(SubstanceCategory.from(tripSitCategory: raw) == .orexinAntagonist, "\(raw)")
+        }
+    }
+
+    @Test
+    func `OrexinAntagonist raw value round-trips (matches the bundled DB + pipeline)`() {
+        // The rawValue must equal the curated JSON / pipeline `_CATEGORY_ENUM` string.
+        #expect(SubstanceCategory.orexinAntagonist.rawValue == "OrexinAntagonist")
+        #expect(SubstanceCategory(rawValue: "OrexinAntagonist") == .orexinAntagonist)
+    }
+
+    @Test
     func `Maps empathogen and entactogen`() {
         #expect(SubstanceCategory.from(tripSitCategory: "empathogen") == .empathogen)
         #expect(SubstanceCategory.from(tripSitCategory: "entactogen") == .empathogen)
@@ -130,8 +145,8 @@ struct SubstanceCategoryTests {
     // MARK: - Enum properties
 
     @Test
-    func `Has 28 cases`() {
-        #expect(SubstanceCategory.allCases.count == 28)
+    func `Has 29 cases`() {
+        #expect(SubstanceCategory.allCases.count == 29)
     }
 
     @Test
