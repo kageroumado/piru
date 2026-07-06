@@ -39,17 +39,20 @@ final class HealthKitVitals {
 
     private init() {}
 
+    /// The read set every request/status check uses. Blood pressure is requested
+    /// via its two **component** quantity types (systolic + diastolic), never the
+    /// correlation type: HealthKit aborts with "Authorization to read the
+    /// following types is disallowed: HKCorrelationTypeIdentifierBloodPressure"
+    /// if a correlation type is put in a read-authorization request. The
+    /// permission sheet still groups the two components under one "Blood Pressure"
+    /// row, and the correlation type is only used to build the query.
+    private var readTypes: Set<HKObjectType> {
+        [heartRateType, restingHeartRateType, systolicType, diastolicType]
+    }
+
     /// Request read access to heart rate and blood pressure. Prompts only when undetermined; a thrown
     /// error is a request failure (not a denial), so previously-granted access keeps working.
     /// Returns `false` only when HealthKit is unavailable on the device.
-    /// The read set every request/status check uses. Includes the blood-pressure
-    /// correlation *and* its two component quantity types: the correlation is the
-    /// single "Blood Pressure" row the permission sheet shows, the components are
-    /// what the query actually reads.
-    private var readTypes: Set<HKObjectType> {
-        [heartRateType, restingHeartRateType, bloodPressureType, systolicType, diastolicType]
-    }
-
     @discardableResult
     func requestAccess() async -> Bool {
         guard isAvailable else { return false }
