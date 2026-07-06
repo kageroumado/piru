@@ -22,6 +22,38 @@ struct DayEntryCore: Equatable {
 struct DayEntryDisplay: Equatable {
     let core: DayEntryCore
     let color: Color
+
+    /// Build render-ready displays for a set of doses — the same resolution
+    /// `SessionDetailView` does inline (substance lookup, dose-level classification,
+    /// `CustomSubstanceStore` name override, colour map), hoisted so off-screen
+    /// consumers (e.g. the share-image renderer) reproduce the on-screen rows
+    /// exactly. Caches the per-substance lookup so repeated substances resolve once.
+    @MainActor
+    static func make(from entries: [DoseEntry], colors: [SubstanceColor]) -> [DayEntryDisplay] {
+        let colorMap = colors.colorMap
+        var cache: [String: Substance?] = [:]
+        func substance(_ name: String) -> Substance? {
+            let key = name.lowercased()
+            if let cached = cache[key] { return cached }
+            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
+            cache[key] = resolved
+            return resolved
+        }
+        return entries.map { entry in
+            let doseLevel = substance(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount)
+            let core = DayEntryCore(
+                entryID: entry.id,
+                timestamp: entry.timestamp,
+                displayName: CustomSubstanceStore.shared.displayName(for: entry.substance),
+                amount: entry.amount,
+                unit: entry.unit,
+                route: entry.route,
+                doseLevel: doseLevel,
+                tags: entry.tags,
+            )
+            return DayEntryDisplay(core: core, color: colorMap[entry.substance.lowercased()] ?? Theme.accent)
+        }
+    }
 }
 
 /// One dose row's content: colour dot + name, the route · amount · level phrase,

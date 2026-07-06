@@ -1280,7 +1280,7 @@ struct SubstanceDetailView: View {
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3 // @3x — crisp regardless of device
         if let image = renderer.uiImage {
-            ShareSheetPresenter.present(image)
+            ShareSheetPresenter.present([image])
         }
     }
 
@@ -2364,38 +2364,6 @@ private struct SubstanceShareCard: View {
         .frame(width: 390, alignment: .leading)
         .background(Color(white: 0.04))
         .environment(\.colorScheme, .dark)
-    }
-}
-
-/// Presents a system share sheet for the rendered drug-info image.
-///
-/// `UIActivityViewController` is presented directly from the active window's
-/// top view controller rather than embedded in a SwiftUI `.sheet`: hosting it
-/// inside a sheet (especially with `presentationDetents`) renders an empty
-/// sheet that only fills in seconds later, because the activity controller is
-/// itself a presentation controller and doesn't lay out as a child.
-private enum ShareSheetPresenter {
-    @MainActor
-    static func present(_ image: UIImage) {
-        guard let scene = UIApplication.shared.connectedScenes
-            .compactMap({ $0 as? UIWindowScene })
-            .first(where: { $0.activationState == .foregroundActive }),
-            let root = (scene.keyWindow ?? scene.windows.first)?.rootViewController
-        else { return }
-
-        var top = root
-        while let presented = top.presentedViewController {
-            top = presented
-        }
-
-        let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        // Anchor the popover on iPad / Mac Catalyst so it has a valid source.
-        if let popover = activityVC.popoverPresentationController {
-            popover.sourceView = top.view
-            popover.sourceRect = CGRect(x: top.view.bounds.midX, y: top.view.bounds.midY, width: 0, height: 0)
-            popover.permittedArrowDirections = []
-        }
-        top.present(activityVC, animated: true)
     }
 }
 

@@ -348,6 +348,9 @@
         }
       }
     },
+    "%@ " : {
+
+    },
     "%@ - %@ %@" : {
       "localizations" : {
         "en" : {
@@ -570,6 +573,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ %@ — %@"
+          }
+        }
+      }
+    },
+    "%@ %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ · %3$@"
+          }
+        }
+      }
+    },
+    "%@ %@ (%lld×)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ (%3$lld×)"
           }
         }
       }
@@ -3116,6 +3139,38 @@
         }
       }
     },
+    "50% eliminated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除 50%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除 50%"
+          }
+        }
+      }
+    },
+    "90% eliminated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除 90%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除 90%"
+          }
+        }
+      }
+    },
     "90D" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3670,6 +3725,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "第一次之後沒多久再補一劑，效果會更弱——快速釋放的那一部分被用得差不多了（快速耐受）。它過一夜就會補回來，所以和下面那種慢一點的耐受是兩回事。靠多用來追效果很少奏效，反而把風險疊上去。"
+          }
+        }
+      }
+    },
+    "A snapshot of what's active right now — effects and elimination." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻仍在活跃的物质快照 — 效果与消除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻仍在活躍的物質快照 — 效果與消除。"
+          }
+        }
+      }
+    },
+    "A snapshot of what's active right now — image, PDF, or data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻仍在活跃的物质快照 — 图片、PDF 或数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻仍在活躍的物質快照 — 圖片、PDF 或資料。"
           }
         }
       }
@@ -6992,6 +7080,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依據你自報的喝酒臉紅 · 僅供參考，並非實測水平。"
+          }
+        }
+      }
+    },
+    "baseline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基線"
           }
         }
       }
@@ -10600,6 +10704,22 @@
         }
       }
     },
+    "Cumulative" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累计"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累計"
+          }
+        }
+      }
+    },
     "Cumulative Doses" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13812,6 +13932,22 @@
         }
       }
     },
+    "Effectively clear" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基本清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基本清除"
+          }
+        }
+      }
+    },
     "Effects" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13926,6 +14062,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "透過靶向微生物特異性過程(如細胞壁合成、蛋白質合成、核酸複製、代謝通路或細胞膜完整性)消除或抑制微生物生長。"
+          }
+        }
+      }
+    },
+    "Elimination" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除"
           }
         }
       }
@@ -15241,6 +15393,40 @@
         }
       }
     },
+    "Export Current State" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出当前状态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出目前狀態"
+          }
+        }
+      }
+    },
+    "Export Current State…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出当前状态…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出目前狀態…"
+          }
+        }
+      }
+    },
     "Export Data" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16508,6 +16694,22 @@
         }
       }
     },
+    "Generated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "產生時間"
+          }
+        }
+      }
+    },
     "Generated by Piru · kagerou.glass/piru" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16795,6 +16997,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "麩胺酸類似物,具 GABA 能和血清素能效應"
+          }
+        }
+      }
+    },
+    "gone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已消除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已消除"
           }
         }
       }
@@ -18238,6 +18456,22 @@
         }
       }
     },
+    "Image" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圖片"
+          }
+        }
+      }
+    },
     "Immune modulators and steroids." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18478,6 +18712,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 後"
+          }
+        }
+      }
+    },
+    "in body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在体内"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在體內"
+          }
+        }
+      }
+    },
+    "in progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进行中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進行中"
           }
         }
       }
@@ -18979,6 +19245,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鼻吸"
+          }
+        }
+      }
+    },
+    "Intensity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "强度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強度"
           }
         }
       }
@@ -19737,6 +20019,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。"
+          }
+        }
+      }
+    },
+    "left in body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内剩余"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內剩餘"
           }
         }
       }
@@ -20792,6 +21090,39 @@
         }
       }
     },
+    "Markdown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        }
+      }
+    },
+    "Markdown (for an AI)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown（供 AI 使用）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown（供 AI 使用）"
+          }
+        }
+      }
+    },
     "Marks the amount after this as a full supply, so the bar can show how full you are. Leave off if this isn't a full restock." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21604,6 +21935,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模擬單次劑量隨時間的衰減"
+          }
+        }
+      }
+    },
+    "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak, not a measure of impairment. Not medical advice." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型估算（单室口服 PK；酒精按零级动力学）基于群体半衰期与你记录的剂量 — 个体清除速度存在差异。主观强度相对于每次剂量自身的峰值，并非损伤程度的衡量。不构成医疗建议。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型估算（單室口服 PK；酒精按零級動力學）基於群體半衰期與你記錄的劑量 — 個體清除速度存在差異。主觀強度相對於每次劑量自身的峰值，並非損傷程度的衡量。不構成醫療建議。"
           }
         }
       }
@@ -22737,6 +23084,22 @@
         }
       }
     },
+    "Next" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一阶段"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一階段"
+          }
+        }
+      }
+    },
     "Next Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23114,6 +23477,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無 %@ 的記錄"
+          }
+        }
+      }
+    },
+    "No half-life data — elimination not modelled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无半衰期数据 — 未建模消除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無半衰期資料 — 未建模消除"
           }
         }
       }
@@ -25042,6 +25421,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "患者姓名(可選)"
+          }
+        }
+      }
+    },
+    "PDF" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF"
+          }
+        }
+      }
+    },
+    "PDF Report" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF 报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF 報告"
           }
         }
       }
@@ -29094,6 +29506,22 @@
         }
       }
     },
+    "Right now — subjective state" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻 — 主观感受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻 — 主觀感受"
+          }
+        }
+      }
+    },
     "Risk of fatal serotonin syndrome — do not combine." : {
       "localizations" : {
         "zh-Hans" : {
@@ -31059,6 +31487,22 @@
         }
       }
     },
+    "Session Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄資料"
+          }
+        }
+      }
+    },
     "Session Day" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -31076,6 +31520,22 @@
         }
       }
     },
+    "Session Image" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄圖片"
+          }
+        }
+      }
+    },
     "Session Note" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31088,6 +31548,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄備註"
+          }
+        }
+      }
+    },
+    "Session Report" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄報告"
+          }
+        }
+      }
+    },
+    "Session Snapshot" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录快照"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄快照"
+          }
+        }
+      }
+    },
+    "Session started" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录开始于"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄開始於"
           }
         }
       }
@@ -31268,6 +31776,54 @@
         }
       }
     },
+    "Share" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
+          }
+        }
+      }
+    },
+    "Share Current State" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享当前状态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享目前狀態"
+          }
+        }
+      }
+    },
+    "Share Current State…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享当前状态…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享目前狀態…"
+          }
+        }
+      }
+    },
     "Share drug info" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31284,7 +31840,40 @@
         }
       }
     },
+    "Share session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享本次记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享本次記錄"
+          }
+        }
+      }
+    },
+    "Share Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享本次记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享本次記錄"
+          }
+        }
+      }
+    },
     "Share session log" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31986,6 +32575,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SNRI 通常會減弱 MDMA 的效果——可能變弱，於是人們常常追加劑量而出問題（過熱、心臟負擔）。兩者單獨併用不會引起血清素症候群。"
+          }
+        }
+      }
+    },
+    "Sober" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清醒"
           }
         }
       }
@@ -32777,6 +33382,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "準備中…"
+          }
+        }
+      }
+    },
+    "State Data" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態資料"
+          }
+        }
+      }
+    },
+    "State Report" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態報告"
           }
         }
       }
@@ -33944,6 +34583,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "放輕鬆。補水、吃飯、休息。"
+          }
+        }
+      }
+    },
+    "Taken" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摄入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "攝入"
           }
         }
       }
@@ -37096,6 +37751,22 @@
         }
       }
     },
+    "View session image" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看记录图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看記錄圖片"
+          }
+        }
+      }
+    },
     "Visual" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -38656,6 +39327,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體重是把劑量換算成暴露量的分母：體重越輕，同樣的劑量作用越強。有了它，Piru 才能估算一杯酒對*你的*身體有多強，以及反覆使用如何形成耐受。沒有它，這些數字會退回到普通成年人的平均值，並標註為估算。"
+          }
+        }
+      }
+    },
+    "zero-order" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "零级动力学"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "零級動力學"
           }
         }
       }

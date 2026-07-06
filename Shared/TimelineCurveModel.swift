@@ -322,14 +322,21 @@ nonisolated enum TimelineCurveModel {
         return (kinetics, mg)
     }
 
-    /// The logged amount in milligrams, but only for a true mass unit — alcohol is canonically logged
-    /// as grams of ethanol (by-volume conversion). A volume unit (mL of a *drink*) isn't a mass and
-    /// returns `nil` so the caller falls back rather than mistaking drink mL for ethanol mg.
+    /// The logged amount in milligrams of ethanol. Mass units convert directly;
+    /// colloquial **drink/unit** counts convert at the NIAAA standard-drink mass
+    /// (`ByVolumeDosing.usStandardDrinkGrams`, 14 g) so alcohol logged "2 drinks"
+    /// still drives the zero-order ceiling model instead of falling back to the
+    /// generic phase bell. A volume unit (mL of a *drink*) isn't a mass and
+    /// returns `nil` so the caller falls back rather than mistaking mL for mg.
     nonisolated static func zeroOrderDoseMilligrams(amount: Double, unit: String) -> Double? {
         guard amount.isFinite, amount > 0 else { return nil }
         switch unit.trimmingCharacters(in: .whitespaces).lowercased() {
         case "g", "gram", "grams": return amount * 1_000
         case "mg", "milligram", "milligrams": return amount
+        case "drink", "drinks", "unit", "units", "standard drink", "standard drinks":
+            // NIAAA US standard drink = 14 g ethanol (matches
+            // `ByVolumeDosing.usStandardDrinkGrams`, inlined as this is nonisolated).
+            return amount * 14 * 1_000
         default: return nil
         }
     }

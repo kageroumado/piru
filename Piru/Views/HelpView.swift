@@ -6,6 +6,7 @@ struct HelpView: View {
     @Query private var recentEntries: [DoseEntry]
     @Environment(\.appNavigator) private var navigator
     @State private var copiedSummary = false
+    @State private var showShareSession = false
     @State private var activeSubstances: [ActiveSubstance] = []
     /// Resolved once per data change in `.task`, not on every `body` pass — the
     /// computation does a `SubstanceLibrary` (GRDB) lookup per recent dose.
@@ -64,6 +65,15 @@ struct HelpView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
+            .sheet(isPresented: $showShareSession) {
+                SessionShareSheet(
+                    title: String(localized: "Current Session"),
+                    dateText: Date.now.formatted(date: .abbreviated, time: .omitted),
+                    entries: shareableEntries,
+                    colors: substanceColors,
+                    stackRedoses: true,
+                )
+            }
             .navigationTitle("Get Help")
             .task(id: EntriesFingerprint.make(recentEntries, colors: substanceColors)) {
                 activeSubstances = ActiveSubstanceCalculator.compute(
@@ -624,9 +634,26 @@ struct HelpView: View {
                     Spacer()
                 }
             }
+            if !shareableEntries.isEmpty {
+                Button {
+                    showShareSession = true
+                } label: {
+                    HStack {
+                        Spacer()
+                        Label("Share Current State…", systemImage: "square.and.arrow.up")
+                            .font(.subheadline.weight(.medium))
+                        Spacer()
+                    }
+                }
+            }
         } footer: {
             Text("Copies a plain-text summary of substances and recent doses to share with emergency responders.")
         }
+    }
+
+    /// Currently-active doses — the session a "Share Current State" hands off.
+    private var shareableEntries: [DoseEntry] {
+        InteractionChecker.activeEntries(from: recentEntries)
     }
 
     // MARK: - Summary Text Generation

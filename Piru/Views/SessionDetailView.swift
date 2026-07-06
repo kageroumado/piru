@@ -52,9 +52,8 @@ struct SessionDetailView: View {
     /// height and the List reflows the entries below it — no separate fullscreen
     /// sheet, no overlay. Every gesture stays the same; the curves just get room.
     @State private var timelineEnlarged = false
-    @State private var exportedImage: UIImage?
-    @State private var showShareSheet = false
-    @State private var isExporting = false
+    /// Presents the consolidated "Share Session" sheet (image / PDF / Markdown).
+    @State private var showShareSession = false
 
     /// Substance → colour, rebuilt only when the colour assignments change.
     /// `colorFor`/`colorForName` are called once per entry row, and each used to
@@ -343,19 +342,12 @@ struct SessionDetailView: View {
             if !entries.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        exportDayLog()
+                        showShareSession = true
                     } label: {
-                        if isExporting {
-                            ProgressView()
-                                .tint(Theme.accent)
-                        } else {
-                            Image(systemName: "square.and.arrow.up")
-                        }
+                        Image(systemName: "square.and.arrow.up")
                     }
-                    .disabled(isExporting)
-                    .accessibilityLabel(Text("Share session log"))
+                    .accessibilityLabel(Text("Share session"))
                 }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
             }
             ToolbarItem(placement: .topBarTrailing) {
                 sessionMenu
@@ -382,11 +374,14 @@ struct SessionDetailView: View {
             MoveToSessionView(dose: entry)
                 .presentationDetents([.medium, .large])
         }
-        .sheet(isPresented: $showShareSheet) {
-            if let image = exportedImage {
-                DayLogShareSheet(image: image)
-                    .presentationDetents([.medium, .large])
-            }
+        .sheet(isPresented: $showShareSession) {
+            SessionShareSheet(
+                title: session.title ?? "",
+                dateText: "\(dayOfWeek), \(dateTitle)",
+                entries: entries,
+                colors: Array(substanceColors),
+                stackRedoses: stackRedoses,
+            )
         }
         .sheet(item: $editing.recolorRequest) { request in
             SubstanceColorPickerView(
@@ -493,76 +488,6 @@ struct SessionDetailView: View {
         return Array(substanceColors).colorMap[key] ?? Theme.accent
     }
 
-    private func exportDayLog() {
-        isExporting = true
-        let hexMap = Array(substanceColors).hexColorMap
-        // Resolve each distinct substance once, not twice per dose.
-        var substanceCache: [String: Substance?] = [:]
-        func substance(_ name: String) -> Substance? {
-            let key = name.lowercased()
-            if let cached = substanceCache[key] { return cached }
-            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
-            substanceCache[key] = resolved
-            return resolved
-        }
-        let entriesCopy = entries.map { entry in
-            let sub = substance(entry.substance)
-            return DayLogImageExporter.EntryData(
-                substance: entry.substance,
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route,
-                timestamp: entry.timestamp,
-                notes: entry.notes,
-                tags: entry.tags,
-                category: sub?.category,
-                doseLevel: sub?.doseRange(for: entry.route)?.level(for: entry.amount),
-                colorHex: hexMap[entry.substance.lowercased()],
-            )
-        }
-        let exportDate = date
-        // Capture the timeline only when it's actually on screen — a collapsed
-        // graph exports the entry list alone, matching what the user sees.
-        let timelineImage = renderTimelineImage()
-        Task {
-            let image = DayLogImageExporter.generateImage(
-                date: exportDate,
-                entries: entriesCopy,
-                timeline: timelineImage,
-            )
-            isExporting = false
-            if let image {
-                exportedImage = image
-                showShareSheet = true
-            }
-        }
-    }
-
-    /// Render the timeline graph to a standalone image for the day-log export.
-    /// Mirrors the on-screen graph (same resolved curves/markers, synchronous so
-    /// it's drawn in one pass) on a dark card, sized to the exporter's column.
-    /// Returns nil when the graph is collapsed or has no curve to draw.
-    @MainActor
-    private func renderTimelineImage() -> UIImage? {
-        guard graphExpanded, !substanceStates.isEmpty else { return nil }
-        let graph = TimelineGraphView(
-            substances: substanceStates,
-            currentTime: .now,
-            compact: false,
-            markers: doseMarkers,
-            stackRedoses: stackRedoses,
-            dayBounded: true,
-            synchronous: true,
-        )
-        .frame(width: DayLogImageExporter.timelineWidth, height: SessionTimelineSection.graphHeight(enlarged: false, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold))
-        .background(Color(white: 0.09))
-        .environment(\.colorScheme, .dark)
-
-        let renderer = ImageRenderer(content: graph)
-        renderer.scale = 3 // @3x — crisp in the shareable export regardless of device
-        return renderer.uiImage
-    }
-
     private func toggleLiveActivity() {
         if LiveActivityManager.shared.isLiveActivityRunning {
             LiveActivityManager.shared.hideLiveActivity()
@@ -638,16 +563,6 @@ private final class DayResolveCache {
         value = resolved
         return resolved
     }
-}
-
-private struct DayLogShareSheet: UIViewControllerRepresentable {
-    let image: UIImage
-
-    func makeUIViewController(context _: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: [image], applicationActivities: nil)
-    }
-
-    func updateUIViewController(_: UIActivityViewController, context _: Context) {}
 }
 
 // MARK: - Session Detail Sections
