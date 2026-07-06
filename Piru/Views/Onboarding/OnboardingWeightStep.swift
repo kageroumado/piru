@@ -38,6 +38,8 @@ struct OnboardingWeightStep: View {
                     syncNote
                 } else if noReadNote {
                     noReadFallback
+                } else {
+                    vitalsNote
                 }
             }
             .padding(.horizontal, 24)
@@ -82,11 +84,21 @@ struct OnboardingWeightStep: View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    private var vitalsNote: some View {
+        Text("The same Health connection also lets Piru show your heart rate and blood pressure on each session — off until you turn it on in Settings.")
+            .font(.footnote)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
     private func connectHealth() async {
         connecting = true
         noReadNote = false
         error = nil
-        let result = await health.requestAndSync()
+        // One Health sheet covering weight + heart rate + blood pressure, then a
+        // silent weight read (the vitals reads happen per-session, when enabled).
+        await HealthKitVitals.shared.requestAccessWithBodyMass()
+        let result = await health.syncLatest()
         connecting = false
         switch result {
         case let .updated(kg):

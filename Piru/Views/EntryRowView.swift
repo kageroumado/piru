@@ -22,6 +22,11 @@ struct DayEntryCore: Equatable {
 struct DayEntryDisplay: Equatable {
     let core: DayEntryCore
     let color: Color
+    /// This dose's Apple Health heart-rate response (HR at dose → peak), when the
+    /// session has vitals and the overlay is enabled. Applied at the row-build site
+    /// like `color`, so it updates when HealthKit data arrives without re-running
+    /// the heavy substance resolve. Nil — the default — renders no chip.
+    var hr: DoseHRResponse?
 
     /// Build render-ready displays for a set of doses — the same resolution
     /// `SessionDetailView` does inline (substance lookup, dose-level classification,
@@ -125,6 +130,9 @@ struct EntryRowView: View {
                         }
                     }
                     .font(.subheadline)
+                    if let hr = display.hr {
+                        hrChip(hr)
+                    }
                     if !display.core.tags.isEmpty {
                         TagChipsView(tags: display.core.tags, compact: true)
                     }
@@ -147,5 +155,63 @@ struct EntryRowView: View {
             }
         }
         .padding(.vertical, 2)
+    }
+
+    /// This dose's heart-rate response: HR at dose → peak within the response
+    /// window, the delta, and a mini sparkline of the window. Data-only — the
+    /// analysis happens upstream in `SessionDetailView.loadVitals`.
+    private func hrChip(_ hr: DoseHRResponse) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: "heart.fill")
+                .font(.system(size: 9))
+            Text(verbatim: "\(hr.atDose)")
+                .fontWeight(.semibold)
+                .foregroundStyle(.primary)
+            Image(systemName: "arrow.right")
+                .font(.system(size: 7, weight: .semibold))
+                .foregroundStyle(.secondary)
+            Text(verbatim: "\(hr.peak)")
+                .fontWeight(.semibold)
+                .foregroundStyle(.primary)
+            Text(verbatim: "bpm")
+            Text(verbatim: "(\(hr.delta >= 0 ? "+" : "")\(hr.delta))")
+                .foregroundStyle(.secondary)
+            if hr.sparkline.count >= 2 {
+                HRSparkline(values: hr.sparkline)
+                    .frame(width: 30, height: 11)
+                    .padding(.leading, 2)
+            }
+        }
+        .font(.caption)
+        .foregroundStyle(VitalsPalette.heart)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(VitalsPalette.heart.opacity(0.14), in: Capsule())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Heart rate \(hr.atDose) rising to \(hr.peak) beats per minute"))
+    }
+}
+
+/// A tiny line sparkline of heart-rate values, min–max normalised to its frame.
+private struct HRSparkline: View {
+    let values: [Double]
+
+    var body: some View {
+        GeometryReader { geo in
+            Path { path in
+                guard values.count >= 2, let lo = values.min(), let hi = values.max() else { return }
+                let span = max(1, hi - lo)
+                for (index, value) in values.enumerated() {
+                    let x = geo.size.width * CGFloat(index) / CGFloat(values.count - 1)
+                    let y = geo.size.height * (1 - CGFloat((value - lo) / span))
+                    if index == 0 {
+                        path.move(to: CGPoint(x: x, y: y))
+                    } else {
+                        path.addLine(to: CGPoint(x: x, y: y))
+                    }
+                }
+            }
+            .stroke(VitalsPalette.heart, style: StrokeStyle(lineWidth: 1.3, lineCap: .round, lineJoin: .round))
+        }
     }
 }

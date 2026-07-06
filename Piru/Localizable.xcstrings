@@ -1498,6 +1498,22 @@
         }
       }
     },
+    "%lld bpm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bpm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bpm"
+          }
+        }
+      }
+    },
     "%lld daily reminder%@ scheduled." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3411,6 +3427,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當時間已晚、再來一劑可能影響睡眠時，提前提醒你。"
+          }
+        }
+      }
+    },
+    "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型曲线预测一次用药*应该*产生的效果；而你的心率显示身体*实际*的反应——兴奋剂和酒精都会使其升高，因此将两者放在一起看，就把预测变成了记录。血压读数也值得附上：你往往*正是因为*感觉不适才会去测量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型曲線預測一次用藥*應該*產生的效果；而你的心率顯示身體*實際*的反應——興奮劑和酒精都會使其升高，因此將兩者放在一起看，就把預測變成了記錄。血壓讀數也值得附上：你往往*正是因為*感覺不適才會去測量。"
           }
         }
       }
@@ -6553,6 +6585,22 @@
         }
       }
     },
+    "avg %lld · peak %lld bpm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均 %lld · 峰值 %lld bpm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均 %lld · 峰值 %lld bpm"
+          }
+        }
+      }
+    },
     "Avoid 5-HTP supplements for at least 24 hours after your last dose." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7724,6 +7772,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阻斷 β1、β2 和 α1-腎上腺素受體,提供血管擴張和心輸出量降低的聯合效應。α1 阻斷產生直接的動脈血管擴張,與純 β-阻滯劑有所不同。也具有抗氧化和抗增殖特性,可能在降低血壓之外提供額外的心血管保護。"
+          }
+        }
+      }
+    },
+    "Blood pressure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血压"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血壓"
           }
         }
       }
@@ -10151,6 +10215,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "確認通行碼"
+          }
+        }
+      }
+    },
+    "Connect Apple Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接“健康”App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連接「健康」App"
           }
         }
       }
@@ -14050,6 +14130,22 @@
         }
       }
     },
+    "Elevated vs your resting %lld bpm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高于静息心率 %lld bpm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高於靜息心率 %lld bpm"
+          }
+        }
+      }
+    },
     "eliminated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17441,6 +17537,54 @@
         }
       }
     },
+    "Heart rate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率"
+          }
+        }
+      }
+    },
+    "Heart Rate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率"
+          }
+        }
+      }
+    },
+    "Heart rate %lld rising to %lld beats per minute" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率 %lld，升至每分钟 %lld 次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率 %lld，升至每分鐘 %lld 次"
+          }
+        }
+      }
+    },
     "Heavy" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18744,6 +18888,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在體內"
+          }
+        }
+      }
+    },
+    "In line with your resting %lld bpm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与静息心率 %lld bpm 相当"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與靜息心率 %lld bpm 相當"
           }
         }
       }
@@ -24228,6 +24388,22 @@
         }
       }
     },
+    "Not seeing your heart rate on a session? Apple doesn't tell apps whether read access was granted, so tap Connect to (re)request it, or open Settings ▸ Health ▸ Data Access ▸ Piru and switch Heart Rate and Blood Pressure on." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在某次记录中看不到心率？Apple 不会告知 App 是否已获得读取权限，因此可点按“连接”来（重新）请求，或前往“设置 ▸ 健康 ▸ 数据访问 ▸ Piru”并打开“心率”和“血压”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在某次記錄中看不到心率？Apple 不會告知 App 是否已取得讀取權限，因此可點按「連接」來（重新）請求，或前往「設定 ▸ 健康 ▸ 資料取用 ▸ Piru」並開啟「心率」和「血壓」。"
+          }
+        }
+      }
+    },
     "Not set" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24516,6 +24692,22 @@
         }
       }
     },
+    "Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關"
+          }
+        }
+      }
+    },
     "Offset" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24560,6 +24752,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "好"
+          }
+        }
+      }
+    },
+    "On" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開"
           }
         }
       }
@@ -24641,6 +24849,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起效"
+          }
+        }
+      }
+    },
+    "Open Health Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开“健康”设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開「健康」設定"
           }
         }
       }
@@ -25145,6 +25369,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素再攝取抑制重疊 — 血清素綜合徵的風險增加。"
+          }
+        }
+      }
+    },
+    "Overlays your Apple Watch heart rate — and any blood-pressure readings — on each session's timeline, and shows how your heart responded to each dose. Read-only; you can turn Piru's access off anytime in Settings ▸ Health ▸ Data Access. With no data for a session, nothing is shown." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将你的 Apple Watch 心率（以及任何血压读数）叠加到每次记录的时间线上，并显示你的心脏对每次用药的反应。仅供读取；你可以随时在“设置 ▸ 健康 ▸ 数据访问”中关闭 Piru 的访问权限。某次记录没有数据时，不会显示任何相关内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將你的 Apple Watch 心率（以及任何血壓讀數）疊加到每次記錄的時間軸上，並顯示你的心臟對每次用藥的反應。僅供讀取；你可以隨時在「設定 ▸ 健康 ▸ 資料取用」中關閉 Piru 的存取權限。某次記錄沒有資料時，不會顯示任何相關內容。"
           }
         }
       }
@@ -32118,6 +32358,22 @@
         }
       }
     },
+    "Show on sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在记录中显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在記錄中顯示"
+          }
+        }
+      }
+    },
     "Showing %@ entries only — other units excluded" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35313,6 +35569,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體重越輕，同樣的劑量作用越強。設定你的體重，讓估算貼合你的身體——否則 Piru 會按普通成年人（約 60 公斤）計算。"
+          }
+        }
+      }
+    },
+    "The same Health connection also lets Piru show your heart rate and blood pressure on each session — off until you turn it on in Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一“健康”连接还能让 Piru 在每次记录中显示你的心率和血压——在你于“设置”中开启前将保持关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一「健康」連線還能讓 Piru 在每次記錄中顯示你的心率和血壓——在你於「設定」中開啟前將保持關閉。"
           }
         }
       }

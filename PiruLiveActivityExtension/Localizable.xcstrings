@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld bpm" : {
+
+    },
     "%lldh" : {
 
     },
@@ -45,6 +48,9 @@
     "Biweekly" : {
 
     },
+    "Blood pressure" : {
+
+    },
     "Come-up" : {
 
     },
@@ -64,6 +70,9 @@
 
     },
     "Every other day" : {
+
+    },
+    "Heart rate" : {
 
     },
     "High confidence" : {

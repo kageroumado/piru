@@ -9,6 +9,39 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Apple Health vitals overlay — heart rate / blood pressure on sessions (2026-07-06).
+    "Heart rate": ("心率", "心率"),
+    "Heart Rate": ("心率", "心率"),
+    "Blood pressure": ("血压", "血壓"),
+    "Show on sessions": ("在记录中显示", "在記錄中顯示"),
+    "The same Health connection also lets Piru show your heart rate and blood pressure on each session — off until you turn it on in Settings.": (
+        "同一“健康”连接还能让 Piru 在每次记录中显示你的心率和血压——在你于“设置”中开启前将保持关闭。",
+        "同一「健康」連線還能讓 Piru 在每次記錄中顯示你的心率和血壓——在你於「設定」中開啟前將保持關閉。",
+    ),
+    "Connect Apple Health": ("连接“健康”App", "連接「健康」App"),
+    "Open Health Settings": ("打开“健康”设置", "打開「健康」設定"),
+    "Not seeing your heart rate on a session? Apple doesn't tell apps whether read access was granted, so tap Connect to (re)request it, or open Settings ▸ Health ▸ Data Access ▸ Piru and switch Heart Rate and Blood Pressure on.": (
+        "在某次记录中看不到心率？Apple 不会告知 App 是否已获得读取权限，因此可点按“连接”来（重新）请求，或前往“设置 ▸ 健康 ▸ 数据访问 ▸ Piru”并打开“心率”和“血压”。",
+        "在某次記錄中看不到心率？Apple 不會告知 App 是否已取得讀取權限，因此可點按「連接」來（重新）請求，或前往「設定 ▸ 健康 ▸ 資料取用 ▸ Piru」並開啟「心率」和「血壓」。",
+    ),
+    "On": ("开", "開"),
+    "Off": ("关", "關"),
+    "avg %lld · peak %lld bpm": ("平均 %lld · 峰值 %lld bpm", "平均 %lld · 峰值 %lld bpm"),
+    "%lld bpm": ("%lld bpm", "%lld bpm"),
+    "Elevated vs your resting %lld bpm": ("高于静息心率 %lld bpm", "高於靜息心率 %lld bpm"),
+    "In line with your resting %lld bpm": ("与静息心率 %lld bpm 相当", "與靜息心率 %lld bpm 相當"),
+    "Heart rate %lld rising to %lld beats per minute": (
+        "心率 %lld，升至每分钟 %lld 次",
+        "心率 %lld，升至每分鐘 %lld 次",
+    ),
+    "Overlays your Apple Watch heart rate — and any blood-pressure readings — on each session's timeline, and shows how your heart responded to each dose. Read-only; you can turn Piru's access off anytime in Settings ▸ Health ▸ Data Access. With no data for a session, nothing is shown.": (
+        "将你的 Apple Watch 心率（以及任何血压读数）叠加到每次记录的时间线上，并显示你的心脏对每次用药的反应。仅供读取；你可以随时在“设置 ▸ 健康 ▸ 数据访问”中关闭 Piru 的访问权限。某次记录没有数据时，不会显示任何相关内容。",
+        "將你的 Apple Watch 心率（以及任何血壓讀數）疊加到每次記錄的時間軸上，並顯示你的心臟對每次用藥的反應。僅供讀取；你可以隨時在「設定 ▸ 健康 ▸ 資料取用」中關閉 Piru 的存取權限。某次記錄沒有資料時，不會顯示任何相關內容。",
+    ),
+    "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off.": (
+        "模型曲线预测一次用药*应该*产生的效果；而你的心率显示身体*实际*的反应——兴奋剂和酒精都会使其升高，因此将两者放在一起看，就把预测变成了记录。血压读数也值得附上：你往往*正是因为*感觉不适才会去测量。",
+        "模型曲線預測一次用藥*應該*產生的效果；而你的心率顯示身體*實際*的反應——興奮劑和酒精都會使其升高，因此將兩者放在一起看，就把預測變成了記錄。血壓讀數也值得附上：你往往*正是因為*感覺不適才會去測量。",
+    ),
     # Share sheet previews + session image (2026-07-06).
     "Cumulative": ("累计", "累計"),
     "Image": ("图片", "圖片"),
@@ -4316,6 +4349,24 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Apple Health vitals overlay (2026-07-06).
+        "Heart rate",
+        "Heart Rate",
+        "Blood pressure",
+        "Show on sessions",
+        "The same Health connection also lets Piru show your heart rate and blood pressure on each session — off until you turn it on in Settings.",
+        "%lld bpm",
+        "Connect Apple Health",
+        "Open Health Settings",
+        "Not seeing your heart rate on a session? Apple doesn't tell apps whether read access was granted, so tap Connect to (re)request it, or open Settings ▸ Health ▸ Data Access ▸ Piru and switch Heart Rate and Blood Pressure on.",
+        "On",
+        "Off",
+        "avg %lld · peak %lld bpm",
+        "Elevated vs your resting %lld bpm",
+        "In line with your resting %lld bpm",
+        "Heart rate %lld rising to %lld beats per minute",
+        "Overlays your Apple Watch heart rate — and any blood-pressure readings — on each session's timeline, and shows how your heart responded to each dose. Read-only; you can turn Piru's access off anytime in Settings ▸ Health ▸ Data Access. With no data for a session, nothing is shown.",
+        "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off.",
         # Session note inline actions — swipe + context menu (2026-07-06).
         "Delete Note",
         # Share sheet previews + session image (2026-07-06).

@@ -7,6 +7,7 @@ struct SettingsView: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     @State private var profileStore = UserProfileStore.shared
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showSessionVitals = false
 
     @Environment(\.appNavigator) private var navigator
 
@@ -91,6 +92,17 @@ struct SettingsView: View {
                             Label("Body Weight", systemImage: "figure")
                             Spacer()
                             Text(weightSummary)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+
+                    NavigationLink {
+                        SessionVitalsView()
+                    } label: {
+                        HStack {
+                            Label("Heart Rate", systemImage: "heart.text.square")
+                            Spacer()
+                            Text(showSessionVitals ? "On" : "Off")
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }

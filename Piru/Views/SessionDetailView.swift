@@ -55,6 +55,18 @@ struct SessionDetailView: View {
     /// Presents the consolidated "Share Session" sheet (image / PDF / Markdown).
     @State private var showShareSession = false
 
+    /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
+    /// Stored in the app-group suite so it's consistent app-wide. When off (the
+    /// default), no vitals are fetched and nothing about them appears.
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    private var showSessionVitals = false
+    /// Apple Health vitals for this session's window (nil until fetched / when empty).
+    @State private var sessionVitals: SessionVitals?
+    /// Per-dose heart-rate response, keyed by `DoseEntry.id`, for the row chips.
+    @State private var doseHR: [UUID: DoseHRResponse] = [:]
+    /// Session-wide heart-rate summary for the Summary card.
+    @State private var hrSummary: HRSummary?
+
     /// Substance → colour, rebuilt only when the colour assignments change.
     /// `colorFor`/`colorForName` are called once per entry row, and each used to
     /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole colour
@@ -186,7 +198,7 @@ struct SessionDetailView: View {
     /// to show — re-dose totals or interaction warnings. (Recovery tips ride along
     /// inside it rather than standing alone.)
     private var hasSummary: Bool {
-        !cumulativeDoses.isEmpty || !dayInteractions.isEmpty
+        !cumulativeDoses.isEmpty || !dayInteractions.isEmpty || hrSummary != nil
     }
 
     /// Highest severity among the day's interactions — drives the disclosure's
@@ -232,6 +244,38 @@ struct SessionDetailView: View {
         }
     }
 
+    /// Session-wide heart-rate summary — average / peak, and how it compares to
+    /// the user's resting rate when known.
+    private func hrSummaryRow(_ summary: HRSummary) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: "heart.fill")
+                .font(.title3)
+                .foregroundStyle(VitalsPalette.heart)
+                .frame(width: 24)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 6) {
+                    Text("Heart rate")
+                        .font(.subheadline.weight(.semibold))
+                    Text("avg \(summary.average) · peak \(summary.peak) bpm")
+                        .font(.subheadline)
+                        .monospacedDigit()
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                if let resting = summary.resting {
+                    Text(
+                        summary.average > resting + 3
+                            ? "Elevated vs your resting \(resting) bpm"
+                            : "In line with your resting \(resting) bpm",
+                    )
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+            Spacer()
+        }
+        .accessibilityElement(children: .combine)
+    }
+
     private var dateTitle: String {
         // The current year is implicit — only show it for past/future years.
         let base = Date.FormatStyle.dateTime.day().month(.wide)
@@ -245,6 +289,63 @@ struct SessionDetailView: View {
 
     private var isToday: Bool {
         Calendar.current.isDateInToday(date)
+    }
+
+    // MARK: - Apple Health vitals
+
+    /// Re-runs the vitals fetch when the session changes or the setting is toggled.
+    private var vitalsTaskKey: String {
+        "\(session.id.uuidString)-\(showSessionVitals)"
+    }
+
+    /// End of the window to read vitals over: the latest effect end, extended to
+    /// now for a session still in progress today.
+    private var vitalsWindowEnd: Date {
+        let effectEnd = substanceStates
+            .map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
+            .max() ?? session.startDate.addingTimeInterval(6 * 3_600)
+        return isToday ? max(effectEnd, .now) : effectEnd
+    }
+
+    /// Fetch Health vitals for this session and derive the chart overlay, the
+    /// per-dose row chips, and the summary — or clear them when disabled. Attempts
+    /// the read unconditionally (iOS never reports read access); an empty result
+    /// simply leaves everything nil, so nothing about vitals shows.
+    private func loadVitals() async {
+        let start = session.startDate.addingTimeInterval(-VitalsAnalysis.baselineLookback)
+        let end = vitalsWindowEnd
+        let fetched = await fetchVitals(from: start, to: end)
+        guard !Task.isCancelled else { return }
+
+        sessionVitals = fetched.isEmpty ? nil : fetched
+        var responses: [UUID: DoseHRResponse] = [:]
+        for entry in entries {
+            if let response = VitalsAnalysis.doseResponse(doseAt: entry.timestamp, in: fetched.heartRate) {
+                responses[entry.id] = response
+            }
+        }
+        doseHR = responses
+        hrSummary = VitalsAnalysis.summary(
+            from: session.startDate, to: end,
+            heartRate: fetched.heartRate, restingHeartRate: fetched.restingHeartRate,
+        )
+    }
+
+    private func fetchVitals(from start: Date, to end: Date) async -> SessionVitals {
+        #if DEBUG
+            // On-simulator visual verification without Health data. Never ships.
+            if ProcessInfo.processInfo.arguments.contains("-piruFakeVitals") {
+                return DebugVitals.synthetic(doses: entries.map(\.timestamp), start: session.startDate, end: end)
+            }
+        #endif
+        guard showSessionVitals, HealthKitVitals.shared.isAvailable else { return .empty }
+        // Ask for access the first time a session opens with the feature on — but
+        // only when the system would actually prompt (a still-undetermined type),
+        // so we never nag after the user has answered once, granted or denied.
+        if await HealthKitVitals.shared.shouldRequestAccess() {
+            await HealthKitVitals.shared.requestAccess()
+        }
+        return await HealthKitVitals.shared.vitals(from: start, to: end)
     }
 
     /// Today or yesterday — recent enough that an elapsed-time line ("13h ago",
@@ -286,6 +387,7 @@ struct SessionDetailView: View {
                             timelineEnlarged: $timelineEnlarged,
                             isToday: isToday,
                             hasOngoingDose: hasOngoingDose,
+                            vitals: sessionVitals,
                             onToggleLiveActivity: toggleLiveActivity,
                         )
                     }
@@ -324,7 +426,7 @@ struct SessionDetailView: View {
                     // Entries
                     let cores = resolvedDay.entryCores
                     let displays = entries.enumerated().map { index, entry in
-                        DayEntryDisplay(core: cores[index], color: colorFor(entry))
+                        DayEntryDisplay(core: cores[index], color: colorFor(entry), hr: doseHR[entry.id])
                     }
                     SessionEntryListSection(entries: entries, displays: displays, isRecentDay: isRecentDay)
 
@@ -336,6 +438,10 @@ struct SessionDetailView: View {
                         Section("Summary") {
                             if !dayInteractions.isEmpty {
                                 interactionsDisclosure
+                            }
+
+                            if let hrSummary {
+                                hrSummaryRow(hrSummary)
                             }
 
                             ForEach(cumulativeDoses, id: \.substance) { item in
@@ -359,6 +465,7 @@ struct SessionDetailView: View {
             colorMap = Array(substanceColors).colorMap
             colorMapReady = true
         }
+        .task(id: vitalsTaskKey) { await loadVitals() }
         .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -612,6 +719,7 @@ private struct SessionTimelineSection: View {
     @Binding var timelineEnlarged: Bool
     let isToday: Bool
     let hasOngoingDose: Bool
+    let vitals: SessionVitals?
     let onToggleLiveActivity: () -> Void
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
@@ -621,7 +729,8 @@ private struct SessionTimelineSection: View {
     var body: some View {
         Section {
             if graphExpanded {
-                AnimatableHeight(height: GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold)) {
+                let bandExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
+                AnimatableHeight(height: GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold) + bandExtra) {
                     TimelineGraphView(
                         substances: states,
                         currentTime: .now,
@@ -629,6 +738,8 @@ private struct SessionTimelineSection: View {
                         markers: markers,
                         stackRedoses: stackRedoses,
                         dayBounded: true,
+                        vitals: vitals,
+                        vitalsBandEnlarged: timelineEnlarged,
                         synchronous: true,
                     )
                 }
@@ -1188,3 +1299,50 @@ private struct RetimeMoveView: View {
         }
     }
 }
+
+#if DEBUG
+    /// Synthetic vitals for on-simulator visual verification, gated behind the
+    /// `-piruFakeVitals` launch argument. Never compiled into release builds. HR
+    /// rises after each dose (stimulant/alcohol tachycardia) with a little wobble,
+    /// plus a couple of blood-pressure spot checks.
+    private enum DebugVitals {
+        static func synthetic(doses: [Date], start: Date, end: Date) -> SessionVitals {
+            let totalMinutes = end.timeIntervalSince(start) / 60
+            guard totalMinutes > 0 else { return .empty }
+
+            func smoothstep(_ x: Double) -> Double {
+                let c = max(0, min(1, x))
+                return c * c * (3 - 2 * c)
+            }
+            func bump(_ t: Double, at t0: Double, rise: Double, fall: Double) -> Double {
+                guard t >= t0 else { return 0 }
+                let x = t - t0
+                return x < rise ? smoothstep(x / rise) : exp(-(x - rise) / fall)
+            }
+
+            let doseMinutes = doses.map { $0.timeIntervalSince(start) / 60 }
+            var heartRate: [HeartRateSample] = []
+            var minute = -VitalsAnalysis.baselineLookback / 60
+            var index = 0
+            while minute <= totalMinutes {
+                var bpm = 64 - 0.01 * minute
+                for (position, dose) in doseMinutes.enumerated() {
+                    bpm += Double(9 + position * 4) * bump(minute, at: dose, rise: 30, fall: 160)
+                }
+                bpm += 2.4 * sin(Double(index) * 1.7) + 1.6 * sin(Double(index) * 0.9)
+                heartRate.append(HeartRateSample(date: start.addingTimeInterval(minute * 60), bpm: bpm))
+                minute += 5
+                index += 1
+            }
+
+            var bloodPressure: [BloodPressureReading] = []
+            if let first = doseMinutes.first {
+                bloodPressure.append(BloodPressureReading(date: start.addingTimeInterval((first + 8) * 60), systolic: 118, diastolic: 76))
+            }
+            if totalMinutes > 90 {
+                bloodPressure.append(BloodPressureReading(date: start.addingTimeInterval(totalMinutes * 0.5 * 60), systolic: 129, diastolic: 83))
+            }
+            return SessionVitals(heartRate: heartRate, bloodPressure: bloodPressure, restingHeartRate: 62)
+        }
+    }
+#endif

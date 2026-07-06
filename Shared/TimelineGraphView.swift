@@ -20,6 +20,18 @@ enum GraphMetrics {
     static let embedded: CGFloat = 168
     /// Enlarged (tapped-open) height for overlapping-curve days.
     static let enlarged: CGFloat = 320
+    /// Height of the companion vitals (heart-rate) lane drawn below the effect
+    /// curves, plus the gap separating it from them. Added to the canvas height
+    /// only on the full graph when the session has heart-rate data, so the
+    /// effect region keeps its normal size and the lane sits in the extra space.
+    /// Grows with the enlarged graph so the trace gets more room too.
+    static func vitalsBand(enlarged: Bool) -> CGFloat {
+        enlarged ? 74 : 54
+    }
+    static let vitalsBandGap: CGFloat = 8
+    static func vitalsBandTotal(enlarged: Bool) -> CGFloat {
+        vitalsBand(enlarged: enlarged) + vitalsBandGap
+    }
 
     /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
     /// heights; lane-mode days grow with the lane count so each horizon strip
@@ -116,6 +128,16 @@ struct TimelineGraphView: View, Equatable {
     /// now-pill leave this off — they frame a rolling session, not a calendar
     /// day. Curves past the cap are simply clipped at the right edge.
     var dayBounded: Bool = false
+    /// Optional Apple Health vitals (heart rate + blood pressure) for this
+    /// session's window. When present and non-empty on the full graph, a
+    /// companion "cardio lane" is drawn below the effect curves, sharing the
+    /// same time axis (so it pans/zooms/scrubs in lockstep). `nil` — the
+    /// default — leaves the graph exactly as before, so the fullscreen detail,
+    /// export image, and widgets are unaffected.
+    var vitals: SessionVitals?
+    /// Whether the host graph is in its enlarged (tapped-open) state — grows the
+    /// vitals lane along with the effect region so the trace gets more room.
+    var vitalsBandEnlarged: Bool = false
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -200,6 +222,8 @@ struct TimelineGraphView: View, Equatable {
               lhs.highlighted == rhs.highlighted,
               lhs.presetSpanMinutes == rhs.presetSpanMinutes,
               lhs.markers == rhs.markers,
+              lhs.vitals == rhs.vitals,
+              lhs.vitalsBandEnlarged == rhs.vitalsBandEnlarged,
               lhs.substances == rhs.substances
         else { return false }
         guard lhs.showNowIndicator else { return true }
@@ -221,6 +245,8 @@ struct TimelineGraphView: View, Equatable {
         highlighted: String? = nil,
         presetSpanMinutes: Double? = nil,
         dayBounded: Bool = false,
+        vitals: SessionVitals? = nil,
+        vitalsBandEnlarged: Bool = false,
         synchronous: Bool = false,
     ) {
         self.substances = substances
@@ -232,6 +258,8 @@ struct TimelineGraphView: View, Equatable {
         self.highlighted = highlighted
         self.presetSpanMinutes = presetSpanMinutes
         self.dayBounded = dayBounded
+        self.vitals = vitals
+        self.vitalsBandEnlarged = vitalsBandEnlarged
         let key = DerivedKey(substances: substances, markers: markers, stackRedoses: stackRedoses, dayBounded: dayBounded)
         if synchronous {
             // Live Activity / widget snapshots render in one synchronous pass —
@@ -301,6 +329,23 @@ struct TimelineGraphView: View, Equatable {
     /// Height reserved for relative time labels above the graph
     private var topLabelAreaHeight: CGFloat {
         compact ? 0 : GraphMetrics.topLabels
+    }
+
+    /// Whether the companion vitals lane is drawn — the full graph only, and only
+    /// when the session actually has heart-rate samples (BP alone never draws it).
+    var vitalsBandActive: Bool {
+        guard !compact, let vitals, vitals.hasHeartRate else { return false }
+        return true
+    }
+
+    /// Height of the vitals lane's drawable strip (grows when enlarged).
+    private var vitalsBandHeight: CGFloat {
+        GraphMetrics.vitalsBand(enlarged: vitalsBandEnlarged)
+    }
+
+    /// Vertical space the vitals lane consumes below the effect curves, or 0.
+    private var vitalsBandTotal: CGFloat {
+        vitalsBandActive ? GraphMetrics.vitalsBandTotal(enlarged: vitalsBandEnlarged) : 0
     }
 
     /// Full scrollable extent — the latest minute the tallest *rendered* curve
@@ -578,7 +623,10 @@ struct TimelineGraphView: View, Equatable {
             inset: inset,
             top: inset + topLabelAreaHeight,
             width: size.width - inset * 2,
-            height: size.height - labelAreaHeight - topLabelAreaHeight - inset * 2,
+            // The effect-curve region excludes the companion vitals lane, which
+            // sits in the extra height the host reserves below it (via
+            // GraphMetrics.vitalsBandTotal), so the curves keep their normal size.
+            height: size.height - labelAreaHeight - topLabelAreaHeight - inset * 2 - vitalsBandTotal,
         )
     }
 
@@ -635,34 +683,6 @@ struct TimelineGraphView: View, Equatable {
             }
         }
         return out.sorted { $0.value > $1.value }
-    }
-
-    /// Index of the strongest curve whose effect window includes `currentTime`,
-    /// in per-dose order. The resting now-dot is drawn on only this curve.
-    private func frontmostActiveIndex(yNorm: Double) -> Int? {
-        var best = -1.0
-        var bestIdx: Int? = nil
-        for (i, s) in substances.enumerated() {
-            let elapsed = currentTime.timeIntervalSince(s.doseTimestamp) / 60
-            guard elapsed >= 0, elapsed <= s.totalMinutes else { continue }
-            let v = TimelineCurveModel.intensity(at: elapsed, for: s, params: TimelineCurveModel.pkParams(for: s)) * heightScale(for: s) * yNorm
-            if v > best { best = v; bestIdx = i }
-        }
-        return bestIdx
-    }
-
-    /// Stacked-mode counterpart: the strongest group at `nowGlobal`.
-    private func frontmostActiveStackedIndex(yNorm: Double, nowGlobal: Double) -> Int? {
-        var best = -1.0
-        var bestIdx: Int? = nil
-        for (gi, group) in stackedGroups.enumerated() {
-            let (gStart, gEnd) = stackedGroupRange(group)
-            guard nowGlobal >= gStart, nowGlobal <= gEnd else { continue }
-            let params = group.map { TimelineCurveModel.pkParams(for: $0) }
-            let v = stackedIntensity(atGlobalMinutes: nowGlobal, group: group, params: params) * yNorm
-            if v > best { best = v; bestIdx = gi }
-        }
-        return bestIdx
     }
 
     private func scrubClockTime(atMinute global: Double) -> String {
@@ -794,15 +814,32 @@ struct TimelineGraphView: View, Equatable {
             .onChanged { lastTouchX = $0.location.x }
     }
 
+    /// Interpolated heart rate (bpm) at a scrubbed minute-since-`earliestDose`, for
+    /// the scrub callout. Nil when there are no vitals or the minute is outside the
+    /// sampled range.
+    private func scrubHeartRate(atMinute minute: Double) -> Int? {
+        guard let hr = vitals?.heartRate, !hr.isEmpty else { return nil }
+        let pts = hr.map { (m: $0.date.timeIntervalSince(earliestDose) / 60, bpm: $0.bpm) }
+        guard let first = pts.first, let last = pts.last, minute >= first.m, minute <= last.m else { return nil }
+        for i in 1 ..< pts.count where pts[i].m >= minute {
+            let a = pts[i - 1], b = pts[i]
+            let span = b.m - a.m
+            let t = span > 0 ? (minute - a.m) / span : 0
+            return Int((a.bpm + (b.bpm - a.bpm) * t).rounded())
+        }
+        return Int(last.bpm.rounded())
+    }
+
     /// The floating readout above the scrub rule: scrubbed clock time plus each
-    /// present curve's name and intensity. SwiftUI (not Canvas text) so it
-    /// localizes and respects Dynamic Type. Non-interactive; clamped on-screen.
+    /// present curve's name and intensity, and the heart rate. SwiftUI (not Canvas
+    /// text) so it localizes and respects Dynamic Type. Non-interactive; clamped.
     @ViewBuilder
     private func scrubCallout(geom: GraphGeometry) -> some View {
         if let scrubX, geom.width > 0 {
             let minute = visibleStart + Double((scrubX - geom.inset) / geom.width) * visibleSpan
             let samples = scrubSamples(atMinute: minute)
-            if !samples.isEmpty {
+            let heartRate = scrubHeartRate(atMinute: minute)
+            if !samples.isEmpty || heartRate != nil {
                 let calloutWidth: CGFloat = 158
                 let maxLeft = max(4, geom.width + geom.inset * 2 - calloutWidth - 4)
                 let left = min(max(scrubX - calloutWidth / 2, 4), maxLeft)
@@ -830,6 +867,20 @@ struct TimelineGraphView: View, Equatable {
                                         .lineLimit(1)
                                 }
                             }
+                        }
+                    }
+                    if let heartRate {
+                        HStack(spacing: 5) {
+                            Circle()
+                                .fill(VitalsPalette.heart)
+                                .frame(width: 7, height: 7)
+                            Text("Heart rate")
+                                .font(.caption2)
+                                .lineLimit(1)
+                            Spacer(minLength: 6)
+                            Text("\(heartRate) bpm")
+                                .font(.caption2.weight(.medium).monospacedDigit())
+                                .foregroundStyle(VitalsPalette.heart)
                         }
                     }
                 }
@@ -966,6 +1017,15 @@ struct TimelineGraphView: View, Equatable {
             // area, so the line answers "where are we now" at a glance. Drawn
             // behind the curves (Health-style) so the dose dots still sit on
             // top of it.
+            // Vitals lane backdrop (the faint framed strip), drawn first so the
+            // now-line/scrub rule and the HR trace layer on top of it.
+            if vitalsBandActive {
+                drawVitalsLaneBackdrop(
+                    context: context, graphTop: graphTop, graphHeight: graphHeight,
+                    graphInset: graphInset, graphWidth: graphWidth,
+                )
+            }
+
             let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
             let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
             // Skip on compact thumbnails: a full-height line on a 96pt card reads
@@ -973,7 +1033,9 @@ struct TimelineGraphView: View, Equatable {
             if !compact, scrubX == nil, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
                 var nowLine = Path()
                 nowLine.move(to: CGPoint(x: nowX, y: graphTop))
-                nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight))
+                // Extend through the companion vitals lane so the "you are here"
+                // rule is one continuous line across both the curves and the HR band.
+                nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight + vitalsBandTotal))
                 context.stroke(
                     nowLine,
                     with: .color(.primary.opacity(0.55)),
@@ -1034,8 +1096,7 @@ struct TimelineGraphView: View, Equatable {
                 )
             } else {
                 let yNorm = yNormalization
-                let frontmostNow: Int? = (showNowIndicator && scrubX == nil) ? frontmostActiveIndex(yNorm: yNorm) : nil
-                for (idx, substance) in substances.enumerated() {
+                for (_, substance) in substances.enumerated() {
                     let color = Color(hex: substance.colorHex)
                     let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
                     let scale = TimelineCurveModel.compressedAmplitude(heightScale(for: substance) * yNorm)
@@ -1080,7 +1141,10 @@ struct TimelineGraphView: View, Equatable {
                         lineWidth: compact ? 1.5 : 2,
                     )
 
-                    if showNowIndicator, scrubX == nil, idx == frontmostNow, emph == .full, elapsed >= 0, elapsed <= substance.totalMinutes {
+                    // Resting now-dot: one on EVERY active curve at the current
+                    // instant (not just the frontmost), tinted to match each
+                    // curve's emphasis. Superseded by the scrub dots while scrubbing.
+                    if showNowIndicator, scrubX == nil, elapsed >= 0, elapsed <= substance.totalMinutes {
                         let minutePos = substanceOffset + elapsed
                         let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
                         let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: elapsed, for: substance, params: TimelineCurveModel.pkParams(for: substance)) * scale) * graphHeight * 0.93
@@ -1092,8 +1156,8 @@ struct TimelineGraphView: View, Equatable {
                                 width: dotSize,
                                 height: dotSize,
                             ))
-                            context.fill(dot, with: .color(color))
-                            context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
+                            context.fill(dot, with: .color(color.opacity(emph.strokeOpacity)))
+                            context.stroke(dot, with: .color(.white.opacity(0.8 * emph.strokeOpacity)), lineWidth: 1)
                         }
                     }
                 }
@@ -1119,7 +1183,7 @@ struct TimelineGraphView: View, Equatable {
                 let clampedX = min(max(sx, graphInset), graphInset + graphWidth)
                 var rule = Path()
                 rule.move(to: CGPoint(x: clampedX, y: graphTop))
-                rule.addLine(to: CGPoint(x: clampedX, y: graphTop + graphHeight))
+                rule.addLine(to: CGPoint(x: clampedX, y: graphTop + graphHeight + vitalsBandTotal))
                 context.stroke(rule, with: .color(.primary.opacity(0.55)), lineWidth: 1)
 
                 let minute = vStart + Double((clampedX - graphInset) / graphWidth) * vSpan
@@ -1158,6 +1222,17 @@ struct TimelineGraphView: View, Equatable {
                 }
             }
 
+            // Companion vitals lane (heart rate + blood pressure), drawn on top of
+            // the extended now-line/scrub rule so the HR trace and dots read clearly.
+            if vitalsBandActive, let vitals {
+                drawVitalsLane(
+                    context: context, size: size, vitals: vitals,
+                    visibleStart: vStart, visibleSpan: vSpan,
+                    graphInset: graphInset, graphWidth: graphWidth,
+                    graphTop: graphTop, graphHeight: graphHeight,
+                )
+            }
+
             if !compact {
                 drawTimeLabels(
                     context: context,
@@ -1165,7 +1240,9 @@ struct TimelineGraphView: View, Equatable {
                     visibleStart: vStart,
                     visibleSpan: vSpan,
                     inset: graphTop,
-                    graphHeight: graphHeight,
+                    // Inflate the height passed to the label placer so the clock
+                    // labels land below the vitals lane, not inside it.
+                    graphHeight: graphHeight + vitalsBandTotal,
                 )
                 drawRelativeTimeLabels(
                     context: context,
@@ -1668,8 +1745,7 @@ struct TimelineGraphView: View, Equatable {
         let yNorm = yNormalization
 
         let nowGlobal = currentTime.timeIntervalSince(earliestDose) / 60
-        let frontmostNow: Int? = (showNowIndicator && scrubX == nil) ? frontmostActiveStackedIndex(yNorm: yNorm, nowGlobal: nowGlobal) : nil
-        for (gi, group) in stackedGroups.enumerated() {
+        for group in stackedGroups {
             guard let first = group.first else { continue }
             let color = Color(hex: first.colorHex)
             let (gStart, gEnd) = stackedGroupRange(group)
@@ -1756,8 +1832,10 @@ struct TimelineGraphView: View, Equatable {
             // value as `point(at:)` above — `stackedIntensity * yNorm`, clamped —
             // or the dot detaches from the curve whenever `yNorm` shifts (e.g. a
             // dose is added/removed and the graph rescales to fill the height).
+            // Resting now-dot: one on EVERY active group's summed curve (not just
+            // the frontmost), tinted to match its emphasis. Superseded by scrub dots.
             let elapsedGlobal = currentTime.timeIntervalSince(earliestDose) / 60
-            if showNowIndicator, scrubX == nil, gi == frontmostNow, emph == .full, elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
+            if showNowIndicator, scrubX == nil, elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
                 let x = graphInset + CGFloat((elapsedGlobal - visibleStart) / visibleSpan) * graphWidth
                 // Read from the same smoothed sample array as the curve so the
                 // dot stays glued to it.
@@ -1771,8 +1849,8 @@ struct TimelineGraphView: View, Equatable {
                         width: dotSize,
                         height: dotSize,
                     ))
-                    context.fill(dot, with: .color(color))
-                    context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
+                    context.fill(dot, with: .color(color.opacity(emph.strokeOpacity)))
+                    context.stroke(dot, with: .color(.white.opacity(0.8 * emph.strokeOpacity)), lineWidth: 1)
                 }
             }
         }
@@ -1892,6 +1970,209 @@ struct TimelineGraphView: View, Equatable {
                 context.stroke(topTick, with: .color(.primary.opacity(0.2)), lineWidth: 0.5)
             }
             tickDate = tickDate.addingTimeInterval(interval * 60)
+        }
+    }
+
+    // MARK: - Vitals lane (heart rate + blood pressure)
+
+    /// Lane colours (shared with the entry-row chips via ``VitalsPalette``).
+    private static let hrColor = VitalsPalette.heart
+    private static let bpColor = VitalsPalette.bloodPressure
+
+    /// The faint framed strip the vitals trace sits in. Drawn before the now-line
+    /// so both the rule and the HR trace layer on top of it.
+    private func drawVitalsLaneBackdrop(
+        context: GraphicsContext, graphTop: CGFloat, graphHeight: CGFloat,
+        graphInset: CGFloat, graphWidth: CGFloat,
+    ) {
+        let bandTop = graphTop + graphHeight + GraphMetrics.vitalsBandGap
+        let rect = CGRect(x: graphInset, y: bandTop, width: graphWidth, height: vitalsBandHeight)
+        context.fill(Path(roundedRect: rect, cornerRadius: 9), with: .color(Self.hrColor.opacity(0.06)))
+    }
+
+    /// The companion cardio lane: HR as a min–max envelope + mean line on a bpm
+    /// scale, BP as systolic→diastolic range bars on their own mmHg scale, plus a
+    /// lane label and the HR "now" dot. Shares the effect graph's time axis, so it
+    /// pans / zooms / scrubs in lockstep.
+    private func drawVitalsLane(
+        context: GraphicsContext, size: CGSize, vitals: SessionVitals,
+        visibleStart: Double, visibleSpan: Double,
+        graphInset: CGFloat, graphWidth: CGFloat,
+        graphTop: CGFloat, graphHeight: CGFloat,
+    ) {
+        let earliest = earliestDose
+        let visEnd = visibleStart + visibleSpan
+        let bandTop = graphTop + graphHeight + GraphMetrics.vitalsBandGap
+        let innerPad: CGFloat = 12 // room for the lane-label row at the top
+        let plotTop = bandTop + innerPad
+        let plotH = vitalsBandHeight - innerPad - 4
+        func x(_ minute: Double) -> CGFloat {
+            graphInset + CGFloat((minute - visibleStart) / visibleSpan) * graphWidth
+        }
+
+        // Heart-rate samples in (and just around) the visible window.
+        let hr: [(m: Double, bpm: Double)] = vitals.heartRate.compactMap {
+            let m = $0.date.timeIntervalSince(earliest) / 60
+            return (m >= visibleStart - 5 && m <= visEnd + 5) ? (m, $0.bpm) : nil
+        }
+        guard !hr.isEmpty else { return }
+
+        // bpm scale from the visible data, padded and snapped to 10s.
+        let bpms = hr.map(\.bpm)
+        var lo = ((bpms.min() ?? 60) - 6) / 10
+        var hi = ((bpms.max() ?? 100) + 6) / 10
+        lo = lo.rounded(.down) * 10
+        hi = hi.rounded(.up) * 10
+        if hi - lo < 20 { hi = lo + 20 }
+        func yH(_ bpm: Double) -> CGFloat {
+            plotTop + (1 - CGFloat((min(hi, max(lo, bpm)) - lo) / (hi - lo))) * plotH
+        }
+
+        // Faint bpm guide lines every 20 bpm (no number labels — the row chip and
+        // summary carry exact values; in the lane, shape is what matters).
+        var guideBpm = (lo / 20).rounded(.down) * 20
+        if guideBpm <= lo { guideBpm += 20 }
+        while guideBpm < hi {
+            let gy = yH(guideBpm)
+            var line = Path()
+            line.move(to: CGPoint(x: graphInset, y: gy))
+            line.addLine(to: CGPoint(x: graphInset + graphWidth, y: gy))
+            context.stroke(line, with: .color(.secondary.opacity(0.18)), style: StrokeStyle(lineWidth: 0.5, dash: [1, 4]))
+            guideBpm += 20
+        }
+
+        // Bin the samples across the visible window into a min/max envelope + mean.
+        let bins = 60
+        var lows = [Double?](repeating: nil, count: bins)
+        var highs = [Double?](repeating: nil, count: bins)
+        var sums = [Double](repeating: 0, count: bins)
+        var counts = [Int](repeating: 0, count: bins)
+        for sample in hr {
+            let f = (sample.m - visibleStart) / visibleSpan
+            guard f >= 0, f <= 1 else { continue }
+            let i = min(bins - 1, max(0, Int(f * Double(bins))))
+            lows[i] = Swift.min(lows[i] ?? sample.bpm, sample.bpm)
+            highs[i] = Swift.max(highs[i] ?? sample.bpm, sample.bpm)
+            sums[i] += sample.bpm
+            counts[i] += 1
+        }
+        var meanPts: [CGPoint] = [], hiPts: [CGPoint] = [], loPts: [CGPoint] = []
+        for i in 0 ..< bins where counts[i] > 0 {
+            let cx = x(visibleStart + (Double(i) + 0.5) / Double(bins) * visibleSpan)
+            meanPts.append(CGPoint(x: cx, y: yH(sums[i] / Double(counts[i]))))
+            hiPts.append(CGPoint(x: cx, y: yH(highs[i] ?? 0)))
+            loPts.append(CGPoint(x: cx, y: yH(lows[i] ?? 0)))
+        }
+
+        // Envelope band.
+        if hiPts.count >= 2 {
+            var env = Path()
+            env.move(to: hiPts[0])
+            for p in hiPts.dropFirst() {
+                env.addLine(to: p)
+            }
+            for p in loPts.reversed() {
+                env.addLine(to: p)
+            }
+            env.closeSubpath()
+            context.fill(env, with: .color(Self.hrColor.opacity(0.16)))
+        }
+        // Mean line (smoothed), or a single dot when only one bin has data.
+        if meanPts.count >= 2 {
+            var line = Path()
+            addSmoothCurve(meanPts, to: &line, startNew: true)
+            context.stroke(line, with: .color(Self.hrColor), lineWidth: 1.6)
+        } else if let p = meanPts.first {
+            context.fill(Path(ellipseIn: CGRect(x: p.x - 2, y: p.y - 2, width: 4, height: 4)), with: .color(Self.hrColor))
+        }
+
+        // Blood pressure — systolic→diastolic range bars on their own mmHg scale.
+        let bp = vitals.bloodPressure.filter {
+            let m = $0.date.timeIntervalSince(earliest) / 60
+            return m >= visibleStart && m <= visEnd
+        }
+        if !bp.isEmpty {
+            var bpLo = ((bp.map(\.diastolic).min() ?? 60) / 10).rounded(.down) * 10 - 10
+            var bpHi = ((bp.map(\.systolic).max() ?? 130) / 10).rounded(.up) * 10 + 10
+            if bpHi - bpLo < 30 { bpHi = bpLo + 30 }
+            bpLo = max(0, bpLo)
+            func yBP(_ v: Double) -> CGFloat {
+                plotTop + (1 - CGFloat((min(bpHi, max(bpLo, v)) - bpLo) / (bpHi - bpLo))) * plotH
+            }
+            for reading in bp {
+                let cx = x(reading.date.timeIntervalSince(earliest) / 60)
+                let ys = yBP(reading.systolic), yd = yBP(reading.diastolic)
+                var bar = Path()
+                bar.move(to: CGPoint(x: cx, y: ys))
+                bar.addLine(to: CGPoint(x: cx, y: yd))
+                context.stroke(bar, with: .color(Self.bpColor), lineWidth: 1.4)
+                for cy in [ys, yd] {
+                    var cap = Path()
+                    cap.move(to: CGPoint(x: cx - 2.5, y: cy))
+                    cap.addLine(to: CGPoint(x: cx + 2.5, y: cy))
+                    context.stroke(cap, with: .color(Self.bpColor), lineWidth: 1.4)
+                }
+                let text = Text(verbatim: "\(Int(reading.systolic))/\(Int(reading.diastolic))")
+                    .font(.system(size: 8, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Self.bpColor)
+                let resolved = context.resolve(text)
+                let labelWidth = resolved.measure(in: size).width
+                let rightSide = cx + labelWidth + 6 > graphInset + graphWidth
+                context.draw(
+                    resolved,
+                    at: CGPoint(x: rightSide ? cx - 4 : cx + 4, y: ys - 6),
+                    anchor: rightSide ? .trailing : .leading,
+                )
+            }
+        }
+
+        /// HR marker on the trace: follows the scrub rule while inspecting (with a
+        /// bpm readout, since the SwiftUI callout sits over the curves above), else
+        /// rests at "now". bpm is linearly interpolated between samples so the dot
+        /// and value track the finger smoothly.
+        func interpolatedBpm(at minute: Double) -> Double? {
+            guard let first = hr.first, let last = hr.last else { return nil }
+            if minute <= first.m { return first.bpm }
+            if minute >= last.m { return last.bpm }
+            for i in 1 ..< hr.count where hr[i].m >= minute {
+                let a = hr[i - 1], b = hr[i]
+                let span = b.m - a.m
+                let t = span > 0 ? (minute - a.m) / span : 0
+                return a.bpm + (b.bpm - a.bpm) * t
+            }
+            return last.bpm
+        }
+
+        // The bpm value rides in the scrub callout above (with the substances);
+        // here we draw only the tracking dot at the scrub position, else at now.
+        let markerMinute: Double? = if let sx = scrubX {
+            visibleStart + Double((min(max(sx, graphInset), graphInset + graphWidth) - graphInset) / graphWidth) * visibleSpan
+        } else if showNowIndicator {
+            currentTime.timeIntervalSince(earliest) / 60
+        } else {
+            nil
+        }
+        if let minute = markerMinute, minute >= visibleStart, minute <= visEnd,
+           let bpm = interpolatedBpm(at: minute) {
+            let cx = x(minute), cy = yH(bpm)
+            let dot = CGRect(x: cx - 3, y: cy - 3, width: 6, height: 6)
+            context.fill(Path(ellipseIn: dot), with: .color(Self.hrColor))
+            context.stroke(Path(ellipseIn: dot), with: .color(.white.opacity(0.9)), lineWidth: 1)
+        }
+
+        // Lane labels split to opposite corners, each by its own axis: heart rate
+        // left (bpm), blood pressure right (mmHg). Lowercased (they read as axis
+        // captions, not titles) and inset from the edges. No heart glyph — the
+        // crimson trace already reads as heart rate, and the lane is tight.
+        let labelFont = Font.system(size: 8, weight: .semibold, design: .rounded)
+        let labelPad: CGFloat = 10
+        let hrText = String(localized: "Heart rate").lowercased()
+        let hrLabel = Text(verbatim: hrText).font(labelFont).foregroundStyle(Self.hrColor)
+        context.draw(context.resolve(hrLabel), at: CGPoint(x: graphInset + labelPad, y: bandTop + 7), anchor: .leading)
+        if vitals.hasBloodPressure {
+            let bpText = String(localized: "Blood pressure").lowercased()
+            let bpLabel = Text(verbatim: bpText).font(labelFont).foregroundStyle(Self.bpColor)
+            context.draw(context.resolve(bpLabel), at: CGPoint(x: graphInset + graphWidth - labelPad, y: bandTop + 7), anchor: .trailing)
         }
     }
 

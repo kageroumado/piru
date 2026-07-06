@@ -20,9 +20,9 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Piru reads your body weight from Health to make dose-exposure and alcohol-strength estimates accurate for your body. It is read only on your device and is never shared.</string>
+	<string>Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Piru reads your body weight from Health to personalize dose-exposure and alcohol-strength estimates. It does not write any data back to Health.</string>
+	<string>Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.</string>
 	<key>UIBackgroundModes</key>

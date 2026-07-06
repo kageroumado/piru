@@ -96,6 +96,22 @@
         }
       }
     },
+    "%lld bpm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bpm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bpm"
+          }
+        }
+      }
+    },
     "%lld dose%@" : {
       "localizations" : {
         "en" : {
@@ -304,6 +320,22 @@
         }
       }
     },
+    "Blood pressure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血压"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血壓"
+          }
+        }
+      }
+    },
     "Come-up" : {
       "localizations" : {
         "zh-Hans" : {
@@ -412,6 +444,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隔日"
+          }
+        }
+      }
+    },
+    "Heart rate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率"
           }
         }
       }
