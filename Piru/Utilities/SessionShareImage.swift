@@ -138,8 +138,26 @@ struct SessionShareCard: View {
         }
     }
 
+    /// Distinct substances drawn — the lane count, matching the graph's own gate.
+    private var laneCount: Int {
+        Set(states.map { $0.substanceName.lowercased() }).count
+    }
+
     @ViewBuilder private var timeline: some View {
         if !states.isEmpty {
+            let store = UserDefaults(suiteName: LaneModeDefaults.suite)
+            let laneEnabled = store?.object(forKey: LaneModeDefaults.enabledKey) as? Bool ?? LaneModeDefaults.enabledDefault
+            let threshold = store?.object(forKey: LaneModeDefaults.thresholdKey) as? Int ?? LaneModeDefaults.thresholdDefault
+            // Busy (lane-mode) sessions render as the app's *enlarged* small
+            // multiples so each substance's strip stays readable; simple
+            // overlapping-curve days keep the compact embedded height.
+            let laneMode = laneEnabled && laneCount >= threshold
+            let height = GraphMetrics.graphHeight(
+                enlarged: laneMode,
+                laneCount: laneCount,
+                laneModeEnabled: laneEnabled,
+                laneModeThreshold: threshold,
+            )
             TimelineGraphView(
                 substances: states,
                 currentTime: .now,
@@ -149,7 +167,7 @@ struct SessionShareCard: View {
                 dayBounded: true,
                 synchronous: true,
             )
-            .frame(width: contentWidth, height: 200)
+            .frame(width: contentWidth, height: height)
         }
     }
 

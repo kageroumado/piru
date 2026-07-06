@@ -618,24 +618,10 @@ private struct SessionTimelineSection: View {
     @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
     @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
 
-    static let enlargedGraphHeight: CGFloat = 320
-
-    /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
-    /// heights; lane-mode days grow with the lane count so each horizon strip
-    /// keeps a readable minimum. Static so the parent's export path can reuse it.
-    static func graphHeight(enlarged: Bool, laneCount: Int, laneModeEnabled: Bool, laneModeThreshold: Int) -> CGFloat {
-        let base = enlarged ? enlargedGraphHeight : GraphMetrics.embedded
-        guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
-        let perLane: CGFloat = enlarged ? 46 : 32
-        let axisOverhead: CGFloat = 40
-        let ideal = CGFloat(laneCount) * perLane + axisOverhead
-        return max(base, min(ideal, enlarged ? 560 : 380))
-    }
-
     var body: some View {
         Section {
             if graphExpanded {
-                AnimatableHeight(height: Self.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold)) {
+                AnimatableHeight(height: GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold)) {
                     TimelineGraphView(
                         substances: states,
                         currentTime: .now,

@@ -34716,6 +34716,22 @@
         }
       }
     },
+    "Tap to edit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点编辑"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點編輯"
+          }
+        }
+      }
+    },
     "Tapentadol" : {
       "localizations" : {
         "zh-Hans" : {

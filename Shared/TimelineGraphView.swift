@@ -18,6 +18,21 @@ enum GraphMetrics {
     static let topLabels: CGFloat = 12
     /// Resting height of the embedded full graph in day/entry detail.
     static let embedded: CGFloat = 168
+    /// Enlarged (tapped-open) height for overlapping-curve days.
+    static let enlarged: CGFloat = 320
+
+    /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
+    /// heights; lane-mode days grow with the lane count so each horizon strip
+    /// keeps a readable minimum. Single source of truth for the day-detail
+    /// section, the export image, and anywhere else that sizes the graph.
+    static func graphHeight(enlarged: Bool, laneCount: Int, laneModeEnabled: Bool, laneModeThreshold: Int) -> CGFloat {
+        let base = enlarged ? Self.enlarged : embedded
+        guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
+        let perLane: CGFloat = enlarged ? 46 : 32
+        let axisOverhead: CGFloat = 40
+        let ideal = CGFloat(laneCount) * perLane + axisOverhead
+        return max(base, min(ideal, enlarged ? 560 : 380))
+    }
 }
 
 /// UserDefaults keys, defaults, and bounds for the lane-mode ("small multiples")

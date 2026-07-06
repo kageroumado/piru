@@ -118,6 +118,19 @@ struct SessionShareSheet: View {
             preview(image, contentMode: .fill)
                 .contentShape(.rect)
                 .overlay { ZoomSourceView { imageSourceView = $0 } }
+                .overlay(alignment: .bottomTrailing) {
+                    if image != nil {
+                        Label("Tap to edit", systemImage: "pencil.tip.crop.circle")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(.primary)
+                            .labelStyle(.titleAndIcon)
+                            .padding(.horizontal, 9)
+                            .padding(.vertical, 5)
+                            .background(.regularMaterial, in: Capsule())
+                            .padding(8)
+                            .allowsHitTesting(false)
+                    }
+                }
                 .onTapGesture { openImageViewer() }
                 .accessibilityAddTraits(.isButton)
                 .accessibilityLabel(Text("View session image"))
@@ -360,31 +373,10 @@ enum ImageQuickLook {
         guard let top = topViewController() else { return }
         let coordinator = Coordinator(url: url, sourceView: source)
         Self.coordinator = coordinator
-        let controller = QLPreviewController()
+        let controller = MaterialPreviewController()
         controller.dataSource = coordinator
         controller.delegate = coordinator
-        top.present(controller, animated: true) {
-            applyMaterialBackground(to: controller)
-        }
-    }
-
-    /// QuickLook's default letterbox is opaque black; replace it with an
-    /// ultra-thin material by clearing the opaque backing views and slipping a
-    /// blur view behind the content.
-    @MainActor
-    private static func applyMaterialBackground(to controller: QLPreviewController) {
-        guard let host = controller.viewIfLoaded else { return }
-        func clearOpaqueBackgrounds(_ view: UIView) {
-            if let backing = view.backgroundColor, backing != .clear {
-                view.backgroundColor = .clear
-            }
-            view.subviews.forEach(clearOpaqueBackgrounds)
-        }
-        clearOpaqueBackgrounds(host)
-        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
-        blur.frame = host.bounds
-        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        host.insertSubview(blur, at: 0)
+        top.present(controller, animated: true)
     }
 
     private static func topViewController() -> UIViewController? {
@@ -423,5 +415,53 @@ enum ImageQuickLook {
         func previewControllerDidDismiss(_: QLPreviewController) {
             ImageQuickLook.coordinator = nil
         }
+    }
+}
+
+/// A `QLPreviewController` that wears an ultra-thin material backdrop *from the
+/// first frame*. QuickLook paints an opaque black background as it appears, so
+/// swapping it only at present-completion lets that black flash through the zoom
+/// transition. Installing the material in `viewWillAppear` — and re-clearing
+/// across the first few layout passes to catch QuickLook's async content-
+/// background repaint — keeps the backdrop material throughout, while the bounded
+/// clear window leaves the later Markup toolbar's own chrome untouched.
+private final class MaterialPreviewController: QLPreviewController {
+    private static let backdropTag = 0x5170 // arbitrary, stable marker
+
+    /// Layout passes still owed an opaque-background sweep. Seeded on appear and
+    /// counted down so we only fight QuickLook during its initial layout, not for
+    /// the controller's whole life (which would strip Markup chrome).
+    private var pendingClears = 0
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        installBackdrop()
+        clearOpaqueBackgrounds(view)
+        pendingClears = 4
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard pendingClears > 0 else { return }
+        pendingClears -= 1
+        clearOpaqueBackgrounds(view)
+    }
+
+    private func installBackdrop() {
+        guard view.viewWithTag(Self.backdropTag) == nil else { return }
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+        blur.tag = Self.backdropTag
+        blur.frame = view.bounds
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blur, at: 0)
+    }
+
+    /// Recursively clear every opaque backing colour, skipping our own blur.
+    private func clearOpaqueBackgrounds(_ view: UIView) {
+        guard view.tag != Self.backdropTag else { return }
+        if let backing = view.backgroundColor, backing != .clear {
+            view.backgroundColor = .clear
+        }
+        view.subviews.forEach(clearOpaqueBackgrounds)
     }
 }

@@ -16,6 +16,7 @@ T = {
     "Session Report": ("记录报告", "記錄報告"),
     "Session Data": ("记录数据", "記錄資料"),
     "View session image": ("查看记录图片", "查看記錄圖片"),
+    "Tap to edit": ("轻点编辑", "輕點編輯"),
     # Consolidated "Share Session" sheet + entry points (2026-07-05).
     "Share Session": ("分享本次记录", "分享本次記錄"),
     "Share session": ("分享本次记录", "分享本次記錄"),
@@ -4323,6 +4324,7 @@ if __name__ == "__main__":
         "Session Report",
         "Session Data",
         "View session image",
+        "Tap to edit",
         # Consolidated "Share Session" sheet + entry points (2026-07-05).
         "Share Session",
         "Share session",
