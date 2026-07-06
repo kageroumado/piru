@@ -1893,6 +1893,7 @@ T = {
     "Rename": ("重命名", "重新命名"),
     "Add Note": ("添加备注", "新增備註"),
     "Edit Note": ("编辑备注", "編輯備註"),
+    "Delete Note": ("删除备注", "刪除備註"),
     "Merge with Previous": ("与上一段合并", "與上一段合併"),
     "Note": ("备注", "備註"),
     "Split Session Here": ("在此拆分记录", "在此拆分記錄"),
@@ -4314,6 +4315,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Session note inline actions — swipe + context menu (2026-07-06).
+        "Delete Note",
         # Share sheet previews + session image (2026-07-06).
         "Cumulative",
         "Image",

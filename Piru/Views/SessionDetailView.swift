@@ -295,6 +295,29 @@ struct SessionDetailView: View {
                             Text(note)
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(.rect)
+                                .onTapGesture { editNote() }
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) { deleteNote() } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
+                                .swipeActions(edge: .leading) {
+                                    Button { editNote() } label: {
+                                        Label("Edit", systemImage: "pencil")
+                                    }
+                                    .tint(.orange)
+                                }
+                                .contextMenu {
+                                    Button { editNote() } label: {
+                                        Label("Edit Note", systemImage: "pencil")
+                                    }
+                                    Divider()
+                                    Button(role: .destructive) { deleteNote() } label: {
+                                        Label("Delete Note", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
 
@@ -362,7 +385,7 @@ struct SessionDetailView: View {
             Button("Save") { SessionService.setTitle(titleDraft, for: session) }
         }
         .sheet(isPresented: $showNoteEditor) {
-            SessionNoteEditor(note: noteDraft) { SessionService.setNote($0, for: session) }
+            SessionNoteEditor(text: $noteDraft) { SessionService.setNote($0, for: session) }
         }
         .sheet(item: $editing.entryToAdjustTime) { entry in
             NavigationStack {
@@ -409,8 +432,7 @@ struct SessionDetailView: View {
                 Label(session.title == nil ? "Add Title" : "Rename", systemImage: "pencil")
             }
             Button {
-                noteDraft = session.note ?? ""
-                showNoteEditor = true
+                editNote()
             } label: {
                 Label(session.note == nil ? "Add Note" : "Edit Note", systemImage: "note.text")
             }
@@ -486,6 +508,18 @@ struct SessionDetailView: View {
         if let color = colorMap[key] { return color }
         guard !colorMapReady else { return Theme.accent }
         return Array(substanceColors).colorMap[key] ?? Theme.accent
+    }
+
+    /// Open the note editor, seeding the draft from the session's current note.
+    /// Shared by the ⋯ menu and the Note row's inline tap / swipe / context edit.
+    private func editNote() {
+        noteDraft = session.note ?? ""
+        showNoteEditor = true
+    }
+
+    /// Clear the session's note (row swipe-to-delete / context "Delete Note").
+    private func deleteNote() {
+        withAnimation { SessionService.setNote("", for: session) }
     }
 
     private func toggleLiveActivity() {
@@ -819,34 +853,56 @@ private struct DayEntryRow: View, Equatable {
 
 /// A small sheet for editing a session's free-form note.
 private struct SessionNoteEditor: View {
-    @State private var text: String
+    /// Bound to the caller's scratch draft (seeded from `session.note` before the
+    /// sheet opens). Binding — not a re-seeded `@State` — so the existing note is
+    /// always present on re-open; Cancel simply discards the unsaved draft.
+    @Binding var text: String
     let onSave: (String) -> Void
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var focused: Bool
 
-    init(note: String, onSave: @escaping (String) -> Void) {
-        _text = State(initialValue: note)
-        self.onSave = onSave
+    /// The rounded, padded editor ground — concentric with the sheet, matching
+    /// the share sheet's card language.
+    private var editorShape: RoundedRectangle {
+        RoundedRectangle(cornerRadius: 18, style: .continuous)
     }
 
     var body: some View {
         NavigationStack {
             TextEditor(text: $text)
-                .padding()
+                .focused($focused)
+                .scrollContentBackground(.hidden)
+                .padding(12)
+                .background { editorShape.fill(.thickMaterial) }
+                .overlay(editorShape.stroke(Color.primary.opacity(0.08), lineWidth: 1))
+                .padding(16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Theme.background)
                 .navigationTitle("Session Note")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") { dismiss() }
+                        Button { dismiss() } label: {
+                            Image(systemName: "xmark").font(.body.weight(.semibold))
+                        }
+                        .accessibilityLabel(Text("Cancel"))
                     }
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Save") {
+                        Button {
                             onSave(text)
                             dismiss()
+                        } label: {
+                            Image(systemName: "checkmark").font(.body.weight(.semibold))
                         }
+                        .buttonStyle(.glassProminent)
+                        .tint(Theme.accent)
+                        .accessibilityLabel(Text("Save"))
                     }
                 }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+        .onAppear { focused = true }
     }
 }
 

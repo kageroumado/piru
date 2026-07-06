@@ -11648,6 +11648,22 @@
         }
       }
     },
+    "Delete Note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除備註"
+          }
+        }
+      }
+    },
     "Delete Routine" : {
       "localizations" : {
         "zh-Hans" : {
