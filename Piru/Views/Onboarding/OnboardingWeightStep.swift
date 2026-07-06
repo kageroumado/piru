@@ -8,6 +8,11 @@ import SwiftUI
 struct OnboardingWeightStep: View {
     @Environment(\.onboardingNav) private var nav
     @State private var health = HealthKitBodyMass.shared
+    /// Connecting Health in onboarding opts the user into the session heart-rate /
+    /// blood-pressure overlay too (they see it in the same sheet); still off-able
+    /// in Settings. Stored in the app-group suite so the whole app agrees.
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    private var showSessionVitals = false
 
     @State private var weightKg: Double = UserProfileStore.shared.weightKg ?? UserProfileStore.defaultWeightKg
     /// The kilograms Apple Health returned, if any — so an unchanged Health value keeps its
@@ -85,7 +90,7 @@ struct OnboardingWeightStep: View {
     }
 
     private var vitalsNote: some View {
-        Text("The same Health connection also lets Piru show your heart rate and blood pressure on each session — off until you turn it on in Settings.")
+        Text("The same Health connection also switches on your heart rate and blood pressure on each session — you can turn that off anytime in Settings.")
             .font(.footnote)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -96,8 +101,10 @@ struct OnboardingWeightStep: View {
         noReadNote = false
         error = nil
         // One Health sheet covering weight + heart rate + blood pressure, then a
-        // silent weight read (the vitals reads happen per-session, when enabled).
+        // silent weight read. Connecting opts into the session vitals overlay too
+        // (off-able in Settings); the vitals reads happen per-session when shown.
         await HealthKitVitals.shared.requestAccessWithBodyMass()
+        showSessionVitals = true
         let result = await health.syncLatest()
         connecting = false
         switch result {

@@ -11,6 +11,11 @@ import UIKit
 struct BodyWeightView: View {
     @State private var profile = UserProfileStore.shared
     @State private var health = HealthKitBodyMass.shared
+    /// Connecting Health here opts into the session heart-rate / blood-pressure
+    /// overlay too — the same Health sheet covers all three — still off-able under
+    /// Settings ▸ Heart Rate.
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    private var showSessionVitals = false
     @State private var weightText = ""
     @State private var entryError: String?
     @State private var isSyncing = false
@@ -151,14 +156,18 @@ struct BodyWeightView: View {
         } header: {
             Text("Apple Health")
         } footer: {
-            Text("Piru reads your latest body weight from Health, read-only. You can turn this off anytime in Settings ▸ Health ▸ Data Access.")
+            Text("Piru reads your latest body weight from Health, read-only, and switches on the heart-rate & blood-pressure overlay for your sessions (off-able under Heart Rate). Revoke access anytime in Settings ▸ Health ▸ Data Access.")
         }
         .listRowBackground(CardBackground())
     }
 
     private func syncFromHealth() async {
         isSyncing = true
-        let result = await health.requestAndSync()
+        // One Health sheet covering weight + heart rate + blood pressure, and opt
+        // into the session overlay; then a silent weight read.
+        await HealthKitVitals.shared.requestAccessWithBodyMass()
+        showSessionVitals = true
+        let result = await health.syncLatest()
         isSyncing = false
         if case let .updated(kg) = result { weightText = Self.format(kg) }
     }

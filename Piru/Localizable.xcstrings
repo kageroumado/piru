@@ -26571,7 +26571,24 @@
         }
       }
     },
+    "Piru reads your latest body weight from Health, read-only, and switches on the heart-rate & blood-pressure overlay for your sessions (off-able under Heart Rate). Revoke access anytime in Settings ▸ Health ▸ Data Access." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 以只读方式读取你在“健康”中的最新体重，并为你的记录开启心率和血压叠加显示（可在“心率”中关闭）。可随时在“设置 ▸ 健康 ▸ 数据访问”中撤销权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 以唯讀方式讀取你在「健康」中的最新體重，並為你的記錄開啟心率和血壓疊加顯示（可在「心率」中關閉）。可隨時在「設定 ▸ 健康 ▸ 資料取用」中撤銷權限。"
+          }
+        }
+      }
+    },
     "Piru reads your latest body weight from Health, read-only. You can turn this off anytime in Settings ▸ Health ▸ Data Access." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35574,6 +35591,7 @@
       }
     },
     "The same Health connection also lets Piru show your heart rate and blood pressure on each session — off until you turn it on in Settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35585,6 +35603,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同一「健康」連線還能讓 Piru 在每次記錄中顯示你的心率和血壓——在你於「設定」中開啟前將保持關閉。"
+          }
+        }
+      }
+    },
+    "The same Health connection also switches on your heart rate and blood pressure on each session — you can turn that off anytime in Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一“健康”连接还会在每次记录中开启你的心率和血压显示——可随时在“设置”中关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一「健康」連線還會在每次記錄中開啟你的心率和血壓顯示——可隨時在「設定」中關閉。"
           }
         }
       }
