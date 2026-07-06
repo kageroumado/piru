@@ -28,6 +28,78 @@ T = {
         "在某次记录中看不到心率？Apple 不会告知 App 是否已获得读取权限，因此可点按“连接”来（重新）请求，或前往“设置 ▸ 健康 ▸ 数据访问 ▸ Piru”并打开“心率”和“血压”。",
         "在某次記錄中看不到心率？Apple 不會告知 App 是否已取得讀取權限，因此可點按「連接」來（重新）請求，或前往「設定 ▸ 健康 ▸ 資料取用 ▸ Piru」並開啟「心率」和「血壓」。",
     ),
+    # Apple Health onboarding step redesign (2026-07-07).
+    "Your body weight sizes every estimate to you — and your heart rate shows how your body actually answered each dose, right on the session timeline.": (
+        "你的体重会让每项估算贴合你自己——而你的心率会直接在记录时间线上，显示身体对每次用量的真实反应。",
+        "你的體重會讓每項估算貼合你自己——而你的心率會直接在記錄時間軸上，顯示身體對每次用量的真實反應。",
+    ),
+    "Synced from Apple Health — check the number looks right.": (
+        "已从“健康”同步——请确认数值无误。",
+        "已從「健康」同步——請確認數值無誤。",
+    ),
+    "Couldn't read a weight from Health. Set it above instead.": (
+        "无法从“健康”读取体重，请在上方手动设置。",
+        "無法從「健康」讀取體重，請在上方手動設定。",
+    ),
+    "Health access is read-only. Turn it off anytime in Settings.": (
+        "“健康”访问为只读，可随时在“设置”中关闭。",
+        "「健康」存取為唯讀，可隨時在「設定」中關閉。",
+    ),
+    "Connecting…": ("连接中…", "連線中…"),
+    "Alcohol": ("酒精", "酒精"),
+    "A couple of drinks, with the heart rate a watch recorded alongside.": (
+        "两杯酒，以及手表同时记录的心率。",
+        "兩杯酒，以及手錶同時記錄的心率。",
+    ),
+    "Example chart: an alcohol effect curve with heart rate rising and falling alongside it.": (
+        "示例图表：酒精效应曲线，心率随之起伏。",
+        "範例圖表：酒精效應曲線，心率隨之起伏。",
+    ),
+    # Unified Apple Health settings + session vitals discovery banner (2026-07-07).
+    "Dismiss": ("关闭", "關閉"),
+    "Show heart rate on sessions": ("在记录中显示心率", "在記錄中顯示心率"),
+    "See your heart rate here": ("在这里查看你的心率", "在這裡查看你的心率"),
+    "Turn On Apple Health": ("开启“健康”", "開啟「健康」"),
+    "Connect Apple Health to overlay how your body responded to each dose — read-only.": (
+        "连接“健康”，将身体对每次用量的反应叠加显示——仅供读取。",
+        "連接「健康」，將身體對每次用量的反應疊加顯示——僅供讀取。",
+    ),
+    "Piru reads your latest body weight and overlays your heart rate & blood pressure on each session — all read-only, on your device. Revoke access anytime in Settings ▸ Health ▸ Data Access.": (
+        "Piru 会读取你的最新体重，并在每次记录中叠加显示你的心率和血压——全部仅供读取，存于你的设备。可随时在“设置 ▸ 健康 ▸ 数据访问”中撤销权限。",
+        "Piru 會讀取你的最新體重，並在每次記錄中疊加顯示你的心率和血壓——全部僅供讀取，存於你的裝置。可隨時在「設定 ▸ 健康 ▸ 資料取用」中撤銷權限。",
+    ),
+    "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Your heart rate and blood pressure, laid over each session, then show how your body actually responded to a dose — turning a predicted curve into a record.": (
+        "体重是把剂量换算成暴露量的分母：越轻，同样的剂量作用越强。有了它，Piru 才能估算诸如一杯酒对*你的*身体有多强、反复使用如何累积耐受等。而叠加在每次记录上的心率和血压，则显示身体对某次用量的真实反应——把预测曲线变成一份记录。",
+        "體重是把劑量換算成暴露量的分母：越輕，同樣的劑量作用越強。有了它，Piru 才能估算諸如一杯酒對*你的*身體有多強、反覆使用如何累積耐受等。而疊加在每次記錄上的心率和血壓，則顯示身體對某次用量的真實反應——把預測曲線變成一份記錄。",
+    ),
+    # Redesigned unified Apple Health settings — weight footnotes by source (2026-07-07).
+    "Synced from Apple Health. Your weight sizes every dose estimate — the same dose hits harder the less you weigh.": (
+        "已从“健康”同步。体重决定每项剂量估算——越轻，同样的剂量作用越强。",
+        "已從「健康」同步。體重決定每項劑量估算——越輕，同樣的劑量作用越強。",
+    ),
+    "Entered manually. Your weight sizes every dose estimate — the same dose hits harder the less you weigh.": (
+        "已手动输入。体重决定每项剂量估算——越轻，同样的剂量作用越强。",
+        "已手動輸入。體重決定每項劑量估算——越輕，同樣的劑量作用越強。",
+    ),
+    "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh.": (
+        "正使用平均值 60 kg。在上方设置你的体重，让估算贴合你自己——越轻，同样的剂量作用越强。",
+        "正使用平均值 60 kg。在上方設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。",
+    ),
+    "Use the average (60 kg)": ("使用平均值（60 kg）", "使用平均值（60 kg）"),
+    "Show heart data on sessions": ("在记录中显示心脏数据", "在記錄中顯示心臟數據"),
+    "Heart data": ("心脏数据", "心臟數據"),
+    "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device.": (
+        "连接一次即可从“健康”读取你的体重、心率和血压——全部仅供读取，存于你的设备。",
+        "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。",
+    ),
+    "Overlays your heart rate and blood pressure on each session's timeline — read-only. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.": (
+        "在每次记录的时间线上叠加显示你的心率和血压——仅供读取。若有项目未能连接（尤其是血压，iOS 不一定会弹出请求），请前往 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru** 手动开启。",
+        "在每次記錄的時間軸上疊加顯示你的心率和血壓——僅供讀取。若有項目未能連接（尤其是血壓，iOS 不一定會彈出請求），請前往 **設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru** 手動開啟。",
+    ),
+    "Piru reads your body weight and overlays your heart rate & blood pressure on each session — all read-only, on your device. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.": (
+        "Piru 会读取你的体重，并在每次记录中叠加显示你的心率和血压——全部仅供读取，存于你的设备。若有项目未能连接（尤其是血压，iOS 不一定会弹出请求），请前往 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru** 手动开启。",
+        "Piru 會讀取你的體重，並在每次記錄中疊加顯示你的心率和血壓——全部僅供讀取，存於你的裝置。若有項目未能連接（尤其是血壓，iOS 不一定會彈出請求），請前往 **設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru** 手動開啟。",
+    ),
     "On": ("开", "開"),
     "Off": ("关", "關"),
     "avg %lld · peak %lld bpm": ("平均 %lld · 峰值 %lld bpm", "平均 %lld · 峰值 %lld bpm"),
@@ -4371,6 +4443,33 @@ if __name__ == "__main__":
         "In line with your resting %lld bpm",
         "Heart rate %lld rising to %lld beats per minute",
         "Overlays your Apple Watch heart rate — and any blood-pressure readings — on each session's timeline, and shows how your heart responded to each dose. Read-only; you can turn Piru's access off anytime in Settings ▸ Health ▸ Data Access. With no data for a session, nothing is shown.",
+        # Apple Health onboarding step redesign (2026-07-07).
+        "Your body weight sizes every estimate to you — and your heart rate shows how your body actually answered each dose, right on the session timeline.",
+        "Synced from Apple Health — check the number looks right.",
+        "Couldn't read a weight from Health. Set it above instead.",
+        "Health access is read-only. Turn it off anytime in Settings.",
+        "Connecting…",
+        "Alcohol",
+        "A couple of drinks, with the heart rate a watch recorded alongside.",
+        "Example chart: an alcohol effect curve with heart rate rising and falling alongside it.",
+        # Unified Apple Health settings + session vitals discovery banner (2026-07-07).
+        "Dismiss",
+        "Show heart rate on sessions",
+        "See your heart rate here",
+        "Turn On Apple Health",
+        "Connect Apple Health to overlay how your body responded to each dose — read-only.",
+        "Piru reads your latest body weight and overlays your heart rate & blood pressure on each session — all read-only, on your device. Revoke access anytime in Settings ▸ Health ▸ Data Access.",
+        "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Your heart rate and blood pressure, laid over each session, then show how your body actually responded to a dose — turning a predicted curve into a record.",
+        # Redesigned unified Apple Health settings — weight footnotes by source (2026-07-07).
+        "Synced from Apple Health. Your weight sizes every dose estimate — the same dose hits harder the less you weigh.",
+        "Entered manually. Your weight sizes every dose estimate — the same dose hits harder the less you weigh.",
+        "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh.",
+        "Use the average (60 kg)",
+        "Show heart data on sessions",
+        "Heart data",
+        "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device.",
+        "Piru reads your body weight and overlays your heart rate & blood pressure on each session — all read-only, on your device. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.",
+        "Overlays your heart rate and blood pressure on each session's timeline — read-only. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.",
         "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off.",
         # Session note inline actions — swipe + context menu (2026-07-06).
         "Delete Note",

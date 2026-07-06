@@ -50,25 +50,15 @@ final class HealthKitVitals {
         [heartRateType, restingHeartRateType, systolicType, diastolicType]
     }
 
-    /// Request read access to heart rate and blood pressure. Prompts only when undetermined; a thrown
-    /// error is a request failure (not a denial), so previously-granted access keeps working.
-    /// Returns `false` only when HealthKit is unavailable on the device.
-    @discardableResult
-    func requestAccess() async -> Bool {
-        guard isAvailable else { return false }
-        do {
-            try await store.requestAuthorization(toShare: [], read: readTypes)
-        } catch {
-            logger.error("Vitals authorization request failed: \(error.localizedDescription, privacy: .public)")
-        }
-        return true
-    }
-
-    /// Request read access to weight **and** vitals in a single system prompt.
-    /// Onboarding calls this so the one "Use Apple Health" tap surfaces a single
-    /// Health sheet listing body weight, heart rate, and blood pressure — rather
-    /// than prompting again later when the session overlay is turned on.
-    func requestAccessWithBodyMass() async {
+    /// Request read access to the whole Health integration — body weight, heart
+    /// rate, and blood pressure — in a **single** system prompt. This is the only
+    /// authorization entry point: every opt-in surface (onboarding, the Apple
+    /// Health settings screen, the session discovery banner) calls it, so the user
+    /// only ever sees one combined Health sheet listing all three, never a
+    /// weight-only or vitals-only prompt. Prompts only for still-undetermined types;
+    /// a thrown error is a request failure (not a denial), so already-granted access
+    /// keeps working. No-op when HealthKit is unavailable.
+    func requestFullAccess() async {
         guard isAvailable else { return }
         let read = readTypes.union([HKQuantityType(.bodyMass)])
         do {
@@ -78,17 +68,21 @@ final class HealthKitVitals {
         }
     }
 
-    /// Whether requesting access would actually surface a system prompt — i.e. at
-    /// least one vitals type is still undetermined (never asked). Returns `false`
-    /// once the user has answered (granted *or* denied), so callers can prompt
-    /// exactly once on first use and never nag afterward. This is the only honest
-    /// "have we asked yet?" signal HealthKit exposes for read access.
-    func shouldRequestAccess() async -> Bool {
+    /// Whether tapping "Connect" would actually surface a prompt — i.e. weight,
+    /// heart rate, or resting heart rate is still undetermined. Once the user has
+    /// answered them all, requesting only flashes an empty sheet that immediately
+    /// dismisses, so callers hide the Connect affordance when this returns false.
+    ///
+    /// **Blood pressure is deliberately excluded from this check.** On iOS 26.5 its
+    /// read status is stuck at `.shouldRequest` forever (FB22735935), which would
+    /// keep Connect visible permanently even after everything grantable is granted;
+    /// BP recovery is handled by the Settings ▸ Privacy ▸ Health guidance instead.
+    func connectWouldPrompt() async -> Bool {
         guard isAvailable else { return false }
         let store = store
-        let read = readTypes
+        let promptable: Set<HKObjectType> = [heartRateType, restingHeartRateType, HKQuantityType(.bodyMass)]
         return await withCheckedContinuation { continuation in
-            store.getRequestStatusForAuthorization(toShare: [], read: read) { status, _ in
+            store.getRequestStatusForAuthorization(toShare: [], read: promptable) { status, _ in
                 continuation.resume(returning: status == .shouldRequest)
             }
         }

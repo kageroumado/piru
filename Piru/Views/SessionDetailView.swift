@@ -67,6 +67,15 @@ struct SessionDetailView: View {
     /// Session-wide heart-rate summary for the Summary card.
     @State private var hrSummary: HRSummary?
 
+    /// One-time discovery: users who never enabled the vitals overlay (existing
+    /// users who skipped the onboarding Health step, or opted out) get a small
+    /// dismissible banner promoting it. Set true once they either turn it on OR
+    /// dismiss the banner — after which it never reappears. Main-app UI state, so
+    /// the default suite (not the app group) is fine.
+    @AppStorage("didOfferSessionVitals") private var didOfferSessionVitals = false
+    /// Drives the banner's connect button while its Health sheet is up.
+    @State private var isConnectingVitals = false
+
     /// Substance → colour, rebuilt only when the colour assignments change.
     /// `colorFor`/`colorForName` are called once per entry row, and each used to
     /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole colour
@@ -339,13 +348,97 @@ struct SessionDetailView: View {
             }
         #endif
         guard showSessionVitals, HealthKitVitals.shared.isAvailable else { return .empty }
-        // Ask for access the first time a session opens with the feature on — but
-        // only when the system would actually prompt (a still-undetermined type),
-        // so we never nag after the user has answered once, granted or denied.
-        if await HealthKitVitals.shared.shouldRequestAccess() {
-            await HealthKitVitals.shared.requestAccess()
-        }
+        // Pure read — authorization is requested only at the opt-in points (the
+        // Apple Health onboarding step, the Apple Health settings screen, and the
+        // discovery banner below), never here. Presenting the HealthKit system
+        // sheet from inside this already-presented session sheet is a
+        // double-presentation conflict: the prompt flashes up and is instantly
+        // dismissed, so the request never completes and re-fires on every open.
+        // Reading with no access simply returns empty (iOS never reports read
+        // status), which renders as nothing on the timeline.
         return await HealthKitVitals.shared.vitals(from: start, to: end)
+    }
+
+    // MARK: - Vitals discovery banner
+
+    /// Show the one-time Apple Health promo only when it can actually pay off: the
+    /// device has Health, the overlay isn't already on, there's a timeline to lay
+    /// vitals over, and we haven't already offered (turned on or dismissed).
+    private var shouldOfferVitals: Bool {
+        HealthKitVitals.shared.isAvailable
+            && !showSessionVitals
+            && !didOfferSessionVitals
+            && !substanceStates.isEmpty
+    }
+
+    /// A dismissible info card (styled like the note row) that introduces the
+    /// vitals overlay to users who never opted in — its "Turn On" surfaces the same
+    /// single combined Health sheet as everywhere else.
+    private var vitalsOfferBanner: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "heart.text.square")
+                        .font(.title2)
+                        .foregroundStyle(VitalsPalette.heart)
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("See your heart rate here")
+                            .font(.subheadline.weight(.semibold))
+                        Text("Connect Apple Health to overlay how your body responded to each dose — read-only.")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 0)
+                    Button(action: dismissVitalsOffer) {
+                        Image(systemName: "xmark")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .contentShape(.rect)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text("Dismiss"))
+                }
+                Button {
+                    Task { await enableVitalsFromOffer() }
+                } label: {
+                    HStack(spacing: 8) {
+                        if isConnectingVitals { ProgressView().controlSize(.mini) }
+                        Text(isConnectingVitals ? "Connecting…" : "Turn On Apple Health")
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.glassProminent)
+                .controlSize(.regular)
+                .tint(Theme.accent)
+                .disabled(isConnectingVitals)
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
+    /// Turn the overlay on from the banner: the same single combined Health sheet
+    /// (weight + heart rate + blood pressure), then flip the overlay on and record
+    /// that we've offered so the banner never returns. Flipping `showSessionVitals`
+    /// changes `vitalsTaskKey`, so `loadVitals()` re-runs and the band fills in.
+    private func enableVitalsFromOffer() async {
+        guard !isConnectingVitals else { return }
+        isConnectingVitals = true
+        // Skip the request (and its empty-sheet flash) if access is already decided.
+        if await HealthKitVitals.shared.connectWouldPrompt() {
+            await HealthKitVitals.shared.requestFullAccess()
+        }
+        _ = await HealthKitBodyMass.shared.syncLatest()
+        isConnectingVitals = false
+        didOfferSessionVitals = true
+        showSessionVitals = true
+    }
+
+    /// Dismiss the banner for good — showing it counts as having offered, whether
+    /// or not they turned it on.
+    private func dismissVitalsOffer() {
+        withAnimation(.smooth(duration: 0.25)) { didOfferSessionVitals = true }
     }
 
     /// Today or yesterday — recent enough that an elapsed-time line ("13h ago",
@@ -390,6 +483,10 @@ struct SessionDetailView: View {
                             vitals: sessionVitals,
                             onToggleLiveActivity: toggleLiveActivity,
                         )
+                    }
+
+                    if shouldOfferVitals {
+                        vitalsOfferBanner
                     }
 
                     if let note = session.note, !note.isEmpty {
