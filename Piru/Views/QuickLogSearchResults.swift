@@ -17,18 +17,21 @@ enum QuickLogSearchResult: Identifiable {
     }
 }
 
-/// The list of search hits that grows upward from the dock's field. Pure
+/// The list of search hits beneath the dock's pinned field. Pure
 /// presentation: the parent computes the ranked `results` and supplies the
 /// staging/open/create actions; this view owns only the row layout.
 ///
-/// The list reads upward from the field — best match at the bottom, weaker
-/// matches above — and the create CTA is pinned as the bottommost row in every
-/// search so it's always in the same place.
+/// The list reads downward from the field — best match first — and the create
+/// CTA is pinned as the bottommost row in every search so it's always in the
+/// same place.
 struct QuickLogSearchResults: View {
     let results: [QuickLogSearchResult]
     let onStageRecent: (SubstanceCard) -> Void
     let onOpenSubstance: (Substance) -> Void
-    let onCreateCustom: () -> Void
+    /// `nil` hides the trailing "Create custom substance" row — the
+    /// suggestions surfaces (recents, category browse) reuse these rows
+    /// without the create CTA.
+    let onCreateCustom: (() -> Void)?
 
     @State private var customSubstanceStore = CustomSubstanceStore.shared
 
@@ -37,20 +40,21 @@ struct QuickLogSearchResults: View {
     private static let resultRowHeight: CGFloat = 56
 
     var body: some View {
-        let ordered = Array(results.reversed())
-        return VStack(spacing: 0) {
-            ForEach(Array(ordered.enumerated()), id: \.element.id) { index, result in
+        VStack(spacing: 0) {
+            ForEach(Array(results.enumerated()), id: \.element.id) { index, result in
                 if index > 0 {
                     Divider().padding(.leading, 16)
                 }
                 row(result)
             }
-            if !ordered.isEmpty {
-                Divider().padding(.leading, 16)
+            if let onCreateCustom {
+                if !results.isEmpty {
+                    Divider().padding(.leading, 16)
+                }
+                createCustomRow(onCreateCustom)
             }
-            createCustomRow
         }
-        .padding(.bottom, 6)
+        .padding(.vertical, 4)
     }
 
     @ViewBuilder
@@ -141,8 +145,8 @@ struct QuickLogSearchResults: View {
         .buttonStyle(.plain)
     }
 
-    private var createCustomRow: some View {
-        Button(action: onCreateCustom) {
+    private func createCustomRow(_ action: @escaping () -> Void) -> some View {
+        Button(action: action) {
             HStack(spacing: 10) {
                 Image(systemName: "plus")
                     .font(.subheadline.weight(.semibold))

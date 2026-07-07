@@ -62,8 +62,6 @@ struct QuickLogView: View {
 
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
 
-    @State private var customSubstanceStore = CustomSubstanceStore.shared
-
     @State private var searchText = ""
     @State private var showCustomForm = false
     @State private var showFavoritesEditor = false
@@ -76,10 +74,27 @@ struct QuickLogView: View {
     @State private var tray = DoseTrayModel()
 
     /// The dock is in search mode: field focused, results render inside the
-    /// dock surface. Entered from the idle pill or the tray's "Add another…";
-    /// exits automatically when focus ends with nothing typed.
+    /// dock sheet. Entered by focusing the dock's pinned field or the tray's
+    /// "Add another…"; exits on cancel, on staging a result, or when the dock
+    /// is dragged below its tallest detent. Shared with ``QuickLogDock``,
+    /// which owns the keyboard focus that drives it.
     @State private var searchActive = false
-    @FocusState private var searchFocused: Bool
+
+    /// The dock sheet is mounted for the lifetime of the cover. Requested
+    /// from the first body evaluation so it presents *with* the cover's own
+    /// transition rather than popping in afterwards.
+    @State private var dockPresented = true
+
+    /// The dock's current detent. Owned here so browse-side staging can grow
+    /// the dock; ``QuickLogDock`` drives the transitions.
+    @State private var dockDetent: PresentationDetent = QuickLogDockMetrics.peekDetent
+
+    /// The live detent set — dynamic because the dock's smallest detent is
+    /// fit-to-content once doses are staged. ``QuickLogDock`` owns the swaps.
+    @State private var dockDetents: Set<PresentationDetent> = QuickLogDockMetrics.emptyDetents
+
+    /// Measured height of the cover — bounds the dock's compact detent.
+    @State private var containerHeight: CGFloat = 0
 
     /// Every derived dataset the screen renders lives on this `@Observable`
     /// model, not inline on the view struct. Storing the (array-of-`Substance`)
@@ -101,27 +116,6 @@ struct QuickLogView: View {
     }
 
     // MARK: - Favorites
-
-    private var filteredCustomSubstances: [Substance] {
-        guard !searchText.isEmpty else { return [] }
-        let query = searchText.lowercased()
-        let libraryNames = Set(content.cachedLibraryResults.map { $0.name.lowercased() })
-        return customSubstanceStore.all
-            .filter { custom in
-                let nameLower = custom.name.lowercased()
-                let displayLower = custom.displayName?.lowercased() ?? ""
-                // Match the canonical name OR the personal display name, so a
-                // relabelled substance is findable by the name the user gave it.
-                let matches = nameLower.contains(query) || (!displayLower.isEmpty && displayLower.contains(query))
-                return matches
-                    && !content.cachedHistoryNames.contains(nameLower)
-                    && !libraryNames.contains(nameLower)
-            }
-            // Resolve through the library so an override of a shipped substance
-            // carries its full dose/duration data (labelled with the personal
-            // name); a net-new custom falls back to its own asSubstance.
-            .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
-    }
 
     /// Pre-`sortOrder` favorites are all 0 — stamp them with their current
     /// display order (newest first, matching the old query) exactly once, so
@@ -150,21 +144,18 @@ struct QuickLogView: View {
                 QuickLogCardList(content: content, tray: tray)
                     .padding(.horizontal)
                     .padding(.top, 4)
-                    .padding(.bottom, 64)
+                    // Clear the dock sheet's peek detent so the last cards can
+                    // scroll above it.
+                    .padding(.bottom, QuickLogDockMetrics.peekHeight + 20)
                     // With a dose editor open in the dock, hide the cards behind it
                     // from assistive tech so VoiceOver/Voice Control focus the
                     // editor's controls instead of interleaving the dimmed list.
                     .accessibilityHidden(!tray.expandedItemIDs.isEmpty)
-                    // Tapping anywhere outside the dock ends a search — the
-                    // standard iOS dismissal, no dimming, no Cancel button.
-                    .simultaneousGesture(
-                        TapGesture().onEnded {
-                            if searchActive { cancelSearch() }
-                        },
-                        isEnabled: searchActive,
-                    )
             }
-            .safeAreaInset(edge: .bottom) { dock }
+            // Staging haptics live in a leaf, not this body: reading the tick
+            // counters here would re-run the whole `QuickLogView.body` on
+            // every stage/increment.
+            .background(StagingHaptics(tray: tray))
             .scrollDismissesKeyboard(.interactively)
             .background(Theme.background)
             .navigationTitle("Log")
@@ -192,44 +183,19 @@ struct QuickLogView: View {
                         }
                     }
                 }
-                // Edit (reorder favorites) lives in the nav bar as an icon,
-                // per convention — not as a text button in a section header.
+                // One standard Edit action, text-labelled per the HIG ("Edit"
+                // is the canonical hard-to-symbolize action) — it opens the
+                // native drag-to-reorder favorites list. Routine management
+                // lives on the Routines section itself; the "Fixed Order"
+                // toggle lives in Settings ▸ Journal ("Keep Quick-Log Order").
                 if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
                     ToolbarItem(placement: .primaryAction) {
-                        Button {
+                        Button("Edit") {
                             showFavoritesEditor = true
-                        } label: {
-                            Image(systemName: "pencil")
                         }
                         .accessibilityLabel("Edit Favorites")
                     }
                 }
-                ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Button {
-                            navigator.present(.dailyDoseSettings)
-                        } label: {
-                            Label("Manage Routines…", systemImage: "pills")
-                        }
-                        Toggle(isOn: $quickLogFixedOrder) {
-                            Label("Fixed Order", systemImage: "pin")
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                    }
-                }
-            }
-            .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
-                CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
-                    pendingCustomPrefill = EntryPrefillPayload(
-                        substance: saved.name,
-                        route: saved.defaultRoute,
-                        unit: saved.unit,
-                    )
-                }
-            }
-            .sheet(isPresented: $showFavoritesEditor) {
-                FavoritesReorderView()
             }
             .task {
                 // Wait for the launch prewarm so the card lookups below land on
@@ -271,11 +237,6 @@ struct QuickLogView: View {
             // Routine pills depend on the routine rows + daily items; refresh
             // the cache when either is edited (the Manage Routines sheet).
             .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines) }
-            .onChange(of: searchFocused) {
-                if !searchFocused, searchText.isEmpty {
-                    withAnimation(.snappy) { searchActive = false }
-                }
-            }
             .task(id: searchText) {
                 guard !searchText.isEmpty else {
                     content.setLibraryResults([])
@@ -289,183 +250,65 @@ struct QuickLogView: View {
                 )
             }
         }
-        // Swipe-down dismissal is off: scrolling the list and dragging in the
-        // dock pass too close to the sheet's drag region, and an accidental
-        // pull-down silently discards staged doses. Closing is the ✕ button,
-        // which routes through the discard menu when something is staged.
-        .interactiveDismissDisabled()
-    }
-
-    // MARK: - Dock
-
-    /// Which face the dock is showing. One surface, three sizes — search pill
-    /// when idle, the tray once something is staged, and in-dock search when
-    /// the field is active. Never two materials at once.
-    private enum DockState {
-        case idle
-        case search
-        case tray
-    }
-
-    private var dockState: DockState {
-        if searchActive { .search } else if !tray.isEmpty { .tray } else { .idle }
-    }
-
-    /// The dock is showing nothing but the search field — idle, or search
-    /// with nothing typed yet. The field *itself* is then the glass element
-    /// (a floating capsule, like Maps' collapsed bar); content morphs it
-    /// into the full surface. A bare field inside the big surface would
-    /// force a corner radius taller than the face and distort the shape.
-    private var dockIsBareField: Bool {
-        switch dockState {
-        case .idle: true
-        case .search: searchText.isEmpty
-        case .tray: false
+        // The staging dock: a native detented sheet over this cover, mounted
+        // for the cover's whole lifetime (never dismissible — it's the
+        // staging basket). Sheets launched from quick log (custom-substance
+        // form, favorites editor) stack *on the dock*, not on the cover: the
+        // dock permanently occupies the cover's presentation slot, so a
+        // sibling sheet here would never present.
+        .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+            containerHeight = newValue
         }
-    }
-
-    private var dock: some View {
-        GlassDock(isBare: dockIsBareField) {
-            switch dockState {
-            case .idle: idleDock
-            case .search: searchDock
-            case .tray: trayDock
-            }
-        }
-        // Every result-set change resizes the surface — animate it, same as
-        // the bare⇄full flip GlassDock already animates.
-        .animation(.snappy, value: dockResults.map(\.id))
-        // Staging haptics live in a leaf (below), not here: reading the tick
-        // counters in this body would re-run the whole `QuickLogView.body` on
-        // every stage/increment.
-        .background(StagingHaptics(tray: tray))
-    }
-
-    /// The field's visual: bare on the glass platter while nothing is typed
-    /// (the capsule platter *is* the field), fading in a grey fill once text
-    /// appears and the surface grows around it.
-    private func fieldCapsule(filled: Bool, @ViewBuilder content: () -> some View) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(Theme.secondaryLabel)
-            content()
-        }
-        .padding(.horizontal, 14)
-        .frame(height: GlassDockMetrics.controlHeight)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemFill).opacity(filled ? 1 : 0), in: Capsule())
-    }
-
-    private var idleDock: some View {
-        Button(action: activateSearch) {
-            fieldCapsule(filled: false) {
-                Text("Search substances...")
-                    .foregroundStyle(Theme.secondaryLabel)
-                Spacer(minLength: 0)
-            }
-            .contentShape(Capsule())
-        }
-        .buttonStyle(.plain)
-        .padding(GlassDockMetrics.bareInset)
-    }
-
-    private var trayDock: some View {
-        DoseTrayView(
-            model: tray,
-            tagSuggestions: content.cachedTagSuggestions,
-            recentLocations: content.cachedRecentLocations,
-            onAddMore: activateSearch,
-            onCommit: commitTray,
-        )
-    }
-
-    /// Results stack *above* the field — the field stays pinned at the bottom
-    /// of the dock while suggestions grow upward. With nothing typed the face
-    /// is the bare glass capsule, so the field carries no fill or padding;
-    /// once typed it sits at the same frame as the tray's Log button, so the
-    /// two morph into one another when a result stages.
-    private var searchDock: some View {
-        VStack(spacing: 0) {
-            if isHelpSearch {
-                QuickLogHelpBanner()
-                    .padding(.horizontal, GlassDockMetrics.contentInsets.leading)
-                    .padding(.bottom, 8)
-            } else if !searchText.isEmpty {
-                QuickLogSearchResults(
-                    results: dockResults,
-                    onStageRecent: stageFromCard,
-                    onOpenSubstance: openLibrarySubstance,
-                    onCreateCustom: {
-                        // Release search focus before presenting, like every
-                        // other handoff out of the search surface. Leaving it
-                        // set makes SwiftUI restore focus mid-transition when
-                        // the form later dismisses — the keyboard churn behind
-                        // the builds-13/14 SheetBridge exclusivity crash (and
-                        // the "search bar stuck mid-air" feedback).
-                        searchFocused = false
-                        showCustomForm = true
-                    },
-                )
-            }
-
-            fieldCapsule(filled: !dockIsBareField) {
-                TextField("Search substances...", text: $searchText)
-                    .textFieldStyle(.plain)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .focused($searchFocused)
-                    .submitLabel(.search)
-                if !searchText.isEmpty {
-                    Button {
-                        searchText = ""
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Clear search")
+        .sheet(isPresented: $dockPresented) {
+            QuickLogDock(
+                tray: tray,
+                content: content,
+                containerHeight: containerHeight,
+                searchText: $searchText,
+                searchActive: $searchActive,
+                detent: $dockDetent,
+                detents: $dockDetents,
+                onStageRecent: stageFromCard,
+                onOpenSubstance: openLibrarySubstance,
+                onCreateCustom: { showCustomForm = true },
+                onCommit: commitTray,
+            )
+            .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
+                CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
+                    pendingCustomPrefill = EntryPrefillPayload(
+                        substance: saved.name,
+                        route: saved.defaultRoute,
+                        unit: saved.unit,
+                    )
                 }
             }
-            .padding(.horizontal, dockIsBareField ? GlassDockMetrics.bareInset : GlassDockMetrics.contentInsets.leading)
-            .padding(.bottom, dockIsBareField ? GlassDockMetrics.bareInset : GlassDockMetrics.contentInsets.bottom)
+            .sheet(isPresented: $showFavoritesEditor) {
+                FavoritesReorderView()
+            }
+            // Navigator sheets launched from quick log (Manage Routines, Edit
+            // Routine…) present here, stacked on the dock — the dock occupies
+            // the cover's only presentation slot, so they can't present there.
+            .hostsNestedNavigatorSheets(navigator)
+            // Presentation configuration lives at the closure root so it
+            // reliably reaches the presentation (not shadowed by the nested
+            // sheet/cover wrappers above). The background *style* is clear:
+            // that swaps the default full-width sheet backing for the
+            // system's inset floating glass platter, which is the dock's one
+            // surface in every detent (Maps' collapsed-bar look at peek).
+            .presentationDetents(dockDetents, selection: $dockDetent)
+            .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+            .presentationContentInteraction(.resizes)
+            .presentationBackground { Color.clear }
+            .interactiveDismissDisabled()
         }
-        .padding(.top, dockIsBareField ? GlassDockMetrics.bareInset : GlassDockMetrics.contentInsets.top)
-        .onAppear { searchFocused = true }
     }
 
-    private func activateSearch() {
-        withAnimation(.snappy) { searchActive = true }
-    }
-
-    private func cancelSearch() {
-        searchFocused = false
-        withAnimation(.snappy) {
-            searchActive = false
-            searchText = ""
-        }
-    }
-
-    // MARK: - In-dock search results
-
-    /// The ranked search hits shown inside the dock (recent → library →
-    /// custom). Presentation lives in ``QuickLogSearchResults``.
-    private var dockResults: [QuickLogSearchResult] {
-        let query = searchText.lowercased()
-        guard !query.isEmpty else { return [] }
-        var results: [QuickLogSearchResult] = content.cachedCards
-            .filter { $0.id.contains(query) }
-            .prefix(2)
-            .map { .recent($0) }
-        results += content.cachedLibraryResults.prefix(3).map { .library($0) }
-        results += filteredCustomSubstances.prefix(1).map { .custom($0) }
-        return Array(results.prefix(4))
-    }
+    // MARK: - Dock actions
 
     /// A recent-substance search hit stages a draft from its most recent
     /// route group, same as the card's ⋯ chip.
     private func stageFromCard(_ card: SubstanceCard) {
         guard let group = card.routes.first else { return }
-        searchFocused = false
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: group.substanceName,
@@ -477,12 +320,6 @@ struct QuickLogView: View {
             searchActive = false
             searchText = ""
         }
-    }
-
-    // MARK: - Scroll Content
-
-    private var isHelpSearch: Bool {
-        CrisisKeywords.matches(searchText)
     }
 
     // MARK: - Daily routine
@@ -648,7 +485,6 @@ struct QuickLogView: View {
     /// expanded in the tray with the amount field focused — the full entry
     /// form no longer participates in quick logging.
     private func openLibrarySubstance(_ substance: Substance) {
-        searchFocused = false
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: substance.name,
@@ -665,7 +501,6 @@ struct QuickLogView: View {
     private func onCustomFormDismiss() {
         guard let prefill = pendingCustomPrefill else { return }
         pendingCustomPrefill = nil
-        searchFocused = false
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: prefill.substance,
@@ -806,15 +641,31 @@ private struct QuickLogCardList: View {
                 }
             }
         } header: {
-            Label {
-                Text("Routines")
-                    .foregroundStyle(Theme.secondaryLabel)
-            } icon: {
-                Image(systemName: "repeat")
-                    .foregroundStyle(Theme.accent)
+            // Routine management is anchored to the section it manages, not
+            // the screen's toolbar — the ⋯ opens the routines editor.
+            HStack {
+                Label {
+                    Text("Routines")
+                        .foregroundStyle(Theme.secondaryLabel)
+                } icon: {
+                    Image(systemName: "repeat")
+                        .foregroundStyle(Theme.accent)
+                }
+                .font(.footnote.weight(.semibold))
+                .textCase(.uppercase)
+                Spacer()
+                Button {
+                    navigator.present(.dailyDoseSettings)
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .frame(width: 28, height: 28)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Manage Routines")
             }
-            .font(.footnote.weight(.semibold))
-            .textCase(.uppercase)
         }
     }
 

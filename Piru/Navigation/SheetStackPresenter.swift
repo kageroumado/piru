@@ -52,24 +52,48 @@ private struct SheetLayer: ViewModifier {
         if depth >= AppNavigator.maxSheetDepth {
             content
         } else {
-            content.sheet(item: binding) { route in
-                SheetRouteView(route: route)
-                    .modifier(SheetLayer(navigator: navigator, depth: depth + 1, quickLogZoom: quickLogZoom))
-                    .environment(\.appNavigator, navigator)
-                    .sheetZoomTransition(
-                        depth: depth,
-                        sourceID: navigator.sheetZoomSourceID,
-                        in: quickLogZoom,
-                    )
-            }
+            // Two presentation containers share this depth: routes that want a
+            // full-screen cover (quick log — Maps-style, with its own dock sheet
+            // on top) and everything else as a regular sheet. The bindings are
+            // mutually exclusive per route, so at most one presents at a time.
+            //
+            // The cover branch does NOT wrap the next layer: quick log keeps a
+            // persistent dock sheet presented for its whole lifetime, which
+            // occupies the cover's only presentation slot — a nested sheet
+            // attached here could never present. The cover's content mounts the
+            // next layer on the dock instead, via
+            // ``hostsNestedNavigatorSheets(_:quickLogZoom:)``.
+            content
+                .sheet(item: binding(fullScreen: false)) { route in
+                    routeContent(route)
+                        .modifier(SheetLayer(navigator: navigator, depth: depth + 1, quickLogZoom: quickLogZoom))
+                }
+                .fullScreenCover(item: binding(fullScreen: true)) { route in
+                    routeContent(route)
+                }
         }
     }
 
-    /// Binds the sheet at this depth. Setting `nil` from the system (swipe
-    /// down, tap outside) dismisses the top sheet by trimming the stack.
-    private var binding: Binding<SheetRoute?> {
+    private func routeContent(_ route: SheetRoute) -> some View {
+        SheetRouteView(route: route)
+            .environment(\.appNavigator, navigator)
+            .sheetZoomTransition(
+                depth: depth,
+                sourceID: navigator.sheetZoomSourceID,
+                in: quickLogZoom,
+            )
+    }
+
+    /// Binds the route at this depth, filtered to one presentation style.
+    /// Setting `nil` from the system (swipe down, tap outside) dismisses the
+    /// top sheet by trimming the stack.
+    private func binding(fullScreen: Bool) -> Binding<SheetRoute?> {
         Binding(
-            get: { navigator.sheetStack.indices.contains(depth) ? navigator.sheetStack[depth] : nil },
+            get: {
+                guard navigator.sheetStack.indices.contains(depth) else { return nil }
+                let route = navigator.sheetStack[depth]
+                return route.presentsAsFullScreenCover == fullScreen ? route : nil
+            },
             set: { newValue in
                 if newValue == nil {
                     // System dismissed the sheet at this depth — trim the
@@ -82,7 +106,29 @@ private struct SheetLayer: ViewModifier {
     }
 }
 
+private extension SheetRoute {
+    /// Routes presented as a `fullScreenCover` rather than a sheet. Quick log
+    /// is full-screen so its staging dock can layer on top as the *only*
+    /// detented sheet (Apple Maps model: browse behind, resizable dock over).
+    var presentsAsFullScreenCover: Bool {
+        if case .quickLog = self { return true }
+        return false
+    }
+}
+
 extension View {
+    /// Mounts the navigator's nested sheet layers (depth ≥ 1) on this view.
+    ///
+    /// The quick-log cover presents a persistent dock sheet that occupies its
+    /// only presentation slot, so `SheetLayer` deliberately does not wrap a
+    /// cover's content with the next layer. The dock's content attaches this
+    /// instead, so navigator sheets launched from quick log (Manage Routines,
+    /// Edit Routine…) stack *on the dock*. Hardcodes depth 1 — quick log is
+    /// only ever presented at depth 0.
+    func hostsNestedNavigatorSheets(_ navigator: AppNavigator) -> some View {
+        modifier(SheetLayer(navigator: navigator, depth: 1, quickLogZoom: nil))
+    }
+
     /// Presents `navigator.sheetStack` as nested sheets. Attach at the root of
     /// the scene above the tab view; do not attach multiple times in the
     /// hierarchy.

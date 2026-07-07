@@ -2,6 +2,18 @@ import SwiftData
 import SwiftUI
 import UIKit
 
+// MARK: - Metrics
+
+/// Geometry for the tray's content, shared with the dock sheet that hosts it.
+enum DoseTrayMetrics {
+    /// Height of the Log button — matches the dock's pinned search field so
+    /// the two read as one control system.
+    static let controlHeight: CGFloat = 48
+    /// Corner radius of the grouped cards inside the dock, matching the
+    /// system inset-grouped list on iOS 26.
+    static let cardCornerRadius: CGFloat = 26
+}
+
 // MARK: - Staged Dose
 
 /// A dose staged in the quick-log tray, not yet committed. Doses of the same
@@ -387,36 +399,65 @@ final class DoseTrayModel {
     }
 }
 
-// MARK: - Tray View
+// MARK: - Staged List Card
 
-/// The commit surface for quick logging: staged doses, shared When/Tags/
-/// Location controls, a live interaction check, and the Log button. Items
-/// expand inline for per-dose enrichment — never a second sheet.
-///
-/// Renders content only; the dock in `QuickLogView` owns the glass surface,
-/// so nothing here layers material on material.
-struct DoseTrayView: View {
+/// The staged doses as a grouped-style card (matching the system inset-grouped
+/// list): one row per dose, expanding inline into its editor — never a second
+/// sheet. Every row — collapsed or expanded — swipes left to delete.
+struct TrayStagedListCard: View {
+    @Bindable var model: DoseTrayModel
+
+    /// Ties each collapsed row to its expanded editor so the name, amount,
+    /// route, and chevron morph in place instead of cross-fading.
+    @Namespace private var morphNamespace
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach($model.staged) { $item in
+                TraySwipeRow(onDelete: { withAnimation(.snappy) { model.remove(item) } }) {
+                    if model.expandedItemIDs.contains(item.id) {
+                        StagedDoseEditor(item: $item, namespace: morphNamespace) {
+                            withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
+                        } onRemove: {
+                            withAnimation(.snappy) { model.remove(item) }
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 12)
+                    } else {
+                        TrayRow(dose: item, model: model, namespace: morphNamespace)
+                            .padding(.horizontal, 16)
+                    }
+                }
+                if item.id != model.staged.last?.id {
+                    Divider().padding(.leading, 42)
+                }
+            }
+        }
+        .background(
+            Color(.secondarySystemGroupedBackground),
+            in: RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous),
+        )
+    }
+}
+
+// MARK: - Commit Bar
+
+/// The tray's shared bottom bar, pinned to the dock's bottom edge: the live
+/// interaction check, the expandable shared panels, the When/Tags/Location
+/// chips, and the Log button.
+struct TrayCommitBar: View {
     @Bindable var model: DoseTrayModel
     let tagSuggestions: [String]
     /// Distinct places from dose history, most recent first — the inline
     /// location panel offers the first three, the full picker all of them.
     let recentLocations: [PickedLocation]
-    let onAddMore: () -> Void
     let onCommit: () -> Void
 
     @State private var showLocationPicker = false
     /// The location chip expands into an inline panel (like the tag panel) —
     /// current location + recent places; the full search stays a sheet.
     @State private var locationPanelExpanded = false
-    /// Ties each collapsed row to its expanded editor so the name, amount,
-    /// route, and chevron morph in place instead of cross-fading.
-    @Namespace private var morphNamespace
-
-    /// Measured height of the staged-rows stack; past ``rowsMaxHeight`` the
-    /// rows scroll internally so the chips and Log button never leave the
-    /// screen.
-    @State private var rowsHeight: CGFloat = 0
-    private static let rowsMaxHeight: CGFloat = 320
 
     /// Memoized interaction check — the result depends only on the set of
     /// staged substance names, so it's recomputed in `onChange` rather than on
@@ -429,10 +470,6 @@ struct DoseTrayView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            stagedRowsList
-
-            addMoreRow
-
             if !interactions.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
                     ForEach(interactions.enumerated(), id: \.offset) { _, warning in
@@ -468,7 +505,6 @@ struct DoseTrayView: View {
             commitButton
                 .padding(.top, 14)
         }
-        .padding(GlassDockMetrics.contentInsets)
         .onChange(of: stagedNameSet, initial: true) { _, names in
             interactions = names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : []
         }
@@ -479,66 +515,6 @@ struct DoseTrayView: View {
                 locationPanelExpanded = false
             }
         }
-    }
-
-    // MARK: Rows
-
-    /// The staged rows, capped at ``rowsMaxHeight``: a tall stack scrolls
-    /// internally instead of pushing the chips and Log button off screen.
-    /// Height is measured because a bare `maxHeight` would let the greedy
-    /// ScrollView claim the cap even for a single row.
-    private var stagedRowsList: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                ForEach($model.staged) { $item in
-                    if model.expandedItemIDs.contains(item.id) {
-                        StagedDoseEditor(item: $item, namespace: morphNamespace) {
-                            withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
-                        } onRemove: {
-                            withAnimation(.snappy) { model.remove(item) }
-                        }
-                        // Top is 4, not 10: with the tray's 12pt top padding
-                        // and the 38pt header row, the trash button's center
-                        // lands 35pt from the surface top — the same 35pt
-                        // (16pt content inset + half of 38) it sits from the
-                        // right edge, so it reads concentric in the corner.
-                        .padding(.top, 4)
-                        .padding(.bottom, 10)
-                    } else {
-                        TrayRow(dose: item, model: model, namespace: morphNamespace)
-                    }
-                    Divider().padding(.leading, 26)
-                }
-            }
-            .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-                guard abs(newValue - rowsHeight) > 0.5 else { return }
-                withAnimation(.snappy) { rowsHeight = newValue }
-            }
-        }
-        .frame(height: min(max(rowsHeight, 1), Self.rowsMaxHeight))
-        .scrollDisabled(rowsHeight <= Self.rowsMaxHeight)
-        .scrollBounceBehavior(.basedOnSize)
-    }
-
-    /// Re-opens search inside the dock — staging never requires dismissing
-    /// the tray. A magnifier, not a plus: the row brings up search. It shares
-    /// the rows' leading chevron column so the edges align; generous
-    /// targets — this is the tray's main growth path.
-    private var addMoreRow: some View {
-        Button(action: onAddMore) {
-            HStack(spacing: 10) {
-                Image(systemName: "magnifyingglass")
-                    .font(.body.weight(.semibold))
-                    .frame(width: 16)
-                Text("Add another…")
-                    .font(.body.weight(.semibold))
-                Spacer()
-            }
-            .foregroundStyle(Theme.accent)
-            .padding(.vertical, 12)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: Shared controls
@@ -582,13 +558,13 @@ struct DoseTrayView: View {
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))
             }
-            .font(.footnote.weight(.semibold))
+            .font(.subheadline.weight(.semibold))
             // The chip's capsule animates its width when the time changes; pin
             // the label to its ideal width so the new string isn't clipped to the
             // interpolating frame (which flashed truncated text before snapping).
             .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, 11)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
             .background(
                 model.time.isNow ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Color.orange.opacity(0.18)),
                 in: Capsule(),
@@ -611,9 +587,9 @@ struct DoseTrayView: View {
                     Text(verbatim: "\(model.tags.count)")
                 }
             }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .padding(.vertical, 8)
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
             .background(
                 model.tags.isEmpty ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
                 in: Capsule(),
@@ -637,9 +613,9 @@ struct DoseTrayView: View {
                     Text("Location")
                 }
             }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .padding(.vertical, 8)
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
             .background(
                 model.location == nil ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
                 in: Capsule(),
@@ -660,7 +636,7 @@ struct DoseTrayView: View {
                 .frame(maxWidth: .infinity)
                 // The dock contract: the Log button and the search field
                 // share one frame, so the faces morph into one another.
-                .frame(height: GlassDockMetrics.controlHeight)
+                .frame(height: DoseTrayMetrics.controlHeight)
                 .background(Theme.accent, in: Capsule())
         }
         .buttonStyle(.plain)
@@ -835,11 +811,86 @@ private struct TraySharedDetailsPanel: View {
     }
 }
 
+// MARK: - Swipe Row
+
+/// Swipe-to-delete container for one staged row — collapsed or expanded, the
+/// same leftward swipe reveals the delete capsule (full swipe removes). The
+/// content stays fully interactive at rest; while the delete strip is
+/// revealed, the first tap anywhere on the row closes it again.
+private struct TraySwipeRow<Content: View>: View {
+    let onDelete: () -> Void
+    @ViewBuilder var content: Content
+
+    @State private var offset: CGFloat = 0
+
+    private static var revealWidth: CGFloat {
+        64
+    }
+    private static var fullSwipeThreshold: CGFloat {
+        180
+    }
+
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            deleteBackdrop
+            content
+                .offset(x: offset)
+                .overlay {
+                    if offset != 0 {
+                        // Tap-catcher while revealed — swallows the tap that
+                        // would otherwise expand/edit and closes the strip.
+                        Color.clear
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                withAnimation(.snappy) { offset = 0 }
+                            }
+                    }
+                }
+        }
+        .clipped()
+        .gesture(swipeGesture)
+    }
+
+    /// A compact red capsule, not a full-height block — centered in the
+    /// revealed strip with breathing room on every side.
+    private var deleteBackdrop: some View {
+        Button {
+            onDelete()
+        } label: {
+            Image(systemName: "trash.fill")
+                .font(.subheadline)
+                .foregroundStyle(.white)
+                .frame(width: Self.revealWidth - 8, height: 34)
+                .background(.red, in: Capsule())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove")
+        .opacity(offset < -1 ? 1 : 0)
+    }
+
+    private var swipeGesture: some Gesture {
+        DragGesture(minimumDistance: 20)
+            .onChanged { value in
+                guard abs(value.translation.width) > abs(value.translation.height) else { return }
+                offset = min(0, value.translation.width)
+            }
+            .onEnded { value in
+                if offset < -Self.fullSwipeThreshold || value.predictedEndTranslation.width < -Self.fullSwipeThreshold * 1.5 {
+                    onDelete()
+                } else if offset < -Self.revealWidth / 2 {
+                    withAnimation(.snappy) { offset = -Self.revealWidth }
+                } else {
+                    withAnimation(.snappy) { offset = 0 }
+                }
+            }
+    }
+}
+
 // MARK: - Tray Row
 
 /// A staged dose as a compact row: a downward disclosure chevron (it expands
-/// in place — never navigates) — tap expands the inline editor, swipe left
-/// reveals delete (with full-swipe to remove).
+/// in place — never navigates) — tap expands the inline editor; the enclosing
+/// ``TraySwipeRow`` owns swipe-to-delete.
 private struct TrayRow: View {
     let dose: StagedDose
     /// Stable reference, not parent closures: the row toggles its own
@@ -850,30 +901,11 @@ private struct TrayRow: View {
     let model: DoseTrayModel
     let namespace: Namespace.ID
 
-    @State private var offset: CGFloat = 0
-
-    private static let revealWidth: CGFloat = 64
-    private static let fullSwipeThreshold: CGFloat = 180
-
     private func expand() {
         withAnimation(.snappy) { _ = model.expandedItemIDs.insert(dose.id) }
     }
 
-    private func delete() {
-        withAnimation(.snappy) { model.remove(dose) }
-    }
-
     var body: some View {
-        ZStack(alignment: .trailing) {
-            deleteBackdrop
-            rowContent
-                .offset(x: offset)
-        }
-        .clipped()
-        .gesture(swipeGesture)
-    }
-
-    private var rowContent: some View {
         HStack(spacing: 10) {
             // Disclosure chevron leads the row (matching the search results).
             // Apple's convention: points right collapsed, down expanded — the
@@ -932,45 +964,7 @@ private struct TrayRow: View {
         }
         .padding(.vertical, 12)
         .contentShape(Rectangle())
-        .onTapGesture {
-            if offset != 0 {
-                withAnimation(.snappy) { offset = 0 }
-            } else {
-                expand()
-            }
-        }
-    }
-
-    /// A compact red capsule, not a full-height block — centered in the
-    /// revealed strip with breathing room on every side.
-    private var deleteBackdrop: some View {
-        Button(action: delete) {
-            Image(systemName: "trash.fill")
-                .font(.subheadline)
-                .foregroundStyle(.white)
-                .frame(width: Self.revealWidth - 8, height: 34)
-                .background(.red, in: Capsule())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Remove")
-        .opacity(offset < -1 ? 1 : 0)
-    }
-
-    private var swipeGesture: some Gesture {
-        DragGesture(minimumDistance: 20)
-            .onChanged { value in
-                guard abs(value.translation.width) > abs(value.translation.height) else { return }
-                offset = min(0, value.translation.width)
-            }
-            .onEnded { value in
-                if offset < -Self.fullSwipeThreshold || value.predictedEndTranslation.width < -Self.fullSwipeThreshold * 1.5 {
-                    delete()
-                } else if offset < -Self.revealWidth / 2 {
-                    withAnimation(.snappy) { offset = -Self.revealWidth }
-                } else {
-                    withAnimation(.snappy) { offset = 0 }
-                }
-            }
+        .onTapGesture(perform: expand)
     }
 }
 
@@ -1665,7 +1659,8 @@ private struct StagedDoseEditor: View {
             }
             .frame(height: 42)
             .frame(maxWidth: .infinity)
-            .background(Theme.inputBackground, in: Capsule())
+            // Same fill as the −/+ buttons — one control system, one shade.
+            .background(Color(.secondarySystemFill), in: Capsule())
             .overlay(alignment: .trailing) {
                 unitMenu
                     .padding(.trailing, 12)
@@ -1702,15 +1697,14 @@ private struct StagedDoseEditor: View {
         Self.unitChoices.contains(item.unit) ? Self.unitChoices : [item.unit] + Self.unitChoices
     }
 
-    /// 38pt circles — the trash button's width, so the trailing plus shares
-    /// its center line; equal height makes them true circles beside the
-    /// 42pt field.
+    /// 42pt circles — the same height as the amount field, so the stepper
+    /// row reads as one control at one size.
     private func stepButton(systemImage: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemImage)
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
-                .frame(width: 38, height: 38)
+                .frame(width: 42, height: 42)
                 .background(Color(.secondarySystemFill), in: Circle())
         }
         .buttonStyle(.plain)

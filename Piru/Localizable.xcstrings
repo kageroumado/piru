@@ -4589,6 +4589,7 @@
       }
     },
     "Add another…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8368,6 +8369,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消緩和期提醒？"
+          }
+        }
+      }
+    },
+    "Cancel search" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消搜索"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消搜尋"
           }
         }
       }
@@ -15998,6 +16015,7 @@
       }
     },
     "Fixed Order" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21201,7 +21219,24 @@
         }
       }
     },
+    "Manage Routines" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理日常"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理日常"
+          }
+        }
+      }
+    },
     "Manage Routines…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30618,6 +30653,23 @@
         }
       }
     },
+    "Search to add a dose…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索以添加剂量…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋以新增劑量…"
+          }
+        }
+      }
+    },
     "Section" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -33562,6 +33614,22 @@
         }
       }
     },
+    "Start dictation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始听写"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始聽寫"
+          }
+        }
+      }
+    },
     "Start Fresh" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33978,6 +34046,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "興奮劑會掩蓋過量的徵兆 — 一旦消退,呼吸抑制可能浮現。"
+          }
+        }
+      }
+    },
+    "Stop dictation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止听写"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止聽寫"
           }
         }
       }

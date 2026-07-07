@@ -2094,6 +2094,12 @@ T = {
     "Search Journal": ("搜索日志", "搜尋日誌"),
     "Search entries...": ("搜索记录…", "搜尋記錄…"),
     "Search substances...": ("搜索物质…", "搜尋物質…"),
+    # Quick-log native dock sheet (2026-07-07)
+    "Search to add a dose…": ("搜索以添加剂量…", "搜尋以新增劑量…"),
+    "Cancel search": ("取消搜索", "取消搜尋"),
+    "Start dictation": ("开始听写", "開始聽寫"),
+    "Stop dictation": ("停止听写", "停止聽寫"),
+    "Manage Routines": ("管理日常", "管理日常"),
     "Search": ("搜索", "搜尋"),
     # Search redesign 2026-06 (landing + class grid + journal→library fallback)
     "Recently Searched": ("最近搜索", "最近搜尋"),
@@ -4353,6 +4359,12 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Quick-log native dock sheet (2026-07-07).
+        "Search to add a dose…",
+        "Cancel search",
+        "Start dictation",
+        "Stop dictation",
+        "Manage Routines",
         # Apple Health vitals overlay (2026-07-06).
         "Heart rate",
         "Heart Rate",
