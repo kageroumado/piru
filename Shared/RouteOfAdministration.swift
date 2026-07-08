@@ -1,4 +1,6 @@
 import Foundation
+import SwiftUI
+import UIKit
 
 enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
     case oral
@@ -48,6 +50,36 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
 }
 
 extension RouteOfAdministration {
+    /// A fixed tint per route — so a route reads the same everywhere (every "oral"
+    /// badge is the same colour), independent of the substance's own colour. Used
+    /// by the dose-row / detail ROA pills as both the badge text and its 0.16 fill.
+    ///
+    /// Adaptive like `Theme.legibleYellow`: the vivid hue works on dark, but as
+    /// ~11pt text on a near-white card several hues fail small-text contrast
+    /// (orange/green worst), so light mode darkens each toward ≥4.5:1 while
+    /// keeping the hue identity.
+    var tintColor: Color {
+        let (light, dark) = tintHexPair
+        return Color(UIColor { traits in
+            UIColor(Color(hex: traits.userInterfaceStyle == .dark ? dark : light))
+        })
+    }
+
+    private var tintHexPair: (light: String, dark: String) {
+        switch self {
+        case .oral: ("0B5FC2", "0A84FF") // blue
+        case .sublingual: ("0E7A8D", "30B0C7") // teal
+        case .insufflation: ("8330AE", "AF52DE") // purple
+        case .inhalation: ("A05A00", "FF9500") // orange
+        case .intravenous: ("C22B22", "FF3B30") // red
+        case .intramuscular: ("C21A3F", "FF2D55") // pink
+        case .subcutaneous: ("4644B8", "5E5CE6") // indigo
+        case .transdermal: ("1B7A38", "34C759") // green
+        case .rectal: ("7A6244", "A2845E") // brown
+        case .other: ("6C6C70", "8E8E93") // gray
+        }
+    }
+
     /// Parse a route string from TripSit/OpenFDA into our enum
     nonisolated static func from(string: String) -> RouteOfAdministration {
         switch string.lowercased().trimmingCharacters(in: .whitespaces) {

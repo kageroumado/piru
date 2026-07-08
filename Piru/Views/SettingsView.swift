@@ -7,7 +7,6 @@ struct SettingsView: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     @State private var profileStore = UserProfileStore.shared
-    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showSessionVitals = false
 
     @Environment(\.appNavigator) private var navigator
 
@@ -86,25 +85,9 @@ struct SettingsView: View {
                     }
 
                     NavigationLink {
-                        BodyWeightView()
+                        HealthSettingsView()
                     } label: {
-                        HStack {
-                            Label("Body Weight", systemImage: "figure")
-                            Spacer()
-                            Text(weightSummary)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
-
-                    NavigationLink {
-                        SessionVitalsView()
-                    } label: {
-                        HStack {
-                            Label("Heart Rate", systemImage: "heart.text.square")
-                            Spacer()
-                            Text(showSessionVitals ? "On" : "Off")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+                        Label("Apple Health", systemImage: "heart.text.square")
                     }
                 } header: {
                     Text("Preferences")
@@ -217,13 +200,6 @@ struct SettingsView: View {
             get: { profileStore.aldh2Deficient },
             set: { profileStore.setALDH2Deficient($0) },
         )
-    }
-
-    /// Trailing summary for the Body Weight row — the value, or "Estimated" when unset.
-    private var weightSummary: String {
-        guard let kg = profileStore.weightKg else { return String(localized: "Estimated") }
-        let value = kg.rounded() == kg ? String(Int(kg)) : String(format: "%.1f", kg)
-        return "\(value) kg"
     }
 
     // MARK: - Version

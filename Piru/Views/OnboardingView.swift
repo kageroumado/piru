@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// First-run onboarding — a paged, progressive-commitment flow (welcome → privacy → feature
-/// tour → personalize depth → body weight → reminders → import → done).
+/// tour → personalize depth → Apple Health → reminders → import → done).
 ///
 /// The design follows the health/wellness-app pattern: the earliest screens ask for *nothing*
 /// (value prop, privacy reassurance, a feature tour) so the user is invested before any
@@ -43,7 +43,7 @@ struct OnboardingView: View {
         case .privacy: OnboardingPrivacyStep()
         case .tour: OnboardingFeatureTour()
         case .depth: OnboardingDepthStep()
-        case .weight: OnboardingWeightStep()
+        case .health: OnboardingHealthStep()
         case .reminders: OnboardingRemindersStep()
         case .importData: OnboardingImportStep()
         case .done: OnboardingDoneStep()
@@ -112,7 +112,7 @@ enum OnboardingStep: Int, CaseIterable {
     case privacy
     case tour
     case depth
-    case weight
+    case health
     case reminders
     case importData
     case done
@@ -126,7 +126,7 @@ enum OnboardingStep: Int, CaseIterable {
 
     /// Steps that show the progress bar + back affordance. The bookend welcome/done screens are
     /// deliberately chromeless for a cleaner first and last impression.
-    static let progressSteps: [OnboardingStep] = [.privacy, .tour, .depth, .weight, .reminders, .importData]
+    static let progressSteps: [OnboardingStep] = [.privacy, .tour, .depth, .health, .reminders, .importData]
 }
 
 // MARK: - Navigation environment

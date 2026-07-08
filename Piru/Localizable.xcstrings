@@ -1207,7 +1207,6 @@
       }
     },
     "%@, %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3318,6 +3317,22 @@
         }
       }
     },
+    "A couple of drinks, with the heart rate a watch recorded alongside." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两杯酒，以及手表同时记录的心率。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩杯酒，以及手錶同時記錄的心率。"
+          }
+        }
+      }
+    },
     "A cross-taper usually switches from a short- to a long-half-life benzo: the longer drug self-tapers more smoothly. Diazepam's long-acting active metabolites stretch its effective half-life well beyond the parent." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3449,6 +3464,7 @@
       }
     },
     "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5484,6 +5500,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alarmnummer"
+          }
+        }
+      }
+    },
+    "Alcohol" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒精"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒精"
           }
         }
       }
@@ -7861,6 +7893,7 @@
       }
     },
     "Body Weight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7968,6 +8001,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "黑框警告"
+          }
+        }
+      }
+    },
+    "bpm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次/分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次/分"
           }
         }
       }
@@ -10336,6 +10385,54 @@
         }
       }
     },
+    "Connect Apple Health to overlay how your body responded to each dose — read-only." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接“健康”，将身体对每次用量的反应叠加显示——仅供读取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連接「健康」，將身體對每次用量的反應疊加顯示——僅供讀取。"
+          }
+        }
+      }
+    },
+    "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接一次即可从“健康”读取你的体重、心率和血压——全部仅供读取，存于你的设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。"
+          }
+        }
+      }
+    },
+    "Connecting…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接中…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連線中…"
+          }
+        }
+      }
+    },
     "Consider waiting ~%@ more" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10594,6 +10691,7 @@
       }
     },
     "Couldn't read a weight from Health — you may not have granted access, or haven't logged one there. Set it above instead." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10626,7 +10724,24 @@
         }
       }
     },
+    "Couldn't read a weight from Health. Set it above instead." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法从“健康”读取体重，请在上方手动设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法從「健康」讀取體重，請在上方手動設定。"
+          }
+        }
+      }
+    },
     "Couldn't read a weight from Health. You may not have granted access, or haven't recorded a weight there yet." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12104,6 +12219,22 @@
         }
       }
     },
+    "Dismiss" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉"
+          }
+        }
+      }
+    },
     "Display as (e.g. joint)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13225,6 +13356,7 @@
       }
     },
     "Drag to pan, pinch to zoom, hold to inspect" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13508,6 +13640,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "飲品"
+          }
+        }
+      }
+    },
+    "Driven" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起劲"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起勁"
           }
         }
       }
@@ -14700,6 +14848,22 @@
         }
       }
     },
+    "Energy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精力"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精力"
+          }
+        }
+      }
+    },
     "Energy, focus, and wakefulness." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14815,6 +14979,7 @@
       }
     },
     "Enter a number." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14880,6 +15045,7 @@
       }
     },
     "Enter a weight between 20 and 300 kg." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14912,6 +15078,7 @@
       }
     },
     "Entered manually" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14923,6 +15090,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手動輸入"
+          }
+        }
+      }
+    },
+    "Entered manually. Your weight sizes every dose estimate — the same dose hits harder the less you weigh." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已手动输入。体重决定每项剂量估算——越轻，同样的剂量作用越强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已手動輸入。體重決定每項劑量估算——越輕，同樣的劑量作用越強。"
           }
         }
       }
@@ -15108,6 +15291,7 @@
       }
     },
     "Estimated" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15124,6 +15308,7 @@
       }
     },
     "Estimated — set your weight for more accurate estimates." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15140,6 +15325,7 @@
       }
     },
     "Estimated (default 60 kg)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15264,6 +15450,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "促醒劑"
+          }
+        }
+      }
+    },
+    "Euphoric" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欣快"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欣快"
           }
         }
       }
@@ -15543,6 +15745,22 @@
         }
       }
     },
+    "Example chart: an alcohol effect curve with heart rate rising and falling alongside it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "示例图表：酒精效应曲线，心率随之起伏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "範例圖表：酒精效應曲線，心率隨之起伏。"
+          }
+        }
+      }
+    },
     "Excessive sedation and respiratory depression risk." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15609,6 +15827,22 @@
       }
     },
     "Expand Chart" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开图表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開圖表"
+          }
+        }
+      }
+    },
+    "Expand Graph" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16018,6 +16252,22 @@
         }
       }
     },
+    "Feeling" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感受"
+          }
+        }
+      }
+    },
     "Fentanyl (transdermal)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16282,6 +16532,22 @@
     },
     "fl oz" : {
 
+    },
+    "Flat" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平淡"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平淡"
+          }
+        }
+      }
     },
     "Fluvoxamine" : {
       "localizations" : {
@@ -17380,6 +17646,22 @@
         }
       }
     },
+    "Good" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "良好"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "良好"
+          }
+        }
+      }
+    },
     "Grapefruit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17788,6 +18070,38 @@
         }
       }
     },
+    "Health access is read-only. Turn it off anytime in Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“健康”访问为只读，可随时在“设置”中关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「健康」存取為唯讀，可隨時在「設定」中關閉。"
+          }
+        }
+      }
+    },
+    "Heart data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心脏数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心臟數據"
+          }
+        }
+      }
+    },
     "Heart rate" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17805,6 +18119,7 @@
       }
     },
     "Heart Rate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20194,6 +20509,7 @@
       }
     },
     "kg" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20484,7 +20800,20 @@
       }
     },
     "Level" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平稳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平穩"
+          }
+        }
+      }
     },
     "Library" : {
       "localizations" : {
@@ -21324,6 +21653,22 @@
       }
     },
     "low" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
+        }
+      }
+    },
+    "Low" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22402,6 +22747,22 @@
         }
       }
     },
+    "mmHg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mmHg"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mmHg"
+          }
+        }
+      }
+    },
     "Modafinil" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22515,7 +22876,6 @@
       }
     },
     "Moderate" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24773,6 +25133,7 @@
       }
     },
     "Not seeing your heart rate on a session? Apple doesn't tell apps whether read access was granted, so tap Connect to (re)request it, or open Settings ▸ Health ▸ Data Access ▸ Piru and switch Heart Rate and Blood Pressure on." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24789,6 +25150,7 @@
       }
     },
     "Not set" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25077,6 +25439,7 @@
       }
     },
     "Off" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25141,6 +25504,7 @@
       }
     },
     "On" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25238,6 +25602,7 @@
       }
     },
     "Open Health Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25758,6 +26123,7 @@
       }
     },
     "Overlays your Apple Watch heart rate — and any blood-pressure readings — on each session's timeline, and shows how your heart responded to each dose. Read-only; you can turn Piru's access off anytime in Settings ▸ Health ▸ Data Access. With no data for a session, nothing is shown." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25769,6 +26135,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "將你的 Apple Watch 心率（以及任何血壓讀數）疊加到每次記錄的時間軸上，並顯示你的心臟對每次用藥的反應。僅供讀取；你可以隨時在「設定 ▸ 健康 ▸ 資料取用」中關閉 Piru 的存取權限。某次記錄沒有資料時，不會顯示任何相關內容。"
+          }
+        }
+      }
+    },
+    "Overlays your heart rate and blood pressure on each session's timeline — read-only. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每次记录的时间线上叠加显示你的心率和血压——仅供读取。若有项目未能连接（尤其是血压，iOS 不一定会弹出请求），请前往 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru** 手动开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每次記錄的時間軸上疊加顯示你的心率和血壓——僅供讀取。若有項目未能連接（尤其是血壓，iOS 不一定會彈出請求），請前往 **設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru** 手動開啟。"
           }
         }
       }
@@ -26778,6 +27160,7 @@
       }
     },
     "Pinch to zoom in or out" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26955,7 +27338,42 @@
         }
       }
     },
+    "Piru reads your body weight and overlays your heart rate & blood pressure on each session — all read-only, on your device. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 会读取你的体重，并在每次记录中叠加显示你的心率和血压——全部仅供读取，存于你的设备。若有项目未能连接（尤其是血压，iOS 不一定会弹出请求），请前往 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru** 手动开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 會讀取你的體重，並在每次記錄中疊加顯示你的心率和血壓——全部僅供讀取，存於你的裝置。若有項目未能連接（尤其是血壓，iOS 不一定會彈出請求），請前往 **設定 ▸ 隱私權與安全性 ▸ 健康 ▸ Piru** 手動開啟。"
+          }
+        }
+      }
+    },
+    "Piru reads your latest body weight and overlays your heart rate & blood pressure on each session — all read-only, on your device. Revoke access anytime in Settings ▸ Health ▸ Data Access." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 会读取你的最新体重，并在每次记录中叠加显示你的心率和血压——全部仅供读取，存于你的设备。可随时在“设置 ▸ 健康 ▸ 数据访问”中撤销权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 會讀取你的最新體重，並在每次記錄中疊加顯示你的心率和血壓——全部僅供讀取，存於你的裝置。可隨時在「設定 ▸ 健康 ▸ 資料取用」中撤銷權限。"
+          }
+        }
+      }
+    },
     "Piru reads your latest body weight from Health, read-only, and switches on the heart-rate & blood-pressure overlay for your sessions (off-able under Heart Rate). Revoke access anytime in Settings ▸ Health ▸ Data Access." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27460,6 +27878,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "到期處方"
+          }
+        }
+      }
+    },
+    "Present" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有感"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有感"
           }
         }
       }
@@ -28221,6 +28655,7 @@
       }
     },
     "Re-read from Health" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30117,6 +30552,7 @@
       }
     },
     "Reverts to the average-adult default (60 kg). Estimates will be marked estimated." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31070,6 +31506,22 @@
         }
       }
     },
+    "Sedated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜"
+          }
+        }
+      }
+    },
     "Sedation" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31150,6 +31602,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一目了然地查看本次記錄的劑量。"
+          }
+        }
+      }
+    },
+    "See your heart rate here" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在这里查看你的心率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在這裡查看你的心率"
           }
         }
       }
@@ -32373,6 +32841,7 @@
       }
     },
     "Set manually" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32794,6 +33263,39 @@
         }
       }
     },
+    "Show heart data on sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在记录中显示心脏数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在記錄中顯示心臟數據"
+          }
+        }
+      }
+    },
+    "Show heart rate on sessions" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在记录中显示心率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在記錄中顯示心率"
+          }
+        }
+      }
+    },
     "Show less" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32811,6 +33313,7 @@
       }
     },
     "Show on sessions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32870,6 +33373,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在所有位置代替「%@」顯示。留空則保留原名稱。你的劑量記錄不受影響。"
+          }
+        }
+      }
+    },
+    "Shrink Graph" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起图表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起圖表"
           }
         }
       }
@@ -33217,6 +33736,38 @@
         }
       }
     },
+    "Slide to move, pinch to zoom" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滑动移动，捏合缩放"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滑動移動，捏合縮放"
+          }
+        }
+      }
+    },
+    "Slide to move, pinch to zoom, hold to inspect" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滑动移动，捏合缩放，长按查看"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滑動移動，捏合縮放，長按查看"
+          }
+        }
+      }
+    },
     "Slow-release implant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33560,6 +34111,7 @@
       }
     },
     "Source" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35115,7 +35667,24 @@
         }
       }
     },
+    "Synced from Apple Health — check the number looks right." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已从“健康”同步——请确认数值无误。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已從「健康」同步——請確認數值無誤。"
+          }
+        }
+      }
+    },
     "Synced from Apple Health, and kept up to date. Check the number looks right." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35127,6 +35696,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已從 Apple 健康同步，並會保持更新。請確認上面的數字無誤。"
+          }
+        }
+      }
+    },
+    "Synced from Apple Health. Your weight sizes every dose estimate — the same dose hits harder the less you weigh." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已从“健康”同步。体重决定每项剂量估算——越轻，同样的剂量作用越强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已從「健康」同步。體重決定每項劑量估算——越輕，同樣的劑量作用越強。"
           }
         }
       }
@@ -35275,6 +35860,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "標籤"
+          }
+        }
+      }
+    },
+    "Tags: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標籤：%@"
           }
         }
       }
@@ -36042,6 +36643,7 @@
       }
     },
     "The same dose hits harder the less you weigh. Set yours so estimates fit your body — otherwise Piru assumes an average adult, about 60 kg." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36075,6 +36677,7 @@
       }
     },
     "The same Health connection also switches on your heart rate and blood pressure on each session — you can turn that off anytime in Settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37692,6 +38295,22 @@
         }
       }
     },
+    "Turn On Apple Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启“健康”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟「健康」"
+          }
+        }
+      }
+    },
     "Turn on end-to-end encrypted backups whenever you're ready." : {
       "localizations" : {
         "zh-Hans" : {
@@ -38152,6 +38771,7 @@
       }
     },
     "Updated from Apple Health." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38163,6 +38783,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已從 Apple 健康更新。"
+          }
+        }
+      }
+    },
+    "Urge" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴求"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴求"
           }
         }
       }
@@ -38280,6 +38916,7 @@
       }
     },
     "Use Apple Health" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38377,7 +39014,24 @@
         }
       }
     },
+    "Use the average (60 kg)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用平均值（60 kg）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用平均值（60 kg）"
+          }
+        }
+      }
+    },
     "Use the estimated default" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38405,6 +39059,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用於顯示你還剩多少次劑量。設為 0 可停用。"
+          }
+        }
+      }
+    },
+    "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。在上方设置你的体重，让估算贴合你自己——越轻，同样的剂量作用越强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正使用平均值 60 kg。在上方設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
           }
         }
       }
@@ -38916,6 +39586,7 @@
       }
     },
     "Weight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39269,6 +39940,7 @@
       }
     },
     "Why we ask" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39312,6 +39984,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "葡萄酒"
+          }
+        }
+      }
+    },
+    "Wired" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亢奋"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亢奮"
           }
         }
       }
@@ -39766,6 +40454,22 @@
         }
       }
     },
+    "Your body weight sizes every estimate to you — and your heart rate shows how your body actually answered each dose, right on the session timeline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的体重会让每项估算贴合你自己——而你的心率会直接在记录时间线上，显示身体对每次用量的真实反应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的體重會讓每項估算貼合你自己——而你的心率會直接在記錄時間軸上，顯示身體對每次用量的真實反應。"
+          }
+        }
+      }
+    },
     "Your brain adapts to what you keep giving it" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40137,6 +40841,7 @@
       }
     },
     "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Without it, those numbers fall back to an average adult and are marked estimated." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40148,6 +40853,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體重是把劑量換算成暴露量的分母：體重越輕，同樣的劑量作用越強。有了它，Piru 才能估算一杯酒對*你的*身體有多強，以及反覆使用如何形成耐受。沒有它，這些數字會退回到普通成年人的平均值，並標註為估算。"
+          }
+        }
+      }
+    },
+    "Your weight is the denominator that turns a dose into an exposure: the same dose hits harder the less you weigh. With it, Piru can estimate things like how strong a drink is for *your* body, and how repeated use builds tolerance. Your heart rate and blood pressure, laid over each session, then show how your body actually responded to a dose — turning a predicted curve into a record." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体重是把剂量换算成暴露量的分母：越轻，同样的剂量作用越强。有了它，Piru 才能估算诸如一杯酒对*你的*身体有多强、反复使用如何累积耐受等。而叠加在每次记录上的心率和血压，则显示身体对某次用量的真实反应——把预测曲线变成一份记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體重是把劑量換算成暴露量的分母：越輕，同樣的劑量作用越強。有了它，Piru 才能估算諸如一杯酒對*你的*身體有多強、反覆使用如何累積耐受等。而疊加在每次記錄上的心率和血壓，則顯示身體對某次用量的真實反應——把預測曲線變成一份記錄。"
           }
         }
       }
