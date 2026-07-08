@@ -4487,37 +4487,6 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
-        # Quick-log native dock sheet (2026-07-07).
-        "Search to add a dose…",
-        "Cancel search",
-        "Start dictation",
-        "Stop dictation",
-        "Manage Routines",
-        "Routines & Prescriptions",
-        "Add & edit drink…",
-        "Edit Drinks…",
-        "Drinks",
-        "New Drink",
-        "Edit Drink",
-        "A fixed serving fills strength and volume when selected — like a 330 mL can. Without one, only the strength is filled.",
-        "Adds this dose",
-        "Needs an amount",
-        "Location access is off",
-        "Turn on location access in Settings to use your current location.",
-        "Location: %@",
-        "Dose time: %@",
-        "Drag to reorder. Swipe left to remove.",
-        "Lower amount",
-        "Raise amount",
-        "Edit routines and favorites",
-        "Collapsed",
-        "Expanded",
-        "Expands a dose entry",
-        "Collapses the dose entry",
-        # Quick-log review fixes (2026-07-08).
-        "Expands the editor",
-        "Log %@ %@ of %@",
-        "Log %@ of %@",
         # Graph pan/zoom hint restored across all session graphs (2026-07-08).
         "Slide to move, pinch to zoom",
         "Slide to move, pinch to zoom, hold to inspect",
