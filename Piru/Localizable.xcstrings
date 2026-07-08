@@ -4588,6 +4588,22 @@
         }
       }
     },
+    "Add & edit drink…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加并编辑饮品…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增並編輯飲品…"
+          }
+        }
+      }
+    },
     "Add another…" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -9606,6 +9622,38 @@
         }
       }
     },
+    "Collapsed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已折叠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已折疊"
+          }
+        }
+      }
+    },
+    "Collapses the dose entry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "折叠剂量输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "折疊劑量輸入"
+          }
+        }
+      }
+    },
     "Collapses the editor" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13139,6 +13187,22 @@
         }
       }
     },
+    "Drag to reorder. Swipe left to remove." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖动以重新排序。向左轻扫以移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖曳以重新排序。向左輕掃以移除。"
+          }
+        }
+      }
+    },
     "Draw" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13884,6 +13948,7 @@
       }
     },
     "Edit Favorites" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13992,6 +14057,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯日常…"
+          }
+        }
+      }
+    },
+    "Edit routines and favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑日常与收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯日常與收藏"
           }
         }
       }
@@ -15452,6 +15533,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展開時間軸"
+          }
+        }
+      }
+    },
+    "Expanded" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已展開"
+          }
+        }
+      }
+    },
+    "Expands a dose entry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开剂量输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開劑量輸入"
           }
         }
       }
@@ -21074,6 +21187,22 @@
         }
       }
     },
+    "Lower amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减少剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減少劑量"
+          }
+        }
+      }
+    },
     "Lower IC₅₀ / Kᵢ = more potent block." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21220,6 +21349,7 @@
       }
     },
     "Manage Routines" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27773,6 +27903,22 @@
         }
       }
     },
+    "Raise amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加劑量"
+          }
+        }
+      }
+    },
     "Raise strength" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30066,6 +30212,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日常"
+          }
+        }
+      }
+    },
+    "Routines & Prescriptions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常与处方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常與處方"
           }
         }
       }

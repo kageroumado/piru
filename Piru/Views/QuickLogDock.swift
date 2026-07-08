@@ -60,8 +60,6 @@ struct QuickLogDock: View {
     @Binding var detent: PresentationDetent
     @Binding var detents: Set<PresentationDetent>
 
-    let onStageRecent: (SubstanceCard) -> Void
-    let onOpenSubstance: (Substance) -> Void
     let onCreateCustom: () -> Void
     let onCommit: () -> Void
 
@@ -106,12 +104,12 @@ struct QuickLogDock: View {
     var body: some View {
         VStack(spacing: 0) {
             // The search bar is identical in every dock state — same field,
-            // same insets. In the compact pill it sits above the vertical
-            // centre (grabber over it, tighter below); that asymmetry is
-            // deliberate, matching the full faces.
+            // same insets. In the bare pill it is mathematically centred in
+            // the platter (computed from the live sheet height, so it holds
+            // on every device); the full faces pin it under the grabber.
             searchBar
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
+                .padding(.top, isBare ? max(16, (sheetHeight - QuickLogDockMetrics.fieldHeight) / 2) : 16)
                 .padding(.bottom, 6)
 
             ScrollView {
@@ -384,15 +382,20 @@ struct QuickLogDock: View {
             .background(Color(.secondarySystemFill), in: Capsule())
 
             if searchActive {
+                // Same fill and height as the field — the pair reads as one
+                // control system, not two materials (glass here clashed with
+                // the field's flat fill and shrank the glyph).
                 Button {
                     cancelSearch()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.body.weight(.semibold))
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .frame(width: QuickLogDockMetrics.fieldHeight, height: QuickLogDockMetrics.fieldHeight)
+                        .background(Color(.secondarySystemFill), in: Circle())
+                        .contentShape(Circle())
                 }
-                .buttonStyle(.glass)
-                .buttonBorderShape(.circle)
-                .controlSize(.large)
+                .buttonStyle(.plain)
                 .accessibilityLabel("Cancel search")
                 .transition(.move(edge: .trailing).combined(with: .opacity))
             }
@@ -446,8 +449,8 @@ struct QuickLogDock: View {
                     groupedCard {
                         QuickLogSearchResults(
                             results: results,
-                            onStageRecent: onStageRecent,
-                            onOpenSubstance: onOpenSubstance,
+                            onAdd: stagePayload,
+                            onAddDraft: stageDraftPayload,
                             onCreateCustom: {
                                 // Release focus before presenting — restoring
                                 // focus mid-transition on dismiss caused the
@@ -484,8 +487,8 @@ struct QuickLogDock: View {
             groupedCard {
                 QuickLogSearchResults(
                     results: browseResults.map { .library($0) },
-                    onStageRecent: onStageRecent,
-                    onOpenSubstance: onOpenSubstance,
+                    onAdd: stagePayload,
+                    onAddDraft: stageDraftPayload,
                     onCreateCustom: nil,
                 )
             }
@@ -494,11 +497,42 @@ struct QuickLogDock: View {
             groupedCard {
                 QuickLogSearchResults(
                     results: content.cachedCards.prefix(6).map { .recent($0) },
-                    onStageRecent: onStageRecent,
-                    onOpenSubstance: onOpenSubstance,
+                    onAdd: stagePayload,
+                    onAddDraft: stageDraftPayload,
                     onCreateCustom: nil,
                 )
             }
+        }
+    }
+
+    // MARK: Staging from rows
+
+    /// Inline Add: a complete dose joins the tray's collapsed rows — search
+    /// stays exactly where it is, the staged card below just grows.
+    private func stagePayload(_ payload: QuickLogStagePayload) {
+        withAnimation(.snappy) {
+            tray.stage(
+                substance: payload.substance,
+                route: payload.route,
+                amount: payload.amount,
+                unit: payload.unit,
+                colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
+                librarySubstance: payload.librarySubstance,
+            )
+        }
+    }
+
+    /// "Add & edit" (by-volume drinks): a draft opens its full editor in the
+    /// staged card — still without leaving the search context.
+    private func stageDraftPayload(_ payload: QuickLogStagePayload) {
+        withAnimation(.snappy) {
+            tray.stageDraft(
+                substance: payload.substance,
+                route: payload.route,
+                unit: payload.unit,
+                colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
+                librarySubstance: payload.librarySubstance,
+            )
         }
     }
 

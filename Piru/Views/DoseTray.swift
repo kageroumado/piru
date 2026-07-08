@@ -4,6 +4,20 @@ import UIKit
 
 // MARK: - Metrics
 
+/// Dose-stepper increments shared by the tray editor and the inline search
+/// result entry.
+enum DoseStepping {
+    /// ≈10% of the reference dose, snapped to a 1 / 2.5 / 5 × 10ᵏ series.
+    static func niceStep(for reference: Double) -> Double {
+        guard reference > 0 else { return 1 }
+        let raw = reference / 10
+        let magnitude = pow(10, floor(log10(raw)))
+        let normalized = raw / magnitude
+        let snapped: Double = normalized < 1.75 ? 1 : normalized < 3.75 ? 2.5 : normalized < 7.5 ? 5 : 10
+        return snapped * magnitude
+    }
+}
+
 /// Geometry for the tray's content, shared with the dock sheet that hosts it.
 enum DoseTrayMetrics {
     /// Height of the Log button — matches the dock's pinned search field so
@@ -354,6 +368,11 @@ final class DoseTrayModel {
     /// editor focuses the amount field only when it opens empty. A draft for
     /// an already-staged substance opens that row instead of duplicating it.
     func stageDraft(substance: String, route: RouteOfAdministration, unit: String, colorHex: String?, librarySubstance: Substance?) {
+        // A by-volume substance (alcohol) must draft in its canonical unit —
+        // the drink editor (By Drink / By Weight) gates on it, so a draft
+        // arriving as "units" (a recent's chip unit) would silently lose the
+        // whole volumetric logger.
+        let unit = librarySubstance?.byVolumeDosing?.canonicalUnit ?? unit
         if let index = stagedIndex(substance: substance, route: route, unit: unit) {
             expandedItemIDs.insert(staged[index].id)
             return
@@ -421,12 +440,10 @@ struct TrayStagedListCard: View {
                         } onRemove: {
                             withAnimation(.snappy) { model.remove(item) }
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 12)
+                        .padding(8)
                     } else {
                         TrayRow(dose: item, model: model, namespace: morphNamespace)
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, 8)
                     }
                 }
                 if item.id != model.staged.last?.id {
@@ -834,6 +851,10 @@ private struct TraySwipeRow<Content: View>: View {
         ZStack(alignment: .trailing) {
             deleteBackdrop
             content
+                // The row's own surface slides with it (native List swipe):
+                // without it only the text moves and the delete strip shows
+                // *through* the stationary card.
+                .background(Color(.secondarySystemGroupedBackground))
                 .offset(x: offset)
                 .overlay {
                     if offset != 0 {
@@ -851,17 +872,19 @@ private struct TraySwipeRow<Content: View>: View {
         .gesture(swipeGesture)
     }
 
-    /// A compact red capsule, not a full-height block — centered in the
-    /// revealed strip with breathing room on every side.
+    /// The revealed strip: a full-height red field with the trash centered in
+    /// it, matching the native List swipe action.
     private var deleteBackdrop: some View {
         Button {
             onDelete()
         } label: {
-            Image(systemName: "trash.fill")
-                .font(.subheadline)
-                .foregroundStyle(.white)
-                .frame(width: Self.revealWidth - 8, height: 34)
-                .background(.red, in: Capsule())
+            Color.red
+                .overlay {
+                    Image(systemName: "trash.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(.white)
+                }
+                .frame(width: Self.revealWidth)
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Remove")
@@ -1715,7 +1738,7 @@ private struct StagedDoseEditor: View {
     /// magnitude table for unknowns.
     private var amountStep: Double {
         if let reference = item.referenceDose {
-            return Self.niceStep(for: reference)
+            return DoseStepping.niceStep(for: reference)
         }
         return switch item.amount {
         case ..<2: 0.25
@@ -1724,16 +1747,6 @@ private struct StagedDoseEditor: View {
         case ..<1_000: 25
         default: 100
         }
-    }
-
-    /// ≈10% of the reference dose, snapped to a 1 / 2.5 / 5 × 10ᵏ series.
-    static func niceStep(for reference: Double) -> Double {
-        guard reference > 0 else { return 1 }
-        let raw = reference / 10
-        let magnitude = pow(10, floor(log10(raw)))
-        let normalized = raw / magnitude
-        let snapped: Double = normalized < 1.75 ? 1 : normalized < 3.75 ? 2.5 : normalized < 7.5 ? 5 : 10
-        return snapped * magnitude
     }
 
     private func setAmount(_ value: Double) {

@@ -64,7 +64,7 @@ struct QuickLogView: View {
 
     @State private var searchText = ""
     @State private var showCustomForm = false
-    @State private var showFavoritesEditor = false
+    @State private var showEditSheet = false
 
     @State private var pendingCustomPrefill: EntryPrefillPayload?
 
@@ -184,17 +184,15 @@ struct QuickLogView: View {
                     }
                 }
                 // One standard Edit action, text-labelled per the HIG ("Edit"
-                // is the canonical hard-to-symbolize action) — it opens the
-                // native drag-to-reorder favorites list. Routine management
-                // lives on the Routines section itself; the "Fixed Order"
-                // toggle lives in Settings ▸ Journal ("Keep Quick-Log Order").
-                if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button("Edit") {
-                            showFavoritesEditor = true
-                        }
-                        .accessibilityLabel("Edit Favorites")
+                // is the canonical hard-to-symbolize action) — one sheet for
+                // everything editable here: routines & prescriptions and the
+                // favorites order. The "Fixed Order" toggle lives in
+                // Settings ▸ Journal ("Keep Quick-Log Order").
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Edit") {
+                        showEditSheet = true
                     }
+                    .accessibilityLabel("Edit routines and favorites")
                 }
             }
             .task {
@@ -268,8 +266,6 @@ struct QuickLogView: View {
                 searchActive: $searchActive,
                 detent: $dockDetent,
                 detents: $dockDetents,
-                onStageRecent: stageFromCard,
-                onOpenSubstance: openLibrarySubstance,
                 onCreateCustom: { showCustomForm = true },
                 onCommit: commitTray,
             )
@@ -282,8 +278,8 @@ struct QuickLogView: View {
                     )
                 }
             }
-            .sheet(isPresented: $showFavoritesEditor) {
-                FavoritesReorderView()
+            .sheet(isPresented: $showEditSheet) {
+                QuickLogEditSheet()
             }
             // Navigator sheets launched from quick log (Manage Routines, Edit
             // Routine…) present here, stacked on the dock — the dock occupies
@@ -300,25 +296,6 @@ struct QuickLogView: View {
             .presentationContentInteraction(.resizes)
             .presentationBackground { Color.clear }
             .interactiveDismissDisabled()
-        }
-    }
-
-    // MARK: - Dock actions
-
-    /// A recent-substance search hit stages a draft from its most recent
-    /// route group, same as the card's ⋯ chip.
-    private func stageFromCard(_ card: SubstanceCard) {
-        guard let group = card.routes.first else { return }
-        withAnimation(.snappy) {
-            tray.stageDraft(
-                substance: group.substanceName,
-                route: group.route,
-                unit: group.doses.first?.unit ?? "mg",
-                colorHex: group.colorHex,
-                librarySubstance: group.librarySubstance,
-            )
-            searchActive = false
-            searchText = ""
         }
     }
 
@@ -481,23 +458,6 @@ struct QuickLogView: View {
         }
     }
 
-    /// Library / custom search results stage an amount-less draft that opens
-    /// expanded in the tray with the amount field focused — the full entry
-    /// form no longer participates in quick logging.
-    private func openLibrarySubstance(_ substance: Substance) {
-        withAnimation(.snappy) {
-            tray.stageDraft(
-                substance: substance.name,
-                route: substance.defaultRoute,
-                unit: substance.defaultUnit,
-                colorHex: content.cachedColorLookup[substance.name.lowercased()],
-                librarySubstance: substance,
-            )
-            searchActive = false
-            searchText = ""
-        }
-    }
-
     private func onCustomFormDismiss() {
         guard let prefill = pendingCustomPrefill else { return }
         pendingCustomPrefill = nil
@@ -559,114 +519,127 @@ private struct QuickLogCardList: View {
     @Query private var quickLogDoses: [QuickLogDose]
     @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
 
+    /// Folds the Routines & Prescriptions section down to its header — for
+    /// people who don't use the feature. Persisted across launches.
+    @AppStorage("quickLogRoutinesCollapsed") private var routinesCollapsed = false
+
     var body: some View {
         // Snapshot staged counts once per staging change; each card takes only
         // its own slice, so a card whose staged state is unchanged is skipped by
         // its `.equatable()` rather than re-diffing every chip + context menu.
         let staged = tray.stagedCountsBySubstance()
-        return LazyVStack(alignment: .leading, spacing: 16) {
+        return LazyVStack(alignment: .leading, spacing: 12) {
             if !content.hasLoaded {
                 // Loading: render nothing (the dock stays put) rather than
                 // the empty-state placeholder — the caches fill within a
                 // frame or two off the warm batch cache, so this avoids the
                 // jarring "No Previous Substances" flash on open.
                 EmptyView()
-            } else if content.cachedCards.isEmpty, content.cachedDailyGroups.isEmpty {
-                ContentUnavailableView(
-                    "No Previous Substances",
-                    systemImage: "magnifyingglass",
-                    description: Text("Search for a substance to log your first entry."),
-                )
             } else {
                 scrollContentInner(staged: staged)
             }
         }
     }
 
+    /// One header style for every section: sentence case, no icon, no caps —
+    /// matching how the rest of the app titles things. The extra top padding
+    /// separates sections; header → content is the stack's own 12pt.
+    private func sectionHeader(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(Theme.secondaryLabel)
+            .padding(.top, 8)
+    }
+
     @ViewBuilder
     private func scrollContentInner(staged: [String: StagedChipCounts]) -> some View {
-        if !content.cachedDailyGroups.isEmpty {
-            dailySection(staged: staged)
+        // Routines are always surfaced (discoverability) — with none defined
+        // the section is just the New Routine pill, and the whole thing is
+        // collapsible for people who don't use it.
+        dailySection(staged: staged)
+
+        if content.cachedCards.isEmpty, content.cachedDailyGroups.isEmpty {
+            ContentUnavailableView(
+                "No Previous Substances",
+                systemImage: "magnifyingglass",
+                description: Text("Search for a substance to log your first entry."),
+            )
         }
 
         if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
-            Section {
-                ForEach(content.cachedFavoriteCards) { card in
-                    cardView(card, isFavorite: true, staged: staged)
-                        .id("\(card.id)_fav")
-                }
-                ForEach(content.cachedFavoriteLibrarySubstances) { substance in
-                    libraryRow(substance)
-                }
-            } header: {
-                // Accent-tinted star vs. the neutral "Recent" clock gives the two
-                // sections a clear at-a-glance distinction (icon colour carries the
-                // meaning; the labels alone read identically).
-                Label {
-                    Text("Favorites")
-                        .foregroundStyle(Theme.secondaryLabel)
-                } icon: {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(Theme.accent)
-                }
-                .font(.footnote.weight(.semibold))
-                .textCase(.uppercase)
+            sectionHeader("Favorites")
+            ForEach(content.cachedFavoriteCards) { card in
+                cardView(card, isFavorite: true, staged: staged)
+                    .id("\(card.id)_fav")
+            }
+            ForEach(content.cachedFavoriteLibrarySubstances) { substance in
+                libraryRow(substance)
             }
         }
 
         if !content.cachedNonFavoriteCards.isEmpty {
-            Section {
-                ForEach(content.cachedNonFavoriteCards) { card in
-                    cardView(card, isFavorite: false, staged: staged)
-                        .id("\(card.id)_recent")
-                }
-            } header: {
-                if !content.cachedFavoriteCards.isEmpty {
-                    Label("Recent", systemImage: "clock")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .textCase(.uppercase)
-                }
+            if !content.cachedFavoriteCards.isEmpty {
+                sectionHeader("Recent")
+            }
+            ForEach(content.cachedNonFavoriteCards) { card in
+                cardView(card, isFavorite: false, staged: staged)
+                    .id("\(card.id)_recent")
             }
         }
     }
 
     // MARK: - Daily routine
 
+    @ViewBuilder
     private func dailySection(staged: [String: StagedChipCounts]) -> some View {
-        Section {
+        // The collapse toggle is the whole header row — chevron included.
+        Button {
+            withAnimation(.snappy) { routinesCollapsed.toggle() }
+        } label: {
+            HStack(spacing: 6) {
+                Text("Routines & Prescriptions")
+                    .font(.subheadline.weight(.semibold))
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .rotationEffect(.degrees(routinesCollapsed ? 0 : 90))
+                Spacer()
+            }
+            .foregroundStyle(Theme.secondaryLabel)
+            .padding(.top, 8)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Routines & Prescriptions")
+        .accessibilityValue(routinesCollapsed ? Text("Collapsed") : Text("Expanded"))
+
+        if !routinesCollapsed {
             FlowLayout(spacing: 8) {
                 ForEach(content.cachedDailyGroups) { group in
                     routinePill(group, staged: staged)
                 }
-            }
-        } header: {
-            // Routine management is anchored to the section it manages, not
-            // the screen's toolbar — the ⋯ opens the routines editor.
-            HStack {
-                Label {
-                    Text("Routines")
-                        .foregroundStyle(Theme.secondaryLabel)
-                } icon: {
-                    Image(systemName: "repeat")
-                        .foregroundStyle(Theme.accent)
-                }
-                .font(.footnote.weight(.semibold))
-                .textCase(.uppercase)
-                Spacer()
-                Button {
-                    navigator.present(.dailyDoseSettings)
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .frame(width: 28, height: 28)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Manage Routines")
+                newRoutinePill
             }
         }
+    }
+
+    /// Trailing pill of the routines row — creating a routine lives with the
+    /// pills it produces.
+    private var newRoutinePill: some View {
+        Button {
+            navigator.present(.dailyDoseSettings)
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "plus")
+                    .imageScale(.small)
+                Text("New Routine")
+            }
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(Color(.secondarySystemFill), in: Capsule())
+            .foregroundStyle(Theme.secondaryLabel)
+        }
+        .buttonStyle(.plain)
     }
 
     /// A routine is one pill — a *shortcut* that stages its whole set into
