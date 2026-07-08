@@ -7955,7 +7955,20 @@
       }
     },
     "bpm" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次/分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次/分"
+          }
+        }
+      }
     },
     "Breathe slowly: 4 seconds in, hold for 4, out for 4." : {
       "localizations" : {
@@ -13483,7 +13496,20 @@
       }
     },
     "Driven" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起劲"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起勁"
+          }
+        }
+      }
     },
     "Drug" : {
 
@@ -14623,7 +14649,20 @@
       }
     },
     "Energy" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精力"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精力"
+          }
+        }
+      }
     },
     "Energy, focus, and wakefulness." : {
       "localizations" : {
@@ -15216,7 +15255,20 @@
       }
     },
     "Euphoric" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欣快"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欣快"
+          }
+        }
+      }
     },
     "Evening" : {
       "localizations" : {
@@ -15591,7 +15643,20 @@
       }
     },
     "Expand Graph" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开图表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開圖表"
+          }
+        }
+      }
     },
     "Expand timeline" : {
       "localizations" : {
@@ -15939,7 +16004,20 @@
       }
     },
     "Feeling" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感受"
+          }
+        }
+      }
     },
     "Fentanyl (transdermal)" : {
       "localizations" : {
@@ -16206,7 +16284,20 @@
 
     },
     "Flat" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平淡"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平淡"
+          }
+        }
+      }
     },
     "Fluvoxamine" : {
       "localizations" : {
@@ -16239,9 +16330,6 @@
           }
         }
       }
-    },
-    "Focused, activated energy (norepinephrine + cortical dopamine). Goes negative into sedation." : {
-
     },
     "For importing into the PsychonautWiki app" : {
       "localizations" : {
@@ -17309,7 +17397,20 @@
       }
     },
     "Good" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "良好"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "良好"
+          }
+        }
+      }
     },
     "Grapefruit" : {
       "localizations" : {
@@ -18168,9 +18269,6 @@
           }
         }
       }
-    },
-    "How good it feels — dopamine reward + serotonin warmth + opioid liking, minus the comedown." : {
-
     },
     "How grapefruit, smoking, and this drug's own metabolism can change its levels. Educational — predicted from typical pharmacokinetics, not measured for you." : {
       "extractionState" : "stale",
@@ -20452,7 +20550,20 @@
       }
     },
     "Level" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平稳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平穩"
+          }
+        }
+      }
     },
     "Library" : {
       "localizations" : {
@@ -21243,7 +21354,20 @@
       }
     },
     "Low" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
+        }
+      }
     },
     "Low confidence" : {
       "localizations" : {
@@ -22274,7 +22398,20 @@
       }
     },
     "mmHg" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mmHg"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mmHg"
+          }
+        }
+      }
     },
     "Modafinil" : {
       "localizations" : {
@@ -26544,9 +26681,6 @@
         }
       }
     },
-    "Physiological cost. Paired with your Apple Health heart rate & blood pressure." : {
-
-    },
     "Pick a color" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27367,7 +27501,20 @@
       }
     },
     "Present" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有感"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有感"
+          }
+        }
+      }
     },
     "Press and hold a value to copy it." : {
       "extractionState" : "stale",
@@ -30927,7 +31074,20 @@
       }
     },
     "Sedated" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜"
+          }
+        }
+      }
     },
     "Sedation" : {
       "localizations" : {
@@ -32785,7 +32945,20 @@
       }
     },
     "Shrink Graph" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起图表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起圖表"
+          }
+        }
+      }
     },
     "Shrink timeline" : {
       "localizations" : {
@@ -35227,7 +35400,20 @@
       }
     },
     "Tags: %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標籤：%@"
+          }
+        }
+      }
     },
     "Take a breath." : {
       "localizations" : {
@@ -35973,9 +36159,6 @@
           }
         }
       }
-    },
-    "The pull to redose — incentive salience (wanting), rate-gated and serotonin-braked." : {
-
     },
     "The R-enantiomer of modafinil with the same mechanism: weak DAT inhibition, orexin/hypocretin neuron activation, and histamine release promotion. Has a longer effective half-life than racemic modafinil, providing more sustained wakefulness-promoting effects throughout the day." : {
       "extractionState" : "stale",
@@ -38124,7 +38307,20 @@
       }
     },
     "Urge" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴求"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴求"
+          }
+        }
+      }
     },
     "Urgences" : {
       "localizations" : {
@@ -39021,9 +39217,6 @@
         }
       }
     },
-    "What's active, by substance — the classic duration view. Works for anything you log, from vitamins to a full session." : {
-
-    },
     "What's happening" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39315,7 +39508,20 @@
       }
     },
     "Wired" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亢奋"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亢奮"
+          }
+        }
+      }
     },
     "With heavy, prolonged use" : {
       "localizations" : {

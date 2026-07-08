@@ -12,6 +12,9 @@ import SwiftUI
 nonisolated enum MechanisticSessionModel {
     /// One dose, reduced to the Sendable facts the engine needs. Built on the
     /// main actor (needs `SubstanceLibrary`), then handed to an off-main compute.
+    /// Deliberately carries **no colour** — its hash keys the simulation cache
+    /// and the recompute task, and a recolour must not trigger a re-simulate
+    /// (dose marks get their colour at the render site instead).
     struct DoseInput: Hashable {
         let name: String
         let category: SubstanceCategory
@@ -19,7 +22,6 @@ nonisolated enum MechanisticSessionModel {
         let route: RouteOfAdministration
         /// Hours since the session start (the engine's `t = 0`).
         let hours: Double
-        let colorHex: String
     }
 
     /// A dose event positioned on the chart's time axis.
@@ -37,10 +39,10 @@ nonisolated enum MechanisticSessionModel {
         }
     }
 
-    /// Everything the chart renders for a modeled session.
+    /// Everything the chart renders for a modeled session (dose marks are
+    /// supplied separately by the host, so recolours don't touch this cache).
     struct Result {
         let timeline: EffectTimeline
-        let doseMarks: [DoseMark]
         /// Keyed by ``EffectLens/rawValue`` (mechanistic lenses only).
         let ranges: [String: AxisRange]
         /// At least one substance fell back to a class analogue (flag it in UI).
@@ -52,18 +54,23 @@ nonisolated enum MechanisticSessionModel {
         /// fits fully and shows no scroller.
         let contentSpan: Double
 
-        /// The value of a lens's channel nearest a given hour.
+        /// The value of a lens's channel nearest a given hour. `timeline.t` is
+        /// monotonically increasing, so binary-search — this runs per lens pill
+        /// per render and inside every Canvas pass.
         func value(of lens: EffectLens, atHour hour: Double) -> Double {
             guard let channel = lens.channel else { return 0 }
             let series = timeline[keyPath: channel]
-            guard !series.isEmpty else { return 0 }
-            var best = 0
-            var bestDelta = Double.greatestFiniteMagnitude
-            for (i, t) in timeline.t.enumerated() {
-                let delta = abs(t - hour)
-                if delta < bestDelta { bestDelta = delta; best = i }
+            let t = timeline.t
+            guard !series.isEmpty, series.count == t.count else { return 0 }
+            var lo = 0
+            var hi = t.count - 1
+            while lo < hi {
+                let mid = (lo + hi) / 2
+                if t[mid] < hour { lo = mid + 1 } else { hi = mid }
             }
-            return series[best]
+            // `lo` is the first index with t >= hour; its predecessor may be nearer.
+            if lo > 0, abs(t[lo - 1] - hour) <= abs(t[lo] - hour) { lo -= 1 }
+            return series[lo]
         }
     }
 
@@ -148,8 +155,6 @@ nonisolated enum MechanisticSessionModel {
             ranges[lens.rawValue] = AxisRange(hi: hi * 1.1, lo: lens.isSigned ? lo * 1.12 : 0)
         }
 
-        let marks = doses.map { DoseMark(hours: $0.hours, colorHex: $0.colorHex) }
-
         // Real content extent: the last hour any mechanistic channel is still
         // meaningfully active (or the last dose). The window/scroller frame this,
         // not the padded `tMax`, so short sessions fit whole and hide the scroller.
@@ -166,7 +171,7 @@ nonisolated enum MechanisticSessionModel {
         }
         contentSpan = min(max(contentSpan + 0.5, 1), tMax)
 
-        return Result(timeline: timeline, doseMarks: marks, ranges: ranges, usesAnalogue: usesAnalogue, tMax: tMax, contentSpan: contentSpan)
+        return Result(timeline: timeline, ranges: ranges, usesAnalogue: usesAnalogue, tMax: tMax, contentSpan: contentSpan)
     }
 }
 

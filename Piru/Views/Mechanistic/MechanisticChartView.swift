@@ -1,9 +1,10 @@
 import SwiftUI
 
 /// The mechanistic effect chart for one lens: a windowed felt-effect curve on a
-/// fixed session-wide axis, a draggable minimap to scroll/zoom, and a compact
-/// "now" readout. Custom `Canvas` (the app's precedent for PK curves), matching
-/// the approved `app-timeline` prototype.
+/// fixed session-wide axis, panned by dragging and zoomed by pinching, with a
+/// thin pan indicator at the bottom edge and a "now" line + dot on the curve.
+/// Custom `Canvas` (the app's precedent for PK curves), matching the approved
+/// `app-timeline` prototype.
 ///
 /// Fills the height it's given so it lines up with the classic timeline graph
 /// (the host sizes both from ``GraphMetrics``). No card of its own — it sits in a
@@ -14,6 +15,9 @@ struct MechanisticChartView: View {
     let startDate: Date
     /// Hours since session start for the "now" indicator (clamped to the window).
     let nowHours: Double
+    /// Dose tick positions + colours, supplied by the host (not baked into
+    /// `result`) so a recolour updates the marks without re-simulating.
+    let doseMarks: [MechanisticSessionModel.DoseMark]
     let vitals: SessionVitals?
 
     /// Visible window width in hours (zoom). Seeded on appear.
@@ -26,6 +30,8 @@ struct MechanisticChartView: View {
     @State private var zoomAnchor: (win: Double, start: Double)?
     /// Measured width of the chart canvas, for gesture math (never `UIScreen`).
     @State private var chartWidth: CGFloat = 320
+    /// Whether the initial window has been framed (once, on first measurement).
+    @State private var seeded = false
 
     private enum Metric {
         /// Curves bleed to the card's edge — the row's near-zero inset is the only
@@ -37,6 +43,10 @@ struct MechanisticChartView: View {
         static let labelBand: CGFloat = 18
         static let doseDot: CGFloat = 8
         static let minWindow: Double = 0.75
+        /// The bpm mapped to the bottom / span of the chart band by the Safety
+        /// lens's heart-rate trace (55–125 bpm covers rest → hard exertion).
+        static let hrFloorBPM: Double = 55
+        static let hrSpanBPM: Double = 70
         /// Points of breathing room before the first / after the last dose, kept
         /// constant on screen regardless of zoom (converted to hours per frame).
         static let endPad: CGFloat = 16
@@ -55,10 +65,23 @@ struct MechanisticChartView: View {
     var body: some View {
         chartCanvas
             .contentShape(.rect)
-            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { chartWidth = $0 }
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
+                chartWidth = width
+                // Seed from the *measured* width (edgePad depends on it) — the
+                // first geometry pass runs before the first frame, unlike
+                // `onAppear`, whose ordering against it isn't guaranteed.
+                if !seeded {
+                    seeded = true
+                    seedWindow()
+                }
+            }
             .gesture(panGesture)
             .simultaneousGesture(zoomGesture)
-            .onAppear(perform: seedWindow)
+            // A raw Canvas is invisible to VoiceOver — expose the lens plus its
+            // sampled now-state ("Feeling, Good") as one element.
+            .accessibilityElement()
+            .accessibilityLabel(Text(lens.label))
+            .accessibilityValue(Text(lens.readout(nowValue)))
     }
 
     private var nowValue: Double {
@@ -155,9 +178,14 @@ struct MechanisticChartView: View {
             line.move(to: CGPoint(x: x, y: geo.rect.minY))
             line.addLine(to: CGPoint(x: x, y: geo.rect.maxY))
             context.stroke(line, with: .color(.primary.opacity(0.22)), style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
-            var label = context.resolve(Text(clockShort(hour)).font(.system(size: 10)))
-            label.shading = .color(.secondary)
-            context.draw(label, at: CGPoint(x: x, y: geo.rect.maxY + 10))
+            // Skip labels whose text would spill past the canvas edge and get
+            // sliced mid-glyph (the curve bleeds edge-to-edge, so there's no
+            // outer margin to absorb it). The grid line and ticks still draw.
+            if x >= geo.rect.minX + 14, x <= geo.rect.maxX - 14 {
+                var label = context.resolve(Text(clockShort(hour)).font(.system(size: 10)))
+                label.shading = .color(.secondary)
+                context.draw(label, at: CGPoint(x: x, y: geo.rect.maxY + 10))
+            }
             // Two small ticks between this hour and the next labelled one.
             for frac in [1.0 / 3.0, 2.0 / 3.0] {
                 let tx = geo.x(hour + step * frac)
@@ -226,17 +254,20 @@ struct MechanisticChartView: View {
         for sample in samples {
             let hour = sample.date.timeIntervalSince(startDate) / 3_600
             guard hour >= a - 0.5, hour <= b + 0.5 else { continue }
-            let norm = (Double(sample.bpm) - 55) / 70
+            let norm = (Double(sample.bpm) - Metric.hrFloorBPM) / Metric.hrSpanBPM
             let y = geo.rect.maxY - CGFloat(min(max(norm, 0), 1)) * geo.rect.height
             let point = CGPoint(x: geo.x(hour), y: y)
             if started { path.addLine(to: point) } else { path.move(to: point); started = true }
         }
-        context.stroke(path, with: .color(EffectLens.crash.opacity(0.5)), style: StrokeStyle(lineWidth: 1.6, lineJoin: .round))
+        // The app-wide HR crimson (matches the row chips and the timeline cardio
+        // lane), dashed so it can't be read as part of the solid danger curve —
+        // the Safety lens colour is a near-identical red.
+        context.stroke(path, with: .color(VitalsPalette.heart), style: StrokeStyle(lineWidth: 1.6, lineJoin: .round, dash: [4, 3]))
     }
 
     private func drawDoseTicks(_ context: inout GraphicsContext, _ geo: Geometry) {
         let a = geo.winStart, b = geo.winStart + geo.winW
-        for mark in result.doseMarks where mark.hours >= a - 0.1 && mark.hours <= b + 0.1 {
+        for mark in doseMarks where mark.hours >= a - 0.1 && mark.hours <= b + 0.1 {
             let x = geo.x(mark.hours)
             let color = Color(hex: mark.colorHex)
             var line = Path()
@@ -268,6 +299,11 @@ struct MechanisticChartView: View {
     private var panGesture: some Gesture {
         DragGesture(minimumDistance: 4)
             .onChanged { value in
+                // A two-finger pinch also moves its centroid, so the drag
+                // recognises alongside the magnification — let the zoom own
+                // `winStart` for the duration of the pinch or the two fight
+                // over it frame by frame.
+                guard zoomAnchor == nil else { return }
                 let base = panAnchor ?? winStart
                 if panAnchor == nil { panAnchor = base }
                 winStart = clampStart(base - Double(value.translation.width / max(1, chartWidth)) * winW)
@@ -279,7 +315,13 @@ struct MechanisticChartView: View {
         MagnifyGesture()
             .onChanged { value in
                 let anchor = zoomAnchor ?? (winW, winStart)
-                if zoomAnchor == nil { zoomAnchor = anchor }
+                if zoomAnchor == nil {
+                    zoomAnchor = anchor
+                    // Drop any in-flight pan anchor so a drag that outlives the
+                    // pinch re-anchors at the post-zoom window instead of
+                    // jumping back to its pre-pinch capture.
+                    panAnchor = nil
+                }
                 let pivot = anchor.start + anchor.win / 2
                 let newW = min(span, max(Metric.minWindow, anchor.win / value.magnification))
                 winW = newW
@@ -312,7 +354,7 @@ struct MechanisticChartView: View {
         } else {
             // Past session: frame from just before the first dose so the action is
             // on screen instead of the flat tail.
-            let firstDose = result.doseMarks.map(\.hours).min() ?? 0
+            let firstDose = doseMarks.map(\.hours).min() ?? 0
             winStart = clampStart(firstDose - edgePad)
         }
     }

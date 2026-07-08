@@ -2255,6 +2255,12 @@ struct TimelineGraphView: View, Equatable {
         let minLabelSpacing: CGFloat = 8
         var lastLabelRight: CGFloat = -.infinity
 
+        // Deep zoom can frame a window that straddles no whole hour at all
+        // (e.g. 12:05–12:50 at a 15-min tick stride) — labelling only whole
+        // hours would leave the axis blank, so fall back to minute labels then.
+        let nextWholeHour = calendar.dateInterval(of: .hour, for: windowStart)?.end ?? windowStart
+        let windowHasWholeHour = nextWholeHour <= windowEnd
+
         while tickDate <= windowEnd {
             let minuteOffset = tickDate.timeIntervalSince(graphOrigin) / 60
             let x = inset + CGFloat((minuteOffset - visibleStart) / visibleSpan) * graphWidth
@@ -2263,8 +2269,10 @@ struct TimelineGraphView: View, Equatable {
             // stay as bare ticks (drawn in `drawTickMarks`) so a zoomed-in axis
             // isn't crowded with "12:30 PM"-style labels.
             let minute = calendar.component(.minute, from: tickDate)
-            if x >= 0, x <= size.width, minute == 0 {
-                let label = Self.timeHourFormatter.string(from: tickDate)
+            if x >= 0, x <= size.width, minute == 0 || !windowHasWholeHour {
+                let label = minute == 0
+                    ? Self.timeHourFormatter.string(from: tickDate)
+                    : Self.timeLabelFormatter.string(from: tickDate)
 
                 let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
                 let resolved = context.resolve(text)

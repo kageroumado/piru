@@ -40,17 +40,6 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         }
     }
 
-    /// VoiceOver / non-`Text` label.
-    var accessibilityName: String {
-        switch self {
-        case .timeline: String(localized: "Timeline")
-        case .feeling: String(localized: "Feeling")
-        case .energy: String(localized: "Energy")
-        case .urge: String(localized: "Urge")
-        case .safety: String(localized: "Safety")
-        }
-    }
-
     var symbol: String {
         switch self {
         case .timeline: "chart.xyaxis.line"
@@ -95,21 +84,6 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
     /// Pair Apple Health HR/BP with this lens (the harm-reduction payoff).
     var pairsVitals: Bool {
         self == .safety
-    }
-
-    var subtitle: LocalizedStringKey {
-        switch self {
-        case .timeline:
-            "What's active, by substance — the classic duration view. Works for anything you log, from vitamins to a full session."
-        case .feeling:
-            "How good it feels — dopamine reward + serotonin warmth + opioid liking, minus the comedown."
-        case .energy:
-            "Focused, activated energy (norepinephrine + cortical dopamine). Goes negative into sedation."
-        case .urge:
-            "The pull to redose — incentive salience (wanting), rate-gated and serotonin-braked."
-        case .safety:
-            "Physiological cost. Paired with your Apple Health heart rate & blood pressure."
-        }
     }
 
     /// A state-reflecting icon from a sampled now-value (happy vs flat face, full

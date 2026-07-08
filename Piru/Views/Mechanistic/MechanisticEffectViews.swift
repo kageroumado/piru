@@ -26,9 +26,11 @@ struct LensBar: View {
                 }
             }
             // 20pt matches the grouped-list content margin, so the first pill
-            // lines up with the dose rows below.
+            // lines up with the dose rows below. The 2 + 6 vertical padding split
+            // (bar + inside each button) keeps the same visual rhythm as the old
+            // flat 8, while the 6 counts toward each pill's ≥44pt hit target.
             .padding(.horizontal, 20)
-            .padding(.vertical, 8)
+            .padding(.vertical, 2)
         }
     }
 
@@ -60,10 +62,22 @@ struct LensBar: View {
                     Capsule().strokeBorder(candidate.color.opacity(0.5), lineWidth: 1.2)
                 }
             }
+            // Pads the ~32pt pill out to the 44pt minimum hit target without
+            // changing its rendered size.
+            .padding(.vertical, 6)
+            .contentShape(.rect)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text(candidate.label))
+        .accessibilityValue(accessibilityValue(for: candidate, value: value))
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+    }
+
+    /// VoiceOver speaks the sampled now-state ("Euphoric", "Sedated", …) that
+    /// sighted users read from the state icon. Empty when nothing is sampled.
+    private func accessibilityValue(for candidate: EffectLens, value: Double?) -> Text {
+        guard let value else { return Text(verbatim: "") }
+        return Text(candidate.readout(value))
     }
 }
 
@@ -102,6 +116,8 @@ struct MechanisticVitalsCards: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
         .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        // One utterance per card ("Heart rate, 72 bpm"), not four fragments.
+        .accessibilityElement(children: .combine)
     }
 
     private var nowDate: Date {

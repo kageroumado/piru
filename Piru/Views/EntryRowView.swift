@@ -79,6 +79,8 @@ struct EntryRowView: View {
     /// older days show the clock time alone, keeping the column symmetric.
     var showRelativeTime: Bool = false
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     /// Elapsed time since the dose, e.g. "45m ago", "13h 25m ago", or "1d ago".
     private var relativeTime: String {
         let elapsed = max(0, Date.now.timeIntervalSince(display.core.timestamp))
@@ -101,33 +103,29 @@ struct EntryRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            // Dot · name · ROA pill on the left; the dose — the hero, in the same
-            // rounded face as the detail card — and the disclosure chevron on the
-            // right. Centre-aligned so the name, pill, dose, and chevron all sit on
-            // one line at the dose's height.
-            HStack(alignment: .center, spacing: 8) {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: 9))
-                    .foregroundStyle(display.color)
-                Text(display.core.displayName)
-                    .font(.body.weight(.semibold))
-                    .lineLimit(1)
-                roaPill
-
-                Spacer(minLength: 8)
-
-                // Coloured by its dose level (common/strong/heavy…) so the level
-                // reads without a text label.
-                Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
-                    .font(.system(.title3, design: .rounded).weight(.bold))
-                    .foregroundStyle(display.core.doseLevel?.labelColor ?? .primary)
-                    .lineLimit(1)
-                    .accessibilityLabel(doseAccessibilityLabel)
-
-                Image(systemName: "chevron.forward")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .accessibilityHidden(true)
+            if dynamicTypeSize.isAccessibilitySize {
+                // At accessibility sizes the one-line layout would truncate both
+                // the name and the dose to "…", so stack them: name cluster on
+                // top, the dose (still the hero) on its own line below.
+                VStack(alignment: .leading, spacing: 4) {
+                    nameCluster(nameLineLimit: 2)
+                    HStack(alignment: .center, spacing: 8) {
+                        doseText
+                        Spacer(minLength: 8)
+                        chevron
+                    }
+                }
+            } else {
+                // Dot · name · ROA pill on the left; the dose — the hero, in the
+                // same rounded face as the detail card — and the disclosure chevron
+                // on the right. Centre-aligned so the name, pill, dose, and chevron
+                // all sit on one line at the dose's height.
+                HStack(alignment: .center, spacing: 8) {
+                    nameCluster(nameLineLimit: 1)
+                    Spacer(minLength: 8)
+                    doseText
+                    chevron
+                }
             }
 
             if let hr = display.hr {
@@ -137,6 +135,36 @@ struct EntryRowView: View {
             eliminationFooter
         }
         .padding(.vertical, 1)
+    }
+
+    private func nameCluster(nameLineLimit: Int) -> some View {
+        HStack(alignment: .center, spacing: 8) {
+            Image(systemName: "circle.fill")
+                .font(.system(size: 9))
+                .foregroundStyle(display.color)
+                .accessibilityHidden(true)
+            Text(display.core.displayName)
+                .font(.body.weight(.semibold))
+                .lineLimit(nameLineLimit)
+            roaPill
+        }
+    }
+
+    /// Coloured by its dose level (common/strong/heavy…) so the level reads
+    /// without a text label.
+    private var doseText: some View {
+        Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
+            .font(.system(.title3, design: .rounded).weight(.bold))
+            .foregroundStyle(display.core.doseLevel?.labelColor ?? .primary)
+            .lineLimit(1)
+            .accessibilityLabel(doseAccessibilityLabel)
+    }
+
+    private var chevron: some View {
+        Image(systemName: "chevron.forward")
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(.tertiary)
+            .accessibilityHidden(true)
     }
 
     /// The route badge — a tinted capsule in the route's *own* fixed colour (every
@@ -179,27 +207,51 @@ struct EntryRowView: View {
                     .frame(height: 3)
                 }
 
-                HStack(spacing: 0) {
-                    Text(display.core.timestamp.formatted(date: .omitted, time: .shortened))
-                    if showRelativeTime {
-                        Text(verbatim: "  ·  ").foregroundStyle(.tertiary)
-                        Text(relativeTime)
-                    }
-                    Spacer(minLength: 8)
-                    // Tags then the dose-strength label ("Common"/"Strong"/…), in
-                    // the same gray as the time — the colour ladder alone reads as
-                    // ambiguous, so the level is spelled out. The live countdown
-                    // takes this slot while a dose is still active.
-                    if active, let total {
-                        Text(remainingText(total: total, now: now))
-                    } else if let meta = trailingMeta {
-                        Text(meta).lineLimit(1)
+                Group {
+                    if dynamicTypeSize.isAccessibilitySize {
+                        // The side-by-side columns compress at accessibility sizes
+                        // until the clock time wraps mid-token ("3:33 A / M") —
+                        // stack them instead, each line free to use the full width.
+                        VStack(alignment: .leading, spacing: 2) {
+                            timeLine
+                            trailingLine(active: active, total: total, now: now)
+                        }
+                    } else {
+                        HStack(spacing: 0) {
+                            timeLine
+                            Spacer(minLength: 8)
+                            trailingLine(active: active, total: total, now: now)
+                                .lineLimit(1)
+                        }
                     }
                 }
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .monospacedDigit()
             }
+        }
+    }
+
+    /// Clock time plus the optional "8h ago" relative phrase.
+    private var timeLine: some View {
+        HStack(spacing: 0) {
+            Text(display.core.timestamp.formatted(date: .omitted, time: .shortened))
+            if showRelativeTime {
+                Text(verbatim: "  ·  ").foregroundStyle(.tertiary)
+                Text(relativeTime)
+            }
+        }
+    }
+
+    /// Tags then the dose-strength label ("Common"/"Strong"/…), in the same gray
+    /// as the time — the colour ladder alone reads as ambiguous, so the level is
+    /// spelled out. The live countdown takes this slot while a dose is active.
+    @ViewBuilder
+    private func trailingLine(active: Bool, total: Double?, now: Date) -> some View {
+        if active, let total {
+            Text(remainingText(total: total, now: now))
+        } else if let meta = trailingMeta {
+            Text(meta)
         }
     }
 
@@ -246,7 +298,7 @@ struct EntryRowView: View {
             Text(verbatim: "\(hr.peak)")
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
-            Text(verbatim: "bpm")
+            Text("bpm")
                 .foregroundStyle(.secondary)
             Text(verbatim: "\(hr.delta >= 0 ? "+" : "")\(hr.delta)")
                 .foregroundStyle(VitalsPalette.heart)

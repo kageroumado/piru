@@ -125,6 +125,7 @@ struct SessionDetailView: View {
             let interactions = names.count >= 2 ? InteractionChecker.checkBatch(names, against: []) : []
             let laneNames = Set(t.states.map { $0.substanceName.lowercased() })
                 .union(t.markers.map { $0.substanceName.lowercased() })
+            let mechanisticDoses = Self.computeMechanisticDoses(entries, startDate: session.startDate)
             return ResolvedDay(
                 states: t.states,
                 markers: t.markers,
@@ -132,6 +133,34 @@ struct SessionDetailView: View {
                 cumulativeDoses: Self.computeCumulativeDoses(entries),
                 laneCount: laneNames.count,
                 entryCores: Self.computeEntryCores(entries),
+                mechanisticDoses: mechanisticDoses,
+                mechanisticSupported: MechanisticSessionModel.supportsMechanisticView(mechanisticDoses),
+            )
+        }
+    }
+
+    /// Each dose reduced to the effect engine's inputs, resolved **once** per
+    /// content change alongside the rest of ``ResolvedDay`` — reading it in
+    /// `body` (support gate, task signature) must never pay a store lookup.
+    /// Doses whose substance isn't in the library are dropped — they can't be
+    /// modeled anyway.
+    private static func computeMechanisticDoses(_ entries: [DoseEntry], startDate: Date) -> [MechanisticSessionModel.DoseInput] {
+        var categoryCache: [String: SubstanceCategory?] = [:]
+        func category(_ name: String) -> SubstanceCategory? {
+            let key = name.lowercased()
+            if let cached = categoryCache[key] { return cached }
+            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)?.category
+            categoryCache[key] = resolved
+            return resolved
+        }
+        return entries.compactMap { entry in
+            guard let category = category(entry.substance) else { return nil }
+            return MechanisticSessionModel.DoseInput(
+                name: entry.substance,
+                category: category,
+                amount: entry.amount,
+                route: entry.route,
+                hours: entry.timestamp.timeIntervalSince(startDate) / 3_600,
             )
         }
     }
@@ -201,38 +230,10 @@ struct SessionDetailView: View {
         max(0, Date.now.timeIntervalSince(session.startDate) / 3_600)
     }
 
-    /// Substance colour by lowercased name, sourced from the resolved timeline.
-    private var colorHexByName: [String: String] {
-        var map: [String: String] = [:]
-        for state in substanceStates {
-            map[state.substanceName.lowercased()] = state.colorHex
-        }
-        for marker in doseMarkers {
-            map[marker.substanceName.lowercased()] = marker.colorHex
-        }
-        return map
-    }
-
-    /// Each dose reduced to the engine's inputs. Doses whose substance isn't in
-    /// the library are dropped — they can't be modeled anyway.
-    private var mechanisticDoses: [MechanisticSessionModel.DoseInput] {
-        let colors = colorHexByName
-        return entries.compactMap { entry in
-            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) else { return nil }
-            return MechanisticSessionModel.DoseInput(
-                name: entry.substance,
-                category: substance.category,
-                amount: entry.amount,
-                route: entry.route,
-                hours: entry.timestamp.timeIntervalSince(session.startDate) / 3_600,
-                colorHex: colors[entry.substance.lowercased()] ?? "8e8e93",
-            )
-        }
-    }
-
     /// Whether the session contains a stimulant/opioid the engine models.
+    /// Precomputed with the day resolve — reading it per body costs nothing.
     private var mechanisticSupported: Bool {
-        MechanisticSessionModel.supportsMechanisticView(mechanisticDoses)
+        resolvedDay.mechanisticSupported
     }
 
     /// The lenses to offer in the switcher.
@@ -240,9 +241,11 @@ struct SessionDetailView: View {
         mechanisticSupported ? [.timeline] + EffectLens.mechanistic : [.timeline]
     }
 
+    /// Cheap: hashes the small, already-memoized dose inputs (which carry no
+    /// colour — a recolour must not re-trigger the simulation task).
     private var mechanisticSignature: Int {
         var hasher = Hasher()
-        hasher.combine(mechanisticDoses)
+        hasher.combine(resolvedDay.mechanisticDoses)
         return hasher.finalize()
     }
 
@@ -254,7 +257,7 @@ struct SessionDetailView: View {
             if effectLens != .timeline { effectLens = .timeline }
             return
         }
-        let doses = mechanisticDoses
+        let doses = resolvedDay.mechanisticDoses
         let key = mechanisticSignature
         if let cached = MechanisticModelCache.shared.cached(key) {
             mechanisticResult = cached
@@ -263,6 +266,9 @@ struct SessionDetailView: View {
         let last = doses.map(\.hours).max() ?? 0
         let tMax = min(48, max(12, last + 12))
         let result = await Task.detached { MechanisticSessionModel.compute(doses: doses, tMax: tMax) }.value
+        // `.task(id:)` cancels this on a signature change — don't let a stale
+        // simulation land after the newer task has already assigned its result.
+        guard !Task.isCancelled else { return }
         if let result { MechanisticModelCache.shared.insert(key, result) }
         mechanisticResult = result
     }
@@ -892,6 +898,10 @@ private struct ResolvedDay {
     /// — `SubstanceLibrary` lookup + dose-level classification + display-name
     /// override — never runs in a row `body`.
     var entryCores: [DayEntryCore] = []
+    /// Engine inputs + support gate for the mechanistic lenses, resolved with
+    /// the rest of the day so per-body reads never hit the substance store.
+    var mechanisticDoses: [MechanisticSessionModel.DoseInput] = []
+    var mechanisticSupported: Bool = false
 }
 
 /// Hosts a fixed-height child whose height is itself the animation driver.
@@ -1126,7 +1136,19 @@ private struct SessionGraphSection: View {
                 synchronous: true,
             )
         } else if let result = mechanistic {
-            MechanisticChartView(result: result, lens: lens, startDate: startDate, nowHours: nowHours, vitals: vitals)
+            MechanisticChartView(result: result, lens: lens, startDate: startDate, nowHours: nowHours, doseMarks: doseMarks, vitals: vitals)
+        }
+    }
+
+    /// Dose ticks for the mechanistic chart, derived from the same resolved
+    /// markers as the classic timeline. Built at the render site so a recolour
+    /// updates the tick colours without invalidating the simulation cache.
+    private var doseMarks: [MechanisticSessionModel.DoseMark] {
+        markers.map {
+            MechanisticSessionModel.DoseMark(
+                hours: $0.timestamp.timeIntervalSince(startDate) / 3_600,
+                colorHex: $0.colorHex,
+            )
         }
     }
 }
