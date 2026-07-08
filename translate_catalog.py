@@ -1656,6 +1656,9 @@ T = {
     "Add note…": ("添加备注…", "新增備註…"),
     "Collapse": ("收起", "收合"),
     "Collapses the editor": ("收起编辑器", "收合編輯器"),
+    "Expands the editor": ("展开编辑器", "展開編輯器"),
+    "Log %@ %@ of %@": ("记录 %3$@ %1$@ %2$@", "記錄 %3$@ %1$@ %2$@"),
+    "Log %@ of %@": ("记录 %2$@ %1$@", "記錄 %2$@ %1$@"),
     "Shared time": ("统一时间", "統一時間"),
     "Custom…": ("自定…", "自訂…"),
     "Discard staged doses?": ("舍弃待记录的剂量？", "捨棄待記錄的劑量？"),
@@ -4416,6 +4419,10 @@ if __name__ == "__main__":
         "Expanded",
         "Expands a dose entry",
         "Collapses the dose entry",
+        # Quick-log review fixes (2026-07-08).
+        "Expands the editor",
+        "Log %@ %@ of %@",
+        "Log %@ of %@",
         # Apple Health vitals overlay (2026-07-06).
         "Heart rate",
         "Heart Rate",

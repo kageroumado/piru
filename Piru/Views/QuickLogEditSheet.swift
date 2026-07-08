@@ -86,7 +86,7 @@ struct QuickLogEditSheet: View {
         return VStack(alignment: .leading, spacing: 2) {
             Text(routine.name)
             HStack(spacing: 4) {
-                Text("\(count) item\(count == 1 ? "" : "s")")
+                Text("^[\(count) item](inflect: true)")
                 if let time = routine.timeAsDate {
                     Text(verbatim: "·")
                     Text(time, style: .time)
@@ -117,6 +117,12 @@ struct QuickLogEditSheet: View {
     }
 
     private func deleteRoutines(at offsets: IndexSet) {
+        // The @Query snapshot doesn't refresh mid-handler, so sync against the
+        // survivors — passing `routines` would re-schedule the deleted
+        // routine's reminder.
+        let remaining = routines.enumerated()
+            .filter { !offsets.contains($0.offset) }
+            .map(\.element)
         for index in offsets {
             let routine = routines[index]
             // Items survive the routine — they fall to Unassigned (visible in
@@ -126,7 +132,7 @@ struct QuickLogEditSheet: View {
             }
             modelContext.delete(routine)
         }
-        DoseNotificationManager.syncRoutineReminders(routines: routines)
+        DoseNotificationManager.syncRoutineReminders(routines: remaining)
     }
 
     // MARK: Favorites

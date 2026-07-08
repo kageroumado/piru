@@ -1,7 +1,10 @@
+import OSLog
 import SwiftData
 import SwiftUI
 import UIKit
 import WidgetKit
+
+private let quickLogLogger = Logger(subsystem: "dev.yumeji.piru", category: "QuickLog")
 
 /// Thin wrapper that pins the recent-history window before building the screen.
 ///
@@ -436,7 +439,17 @@ struct QuickLogView: View {
                     allColors: colors,
                 )
             }
-            try? context.save()
+            do {
+                try context.save()
+            } catch {
+                // The success haptic + dismissal already fired (deliberately —
+                // the sheet must slide immediately), so a failure here leaves
+                // the live session showing doses the store doesn't have. The
+                // inserts stay pending on the context, so the next save — the
+                // curation write below or SwiftData's autosave — retries them;
+                // record it loudly instead of vanishing the evidence.
+                quickLogLogger.fault("Quick-log commit save failed for \(stagedItems.count) dose(s): \(error)")
+            }
             // Curated-list maintenance is a site-specific immediate bit (it
             // records the chips the user actually tapped), kept prompt so a
             // reopened tray reflects them right away.

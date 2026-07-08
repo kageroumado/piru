@@ -237,7 +237,7 @@ struct SubstanceCardView: View, Equatable {
                 }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(chipAccessibilityLabel(chip))
+        .accessibilityLabel(chipAccessibilityLabel(chip, group: group))
         .contextMenu {
             Button {
                 onMoveChip(group, chip, true)
@@ -263,7 +263,7 @@ struct SubstanceCardView: View, Equatable {
                     if let name = chip.drinkName, !name.isEmpty {
                         Text(name).fontWeight(.semibold)
                     } else {
-                        Text("\(chip.formattedAmount) \(chip.unit)").fontWeight(.semibold)
+                        Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))").fontWeight(.semibold)
                     }
                 }
                 Text(chip.detailLine)
@@ -271,19 +271,22 @@ struct SubstanceCardView: View, Equatable {
                     .opacity(0.9)
             }
         } else {
-            Text("\(chip.formattedAmount) \(chip.unit)")
+            Text("\(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount))")
         }
     }
 
-    /// Spoken label: "Log IPA, 330 mL · 6% · 16 g" for a drink, else "Log 20 g".
-    private func chipAccessibilityLabel(_ chip: DoseChip) -> Text {
+    /// Spoken label: "Log IPA, 330 mL · 6% · 16 g" for a drink, else
+    /// "Log 20 g of Caffeine" — the substance is named because a VoiceOver
+    /// user swiping chip-to-chip mid-list has no visual row context.
+    private func chipAccessibilityLabel(_ chip: DoseChip, group: SubstanceGroup) -> Text {
+        let substance = customSubstanceStore.displayName(for: group.substanceName)
         guard chip.hasDrinkDetail else {
-            return Text("Log \(chip.formattedAmount) \(chip.unit)")
+            return Text("Log \(chip.formattedAmount) \(chip.unit.unitDisplay(for: chip.amount)) of \(substance)")
         }
         if let name = chip.drinkName, !name.isEmpty {
             return Text("Log \(name), \(chip.detailLine)")
         }
-        return Text("Log \(chip.detailLine)")
+        return Text("Log \(chip.detailLine) of \(substance)")
     }
 
     private func chipCountBadge(_ count: Int) -> some View {

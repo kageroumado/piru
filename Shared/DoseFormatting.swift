@@ -37,6 +37,17 @@ nonisolated extension Double {
     }
 }
 
+nonisolated extension String {
+    /// Display nicety for the data-driven unit string "units" (legacy/imported
+    /// alcohol doses): exactly one reads "unit", not "1 units". Unit strings are
+    /// unlocalized data ("mg", "g", "units"), so this is plain English surgery —
+    /// every other unit passes through untouched.
+    func unitDisplay(for amount: Double) -> String {
+        guard amount == 1, caseInsensitiveCompare("units") == .orderedSame else { return self }
+        return "unit"
+    }
+}
+
 extension TimeInterval {
     /// Format a duration as "2h 8m" / "3h" / "45m". Shared by the session
     /// accessory and the entry-detail hero so the "in / left" status reads

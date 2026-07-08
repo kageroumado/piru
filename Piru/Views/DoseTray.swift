@@ -539,6 +539,9 @@ struct TrayCommitBar: View {
         )
         .foregroundStyle(model.time.isNow ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.orange))
         .animation(.snappy, value: model.time)
+        // The overlay Menu is the accessible element — expose only it, or
+        // VoiceOver stops on the decorative chip content too.
+        .accessibilityHidden(true)
         .overlay {
             Menu {
                 whenMenuItems
@@ -657,6 +660,9 @@ struct TrayCommitBar: View {
         .foregroundStyle(model.location == nil ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
         .frame(maxWidth: 180, alignment: .leading)
         .animation(.snappy, value: model.location)
+        // The overlay Menu is the accessible element — expose only it, or
+        // VoiceOver stops on the decorative chip content too.
+        .accessibilityHidden(true)
         .overlay(alignment: .leading) {
             Menu {
                 locationMenuItems
@@ -818,6 +824,11 @@ private struct TraySwipeRow<Content: View>: View {
                             }
                     }
                 }
+                // The swipe gesture is invisible to assistive tech — expose
+                // deletion as a rotor action on the row itself.
+                .accessibilityAction(named: Text("Remove")) {
+                    onDelete()
+                }
         }
         .clipped()
         .gesture(swipeGesture)
@@ -843,6 +854,9 @@ private struct TraySwipeRow<Content: View>: View {
         .padding(.trailing, 8)
         .accessibilityLabel("Remove")
         .opacity(offset < -1 ? 1 : 0)
+        // Hidden until the swipe reveals it — otherwise VoiceOver stops on an
+        // invisible button behind every row.
+        .accessibilityHidden(offset >= -1)
     }
 
     private var swipeGesture: some Gesture {
@@ -911,7 +925,7 @@ private struct TrayRow: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .matchedGeometryEffect(id: "route-\(dose.id)", in: namespace)
                     Text(verbatim: "·").foregroundStyle(.tertiary)
-                    Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit)")
+                    Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
                         .fontWeight(.semibold)
                         .foregroundStyle(.primary)
                         // During the collapse morph the matched siblings carry
@@ -955,6 +969,9 @@ private struct TrayRow: View {
         .padding(.vertical, 12)
         .contentShape(Rectangle())
         .onTapGesture(perform: expand)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Expands the editor")
     }
 }
 
@@ -988,6 +1005,7 @@ private struct StagedDoseEditor: View {
     @State private var isGrapefruitSubstrate = false
     @State private var profileStore = UserProfileStore.shared
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // By-volume custom logger (alcohol): a two-tier strength + volume input with an
     // optional drink name. The By Drink / By Weight choice persists across doses.
@@ -1224,7 +1242,7 @@ private struct StagedDoseEditor: View {
                     setAmount(item.amount + amountStep)
                 }
             }
-            .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
+            .phaseAnimator(reduceMotion ? [1.0] : [1.0, 1.03], trigger: stepTick) { content, scale in
                 content.scaleEffect(scale)
             } animation: { _ in
                 .snappy(duration: 0.15)
@@ -1712,9 +1730,13 @@ private struct DrinkPresetMenu: View {
 
 extension CustomDrinkPreset {
     /// "330 mL · 5%" for a fixed-volume preset, or just "5%" for strength-only.
-    var detailLabel: String {
+    /// Volume renders in the user's preferred unit (mL / fl oz), like the editor.
+    @MainActor var detailLabel: String {
         let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))%"
         guard let volumeML else { return strength }
-        return "\(Int(volumeML.rounded())) mL · \(strength)"
+        let unit = ByVolumeDefaults.preferredVolumeUnit
+        let volume = Measurement(value: volumeML, unit: UnitVolume.milliliters).converted(to: unit)
+        let formatted = volume.formatted(.measurement(width: .abbreviated, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0 ... 1))))
+        return "\(formatted) · \(strength)"
     }
 }

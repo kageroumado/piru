@@ -66,6 +66,7 @@ struct QuickLogDock: View {
     @FocusState private var searchFocused: Bool
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     @State private var dictation = DockDictation()
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// The bare (Maps collapsed-pill) face: nothing but the floating search
     /// pill. Driven by the *live* sheet height, not the settled detent, so the
@@ -440,8 +441,8 @@ struct QuickLogDock: View {
         } label: {
             Image(systemName: dictation.isListening ? "microphone.fill" : "microphone")
                 .foregroundStyle(dictation.isListening ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.secondaryLabel))
-                .symbolEffect(.pulse, options: .repeating, isActive: dictation.isListening)
-                .frame(width: 28, height: 28)
+                .symbolEffect(.pulse, options: .repeating, isActive: dictation.isListening && !reduceMotion)
+                .frame(width: 44, height: 44)
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -859,6 +860,11 @@ final class DockDictation {
             isListening = false
             return
         }
+
+        // stop() may have landed while the format negotiation was suspended.
+        // It already deactivated the session and cleared state — resuming past
+        // it would re-arm the tap and leave the mic hot with no owner.
+        guard generation == startedGeneration, isListening else { return }
 
         let (inputSequence, builder) = AsyncStream.makeStream(of: AnalyzerInput.self)
         inputBuilder = builder

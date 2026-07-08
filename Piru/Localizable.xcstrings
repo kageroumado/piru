@@ -15673,6 +15673,22 @@
         }
       }
     },
+    "Expands the editor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开编辑器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開編輯器"
+          }
+        }
+      }
+    },
     "Experience reports" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20956,6 +20972,7 @@
       }
     },
     "Log %@ %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20967,6 +20984,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄 %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Log %@ %@ of %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录 %3$@ %1$@ %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄 %3$@ %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Log %@ of %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录 %2$@ %1$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄 %2$@ %1$@"
           }
         }
       }
