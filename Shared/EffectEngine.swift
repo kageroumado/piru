@@ -14,8 +14,9 @@ nonisolated struct ReceptorAffinities: Equatable {
     }
 }
 
-/// Pharmacology of one substance. Pure data — no logic. A curated set covers the modeled ~100;
-/// uncurated substances resolve to their nearest analogue in the classification layer.
+/// Pharmacology of one substance. Pure data — no logic. Populated only for the curated substances in
+/// the classification layer (`SubstanceModelDatabase`); uncurated substances get no params and fall
+/// back to the classic duration curve.
 nonisolated struct SubstanceModelParams: Equatable {
     // PK
     var ke: Double // elimination rate (1/h)

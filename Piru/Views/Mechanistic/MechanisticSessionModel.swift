@@ -45,7 +45,9 @@ nonisolated enum MechanisticSessionModel {
         let timeline: EffectTimeline
         /// Keyed by ``EffectLens/rawValue`` (mechanistic lenses only).
         let ranges: [String: AxisRange]
-        /// At least one substance fell back to a class analogue (flag it in UI).
+        /// At least one substance fell back to a class analogue. Always `false`
+        /// while the analogue fallback is disabled (see ``SubstanceModelDatabase``);
+        /// kept wired for the future nearest-analogue rework, which will surface it.
         let usesAnalogue: Bool
         let tMax: Double
         /// Last hour any mechanistic channel is still meaningfully active. Unlike

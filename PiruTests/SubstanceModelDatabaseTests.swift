@@ -2,9 +2,10 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Tests the curated table + the analogue-fallback resolver — the "works for any substance, else its
-/// closest analogue, else Tier 0" contract.
-@Suite("SubstanceModelDatabase — resolver + analogue fallback")
+/// Tests the curated resolver — the "curated (by name or alias), else the classic duration curve"
+/// contract. The per-class analogue fallback is intentionally disabled (see `SubstanceModelDatabase`),
+/// so an uncurated substance now resolves to `nil` rather than a fabricated class template.
+@Suite("SubstanceModelDatabase — curated resolver")
 struct SubstanceModelDatabaseTests {
     @Test
     func `A curated substance resolves as .curated with its real params`() {
@@ -21,13 +22,10 @@ struct SubstanceModelDatabaseTests {
     }
 
     @Test
-    func `An uncurated substance falls back to its class analogue`() {
-        // cocaine isn't curated yet → the generic stimulant template, flagged as an estimate
-        let r = SubstanceModelDatabase.resolve(name: "cocaine", category: .stimulant)
-        #expect(r?.source == .analogue(.stimulant))
-        #expect(r?.params.wDAT == SubstanceModelDatabase.resolve(name: "amphetamine", category: .stimulant)?.params.wDAT)
-        // an uncurated opioid → the morphine template
-        #expect(SubstanceModelDatabase.resolve(name: "fentanyl", category: .opioid)?.source == .analogue(.opioid))
+    func `An uncurated substance resolves to nil (analogue fallback disabled — no faked curve)`() {
+        // Not in the curated table and no analogue fallback → the classic duration timeline.
+        #expect(SubstanceModelDatabase.resolve(name: "cocaine", category: .stimulant) == nil)
+        #expect(SubstanceModelDatabase.resolve(name: "fentanyl", category: .opioid) == nil)
     }
 
     @Test
@@ -38,10 +36,11 @@ struct SubstanceModelDatabaseTests {
     }
 
     @Test
-    func `Mechanistic lenses surface only for sessions with a stimulant or opioid`() {
+    func `Mechanistic lenses surface only for sessions with a curated stimulant or opioid`() {
         #expect(SubstanceModelDatabase.supportsMechanisticView([("amphetamine", .stimulant)]))
         #expect(SubstanceModelDatabase.supportsMechanisticView([("kratom", .opioid)])) // opioid µ → yes
-        #expect(SubstanceModelDatabase.supportsMechanisticView([("cocaine", .stimulant), ("vitamin c", .supplement)])) // analogue stimulant → yes
+        #expect(SubstanceModelDatabase.supportsMechanisticView([("2-MMC", .stimulant), ("vitamin c", .supplement)])) // curated stimulant → yes
+        #expect(!SubstanceModelDatabase.supportsMechanisticView([("cocaine", .stimulant)])) // uncurated → no faked curve → Tier 0
         #expect(!SubstanceModelDatabase.supportsMechanisticView([("bromazepam", .benzodiazepine)])) // sedative alone → Tier 0
         #expect(!SubstanceModelDatabase.supportsMechanisticView([("LSD", .psychedelic), ("magnesium", .supplement)]))
     }

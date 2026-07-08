@@ -1,23 +1,34 @@
 import Foundation
 
-/// Curated pharmacology parameters for the mechanistic effect engine, plus the analogue-fallback resolver.
+/// Curated pharmacology parameters for the mechanistic effect engine, plus the resolver.
 ///
 /// Separation of concerns: `EffectEngine` (Shared/) is substance-agnostic — it only consumes
 /// `SubstanceModelParams`. This file is the DATA + CLASSIFICATION layer that maps a real substance to
 /// those params:
-///   1. a **curated** entry (calibrated against the JS reference / `SPEC.md`), keyed by canonical name;
-///   2. else its **closest analogue** — a representative template for the substance's `SubstanceCategory`
-///      (marked so the UI can say "estimated from class");
-///   3. else `nil` — the engine can't model this class (psychedelics, dissociatives, supplements, …),
-///      so the caller falls back to the classic duration timeline (Tier 0). Honest, not faked.
+///   1. a **curated** entry (hand-authored against the JS reference / `SPEC.md`), keyed by canonical
+///      name or a known alias;
+///   2. else `nil` — the caller falls back to the classic duration timeline (Tier 0). Honest, not faked.
+///
+/// **No analogue fallback (for now).** A previous version filled uncurated substances with a single
+/// per-class template (amphetamine for *every* stimulant, morphine for *every* opioid). That produced
+/// confident-looking mechanistic curves for substances with completely different kinetics — a prodrug,
+/// a long-acting reuptake blocker, and a short-acting releaser all rendered identically — with no
+/// "estimate" caveat surfaced to the user. Until a real nearest-analogue system exists (matching by
+/// actual pharmacology, not just category — e.g. a prodrug like lisdexamfetamine *can* borrow
+/// amphetamine, but a benzo can't borrow another benzo's kinetics blindly), an uncurated substance
+/// gets the classic duration curve rather than a fabricated one. The curated table already covers the
+/// common stimulants/opioids/empathogens.
 ///
 /// Mirrors the `HalfLifeDatabase` house style: a `nonisolated enum` with a lowercased-name dictionary,
 /// an alias map, and a lookup. Ports the JS `DRUG` table (`piru-effect-model/model-hc.mjs`).
 nonisolated enum SubstanceModelDatabase {
-    /// Where a resolved parameter set came from — so the UI can distinguish a calibrated curve from an estimate.
+    /// Where a resolved parameter set came from. Currently only ``curated`` is ever produced; the
+    /// ``analogue`` case is reserved for the future nearest-analogue rework (see the type doc) and the
+    /// downstream "estimated" plumbing (`MechanisticSessionModel.Result.usesAnalogue`) is kept wired
+    /// for it.
     enum Source: Equatable {
-        case curated // calibrated, high confidence
-        case analogue(SubstanceCategory) // estimated from the substance's class
+        case curated // hand-authored params for this substance (or its alias)
+        case analogue(SubstanceCategory) // reserved — not produced until the analogue rework lands
     }
 
     struct Resolution: Equatable {
@@ -25,26 +36,15 @@ nonisolated enum SubstanceModelDatabase {
         let source: Source
     }
 
-    /// Resolve params for a substance. `nil` ⇒ not modelable (fall back to the classic duration curve).
-    static func resolve(name: String, category: SubstanceCategory) -> Resolution? {
+    /// Resolve params for a substance. `nil` ⇒ not curated ⇒ fall back to the classic duration curve.
+    /// `category` is currently unused (the analogue fallback that consumed it is disabled) but retained
+    /// in the signature for the coming nearest-analogue rework.
+    static func resolve(name: String, category _: SubstanceCategory) -> Resolution? {
         let key = normalize(name)
         if let p = curated[key] { return Resolution(params: p, source: .curated) }
         if let canonical = aliases[key], let p = curated[canonical] { return Resolution(params: p, source: .curated) }
-        if analogueExclusions.contains(key) { return nil }
-        if let template = analogueTemplate(for: category) { return Resolution(params: template, source: .analogue(category)) }
         return nil
     }
-
-    /// Substances whose *category* the engine models, but whose own mechanism is
-    /// **not** a monoamine releaser/reuptake blocker — so the class analogue
-    /// (amphetamine for stimulants) would badly misrepresent them. Caffeine is
-    /// adenosine-antagonist, not dopaminergic: modeling it as amphetamine invents
-    /// a euphoria + comedown that doesn't exist. These fall through to the classic
-    /// duration curve instead.
-    private static let analogueExclusions: Set<String> = [
-        "caffeine", "theobromine", "theophylline",
-        "nicotine", "modafinil", "armodafinil", "adrafinil",
-    ]
 
     static func normalize(_ name: String) -> String {
         name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
@@ -94,18 +94,4 @@ nonisolated enum SubstanceModelDatabase {
         "diamorphine": "heroin", "diacetylmorphine": "heroin", "oxycontin": "oxycodone",
         "remeron": "mirtazapine",
     ]
-
-    // MARK: - Analogue fallback (class → a representative curated substance)
-
-    /// The nearest modelable analogue for a whole category. Only classes the engine genuinely captures are
-    /// returned; everything else is `nil` (→ classic duration curve). Rough by design — flagged as `.analogue`.
-    private static func analogueTemplate(for category: SubstanceCategory) -> SubstanceModelParams? {
-        switch category {
-        case .stimulant: curated["amphetamine"] // generic monoamine releaser
-        case .opioid: curated["morphine"] // generic full µ-agonist
-        case .empathogen: curated["mdma"] // SERT-dominant releaser
-        case .benzodiazepine: curated["bromazepam"] // GABA-A PAM
-        default: nil // psychedelics, dissociatives, cannabis, supplements, … → Tier 0
-        }
-    }
 }

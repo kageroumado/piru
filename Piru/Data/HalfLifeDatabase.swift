@@ -64,6 +64,11 @@ nonisolated enum HalfLifeDatabase {
         "methylone": 120,
         "ethylphenidate": 180,
         "3-mmc": 180,
+        // No human PK study for 2-MMC (orthophedrone); matched to its positional
+        // isomer 3-MMC, whose t½ is a controlled-study median of 3.0 h (Bosch et
+        // al. 2024, Neuropsychopharmacology — IQR 2.5–3.6 h). Structurally near-
+        // identical, so the same value is the best available estimate.
+        "2-mmc": 180,
         "4-cmc": 180,
         "4-emc": 180,
         "pentedrone": 120,
@@ -676,6 +681,8 @@ nonisolated enum HalfLifeDatabase {
         "methylene": "methylone",
         "bk-mdma": "methylone",
         "3-methylmethcathinone": "3-mmc",
+        "2-methylmethcathinone": "2-mmc",
+        "orthophedrone": "2-mmc",
         "4-chloromethcathinone": "4-cmc",
         "4-ethylmethcathinone": "4-emc",
         "alpha-pyrrolidinohexiophenone": "a-php",
