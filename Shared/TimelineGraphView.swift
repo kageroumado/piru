@@ -5,7 +5,9 @@ import SwiftUI
 /// instead of drifting across five unrelated magic numbers.
 enum GraphMetrics {
     /// Inset between the card edge and the drawn curves on the full graph.
-    static let canvasInset: CGFloat = 8
+    /// Sized so strokes and axis labels stay clear of the hosting card's
+    /// rounded-corner arc — content drawn into that zone gets sliced.
+    static let canvasInset: CGFloat = 14
     /// Inset on compact thumbnails — kept tight so small cards aren't eaten by padding.
     static let compactInset: CGFloat = 2
     /// Padding inside the hosting card / section.
@@ -957,11 +959,11 @@ struct TimelineGraphView: View, Equatable {
             let vSpan = visibleSpan
             guard vSpan > 0, graphHeight > 0 else { return }
 
-            let diamondSize: CGFloat = 3
+            let diamondSize: CGFloat = 4
 
-            // Pre-compute marker positions for two-pass rendering (lines behind,
-            // diamonds on top). Full graph only — compact thumbnails render
-            // markers as dots on the shared baseline instead (see below).
+            // Pre-compute marker positions for two-pass rendering (stems behind,
+            // dots on top). Full graph only — compact thumbnails render markers
+            // as dots on the shared baseline instead (see below).
             let markerSlots: [(marker: DoseMarker, x: CGFloat, cy: CGFloat)]
             if !compact, !laneMode, !markers.isEmpty {
                 var slots: [(marker: DoseMarker, slot: Int)] = []
@@ -988,11 +990,13 @@ struct TimelineGraphView: View, Equatable {
                     guard rawX >= -5, rawX <= size.width + 5 else { return nil }
                     let x = max(graphInset + diamondSize + 1, rawX)
 
-                    // Stack diamonds from the bottom of the graph upward, clamped to graph area
-                    let usableBottom = graphTop + graphHeight - diamondSize - 2
+                    // Dots hang from the top of the graph area (matching the
+                    // mechanistic chart's dose ticks); near-simultaneous doses
+                    // stack downward so their heads don't overlap.
                     let usableTop = graphTop + diamondSize + 2
+                    let usableBottom = graphTop + graphHeight - diamondSize - 2
                     let spacing = diamondSize * 2 + 4
-                    let cy = max(usableTop, usableBottom - CGFloat(item.slot) * spacing)
+                    let cy = min(usableBottom, usableTop + CGFloat(item.slot) * spacing)
                     return (marker: item.marker, x: x, cy: cy)
                 }
             } else {
@@ -1024,24 +1028,16 @@ struct TimelineGraphView: View, Equatable {
                 )
             }
 
-            // Pass 1: Marker lines (subtle pink gradient behind diamonds)
-            let markerLineColor = Color(hex: "FFAACC")
+            // Pass 1: Marker stems — a full-height rule in the dose's own colour
+            // dropping from the head to the baseline, matching the mechanistic
+            // chart's dose ticks so "when was it taken" reads at a glance even
+            // when the substance draws no curve.
             for item in markerSlots {
-                let topY = item.cy + diamondSize
-                let bottomY = graphTop + graphHeight
-
+                let color = Color(hex: item.marker.colorHex)
                 var linePath = Path()
-                linePath.move(to: CGPoint(x: item.x, y: topY))
-                linePath.addLine(to: CGPoint(x: item.x, y: bottomY))
-                context.stroke(
-                    linePath,
-                    with: .linearGradient(
-                        Gradient(colors: [markerLineColor.opacity(0.35), markerLineColor.opacity(0.05)]),
-                        startPoint: CGPoint(x: item.x, y: topY),
-                        endPoint: CGPoint(x: item.x, y: bottomY),
-                    ),
-                    lineWidth: 0.75,
-                )
+                linePath.move(to: CGPoint(x: item.x, y: item.cy))
+                linePath.addLine(to: CGPoint(x: item.x, y: graphTop + graphHeight))
+                context.stroke(linePath, with: .color(color.opacity(0.55)), lineWidth: 2)
             }
 
             // "Now" indicator — a full-height vertical line at the current
@@ -1195,7 +1191,7 @@ struct TimelineGraphView: View, Equatable {
                 }
             }
 
-            // Pass 2: Marker circles (drawn on top of substance curves)
+            // Pass 2: Marker heads (drawn on top of substance curves)
             for item in markerSlots {
                 let color = Color(hex: item.marker.colorHex)
                 let circle = Path(ellipseIn: CGRect(
@@ -1205,7 +1201,6 @@ struct TimelineGraphView: View, Equatable {
                     height: diamondSize * 2,
                 ))
                 context.fill(circle, with: .color(color))
-                context.stroke(circle, with: .color(.white.opacity(0.6)), lineWidth: 0.8)
             }
 
             // Scrub readout — a vertical rule the user drags, with a dot on every
@@ -1271,7 +1266,10 @@ struct TimelineGraphView: View, Equatable {
                     size: size,
                     visibleStart: vStart,
                     visibleSpan: vSpan,
-                    inset: graphTop,
+                    // The horizontal inset must match the curves' (it used to get
+                    // graphTop, quietly shifting every clock label off its tick).
+                    inset: graphInset,
+                    top: graphTop,
                     // Inflate the height passed to the label placer so the clock
                     // labels land below the vitals lane, not inside it.
                     graphHeight: graphHeight + vitalsBandTotal,
@@ -1283,6 +1281,7 @@ struct TimelineGraphView: View, Equatable {
                     visibleSpan: vSpan,
                     inset: graphInset,
                     graphTop: graphTop,
+                    avoiding: markerSlots.map(\.x),
                 )
             }
         }
@@ -2230,10 +2229,11 @@ struct TimelineGraphView: View, Equatable {
         visibleStart: Double,
         visibleSpan: Double,
         inset: CGFloat,
+        top: CGFloat,
         graphHeight: CGFloat,
     ) {
         let graphWidth = size.width - inset * 2
-        let labelY = inset + graphHeight + labelAreaHeight / 2 + 2
+        let labelY = top + graphHeight + labelAreaHeight / 2 + 2
         let calendar = Calendar.current
 
         let interval = TimelineCurveModel.intervalForSpan(visibleSpan)
@@ -2311,9 +2311,10 @@ struct TimelineGraphView: View, Equatable {
         visibleSpan: Double,
         inset: CGFloat,
         graphTop _: CGFloat,
+        avoiding markerXs: [CGFloat] = [],
     ) {
         let graphWidth = size.width - inset * 2
-        let labelY = inset + 4
+        let labelY: CGFloat = 12
         // Determine hour step based on visible span
         let hourStep: Int
         let visibleHours = visibleSpan / 60
@@ -2329,7 +2330,10 @@ struct TimelineGraphView: View, Equatable {
             let minutePos = Double(hour) * 60
             let x = inset + CGFloat((minutePos - visibleStart) / visibleSpan) * graphWidth
 
-            if x >= -10, x <= size.width + 10 {
+            // Skip labels that would run past the drawable width and get sliced
+            // by the canvas clip (the trailing anchor only kicks in at width-15,
+            // so a label landing between there and the edge still spills).
+            if x >= 8, x <= size.width - 8, markerXs.allSatisfy({ abs($0 - x) > 16 }) {
                 let label = String(localized: "\(hour)h")
 
                 let text = Text(label)

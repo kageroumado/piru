@@ -1140,11 +1140,15 @@ private struct SessionGraphSection: View {
         }
     }
 
-    /// Dose ticks for the mechanistic chart, derived from the same resolved
-    /// markers as the classic timeline. Built at the render site so a recolour
-    /// updates the tick colours without invalidating the simulation cache.
+    /// Dose ticks for the mechanistic chart: every logged dose — the curve-backed
+    /// ones (`states`, one per dose) plus the duration-less ones (`markers`, which
+    /// hold ONLY doses without curves). Built at the render site so a recolour
+    /// updates the tick colours without invalidating the simulation cache. The
+    /// earliest mark also anchors the chart's scrollable extent.
     private var doseMarks: [MechanisticSessionModel.DoseMark] {
-        markers.map {
+        let curveDoses = states.map { (timestamp: $0.doseTimestamp, colorHex: $0.colorHex) }
+        let markerDoses = markers.map { (timestamp: $0.timestamp, colorHex: $0.colorHex) }
+        return (curveDoses + markerDoses).map {
             MechanisticSessionModel.DoseMark(
                 hours: $0.timestamp.timeIntervalSince(startDate) / 3_600,
                 colorHex: $0.colorHex,

@@ -34,12 +34,14 @@ struct MechanisticChartView: View {
     @State private var seeded = false
 
     private enum Metric {
-        /// Curves bleed to the card's edge — the row's near-zero inset is the only
-        /// horizontal margin, so continuous lines run edge to edge.
-        static let edge: CGFloat = 0
-        /// Enough top room that the dose dots don't sit on the card's top edge,
-        /// and a bottom band tall enough for the hour labels plus the pan track.
-        static let top: CGFloat = 16
+        /// Horizontal content inset. Strokes and labels must stay clear of the
+        /// hosting card's rounded corners — content drawn into the corner-arc
+        /// zone gets sliced — so the chart keeps a concentric margin instead of
+        /// bleeding edge to edge.
+        static let edge: CGFloat = 14
+        /// Top band: elapsed-hours labels ride at the very top, the dose dots
+        /// below them at the curve region's upper edge.
+        static let top: CGFloat = 24
         static let labelBand: CGFloat = 18
         static let doseDot: CGFloat = 8
         static let minWindow: Double = 0.75
@@ -60,6 +62,19 @@ struct MechanisticChartView: View {
     /// short session's window shows everything and no scroller appears.
     private var span: Double {
         result.contentSpan
+    }
+
+    /// Left edge of the scrollable extent: the first dose, not the session's
+    /// hour 0. A session whose start predates its earliest surviving dose
+    /// (e.g. after a dose edit/delete) would otherwise open on hours of
+    /// flat nothing before the first curve rises.
+    private var contentStart: Double {
+        min(max(0, doseMarks.map(\.hours).min() ?? 0), span)
+    }
+
+    /// The visible-content length the window/zoom/scroller frame.
+    private var contentLength: Double {
+        max(Metric.minWindow, span - contentStart)
     }
 
     var body: some View {
@@ -97,6 +112,7 @@ struct MechanisticChartView: View {
         Canvas { context, size in
             let geo = geometry(for: size, top: Metric.top, bottom: Metric.labelBand)
             drawGrid(&context, geo)
+            drawElapsedLabels(&context, geo)
             drawCurve(&context, geo)
             if lens.pairsVitals { drawHeartRate(&context, geo) }
             drawDoseTicks(&context, geo)
@@ -105,21 +121,24 @@ struct MechanisticChartView: View {
         }
     }
 
-    /// A 2pt track at the very bottom showing the visible window within the full
-    /// content span — the same non-interactive indicator as the classic timeline
-    /// (you pan by dragging the chart). Only when there's something to scroll to.
+    /// A 2pt track at the very bottom showing the visible window within the
+    /// scrollable content (first dose → content end) — the same non-interactive
+    /// indicator as the classic timeline (you pan by dragging the chart). Only
+    /// when there's something to scroll to.
     private func drawPanIndicator(_ context: inout GraphicsContext, _ size: CGSize) {
-        guard winW < span - 0.01 else { return }
+        guard winW < contentLength - 0.01 else { return }
         let y = size.height - 1.5
+        let trackX = Metric.edge
+        let trackW = max(1, size.width - Metric.edge * 2)
         var track = Path()
-        track.move(to: CGPoint(x: 0, y: y))
-        track.addLine(to: CGPoint(x: size.width, y: y))
+        track.move(to: CGPoint(x: trackX, y: y))
+        track.addLine(to: CGPoint(x: trackX + trackW, y: y))
         context.stroke(track, with: .color(.secondary.opacity(0.18)), lineWidth: 2)
-        let start = CGFloat(max(0, winStart) / span) * size.width
-        let end = CGFloat(min(span, winStart + winW) / span) * size.width
+        let start = trackX + CGFloat(max(0, winStart - contentStart) / contentLength) * trackW
+        let end = trackX + CGFloat(min(contentLength, winStart + winW - contentStart) / contentLength) * trackW
         var seg = Path()
         seg.move(to: CGPoint(x: start, y: y))
-        seg.addLine(to: CGPoint(x: end, y: y))
+        seg.addLine(to: CGPoint(x: max(start, end), y: y))
         context.stroke(seg, with: .color(.secondary.opacity(0.55)), lineWidth: 2)
     }
 
@@ -178,10 +197,9 @@ struct MechanisticChartView: View {
             line.move(to: CGPoint(x: x, y: geo.rect.minY))
             line.addLine(to: CGPoint(x: x, y: geo.rect.maxY))
             context.stroke(line, with: .color(.primary.opacity(0.22)), style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
-            // Skip labels whose text would spill past the canvas edge and get
-            // sliced mid-glyph (the curve bleeds edge-to-edge, so there's no
-            // outer margin to absorb it). The grid line and ticks still draw.
-            if x >= geo.rect.minX + 14, x <= geo.rect.maxX - 14 {
+            // Skip labels whose text would spill past the content margin into
+            // the card's corner zone and get sliced. Grid line and ticks still draw.
+            if x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 {
                 var label = context.resolve(Text(clockShort(hour)).font(.system(size: 10)))
                 label.shading = .color(.secondary)
                 context.draw(label, at: CGPoint(x: x, y: geo.rect.maxY + 10))
@@ -202,6 +220,27 @@ struct MechanisticChartView: View {
             zero.move(to: CGPoint(x: geo.rect.minX, y: geo.zeroY))
             zero.addLine(to: CGPoint(x: geo.rect.maxX, y: geo.zeroY))
             context.stroke(zero, with: .color(.secondary.opacity(0.35)), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+        }
+    }
+
+    /// Elapsed-hours labels ("0h · 2h · 4h" since the first dose) along the very
+    /// top, mirroring the classic timeline's top scale. Skips any label that
+    /// would sit on a dose mark's stem/dot — the dots own that band's baseline.
+    private func drawElapsedLabels(_ context: inout GraphicsContext, _ geo: Geometry) {
+        let step: Double = geo.winW > 8 ? 4 : geo.winW > 4 ? 2 : 1
+        let markXs = doseMarks.map { geo.x($0.hours) }
+        var elapsed = 0.0
+        while contentStart + elapsed <= span {
+            let x = geo.x(contentStart + elapsed)
+            defer { elapsed += step }
+            guard x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 else { continue }
+            guard markXs.allSatisfy({ abs($0 - x) > 16 }) else { continue }
+            var label = context.resolve(
+                Text(verbatim: String(localized: "\(Int(elapsed))h"))
+                    .font(.system(size: 9, weight: .medium, design: .rounded)),
+            )
+            label.shading = .color(.secondary.opacity(0.55))
+            context.draw(label, at: CGPoint(x: x, y: 8))
         }
     }
 
@@ -323,7 +362,7 @@ struct MechanisticChartView: View {
                     panAnchor = nil
                 }
                 let pivot = anchor.start + anchor.win / 2
-                let newW = min(span, max(Metric.minWindow, anchor.win / value.magnification))
+                let newW = min(contentLength, max(Metric.minWindow, anchor.win / value.magnification))
                 winW = newW
                 winStart = clampStart(pivot - newW / 2)
             }
@@ -338,24 +377,22 @@ struct MechanisticChartView: View {
     }
 
     private func clampStart(_ value: Double) -> Double {
-        let lo = -edgePad
+        let lo = contentStart - edgePad
         let hi = max(lo, span - winW + edgePad)
         return min(max(value, lo), hi)
     }
 
     private func seedWindow() {
-        let full = span
         // A little wider than before — the earlier default sat too zoomed in.
-        winW = min(7.5, full)
-        if nowHours < full {
+        winW = min(7.5, contentLength)
+        if nowHours < span {
             // Active session (effects still unfolding): put "now" a third of the
             // way in, so the recent past and the near future are both visible.
             winStart = clampStart(nowHours - winW / 3)
         } else {
             // Past session: frame from just before the first dose so the action is
             // on screen instead of the flat tail.
-            let firstDose = doseMarks.map(\.hours).min() ?? 0
-            winStart = clampStart(firstDose - edgePad)
+            winStart = clampStart(contentStart - edgePad)
         }
     }
 
