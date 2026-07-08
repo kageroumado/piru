@@ -146,6 +146,10 @@ T = {
     "Generated": ("生成时间", "產生時間"),
     "Session started": ("记录开始于", "記錄開始於"),
     "in progress": ("进行中", "進行中"),
+    "Session started %@ · %@ in progress": (
+        "记录开始于 %1$@ · %2$@ 进行中",
+        "記錄開始於 %1$@ · %2$@ 進行中",
+    ),
     "Right now — subjective state": ("此刻 — 主观感受", "此刻 — 主觀感受"),
     "Elimination": ("消除", "消除"),
     "Taken": ("摄入", "攝入"),
@@ -4560,8 +4564,7 @@ if __name__ == "__main__":
         # Session state export — PDF report + Markdown (2026-07-05).
         "Session Snapshot",
         "Generated",
-        "Session started",
-        "in progress",
+        "Session started %@ · %@ in progress",
         "Right now — subjective state",
         "Elimination",
         "Taken",

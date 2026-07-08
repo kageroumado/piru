@@ -348,9 +348,6 @@
         }
       }
     },
-    "%@ " : {
-
-    },
     "%@ - %@ %@" : {
       "localizations" : {
         "en" : {
@@ -19475,6 +19472,7 @@
       }
     },
     "in progress" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32761,6 +32759,7 @@
       }
     },
     "Session started" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32772,6 +32771,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄開始於"
+          }
+        }
+      }
+    },
+    "Session started %@ · %@ in progress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Session started %1$@ · %2$@ in progress"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录开始于 %1$@ · %2$@ 进行中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄開始於 %1$@ · %2$@ 進行中"
           }
         }
       }

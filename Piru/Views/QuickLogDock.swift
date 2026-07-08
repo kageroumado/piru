@@ -1021,7 +1021,7 @@ final class DockDictation {
 
         // The tap fires on the audio thread. The converter and continuation
         // are used from there exclusively once installed.
-        nonisolated(unsafe) let converter = AVAudioConverter(from: tapFormat, to: analyzerFormat)
+        let converter = AVAudioConverter(from: tapFormat, to: analyzerFormat)
         let needsConversion = tapFormat != analyzerFormat
         inputNode.installTap(onBus: 0, bufferSize: 2_048, format: tapFormat) { buffer, _ in
             if !needsConversion {
@@ -1032,7 +1032,11 @@ final class DockDictation {
             let ratio = analyzerFormat.sampleRate / tapFormat.sampleRate
             let capacity = AVAudioFrameCount((Double(buffer.frameLength) * ratio).rounded(.up) + 16)
             guard let converted = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: capacity) else { return }
-            var consumed = false
+            // The input block is marked @Sendable in the SDK, but
+            // convert(to:error:) calls it synchronously on this thread
+            // before returning — nothing here crosses threads.
+            nonisolated(unsafe) var consumed = false
+            nonisolated(unsafe) let inputBuffer = buffer
             var conversionError: NSError?
             converter.convert(to: converted, error: &conversionError) { _, inputStatus in
                 if consumed {
@@ -1041,7 +1045,7 @@ final class DockDictation {
                 }
                 consumed = true
                 inputStatus.pointee = .haveData
-                return buffer
+                return inputBuffer
             }
             guard conversionError == nil, converted.frameLength > 0 else { return }
             builder.yield(AnalyzerInput(buffer: converted))

@@ -104,13 +104,9 @@ struct SessionReportView: View {
                     Text(export.isLive ? "Session Snapshot" : "Session Report")
                         .font(.system(size: 22, weight: .bold, design: .rounded))
                     if export.isLive {
-                        (
-                            Text("Session started")
-                                + Text(verbatim: " \(shortTime(export.sessionStart)) · \(TimeInterval(export.generatedAt.timeIntervalSince(export.sessionStart)).durationHM) ")
-                                + Text("in progress"),
-                        )
-                        .font(.system(size: 12.5))
-                        .foregroundStyle(ink2)
+                        Text("Session started \(shortTime(export.sessionStart)) · \(TimeInterval(export.generatedAt.timeIntervalSince(export.sessionStart)).durationHM) in progress")
+                            .font(.system(size: 12.5))
+                            .foregroundStyle(ink2)
                     } else {
                         Text(export.sessionStart, format: .dateTime.weekday(.wide).month().day().year())
                             .font(.system(size: 12.5))
@@ -210,7 +206,7 @@ struct SessionReportView: View {
     }
 
     private func metric(_ label: String, _ value: String) -> some View {
-        (Text("\(label) ").foregroundStyle(ink2) + Text(value).fontWeight(.semibold))
+        Text("\(Text(label).foregroundStyle(ink2)) \(Text(value).fontWeight(.semibold))")
             .font(.system(size: 12))
             .monospacedDigit()
     }
@@ -285,7 +281,7 @@ struct SessionReportView: View {
             HStack(alignment: .firstTextBaseline, spacing: 5) {
                 Text(fmt(remaining, group.unit)).font(.system(size: 16, weight: .bold, design: .monospaced))
                 Text("in body").font(.system(size: 12)).foregroundStyle(ink2)
-                (Text(verbatim: "· \(Int(((1 - fraction) * 100).rounded()))% ") + Text("gone"))
+                Text("\(Text(verbatim: "· \(Int(((1 - fraction) * 100).rounded()))%")) \(Text("gone"))")
                     .font(.system(size: 12, weight: .bold)).foregroundStyle(Theme.accent)
             }
         case let .zeroOrder(grams, _, _, _, _):
