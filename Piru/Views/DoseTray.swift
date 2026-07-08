@@ -243,7 +243,6 @@ final class DoseTrayModel {
     /// Every staged dose the user has opened inline — multiple can stay
     /// expanded at once, so a complex stack can be composed in one pass.
     var expandedItemIDs: Set<UUID> = []
-    var sharedDetailsExpanded = false
 
     /// Haptic triggers — bumped on discrete staging events so the view can
     /// attach `.sensoryFeedback` without coupling feedback to every tap.
@@ -460,9 +459,9 @@ struct TrayStagedListCard: View {
 
 // MARK: - Commit Bar
 
-/// The tray's shared bottom bar, pinned to the dock's bottom edge: the live
-/// interaction check, the expandable shared panels, the When/Tags/Location
-/// chips, and the Log button.
+/// The tray's shared bottom bar — the When/Tags/Location chips and the Log
+/// button. Hosted in the dock's bottom `safeAreaBar`, so scroll content can
+/// pass beneath it with the soft edge effect.
 struct TrayCommitBar: View {
     @Bindable var model: DoseTrayModel
     let tagSuggestions: [String]
@@ -472,128 +471,137 @@ struct TrayCommitBar: View {
     let onCommit: () -> Void
 
     @State private var showLocationPicker = false
-    /// The location chip expands into an inline panel (like the tag panel) —
-    /// current location + recent places; the full search stays a sheet.
-    @State private var locationPanelExpanded = false
-
-    /// Memoized interaction check — the result depends only on the set of
-    /// staged substance names, so it's recomputed in `onChange` rather than on
-    /// every body evaluation (which fires per keystroke in the amount field).
-    @State private var interactions: [InteractionResult] = []
-
-    private var stagedNameSet: Set<String> {
-        Set(model.staged.map(\.substanceName))
-    }
+    /// Anchored presentations off the chips — Apple's idiom for quick options
+    /// (menus/popovers) instead of the old inline floating panels.
+    @State private var showTagsPopover = false
+    @State private var showDatePopover = false
+    @State private var showLocationDeniedAlert = false
+    /// Owns current-location requests for the location menu; the chip shows a
+    /// spinner while a request is in flight.
+    @State private var locationModel = LocationSearchModel()
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         VStack(spacing: 0) {
-            if !interactions.isEmpty {
-                VStack(alignment: .leading, spacing: 6) {
-                    ForEach(interactions.enumerated(), id: \.offset) { _, warning in
-                        InteractionWarningRow(warning: warning)
-                    }
-                }
-                .padding(.top, 10)
-            }
-
-            if model.sharedDetailsExpanded {
-                TraySharedDetailsPanel(model: model, tagSuggestions: tagSuggestions)
-                    .padding(.top, 12)
-            }
-
-            if locationPanelExpanded {
-                TrayLocationPanel(
-                    model: model,
-                    recentLocations: recentLocations,
-                    panelExpanded: $locationPanelExpanded,
-                    onFindPlace: { showLocationPicker = true },
-                )
-                .padding(.top, 12)
-            }
-
             HStack(spacing: 8) {
                 whenChip
                 tagsChip
                 locationChip
                 Spacer(minLength: 0)
             }
-            .padding(.top, 12)
 
             commitButton
                 .padding(.top, 14)
-        }
-        .onChange(of: stagedNameSet, initial: true) { _, names in
-            interactions = names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : []
         }
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView(recents: recentLocations) { picked in
                 model.location = picked
-                locationPanelExpanded = false
             }
+        }
+        .alert("Location access is off", isPresented: $showLocationDeniedAlert) {
+            Button("Open Settings") {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    openURL(url)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Turn on location access in Settings to use your current location.")
         }
     }
 
     // MARK: Shared controls
 
+    /// The visible chip is plain SwiftUI with the Menu overlaid as an invisible
+    /// tap target. As a `Menu` *label* the chip's width was sized by the
+    /// UIKit-backed menu button, which applies the new size outside the SwiftUI
+    /// transaction — the colour crossfaded at the old width, then the frame
+    /// snapped. Decoupled, the whole chip animates in one `.snappy` pass.
     private var whenChip: some View {
-        Menu {
-            Button {
-                withAnimation(.snappy) { model.time = .now }
-            } label: {
-                if model.time.isNow {
-                    Label("Now", systemImage: "checkmark")
-                } else {
-                    Text("Now")
-                }
-            }
-            ForEach(TrayTime.offsetChoices, id: \.self) { minutes in
-                Button {
-                    withAnimation(.snappy) { model.time = .offset(minutes: minutes) }
-                } label: {
-                    if model.time == .offset(minutes: minutes) {
-                        Label(TrayTime.offsetLabel(minutes: minutes), systemImage: "checkmark")
-                    } else {
-                        Text(TrayTime.offsetLabel(minutes: minutes))
-                    }
-                }
-            }
-            Button {
-                withAnimation(.snappy) {
-                    model.time = .custom(model.time.resolved)
-                    model.sharedDetailsExpanded = true
-                }
-            } label: {
-                Label("Pick date & time…", systemImage: "calendar")
-            }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "clock")
-                    .imageScale(.small)
-                Text(model.time.chipLabel)
-                    .lineLimit(1)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.subheadline.weight(.semibold))
-            // The chip's capsule animates its width when the time changes; pin
-            // the label to its ideal width so the new string isn't clipped to the
-            // interpolating frame (which flashed truncated text before snapping).
-            .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(
-                model.time.isNow ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Color.orange.opacity(0.18)),
-                in: Capsule(),
-            )
-            .foregroundStyle(model.time.isNow ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.orange))
+        HStack(spacing: 5) {
+            Image(systemName: "clock")
+                .imageScale(.small)
+            Text(model.time.chipLabel)
+                .lineLimit(1)
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.semibold))
         }
-        .buttonStyle(.plain)
+        .font(.subheadline.weight(.semibold))
+        // Pin the label to its ideal width so the new string isn't clipped to
+        // the interpolating frame (which flashed truncated text mid-animation).
+        .fixedSize(horizontal: true, vertical: false)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(
+            model.time.isNow ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Color.orange.opacity(0.18)),
+            in: Capsule(),
+        )
+        .foregroundStyle(model.time.isNow ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.orange))
+        .animation(.snappy, value: model.time)
+        .overlay {
+            Menu {
+                whenMenuItems
+            } label: {
+                Color.clear.contentShape(Capsule())
+            }
+            .accessibilityLabel(Text("Dose time: \(model.time.chipLabel)"))
+        }
+        .popover(isPresented: $showDatePopover, arrowEdge: .bottom) {
+            DatePicker(
+                "When",
+                selection: Binding(
+                    get: {
+                        if case let .custom(date) = model.time { date } else { model.time.resolved }
+                    },
+                    set: { model.time = .custom($0) },
+                ),
+                in: ...Date.now,
+            )
+            .datePickerStyle(.graphical)
+            .frame(width: 320)
+            .padding(12)
+            .presentationCompactAdaptation(.popover)
+        }
     }
 
+    @ViewBuilder
+    private var whenMenuItems: some View {
+        Button {
+            withAnimation(.snappy) { model.time = .now }
+        } label: {
+            if model.time.isNow {
+                Label("Now", systemImage: "checkmark")
+            } else {
+                Text("Now")
+            }
+        }
+        ForEach(TrayTime.offsetChoices, id: \.self) { minutes in
+            Button {
+                withAnimation(.snappy) { model.time = .offset(minutes: minutes) }
+            } label: {
+                if model.time == .offset(minutes: minutes) {
+                    Label(TrayTime.offsetLabel(minutes: minutes), systemImage: "checkmark")
+                } else {
+                    Text(TrayTime.offsetLabel(minutes: minutes))
+                }
+            }
+        }
+        Button {
+            withAnimation(.snappy) { model.time = .custom(model.time.resolved) }
+            // Presenting while the menu is still tearing down races UIKit's
+            // presentation slot — defer one runloop turn.
+            Task { @MainActor in showDatePopover = true }
+        } label: {
+            Label("Pick date & time…", systemImage: "calendar")
+        }
+    }
+
+    /// Tag toggles live in an anchored popover (Apple's quick-options idiom),
+    /// not an inline panel that reflows the whole bar.
     private var tagsChip: some View {
         Button {
-            withAnimation(.snappy) { model.sharedDetailsExpanded.toggle() }
+            showTagsPopover = true
         } label: {
             HStack(spacing: 5) {
                 Image(systemName: "tag")
@@ -614,33 +622,88 @@ struct TrayCommitBar: View {
             .foregroundStyle(model.tags.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
         }
         .buttonStyle(.plain)
+        .popover(isPresented: $showTagsPopover, arrowEdge: .bottom) {
+            TrayTagsPopover(model: model, tagSuggestions: tagSuggestions)
+                .presentationCompactAdaptation(.popover)
+        }
     }
 
+    /// A native Menu — current location, recent places, the full search, and
+    /// remove — with the same decoupled chip visual as the when chip (the
+    /// label resizes when a place is picked).
     private var locationChip: some View {
-        Button {
-            withAnimation(.snappy) { locationPanelExpanded.toggle() }
-        } label: {
-            HStack(spacing: 5) {
+        HStack(spacing: 5) {
+            if locationModel.isLocating {
+                ProgressView()
+                    .controlSize(.mini)
+            } else {
                 Image(systemName: model.location == nil ? "mappin.and.ellipse" : "mappin.circle.fill")
                     .imageScale(.small)
-                if let location = model.location {
-                    Text(location.name)
-                        .lineLimit(1)
+            }
+            if let location = model.location {
+                Text(location.name)
+                    .lineLimit(1)
+            } else {
+                Text("Location")
+            }
+        }
+        .font(.subheadline.weight(.semibold))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(
+            model.location == nil ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
+            in: Capsule(),
+        )
+        .foregroundStyle(model.location == nil ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
+        .frame(maxWidth: 180, alignment: .leading)
+        .animation(.snappy, value: model.location)
+        .overlay(alignment: .leading) {
+            Menu {
+                locationMenuItems
+            } label: {
+                Color.clear.contentShape(Capsule())
+            }
+            .accessibilityLabel(model.location.map { Text("Location: \($0.name)") } ?? Text("Location"))
+        }
+    }
+
+    @ViewBuilder
+    private var locationMenuItems: some View {
+        Button {
+            Task {
+                guard let picked = await locationModel.requestCurrentLocation() else {
+                    if locationModel.authDenied { showLocationDeniedAlert = true }
+                    return
+                }
+                withAnimation(.snappy) { model.location = picked }
+            }
+        } label: {
+            Label("Current Location", systemImage: "location.fill")
+        }
+        ForEach(Array(recentLocations.prefix(3)), id: \.name) { place in
+            Button {
+                withAnimation(.snappy) { model.location = place }
+            } label: {
+                if model.location == place {
+                    Label(place.name, systemImage: "checkmark")
                 } else {
-                    Text("Location")
+                    Label(place.name, systemImage: "mappin.circle.fill")
                 }
             }
-            .font(.subheadline.weight(.semibold))
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(
-                model.location == nil ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
-                in: Capsule(),
-            )
-            .foregroundStyle(model.location == nil ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
         }
-        .buttonStyle(.plain)
-        .frame(maxWidth: 180, alignment: .leading)
+        Button {
+            showLocationPicker = true
+        } label: {
+            Label("Find a Place…", systemImage: "magnifyingglass")
+        }
+        if model.location != nil {
+            Divider()
+            Button(role: .destructive) {
+                withAnimation(.snappy) { model.location = nil }
+            } label: {
+                Label("Remove location", systemImage: "xmark")
+            }
+        }
     }
 
     // MARK: Commit
@@ -671,116 +734,12 @@ struct TrayCommitBar: View {
     }
 }
 
-// MARK: - Location Panel
+// MARK: - Tags Popover
 
-/// The tray's inline location options (Calendar-style): current location, the
-/// last few places, "Find a Place…" (which opens the parent's full picker via
-/// `onFindPlace`), and a remove row. Owns its own `LocationSearchModel`; writes
-/// the picked place onto the model and collapses the panel through the binding.
-private struct TrayLocationPanel: View {
-    @Bindable var model: DoseTrayModel
-    let recentLocations: [PickedLocation]
-    @Binding var panelExpanded: Bool
-    let onFindPlace: () -> Void
-
-    @State private var locationModel = LocationSearchModel()
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            locationRow(
-                icon: "location.fill",
-                title: String(localized: "Current Location"),
-                tint: Theme.accent,
-                showsProgress: locationModel.isLocating,
-            ) {
-                Task {
-                    guard let picked = await locationModel.requestCurrentLocation() else { return }
-                    withAnimation(.snappy) {
-                        model.location = picked
-                        panelExpanded = false
-                    }
-                }
-            }
-
-            ForEach(Array(recentLocations.prefix(3)), id: \.name) { place in
-                Divider().padding(.leading, 26)
-                locationRow(
-                    icon: "mappin.circle.fill",
-                    title: place.name,
-                    isSelected: model.location == place,
-                ) {
-                    withAnimation(.snappy) {
-                        model.location = model.location == place ? nil : place
-                        panelExpanded = false
-                    }
-                }
-            }
-
-            Divider().padding(.leading, 26)
-            locationRow(icon: "magnifyingglass", title: String(localized: "Find a Place…")) {
-                onFindPlace()
-            }
-
-            if model.location != nil {
-                Divider().padding(.leading, 26)
-                locationRow(icon: "xmark", title: String(localized: "Remove location"), tint: .red) {
-                    withAnimation(.snappy) {
-                        model.location = nil
-                        panelExpanded = false
-                    }
-                }
-            }
-
-            if locationModel.authDenied {
-                Text("Location access is off. Turn it on in Settings to use your current location.")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.top, 6)
-            }
-        }
-    }
-
-    private func locationRow(
-        icon: String,
-        title: String,
-        tint: Color? = nil,
-        isSelected: Bool = false,
-        showsProgress: Bool = false,
-        action: @escaping () -> Void,
-    ) -> some View {
-        Button(action: action) {
-            HStack(spacing: 10) {
-                Image(systemName: icon)
-                    .imageScale(.small)
-                    .frame(width: 16)
-                Text(title)
-                    .font(.subheadline.weight(.medium))
-                    .lineLimit(1)
-                Spacer()
-                if showsProgress {
-                    ProgressView()
-                        .controlSize(.small)
-                } else if isSelected {
-                    Image(systemName: "checkmark")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(Theme.accent)
-                }
-            }
-            .foregroundStyle(tint.map(AnyShapeStyle.init) ?? AnyShapeStyle(.primary))
-            .padding(.vertical, 10)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .disabled(showsProgress)
-    }
-}
-
-// MARK: - Shared Details Panel
-
-/// The tray's expanded shared panel: the custom date picker (when a custom time
-/// is active) and the tag chips. Reads/writes the model directly; rendered only
-/// while `model.sharedDetailsExpanded`.
-private struct TraySharedDetailsPanel: View {
+/// The tags chip's anchored popover: the suggestion + selected tag chips as
+/// toggles. Reads/writes the model directly; dismisses on outside taps like
+/// any popover.
+private struct TrayTagsPopover: View {
     @Bindable var model: DoseTrayModel
     let tagSuggestions: [String]
 
@@ -789,42 +748,29 @@ private struct TraySharedDetailsPanel: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            if case let .custom(date) = model.time {
-                DatePicker(
-                    "When",
-                    selection: Binding(
-                        get: { date },
-                        set: { model.time = .custom($0) },
-                    ),
-                    in: ...Date.now,
-                )
-                .font(.footnote.weight(.semibold))
-                .datePickerStyle(.compact)
-            }
-
-            FlowLayout(spacing: 6) {
-                ForEach(allTagChoices, id: \.self) { tag in
-                    let on = model.tags.contains(tag)
-                    Button {
-                        withAnimation(.snappy) {
-                            if on { model.tags.remove(tag) } else { model.tags.insert(tag) }
-                        }
-                    } label: {
-                        Text(verbatim: "#\(tag)")
-                            .font(.footnote.weight(.medium))
-                            .padding(.horizontal, 11)
-                            .padding(.vertical, 6)
-                            .background(
-                                on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color(.secondarySystemFill)),
-                                in: Capsule(),
-                            )
-                            .foregroundStyle(on ? .white : .primary)
+        FlowLayout(spacing: 6) {
+            ForEach(allTagChoices, id: \.self) { tag in
+                let on = model.tags.contains(tag)
+                Button {
+                    withAnimation(.snappy) {
+                        if on { model.tags.remove(tag) } else { model.tags.insert(tag) }
                     }
-                    .buttonStyle(.plain)
+                } label: {
+                    Text(verbatim: "#\(tag)")
+                        .font(.footnote.weight(.medium))
+                        .padding(.horizontal, 11)
+                        .padding(.vertical, 6)
+                        .background(
+                            on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color(.secondarySystemFill)),
+                            in: Capsule(),
+                        )
+                        .foregroundStyle(on ? .white : .primary)
                 }
+                .buttonStyle(.plain)
             }
         }
+        .frame(width: 280)
+        .padding(14)
     }
 }
 
@@ -851,10 +797,15 @@ private struct TraySwipeRow<Content: View>: View {
         ZStack(alignment: .trailing) {
             deleteBackdrop
             content
-                // The row's own surface slides with it (native List swipe):
-                // without it only the text moves and the delete strip shows
-                // *through* the stationary card.
-                .background(Color(.secondarySystemGroupedBackground))
+                // The row's own surface slides with it, and it turns visible
+                // (a grey rounded surface, like the row capsule Reminders
+                // shows mid-swipe) so the *background* reads as moving — on
+                // the white card a white surface sliding is invisible.
+                .background {
+                    RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous)
+                        .fill(Color(.secondarySystemFill))
+                        .opacity(offset < -1 ? 1 : 0)
+                }
                 .offset(x: offset)
                 .overlay {
                     if offset != 0 {
@@ -872,21 +823,24 @@ private struct TraySwipeRow<Content: View>: View {
         .gesture(swipeGesture)
     }
 
-    /// The revealed strip: a full-height red field with the trash centered in
-    /// it, matching the native List swipe action.
+    /// The revealed action: a compact red capsule pill, vertically centered —
+    /// the iOS 26 swipe-action button (see Reminders), not a full-height fill.
     private var deleteBackdrop: some View {
         Button {
             onDelete()
         } label: {
-            Color.red
+            Capsule()
+                .fill(.red)
                 .overlay {
                     Image(systemName: "trash.fill")
                         .font(.subheadline)
                         .foregroundStyle(.white)
                 }
-                .frame(width: Self.revealWidth)
+                .frame(width: Self.revealWidth - 8, height: 44)
         }
         .buttonStyle(.plain)
+        .frame(maxHeight: .infinity, alignment: .center)
+        .padding(.trailing, 8)
         .accessibilityLabel("Remove")
         .opacity(offset < -1 ? 1 : 0)
     }
@@ -929,7 +883,10 @@ private struct TrayRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
+        // 8pt chevron→text gap: with the row's 8pt edge padding and the 16pt
+        // chevron frame, the chevron sits exactly midway between card edge
+        // and text.
+        HStack(spacing: 8) {
             // Disclosure chevron leads the row (matching the search results).
             // Apple's convention: points right collapsed, down expanded — the
             // editor renders the same glyph rotated 90°, so the matched-
@@ -964,7 +921,9 @@ private struct TrayRow: View {
                         // intrinsic width for the whole animation.
                         .fixedSize()
                         .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
-                    if let level = dose.doseLevel {
+                    // No level for a zero amount — "0 g · sub-threshold" reads
+                    // like a valid dose; the trailing warning marks it instead.
+                    if dose.totalAmount > 0, let level = dose.doseLevel {
                         Text(verbatim: "·").foregroundStyle(.tertiary)
                         Text(String(localized: level.displayName).lowercased())
                             .foregroundStyle(level.labelColor)
@@ -984,6 +943,14 @@ private struct TrayRow: View {
                 .font(.subheadline)
             }
             Spacer()
+            // A zero-amount dose blocks the Log button — flag it on the row,
+            // otherwise the disabled button gives no clue which dose is why.
+            if dose.totalAmount <= 0 {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .font(.body)
+                    .foregroundStyle(.orange)
+                    .accessibilityLabel("Needs an amount")
+            }
         }
         .padding(.vertical, 12)
         .contentShape(Rectangle())
@@ -1030,21 +997,11 @@ private struct StagedDoseEditor: View {
     @State private var drinkName = ""
     @State private var drinkEmoji = ""
     @State private var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
-    /// The by-drink preset surface: hidden (dials shown), the select/manage list
-    /// (dials hidden), or the add/edit form (dials shown + the new-preset row).
-    @State private var presetSurface: PresetSurface = .hidden
+    /// Presents the drink-preset manager (add / edit / reorder / delete) as a
+    /// proper sheet — the drink chip's menu opens it.
+    @State private var showDrinkManager = false
     @FocusState private var abvFocused: Bool
     @FocusState private var volumeFocused: Bool
-
-    enum PresetSurface: Equatable {
-        case hidden
-        case list(editing: Bool)
-        case form(editingID: PersistentIdentifier?)
-    }
-
-    /// Whether a saved preset pins the current volume (a 330 mL can) or is
-    /// strength-only (an IPA you pour freely). Toggled in the add/edit form.
-    @State private var presetIncludesVolume = true
 
     private var enteredVolumeML: Double? {
         guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
@@ -1092,27 +1049,10 @@ private struct StagedDoseEditor: View {
         VStack(alignment: .leading, spacing: 12) {
             header
 
-            if let capability = byVolumeCapability {
+            if byVolumeCapability != nil {
                 byVolumeModeToggle
                 if byDrinkPreferred {
-                    switch presetSurface {
-                    case let .list(editing):
-                        DrinkPresetList(
-                            substanceName: item.substanceName,
-                            capability: capability,
-                            selectedName: item.drinkName,
-                            editing: editing,
-                            onSelect: { apply(preset: $0) },
-                            onToggleEditing: { presetSurface = .list(editing: !editing) },
-                            onAdd: { beginAddingPreset() },
-                            onEdit: { beginEditingPreset($0) },
-                        )
-                    case .hidden, .form:
-                        byDrinkSteppers
-                        if case let .form(editingID) = presetSurface {
-                            newPresetRow(editingID: editingID, capability: capability)
-                        }
-                    }
+                    byDrinkSteppers
                 } else {
                     stepperBlock
                 }
@@ -1156,7 +1096,8 @@ private struct StagedDoseEditor: View {
             }
             // Seed the custom-drink fields from a dose already logged by volume, so
             // re-opening it shows its strength/volume/name.
-            if byVolumeCapability != nil {
+            if let capability = byVolumeCapability {
+                CustomDrinkPreset.seedIfNeeded(for: item.substanceName, capability: capability, context: modelContext)
                 seedByDrinkFieldsIfNeeded()
                 drinkName = item.drinkName ?? ""
                 drinkEmoji = item.emoji ?? ""
@@ -1186,7 +1127,6 @@ private struct StagedDoseEditor: View {
             } else {
                 // Show the current grams in the weight field (the drink dials may
                 // have set item.amount without touching amountText).
-                presetSurface = .hidden
                 suppressAmountSync = true
                 amountText = item.amount > 0 ? item.amount.doseFormatted : ""
             }
@@ -1196,10 +1136,15 @@ private struct StagedDoseEditor: View {
             guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
             volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
         }
+        .sheet(isPresented: $showDrinkManager) {
+            DrinkPresetManagerView(substanceName: item.substanceName)
+        }
     }
 
     private var header: some View {
-        HStack(spacing: 10) {
+        // 8pt chevron→text gap, matching the collapsed row exactly so the
+        // matched-geometry morph doesn't shift the leading column.
+        HStack(spacing: 8) {
             // Same glyph as the collapsed row, rotated to point down
             // (expanded, per Apple's disclosure convention) — the matched-
             // geometry swap morphs it in place like a rotation.
@@ -1214,11 +1159,13 @@ private struct StagedDoseEditor: View {
                 .font(.body.weight(.semibold))
                 .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
             Spacer()
+            // 42pt — the stepper-button size, so the trash sits on the same
+            // vertical line as the + button below it.
             Button(action: onRemove) {
                 Image(systemName: "trash")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.red)
-                    .frame(width: 38, height: 38)
+                    .frame(width: 42, height: 42)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -1315,16 +1262,19 @@ private struct StagedDoseEditor: View {
 
     // MARK: By Drink (strength + volume steppers)
 
-    /// Strength (%ABV) and Volume steppers — same picker shape as the grams
-    /// field — plus a live grams / standard-drinks readout. Tap the number to
-    /// type; use −/+ to nudge without the keyboard.
+    /// Strength (%ABV) and Volume steppers — the exact grams-picker control
+    /// (42pt capsule, centered number, unit as a trailing overlay) — plus a
+    /// live grams / standard-drinks readout. Tap the number to type; use −/+
+    /// to nudge without the keyboard.
     private var byDrinkSteppers: some View {
         VStack(alignment: .leading, spacing: 10) {
             byDrinkRow(
                 label: "Strength",
                 text: $abvText,
                 focus: $abvFocused,
-                trailing: Text("% ABV").font(.callout.weight(.medium)).foregroundStyle(Theme.secondaryLabel),
+                trailing: Text(verbatim: "%")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(Theme.secondaryLabel),
                 onDec: { adjustABV(-0.5) },
                 onInc: { adjustABV(0.5) },
                 decLabel: "Lower strength",
@@ -1344,6 +1294,9 @@ private struct StagedDoseEditor: View {
         }
     }
 
+    /// One stepper row in the grams-picker shape: the number is centered in the
+    /// capsule itself; the unit is a trailing overlay so it never shifts the
+    /// number off-center (mirrors `amountField`).
     private func byDrinkRow(
         label: LocalizedStringKey,
         text: Binding<String>,
@@ -1361,16 +1314,18 @@ private struct StagedDoseEditor: View {
             HStack(spacing: 8) {
                 stepButton(systemImage: "minus", action: onDec)
                     .accessibilityLabel(decLabel)
-                HStack(spacing: 4) {
-                    TextField("0", text: text)
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.center)
-                        .font(.title.weight(.semibold))
-                        .focused(focus)
-                        .frame(maxWidth: 130)
-                    trailing
-                }
-                .frame(maxWidth: .infinity)
+                TextField("0", text: text)
+                    .keyboardType(.decimalPad)
+                    .focused(focus)
+                    .multilineTextAlignment(.center)
+                    .font(.title3.weight(.semibold))
+                    .frame(height: 42)
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.secondarySystemFill), in: Capsule())
+                    .overlay(alignment: .trailing) {
+                        trailing
+                            .padding(.trailing, 12)
+                    }
                 stepButton(systemImage: "plus", action: onInc)
                     .accessibilityLabel(incLabel)
             }
@@ -1386,11 +1341,13 @@ private struct StagedDoseEditor: View {
         } label: {
             HStack(spacing: 2) {
                 Text(volumeUnit == .fluidOunces ? "fl oz" : "mL")
-                    .font(.callout.weight(.medium))
-                Image(systemName: "chevron.up.chevron.down").font(.caption2)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.semibold))
             }
+            .font(.subheadline.weight(.medium))
             .foregroundStyle(Theme.secondaryLabel)
         }
+        .buttonStyle(.plain)
         .accessibilityLabel("Volume unit")
     }
 
@@ -1417,30 +1374,19 @@ private struct StagedDoseEditor: View {
         // No placeholder when empty — the strength/volume steppers are right above.
     }
 
-    /// The drink-type chip in the Route·Note row: shows the current drink, and
-    /// toggles the preset list (select / add / manage) open and closed.
+    /// The drink-type chip in the Route·Note row: a native Menu — the same
+    /// affordance as the route pill beside it — listing the saved presets
+    /// (with strength/volume details) plus "Edit Drinks…" for the manager.
     private var drinkTypeChip: some View {
-        Button {
-            withAnimation(.snappy) {
-                presetSurface = (presetSurface == .hidden) ? .list(editing: false) : .hidden
-            }
-        } label: {
-            HStack(spacing: 5) {
-                if !drinkEmoji.isEmpty { Text(drinkEmoji) }
-                Text(drinkName.isEmpty ? String(localized: "Drink") : drinkName)
-                    .lineLimit(1)
-                Image(systemName: presetSurface == .hidden ? "chevron.down" : "chevron.up")
-                    .imageScale(.small)
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: Self.pillHeight)
-            .background(Theme.accent.opacity(0.15), in: Capsule())
-            .foregroundStyle(Theme.accent)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(drinkName.isEmpty ? Text("Choose drink") : Text("Drink: \(drinkName)"))
-        .accessibilityHint("Opens your drink presets")
+        DrinkPresetMenu(
+            substanceName: item.substanceName,
+            selectedName: item.drinkName,
+            currentName: drinkName,
+            currentEmoji: drinkEmoji,
+            pillHeight: Self.pillHeight,
+            onSelect: { apply(preset: $0) },
+            onManage: { showDrinkManager = true },
+        )
     }
 
     // MARK: By Drink ⇄ By Weight sync
@@ -1486,10 +1432,10 @@ private struct StagedDoseEditor: View {
         item.emoji = drinkEmoji.isEmpty ? nil : drinkEmoji
     }
 
-    // MARK: Preset select / add
+    // MARK: Preset select
 
-    /// Fill the dials from a chosen preset and collapse the list. A volume-less
-    /// preset fills only the strength, leaving the current volume to dial.
+    /// Fill the dials from a chosen preset. A volume-less preset fills only
+    /// the strength, leaving the current volume to dial.
     private func apply(preset: CustomDrinkPreset) {
         abvText = ByVolumeDefaults.format(preset.strengthABV)
         if let ml = preset.volumeML {
@@ -1497,118 +1443,6 @@ private struct StagedDoseEditor: View {
         }
         drinkName = preset.name
         drinkEmoji = preset.emoji
-        withAnimation(.snappy) { presetSurface = .hidden }
-        syncCustomDrink()
-    }
-
-    /// Enter the add-preset form, defaulting its name/emoji to whatever drink is
-    /// currently dialed so "save this drink" is one tap.
-    private func beginAddingPreset() {
-        presetIncludesVolume = enteredVolumeML != nil
-        if drinkEmoji.isEmpty { drinkEmoji = "🍺" }
-        withAnimation(.snappy) { presetSurface = .form(editingID: nil) }
-    }
-
-    /// Enter the edit form for an existing preset, loading its values into the
-    /// dials + name/emoji fields so the form shows what will change.
-    private func beginEditingPreset(_ preset: CustomDrinkPreset) {
-        abvText = ByVolumeDefaults.format(preset.strengthABV)
-        presetIncludesVolume = preset.volumeML != nil
-        if let ml = preset.volumeML {
-            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
-        }
-        drinkName = preset.name
-        drinkEmoji = preset.emoji
-        withAnimation(.snappy) { presetSurface = .form(editingID: preset.persistentModelID) }
-    }
-
-    /// The add/edit form: an emoji + name row, a "fixed serving size" toggle, and
-    /// a full-width Cancel / Save pair. Strength + name define a preset; volume is
-    /// optional and comes from the dials shown above.
-    @ViewBuilder
-    private func newPresetRow(editingID: PersistentIdentifier?, capability _: ByVolumeDosing) -> some View {
-        let trimmedName = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
-        let canSave = !trimmedName.isEmpty && enteredABV != nil
-        VStack(alignment: .leading, spacing: 12) {
-            Text(editingID == nil ? "New preset" : "Edit preset")
-                .font(.subheadline.weight(.bold))
-                .foregroundStyle(Theme.accent)
-            HStack(spacing: 10) {
-                EmojiField(text: $drinkEmoji)
-                    .frame(width: 54, height: 54)
-                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .accessibilityLabel("Drink emoji")
-                TextField("Name (e.g. IPA)", text: $drinkName)
-                    .textInputAutocapitalization(.words)
-                    .font(.body)
-                    .padding(.horizontal, 15)
-                    .frame(height: 54)
-                    .frame(maxWidth: .infinity)
-                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-            }
-            Toggle("Fixed serving size", isOn: $presetIncludesVolume)
-                .font(.subheadline)
-                .tint(Theme.accent)
-            HStack(spacing: 10) {
-                Button {
-                    withAnimation(.snappy) { presetSurface = .list(editing: false) }
-                } label: {
-                    Text("Cancel")
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 46)
-                        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                        .foregroundStyle(.primary)
-                }
-                .buttonStyle(.plain)
-                Button {
-                    savePreset(editingID: editingID)
-                } label: {
-                    Text("Save")
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 46)
-                        .background(canSave ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color.gray.opacity(0.4)), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                        .foregroundStyle(.white)
-                }
-                .buttonStyle(.plain)
-                .disabled(!canSave)
-                .accessibilityLabel("Save preset")
-            }
-        }
-        .padding(14)
-        .background(Theme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-    }
-
-    /// Insert or update the preset from the current dials + name/emoji, then
-    /// collapse the surface. Strength is required; volume is saved only when the
-    /// "fixed serving size" toggle is on.
-    private func savePreset(editingID: PersistentIdentifier?) {
-        let name = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !name.isEmpty, let abv = enteredABV else { return }
-        let emoji = drinkEmoji.isEmpty ? "🍺" : drinkEmoji
-        let volume = presetIncludesVolume ? enteredVolumeML : nil
-
-        if let editingID, let existing = modelContext.model(for: editingID) as? CustomDrinkPreset {
-            existing.name = name
-            existing.emoji = emoji
-            existing.strengthABV = abv
-            existing.volumeML = volume
-        } else {
-            let lower = item.substanceName.lowercased()
-            var descriptor = FetchDescriptor<CustomDrinkPreset>(
-                predicate: #Predicate { $0.substanceName == lower },
-                sortBy: [SortDescriptor(\.sortOrder, order: .reverse)],
-            )
-            descriptor.fetchLimit = 1
-            let maxOrder = (try? modelContext.fetch(descriptor))?.first?.sortOrder ?? -1
-            modelContext.insert(CustomDrinkPreset(
-                name: name, emoji: emoji, strengthABV: abv, volumeML: volume,
-                substanceName: lower, sortOrder: maxOrder + 1,
-            ))
-        }
-        try? modelContext.save()
-        withAnimation(.snappy) { presetSurface = .hidden }
         syncCustomDrink()
     }
 
@@ -1794,43 +1628,37 @@ private struct StagedDoseEditor: View {
     }
 }
 
-// MARK: - Drink Preset List
+// MARK: - Drink Preset Menu
 
-/// The in-place preset surface for a by-volume substance (alcohol): select a
-/// saved drink, or manage the list (add / edit / delete). Seeds the curated
-/// defaults on first appearance so it's never empty. Replaces the dials while
-/// open — the drink chip toggles it.
-private struct DrinkPresetList: View {
-    let substanceName: String
-    let capability: ByVolumeDosing
+/// The drink chip's menu for a by-volume substance (alcohol): the saved
+/// presets — emoji + name with a strength/volume subtitle — plus "Edit
+/// Drinks…" opening the full manager sheet. Same affordance as the route
+/// pill beside it, so no bespoke inline surface to discover.
+private struct DrinkPresetMenu: View {
     let selectedName: String?
-    let editing: Bool
+    let currentName: String
+    let currentEmoji: String
+    let pillHeight: CGFloat
     let onSelect: (CustomDrinkPreset) -> Void
-    let onToggleEditing: () -> Void
-    let onAdd: () -> Void
-    let onEdit: (CustomDrinkPreset) -> Void
+    let onManage: () -> Void
 
-    @Environment(\.modelContext) private var modelContext
     @Query private var presets: [CustomDrinkPreset]
 
     init(
         substanceName: String,
-        capability: ByVolumeDosing,
         selectedName: String?,
-        editing: Bool,
+        currentName: String,
+        currentEmoji: String,
+        pillHeight: CGFloat,
         onSelect: @escaping (CustomDrinkPreset) -> Void,
-        onToggleEditing: @escaping () -> Void,
-        onAdd: @escaping () -> Void,
-        onEdit: @escaping (CustomDrinkPreset) -> Void,
+        onManage: @escaping () -> Void,
     ) {
-        self.substanceName = substanceName
-        self.capability = capability
         self.selectedName = selectedName
-        self.editing = editing
+        self.currentName = currentName
+        self.currentEmoji = currentEmoji
+        self.pillHeight = pillHeight
         self.onSelect = onSelect
-        self.onToggleEditing = onToggleEditing
-        self.onAdd = onAdd
-        self.onEdit = onEdit
+        self.onManage = onManage
         let lower = substanceName.lowercased()
         _presets = Query(
             filter: #Predicate { $0.substanceName == lower },
@@ -1839,75 +1667,46 @@ private struct DrinkPresetList: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 7) {
+        Menu {
             ForEach(presets) { preset in
-                presetRow(preset)
-            }
-            HStack {
-                Button(action: onAdd) {
-                    Label("Add preset", systemImage: "plus.circle.fill")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(Theme.accent)
-                }
-                .buttonStyle(.plain)
-                Spacer()
-                if !presets.isEmpty {
-                    Button(editing ? "Done" : "Edit", action: onToggleEditing)
-                        .font(.subheadline.weight(.semibold))
-                        .buttonStyle(.plain)
-                        .foregroundStyle(Theme.accent)
-                }
-            }
-            .padding(.top, 2)
-            .padding(.horizontal, 4)
-        }
-        .onAppear {
-            CustomDrinkPreset.seedIfNeeded(for: substanceName, capability: capability, context: modelContext)
-        }
-    }
-
-    @ViewBuilder
-    private func presetRow(_ preset: CustomDrinkPreset) -> some View {
-        let isSelected = !editing && selectedName?.caseInsensitiveCompare(preset.name) == .orderedSame
-        HStack(spacing: 12) {
-            Text(preset.emoji).font(.title2)
-            Text(preset.name).font(.body.weight(.semibold))
-            Spacer()
-            if editing {
-                Button { onEdit(preset) } label: {
-                    Image(systemName: "pencil").font(.body).foregroundStyle(Theme.secondaryLabel)
-                }
-                .buttonStyle(.plain)
-                .frame(width: 40, height: 40)
-                .accessibilityLabel("Edit \(preset.name)")
-                Button(role: .destructive) { delete(preset) } label: {
-                    Image(systemName: "trash").font(.body).foregroundStyle(.red)
-                }
-                .buttonStyle(.plain)
-                .frame(width: 40, height: 40)
-                .accessibilityLabel("Delete \(preset.name)")
-            } else {
-                Text(preset.detailLabel)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                if isSelected {
-                    Image(systemName: "checkmark").font(.body.weight(.bold)).foregroundStyle(Theme.accent)
+                Button {
+                    onSelect(preset)
+                } label: {
+                    // Details ride in the title: pull-down menus don't render
+                    // subtitles (UIMenuElement.subtitle is context-menu-only),
+                    // so a second Text is silently dropped here.
+                    if selectedName?.caseInsensitiveCompare(preset.name) == .orderedSame {
+                        Label {
+                            Text(verbatim: "\(preset.emoji) \(preset.name) · \(preset.detailLabel)")
+                        } icon: {
+                            Image(systemName: "checkmark")
+                        }
+                    } else {
+                        Text(verbatim: "\(preset.emoji) \(preset.name) · \(preset.detailLabel)")
+                    }
                 }
             }
+            Divider()
+            Button(action: onManage) {
+                Label("Edit Drinks…", systemImage: "pencil")
+            }
+        } label: {
+            HStack(spacing: 5) {
+                if !currentEmoji.isEmpty { Text(currentEmoji) }
+                Text(currentName.isEmpty ? String(localized: "Drink") : currentName)
+                    .lineLimit(1)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.semibold))
+            }
+            .font(.footnote.weight(.semibold))
+            .padding(.horizontal, 11)
+            .frame(height: pillHeight)
+            .background(Theme.accent.opacity(0.15), in: Capsule())
+            .foregroundStyle(Theme.accent)
         }
-        .padding(.vertical, 13)
-        .padding(.horizontal, 15)
-        .background(isSelected ? Theme.accent.opacity(0.12) : Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .contentShape(Rectangle())
-        .onTapGesture { if !editing { onSelect(preset) } }
-        .accessibilityElement(children: editing ? .contain : .combine)
-        .accessibilityAddTraits(editing ? [] : .isButton)
-        .accessibilityLabel(editing ? Text(preset.name) : Text("\(preset.name), \(preset.detailLabel)"))
-    }
-
-    private func delete(_ preset: CustomDrinkPreset) {
-        modelContext.delete(preset)
-        try? modelContext.save()
+        .buttonStyle(.plain)
+        .accessibilityLabel(currentName.isEmpty ? Text("Choose drink") : Text("Drink: \(currentName)"))
+        .accessibilityHint("Opens your drink presets")
     }
 }
 
@@ -1917,62 +1716,5 @@ extension CustomDrinkPreset {
         let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))%"
         guard let volumeML else { return strength }
         return "\(Int(volumeML.rounded())) mL · \(strength)"
-    }
-}
-
-// MARK: - Emoji Field
-
-/// A one-glyph text field that presents the system **emoji** keyboard, for the
-/// drink-preset emoji. Standard `UITextField` override of `textInputMode`; keeps
-/// only the last entered emoji so the field always holds a single glyph.
-private struct EmojiField: UIViewRepresentable {
-    @Binding var text: String
-
-    func makeUIView(context: Context) -> UITextField {
-        let field = EmojiUITextField()
-        field.text = text
-        field.delegate = context.coordinator
-        field.textAlignment = .center
-        field.font = .systemFont(ofSize: 24)
-        field.tintColor = .clear
-        field.setContentHuggingPriority(.required, for: .horizontal)
-        return field
-    }
-
-    func updateUIView(_ uiView: UITextField, context _: Context) {
-        if uiView.text != text { uiView.text = text }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(text: $text)
-    }
-
-    final class Coordinator: NSObject, UITextFieldDelegate {
-        @Binding var text: String
-        init(text: Binding<String>) {
-            _text = text
-        }
-
-        func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
-            // Keep only the newly typed glyph (single emoji), replacing any prior.
-            if string.isEmpty {
-                text = ""
-                textField.text = ""
-            } else {
-                text = string
-                textField.text = string
-            }
-            return false
-        }
-    }
-}
-
-/// `UITextField` that forces the emoji keyboard by advertising the emoji input mode.
-private final class EmojiUITextField: UITextField {
-    override var textInputContextIdentifier: String? {
-        ""
-    }
-    override var textInputMode: UITextInputMode? {
-        UITextInputMode.activeInputModes.first { $0.primaryLanguage == "emoji" } ?? super.textInputMode
     }
 }

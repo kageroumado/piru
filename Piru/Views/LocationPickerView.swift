@@ -154,6 +154,9 @@ struct LocationPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var model = LocationSearchModel()
     @State private var query = ""
+    /// Search starts active: the sheet's job is finding a place, so it opens
+    /// keyboard-up instead of as a mostly-empty page.
+    @State private var searchActive = true
 
     var body: some View {
         NavigationStack {
@@ -231,7 +234,7 @@ struct LocationPickerView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
-            .searchable(text: $query, prompt: "Search for a place or address")
+            .searchable(text: $query, isPresented: $searchActive, prompt: "Search for a place or address")
             .onChange(of: query) { model.query = query }
             .navigationTitle("Location")
             .navigationBarTitleDisplayMode(.inline)
@@ -242,6 +245,9 @@ struct LocationPickerView: View {
                 }
             }
         }
+        // Half-height by default — a place search doesn't need a full page,
+        // and with the keyboard up it reads as a compact finder (Maps-style).
+        .presentationDetents([.medium, .large])
     }
 }
 

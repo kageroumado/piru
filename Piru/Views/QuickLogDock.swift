@@ -101,6 +101,19 @@ struct QuickLogDock: View {
     /// Top-by-popularity substances of the selected family.
     @State private var browseResults: [Substance] = []
 
+    /// Memoized interaction check — the result depends only on the set of
+    /// staged substance names, so it's recomputed in `onChange` rather than on
+    /// every body evaluation (which fires per keystroke in the amount field).
+    @State private var interactions: [InteractionResult] = []
+    /// Measured height of the warnings card — it lives in the scroll content
+    /// below the staged rows, and the fit-to-content detent must include it
+    /// so warnings stay visible at compact.
+    @State private var interactionsHeight: CGFloat = 0
+
+    private var stagedNameSet: Set<String> {
+        Set(tray.staged.map(\.substanceName))
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             // The search bar is identical in every dock state — same field,
@@ -119,31 +132,20 @@ struct QuickLogDock: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
+                // Guarantee a transaction for the results⇄suggestions swap no
+                // matter what mutated the query (keystroke, dictation) — an
+                // un-animated flip would skip the cards' fade transitions.
+                .animation(.snappy, value: searchText.isEmpty)
             }
             // Maps behaviour: dragging up inside the dock resizes it first;
-            // content scrolls only at the tallest detent. The greedy scroll
-            // area is also what pins the commit bar to the sheet's bottom.
+            // content scrolls only at the tallest detent.
             .scrollDisabled(detent != .large)
             .scrollDismissesKeyboard(.interactively)
-
-            if !tray.isEmpty, !isBare {
-                TrayCommitBar(
-                    model: tray,
-                    tagSuggestions: content.cachedTagSuggestions,
-                    recentLocations: content.cachedRecentLocations,
-                    onCommit: onCommit,
-                )
-                .padding(.horizontal, 16)
-                // Intrinsic height always: when a drag squeezes the sheet
-                // below the compact detent, the bar must clip rather than
-                // compress — a compressed measurement re-minted the compact
-                // detent mid-gesture and snapped the sheet to the wrong one.
-                .fixedSize(horizontal: false, vertical: true)
-                .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-                    guard abs(newValue - commitBarHeight) > 0.5 else { return }
-                    commitBarHeight = newValue
-                }
-            }
+            // The commit bar lives in the scroll's bottom safe-area bar with
+            // the soft edge effect — content passes beneath it instead of
+            // being hard-clipped above it.
+            .scrollEdgeEffectStyle(.soft, for: .bottom)
+            .safeAreaBar(edge: .bottom) { commitBarArea }
         }
         // Bare: intrinsic height (just the search bar), pinned to the sheet's
         // top edge so the fixed ``bareFloat`` gap is what remains below.
@@ -155,6 +157,16 @@ struct QuickLogDock: View {
         // allow — position the pill manually instead. Full faces keep the
         // regular safe-area behaviour (only their *glass* bleeds below).
         .ignoresSafeArea(.container, edges: isBare ? .bottom : [])
+        // The dock does NOT keyboard-avoid: the chips + Log bar stay pinned
+        // to the sheet's bottom and the keyboard slides over them. Avoidance
+        // shoved the whole bottom half upward mid-transition — half the views
+        // riding the keyboard animation, half staged — which read as chaos.
+        // Search results live at the top, so nothing needed is hidden.
+        .ignoresSafeArea(.keyboard)
+        // The dose fields use the decimal pad, which has no return key — the
+        // accessory Done button is the only way to put the keyboard away
+        // without dragging the whole sheet down.
+        .toolbar { keyboardDoneToolbar }
         .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
             sheetHeight = newValue
         }
@@ -220,6 +232,9 @@ struct QuickLogDock: View {
             guard dictation.isListening || !dictation.transcript.isEmpty else { return }
             searchText = dictation.transcript
         }
+        .onChange(of: stagedNameSet, initial: true) { _, names in
+            interactions = names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : []
+        }
         // A routine prestaged before the sheet mounted (notification deep
         // link) should land already showing the tray.
         .onAppear {
@@ -266,6 +281,11 @@ struct QuickLogDock: View {
         let bar = commitBarHeight > 0 ? commitBarHeight : 114
         var raw = QuickLogDockMetrics.searchBlockHeight + contentPadding
         raw += estimatedStagedCardHeight
+        if !interactions.isEmpty {
+            // Card spacing (14) + measured height, estimated until laid out
+            // (~66pt per two-line warning row) so the detent mints once.
+            raw += 14 + (interactionsHeight > 0 ? interactionsHeight : CGFloat(interactions.count) * 66 + 24)
+        }
         raw += bar
         let cap: CGFloat = containerHeight > 0 ? containerHeight * 0.5 - 40 : 420
         return min(raw, cap).rounded()
@@ -316,7 +336,6 @@ struct QuickLogDock: View {
                 // The compact detent fits *collapsed* rows only.
                 withAnimation(.snappy) {
                     tray.expandedItemIDs.removeAll()
-                    tray.sharedDetailsExpanded = false
                 }
             }
         } else if oldValue == compactDetent,
@@ -360,7 +379,10 @@ struct QuickLogDock: View {
                     .submitLabel(.search)
                 if !searchText.isEmpty {
                     Button {
-                        searchText = ""
+                        // Animated: the results→suggestions swap runs its
+                        // fade transitions — an un-animated clear skips them
+                        // and the recents pop in abruptly.
+                        withAnimation(.snappy) { searchText = "" }
                         dictation.stop()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
@@ -426,6 +448,44 @@ struct QuickLogDock: View {
         .accessibilityLabel(dictation.isListening ? "Stop dictation" : "Start dictation")
     }
 
+    /// The bottom safe-area bar: chips + Log button. Content scrolls beneath
+    /// it with the soft edge effect.
+    @ViewBuilder
+    private var commitBarArea: some View {
+        if !tray.isEmpty, !isBare {
+            TrayCommitBar(
+                model: tray,
+                tagSuggestions: content.cachedTagSuggestions,
+                recentLocations: content.cachedRecentLocations,
+                onCommit: onCommit,
+            )
+            .padding(.horizontal, 16)
+            // Intrinsic height always: when a drag squeezes the sheet
+            // below the compact detent, the bar must clip rather than
+            // compress — a compressed measurement re-minted the compact
+            // detent mid-gesture and snapped the sheet to the wrong one.
+            .fixedSize(horizontal: false, vertical: true)
+            .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+                guard abs(newValue - commitBarHeight) > 0.5 else { return }
+                commitBarHeight = newValue
+            }
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var keyboardDoneToolbar: some ToolbarContent {
+        ToolbarItemGroup(placement: .keyboard) {
+            Spacer()
+            Button("Done", action: Self.dismissKeyboard)
+                .fontWeight(.semibold)
+        }
+    }
+
+    /// Resigns whatever field is first responder — SwiftUI or UIKit-backed.
+    private static func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+
     private func cancelSearch() {
         searchFocused = false
         dictation.stop()
@@ -437,12 +497,25 @@ struct QuickLogDock: View {
 
     // MARK: Content
 
+    /// Insertion transition for the content cards: a delayed fade. While the
+    /// sheet grows to a new detent, an inserted card's rows would otherwise
+    /// ride the stretching platter ("expansion from the vertical centre") —
+    /// the delay keeps the card invisible until the resize has essentially
+    /// settled, so it just fades into place. Removal is a quick fade so
+    /// typing and clearing stay responsive. The family pills keep the
+    /// default insertion, which reads well.
+    private static let cardFade = AnyTransition.asymmetric(
+        insertion: .opacity.animation(.easeInOut(duration: 0.22).delay(0.28)),
+        removal: .opacity.animation(.easeOut(duration: 0.1)),
+    )
+
     @ViewBuilder
     private var middleContent: some View {
         if !isBare {
             if searchActive {
                 if CrisisKeywords.matches(searchText) {
                     QuickLogHelpBanner()
+                        .transition(Self.cardFade)
                 } else if searchText.isEmpty {
                     suggestions
                 } else {
@@ -460,6 +533,7 @@ struct QuickLogDock: View {
                             },
                         )
                     }
+                    .transition(Self.cardFade)
                 }
             } else if tray.isEmpty {
                 // Dragged tall with nothing staged: browse suggestions, not a
@@ -471,6 +545,14 @@ struct QuickLogDock: View {
                 // The staged basket never disappears — search results render
                 // above it, so staging more is not a context switch.
                 TrayStagedListCard(model: tray)
+
+                if !interactions.isEmpty {
+                    interactionsCard
+                        .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+                            guard abs(newValue - interactionsHeight) > 0.5 else { return }
+                            interactionsHeight = newValue
+                        }
+                }
             }
         }
     }
@@ -493,6 +575,7 @@ struct QuickLogDock: View {
                 )
             }
             .id(family.id)
+            .transition(Self.cardFade)
         } else if !content.cachedCards.isEmpty {
             groupedCard {
                 QuickLogSearchResults(
@@ -502,6 +585,7 @@ struct QuickLogDock: View {
                     onCreateCustom: nil,
                 )
             }
+            .transition(Self.cardFade)
         }
     }
 
@@ -609,6 +693,20 @@ struct QuickLogDock: View {
                 Color(.secondarySystemGroupedBackground),
                 in: RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous),
             )
+    }
+
+    /// The live interaction warnings as their own card, sitting above the
+    /// commit bar — not loose rows floating on the sheet.
+    private var interactionsCard: some View {
+        groupedCard {
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
+                    InteractionWarningRow(warning: warning)
+                }
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 
     // MARK: Search results

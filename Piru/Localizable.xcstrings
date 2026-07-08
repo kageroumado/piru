@@ -1207,6 +1207,7 @@
       }
     },
     "%@, %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3415,6 +3416,22 @@
         }
       }
     },
+    "A fixed serving fills strength and volume when selected — like a 330 mL can. Without one, only the strength is filled." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定分量的饮品在选择时会同时填入浓度和容量（例如 330 mL 罐装）；没有固定分量时仅填入浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定份量的飲品在選擇時會同時填入濃度和容量（例如 330 mL 罐裝）；沒有固定份量時僅填入濃度。"
+          }
+        }
+      }
+    },
     "A heads-up when it's late enough that another dose could cost you sleep." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4589,6 +4606,7 @@
       }
     },
     "Add & edit drink…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4850,6 +4868,7 @@
       }
     },
     "Add preset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5186,6 +5205,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮靜作用和隔日昏沉相加——更明顯的睏倦、頭暈和跌倒風險。請減量並避免開車。"
+          }
+        }
+      }
+    },
+    "Adds this dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加此剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增此劑量"
           }
         }
       }
@@ -9639,6 +9674,7 @@
       }
     },
     "Collapses the dose entry" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11713,6 +11749,7 @@
       }
     },
     "Delete %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12929,6 +12966,22 @@
         }
       }
     },
+    "Dose time: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量时间：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量時間：%@"
+          }
+        }
+      }
+    },
     "Dose Trends" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13443,6 +13496,22 @@
         }
       }
     },
+    "Drinks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "飲品"
+          }
+        }
+      }
+    },
     "Drug" : {
 
     },
@@ -13916,6 +13985,7 @@
       }
     },
     "Edit %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13927,6 +13997,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯 %@"
+          }
+        }
+      }
+    },
+    "Edit Drink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯飲品"
+          }
+        }
+      }
+    },
+    "Edit Drinks…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑饮品…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯飲品…"
           }
         }
       }
@@ -14030,6 +14132,7 @@
       }
     },
     "Edit preset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15554,6 +15657,7 @@
       }
     },
     "Expands a dose entry" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20771,6 +20875,22 @@
         }
       }
     },
+    "Location access is off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定位权限已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定位權限已關閉"
+          }
+        }
+      }
+    },
     "Location access is off. Turn it on in Settings to use your current location." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20783,6 +20903,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "位置存取已關閉。請在「設定」中開啟以使用目前位置。"
+          }
+        }
+      }
+    },
+    "Location: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置：%@"
           }
         }
       }
@@ -21188,6 +21324,7 @@
       }
     },
     "Lower amount" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23215,6 +23352,22 @@
         }
       }
     },
+    "Needs an amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要填写剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要填寫劑量"
+          }
+        }
+      }
+    },
     "Neuropeptide-Derived Cognitive Enhancer" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -23345,6 +23498,22 @@
         }
       }
     },
+    "New Drink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增饮品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增飲品"
+          }
+        }
+      }
+    },
     "New Entry" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23362,6 +23531,7 @@
       }
     },
     "New preset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27904,6 +28074,7 @@
       }
     },
     "Raise amount" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30524,6 +30695,7 @@
       }
     },
     "Save preset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37483,6 +37655,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "準備好後，隨時開啟端到端加密備份。"
+          }
+        }
+      }
+    },
+    "Turn on location access in Settings to use your current location." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在设置中开启定位权限，以使用你的当前位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在設定中開啟定位權限，以使用你的目前位置。"
           }
         }
       }
