@@ -14,6 +14,11 @@ struct DayEntryCore: Equatable {
     let route: RouteOfAdministration
     let doseLevel: DoseLevel?
     let tags: [String]
+    /// The dose's full modeled duration in minutes (onset → afterglow end), used
+    /// to draw the row's elimination-progress rail. `nil` when the substance has
+    /// no duration data (the rail is then omitted). Static — the live fraction is
+    /// computed in the row body from this + the timestamp.
+    var totalMinutes: Double?
 }
 
 /// A `DayEntryCore` plus the row's resolved colour. Colour is applied at the
@@ -55,6 +60,9 @@ struct DayEntryDisplay: Equatable {
                 route: entry.route,
                 doseLevel: doseLevel,
                 tags: entry.tags,
+                // Acute effect window (same source as the timeline curve), so the
+                // rail matches the graph — not the long elimination tail.
+                totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
             )
             return DayEntryDisplay(core: core, color: colorMap[entry.substance.lowercased()] ?? Theme.accent)
         }
@@ -70,10 +78,6 @@ struct EntryRowView: View {
     /// the day detail for today/yesterday so every row in a recent day matches;
     /// older days show the clock time alone, keeping the column symmetric.
     var showRelativeTime: Bool = false
-
-    /// Leading inset that aligns the secondary line under the name (past the
-    /// colour dot + its spacing).
-    private static let textInset: CGFloat = 18
 
     /// Elapsed time since the dose, e.g. "45m ago", "13h 25m ago", or "1d ago".
     private var relativeTime: String {
@@ -96,97 +100,163 @@ struct EntryRowView: View {
     }
 
     var body: some View {
-        HStack(spacing: 8) {
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(display.color)
-                        .frame(width: 10, height: 10)
-                    Text(display.core.displayName)
-                        .font(.headline)
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                    // One coherent line — route · amount · level — differentiated
-                    // by weight and colour rather than mixing plain text with a
-                    // pill. The dose level qualifies the amount, so it sits next
-                    // to it; the route leads as context, the amount and level are
-                    // the emphasised data.
-                    HStack(spacing: 5) {
-                        // Lowercased so the line reads as a phrase — "rectal · 20
-                        // mg" — not a title. A no-op for the case-less CJK
-                        // localizations.
-                        Text(String(localized: display.core.route.localizedName).lowercased())
-                            .foregroundStyle(Theme.secondaryLabel)
-                        Text(verbatim: "·").foregroundStyle(.tertiary)
-                        Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
-                            .foregroundStyle(.primary)
-                            .fontWeight(.semibold)
-                        if let doseLevel = display.core.doseLevel {
-                            Text(verbatim: "·").foregroundStyle(.tertiary)
-                            // Same weight as the route (regular) — only the
-                            // amount carries emphasis; the level reads via colour.
-                            Text(String(localized: doseLevel.displayName).lowercased())
-                                .foregroundStyle(doseLevel.labelColor)
+        VStack(alignment: .leading, spacing: 5) {
+            // Dot · name · ROA pill on the left; the dose — the hero, in the same
+            // rounded face as the detail card — and the disclosure chevron on the
+            // right. Centre-aligned so the name, pill, dose, and chevron all sit on
+            // one line at the dose's height.
+            HStack(alignment: .center, spacing: 8) {
+                Image(systemName: "circle.fill")
+                    .font(.system(size: 9))
+                    .foregroundStyle(display.color)
+                Text(display.core.displayName)
+                    .font(.body.weight(.semibold))
+                    .lineLimit(1)
+                roaPill
+
+                Spacer(minLength: 8)
+
+                // Coloured by its dose level (common/strong/heavy…) so the level
+                // reads without a text label.
+                Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
+                    .font(.system(.title3, design: .rounded).weight(.bold))
+                    .foregroundStyle(display.core.doseLevel?.labelColor ?? .primary)
+                    .lineLimit(1)
+                    .accessibilityLabel(doseAccessibilityLabel)
+
+                Image(systemName: "chevron.forward")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHidden(true)
+            }
+
+            if let hr = display.hr {
+                hrChip(hr)
+            }
+
+            eliminationFooter
+        }
+        .padding(.vertical, 1)
+    }
+
+    /// The route badge — a tinted capsule in the route's *own* fixed colour (every
+    /// "oral" pill matches), not the substance's colour.
+    private var roaPill: some View {
+        let tint = display.core.route.tintColor
+        return Text(String(localized: display.core.route.localizedName).lowercased())
+            .font(.caption2.weight(.semibold))
+            .lineLimit(1)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(tint.opacity(0.16), in: Capsule())
+            .foregroundStyle(tint)
+    }
+
+    /// The dose's elimination-progress rail (when the substance has a modeled
+    /// duration) above the clock time + relative "ago / left" — refreshed each
+    /// minute so an active dose's fill and countdown stay live. The (unimportant)
+    /// tags ride quietly at the trailing edge when the dose is no longer active.
+    private var eliminationFooter: some View {
+        TimelineView(.periodic(from: .now, by: 60)) { context in
+            let now = context.date
+            let elapsed = max(0, now.timeIntervalSince(display.core.timestamp) / 60)
+            let total = display.core.totalMinutes
+            let active = total.map { elapsed < $0 } ?? false
+
+            VStack(alignment: .leading, spacing: 5) {
+                // The rail is only meaningful while the dose is still eliminating —
+                // a fully-worn-off dose shows just its time, no spent bar.
+                if let total, active {
+                    GeometryReader { geo in
+                        let fraction = min(1, max(0, elapsed / total))
+                        ZStack(alignment: .leading) {
+                            Capsule().fill(display.color.opacity(0.14))
+                            Capsule()
+                                .fill(display.color.opacity(0.6))
+                                .frame(width: max(0, geo.size.width * fraction))
                         }
                     }
-                    .font(.subheadline)
-                    if let hr = display.hr {
-                        hrChip(hr)
-                    }
-                    if !display.core.tags.isEmpty {
-                        TagChipsView(tags: display.core.tags, compact: true)
-                    }
+                    .frame(height: 3)
                 }
-                .padding(.leading, Self.textInset)
-            }
 
-            Spacer()
-
-            TimelineView(.periodic(from: .now, by: 60)) { _ in
-                VStack(alignment: .trailing, spacing: 2) {
+                HStack(spacing: 0) {
                     Text(display.core.timestamp.formatted(date: .omitted, time: .shortened))
-                        .font(.subheadline)
                     if showRelativeTime {
+                        Text(verbatim: "  ·  ").foregroundStyle(.tertiary)
                         Text(relativeTime)
-                            .font(.caption)
+                    }
+                    Spacer(minLength: 8)
+                    // Tags then the dose-strength label ("Common"/"Strong"/…), in
+                    // the same gray as the time — the colour ladder alone reads as
+                    // ambiguous, so the level is spelled out. The live countdown
+                    // takes this slot while a dose is still active.
+                    if active, let total {
+                        Text(remainingText(total: total, now: now))
+                    } else if let meta = trailingMeta {
+                        Text(meta).lineLimit(1)
                     }
                 }
+                .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
+                .monospacedDigit()
             }
         }
-        .padding(.vertical, 2)
+    }
+
+    /// The row's trailing metadata: the (unimportant) tags followed by the dose's
+    /// strength label — all one gray. Nil when there's neither.
+    private var trailingMeta: String? {
+        var parts = display.core.tags
+        if let level = display.core.doseLevel {
+            parts.append(String(localized: level.displayName).lowercased())
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
+
+    /// "1h 4m left" — the modeled time until this dose's effects fully fade.
+    private func remainingText(total: Double, now: Date) -> String {
+        let remaining = total * 60 - now.timeIntervalSince(display.core.timestamp)
+        return String(localized: "\(remaining.durationHM) left")
+    }
+
+    /// VoiceOver spells out the dose *and* its level, since the level is conveyed
+    /// only by colour on screen.
+    private var doseAccessibilityLabel: Text {
+        let dose = "\(display.core.amount.doseFormatted) \(display.core.unit)"
+        guard let level = display.core.doseLevel else { return Text(dose) }
+        return Text("\(dose), \(String(localized: level.displayName))")
     }
 
     /// This dose's heart-rate response: HR at dose → peak within the response
     /// window, the delta, and a mini sparkline of the window. Data-only — the
     /// analysis happens upstream in `SessionDetailView.loadVitals`.
     private func hrChip(_ hr: DoseHRResponse) -> some View {
-        HStack(spacing: 4) {
+        // Quiet inline metric (Option A): a heart glyph in the vitals hue with the
+        // numbers in the label colour — reads as data, not a coloured pill.
+        HStack(spacing: 5) {
             Image(systemName: "heart.fill")
                 .font(.system(size: 9))
+                .foregroundStyle(VitalsPalette.heart)
             Text(verbatim: "\(hr.atDose)")
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
             Image(systemName: "arrow.right")
                 .font(.system(size: 7, weight: .semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.tertiary)
             Text(verbatim: "\(hr.peak)")
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
             Text(verbatim: "bpm")
-            Text(verbatim: "(\(hr.delta >= 0 ? "+" : "")\(hr.delta))")
                 .foregroundStyle(.secondary)
+            Text(verbatim: "\(hr.delta >= 0 ? "+" : "")\(hr.delta)")
+                .foregroundStyle(VitalsPalette.heart)
             if hr.sparkline.count >= 2 {
                 HRSparkline(values: hr.sparkline)
-                    .frame(width: 30, height: 11)
+                    .frame(width: 34, height: 12)
                     .padding(.leading, 2)
             }
         }
         .font(.caption)
-        .foregroundStyle(VitalsPalette.heart)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(VitalsPalette.heart.opacity(0.14), in: Capsule())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Heart rate \(hr.atDose) rising to \(hr.peak) beats per minute"))
     }

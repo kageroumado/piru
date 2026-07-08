@@ -8,17 +8,21 @@ struct TagChipsView: View {
 
     var body: some View {
         if !tags.isEmpty {
-            FlowLayout(spacing: 4) {
-                ForEach(tags, id: \.self) { tag in
-                    Text("#\(tag)")
-                        .font(compact ? .caption2 : .caption)
-                        .padding(.horizontal, compact ? 5 : 6)
-                        .padding(.vertical, compact ? 2 : 3)
-                        .background(Theme.accent.opacity(0.12))
-                        .foregroundStyle(Theme.accent)
-                        .clipShape(Capsule())
-                }
+            // Quiet inline treatment (Option C): one tag glyph + the tags joined,
+            // kept low-key since they're secondary information, not chips competing
+            // with the dose.
+            HStack(spacing: 5) {
+                Image(systemName: "tag")
+                    .font(compact ? .caption2 : .caption)
+                    .foregroundStyle(.tertiary)
+                Text(tags.joined(separator: " · "))
+                    .font(compact ? .caption2 : .caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(Text("Tags: \(tags.joined(separator: ", "))"))
         }
     }
 }

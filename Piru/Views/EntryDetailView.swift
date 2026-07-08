@@ -331,7 +331,7 @@ struct EntryDetailView: View {
                     }
                 }
             } footer: {
-                Text("Pinch to zoom in or out")
+                Text("Slide to move, pinch to zoom, hold to inspect")
             }
         } else {
             Section {
@@ -473,8 +473,8 @@ struct EntryDetailView: View {
                             .font(.caption.weight(.semibold))
                             .padding(.horizontal, 10)
                             .padding(.vertical, 5)
-                            .background(substanceColor.opacity(0.16), in: Capsule())
-                            .foregroundStyle(substanceColor)
+                            .background(entry.route.tintColor.opacity(0.16), in: Capsule())
+                            .foregroundStyle(entry.route.tintColor)
                     }
                 }
                 Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))

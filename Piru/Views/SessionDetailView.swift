@@ -55,6 +55,14 @@ struct SessionDetailView: View {
     /// Presents the consolidated "Share Session" sheet (image / PDF / Markdown).
     @State private var showShareSession = false
 
+    /// Selected lens for the session graph. `.timeline` is the classic
+    /// per-substance duration view; the mechanistic lenses (Feeling/Energy/Urge/
+    /// Safety) appear only when the engine can model the session.
+    @State private var effectLens: EffectLens = .timeline
+    /// The simulated mechanistic timeline — nil until computed or when the
+    /// session contains nothing the engine models.
+    @State private var mechanisticResult: MechanisticSessionModel.Result?
+
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
     /// Stored in the app-group suite so it's consistent app-wide. When off (the
     /// default), no vitals are fetched and nothing about them appears.
@@ -151,6 +159,9 @@ struct SessionDetailView: View {
                 route: entry.route,
                 doseLevel: doseLevel,
                 tags: entry.tags,
+                // Acute effect window (same source as the timeline curve), so the
+                // rail matches the graph — not the long elimination tail.
+                totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
             )
         }
     }
@@ -181,6 +192,79 @@ struct SessionDetailView: View {
     }
     private var dayInteractions: [InteractionResult] {
         resolvedDay.interactions
+    }
+
+    // MARK: Mechanistic effect model
+
+    /// Hours from session start to now, for the "now" indicator.
+    private var nowHours: Double {
+        max(0, Date.now.timeIntervalSince(session.startDate) / 3_600)
+    }
+
+    /// Substance colour by lowercased name, sourced from the resolved timeline.
+    private var colorHexByName: [String: String] {
+        var map: [String: String] = [:]
+        for state in substanceStates {
+            map[state.substanceName.lowercased()] = state.colorHex
+        }
+        for marker in doseMarkers {
+            map[marker.substanceName.lowercased()] = marker.colorHex
+        }
+        return map
+    }
+
+    /// Each dose reduced to the engine's inputs. Doses whose substance isn't in
+    /// the library are dropped — they can't be modeled anyway.
+    private var mechanisticDoses: [MechanisticSessionModel.DoseInput] {
+        let colors = colorHexByName
+        return entries.compactMap { entry in
+            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) else { return nil }
+            return MechanisticSessionModel.DoseInput(
+                name: entry.substance,
+                category: substance.category,
+                amount: entry.amount,
+                route: entry.route,
+                hours: entry.timestamp.timeIntervalSince(session.startDate) / 3_600,
+                colorHex: colors[entry.substance.lowercased()] ?? "8e8e93",
+            )
+        }
+    }
+
+    /// Whether the session contains a stimulant/opioid the engine models.
+    private var mechanisticSupported: Bool {
+        MechanisticSessionModel.supportsMechanisticView(mechanisticDoses)
+    }
+
+    /// The lenses to offer in the switcher.
+    private var availableLenses: [EffectLens] {
+        mechanisticSupported ? [.timeline] + EffectLens.mechanistic : [.timeline]
+    }
+
+    private var mechanisticSignature: Int {
+        var hasher = Hasher()
+        hasher.combine(mechanisticDoses)
+        return hasher.finalize()
+    }
+
+    /// Resolve + simulate the session off the main actor, memoized. Runs on any
+    /// change to the dose signature.
+    private func computeMechanistic() async {
+        guard mechanisticSupported else {
+            mechanisticResult = nil
+            if effectLens != .timeline { effectLens = .timeline }
+            return
+        }
+        let doses = mechanisticDoses
+        let key = mechanisticSignature
+        if let cached = MechanisticModelCache.shared.cached(key) {
+            mechanisticResult = cached
+            return
+        }
+        let last = doses.map(\.hours).max() ?? 0
+        let tMax = min(48, max(12, last + 12))
+        let result = await Task.detached { MechanisticSessionModel.compute(doses: doses, tMax: tMax) }.value
+        if let result { MechanisticModelCache.shared.insert(key, result) }
+        mechanisticResult = result
     }
 
     /// Content fingerprint of the day's doses + colour count — the memo key, so
@@ -456,6 +540,16 @@ struct SessionDetailView: View {
         return substanceStates.contains { now < $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
     }
 
+    /// The lens switcher, pinned above the List (not a grouped-list row) so the
+    /// pills run edge-to-edge and clip flat at the screen edges — matching the
+    /// Journal tag bar. Only for sessions that offer the mechanistic lenses.
+    @ViewBuilder private var lensBar: some View {
+        if mechanisticSupported, availableLenses.count > 1 {
+            LensBar(lens: $effectLens, lenses: availableLenses, result: mechanisticResult, nowHours: nowHours)
+                .background(Theme.background)
+        }
+    }
+
     var body: some View {
         @Bindable var editing = editing
         return List {
@@ -472,17 +566,34 @@ struct SessionDetailView: View {
                     // doses) would render an empty axis, so we drop the whole
                     // section and let the entry list speak for itself.
                     if !substanceStates.isEmpty {
-                        SessionTimelineSection(
-                            states: substanceStates,
-                            markers: doseMarkers,
-                            laneCount: laneCount,
-                            graphExpanded: $graphExpanded,
-                            timelineEnlarged: $timelineEnlarged,
-                            isToday: isToday,
-                            hasOngoingDose: hasOngoingDose,
-                            vitals: sessionVitals,
-                            onToggleLiveActivity: toggleLiveActivity,
-                        )
+                        if mechanisticSupported {
+                            SessionGraphSection(
+                                lens: $effectLens,
+                                mechanistic: mechanisticResult,
+                                states: substanceStates,
+                                markers: doseMarkers,
+                                laneCount: laneCount,
+                                timelineEnlarged: $timelineEnlarged,
+                                isToday: isToday,
+                                hasOngoingDose: hasOngoingDose,
+                                vitals: sessionVitals,
+                                startDate: session.startDate,
+                                nowHours: nowHours,
+                                onToggleLiveActivity: toggleLiveActivity,
+                            )
+                        } else {
+                            SessionTimelineSection(
+                                states: substanceStates,
+                                markers: doseMarkers,
+                                laneCount: laneCount,
+                                graphExpanded: $graphExpanded,
+                                timelineEnlarged: $timelineEnlarged,
+                                isToday: isToday,
+                                hasOngoingDose: hasOngoingDose,
+                                vitals: sessionVitals,
+                                onToggleLiveActivity: toggleLiveActivity,
+                            )
+                        }
                     }
 
                     if shouldOfferVitals {
@@ -557,12 +668,16 @@ struct SessionDetailView: View {
             .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
+        .contentMargins(.top, 0, for: .scrollContent)
+        .listSectionSpacing(16)
+        .safeAreaInset(edge: .top, spacing: 0) { lensBar }
         .background(Theme.background)
         .task(id: colorSignature) {
             colorMap = Array(substanceColors).colorMap
             colorMapReady = true
         }
         .task(id: vitalsTaskKey) { await loadVitals() }
+        .task(id: mechanisticSignature) { await computeMechanistic() }
         .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -639,6 +754,28 @@ struct SessionDetailView: View {
                 editNote()
             } label: {
                 Label(session.note == nil ? "Add Note" : "Edit Note", systemImage: "note.text")
+            }
+            if !substanceStates.isEmpty {
+                Divider()
+                Button {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.84)) { timelineEnlarged.toggle() }
+                } label: {
+                    Label(
+                        timelineEnlarged ? "Shrink Graph" : "Expand Graph",
+                        systemImage: timelineEnlarged ? "arrow.down.right.and.arrow.up.left" : "arrow.up.backward.and.arrow.down.forward",
+                    )
+                }
+                if isToday, hasOngoingDose {
+                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
+                    Button {
+                        toggleLiveActivity()
+                    } label: {
+                        Label(
+                            isRunning ? "Stop Live Activity" : "Start Live Activity",
+                            systemImage: isRunning ? "stop.fill" : "dot.radiowaves.up.forward",
+                        )
+                    }
+                }
             }
             if let pivot = longestBreakPivot {
                 Divider()
@@ -837,6 +974,7 @@ private struct SessionTimelineSection: View {
                         dayBounded: true,
                         vitals: vitals,
                         vitalsBandEnlarged: timelineEnlarged,
+                        focusAroundNow: hasOngoingDose,
                         synchronous: true,
                     )
                 }
@@ -904,8 +1042,91 @@ private struct SessionTimelineSection: View {
             }
         } footer: {
             if graphExpanded {
-                Text("Drag to pan, pinch to zoom, hold to inspect")
+                Text("Slide to move, pinch to zoom, hold to inspect")
             }
+        }
+    }
+}
+
+/// The modeled-session graph section: one lens at a time (classic Timeline or a
+/// mechanistic effect curve) in the app's grouped style, with the lens pills
+/// *below* the graph, a shared enlarge control, and the drag hint as the footer.
+/// Both graphs are sized from ``GraphMetrics`` so switching lenses never resizes.
+private struct SessionGraphSection: View {
+    @Binding var lens: EffectLens
+    let mechanistic: MechanisticSessionModel.Result?
+    let states: [ActiveSubstanceState]
+    let markers: [DoseMarker]
+    let laneCount: Int
+    @Binding var timelineEnlarged: Bool
+    let isToday: Bool
+    let hasOngoingDose: Bool
+    let vitals: SessionVitals?
+    let startDate: Date
+    let nowHours: Double
+    let onToggleLiveActivity: () -> Void
+
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
+    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
+
+    private var height: CGFloat {
+        GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold)
+    }
+
+    var body: some View {
+        // The lens pills are lifted out of the List into a pinned top bar (see the
+        // host's `.safeAreaInset`), so they can run edge-to-edge without the
+        // grouped-list inset + rounded-corner clip.
+
+        // Graph card — fills the card vertically; only the L/R edges are inset.
+        // Expand & Live Activity moved to the toolbar menu so they don't sit on
+        // top of the (small) graph.
+        Section {
+            AnimatableHeight(height: height) { graph }
+                .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
+                // Full-bleed the canvas to the card edge so continuous curves run
+                // edge to edge. A grouped List ignores `leading: 0` (it falls back
+                // to the ~20pt content margin), so a 0.5pt epsilon is the reliable
+                // way to reach the card edge.
+                .listRowInsets(EdgeInsets(top: 0, leading: 0.5, bottom: 0, trailing: 0.5))
+                .listRowSeparator(.hidden)
+        } footer: {
+            // The classic timeline supports hold-to-inspect; the mechanistic
+            // lenses don't, so only mention it for the timeline graph.
+            if lens == .timeline || mechanistic == nil {
+                Text("Slide to move, pinch to zoom, hold to inspect")
+            } else {
+                Text("Slide to move, pinch to zoom")
+            }
+        }
+
+        if lens.pairsVitals, let vitals, !vitals.isEmpty {
+            Section {
+                MechanisticVitalsCards(vitals: vitals, startDate: startDate, nowHours: nowHours)
+                    .listRowInsets(EdgeInsets(top: 0, leading: GraphMetrics.cardInset, bottom: 2, trailing: GraphMetrics.cardInset))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+            }
+        }
+    }
+
+    @ViewBuilder private var graph: some View {
+        if lens == .timeline || mechanistic == nil {
+            TimelineGraphView(
+                substances: states,
+                currentTime: .now,
+                compact: false,
+                markers: markers,
+                stackRedoses: stackRedoses,
+                dayBounded: true,
+                vitals: nil,
+                vitalsBandEnlarged: timelineEnlarged,
+                focusAroundNow: hasOngoingDose,
+                synchronous: true,
+            )
+        } else if let result = mechanistic {
+            MechanisticChartView(result: result, lens: lens, startDate: startDate, nowHours: nowHours, vitals: vitals)
         }
     }
 }
@@ -929,8 +1150,6 @@ private struct SessionEntryListSection: View {
                 )
                 .equatable()
             }
-        } header: {
-            Text("^[\(entries.count) entry](inflect: true)")
         }
     }
 }
@@ -1001,9 +1220,16 @@ private struct DayEntryRow: View, Equatable {
     }
 
     var body: some View {
-        NavigationLink(value: PushRoute.entry(timestamp: display.core.timestamp, id: display.core.entryID)) {
+        // A plain Button (not a NavigationLink) so the disclosure chevron lives
+        // inside the row, aligned with the dose, rather than system-centred on the
+        // full row height. Tighter vertical insets than the grouped default.
+        Button {
+            navigator.push(.entry(timestamp: display.core.timestamp, id: display.core.entryID))
+        } label: {
             EntryRowView(display: display, showRelativeTime: showRelativeTime)
         }
+        .buttonStyle(.plain)
+        .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive) { editing.delete(entry, in: modelContext) } label: {
                 Label("Delete", systemImage: "trash")

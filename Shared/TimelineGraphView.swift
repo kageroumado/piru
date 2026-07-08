@@ -138,6 +138,11 @@ struct TimelineGraphView: View, Equatable {
     /// Whether the host graph is in its enlarged (tapped-open) state — grows the
     /// vitals lane along with the effect region so the trace gets more room.
     var vitalsBandEnlarged: Bool = false
+    /// When set (the live/current session), the graph opens zoomed to a window
+    /// framed around `currentTime` instead of the full extent, so the action
+    /// happening *now* is front and centre. Past sessions leave it `false` and
+    /// open full-extent. Ignored when `compact` or a `presetSpanMinutes` is set.
+    var focusAroundNow: Bool = false
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -224,6 +229,7 @@ struct TimelineGraphView: View, Equatable {
               lhs.markers == rhs.markers,
               lhs.vitals == rhs.vitals,
               lhs.vitalsBandEnlarged == rhs.vitalsBandEnlarged,
+              lhs.focusAroundNow == rhs.focusAroundNow,
               lhs.substances == rhs.substances
         else { return false }
         guard lhs.showNowIndicator else { return true }
@@ -247,6 +253,7 @@ struct TimelineGraphView: View, Equatable {
         dayBounded: Bool = false,
         vitals: SessionVitals? = nil,
         vitalsBandEnlarged: Bool = false,
+        focusAroundNow: Bool = false,
         synchronous: Bool = false,
     ) {
         self.substances = substances
@@ -260,6 +267,7 @@ struct TimelineGraphView: View, Equatable {
         self.dayBounded = dayBounded
         self.vitals = vitals
         self.vitalsBandEnlarged = vitalsBandEnlarged
+        self.focusAroundNow = focusAroundNow
         let key = DerivedKey(substances: substances, markers: markers, stackRedoses: stackRedoses, dayBounded: dayBounded)
         if synchronous {
             // Live Activity / widget snapshots render in one synchronous pass —
@@ -727,11 +735,35 @@ struct TimelineGraphView: View, Equatable {
                     scrubCallout(geom: geom)
                 }
             }
-            .onAppear { frameToPreset(presetSpanMinutes) }
+            .onAppear {
+                if focusAroundNow, presetSpanMinutes == nil {
+                    frameAroundNow()
+                } else {
+                    frameToPreset(presetSpanMinutes)
+                }
+            }
             .onChange(of: presetSpanMinutes) { _, newValue in
                 withAnimation(.easeInOut(duration: 0.3)) { frameToPreset(newValue) }
             }
         }
+    }
+
+    /// Window a live session opens framed to (minutes), and where `now` sits in it
+    /// (a third from the left — a little recent past, more of the unfolding curve).
+    private static let focusSpanMinutes: Double = 360
+    private static let nowFraction: Double = 1.0 / 3.0
+
+    /// Open zoomed around `currentTime` for the live session. Falls back to the
+    /// full extent when the whole session already fits the focus window.
+    private func frameAroundNow() {
+        guard !compact, autoFitSpan > 0, totalSpan > 0 else { return }
+        let focus = Self.focusSpanMinutes
+        guard totalSpan > focus else { frameToPreset(nil); return }
+        zoom = min(max(minZoom, CGFloat(autoFitSpan / focus)), 10)
+        gestureStartZoom = zoom
+        let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
+        panOffset = min(max(0, nowMinutes - focus * Self.nowFraction), totalSpan - focus)
+        gestureStartPan = panOffset
     }
 
     /// Reframe the visible window to a preset span (or the full extent when
@@ -2227,13 +2259,12 @@ struct TimelineGraphView: View, Equatable {
             let minuteOffset = tickDate.timeIntervalSince(graphOrigin) / 60
             let x = inset + CGFloat((minuteOffset - visibleStart) / visibleSpan) * graphWidth
 
-            if x >= 0, x <= size.width {
-                let minute = calendar.component(.minute, from: tickDate)
-                let label: String = if minute == 0 {
-                    Self.timeHourFormatter.string(from: tickDate)
-                } else {
-                    Self.timeLabelFormatter.string(from: tickDate)
-                }
+            // Only whole hours get a *label*; the sub-hour marks (`:15`/`:30`)
+            // stay as bare ticks (drawn in `drawTickMarks`) so a zoomed-in axis
+            // isn't crowded with "12:30 PM"-style labels.
+            let minute = calendar.component(.minute, from: tickDate)
+            if x >= 0, x <= size.width, minute == 0 {
+                let label = Self.timeHourFormatter.string(from: tickDate)
 
                 let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
                 let resolved = context.resolve(text)

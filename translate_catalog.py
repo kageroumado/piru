@@ -2389,6 +2389,11 @@ T = {
         "拖动平移，捏合缩放，长按查看",
         "拖曳平移，捏合縮放，長按查看",
     ),
+    "Slide to move, pinch to zoom": ("滑动移动，捏合缩放", "滑動移動，捏合縮放"),
+    "Slide to move, pinch to zoom, hold to inspect": (
+        "滑动移动，捏合缩放，长按查看",
+        "滑動移動，捏合縮放，長按查看",
+    ),
     # Database & Settings
     "Substance Database": ("物质数据库", "物質資料庫"),
     "Database Sources": ("数据库来源", "資料庫來源"),
@@ -4425,6 +4430,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Graph pan/zoom hint restored across all session graphs (2026-07-08).
+        "Slide to move, pinch to zoom",
+        "Slide to move, pinch to zoom, hold to inspect",
         # Apple Health vitals overlay (2026-07-06).
         "Heart rate",
         "Heart Rate",

@@ -30,9 +30,21 @@ nonisolated enum SubstanceModelDatabase {
         let key = normalize(name)
         if let p = curated[key] { return Resolution(params: p, source: .curated) }
         if let canonical = aliases[key], let p = curated[canonical] { return Resolution(params: p, source: .curated) }
+        if analogueExclusions.contains(key) { return nil }
         if let template = analogueTemplate(for: category) { return Resolution(params: template, source: .analogue(category)) }
         return nil
     }
+
+    /// Substances whose *category* the engine models, but whose own mechanism is
+    /// **not** a monoamine releaser/reuptake blocker — so the class analogue
+    /// (amphetamine for stimulants) would badly misrepresent them. Caffeine is
+    /// adenosine-antagonist, not dopaminergic: modeling it as amphetamine invents
+    /// a euphoria + comedown that doesn't exist. These fall through to the classic
+    /// duration curve instead.
+    private static let analogueExclusions: Set<String> = [
+        "caffeine", "theobromine", "theophylline",
+        "nicotine", "modafinil", "armodafinil", "adrafinil",
+    ]
 
     static func normalize(_ name: String) -> String {
         name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)

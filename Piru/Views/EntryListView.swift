@@ -1154,12 +1154,13 @@ private struct ActiveSessionHeroCard: View {
                 .font(.system(.title, design: .rounded).weight(.bold))
                 .lineLimit(1)
             Spacer(minLength: 8)
+            let routeTint = RouteOfAdministration.from(string: state.route).tintColor
             Text(verbatim: state.route)
                 .font(.caption.weight(.semibold))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(color.opacity(0.16), in: Capsule())
-                .foregroundStyle(color)
+                .background(routeTint.opacity(0.16), in: Capsule())
+                .foregroundStyle(routeTint)
         }
 
         // Phase bar carries the current phase + "{elapsed} in · {remaining} left"
