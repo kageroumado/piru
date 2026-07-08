@@ -236,9 +236,18 @@ nonisolated enum EffectEngine {
             let doses = a.doses.isEmpty ? [(t: 0.0, amt: 1.0)] : a.doses
             for d in doses {
                 let off = Int((d.t / dt).rounded())
-                if off <= n { for i in off ... n {
+                // A dose can fall before the window (`off < 0` — e.g. its time was
+                // edited earlier than the session origin, making `d.t` negative) or
+                // after it (`off > n`). Clamp the write span to valid indices so we
+                // never subscript out of bounds; the kernel index `i - off` then
+                // also stays within `0 ... n`. A pre-window dose still contributes
+                // its decayed tail from t = 0; a wholly-after dose contributes none.
+                let lo = max(0, off)
+                let hi = min(n, off + n)
+                guard lo <= hi else { continue }
+                for i in lo ... hi {
                     cRaw[i] += d.amt * kern[i - off]
-                } }
+                }
             }
             let koff = dg.koff ?? P.koffFast
             return Ag(dg: dg, cRaw: cRaw, koff: koff, kon: koff / P.Kd, Odat: 0)

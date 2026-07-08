@@ -118,4 +118,24 @@ struct EffectEngineTests {
         let b = EffectEngine.simulate(params, agents: [EffectAgent(params: dg, doses: [(t: 0, amt: 50 / dg.refUnit)])], tMax: 12)
         #expect(peak(a.eu) == peak(b.eu))
     }
+
+    @Test
+    func `Doses outside the window don't crash — before it contributes a tail, after it contributes nothing`() throws {
+        // Regression: editing a dose earlier than the session origin makes its
+        // time negative, which used to index cRaw[negative] and trap. A dose
+        // after tMax must simply contribute nothing.
+        let dg = try #require(Self.drug["mdma"])
+        // A dose 2h *before* t=0: no crash, and it still leaves a decayed tail in
+        // the window (some non-zero euphoria at t=0).
+        let before = EffectEngine.simulate(params, agents: [EffectAgent(params: dg, doses: [(t: -2, amt: 1)])], tMax: 12)
+        #expect(before.eu.count == before.t.count)
+        #expect(peak(before.eu) > 0)
+        // A dose *after* the window contributes nothing — effectively zero (only
+        // ODE-integration floating-point noise remains).
+        let after = EffectEngine.simulate(params, agents: [EffectAgent(params: dg, doses: [(t: 20, amt: 1)])], tMax: 12)
+        #expect(peak(after.eu) < 1e-6)
+        // A pre-window dose alongside an in-window one still simulates cleanly.
+        let mixed = EffectEngine.simulate(params, agents: [EffectAgent(params: dg, doses: [(t: -1, amt: 1), (t: 2, amt: 1)])], tMax: 12)
+        #expect(peak(mixed.eu) > 0)
+    }
 }
