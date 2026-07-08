@@ -20,12 +20,45 @@ enum DoseStepping {
 
 /// Geometry for the tray's content, shared with the dock sheet that hosts it.
 enum DoseTrayMetrics {
-    /// Height of the Log button — matches the dock's pinned search field so
-    /// the two read as one control system.
-    static let controlHeight: CGFloat = 48
+    /// Height of the Log button — literally the dock's pinned search field
+    /// height, so the two read as one control system at every Dynamic Type
+    /// size.
+    static var controlHeight: CGFloat {
+        QuickLogDockMetrics.fieldHeight
+    }
     /// Corner radius of the grouped cards inside the dock, matching the
     /// system inset-grouped list on iOS 26.
     static let cardCornerRadius: CGFloat = 26
+}
+
+// MARK: - Motion-aware morphs
+
+/// The tray's expand/collapse matched-geometry pairing, dropped under Reduce
+/// Motion: without the pairing the row⇄editor swap plays as SwiftUI's default
+/// crossfade (the elements fade in place while the card resizes), instead of
+/// text and pills flying between layouts. Removing just the *animation* is not
+/// enough — matched geometry with no animation still snaps elements across the
+/// card mid-swap.
+private struct TrayMorphEffect: ViewModifier {
+    let id: String
+    let namespace: Namespace.ID
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    func body(content: Content) -> some View {
+        if reduceMotion {
+            content
+        } else {
+            content.matchedGeometryEffect(id: id, in: namespace)
+        }
+    }
+}
+
+extension View {
+    /// `matchedGeometryEffect` for the tray's row⇄editor morph pairs,
+    /// degrading to a plain crossfade under Reduce Motion.
+    func trayMorph(id: String, in namespace: Namespace.ID) -> some View {
+        modifier(TrayMorphEffect(id: id, namespace: namespace))
+    }
 }
 
 // MARK: - Staged Dose
@@ -462,6 +495,11 @@ struct TrayStagedListCard: View {
 /// The tray's shared bottom bar — the When/Tags/Location chips and the Log
 /// button. Hosted in the dock's bottom `safeAreaBar`, so scroll content can
 /// pass beneath it with the soft edge effect.
+///
+/// At accessibility text sizes the chips leave the bar: stacked, the pinned
+/// bar alone outgrew the compact detent's cap and clipped the Log button —
+/// the flow's primary action. The dock renders ``TrayMetaChips`` inside the
+/// scroll content instead, and only the button stays pinned.
 struct TrayCommitBar: View {
     @Bindable var model: DoseTrayModel
     let tagSuggestions: [String]
@@ -469,6 +507,59 @@ struct TrayCommitBar: View {
     /// location panel offers the first three, the full picker all of them.
     let recentLocations: [PickedLocation]
     let onCommit: () -> Void
+
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    var body: some View {
+        VStack(spacing: 0) {
+            if !dynamicTypeSize.isAccessibilitySize {
+                TrayMetaChips(model: model, tagSuggestions: tagSuggestions, recentLocations: recentLocations)
+
+                commitButton
+                    .padding(.top, 14)
+            } else {
+                commitButton
+            }
+        }
+    }
+
+    // MARK: Commit
+
+    private var commitButton: some View {
+        Button(action: onCommit) {
+            Text(commitLabel)
+                .font(.headline)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                // The dock contract: the Log button and the search field
+                // share one frame, so the faces morph into one another.
+                .frame(height: DoseTrayMetrics.controlHeight)
+                .background(Theme.accent, in: Capsule())
+        }
+        .buttonStyle(.plain)
+        .disabled(!model.isCommittable)
+        .opacity(model.isCommittable ? 1 : 0.5)
+    }
+
+    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
+    /// committed blind.
+    private var commitLabel: String {
+        let base = model.staged.count == 1
+            ? String(localized: "Log Dose")
+            : String(localized: "Log \(model.staged.count) Doses")
+        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
+    }
+}
+
+// MARK: - Meta Chips
+
+/// The tray-wide When/Tags/Location chips with their anchored presentations.
+/// Rendered inside ``TrayCommitBar`` normally; at accessibility sizes the
+/// dock hosts them in the scroll content (see ``TrayCommitBar``).
+struct TrayMetaChips: View {
+    @Bindable var model: DoseTrayModel
+    let tagSuggestions: [String]
+    let recentLocations: [PickedLocation]
 
     @State private var showLocationPicker = false
     /// Anchored presentations off the chips — Apple's idiom for quick options
@@ -480,19 +571,24 @@ struct TrayCommitBar: View {
     /// spinner while a request is in flight.
     @State private var locationModel = LocationSearchModel()
     @Environment(\.openURL) private var openURL
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    /// Chips side by side normally; stacked at accessibility sizes, where
+    /// three capsules can't share the row — squeezed, their labels wrapped
+    /// character-per-line into vertical columns.
+    private var chipLayout: AnyLayout {
+        dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+            : AnyLayout(HStackLayout(spacing: 8))
+    }
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                whenChip
-                tagsChip
-                locationChip
-                Spacer(minLength: 0)
-            }
-
-            commitButton
-                .padding(.top, 14)
+        chipLayout {
+            whenChip
+            tagsChip
+            locationChip
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView(recents: recentLocations) { picked in
@@ -611,6 +707,7 @@ struct TrayCommitBar: View {
                     .imageScale(.small)
                 if model.tags.isEmpty {
                     Text("Tags")
+                        .lineLimit(1)
                 } else {
                     Text(verbatim: "\(model.tags.count)")
                 }
@@ -648,6 +745,7 @@ struct TrayCommitBar: View {
                     .lineLimit(1)
             } else {
                 Text("Location")
+                    .lineLimit(1)
             }
         }
         .font(.subheadline.weight(.semibold))
@@ -710,33 +808,6 @@ struct TrayCommitBar: View {
                 Label("Remove location", systemImage: "xmark")
             }
         }
-    }
-
-    // MARK: Commit
-
-    private var commitButton: some View {
-        Button(action: onCommit) {
-            Text(commitLabel)
-                .font(.headline)
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                // The dock contract: the Log button and the search field
-                // share one frame, so the faces morph into one another.
-                .frame(height: DoseTrayMetrics.controlHeight)
-                .background(Theme.accent, in: Capsule())
-        }
-        .buttonStyle(.plain)
-        .disabled(!model.isCommittable)
-        .opacity(model.isCommittable ? 1 : 0.5)
-    }
-
-    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
-    /// committed blind.
-    private var commitLabel: String {
-        let base = model.staged.count == 1
-            ? String(localized: "Log Dose")
-            : String(localized: "Log \(model.staged.count) Doses")
-        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
     }
 }
 
@@ -909,7 +980,7 @@ private struct TrayRow: View {
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.tertiary)
                 .frame(width: 16)
-                .matchedGeometryEffect(id: "chevron-\(dose.id)", in: namespace)
+                .trayMorph(id: "chevron-\(dose.id)", in: namespace)
             VStack(alignment: .leading, spacing: 2) {
                 // Same font and leading column as "Add another…" so the
                 // tray reads as one aligned list (the colour dot is gone —
@@ -917,13 +988,14 @@ private struct TrayRow: View {
                 Text(CustomSubstanceStore.shared.displayName(for: dose.substanceName))
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.primary)
-                    .matchedGeometryEffect(id: "title-\(dose.id)", in: namespace)
+                    .trayMorph(id: "title-\(dose.id)", in: namespace)
                 // Day-list phrase: "oral · 100 mg · strong" — route as
                 // context, the amount emphasised, the level read via colour.
                 HStack(spacing: 5) {
-                    Text(String(localized: dose.route.localizedName).lowercased())
+                    Text(dose.route.localizedName)
+                        .textCase(.lowercase)
                         .foregroundStyle(Theme.secondaryLabel)
-                        .matchedGeometryEffect(id: "route-\(dose.id)", in: namespace)
+                        .trayMorph(id: "route-\(dose.id)", in: namespace)
                     Text(verbatim: "·").foregroundStyle(.tertiary)
                     Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
                         .fontWeight(.semibold)
@@ -934,12 +1006,13 @@ private struct TrayRow: View {
                         // momentary "37.…" ellipsis. Fixed-size keeps it at its
                         // intrinsic width for the whole animation.
                         .fixedSize()
-                        .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
+                        .trayMorph(id: "amount-\(dose.id)", in: namespace)
                     // No level for a zero amount — "0 g · sub-threshold" reads
                     // like a valid dose; the trailing warning marks it instead.
                     if dose.totalAmount > 0, let level = dose.doseLevel {
                         Text(verbatim: "·").foregroundStyle(.tertiary)
-                        Text(String(localized: level.displayName).lowercased())
+                        Text(level.displayName)
+                            .textCase(.lowercase)
                             .foregroundStyle(level.labelColor)
                     }
                     if let breakdown = dose.breakdownLabel {
@@ -972,771 +1045,5 @@ private struct TrayRow: View {
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isButton)
         .accessibilityHint("Expands the editor")
-    }
-}
-
-// MARK: - Staged Dose Editor
-
-/// Inline per-dose editor: rows directly on the tray surface — fields use
-/// fills, never their own card, so the dock stays a single material. Amount,
-/// unit, route, and note; time lives only on the tray's shared When chip.
-private struct StagedDoseEditor: View {
-    @Binding var item: StagedDose
-    let namespace: Namespace.ID
-    let onCollapse: () -> Void
-    let onRemove: () -> Void
-
-    @State private var amountText = ""
-    /// Suppresses the text→amount sync when `amountText` is being set *from*
-    /// the model (onAppear / stepper), so opening the editor never rewrites
-    /// the staged amount through display rounding.
-    @State private var suppressAmountSync = false
-    @FocusState private var amountFocused: Bool
-
-    /// The note row stays revealed once opened, even while still empty.
-    @State private var noteExpanded = false
-    @FocusState private var noteFocused: Bool
-
-    /// Bumped on each stepper tap — drives the value-change pulse + haptic.
-    @State private var stepTick = 0
-
-    /// Whether this substance is CYP3A4-heavy — gates the per-dose grapefruit toggle (Stage 4c).
-    /// Computed once on appear; the metabolism lookup shouldn't run every render.
-    @State private var isGrapefruitSubstrate = false
-    @State private var profileStore = UserProfileStore.shared
-    @Environment(\.modelContext) private var modelContext
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    // By-volume custom logger (alcohol): a two-tier strength + volume input with an
-    // optional drink name. The By Drink / By Weight choice persists across doses.
-    @AppStorage("alcoholEditorByDrink") private var byDrinkPreferred = true
-    @State private var volumeText = ""
-    @State private var abvText = ""
-    @State private var drinkName = ""
-    @State private var drinkEmoji = ""
-    @State private var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
-    /// Presents the drink-preset manager (add / edit / reorder / delete) as a
-    /// proper sheet — the drink chip's menu opens it.
-    @State private var showDrinkManager = false
-    @FocusState private var abvFocused: Bool
-    @FocusState private var volumeFocused: Bool
-
-    private var enteredVolumeML: Double? {
-        guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return nil }
-        return Measurement(value: v, unit: volumeUnit).converted(to: .milliliters).value
-    }
-
-    private var enteredABV: Double? {
-        guard let a = Double(abvText.replacingOccurrences(of: ",", with: ".")), a > 0 else { return nil }
-        return a
-    }
-
-    private var customDrinkGrams: Double? {
-        guard let cap = byVolumeCapability, let ml = enteredVolumeML, let abv = enteredABV else { return nil }
-        let g = cap.canonicalAmount(volumeML: ml, strength: abv)
-        return g > 0 ? g : nil
-    }
-
-    /// Millilitre step for the volume stepper, unit-aware: 10 mL, or 0.5 fl oz.
-    private var volumeStep: Double {
-        volumeUnit == .fluidOunces ? 0.5 : 10
-    }
-
-    /// Bump the ABV field by `delta`, clamped to a sane 0–95% and reformatted.
-    private func adjustABV(_ delta: Double) {
-        let current = Double(abvText.replacingOccurrences(of: ",", with: ".")) ?? 0
-        let next = min(95, max(0, ((current + delta) * 10).rounded() / 10))
-        abvText = next > 0 ? ByVolumeDefaults.format(next) : ""
-        stepTick += 1
-    }
-
-    /// Bump the volume field by one `volumeStep` in the displayed unit, clamped ≥ 0.
-    private func adjustVolume(_ steps: Double) {
-        let current = Double(volumeText.replacingOccurrences(of: ",", with: ".")) ?? 0
-        let next = max(0, current + steps * volumeStep)
-        volumeText = next > 0 ? ByVolumeDefaults.format(next) : ""
-        stepTick += 1
-    }
-
-    private static let unitChoices = ["µg", "mg", "g", "mL"]
-    /// One shared height for the route/note pills — a TextField's intrinsic
-    /// height differs from a Menu label's, so padding alone won't match them.
-    private static let pillHeight: CGFloat = 33
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            header
-
-            if byVolumeCapability != nil {
-                byVolumeModeToggle
-                if byDrinkPreferred {
-                    byDrinkSteppers
-                } else {
-                    stepperBlock
-                }
-            } else {
-                stepperBlock
-            }
-
-            HStack(spacing: 8) {
-                if byVolumeCapability != nil, byDrinkPreferred {
-                    drinkTypeChip
-                }
-                routeMenu
-                SaltPicker(
-                    forms: item.librarySubstance?.saltForms(for: item.route) ?? [],
-                    selection: $item.saltForm,
-                    style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: Self.pillHeight),
-                )
-                notePill
-                if profileStore.grapefruitLoggingEnabled, isGrapefruitSubstrate {
-                    grapefruitPill
-                }
-            }
-
-            if noteExpanded {
-                noteEditor
-            }
-        }
-        .sensoryFeedback(.increase, trigger: stepTick)
-        .onAppear {
-            if item.amount > 0 {
-                suppressAmountSync = true
-                amountText = item.amount.doseFormatted
-            }
-            // Don't pop the keyboard for by-volume substances — the drink presets
-            // are the primary action, not manual amount entry.
-            if item.amount <= 0, byVolumeCapability == nil { amountFocused = true }
-            if profileStore.grapefruitLoggingEnabled {
-                isGrapefruitSubstrate = MetabolicModulation
-                    .majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: item.substanceName))
-                    .contains(.cyp3a4)
-            }
-            // Seed the custom-drink fields from a dose already logged by volume, so
-            // re-opening it shows its strength/volume/name.
-            if let capability = byVolumeCapability {
-                CustomDrinkPreset.seedIfNeeded(for: item.substanceName, capability: capability, context: modelContext)
-                seedByDrinkFieldsIfNeeded()
-                drinkName = item.drinkName ?? ""
-                drinkEmoji = item.emoji ?? ""
-            }
-        }
-        .onChange(of: noteFocused) {
-            // Fold an untouched note row back into the pill.
-            if !noteFocused, item.note.isEmpty {
-                withAnimation(.snappy) { noteExpanded = false }
-            }
-        }
-        // Keep the staged grams + by-volume metadata synced with the custom logger.
-        .onChange(of: customDrinkGrams) { if byDrinkPreferred { syncCustomDrink() } }
-        .onChange(of: drinkName) { if byDrinkPreferred { syncCustomDrink() } }
-        // In By Weight, editing grams re-projects the volume (holding ABV) so the
-        // By Drink fields stay consistent when the user flips back — never zeroed.
-        .onChange(of: item.amount) {
-            guard byVolumeCapability != nil, !byDrinkPreferred else { return }
-            reprojectVolumeFromGrams()
-        }
-        .onChange(of: byDrinkPreferred) {
-            if byDrinkPreferred {
-                // Re-derive the drink fields from the (possibly grams-edited) dose
-                // so By Drink is never blank, then re-sync the metadata.
-                seedByDrinkFieldsIfNeeded(force: true)
-                syncCustomDrink()
-            } else {
-                // Show the current grams in the weight field (the drink dials may
-                // have set item.amount without touching amountText).
-                suppressAmountSync = true
-                amountText = item.amount > 0 ? item.amount.doseFormatted : ""
-            }
-        }
-        .onChange(of: volumeUnit) { old, new in
-            ByVolumeDefaults.preferredVolumeUnit = new
-            guard let v = Double(volumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
-            volumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
-        }
-        .sheet(isPresented: $showDrinkManager) {
-            DrinkPresetManagerView(substanceName: item.substanceName)
-        }
-    }
-
-    private var header: some View {
-        // 8pt chevron→text gap, matching the collapsed row exactly so the
-        // matched-geometry morph doesn't shift the leading column.
-        HStack(spacing: 8) {
-            // Same glyph as the collapsed row, rotated to point down
-            // (expanded, per Apple's disclosure convention) — the matched-
-            // geometry swap morphs it in place like a rotation.
-            Image(systemName: "chevron.right")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-                .rotationEffect(.degrees(90))
-                .frame(width: 16)
-                .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
-                .accessibilityHidden(true)
-            Text(CustomSubstanceStore.shared.displayName(for: item.substanceName))
-                .font(.body.weight(.semibold))
-                .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
-            Spacer()
-            // 42pt — the stepper-button size, so the trash sits on the same
-            // vertical line as the + button below it.
-            Button(action: onRemove) {
-                Image(systemName: "trash")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.red)
-                    .frame(width: 42, height: 42)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Remove")
-        }
-        .contentShape(Rectangle())
-        .onTapGesture(perform: onCollapse)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityHint("Collapses the editor")
-    }
-
-    /// Behaves like the location chip: neutral "Note" when empty, accent-
-    /// tinted with the note's first words once one exists. Toggles the
-    /// multi-line editor below.
-    private var notePill: some View {
-        Button {
-            withAnimation(.snappy) { noteExpanded.toggle() }
-            if noteExpanded { noteFocused = true }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "note.text")
-                    .imageScale(.small)
-                Text(item.note.isEmpty ? String(localized: "Note") : item.note)
-                    .lineLimit(1)
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: Self.pillHeight)
-            .background(
-                item.note.isEmpty ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
-                in: Capsule(),
-            )
-            .foregroundStyle(item.note.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
-        }
-        .buttonStyle(.plain)
-        .frame(maxWidth: 180, alignment: .leading)
-    }
-
-    /// By-volume capability for this staged substance (alcohol), gated on the
-    /// canonical "g" unit so the drink chips show only when the dose is in grams.
-    private var byVolumeCapability: ByVolumeDosing? {
-        guard item.unit == "g" else { return nil }
-        return item.librarySubstance?.byVolumeDosing
-    }
-
-    /// The amount +/− stepper and its breakdown/level readout — the default for
-    /// every substance, and the "By Weight" mode for alcohol.
-    private var stepperBlock: some View {
-        VStack(alignment: .center, spacing: 5) {
-            HStack(spacing: 8) {
-                stepButton(systemImage: "minus") {
-                    setAmount(max(0, item.amount - amountStep))
-                }
-                amountField
-                stepButton(systemImage: "plus") {
-                    setAmount(item.amount + amountStep)
-                }
-            }
-            .phaseAnimator(reduceMotion ? [1.0] : [1.0, 1.03], trigger: stepTick) { content, scale in
-                content.scaleEffect(scale)
-            } animation: { _ in
-                .snappy(duration: 0.15)
-            }
-            if item.breakdownLabel != nil || item.doseLevel != nil {
-                HStack(spacing: 5) {
-                    if let breakdown = item.breakdownLabel {
-                        Text(verbatim: "= \(breakdown) \(item.unit)")
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    if item.breakdownLabel != nil, item.doseLevel != nil {
-                        Text(verbatim: "·").foregroundStyle(.tertiary)
-                    }
-                    if let level = item.doseLevel {
-                        Text(String(localized: level.displayName).lowercased())
-                            .foregroundStyle(level.labelColor)
-                    }
-                }
-                .font(.caption.weight(.medium))
-                .frame(maxWidth: .infinity)
-            }
-        }
-    }
-
-    /// By Drink (the two-tier strength + volume logger) vs By Weight (the grams
-    /// stepper). The choice persists across doses via `byDrinkPreferred`.
-    private var byVolumeModeToggle: some View {
-        Picker("Input", selection: $byDrinkPreferred) {
-            Text("By Drink").tag(true)
-            Text("By Weight").tag(false)
-        }
-        .pickerStyle(.segmented)
-        .labelsHidden()
-    }
-
-    // MARK: By Drink (strength + volume steppers)
-
-    /// Strength (%ABV) and Volume steppers — the exact grams-picker control
-    /// (42pt capsule, centered number, unit as a trailing overlay) — plus a
-    /// live grams / standard-drinks readout. Tap the number to type; use −/+
-    /// to nudge without the keyboard.
-    private var byDrinkSteppers: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            byDrinkRow(
-                label: "Strength",
-                text: $abvText,
-                focus: $abvFocused,
-                trailing: Text(verbatim: "%")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(Theme.secondaryLabel),
-                onDec: { adjustABV(-0.5) },
-                onInc: { adjustABV(0.5) },
-                decLabel: "Lower strength",
-                incLabel: "Raise strength",
-            )
-            byDrinkRow(
-                label: "Volume",
-                text: $volumeText,
-                focus: $volumeFocused,
-                trailing: volumeUnitMenu,
-                onDec: { adjustVolume(-1) },
-                onInc: { adjustVolume(1) },
-                decLabel: "Lower volume",
-                incLabel: "Raise volume",
-            )
-            byDrinkReadout
-        }
-    }
-
-    /// One stepper row in the grams-picker shape: the number is centered in the
-    /// capsule itself; the unit is a trailing overlay so it never shifts the
-    /// number off-center (mirrors `amountField`).
-    private func byDrinkRow(
-        label: LocalizedStringKey,
-        text: Binding<String>,
-        focus: FocusState<Bool>.Binding,
-        trailing: some View,
-        onDec: @escaping () -> Void,
-        onInc: @escaping () -> Void,
-        decLabel: LocalizedStringKey,
-        incLabel: LocalizedStringKey,
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text(label)
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-            HStack(spacing: 8) {
-                stepButton(systemImage: "minus", action: onDec)
-                    .accessibilityLabel(decLabel)
-                TextField("0", text: text)
-                    .keyboardType(.decimalPad)
-                    .focused(focus)
-                    .multilineTextAlignment(.center)
-                    .font(.title3.weight(.semibold))
-                    .frame(height: 42)
-                    .frame(maxWidth: .infinity)
-                    .background(Color(.secondarySystemFill), in: Capsule())
-                    .overlay(alignment: .trailing) {
-                        trailing
-                            .padding(.trailing, 12)
-                    }
-                stepButton(systemImage: "plus", action: onInc)
-                    .accessibilityLabel(incLabel)
-            }
-        }
-    }
-
-    private var volumeUnitMenu: some View {
-        Menu {
-            Picker("Volume unit", selection: $volumeUnit) {
-                Text(verbatim: "mL").tag(UnitVolume.milliliters)
-                Text(verbatim: "fl oz").tag(UnitVolume.fluidOunces)
-            }
-        } label: {
-            HStack(spacing: 2) {
-                Text(volumeUnit == .fluidOunces ? "fl oz" : "mL")
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.subheadline.weight(.medium))
-            .foregroundStyle(Theme.secondaryLabel)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Volume unit")
-    }
-
-    @ViewBuilder
-    private var byDrinkReadout: some View {
-        if let grams = customDrinkGrams {
-            let drinks = ByVolumeDosing.standardDrinks(grams: grams)
-            HStack(spacing: 6) {
-                Text("\(Int(grams.rounded())) g")
-                    .fontWeight(.semibold)
-                    .foregroundStyle(item.doseLevel?.labelColor ?? .primary)
-                    .contentTransition(.numericText())
-                Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
-                    .foregroundStyle(Theme.secondaryLabel)
-                if let level = item.doseLevel {
-                    Text(verbatim: "·").foregroundStyle(.tertiary)
-                    Text(String(localized: level.displayName).lowercased())
-                        .foregroundStyle(level.labelColor)
-                }
-            }
-            .font(.subheadline.weight(.medium))
-            .frame(maxWidth: .infinity)
-        }
-        // No placeholder when empty — the strength/volume steppers are right above.
-    }
-
-    /// The drink-type chip in the Route·Note row: a native Menu — the same
-    /// affordance as the route pill beside it — listing the saved presets
-    /// (with strength/volume details) plus "Edit Drinks…" for the manager.
-    private var drinkTypeChip: some View {
-        DrinkPresetMenu(
-            substanceName: item.substanceName,
-            selectedName: item.drinkName,
-            currentName: drinkName,
-            currentEmoji: drinkEmoji,
-            pillHeight: Self.pillHeight,
-            onSelect: { apply(preset: $0) },
-            onManage: { showDrinkManager = true },
-        )
-    }
-
-    // MARK: By Drink ⇄ By Weight sync
-
-    /// Fill the ABV/volume fields from the staged dose's structured metadata (or,
-    /// if it only has grams from a By-Weight edit, derive a volume at a default
-    /// strength) so By Drink is never blank. `force` overwrites existing text.
-    private func seedByDrinkFieldsIfNeeded(force: Bool = false) {
-        guard byVolumeCapability != nil else { return }
-        if !force, !(volumeText.isEmpty && abvText.isEmpty) { return }
-        if let abv = item.abv, let ml = item.volumeML {
-            abvText = ByVolumeDefaults.format(abv)
-            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
-        } else if item.amount > 0 {
-            // Grams-only dose: hold a default strength and back-derive the volume.
-            let abv = item.abv ?? 5
-            abvText = ByVolumeDefaults.format(abv)
-            let ml = ByVolumeDosing.volumeML(grams: item.amount, abv: abv)
-            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
-        }
-    }
-
-    /// In By Weight, keep `item.volumeML` consistent with the edited grams by
-    /// re-deriving volume at the held ABV — so flipping back to By Drink shows a
-    /// matching volume rather than a stale or zeroed one.
-    private func reprojectVolumeFromGrams() {
-        let abv = item.abv ?? 5
-        item.abv = abv
-        item.volumeML = item.amount > 0 ? ByVolumeDosing.volumeML(grams: item.amount, abv: abv) : nil
-    }
-
-    /// Push the custom drink's grams + metadata onto the staged dose. Only writes
-    /// once a usable volume + strength is entered, so opening the logger on a dose
-    /// already staged from a chip never wipes its grams.
-    private func syncCustomDrink() {
-        guard byDrinkPreferred, byVolumeCapability != nil, let grams = customDrinkGrams else { return }
-        item.components = [StagedDose.Component(amount: (grams * 10).rounded() / 10)]
-        item.unit = byVolumeCapability?.canonicalUnit ?? "g"
-        item.volumeML = enteredVolumeML
-        item.abv = enteredABV
-        let trimmed = drinkName.trimmingCharacters(in: .whitespacesAndNewlines)
-        item.drinkName = trimmed.isEmpty ? nil : trimmed
-        item.emoji = drinkEmoji.isEmpty ? nil : drinkEmoji
-    }
-
-    // MARK: Preset select
-
-    /// Fill the dials from a chosen preset. A volume-less preset fills only
-    /// the strength, leaving the current volume to dial.
-    private func apply(preset: CustomDrinkPreset) {
-        abvText = ByVolumeDefaults.format(preset.strengthABV)
-        if let ml = preset.volumeML {
-            volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
-        }
-        drinkName = preset.name
-        drinkEmoji = preset.emoji
-        syncCustomDrink()
-    }
-
-    /// Per-dose "had grapefruit" toggle (Stage 4c) — shown only for CYP3A4-heavy substrates when
-    /// grapefruit logging is enabled in Settings. Tinted when on; recorded on the committed dose.
-    private var grapefruitPill: some View {
-        Button {
-            withAnimation(.snappy) { item.hadGrapefruit.toggle() }
-        } label: {
-            Image(systemName: "carrot")
-                .imageScale(.small)
-                .font(.footnote.weight(.semibold))
-                .padding(.horizontal, 11)
-                .frame(height: Self.pillHeight)
-                .background(
-                    item.hadGrapefruit ? AnyShapeStyle(Theme.accent.opacity(0.15)) : AnyShapeStyle(Color(.secondarySystemFill)),
-                    in: Capsule(),
-                )
-                .foregroundStyle(item.hadGrapefruit ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text("Had grapefruit with this dose"))
-        .accessibilityAddTraits(item.hadGrapefruit ? [.isSelected] : [])
-    }
-
-    /// Multi-line note editor — a single line that grows with its content,
-    /// with an explicit close.
-    private var noteEditor: some View {
-        HStack(alignment: .top, spacing: 8) {
-            TextField("Add note…", text: $item.note, axis: .vertical)
-                .font(.footnote.weight(.medium))
-                .lineLimit(1 ... 6)
-                .focused($noteFocused)
-            Button {
-                noteFocused = false
-                withAnimation(.snappy) { noteExpanded = false }
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Close")
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 17, style: .continuous))
-    }
-
-    /// The amount is centered in the pill itself; the unit menu is a trailing
-    /// overlay so it never shifts the number off-center.
-    private var amountField: some View {
-        TextField("0", text: $amountText)
-            .keyboardType(.decimalPad)
-            .focused($amountFocused)
-            .multilineTextAlignment(.center)
-            .font(.title3.weight(.semibold))
-            .onChange(of: amountText) {
-                if suppressAmountSync {
-                    suppressAmountSync = false
-                    return
-                }
-                // String binding (not value:format:) is deliberate — the staged
-                // amount must update per keystroke for the live dose-level /
-                // breakdown reclassification, and the suppress-flag sync above
-                // relies on owning the text. Invariant dot-decimal first (the
-                // field is populated from `doseFormatted`, which always emits
-                // "."), then a locale-aware parse for locale keyboards.
-                item.amount = Double(amountText.replacingOccurrences(of: ",", with: "."))
-                    ?? (try? Double(amountText, format: .number))
-                    ?? 0
-            }
-            .frame(height: 42)
-            .frame(maxWidth: .infinity)
-            // Same fill as the −/+ buttons — one control system, one shade.
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .overlay(alignment: .trailing) {
-                unitMenu
-                    .padding(.trailing, 12)
-            }
-            .matchedGeometryEffect(id: "amount-\(item.id)", in: namespace)
-    }
-
-    private var unitMenu: some View {
-        Menu {
-            ForEach(unitMenuChoices, id: \.self) { unit in
-                Button {
-                    item.unit = unit
-                } label: {
-                    if unit == item.unit {
-                        Label(unit, systemImage: "checkmark")
-                    } else {
-                        Text(unit)
-                    }
-                }
-            }
-        } label: {
-            HStack(spacing: 2) {
-                Text(item.unit)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.subheadline.weight(.medium))
-            .foregroundStyle(Theme.secondaryLabel)
-        }
-        .buttonStyle(.plain)
-    }
-
-    private var unitMenuChoices: [String] {
-        Self.unitChoices.contains(item.unit) ? Self.unitChoices : [item.unit] + Self.unitChoices
-    }
-
-    /// 42pt circles — the same height as the amount field, so the stepper
-    /// row reads as one control at one size.
-    private func stepButton(systemImage: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: systemImage)
-                .font(.body.weight(.semibold))
-                .foregroundStyle(.primary)
-                .frame(width: 42, height: 42)
-                .background(Color(.secondarySystemFill), in: Circle())
-        }
-        .buttonStyle(.plain)
-    }
-
-    /// Stepper increment anchored to the substance's reference dose when the
-    /// library knows one (LSD → 10 µg, pregabalin → 25 mg), falling back to a
-    /// magnitude table for unknowns.
-    private var amountStep: Double {
-        if let reference = item.referenceDose {
-            return DoseStepping.niceStep(for: reference)
-        }
-        return switch item.amount {
-        case ..<2: 0.25
-        case ..<10: 1
-        case ..<100: 5
-        case ..<1_000: 25
-        default: 100
-        }
-    }
-
-    private func setAmount(_ value: Double) {
-        stepTick += 1
-        item.amount = value
-        let newText = value > 0 ? value.doseFormatted : ""
-        // Only arm the suppress flag when onChange will actually fire,
-        // otherwise it would stay latched and swallow the next keystroke.
-        if newText != amountText {
-            suppressAmountSync = true
-            amountText = newText
-        }
-    }
-
-    private var routeMenu: some View {
-        Menu {
-            ForEach(RouteOfAdministration.allCases) { route in
-                Button {
-                    item.route = route
-                    SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
-                } label: {
-                    if route == item.route {
-                        Label(String(localized: route.localizedName), systemImage: "checkmark")
-                    } else {
-                        Text(route.localizedName)
-                    }
-                }
-            }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "arrow.down.circle")
-                    .imageScale(.small)
-                Text(item.route.localizedName)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: Self.pillHeight)
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .foregroundStyle(.primary)
-        }
-        .buttonStyle(.plain)
-        .matchedGeometryEffect(id: "route-\(item.id)", in: namespace)
-    }
-}
-
-// MARK: - Drink Preset Menu
-
-/// The drink chip's menu for a by-volume substance (alcohol): the saved
-/// presets — emoji + name with a strength/volume subtitle — plus "Edit
-/// Drinks…" opening the full manager sheet. Same affordance as the route
-/// pill beside it, so no bespoke inline surface to discover.
-private struct DrinkPresetMenu: View {
-    let selectedName: String?
-    let currentName: String
-    let currentEmoji: String
-    let pillHeight: CGFloat
-    let onSelect: (CustomDrinkPreset) -> Void
-    let onManage: () -> Void
-
-    @Query private var presets: [CustomDrinkPreset]
-
-    init(
-        substanceName: String,
-        selectedName: String?,
-        currentName: String,
-        currentEmoji: String,
-        pillHeight: CGFloat,
-        onSelect: @escaping (CustomDrinkPreset) -> Void,
-        onManage: @escaping () -> Void,
-    ) {
-        self.selectedName = selectedName
-        self.currentName = currentName
-        self.currentEmoji = currentEmoji
-        self.pillHeight = pillHeight
-        self.onSelect = onSelect
-        self.onManage = onManage
-        let lower = substanceName.lowercased()
-        _presets = Query(
-            filter: #Predicate { $0.substanceName == lower },
-            sort: [SortDescriptor(\.sortOrder), SortDescriptor(\.createdAt)],
-        )
-    }
-
-    var body: some View {
-        Menu {
-            ForEach(presets) { preset in
-                Button {
-                    onSelect(preset)
-                } label: {
-                    // Details ride in the title: pull-down menus don't render
-                    // subtitles (UIMenuElement.subtitle is context-menu-only),
-                    // so a second Text is silently dropped here.
-                    if selectedName?.caseInsensitiveCompare(preset.name) == .orderedSame {
-                        Label {
-                            Text(verbatim: "\(preset.emoji) \(preset.name) · \(preset.detailLabel)")
-                        } icon: {
-                            Image(systemName: "checkmark")
-                        }
-                    } else {
-                        Text(verbatim: "\(preset.emoji) \(preset.name) · \(preset.detailLabel)")
-                    }
-                }
-            }
-            Divider()
-            Button(action: onManage) {
-                Label("Edit Drinks…", systemImage: "pencil")
-            }
-        } label: {
-            HStack(spacing: 5) {
-                if !currentEmoji.isEmpty { Text(currentEmoji) }
-                Text(currentName.isEmpty ? String(localized: "Drink") : currentName)
-                    .lineLimit(1)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: pillHeight)
-            .background(Theme.accent.opacity(0.15), in: Capsule())
-            .foregroundStyle(Theme.accent)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(currentName.isEmpty ? Text("Choose drink") : Text("Drink: \(currentName)"))
-        .accessibilityHint("Opens your drink presets")
-    }
-}
-
-extension CustomDrinkPreset {
-    /// "330 mL · 5%" for a fixed-volume preset, or just "5%" for strength-only.
-    /// Volume renders in the user's preferred unit (mL / fl oz), like the editor.
-    @MainActor var detailLabel: String {
-        let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))%"
-        guard let volumeML else { return strength }
-        let unit = ByVolumeDefaults.preferredVolumeUnit
-        let volume = Measurement(value: volumeML, unit: UnitVolume.milliliters).converted(to: unit)
-        let formatted = volume.formatted(.measurement(width: .abbreviated, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0 ... 1))))
-        return "\(formatted) · \(strength)"
     }
 }

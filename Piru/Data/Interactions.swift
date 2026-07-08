@@ -103,7 +103,7 @@ nonisolated enum DrugClass: String, Codable {
 
 // MARK: - Interaction Result
 
-struct InteractionResult {
+struct InteractionResult: Equatable {
     let severity: InteractionSeverity
     let substanceA: String
     let substanceB: String

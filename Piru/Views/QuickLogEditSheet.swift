@@ -101,11 +101,16 @@ struct QuickLogEditSheet: View {
         }
     }
 
+    // Every mutation below saves explicitly — this sheet can be torn down the
+    // moment the handler returns (Done, swipe), and an edit still sitting in
+    // the context when the container is released is silently lost.
+
     private func addRoutine() {
         let trimmed = newRoutineName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, !routines.contains(where: { $0.name == trimmed }) else { return }
         let maxOrder = routines.map(\.sortOrder).max() ?? -1
         modelContext.insert(DoseRoutine(name: trimmed, sortOrder: maxOrder + 1))
+        try? modelContext.save()
     }
 
     private func moveRoutines(from source: IndexSet, to destination: Int) {
@@ -114,6 +119,7 @@ struct QuickLogEditSheet: View {
         for (index, routine) in ordered.enumerated() {
             routine.sortOrder = index
         }
+        try? modelContext.save()
     }
 
     private func deleteRoutines(at offsets: IndexSet) {
@@ -132,6 +138,7 @@ struct QuickLogEditSheet: View {
             }
             modelContext.delete(routine)
         }
+        try? modelContext.save()
         DoseNotificationManager.syncRoutineReminders(routines: remaining)
     }
 
@@ -168,11 +175,13 @@ struct QuickLogEditSheet: View {
         for (index, favorite) in ordered.enumerated() {
             favorite.sortOrder = index
         }
+        try? modelContext.save()
     }
 
     private func deleteFavorites(at offsets: IndexSet) {
         for index in offsets {
             modelContext.delete(favorites[index])
         }
+        try? modelContext.save()
     }
 }

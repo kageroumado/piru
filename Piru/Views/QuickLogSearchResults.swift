@@ -25,6 +25,13 @@ struct QuickLogStagePayload {
     let amount: Double
     let colorHex: String?
     let librarySubstance: Substance?
+    /// By-volume drink metadata carried from a recent's chip, so a re-logged
+    /// drink re-stages exactly (name, strength, volume — chip parity) instead
+    /// of opening a blank drink draft. `nil` everywhere else.
+    var volumeML: Double?
+    var abv: Double?
+    var drinkName: String?
+    var emoji: String?
 }
 
 /// The list of search hits beneath the dock's pinned field. Pure
@@ -50,8 +57,10 @@ struct QuickLogSearchResults: View {
     @State private var customSubstanceStore = CustomSubstanceStore.shared
 
     /// One fixed height for every result row — content varies (a substance may
-    /// lack a dose band), the rhythm must not.
-    private static let resultRowHeight: CGFloat = 56
+    /// lack a dose band), the rhythm must not. Scaled so two lines still fit
+    /// at accessibility text sizes.
+    @ScaledMetric(relativeTo: .body) private var resultRowHeight: CGFloat = 56
+    @ScaledMetric(relativeTo: .body) private var createRowHeight: CGFloat = 48
 
     var body: some View {
         VStack(spacing: 0) {
@@ -130,10 +139,13 @@ struct QuickLogSearchResults: View {
             add(result)
         } label: {
             HStack(spacing: 10) {
+                // Decorative — the row itself is the Add button; without this
+                // VoiceOver announces the symbol before the substance name.
                 Image(systemName: "plus.circle.fill")
                     .font(.body)
                     .foregroundStyle(tint)
                     .frame(width: 20)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: 8) {
                         Text(name)
@@ -154,7 +166,7 @@ struct QuickLogSearchResults: View {
                 }
             }
             .padding(.horizontal, 16)
-            .frame(height: Self.resultRowHeight)
+            .frame(height: resultRowHeight)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -162,11 +174,14 @@ struct QuickLogSearchResults: View {
     }
 
     /// A complete dose stages straight into the tray; one that still needs
-    /// input (a by-volume drink, or no known reference dose) stages as a
-    /// draft, opening its full editor in the staged card.
+    /// input (a by-volume drink with nothing recorded, or no known reference
+    /// dose) stages as a draft, opening its full editor in the staged card.
+    /// A recent with a recorded drink is already complete — it re-stages
+    /// exactly, matching the recent-card chip path.
     private func add(_ result: QuickLogSearchResult) {
         let payload = payload(for: result)
-        if payload.librarySubstance?.byVolumeDosing != nil || payload.amount <= 0 {
+        let hasRecordedDrink = payload.volumeML != nil && payload.abv != nil && payload.amount > 0
+        if (payload.librarySubstance?.byVolumeDosing != nil && !hasRecordedDrink) || payload.amount <= 0 {
             onAddDraft(payload)
         } else {
             onAdd(payload)
@@ -179,13 +194,18 @@ struct QuickLogSearchResults: View {
         switch result {
         case let .recent(card):
             let group = card.routes.first
+            let chip = group?.doses.first
             return QuickLogStagePayload(
                 substance: card.substanceName,
                 route: group?.route ?? .oral,
-                unit: group?.doses.first?.unit ?? "mg",
-                amount: group?.doses.first?.amount ?? 0,
+                unit: chip?.unit ?? "mg",
+                amount: chip?.amount ?? 0,
                 colorHex: card.colorHex,
                 librarySubstance: group?.librarySubstance,
+                volumeML: chip?.volumeML,
+                abv: chip?.abv,
+                drinkName: chip?.drinkName,
+                emoji: chip?.emoji,
             )
         case let .library(substance), let .custom(substance):
             let route = substance.defaultRoute
@@ -207,6 +227,7 @@ struct QuickLogSearchResults: View {
                 Image(systemName: "plus")
                     .font(.subheadline.weight(.semibold))
                     .frame(width: 16)
+                    .accessibilityHidden(true)
                 Text("Create custom substance")
                     .font(.body.weight(.medium))
                     .lineLimit(1)
@@ -214,7 +235,7 @@ struct QuickLogSearchResults: View {
             }
             .foregroundStyle(Theme.accent)
             .padding(.horizontal, 16)
-            .frame(height: 48)
+            .frame(height: createRowHeight)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

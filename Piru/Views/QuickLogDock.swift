@@ -1,22 +1,38 @@
 import Speech
 import SwiftUI
+import UIKit
 
 // MARK: - Metrics
 
 /// Geometry shared between the dock sheet and the quick-log cover behind it.
+///
+/// The text-derived members are computed, not stored: they scale with the
+/// user's Dynamic Type size (via `UIFontMetrics`, which reads the app-wide
+/// content size category — the app never overrides it per-view), so the
+/// search field and the detents built from it don't clip at accessibility
+/// sizes. Repeated accesses within one size category return identical values,
+/// which keeps `PresentationDetent` equality comparisons stable.
 enum QuickLogDockMetrics {
     /// The pinned search field's height — one size in every dock state.
-    static let fieldHeight: CGFloat = 48
+    static var fieldHeight: CGFloat {
+        UIFontMetrics(forTextStyle: .body).scaledValue(for: 48).rounded()
+    }
     /// How far the compact search bar floats above the physical screen bottom.
     static let bareFloat: CGFloat = 12
     /// Vertical chrome around the pinned search field (16 top clears the
     /// grabber, 6 below) — part of every detent's height budget.
-    static let searchBlockHeight: CGFloat = fieldHeight + 16 + 6
+    static var searchBlockHeight: CGFloat {
+        fieldHeight + 16 + 6
+    }
     /// The rest detent: the floating search bar. Detent heights are measured
     /// from the screen bottom (they include the home-indicator region), so
     /// this is bar + float.
-    static let peekHeight: CGFloat = searchBlockHeight + bareFloat
-    static let peekDetent = PresentationDetent.height(peekHeight)
+    static var peekHeight: CGFloat {
+        searchBlockHeight + bareFloat
+    }
+    static var peekDetent: PresentationDetent {
+        .height(peekHeight)
+    }
     /// Detents while nothing is staged: the floating bar, browse height, and
     /// full height for search. `.medium` must stay a member of *every* detent
     /// set — `presentationBackgroundInteraction(.enabled(upThrough: .medium))`
@@ -24,7 +40,36 @@ enum QuickLogDockMetrics {
     /// to a fully modal (dimmed, touch-blocking) presentation. The
     /// fit-to-content compact detent joins once the tray holds doses (see
     /// ``QuickLogDock/refreshDetents()``).
-    static let emptyDetents: Set<PresentationDetent> = [peekDetent, .medium, .large]
+    static var emptyDetents: Set<PresentationDetent> {
+        [peekDetent, .medium, .large]
+    }
+}
+
+// MARK: - Live sheet geometry
+
+/// The dock sheet's live content height, reported by geometry every layout
+/// tick of an interactive detent drag. An `@Observable` box — not view
+/// `@State` — so those per-frame writes invalidate only the views that read
+/// the continuous ``height`` (the bare-pill centering modifier), never the
+/// dock's whole body. The threshold-crossing ``isHeightBare`` flag is stored
+/// separately and written only when it flips, so body-level readers
+/// re-evaluate once per crossing instead of once per frame.
+@Observable
+@MainActor
+final class DockSheetGeometry {
+    /// Live height of the sheet's content area — the detent `selection` only
+    /// updates when a drag settles.
+    private(set) var height: CGFloat = 0
+    /// Whether the live height is inside the bare (Maps collapsed-pill) zone.
+    /// Combined with the tray's emptiness at the read sites: the bare face
+    /// only exists for an empty tray (see ``QuickLogDock/isBare``).
+    private(set) var isHeightBare = true
+
+    func update(height: CGFloat) {
+        if self.height != height { self.height = height }
+        let bare = height < QuickLogDockMetrics.peekHeight + 40
+        if bare != isHeightBare { isHeightBare = bare }
+    }
 }
 
 // MARK: - Dock Sheet
@@ -67,17 +112,24 @@ struct QuickLogDock: View {
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     @State private var dictation = DockDictation()
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// The bare (Maps collapsed-pill) face: nothing but the floating search
     /// pill. Driven by the *live* sheet height, not the settled detent, so the
-    /// content morphs pill → surface continuously while the user drags.
+    /// content morphs pill → surface continuously while the user drags — but
+    /// only for an empty tray: with doses staged the smallest detent is the
+    /// fit-to-content compact face, so heights in the bare zone are transient
+    /// (the presentation animation, a rubber-band squeeze) and the content
+    /// must stay put. That emptiness gate is also what stops the one-frame
+    /// content pop-in when the dock mounts with a routine already prestaged
+    /// (geometry reports 0 on the first pass).
     private var isBare: Bool {
-        sheetHeight < QuickLogDockMetrics.peekHeight + 40
+        tray.isEmpty && geometry.isHeightBare
     }
 
-    /// Live height of the sheet's content area, reported by geometry — the
-    /// detent `selection` only updates when a drag settles.
-    @State private var sheetHeight: CGFloat = 0
+    /// Live sheet geometry — an `@Observable` box so per-frame drag updates
+    /// don't re-evaluate this whole body (see ``DockSheetGeometry``).
+    @State private var geometry = DockSheetGeometry()
 
     // MARK: Compact-detent measurements
 
@@ -92,6 +144,11 @@ struct QuickLogDock: View {
     /// animating a panel open, geometry settling) don't re-mint the detent
     /// mid-gesture.
     @State private var compactValue: CGFloat = 0
+    /// Estimated height of the staged card with every row collapsed, reported
+    /// by ``TrayDerivedObserver`` — mirrored into local state so
+    /// ``compactHeightValue`` never reads `tray.staged` from this body (a
+    /// whole-array dependency would re-run it on every amount keystroke).
+    @State private var stagedCardEstimate: CGFloat = 0
 
     // MARK: Browse suggestions
 
@@ -111,19 +168,18 @@ struct QuickLogDock: View {
     /// so warnings stay visible at compact.
     @State private var interactionsHeight: CGFloat = 0
 
-    private var stagedNameSet: Set<String> {
-        Set(tray.staged.map(\.substanceName))
-    }
-
     var body: some View {
         VStack(spacing: 0) {
             // The search bar is identical in every dock state — same field,
             // same insets. In the bare pill it is mathematically centred in
             // the platter (computed from the live sheet height, so it holds
-            // on every device); the full faces pin it under the grabber.
+            // on every device); the full faces pin it under the grabber. The
+            // live-height read lives in the modifier's own body — the one
+            // per-frame dependency during a drag — so this body never re-runs
+            // for continuous height changes.
             searchBar
                 .padding(.horizontal, 16)
-                .padding(.top, isBare ? max(16, (sheetHeight - QuickLogDockMetrics.fieldHeight) / 2) : 16)
+                .modifier(BarePillCentering(geometry: geometry, trayIsEmpty: tray.isEmpty))
                 .padding(.bottom, 6)
 
             ScrollView {
@@ -169,7 +225,21 @@ struct QuickLogDock: View {
         // without dragging the whole sheet down.
         .toolbar { keyboardDoneToolbar }
         .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-            sheetHeight = newValue
+            geometry.update(height: newValue)
+        }
+        // The staged-array reads (interaction names, collapsed-card estimate)
+        // live in this zero-size leaf, not in this body — otherwise every
+        // amount keystroke in a staged editor would re-run the whole dock.
+        .background {
+            TrayDerivedObserver(
+                tray: tray,
+                onInteractions: { newValue in
+                    if newValue != interactions { interactions = newValue }
+                },
+                onStagedEstimate: { newValue in
+                    if newValue != stagedCardEstimate { stagedCardEstimate = newValue }
+                },
+            )
         }
         .animation(.snappy, value: isBare)
         // Presentation configuration (detents, clear background, background
@@ -233,9 +303,6 @@ struct QuickLogDock: View {
             guard dictation.isListening || !dictation.transcript.isEmpty else { return }
             searchText = dictation.transcript
         }
-        .onChange(of: stagedNameSet, initial: true) { _, names in
-            interactions = names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : []
-        }
         // A routine prestaged before the sheet mounted (notification deep
         // link) should land already showing the tray.
         .onAppear {
@@ -249,43 +316,38 @@ struct QuickLogDock: View {
 
     // MARK: Detents
 
-    /// One collapsed row's height, derived from the type metrics `TrayRow`
-    /// renders with (body title + subheadline detail + 2pt spacing + 12pt
-    /// vertical padding each side). Computed, not measured: live geometry
-    /// reports animated in-between frames during expand/collapse, which
-    /// churned the fit-to-content detent mid-gesture.
-    private var collapsedRowHeight: CGFloat {
-        let title = UIFont.preferredFont(forTextStyle: .body).lineHeight
-        let subtitle = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight
-        return (title + subtitle + 2 + 24).rounded(.up)
-    }
-
-    /// Height of the staged card with every row collapsed.
-    private var estimatedStagedCardHeight: CGFloat {
-        guard !tray.isEmpty else { return 0 }
-        let rows = collapsedRowHeight * CGFloat(tray.staged.count)
-        let dividers = CGFloat(max(0, tray.staged.count - 1)) * (1.0 / 3.0)
-        return rows + dividers
+    /// The body-observable trigger for detent refreshes, built from the
+    /// observer-mirrored ``stagedCardEstimate`` so this body never reads
+    /// `tray.staged`. Handlers don't use it — they compute the staged-card
+    /// term fresh from the tray (see ``refreshDetents()``), because the
+    /// mirror can lag the mutation that triggered the handler by one update.
+    private var compactHeightValue: CGFloat {
+        compactHeight(stagedCard: stagedCardEstimate)
     }
 
     /// The fit-to-content compact height: search block + collapsed staged
     /// card + commit bar, capped below medium so a tall stack degrades
     /// gracefully. `.height` detents measure *above* the home-indicator
     /// inset (the system adds it below), so the inset is not budgeted here.
-    private var compactHeightValue: CGFloat {
+    private func compactHeight(stagedCard: CGFloat) -> CGFloat {
         // Scroll-content vertical padding around the staged card (8 top + 12 bottom).
         let contentPadding: CGFloat = 20
-        // Chips row (12 + 40) + Log button (14 + 48) until the bar has been
-        // measured — staging at peek mints the compact detent before the bar
-        // exists, and minting it at a throwaway height churned the sheet's
-        // detent mapping right as it grew.
-        let bar = commitBarHeight > 0 ? commitBarHeight : 114
+        // Chips row (12 + chip) + Log button (14 + control) until the bar has
+        // been measured — staging at peek mints the compact detent before the
+        // bar exists, and minting it at a throwaway height churned the sheet's
+        // detent mapping right as it grew. Estimated from type metrics so the
+        // pre-measure mint stays close at accessibility sizes too.
+        let chipHeight = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight + 20
+        let barEstimate = 12 + chipHeight + 14 + DoseTrayMetrics.controlHeight
+        let bar = commitBarHeight > 0 ? commitBarHeight : barEstimate
         var raw = QuickLogDockMetrics.searchBlockHeight + contentPadding
-        raw += estimatedStagedCardHeight
+        raw += stagedCard
         if !interactions.isEmpty {
             // Card spacing (14) + measured height, estimated until laid out
-            // (~66pt per two-line warning row) so the detent mints once.
-            raw += 14 + (interactionsHeight > 0 ? interactionsHeight : CGFloat(interactions.count) * 66 + 24)
+            // (~66pt per two-line warning row at the default size) so the
+            // detent mints once.
+            let rowEstimate = UIFontMetrics(forTextStyle: .subheadline).scaledValue(for: 66)
+            raw += 14 + (interactionsHeight > 0 ? interactionsHeight : CGFloat(interactions.count) * rowEstimate + 24)
         }
         raw += bar
         let cap: CGFloat = containerHeight > 0 ? containerHeight * 0.5 - 40 : 420
@@ -304,7 +366,13 @@ struct QuickLogDock: View {
             }
         } else {
             let wasCompact = compactDetent != nil && detent == compactDetent
-            let newValue = compactHeightValue
+            // Fresh staged-card term, not the mirrored @State: a handler can
+            // run before the observer's callback has delivered the estimate
+            // for the mutation that triggered it (e.g. staging at peek), and
+            // minting from the stale mirror would step the sheet twice.
+            let newValue = compactHeight(
+                stagedCard: TrayDerivedObserver.estimatedStagedCardHeight(count: tray.staged.count),
+            )
             let newCompact = PresentationDetent.height(newValue)
             compactDetent = newCompact
             compactValue = newValue
@@ -547,6 +615,18 @@ struct QuickLogDock: View {
                 // above it, so staging more is not a context switch.
                 TrayStagedListCard(model: tray)
 
+                // At accessibility sizes the When/Tags/Location chips live in
+                // the scroll content: stacked, they made the pinned bar taller
+                // than the compact detent's cap and clipped the Log button
+                // (see ``TrayCommitBar``).
+                if dynamicTypeSize.isAccessibilitySize {
+                    TrayMetaChips(
+                        model: tray,
+                        tagSuggestions: content.cachedTagSuggestions,
+                        recentLocations: content.cachedRecentLocations,
+                    )
+                }
+
                 if !interactions.isEmpty {
                     interactionsCard
                         .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
@@ -603,6 +683,10 @@ struct QuickLogDock: View {
                 unit: payload.unit,
                 colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
                 librarySubstance: payload.librarySubstance,
+                volumeML: payload.volumeML,
+                abv: payload.abv,
+                drinkName: payload.drinkName,
+                emoji: payload.emoji,
             )
         }
     }
@@ -744,6 +828,72 @@ struct QuickLogDock: View {
             // carries its full dose/duration data (labelled with the personal
             // name); a net-new custom falls back to its own asSubstance.
             .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
+    }
+}
+
+// MARK: - Geometry & tray leaves
+
+/// Centers the search pill in the bare face from the *live* sheet height.
+/// A `ViewModifier` so the continuous `geometry.height` read registers on the
+/// modifier's own body — during an interactive drag inside the bare zone only
+/// this leaf re-evaluates per frame, and outside it (the height read is
+/// skipped entirely) nothing does.
+private struct BarePillCentering: ViewModifier {
+    var geometry: DockSheetGeometry
+    var trayIsEmpty: Bool
+
+    func body(content: Content) -> some View {
+        let bare = trayIsEmpty && geometry.isHeightBare
+        return content
+            .padding(.top, bare ? max(16, (geometry.height - QuickLogDockMetrics.fieldHeight) / 2) : 16)
+    }
+}
+
+/// Zero-size leaf owning the dock's derived reads of the staged array — the
+/// interaction-check names and the collapsed-card height estimate. Both fold
+/// per-dose mutations down to values that only change on structural edits, so
+/// an amount keystroke (which mutates `tray.staged` and would re-run any body
+/// observing it) invalidates just this leaf; the dock body hears about it only
+/// when a folded value actually changes, via the callbacks.
+private struct TrayDerivedObserver: View {
+    var tray: DoseTrayModel
+    let onInteractions: ([InteractionResult]) -> Void
+    let onStagedEstimate: (CGFloat) -> Void
+
+    private var stagedNameSet: Set<String> {
+        Set(tray.staged.map(\.substanceName))
+    }
+
+    /// One collapsed row's height, derived from the type metrics `TrayRow`
+    /// renders with (body title + subheadline detail + 2pt spacing + 12pt
+    /// vertical padding each side). Computed, not measured: live geometry
+    /// reports animated in-between frames during expand/collapse, which
+    /// churned the fit-to-content detent mid-gesture.
+    private static var collapsedRowHeight: CGFloat {
+        let title = UIFont.preferredFont(forTextStyle: .body).lineHeight
+        let subtitle = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight
+        return (title + subtitle + 2 + 24).rounded(.up)
+    }
+
+    /// Height of the staged card with every row collapsed. Static so the
+    /// dock's handlers can compute it fresh from the tray without waiting for
+    /// the observer's callback round-trip.
+    static func estimatedStagedCardHeight(count: Int) -> CGFloat {
+        guard count > 0 else { return 0 }
+        let rows = collapsedRowHeight * CGFloat(count)
+        let dividers = CGFloat(max(0, count - 1)) * (1.0 / 3.0)
+        return rows + dividers
+    }
+
+    var body: some View {
+        Color.clear
+            .frame(width: 0, height: 0)
+            .onChange(of: stagedNameSet, initial: true) { _, names in
+                onInteractions(names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : [])
+            }
+            .onChange(of: Self.estimatedStagedCardHeight(count: tray.staged.count), initial: true) { _, estimate in
+                onStagedEstimate(estimate)
+            }
     }
 }
 

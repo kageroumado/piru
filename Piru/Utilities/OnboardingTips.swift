@@ -68,6 +68,7 @@ struct SettingsDataTip: Tip {
     }
 
     var rules: [Rule] {
+        #Rule(LogDoseTip.$onboardingComplete) { $0 == true }
         #Rule(LogDoseTip.$hasLoggedFirstDose) { $0 == true }
     }
 }

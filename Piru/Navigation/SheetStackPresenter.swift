@@ -69,6 +69,15 @@ private struct SheetLayer: ViewModifier {
                         .modifier(SheetLayer(navigator: navigator, depth: depth + 1, quickLogZoom: quickLogZoom))
                 }
                 .fullScreenCover(item: binding(fullScreen: true)) { route in
+                    // The cover's content re-mounts the next layer itself at a
+                    // hardcoded depth 1 (see `hostsNestedNavigatorSheets`) —
+                    // only correct while covers present at depth 0. Nothing
+                    // structurally prevents a deeper cover, so fail loudly in
+                    // debug if one ever appears.
+                    let _ = assert(
+                        depth == 0,
+                        "fullScreenCover route at depth \(depth); hostsNestedNavigatorSheets hardcodes nested depth 1",
+                    )
                     routeContent(route)
                 }
         }
