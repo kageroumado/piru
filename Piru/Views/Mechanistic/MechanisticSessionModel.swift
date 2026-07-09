@@ -142,19 +142,26 @@ nonisolated enum MechanisticSessionModel {
 
         let timeline = EffectEngine.simulate(EffectParams(), agents: agents, tMax: tMax)
 
-        // Fixed session-wide ranges per mechanistic axis, so scrolling the
-        // window never rescales the curve and magnitudes stay comparable.
+        // Fixed session-wide ranges per mechanistic axis. The axis is anchored to
+        // a **semi-absolute** reference (``EffectLens/referenceScale``) rather than
+        // to each session's own peak: a mild session reads visually mild, and
+        // heights are comparable across sessions and lenses. The anchor only grows
+        // when a session genuinely overshoots it (too euphoric / too much strain to
+        // fit), so the curve is never clipped. The signed lenses always keep the
+        // reference floor, reserving comedown room so the baseline reads clearly
+        // horizontal even when nothing dips below it.
         var ranges: [String: AxisRange] = [:]
         for lens in EffectLens.mechanistic {
             guard let channel = lens.channel else { continue }
             let series = timeline[keyPath: channel]
-            var hi = 0.25
-            var lo = 0.0
+            let anchor = lens.referenceScale
+            var hi = anchor.hi
+            var lo = anchor.lo
             for value in series {
                 if value > hi { hi = value }
                 if value < lo { lo = value }
             }
-            ranges[lens.rawValue] = AxisRange(hi: hi * 1.1, lo: lens.isSigned ? lo * 1.12 : 0)
+            ranges[lens.rawValue] = AxisRange(hi: hi * 1.06, lo: lens.isSigned ? lo * 1.08 : 0)
         }
 
         // Real content extent: the last hour any mechanistic channel is still
@@ -165,7 +172,12 @@ nonisolated enum MechanisticSessionModel {
             guard let channel = lens.channel else { continue }
             let series = timeline[keyPath: channel]
             guard series.count == timeline.t.count else { continue }
-            let threshold = (ranges[lens.rawValue]?.hi ?? 0.25) * 0.04
+            // Tie the "still meaningfully active" threshold to this channel's own
+            // peak, not the (now anchored) axis `hi` — otherwise a mild session,
+            // whose peak sits well below the fixed anchor, would have its tail
+            // judged inactive too early and get truncated.
+            let seriesPeak = series.reduce(0.0) { max($0, abs($1)) }
+            let threshold = max(seriesPeak * 0.04, 0.02)
             for i in stride(from: series.count - 1, through: 0, by: -1) where abs(series[i]) > threshold {
                 contentSpan = max(contentSpan, timeline.t[i])
                 break

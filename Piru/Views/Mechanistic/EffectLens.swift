@@ -18,9 +18,10 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
     /// Focused, activated energy (NE + cortical DA). Dips into sedation.
     case energy
     /// The pull to redose — incentive salience, rate-gated, serotonin-braked.
-    case urge
-    /// Physiological cost, paired with Apple Health heart rate & blood pressure.
-    case safety
+    case compulsion
+    /// Physiological load (cardiovascular + respiratory cost), paired with Apple
+    /// Health heart rate & blood pressure. Higher = more strain on the body.
+    case strain
 
     var id: String {
         rawValue
@@ -35,8 +36,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         case .timeline: "Timeline"
         case .feeling: "Feeling"
         case .energy: "Energy"
-        case .urge: "Urge"
-        case .safety: "Safety"
+        case .compulsion: "Compulsion"
+        case .strain: "Strain"
         }
     }
 
@@ -45,8 +46,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         case .timeline: "chart.xyaxis.line"
         case .feeling: "face.smiling"
         case .energy: "bolt.fill"
-        case .urge: "flame.fill"
-        case .safety: "waveform.path.ecg"
+        case .compulsion: "flame.fill"
+        case .strain: "gauge.with.dots.needle.67percent"
         }
     }
 
@@ -55,8 +56,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         case .timeline: Color(hex: "8e8e93")
         case .feeling: Color(hex: "ff9f0a")
         case .energy: Color(hex: "ff6b35")
-        case .urge: Color(hex: "e0457b")
-        case .safety: Color(hex: "ff3b30")
+        case .compulsion: Color(hex: "e0457b")
+        case .strain: Color(hex: "ff3b30")
         }
     }
 
@@ -67,23 +68,57 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         case .timeline: nil
         case .feeling: \.eu
         case .energy: \.drive
-        case .urge: \.compul
-        case .safety: \.danger
+        case .compulsion: \.compul
+        case .strain: \.danger
         }
     }
 
     /// Whether the axis is signed — i.e. it can dip below zero into a crash
-    /// (drawn red). Urge and Safety are one-sided.
+    /// (drawn red). Compulsion and Strain are one-sided (they only rise from zero).
     var isSigned: Bool {
         switch self {
         case .feeling, .energy: true
-        case .timeline, .urge, .safety: false
+        case .timeline, .compulsion, .strain: false
+        }
+    }
+
+    /// A fixed, **semi-absolute** axis anchor per lens (in raw engine-output
+    /// units), so heights mean the same thing across sessions and lenses instead
+    /// of every card rescaling to its own peak. Calibrated to the ``readout``
+    /// word bands: the top-tier word ("Euphoric", "Wired", "Strong", "High")
+    /// lands high on the axis but with headroom, so a genuinely mild session
+    /// reads *visually* mild. A session that overshoots the anchor grows the axis
+    /// (see ``MechanisticSessionModel``) — the scale is absolute until the data
+    /// truly won't fit. `hi` is the neutral-to-strong ceiling; `lo` reserves
+    /// comedown/sedation room below the baseline on signed lenses (and is always
+    /// present, so the horizontal baseline reads as horizontal even when nothing
+    /// dips below it).
+    var referenceScale: (hi: Double, lo: Double) {
+        switch self {
+        case .timeline: (1, 0)
+        case .feeling: (1.5, -0.55)
+        case .energy: (2.0, -0.95)
+        case .compulsion: (0.8, 0)
+        case .strain: (2.4, 0)
         }
     }
 
     /// Pair Apple Health HR/BP with this lens (the harm-reduction payoff).
     var pairsVitals: Bool {
-        self == .safety
+        self == .strain
+    }
+
+    /// A short, glanceable cue for which direction is desirable — the fix for
+    /// four similar-looking curves whose "up" means opposite things. `nil` for
+    /// ``timeline`` (not a felt-effect axis).
+    var valenceHint: LocalizedStringKey? {
+        switch self {
+        case .timeline: nil
+        case .feeling: "Higher is better"
+        case .energy: "Higher is livelier"
+        case .compulsion: "Lower is better"
+        case .strain: "Lower is better"
+        }
     }
 
     /// A state-reflecting icon from a sampled now-value (happy vs flat face, full
@@ -102,32 +137,33 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
             if value > 1.5 { return ("bolt.fill", false) }
             if value > -0.4 { return ("bolt", false) }
             return ("bolt.slash", true)
-        case .urge:
+        case .compulsion:
             if value > 0.5 { return ("flame.fill", false) }
             return ("flame", false)
-        case .safety:
+        case .strain:
             if value > 1.6 { return ("exclamationmark.triangle.fill", true) }
-            return ("waveform.path.ecg", false)
+            return (symbol, false)
         }
     }
 
     /// A qualitative word for a sampled value — the glanceable "now" readout.
-    /// Ports each lens's `unit()` from the prototype.
+    /// One consistent vocabulary per lens; ``strain`` reads as a magnitude
+    /// (High/Moderate/Low) so the word matches the "higher = more load" curve.
     func readout(_ value: Double) -> LocalizedStringKey {
         switch self {
         case .timeline:
             ""
         case .feeling:
-            value > 1.2 ? "Euphoric" : value > 0.4 ? "Good" : value > -0.2 ? "Level" : "Low"
+            value > 1.2 ? "Euphoric" : value > 0.4 ? "Good" : value > -0.2 ? "Mild" : "Comedown"
         case .energy:
             value > 1.5 ? "Wired" : value > 0.4 ? "Driven" : value > -0.4 ? "Flat" : "Sedated"
-        case .urge:
-            value > 0.5 ? "Strong" : value > 0.15 ? "Present" : "Low"
-        case .safety:
-            value > 1.6 ? "Elevated" : value > 0.7 ? "Moderate" : "Low"
+        case .compulsion:
+            value > 0.5 ? "Strong" : value > 0.15 ? "Mild" : "Quiet"
+        case .strain:
+            value > 1.6 ? "High" : value > 0.7 ? "Moderate" : "Low"
         }
     }
 
     /// The mechanistic lenses, in display order (excludes ``timeline``).
-    static let mechanistic: [EffectLens] = [.feeling, .energy, .urge, .safety]
+    static let mechanistic: [EffectLens] = [.feeling, .energy, .compulsion, .strain]
 }

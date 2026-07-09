@@ -19,6 +19,11 @@ struct MechanisticChartView: View {
     /// `result`) so a recolour updates the marks without re-simulating.
     let doseMarks: [MechanisticSessionModel.DoseMark]
     let vitals: SessionVitals?
+    /// When `false`, the chart frames the whole session (no pan window) and
+    /// claims no drag/pinch gestures — so a scrolling stack of these charts (the
+    /// Effect Estimates overview) scrolls freely instead of each card trapping
+    /// the drag. Interactive (the default) keeps the panned/zoomed window.
+    var interactive: Bool = true
 
     /// Visible window width in hours (zoom). Seeded on appear.
     @State private var winW: Double = 5.5
@@ -90,8 +95,8 @@ struct MechanisticChartView: View {
                     seedWindow()
                 }
             }
-            .gesture(panGesture)
-            .simultaneousGesture(zoomGesture)
+            .gesture(panGesture, including: interactive ? .all : .none)
+            .simultaneousGesture(zoomGesture, including: interactive ? .all : .none)
             // A raw Canvas is invisible to VoiceOver — expose the lens plus its
             // sampled now-state ("Feeling, Good") as one element.
             .accessibilityElement()
@@ -220,6 +225,14 @@ struct MechanisticChartView: View {
             zero.move(to: CGPoint(x: geo.rect.minX, y: geo.zeroY))
             zero.addLine(to: CGPoint(x: geo.rect.maxX, y: geo.zeroY))
             context.stroke(zero, with: .color(.secondary.opacity(0.35)), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+            // Name the zero line once, so "below the baseline = comedown/sedation"
+            // is legible from the chart itself and not only the caption. Sits just
+            // above the line at the far left, left-anchored so it never centres on
+            // top of the first dose dot (which rides the same line). The reserved
+            // comedown room below the line is what makes it read as *horizontal*.
+            var base = context.resolve(Text("baseline").font(.system(size: 8, weight: .medium)))
+            base.shading = .color(.secondary.opacity(0.6))
+            context.draw(base, at: CGPoint(x: geo.rect.minX + 2, y: geo.zeroY - 7), anchor: .leading)
         }
     }
 
@@ -309,12 +322,17 @@ struct MechanisticChartView: View {
         for mark in doseMarks where mark.hours >= a - 0.1 && mark.hours <= b + 0.1 {
             let x = geo.x(mark.hours)
             let color = Color(hex: mark.colorHex)
+            // A faint full-height guide (so a dose lines up across the stacked
+            // charts) with the marker dot sitting ON the neutral baseline — "a dose
+            // happened at this time", not a value spiking to the top. On signed
+            // lenses the baseline floats above the chart floor (comedown room
+            // reserved below), so the dot rides the zero line, not the bottom edge.
             var line = Path()
             line.move(to: CGPoint(x: x, y: geo.rect.minY))
             line.addLine(to: CGPoint(x: x, y: geo.rect.maxY))
-            context.stroke(line, with: .color(color.opacity(0.55)), lineWidth: 2)
+            context.stroke(line, with: .color(color.opacity(0.28)), style: StrokeStyle(lineWidth: 1.5, dash: [2, 3]))
             let r = Metric.doseDot / 2
-            let dot = Path(ellipseIn: CGRect(x: x - r, y: geo.rect.minY - r, width: Metric.doseDot, height: Metric.doseDot))
+            let dot = Path(ellipseIn: CGRect(x: x - r, y: geo.zeroY - r, width: Metric.doseDot, height: Metric.doseDot))
             context.fill(dot, with: .color(color))
         }
     }
@@ -331,6 +349,35 @@ struct MechanisticChartView: View {
         let y = geo.y(nowValue)
         context.fill(Path(ellipseIn: CGRect(x: x - 4.5, y: y - 4.5, width: 9, height: 9)), with: .color(color))
         context.fill(Path(ellipseIn: CGRect(x: x - 2, y: y - 2, width: 4, height: 4)), with: .color(.white))
+        drawNowReadout(&context, geo, at: CGPoint(x: x, y: y), color: color)
+    }
+
+    /// The current-state word ("Good", "Wired", "Low", …) pinned to the now-dot —
+    /// the glanceable readout, tied to the exact height it describes rather than
+    /// floating in the section header. Only for a still-unfolding session, where
+    /// "now" is meaningful (a finished session reads its whole shape instead).
+    /// Sits beside the now-line (never centred on it, or the full-height stroke
+    /// would bisect the word) and above the dot, flipping to the left when the dot
+    /// is near the right edge.
+    private func drawNowReadout(_ context: inout GraphicsContext, _ geo: Geometry, at dot: CGPoint, color: Color) {
+        guard nowHours < span - 0.05 else { return }
+        let word = lens.readout(nowValue)
+        guard word != "" else { return }
+        var text = context.resolve(Text(word).font(.system(size: 11, weight: .semibold, design: .rounded)))
+        text.shading = .color(color)
+        let size = text.measure(in: geo.rect.size)
+        let gap: CGFloat = 7
+        // Right of the line by default; flip left if the label would spill past
+        // the content margin.
+        let toRight = dot.x + gap + size.width <= geo.rect.maxX - 2
+        let anchor: UnitPoint = toRight ? .leading : .trailing
+        let tx = toRight ? dot.x + gap : dot.x - gap
+        // Above the dot, clamped so a dot near the top/bottom keeps the word in-frame.
+        let ty = min(
+            max(dot.y - size.height / 2 - 6, geo.rect.minY + size.height / 2),
+            geo.rect.maxY - size.height / 2,
+        )
+        context.draw(text, at: CGPoint(x: tx, y: ty), anchor: anchor)
     }
 
     // MARK: - Gestures
@@ -383,6 +430,13 @@ struct MechanisticChartView: View {
     }
 
     private func seedWindow() {
+        // Overview cards frame the whole session at once — no scrollable window,
+        // so the whole curve is visible and the chart claims no drag.
+        if !interactive {
+            winW = contentLength
+            winStart = clampStart(contentStart - edgePad)
+            return
+        }
         // A little wider than before — the earlier default sat too zoomed in.
         winW = min(7.5, contentLength)
         if nowHours < span {

@@ -44,8 +44,7 @@ struct SessionDetailView: View {
     @State private var titleDraft = ""
     @State private var showNoteEditor = false
     @State private var noteDraft = ""
-    @State private var graphExpanded = true
-    /// Expansion of the interaction warnings inside the Summary section. Collapsed
+    /// Expansion of the interaction warnings inside the Safety section. Collapsed
     /// by default — the severity-tinted count already signals their presence.
     @State private var interactionsExpanded = false
     /// Grows the inline timeline in place: the graph's frame steps up to a taller
@@ -55,12 +54,9 @@ struct SessionDetailView: View {
     /// Presents the consolidated "Share Session" sheet (image / PDF / Markdown).
     @State private var showShareSession = false
 
-    /// Selected lens for the session graph. `.timeline` is the classic
-    /// per-substance duration view; the mechanistic lenses (Feeling/Energy/Urge/
-    /// Safety) appear only when the engine can model the session.
-    @State private var effectLens: EffectLens = .timeline
     /// The simulated mechanistic timeline — nil until computed or when the
-    /// session contains nothing the engine models.
+    /// session contains nothing the engine models. Feeds the Effect Estimates
+    /// entry card (and, through it, the dedicated screen).
     @State private var mechanisticResult: MechanisticSessionModel.Result?
 
     /// Opt-in: overlay Apple Health heart rate / blood pressure on the session.
@@ -236,9 +232,38 @@ struct SessionDetailView: View {
         resolvedDay.mechanisticSupported
     }
 
-    /// The lenses to offer in the switcher.
-    private var availableLenses: [EffectLens] {
-        mechanisticSupported ? [.timeline] + EffectLens.mechanistic : [.timeline]
+    /// Dose ticks for the mechanistic charts: every logged dose — the
+    /// curve-backed ones (`substanceStates`, one per dose) plus the
+    /// duration-less ones (`doseMarkers`). Built at the render site so a recolour
+    /// updates the tick colours without invalidating the simulation cache.
+    private var mechanisticDoseMarks: [MechanisticSessionModel.DoseMark] {
+        let curveDoses = substanceStates.map { (timestamp: $0.doseTimestamp, colorHex: $0.colorHex) }
+        let markerDoses = doseMarkers.map { (timestamp: $0.timestamp, colorHex: $0.colorHex) }
+        return (curveDoses + markerDoses).map {
+            MechanisticSessionModel.DoseMark(
+                hours: $0.timestamp.timeIntervalSince(session.startDate) / 3_600,
+                colorHex: $0.colorHex,
+            )
+        }
+    }
+
+    /// Split the session's distinct substances into those the engine models
+    /// (they shape the curves) and those it can't (silently dropped) — the
+    /// coverage disclaimer's data. Display names, in first-seen order.
+    private var mechanisticPartition: (modeled: [String], ignored: [String]) {
+        var seen = Set<String>()
+        var modeled: [String] = []
+        var ignored: [String] = []
+        for entry in entries {
+            guard seen.insert(entry.substance.lowercased()).inserted else { continue }
+            let display = CustomSubstanceStore.shared.displayName(for: entry.substance)
+            if SubstanceModelDatabase.resolve(name: entry.substance, category: .other) != nil {
+                modeled.append(display)
+            } else {
+                ignored.append(display)
+            }
+        }
+        return (modeled, ignored)
     }
 
     /// Cheap: hashes the small, already-memoized dose inputs (which carry no
@@ -254,7 +279,6 @@ struct SessionDetailView: View {
     private func computeMechanistic() async {
         guard mechanisticSupported else {
             mechanisticResult = nil
-            if effectLens != .timeline { effectLens = .timeline }
             return
         }
         let doses = resolvedDay.mechanisticDoses
@@ -291,13 +315,6 @@ struct SessionDetailView: View {
     /// Re-dose totals, precomputed in ``resolvedDay``.
     private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
         resolvedDay.cumulativeDoses
-    }
-
-    /// The Summary section appears whenever there is at least one derived signal
-    /// to show — re-dose totals or interaction warnings. (Recovery tips ride along
-    /// inside it rather than standing alone.)
-    private var hasSummary: Bool {
-        !cumulativeDoses.isEmpty || !dayInteractions.isEmpty || hrSummary != nil
     }
 
     /// Highest severity among the day's interactions — drives the disclosure's
@@ -546,16 +563,6 @@ struct SessionDetailView: View {
         return substanceStates.contains { now < $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
     }
 
-    /// The lens switcher, pinned above the List (not a grouped-list row) so the
-    /// pills run edge-to-edge and clip flat at the screen edges — matching the
-    /// Journal tag bar. Only for sessions that offer the mechanistic lenses.
-    @ViewBuilder private var lensBar: some View {
-        if mechanisticSupported, availableLenses.count > 1 {
-            LensBar(lens: $effectLens, lenses: availableLenses, result: mechanisticResult, nowHours: nowHours)
-                .background(Theme.background)
-        }
-    }
-
     var body: some View {
         @Bindable var editing = editing
         return List {
@@ -572,34 +579,31 @@ struct SessionDetailView: View {
                     // doses) would render an empty axis, so we drop the whole
                     // section and let the entry list speak for itself.
                     if !substanceStates.isEmpty {
-                        if mechanisticSupported {
-                            SessionGraphSection(
-                                lens: $effectLens,
-                                mechanistic: mechanisticResult,
-                                states: substanceStates,
-                                markers: doseMarkers,
-                                laneCount: laneCount,
-                                timelineEnlarged: $timelineEnlarged,
-                                isToday: isToday,
-                                hasOngoingDose: hasOngoingDose,
-                                vitals: sessionVitals,
-                                startDate: session.startDate,
-                                nowHours: nowHours,
-                                onToggleLiveActivity: toggleLiveActivity,
-                            )
-                        } else {
-                            SessionTimelineSection(
-                                states: substanceStates,
-                                markers: doseMarkers,
-                                laneCount: laneCount,
-                                graphExpanded: $graphExpanded,
-                                timelineEnlarged: $timelineEnlarged,
-                                isToday: isToday,
-                                hasOngoingDose: hasOngoingDose,
-                                vitals: sessionVitals,
-                                onToggleLiveActivity: toggleLiveActivity,
-                            )
-                        }
+                        SessionTimelineSection(
+                            states: substanceStates,
+                            markers: doseMarkers,
+                            laneCount: laneCount,
+                            timelineEnlarged: $timelineEnlarged,
+                            hasOngoingDose: hasOngoingDose,
+                            vitals: sessionVitals,
+                        )
+                    }
+
+                    // Effect Estimates — the mechanistic model as its own graph
+                    // section between the timeline and the doses. A gateway card
+                    // (preview + caveat) pushing to the dedicated multi-lens
+                    // screen, shown only once the engine has modeled the session.
+                    if mechanisticSupported, let mechanisticResult {
+                        let partition = mechanisticPartition
+                        EffectEstimatesCard(
+                            result: mechanisticResult,
+                            startDate: session.startDate,
+                            nowHours: nowHours,
+                            doseMarks: mechanisticDoseMarks,
+                            vitals: sessionVitals,
+                            modeled: partition.modeled,
+                            ignored: partition.ignored,
+                        )
                     }
 
                     if shouldOfferVitals {
@@ -644,29 +648,33 @@ struct SessionDetailView: View {
                     }
                     SessionEntryListSection(entries: entries, displays: displays, isRecentDay: isRecentDay)
 
-                    // A single "Summary" section folds together the day's derived
-                    // signals — interaction warnings (expand in place), cumulative
-                    // re-dose totals, and a link to recovery guidance — instead of
-                    // three separate stacked sections competing below the log.
-                    if hasSummary {
-                        Section("Summary") {
-                            if !dayInteractions.isEmpty {
-                                interactionsDisclosure
-                            }
-
-                            if let hrSummary {
-                                hrSummaryRow(hrSummary)
-                            }
-
+                    // Cumulative re-dose totals — a headerless section of its own,
+                    // no longer buried under a generic "Summary" heading.
+                    if !cumulativeDoses.isEmpty {
+                        Section {
                             ForEach(cumulativeDoses, id: \.substance) { item in
                                 cumulativeRow(item)
                             }
+                        }
+                    }
 
-                            NavigationLink(value: PushRoute.comedownGuide) {
-                                Label("Recovery tips", systemImage: "heart.text.clipboard")
-                                    .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(Theme.accent)
-                            }
+                    // Safety — interaction warnings (expand in place), a heart-rate
+                    // summary, and a link to recovery guidance. Headerless; the
+                    // severity-tinted interaction row already names it. Always
+                    // present so the recovery-guidance link stays discoverable.
+                    Section {
+                        if !dayInteractions.isEmpty {
+                            interactionsDisclosure
+                        }
+
+                        if let hrSummary {
+                            hrSummaryRow(hrSummary)
+                        }
+
+                        NavigationLink(value: PushRoute.comedownGuide) {
+                            Label("Recovery tips", systemImage: "heart.text.clipboard")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(Theme.accent)
                         }
                     }
                 }
@@ -676,7 +684,6 @@ struct SessionDetailView: View {
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
         .listSectionSpacing(16)
-        .safeAreaInset(edge: .top, spacing: 0) { lensBar }
         .background(Theme.background)
         .task(id: colorSignature) {
             colorMap = Array(substanceColors).colorMap
@@ -695,6 +702,7 @@ struct SessionDetailView: View {
                         Image(systemName: "square.and.arrow.up")
                     }
                     .accessibilityLabel(Text("Share session"))
+                    .popoverTip(ShareSessionTip())
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -952,19 +960,18 @@ private final class DayResolveCache {
 
 // MARK: - Session Detail Sections
 
-/// The day-detail's timeline graph section. Its expand/enlarge state lives on the
-/// parent (so the accessory and title stay in sync) and is threaded in as
-/// bindings; the live-activity toggle is a parent action.
+/// The day-detail's timeline graph — a single headerless, full-bleed section.
+/// No collapse chevron (the graph earns its place at the top of every session)
+/// and no always-on gesture caption: the pan/zoom/inspect hint is a one-time
+/// TipKit popover instead. Enlarge and Live Activity live in the ⋯ toolbar menu,
+/// so the graph carries no chrome of its own.
 private struct SessionTimelineSection: View {
     let states: [ActiveSubstanceState]
     let markers: [DoseMarker]
     let laneCount: Int
-    @Binding var graphExpanded: Bool
     @Binding var timelineEnlarged: Bool
-    let isToday: Bool
     let hasOngoingDose: Bool
     let vitals: SessionVitals?
-    let onToggleLiveActivity: () -> Void
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
     @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
@@ -972,187 +979,28 @@ private struct SessionTimelineSection: View {
 
     var body: some View {
         Section {
-            if graphExpanded {
-                let bandExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
-                AnimatableHeight(height: GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold) + bandExtra) {
-                    TimelineGraphView(
-                        substances: states,
-                        currentTime: .now,
-                        compact: false,
-                        markers: markers,
-                        stackRedoses: stackRedoses,
-                        dayBounded: true,
-                        vitals: vitals,
-                        vitalsBandEnlarged: timelineEnlarged,
-                        focusAroundNow: hasOngoingDose,
-                        synchronous: true,
-                    )
-                }
-                .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
-                // Tight insets scoped to the graph row alone so it spans nearly
-                // edge-to-edge; the header/footer keep the List's default inset.
-                .listRowInsets(EdgeInsets(
-                    top: GraphMetrics.section / 2,
-                    leading: GraphMetrics.cardInset / 2,
-                    bottom: GraphMetrics.section / 2,
-                    trailing: GraphMetrics.cardInset / 2,
-                ))
+            let bandExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
+            AnimatableHeight(height: GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold) + bandExtra) {
+                TimelineGraphView(
+                    substances: states,
+                    currentTime: .now,
+                    compact: false,
+                    markers: markers,
+                    stackRedoses: stackRedoses,
+                    dayBounded: true,
+                    vitals: vitals,
+                    vitalsBandEnlarged: timelineEnlarged,
+                    focusAroundNow: hasOngoingDose,
+                    synchronous: true,
+                )
             }
-        } header: {
-            HStack(spacing: GraphMetrics.section) {
-                Button {
-                    withAnimation { graphExpanded.toggle() }
-                } label: {
-                    HStack {
-                        Text("Timeline")
-                        Image(systemName: "chevron.right")
-                            .font(.caption2.weight(.semibold))
-                            .rotationEffect(.degrees(graphExpanded ? 90 : 0))
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .buttonStyle(.plain)
-
-                Spacer()
-
-                if isToday, hasOngoingDose {
-                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
-                    Button {
-                        onToggleLiveActivity()
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
-                            Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
-                        }
-                        .font(.caption2.weight(.semibold))
-                    }
-                    .buttonStyle(.bordered)
-                    .buttonBorderShape(.capsule)
-                    .controlSize(.mini)
-                    .tint(Theme.accent)
-                    .textCase(nil)
-                    .popoverTip(isRunning ? nil : LiveActivityTip())
-                }
-
-                if graphExpanded {
-                    Button {
-                        timelineEnlarged.toggle()
-                    } label: {
-                        Image(
-                            systemName: timelineEnlarged
-                                ? "arrow.down.right.and.arrow.up.left"
-                                : "arrow.up.backward.and.arrow.down.forward",
-                        )
-                        .font(.caption.weight(.semibold))
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityLabel(Text(timelineEnlarged ? "Shrink timeline" : "Expand timeline"))
-                }
-            }
-        } footer: {
-            if graphExpanded {
-                Text("Slide to move, pinch to zoom, hold to inspect")
-            }
-        }
-    }
-}
-
-/// The modeled-session graph section: one lens at a time (classic Timeline or a
-/// mechanistic effect curve) in the app's grouped style, with the lens pills
-/// *below* the graph, a shared enlarge control, and the drag hint as the footer.
-/// Both graphs are sized from ``GraphMetrics`` so switching lenses never resizes.
-private struct SessionGraphSection: View {
-    @Binding var lens: EffectLens
-    let mechanistic: MechanisticSessionModel.Result?
-    let states: [ActiveSubstanceState]
-    let markers: [DoseMarker]
-    let laneCount: Int
-    @Binding var timelineEnlarged: Bool
-    let isToday: Bool
-    let hasOngoingDose: Bool
-    let vitals: SessionVitals?
-    let startDate: Date
-    let nowHours: Double
-    let onToggleLiveActivity: () -> Void
-
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
-    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
-    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
-
-    private var height: CGFloat {
-        GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold)
-    }
-
-    var body: some View {
-        // The lens pills are lifted out of the List into a pinned top bar (see the
-        // host's `.safeAreaInset`), so they can run edge-to-edge without the
-        // grouped-list inset + rounded-corner clip.
-
-        // Graph card — fills the card vertically; only the L/R edges are inset.
-        // Expand & Live Activity moved to the toolbar menu so they don't sit on
-        // top of the (small) graph.
-        Section {
-            AnimatableHeight(height: height) { graph }
-                .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
-                // Full-bleed the canvas to the card edge so continuous curves run
-                // edge to edge. A grouped List ignores `leading: 0` (it falls back
-                // to the ~20pt content margin), so a 0.5pt epsilon is the reliable
-                // way to reach the card edge.
-                .listRowInsets(EdgeInsets(top: 0, leading: 0.5, bottom: 0, trailing: 0.5))
-                .listRowSeparator(.hidden)
-        } footer: {
-            // The classic timeline supports hold-to-inspect; the mechanistic
-            // lenses don't, so only mention it for the timeline graph.
-            if lens == .timeline || mechanistic == nil {
-                Text("Slide to move, pinch to zoom, hold to inspect")
-            } else {
-                Text("Slide to move, pinch to zoom")
-            }
-        }
-
-        if lens.pairsVitals, let vitals, !vitals.isEmpty {
-            Section {
-                MechanisticVitalsCards(vitals: vitals, startDate: startDate, nowHours: nowHours)
-                    .listRowInsets(EdgeInsets(top: 0, leading: GraphMetrics.cardInset, bottom: 2, trailing: GraphMetrics.cardInset))
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-            }
-        }
-    }
-
-    @ViewBuilder private var graph: some View {
-        if lens == .timeline || mechanistic == nil {
-            TimelineGraphView(
-                substances: states,
-                currentTime: .now,
-                compact: false,
-                markers: markers,
-                stackRedoses: stackRedoses,
-                dayBounded: true,
-                vitals: nil,
-                vitalsBandEnlarged: timelineEnlarged,
-                focusAroundNow: hasOngoingDose,
-                synchronous: true,
-            )
-        } else if let result = mechanistic {
-            MechanisticChartView(result: result, lens: lens, startDate: startDate, nowHours: nowHours, doseMarks: doseMarks, vitals: vitals)
-        }
-    }
-
-    /// Dose ticks for the mechanistic chart: every logged dose — the curve-backed
-    /// ones (`states`, one per dose) plus the duration-less ones (`markers`, which
-    /// hold ONLY doses without curves). Built at the render site so a recolour
-    /// updates the tick colours without invalidating the simulation cache. The
-    /// earliest mark also anchors the chart's scrollable extent.
-    private var doseMarks: [MechanisticSessionModel.DoseMark] {
-        let curveDoses = states.map { (timestamp: $0.doseTimestamp, colorHex: $0.colorHex) }
-        let markerDoses = markers.map { (timestamp: $0.timestamp, colorHex: $0.colorHex) }
-        return (curveDoses + markerDoses).map {
-            MechanisticSessionModel.DoseMark(
-                hours: $0.timestamp.timeIntervalSince(startDate) / 3_600,
-                colorHex: $0.colorHex,
-            )
+            .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
+            // Full-bleed the canvas to the card edge so continuous curves run edge
+            // to edge. A grouped List ignores `leading: 0` (it falls back to the
+            // ~20pt content margin), so a 0.5pt epsilon reliably reaches the edge.
+            .listRowInsets(EdgeInsets(top: 0, leading: 0.5, bottom: 0, trailing: 0.5))
+            .listRowSeparator(.hidden)
+            .popoverTip(GraphGestureTip())
         }
     }
 }

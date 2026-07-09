@@ -52,7 +52,7 @@ nonisolated enum SubstanceModelDatabase {
 
     // MARK: - Classification (which views a session supports)
 
-    /// True iff the mechanistic lenses (Feeling/Energy/Urge/Safety) should be surfaced for a session — i.e. it
+    /// True iff the mechanistic lenses (Feeling/Energy/Compulsion/Strain) should be surfaced for a session — i.e. it
     /// contains at least one stimulant or opioid the engine models. Pure sedatives/enhancers/modifiers (benzos,
     /// CAEs, mirtazapine) don't trigger it on their own; nor do unmodelable classes. Everything else stays on the
     /// classic duration timeline (Tier 0). Matches Kiri's rule: "only surface it when we have stimulants or opioids."
