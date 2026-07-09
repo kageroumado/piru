@@ -5,15 +5,17 @@ import UIKit
 // MARK: - Drink Preset Manager
 
 /// Full management surface for a by-volume substance's drink presets, presented
-/// as a sheet from the drink chip's "Edit Drinks…" menu item. A native List:
-/// tap a row to edit it, swipe to delete, long-press-drag to reorder, `+` to
-/// add — the same pattern as ``QuickLogEditSheet``.
+/// as a sheet from the drink chip's "Edit Drinks…" menu item. A native List
+/// permanently in edit mode: grabbers reorder, minus/swipe deletes, tap a row
+/// to edit it, `+` to add — the same pattern as ``QuickLogEditSheet`` (see
+/// there for why rows are `Button`s and `editMode` is scoped to the `List`).
 struct DrinkPresetManagerView: View {
     let substanceName: String
 
     @Query private var presets: [CustomDrinkPreset]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @State private var path: [CustomDrinkPreset] = []
 
     init(substanceName: String) {
         self.substanceName = substanceName
@@ -25,21 +27,26 @@ struct DrinkPresetManagerView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 Section {
                     ForEach(presets) { preset in
-                        NavigationLink {
-                            DrinkPresetForm(preset: preset, substanceName: substanceName)
+                        Button {
+                            path.append(preset)
                         } label: {
                             presetRow(preset)
                         }
+                        .foregroundStyle(.primary)
                     }
                     .onMove(perform: move)
                     .onDelete(perform: delete)
                 } footer: {
                     Text("Drag to reorder. Swipe left to remove.")
                 }
+            }
+            .environment(\.editMode, .constant(.active))
+            .navigationDestination(for: CustomDrinkPreset.self) { preset in
+                DrinkPresetForm(preset: preset, substanceName: substanceName)
             }
             .navigationTitle("Drinks")
             .navigationBarTitleDisplayMode(.inline)
@@ -67,15 +74,7 @@ struct DrinkPresetManagerView: View {
     }
 
     private func presetRow(_ preset: CustomDrinkPreset) -> some View {
-        HStack(spacing: 12) {
-            Text(preset.emoji)
-                .font(.title3)
-            Text(preset.name)
-            Spacer()
-            Text(preset.detailLabel)
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
+        DrinkPresetRow(preset: preset)
     }
 
     private func move(from source: IndexSet, to destination: Int) {
@@ -95,13 +94,37 @@ struct DrinkPresetManagerView: View {
     }
 }
 
+// MARK: - Preset Row
+
+/// One drink preset's list row (emoji, name, strength/volume detail, chevron) —
+/// shared between ``DrinkPresetManagerView`` and ``QuickLogEditSheet``.
+struct DrinkPresetRow: View {
+    let preset: CustomDrinkPreset
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Text(preset.emoji)
+                .font(.title3)
+            Text(preset.name)
+            Spacer()
+            Text(preset.detailLabel)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+            Image(systemName: "chevron.right")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+    }
+}
+
 // MARK: - Add / Edit Form
 
 /// One drink preset's editor: emoji + name, strength, and an optional fixed
 /// serving volume. Strength + name define a preset; a fixed-volume preset (a
 /// 330 mL can) fills both dials on select, a strength-only one (an IPA you
 /// pour freely) fills just the strength.
-private struct DrinkPresetForm: View {
+/// Internal (not private) so ``QuickLogEditSheet`` can push the same editor.
+struct DrinkPresetForm: View {
     /// `nil` creates a new preset on save.
     let preset: CustomDrinkPreset?
     let substanceName: String
