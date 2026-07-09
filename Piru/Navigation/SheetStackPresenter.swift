@@ -64,6 +64,13 @@ private struct SheetLayer: ViewModifier {
             // next layer on the dock instead, via
             // ``hostsNestedNavigatorSheets(_:quickLogZoom:)``.
             content
+                // The quick-log cover clears its transition view's
+                // `accessibilityViewIsModal` (see `CoverAccessibilityUnmasker`)
+                // so VoiceOver can reach the dock sheet at undimmed detents —
+                // which un-hides this presenting layer as a side effect. Hide
+                // it explicitly while a cover is up; regular sheets keep the
+                // system's own modality handling.
+                .accessibilityHidden(coverPresentedHere)
                 .sheet(item: binding(fullScreen: false)) { route in
                     routeContent(route)
                         .modifier(SheetLayer(navigator: navigator, depth: depth + 1, quickLogZoom: quickLogZoom))
@@ -91,6 +98,13 @@ private struct SheetLayer: ViewModifier {
                 sourceID: navigator.sheetZoomSourceID,
                 in: quickLogZoom,
             )
+    }
+
+    /// Whether the route at this depth is currently presented as a
+    /// full-screen cover (drives the explicit accessibility hide above).
+    private var coverPresentedHere: Bool {
+        guard navigator.sheetStack.indices.contains(depth) else { return false }
+        return navigator.sheetStack[depth].presentsAsFullScreenCover
     }
 
     /// Binds the route at this depth, filtered to one presentation style.
