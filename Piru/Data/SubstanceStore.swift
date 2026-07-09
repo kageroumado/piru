@@ -2105,6 +2105,11 @@ final class SubstanceStore {
         let doseInStudyMg: Double?
         let subjectN: Int?
         let demographics: String?
+        /// Study species (`human`, `rat`, `pig`, …), lowercased, or `nil` when unstated. Drives the
+        /// resolver's interspecies allometric scaling (``SubstanceStore/scaledToHuman(_:)``): a
+        /// non-human row keeps its species-invariant Vd/kg but has its confidence floored and its
+        /// clearance/half-life allometrically scaled to a 70 kg human when no human value exists.
+        let species: String?
         let sourceSlug: String
         let doi: String?
         let pmid: Int?

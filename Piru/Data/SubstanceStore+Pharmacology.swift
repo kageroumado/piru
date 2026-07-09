@@ -118,7 +118,7 @@ extension SubstanceStore {
                     SELECT p.id, p.route, p.bioavailability_pct, p.cmax_ng_per_ml, p.tmax_min,
                            p.half_life_min, p.vd_l_per_kg, p.clearance_ml_per_min_per_kg,
                            p.protein_binding_pct, p.dose_in_study_mg, p.subject_n, p.demographics,
-                           p.notes, p.confidence, src.slug AS source_slug, c.doi, c.pmid
+                           p.species, p.notes, p.confidence, src.slug AS source_slug, c.doi, c.pmid
                       FROM pk_routes p
                       JOIN sources src ON src.id = p.source_id
                       LEFT JOIN citations c ON c.id = p.citation_id
@@ -138,6 +138,7 @@ extension SubstanceStore {
                         doseInStudyMg: row["dose_in_study_mg"],
                         subjectN: (row["subject_n"] as Int64?).map(Int.init),
                         demographics: row["demographics"],
+                        species: (row["species"] as String?)?.lowercased(),
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
@@ -256,10 +257,18 @@ extension SubstanceStore {
         let categoryClasses = loggedID.map {
             Self.toleranceCategoryClasses(substanceID: $0, db: substancesDB)
         } ?? []
+        // Reference-substance borrow (the derivation layer): a substance with no citeable PK of its own
+        // (2-MMC) inherits a flagged surrogate's kinetics (mephedrone) via its `pk_reference` pointer.
+        let pkID = substanceID(forNameOrAlias: routed.name)
+        let effectivePK = Self.applyPKReference(
+            ownRows: pharmacokinetics(forSubstanceName: routed.name),
+            subjectID: pkID, db: substancesDB,
+            resolveReferenceID: { self.substanceID(forNameOrAlias: $0) },
+        )
         return Self.assemblePharmacologyParameters(
             name: name,
             molarMass: molarMass(forSubstanceName: routed.name),
-            pk: pharmacokinetics(forSubstanceName: routed.name),
+            pk: effectivePK,
             bindingHits: bindings(forSubstanceName: routed.name),
             doseScale: routed.scale,
             doseScaleConfidence: routed.confidence,
@@ -321,10 +330,17 @@ extension SubstanceStore {
                 Self.referenceDoseMg(substanceID: $0, db: queue, order: order)
             }
             let categoryClasses = loggedID.map { Self.toleranceCategoryClasses(substanceID: $0, db: queue) } ?? []
+            // Reference-substance borrow (the derivation layer), off-main: same single-hop borrow as the
+            // interactive path, resolving the surrogate's id on the batch connection.
+            let effectivePK = applyPKReference(
+                ownRows: id.map { pharmacokineticsRows(substanceID: $0, db: queue) } ?? [],
+                subjectID: id, db: queue,
+                resolveReferenceID: { substanceID(forNameOrAlias: $0, db: queue) },
+            )
             out[name] = assemblePharmacologyParameters(
                 name: name,
                 molarMass: id.flatMap { molarMass(substanceID: $0, db: queue) },
-                pk: id.map { pharmacokineticsRows(substanceID: $0, db: queue) } ?? [],
+                pk: effectivePK,
                 bindingHits: id.map { bindingRows(substanceID: $0, db: queue) } ?? [],
                 doseScale: routed.scale,
                 doseScaleConfidence: routed.confidence,
@@ -334,6 +350,162 @@ extension SubstanceStore {
             )
         }
         return out
+    }
+
+    // MARK: - Derivation layer (interspecies scaling + reference-substance borrow)
+
+    /// Reference body weights (kg) per study species, for interspecies allometric scaling.
+    nonisolated static let speciesReferenceWeightKg: [String: Double] = [
+        "rat": 0.25, "pig": 40, "human": 70, "mouse": 0.02, "dog": 10, "monkey": 3.5,
+    ]
+
+    /// Allometrically project a non-human PK row onto a 70 kg human (Boxenbaum 1982; Mahmood 2010).
+    ///
+    /// Volume of distribution per kg (L/kg) is species-**invariant** — it reflects tissue partitioning,
+    /// not body size — so Vd/kg passes through UNCHANGED; only its *confidence* is floored (a non-human
+    /// Vd is a class-default proxy, never a human-anchored value). Clearance and half-life DO scale with
+    /// body mass by the classic allometric exponents: `CL ∝ BW^0.75` (→ ×(70/BW)^0.75) and
+    /// `t½ ∝ BW^0.25` (→ ×(70/BW)^0.25). These are the *last-resort* fill; a measured-human t½/Tmax and
+    /// a human apparent-Vd/F always win over scaled animal kinetics (`assemblePharmacologyParameters`
+    /// keeps the human row's t½/Tmax when one exists).
+    ///
+    /// CAVEAT (load-bearing): single-species allometric scaling systematically **underpredicts cathinone
+    /// half-life by ~2–3×** — validated: mephedrone rat-scaled ≈65 min vs measured human 129 min; 3-MMC
+    /// pig-scaled ≈55 min vs measured human 180 min. So a scaled t½ is only a floor-confidence stand-in,
+    /// never a substitute for the measured human value where one exists.
+    ///
+    /// A human or unknown-species row is returned unchanged.
+    nonisolated static func scaledToHuman(_ row: PKRouteHit) -> PKRouteHit {
+        guard let species = row.species?.lowercased(), species != "human",
+              let bodyWeightKg = speciesReferenceWeightKg[species], bodyWeightKg > 0 else {
+            return row
+        }
+        let massRatio = 70.0 / bodyWeightKg
+        let clearanceScale = pow(massRatio, 0.75)
+        let halfLifeScale = pow(massRatio, 0.25)
+        return PKRouteHit(
+            id: row.id, route: row.route, bioavailabilityPct: row.bioavailabilityPct,
+            cmaxNgPerMl: row.cmaxNgPerMl,
+            tmaxMin: row.tmaxMin,
+            halfLifeMin: row.halfLifeMin.map { $0 * halfLifeScale },
+            vdLPerKg: row.vdLPerKg, // species-invariant → unchanged
+            clearanceMlPerMinPerKg: row.clearanceMlPerMinPerKg.map { $0 * clearanceScale },
+            proteinBindingPct: row.proteinBindingPct, doseInStudyMg: row.doseInStudyMg,
+            subjectN: row.subjectN, demographics: row.demographics, species: row.species,
+            sourceSlug: row.sourceSlug, doi: row.doi, pmid: row.pmid, notes: row.notes,
+            confidence: Swift.min(row.confidence, .low),
+        )
+    }
+
+    /// The pharmacokinetics **reference-substance** pointer for a substance (the derivation layer): the
+    /// surrogate name, the set of borrowable field keys (`vd`/`bioavailability`/`tmax`/`half_life`), and
+    /// the confidence ceiling every borrowed value is floored to. `nil` when the substance carries no
+    /// `pk_reference`. Single-hop is enforced at build (`reject_transitive_pk_references`); the resolver
+    /// additionally refuses a reference that itself carries a pointer.
+    nonisolated static func pkReference(
+        substanceID id: Int64, db queue: DatabaseQueue,
+    ) -> (name: String, fields: Set<String>, confidence: ConfidenceTier)? {
+        let maybeRow: Row? = (try? queue.read { db in
+            try Row.fetchOne(
+                db,
+                sql: "SELECT pk_reference_name, pk_reference_fields, pk_reference_confidence FROM substances WHERE id = ?",
+                arguments: [id],
+            )
+        }) ?? nil
+        guard let row = maybeRow,
+              let name = row["pk_reference_name"] as String?, !name.isEmpty else { return nil }
+        let fieldsCSV = (row["pk_reference_fields"] as String?) ?? ""
+        let fields = Set(
+            fieldsCSV.split(separator: ",")
+                .map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+                .filter { !$0.isEmpty },
+        )
+        return (name, fields, ConfidenceTier(grade: row["pk_reference_confidence"] as String?))
+    }
+
+    /// Rebuild a ``PKRouteHit`` with its confidence floored to `ceiling`.
+    private nonisolated static func flooringConfidence(_ row: PKRouteHit, to ceiling: ConfidenceTier) -> PKRouteHit {
+        PKRouteHit(
+            id: row.id, route: row.route, bioavailabilityPct: row.bioavailabilityPct,
+            cmaxNgPerMl: row.cmaxNgPerMl, tmaxMin: row.tmaxMin, halfLifeMin: row.halfLifeMin,
+            vdLPerKg: row.vdLPerKg, clearanceMlPerMinPerKg: row.clearanceMlPerMinPerKg,
+            proteinBindingPct: row.proteinBindingPct, doseInStudyMg: row.doseInStudyMg,
+            subjectN: row.subjectN, demographics: row.demographics, species: row.species,
+            sourceSlug: row.sourceSlug, doi: row.doi, pmid: row.pmid, notes: row.notes,
+            confidence: Swift.min(row.confidence, ceiling),
+        )
+    }
+
+    /// Apply the reference-substance PK borrow (the derivation layer). If the subject has a
+    /// `pk_reference` and the referenced fields are absent, resolve the surrogate and merge its rows:
+    /// **whole-row borrow** when the subject has ZERO pk rows (the 2-MMC case), else a **per-field
+    /// top-up** of the individually-null borrowable fields. Every borrowed field's confidence is floored
+    /// to `min(referenceRowConfidence, pointerConfidence)`. **Single-hop + visited-set** — a reference
+    /// that itself carries a `pk_reference` is refused (no transitive borrow). Returns the subject's own
+    /// rows unchanged when no borrow applies.
+    nonisolated static func applyPKReference(
+        ownRows: [PKRouteHit], subjectID: Int64?, db queue: DatabaseQueue,
+        resolveReferenceID: (String) -> Int64?,
+    ) -> [PKRouteHit] {
+        guard let subjectID, let ref = pkReference(substanceID: subjectID, db: queue),
+              let referenceID = resolveReferenceID(ref.name), referenceID != subjectID else {
+            return ownRows
+        }
+        // Single-hop: the surrogate must carry real PK, never another pointer.
+        if pkReference(substanceID: referenceID, db: queue) != nil { return ownRows }
+        let referenceRows = pharmacokineticsRows(substanceID: referenceID, db: queue)
+        guard !referenceRows.isEmpty else { return ownRows }
+
+        if ownRows.isEmpty {
+            // Whole-row borrow: take the surrogate's rows, each floored to the pointer ceiling.
+            return referenceRows.map { flooringConfidence($0, to: ref.confidence) }
+        }
+
+        // Per-field top-up: fill only the listed borrowable fields that are null on the subject's
+        // coherent (Vd-first) row from the surrogate's coherent row.
+        let referencePrimary = referenceRows.first { $0.vdLPerKg != nil } ?? referenceRows.first
+        guard let referencePrimary,
+              let subjectPrimary = ownRows.first(where: { $0.vdLPerKg != nil }) ?? ownRows.first
+        else { return ownRows }
+        let takeVd = ref.fields.contains("vd") && subjectPrimary.vdLPerKg == nil && referencePrimary.vdLPerKg != nil
+        let takeF = ref.fields.contains("bioavailability") && subjectPrimary.bioavailabilityPct == nil && referencePrimary.bioavailabilityPct != nil
+        let takeTmax = ref.fields.contains("tmax") && subjectPrimary.tmaxMin == nil && referencePrimary.tmaxMin != nil
+        let takeHalfLife = ref.fields.contains("half_life") && subjectPrimary.halfLifeMin == nil && referencePrimary.halfLifeMin != nil
+        guard takeVd || takeF || takeTmax || takeHalfLife else { return ownRows }
+        let ceiling = Swift.min(referencePrimary.confidence, ref.confidence)
+        let merged = PKRouteHit(
+            id: subjectPrimary.id, route: subjectPrimary.route,
+            bioavailabilityPct: takeF ? referencePrimary.bioavailabilityPct : subjectPrimary.bioavailabilityPct,
+            cmaxNgPerMl: subjectPrimary.cmaxNgPerMl,
+            tmaxMin: takeTmax ? referencePrimary.tmaxMin : subjectPrimary.tmaxMin,
+            halfLifeMin: takeHalfLife ? referencePrimary.halfLifeMin : subjectPrimary.halfLifeMin,
+            vdLPerKg: takeVd ? referencePrimary.vdLPerKg : subjectPrimary.vdLPerKg,
+            clearanceMlPerMinPerKg: subjectPrimary.clearanceMlPerMinPerKg,
+            proteinBindingPct: subjectPrimary.proteinBindingPct, doseInStudyMg: subjectPrimary.doseInStudyMg,
+            subjectN: subjectPrimary.subjectN, demographics: subjectPrimary.demographics,
+            // A borrowed Vd carries the surrogate's species flag so scaledToHuman floors it correctly.
+            species: takeVd ? referencePrimary.species : subjectPrimary.species,
+            sourceSlug: subjectPrimary.sourceSlug, doi: subjectPrimary.doi, pmid: subjectPrimary.pmid,
+            notes: subjectPrimary.notes, confidence: Swift.min(subjectPrimary.confidence, ceiling),
+        )
+        return ownRows.map { $0.id == subjectPrimary.id ? merged : $0 }
+    }
+
+    /// The single-column name→id lookup on a given connection. `nonisolated static` so the off-main
+    /// batch borrow can resolve a reference-substance name without hopping to the main actor's
+    /// in-memory `nameIndex`. Canonical name first (case-insensitive), then alias.
+    nonisolated static func substanceID(forNameOrAlias name: String, db queue: DatabaseQueue) -> Int64? {
+        let key = name.lowercased()
+        return (try? queue.read { db -> Int64? in
+            if let id = try Int64.fetchOne(
+                db, sql: "SELECT id FROM substances WHERE lower(canonical_name) = ? LIMIT 1", arguments: [key],
+            ) {
+                return id
+            }
+            return try Int64.fetchOne(
+                db, sql: "SELECT substance_id FROM aliases WHERE lower(alias) = ? LIMIT 1", arguments: [key],
+            )
+        }) ?? nil
     }
 
     /// Assemble the occupancy-pipeline inputs from already-read rows. `nonisolated static` so the
@@ -355,23 +527,40 @@ extension SubstanceStore {
             ?? vdRows.first
             ?? pk.first { $0.confidence != .unverified }
             ?? pk.first
-        let vd = primaryRow?.vdLPerKg
+        // Interspecies allometric projection (the derivation layer). A non-human coherent row keeps its
+        // species-invariant Vd/kg but has clearance/half-life scaled to a 70 kg human and its confidence
+        // floored (see `scaledToHuman`). Applied right after the coherent-row pick so every downstream
+        // read (Vd, F, half-life) sees the human-projected, honestly-badged values.
+        let scaledPrimary = primaryRow.map { Self.scaledToHuman($0) }
+        let pkSpecies = primaryRow?.species
+        let primaryIsNonHuman = (primaryRow?.species.map { $0 != "human" } ?? false)
+        let vd = scaledPrimary?.vdLPerKg
         // Bioavailability: use the measured F when the coherent row carries one; otherwise default to
         // 1.0 (full fraction-absorbed), flagged `.unverified`. Absolute oral F is underivable without
         // an IV arm for most recreational drugs, and their stored Vd is an apparent V/F — so F = 1 is
         // the *consistent* reading (the F cancels in C = F·dose/((V/F)·wt)), never an invented number.
         // See `PharmacologyParameters.bioavailabilityFraction`.
-        let measuredF = primaryRow?.bioavailabilityPct.map { $0 / 100 }
+        let measuredF = scaledPrimary?.bioavailabilityPct.map { $0 / 100 }
         let f = measuredF ?? 1.0
-        let fConfidence: ConfidenceTier = measuredF != nil ? (primaryRow?.confidence ?? .unverified) : .unverified
-        let halfLife = primaryRow?.halfLifeMin
+        let fConfidence: ConfidenceTier = measuredF != nil ? (scaledPrimary?.confidence ?? .unverified) : .unverified
+        // Half-life: a *measured human* t½ from any row ALWAYS wins over a scaled animal one — single-
+        // species allometric scaling underpredicts cathinone t½ ~2–3× (mephedrone rat-scaled 65 vs human
+        // 129 min; 3-MMC pig-scaled 55 vs human 180 min). Only override when the coherent Vd row is
+        // itself non-human; otherwise the picked (human/unflagged) row's own t½ stands.
+        let humanHalfLife: Double? = primaryIsNonHuman
+            ? (pk.first { $0.species == "human" && $0.halfLifeMin != nil && $0.confidence != .unverified }?.halfLifeMin
+                ?? pk.first { $0.species == "human" && $0.halfLifeMin != nil }?.halfLifeMin)
+            : nil
+        let halfLife = humanHalfLife ?? scaledPrimary?.halfLifeMin
 
-        // Time-to-peak for a real absorption rate (§3): prefer the coherent primary row's own Tmax, else
-        // the best-graded PK row that carries one. Tmax is a rate descriptor independent of the F/Vd
-        // apparent-V/F coupling, so borrowing it from another row (when the primary lacks one) is safe.
-        let tmaxRow = (primaryRow?.tmaxMin != nil)
-            ? primaryRow
-            : (pk.first { $0.confidence != .unverified && $0.tmaxMin != nil } ?? pk.first { $0.tmaxMin != nil })
+        // Time-to-peak for a real absorption rate (§3): a measured human Tmax wins over an animal one
+        // (same discipline as half-life); otherwise the coherent primary row's own Tmax, else the best-
+        // graded PK row that carries one. Tmax is a rate descriptor independent of the F/Vd apparent-V/F
+        // coupling, so borrowing it from another row (when the primary lacks one) is safe.
+        let tmaxRow = (primaryIsNonHuman ? pk.first { $0.species == "human" && $0.tmaxMin != nil } : nil)
+            ?? ((primaryRow?.tmaxMin != nil)
+                ? primaryRow
+                : (pk.first { $0.confidence != .unverified && $0.tmaxMin != nil } ?? pk.first { $0.tmaxMin != nil }))
         let tmax = tmaxRow?.tmaxMin
         let tmaxConfidence: ConfidenceTier = tmax != nil ? (tmaxRow?.confidence ?? .unverified) : .unverified
 
@@ -408,7 +597,9 @@ extension SubstanceStore {
         let resolvedVdConfidence: ConfidenceTier
         if let vd {
             resolvedVd = vd
-            resolvedVdConfidence = primaryRow?.confidence ?? .unverified
+            // The scaled row's confidence — floored to `.low` for a non-human Vd, so an allometric
+            // class-default Vd never masquerades as a measured human one.
+            resolvedVdConfidence = scaledPrimary?.confidence ?? .unverified
         } else if let primaryTarget = targets.first {
             // Target-only classification: the Vd fallback is about CNS distribution, not tolerance
             // mechanism, so it must not be gated by the binding *direction* (an antagonist primary
@@ -440,6 +631,7 @@ extension SubstanceStore {
             tmaxConfidence: tmaxConfidence,
             intrinsicEfficacy: intrinsicEfficacy,
             categoryClasses: categoryClasses,
+            pkSpecies: pkSpecies,
         )
     }
 

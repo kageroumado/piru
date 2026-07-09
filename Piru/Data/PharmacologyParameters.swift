@@ -75,6 +75,12 @@ nonisolated struct PharmacologyParameters {
     /// (the neutral floor) when none was; folded into the contributor confidence so a guessed onset
     /// badges the prediction down.
     let tmaxConfidence: ConfidenceTier
+    /// Study **species** of the coherent PK row the Vd/half-life were read from (`human`, `rat`,
+    /// `pig`, …), lowercased, or `nil` when unstated / human. Set by the resolver after interspecies
+    /// allometric scaling (``SubstanceStore/scaledToHuman(_:)``): a non-human row keeps its
+    /// species-invariant Vd/kg but has its confidence floored, so this string is the honest provenance
+    /// flag behind a low ``vdConfidence`` — the app can caption "predicted from rat kinetics".
+    let pkSpecies: String?
     /// Confidence of the resolved ``vdLPerKg`` (`.unverified` when no graded Vd row exists).
     let vdConfidence: ConfidenceTier
     /// The substance's **reference "heavy" dose** in mg — the denominator of the dose-relative
@@ -132,6 +138,7 @@ nonisolated struct PharmacologyParameters {
         tmaxConfidence: ConfidenceTier = .unverified,
         intrinsicEfficacy: Double = 1,
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
+        pkSpecies: String? = nil,
     ) {
         self.substanceName = substanceName
         self.molarMassGramsPerMole = molarMassGramsPerMole
@@ -148,6 +155,7 @@ nonisolated struct PharmacologyParameters {
         self.suppressesSerotoninSynthesis = suppressesSerotoninSynthesis
         self.intrinsicEfficacy = intrinsicEfficacy
         self.categoryClasses = categoryClasses
+        self.pkSpecies = pkSpecies
         self.targets = targets
     }
 

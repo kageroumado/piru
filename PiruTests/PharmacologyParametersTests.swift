@@ -153,4 +153,89 @@ struct PharmacologyParametersTests {
         #expect((mw ?? 0) > 280 && (mw ?? 0) < 290) // C16H13ClN2O ≈ 284.74
         #expect(p.canComputeOccupancy)
     }
+
+    // MARK: - Derivation layer (reference-substance borrow + interspecies scaling)
+
+    /// 2-MMC has no citeable PK of its own; its `pk_reference` pointer borrows mephedrone's kinetics
+    /// wholesale (rat Vd 2.6 + human t½ 129). The borrow is flagged: the Vd confidence is floored to
+    /// at most `.low`, while 2-MMC's OWN transporter bindings (never borrowed) still drive the target.
+    @Test
+    func `2-MMC borrows mephedrone PK, flagged at most low confidence`() throws {
+        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "2-MMC")
+        let vd = try #require(p.vdLPerKg)
+        #expect(abs(vd - 2.6) < 1e-6) // mephedrone's rat Vd, borrowed
+        #expect(p.halfLifeMinutes != nil) // mephedrone's measured human t½ wins over scaled rat
+        #expect(p.molarMassGramsPerMole != nil) // 2-MMC's OWN freebase MW (177.24), not borrowed
+        #expect(p.pkSpecies == "rat") // the borrowed coherent row is rat-flagged
+        #expect(p.vdConfidence <= .low) // borrowed + non-human → floored
+        let primary = try #require(p.primaryTarget)
+        #expect(primary.action == .releasingAgent) // 2-MMC's own DAT/NET/SERT release, not borrowed
+    }
+
+    /// The borrow yields a *computable* occupancy — the whole point — but the confidence badge stays
+    /// at or below `.low` so the UI never presents surrogate kinetics as measured 2-MMC data.
+    @Test
+    func `2-MMC borrowed occupancy is computable but confidence stays at most low`() throws {
+        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "2-MMC")
+        #expect(p.canComputeOccupancy)
+        let occ = try #require(p.peakPrimaryOccupancy(doseMg: 100, weightKg: 70))
+        #expect(occ > 0)
+        #expect(p.occupancyConfidence <= .low)
+    }
+
+    /// The reference borrow is SINGLE-HOP: the surrogate (mephedrone) must carry real PK of its own and
+    /// must NOT itself hold a `pk_reference` — no transitive chain. Verified against the pointer table.
+    @Test
+    func `Reference borrow is single-hop with no transitive chain`() throws {
+        let meph = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Mephedrone")
+        #expect(meph.vdLPerKg != nil) // its own (rat) Vd, resolved directly
+        #expect(meph.canComputeOccupancy)
+        let db = SubstanceStore.shared.substancesDB
+        let mephID = try #require(SubstanceStore.shared.substanceID(forNameOrAlias: "Mephedrone"))
+        #expect(SubstanceStore.pkReference(substanceID: mephID, db: db) == nil) // no onward pointer
+        let twoID = try #require(SubstanceStore.shared.substanceID(forNameOrAlias: "2-MMC"))
+        let ref = try #require(SubstanceStore.pkReference(substanceID: twoID, db: db))
+        #expect(ref.name == "Mephedrone")
+        #expect(ref.confidence <= .low)
+    }
+
+    /// `scaledToHuman` is a no-op for a human (or unspecified-species) row: no confidence floor, no
+    /// half-life scaling — the measured human value is already the target of projection.
+    @Test
+    func `scaledToHuman leaves a human or unspecified row unchanged`() {
+        let human = Self.makePKRow(species: "human", vd: 3.0, halfLife: 120, clearance: 5, confidence: .high)
+        let projectedHuman = SubstanceStore.scaledToHuman(human)
+        #expect(projectedHuman.vdLPerKg == 3.0)
+        #expect(projectedHuman.halfLifeMin == 120)
+        #expect(projectedHuman.clearanceMlPerMinPerKg == 5)
+        #expect(projectedHuman.confidence == .high) // not floored
+
+        let unspecified = Self.makePKRow(species: nil, vd: 2.0, halfLife: 90, clearance: 3, confidence: .medium)
+        let projectedUnspecified = SubstanceStore.scaledToHuman(unspecified)
+        #expect(projectedUnspecified.halfLifeMin == 90)
+        #expect(projectedUnspecified.confidence == .medium)
+    }
+
+    /// A rat row keeps its species-invariant Vd/kg unchanged but has its confidence floored to `.low`
+    /// (a non-human Vd is a class-default proxy, never human-anchored).
+    @Test
+    func `scaledToHuman keeps a rat Vd per kg but floors its confidence`() {
+        let rat = Self.makePKRow(species: "rat", vd: 2.6, halfLife: 60, clearance: 100, confidence: .high)
+        let projected = SubstanceStore.scaledToHuman(rat)
+        #expect(projected.vdLPerKg == 2.6) // species-invariant → unchanged
+        #expect(projected.confidence <= .low) // floored regardless of the source grade
+        #expect((projected.halfLifeMin ?? 0) > 60) // small-animal t½ scaled UP to human
+    }
+
+    /// A `PKRouteHit` factory for the pure `scaledToHuman` tests.
+    private static func makePKRow(
+        species: String?, vd: Double?, halfLife: Double?, clearance: Double?, confidence: ConfidenceTier,
+    ) -> SubstanceStore.PKRouteHit {
+        SubstanceStore.PKRouteHit(
+            id: 0, route: "oral", bioavailabilityPct: nil, cmaxNgPerMl: nil, tmaxMin: nil,
+            halfLifeMin: halfLife, vdLPerKg: vd, clearanceMlPerMinPerKg: clearance,
+            proteinBindingPct: nil, doseInStudyMg: nil, subjectN: nil, demographics: nil,
+            species: species, sourceSlug: "test", doi: nil, pmid: nil, notes: nil, confidence: confidence,
+        )
+    }
 }

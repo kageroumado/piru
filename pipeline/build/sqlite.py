@@ -484,7 +484,18 @@ CREATE TABLE substances (
     drug_community_slug TEXT,
     -- FreeOD Wiki (freeodwiki.org/药物/<slug>) page slug, captured during
     -- ingest so the app can deep-link the source page (titles are Chinese).
-    freeodwiki_slug TEXT
+    freeodwiki_slug TEXT,
+    -- Pharmacokinetics REFERENCE-SUBSTANCE pointer (the derivation layer). When a
+    -- substance has no citeable PK of its own, a curated flagship `pk_reference`
+    -- names a structural-analogue surrogate whose PK the resolver may borrow
+    -- (2-MMC → Mephedrone). pk_reference_fields is a CSV of the borrowable fields
+    -- (vd,bioavailability,tmax,half_life); pk_reference_confidence caps every
+    -- borrowed field's confidence. SINGLE-HOP only — a reference whose own target
+    -- also carries a pk_reference is rejected at build (reject_transitive_pk_references).
+    -- Carried across substance merges via _merge_into's COALESCE. NULL = no surrogate.
+    pk_reference_name       TEXT,
+    pk_reference_fields     TEXT,
+    pk_reference_confidence TEXT
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -820,6 +831,13 @@ CREATE TABLE pk_routes (
     dose_in_study_mg            REAL,
     subject_n                   INTEGER,
     demographics                TEXT,
+    -- Study species (human|rat|mouse|pig|dog|monkey|…), NULL when unstated. Kept
+    -- distinct from the free-text `demographics` so the resolver's interspecies
+    -- allometric scaling (SubstanceStore.scaledToHuman) can floor a non-human
+    -- row's confidence and pass its species-invariant Vd/kg through unchanged.
+    -- Part of the dedup key so a scaled/borrowed animal row is never collapsed
+    -- against an otherwise-identical human row.
+    species                     TEXT,
     citation_id                 INTEGER REFERENCES citations(id),
     -- Citation-verification grade for this route's values (HIGH|MEDIUM|LOW),
     -- from the pharmacology evidence pass. NULL for un-graded rows. Drives the
@@ -1221,6 +1239,14 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # free base — desalt the formula to match the structure (MW recomputed by
     # reconcile_formula_mass). PubChem CID 5284603.
     "Oxycodone": {"formula": "C18H21NO4"},
+    # NPS-DataHub handed us the hydrochloride formula (C11H16ClNO, MW 213.71)
+    # while the InChIKey/structure are the free base (2-(methylamino)-1-(2-methyl
+    # phenyl)propan-1-one, PubChem CID 56603536). The molar/EC50 occupancy math
+    # needs the free-base mass, so desalt the formula — reconcile_formula_mass then
+    # recomputes MW 213.71 → 177.24. Salt→freebase factor 0.829. MW pinned to the
+    # PubChem canonical 177.24 (CID not in the offline snapshots) so it matches its
+    # isomers mephedrone/3-MMC exactly rather than the atomic-table 177.25.
+    "2-MMC": {"formula": "C11H15NO", "molecular_weight": 177.24},
 }
 
 
@@ -1361,6 +1387,16 @@ def apply_identifier_corrections(con, props: dict | None = None) -> dict:
         if "formula" in fix:
             cur.execute("UPDATE substances SET formula = ? WHERE id = ?", (fix["formula"], sid))
             changed[name] = (changed.get(name, "") + f" formula→{fix['formula']}").strip()
+        if "molecular_weight" in fix:
+            # Pin the canonical PubChem MW for a formula correction whose CID is not in the offline
+            # snapshots (so reconcile_formula_mass's own atomic-table value doesn't drift the last
+            # digit vs the substance's isomers). Survives reconcile — the recomputed mass is within
+            # its 2% tolerance, so the pinned value stands.
+            cur.execute(
+                "UPDATE substances SET molecular_weight = ? WHERE id = ?",
+                (fix["molecular_weight"], sid),
+            )
+            changed[name] = (changed.get(name, "") + f" mw→{fix['molecular_weight']}").strip()
     con.commit()
     return changed
 
@@ -1480,12 +1516,72 @@ def dedup_pk_routes(con) -> dict:
                      IFNULL(half_life_min,''), IFNULL(vd_l_per_kg,''),
                      IFNULL(clearance_ml_per_min_per_kg,''), IFNULL(protein_binding_pct,''),
                      IFNULL(dose_in_study_mg,''), IFNULL(subject_n,''),
-                     IFNULL(demographics,''), IFNULL(citation_id,''),
+                     IFNULL(demographics,''), IFNULL(species,''), IFNULL(citation_id,''),
                      IFNULL(confidence,''), IFNULL(notes,'')
         )
     """)
     con.commit()
     return {"dropped": before - cur.execute("SELECT COUNT(*) FROM pk_routes").fetchone()[0]}
+
+
+def reject_transitive_pk_references(con) -> dict:
+    """Enforce the derivation layer's SINGLE-HOP rule: a substance's
+    ``pk_reference`` may point at a surrogate, but that surrogate must carry
+    real PK — never *another* ``pk_reference``.
+
+    A transitive pointer (A→B where B→C) would let borrowed kinetics chain
+    arbitrarily far from any measurement, silently laundering a guess into a
+    third substance. The Swift resolver already keeps a visited-set at read time,
+    but we reject the cycle at build so the shipped DB is clean and the WARNING is
+    visible in the build log. The offending pointer is NULLed (name + fields +
+    confidence), leaving the substance simply PK-less (the honest state).
+
+    Matches the reference name against canonical_name and aliases (normalised).
+    Returns the dropped pointer descriptions."""
+    cur = con.cursor()
+    name_to_sid: dict[str, int] = {}
+    for sid, cname in cur.execute("SELECT id, canonical_name FROM substances").fetchall():
+        name_to_sid.setdefault(normalise(cname), sid)
+    for sid, alias in cur.execute("SELECT substance_id, alias_normalized FROM aliases").fetchall():
+        name_to_sid.setdefault(alias, sid)
+    dropped: list[str] = []
+    rows = cur.execute(
+        "SELECT id, canonical_name, pk_reference_name FROM substances "
+        "WHERE pk_reference_name IS NOT NULL"
+    ).fetchall()
+    for sid, cname, ref_name in rows:
+        ref_sid = name_to_sid.get(normalise(ref_name))
+        if ref_sid is None:
+            print(
+                f"WARNING: pk_reference '{cname}'→'{ref_name}' does not resolve to a "
+                f"substance; dropping the pointer.",
+                file=sys.stderr,
+            )
+            dropped.append(f"{cname}→{ref_name} (unresolved)")
+            _null_pk_reference(cur, sid)
+            continue
+        ref_ref = cur.execute(
+            "SELECT pk_reference_name FROM substances WHERE id=?", (ref_sid,)
+        ).fetchone()
+        if ref_ref and ref_ref[0]:
+            print(
+                f"WARNING: pk_reference '{cname}'→'{ref_name}' is transitive "
+                f"('{ref_name}' itself references '{ref_ref[0]}'); single-hop only — "
+                f"dropping the '{cname}' pointer.",
+                file=sys.stderr,
+            )
+            dropped.append(f"{cname}→{ref_name} (transitive)")
+            _null_pk_reference(cur, sid)
+    con.commit()
+    return {"dropped": len(dropped), "names": dropped}
+
+
+def _null_pk_reference(cur, sid: int) -> None:
+    cur.execute(
+        "UPDATE substances SET pk_reference_name=NULL, pk_reference_fields=NULL, "
+        "pk_reference_confidence=NULL WHERE id=?",
+        (sid,),
+    )
 
 
 def reconcile_mp_bp(con) -> dict:
@@ -4089,7 +4185,7 @@ class Build:
             return
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, citation_id, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, species, citation_id, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 route,
@@ -4105,6 +4201,7 @@ class Build:
                 to_float(r.get("dose_in_study_mg")),
                 to_int(r.get("subject_n")),
                 r.get("subject_demographics") or r.get("demographics"),
+                (r.get("species") or None),
                 self.cite(r.get("reference")),
                 normalise_confidence(r.get("confidence")),
                 r.get("notes"),
@@ -5477,7 +5574,7 @@ class Build:
         name_to_sid: dict[str, int] = dict(self.substance_ids)
         for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
             name_to_sid.setdefault(row[1], row[0])
-        bindings_added = pk_added = 0
+        bindings_added = pk_added = pk_refs_added = 0
         unmatched: list[str] = []
         for rec in json.loads(path.read_text()):
             names = rec.get("names") or ([rec["name"]] if rec.get("name") else [])
@@ -5493,8 +5590,31 @@ class Build:
                 for r in rec.get("pk_routes") or []:
                     self.add_pk_route(sid, slug, r)
                     pk_added += 1
+                # Reference-substance PK pointer (the derivation layer). A substance
+                # with no citeable PK of its own may borrow a structural-analogue
+                # surrogate's PK (2-MMC → Mephedrone). Stored on the substances row
+                # (COALESCE — first flagship writer wins, mirrors drug_community_slug).
+                ref = rec.get("pk_reference")
+                if isinstance(ref, dict) and ref.get("name"):
+                    fields = ref.get("fields") or []
+                    fields_csv = ",".join(str(f).strip().lower() for f in fields if str(f).strip())
+                    self.cur.execute(
+                        "UPDATE substances SET "
+                        "pk_reference_name=COALESCE(pk_reference_name, ?), "
+                        "pk_reference_fields=COALESCE(pk_reference_fields, ?), "
+                        "pk_reference_confidence=COALESCE(pk_reference_confidence, ?) "
+                        "WHERE id=?",
+                        (
+                            ref["name"],
+                            fields_csv or None,
+                            normalise_confidence(ref.get("confidence")),
+                            sid,
+                        ),
+                    )
+                    pk_refs_added += 1
         self.stats["flagship_bindings"] = bindings_added
         self.stats["flagship_pk_routes"] = pk_added
+        self.stats["flagship_pk_references"] = pk_refs_added
         if unmatched:
             print(
                 f"WARNING: flagship seed could not match: {', '.join(sorted(set(unmatched)))}",
@@ -5552,7 +5672,10 @@ class Build:
             "formula=COALESCE(formula,(SELECT formula FROM substances WHERE id=:l)), "
             "molecular_weight=COALESCE(molecular_weight,(SELECT molecular_weight FROM substances WHERE id=:l)), "
             "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)), "
-            "drug_community_slug=COALESCE(drug_community_slug,(SELECT drug_community_slug FROM substances WHERE id=:l)) "
+            "drug_community_slug=COALESCE(drug_community_slug,(SELECT drug_community_slug FROM substances WHERE id=:l)), "
+            "pk_reference_name=COALESCE(pk_reference_name,(SELECT pk_reference_name FROM substances WHERE id=:l)), "
+            "pk_reference_fields=COALESCE(pk_reference_fields,(SELECT pk_reference_fields FROM substances WHERE id=:l)), "
+            "pk_reference_confidence=COALESCE(pk_reference_confidence,(SELECT pk_reference_confidence FROM substances WHERE id=:l)) "
             "WHERE id=:w",
             {"l": loser, "w": winner},
         )
@@ -6893,6 +7016,15 @@ def main() -> int:
     # "oral F 85%" rows from repeated enrichment ingest).
     pkd = dedup_pk_routes(build.cur.connection)
     print(f"Duplicate pk_routes dropped: {pkd['dropped']}", file=sys.stderr)
+
+    # Enforce the derivation layer's single-hop rule: drop any pk_reference whose
+    # target itself carries a pk_reference (no transitive borrow). Runs after all
+    # merges so a merge-created chain is caught too.
+    ptx = reject_transitive_pk_references(build.cur.connection)
+    if ptx["dropped"]:
+        print(f"Transitive/unresolved pk_references dropped: {ptx['dropped']}", file=sys.stderr)
+        for n in ptx["names"]:
+            print(f"  {n}", file=sys.stderr)
 
     # Drop any boiling point below its melting point (a sublimation temperature
     # mislabelled as a BP — caffeine 178 < 234).

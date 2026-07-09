@@ -127,7 +127,8 @@
     "name": "Mephedrone",
     "aliases": ["4-MMC"],
     "pk_routes": [
-      { "route": "oral", "half_life_min": 129, "confidence": "HIGH", "reference": "PMID 27206266", "notes": "Papaseit 2016 (controlled oral): 200 mg Tmax 1.25 h, elimination t½ ~2.15 h; 150 mg Cmax 122.6 ng/mL at ~1 h. Rapid absorption + short half-life — the short t½ (NOT the mechanism) drives compulsive redosing. Absolute oral F underivable (no human IV arm)." }
+      { "route": "oral", "tmax_min": 75, "half_life_min": 129, "species": "human", "confidence": "HIGH", "reference": "PMID 27206266", "notes": "Papaseit 2016 (controlled oral): 200 mg Tmax 1.25 h, elimination t½ ~2.15 h; 150 mg Cmax 122.6 ng/mL at ~1 h. Rapid absorption + short half-life — the short t½ (NOT the mechanism) drives compulsive redosing. Absolute oral F underivable (no human IV arm). Human t½/Tmax always win over scaled rat kinetics." },
+      { "route": "oral", "vd_l_per_kg": 2.6, "bioavailability_pct": 10, "protein_binding_pct": 21.59, "species": "rat", "confidence": "LOW", "reference": "10.1007/s00213-013-3108-7", "notes": "Martínez-Clemente 2013 (rat IV+oral): true Vd 2.6 L/kg (IV-anchored), oral F ~10% (7.3–11.2%), plasma protein binding 21.6%, whole-animal CL 1.69 L/h. NO human Vd/F study exists for mephedrone (no human IV arm), so rat is the class-default distribution — species-flagged 'rat' so the resolver floors Vd confidence and (allometry) leaves Vd/kg species-invariant. Feeds 2-MMC via the pk_reference pointer." }
     ],
     "bindings": [
       { "target": "DAT", "action": "releasingAgent", "ec50_nm": 49.1, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat brain synaptosome release. Same-assay triple DAT 49.1 / NET 62.7 / SERT 118.3 nM → DAT:SERT 2.41 (balanced, MDMA-like empathogen — NOT catecholamine-skewed like 3-MMC). Mechanism: substrate-type releaser (also inhibits uptake), not a pure blocker. Use within-assay ratios." },
@@ -159,6 +160,9 @@
   {
     "name": "3-MMC",
     "aliases": ["Metaphedrone", "3-methylmethcathinone"],
+    "pk_routes": [
+      { "route": "oral", "vd_l_per_kg": 5.0, "tmax_min": 90, "half_life_min": 180, "clearance_ml_per_min_per_kg": 21.4, "cmax_ng_per_ml": 104.2, "dose_in_study_mg": 50, "subject_n": 14, "species": "human", "confidence": "MEDIUM", "reference": "10.1038/s41386-024-02042-7", "notes": "Vejmola/Kuypers/Ramaekers 2024 — first controlled human study (N=14; oral 25/50/100 mg; Cmax 39.1/104.2/210.9 ng/mL, dose-linear; median Tmax 1.5 h; t½ 3.0 h). Apparent Vd/F 5.0 L/kg (~350 L @70kg) back-solved from human Cmax; apparent CL/F ~90 L/h (≈21.4 mL/min/kg @70kg) from the EXTRAPOLATED AUC — NOT the naive 150 L/h off the truncated AUC₀-5.5h (truncation caveat). F omitted (apparent-F=1 convention). REFUTES the pig Vd 8 L/kg / F 7% (Shimshoni 2015 WHO ECDD): an apparent 5 L/kg is incompatible with 7% F, so the pig numbers are NOT stored." }
+    ],
     "bindings": [
       { "target": "DAT", "action": "releasingAgent", "ec50_nm": 28, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome release (same-assay DAT 28 / NET 27 / SERT 268 nM → DAT:SERT 9.6); Blough 2019 same-assay DAT 70.6 / SERT 292 → DAT:SERT 4.1. Catecholamine-LEANING (DAT:SERT 4–10) — MORE dopaminergic / less serotonergic than its para-isomer mephedrone (4-MMC, DAT:SERT 2.4 same assay), the lone DAT>SERT exception. Substrate-type releaser that also inhibits uptake. Use within-assay ratios." },
       { "target": "NET", "action": "releasingAgent", "ec50_nm": 27, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome — same-assay with DAT 28 / SERT 268." },
@@ -169,10 +173,11 @@
     "name": "2-MMC",
     "aliases": ["2-methylmethcathinone"],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 80, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome release. Same-assay triple DAT 80 / NET 53 / SERT 490 nM, rank NET > DAT >> SERT → DAT:SERT ~6 (catecholamine-favouring, NOT a balanced empathogen). FAR more DAT-selective than 4-MMC — a positional-isomer effect, NOT 'ortho mephedrone'. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 53, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome — same-assay with DAT 80 / SERT 490." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 490, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome. DAT:SERT ~6 — DAT-selective." }
-    ]
+      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 81, "confidence": "HIGH", "reference": "10.1021/acschemneuro.8b00524", "notes": "Walther 2019 (canonical Table 1), rat synaptosome release. Same-assay triple DAT 81 / NET 53 / SERT 490 nM, rank NET > DAT >> SERT → DAT:SERT ~6 (catecholamine-favouring, NOT a balanced empathogen). FAR more DAT-selective than 4-MMC — a positional-isomer effect, NOT 'ortho mephedrone'. (Table 1 lists 81; an earlier read of 80 rounds the same value.) Use within-assay ratios." },
+      { "target": "NET", "action": "releasingAgent", "ec50_nm": 53, "confidence": "HIGH", "reference": "10.1021/acschemneuro.8b00524", "notes": "Walther 2019 (Table 1), rat synaptosome — same-assay with DAT 81 / SERT 490." },
+      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 490, "confidence": "HIGH", "reference": "10.1021/acschemneuro.8b00524", "notes": "Walther 2019 (Table 1), rat synaptosome. DAT:SERT ~6 — DAT-selective." }
+    ],
+    "pk_reference": { "name": "Mephedrone", "fields": ["vd", "bioavailability", "tmax", "half_life"], "confidence": "LOW", "notes": "No primary 2-MMC PK exists for any parameter (only metabolite-ID / forensic concentration studies). 4-MMC (mephedrone) is the structural-analogue surrogate — an explicitly-flagged borrow, never labelled 2-MMC data. Web-surfaced 't½ ~50 min / CL 199 L/h' are 3-MMC values (a trap) and are NOT used." }
   },
   {
     "name": "MDPV",

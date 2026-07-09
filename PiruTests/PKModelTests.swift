@@ -554,3 +554,54 @@ struct PKModelSaturableTests {
         #expect(PKModel.saturableCurve(dose: 100, bioavailability: 0, vdPerKg: 0.6, weightKg: 70, ka: 0.05, saturation: Self.ethanol, durationMinutes: 600).parent == [0])
     }
 }
+
+/// Interspecies allometric scaling (`SubstanceStore.scaledToHuman`, the derivation layer): Vd/kg is
+/// species-invariant, while clearance (∝ BW^0.75) and half-life (∝ BW^0.25) scale to a 70 kg human.
+@Suite("Allometric interspecies scaling")
+struct AllometricScalingTests {
+    private static func row(species: String?, vd: Double?, halfLife: Double?, clearance: Double?, confidence: ConfidenceTier = .high) -> SubstanceStore.PKRouteHit {
+        SubstanceStore.PKRouteHit(
+            id: 0, route: "oral", bioavailabilityPct: nil, cmaxNgPerMl: nil, tmaxMin: nil,
+            halfLifeMin: halfLife, vdLPerKg: vd, clearanceMlPerMinPerKg: clearance,
+            proteinBindingPct: nil, doseInStudyMg: nil, subjectN: nil, demographics: nil,
+            species: species, sourceSlug: "test", doi: nil, pmid: nil, notes: nil, confidence: confidence,
+        )
+    }
+
+    @Test
+    func `Rat half-life scales by (70 over 0.25)^0.25`() {
+        let scaled = SubstanceStore.scaledToHuman(Self.row(species: "rat", vd: 2.6, halfLife: 60, clearance: 100))
+        let expected = 60 * pow(70.0 / 0.25, 0.25) // ≈ 60 × 4.09 ≈ 245 min
+        #expect(abs((scaled.halfLifeMin ?? 0) - expected) < 1e-6)
+        #expect((scaled.halfLifeMin ?? 0) > 60) // small animals clear faster per kg → longer human t½
+    }
+
+    @Test
+    func `Rat clearance scales by (70 over 0.25)^0.75`() {
+        let scaled = SubstanceStore.scaledToHuman(Self.row(species: "rat", vd: 2.6, halfLife: 60, clearance: 100))
+        let expected = 100 * pow(70.0 / 0.25, 0.75)
+        #expect(abs((scaled.clearanceMlPerMinPerKg ?? 0) - expected) < 1e-6)
+    }
+
+    @Test
+    func `Vd per kg is species-invariant across pig and rat`() {
+        let ratVd = SubstanceStore.scaledToHuman(Self.row(species: "rat", vd: 2.6, halfLife: 60, clearance: 100)).vdLPerKg
+        let pigVd = SubstanceStore.scaledToHuman(Self.row(species: "pig", vd: 8.0, halfLife: 48, clearance: 20)).vdLPerKg
+        #expect(ratVd == 2.6) // unchanged
+        #expect(pigVd == 8.0) // unchanged — Vd/kg does not scale with body size
+    }
+
+    @Test
+    func `Non-human confidence is floored to at most low`() {
+        let pig = SubstanceStore.scaledToHuman(Self.row(species: "pig", vd: 8.0, halfLife: 48, clearance: 20, confidence: .high))
+        #expect(pig.confidence <= .low)
+    }
+
+    @Test
+    func `Human row is not scaled and keeps its grade`() {
+        let human = SubstanceStore.scaledToHuman(Self.row(species: "human", vd: 5.0, halfLife: 180, clearance: 21, confidence: .medium))
+        #expect(human.halfLifeMin == 180)
+        #expect(human.clearanceMlPerMinPerKg == 21)
+        #expect(human.confidence == .medium)
+    }
+}

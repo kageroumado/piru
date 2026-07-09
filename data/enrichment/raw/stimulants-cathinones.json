@@ -786,31 +786,35 @@
       "primary_targets": ["DAT", "NET", "SERT"],
       "binding": [
         {
-          "target": "DAT (uptake)",
-          "ic50_nm": 1900,
+          "target": "DAT",
+          "ic50_nm": 433,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:30429818",
+          "reference": "doi:10.1007/s00213-018-5059-5",
+          "confidence": "high",
           "is_review": false,
-          "notes": "Luethi 2018 — 3-MMC is more DAT-selective than 4-MMC (mephedrone); DAT:SERT ratio ~10× higher"
+          "notes": "Eshleman 2019 — human HEK uptake-inhibition IC50 DAT 433 / NET 84 / SERT 4500 nM (Luethi 2018 gives 2600 / 270 / 9500 in a 2nd human lab). REPLACES the earlier unsourced 1900/20000. 3-MMC is DAT-selective vs 4-MMC. Release EC50 (Walther 2019, separate flagship rows) is the substrate mechanism; these are the uptake-block potencies of the same molecule."
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 84,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hNET",
+          "reference": "doi:10.1007/s00213-018-5059-5",
+          "confidence": "high",
+          "notes": "Eshleman 2019 — human HEK uptake IC50; same-assay with DAT 433 / SERT 4500."
         },
         {
           "target": "SERT",
-          "ic50_nm": 20000,
+          "ic50_nm": 4500,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hSERT",
-          "reference": "pmid:30429818"
-        },
-        {
-          "target": "DAT (release)",
-          "ec50_nm": 100,
-          "action": "releasingAgent",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:30429818",
-          "notes": "3-MMC is also a substrate-type releaser like mephedrone; methyl in 3-position vs 4-position shifts DA/5-HT release balance toward DA"
+          "reference": "doi:10.1007/s00213-018-5059-5",
+          "confidence": "high",
+          "notes": "Eshleman 2019 — human HEK uptake IC50 4500 nM (Luethi 2018 9500). REPLACES the earlier unsourced 20000. SERT-sparing relative to DAT/NET."
         }
       ],
       "functional": [],
