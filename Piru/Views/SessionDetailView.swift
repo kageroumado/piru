@@ -44,9 +44,6 @@ struct SessionDetailView: View {
     @State private var titleDraft = ""
     @State private var showNoteEditor = false
     @State private var noteDraft = ""
-    /// Expansion of the interaction warnings inside the Safety section. Collapsed
-    /// by default — the severity-tinted count already signals their presence.
-    @State private var interactionsExpanded = false
     /// Grows the inline timeline in place: the graph's frame steps up to a taller
     /// height and the List reflows the entries below it — no separate fullscreen
     /// sheet, no overlay. Every gesture stays the same; the curves just get room.
@@ -81,7 +78,7 @@ struct SessionDetailView: View {
     @State private var isConnectingVitals = false
 
     /// Substance → colour, rebuilt only when the colour assignments change.
-    /// `colorFor`/`colorForName` are called once per entry row, and each used to
+    /// `colorFor` is called once per entry row, and each call used to
     /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole colour
     /// map — O(rows × colours) per body pass.
     @State private var colorMap: [String: Color] = [:]
@@ -127,7 +124,6 @@ struct SessionDetailView: View {
                 states: t.states,
                 markers: t.markers,
                 interactions: interactions,
-                cumulativeDoses: Self.computeCumulativeDoses(entries),
                 laneCount: laneNames.count,
                 entryCores: Self.computeEntryCores(entries),
                 mechanisticDoses: mechanisticDoses,
@@ -207,24 +203,6 @@ struct SessionDetailView: View {
                 totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
             )
         }
-    }
-
-    /// Aggregate re-doses (substances logged more than once this session).
-    /// Keeps each substance's first-seen casing (e.g. "3-Me-PCPy").
-    private static func computeCumulativeDoses(_ entries: [DoseEntry]) -> [(substance: String, total: Double, unit: String, count: Int)] {
-        var grouped: [String: (name: String, total: Double, unit: String, count: Int)] = [:]
-        for entry in entries {
-            let key = entry.substance.lowercased()
-            if let existing = grouped[key] {
-                grouped[key] = (name: existing.name, total: existing.total + entry.amount, unit: existing.unit, count: existing.count + 1)
-            } else {
-                grouped[key] = (name: entry.substance, total: entry.amount, unit: entry.unit, count: 1)
-            }
-        }
-        return grouped.values
-            .filter { $0.count > 1 }
-            .map { (substance: $0.name, total: $0.total, unit: $0.unit, count: $0.count) }
-            .sorted { $0.substance < $1.substance }
     }
 
     private var substanceStates: [ActiveSubstanceState] {
@@ -335,84 +313,11 @@ struct SessionDetailView: View {
         return hasher.finalize()
     }
 
-    /// Re-dose totals, precomputed in ``resolvedDay``.
-    private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
-        resolvedDay.cumulativeDoses
-    }
-
-    /// Highest severity among the day's interactions — drives the disclosure's
-    /// tint and icon so a dangerous combo reads red even while collapsed.
-    private var maxInteractionSeverity: InteractionSeverity {
-        dayInteractions.map(\.severity).max() ?? .caution
-    }
-
-    @ViewBuilder
-    private var interactionsDisclosure: some View {
-        let severity = maxInteractionSeverity
-        DisclosureGroup(isExpanded: $interactionsExpanded) {
-            ForEach(dayInteractions.enumerated(), id: \.offset) { _, warning in
-                InteractionWarningRow(warning: warning)
-            }
-        } label: {
-            Label {
-                Text(dayInteractions.count == 1 ? "1 interaction" : "\(dayInteractions.count) interactions")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(severity.labelColor)
-            } icon: {
-                Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                    .foregroundStyle(severity.labelColor)
-            }
-        }
-        .tint(severity.labelColor)
-    }
-
-    private func cumulativeRow(_ item: (substance: String, total: Double, unit: String, count: Int)) -> some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(colorForName(item.substance))
-                .frame(width: 10, height: 10)
-            Text(CustomSubstanceStore.shared.displayName(for: item.substance))
-                .font(.headline)
-            Spacer()
-            Text("\(item.total.doseFormatted) \(item.unit)")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Theme.accent)
-            Text("(\(item.count)x)")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-    }
-
-    /// Session-wide heart-rate summary — average / peak, and how it compares to
-    /// the user's resting rate when known.
-    private func hrSummaryRow(_ summary: HRSummary) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: "heart.fill")
-                .font(.title3)
-                .foregroundStyle(VitalsPalette.heart)
-                .frame(width: 24)
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 6) {
-                    Text("Heart rate")
-                        .font(.subheadline.weight(.semibold))
-                    Text("avg \(summary.average) · peak \(summary.peak) bpm")
-                        .font(.subheadline)
-                        .monospacedDigit()
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                if let resting = summary.resting {
-                    Text(
-                        summary.average > resting + 3
-                            ? "Elevated vs your resting \(resting) bpm"
-                            : "In line with your resting \(resting) bpm",
-                    )
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-            Spacer()
-        }
-        .accessibilityElement(children: .combine)
+    /// The substance→colour map for child sections: the warm cached map, or a
+    /// direct build on the first frame before `.task(id: colorSignature)` lands
+    /// (same warm-up story as ``resolvedColor``).
+    private var activeColorMap: [String: Color] {
+        colorMapReady || !colorMap.isEmpty ? colorMap : Array(substanceColors).colorMap
     }
 
     private var dateTitle: String {
@@ -671,35 +576,17 @@ struct SessionDetailView: View {
                     }
                     SessionEntryListSection(entries: entries, displays: displays, isRecentDay: isRecentDay)
 
-                    // Cumulative re-dose totals — a headerless section of its own,
-                    // no longer buried under a generic "Summary" heading.
-                    if !cumulativeDoses.isEmpty {
-                        Section {
-                            ForEach(cumulativeDoses, id: \.substance) { item in
-                                cumulativeRow(item)
-                            }
-                        }
-                    }
+                    // In Your Body — per-substance session totals merged with the
+                    // live elimination model (what's still circulating, clearance
+                    // projections, the curve on tap). Replaces the bare cumulative
+                    // totals: a total is just the "dosed" side of body load.
+                    SessionBodyLoadSection(entries: entries, colorMap: activeColorMap)
 
-                    // Safety — interaction warnings (expand in place), a heart-rate
-                    // summary, and a link to recovery guidance. Headerless; the
-                    // severity-tinted interaction row already names it. Always
+                    // Safety — interaction warnings shown in full, a heart-rate
+                    // summary, and the recovery-guidance link. Headerless; the
+                    // severity-tinted interaction rows already name it. Always
                     // present so the recovery-guidance link stays discoverable.
-                    Section {
-                        if !dayInteractions.isEmpty {
-                            interactionsDisclosure
-                        }
-
-                        if let hrSummary {
-                            hrSummaryRow(hrSummary)
-                        }
-
-                        NavigationLink(value: PushRoute.comedownGuide) {
-                            Label("Recovery tips", systemImage: "heart.text.clipboard")
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(Theme.accent)
-                        }
-                    }
+                    SessionSafetySection(interactions: dayInteractions, hrSummary: hrSummary)
                 }
             }
             .listRowBackground(CardBackground())
@@ -870,10 +757,6 @@ struct SessionDetailView: View {
         resolvedColor(entry.substance)
     }
 
-    private func colorForName(_ name: String) -> Color {
-        resolvedColor(name)
-    }
-
     /// Row tint for a substance. Reads the cached `colorMap` once it's warm; on
     /// the very first frame — before `.task(id: colorSignature)` populates it —
     /// falls back to a direct resolve so the dots don't flash from the accent
@@ -918,9 +801,6 @@ private struct ResolvedDay {
     var states: [ActiveSubstanceState] = []
     var markers: [DoseMarker] = []
     var interactions: [InteractionResult] = []
-    /// Re-dose totals (substances logged more than once), precomputed with the
-    /// rest so the Summary section and `hasSummary` don't re-aggregate per body.
-    var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] = []
     /// Distinct timeline lanes, precomputed so `graphHeight` doesn't rebuild two
     /// name Sets on every height-animation frame.
     var laneCount: Int = 0

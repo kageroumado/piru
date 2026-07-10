@@ -170,20 +170,29 @@ struct EntryRowView: View {
     /// The route badge — a tinted capsule in the route's *own* fixed colour (every
     /// "oral" pill matches), not the substance's colour.
     private var roaPill: some View {
-        let tint = display.core.route.tintColor
-        return Text(String(localized: display.core.route.localizedName).lowercased())
-            .font(.caption2.weight(.semibold))
-            .lineLimit(1)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(tint.opacity(0.16), in: Capsule())
-            .foregroundStyle(tint)
+        Text(String(localized: display.core.route.localizedName).lowercased())
+            .capsuleChip(tint: display.core.route.tintColor)
     }
 
-    /// The dose's elimination-progress rail (when the substance has a modeled
-    /// duration) above the clock time + relative "ago / left" — refreshed each
-    /// minute so an active dose's fill and countdown stay live. The (unimportant)
-    /// tags ride quietly at the trailing edge when the dose is no longer active.
+    /// The strength badge ("light"/"common"/"heavy"…) — same capsule grammar as
+    /// the route pill, tinted by the level's colour so the tier reads as colour
+    /// *and* text at all times. It used to be a gray word that the live countdown
+    /// displaced, hiding the tier exactly while the dose was active.
+    @ViewBuilder
+    private var strengthChip: some View {
+        if let level = display.core.doseLevel {
+            Text(String(localized: level.displayName).lowercased())
+                .capsuleChip(tint: level.labelColor)
+                // VoiceOver already gets the level through the dose's label.
+                .accessibilityHidden(true)
+        }
+    }
+
+    /// The clock time + relative "ago" with the persistent strength chip, and —
+    /// while the dose is active — the elimination-progress rail with its live
+    /// countdown alongside, refreshed each minute. The rail line reads
+    /// left-to-right as "how far along → how much left"; a fully-worn-off dose
+    /// shows no rail.
     private var eliminationFooter: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let now = context.date
@@ -191,44 +200,65 @@ struct EntryRowView: View {
             let total = display.core.totalMinutes
             let active = total.map { elapsed < $0 } ?? false
 
-            VStack(alignment: .leading, spacing: 5) {
-                // The rail is only meaningful while the dose is still eliminating —
-                // a fully-worn-off dose shows just its time, no spent bar.
-                if let total, active {
-                    GeometryReader { geo in
-                        let fraction = min(1, max(0, elapsed / total))
-                        ZStack(alignment: .leading) {
-                            Capsule().fill(display.color.opacity(0.14))
-                            Capsule()
-                                .fill(display.color.opacity(0.6))
-                                .frame(width: max(0, geo.size.width * fraction))
-                        }
+            VStack(alignment: .leading, spacing: 7) {
+                if dynamicTypeSize.isAccessibilitySize {
+                    // The side-by-side columns compress at accessibility sizes
+                    // until the clock time wraps mid-token ("3:33 A / M") —
+                    // stack them instead, each line free to use the full width.
+                    VStack(alignment: .leading, spacing: 4) {
+                        metaTextLine
+                        strengthChip
                     }
-                    .frame(height: 3)
+                } else {
+                    HStack(spacing: 8) {
+                        metaTextLine
+                        Spacer(minLength: 8)
+                        strengthChip
+                    }
                 }
 
-                Group {
-                    if dynamicTypeSize.isAccessibilitySize {
-                        // The side-by-side columns compress at accessibility sizes
-                        // until the clock time wraps mid-token ("3:33 A / M") —
-                        // stack them instead, each line free to use the full width.
-                        VStack(alignment: .leading, spacing: 2) {
-                            timeLine
-                            trailingLine(active: active, total: total, now: now)
-                        }
-                    } else {
-                        HStack(spacing: 0) {
-                            timeLine
-                            Spacer(minLength: 8)
-                            trailingLine(active: active, total: total, now: now)
-                                .lineLimit(1)
-                        }
-                    }
+                if let total, active {
+                    railRow(elapsed: elapsed, total: total, now: now)
                 }
-                .font(.subheadline)
+            }
+        }
+    }
+
+    /// Clock time, relative "ago", and the (unimportant) tags — all one gray.
+    private var metaTextLine: some View {
+        HStack(spacing: 0) {
+            timeLine
+            if !display.core.tags.isEmpty {
+                Text(verbatim: "  ·  ").foregroundStyle(.tertiary)
+                Text(display.core.tags.joined(separator: " · "))
+                    .lineLimit(1)
+            }
+        }
+        .font(.subheadline)
+        .foregroundStyle(Theme.secondaryLabel)
+        .monospacedDigit()
+    }
+
+    /// The elimination-progress rail with the live countdown at its trailing
+    /// edge — the number sits beside the bar it measures.
+    private func railRow(elapsed: Double, total: Double, now: Date) -> some View {
+        HStack(spacing: 10) {
+            GeometryReader { geo in
+                let fraction = min(1, max(0, elapsed / total))
+                ZStack(alignment: .leading) {
+                    Capsule().fill(display.color.opacity(0.14))
+                    Capsule()
+                        .fill(display.color.opacity(0.6))
+                        .frame(width: max(0, geo.size.width * fraction))
+                }
+            }
+            .frame(height: 3)
+            Text(remainingText(total: total, now: now))
+                .font(.footnote.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)
                 .monospacedDigit()
-            }
+                .lineLimit(1)
+                .fixedSize()
         }
     }
 
@@ -241,28 +271,6 @@ struct EntryRowView: View {
                 Text(relativeTime)
             }
         }
-    }
-
-    /// Tags then the dose-strength label ("Common"/"Strong"/…), in the same gray
-    /// as the time — the colour ladder alone reads as ambiguous, so the level is
-    /// spelled out. The live countdown takes this slot while a dose is active.
-    @ViewBuilder
-    private func trailingLine(active: Bool, total: Double?, now: Date) -> some View {
-        if active, let total {
-            Text(remainingText(total: total, now: now))
-        } else if let meta = trailingMeta {
-            Text(meta)
-        }
-    }
-
-    /// The row's trailing metadata: the (unimportant) tags followed by the dose's
-    /// strength label — all one gray. Nil when there's neither.
-    private var trailingMeta: String? {
-        var parts = display.core.tags
-        if let level = display.core.doseLevel {
-            parts.append(String(localized: level.displayName).lowercased())
-        }
-        return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 
     /// "1h 4m left" — the modeled time until this dose's effects fully fade.

@@ -205,6 +205,7 @@
       }
     },
     "(%lldx)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -283,6 +284,18 @@
           }
         }
       }
+    },
+    "**Higher is better** — reward and warmth lifting above your baseline. Dipping below the baseline is the comedown." : {
+
+    },
+    "**Higher is livelier** — stimulation and drive above the baseline; sedation below it." : {
+
+    },
+    "**Lower is better** — estimated load on your body: the higher the curve, the more strain. Pairs with your Apple Health heart rate when it's available." : {
+
+    },
+    "**Lower is better** — the pull to take another dose. The higher it climbs, the harder that pull." : {
+
     },
     "#" : {
       "localizations" : {
@@ -953,6 +966,9 @@
         }
       }
     },
+    "%@ isn't modeled yet, so nothing here reflects it." : {
+
+    },
     "%@ left" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1148,6 +1164,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "若現在停用，約 %@ 清除。"
+          }
+        }
+      }
+    },
+    "%@ total · %lld%% eliminated · clear ~%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ total · %2$lld%% eliminated · clear ~%3$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 %1$@ · 已消除 %2$lld%% · 约 %3$@ 清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 %1$@ · 已消除 %2$lld%% · 約 %3$@ 清除"
           }
         }
       }
@@ -1748,6 +1786,7 @@
       }
     },
     "%lld interactions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2127,6 +2166,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld%% 已消除"
+          }
+        }
+      }
+    },
+    "%lld%% eliminated · clear ~%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld%% eliminated · clear ~%2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已消除 %1$lld%% · 约 %2$@ 清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已消除 %1$lld%% · 約 %2$@ 清除"
           }
         }
       }
@@ -2989,6 +3050,7 @@
       }
     },
     "1 interaction" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3607,6 +3669,9 @@
           }
         }
       }
+    },
+    "A predicted picture, not a measurement" : {
+
     },
     "A prodrug converted to GHB via alcohol dehydrogenase and aldehyde dehydrogenase. Once converted, acts on GHB and GABA-B receptors. Onset and duration depend on hepatic enzyme activity. Co-administration with ethanol competitively inhibits conversion, unpredictably altering pharmacokinetics." : {
       "extractionState" : "stale",
@@ -6002,6 +6067,9 @@
         }
       }
     },
+    "An experimental model simulates how the substances in this session act in your body, from published pharmacology. It predicts how effects **rise, peak, and fade**, and **how strong they are** — a heavier dose makes a bigger curve. What it can't give you is a real-world unit or a promise about your body on the day." : {
+
+    },
     "An N-benzylmethoxy derivative that acts as a highly potent full agonist at serotonin 5-HT2A receptors with much greater efficacy than partial agonists like LSD. The full agonism and high potency at 5-HT2A receptors are associated with a steeper dose-response curve, greater risk of seizures, vasoconstriction, and a narrower margin of safety compared to classical partial agonist psychedelics." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7310,6 +7378,12 @@
         }
       }
     },
+    "Because C chases D, the error behaves like the **rate** of rise. A fast route (insufflated, IV) outruns the controller and spikes; the same dose taken orally lets C keep up and barely registers a rush." : {
+
+    },
+    "Because this is a simulation, it differs from effect write-ups like PsychonautWiki. Those summarize what people report; this predicts the underlying curve from pharmacology." : {
+
+    },
     "Beer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8259,6 +8333,9 @@
         }
       }
     },
+    "C lags on the way down and overshoots. When D falls back to baseline, C is still elevated — so the error goes negative. That's the crash, with **dopamine itself already back to normal**." : {
+
+    },
     "Caffeine" : {
 
     },
@@ -8341,6 +8418,9 @@
           }
         }
       }
+    },
+    "Calibrated against published pharmacokinetic and receptor studies (PET occupancy, microdialysis). Still a model — treat it as a rough guide, not medical advice." : {
+
     },
     "Call 911 (US) or your local emergency number" : {
       "localizations" : {
@@ -9980,6 +10060,9 @@
         }
       }
     },
+    "Comedown" : {
+
+    },
     "Comedown alert" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10270,6 +10353,9 @@
         }
       }
     },
+    "Compulsion" : {
+
+    },
     "Conc" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10301,6 +10387,9 @@
           }
         }
       }
+    },
+    "concentration c is linear in dose; the felt elevation saturates (a release/clearance ceiling)" : {
+
     },
     "Concentration curve" : {
       "localizations" : {
@@ -10997,6 +11086,9 @@
         }
       }
     },
+    "Cₛ is the slow controller — as it catches up, the high fades (acclimation)." : {
+
+    },
     "Cumulative" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11367,6 +11459,9 @@
           }
         }
       }
+    },
+    "D = drug-driven dopamine · C = homeostatic push-back (autoreceptors, transporter trafficking, synthesis control)" : {
+
     },
     "D3-Preferring Dopamine Partial Agonist" : {
       "extractionState" : "stale",
@@ -13078,6 +13173,9 @@
         }
       }
     },
+    "Dose scaling" : {
+
+    },
     "Dose taken" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13839,6 +13937,9 @@
         }
       }
     },
+    "Each lens is a different filter on the same drive" : {
+
+    },
     "Each line is a mechanism recovering — a steeper climb means a faster reset." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14373,6 +14474,9 @@
           }
         }
       }
+    },
+    "Effect Estimates" : {
+
     },
     "Effectively clear" : {
       "localizations" : {
@@ -15386,6 +15490,22 @@
         }
       }
     },
+    "Estimates from population half-lives — individual clearance varies." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于群体半衰期的估算——个体清除速率各异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於群體半衰期的估算——個體清除速率各異。"
+          }
+        }
+      }
+    },
     "Estimates from primary literature, not measured for you." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15546,6 +15666,9 @@
           }
         }
       }
+    },
+    "Every curve shares the same anchored scale, so a taller curve genuinely means a stronger effect — within this session, across your other sessions, and between the four lenses. There's no real-world unit to read off, but the heights are honest." : {
+
     },
     "Every dose lands on a timeline so you can see what's active — and when it fades." : {
       "localizations" : {
@@ -15856,6 +15979,7 @@
       }
     },
     "Expand timeline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15935,6 +16059,12 @@
           }
         }
       }
+    },
+    "Experimental" : {
+
+    },
+    "Explore the timeline" : {
+
     },
     "Export" : {
       "extractionState" : "stale",
@@ -18341,6 +18471,12 @@
         }
       }
     },
+    "Higher is better" : {
+
+    },
+    "Higher is livelier" : {
+
+    },
     "Highest overdose risk" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18614,6 +18750,9 @@
         }
       }
     },
+    "How the model works" : {
+
+    },
     "How this is calculated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18629,6 +18768,9 @@
           }
         }
       }
+    },
+    "How this session may feel over time" : {
+
     },
     "How tolerance works" : {
       "localizations" : {
@@ -18788,6 +18930,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "飲水檢查"
+          }
+        }
+      }
+    },
+    "Hydration, food, and rest for the comedown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补水、进食并休息以应对退效期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補水、進食並休息以應對退效期。"
           }
         }
       }
@@ -20264,6 +20422,9 @@
         }
       }
     },
+    "It won't match other sources" : {
+
+    },
     "It's been a long session. Your body and brain need sleep to recover. Try to wind down." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20760,6 +20921,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。"
+          }
+        }
+      }
+    },
+    "left" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩餘"
           }
         }
       }
@@ -21748,6 +21925,9 @@
         }
       }
     },
+    "Lower is better" : {
+
+    },
     "Lower Ki means tighter binding. Affinity below ~100 nM is usually considered high." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22560,6 +22740,9 @@
         }
       }
     },
+    "Mild" : {
+
+    },
     "Mild tolerance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23215,6 +23398,9 @@
           }
         }
       }
+    },
+    "Most effect write-ups describe *what people report*. This does something different — it simulates the underlying neurochemistry and reads the feeling off it." : {
+
     },
     "Most logged" : {
       "localizations" : {
@@ -25583,6 +25769,12 @@
         }
       }
     },
+    "One fixed scale" : {
+
+    },
+    "Only some substances are modeled" : {
+
+    },
     "Onset" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27881,6 +28073,7 @@
       }
     },
     "Present" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28522,6 +28715,9 @@
         }
       }
     },
+    "Quiet" : {
+
+    },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28651,6 +28847,12 @@
           }
         }
       }
+    },
+    "Rate, not amount" : {
+
+    },
+    "Raw concentration is linear in dose while the dopamine response saturates, so a heavier dose empties the stores proportionally harder — a bigger high **and** a deeper crash." : {
+
     },
     "Re-read from Health" : {
       "extractionState" : "stale",
@@ -31177,6 +31379,9 @@
         }
       }
     },
+    "Save it as a screenshot, a PDF report, or a Markdown summary." : {
+
+    },
     "Save preset" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -33087,6 +33292,9 @@
         }
       }
     },
+    "Share this session" : {
+
+    },
     "Shared %@ tolerance · predicted (model, %@)." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -33398,6 +33606,22 @@
         }
       }
     },
+    "Shows the elimination curve" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示消除曲线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示消除曲線"
+          }
+        }
+      }
+    },
     "Shrink Graph" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33415,6 +33639,7 @@
       }
     },
     "Shrink timeline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33758,6 +33983,7 @@
       }
     },
     "Slide to move, pinch to zoom" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33772,6 +33998,9 @@
           }
         }
       }
+    },
+    "Slide to move, pinch to zoom, and hold to inspect a moment." : {
+
     },
     "Slide to move, pinch to zoom, hold to inspect" : {
       "localizations" : {
@@ -34015,6 +34244,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "了解您的人比您想像的更能提供幫助。您不必解釋一切 — 只是聽到熟悉的聲音就有幫助。"
+          }
+        }
+      }
+    },
+    "soon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "很快"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "很快"
           }
         }
       }
@@ -35070,6 +35315,9 @@
         }
       }
     },
+    "Strain" : {
+
+    },
     "Strength" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35577,6 +35825,7 @@
       }
     },
     "Summary" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36385,6 +36634,9 @@
         }
       }
     },
+    "The core idea" : {
+
+    },
     "The crash is your nervous system demanding rest and replenishment." : {
       "localizations" : {
         "zh-Hans" : {
@@ -36874,6 +37126,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些是研究得出的群體平均值——你的實際數值會因遺傳、體型以及用藥方式而不同。"
+          }
+        }
+      }
+    },
+    "These curves reflect %@. %@ isn't modeled yet and doesn't affect them." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "These curves reflect %1$@. %2$@ isn't modeled yet and doesn't affect them."
           }
         }
       }
@@ -38809,6 +39071,7 @@
       }
     },
     "Urge" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39719,6 +39982,9 @@
         }
       }
     },
+    "What you feel is the **error** between the dopamine your dose forces and how far your brain has already compensated — not the dopamine level itself." : {
+
+    },
     "What's happening" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39879,6 +40145,9 @@
           }
         }
       }
+    },
+    "Where the comedown comes from" : {
+
     },
     "Where the numbers come from" : {
       "localizations" : {

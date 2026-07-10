@@ -4309,6 +4309,26 @@ T = {
         "主要是快速的受体脱敏，在两次使用之间恢复，而非持久的剂量倍率。",
         "主要是快速的受體脫敏，在兩次使用之間恢復，而非持久的劑量倍率。",
     ),
+    # Session detail "In Your Body" section + row redesign (2026-07-09).
+    "Estimates from population half-lives — individual clearance varies.": (
+        "基于群体半衰期的估算——个体清除速率各异。",
+        "基於群體半衰期的估算——個體清除速率各異。",
+    ),
+    "left": ("剩余", "剩餘"),
+    "soon": ("很快", "很快"),
+    "%@ total · %lld%% eliminated · clear ~%@": (
+        "共 %1$@ · 已消除 %2$lld%% · 约 %3$@ 清除",
+        "共 %1$@ · 已消除 %2$lld%% · 約 %3$@ 清除",
+    ),
+    "%lld%% eliminated · clear ~%@": (
+        "已消除 %1$lld%% · 约 %2$@ 清除",
+        "已消除 %1$lld%% · 約 %2$@ 清除",
+    ),
+    "Shows the elimination curve": ("显示消除曲线", "顯示消除曲線"),
+    "Hydration, food, and rest for the comedown": (
+        "补水、进食并休息以应对退效期。",
+        "補水、進食並休息以應對退效期。",
+    ),
     "Where the numbers come from": ("数字从何而来", "數字從何而來"),
     "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the tolerance kinetics are calibrated to published human recovery studies. Every parameter is graded, and anything resting on a class default is flagged. Nothing here is measured from you — it's predicted from your dose log and these curated values.": (
         "结合亲和力来自 NIMH PDSP Kᵢ 数据库及原始文献；耐受动力学依据已发表的人体恢复研究校准。每个参数都经过分级，任何依赖类别默认值的内容都会被标注。这里没有任何数据是从你身上测得的——而是依据你的剂量记录和这些经过整理的数值预测得出。",
@@ -4491,6 +4511,14 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Session detail "In Your Body" section + row redesign (2026-07-09).
+        "Estimates from population half-lives — individual clearance varies.",
+        "left",
+        "soon",
+        "%@ total · %lld%% eliminated · clear ~%@",
+        "%lld%% eliminated · clear ~%@",
+        "Shows the elimination curve",
+        "Hydration, food, and rest for the comedown",
         # Graph pan/zoom hint restored across all session graphs (2026-07-08).
         "Slide to move, pinch to zoom",
         "Slide to move, pinch to zoom, hold to inspect",
