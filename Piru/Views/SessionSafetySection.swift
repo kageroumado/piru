@@ -27,35 +27,38 @@ struct SessionSafetySection: View {
     // MARK: - Interaction rows
 
     private func interactionRow(_ group: InteractionGroup) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
-            // Framed to the colour-dot's footprint so the substance text lines up
-            // with the dose/cumulative rows; the glyph itself renders a touch
-            // larger and overflows the frame, which reads as a warning marker.
-            Image(systemName: group.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(group.severity.labelColor)
-                .frame(width: 9)
-                .accessibilityHidden(true)
+        // Mirrors a dose row: the severity glyph takes the colour-dot's slot
+        // (same 9pt size + 8pt gap, so the pairs line up with the dose/cumulative
+        // titles), and the description sits flush with the row's leading edge —
+        // where a dose row keeps its time/meta line — not indented under the pair.
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Image(systemName: group.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
+                    .font(.system(size: 9, weight: .semibold))
+                    .foregroundStyle(group.severity.labelColor)
+                    .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 3) {
-                ForEach(Array(group.pairs.enumerated()), id: \.offset) { index, pair in
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text(pair)
-                            .font(.body.weight(.semibold))
-                            .foregroundStyle(.primary)
-                            .lineLimit(1)
-                        if index == 0 {
-                            Spacer(minLength: 8)
-                            Text(String(localized: group.severity.label).lowercased())
-                                .capsuleChip(tint: group.severity.labelColor)
+                VStack(alignment: .leading, spacing: 3) {
+                    ForEach(Array(group.pairs.enumerated()), id: \.offset) { index, pair in
+                        HStack(alignment: .firstTextBaseline, spacing: 8) {
+                            Text(pair)
+                                .font(.body.weight(.semibold))
+                                .foregroundStyle(.primary)
+                                .lineLimit(1)
+                            if index == 0 {
+                                Spacer(minLength: 8)
+                                Text(String(localized: group.severity.label).lowercased())
+                                    .capsuleChip(tint: group.severity.labelColor)
+                            }
                         }
                     }
                 }
-                Text(group.description)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
             }
+
+            Text(group.description)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
