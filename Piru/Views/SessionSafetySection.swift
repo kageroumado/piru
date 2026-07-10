@@ -28,9 +28,13 @@ struct SessionSafetySection: View {
 
     private func interactionRow(_ group: InteractionGroup) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
+            // Framed to the colour-dot's footprint so the substance text lines up
+            // with the dose/cumulative rows; the glyph itself renders a touch
+            // larger and overflows the frame, which reads as a warning marker.
             Image(systemName: group.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                .font(.footnote.weight(.semibold))
+                .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(group.severity.labelColor)
+                .frame(width: 9)
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {

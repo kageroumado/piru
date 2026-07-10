@@ -57,7 +57,7 @@ struct SessionBodyLoadSection: View {
                 .padding(.top, 4)
         } label: {
             VStack(alignment: .leading, spacing: 5) {
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                HStack(alignment: .center, spacing: 8) {
                     Image(systemName: "circle.fill")
                         .font(.system(size: 9))
                         .foregroundStyle(row.active.color)
@@ -96,6 +96,7 @@ struct SessionBodyLoadSection: View {
         return HStack(spacing: 8) {
             Text("\(percent)% eliminated · clear ~\(clearText(for: row.active))")
                 .lineLimit(1)
+                .minimumScaleFactor(0.8)
             Spacer(minLength: 8)
             Text("\(row.active.totalRemaining.doseFormatted) \(row.active.unit) left")
                 .lineLimit(1)
@@ -163,13 +164,15 @@ struct SessionBodyLoadSection: View {
         return nil
     }
 
-    /// Clock time for a same-day milestone; weekday-prefixed once it crosses into
-    /// another day ("Fri 6:54 AM").
+    /// Clock time for a same-day milestone; weekday + hour once it crosses into
+    /// another day ("Fri 6 AM") — minutes are dropped there both because they're
+    /// false precision that far out and because the full "Fri 6:54 AM" overflows
+    /// the meta line next to the trailing "N mg left".
     private func milestoneText(_ date: Date) -> String {
         if Calendar.current.isDateInToday(date) {
             return date.formatted(date: .omitted, time: .shortened)
         }
-        return date.formatted(.dateTime.weekday(.abbreviated).hour().minute())
+        return date.formatted(.dateTime.weekday(.abbreviated).hour())
     }
 
     // MARK: - Model

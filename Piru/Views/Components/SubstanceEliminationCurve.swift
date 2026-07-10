@@ -131,7 +131,7 @@ struct SubstanceEliminationCurve: View {
         }
         .frame(height: 132)
         .padding(12)
-        .background(.quaternary, in: .rect(cornerRadius: 16, style: .continuous))
+        .background(Color.primary.opacity(0.04), in: .rect(cornerRadius: 16, style: .continuous))
         .overlay(alignment: .topTrailing) {
             // A floating label rather than a header row, so it doesn't push the
             // curve down. "Elimination Curve" is dropped — self-evident from the
