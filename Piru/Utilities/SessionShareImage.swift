@@ -27,6 +27,8 @@ enum SessionShareImage {
             title: title,
             dateText: dateText,
             capturedAt: capturedAt,
+            entries: entries,
+            colorMap: colors.colorMap,
             displays: displays,
             states: states,
             markers: markers,
@@ -43,6 +45,8 @@ struct SessionShareCard: View {
     let title: String
     let dateText: String
     let capturedAt: Date
+    let entries: [DoseEntry]
+    let colorMap: [String: Color]
     let displays: [DayEntryDisplay]
     let states: [ActiveSubstanceState]
     let markers: [DoseMarker]
@@ -64,7 +68,7 @@ struct SessionShareCard: View {
             header
             timeline
             entriesSection
-            cumulativeSection
+            bodyLoadSection
             watermark
         }
         .padding(20)
@@ -99,43 +103,92 @@ struct SessionShareCard: View {
         }
     }
 
-    /// Substances logged more than once this session, with running totals —
-    /// mirrors the day-detail's cumulative section.
-    private var cumulative: [(name: String, total: Double, unit: String, count: Int)] {
-        var grouped: [String: (name: String, total: Double, unit: String, count: Int)] = [:]
-        var order: [String] = []
-        for display in displays {
-            let key = display.core.displayName.lowercased()
-            if let existing = grouped[key] {
-                grouped[key] = (existing.name, existing.total + display.core.amount, existing.unit, existing.count + 1)
-            } else {
-                grouped[key] = (display.core.displayName, display.core.amount, display.core.unit, 1)
-                order.append(key)
-            }
-        }
-        return order.compactMap { grouped[$0] }.filter { $0.count > 1 }
+    /// One shareable "in your body" row's data, flattened from the model so the
+    /// active and cleared rows can be split across two columns together.
+    private struct BodyLoadRowData: Identifiable {
+        let id: String
+        let dotColor: Color
+        let name: String
+        let count: Int
+        let total: Double
+        let unit: String
+        let status: BodyLoadStatus?
     }
 
-    @ViewBuilder private var cumulativeSection: some View {
-        let items = cumulative
-        if !items.isEmpty {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Cumulative")
-                    .font(.caption.weight(.semibold))
-                    .textCase(.uppercase)
-                    .kerning(0.8)
-                    .foregroundStyle(Theme.secondaryLabel)
-                ForEach(items, id: \.name) { item in
-                    HStack {
-                        Text(item.name).font(.subheadline).foregroundStyle(.primary)
-                        Spacer()
-                        Text("\(item.total.doseFormatted) \(item.unit) (\(item.count)×)")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(Theme.accent)
-                    }
+    /// The model's active-then-cleared rows as one ordered list, ready to slice
+    /// into columns. `nil` status on cleared rows when nothing is still active
+    /// keeps them single-line, matching the live section.
+    private func bodyLoadRows(_ model: SessionBodyLoadModel) -> [BodyLoadRowData] {
+        let hasActive = !model.active.isEmpty
+        var rows = model.active.map { row in
+            BodyLoadRowData(
+                id: row.id,
+                dotColor: row.active.color,
+                name: row.displayName,
+                count: row.count,
+                total: row.sessionTotal,
+                unit: row.active.unit,
+                status: .eliminating(
+                    percent: Int(row.active.eliminatedFraction * 100),
+                    clear: SessionBodyLoadModel.clearText(for: row.active),
+                    remaining: row.active.totalRemaining,
+                ),
+            )
+        }
+        rows += model.cleared.map { row in
+            BodyLoadRowData(
+                id: row.id,
+                dotColor: row.color,
+                name: row.displayName,
+                count: row.count,
+                total: row.total,
+                unit: row.unit,
+                status: hasActive ? .cleared : nil,
+            )
+        }
+        return rows
+    }
+
+    /// "In your body" — the same per-substance elimination rows the live session
+    /// detail shows, rendered from the shared ``SessionBodyLoadModel`` and
+    /// ``BodyLoadRowLabel`` so the export can't drift from the screen. Static rows
+    /// only (no expandable curves), split into two columns whenever the entries are.
+    @ViewBuilder private var bodyLoadSection: some View {
+        let model = SessionBodyLoadModel.make(entries: entries, colorMap: colorMap)
+        if !model.isEmpty {
+            let rows = bodyLoadRows(model)
+            if twoColumn {
+                let mid = (rows.count + 1) / 2
+                HStack(alignment: .top, spacing: 16) {
+                    bodyLoadCard(Array(rows[..<mid]))
+                    bodyLoadCard(Array(rows[mid...]))
                 }
+            } else {
+                bodyLoadCard(rows)
             }
         }
+    }
+
+    /// A grouped card of body-load rows with leading-inset hairline dividers, on
+    /// `CardBackground()` — the same shell as ``groupedCard`` for the entry rows.
+    private func bodyLoadCard(_ rows: [BodyLoadRowData]) -> some View {
+        VStack(spacing: 0) {
+            ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
+                if index > 0 { Divider().padding(.leading, 16) }
+                BodyLoadRowLabel(
+                    dotColor: row.dotColor,
+                    name: row.name,
+                    count: row.count,
+                    total: row.total,
+                    unit: row.unit,
+                    status: row.status,
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 11)
+            }
+        }
+        .background { CardBackground().clipShape(RoundedRectangle(cornerRadius: 12)) }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     /// Distinct substances drawn — the lane count, matching the graph's own gate.

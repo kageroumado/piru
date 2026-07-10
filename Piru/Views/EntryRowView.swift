@@ -21,9 +21,9 @@ struct DayEntryCore: Equatable {
     var totalMinutes: Double?
 }
 
-/// A `DayEntryCore` plus the row's resolved colour. Colour is applied at the
+/// A `DayEntryCore` plus the row's resolved color. Color is applied at the
 /// row-build site (a cheap `colorMap` lookup) rather than memoized with the
-/// substance resolve, so a recolour doesn't force the heavy resolve to re-run.
+/// substance resolve, so a recolor doesn't force the heavy resolve to re-run.
 struct DayEntryDisplay: Equatable {
     let core: DayEntryCore
     let color: Color
@@ -35,7 +35,7 @@ struct DayEntryDisplay: Equatable {
 
     /// Build render-ready displays for a set of doses — the same resolution
     /// `SessionDetailView` does inline (substance lookup, dose-level classification,
-    /// `CustomSubstanceStore` name override, colour map), hoisted so off-screen
+    /// `CustomSubstanceStore` name override, color map), hoisted so off-screen
     /// consumers (e.g. the share-image renderer) reproduce the on-screen rows
     /// exactly. Caches the per-substance lookup so repeated substances resolve once.
     @MainActor
@@ -69,7 +69,7 @@ struct DayEntryDisplay: Equatable {
     }
 }
 
-/// One dose row's content: colour dot + name, the route · amount · level phrase,
+/// One dose row's content: color dot + name, the route · amount · level phrase,
 /// tags, and the clock/relative time. Renders purely from a `DayEntryDisplay` —
 /// it does **no** substance lookup of its own (that happens once, upstream).
 struct EntryRowView: View {
@@ -118,7 +118,7 @@ struct EntryRowView: View {
             } else {
                 // Dot · name · ROA pill on the left; the dose — the hero, in the
                 // same rounded face as the detail card — and the disclosure chevron
-                // on the right. Centre-aligned so the name, pill, dose, and chevron
+                // on the right. Center-aligned so the name, pill, dose, and chevron
                 // all sit on one line at the dose's height.
                 HStack(alignment: .center, spacing: 8) {
                     nameCluster(nameLineLimit: 1)
@@ -150,13 +150,13 @@ struct EntryRowView: View {
         }
     }
 
-    /// Coloured in the substance's own body colour (matching the dot and rail), so
-    /// the dose reads as belonging to its substance. The strength tier is carried
-    /// separately by the ``strengthChip`` below, so the dose needn't double as it.
+    /// The primary label color (black in light, white in dark) — the dose is the
+    /// row's hero, and the strength tier is carried separately by the ``strengthChip``
+    /// below, so the dose itself needn't double as a tier color.
     private var doseText: some View {
         Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
-            .font(.system(.title3, design: .rounded).weight(.bold))
-            .foregroundStyle(display.color)
+            .font(.system(.title3, design: .rounded).weight(.semibold))
+            .foregroundStyle(.primary)
             .lineLimit(1)
             .accessibilityLabel(doseAccessibilityLabel)
     }
@@ -168,15 +168,15 @@ struct EntryRowView: View {
             .accessibilityHidden(true)
     }
 
-    /// The route badge — a tinted capsule in the route's *own* fixed colour (every
-    /// "oral" pill matches), not the substance's colour.
+    /// The route badge — a tinted capsule in the route's *own* fixed color (every
+    /// "oral" pill matches), not the substance's color.
     private var roaPill: some View {
         Text(String(localized: display.core.route.localizedName).lowercased())
             .capsuleChip(tint: display.core.route.tintColor)
     }
 
     /// The strength badge ("light"/"common"/"heavy"…) — same capsule grammar as
-    /// the route pill, tinted by the level's colour so the tier reads as colour
+    /// the route pill, tinted by the level's color so the tier reads as color
     /// *and* text at all times. It used to be a gray word that the live countdown
     /// displaced, hiding the tier exactly while the dose was active.
     @ViewBuilder
@@ -281,7 +281,7 @@ struct EntryRowView: View {
     }
 
     /// VoiceOver spells out the dose *and* its level, since the level is conveyed
-    /// only by colour on screen.
+    /// only by color on screen.
     private var doseAccessibilityLabel: Text {
         let dose = "\(display.core.amount.doseFormatted) \(display.core.unit)"
         guard let level = display.core.doseLevel else { return Text(dose) }
@@ -293,7 +293,7 @@ struct EntryRowView: View {
     /// analysis happens upstream in `SessionDetailView.loadVitals`.
     private func hrChip(_ hr: DoseHRResponse) -> some View {
         // Quiet inline metric (Option A): a heart glyph in the vitals hue with the
-        // numbers in the label colour — reads as data, not a coloured pill.
+        // numbers in the label color — reads as data, not a colored pill.
         HStack(spacing: 5) {
             Image(systemName: "heart.fill")
                 .font(.system(size: 9))

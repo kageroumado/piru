@@ -585,16 +585,6 @@
         }
       }
     },
-    "%@ %@ (%lld×)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@ (%3$lld×)"
-          }
-        }
-      }
-    },
     "%@ %@ %@ on %@" : {
       "localizations" : {
         "en" : {
@@ -11209,6 +11199,7 @@
       }
     },
     "Cumulative" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17265,6 +17256,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完全 μ-阿片激動劑兼 NMDA 受體拮抗劑"
+          }
+        }
+      }
+    },
+    "Fully eliminated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完全消除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完全消除"
           }
         }
       }
