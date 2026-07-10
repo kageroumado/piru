@@ -604,18 +604,7 @@ struct SessionDetailView: View {
 
                     // Recovery — per-category comedown guidance for what this
                     // session actually contained, plus a link into the full guide.
-                    let recoveryCategories = sessionRecoveryCategories
-                    if !recoveryCategories.isEmpty {
-                        SessionRecoverySection(categories: recoveryCategories)
-                    } else {
-                        Section {
-                            NavigationLink(value: PushRoute.comedownGuide) {
-                                Label("Recovery tips", systemImage: "heart.text.clipboard")
-                                    .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(Theme.accent)
-                            }
-                        }
-                    }
+                    SessionRecoverySection(categories: sessionRecoveryCategories)
                 }
             }
             .listRowBackground(CardBackground())

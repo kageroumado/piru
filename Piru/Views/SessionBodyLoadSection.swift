@@ -7,13 +7,16 @@ import SwiftUI
 /// the "dosed" side of the body-load equation, so the two former sections are
 /// one story here. For a past session (everything cleared) it degrades to
 /// re-dose totals alone; a session of single doses that have all worn off shows
-/// nothing. Headerless — the "N mg left" hero and curve name the card themselves.
+/// nothing. Headerless — the cumulative-total hero and curve name the card
+/// themselves.
 struct SessionBodyLoadSection: View {
     let entries: [DoseEntry]
     let colorMap: [String: Color]
 
     /// Which substances have their elimination curve expanded in place.
     @State private var expanded: Set<String> = []
+    /// Guards the one-time default expansion of the first substance.
+    @State private var didSeedExpansion = false
 
     var body: some View {
         let model = makeModel()
@@ -30,6 +33,13 @@ struct SessionBodyLoadSection: View {
                     Text("Estimates from population half-lives — individual clearance varies.")
                 }
             }
+            // Open the first substance's curve by default, so the fold — and the
+            // graph behind it — is discoverable without a tap.
+            .onAppear {
+                guard !didSeedExpansion else { return }
+                didSeedExpansion = true
+                if let first = model.active.first { expanded.insert(first.id) }
+            }
         }
     }
 
@@ -38,7 +48,9 @@ struct SessionBodyLoadSection: View {
     /// A native `DisclosureGroup` — the same fold affordance the recovery guide
     /// uses — so the curve reads as expandable, not as a navigation row. The
     /// always-visible label mirrors a dose row: dot · name on the left, the big
-    /// rounded remaining number on the right, immediately before the chevron.
+    /// rounded session total on the right (immediately before the chevron); the
+    /// live remaining amount rides the meta line's trailing edge, where a dose
+    /// row keeps its strength chip.
     private func activeRow(_ row: ActiveRow) -> some View {
         DisclosureGroup(isExpanded: expansion(row.id)) {
             SubstanceEliminationCurve(active: row.active)
@@ -54,9 +66,9 @@ struct SessionBodyLoadSection: View {
                         .font(.body.weight(.semibold))
                         .lineLimit(1)
                     Spacer(minLength: 8)
-                    Text("\(row.active.totalRemaining.doseFormatted) \(row.active.unit)")
+                    Text("\(row.sessionTotal.doseFormatted) \(row.active.unit)")
                         .font(.system(.title3, design: .rounded).weight(.bold))
-                        .foregroundStyle(row.active.color)
+                        .foregroundStyle(row.totalLevel?.labelColor ?? .primary)
                         .lineLimit(1)
                 }
                 metaLine(row)
@@ -76,22 +88,18 @@ struct SessionBodyLoadSection: View {
     }
 
     /// The secondary line under the hero, in the dose row's meta size
-    /// (`.subheadline`, secondary). For a re-dose it leads with the session total
-    /// tinted by the level that total reaches — so creep reads even when each
-    /// dose was modest — then the eliminated share and the clear-by time.
-    @ViewBuilder
+    /// (`.subheadline`, secondary): the eliminated share and clear-by time on the
+    /// left, the still-circulating amount ("N mg left") trailing — aligned with
+    /// where a dose row keeps its strength chip.
     private func metaLine(_ row: ActiveRow) -> some View {
         let percent = Int(row.active.eliminatedFraction * 100)
-        let clear = clearText(for: row.active)
-        Group {
-            if row.count > 1 {
-                let total = Text("\(row.sessionTotal.doseFormatted) \(row.active.unit)")
-                    .foregroundStyle(row.totalLevel?.labelColor ?? Theme.secondaryLabel)
-                    .fontWeight(.semibold)
-                Text("\(total) total · \(percent)% eliminated · clear ~\(clear)")
-            } else {
-                Text("\(percent)% eliminated · clear ~\(clear)")
-            }
+        return HStack(spacing: 8) {
+            Text("\(percent)% eliminated · clear ~\(clearText(for: row.active))")
+                .lineLimit(1)
+            Spacer(minLength: 8)
+            Text("\(row.active.totalRemaining.doseFormatted) \(row.active.unit) left")
+                .lineLimit(1)
+                .layoutPriority(1)
         }
         .font(.subheadline)
         .foregroundStyle(Theme.secondaryLabel)
