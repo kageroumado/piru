@@ -4344,6 +4344,11 @@ T = {
     "Effect Estimates": ("效应估算", "效應估算"),
     "Compulsion": ("冲动", "衝動"),
     "Strain": ("负荷", "負荷"),
+    "Experimental": ("实验性", "實驗性"),
+    "How this session may feel over time": (
+        "本次记录随时间可能的感受",
+        "本次記錄隨時間可能的感受",
+    ),
     "A busy session": ("复杂的记录", "複雜的記錄"),
     "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.": (
         "该模型是在实验室条件下，基于单一物质单次摄入校准的。这里的相互作用仍是机制性的，但每增加一次用量或一种物质都会引入更多参数，扩大误差范围。",

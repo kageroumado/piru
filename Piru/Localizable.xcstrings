@@ -16214,7 +16214,20 @@
       }
     },
     "Experimental" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实验性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實驗性"
+          }
+        }
+      }
     },
     "Explore the timeline" : {
 
@@ -18968,7 +18981,20 @@
       }
     },
     "How this session may feel over time" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录随时间可能的感受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄隨時間可能的感受"
+          }
+        }
+      }
     },
     "How this works" : {
       "localizations" : {
