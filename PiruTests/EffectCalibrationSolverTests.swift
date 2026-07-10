@@ -63,6 +63,11 @@ struct EffectCalibrationSolverTests {
         return o.t[best]
     }
 
+    /// Left-justify to a minimum width for the report tables (printf `%-Ns`, never truncates).
+    private func pad(_ text: String, _ width: Int) -> String {
+        text.count >= width ? text : text + String(repeating: " ", count: width - text.count)
+    }
+
     // The calibrated monoamine set + typical clinical onset (h). Every shape check runs at the
     // substance's own reference dose (`refUnit`, i.e. `amt ≈ 1`) — the engine's calibrated operating
     // point — so substances of different mg-potency are compared fairly and near where the curve is tuned.
@@ -83,9 +88,9 @@ struct EffectCalibrationSolverTests {
         report += "substance         releaser  ke      ka      wDAT   wNET   wSERT  deplete\n"
         for r in refs {
             let p = try #require(resolve(r.name), "\(r.name) must resolve")
+            report += pad(r.name, 16) + "  " + (p.releaser ? "yes" : "no") + "  "
             report += String(
-                format: "%-16s  %-7@  %-6.3f  %-6.3f  %-5.2f  %-5.2f  %-5.2f  %-5.2f\n",
-                (r.name as NSString).utf8String!, (p.releaser ? "yes" : "no") as NSString,
+                format: "%-6.3f  %-6.3f  %-5.2f  %-5.2f  %-5.2f  %-5.2f\n",
                 p.ke, p.ka, p.wDAT, p.wNET, p.wSERT, p.deplete,
             )
             #expect(p.ke > 0 && p.ka > 0)
@@ -108,13 +113,9 @@ struct EffectCalibrationSolverTests {
             let series = peak(feeling) > 0.05 ? feeling : o.drive
             let on = onset(o, series) ?? -1
             let tp = timeOfPeak(o, series)
-            report += String(
-                format: "%-16s  onset %.2fh (band %.1f–%.1fh)  peak@ %.2fh\n",
-                (r.name as NSString).utf8String!,
-                on,
-                r.onsetLoH,
-                r.onsetHiH,
-                tp,
+            report += pad(r.name, 16) + String(
+                format: "  onset %.2fh (band %.1f–%.1fh)  peak@ %.2fh\n",
+                on, r.onsetLoH, r.onsetHiH, tp,
             )
             #expect(on >= r.onsetLoH * 0.6 && on <= r.onsetHiH * 1.4, "\(r.name) onset \(on)h outside anchored band")
         }
