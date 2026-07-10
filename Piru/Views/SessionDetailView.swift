@@ -122,6 +122,7 @@ struct SessionDetailView: View {
             let laneNames = Set(t.states.map { $0.substanceName.lowercased() })
                 .union(t.markers.map { $0.substanceName.lowercased() })
             let mechanisticDoses = Self.computeMechanisticDoses(entries, startDate: session.startDate)
+            let mechanisticPharmacology = Self.resolveMechanisticPharmacology(mechanisticDoses)
             return ResolvedDay(
                 states: t.states,
                 markers: t.markers,
@@ -130,7 +131,8 @@ struct SessionDetailView: View {
                 laneCount: laneNames.count,
                 entryCores: Self.computeEntryCores(entries),
                 mechanisticDoses: mechanisticDoses,
-                mechanisticSupported: MechanisticSessionModel.supportsMechanisticView(mechanisticDoses),
+                mechanisticSupported: MechanisticSessionModel.supportsMechanisticView(mechanisticDoses, pharmacology: mechanisticPharmacology),
+                mechanisticPharmacology: mechanisticPharmacology,
             )
         }
     }
@@ -159,6 +161,22 @@ struct SessionDetailView: View {
                 hours: entry.timestamp.timeIntervalSince(startDate) / 3_600,
             )
         }
+    }
+
+    /// Resolve each distinct substance's PK + binding from the bundled pharmacology
+    /// DB, keyed by normalized name. Runs with the rest of the day resolve (main
+    /// actor, memoized), so the engine's per-substance params (`ke`/`ka`/transporter
+    /// weights/`releaser`) are data-driven without a store lookup in `body` or in the
+    /// off-main simulation.
+    private static func resolveMechanisticPharmacology(_ doses: [MechanisticSessionModel.DoseInput]) -> [String: PharmacologyParameters] {
+        var result: [String: PharmacologyParameters] = [:]
+        for dose in doses {
+            let key = SubstanceModelDatabase.normalize(dose.name)
+            if result[key] == nil {
+                result[key] = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: dose.name)
+            }
+        }
+        return result
     }
 
     /// Resolve each dose row's substance facts once. Caches the per-substance
@@ -257,7 +275,11 @@ struct SessionDetailView: View {
         for entry in entries {
             guard seen.insert(entry.substance.lowercased()).inserted else { continue }
             let display = CustomSubstanceStore.shared.displayName(for: entry.substance)
-            if SubstanceModelDatabase.resolve(name: entry.substance, category: .other) != nil {
+            let key = SubstanceModelDatabase.normalize(entry.substance)
+            // "Modeled" == what `compute` actually simulates: any substance whose params
+            // resolve (DB-derived or curated-override-only, e.g. PPAP/BPAP), not just those
+            // with a DB pharmacology row.
+            if SubstanceModelDatabase.params(name: entry.substance, pharmacology: resolvedDay.mechanisticPharmacology[key]) != nil {
                 modeled.append(display)
             } else {
                 ignored.append(display)
@@ -289,7 +311,8 @@ struct SessionDetailView: View {
         }
         let last = doses.map(\.hours).max() ?? 0
         let tMax = min(48, max(12, last + 12))
-        let result = await Task.detached { MechanisticSessionModel.compute(doses: doses, tMax: tMax) }.value
+        let pharmacology = resolvedDay.mechanisticPharmacology
+        let result = await Task.detached { MechanisticSessionModel.compute(doses: doses, pharmacology: pharmacology, tMax: tMax) }.value
         // `.task(id:)` cancels this on a signature change — don't let a stale
         // simulation land after the newer task has already assigned its result.
         guard !Task.isCancelled else { return }
@@ -910,6 +933,11 @@ private struct ResolvedDay {
     /// the rest of the day so per-body reads never hit the substance store.
     var mechanisticDoses: [MechanisticSessionModel.DoseInput] = []
     var mechanisticSupported: Bool = false
+    /// Resolved per-substance PK + binding (keyed by normalized name), fetched from
+    /// the bundled pharmacology DB once per content change so the engine's per-substance
+    /// params (`ke`/`ka`/transporter weights/`releaser`) are data-driven. The off-main
+    /// simulation and the support gate both read this.
+    var mechanisticPharmacology: [String: PharmacologyParameters] = [:]
 }
 
 /// Hosts a fixed-height child whose height is itself the animation driver.

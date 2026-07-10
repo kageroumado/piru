@@ -96,19 +96,34 @@ nonisolated enum MechanisticSessionModel {
         }
     }
 
+    // MARK: - Params resolution
+
+    /// The engine params for one dose, resolved against the session's pharmacology
+    /// map (keyed by normalized name). `nil` ⇒ the substance isn't modelable.
+    private static func modelParams(for name: String, in pharmacology: [String: PharmacologyParameters]) -> SubstanceModelParams? {
+        SubstanceModelDatabase.params(name: name, pharmacology: pharmacology[SubstanceModelDatabase.normalize(name)])
+    }
+
     // MARK: - Gating
 
     /// Whether these doses contain a stimulant or opioid the engine models —
-    /// the trigger for surfacing the mechanistic lenses at all.
-    static func supportsMechanisticView(_ doses: [DoseInput]) -> Bool {
-        SubstanceModelDatabase.supportsMechanisticView(doses.map { ($0.name, $0.category) })
+    /// the trigger for surfacing the mechanistic lenses at all. Needs the resolved
+    /// pharmacology (keyed by normalized name) since PK + binding now come from the
+    /// bundled DB, not a hardcoded table.
+    static func supportsMechanisticView(_ doses: [DoseInput], pharmacology: [String: PharmacologyParameters]) -> Bool {
+        doses.contains { dose in
+            guard let params = modelParams(for: dose.name, in: pharmacology) else { return false }
+            return SubstanceModelDatabase.triggersMechanisticView(params)
+        }
     }
 
     // MARK: - Compute (off-main)
 
     /// Simulate the session. `nil` when nothing in it is modelable — the caller
-    /// then shows only the classic Timeline lens.
-    static func compute(doses: [DoseInput], tMax: Double) -> Result? {
+    /// then shows only the classic Timeline lens. `pharmacology` is the resolved
+    /// per-substance PK + binding (keyed by normalized name), resolved on the main
+    /// actor by the caller and handed to this off-main compute.
+    static func compute(doses: [DoseInput], pharmacology: [String: PharmacologyParameters], tMax: Double) -> Result? {
         // Group by (substance, route): one agent per distinct substance-route,
         // carrying all of its doses — different routes of the same drug become
         // separate agents (different ka/kR), summed inside the simulation.
@@ -122,13 +137,10 @@ nonisolated enum MechanisticSessionModel {
         }
 
         var agents: [EffectAgent] = []
-        var usesAnalogue = false
         for key in order {
             guard let members = groups[key], let first = members.first,
-                  let resolution = SubstanceModelDatabase.resolve(name: first.name, category: first.category)
+                  let params = modelParams(for: first.name, in: pharmacology)
             else { continue }
-            if case .analogue = resolution.source { usesAnalogue = true }
-            let params = resolution.params
             let (kaMul, kR) = roaFactors(key.route)
             let doseTuples = members.map { (t: $0.hours, amt: $0.amount / params.refUnit) }
             agents.append(EffectAgent(
@@ -185,7 +197,7 @@ nonisolated enum MechanisticSessionModel {
         }
         contentSpan = min(max(contentSpan + 0.5, 1), tMax)
 
-        return Result(timeline: timeline, ranges: ranges, usesAnalogue: usesAnalogue, tMax: tMax, contentSpan: contentSpan)
+        return Result(timeline: timeline, ranges: ranges, usesAnalogue: false, tMax: tMax, contentSpan: contentSpan)
     }
 }
 
