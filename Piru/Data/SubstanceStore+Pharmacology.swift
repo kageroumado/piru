@@ -548,8 +548,10 @@ extension SubstanceStore {
         // 129 min; 3-MMC pig-scaled 55 vs human 180 min). Only override when the coherent Vd row is
         // itself non-human; otherwise the picked (human/unflagged) row's own t½ stands.
         let humanHalfLife: Double? = primaryIsNonHuman
-            ? (pk.first { $0.species == "human" && $0.halfLifeMin != nil && $0.confidence != .unverified }?.halfLifeMin
-                ?? pk.first { $0.species == "human" && $0.halfLifeMin != nil }?.halfLifeMin)
+            ? (
+                pk.first { $0.species == "human" && $0.halfLifeMin != nil && $0.confidence != .unverified }?.halfLifeMin
+                    ?? pk.first { $0.species == "human" && $0.halfLifeMin != nil }?.halfLifeMin
+            )
             : nil
         let halfLife = humanHalfLife ?? scaledPrimary?.halfLifeMin
 
@@ -558,9 +560,11 @@ extension SubstanceStore {
         // graded PK row that carries one. Tmax is a rate descriptor independent of the F/Vd apparent-V/F
         // coupling, so borrowing it from another row (when the primary lacks one) is safe.
         let tmaxRow = (primaryIsNonHuman ? pk.first { $0.species == "human" && $0.tmaxMin != nil } : nil)
-            ?? ((primaryRow?.tmaxMin != nil)
-                ? primaryRow
-                : (pk.first { $0.confidence != .unverified && $0.tmaxMin != nil } ?? pk.first { $0.tmaxMin != nil }))
+            ?? (
+                (primaryRow?.tmaxMin != nil)
+                    ? primaryRow
+                    : (pk.first { $0.confidence != .unverified && $0.tmaxMin != nil } ?? pk.first { $0.tmaxMin != nil })
+            )
         let tmax = tmaxRow?.tmaxMin
         let tmaxConfidence: ConfidenceTier = tmax != nil ? (tmaxRow?.confidence ?? .unverified) : .unverified
 
