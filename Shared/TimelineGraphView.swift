@@ -64,6 +64,17 @@ enum LaneModeDefaults {
     static let thresholdRange = 2 ... 8
 }
 
+/// UserDefaults key and default for the session-detail "Expand Graph" preference.
+/// Persisting it means a user who prefers the taller inline timeline keeps it
+/// across every session and launch, instead of it resetting each time the view
+/// appears. Both the session toolbar toggle and the Journal settings toggle read
+/// and write this one key.
+enum SessionGraphDefaults {
+    static let suite = "group.dev.yumeji.piru"
+    static let enlargedKey = "sessionGraphEnlarged"
+    static let enlargedDefault = false
+}
+
 /// A dose without duration data, shown as a timestamp marker on the graph.
 struct DoseMarker: Hashable {
     let substanceName: String

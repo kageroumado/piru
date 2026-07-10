@@ -2046,6 +2046,11 @@ T = {
     "Select": ("选择", "選擇"),
     "Remove from Quick Log": ("从快速记录中移除", "從快速記錄中移除"),
     "Keep Quick-Log Order": ("保持快速记录顺序", "保持快速記錄順序"),
+    "Expand Session Graph": ("展开记录图表", "展開記錄圖表"),
+    "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.": (
+        "查看记录时始终显示更高的时间线图表。关闭后，图表以紧凑模式开始，你可以在每条记录中通过图表菜单单独展开。",
+        "檢視記錄時始終顯示更高的時間軸圖表。關閉後，圖表以精簡模式開始，你可以在每條記錄中透過圖表選單單獨展開。",
+    ),
     "icon to log several at once, or long press a dose to remove or reorder it": (
         "图标可一次记录多个，或长按某个剂量以移除或重新排序",
         "圖示可一次記錄多個，或長按某個劑量以移除或重新排序",
@@ -4511,6 +4516,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Persisted "Expand Session Graph" preference + Journal settings toggle (2026-07-10).
+        "Expand Session Graph",
+        "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.",
         # Session detail "In Your Body" section + row redesign (2026-07-09).
         "Estimates from population half-lives — individual clearance varies.",
         "soon",

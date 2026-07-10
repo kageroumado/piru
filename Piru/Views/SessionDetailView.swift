@@ -47,7 +47,12 @@ struct SessionDetailView: View {
     /// Grows the inline timeline in place: the graph's frame steps up to a taller
     /// height and the List reflows the entries below it — no separate fullscreen
     /// sheet, no overlay. Every gesture stays the same; the curves just get room.
-    @State private var timelineEnlarged = false
+    ///
+    /// Persisted so a user who prefers the enlarged graph keeps it across every
+    /// session and app launch, rather than having it reset each time the view
+    /// appears. Mirrored by the "Expand Session Graph" toggle in Journal settings.
+    @AppStorage(SessionGraphDefaults.enlargedKey, store: UserDefaults(suiteName: SessionGraphDefaults.suite))
+    private var timelineEnlarged = SessionGraphDefaults.enlargedDefault
     /// Presents the consolidated "Share Session" sheet (image / PDF / Markdown).
     @State private var showShareSession = false
 
@@ -139,19 +144,18 @@ struct SessionDetailView: View {
     /// Doses whose substance isn't in the library are dropped — they can't be
     /// modeled anyway.
     private static func computeMechanisticDoses(_ entries: [DoseEntry], startDate: Date) -> [MechanisticSessionModel.DoseInput] {
-        var categoryCache: [String: SubstanceCategory?] = [:]
-        func category(_ name: String) -> SubstanceCategory? {
+        var inLibraryCache: [String: Bool] = [:]
+        func inLibrary(_ name: String) -> Bool {
             let key = name.lowercased()
-            if let cached = categoryCache[key] { return cached }
-            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)?.category
-            categoryCache[key] = resolved
+            if let cached = inLibraryCache[key] { return cached }
+            let resolved = SubstanceLibrary.lookupByNameOrAlias(name) != nil
+            inLibraryCache[key] = resolved
             return resolved
         }
         return entries.compactMap { entry in
-            guard let category = category(entry.substance) else { return nil }
+            guard inLibrary(entry.substance) else { return nil }
             return MechanisticSessionModel.DoseInput(
                 name: entry.substance,
-                category: category,
                 amount: entry.amount,
                 route: entry.route,
                 hours: entry.timestamp.timeIntervalSince(startDate) / 3_600,

@@ -283,6 +283,7 @@ struct JournalSettingsView: View {
     @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
+    @AppStorage(SessionGraphDefaults.enlargedKey, store: UserDefaults(suiteName: SessionGraphDefaults.suite)) private var sessionGraphEnlarged = SessionGraphDefaults.enlargedDefault
 
     var body: some View {
         List {
@@ -329,6 +330,15 @@ struct JournalSettingsView: View {
                     }
                 } footer: {
                     Text("When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph.")
+                }
+
+                Section {
+                    Toggle(isOn: $sessionGraphEnlarged) {
+                        Label("Expand Session Graph", systemImage: "arrow.up.backward.and.arrow.down.forward")
+                    }
+                    .tint(Theme.accent)
+                } footer: {
+                    Text("Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.")
                 }
 
                 Section {

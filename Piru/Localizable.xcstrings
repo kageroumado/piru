@@ -1169,6 +1169,7 @@
       }
     },
     "%@ total · %lld%% eliminated · clear ~%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5900,6 +5901,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "始終用物質名稱和濃度標記溶液。"
+          }
+        }
+      }
+    },
+    "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看记录时始终显示更高的时间线图表。关闭后，图表以紧凑模式开始，你可以在每条记录中通过图表菜单单独展开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢視記錄時始終顯示更高的時間軸圖表。關閉後，圖表以精簡模式開始，你可以在每條記錄中透過圖表選單單獨展開。"
           }
         }
       }
@@ -14661,6 +14678,7 @@
       }
     },
     "Elimination Curve" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15990,6 +16008,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展開圖表"
+          }
+        }
+      }
+    },
+    "Expand Session Graph" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开记录图表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開記錄圖表"
           }
         }
       }
