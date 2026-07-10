@@ -150,12 +150,13 @@ struct EntryRowView: View {
         }
     }
 
-    /// Coloured by its dose level (common/strong/heavy…) so the level reads
-    /// without a text label.
+    /// Coloured in the substance's own body colour (matching the dot and rail), so
+    /// the dose reads as belonging to its substance. The strength tier is carried
+    /// separately by the ``strengthChip`` below, so the dose needn't double as it.
     private var doseText: some View {
         Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
             .font(.system(.title3, design: .rounded).weight(.bold))
-            .foregroundStyle(display.core.doseLevel?.labelColor ?? .primary)
+            .foregroundStyle(display.color)
             .lineLimit(1)
             .accessibilityLabel(doseAccessibilityLabel)
     }
