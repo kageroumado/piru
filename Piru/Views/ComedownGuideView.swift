@@ -3,7 +3,6 @@ import SwiftUI
 
 struct ComedownGuideView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
-    @State private var expandedCategories: Set<SubstanceCategory> = []
 
     static let guidedCategories: [SubstanceCategory] = [
         .stimulant, .empathogen, .psychedelic, .dissociative,
@@ -33,14 +32,14 @@ struct ComedownGuideView: View {
                 if !recentCategories.isEmpty {
                     Section("Relevant to you") {
                         ForEach(recentCategories, id: \.self) { cat in
-                            categoryRow(cat)
+                            ComedownCategoryDisclosure(category: cat)
                         }
                     }
                 }
 
                 Section("All categories") {
                     ForEach(Self.guidedCategories.filter { !recentCategories.contains($0) }, id: \.self) { cat in
-                        categoryRow(cat)
+                        ComedownCategoryDisclosure(category: cat)
                     }
                 }
 
@@ -65,68 +64,6 @@ struct ComedownGuideView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(.vertical, 4)
-        }
-    }
-
-    // MARK: - Category Row
-
-    private func categoryRow(_ category: SubstanceCategory) -> some View {
-        DisclosureGroup(isExpanded: binding(for: category)) {
-            categoryContent(category)
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: category.icon)
-                    .foregroundStyle(category.color)
-                    .frame(width: 24)
-                Text(category.displayName)
-                    .font(.body)
-            }
-        }
-    }
-
-    private func binding(for category: SubstanceCategory) -> Binding<Bool> {
-        Binding(
-            get: { expandedCategories.contains(category) },
-            set: { isExpanded in
-                if isExpanded {
-                    expandedCategories.insert(category)
-                } else {
-                    expandedCategories.remove(category)
-                }
-            },
-        )
-    }
-
-    // MARK: - Category Content
-
-    @ViewBuilder
-    private func categoryContent(_ category: SubstanceCategory) -> some View {
-        let guide = Self.guide(for: category)
-
-        VStack(alignment: .leading, spacing: 12) {
-            tipGroup("What's happening", items: guide.whatsHappening)
-            tipGroup("Right now", items: guide.rightNow)
-            tipGroup("Over the next hours", items: guide.nextHours)
-            tipGroup("What to avoid", items: guide.avoid)
-        }
-        .font(.caption)
-        .padding(.vertical, 8)
-    }
-
-    private func tipGroup(_ title: LocalizedStringResource, items: [LocalizedStringResource]) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.primary)
-            ForEach(Array(items.enumerated()), id: \.offset) { _, item in
-                HStack(alignment: .top, spacing: 6) {
-                    Text("\u{2022}")
-                        .foregroundStyle(Theme.secondaryLabel)
-                    Text(item)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
         }
     }
 
@@ -399,6 +336,59 @@ struct ComedownGuideView: View {
                     "Don't drive or make important decisions until you feel baseline.",
                 ],
             )
+        }
+    }
+}
+
+/// A single comedown category as a fold-open row: the category icon + name, its
+/// per-category recovery tips revealed on tap. Shared by ``ComedownGuideView``'s
+/// "Relevant to you" list and the session detail's Recovery section so both show
+/// the identical rows. Owns its own expansion state.
+struct ComedownCategoryDisclosure: View {
+    let category: SubstanceCategory
+    @State private var isExpanded = false
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            content
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: category.icon)
+                    .foregroundStyle(category.color)
+                    .frame(width: 24)
+                Text(category.displayName)
+                    .font(.body)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        let guide = ComedownGuideView.guide(for: category)
+        VStack(alignment: .leading, spacing: 12) {
+            tipGroup("What's happening", items: guide.whatsHappening)
+            tipGroup("Right now", items: guide.rightNow)
+            tipGroup("Over the next hours", items: guide.nextHours)
+            tipGroup("What to avoid", items: guide.avoid)
+        }
+        .font(.caption)
+        .padding(.vertical, 8)
+    }
+
+    private func tipGroup(_ title: LocalizedStringResource, items: [LocalizedStringResource]) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.primary)
+            ForEach(Array(items.enumerated()), id: \.offset) { _, item in
+                HStack(alignment: .top, spacing: 6) {
+                    Text("\u{2022}")
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Text(item)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
         }
     }
 }

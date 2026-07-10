@@ -12,8 +12,8 @@ struct SessionBodyLoadSection: View {
     let entries: [DoseEntry]
     let colorMap: [String: Color]
 
-    /// Which substance's elimination curve is expanded in place.
-    @State private var expandedSubstance: String?
+    /// Which substances have their elimination curve expanded in place.
+    @State private var expanded: Set<String> = []
 
     var body: some View {
         let model = makeModel()
@@ -35,60 +35,44 @@ struct SessionBodyLoadSection: View {
 
     // MARK: - Active row
 
+    /// A native `DisclosureGroup` — the same fold affordance the recovery guide
+    /// uses — so the curve reads as expandable, not as a navigation row. The
+    /// always-visible label mirrors a dose row: dot · name on the left, the big
+    /// rounded remaining number on the right, immediately before the chevron.
     private func activeRow(_ row: ActiveRow) -> some View {
-        let isExpanded = expandedSubstance == row.id
-
-        return VStack(alignment: .leading, spacing: 12) {
-            Button {
-                withAnimation(.snappy(duration: 0.3)) {
-                    expandedSubstance = isExpanded ? nil : row.id
+        DisclosureGroup(isExpanded: expansion(row.id)) {
+            SubstanceEliminationCurve(active: row.active)
+                .padding(.top, 4)
+        } label: {
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 9))
+                        .foregroundStyle(row.active.color)
+                        .accessibilityHidden(true)
+                    Text(row.displayName)
+                        .font(.body.weight(.semibold))
+                        .lineLimit(1)
+                    Spacer(minLength: 8)
+                    Text("\(row.active.totalRemaining.doseFormatted) \(row.active.unit)")
+                        .font(.system(.title3, design: .rounded).weight(.bold))
+                        .foregroundStyle(row.active.color)
+                        .lineLimit(1)
                 }
-            } label: {
-                VStack(alignment: .leading, spacing: 5) {
-                    // Hero line — mirrors a dose row: dot · name on the left, the
-                    // big rounded number on the right, disclosure chevron trailing.
-                    HStack(alignment: .center, spacing: 8) {
-                        Image(systemName: "circle.fill")
-                            .font(.system(size: 9))
-                            .foregroundStyle(row.active.color)
-                            .accessibilityHidden(true)
-                        Text(row.displayName)
-                            .font(.body.weight(.semibold))
-                            .lineLimit(1)
-                        Spacer(minLength: 8)
-                        remainingHero(row.active)
-                        Image(systemName: "chevron.forward")
-                            .font(.footnote.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                            .rotationEffect(.degrees(isExpanded ? 90 : 0))
-                            .accessibilityHidden(true)
-                    }
-                    metaLine(row)
-                }
-                .contentShape(.rect)
-            }
-            .buttonStyle(.plain)
-            .accessibilityHint(Text("Shows the elimination curve"))
-
-            if isExpanded {
-                SubstanceEliminationCurve(active: row.active)
+                metaLine(row)
             }
         }
-        .padding(.vertical, 2)
+        .tint(Theme.secondaryLabel)
+        .accessibilityHint(Text("Shows the elimination curve"))
     }
 
-    /// "47.8 mg" in the substance's colour — the same rounded, bold face the dose
-    /// rows give their dose value — with a quiet "left".
-    private func remainingHero(_ active: ActiveSubstance) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 4) {
-            Text("\(active.totalRemaining.doseFormatted) \(active.unit)")
-                .font(.system(.title3, design: .rounded).weight(.bold))
-                .foregroundStyle(active.color)
-            Text("left")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-        .lineLimit(1)
+    private func expansion(_ id: String) -> Binding<Bool> {
+        Binding(
+            get: { expanded.contains(id) },
+            set: { isOpen in
+                if isOpen { expanded.insert(id) } else { expanded.remove(id) }
+            },
+        )
     }
 
     /// The secondary line under the hero, in the dose row's meta size

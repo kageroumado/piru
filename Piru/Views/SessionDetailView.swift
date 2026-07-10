@@ -320,6 +320,21 @@ struct SessionDetailView: View {
         colorMapReady || !colorMap.isEmpty ? colorMap : Array(substanceColors).colorMap
     }
 
+    /// The guided comedown categories present in this session, first-seen order —
+    /// the Recovery section's rows. Empty when nothing logged maps to a category
+    /// with dedicated guidance (then the section falls back to a plain link).
+    private var sessionRecoveryCategories: [SubstanceCategory] {
+        var seen = Set<SubstanceCategory>()
+        var result: [SubstanceCategory] = []
+        for entry in entries {
+            guard let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
+                  ComedownGuideView.guidedCategories.contains(category),
+                  seen.insert(category).inserted else { continue }
+            result.append(category)
+        }
+        return result
+    }
+
     private var dateTitle: String {
         // The current year is implicit — only show it for past/future years.
         let base = Date.FormatStyle.dateTime.day().month(.wide)
@@ -582,11 +597,25 @@ struct SessionDetailView: View {
                     // totals: a total is just the "dosed" side of body load.
                     SessionBodyLoadSection(entries: entries, colorMap: activeColorMap)
 
-                    // Safety — interaction warnings shown in full, a heart-rate
-                    // summary, and the recovery-guidance link. Headerless; the
-                    // severity-tinted interaction rows already name it. Always
-                    // present so the recovery-guidance link stays discoverable.
+                    // Safety — interaction warnings shown in full plus a heart-rate
+                    // summary. Headerless; the severity-tinted interaction rows
+                    // already name it.
                     SessionSafetySection(interactions: dayInteractions, hrSummary: hrSummary)
+
+                    // Recovery — per-category comedown guidance for what this
+                    // session actually contained, plus a link into the full guide.
+                    let recoveryCategories = sessionRecoveryCategories
+                    if !recoveryCategories.isEmpty {
+                        SessionRecoverySection(categories: recoveryCategories)
+                    } else {
+                        Section {
+                            NavigationLink(value: PushRoute.comedownGuide) {
+                                Label("Recovery tips", systemImage: "heart.text.clipboard")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(Theme.accent)
+                            }
+                        }
+                    }
                 }
             }
             .listRowBackground(CardBackground())

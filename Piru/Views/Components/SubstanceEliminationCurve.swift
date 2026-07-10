@@ -122,14 +122,16 @@ struct SubstanceEliminationCurve: View {
                     context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
                 }
 
-                // Time labels
-                let interval: Double = if endMinutes <= 60 { 15 } else if endMinutes <= 180 { 30 } else if endMinutes <= 360 { 60 } else if endMinutes <= 720 { 120 } else if endMinutes <= 2_880 { 360 } else if endMinutes <= 14_400 { 1_440 } else if endMinutes <= 43_200 { 4_320 } else if endMinutes <= 100_800 { 10_080 } else { 20_160 }
+                // Time labels. The interval is chosen so its unit matches how the
+                // label reads (minutes < 1h, hours < ~2 days, days beyond) — else a
+                // 6h tick over a 40h span prints "1d" four times in a row.
+                let interval: Double = if endMinutes <= 60 { 15 } else if endMinutes <= 180 { 30 } else if endMinutes <= 360 { 60 } else if endMinutes <= 720 { 120 } else if endMinutes <= 1_440 { 240 } else if endMinutes <= 2_880 { 480 } else if endMinutes <= 5_760 { 1_440 } else if endMinutes <= 11_520 { 2_880 } else if endMinutes <= 40_320 { 5_760 } else { 10_080 }
 
                 let labelY = inset + graphHeight + labelAreaHeight / 2 + 1
                 var t = 0.0
                 while t <= endMinutes {
                     let x = inset + CGFloat(t / endMinutes) * graphWidth
-                    let text = if t == 0 { "0" } else if t < 60 { "\(Int(t))m" } else if t < 1_440 { "\(Int(t / 60))h" } else { "\(Int(t / 1_440))d" }
+                    let text = if t == 0 { "0" } else if interval < 60 { "\(Int(t.rounded()))m" } else if interval < 1_440 { "\(Int((t / 60).rounded()))h" } else { "\(Int((t / 1_440).rounded()))d" }
 
                     let resolved = context.resolve(
                         Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.5)),

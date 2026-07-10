@@ -4314,8 +4314,8 @@ T = {
         "基于群体半衰期的估算——个体清除速率各异。",
         "基於群體半衰期的估算——個體清除速率各異。",
     ),
-    "left": ("剩余", "剩餘"),
     "soon": ("很快", "很快"),
+    "All recovery tips": ("全部恢复提示", "全部恢復提示"),
     "%@ total · %lld%% eliminated · clear ~%@": (
         "共 %1$@ · 已消除 %2$lld%% · 约 %3$@ 清除",
         "共 %1$@ · 已消除 %2$lld%% · 約 %3$@ 清除",
@@ -4513,12 +4513,12 @@ if __name__ == "__main__":
     NEW_KEYS = {
         # Session detail "In Your Body" section + row redesign (2026-07-09).
         "Estimates from population half-lives — individual clearance varies.",
-        "left",
         "soon",
+        "Recovery",
+        "All recovery tips",
         "%@ total · %lld%% eliminated · clear ~%@",
         "%lld%% eliminated · clear ~%@",
         "Shows the elimination curve",
-        "Hydration, food, and rest for the comedown",
         # Graph pan/zoom hint restored across all session graphs (2026-07-08).
         "Slide to move, pinch to zoom",
         "Slide to move, pinch to zoom, hold to inspect",

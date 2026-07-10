@@ -5744,6 +5744,22 @@
         }
       }
     },
+    "All recovery tips" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部恢复提示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部恢復提示"
+          }
+        }
+      }
+    },
     "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact. Updates are opt-in and verified by sha256." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18935,6 +18951,7 @@
       }
     },
     "Hydration, food, and rest for the comedown" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20926,6 +20943,7 @@
       }
     },
     "left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
