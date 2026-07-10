@@ -17,7 +17,6 @@ nonisolated enum MechanisticSessionModel {
     /// (dose marks get their colour at the render site instead).
     struct DoseInput: Hashable {
         let name: String
-        let category: SubstanceCategory
         let amount: Double
         let route: RouteOfAdministration
         /// Hours since the session start (the engine's `t = 0`).
@@ -45,10 +44,6 @@ nonisolated enum MechanisticSessionModel {
         let timeline: EffectTimeline
         /// Keyed by ``EffectLens/rawValue`` (mechanistic lenses only).
         let ranges: [String: AxisRange]
-        /// At least one substance fell back to a class analogue. Always `false`
-        /// while the analogue fallback is disabled (see ``SubstanceModelDatabase``);
-        /// kept wired for the future nearest-analogue rework, which will surface it.
-        let usesAnalogue: Bool
         let tMax: Double
         /// Last hour any mechanistic channel is still meaningfully active. Unlike
         /// ``tMax`` (padded to ≥12h so the curve has room), this is the *real*
@@ -197,7 +192,7 @@ nonisolated enum MechanisticSessionModel {
         }
         contentSpan = min(max(contentSpan + 0.5, 1), tMax)
 
-        return Result(timeline: timeline, ranges: ranges, usesAnalogue: false, tMax: tMax, contentSpan: contentSpan)
+        return Result(timeline: timeline, ranges: ranges, tMax: tMax, contentSpan: contentSpan)
     }
 }
 

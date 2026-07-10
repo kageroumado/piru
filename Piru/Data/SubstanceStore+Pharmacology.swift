@@ -579,9 +579,11 @@ extension SubstanceStore {
             let kind: PharmacologyParameters.HalfMaxKind
             if let ki = b.kiNm { halfMax = ki; kind = .ki } else if let ec = b.ec50Nm { halfMax = ec; kind = .ec50 } else if let ic = b.ic50Nm { halfMax = ic; kind = .ic50 } else { halfMax = nil; kind = .ki }
             guard let halfMax, halfMax > 0 else { return nil }
+            let citationKey = b.doi.map { "doi:\($0)" } ?? b.pmid.map { "pmid:\($0)" }
             return .init(
                 target: b.target, action: action, halfMaxNanomolar: halfMax,
                 kind: kind, confidence: b.confidence,
+                sourceSlug: b.sourceSlug, citationKey: citationKey, species: b.species,
             )
         }
         // Tightest (most potent) first, then collapse duplicate target+action+kind rows (which a

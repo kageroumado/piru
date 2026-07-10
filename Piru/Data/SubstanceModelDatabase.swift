@@ -31,10 +31,13 @@ nonisolated enum SubstanceModelDatabase {
     /// at DAT gets a strong — but not runaway — off-DA weight. The engine's saturating nonlinearities
     /// bound the output regardless; this keeps the *numbers* interpretable.
     ///
-    /// Known tradeoff: when DAT is orders of magnitude weaker than NET/SERT (a near-pure serotonergic
-    /// releaser like MDMA), *both* the NET and SERT ratios exceed the cap and collapse to it, flattening
-    /// their ordering. The full-molar concentration path (where absolute potency emerges from EC₅₀ +
-    /// concentration and `refUnit`/DA-normalization retire) is what ultimately cures this.
+    /// Verified **non-binding for the calibrated monoamine set** (amphetamine, methylphenidate, 2-/3-MMC,
+    /// mephedrone): once the DAT:NET:SERT triple is taken from one coherent assay (`transporterProfile`),
+    /// their off-DA ratios sit below the cap, so the felt mix is fully data-driven. The cap is retained
+    /// only as a safety bound for the general library. The sole case where it still bites — a near-pure
+    /// serotonergic releaser whose DAT is ~1000× weaker than NET/SERT (MDMA) — is a *data* limitation
+    /// (MDMA's SERT release EC₅₀ is understated in the DB), not an engine one; MDMA is outside the
+    /// calibration set and its curve is unaffected by this bound in practice.
     private static let maxTransporterWeight = 4.0
 
     /// Per-substance overrides applied on top of the DB-derived base. Every field is optional: a `nil`
@@ -46,8 +49,12 @@ nonisolated enum SubstanceModelDatabase {
         var ke: Double?
         var ka: Double?
         /// Dose-magnitude anchor — the reference dose the concentration is normalized to (`amt = dose/refUnit`),
-        /// not a PK constant. Curated to preserve the engine's calibrated magnitudes; falls back to the DB's
-        /// dose-ladder `referenceDoseMg` when absent. Retired once the full-molar concentration path lands.
+        /// not a PK constant. This is an **irreducible per-substance calibration scalar** for the
+        /// DA-normalized engine: with one shared `Emax`/`Kd`, the mg dose that lands a substance at the
+        /// engine's calibrated operating point (`amt ≈ 1`) is substance-specific and is *not* the DB dose
+        /// ladder (e.g. 3-MMC calibrates at 80 mg though its heavy oral dose is ~350 mg). The DB
+        /// `referenceDoseMg` is only the fallback for uncurated substances. It retires wholesale only under
+        /// the full-molar concentration path, where dose→concentration is absolute via MW/Vd/F.
         var refUnit: Double?
         // Irreducible pharmacodynamics (no DB source).
         var deplete: Double?
@@ -104,15 +111,86 @@ nonisolated enum SubstanceModelDatabase {
 
     // MARK: - DB → params
 
-    /// The mechanism-appropriate functional half-max (nM) for a transporter: the release EC₅₀ for a
-    /// releaser, the uptake Kᵢ/IC₅₀ for a blocker — the tightest such value, else the tightest of any
-    /// kind. This is the *functional* potency the felt effect follows, not necessarily the raw binding
-    /// affinity the resolver lists first.
-    private static func transporterKd(_ p: PharmacologyParameters, _ symbol: String, releaser: Bool) -> Double? {
-        let matches = p.targets.filter { $0.target.uppercased().contains(symbol) && $0.halfMaxNanomolar > 0 }
-        guard !matches.isEmpty else { return nil }
-        let preferred = matches.filter { releaser ? $0.kind == .ec50 : $0.kind != .ec50 }
-        return (preferred.isEmpty ? matches : preferred).map(\.halfMaxNanomolar).min()
+    private static let transporterSymbols = ["DAT", "NET", "SERT"]
+
+    /// One transporter engagement reduced to what the weight math needs, tagged with the physical
+    /// **assay** it was measured in (one paper, one species) so a DAT:NET:SERT triple can be taken from a
+    /// single coherent source rather than mixed across labs.
+    private struct TransporterHit {
+        let symbol: String // "DAT" | "NET" | "SERT"
+        let halfMax: Double // nM
+        let kind: PharmacologyParameters.HalfMaxKind
+        let confidence: ConfidenceTier
+        let assayKey: String
+    }
+
+    private static func transporterHits(_ p: PharmacologyParameters) -> [TransporterHit] {
+        p.targets.compactMap { t in
+            let up = t.target.uppercased()
+            guard let symbol = transporterSymbols.first(where: { up.contains($0) }), t.halfMaxNanomolar > 0 else { return nil }
+            // Prefer the specific paper (doi/pmid) as the assay identity; fall back to source+species,
+            // which still separates, e.g., a human HEK IC₅₀ set from a rat-synaptosome Kᵢ set.
+            let assayKey = t.citationKey ?? "\(t.sourceSlug)|\(t.species ?? "")"
+            return TransporterHit(symbol: symbol, halfMax: t.halfMaxNanomolar, kind: t.kind, confidence: t.confidence, assayKey: assayKey)
+        }
+    }
+
+    /// The DA-normalized DAT/NET/SERT weight backbone plus releaser/blocker classification, resolved from
+    /// a **single coherent assay** wherever one covers the transporters. A transporter ratio is only
+    /// physically meaningful within one experiment (same lab, species, tissue, radioligand), so taking a
+    /// per-transporter `.min()` across labs — the old behaviour — could straddle assays and distort the
+    /// felt DA:NE:5-HT mix (e.g. methylphenidate's DAT IC₅₀ from one lab against a rat NET Kᵢ from
+    /// another). We instead pick the assay with the best transporter coverage (then confidence, then
+    /// potency) and read the triple from it, filling any transporter that assay lacks from the global
+    /// tightest so a real target measured only elsewhere is never dropped.
+    private static func transporterProfile(_ p: PharmacologyParameters)
+        -> (wDAT: Double, wNET: Double, wSERT: Double, releaser: Bool)? {
+        let hits = transporterHits(p)
+        guard let mostPotent = hits.min(by: { $0.halfMax < $1.halfMax }) else { return nil }
+
+        // Releaser vs reuptake blocker from the *most potent* transporter engagement overall: the felt
+        // mechanism follows the tightest site, so a stray release EC₅₀ on an otherwise-blocker (or the
+        // reverse) can't flip the classification. Releaser ⇒ release EC₅₀; blocker ⇒ uptake Kᵢ/IC₅₀.
+        let releaser = mostPotent.kind == .ec50
+        let mechHits = hits.filter { releaser ? $0.kind == .ec50 : $0.kind != .ec50 }
+        let pool = mechHits.isEmpty ? hits : mechHits
+
+        func tightest(_ group: [TransporterHit], _ symbol: String) -> Double? {
+            group.filter { $0.symbol == symbol }.map(\.halfMax).min()
+        }
+        /// Confidence-weighted coverage: a graded transporter is worth more than an ungraded one, so a
+        /// two-transporter HIGH assay outranks a three-transporter unverified one. This matters because the
+        /// resolver pre-collapses each (target, action, kind) to its tightest row, which can strand a
+        /// transporter's provenance in a low-confidence assay and inflate a raw coverage count.
+        func confidenceWeight(_ tier: ConfidenceTier) -> Double {
+            switch tier {
+            case .high: 3
+            case .medium: 2
+            case .low: 1
+            case .unverified: 0.5
+            }
+        }
+        func score(_ group: [TransporterHit]) -> Double {
+            transporterSymbols.reduce(0) { total, symbol in
+                let best = group.filter { $0.symbol == symbol }.map(\.confidence).max()
+                return total + (best.map(confidenceWeight) ?? 0)
+            }
+        }
+        let byAssay = Dictionary(grouping: pool, by: \.assayKey)
+        let best = byAssay.values.max { a, b in
+            if score(a) != score(b) { return score(a) < score(b) }
+            return (a.map(\.halfMax).min() ?? .infinity) > (b.map(\.halfMax).min() ?? .infinity)
+        }
+        func kd(_ symbol: String) -> Double? {
+            best.flatMap { tightest($0, symbol) } ?? pool.filter { $0.symbol == symbol }.map(\.halfMax).min()
+        }
+        let datKd = kd("DAT"), netKd = kd("NET"), sertKd = kd("SERT")
+        guard let referenceKd = datKd ?? [netKd, sertKd].compactMap(\.self).min() else { return nil }
+        func weight(_ value: Double?) -> Double {
+            guard let value, value > 0 else { return 0 }
+            return Swift.min(referenceKd / value, maxTransporterWeight)
+        }
+        return (weight(datKd), weight(netKd), weight(sertKd), releaser)
     }
 
     /// Build the engine's per-substance parameters from resolved pharmacology + the curated overlay.
@@ -140,29 +218,15 @@ nonisolated enum SubstanceModelDatabase {
             PKModel.defaultKa(ke: ke)
         }
 
-        // Substrate releaser (evokes efflux) if ANY engaged transporter carries a functional release
-        // EC₅₀; otherwise a reuptake blocker. Scans all targets so a releaser whose tightest single row
-        // is an uptake constant still classifies correctly. Amp/cathinones/MDMA release; MPH/MDPV/cocaine block.
-        let releaser = pharmacology?.targets.contains { t in
-            let symbol = t.target.uppercased()
-            return (symbol.contains("DAT") || symbol.contains("NET") || symbol.contains("SERT")) && t.kind == .ec50
-        } ?? false
-
-        // Transporter weights from the measured functional potencies, DA-normalized: DAT = 1 (the scale
-        // the engine's dopamine/reward stage is tuned to) and NET/SERT scale by their potency ratio to
-        // DAT, capped. So the felt mix (DA vs NE vs 5-HT) follows the data — a serotonin-dominant releaser
-        // (MDMA) reads warmth-led, a DA-selective blocker (MDPV) reward-led — while amphetamine keeps its
-        // wDAT ≈ 1 (and thus its store-depletion crash). A substance with no DAT normalizes to its most
-        // potent transporter instead.
-        let datKd = pharmacology.flatMap { transporterKd($0, "DAT", releaser: releaser) }
-        let netKd = pharmacology.flatMap { transporterKd($0, "NET", releaser: releaser) }
-        let sertKd = pharmacology.flatMap { transporterKd($0, "SERT", releaser: releaser) }
-        let referenceKd = datKd ?? [netKd, sertKd].compactMap(\.self).min()
-        func weight(_ kd: Double?) -> Double {
-            guard let kd, let referenceKd, kd > 0 else { return 0 }
-            return Swift.min(referenceKd / kd, maxTransporterWeight)
-        }
-        let wDAT = weight(datKd), wNET = weight(netKd), wSERT = weight(sertKd)
+        // Transporter mix + releaser/blocker classification from a single coherent assay (see
+        // `transporterProfile`): DA-normalized so DAT = 1 (the scale the engine's dopamine/reward stage is
+        // tuned to) and NET/SERT scale by their potency ratio to DAT, capped. So the felt mix (DA vs NE vs
+        // 5-HT) follows the data — a serotonin-dominant releaser (MDMA) reads warmth-led, a DA-selective
+        // blocker (MDPV) reward-led — while amphetamine keeps its wDAT ≈ 1 (and thus its store-depletion
+        // crash). A substance with no DAT normalizes to its most potent transporter instead.
+        let profile = pharmacology.flatMap { transporterProfile($0) }
+        let releaser = profile?.releaser ?? false
+        let wDAT = profile?.wDAT ?? 0, wNET = profile?.wNET ?? 0, wSERT = profile?.wSERT ?? 0
 
         // Reference dose: curated anchor wins (preserves the calibrated magnitudes), else the DB's
         // heavy-dose ladder, else a neutral default.

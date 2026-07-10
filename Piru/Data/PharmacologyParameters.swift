@@ -27,8 +27,32 @@ nonisolated struct PharmacologyParameters {
         let halfMaxNanomolar: Double
         let kind: HalfMaxKind
         let confidence: ConfidenceTier
+        /// The dataset/source slug this value came from (`peer-review-primary`, `piru-curated`, …).
+        let sourceSlug: String
+        /// The specific paper this value was measured in (`doi:…` or `pmid:…`), when cited — the
+        /// identity that lets a consumer take a coherent DAT/NET/SERT triple from ONE assay rather than
+        /// mixing potencies across labs (only ratios *within* one assay are physically meaningful).
+        let citationKey: String?
+        /// Study species (`human`/`rat`/…), when recorded — part of assay identity.
+        let species: String?
         var id: String {
             "\(target)-\(action.rawValue)-\(kind.rawValue)"
+        }
+
+        /// Provenance (`sourceSlug`/`citationKey`/`species`) defaults to "unknown" so synthetic (test)
+        /// engagements need not supply it; the resolver always passes the real assay identity.
+        init(
+            target: String, action: BindingAction, halfMaxNanomolar: Double, kind: HalfMaxKind,
+            confidence: ConfidenceTier, sourceSlug: String = "", citationKey: String? = nil, species: String? = nil,
+        ) {
+            self.target = target
+            self.action = action
+            self.halfMaxNanomolar = halfMaxNanomolar
+            self.kind = kind
+            self.confidence = confidence
+            self.sourceSlug = sourceSlug
+            self.citationKey = citationKey
+            self.species = species
         }
     }
 

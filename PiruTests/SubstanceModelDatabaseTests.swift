@@ -40,6 +40,17 @@ struct SubstanceModelDatabaseTests {
         #expect((o.drive.max() ?? 0) > 1) // …but drives
     }
 
+    /// Cross-lab EC₅₀ coherence: methylphenidate's DAT:NET mix is taken from ONE high-confidence assay
+    /// (uptake IC₅₀ DAT 80 / NET 100 nM → wNET ≈ 0.8, a balanced DA/NE blocker), not by taking `.min()`
+    /// per transporter across labs — which would straddle the DAT IC₅₀ and a rat NET Kᵢ (38 nM) and read
+    /// as a runaway noradrenergic drug (wNET → the 4.0 cap). The coherent triple is the pharmacology.
+    @Test
+    func `The DAT:NET mix comes from one coherent assay, not a cross-lab minimum`() throws {
+        let mph = try #require(params("methylphenidate"))
+        #expect(mph.wDAT == 1) // DA-normalized
+        #expect(mph.wNET > 0.5 && mph.wNET < 1.2) // the HIGH-confidence IC₅₀ ratio, not the capped cross-lab value
+    }
+
     @Test
     func `A serotonergic releaser reads warmth-led with a sedation tail`() throws {
         let mdma = try #require(params("MDMA"))
