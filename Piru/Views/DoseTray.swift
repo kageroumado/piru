@@ -457,29 +457,35 @@ final class DoseTrayModel {
 /// sheet. Every row — collapsed or expanded — swipes left to delete.
 struct TrayStagedListCard: View {
     @Bindable var model: DoseTrayModel
+    /// Rows withheld from rendering while the dock sheet grows to fit them —
+    /// see `QuickLogDock.unrevealedItemIDs` for the sequencing rationale.
+    var hiddenItemIDs: Set<UUID> = []
 
     /// Ties each collapsed row to its expanded editor so the name, amount,
     /// route, and chevron morph in place instead of cross-fading.
     @Namespace private var morphNamespace
 
     var body: some View {
+        let lastVisibleID = model.staged.last(where: { !hiddenItemIDs.contains($0.id) })?.id
         VStack(spacing: 0) {
             ForEach($model.staged) { $item in
-                TraySwipeRow(onDelete: { withAnimation(.snappy) { model.remove(item) } }) {
-                    if model.expandedItemIDs.contains(item.id) {
-                        StagedDoseEditor(item: $item, namespace: morphNamespace) {
-                            withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
-                        } onRemove: {
-                            withAnimation(.snappy) { model.remove(item) }
+                if !hiddenItemIDs.contains(item.id) {
+                    TraySwipeRow(onDelete: { withAnimation(.snappy) { model.remove(item) } }) {
+                        if model.expandedItemIDs.contains(item.id) {
+                            StagedDoseEditor(item: $item, namespace: morphNamespace) {
+                                withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
+                            } onRemove: {
+                                withAnimation(.snappy) { model.remove(item) }
+                            }
+                            .padding(8)
+                        } else {
+                            TrayRow(dose: item, model: model, namespace: morphNamespace)
+                                .padding(.horizontal, 8)
                         }
-                        .padding(8)
-                    } else {
-                        TrayRow(dose: item, model: model, namespace: morphNamespace)
-                            .padding(.horizontal, 8)
                     }
-                }
-                if item.id != model.staged.last?.id {
-                    Divider().padding(.leading, 42)
+                    if item.id != lastVisibleID {
+                        Divider().padding(.leading, 42)
+                    }
                 }
             }
         }

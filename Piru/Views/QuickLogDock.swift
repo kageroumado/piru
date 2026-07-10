@@ -144,6 +144,47 @@ struct QuickLogDock: View {
     /// animating a panel open, geometry settling) don't re-mint the detent
     /// mid-gesture.
     @State private var compactValue: CGFloat = 0
+    /// Invalidates deferred detent work (the UIKit selection hand-off and the
+    /// member prune in ``applyDetents(_:selecting:height:onSettled:)``) when a
+    /// newer change supersedes it.
+    @State private var detentGeneration = 0
+    /// Memoized handle to the UIKit view controller presenting this dock —
+    /// resolved once by ``SheetHostProbe`` when the content lands in a window
+    /// (the controller never changes for the sheet's lifetime), so detent
+    /// moves can drive the presentation directly without re-walking the
+    /// responder chain.
+    @State private var sheetHost = SheetHostBox()
+    /// Display-link driver for the frame-level sheet resize (see
+    /// ``animateFrame(of:fromLogical:toLogical:onSettled:)``).
+    @State private var frameAnimator = DisplayLinkAnimator()
+    /// Logical height the in-flight ramp is heading to — marks "a ramp owns
+    /// the sheet right now" and anchors chained retargets.
+    @State private var sheetRampLogicalTarget: CGFloat?
+    /// The mutable custom detent driving the ramp (see
+    /// ``animateHeightDetent(in:from:to:onSettled:)``).
+    @State private var rampDetent = MutableSheetDetent()
+    /// Numeric value of the *resting* selection (`nil` at `.medium`/`.large`),
+    /// maintained by ``detentChanged(from:to:)`` — which sees every settle,
+    /// drag or programmatic — so a move can anchor its frame animation even
+    /// after `compactValue` has been re-minted for the new target.
+    @State private var restingLogicalHeight: CGFloat? = QuickLogDockMetrics.peekHeight
+    /// The dock is animating down to the bare pill after its content emptied
+    /// (last dose deleted, search cancelled with nothing staged). While set,
+    /// the browse suggestions stay unmounted: the shrink passes through
+    /// "empty tray, still tall" — exactly the resting *browse* shape — and
+    /// letting the family pills pop in for those few frames read as a flash
+    /// of the search state. Cleared on reaching bare, or by any move that
+    /// isn't headed there (the user grabbing the sheet mid-shrink).
+    @State private var awaitingBareCollapse = false
+    /// Rows staged while the dock sits at its compact detent, withheld from
+    /// the staged card until the sheet has finished growing. The sheet resize
+    /// and a SwiftUI row insertion are two separate animations — composed,
+    /// they see-saw the bottom-pinned commit bar (down as the taller content
+    /// lays out, back up as the platter catches up). Keeping the list
+    /// unchanged while the sheet grows leaves the bar genuinely stationary
+    /// (its anchor, the sheet's bottom edge, never moves); the new row then
+    /// fades into the space the resize opened up.
+    @State private var unrevealedItemIDs: Set<UUID> = []
     /// Estimated height of the staged card with every row collapsed, reported
     /// by ``TrayDerivedObserver`` — mirrored into local state so
     /// ``compactHeightValue`` never reads `tray.staged` from this body (a
@@ -169,6 +210,59 @@ struct QuickLogDock: View {
     @State private var interactionsHeight: CGFloat = 0
 
     var body: some View {
+        ZStack(alignment: .top) {
+            // Proposal probe: measures the sheet's *proposed* height (the live
+            // detent size), not the content's laid-out height. The two differ
+            // when the always-mounted commit bar (see ``commitBarArea``) puts a
+            // minimum height under the scroll view: post-delete, the content
+            // can't shrink to the bare zone, so a content-height read would
+            // never flip ``isBare`` back — a layout deadlock that left the
+            // dock stuck on its full face at the peek detent. `Color.clear`
+            // accepts the proposal exactly, so this leaf tracks the sheet
+            // itself; per-frame drag updates land in the `geometry` box and
+            // invalidate only its readers, never this body.
+            Color.clear
+                .ignoresSafeArea(.container, edges: .bottom)
+                .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+                    geometry.update(height: newValue)
+                }
+            dockContent
+        }
+    }
+
+    private var dockContent: some View {
+        dockLayout
+            .onChange(of: searchFocused) { handleSearchFocusChanged() }
+            // External exits (staging a result, the browse list's cancel) flip
+            // `searchActive` off — release focus and settle onto the right detent.
+            .onChange(of: searchActive) { handleSearchActiveChanged() }
+            .onChange(of: detent) { oldValue, newValue in
+                detentChanged(from: oldValue, to: newValue)
+            }
+            // A first staged dose (from the browse list behind, at peek) grows
+            // the dock just enough to show the collapsed tray + Log button.
+            // Staging *another* dose while the dock rests at compact sequences
+            // the same move: sheet first (list unchanged, bar stationary), then
+            // the new row fades into the opened space — see ``unrevealedItemIDs``.
+            .onChange(of: tray.stageTick) { handleStaged() }
+            // A draft staged for editing (search result, routine deep link)
+            // needs the editor visible — compact can't show it.
+            .onChange(of: tray.expandedItemIDs) { handleExpandedItemsChanged() }
+            .onChange(of: tray.isEmpty) { handleTrayEmptinessChanged() }
+            .onChange(of: isBare) {
+                if isBare { awaitingBareCollapse = false }
+            }
+            // Keep the fit-to-content detent tracking its content: row heights,
+            // the commit bar (panels opening), and staging changes all funnel
+            // into this one value.
+            .onChange(of: compactHeightValue) { handleCompactHeightChanged() }
+            .onChange(of: dictation.transcript) { handleTranscriptChanged() }
+            // A routine prestaged before the sheet mounted (notification deep
+            // link) should land already showing the tray.
+            .onAppear(perform: handleAppear)
+    }
+
+    private var dockLayout: some View {
         VStack(spacing: 0) {
             // The search bar is identical in every dock state — same field,
             // same insets. In the bare pill it is mathematically centered in
@@ -189,10 +283,6 @@ struct QuickLogDock: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
-                // Guarantee a transaction for the results⇄suggestions swap no
-                // matter what mutated the query (keystroke, dictation) — an
-                // un-animated flip would skip the cards' fade transitions.
-                .animation(.snappy, value: searchText.isEmpty)
             }
             // Maps behavior: dragging up inside the dock resizes it first;
             // content scrolls only at the tallest detent.
@@ -203,6 +293,18 @@ struct QuickLogDock: View {
             // being hard-clipped above it.
             .scrollEdgeEffectStyle(.soft, for: .bottom)
             .safeAreaBar(edge: .bottom) { commitBarArea }
+            // The bar above never unmounts (see ``commitBarArea``), so its
+            // safe-area inset becomes the scroll region's *minimum* height —
+            // taller than the whole bare pill. Left unchecked, that minimum
+            // wedges the sheet's shrink to peek: UIKit can't compress the
+            // content (it squishes the platter with a scale transform
+            // instead) and the proposal never reaches the bare zone, so
+            // ``isBare`` never flips back after the last dose is deleted.
+            // A frame with *both* bounds sizes to the clamped proposal,
+            // ignoring the child's minimum — the scroll region then tracks
+            // whatever height the sheet actually proposes, and the hidden
+            // bar just overflows out of sight at the small detents.
+            .frame(minHeight: 0, maxHeight: .infinity, alignment: .top)
         }
         // Bare: intrinsic height (just the search bar), pinned to the sheet's
         // top edge so the fixed ``bareFloat`` gap is what remains below.
@@ -224,9 +326,6 @@ struct QuickLogDock: View {
         // accessory Done button is the only way to put the keyboard away
         // without dragging the whole sheet down.
         .toolbar { keyboardDoneToolbar }
-        .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-            geometry.update(height: newValue)
-        }
         // The staged-array reads (interaction names, collapsed-card estimate)
         // live in this zero-size leaf, not in this body — otherwise every
         // amount keystroke in a staged editor would re-run the whole dock.
@@ -241,76 +340,76 @@ struct QuickLogDock: View {
                 },
             )
         }
+        .background { SheetHostProbe(box: sheetHost) }
+        // The empty⇄staged face swap mounts/unmounts dock content with NO
+        // animation: the sheet's detent change is the one animated element,
+        // and the content — laid out at its final frame from the first
+        // moment — just rides under the growing platter (the native sheet
+        // feel). Without this, the call sites' `withAnimation` played the
+        // staged card as a scale-from-center bloom inside the resize. Scoped
+        // to the *emptiness* flip only: adding to or removing from an
+        // already-visible staged list keeps the callers' animation, so the
+        // card grows/shrinks in step with the sheet instead of snapping a
+        // row in before the platter has moved. Sits *inside* the isBare
+        // animation below so it wins for updates where both change (staging
+        // the first dose from the bare pill).
+        .transaction(value: tray.isEmpty) { $0.animation = nil }
         .animation(.snappy, value: isBare)
         // Presentation configuration (detents, clear background, background
         // interaction) is applied by `QuickLogView` at the sheet closure's
         // root — attached in here it competes with the nested `.sheet`/
-        // `.fullScreenCover` wrappers layered on top of this view.
-        .onChange(of: searchFocused) {
-            if searchFocused {
-                withAnimation(.snappy) {
-                    searchActive = true
-                    detent = .large
-                }
-            } else if searchText.isEmpty, searchActive, !dictation.isListening {
-                withAnimation(.snappy) { searchActive = false }
-            }
+        // `.fullScreenCover` wrappers layered on top of this view. The
+        // onChange/onAppear behavior handlers live on `dockContent`.
+    }
+
+    private func handleSearchFocusChanged() {
+        if searchFocused {
+            withAnimation(.snappy) { searchActive = true }
+            // Always the full height: the keyboard covers the lower half of
+            // the sheet, and UIKit auto-expands a keyboard-covered sheet to
+            // its largest detent anyway.
+            moveDetent(to: .large)
+        } else if searchText.isEmpty, searchActive, !dictation.isListening {
+            withAnimation(.snappy) { searchActive = false }
         }
-        // External exits (staging a result, the browse list's cancel) flip
-        // `searchActive` off — release focus and settle onto the right detent.
-        .onChange(of: searchActive) {
-            guard !searchActive else { return }
-            searchFocused = false
-            dictation.stop()
-            selectedFamilyID = nil
-            browseResults = []
-            withAnimation(.snappy) { settleDetent() }
-        }
-        .onChange(of: detent) { oldValue, newValue in
-            detentChanged(from: oldValue, to: newValue)
-        }
-        // A first staged dose (from the browse list behind, at peek) grows the
-        // dock just enough to show the collapsed tray + Log button.
-        .onChange(of: tray.stageTick) {
-            guard !searchActive, detent == QuickLogDockMetrics.peekDetent else { return }
-            withAnimation(.snappy) {
-                refreshDetents()
-                if let compactDetent { detent = compactDetent }
-            }
-        }
-        // A draft staged for editing (search result, routine deep link) needs
-        // the editor visible — compact can't show it.
-        .onChange(of: tray.expandedItemIDs) {
-            guard !tray.expandedItemIDs.isEmpty,
-                  detent == QuickLogDockMetrics.peekDetent || detent == compactDetent
-            else { return }
-            withAnimation(.snappy) { detent = .medium }
-        }
-        .onChange(of: tray.isEmpty) {
-            withAnimation(.snappy) {
-                refreshDetents()
-                if tray.isEmpty, !searchActive { detent = QuickLogDockMetrics.peekDetent }
-            }
-        }
-        // Keep the fit-to-content detent tracking its content: row heights,
-        // the commit bar (panels opening), and staging changes all funnel
-        // into this one value.
-        .onChange(of: compactHeightValue) {
-            guard !tray.isEmpty, abs(compactHeightValue - compactValue) >= 6 else { return }
-            withAnimation(.snappy) { refreshDetents() }
-        }
-        .onChange(of: dictation.transcript) {
-            guard dictation.isListening || !dictation.transcript.isEmpty else { return }
-            searchText = dictation.transcript
-        }
-        // A routine prestaged before the sheet mounted (notification deep
-        // link) should land already showing the tray.
-        .onAppear {
-            families = LibraryFamily.browsable
-            if !tray.isEmpty {
-                refreshDetents()
-                detent = tray.expandedItemIDs.isEmpty ? (compactDetent ?? .medium) : .medium
-            }
+    }
+
+    private func handleSearchActiveChanged() {
+        guard !searchActive else { return }
+        searchFocused = false
+        dictation.stop()
+        selectedFamilyID = nil
+        browseResults = []
+        if tray.isEmpty { awaitingBareCollapse = true }
+        withAnimation(.snappy) { settleDetent() }
+    }
+
+    private func handleExpandedItemsChanged() {
+        guard !tray.expandedItemIDs.isEmpty,
+              detent == QuickLogDockMetrics.peekDetent || detent == compactDetent
+        else { return }
+        moveDetent(to: .medium)
+    }
+
+    private func handleTrayEmptinessChanged() {
+        awaitingBareCollapse = tray.isEmpty && !searchActive
+        if tray.isEmpty { unrevealedItemIDs.removeAll() }
+        refreshDetents()
+    }
+
+    private func handleTranscriptChanged() {
+        guard dictation.isListening || !dictation.transcript.isEmpty else { return }
+        searchText = dictation.transcript
+    }
+
+    private func handleAppear() {
+        families = LibraryFamily.browsable
+        guard !tray.isEmpty else { return }
+        refreshDetents()
+        if tray.expandedItemIDs.isEmpty, let compactDetent {
+            detent = compactDetent
+        } else {
+            detent = .medium
         }
     }
 
@@ -356,13 +455,21 @@ struct QuickLogDock: View {
 
     /// Swap the detent set for the tray's current shape, keeping the
     /// selection valid (and pinned to compact while it's the selection).
-    private func refreshDetents() {
+    /// `onSettled` fires once the sheet is at rest at the new selection.
+    private func refreshDetents(onSettled: (() -> Void)? = nil) {
         if tray.isEmpty {
             compactDetent = nil
             compactValue = 0
-            detents = QuickLogDockMetrics.emptyDetents
-            if !detents.contains(detent) {
-                detent = searchActive ? .large : QuickLogDockMetrics.peekDetent
+            let target = QuickLogDockMetrics.emptyDetents
+            if target.contains(detent) || searchActive {
+                applyDetents(target, selecting: searchActive ? .large : detent, onSettled: onSettled)
+            } else {
+                applyDetents(
+                    target,
+                    selecting: QuickLogDockMetrics.peekDetent,
+                    height: QuickLogDockMetrics.peekHeight,
+                    onSettled: onSettled,
+                )
             }
         } else {
             let wasCompact = compactDetent != nil && detent == compactDetent
@@ -376,17 +483,226 @@ struct QuickLogDock: View {
             let newCompact = PresentationDetent.height(newValue)
             compactDetent = newCompact
             compactValue = newValue
-            detents = [newCompact, .medium, .large]
-            if wasCompact || !detents.contains(detent) {
-                detent = newCompact
+            let target: Set<PresentationDetent> = [newCompact, .medium, .large]
+            let needsMove = wasCompact || !target.contains(detent)
+            applyDetents(
+                target,
+                selecting: needsMove ? newCompact : detent,
+                height: needsMove ? newValue : nil,
+                onSettled: onSettled,
+            )
+        }
+    }
+
+    /// Replace the detent set and animate the selection over to `selection`
+    /// through UIKit's own machinery.
+    ///
+    /// SwiftUI's binding path can't animate this: it applies a detent-set
+    /// swap + selection change as a snap, and even a pure selection change
+    /// animates as a Core Animation interpolation of the platter against a
+    /// content laid out once at final size — displacing bottom-pinned content
+    /// (the chips + Log bar) by the whole height delta. UIKit's
+    /// `UISheetPresentationController.animateChanges` is the API the system
+    /// itself uses and resizes correctly, but SwiftUI doesn't expose it — so
+    /// the sheet's presenting controller is memoized by ``SheetHostProbe``
+    /// and driven directly: (1) this update grows the SwiftUI detent set to a
+    /// superset so the target member exists; (2) one runloop turn later (the
+    /// members have reached UIKit) the matching UIKit detent is selected
+    /// inside `animateChanges`, with the SwiftUI selection binding synced to
+    /// the same member so the model agrees; (3) when the move settles the
+    /// stale members are pruned so they never become resting stops.
+    private func applyDetents(
+        _ target: Set<PresentationDetent>,
+        selecting selection: PresentationDetent,
+        height: CGFloat? = nil,
+        onSettled: (() -> Void)? = nil,
+    ) {
+        detentGeneration &+= 1
+        let generation = detentGeneration
+        guard selection != detent else {
+            detents = target
+            onSettled?()
+            return
+        }
+        // Target members plus the *outgoing* selection as a bridge until the
+        // move lands. Members outside the target drop immediately — removing
+        // a non-selected detent never moves the sheet, and a lingering
+        // member can be actively harmful (UIKit auto-expands to the largest
+        // member when the keyboard appears, so capping a search at medium
+        // only works if `.large` is already gone).
+        detents = target.union([detent])
+        Task { @MainActor in
+            guard generation == detentGeneration else { return }
+            guard let sheet = sheetHost.sheetController else {
+                // Not yet presented (first-appear configuration) — a plain
+                // binding write is correct here; there is nothing on screen
+                // to animate.
+                detent = selection
+                detents = target
+                onSettled?()
+                return
+            }
+            animateSelection(selection, height: height, in: sheet) {
+                guard generation == detentGeneration else { return }
+                detents = target
+                onSettled?()
             }
         }
+    }
+
+    /// Animates the sheet to `selection` through the memoized UIKit handle.
+    ///
+    /// Height→height moves ramp a mutable detent per display frame (see
+    /// ``animateHeightDetent(in:from:to:onSettled:)``): both `animateChanges`
+    /// and SwiftUI's binding animate the platter as a Core Animation
+    /// interpolation over content laid out ONCE at final size, which
+    /// displaces everything (frame-strip verified: the whole dock, search
+    /// bar to Log button, dips by the height delta and rides back). Only
+    /// per-frame layout — what a real drag does — keeps the bottom-pinned
+    /// bar stationary.
+    ///
+    /// Two kinds of move go through `animateChanges` instead:
+    /// `.medium`/`.large` (search, editors — full content swaps where
+    /// displacement doesn't read), and the shrink to the bare *peek* pill.
+    /// The smallest detent's resting look is the floating pill (scaled,
+    /// lifted off the bottom edge), which only UIKit can animate into — a
+    /// ramp that lands on the logical height leaves UIKit to morph the pill
+    /// treatment afterwards, which read as the search bar drifting to its
+    /// spot after the resize had visibly finished. The displacement artifact
+    /// needs *bottom-pinned* visible content, and a dock headed to bare has
+    /// none: the commit bar is hidden and the suggestions suppressed — only
+    /// the top-pinned search bar rides the platter, which CA animates
+    /// correctly, in one continuous settle like a released drag.
+    private func animateSelection(
+        _ selection: PresentationDetent,
+        height: CGFloat?,
+        in sheet: UISheetPresentationController,
+        completion: @escaping @MainActor () -> Void,
+    ) {
+        if let height, let fromLogical = currentLogicalHeight(),
+           selection != QuickLogDockMetrics.peekDetent {
+            animateHeightDetent(in: sheet, from: fromLogical, to: height) {
+                // Land the model on geometry that is already exactly there:
+                // an un-animated selection change re-resolves the sheet to
+                // the height the ramp just left it at.
+                detent = selection
+                completion()
+            }
+            return
+        }
+        frameAnimator.cancel()
+        sheetRampLogicalTarget = nil
+        var identifier: UISheetPresentationController.Detent.Identifier?
+        if selection == .medium {
+            identifier = .medium
+        } else if selection == .large {
+            identifier = .large
+        } else if let height {
+            let context = SheetDetentResolutionContext(
+                containerTraitCollection: sheet.traitCollection,
+                maximumDetentValue: maximumDetentValue(of: sheet),
+            )
+            identifier = sheet.detents.first { candidate in
+                guard candidate.identifier != .medium, candidate.identifier != .large,
+                      let resolved = candidate.resolvedValue(in: context) else { return false }
+                return abs(resolved - height) < 1
+            }?.identifier
+        }
+        guard let identifier else {
+            // No UIKit counterpart found — fall back to the binding.
+            withAnimation(.snappy) { detent = selection }
+            completion()
+            return
+        }
+        CATransaction.begin()
+        CATransaction.setCompletionBlock {
+            MainActor.assumeIsolated { completion() }
+        }
+        sheet.animateChanges {
+            sheet.selectedDetentIdentifier = identifier
+        }
+        CATransaction.commit()
+        // Sync the SwiftUI model to the member UIKit is now moving to — same
+        // underlying detent, so SwiftUI's re-application is a no-op.
+        detent = selection
+    }
+
+    /// Numeric height of the *current* selection: the in-flight ramp target
+    /// when one is running (chained retargets), otherwise the resting value
+    /// tracked by ``detentChanged(from:to:)``. `nil` for `.medium`/`.large`.
+    private func currentLogicalHeight() -> CGFloat? {
+        sheetRampLogicalTarget ?? restingLogicalHeight
+    }
+
+    /// The interpolated drag, through the controller's own machinery: a
+    /// custom detent with a *mutable* height is injected and selected
+    /// un-animated (it resolves to the current height — no motion), then the
+    /// height is eased on a display link with `invalidateDetents()` per tick.
+    /// Each invalidation re-resolves the detent and runs the sheet's full
+    /// resize path at the new height — real layout every frame, exactly like
+    /// the pan gesture, with none of the controller's bookkeeping bypassed.
+    /// (Direct `presentedView.frame` writes fought the controller: it
+    /// reasserted its own frame — no visible animation — and compensated
+    /// with residual scale transforms that accumulated into permanent layout
+    /// corruption, lldb-verified.)
+    private func animateHeightDetent(
+        in sheet: UISheetPresentationController,
+        from fromLogical: CGFloat,
+        to toLogical: CGFloat,
+        onSettled: @escaping @MainActor () -> Void,
+    ) {
+        // Chained retarget: continue from the ramp's live height.
+        let start = sheetRampLogicalTarget != nil ? rampDetent.height : fromLogical
+        sheetRampLogicalTarget = toLogical
+        rampDetent.height = start
+        installRampDetent(in: sheet)
+        frameAnimator.run(from: start, to: toLogical) { height in
+            rampDetent.height = height
+            // Self-heal: a SwiftUI presentation update mid-ramp can rewrite
+            // the sheet's detents/selection; re-assert before invalidating.
+            installRampDetent(in: sheet)
+            sheet.invalidateDetents()
+        } completion: {
+            sheetRampLogicalTarget = nil
+            onSettled()
+        }
+    }
+
+    /// Ensures the mutable ramp detent is a member of the sheet's detents and
+    /// is the selection (both idempotent — no-ops while already installed).
+    private func installRampDetent(in sheet: UISheetPresentationController) {
+        if !sheet.detents.contains(where: { $0.identifier == MutableSheetDetent.identifier }) {
+            sheet.detents += [rampDetent.detent]
+        }
+        if sheet.selectedDetentIdentifier != MutableSheetDetent.identifier {
+            sheet.selectedDetentIdentifier = MutableSheetDetent.identifier
+        }
+    }
+
+    /// The container height `.height` detents resolve against — only needs to
+    /// exceed the dock's real heights for exact matching, so the fallback is
+    /// generous.
+    private func maximumDetentValue(of sheet: UISheetPresentationController) -> CGFloat {
+        guard let container = sheet.containerView else { return 2_000 }
+        return container.bounds.height - container.safeAreaInsets.top
     }
 
     /// Detent-selection side effects: leaving `.large` cancels search;
     /// arriving at compact collapses every editor; growing out of compact
     /// restores them.
     private func detentChanged(from oldValue: PresentationDetent, to newValue: PresentationDetent) {
+        // Track the resting numeric height for the frame-level resize (every
+        // settle passes through here — drags and programmatic moves alike).
+        if newValue == QuickLogDockMetrics.peekDetent {
+            restingLogicalHeight = QuickLogDockMetrics.peekHeight
+        } else if let compactDetent, newValue == compactDetent {
+            restingLogicalHeight = compactValue
+        } else {
+            restingLogicalHeight = nil
+        }
+        // Any move that isn't headed to the bare pill revives the suggestions
+        // (the user grabbed the sheet mid-shrink).
+        if newValue != QuickLogDockMetrics.peekDetent { awaitingBareCollapse = false }
         // Dragging the dock down leaves search — Maps behavior.
         if newValue != .large, searchActive {
             searchFocused = false
@@ -419,12 +735,67 @@ struct QuickLogDock: View {
         }
     }
 
-    private func settleDetent() {
-        if tray.isEmpty {
-            detent = QuickLogDockMetrics.peekDetent
+    /// Reacts to a new staged row (``DoseTrayModel/stageTick``). At peek the
+    /// dock simply grows to its fit-to-content detent; at compact the same
+    /// move is *sequenced* — sheet first with the list unchanged, then the
+    /// new row fades into the opened space (see ``unrevealedItemIDs``).
+    private func handleStaged() {
+        guard !searchActive else { return }
+        if detent == QuickLogDockMetrics.peekDetent {
+            refreshDetents()
+        } else if let compactDetent, detent == compactDetent,
+                  let newest = tray.staged.last,
+                  !tray.expandedItemIDs.contains(newest.id) {
+            unrevealedItemIDs.insert(newest.id)
+            refreshDetents {
+                withAnimation(.snappy) { _ = unrevealedItemIDs.remove(newest.id) }
+            }
+        }
+    }
+
+    /// Keeps the fit-to-content detent tracking the content height. A shrink
+    /// while resting *at* compact (a row swiped away) is deferred until the
+    /// row's exit animation has finished — run concurrently, the two
+    /// animations see-saw the bottom-pinned commit bar (the mirror image of
+    /// the staged-row sequencing in ``handleStaged()``).
+    private func handleCompactHeightChanged() {
+        guard !tray.isEmpty, abs(compactHeightValue - compactValue) >= 6 else { return }
+        if compactHeightValue < compactValue, let compactDetent, detent == compactDetent {
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(450))
+                guard !tray.isEmpty, abs(compactHeightValue - compactValue) >= 6 else { return }
+                refreshDetents()
+            }
         } else {
             refreshDetents()
-            detent = tray.expandedItemIDs.isEmpty ? (compactDetent ?? .medium) : .medium
+        }
+    }
+
+    /// Animate a pure selection move on the next runloop turn. In-update
+    /// moves share the triggering content mutation's transaction and snap —
+    /// see ``swapDetents(to:selecting:)``. The target must already be a
+    /// member of ``detents``.
+    private func moveDetent(to selection: PresentationDetent, height: CGFloat? = nil) {
+        applyDetents(detents, selecting: selection, height: height)
+    }
+
+    private func settleDetent() {
+        if tray.isEmpty {
+            // Full empty set as the target — search may have capped the set
+            // at medium (see ``enterSearchDetents()``), and the resting bare
+            // dock must offer `.large` again for browse drags.
+            applyDetents(
+                QuickLogDockMetrics.emptyDetents,
+                selecting: QuickLogDockMetrics.peekDetent,
+                height: QuickLogDockMetrics.peekHeight,
+            )
+        } else {
+            refreshDetents()
+            if tray.expandedItemIDs.isEmpty, let compactDetent {
+                moveDetent(to: compactDetent, height: compactValue)
+            } else {
+                moveDetent(to: .medium)
+            }
         }
     }
 
@@ -448,10 +819,7 @@ struct QuickLogDock: View {
                     .submitLabel(.search)
                 if !searchText.isEmpty {
                     Button {
-                        // Animated: the results→suggestions swap runs its
-                        // fade transitions — an un-animated clear skips them
-                        // and the recents pop in abruptly.
-                        withAnimation(.snappy) { searchText = "" }
+                        searchText = ""
                         dictation.stop()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
@@ -503,7 +871,7 @@ struct QuickLogDock: View {
                 dictation.stop()
             } else {
                 searchActive = true
-                withAnimation(.snappy) { detent = .large }
+                moveDetent(to: .large)
                 dictation.start()
             }
         } label: {
@@ -519,26 +887,37 @@ struct QuickLogDock: View {
 
     /// The bottom safe-area bar: chips + Log button. Content scrolls beneath
     /// it with the soft edge effect.
-    @ViewBuilder
+    ///
+    /// The bar stays mounted at its intrinsic height for the dock's whole
+    /// lifetime and is only *faded* out while the tray is empty.
+    /// Structurally removing it (or collapsing it to zero height) unregisters
+    /// the scroll pocket, and re-registering a pocket on a live sheet corrupts
+    /// UIKit's scroll-edge-effect layout: the bottom effect view inflates to
+    /// cover the entire scroll view (a full-height blur that "erases" the
+    /// content) with a touch blocker over everything — the delete-last-dose →
+    /// stage-again wedge. The bare face's geometry is protected on the scroll
+    /// view instead (see the frame in `body`).
     private var commitBarArea: some View {
-        if !tray.isEmpty, !isBare {
-            TrayCommitBar(
-                model: tray,
-                tagSuggestions: content.cachedTagSuggestions,
-                recentLocations: content.cachedRecentLocations,
-                onCommit: onCommit,
-            )
-            .padding(.horizontal, 16)
-            // Intrinsic height always: when a drag squeezes the sheet
-            // below the compact detent, the bar must clip rather than
-            // compress — a compressed measurement re-minted the compact
-            // detent mid-gesture and snapped the sheet to the wrong one.
-            .fixedSize(horizontal: false, vertical: true)
-            .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-                guard abs(newValue - commitBarHeight) > 0.5 else { return }
-                commitBarHeight = newValue
-            }
+        let visible = !tray.isEmpty && !isBare
+        return TrayCommitBar(
+            model: tray,
+            tagSuggestions: content.cachedTagSuggestions,
+            recentLocations: content.cachedRecentLocations,
+            onCommit: onCommit,
+        )
+        .padding(.horizontal, 16)
+        // Intrinsic height always: when a drag squeezes the sheet
+        // below the compact detent, the bar must clip rather than
+        // compress — a compressed measurement re-minted the compact
+        // detent mid-gesture and snapped the sheet to the wrong one.
+        .fixedSize(horizontal: false, vertical: true)
+        .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+            guard abs(newValue - commitBarHeight) > 0.5 else { return }
+            commitBarHeight = newValue
         }
+        .opacity(visible ? 1 : 0)
+        .allowsHitTesting(visible)
+        .accessibilityHidden(!visible)
     }
 
     @ToolbarContentBuilder
@@ -566,25 +945,16 @@ struct QuickLogDock: View {
 
     // MARK: Content
 
-    /// Insertion transition for the content cards: a delayed fade. While the
-    /// sheet grows to a new detent, an inserted card's rows would otherwise
-    /// ride the stretching platter ("expansion from the vertical center") —
-    /// the delay keeps the card invisible until the resize has essentially
-    /// settled, so it just fades into place. Removal is a quick fade so
-    /// typing and clearing stay responsive. The family pills keep the
-    /// default insertion, which reads well.
-    private static let cardFade = AnyTransition.asymmetric(
-        insertion: .opacity.animation(.easeInOut(duration: 0.22).delay(0.28)),
-        removal: .opacity.animation(.easeOut(duration: 0.1)),
-    )
-
+    /// Search content swaps deliberately carry NO transitions: fades clip the
+    /// moment a detent change lays the content out at the final size, and a
+    /// fade-then-move sequence read worse (a beat of empty sheet). Instant
+    /// swaps + the animated platter are the model everywhere else in the dock.
     @ViewBuilder
     private var middleContent: some View {
         if !isBare {
             if searchActive {
                 if CrisisKeywords.matches(searchText) {
                     QuickLogHelpBanner()
-                        .transition(Self.cardFade)
                 } else if searchText.isEmpty {
                     suggestions
                 } else {
@@ -602,18 +972,19 @@ struct QuickLogDock: View {
                             },
                         )
                     }
-                    .transition(Self.cardFade)
                 }
-            } else if tray.isEmpty {
+            } else if tray.isEmpty, !awaitingBareCollapse {
                 // Dragged tall with nothing staged: browse suggestions, not a
-                // page of nothing.
+                // page of nothing. Suppressed while the dock is shrinking to
+                // bare — that transient is the same shape, but showing the
+                // pills mid-collapse reads as a flash of the search state.
                 suggestions
             }
 
             if !tray.isEmpty {
                 // The staged basket never disappears — search results render
                 // above it, so staging more is not a context switch.
-                TrayStagedListCard(model: tray)
+                TrayStagedListCard(model: tray, hiddenItemIDs: unrevealedItemIDs)
 
                 // At accessibility sizes the When/Tags/Location chips live in
                 // the scroll content: stacked, they made the pinned bar taller
@@ -656,7 +1027,6 @@ struct QuickLogDock: View {
                 )
             }
             .id(family.id)
-            .transition(Self.cardFade)
         } else if !content.cachedCards.isEmpty {
             groupedCard {
                 QuickLogSearchResults(
@@ -666,7 +1036,6 @@ struct QuickLogDock: View {
                     onCreateCustom: nil,
                 )
             }
-            .transition(Self.cardFade)
         }
     }
 
@@ -828,6 +1197,162 @@ struct QuickLogDock: View {
             // carries its full dose/duration data (labeled with the personal
             // name); a net-new custom falls back to its own asSubstance.
             .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
+    }
+}
+
+// MARK: - Display-link animator
+
+/// Eases a scalar from one value to another with a callback per display
+/// frame — the driver for the dock's frame-level sheet resize. Vsync-locked
+/// (a `Task.sleep` loop adds scheduler wake latency and visibly stutters)
+/// and eased against `targetTimestamp`, i.e. computed for the frame being
+/// *presented*.
+@MainActor
+final class DisplayLinkAnimator: NSObject {
+    private var displayLink: CADisplayLink?
+    private var startTimestamp: CFTimeInterval?
+    private var start: CGFloat = 0
+    private var end: CGFloat = 0
+    private var duration: Double = 0.32
+    private var tick: ((CGFloat) -> Void)?
+    private var completion: (() -> Void)?
+
+    func run(
+        from start: CGFloat,
+        to end: CGFloat,
+        duration: Double = 0.32,
+        tick: @escaping (CGFloat) -> Void,
+        completion: @escaping () -> Void,
+    ) {
+        cancel()
+        self.start = start
+        self.end = end
+        self.duration = duration
+        self.tick = tick
+        self.completion = completion
+        startTimestamp = nil
+        let link = CADisplayLink(target: self, selector: #selector(step(_:)))
+        link.add(to: .main, forMode: .common)
+        displayLink = link
+    }
+
+    func cancel() {
+        displayLink?.invalidate()
+        displayLink = nil
+        tick = nil
+        completion = nil
+    }
+
+    @objc
+    private func step(_ link: CADisplayLink) {
+        // First callback anchors the timeline so the animation never skips
+        // ahead by however late the link started.
+        let reference = startTimestamp ?? link.timestamp
+        if startTimestamp == nil { startTimestamp = reference }
+        let progress = min(1, (link.targetTimestamp - reference) / duration)
+        let eased = 1 - pow(1 - progress, 3)
+        tick?(start + (end - start) * eased)
+        if progress >= 1 {
+            let completion = completion
+            cancel()
+            completion?()
+        }
+    }
+}
+
+// MARK: - Mutable ramp detent
+
+/// A UIKit custom detent whose resolved height reads a mutable value — the
+/// supported mechanism for continuously resizing a sheet (the pattern Apple
+/// documents for keyboard-tracking sheets): update `height`, call
+/// `invalidateDetents()`, and the controller re-resolves and lays out
+/// through its own full resize path.
+@MainActor
+final class MutableSheetDetent {
+    static let identifier = UISheetPresentationController.Detent.Identifier("dev.yumeji.piru.dock-ramp")
+
+    var height: CGFloat = 0
+
+    /// The UIKit detent. Lazy so the resolver can weakly capture `self`; the
+    /// resolver runs on the main thread as part of sheet layout.
+    private(set) lazy var detent: UISheetPresentationController.Detent = .custom(identifier: Self.identifier) { [weak self] context in
+        MainActor.assumeIsolated {
+            guard let self else { return context.maximumDetentValue }
+            return min(self.height, context.maximumDetentValue)
+        }
+    }
+}
+
+// MARK: - Sheet host access
+
+/// Memoized handle to the UIKit view controller presenting the dock sheet.
+///
+/// Resolved once when the dock content first lands in a window — the
+/// controller never changes for the presented sheet's lifetime — so the dock
+/// can drive `UISheetPresentationController.animateChanges` (which SwiftUI
+/// doesn't expose) without re-walking the responder chain per move. Weak:
+/// the box must not keep a dismissed sheet's controller alive.
+@MainActor
+final class SheetHostBox {
+    weak var viewController: UIViewController?
+
+    /// The dock sheet's presentation controller — `sheetPresentationController`
+    /// resolves through the nearest presented ancestor, which for a view
+    /// inside the dock's content is the dock sheet itself.
+    var sheetController: UISheetPresentationController? {
+        viewController?.sheetPresentationController
+    }
+}
+
+/// Zero-size leaf that captures the dock's presenting view controller into a
+/// ``SheetHostBox`` via the responder chain, once, on first window entry.
+private struct SheetHostProbe: UIViewRepresentable {
+    let box: SheetHostBox
+
+    func makeUIView(context _: Context) -> ProbeView {
+        ProbeView(box: box)
+    }
+    func updateUIView(_: ProbeView, context _: Context) {}
+
+    final class ProbeView: UIView {
+        private let box: SheetHostBox
+
+        init(box: SheetHostBox) {
+            self.box = box
+            super.init(frame: .zero)
+            isUserInteractionEnabled = false
+        }
+
+        @available(*, unavailable)
+        required init?(coder _: NSCoder) {
+            nil
+        }
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            guard window != nil, box.viewController == nil else { return }
+            var responder: UIResponder? = next
+            while let current = responder {
+                if let viewController = current as? UIViewController {
+                    box.viewController = viewController
+                    return
+                }
+                responder = current.next
+            }
+        }
+    }
+}
+
+/// Minimal context for resolving `.height` detents' values when matching the
+/// UIKit detents SwiftUI minted (their identifiers are opaque; their resolved
+/// heights are exact).
+private final class SheetDetentResolutionContext: NSObject, UISheetPresentationControllerDetentResolutionContext {
+    let containerTraitCollection: UITraitCollection
+    let maximumDetentValue: CGFloat
+
+    init(containerTraitCollection: UITraitCollection, maximumDetentValue: CGFloat) {
+        self.containerTraitCollection = containerTraitCollection
+        self.maximumDetentValue = maximumDetentValue
     }
 }
 
