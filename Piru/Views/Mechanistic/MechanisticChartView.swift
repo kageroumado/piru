@@ -15,8 +15,8 @@ struct MechanisticChartView: View {
     let startDate: Date
     /// Hours since session start for the "now" indicator (clamped to the window).
     let nowHours: Double
-    /// Dose tick positions + colours, supplied by the host (not baked into
-    /// `result`) so a recolour updates the marks without re-simulating.
+    /// Dose tick positions + colors, supplied by the host (not baked into
+    /// `result`) so a recolor updates the marks without re-simulating.
     let doseMarks: [MechanisticSessionModel.DoseMark]
     let vitals: SessionVitals?
     /// When `false`, the chart frames the whole session (no pan window) and
@@ -223,7 +223,7 @@ struct MechanisticChartView: View {
                 label.shading = .color(.secondary)
                 context.draw(label, at: CGPoint(x: x, y: geo.rect.maxY + 10))
             }
-            // Two small ticks between this hour and the next labelled one.
+            // Two small ticks between this hour and the next labeled one.
             for frac in [1.0 / 3.0, 2.0 / 3.0] {
                 let tx = geo.x(hour + step * frac)
                 guard tx >= geo.rect.minX, tx <= geo.rect.maxX else { continue }
@@ -241,7 +241,7 @@ struct MechanisticChartView: View {
             context.stroke(zero, with: .color(.secondary.opacity(0.35)), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
             // Name the zero line once, so "below the baseline = comedown/sedation"
             // is legible from the chart itself and not only the caption. Sits just
-            // above the line at the far left, left-anchored so it never centres on
+            // above the line at the far left, left-anchored so it never centers on
             // top of the first dose dot (which rides the same line). The reserved
             // comedown room below the line is what makes it read as *horizontal*.
             var base = context.resolve(Text("baseline").font(.system(size: 8, weight: .medium)))
@@ -325,7 +325,7 @@ struct MechanisticChartView: View {
         }
         // The app-wide HR crimson (matches the row chips and the timeline cardio
         // lane), dashed so it can't be read as part of the solid danger curve —
-        // the Safety lens colour is a near-identical red.
+        // the Safety lens color is a near-identical red.
         context.stroke(path, with: .color(VitalsPalette.heart), style: StrokeStyle(lineWidth: 1.6, lineJoin: .round, dash: [4, 3]))
     }
 
@@ -368,7 +368,7 @@ struct MechanisticChartView: View {
     /// the glanceable readout, tied to the exact height it describes rather than
     /// floating in the section header. Only for a still-unfolding session, where
     /// "now" is meaningful (a finished session reads its whole shape instead).
-    /// Sits beside the now-line (never centred on it, or the full-height stroke
+    /// Sits beside the now-line (never centered on it, or the full-height stroke
     /// would bisect the word) and above the dot, flipping to the left when the dot
     /// is near the right edge.
     private func drawNowReadout(_ context: inout GraphicsContext, _ geo: Geometry, at dot: CGPoint, color: Color) {
@@ -398,7 +398,7 @@ struct MechanisticChartView: View {
         DragGesture(minimumDistance: 4)
             .onChanged { value in
                 // A two-finger pinch also moves its centroid, so the drag
-                // recognises alongside the magnification — let the zoom own
+                // recognizes alongside the magnification — let the zoom own
                 // `winStart` for the duration of the pinch or the two fight
                 // over it frame by frame.
                 guard zoomAnchor == nil else { return }

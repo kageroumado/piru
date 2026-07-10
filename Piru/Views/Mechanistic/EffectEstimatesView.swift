@@ -49,7 +49,7 @@ struct EffectEstimatesCard: View {
     }
 }
 
-/// A muted "Experimental" pill — the honest-badge idiom, signalling the feature
+/// A muted "Experimental" pill — the honest-badge idiom, signaling the feature
 /// is a model rather than a measurement wherever it's surfaced.
 struct ExperimentalTag: View {
     var body: some View {
@@ -346,7 +346,7 @@ struct EffectEstimatesView: View {
 /// told in plain language and anchored by a schematic ``DopamineErrorDiagram`` —
 /// dopamine against the brain's slower-moving expectation, with the gap between
 /// them shaded as the felt effect. Room to breathe, readable body text; the dense
-/// equations from the old inline disclosure are retired in favour of the picture.
+/// equations from the old inline disclosure are retired in favor of the picture.
 struct EffectModelExplainerView: View {
     var body: some View {
         List {
@@ -479,7 +479,7 @@ private struct DopamineErrorDiagram: View {
             }
 
             // Shade the vertical gap between the two curves, trapezoid by trapezoid,
-            // coloured by which curve leads — accent while dopamine leads (the lift),
+            // colored by which curve leads — accent while dopamine leads (the lift),
             // red where the expectation sits above a falling dopamine (the comedown).
             for i in 0 ..< samples.count - 1 {
                 let a = samples[i], b = samples[i + 1]
