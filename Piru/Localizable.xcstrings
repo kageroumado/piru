@@ -285,18 +285,6 @@
         }
       }
     },
-    "**Higher is better** — reward and warmth lifting above your baseline. Dipping below the baseline is the comedown." : {
-
-    },
-    "**Higher is livelier** — stimulation and drive above the baseline; sedation below it." : {
-
-    },
-    "**Lower is better** — estimated load on your body: the higher the curve, the more strain. Pairs with your Apple Health heart rate when it's available." : {
-
-    },
-    "**Lower is better** — the pull to take another dose. The higher it climbs, the harder that pull." : {
-
-    },
     "#" : {
       "localizations" : {
         "zh-Hans" : {
@@ -965,9 +953,6 @@
           }
         }
       }
-    },
-    "%@ isn't modeled yet, so nothing here reflects it." : {
-
     },
     "%@ left" : {
       "localizations" : {
@@ -3442,6 +3427,22 @@
         }
       }
     },
+    "A fast route, like insufflation, outruns that adjustment and spikes. The same dose taken slowly lets the brain keep pace, so it barely registers as a rush." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鼻吸等快速给药方式会甩开这种调整，形成骤升。同样的剂量若缓慢摄入，大脑得以跟上节奏，便几乎感受不到冲劲。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鼻吸等快速給藥方式會甩開這種調整，形成驟升。同樣的劑量若緩慢攝入，大腦得以跟上節奏，便幾乎感受不到衝勁。"
+          }
+        }
+      }
+    },
     "A fast within-session fade, plus a modest, slower shift with heavy use. A bigger dose still works — but ramps the comedown and the risk, while the effect on your heart barely fades." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3519,6 +3520,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當時間已晚、再來一劑可能影響睡眠時，提前提醒你。"
+          }
+        }
+      }
+    },
+    "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更大的剂量会更猛地消耗多巴胺储备：升得更高，代谢完后也跌得更深。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更大的劑量會更猛地消耗多巴胺儲備：升得更高，代謝完後也跌得更深。"
           }
         }
       }
@@ -3670,9 +3687,6 @@
           }
         }
       }
-    },
-    "A predicted picture, not a measurement" : {
-
     },
     "A prodrug converted to GHB via alcohol dehydrogenase and aldehyde dehydrogenase. Once converted, acts on GHB and GABA-B receptors. Onset and duration depend on hepatic enzyme activity. Co-administration with ethanol competitively inhibits conversion, unpredictably altering pharmacokinetics." : {
       "extractionState" : "stale",
@@ -3837,6 +3851,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素轉運體上偏向可逆的變化——是恢復狀態指標，而非劑量倍率。"
+          }
+        }
+      }
+    },
+    "A rough guide, not medical advice." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅供粗略参考，并非医疗建议。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅供粗略參考，並非醫療建議。"
           }
         }
       }
@@ -6100,9 +6130,6 @@
         }
       }
     },
-    "An experimental model simulates how the substances in this session act in your body, from published pharmacology. It predicts how effects **rise, peak, and fade**, and **how strong they are** — a heavier dose makes a bigger curve. What it can't give you is a real-world unit or a promise about your body on the day." : {
-
-    },
     "An N-benzylmethoxy derivative that acts as a highly potent full agonist at serotonin 5-HT2A receptors with much greater efficacy than partial agonists like LSD. The full agonism and high potency at 5-HT2A receptors are associated with a steeper dose-response curve, greater risk of seizures, vasoconstriction, and a narrower margin of safety compared to classical partial agonist psychedelics." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6583,6 +6610,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阿莫達非尼可誘導 CYP3A4，降低經其清除的藥物的血藥濃度——包括全身性激素避孕藥中的激素。"
+          }
+        }
+      }
+    },
+    "As a stimulant takes hold, dopamine climbs quickly. Your brain expects a steady baseline and adjusts toward the new level, but it catches up slowly. The gap between the two — dopamine now versus what your brain expects — is what reaches you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当兴奋剂开始起效，多巴胺迅速攀升。大脑预期的是一个稳定的基线，会向新水平调整，但追赶得很慢。二者之间的落差——当前多巴胺与大脑所预期之间——正是你所感受到的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當興奮劑開始起效，多巴胺迅速攀升。大腦預期的是一個穩定的基線，會向新水平調整，但追趕得很慢。二者之間的落差——當前多巴胺與大腦所預期之間——正是你所感受到的。"
           }
         }
       }
@@ -7410,12 +7453,6 @@
           }
         }
       }
-    },
-    "Because C chases D, the error behaves like the **rate** of rise. A fast route (insufflated, IV) outruns the controller and spikes; the same dose taken orally lets C keep up and barely registers a rush." : {
-
-    },
-    "Because this is a simulation, it differs from effect write-ups like PsychonautWiki. Those summarize what people report; this predicts the underlying curve from pharmacology." : {
-
     },
     "Beer" : {
       "localizations" : {
@@ -8366,9 +8403,6 @@
         }
       }
     },
-    "C lags on the way down and overshoots. When D falls back to baseline, C is still elevated — so the error goes negative. That's the crash, with **dopamine itself already back to normal**." : {
-
-    },
     "Caffeine" : {
 
     },
@@ -8451,9 +8485,6 @@
           }
         }
       }
-    },
-    "Calibrated against published pharmacokinetic and receptor studies (PET occupancy, microdialysis). Still a model — treat it as a rough guide, not medical advice." : {
-
     },
     "Call 911 (US) or your local emergency number" : {
       "localizations" : {
@@ -10224,6 +10255,22 @@
         }
       }
     },
+    "Compare the shape of a curve more than its exact height." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多比较曲线的形状，而非其确切高度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多比較曲線的形狀，而非其確切高度。"
+          }
+        }
+      }
+    },
     "Competitive μ-Opioid Receptor Antagonist (Short-Acting)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10387,7 +10434,20 @@
       }
     },
     "Compulsion" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冲动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "衝動"
+          }
+        }
+      }
     },
     "Conc" : {
       "localizations" : {
@@ -10420,9 +10480,6 @@
           }
         }
       }
-    },
-    "concentration c is linear in dose; the felt elevation saturates (a release/clearance ceiling)" : {
-
     },
     "Concentration curve" : {
       "localizations" : {
@@ -10468,6 +10525,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "濃度曲線"
+          }
+        }
+      }
+    },
+    "Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可信度因物质而异。安非他明、哌甲酯等经过充分研究的物质，其数据基础比新型化合物更为扎实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可信度因物質而異。安非他命、哌甲酯等經過充分研究的物質，其數據基礎比新型化合物更為紮實。"
           }
         }
       }
@@ -11119,9 +11192,6 @@
         }
       }
     },
-    "Cₛ is the slow controller — as it catches up, the high fades (acclimation)." : {
-
-    },
     "Cumulative" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11492,9 +11562,6 @@
           }
         }
       }
-    },
-    "D = drug-driven dopamine · C = homeostatic push-back (autoreceptors, transporter trafficking, synthesis control)" : {
-
     },
     "D3-Preferring Dopamine Partial Agonist" : {
       "extractionState" : "stale",
@@ -13206,9 +13273,6 @@
         }
       }
     },
-    "Dose scaling" : {
-
-    },
     "Dose taken" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13970,9 +14034,6 @@
         }
       }
     },
-    "Each lens is a different filter on the same drive" : {
-
-    },
     "Each line is a mechanism recovering — a steeper climb means a faster reset." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14509,7 +14570,20 @@
       }
     },
     "Effect Estimates" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效应估算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效應估算"
+          }
+        }
+      }
     },
     "Effectively clear" : {
       "localizations" : {
@@ -15701,9 +15775,6 @@
         }
       }
     },
-    "Every curve shares the same anchored scale, so a taller curve genuinely means a stronger effect — within this session, across your other sessions, and between the four lenses. There's no real-world unit to read off, but the heights are honest." : {
-
-    },
     "Every dose lands on a timeline so you can see what's active — and when it fades." : {
       "localizations" : {
         "zh-Hans" : {
@@ -16090,6 +16161,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展開編輯器"
+          }
+        }
+      }
+    },
+    "Expected level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预期水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預期水平"
           }
         }
       }
@@ -18328,6 +18415,22 @@
         }
       }
     },
+    "Heavier doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量越大"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量越大"
+          }
+        }
+      }
+    },
     "Heavy" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18524,8 +18627,40 @@
     "Higher is better" : {
 
     },
+    "Higher is better. Pleasure and warmth rise above the line; the comedown dips below." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高越好。愉悦与暖意升至基线之上；退效期则跌至其下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高越好。愉悅與暖意升至基線之上；退效期則跌至其下。"
+          }
+        }
+      }
+    },
     "Higher is livelier" : {
 
+    },
+    "Higher is livelier. Drive rises above the line, sedation sits below." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高越有活力。驱动力升至基线之上，镇静则落于其下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高越有活力。驅動力升至基線之上，鎮靜則落於其下。"
+          }
+        }
+      }
     },
     "Highest overdose risk" : {
       "localizations" : {
@@ -18800,9 +18935,6 @@
         }
       }
     },
-    "How the model works" : {
-
-    },
     "How this is calculated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18821,6 +18953,22 @@
     },
     "How this session may feel over time" : {
 
+    },
+    "How this works" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "运作原理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "運作原理"
+          }
+        }
+      }
     },
     "How tolerance works" : {
       "localizations" : {
@@ -20473,9 +20621,6 @@
         }
       }
     },
-    "It won't match other sources" : {
-
-    },
     "It's been a long session. Your body and brain need sleep to recover. Try to wind down." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21980,6 +22125,38 @@
     "Lower is better" : {
 
     },
+    "Lower is better. Load on the body, shown with your heart rate when it's available." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越低越好。身体的负荷，在有数据时与你的心率一同显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越低越好。身體的負荷，在有數據時與你的心率一同顯示。"
+          }
+        }
+      }
+    },
+    "Lower is better. The pull to take another dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越低越好。再服一剂的冲动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越低越好。再服一劑的衝動。"
+          }
+        }
+      }
+    },
     "Lower Ki means tighter binding. Affinity below ~100 nM is usually considered high." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23108,6 +23285,22 @@
         }
       }
     },
+    "Modeled from pharmacology" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于药理学建模"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於藥理學建模"
+          }
+        }
+      }
+    },
     "Moderate" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23450,9 +23643,6 @@
           }
         }
       }
-    },
-    "Most effect write-ups describe *what people report*. This does something different — it simulates the underlying neurochemistry and reads the feeling off it." : {
-
     },
     "Most logged" : {
       "localizations" : {
@@ -25788,6 +25978,22 @@
         }
       }
     },
+    "On the way down the expectation lags again. Dopamine returns to baseline while the expectation stays high, and that gap below the line is the comedown." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下降过程中，预期再次滞后。多巴胺已回到基线，预期却仍居高不下，基线之下的这段落差便是退效期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下降過程中，預期再次滯後。多巴胺已回到基線，預期卻仍居高不下，基線之下的這段落差便是退效期。"
+          }
+        }
+      }
+    },
     "On This Device" : {
       "localizations" : {
         "zh-Hans" : {
@@ -25820,12 +26026,6 @@
           }
         }
       }
-    },
-    "One fixed scale" : {
-
-    },
-    "Only some substances are modeled" : {
-
     },
     "Onset" : {
       "localizations" : {
@@ -28900,11 +29100,21 @@
         }
       }
     },
-    "Rate, not amount" : {
-
-    },
-    "Raw concentration is linear in dose while the dopamine response saturates, so a heavier dose empties the stores proportionally harder — a bigger high **and** a deeper crash." : {
-
+    "Rate over amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度胜过用量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度勝過用量"
+          }
+        }
+      }
     },
     "Re-read from Health" : {
       "extractionState" : "stale",
@@ -29000,6 +29210,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從 Apple 健康讀取你的體重，讓估算貼合你的身體——體重越輕，一杯酒作用越強。僅唯讀；可隨時在設定中更改。"
+          }
+        }
+      }
+    },
+    "Reading the estimate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何理解估算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何理解估算"
           }
         }
       }
@@ -35368,7 +35594,20 @@
       }
     },
     "Strain" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "负荷"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "負荷"
+          }
+        }
+      }
     },
     "Strength" : {
       "localizations" : {
@@ -36670,6 +36909,22 @@
         }
       }
     },
+    "The comedown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退效期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退效期"
+          }
+        }
+      }
+    },
     "The concentration unit these values use. Lower numbers always mean the drug works at smaller amounts." : {
       "localizations" : {
         "zh-Hans" : {
@@ -36685,9 +36940,6 @@
           }
         }
       }
-    },
-    "The core idea" : {
-
     },
     "The crash is your nervous system demanding rest and replenishment." : {
       "localizations" : {
@@ -36884,6 +37136,22 @@
         }
       }
     },
+    "The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该模型基于五种兴奋剂校准：安非他明、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物质通过与它们的相互作用来影响曲线。阿片类物质则依据其多巴胺活性来解读，主要用于呈现这些相互作用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此模型基於五種興奮劑校準：安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物質透過與它們的交互作用來影響曲線。鴉片類物質則依據其多巴胺活性來解讀，主要用於呈現這些交互作用。"
+          }
+        }
+      }
+    },
     "The old “never mix” warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37014,6 +37282,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同一「健康」連線還會在每次記錄中開啟你的心率和血壓顯示——可隨時在「設定」中關閉。"
+          }
+        }
+      }
+    },
+    "The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阴影区域即是你的感受。当多巴胺消退、预期滞留于其上时，这段落差便转为退效期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陰影區域即是你的感受。當多巴胺消退、預期滯留於其上時，這段落差便轉為退效期。"
           }
         }
       }
@@ -37182,12 +37466,34 @@
         }
       }
     },
-    "These curves reflect %@. %@ isn't modeled yet and doesn't affect them." : {
+    "These curves are built from %@. %@ sit outside the model." : {
       "localizations" : {
-        "en" : {
+        "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "These curves reflect %1$@. %2$@ isn't modeled yet and doesn't affect them."
+            "state" : "translated",
+            "value" : "这些曲线基于 %@ 构建。%@ 不在模型范围内。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些曲線基於 %@ 構建。%@ 不在模型範圍內。"
+          }
+        }
+      }
+    },
+    "These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些曲线估算本次记录随时间可能的感受——效应如何上升、达到峰值、消退，以及强度如何。追加剂量和每种物质的完整作用时长都已纳入，因此剂量越大，曲线越高。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些曲線估算本次記錄隨時間可能的感受——效應如何上升、達到峰值、消退，以及強度如何。追加劑量和每種物質的完整作用時長都已納入，因此劑量越大，曲線越高。"
           }
         }
       }
@@ -37418,6 +37724,22 @@
         }
       }
     },
+    "This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是典型药理反应的写照。你自身的反应会随耐受性、身体状况和当天状态而变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是典型藥理反應的寫照。你自身的反應會隨耐受性、身體狀況和當天狀態而變化。"
+          }
+        }
+      }
+    },
     "This is a rebound effect, not a return to baseline anxiety. It passes." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37574,6 +37896,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這會用此副本中的 %@ 取代你目前的資料。取代前會先為目前資料建立快照，因此可以復原。之後請重新啟動 Piru 以載入。"
+          }
+        }
+      }
+    },
+    "This session logs %@, which sit outside the model, so these curves stay empty." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录包含 %@，它们不在模型范围内，因此这些曲线为空。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄包含 %@，它們不在模型範圍內，因此這些曲線為空。"
           }
         }
       }
@@ -40018,6 +40356,22 @@
         }
       }
     },
+    "What these curves cover" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些曲线涵盖什么"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些曲線涵蓋什麼"
+          }
+        }
+      }
+    },
     "What to avoid" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40034,8 +40388,21 @@
         }
       }
     },
-    "What you feel is the **error** between the dopamine your dose forces and how far your brain has already compensated — not the dopamine level itself." : {
-
+    "What you feel tracks a gap inside your dopamine system — the distance between the dopamine you have and the steady level your brain expects." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的感受反映的是多巴胺系统内部的一段落差——现有多巴胺水平与大脑所预期的稳定水平之间的距离。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的感受反映的是多巴胺系統內部的一段落差——現有多巴胺水平與大腦所預期的穩定水平之間的距離。"
+          }
+        }
+      }
     },
     "What's happening" : {
       "localizations" : {
@@ -40197,9 +40564,6 @@
           }
         }
       }
-    },
-    "Where the comedown comes from" : {
-
     },
     "Where the numbers come from" : {
       "localizations" : {

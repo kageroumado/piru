@@ -113,10 +113,10 @@ struct EffectThumbnail: View {
 
 // MARK: - Dedicated screen
 
-/// The full effect-estimates screen: every mechanistic lens as its own card,
-/// stacked so they're all visible at once (the whole point of the feature), with
-/// the methodology, scale, and per-substance coverage that don't fit inline on
-/// the session detail. Reuses ``MechanisticChartView`` per lens.
+/// The full effect-estimates screen: a large title, one short model card, every
+/// mechanistic lens as its own tall card, and two collapsed detail groups at the
+/// bottom for coverage and how to read the estimate. The full methodology lives
+/// one push deeper in ``EffectModelExplainerView`` so this screen stays glanceable.
 struct EffectEstimatesView: View {
     let result: MechanisticSessionModel.Result
     let startDate: Date
@@ -126,84 +126,60 @@ struct EffectEstimatesView: View {
     let modeled: [String]
     let ignored: [String]
 
-    /// Fixed per-card chart height — tall enough to read the curve, short enough
-    /// that all four cards stack in a comfortable scroll.
-    private let chartHeight: CGFloat = 150
-
-    private var span: Double {
-        result.contentSpan
-    }
+    /// Fixed per-card chart height. Taller than the inline session-detail graph —
+    /// this is the dedicated screen, so each curve gets room to read.
+    private let chartHeight: CGFloat = 200
 
     var body: some View {
         List {
             introSection
-            if !ignored.isEmpty {
-                coverageSection
-            }
             ForEach(EffectLens.mechanistic) { lens in
                 lensCard(lens)
             }
-            methodologySection
-            modelSection
+            coverageGroup
+            readingGroup
         }
         .scrollContentBackground(.hidden)
         .listSectionSpacing(16)
         .background(Theme.background)
         .navigationTitle("Effect Estimates")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.large)
     }
 
-    // MARK: Intro
+    // MARK: Intro — one short model card
 
     private var introSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 10) {
                 HStack(spacing: 8) {
                     Image(systemName: "waveform.path.ecg.rectangle")
                         .foregroundStyle(Theme.accent)
                         .accessibilityHidden(true)
-                    Text("A predicted picture, not a measurement")
+                    Text("Modeled from pharmacology")
                         .font(.subheadline.weight(.semibold))
+                    Spacer(minLength: 0)
+                    ExperimentalTag()
                 }
-                Text("An experimental model simulates how the substances in this session act in your body, from published pharmacology. It predicts how effects **rise, peak, and fade**, and **how strong they are** — a heavier dose makes a bigger curve. What it can't give you is a real-world unit or a promise about your body on the day.")
-                    .font(.caption)
+                Text("These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.")
+                    .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
+                NavigationLink {
+                    EffectModelExplainerView()
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "function")
+                            .imageScale(.small)
+                        Text("How this works")
+                            .font(.subheadline.weight(.medium))
+                    }
+                    .foregroundStyle(Theme.accent)
+                }
+                .buttonStyle(.plain)
             }
             .padding(.vertical, 2)
             .listRowBackground(CardBackground())
         }
-    }
-
-    // MARK: Coverage (only some substances modeled)
-
-    private var coverageSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 6) {
-                Label {
-                    Text("Only some substances are modeled")
-                        .font(.subheadline.weight(.semibold))
-                } icon: {
-                    Image(systemName: "questionmark.circle")
-                        .foregroundStyle(Theme.accent)
-                }
-                Text(coverageText)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(.vertical, 2)
-            .listRowBackground(CardBackground())
-        }
-    }
-
-    private var coverageText: String {
-        let included = modeled.formatted(.list(type: .and))
-        let excluded = ignored.formatted(.list(type: .and))
-        if modeled.isEmpty {
-            return String(localized: "\(excluded) isn't modeled yet, so nothing here reflects it.")
-        }
-        return String(localized: "These curves reflect \(included). \(excluded) isn't modeled yet and doesn't affect them.")
     }
 
     // MARK: Per-lens card
@@ -241,168 +217,298 @@ struct EffectEstimatesView: View {
                     .textCase(nil)
             }
         } footer: {
-            Text(explanation(for: lens))
+            Text(footer(for: lens))
         }
     }
 
-    private func explanation(for lens: EffectLens) -> LocalizedStringKey {
+    private func footer(for lens: EffectLens) -> LocalizedStringKey {
         switch lens {
         case .feeling:
-            "**Higher is better** — reward and warmth lifting above your baseline. Dipping below the baseline is the comedown."
+            "Higher is better. Pleasure and warmth rise above the line; the comedown dips below."
         case .energy:
-            "**Higher is livelier** — stimulation and drive above the baseline; sedation below it."
+            "Higher is livelier. Drive rises above the line, sedation sits below."
         case .compulsion:
-            "**Lower is better** — the pull to take another dose. The higher it climbs, the harder that pull."
+            "Lower is better. The pull to take another dose."
         case .strain:
-            "**Lower is better** — estimated load on your body: the higher the curve, the more strain. Pairs with your Apple Health heart rate when it's available."
+            "Lower is better. Load on the body, shown with your heart rate when it's available."
         case .timeline:
             ""
         }
     }
 
-    // MARK: Methodology
+    // MARK: Bottom — coverage
 
-    private var methodologySection: some View {
+    private var coverageGroup: some View {
         Section {
-            VStack(alignment: .leading, spacing: 12) {
-                methodologyRow(
-                    icon: "ruler",
-                    title: "One fixed scale",
-                    body: "Every curve shares the same anchored scale, so a taller curve genuinely means a stronger effect — within this session, across your other sessions, and between the four lenses. There's no real-world unit to read off, but the heights are honest.",
-                )
-                Divider()
-                methodologyRow(
-                    icon: "arrow.triangle.branch",
-                    title: "It won't match other sources",
-                    body: "Because this is a simulation, it differs from effect write-ups like PsychonautWiki. Those summarize what people report; this predicts the underlying curve from pharmacology.",
-                )
+            DisclosureGroup {
+                VStack(alignment: .leading, spacing: 12) {
+                    if !ignored.isEmpty {
+                        Text(coverageText)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Text("The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.")
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.top, 6)
+            } label: {
+                detailLabel("square.stack.3d.up", "What these curves cover")
             }
             .padding(.vertical, 2)
             .listRowBackground(CardBackground())
         }
     }
 
-    private func methodologyRow(icon: String, title: LocalizedStringKey, body: LocalizedStringKey) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon)
-                .foregroundStyle(Theme.accent)
-                .frame(width: 22)
-                .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 3) {
-                Text(title)
-                    .font(.subheadline.weight(.semibold))
-                Text(body)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+    private var coverageText: String {
+        let included = modeled.formatted(.list(type: .and))
+        let excluded = ignored.formatted(.list(type: .and))
+        if modeled.isEmpty {
+            return String(localized: "This session logs \(excluded), which sit outside the model, so these curves stay empty.")
         }
+        return String(localized: "These curves are built from \(included). \(excluded) sit outside the model.")
     }
 
-    // MARK: Under the hood (the real model, progressively disclosed)
+    // MARK: Bottom — reading the estimate
 
-    /// The honest payoff for the curious: the *actual* mechanism, not a hand-wave.
-    /// Collapsed by default (it's dense), it opens to the homeostatic-controller
-    /// principle, why rate beats amount, where the comedown comes from, and the
-    /// per-lens read-off — with the load-bearing equations shown verbatim.
-    private var modelSection: some View {
+    private var readingGroup: some View {
         Section {
             DisclosureGroup {
-                VStack(alignment: .leading, spacing: 14) {
-                    Text("Most effect write-ups describe *what people report*. This does something different — it simulates the underlying neurochemistry and reads the feeling off it.")
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day.")
                         .fixedSize(horizontal: false, vertical: true)
-
-                    modelPoint(
-                        "The core idea",
-                        "What you feel is the **error** between the dopamine your dose forces and how far your brain has already compensated — not the dopamine level itself.",
-                    )
-                    formula(
-                        "E  =  D − C",
-                        caption: "D = drug-driven dopamine · C = homeostatic push-back (autoreceptors, transporter trafficking, synthesis control)",
-                    )
-
-                    modelPoint(
-                        "Rate, not amount",
-                        "Because C chases D, the error behaves like the **rate** of rise. A fast route (insufflated, IV) outruns the controller and spikes; the same dose taken orally lets C keep up and barely registers a rush.",
-                    )
-                    modelPoint(
-                        "Where the comedown comes from",
-                        "C lags on the way down and overshoots. When D falls back to baseline, C is still elevated — so the error goes negative. That's the crash, with **dopamine itself already back to normal**.",
-                    )
-
-                    modelPoint(
-                        "Dose scaling",
-                        "Raw concentration is linear in dose while the dopamine response saturates, so a heavier dose empties the stores proportionally harder — a bigger high **and** a deeper crash.",
-                    )
-                    formula(
-                        "elev = Emax · c / (c + Kd)",
-                        caption: "concentration c is linear in dose; the felt elevation saturates (a release/clearance ceiling)",
-                    )
-
-                    modelPoint(
-                        "Each lens is a different filter on the same drive",
-                        "",
-                    )
-                    formula(
-                        """
-                        Feeling      = (D − Cₛ) − depletion
-                        Energy       = cortical drive − sedation
-                        Compulsion   = incentive salience, rate-gated
-                        Strain       = cardiovascular + respiratory load
-                        """,
-                        caption: "Cₛ is the slow controller — as it catches up, the high fades (acclimation).",
-                    )
+                    Text("Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds.")
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text("Compare the shape of a curve more than its exact height.")
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 4)
+                .padding(.top, 6)
             } label: {
-                Label {
-                    Text("How the model works")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.primary)
-                } icon: {
-                    Image(systemName: "function")
-                        .foregroundStyle(Theme.accent)
-                }
+                detailLabel("checkmark.seal", "Reading the estimate")
             }
             .padding(.vertical, 2)
             .listRowBackground(CardBackground())
         } footer: {
-            Text("Calibrated against published pharmacokinetic and receptor studies (PET occupancy, microdialysis). Still a model — treat it as a rough guide, not medical advice.")
+            Text("A rough guide, not medical advice.")
         }
     }
 
-    private func modelPoint(_ title: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
+    private func detailLabel(_ icon: String, _ title: LocalizedStringKey) -> some View {
+        Label {
             Text(title)
-                .font(.caption.weight(.semibold))
+                .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.primary)
-            if body != "" {
-                Text(body)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+        } icon: {
+            Image(systemName: icon)
+                .foregroundStyle(Theme.accent)
         }
     }
+}
 
-    /// A load-bearing equation, set in mono so it reads as *the math*, with a
-    /// plain-language gloss beneath. The horizontal scroll keeps a long line from
-    /// forcing the card wider on smaller devices.
-    private func formula(_ equation: String, caption: LocalizedStringKey) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                Text(equation)
-                    .font(.system(.caption, design: .monospaced))
-                    .foregroundStyle(.primary)
-                    .textSelection(.enabled)
+// MARK: - How this works
+
+/// The methodology screen, one push below Effect Estimates: the homeostatic idea
+/// told in plain language and anchored by a schematic ``DopamineErrorDiagram`` —
+/// dopamine against the brain's slower-moving expectation, with the gap between
+/// them shaded as the felt effect. Room to breathe, readable body text; the dense
+/// equations from the old inline disclosure are retired in favour of the picture.
+struct EffectModelExplainerView: View {
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 14) {
+                    Text("What you feel tracks a gap inside your dopamine system — the distance between the dopamine you have and the steady level your brain expects.")
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    DopamineErrorDiagram()
+                        .frame(height: 172)
+                        .padding(.vertical, 2)
+
+                    DiagramLegend()
+
+                    Text("As a stimulant takes hold, dopamine climbs quickly. Your brain expects a steady baseline and adjusts toward the new level, but it catches up slowly. The gap between the two — dopamine now versus what your brain expects — is what reaches you.")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.vertical, 4)
+                .listRowBackground(CardBackground())
             }
-            Text(caption)
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
+
+            Section {
+                VStack(alignment: .leading, spacing: 16) {
+                    point(
+                        "Rate over amount",
+                        "A fast route, like insufflation, outruns that adjustment and spikes. The same dose taken slowly lets the brain keep pace, so it barely registers as a rush.",
+                    )
+                    Divider()
+                    point(
+                        "The comedown",
+                        "On the way down the expectation lags again. Dopamine returns to baseline while the expectation stays high, and that gap below the line is the comedown.",
+                    )
+                    Divider()
+                    point(
+                        "Heavier doses",
+                        "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears.",
+                    )
+                }
+                .padding(.vertical, 4)
+                .listRowBackground(CardBackground())
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .listSectionSpacing(16)
+        .background(Theme.background)
+        .navigationTitle("How this works")
+        .navigationBarTitleDisplayMode(.large)
+    }
+
+    private func point(_ title: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+            Text(body)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+    }
+}
+
+/// A schematic — not a live simulation — of the homeostatic idea: a fast dopamine
+/// bell against a slow first-order "expectation" that chases it. The region where
+/// dopamine leads is shaded as the felt lift; the tail where expectation lags above
+/// a falling dopamine is shaded as the comedown.
+private struct DopamineErrorDiagram: View {
+    private let dopamineColor = EffectLens.feeling.color
+    private let expectationColor = Color(.systemGray)
+
+    private struct Sample {
+        let time: Double
+        let dopamine: Double
+        let expectation: Double
+    }
+
+    private let samples: [Sample] = DopamineErrorDiagram.makeSamples()
+
+    /// Difference-of-exponentials dopamine curve (peak-normalised) with a slow
+    /// first-order lag for the expectation, integrated by explicit Euler.
+    private static func makeSamples() -> [Sample] {
+        let absorptionRate = 5.0
+        let eliminationRate = 0.9
+        let lagTau = 0.8
+        let step = 0.02
+        let horizon = 7.0
+
+        var forcing: [(time: Double, level: Double)] = []
+        var peak = 0.0001
+        var time = 0.0
+        while time <= horizon {
+            let level = max(exp(-eliminationRate * time) - exp(-absorptionRate * time), 0)
+            peak = max(peak, level)
+            forcing.append((time, level))
+            time += step
+        }
+
+        var expectation = 0.0
+        var out: [Sample] = []
+        out.reserveCapacity(forcing.count)
+        for sample in forcing {
+            let dopamine = sample.level / peak
+            expectation += (dopamine - expectation) * (step / lagTau)
+            out.append(Sample(time: sample.time, dopamine: dopamine, expectation: expectation))
+        }
+        return out
+    }
+
+    var body: some View {
+        Canvas { context, size in
+            guard let last = samples.last, samples.count > 1 else { return }
+            let inset: CGFloat = 6
+            let topPad: CGFloat = 10
+            let bottomPad: CGFloat = 6
+            let plot = CGRect(
+                x: inset, y: topPad,
+                width: max(1, size.width - inset * 2),
+                height: max(1, size.height - topPad - bottomPad),
+            )
+            let horizon = max(last.time, 0.001)
+            func point(_ t: Double, _ value: Double) -> CGPoint {
+                CGPoint(
+                    x: plot.minX + CGFloat(t / horizon) * plot.width,
+                    y: plot.maxY - CGFloat(min(max(value, 0), 1.05)) * plot.height,
+                )
+            }
+
+            // Shade the vertical gap between the two curves, trapezoid by trapezoid,
+            // coloured by which curve leads — accent while dopamine leads (the lift),
+            // red where the expectation sits above a falling dopamine (the comedown).
+            for i in 0 ..< samples.count - 1 {
+                let a = samples[i], b = samples[i + 1]
+                var quad = Path()
+                quad.move(to: point(a.time, a.dopamine))
+                quad.addLine(to: point(b.time, b.dopamine))
+                quad.addLine(to: point(b.time, b.expectation))
+                quad.addLine(to: point(a.time, a.expectation))
+                quad.closeSubpath()
+                let dopamineLeads = (a.dopamine + b.dopamine) >= (a.expectation + b.expectation)
+                let fill = dopamineLeads ? dopamineColor.opacity(0.22) : EffectLens.crash.opacity(0.16)
+                context.fill(quad, with: .color(fill))
+            }
+
+            var expectationPath = Path()
+            var dopaminePath = Path()
+            for (i, sample) in samples.enumerated() {
+                let de = point(sample.time, sample.expectation)
+                let dp = point(sample.time, sample.dopamine)
+                if i == 0 {
+                    expectationPath.move(to: de)
+                    dopaminePath.move(to: dp)
+                } else {
+                    expectationPath.addLine(to: de)
+                    dopaminePath.addLine(to: dp)
+                }
+            }
+            context.stroke(expectationPath, with: .color(expectationColor), style: StrokeStyle(lineWidth: 2, lineJoin: .round, dash: [4, 3]))
+            context.stroke(dopaminePath, with: .color(dopamineColor), style: StrokeStyle(lineWidth: 2.6, lineJoin: .round))
+        }
+        .accessibilityHidden(true)
+    }
+}
+
+/// The two-curve legend for ``DopamineErrorDiagram`` — kept in SwiftUI (crisper
+/// text than in-canvas) and glossing what the two shaded zones mean.
+private struct DiagramLegend: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 16) {
+                swatch(EffectLens.feeling.color, dashed: false, "Dopamine")
+                swatch(Color(.systemGray), dashed: true, "Expected level")
+            }
+            Text("The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown.")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func swatch(_ color: Color, dashed: Bool, _ label: LocalizedStringKey) -> some View {
+        HStack(spacing: 6) {
+            Canvas { context, size in
+                var line = Path()
+                line.move(to: CGPoint(x: 0, y: size.height / 2))
+                line.addLine(to: CGPoint(x: size.width, y: size.height / 2))
+                context.stroke(line, with: .color(color), style: StrokeStyle(lineWidth: 2.4, dash: dashed ? [3, 2] : []))
+            }
+            .frame(width: 18, height: 6)
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
     }
 }

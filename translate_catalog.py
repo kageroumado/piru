@@ -4339,6 +4339,91 @@ T = {
         "结合亲和力来自 NIMH PDSP Kᵢ 数据库及原始文献；耐受动力学依据已发表的人体恢复研究校准。每个参数都经过分级，任何依赖类别默认值的内容都会被标注。这里没有任何数据是从你身上测得的——而是依据你的剂量记录和这些经过整理的数值预测得出。",
         "結合親和力來自 NIMH PDSP Kᵢ 資料庫及原始文獻；耐受動力學依據已發表的人體恢復研究校準。每個參數都經過分級，任何依賴類別預設值的內容都會被標註。這裡沒有任何數據是從你身上測得的——而是依據你的劑量記錄和這些經過整理的數值預測得出。",
     ),
+    # Effect Estimates screen redesign — large title, one model card, taller graphs,
+    # two bottom detail groups, and the "How this works" explainer (2026-07-10).
+    "Effect Estimates": ("效应估算", "效應估算"),
+    "Compulsion": ("冲动", "衝動"),
+    "Strain": ("负荷", "負荷"),
+    "Modeled from pharmacology": ("基于药理学建模", "基於藥理學建模"),
+    "These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.": (
+        "这些曲线估算本次记录随时间可能的感受——效应如何上升、达到峰值、消退，以及强度如何。追加剂量和每种物质的完整作用时长都已纳入，因此剂量越大，曲线越高。",
+        "這些曲線估算本次記錄隨時間可能的感受——效應如何上升、達到峰值、消退，以及強度如何。追加劑量和每種物質的完整作用時長都已納入，因此劑量越大，曲線越高。",
+    ),
+    "How this works": ("运作原理", "運作原理"),
+    "Higher is better. Pleasure and warmth rise above the line; the comedown dips below.": (
+        "越高越好。愉悦与暖意升至基线之上；退效期则跌至其下。",
+        "越高越好。愉悅與暖意升至基線之上；退效期則跌至其下。",
+    ),
+    "Higher is livelier. Drive rises above the line, sedation sits below.": (
+        "越高越有活力。驱动力升至基线之上，镇静则落于其下。",
+        "越高越有活力。驅動力升至基線之上，鎮靜則落於其下。",
+    ),
+    "Lower is better. The pull to take another dose.": (
+        "越低越好。再服一剂的冲动。",
+        "越低越好。再服一劑的衝動。",
+    ),
+    "Lower is better. Load on the body, shown with your heart rate when it's available.": (
+        "越低越好。身体的负荷，在有数据时与你的心率一同显示。",
+        "越低越好。身體的負荷，在有數據時與你的心率一同顯示。",
+    ),
+    "What these curves cover": ("这些曲线涵盖什么", "這些曲線涵蓋什麼"),
+    "The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.": (
+        "该模型基于五种兴奋剂校准：安非他明、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物质通过与它们的相互作用来影响曲线。阿片类物质则依据其多巴胺活性来解读，主要用于呈现这些相互作用。",
+        "此模型基於五種興奮劑校準：安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物質透過與它們的交互作用來影響曲線。鴉片類物質則依據其多巴胺活性來解讀，主要用於呈現這些交互作用。",
+    ),
+    "This session logs %@, which sit outside the model, so these curves stay empty.": (
+        "本次记录包含 %@，它们不在模型范围内，因此这些曲线为空。",
+        "本次記錄包含 %@，它們不在模型範圍內，因此這些曲線為空。",
+    ),
+    "These curves are built from %@. %@ sit outside the model.": (
+        "这些曲线基于 %@ 构建。%@ 不在模型范围内。",
+        "這些曲線基於 %@ 構建。%@ 不在模型範圍內。",
+    ),
+    "Reading the estimate": ("如何理解估算", "如何理解估算"),
+    "This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day.": (
+        "这是典型药理反应的写照。你自身的反应会随耐受性、身体状况和当天状态而变化。",
+        "這是典型藥理反應的寫照。你自身的反應會隨耐受性、身體狀況和當天狀態而變化。",
+    ),
+    "Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds.": (
+        "可信度因物质而异。安非他明、哌甲酯等经过充分研究的物质，其数据基础比新型化合物更为扎实。",
+        "可信度因物質而異。安非他命、哌甲酯等經過充分研究的物質，其數據基礎比新型化合物更為紮實。",
+    ),
+    "Compare the shape of a curve more than its exact height.": (
+        "多比较曲线的形状，而非其确切高度。",
+        "多比較曲線的形狀，而非其確切高度。",
+    ),
+    "A rough guide, not medical advice.": (
+        "仅供粗略参考，并非医疗建议。",
+        "僅供粗略參考，並非醫療建議。",
+    ),
+    "What you feel tracks a gap inside your dopamine system — the distance between the dopamine you have and the steady level your brain expects.": (
+        "你的感受反映的是多巴胺系统内部的一段落差——现有多巴胺水平与大脑所预期的稳定水平之间的距离。",
+        "你的感受反映的是多巴胺系統內部的一段落差——現有多巴胺水平與大腦所預期的穩定水平之間的距離。",
+    ),
+    "As a stimulant takes hold, dopamine climbs quickly. Your brain expects a steady baseline and adjusts toward the new level, but it catches up slowly. The gap between the two — dopamine now versus what your brain expects — is what reaches you.": (
+        "当兴奋剂开始起效，多巴胺迅速攀升。大脑预期的是一个稳定的基线，会向新水平调整，但追赶得很慢。二者之间的落差——当前多巴胺与大脑所预期之间——正是你所感受到的。",
+        "當興奮劑開始起效，多巴胺迅速攀升。大腦預期的是一個穩定的基線，會向新水平調整，但追趕得很慢。二者之間的落差——當前多巴胺與大腦所預期之間——正是你所感受到的。",
+    ),
+    "Rate over amount": ("速度胜过用量", "速度勝過用量"),
+    "A fast route, like insufflation, outruns that adjustment and spikes. The same dose taken slowly lets the brain keep pace, so it barely registers as a rush.": (
+        "鼻吸等快速给药方式会甩开这种调整，形成骤升。同样的剂量若缓慢摄入，大脑得以跟上节奏，便几乎感受不到冲劲。",
+        "鼻吸等快速給藥方式會甩開這種調整，形成驟升。同樣的劑量若緩慢攝入，大腦得以跟上節奏，便幾乎感受不到衝勁。",
+    ),
+    "The comedown": ("退效期", "退效期"),
+    "On the way down the expectation lags again. Dopamine returns to baseline while the expectation stays high, and that gap below the line is the comedown.": (
+        "在下降过程中，预期再次滞后。多巴胺已回到基线，预期却仍居高不下，基线之下的这段落差便是退效期。",
+        "在下降過程中，預期再次滯後。多巴胺已回到基線，預期卻仍居高不下，基線之下的這段落差便是退效期。",
+    ),
+    "Heavier doses": ("剂量越大", "劑量越大"),
+    "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears.": (
+        "更大的剂量会更猛地消耗多巴胺储备：升得更高，代谢完后也跌得更深。",
+        "更大的劑量會更猛地消耗多巴胺儲備：升得更高，代謝完後也跌得更深。",
+    ),
+    "Expected level": ("预期水平", "預期水平"),
+    "The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown.": (
+        "阴影区域即是你的感受。当多巴胺消退、预期滞留于其上时，这段落差便转为退效期。",
+        "陰影區域即是你的感受。當多巴胺消退、預期滯留於其上時，這段落差便轉為退效期。",
+    ),
 }
 
 # Widget translations
@@ -4516,6 +4601,33 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Effect Estimates screen redesign + "How this works" explainer (2026-07-10).
+        "Modeled from pharmacology",
+        "These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.",
+        "How this works",
+        "Higher is better. Pleasure and warmth rise above the line; the comedown dips below.",
+        "Higher is livelier. Drive rises above the line, sedation sits below.",
+        "Lower is better. The pull to take another dose.",
+        "Lower is better. Load on the body, shown with your heart rate when it's available.",
+        "What these curves cover",
+        "The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.",
+        "This session logs %@, which sit outside the model, so these curves stay empty.",
+        "These curves are built from %@. %@ sit outside the model.",
+        "Reading the estimate",
+        "This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day.",
+        "Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds.",
+        "Compare the shape of a curve more than its exact height.",
+        "A rough guide, not medical advice.",
+        "What you feel tracks a gap inside your dopamine system — the distance between the dopamine you have and the steady level your brain expects.",
+        "As a stimulant takes hold, dopamine climbs quickly. Your brain expects a steady baseline and adjusts toward the new level, but it catches up slowly. The gap between the two — dopamine now versus what your brain expects — is what reaches you.",
+        "Rate over amount",
+        "A fast route, like insufflation, outruns that adjustment and spikes. The same dose taken slowly lets the brain keep pace, so it barely registers as a rush.",
+        "The comedown",
+        "On the way down the expectation lags again. Dopamine returns to baseline while the expectation stays high, and that gap below the line is the comedown.",
+        "Heavier doses",
+        "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears.",
+        "Expected level",
+        "The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown.",
         # Persisted "Expand Session Graph" preference + Journal settings toggle (2026-07-10).
         "Expand Session Graph",
         "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.",
