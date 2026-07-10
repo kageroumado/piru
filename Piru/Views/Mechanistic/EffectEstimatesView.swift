@@ -133,6 +133,9 @@ struct EffectEstimatesView: View {
     var body: some View {
         List {
             introSection
+            if isBusySession {
+                complexityNote
+            }
             ForEach(EffectLens.mechanistic) { lens in
                 lensCard(lens)
             }
@@ -182,6 +185,35 @@ struct EffectEstimatesView: View {
         }
     }
 
+    // MARK: Busy-session honesty note
+
+    /// The engine is calibrated on single-substance, single-dose lab data. A
+    /// session that stacks many intakes and substances multiplies the parameters
+    /// it has to juggle, so we flag it. Threshold: more than five modeled intakes.
+    private var isBusySession: Bool {
+        doseMarks.count > 5
+    }
+
+    private var complexityNote: some View {
+        Section {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("A busy session")
+                        .font(.subheadline.weight(.semibold))
+                    Text("The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .padding(.vertical, 2)
+            .listRowBackground(CardBackground())
+        }
+    }
+
     // MARK: Per-lens card
 
     private func lensCard(_ lens: EffectLens) -> some View {
@@ -193,7 +225,8 @@ struct EffectEstimatesView: View {
                 nowHours: nowHours,
                 doseMarks: doseMarks,
                 vitals: lens.pairsVitals ? vitals : nil,
-                interactive: false,
+                interactive: true,
+                startFramed: true,
             )
             .frame(height: chartHeight)
             .listRowInsets(EdgeInsets(top: 4, leading: 0.5, bottom: 4, trailing: 0.5))

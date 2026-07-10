@@ -4344,6 +4344,11 @@ T = {
     "Effect Estimates": ("效应估算", "效應估算"),
     "Compulsion": ("冲动", "衝動"),
     "Strain": ("负荷", "負荷"),
+    "A busy session": ("复杂的记录", "複雜的記錄"),
+    "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.": (
+        "该模型是在实验室条件下，基于单一物质单次摄入校准的。这里的相互作用仍是机制性的，但每增加一次用量或一种物质都会引入更多参数，扩大误差范围。",
+        "此模型是在實驗室條件下，基於單一物質單次攝入校準的。這裡的交互作用仍是機制性的，但每增加一次用量或一種物質都會引入更多參數，擴大誤差範圍。",
+    ),
     "Modeled from pharmacology": ("基于药理学建模", "基於藥理學建模"),
     "These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.": (
         "这些曲线估算本次记录随时间可能的感受——效应如何上升、达到峰值、消退，以及强度如何。追加剂量和每种物质的完整作用时长都已纳入，因此剂量越大，曲线越高。",
@@ -4602,6 +4607,8 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
         # Effect Estimates screen redesign + "How this works" explainer (2026-07-10).
+        "A busy session",
+        "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.",
         "Modeled from pharmacology",
         "These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.",
         "How this works",

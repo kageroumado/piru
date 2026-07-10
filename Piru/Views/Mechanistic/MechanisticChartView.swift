@@ -24,6 +24,10 @@ struct MechanisticChartView: View {
     /// Effect Estimates overview) scrolls freely instead of each card trapping
     /// the drag. Interactive (the default) keeps the panned/zoomed window.
     var interactive: Bool = true
+    /// Seed the initial window to the whole session span rather than a zoomed
+    /// sub-window. The overview stack frames each full session yet still allows
+    /// pinch-zoom; session detail leaves this off (it opens zoomed around now).
+    var startFramed: Bool = false
 
     /// Visible window width in hours (zoom). Seeded on appear.
     @State private var winW: Double = 5.5
@@ -95,13 +99,23 @@ struct MechanisticChartView: View {
                     seedWindow()
                 }
             }
-            .gesture(panGesture, including: interactive ? .all : .none)
+            // Pinch-zoom (two-finger) never fights the List's one-finger scroll, so
+            // it stays live whenever interactive. Pan (one-finger drag) would trap a
+            // vertical scroll, so it only arms once zoomed in — a framed overview card
+            // scrolls freely until you pinch into it, then pans within the zoom.
+            .gesture(panGesture, including: interactive && isZoomedIn ? .all : .none)
             .simultaneousGesture(zoomGesture, including: interactive ? .all : .none)
             // A raw Canvas is invisible to VoiceOver — expose the lens plus its
             // sampled now-state ("Feeling, Good") as one element.
             .accessibilityElement()
             .accessibilityLabel(Text(lens.label))
             .accessibilityValue(Text(lens.readout(nowValue)))
+    }
+
+    /// Whether the window is tighter than the full content — pan is only useful
+    /// (and only armed) here, and the bottom pan indicator shows.
+    private var isZoomedIn: Bool {
+        winW < contentLength - 0.01
     }
 
     private var nowValue: Double {
@@ -236,18 +250,16 @@ struct MechanisticChartView: View {
         }
     }
 
-    /// Elapsed-hours labels ("0h · 2h · 4h" since the first dose) along the very
-    /// top, mirroring the classic timeline's top scale. Skips any label that
-    /// would sit on a dose mark's stem/dot — the dots own that band's baseline.
+    /// Elapsed-hours labels ("0h · 4h · 8h" since the first dose) along the very
+    /// top, mirroring the classic timeline's top scale. Drawn at the top band, well
+    /// clear of the mid-baseline dose dots, so a busy session still keeps its scale.
     private func drawElapsedLabels(_ context: inout GraphicsContext, _ geo: Geometry) {
         let step: Double = geo.winW > 8 ? 4 : geo.winW > 4 ? 2 : 1
-        let markXs = doseMarks.map { geo.x($0.hours) }
         var elapsed = 0.0
         while contentStart + elapsed <= span {
             let x = geo.x(contentStart + elapsed)
             defer { elapsed += step }
             guard x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 else { continue }
-            guard markXs.allSatisfy({ abs($0 - x) > 16 }) else { continue }
             var label = context.resolve(
                 Text(verbatim: String(localized: "\(Int(elapsed))h"))
                     .font(.system(size: 9, weight: .medium, design: .rounded)),
@@ -430,9 +442,10 @@ struct MechanisticChartView: View {
     }
 
     private func seedWindow() {
-        // Overview cards frame the whole session at once — no scrollable window,
-        // so the whole curve is visible and the chart claims no drag.
-        if !interactive {
+        // Overview cards frame the whole session at once so the whole curve is
+        // visible. When interactive, pinch-zoom can still tighten the window from
+        // here; when not, it stays a static full-span overview.
+        if !interactive || startFramed {
             winW = contentLength
             winStart = clampStart(contentStart - edgePad)
             return

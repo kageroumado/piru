@@ -3314,6 +3314,22 @@
         }
       }
     },
+    "A busy session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复杂的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複雜的記錄"
+          }
+        }
+      }
+    },
     "A change of scenery — even moving to a different room — can shift your headspace." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37132,6 +37148,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "情緒低落是暫時且正常的。吃清淡食物、保暖、休息。接下來幾天善待自己。"
+          }
+        }
+      }
+    },
+    "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该模型是在实验室条件下，基于单一物质单次摄入校准的。这里的相互作用仍是机制性的，但每增加一次用量或一种物质都会引入更多参数，扩大误差范围。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此模型是在實驗室條件下，基於單一物質單次攝入校準的。這裡的交互作用仍是機制性的，但每增加一次用量或一種物質都會引入更多參數，擴大誤差範圍。"
           }
         }
       }
