@@ -15,7 +15,7 @@ import SwiftUI
 /// heavy-kratom → "Opioids recovered" trap).
 ///
 /// ## One visual language per card
-/// A family-colour dot + tier-aware class name + a tolerance-level capsule; a five-segment gauge of how
+/// A family-color dot + tier-aware class name + a tolerance-level capsule; a five-segment gauge of how
 /// much of a normal dose you'd still feel; a one-sentence lede; a linear recovery chart (sensitivity vs
 /// days, starting at the current level); a trimmed one-sentence safety note where the class has one; and
 /// — for the Pharma Nerd tier — confidence, the shift factor, and the engaged layers. Density scales
@@ -145,7 +145,7 @@ struct ToleranceToolView: View {
 
     /// Minimum severity for a non-safety class to earn a card — the "No tolerance" / "Mild" bucket
     /// boundary (``bucket(_:)``: rested at responseFraction ≥ 0.90 ⇒ severity ≤ 0.10). Below it a card
-    /// would render while labelling itself "No tolerance" and quoting a "fades in under an hour"
+    /// would render while labeling itself "No tolerance" and quoting a "fades in under an hour"
     /// recovery, which is noise — it's how a drug with only trace activity at the class's target (e.g.
     /// amphetamine's weak SERT release) slipped into the chart. Safety-critical classes bypass it.
     private static let minimumCardSeverity = 0.10
@@ -292,7 +292,7 @@ struct ToleranceToolView: View {
 
     // MARK: - Tolerance bar (segmented, part-to-whole: how toleranced you are, and from which layer)
 
-    /// One coloured segment of the tolerance bar — a recovery layer's *attributed share* of the
+    /// One colored segment of the tolerance bar — a recovery layer's *attributed share* of the
     /// overall right-shift. `widthFraction` is already the fraction of the **full track** this band
     /// fills (overall severity × the band's ln-shift share), so the segments laid end-to-end fill the
     /// bar to the overall tolerance level and split it by where that tolerance comes from.
@@ -648,7 +648,7 @@ struct ToleranceToolView: View {
         return "Engaged layers: \(joined)"
     }
 
-    // MARK: - Tier-aware wording / colour
+    // MARK: - Tier-aware wording / color
 
     private func className(for receptorClass: ReceptorClasses.ReceptorClass) -> LocalizedStringResource {
         switch tier {
@@ -733,7 +733,7 @@ struct ToleranceToolView: View {
             name
         }
 
-        /// The substance's worst mechanism — drives the leading dot's colour and the list ordering.
+        /// The substance's worst mechanism — drives the leading dot's color and the list ordering.
         var topSeverity: Double {
             classes.first?.severity ?? 0
         }
@@ -818,7 +818,7 @@ struct ToleranceToolView: View {
                 Spacer(minLength: 8)
             }
 
-            // Every mechanism this substance drives, each with its own level and family-coloured bar.
+            // Every mechanism this substance drives, each with its own level and family-colored bar.
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(group.classes) { snapshot in
                     mechanismRow(snapshot)
@@ -849,7 +849,7 @@ struct ToleranceToolView: View {
     }
 
     /// One mechanism line inside a per-substance card: the class name + its tolerance word, over a slim
-    /// family-coloured level bar.
+    /// family-colored level bar.
     private func mechanismRow(_ snapshot: ClassTolerance) -> some View {
         let color = snapshot.receptorClass.familyColor
         return VStack(alignment: .leading, spacing: 5) {
@@ -1049,7 +1049,7 @@ struct ToleranceToolView: View {
 
     // MARK: - Options menu (Mail-style popover)
 
-    /// The single toolbar button's popover, modelled on Mail's view-options menu: a thumbnail picker
+    /// The single toolbar button's popover, modeled on Mail's view-options menu: a thumbnail picker
     /// for the display mode across the top (two line-art phones with a radio each), a divider, then the
     /// detail-tier checklist. Selecting keeps the popover open, so mode and tier can both be changed in
     /// one visit.
@@ -1138,7 +1138,7 @@ struct ToleranceToolView: View {
         }
     }
 
-    /// A line-art iPhone silhouette drawn in a single colour (accent when selected, grey otherwise),
+    /// A line-art iPhone silhouette drawn in a single color (accent when selected, gray otherwise),
     /// its screen sketched with the mode — stacked cards for **By mechanism**, list rows for **By
     /// substance**. Proportions are taken from the Apple iPhone 17 bezel (aspect ≈ 0.485, continuous
     /// corners) so it reads as a phone rather than an arbitrary rectangle. No image assets.
@@ -1158,7 +1158,7 @@ struct ToleranceToolView: View {
                 context.stroke(bodyPath, with: .color(color), lineWidth: line)
 
                 // The Dynamic Island floats inside the screen near the top (a display cutout, not part of
-                // the frame): centre ≈ 0.05·height down, a ~3.4:1 pill — the measured iPhone 17 geometry.
+                // the frame): center ≈ 0.05·height down, a ~3.4:1 pill — the measured iPhone 17 geometry.
                 let islandW = body.width * 0.32
                 let islandH = body.height * 0.045
                 let island = CGRect(
@@ -1217,9 +1217,9 @@ struct ToleranceToolView: View {
 
     // MARK: - Combined recovery chart view
 
-    /// The shared-axis recovery chart: one family-coloured ``LineMark`` series per mechanism, each
+    /// The shared-axis recovery chart: one family-colored ``LineMark`` series per mechanism, each
     /// anchored by a "now" ``PointMark`` at its current level, on a linear days X axis (gridlines) and a
-    /// 0–100% Y axis (gridlines at 0/50/100). Family colours are applied per series with a manual legend
+    /// 0–100% Y axis (gridlines at 0/50/100). Family colors are applied per series with a manual legend
     /// rendered by the parent, so each line keeps its exact family hue.
     private struct CombinedRecoveryChart: View {
         let series: [RecoverySeries]
@@ -1273,11 +1273,11 @@ struct ToleranceToolView: View {
     }
 }
 
-// MARK: - Family colour (SwiftUI-only — kept out of the pure ReceptorClasses table)
+// MARK: - Family color (SwiftUI-only — kept out of the pure ReceptorClasses table)
 
 extension ReceptorClasses.ReceptorClass {
-    /// The card's identity colour for this mechanism family — the dot, gauge fill, capsule tint, and
-    /// recovery line. The colour identifies the *class*; the tolerance level is carried by the word, not
+    /// The card's identity color for this mechanism family — the dot, gauge fill, capsule tint, and
+    /// recovery line. The color identifies the *class*; the tolerance level is carried by the word, not
     /// by a red/green severity ramp. Lives here (not in `ReceptorClasses`) so the engine stays free of a
     /// SwiftUI import.
     var familyColor: Color {

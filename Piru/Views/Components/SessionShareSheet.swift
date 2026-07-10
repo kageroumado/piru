@@ -456,7 +456,7 @@ private final class MaterialPreviewController: QLPreviewController {
         view.insertSubview(blur, at: 0)
     }
 
-    /// Recursively clear every opaque backing colour, skipping our own blur.
+    /// Recursively clear every opaque backing color, skipping our own blur.
     private func clearOpaqueBackgrounds(_ view: UIView) {
         guard view.tag != Self.backdropTag else { return }
         if let backing = view.backgroundColor, backing != .clear {

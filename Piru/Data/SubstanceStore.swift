@@ -535,7 +535,7 @@ final class SubstanceStore {
 
     /// Human-readable name for a source slug. Returns the slug itself as a
     /// safe fallback if the source is unknown (e.g. an applied DB has a slug
-    /// our bundled `sources` table doesn't recognise).
+    /// our bundled `sources` table doesn't recognize).
     func sourceDisplayName(forSlug slug: String) -> String {
         sourceDisplayNames[slug] ?? slug
     }
@@ -1532,7 +1532,7 @@ final class SubstanceStore {
         return order.map { "'\($0.replacingOccurrences(of: "'", with: "''"))'" }.joined(separator: ", ")
     }
 
-    /// The app's effective UI language, normalised to a content-language tag
+    /// The app's effective UI language, normalized to a content-language tag
     /// ('zh-Hans' | 'zh-Hant' | 'en'). Drives locale-first text resolution so a
     /// Chinese source (FreeOD Wiki) wins for descriptions/effects when the app
     /// runs in Chinese. Reads `preferredLocalizations` so it follows the app's

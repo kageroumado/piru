@@ -15,7 +15,7 @@ private let quickLogLogger = Logger(subsystem: "dev.yumeji.piru", category: "Qui
 /// resident and made three consumers pay O(history). A `@Query` predicate can't
 /// call `Date.now`/`addingTimeInterval`, so the cutoff is computed here as plain
 /// `@State` and handed to the screen, which builds its `@Query` from it in
-/// `init`. (Re-initialising the screen with a new cutoff preserves its `@State`
+/// `init`. (Re-initializing the screen with a new cutoff preserves its `@State`
 /// — view identity is stable — so even a refreshed cutoff never drops a staged
 /// tray; but a sheet is short-lived, so one capture at present is enough.)
 struct QuickLogSheet: View {
@@ -29,7 +29,7 @@ struct QuickLogSheet: View {
     /// with margin, while keeping the resident array small.
     private static let recentWindowDays: TimeInterval = 120
 
-    /// Captured once when the sheet's state first initialises (a fresh sheet per
+    /// Captured once when the sheet's state first initializes (a fresh sheet per
     /// present), so the window doesn't drift mid-session. A few hours of drift
     /// across a 120-day window is irrelevant, so it never needs refreshing.
     @State private var cutoff = Date.now.addingTimeInterval(-recentWindowDays * 86_400)
@@ -195,7 +195,7 @@ struct QuickLogView: View {
                         }
                     }
                 }
-                // One standard Edit action, text-labelled per the HIG ("Edit"
+                // One standard Edit action, text-labeled per the HIG ("Edit"
                 // is the canonical hard-to-symbolize action) — one sheet for
                 // everything editable here: routines & prescriptions and the
                 // favorites order. The "Fixed Order" toggle lives in
@@ -387,7 +387,7 @@ struct QuickLogView: View {
         navigator.dismissAll()
 
         // Tier 1 — next runloop tick: the work that makes the dose *appear*
-        // and persist (inserts, session assignment, colour, active-session
+        // and persist (inserts, session assignment, color, active-session
         // update, one save). Deferred a tick so it doesn't block the
         // dismissal's first frame, but kept prompt so the journal behind the
         // sheet shows the dose as the sheet slides away — no pop-in.
@@ -431,8 +431,8 @@ struct QuickLogView: View {
                     }
                 }
 
-                // Auto-assign a stable palette colour for a brand-new substance
-                // up front (deterministic hash, the same colour the graph uses),
+                // Auto-assign a stable palette color for a brand-new substance
+                // up front (deterministic hash, the same color the graph uses),
                 // tracking it in the local `colors` snapshot so the session
                 // picks it up immediately without a store round-trip.
                 if !colors.hasColor(for: item.substanceName) {

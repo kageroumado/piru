@@ -612,7 +612,7 @@ struct TrayMetaChips: View {
     /// The visible chip is plain SwiftUI with the Menu overlaid as an invisible
     /// tap target. As a `Menu` *label* the chip's width was sized by the
     /// UIKit-backed menu button, which applies the new size outside the SwiftUI
-    /// transaction — the colour crossfaded at the old width, then the frame
+    /// transaction — the color crossfaded at the old width, then the frame
     /// snapped. Decoupled, the whole chip animates in one `.snappy` pass.
     private var whenChip: some View {
         HStack(spacing: 5) {
@@ -875,7 +875,7 @@ private struct TraySwipeRow<Content: View>: View {
             deleteBackdrop
             content
                 // The row's own surface slides with it, and it turns visible
-                // (a grey rounded surface, like the row capsule Reminders
+                // (a gray rounded surface, like the row capsule Reminders
                 // shows mid-swipe) so the *background* reads as moving — on
                 // the white card a white surface sliding is invisible.
                 .background {
@@ -983,14 +983,14 @@ private struct TrayRow: View {
                 .trayMorph(id: "chevron-\(dose.id)", in: namespace)
             VStack(alignment: .leading, spacing: 2) {
                 // Same font and leading column as "Add another…" so the
-                // tray reads as one aligned list (the colour dot is gone —
-                // the chips already carry the substance colour).
+                // tray reads as one aligned list (the color dot is gone —
+                // the chips already carry the substance color).
                 Text(CustomSubstanceStore.shared.displayName(for: dose.substanceName))
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.primary)
                     .trayMorph(id: "title-\(dose.id)", in: namespace)
                 // Day-list phrase: "oral · 100 mg · strong" — route as
-                // context, the amount emphasised, the level read via colour.
+                // context, the amount emphasised, the level read via color.
                 HStack(spacing: 5) {
                     Text(dose.route.localizedName)
                         .textCase(.lowercase)

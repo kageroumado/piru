@@ -12,9 +12,9 @@ import SwiftUI
 nonisolated enum MechanisticSessionModel {
     /// One dose, reduced to the Sendable facts the engine needs. Built on the
     /// main actor (needs `SubstanceLibrary`), then handed to an off-main compute.
-    /// Deliberately carries **no colour** — its hash keys the simulation cache
-    /// and the recompute task, and a recolour must not trigger a re-simulate
-    /// (dose marks get their colour at the render site instead).
+    /// Deliberately carries **no color** — its hash keys the simulation cache
+    /// and the recompute task, and a recolor must not trigger a re-simulate
+    /// (dose marks get their color at the render site instead).
     struct DoseInput: Hashable {
         let name: String
         let amount: Double
@@ -39,7 +39,7 @@ nonisolated enum MechanisticSessionModel {
     }
 
     /// Everything the chart renders for a modeled session (dose marks are
-    /// supplied separately by the host, so recolours don't touch this cache).
+    /// supplied separately by the host, so recolors don't touch this cache).
     struct Result {
         let timeline: EffectTimeline
         /// Keyed by ``EffectLens/rawValue`` (mechanistic lenses only).

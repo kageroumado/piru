@@ -120,9 +120,9 @@ struct LogMedicationsView: View {
         Array(substanceColors).hasColor(for: name)
     }
 
-    /// Persist the substance's stable deterministic colour if it has none yet,
-    /// so a first-time medication is coloured the moment it's logged — no extra
-    /// picker step. Editable later from the entry detail's colour picker.
+    /// Persist the substance's stable deterministic color if it has none yet,
+    /// so a first-time medication is colored the moment it's logged — no extra
+    /// picker step. Editable later from the entry detail's color picker.
     private func ensureColor(for name: String) {
         guard !hasColor(for: name) else { return }
         modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
@@ -166,8 +166,8 @@ struct LogMedicationsView: View {
             loggedDoseEntries.append(entry)
             loggedSubstances.append(matchedSubstance)
 
-            // Auto-assign a stable palette colour for a first-time medication so
-            // it's coloured immediately — no follow-up colour-picker queue.
+            // Auto-assign a stable palette color for a first-time medication so
+            // it's colored immediately — no follow-up color-picker queue.
             ensureColor(for: item.substance)
         }
 

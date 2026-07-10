@@ -48,7 +48,7 @@ struct GlanceCardChevron: View {
 }
 
 /// A compact preview row shared by the Insights "In your system" card and the
-/// Tools Interactions/Inventory summary cards: a leading colour dot, a title,
+/// Tools Interactions/Inventory summary cards: a leading color dot, a title,
 /// and trailing detail supplied by the caller.
 struct GlanceRow<Trailing: View>: View {
     let dotColor: Color
@@ -91,13 +91,13 @@ struct GlanceMoreRow: View {
 ///
 /// Used across the Insights tab (Usage, In-your-system, Adherence, Tolerance)
 /// and the Tools tab's cards so they read as one cohesive system. The Insights
-/// cards colour the title to match `tint` (they sit over large graphs); the
+/// cards color the title to match `tint` (they sit over large graphs); the
 /// graph-less Tools cards keep the title neutral.
 struct GlanceCard<Content: View>: View {
     let icon: String
-    /// The leading icon's colour (the category tint).
+    /// The leading icon's color (the category tint).
     var tint: Color = Theme.accent
-    /// The title text colour. Defaults to the regular label colour.
+    /// The title text color. Defaults to the regular label color.
     var titleColor: Color = .primary
     let title: Text
     let route: PushRoute

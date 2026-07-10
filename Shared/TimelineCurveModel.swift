@@ -249,7 +249,7 @@ nonisolated enum TimelineCurveModel {
     ///   peak by `totalMinutes` — the curve fades out exactly when the listed
     ///   effects end, keeping it consistent with the axis (also built from
     ///   `totalMinutes`).
-    /// - **Absorption (`ka`)** is chosen so the peak lands at the centre of the
+    /// - **Absorption (`ka`)** is chosen so the peak lands at the center of the
     ///   subjective peak plateau, clamped just inside `1/ke` so the curve stays
     ///   well-formed. A long plateau pushes the target peak late, driving
     ///   `ka → ke` and naturally yielding the broad, rounded `ke·t·e^(−ke·t)`
@@ -257,7 +257,7 @@ nonisolated enum TimelineCurveModel {
     nonisolated static func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
         let total = max(s.totalMinutes, 1)
         let peakCenter = (s.comeupEndMinutes + s.peakEndMinutes) / 2
-        // Decay to 5% of peak by `total`; anchor the window on the peak centre
+        // Decay to 5% of peak by `total`; anchor the window on the peak center
         // but never let it collapse to nothing.
         let decayWindow = max(total - min(peakCenter, total * 0.5), total * 0.25)
         let ke = log(20) / decayWindow
@@ -301,7 +301,7 @@ nonisolated enum TimelineCurveModel {
     /// - **σ↓** `= (offsetEnd − peakEnd) / offsetSharpness` widens the falling
     ///   shoulder to span the offset.
     /// - **crest** holds at 1.0 between `leftEdge`/`rightEdge`; ``peakDome`` shrinks
-    ///   that flat span toward the peak centre, so a short peak rounds to a bell
+    ///   that flat span toward the peak center, so a short peak rounds to a bell
     ///   tip while a long one keeps a gently broad crest.
     ///
     /// Both shoulders meet the crest with zero slope (a Gaussian's derivative is 0
@@ -541,7 +541,7 @@ nonisolated enum TimelineCurveModel {
     }
 
     /// Distinct marker substances with no curve lane, in first-dose order — each
-    /// becomes its own labelled lane so a logged dose never floats unattached.
+    /// becomes its own labeled lane so a logged dose never floats unattached.
     nonisolated static func markerOnlyLanes(excluding curveLanes: [LaneGroup], markers: [DoseMarker]) -> [MarkerLane] {
         let curveNames = Set(curveLanes.map { $0.name.lowercased() })
         var order: [String] = []

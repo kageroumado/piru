@@ -193,7 +193,7 @@ struct InsightsView: View {
     /// Tolerance is usage statistics — a summary of the user's own logged history — so it lives in
     /// Insights (§7). The glance reads the warm ``ToleranceStore/states`` snapshot the background refresh
     /// keeps current, so the card is free (no compute here). Renders the top mechanism classes as a
-    /// color-coded horizontal bar chart (family colour = the same class colours used in the Library).
+    /// color-coded horizontal bar chart (family color = the same class colors used in the Library).
     private var toleranceCard: some View {
         // Non-rested = responseFraction < 0.90 ⇒ severity > 0.10 (matches the tool's rested bucket).
         let notable = ToleranceStore.shared.states.values
@@ -224,7 +224,7 @@ struct InsightsView: View {
         }
     }
 
-    /// One color-coded mechanism row: family-colour dot + class name + a bar
+    /// One color-coded mechanism row: family-color dot + class name + a bar
     /// whose fill length tracks the predicted tolerance level.
     private func toleranceBar(_ state: ClassTolerance) -> some View {
         let color = state.receptorClass.familyColor

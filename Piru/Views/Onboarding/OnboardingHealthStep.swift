@@ -3,7 +3,7 @@ import SwiftUI
 /// Apple Health step. Health gives Piru two things at once, so this screen is framed around the
 /// connection rather than the number: your **body weight** is the denominator that turns a dose
 /// into an exposure (so estimates fit your body), and your **heart rate / blood pressure** overlay
-/// on each session turns a modelled curve into a record of what your body actually did. A small
+/// on each session turns a modeled curve into a record of what your body actually did. A small
 /// illustrative chart previews that overlay — an alcohol curve (both body-weight dependent and a
 /// reliable heart-rate raiser) with the heart rate a watch recorded beneath it.
 ///
@@ -196,7 +196,7 @@ private struct OnboardingVitalsSampleChart: View {
         }
         context.stroke(curve, with: .color(Theme.accent), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
 
-        // Dose dot at t=0, rimmed in the background colour so it reads against the fill.
+        // Dose dot at t=0, rimmed in the background color so it reads against the fill.
         let dose = CGRect(x: pad - 3.5, y: effectBottom - 3.5, width: 7, height: 7)
         context.fill(Path(ellipseIn: dose), with: .color(Theme.accent))
         context.stroke(Path(ellipseIn: dose), with: .color(Theme.background), lineWidth: 1.5)

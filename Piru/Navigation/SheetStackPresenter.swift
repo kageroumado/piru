@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Identifiers for the sheet zoom transition. The journal's floating add button
 /// and the day-detail's add button each tag themselves with their *own* id
-/// (distinct ids avoid the undefined behaviour of two `matchedTransitionSource`s
+/// (distinct ids avoid the undefined behavior of two `matchedTransitionSource`s
 /// sharing one id in the same namespace — the journal tab stays alive behind
 /// other tabs, so both would otherwise register at once). The launching button
 /// records which id it is via ``AppNavigator/sheetZoomSourceID`` so the depth-0

@@ -79,7 +79,7 @@ nonisolated struct EffectAttenuationResult: Identifiable {
 /// ## Faithfulness (Foundation C)
 /// With the Stage-0 default unbound fraction (`fu = 1`) the Hill occupancy of a sub-nanomolar-Kᵢ SSRI
 /// at SERT saturates to ~100%, which would *over-predict* blunting (real PET SERT occupancy ≈ 80%, the
-/// behavioural blunting 30–80%). So this readout does **not** present a computed occupancy % as the
+/// behavioral blunting 30–80%). So this readout does **not** present a computed occupancy % as the
 /// reduction — it surfaces the **evidence-anchored band** for the transporter, gated only on the two
 /// roles being concurrently present. Every figure is "predicted (model, confidence)", never measured.
 ///

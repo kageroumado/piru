@@ -2,7 +2,7 @@ import CoreGraphics
 import SwiftUI
 import UIKit
 
-// MARK: - Phase colour (matches DosePhaseProgressBar so the export reads like the app)
+// MARK: - Phase color (matches DosePhaseProgressBar so the export reads like the app)
 
 private extension SessionStateExport.Phase {
     var color: Color {
@@ -290,7 +290,7 @@ struct SessionReportView: View {
                 Text("left in body").font(.system(size: 12)).foregroundStyle(ink2)
             }
         case .unknown:
-            Text("No half-life data — elimination not modelled")
+            Text("No half-life data — elimination not modeled")
                 .font(.system(size: 12)).foregroundStyle(ink2)
         }
     }

@@ -6,7 +6,7 @@ import SwiftUI
 /// session that the engine can't model surfaces only ``timeline``.
 ///
 /// Ports the `LENS` table from the `app-timeline` prototype (`gen-app.mjs`):
-/// same colours, thresholds, and copy, so the shipped view matches the approved
+/// same colors, thresholds, and copy, so the shipped view matches the approved
 /// design. Pure value type — safe to read off the main actor while sampling
 /// channels during an off-main simulate.
 nonisolated enum EffectLens: String, CaseIterable, Identifiable {

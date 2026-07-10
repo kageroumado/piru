@@ -82,10 +82,10 @@ struct SessionDetailView: View {
     /// Drives the banner's connect button while its Health sheet is up.
     @State private var isConnectingVitals = false
 
-    /// Substance → colour, rebuilt only when the colour assignments change.
+    /// Substance → color, rebuilt only when the color assignments change.
     /// `colorFor` is called once per entry row, and each call used to
-    /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole colour
-    /// map — O(rows × colours) per body pass.
+    /// allocate a fresh `Array(substanceColors)` *and* rebuild the whole color
+    /// map — O(rows × colors) per body pass.
     @State private var colorMap: [String: Color] = [:]
     /// Flips true once `colorMap` is first populated, so `resolvedColor` stops
     /// falling back to the per-call map build after the warm-up frame.
@@ -109,7 +109,7 @@ struct SessionDetailView: View {
 
     /// The day's resolved timeline + interaction warnings, derived **synchronously
     /// and memoized** (see ``DayResolveCache``) per change to the day's
-    /// entries/colours. Resolving a single day is cheap — a handful of
+    /// entries/colors. Resolving a single day is cheap — a handful of
     /// `SubstanceLibrary` lookups plus one batch interaction check — so the prior
     /// async `.task` resolve bought nothing but a structural cost: `substanceStates`
     /// and `dayInteractions` started empty, so the `if !…isEmpty` Sections *flipped
@@ -234,8 +234,8 @@ struct SessionDetailView: View {
 
     /// Dose ticks for the mechanistic charts: every logged dose — the
     /// curve-backed ones (`substanceStates`, one per dose) plus the
-    /// duration-less ones (`doseMarkers`). Built at the render site so a recolour
-    /// updates the tick colours without invalidating the simulation cache.
+    /// duration-less ones (`doseMarkers`). Built at the render site so a recolor
+    /// updates the tick colors without invalidating the simulation cache.
     private var mechanisticDoseMarks: [MechanisticSessionModel.DoseMark] {
         let curveDoses = substanceStates.map { (timestamp: $0.doseTimestamp, colorHex: $0.colorHex) }
         let markerDoses = doseMarkers.map { (timestamp: $0.timestamp, colorHex: $0.colorHex) }
@@ -271,7 +271,7 @@ struct SessionDetailView: View {
     }
 
     /// Cheap: hashes the small, already-memoized dose inputs (which carry no
-    /// colour — a recolour must not re-trigger the simulation task).
+    /// color — a recolor must not re-trigger the simulation task).
     private var mechanisticSignature: Int {
         var hasher = Hasher()
         hasher.combine(resolvedDay.mechanisticDoses)
@@ -302,7 +302,7 @@ struct SessionDetailView: View {
         mechanisticResult = result
     }
 
-    /// Content fingerprint of the day's doses + colour count — the memo key, so
+    /// Content fingerprint of the day's doses + color count — the memo key, so
     /// the resolve re-runs on an edit but not on every body re-evaluation.
     private var timelineSignature: Int {
         var hasher = Hasher()
@@ -317,7 +317,7 @@ struct SessionDetailView: View {
         return hasher.finalize()
     }
 
-    /// The substance→colour map for child sections: the warm cached map, or a
+    /// The substance→color map for child sections: the warm cached map, or a
     /// direct build on the first frame before `.task(id: colorSignature)` lands
     /// (same warm-up story as ``resolvedColor``).
     private var activeColorMap: [String: Color] {
@@ -782,9 +782,9 @@ struct SessionDetailView: View {
     /// Row tint for a substance. Reads the cached `colorMap` once it's warm; on
     /// the very first frame — before `.task(id: colorSignature)` populates it —
     /// falls back to a direct resolve so the dots don't flash from the accent
-    /// tint to their real colour. The fallback pays the full map build for that
+    /// tint to their real color. The fallback pays the full map build for that
     /// one frame only; once `colorMapReady` flips, a miss means the substance
-    /// genuinely has no assigned colour, so it returns the accent without
+    /// genuinely has no assigned color, so it returns the accent without
     /// rebuilding the map every body pass.
     private func resolvedColor(_ name: String) -> Color {
         let key = name.lowercased()
@@ -845,7 +845,7 @@ private struct ResolvedDay {
 /// Hosts a fixed-height child whose height is itself the animation driver.
 ///
 /// Animating `.frame(height:)` on a `Canvas` directly makes SwiftUI rasterise the
-/// drawing and scale the bitmap from its centre — the curves blink out for a frame
+/// drawing and scale the bitmap from its center — the curves blink out for a frame
 /// and the whole graph "pops" from the middle instead of growing down. Conforming
 /// the host to `Animatable` on the height forces `body` to re-evaluate on **every**
 /// interpolation step, so the `Canvas` re-runs its draw closure at each in-between
@@ -1025,7 +1025,7 @@ private struct DayEntryRow: View, Equatable {
 
     var body: some View {
         // A plain Button (not a NavigationLink) so the disclosure chevron lives
-        // inside the row, aligned with the dose, rather than system-centred on the
+        // inside the row, aligned with the dose, rather than system-centered on the
         // full row height. Tighter vertical insets than the grouped default.
         Button {
             navigator.push(.entry(timestamp: display.core.timestamp, id: display.core.entryID))
@@ -1280,7 +1280,7 @@ private struct MoveToSessionView: View {
     }
 }
 
-/// A selectable session row in the move picker: a cluster of substance colours,
+/// A selectable session row in the move picker: a cluster of substance colors,
 /// the session's title (or its date), the time span its doses cover, and the
 /// dose count.
 private struct SessionTargetRow: View {
@@ -1310,7 +1310,7 @@ private struct SessionTargetRow: View {
         doses.count == 1 ? String(localized: "1 dose") : String(localized: "\(doses.count) doses")
     }
 
-    /// Up to three distinct substance colours, in first-seen order.
+    /// Up to three distinct substance colors, in first-seen order.
     private func dotColors(for doses: [DoseEntry]) -> [Color] {
         var seen = Set<String>()
         var result: [Color] = []
@@ -1351,7 +1351,7 @@ private struct SessionTargetRow: View {
         .contentShape(Rectangle())
     }
 
-    /// Overlapping color dots, each ringed in the card colour so they read as a
+    /// Overlapping color dots, each ringed in the card color so they read as a
     /// distinct cluster rather than a blur.
     private func dots(_ dotColors: [Color]) -> some View {
         HStack(spacing: -5) {

@@ -323,7 +323,7 @@ struct EntryRowView: View {
     }
 }
 
-/// A tiny line sparkline of heart-rate values, min–max normalised to its frame.
+/// A tiny line sparkline of heart-rate values, min–max normalized to its frame.
 private struct HRSparkline: View {
     let values: [Double]
 

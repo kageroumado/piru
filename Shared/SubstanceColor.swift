@@ -64,11 +64,11 @@ struct PresetColor: Identifiable, Hashable {
         Color(hex: hex)
     }
 
-    /// Stable palette colour for a substance that has no user-assigned colour.
+    /// Stable palette color for a substance that has no user-assigned color.
     /// Uses an FNV-1a hash of the (lowercased) name — `String.hashValue` is
-    /// randomised per process launch, so it can't be used for a colour that
+    /// randomised per process launch, so it can't be used for a color that
     /// must stay the same across runs. Gives every substance a distinct,
-    /// repeatable colour instead of collapsing them onto one flat fallback.
+    /// repeatable color instead of collapsing them onto one flat fallback.
     static func deterministic(for name: String) -> PresetColor {
         var hash: UInt64 = 14_695_981_039_346_656_037
         for byte in name.lowercased().utf8 {

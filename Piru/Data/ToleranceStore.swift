@@ -123,7 +123,7 @@ final class ToleranceStore {
     /// extra active windows (milliseconds, off-main) — a single exact replay, rather than an incremental
     /// checkpoint whose deep drive couples nonlinearly through the chronicity gate (§2) and is far harder
     /// to make provably equal to a full replay. If profiling ever shows the yearly replay matters, a
-    /// suffix-resume checkpoint is the follow-up optimisation.
+    /// suffix-resume checkpoint is the follow-up optimization.
     nonisolated static let defaultLookbackDays = 365.0
 
     /// The canonical PK-complete **class representative** for each class whose PK-less members should
@@ -203,7 +203,7 @@ final class ToleranceStore {
     @ObservationIgnored private var context: ModelContext?
 
     /// Long-lived task that keeps ``states`` warm in the background: debounced recomputes driven by
-    /// ``DoseLogService`` change ticks. App-lifetime; cancelled only if ``configure(container:)`` re-runs.
+    /// ``DoseLogService`` change ticks. App-lifetime; canceled only if ``configure(container:)`` re-runs.
     @ObservationIgnored private var backgroundRefreshTask: Task<Void, Never>?
 
     /// Lookback for the background-warmed snapshot fetch — the full tolerance window.
@@ -312,7 +312,7 @@ final class ToleranceStore {
     }
 
     /// Partition the log by substance and replay each partition through the pure ``simulate`` core, so
-    /// every substance's contribution is modelled with the same physiology but in isolation. Runs on the
+    /// every substance's contribution is modeled with the same physiology but in isolation. Runs on the
     /// dedicated ``replayExecutor`` with the per-substance replays fanned out across a `TaskGroup`.
     private nonisolated static func computePerSubstanceOffMain(
         doses: [SimDose], params: [String: PharmacologyParameters], now: Date, weightKg: Double,
@@ -359,7 +359,7 @@ final class ToleranceStore {
             where dose.timestamp <= now && dose.timestamp >= cutoff {
             guard !seen.contains(dose.substance) else { continue }
             guard let p = params[dose.substance], !p.canComputeOccupancy else { continue }
-            // Only flag substances whose *named* targets include a recognised tolerance mechanism
+            // Only flag substances whose *named* targets include a recognized tolerance mechanism
             // (so a vitamin with a stray binding row doesn't show up as "incomplete tolerance data").
             // The rebound-hosting adrenergic classes (§3.5) are excluded: they barely tolerize and have
             // no PK-less representative by design, so a PK-less clonidine/propranolol is not "missing a
@@ -641,7 +641,7 @@ final class ToleranceStore {
         /// Build per-target ``Contributor``s for one dose from `sourceParams`' PK + targets, grouping
         /// them into the shared by-class accumulators. The reusable inner block both paths run:
         /// - **Direct** — `sourceParams` is the substance's own pharmacology, `restrictToClass` nil,
-        ///   `confidenceFloor` `.high` (a no-op `min`) ⇒ unchanged behaviour.
+        ///   `confidenceFloor` `.high` (a no-op `min`) ⇒ unchanged behavior.
         /// - **Fallback (Stage D)** — `sourceParams` is a class representative's, `restrictToClass`
         ///   pins it to the one class being surrogate-modeled (so Morphine→MOR only, not its
         ///   off-targets), and `confidenceFloor` (`.low` MME / `.unverified` dose-fraction) is
@@ -669,7 +669,7 @@ final class ToleranceStore {
             let ka = sourceParams.tmaxMinutes.map { PKModel.estimateKa(timeToPeak: $0, ke: ke) }
                 ?? PKModel.defaultKa(ke: ke)
             // Only badge the prediction down for a *guessed onset*: with no Tmax we fall back to `4·ke`
-            // (unchanged behaviour), so the onset contributes no uncertainty (`.high` = min no-op).
+            // (unchanged behavior), so the onset contributes no uncertainty (`.high` = min no-op).
             let onsetConfidence: ConfidenceTier = sourceParams.tmaxMinutes == nil ? .high : sourceParams.tmaxConfidence
             // molar = (F·dose·scale/Vd)·shape /1000 /MW ; ×1e9 → nM (fu = 1, Stage 1). One
             // concentration() call per contributor per step then multiplies this prefactor. `doseScale`
@@ -726,7 +726,7 @@ final class ToleranceStore {
             let onset = dose.timestamp.timeIntervalSince(start) / 60
 
             if p.canComputeOccupancy {
-                // Direct path — model the substance on its own pharmacology (unchanged behaviour).
+                // Direct path — model the substance on its own pharmacology (unchanged behavior).
                 // Dose-relative escalation = logged mg ÷ the substance's heavy ceiling (both in
                 // preparation mg, so no doseScale). 0 when no reference dose ⇒ the deep gate stays closed.
                 let escalation = (p.referenceDoseMg ?? 0) > 0 ? doseMg / p.referenceDoseMg! : 0
@@ -1054,7 +1054,7 @@ final class ToleranceStore {
 
                 // Combined occupancy via **Gaddum competitive summation** (§4): `Σ(Cᵢ/Kᵢ)/(1 + Σ(Cᵢ/Kᵢ))`,
                 // the correct form for several ligands competing at one shared target. It reduces exactly
-                // to `C/(C+K)` for a single ligand (so single-substance behaviour is unchanged) but does
+                // to `C/(C+K)` for a single ligand (so single-substance behavior is unchanged) but does
                 // not over-count co-occupancy the way the probabilistic union `1 − ∏(1 − Oᵢ)` did (two
                 // half-sat ligands → 0.667, not 0.75). Accumulated inline while compacting expired
                 // contributors in place — no per-cell allocation (the hot path over a dense log). The

@@ -190,7 +190,7 @@ struct WikidataSource {
             // Skip natural-product noise: stereochemistry-prefixed obscure
             // alkaloid metabolites have no recreational relevance. Heuristic:
             // require either a known drug-class tag, OR a drug-shaped name
-            // (one of our recognised prefixes/suffixes), OR aliases.
+            // (one of our recognized prefixes/suffixes), OR aliases.
             if classes.isEmpty,
                !Self.looksLikeRecreationalDrug(decodedName),
                aliases.isEmpty {

@@ -377,9 +377,9 @@ struct EntryFormView: View {
         Array(substanceColors).hasColor(for: name)
     }
 
-    /// Persist the substance's stable deterministic colour if it has none yet,
-    /// so a first-time substance is coloured the moment it's saved — no extra
-    /// picker step. Editable later from the entry detail's colour picker.
+    /// Persist the substance's stable deterministic color if it has none yet,
+    /// so a first-time substance is colored the moment it's saved — no extra
+    /// picker step. Editable later from the entry detail's color picker.
     private func ensureColor(for name: String) {
         guard !hasColor(for: name) else { return }
         modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
@@ -389,7 +389,7 @@ struct EntryFormView: View {
         guard let parsedAmount else { return }
 
         // If the user picked a colloquial alias (e.g. "drink" for alcohol),
-        // normalise to the canonical physical unit at save time so cumulative
+        // normalize to the canonical physical unit at save time so cumulative
         // dose, dose-level chips, and PK scaling all see the right number.
         let (storedAmount, storedUnit): (Double, String) = {
             if let sub = selectedSubstance,
@@ -472,12 +472,12 @@ struct EntryFormView: View {
             savedEntry = newEntry
         }
 
-        // Auto-assign a stable palette colour for a brand-new substance up front
-        // (the same colour the graph already uses), so the live activity and
-        // journal pick it up immediately — no follow-up colour-picker sheet.
+        // Auto-assign a stable palette color for a brand-new substance up front
+        // (the same color the graph already uses), so the live activity and
+        // journal pick it up immediately — no follow-up color-picker sheet.
         ensureColor(for: substance)
 
-        // Add to the active session immediately, now that the colour exists.
+        // Add to the active session immediately, now that the color exists.
         startLiveActivityIfNeeded()
 
         // Wake the derived caches (tolerance engine) — debounced + recomputed off-main.

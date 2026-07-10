@@ -67,7 +67,7 @@ struct SessionStateExport {
             t90: Date,
             sober: Date,
         )
-        /// No half-life data — elimination can't be modelled for this substance.
+        /// No half-life data — elimination can't be modeled for this substance.
         case unknown
     }
 

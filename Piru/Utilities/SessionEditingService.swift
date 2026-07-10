@@ -19,7 +19,7 @@ import SwiftUI
 final class SessionEditingService {
     static let shared = SessionEditingService()
 
-    /// A request to recolour a substance — `Identifiable` so it drives a
+    /// A request to recolor a substance — `Identifiable` so it drives a
     /// `.sheet(item:)` without a closure binding.
     struct RecolorRequest: Identifiable {
         let id = UUID()
@@ -44,7 +44,7 @@ final class SessionEditingService {
     }
 
     /// Delete a dose, drop its pending reminders, and keep the live session /
-    /// Live Activity snapshot in sync. Colours are fetched from the context so
+    /// Live Activity snapshot in sync. Colors are fetched from the context so
     /// the row doesn't have to thread a `@Query` array through.
     func delete(_ entry: DoseEntry, in context: ModelContext) {
         // Capture before delete — the entry is invalid afterwards.

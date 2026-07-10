@@ -138,7 +138,7 @@ nonisolated enum SubstanceModelDatabase {
     /// The DA-normalized DAT/NET/SERT weight backbone plus releaser/blocker classification, resolved from
     /// a **single coherent assay** wherever one covers the transporters. A transporter ratio is only
     /// physically meaningful within one experiment (same lab, species, tissue, radioligand), so taking a
-    /// per-transporter `.min()` across labs — the old behaviour — could straddle assays and distort the
+    /// per-transporter `.min()` across labs — the old behavior — could straddle assays and distort the
     /// felt DA:NE:5-HT mix (e.g. methylphenidate's DAT IC₅₀ from one lab against a rat NET Kᵢ from
     /// another). We instead pick the assay with the best transporter coverage (then confidence, then
     /// potency) and read the triple from it, filling any transporter that assay lacks from the global

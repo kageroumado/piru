@@ -4,7 +4,7 @@ import SwiftUI
 /// (Vd, Kᵢ/EC₅₀, tolerance forecast, …).
 ///
 /// Reinforces the house rule that every modeled number is "predicted (model, confidence)", never
-/// "measured": the colour and glyph degrade from a sealed checkmark (literature-backed) to a warning
+/// "measured": the color and glyph degrade from a sealed checkmark (literature-backed) to a warning
 /// triangle (unverified class default), so a glance conveys how much to trust the figure.
 struct ConfidenceBadge: View {
     let tier: ConfidenceTier

@@ -38,9 +38,9 @@ extension InventoryItem {
         return .ok
     }
 
-    /// Supply-bar fill colour: the substance's own colour, semi-transparent, so
+    /// Supply-bar fill color: the substance's own color, semi-transparent, so
     /// each bar reads as belonging to its row instead of an ambiguous gray.
-    /// Low/Out still draw attention through the amount-text colour.
+    /// Low/Out still draw attention through the amount-text color.
     @MainActor
     func supplyBarTint(colorMap: [String: Color]) -> Color {
         SubstancePalette.color(for: substance, colorMap: colorMap).opacity(0.5)

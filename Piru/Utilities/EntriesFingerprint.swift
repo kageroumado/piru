@@ -14,8 +14,8 @@ enum EntriesFingerprint {
         return hasher.finalize()
     }
 
-    /// Token covering the entries' content plus the substance-colour
-    /// assignments, for UI that also derives a colour map.
+    /// Token covering the entries' content plus the substance-color
+    /// assignments, for UI that also derives a color map.
     static func make(_ entries: [DoseEntry], colors: [SubstanceColor]) -> Int {
         var hasher = Hasher()
         combine(entries, into: &hasher)

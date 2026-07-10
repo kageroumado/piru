@@ -137,7 +137,7 @@ struct QuickLogDock: View {
     /// open panel).
     @State private var commitBarHeight: CGFloat = 0
     /// The current fit-to-content compact detent, kept alongside ``detents``
-    /// so detent-change handlers can recognise it by value.
+    /// so detent-change handlers can recognize it by value.
     @State private var compactDetent: PresentationDetent?
     /// The height the current ``compactDetent`` was minted at — refreshes are
     /// skipped for sub-6pt drift so transient re-measures (the commit bar
@@ -171,7 +171,7 @@ struct QuickLogDock: View {
     var body: some View {
         VStack(spacing: 0) {
             // The search bar is identical in every dock state — same field,
-            // same insets. In the bare pill it is mathematically centred in
+            // same insets. In the bare pill it is mathematically centered in
             // the platter (computed from the live sheet height, so it holds
             // on every device); the full faces pin it under the grabber. The
             // live-height read lives in the modifier's own body — the one
@@ -194,7 +194,7 @@ struct QuickLogDock: View {
                 // un-animated flip would skip the cards' fade transitions.
                 .animation(.snappy, value: searchText.isEmpty)
             }
-            // Maps behaviour: dragging up inside the dock resizes it first;
+            // Maps behavior: dragging up inside the dock resizes it first;
             // content scrolls only at the tallest detent.
             .scrollDisabled(detent != .large)
             .scrollDismissesKeyboard(.interactively)
@@ -212,7 +212,7 @@ struct QuickLogDock: View {
         .frame(maxHeight: .infinity, alignment: .top)
         // At peek the sheet is shorter than the home-indicator inset would
         // allow — position the pill manually instead. Full faces keep the
-        // regular safe-area behaviour (only their *glass* bleeds below).
+        // regular safe-area behavior (only their *glass* bleeds below).
         .ignoresSafeArea(.container, edges: isBare ? .bottom : [])
         // The dock does NOT keyboard-avoid: the chips + Log bar stay pinned
         // to the sheet's bottom and the keyboard slides over them. Avoidance
@@ -387,7 +387,7 @@ struct QuickLogDock: View {
     /// arriving at compact collapses every editor; growing out of compact
     /// restores them.
     private func detentChanged(from oldValue: PresentationDetent, to newValue: PresentationDetent) {
-        // Dragging the dock down leaves search — Maps behaviour.
+        // Dragging the dock down leaves search — Maps behavior.
         if newValue != .large, searchActive {
             searchFocused = false
             withAnimation(.snappy) {
@@ -568,7 +568,7 @@ struct QuickLogDock: View {
 
     /// Insertion transition for the content cards: a delayed fade. While the
     /// sheet grows to a new detent, an inserted card's rows would otherwise
-    /// ride the stretching platter ("expansion from the vertical centre") —
+    /// ride the stretching platter ("expansion from the vertical center") —
     /// the delay keeps the card invisible until the resize has essentially
     /// settled, so it just fades into place. Removal is a quick fade so
     /// typing and clearing stay responsive. The family pills keep the
@@ -825,7 +825,7 @@ struct QuickLogDock: View {
                     && !libraryNames.contains(nameLower)
             }
             // Resolve through the library so an override of a shipped substance
-            // carries its full dose/duration data (labelled with the personal
+            // carries its full dose/duration data (labeled with the personal
             // name); a net-new custom falls back to its own asSubstance.
             .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
     }

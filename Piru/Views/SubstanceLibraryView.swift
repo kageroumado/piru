@@ -430,7 +430,7 @@ struct SubstanceRowView: View {
     /// search, recents, the Common tag). Drives the trailing class chip: in a
     /// single-category list the chip is hidden for rows that belong there, and
     /// SHOWN for a mixed compound surfacing from another family (e.g. a balanced
-    /// stimulant like 3-MMC in Empathogens reads "Stimulant") — the colour dot +
+    /// stimulant like 3-MMC in Empathogens reads "Stimulant") — the color dot +
     /// label disambiguate why it's here.
     var contextCategory: SubstanceCategory?
     /// Personal display-name override (resolved by the parent list, which holds
@@ -448,7 +448,7 @@ struct SubstanceRowView: View {
     var body: some View {
         HStack(spacing: 12) {
             // Category-color accent — ties each row to the family palette and
-            // adds a touch of colour to an otherwise flat list.
+            // adds a touch of color to an otherwise flat list.
             Circle()
                 .fill(substance.category.color.gradient)
                 .frame(width: 10, height: 10)
@@ -781,7 +781,7 @@ struct SubstanceDetailView: View {
         value == value.rounded() ? String(format: "%.0f", value) : String(format: "%g", value)
     }
 
-    /// One labelled cell in the Info / Chemistry two-column grids. Only the
+    /// One labeled cell in the Info / Chemistry two-column grids. Only the
     /// *value* is selectable (long-press to select & copy) — the label isn't,
     /// so you can't accidentally grab the neighbouring cell's value (the old
     /// whole-row contextMenu copied the wrong field and felt confusing).

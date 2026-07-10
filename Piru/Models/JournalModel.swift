@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 /// Owns the Journal's *derived* state — per-entry resolution, the grouped
-/// buckets, the colour map, the category facets, and the tag list — so it lives
+/// buckets, the color map, the category facets, and the tag list — so it lives
 /// outside the view's `body` instead of in a web of `@State` caches.
 ///
 /// The view passes in its `@Query` results plus the current filter/grouping
@@ -68,9 +68,9 @@ final class JournalModel {
     /// decide what to re-resolve — so a new dose against five years of history
     /// resolves *one* entry, not the whole table. See ``rebuildDerived``.
     private var fingerprints: [PersistentIdentifier: Int] = [:]
-    /// Signature of the colour assignments the `derived` states were resolved
-    /// under. A recolour changes every entry's `colorHex`, so it forces a full
-    /// re-resolve (rare — only when the user assigns a substance colour).
+    /// Signature of the color assignments the `derived` states were resolved
+    /// under. A recolor changes every entry's `colorHex`, so it forces a full
+    /// re-resolve (rare — only when the user assigns a substance color).
     private var lastColorSignature: Int?
 
     /// Monotonic token so a newer ``rebuildDerived`` supersedes an older one
@@ -154,14 +154,14 @@ final class JournalModel {
         return EntryDerived(category: category, state: state, marker: marker)
     }
 
-    /// Incrementally resolve each entry's category, timeline inputs, and colour.
-    /// Run when entries or colours change — never on a filter tap.
+    /// Incrementally resolve each entry's category, timeline inputs, and color.
+    /// Run when entries or colors change — never on a filter tap.
     ///
     /// A **diff engine**: it fingerprints every entry (cheap — no SQL/PK), then
     /// re-resolves only the entries that are new or whose fingerprint changed and
     /// drops the ones that disappeared, reusing the cached `EntryDerived` for the
     /// rest. So logging one dose into a five-year history does one expensive
-    /// resolve, not thousands. A colour change is the one fast-path exception:
+    /// resolve, not thousands. A color change is the one fast-path exception:
     /// it alters every state's `colorHex`, so it re-resolves the whole set (rare).
     /// - Parameter onPrefixReady: Invoked once the newest-first prefix (the
     ///   visible Day window) has been resolved and published, so the caller can
@@ -225,8 +225,8 @@ final class JournalModel {
         // their graphs synchronously. Under an active search/tag/category filter
         // the painted window may be older sessions whose entries fall in the
         // yielding tail — those cards briefly show markers until phase 2 lands.
-        // Acceptable: it only bites on a cold derive or colour change *while a
-        // filter is active* (a re-derive with unchanged colours seeds `newDerived`
+        // Acceptable: it only bites on a cold derive or color change *while a
+        // filter is active* (a re-derive with unchanged colors seeds `newDerived`
         // from the already-resolved `derived`, so nothing flashes), and the tail
         // always converges. Matching the filter here would couple the model to
         // the view's filter predicate for a one-frame cosmetic win.
@@ -243,7 +243,7 @@ final class JournalModel {
         }
 
         // Phase 1 — the visible window, resolved synchronously. Publish it so the
-        // Day cards paint immediately. When colours didn't change, `newDerived`
+        // Day cards paint immediately. When colors didn't change, `newDerived`
         // still carries the previous tail entries (outside the window), so the
         // list never shows holes while phase 2 catches up.
         resolve(prefixEntries[...])

@@ -8,7 +8,7 @@ import SwiftUI
 /// The **grouped receptor-literature** table for monoamine drugs (the redesign's evidence block, step 4):
 /// one cluster per receptor, laid out on a `Grid` so the `dots · value · species · ↗` columns line up
 /// identically whether the receptor carries a single measurement (rendered inline next to its name) or
-/// several (each its own sub-row, labelled only by what distinguishes it — an enantiomer/site qualifier,
+/// several (each its own sub-row, labeled only by what distinguishes it — an enantiomer/site qualifier,
 /// or Release vs Reuptake). The Grid keeps the columns aligned even when a row has no species badge — a
 /// trailing-cluster `HStack` would otherwise shove the dots right on those rows.
 /// Receptor-panel classes (opioid/benzo/dissociative) never reach here — their class hero already carries this.
@@ -74,7 +74,7 @@ struct GroupedReceptorLiterature: View {
     private func inlineTitle(name: String, hit: SubstanceStore.BindingHit) -> Text {
         // Build one styled `AttributedString` rather than interpolating `Text` segments: the
         // interpolation form extracts a bogus `"%@  %@"` key into the string catalog, and `Text + Text`
-        // is deprecated in iOS 26 — the attributed run preserves each segment's font/colour with neither.
+        // is deprecated in iOS 26 — the attributed run preserves each segment's font/color with neither.
         var title = AttributedString(name)
         title.font = .subheadline.weight(.bold)
         title.foregroundColor = .primary
@@ -100,7 +100,7 @@ struct GroupedReceptorLiterature: View {
             .gridColumnAlignment(.trailing)
     }
 
-    /// The species badge (green for human, grey otherwise). An empty cell when the row carries no species —
+    /// The species badge (green for human, gray otherwise). An empty cell when the row carries no species —
     /// the Grid still reserves the column so the citation arrow stays aligned across rows.
     @ViewBuilder
     private func speciesCell(_ hit: SubstanceStore.BindingHit) -> some View {
@@ -387,7 +387,7 @@ struct MetabolismRow: View {
                     .font(.subheadline.weight(.semibold))
                 Spacer()
                 if let frac = hit.fractionOfClearancePct {
-                    // A faint stat pill, not an accent-coloured number — the percentage used to read
+                    // A faint stat pill, not an accent-colored number — the percentage used to read
                     // like a tappable source attribution sitting next to the DOI/PMID links.
                     Text("\(SubstanceDetailView.chemNumber(frac))%")
                         .font(.caption2.monospacedDigit())

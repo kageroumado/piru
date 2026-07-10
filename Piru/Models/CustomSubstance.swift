@@ -16,7 +16,7 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
     /// Optional personal display label. When set, the substance is *shown* as
     /// this everywhere (Journal, Library, detail, exports) while `name` stays the
     /// canonical identity used for logging/lookup — so e.g. a user can log "THC"
-    /// but see it labelled "joint" without breaking existing dose history.
+    /// but see it labeled "joint" without breaking existing dose history.
     /// Added v1.4; decoders treat missing as `nil`.
     var displayName: String?
     var category: SubstanceCategory
@@ -116,7 +116,7 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
 
     /// Slug appended to ``Substance/sources`` whenever a user-defined entry has
     /// contributed data to a resolved substance. Used by the detail view to
-    /// surface "User-defined" attribution and by import logic to recognise its
+    /// surface "User-defined" attribution and by import logic to recognize its
     /// own writes on round-trip.
     static let userDefinedSource = "user-defined"
 }

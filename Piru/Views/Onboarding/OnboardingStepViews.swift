@@ -25,7 +25,7 @@ struct OnboardingIconHero: View {
 /// rather than a generic SF Symbol. `AppIconArtwork` is the *flat* icon composite (the same layers
 /// the OS icon pipeline consumes); we recreate the Liquid Glass look the way the system does — clip
 /// to the icon squircle, then layer a specular sheen, a top rim light, and a drop shadow. Keeping
-/// the source flat means it stays crisp at any size and matches the on-device icon's colour.
+/// the source flat means it stays crisp at any size and matches the on-device icon's color.
 struct OnboardingAppIconHero: View {
     var size: CGFloat = 108
 

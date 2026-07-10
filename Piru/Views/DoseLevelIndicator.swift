@@ -251,7 +251,7 @@ struct PreciseScaleNote: View {
 
 // MARK: - Experience Phase
 
-/// Visual identity (label + colour) for each phase of an acute experience.
+/// Visual identity (label + color) for each phase of an acute experience.
 /// Centralised so the timeline bar and the phase rows stay in lock-step — the
 /// bar is the overview, the rows the detail, and they must agree on hue.
 ///
@@ -300,7 +300,7 @@ private enum ExperiencePhase: CaseIterable {
 
 /// A single legible bar that shows the *shape* of the experience — how the
 /// phases divide the timeline proportionally by their typical length. No text
-/// legend: the rows beneath carry the same colours and spell each phase out.
+/// legend: the rows beneath carry the same colors and spell each phase out.
 struct DurationTimelineBar: View {
     let duration: DurationProfile
 
@@ -336,7 +336,7 @@ struct DurationTimelineBar: View {
 
 // MARK: - Duration Phase Rows
 
-/// The labelled per-phase rows that accompany a ``DurationTimelineBar``,
+/// The labeled per-phase rows that accompany a ``DurationTimelineBar``,
 /// styled to match ``DoseRangeRows`` so the Dosage and Duration cards read as
 /// siblings. Each row flattens into its own list cell (gaining the standard
 /// hairline separators); ``total`` is emphasised as the summary line.
@@ -383,7 +383,7 @@ struct DurationPhaseRows: View {
 
 // MARK: - Dose Range Rows
 
-/// The labelled threshold/light/common/strong/heavy rows that accompany a
+/// The labeled threshold/light/common/strong/heavy rows that accompany a
 /// ``DoseLevelIndicator``. Shared between the substance detail screen and the
 /// logged-entry detail screen so both render the dose ladder identically.
 struct DoseRangeRows: View {

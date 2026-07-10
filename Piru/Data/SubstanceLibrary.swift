@@ -97,7 +97,7 @@ enum SubstanceLibrary {
     /// Resolve the user-defined entry that should overlay (or replace) the
     /// library result, then apply it. Looks up the custom by the library's
     /// canonical name first — the canonical match is what the user is most
-    /// likely to recognise as "their" substance — and falls back to the raw
+    /// likely to recognize as "their" substance — and falls back to the raw
     /// query so a custom-only entry (no library row at all) still resolves.
     private static func overlayCustom(library: Substance?, query: String) -> Substance? {
         let customs = CustomSubstanceStore.shared

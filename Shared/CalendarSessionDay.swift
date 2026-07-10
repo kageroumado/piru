@@ -9,7 +9,7 @@ import Foundation
 /// The cutoff hour is stored in the shared App Group UserDefaults under
 /// `dayBoundaryHour` so the main app, widgets, and Live Activity all agree
 /// on where the day breaks. A value of 0 reproduces the classic midnight
-/// behaviour. Default is 4 AM.
+/// behavior. Default is 4 AM.
 ///
 /// `nonisolated`: pure date math over thread-safe `UserDefaults` reads, so it
 /// stays callable off the main actor under the app target's default MainActor

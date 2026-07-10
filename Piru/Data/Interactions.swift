@@ -539,7 +539,7 @@ enum InteractionChecker {
         // Mirtazapine (NaSSA): a strong H1 antagonist that raises 5-HT/NE *release* via presynaptic
         // α2 blockade while antagonising postsynaptic 5-HT2/5-HT3 — it does NOT inhibit serotonin
         // reuptake, so it is neither a SERT blocker (`.ssri`, which would predict false MDMA blunting)
-        // nor a dangerous serotonin adder (`.serotonergic`). Modelled by its faithful acute property:
+        // nor a dangerous serotonin adder (`.serotonergic`). Modeled by its faithful acute property:
         // antihistaminergic sedation.
         map["mirtazapine"] = [.antihistamine]
 
@@ -652,7 +652,7 @@ enum InteractionChecker {
         // KOR agonists are pharmacologically closer to dissociatives than to
         // classical psychedelics — they don't engage 5-HT2A, but the kappa
         // mechanism shares acute dissociation/derealisation phenomenology and
-        // (more importantly for interaction modelling) compounds with
+        // (more importantly for interaction modeling) compounds with
         // dissociatives or sedatives. Route to `.dissociative` until we add a
         // dedicated `.kappaAgonist` class with its own rule set.
         case .dysdelic: .dissociative
@@ -828,7 +828,7 @@ enum InteractionChecker {
         // SERT and *blunt* the empathogen (it may feel much weaker or not work) — on their own they do
         // not cause serotonin syndrome; the real lethal serotonergic edge is the MAOI rules above. Kept
         // visible (and bypassing the relevance gate via `persistentClasses`) so people aren't blindsided
-        // when their dose does nothing, but coloured `.caution`, not danger.
+        // when their dose does nothing, but colored `.caution`, not danger.
         InteractionRule(
             classA: .ssri,
             classB: .empathogen,

@@ -10,7 +10,7 @@ import SwiftUI
 /// model recomputes and publishes ready-to-render values, which SwiftUI diffs
 /// as a single observable source of truth. All the maths lives in `static`
 /// helpers taking explicit inputs, so unit tests can exercise bucketing,
-/// ranking, and moving-average behaviour without SwiftUI.
+/// ranking, and moving-average behavior without SwiftUI.
 @Observable
 @MainActor
 final class UsageStatsModel {
@@ -54,11 +54,11 @@ final class UsageStatsModel {
 
     /// The filtered, snapshotted entries for the selected time range.
     private(set) var filteredEntries: [CachedEntry] = []
-    /// Lowercased substance name → assigned colour.
+    /// Lowercased substance name → assigned color.
     private(set) var colorMap: [String: Color] = [:]
     /// Per-(day, substance) entry counts, sorted by date, for the expanded chart.
     private(set) var timelineData: [(key: DaySubstance, count: Int)] = []
-    /// Distinct substances in the timeline with their colours, sorted by name.
+    /// Distinct substances in the timeline with their colors, sorted by name.
     private(set) var timelineLegend: [(name: String, color: Color)] = []
     /// Substances eligible for the trend chart (2+ entries on 2+ distinct days),
     /// most-logged first.
@@ -203,7 +203,7 @@ final class UsageStatsModel {
     }
 
     /// Distinct substances in the timeline (case-insensitive, first-seen
-    /// casing wins) with their colours, sorted by name.
+    /// casing wins) with their colors, sorted by name.
     static func legend(
         for timelineData: [(key: DaySubstance, count: Int)],
         colorMap: [String: Color],

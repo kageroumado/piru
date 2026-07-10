@@ -28,7 +28,7 @@ struct CeilingEffectToolView: View {
                 ForEach(SaturablePharmacology.profiles) { profile in
                     Section { card(for: profile) }
                     // The gabapentinoid teaching pair sits right after gabapentin's absorption ceiling:
-                    // same α2δ target, opposite dose→exposure behaviour (pregabalin is dose-linear, so
+                    // same α2δ target, opposite dose→exposure behavior (pregabalin is dose-linear, so
                     // it isn't a ceiling profile of its own — it only makes sense as this contrast).
                     if profile.substanceName == "Gabapentin" {
                         Section { gabapentinoidComparisonCard }

@@ -5,9 +5,9 @@ struct SourceInfo {
     let url: String
     let detail: String
     let description: String
-    /// Content licence, surfaced for attribution. Set for the copyleft community
+    /// Content license, surfaced for attribution. Set for the copyleft community
     /// wikis Piru bundles (CC BY-SA 4.0); nil for sources used only as outbound
-    /// reference links or whose factual data carries no licence obligation.
+    /// reference links or whose factual data carries no license obligation.
     var license: String?
 }
 

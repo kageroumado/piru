@@ -136,7 +136,7 @@ nonisolated struct PharmacologyParameters {
     /// GABA, opioid → μ, …), independent of binding data. Lets the missing-PK fallback model a
     /// categorised-but-untargeted substance as its class representative even when the DB ships no
     /// receptor rows for it (`Specs/tolerance-faithful-model-improvements.md` §7 follow-up). Empty when
-    /// the substance has no category that maps to a modelled tolerance class.
+    /// the substance has no category that maps to a modeled tolerance class.
     let categoryClasses: Set<ReceptorClasses.ReceptorClass>
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]

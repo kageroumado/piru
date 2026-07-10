@@ -14,7 +14,7 @@ struct InYourSystemView: View {
 
     /// Cap on individual ingestion rows shown per active substance — a daily
     /// medication can accumulate dozens of in-system doses; show the most
-    /// recent few and summarise the rest.
+    /// recent few and summarize the rest.
     private static let maxDosesShown = 10
 
     var body: some View {

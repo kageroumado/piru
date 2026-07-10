@@ -116,7 +116,7 @@ struct ToleranceExplainerView: View {
         } header: {
             Text("By mechanism")
         } footer: {
-            Text("Recovery timescales and behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.")
+            Text("Recovery timescales and behavior are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.")
         }
     }
 

@@ -51,7 +51,7 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
 
 extension RouteOfAdministration {
     /// A fixed tint per route — so a route reads the same everywhere (every "oral"
-    /// badge is the same colour), independent of the substance's own colour. Used
+    /// badge is the same color), independent of the substance's own color. Used
     /// by the dose-row / detail ROA pills as both the badge text and its 0.16 fill.
     ///
     /// Adaptive like `Theme.legibleYellow`: the vivid hue works on dark, but as

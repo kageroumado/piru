@@ -109,7 +109,7 @@ struct EntryListView: View {
 
     // MARK: - Derived State
 
-    /// All derived journal state — the grouped buckets, colour map, category
+    /// All derived journal state — the grouped buckets, color map, category
     /// facets, and tag list — lives in this observable model so recomputation
     /// happens off `body` and the view diffs a single source of truth. UI-only
     /// state (grouping, filters, collapse sets) stays on the view.
@@ -142,8 +142,8 @@ struct EntryListView: View {
         return hasher.finalize()
     }
 
-    /// Content fingerprint of the colour assignments. Drives the recolour derive
-    /// on *edits*, not just adds/removes: recolouring an existing substance
+    /// Content fingerprint of the color assignments. Drives the recolor derive
+    /// on *edits*, not just adds/removes: recoloring an existing substance
     /// mutates `hexColor` in place (`SettingsView` / `EntryDetailView` /
     /// `SessionDetailView`), so the count is unchanged and a `count`-only watch
     /// would leave the Day cards' baked-in tints stale. Hashing substance + hex
@@ -157,7 +157,7 @@ struct EntryListView: View {
         return hasher.finalize()
     }
 
-    /// Resolve derived data + regroup — entries or colours changed. The derive
+    /// Resolve derived data + regroup — entries or colors changed. The derive
     /// awaits the off-main substance batch cache and resolves the visible window
     /// first (painting via `onPrefixReady`) before the tail, so a long history
     /// never blocks the first frame. `animated` slides a freshly-logged session
@@ -836,7 +836,7 @@ struct SessionCard: Identifiable, Equatable {
     /// Clock label — a single start time, or "start – end" for a span.
     let timeLabel: String
     let uniqueSubstances: [String]
-    /// Canonical common names for display (raw `uniqueSubstances` stays keyed for colour lookups). A
+    /// Canonical common names for display (raw `uniqueSubstances` stays keyed for color lookups). A
     /// dose logged under an alias reads by its canonical name — "LSD", not "Lysergic Acid Diethylamide".
     let substanceDisplayList: [String]
     let substanceSummary: String
@@ -1027,7 +1027,7 @@ struct SessionCardView: View, Equatable {
     private var graph: some View {
         if !card.states.isEmpty || !card.markers.isEmpty {
             // One unified renderer: curves rise from a shared baseline and any
-            // duration-less doses rest on it as colour-coded dots.
+            // duration-less doses rest on it as color-coded dots.
             // `showNowIndicator: false` — historical cards, so the axis-less
             // "now" dot would only add noise.
             TimelineGraphView(
@@ -1240,7 +1240,7 @@ private struct ActiveSessionHeroCard: View {
     /// fit, rather than pre-empting a name (e.g. "Memantine") that would.
     private var displayNames: String {
         // Canonical common names (the no-card fallback reads `states`, whose names are already
-        // canonical); `uniqueSubstances` stays raw because it also keys the colour dots.
+        // canonical); `uniqueSubstances` stays raw because it also keys the color dots.
         if let card { return card.substanceDisplayList.joined(separator: ", ") }
         return uniqueSubstances.joined(separator: ", ")
     }

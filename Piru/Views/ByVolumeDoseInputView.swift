@@ -158,7 +158,7 @@ enum ByVolumeDefaults {
     private static let unitKey = "byVolumePreferredVolumeUnit"
 
     /// The volume unit to pre-select — the user's last choice, defaulting to mL on
-    /// first use. Globally mL dominates (and US wine/spirits are mL-labelled); a
+    /// first use. Globally mL dominates (and US wine/spirits are mL-labeled); a
     /// US beer drinker switches to fl oz once and it sticks.
     static var preferredVolumeUnit: UnitVolume {
         get {

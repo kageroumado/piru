@@ -26,9 +26,9 @@ struct PharmacologyCard: View {
         SubstanceCategory.stimulant.color
     }
 
-    /// The summary is a short *title* ("Monoamine-Releasing Stimulant") — colour it as a headline.
+    /// The summary is a short *title* ("Monoamine-Releasing Stimulant") — color it as a headline.
     /// Some substances carry a multi-sentence essay in the summary field; render that as calm body
-    /// text, not a scary category-coloured wall.
+    /// text, not a scary category-colored wall.
     private var summaryIsHeadline: Bool {
         !moa.summary.isEmpty && moa.summary.count <= 90 && !moa.summary.contains(". ")
     }

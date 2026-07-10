@@ -7,7 +7,7 @@ import Foundation
 /// All deep links use the `piru://` scheme. The URL `host` selects the kind
 /// of destination; path components and query items carry parameters. Decoding
 /// an unrecognised URL returns `nil` so callers can fall back to default
-/// behaviour.
+/// behavior.
 ///
 /// **Tab selection** — `piru://<tab>` selects the tab and clears any modal:
 /// `piru://journal`, `piru://library`, `piru://tools`, `piru://insights`,

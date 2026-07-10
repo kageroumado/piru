@@ -153,7 +153,7 @@ private nonisolated struct PsyLogFile: Codable {
         case exportSource
     }
 
-    /// Stamped on export so PsychonautWiki recognises the file as the modern
+    /// Stamped on export so PsychonautWiki recognizes the file as the modern
     /// format. PW's importer rejects files with no `exportSource` as "legacy".
     /// Verified: a file carrying this key (and none of Piru's own top-level
     /// keys) imports cleanly into the current PsychonautWiki Journal app.
@@ -498,7 +498,7 @@ private nonisolated struct LegacyUserColor: Decodable {
 /// Piru's own export shape — a complete, lossless dump of the user's data,
 /// including the things the PsyLog/PW format can't represent: session titles &
 /// notes, per-dose location and background-med flag, real tag arrays,
-/// favourites, user colours, and daily-dose schedules. Detected on import by
+/// favorites, user colors, and daily-dose schedules. Detected on import by
 /// the `piruExportVersion` key. Timestamps are epoch milliseconds, matching the
 /// PsyLog format's convention.
 private nonisolated struct PiruFile: Codable {
@@ -1031,13 +1031,13 @@ enum DataExportImport {
             _ = makeDose(orphan)
         }
 
-        // Colours — skip substances that already have one.
+        // Colors — skip substances that already have one.
         var importedColors = Set(((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).map { $0.substance.lowercased() })
         for color in file.substanceColors where importedColors.insert(color.substance.lowercased()).inserted {
             context.insert(SubstanceColor(substance: color.substance, hexColor: color.hexColor))
         }
 
-        // User-defined palette colours — dedup by hex.
+        // User-defined palette colors — dedup by hex.
         let existingUserHexes = Set(((try? context.fetch(FetchDescriptor<UserColor>())) ?? []).map { $0.hex.uppercased() })
         for uc in file.userColors where !existingUserHexes.contains(uc.hex.uppercased()) {
             let color = UserColor(hex: uc.hex, name: uc.name)
@@ -1045,7 +1045,7 @@ enum DataExportImport {
             context.insert(color)
         }
 
-        // Favourites — dedup by substance.
+        // Favorites — dedup by substance.
         let existingFavs = Set(((try? context.fetch(FetchDescriptor<FavoriteSubstance>())) ?? []).map { $0.substance.lowercased() })
         for fav in file.favorites where !existingFavs.contains(fav.substance.lowercased()) {
             context.insert(FavoriteSubstance(substance: fav.substance))

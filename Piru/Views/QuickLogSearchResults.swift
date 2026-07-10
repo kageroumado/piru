@@ -126,7 +126,7 @@ struct QuickLogSearchResults: View {
         return parts.joined(separator: " · ")
     }
 
-    /// Leading ⊕ tinted with the substance/category colour — the whole row is
+    /// Leading ⊕ tinted with the substance/category color — the whole row is
     /// the Add button.
     private func resultRow(
         result: QuickLogSearchResult,

@@ -532,7 +532,7 @@ struct StorageRequirement: Codable, Hashable {
             }
         }
 
-        /// SF Symbol summarising the requirement.
+        /// SF Symbol summarizing the requirement.
         var icon: String {
             switch self {
             case .roomTemp: "thermometer.medium"
@@ -930,7 +930,7 @@ enum BindingAction: String, Codable {
 
     /// A small glyph that visually splits the *kind* of action — releasers (efflux, the
     /// MDMA/amphetamine mechanism) read differently at a glance from agonists (activate) and
-    /// blockers/antagonists (shut down). Distinct shapes, no colour, so it stays calm.
+    /// blockers/antagonists (shut down). Distinct shapes, no color, so it stays calm.
     var symbolName: String {
         switch self {
         case .agonist, .partialAgonist: "bolt.fill" // activates the target
@@ -1168,7 +1168,7 @@ struct Substance: Identifiable {
     /// intentionally cross-class compound surface under more than one family
     /// (e.g. Tianeptine under both Antidepressant and Opioid). Curated-only,
     /// loaded in the batch path; empty for everything else. The primary
-    /// `category` still drives card colour/icon and the default home.
+    /// `category` still drives card color/icon and the default home.
     let extraBrowseCategories: [SubstanceCategory]
     let defaultRoute: RouteOfAdministration
     let routes: [SubstanceRoute]
@@ -1384,7 +1384,7 @@ struct Substance: Identifiable {
         let resolved = order.compactMap { best[$0] }
         // In a non-Chinese UI, push CJK aliases (FreeOD's Chinese street names) to
         // the end so an English title isn't immediately followed by Han — Latin
-        // names a reader recognises lead. A stable partition keeps source order
+        // names a reader recognizes lead. A stable partition keeps source order
         // within each group. In a Chinese UI the source order already reads well.
         guard !SubstanceStore.contentLanguage.isChinese else { return resolved }
         // Single pass: computing `containsHan` once per alias rather than twice
@@ -1585,7 +1585,7 @@ struct Substance: Identifiable {
     /// day-detail graph, the active-session accessory) — `nil` means "don't draw
     /// a curve; render a marker instead."
     ///
-    /// Returns `nil` for long-acting / maintenance compounds whose modelled
+    /// Returns `nil` for long-acting / maintenance compounds whose modeled
     /// effect exceeds ``maxAcuteTimelineMinutes`` (memantine, bupropion, SSRIs,
     /// GLP-1 agonists, depot injectables, vitamins, …). Their acute curve would
     /// be a flat line stretching the shared x-axis and crushing every real curve

@@ -3,9 +3,9 @@ import SwiftUI
 /// The session's interaction warnings, shown in full (they used to hide behind a
 /// collapsed disclosure at the bottom of the screen), plus the heart-rate summary
 /// when vitals are on. Rows echo the dose/cumulative rows: a leading glyph (the
-/// severity triangle in place of the colour dot) + the involved substances in
+/// severity triangle in place of the color dot) + the involved substances in
 /// normal text, with the severity level as a tinted chip on the right — the only
-/// coloured element. Warnings that share the exact same explanation are grouped
+/// colored element. Warnings that share the exact same explanation are grouped
 /// so a stimulant-stack session doesn't repeat one sentence five times.
 struct SessionSafetySection: View {
     let interactions: [InteractionResult]
@@ -27,7 +27,7 @@ struct SessionSafetySection: View {
     // MARK: - Interaction rows
 
     private func interactionRow(_ group: InteractionGroup) -> some View {
-        // Mirrors a dose row: the severity glyph takes the colour-dot's slot
+        // Mirrors a dose row: the severity glyph takes the color-dot's slot
         // (same 9pt size + 8pt gap, so the pairs line up with the dose/cumulative
         // titles), and the description sits flush with the row's leading edge —
         // where a dose row keeps its time/meta line — not indented under the pair.

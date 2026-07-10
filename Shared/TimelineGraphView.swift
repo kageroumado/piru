@@ -153,7 +153,7 @@ struct TimelineGraphView: View, Equatable {
     var vitalsBandEnlarged: Bool = false
     /// When set (the live/current session), the graph opens zoomed to a window
     /// framed around `currentTime` instead of the full extent, so the action
-    /// happening *now* is front and centre. Past sessions leave it `false` and
+    /// happening *now* is front and center. Past sessions leave it `false` and
     /// open full-extent. Ignored when `compact` or a `presetSpanMinutes` is set.
     var focusAroundNow: Bool = false
 
@@ -330,7 +330,7 @@ struct TimelineGraphView: View, Equatable {
         }.value
         // Caching under the key is always safe, even for a superseded task.
         TimelineModelCache.shared.insert(model, for: key)
-        // Inputs changed mid-compute: `.task(id:)` cancelled this task, but the
+        // Inputs changed mid-compute: `.task(id:)` canceled this task, but the
         // detached child doesn't throw, so we'd otherwise publish a stale model
         // *after* the replacement task already finished (e.g. on a cache hit).
         guard !Task.isCancelled else { return }
@@ -1039,7 +1039,7 @@ struct TimelineGraphView: View, Equatable {
                 )
             }
 
-            // Pass 1: Marker stems — a full-height rule in the dose's own colour
+            // Pass 1: Marker stems — a full-height rule in the dose's own color
             // dropping from the head to the baseline, matching the mechanistic
             // chart's dose ticks so "when was it taken" reads at a glance even
             // when the substance draws no curve.
@@ -1239,7 +1239,7 @@ struct TimelineGraphView: View, Equatable {
                 }
             }
 
-            // Compact: duration-less doses rest as small colour-coded dots on the
+            // Compact: duration-less doses rest as small color-coded dots on the
             // shared baseline, placed by time. Replaces the stacked floating
             // circles, which read as scattered noise at thumbnail size.
             if showCompactMarkers {
@@ -1317,10 +1317,10 @@ struct TimelineGraphView: View, Equatable {
         graphTop: CGFloat,
     ) {
         let curveLanes = laneGroups
-        // Duration-less substances get their own labelled lanes too, rather than
+        // Duration-less substances get their own labeled lanes too, rather than
         // an unlabelled cluster of dots dumped at the graph's foot — which read
         // as stray, disconnected points overlapping the bottom lane. Every
-        // substance is one labelled horizon strip: curves get a hump, instant
+        // substance is one labeled horizon strip: curves get a hump, instant
         // doses get a baseline row of dots.
         let markerLanes = TimelineCurveModel.markerOnlyLanes(excluding: curveLanes, markers: markers)
         let rowCount = curveLanes.count + markerLanes.count
@@ -1449,7 +1449,7 @@ struct TimelineGraphView: View, Equatable {
             }
         }
 
-        // Each duration-less substance as its own labelled lane below the curves.
+        // Each duration-less substance as its own labeled lane below the curves.
         for (j, lane) in markerLanes.enumerated() {
             let i = curveLanes.count + j
             let laneTop = graphTop + CGFloat(i) * laneHeight
@@ -1549,7 +1549,7 @@ struct TimelineGraphView: View, Equatable {
         }
     }
 
-    /// Colour swatch + substance name at a lane's top-left.
+    /// Color swatch + substance name at a lane's top-left.
     private func drawLaneLabel(_ name: String, color: Color, context: GraphicsContext, laneTop: CGFloat, graphInset: CGFloat, labelInset: CGFloat) {
         let dotR: CGFloat = 3
         let dot = Path(ellipseIn: CGRect(x: graphInset + labelInset, y: laneTop + labelInset, width: dotR * 2, height: dotR * 2))
@@ -1921,7 +1921,7 @@ struct TimelineGraphView: View, Equatable {
 
         // Use the same synthesized come-up the curve is fit to, so the blue
         // band tracks the rendered rise even when the source data lists no
-        // come-up phase (otherwise the curve climbs through a "peak"-coloured
+        // come-up phase (otherwise the curve climbs through a "peak"-colored
         // band with no come-up band at all).
         let peakEndForBands = max(s.peakEndMinutes, s.onsetEndMinutes + 2)
         let comeupEndForBands = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
@@ -2017,7 +2017,7 @@ struct TimelineGraphView: View, Equatable {
 
     // MARK: - Vitals lane (heart rate + blood pressure)
 
-    /// Lane colours (shared with the entry-row chips via ``VitalsPalette``).
+    /// Lane colors (shared with the entry-row chips via ``VitalsPalette``).
     private static let hrColor = VitalsPalette.heart
     private static let bpColor = VitalsPalette.bloodPressure
 
@@ -2267,7 +2267,7 @@ struct TimelineGraphView: View, Equatable {
         var lastLabelRight: CGFloat = -.infinity
 
         // Deep zoom can frame a window that straddles no whole hour at all
-        // (e.g. 12:05–12:50 at a 15-min tick stride) — labelling only whole
+        // (e.g. 12:05–12:50 at a 15-min tick stride) — labeling only whole
         // hours would leave the axis blank, so fall back to minute labels then.
         let nextWholeHour = calendar.dateInterval(of: .hour, for: windowStart)?.end ?? windowStart
         let windowHasWholeHour = nextWholeHour <= windowEnd

@@ -175,7 +175,7 @@ struct PiruApp: App {
     ///    "temporarily unavailable" alert, and the app launches on a transient
     ///    in-memory store rather than crashing or silently resetting.
     ///
-    /// The old behaviour — quarantine-on-any-error then open a fresh empty store —
+    /// The old behavior — quarantine-on-any-error then open a fresh empty store —
     /// is gone: an empty store the user could write fresh data into is the
     /// worst outcome, fragmenting data across two stores.
     private static func makeContainer() -> ModelContainer {

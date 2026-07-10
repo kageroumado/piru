@@ -99,7 +99,7 @@ struct EntryDetailView: View {
     }
 
     /// Dose level of the committed entry, used to tint the hero's dose figure
-    /// the same way the dose ladder colours it. `nil` when the substance has no
+    /// the same way the dose ladder colors it. `nil` when the substance has no
     /// meaningful ladder.
     private var committedDoseLevel: DoseLevel? {
         guard let sub = substanceInfo, sub.displayClass.showsDoseLadder,
@@ -732,7 +732,7 @@ struct EntryDetailView: View {
         guard let parsed = parsedDraftAmount else { return }
         let sub = substanceInfo
 
-        // Normalise a colloquial alias (e.g. "drink") to its canonical physical
+        // Normalize a colloquial alias (e.g. "drink") to its canonical physical
         // unit so cumulative dose, level chips, and PK scaling see the right number.
         let (storedAmount, storedUnit): (Double, String) = {
             if let sub, let alias = sub.unitAliases.first(where: { $0.label == draftUnit }) {

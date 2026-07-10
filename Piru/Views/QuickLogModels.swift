@@ -40,7 +40,7 @@ struct SubstanceGroup: Identifiable, Equatable {
     private var chipEntries: [ChipEntry] = []
 
     /// Hand-written because `chipEntries` is a tuple array (no synthesized
-    /// `Equatable`). Compares the display-relevant surface — identity, colour,
+    /// `Equatable`). Compares the display-relevant surface — identity, color,
     /// recency, the resolved library substance, and the rendered chips — which is
     /// exactly what a card's body draws, so two equal groups are visually
     /// interchangeable (and the card's `.equatable()` can skip rebuilding them).

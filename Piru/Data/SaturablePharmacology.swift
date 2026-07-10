@@ -183,7 +183,7 @@ enum SaturablePharmacology {
     // MARK: - Gabapentinoid absorption contrast (teaching pair, not a ceiling profile)
 
     /// The gabapentinoid absorption contrast — **same α2δ-1 drug class, opposite dose→exposure
-    /// behaviour**, the first absorption-side teaching pair. Gabapentin's intestinal uptake saturates
+    /// behavior**, the first absorption-side teaching pair. Gabapentin's intestinal uptake saturates
     /// (system-L / LAT1) so oral bioavailability FALLS with dose; pregabalin uses the carrier in a
     /// non-saturating regime and stays dose-LINEAR (~90% at any dose). Pregabalin has no knee, so it is
     /// NOT a ceiling ``Profile`` (never in ``profiles``) — it exists only as this comparison.

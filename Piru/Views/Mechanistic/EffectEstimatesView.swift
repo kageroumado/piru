@@ -429,7 +429,7 @@ private struct DopamineErrorDiagram: View {
 
     private let samples: [Sample] = DopamineErrorDiagram.makeSamples()
 
-    /// Difference-of-exponentials dopamine curve (peak-normalised) with a slow
+    /// Difference-of-exponentials dopamine curve (peak-normalized) with a slow
     /// first-order lag for the expectation, integrated by explicit Euler.
     private static func makeSamples() -> [Sample] {
         let absorptionRate = 5.0

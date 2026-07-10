@@ -9,7 +9,7 @@ import Foundation
 /// full-agonist opioids carry a linear factor. Methadone (dose-dependent,
 /// nonlinear), transdermal fentanyl (dosed in mcg/hr, no oral-mg analogue), and
 /// buprenorphine (partial agonist with a respiratory-depression ceiling — CDC
-/// deliberately omits it) are modelled as *un-convertible* cases so the tool
+/// deliberately omits it) are modeled as *un-convertible* cases so the tool
 /// can never back-calculate a dangerous dose for them.
 struct OpioidEquivalence: Identifiable {
     let name: String

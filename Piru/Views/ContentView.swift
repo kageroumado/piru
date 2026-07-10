@@ -383,7 +383,7 @@ enum SearchTabScope: String, CaseIterable, Identifiable {
 /// `false`. Crucially we do **not** pass `isPresented:` — on a `role: .search`
 /// tab that binding makes the system auto-focus the field on tab entry (you'd
 /// never see the landing) and treat the cancel button as "leave the tab". Letting
-/// the system own focus gives the Music behaviour: enter → landing, tap field →
+/// the system own focus gives the Music behavior: enter → landing, tap field →
 /// keyboard, cancel → back to the landing (staying on the tab).
 private struct SearchView: View {
     @Binding var scope: SearchTabScope
@@ -614,7 +614,7 @@ private struct BottomAccessoryContent: View {
             } else {
                 // A flat-trend glyph mirrors the session graph's footprint: it
                 // balances the trailing "+" (so "Log a dose" sits at the true
-                // centre) and reads as the timeline-before-it-has-data.
+                // center) and reads as the timeline-before-it-has-data.
                 Image(systemName: "chart.line.flattrend.xyaxis")
                     .font(compact ? .subheadline : .title3)
                     .foregroundStyle(.secondary)
@@ -632,8 +632,8 @@ private struct BottomAccessoryContent: View {
                 Spacer(minLength: 0)
             }
 
-            // Reserve the slot the overlaid "+" occupies, so the body's centred
-            // label accounts for it and lands on true centre.
+            // Reserve the slot the overlaid "+" occupies, so the body's centered
+            // label accounts for it and lands on true center.
             Color.clear
                 .frame(width: controlSide, height: controlSide)
         }
@@ -641,7 +641,7 @@ private struct BottomAccessoryContent: View {
 
     /// Log another dose. Pinned trailing in every face — no background fill (a
     /// bare accent glyph avoids glass-on-glass concentricity issues against the
-    /// accessory's own capsule); 11pt trailing so its centre lines up with the
+    /// accessory's own capsule); 11pt trailing so its center lines up with the
     /// tab bar's search button.
     private var plusButton: some View {
         Button(action: onAdd) {

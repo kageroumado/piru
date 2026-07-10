@@ -4350,6 +4350,20 @@ T = {
         "本次記錄隨時間可能的感受",
     ),
     "Fully eliminated": ("已完全消除", "已完全消除"),
+    # US-spelling renames of existing keys (2026-07-10); zh copied verbatim from the
+    # British-spelled originals, which become stale orphans.
+    "No half-life data — elimination not modeled": (
+        "无半衰期数据 — 未建模消除",
+        "無半衰期資料 — 未建模消除",
+    ),
+    "Recovery timescales and behavior are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.": (
+        "每一类受体的恢复时间和表现，都是照着已发表的文献校准的。每条下面的小字是校准依据；徽章表示这些动力学数据有多可靠。",
+        "每一類受體的恢復時間和表現，都是照著已發表的文獻校準的。每條下面的小字是校準依據；徽章表示這些動力學數據有多可靠。",
+    ),
+    "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward.": (
+        "概述药物如何影响大脑三种主要的信号化学物质——5-羟色胺、多巴胺和去甲肾上腺素——以及它是促进释放还是阻断再摄取。滑块显示它更偏向哪一种。",
+        "概述藥物如何影響大腦三種主要的訊號化學物質——5-羥色胺、多巴胺和去甲腎上腺素——以及它是促進釋放還是阻斷再攝取。滑桿顯示它更偏向哪一種。",
+    ),
     "A busy session": ("复杂的记录", "複雜的記錄"),
     "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.": (
         "该模型是在实验室条件下，基于单一物质单次摄入校准的。这里的相互作用仍是机制性的，但每增加一次用量或一种物质都会引入更多参数，扩大误差范围。",
@@ -4614,6 +4628,10 @@ if __name__ == "__main__":
     NEW_KEYS = {
         # In Your Body cumulative rows — cleared-substance second line (2026-07-10).
         "Fully eliminated",
+        # US-spelling renames of existing keys (2026-07-10).
+        "No half-life data — elimination not modeled",
+        "Recovery timescales and behavior are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.",
+        "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward.",
         # Effect Estimates screen redesign + "How this works" explainer (2026-07-10).
         "A busy session",
         "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.",

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Fixed vitals colours — deliberately distinct from any substance colour and legible in
+/// Fixed vitals colors — deliberately distinct from any substance color and legible in
 /// both light and dark. Shared by the timeline cardio lane and the entry-row HR chips so
 /// they always match. HR is a warm crimson; BP a calm blue.
 enum VitalsPalette {

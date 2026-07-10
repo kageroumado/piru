@@ -3,7 +3,7 @@ import SwiftUI
 
 // MARK: - Substance Card
 
-/// One recent/favorite substance card: header (colour dot, name, glanceable PK
+/// One recent/favorite substance card: header (color dot, name, glanceable PK
 /// badge, favorite star) plus a chip row per route. Extracted from
 /// `QuickLogView` so each card is a structural identity in the `LazyVStack`
 /// and — crucially — owns its **ephemeral expansion state** locally. Tapping a

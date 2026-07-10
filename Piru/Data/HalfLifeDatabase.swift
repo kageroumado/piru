@@ -7,7 +7,7 @@ import Foundation
 /// than a single canonical figure — half-lives vary substantially with route,
 /// formulation, dose, hepatic metabolism, and genetic polymorphisms (e.g.
 /// CYP2D6 status), so these are best treated as order-of-magnitude estimates
-/// for pharmacokinetic modelling, not clinical references.
+/// for pharmacokinetic modeling, not clinical references.
 ///
 /// ## Sources
 ///

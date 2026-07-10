@@ -571,7 +571,7 @@ nonisolated enum ReceptorClasses {
     /// (designer benzos, fluoro-amphetamines, RC opioids) that ships without curated bindings.
     ///
     /// Only categories with a well-defined mechanism class map; the rest (nootropic, supplement,
-    /// gabapentinoid — whose target is α2δ, not a modelled tolerance class — etc.) return `nil`.
+    /// gabapentinoid — whose target is α2δ, not a modeled tolerance class — etc.) return `nil`.
     static func toleranceClass(forCategory category: SubstanceCategory) -> ReceptorClass? {
         switch category {
         case .stimulant, .eugeroic: .catecholamineStimulant
@@ -593,7 +593,7 @@ nonisolated enum ReceptorClasses {
     /// (`"(recombinant human)"`, `"(MK-801 site, S-enantiomer)"`, `"(PCP site)"`), enantiomer prefixes
     /// (`"(+)-"`, `"(−)-"`), and a trailing `" receptor"`, so `"5-HT3 receptor"`, `"NMDA receptor (PCP
     /// site)"`, and `"MOR (+)-tramadol"` collapse to `"5-HT3"`, `"NMDA"`, `"MOR"`. Best-effort
-    /// normalisation for the sub-target list — the pipeline owns the authoritative cleanup (Phase 2).
+    /// normalization for the sub-target list — the pipeline owns the authoritative cleanup (Phase 2).
     static func canonicalTarget(_ raw: String) -> String {
         var s = raw
         // Drop a parenthetical qualifier *and everything after it* first — this also removes the

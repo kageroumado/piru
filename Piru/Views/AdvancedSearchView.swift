@@ -26,7 +26,7 @@ struct AdvancedSearchView: View {
         // Debounce every filter change through one task so dragging the Ki
         // slider (10 nM steps → up to ~1000 events) doesn't fire a SQLite scan
         // per step. Skips the scan entirely when no filter is active, preserving
-        // the old behaviour of not auto-running an unfiltered query on appear.
+        // the old behavior of not auto-running an unfiltered query on appear.
         .task(id: queryParams) {
             guard queryParams.isActive else {
                 results = []
