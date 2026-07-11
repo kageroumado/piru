@@ -107,6 +107,21 @@ struct EntryListView: View {
         activeSessionCard?.id
     }
 
+    /// The id of the session owning the currently-active doses, read straight from
+    /// SwiftData so a live-session tap always resolves — even in the window right
+    /// after logging when the journal's day groups are still rebuilding and
+    /// ``activeSessionCard`` hasn't matched. Anchored to the latest active dose.
+    private func resolveActiveSessionID() -> UUID? {
+        guard let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max() else { return nil }
+        let lo = anchor.addingTimeInterval(-1)
+        let hi = anchor.addingTimeInterval(1)
+        var descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= lo && $0.timestamp <= hi },
+        )
+        descriptor.fetchLimit = 1
+        return (try? modelContext.fetch(descriptor))?.first?.session?.id
+    }
+
     // MARK: - Derived State
 
     /// All derived journal state — the grouped buckets, color map, category
@@ -235,15 +250,14 @@ struct EntryListView: View {
                     states: ActiveSessionManager.shared.activeSubstanceStates,
                     colorMap: model.colorMap,
                     onTap: {
-                        // Push the session detail like a day card does (not the
-                        // accessory's sheet). Fall back to the live-session sheet
-                        // only if the card hasn't been matched yet (e.g. the day
-                        // groups are mid-rebuild right after logging).
-                        if let id = activeID {
+                        // Always push the session detail, like a day card does —
+                        // the `.sessionDetail` sheet is reserved for notification
+                        // deep links, never a tap here. Resolve the id from the
+                        // matched card, falling back to a direct SwiftData lookup
+                        // while the day groups are mid-rebuild (right after logging)
+                        // so the tap still pushes instead of dead-ending.
+                        if let id = activeID ?? resolveActiveSessionID() {
                             navigator.push(.session(id: id))
-                        } else {
-                            guard navigator.sheetStack.isEmpty else { return }
-                            navigator.present(.sessionDetail)
                         }
                     },
                 )
