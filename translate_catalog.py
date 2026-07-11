@@ -631,6 +631,7 @@ T = {
     ),
     "Nothing tracked": ("未追踪任何物质", "未追蹤任何物質"),
     "%@ %@ of %@ left.": ("剩 %@ %@，共 %@。", "剩 %@ %@，共 %@。"),
+    "%@ of %@ %@ remaining": ("剩 %1$@，共 %2$@ %3$@", "剩 %1$@，共 %2$@ %3$@"),
     "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.": (
         "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。导入的条目会添加到你的日志中（重复项会跳过）。加密备份的恢复可以合并或替换。库存包含在 Piru 和加密备份中，但不包含在 PsychonautWiki 文件中。",
         "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。匯入的條目會新增到你的日誌中（重複項會略過）。加密備份的還原可以合併或取代。庫存包含在 Piru 和加密備份中，但不包含在 PsychonautWiki 檔案中。",
@@ -4630,6 +4631,8 @@ if __name__ == "__main__":
     NEW_KEYS = {
         # In Your Body cumulative rows — cleared-substance second line (2026-07-10).
         "Fully eliminated",
+        # In Your Body cumulative readout — VoiceOver label (2026-07-11).
+        "%@ of %@ %@ remaining",
         # US-spelling renames of existing keys (2026-07-10).
         "No half-life data — elimination not modeled",
         "Recovery timescales and behavior are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.",

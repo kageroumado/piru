@@ -1093,6 +1093,22 @@
         }
       }
     },
+    "%@ of %@ %@ remaining" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %1$@，共 %2$@ %3$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %1$@，共 %2$@ %3$@"
+          }
+        }
+      }
+    },
     "%@ this month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1613,6 +1629,7 @@
       }
     },
     "%lld entr%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
