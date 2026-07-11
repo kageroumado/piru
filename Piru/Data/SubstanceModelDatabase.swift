@@ -250,11 +250,28 @@ nonisolated enum SubstanceModelDatabase {
         )
     }
 
-    /// Whether a built parameter set should **surface the mechanistic lenses** — i.e. it carries a
-    /// stimulant (transporter) or opioid (µ) mechanism. Pure sedatives/enhancers/antagonists
-    /// (benzos, CAEs, mirtazapine) are adjuncts: modelable when they accompany a stimulant/opioid, but
-    /// they never trigger the view on their own.
+    /// Whether a built parameter set carries a modelable stimulant (transporter) or opioid (µ)
+    /// mechanism — i.e. the engine can *simulate* it as an agent. Pure sedatives/enhancers/antagonists
+    /// (benzos, CAEs, mirtazapine) are adjuncts: modelable alongside a stimulant/opioid, never alone.
+    /// This is a *modelability* check, not a *trigger* — see ``isCalibratedTrigger(_:)``.
     static func triggersMechanisticView(_ params: SubstanceModelParams) -> Bool {
         params.wDAT > 0 || params.wNET > 0 || params.mu > 0 || params.releaser
+    }
+
+    /// The substances the effect model was actually **calibrated** on — the only ones allowed to
+    /// *trigger* Effect Estimates. The engine can still read every other modelable substance
+    /// (methamphetamine, cocaine, kratom, MDMA, …) as an interacting agent that shapes the aggregate
+    /// curves, but their solo precision is too low to anchor the model, so a session must contain at
+    /// least one of these to surface the view. Normalized canonical names; aliases (`4-mmc`, `ritalin`,
+    /// `adderall`, …) resolve through ``aliases`` first. The cathinones rest on a human 3-MMC study.
+    static let calibratedTriggerSet: Set<String> = [
+        "amphetamine", "methylphenidate", "2-mmc", "3-mmc", "mephedrone",
+    ]
+
+    /// Whether `name` — after normalization and alias resolution — is one of the calibrated trigger
+    /// substances (``calibratedTriggerSet``). e.g. "Ritalin" → `methylphenidate`, "4-MMC" → `mephedrone`.
+    static func isCalibratedTrigger(_ name: String) -> Bool {
+        let key = normalize(name)
+        return calibratedTriggerSet.contains(aliases[key] ?? key)
     }
 }

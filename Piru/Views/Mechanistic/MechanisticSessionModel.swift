@@ -101,13 +101,16 @@ nonisolated enum MechanisticSessionModel {
 
     // MARK: - Gating
 
-    /// Whether these doses contain a stimulant or opioid the engine models —
-    /// the trigger for surfacing the mechanistic lenses at all. Needs the resolved
-    /// pharmacology (keyed by normalized name) since PK + binding now come from the
-    /// bundled DB, not a hardcoded table.
+    /// Whether the session contains at least one substance the engine was **calibrated** on —
+    /// the trigger for surfacing the mechanistic lenses at all. A stimulant/opioid the engine can
+    /// merely *simulate* (methamphetamine, cocaine, kratom, MDMA) is not enough: those shape the
+    /// curves as interacting agents once a calibrated substance is present, but their solo precision
+    /// is too low to anchor the model. Requires both a calibrated identity and resolvable model
+    /// params (defensive — a calibrated substance whose DB row went missing shouldn't trigger).
     static func supportsMechanisticView(_ doses: [DoseInput], pharmacology: [String: PharmacologyParameters]) -> Bool {
         doses.contains { dose in
-            guard let params = modelParams(for: dose.name, in: pharmacology) else { return false }
+            guard SubstanceModelDatabase.isCalibratedTrigger(dose.name),
+                  let params = modelParams(for: dose.name, in: pharmacology) else { return false }
             return SubstanceModelDatabase.triggersMechanisticView(params)
         }
     }

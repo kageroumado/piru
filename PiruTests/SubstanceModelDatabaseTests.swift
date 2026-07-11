@@ -124,4 +124,41 @@ struct SubstanceModelDatabaseTests {
         #expect(!triggers("bromazepam")) // sedative adjunct alone ⇒ Tier 0
         #expect(!triggers("LSD"))
     }
+
+    @Test
+    func `Only the calibrated substances trigger Effect Estimates; simulate-only ones don't`() {
+        // Calibrated set (aliases resolve to canonical).
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("amphetamine"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("Adderall"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("methylphenidate"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("Ritalin"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("3-MMC"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("2-MMC"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("mephedrone"))
+        #expect(SubstanceModelDatabase.isCalibratedTrigger("4-MMC")) // ≡ mephedrone
+
+        // Modelable but *not* calibrated — read as interacting agents, never a solo trigger.
+        #expect(!SubstanceModelDatabase.isCalibratedTrigger("methamphetamine"))
+        #expect(!SubstanceModelDatabase.isCalibratedTrigger("kratom"))
+        #expect(!SubstanceModelDatabase.isCalibratedTrigger("MDMA"))
+        #expect(!SubstanceModelDatabase.isCalibratedTrigger("heroin"))
+    }
+
+    @Test
+    func `The view gates on a calibrated substance, not any modelable stimulant`() {
+        func supports(_ names: [String]) -> Bool {
+            let doses = names.map { MechanisticSessionModel.DoseInput(name: $0, amount: 50, route: .oral, hours: 0) }
+            var pharm: [String: PharmacologyParameters] = [:]
+            for name in names {
+                pharm[SubstanceModelDatabase.normalize(name)] = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
+            }
+            return MechanisticSessionModel.supportsMechanisticView(doses, pharmacology: pharm)
+        }
+        // Methamphetamine / kratom alone: modelable, but not calibrated ⇒ no card (the reported bug).
+        #expect(!supports(["methamphetamine"]))
+        #expect(!supports(["kratom"]))
+        // A calibrated substance anywhere in the session flips it on; the rest shape the curves.
+        #expect(supports(["amphetamine"]))
+        #expect(supports(["methamphetamine", "3-MMC"]))
+    }
 }
