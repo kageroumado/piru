@@ -62,6 +62,11 @@ enum ActiveSubstanceCalculator {
 
         for entry in entries {
             let substance = cachedLookup(entry.substance)
+            // Supplements/vitamins clear over days-to-weeks, so a body-load readout
+            // for them ("0% eliminated · clear in 5 months") is noise, not session
+            // insight. Excluded here to match their suppression on the timeline and
+            // in the entry-row rail (see `from`).
+            if substance?.category == .supplement { continue }
             guard let halfLife = resolveHalfLife(substance: substance, entryName: entry.substance) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
@@ -225,7 +230,16 @@ extension ActiveSubstanceState {
                 tachyphylaxis: substance.category.acuteToleranceFactor,
             )
         }
-        if let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {
+        // Vitamins/supplements (Vitamin D3, magnesium, creatine…) have no
+        // perceptible acute effect, but their biological half-lives run to
+        // days-or-weeks — synthesizing a half-life curve for them draws a
+        // misleading multi-day arc (and a "2,446h left" entry-row rail). Deny them
+        // the synthesized fallback so they fall through to a plain timestamp
+        // marker. A supplement with a *real* acute profile (e.g. melatonin) still
+        // resolves above via `timelineDuration`, so this only suppresses the
+        // fabricated curve, not genuine ones.
+        if substance.category != .supplement,
+           let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {
             return ActiveSubstanceState(
                 synthesizedForName: substance.displayTitle,
                 colorHex: colorHex,
@@ -268,16 +282,23 @@ extension ActiveSubstanceState {
             let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
             if let state = from(entry: entry, colorHex: hex) {
                 states.append(state)
-            } else {
-                markers.append(DoseMarker(
-                    // Canonical name so the marker's label and its lane matching agree with the curves.
-                    substanceName: SubstanceLibrary.timelineLookup(entry.substance)?.displayTitle ?? entry.substance,
-                    timestamp: entry.timestamp,
-                    colorHex: hex,
-                    amount: entry.amount,
-                    unit: entry.unit,
-                ))
+                continue
             }
+            // A dose with no curve normally still lands as a timestamp marker — but
+            // a supplement without an acute profile (Vitamin D3, magnesium) has no
+            // duration *or* effect to honestly plot, so it stays off the effect
+            // graph entirely (it remains in the entries list and the info card). A
+            // non-supplement with no data still gets its marker.
+            let substance = SubstanceLibrary.timelineLookup(entry.substance)
+            if substance?.category == .supplement { continue }
+            markers.append(DoseMarker(
+                // Canonical name so the marker's label and its lane matching agree with the curves.
+                substanceName: substance?.displayTitle ?? entry.substance,
+                timestamp: entry.timestamp,
+                colorHex: hex,
+                amount: entry.amount,
+                unit: entry.unit,
+            ))
         }
         return (states, markers)
     }
