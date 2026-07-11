@@ -384,8 +384,18 @@ nonisolated enum TimelineCurveModel {
         let sigmaUp = max((comeupEnd - onsetEnd) / Self.comeupSharpness, 1e-3)
         let sigmaDown = max((offsetEnd - peakEnd) / Self.offsetSharpness, 1e-3)
         let center = (comeupEnd + peakEnd) / 2
-        let leftEdge = comeupEnd + (center - comeupEnd) * Self.peakDome
-        let rightEdge = peakEnd - (peakEnd - center) * Self.peakDome
+        // Round the flat crest's edges inward for a soft dome — but never by more
+        // than the adjacent shoulder's own width. A substance whose listed `peak`
+        // phase runs many times longer than its come-up (a hypnotic like zolpidem:
+        // a ~1 h come-up but a 3–6 h peak) would otherwise have its *time to peak*
+        // dragged to the center of that long plateau: the come-up is over, yet the
+        // curve keeps climbing for another hour-plus before it reads as "peak".
+        // Capping the inward shift at the come-up / offset width keeps the plateau
+        // anchored to when the effects actually plateau (end of come-up) and lift
+        // (start of offset). For ordinary profiles — where the peak phase is at most
+        // ~4× the come-up — the cap never binds, so their tuned shape is unchanged.
+        let leftEdge = comeupEnd + min((center - comeupEnd) * Self.peakDome, comeupEnd - onsetEnd)
+        let rightEdge = peakEnd - min((peakEnd - center) * Self.peakDome, offsetEnd - peakEnd)
 
         if minutes <= leftEdge {
             let z = (leftEdge - minutes) / sigmaUp
