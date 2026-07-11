@@ -346,9 +346,16 @@ struct DurationProfile: Codable, Hashable {
     let total: DurationRange?
 
     var estimatedTotalMinutes: Double {
-        if let total { return total.midpoint }
-        let phases = [onset, comeup, peak, offset].compactMap { $0?.midpoint }
-        return phases.reduce(0, +)
+        // The offset phase boundary — where the acute curve has fully fallen — is
+        // the floor. A `total` field shorter than the phases that precede it is
+        // incoherent source data (e.g. kratom oral: total 120–240 while the offset
+        // phase alone ends at ~390); trusting it verbatim reports the dose "over"
+        // while its curve is still visibly descending, desyncing the entry-row
+        // rail / now-line / active fade — all gated on this value — from what the
+        // graph draws (which follows the phase boundaries, not `total`).
+        let phaseEnd = phaseBoundaries.offsetEnd
+        if let total { return max(total.midpoint, phaseEnd) }
+        return phaseEnd
     }
 
     var phaseBoundaries: PhaseBoundaries {
