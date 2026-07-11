@@ -387,11 +387,12 @@ struct TimelineGraphView: View, Equatable {
             maxEnd = max(maxEnd, offset + 60)
         }
         // Live/today view: keep the "now" indicator on-axis when it sits just
-        // past the last curve (everything worn off, but the session is still
-        // current). Historical days pass a `currentTime` of `.now` that's days
-        // later, so the 3 h margin excludes them. Skipped for compact
-        // thumbnails, which don't draw a now-line.
-        if !compact {
+        // past the last curve (a dose still within its window, but its own curve
+        // has peaked and fallen). Gated on `hasActiveNow` so a session where
+        // *everything* has worn off doesn't balloon the axis out to a now-line
+        // that no longer draws. Historical days pass a `currentTime` days later,
+        // excluded by the 3 h margin anyway. Skipped for compact thumbnails.
+        if !compact, hasActiveNow {
             let nowMin = currentTime.timeIntervalSince(earliestDose) / 60
             if nowMin >= 0, nowMin <= maxEnd + 180 {
                 maxEnd = max(maxEnd, nowMin)
@@ -1067,18 +1068,24 @@ struct TimelineGraphView: View, Equatable {
 
             let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
             let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
-            // Skip on compact thumbnails: a full-height line on a 96pt card reads
-            // as a stray glitch, not a "you are here" cue.
-            if !compact, scrubX == nil, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
+            // Only while the session is live. Once every dose's effect window has
+            // ended, a bar pinned at "now" is a stray rule in dead space — and the
+            // axis no longer stretches out to reach it (see `spanIncludingMarkers`).
+            // Skipped on compact thumbnails, where a full-height line reads as a
+            // glitch, not a "you are here" cue.
+            if !compact, hasActiveNow, scrubX == nil, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
                 var nowLine = Path()
                 nowLine.move(to: CGPoint(x: nowX, y: graphTop))
                 // Extend through the companion vitals lane so the "you are here"
                 // rule is one continuous line across both the curves and the HR band.
                 nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight + vitalsBandTotal))
-                context.stroke(
-                    nowLine,
-                    with: .color(.primary.opacity(0.55)),
-                    lineWidth: compact ? 1 : 2,
+                context.stroke(nowLine, with: .color(.primary.opacity(0.7)), lineWidth: 2.5)
+                // A small cap where the rule meets the plot top, so it reads as a
+                // deliberate "now" marker rather than another gridline.
+                let capRadius: CGFloat = 3
+                context.fill(
+                    Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop, width: capRadius * 2, height: capRadius * 2)),
+                    with: .color(.primary.opacity(0.7)),
                 )
             }
 
