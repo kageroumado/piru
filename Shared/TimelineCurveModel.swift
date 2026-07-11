@@ -313,13 +313,40 @@ nonisolated enum TimelineCurveModel {
     /// clearing enzyme saturates across its dose range (alcohol). `nil` for every first-order
     /// substance, or when the dose can't be read as a mass — both fall back to the phase bell.
     nonisolated static func zeroOrderKinetics(for s: ActiveSubstanceState) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
+        zeroOrderKinetics(substanceName: s.substanceName, amount: s.amount, unit: s.unit)
+    }
+
+    /// The zero-order kinetics + dose (mg) for a substance identified by raw fields, so the
+    /// state *builder* can consult the same model the curve uses before an `ActiveSubstanceState`
+    /// exists. `nil` for every first-order substance or an unreadable dose.
+    nonisolated static func zeroOrderKinetics(substanceName: String, amount: Double, unit: String) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
         let kinetics: PKModel.ZeroOrderKinetics
-        switch s.substanceName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        switch substanceName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
         case "alcohol", "ethanol": kinetics = PKModel.ethanolZeroOrder
         default: return nil
         }
-        guard let mg = zeroOrderDoseMilligrams(amount: s.amount, unit: s.unit) else { return nil }
+        guard let mg = zeroOrderDoseMilligrams(amount: amount, unit: unit) else { return nil }
         return (kinetics, mg)
+    }
+
+    /// Dose-scaled phase boundaries (minutes) for a zero-order substance, derived from its own
+    /// kinetics so the phase bar, phase-band coloring, now-line active window, and "{elapsed} in ·
+    /// {remaining} left" readout all track the same clock as the curve — which for alcohol *grows
+    /// with dose* instead of sitting on a fixed profile. `nil` for first-order substances, unreadable
+    /// doses, or a dose too small to form a real peak (all fall back to the fixed `DurationProfile`).
+    ///
+    /// The curve is an absorption rise to a BAC peak (`zeroOrderPeakMinutes`) followed by a long
+    /// linear decline to clearance (`zeroOrderClearMinutes`), so the whole descending limb maps to a
+    /// single wide "offset" and there is no afterglow.
+    nonisolated static func zeroOrderBoundaries(substanceName: String, amount: Double, unit: String)
+        -> (onsetEnd: Double, comeupEnd: Double, peakEnd: Double, offsetEnd: Double, total: Double)? {
+        guard let (kinetics, doseMg) = zeroOrderKinetics(substanceName: substanceName, amount: amount, unit: unit) else { return nil }
+        let peak = PKModel.zeroOrderPeakMinutes(doseMg: doseMg, kinetics: kinetics)
+        let clear = PKModel.zeroOrderClearMinutes(doseMg: doseMg, kinetics: kinetics)
+        guard peak > 0, clear > peak else { return nil }
+        // A short crest around the BAC peak, clamped so it never crosses into the decline.
+        let peakEnd = min(peak * 1.15, (peak + clear) / 2)
+        return (onsetEnd: peak * 0.35, comeupEnd: peak * 0.85, peakEnd: peakEnd, offsetEnd: clear, total: clear)
     }
 
     /// The logged amount in milligrams of ethanol. Mass units convert directly;

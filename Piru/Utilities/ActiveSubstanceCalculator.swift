@@ -133,6 +133,11 @@ extension ActiveSubstanceState {
         // profiles. Curve-only — the detail card keeps the raw phases.
         let duration = category.map { rawDuration.fillingMissingPhases(for: $0) } ?? rawDuration
         let boundaries = duration.phaseBoundaries
+        // Zero-order substances (alcohol) clear in a dose-scaled time, so the whole readout — phase
+        // bar, phase-band coloring, now-line active window, "{elapsed} in · {remaining} left" — must
+        // track the same kinetics the curve draws, not the fixed `DurationProfile`. Falls back to the
+        // profile below when the dose can't be read as a mass or is too small to form a BAC peak.
+        let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(substanceName: name, amount: amount, unit: unit)
         self.init(
             substanceName: name,
             colorHex: colorHex,
@@ -140,12 +145,12 @@ extension ActiveSubstanceState {
             amount: amount,
             unit: unit,
             route: routeDisplayName,
-            onsetEndMinutes: boundaries.onsetEnd,
-            comeupEndMinutes: boundaries.comeupEnd,
-            peakEndMinutes: boundaries.peakEnd,
-            offsetEndMinutes: boundaries.offsetEnd,
-            afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-            totalMinutes: duration.estimatedTotalMinutes,
+            onsetEndMinutes: zeroOrder?.onsetEnd ?? boundaries.onsetEnd,
+            comeupEndMinutes: zeroOrder?.comeupEnd ?? boundaries.comeupEnd,
+            peakEndMinutes: zeroOrder?.peakEnd ?? boundaries.peakEnd,
+            offsetEndMinutes: zeroOrder?.offsetEnd ?? boundaries.offsetEnd,
+            afterglowEndMinutes: zeroOrder != nil ? nil : (duration.afterglow != nil ? boundaries.afterglowEnd : nil),
+            totalMinutes: zeroOrder?.total ?? duration.estimatedTotalMinutes,
             doseIntensity: doseIntensity,
             doseMagnitude: doseMagnitude,
             tachyphylaxis: tachyphylaxis,
