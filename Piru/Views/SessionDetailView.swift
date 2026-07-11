@@ -944,7 +944,7 @@ private struct SessionEntryListSection: View {
     let isRecentDay: Bool
 
     var body: some View {
-        Section {
+        Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
             ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
                 DayEntryRow(
                     entry: entry,

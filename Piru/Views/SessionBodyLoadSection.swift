@@ -250,7 +250,6 @@ struct SessionBodyLoadModel {
 /// are the "dosed" side of the body-load equation, so the two former sections are
 /// one story here. For a past session (everything cleared) it degrades to re-dose
 /// totals alone; a session of single doses that have all worn off shows nothing.
-/// Headerless — the cumulative-total hero and curve name the card themselves.
 struct SessionBodyLoadSection: View {
     let entries: [DoseEntry]
     let colorMap: [String: Color]
@@ -279,6 +278,8 @@ struct SessionBodyLoadSection: View {
                     .padding(.vertical, 2)
                     .accessibilityElement(children: .combine)
                 }
+            } header: {
+                Text("Total in Your Body")
             } footer: {
                 if !model.active.isEmpty {
                     Text("Estimates from population half-lives — individual clearance varies.")

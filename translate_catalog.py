@@ -2792,6 +2792,8 @@ T = {
     "Recovery Guide": ("恢复指南", "恢復指南"),
     "Recovery — Right Now": ("立即恢复", "立即恢復"),
     "Recovery tips": ("恢复提示", "恢復提示"),
+    "Recovery Tips": ("恢复提示", "恢復提示"),
+    "Total in Your Body": ("体内总量", "體內總量"),
     "Universal recovery basics": ("通用恢复基础", "通用恢復基礎"),
     "Hydrate — water or electrolyte drinks, sip steadily": (
         "补水 — 水或电解质饮料,小口慢饮",
@@ -4664,6 +4666,9 @@ if __name__ == "__main__":
         # Persisted "Expand Session Graph" preference + Journal settings toggle (2026-07-10).
         "Expand Session Graph",
         "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.",
+        # Session detail section headers restored (2026-07-11).
+        "Total in Your Body",
+        "Recovery Tips",
         # Session detail "In Your Body" section + row redesign (2026-07-09).
         "Estimates from population half-lives — individual clearance varies.",
         "soon",

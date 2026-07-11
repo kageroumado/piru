@@ -20,6 +20,12 @@ struct SessionSafetySection: View {
                 if let hrSummary {
                     hrSummaryRow(hrSummary)
                 }
+            } header: {
+                // The section doubles as the heart-rate summary's home when
+                // vitals are on; "Interactions" only fits when there are some.
+                if !interactions.isEmpty {
+                    Text("Interactions")
+                }
             }
         }
     }

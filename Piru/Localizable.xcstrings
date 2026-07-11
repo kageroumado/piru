@@ -1613,7 +1613,6 @@
       }
     },
     "%lld entr%@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -29847,6 +29846,22 @@
         }
       }
     },
+    "Recovery Tips" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复提示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復提示"
+          }
+        }
+      }
+    },
     "Recovery-state load" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -35194,6 +35209,7 @@
       }
     },
     "Start dictation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35630,6 +35646,7 @@
       }
     },
     "Stop dictation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38673,6 +38690,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "總計"
+          }
+        }
+      }
+    },
+    "Total in Your Body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内总量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內總量"
           }
         }
       }
