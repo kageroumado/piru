@@ -133,8 +133,25 @@ struct EntryRowView: View {
             }
 
             eliminationFooter
+
+            if !display.core.tags.isEmpty {
+                tagRow
+            }
         }
         .padding(.vertical, 1)
+    }
+
+    /// Tags on their own line as unfilled, bordered pills — pulled off the meta
+    /// line (where they used to fight the clock time hard enough to wrap "PM"
+    /// mid-token) and given a distinct outlined grammar so a rarely-used tag reads
+    /// as a quiet annotation rather than another filled badge.
+    private var tagRow: some View {
+        HStack(spacing: 6) {
+            ForEach(display.core.tags, id: \.self) { tag in
+                Text(tag).capsuleOutlineChip()
+            }
+        }
+        .accessibilityElement(children: .combine)
     }
 
     private func nameCluster(nameLineLimit: Int) -> some View {
@@ -154,10 +171,7 @@ struct EntryRowView: View {
     /// row's hero, and the strength tier is carried separately by the ``strengthChip``
     /// below, so the dose itself needn't double as a tier color.
     private var doseText: some View {
-        Text("\(display.core.amount.doseFormatted) \(display.core.unit)")
-            .font(.system(.title3, design: .rounded).weight(.semibold))
-            .foregroundStyle(.primary)
-            .lineLimit(1)
+        MeasurementLabel(amount: display.core.amount, unit: display.core.unit)
             .accessibilityLabel(doseAccessibilityLabel)
     }
 
@@ -171,8 +185,7 @@ struct EntryRowView: View {
     /// The route badge — a tinted capsule in the route's *own* fixed color (every
     /// "oral" pill matches), not the substance's color.
     private var roaPill: some View {
-        Text(String(localized: display.core.route.localizedName).lowercased())
-            .capsuleChip(tint: display.core.route.tintColor)
+        ROAPill(route: display.core.route, size: .compact)
     }
 
     /// The strength badge ("light"/"common"/"heavy"…) — same capsule grammar as
@@ -225,19 +238,13 @@ struct EntryRowView: View {
         }
     }
 
-    /// Clock time, relative "ago", and the (unimportant) tags — all one gray.
+    /// Clock time and the relative "ago" — one gray line. Tags moved to their own
+    /// ``tagRow`` so they can't crowd the clock time.
     private var metaTextLine: some View {
-        HStack(spacing: 0) {
-            timeLine
-            if !display.core.tags.isEmpty {
-                Text(verbatim: "  ·  ").foregroundStyle(.tertiary)
-                Text(display.core.tags.joined(separator: " · "))
-                    .lineLimit(1)
-            }
-        }
-        .font(.subheadline)
-        .foregroundStyle(Theme.secondaryLabel)
-        .monospacedDigit()
+        timeLine
+            .font(.subheadline)
+            .foregroundStyle(Theme.secondaryLabel)
+            .monospacedDigit()
     }
 
     /// The elimination-progress rail with the live countdown at its trailing

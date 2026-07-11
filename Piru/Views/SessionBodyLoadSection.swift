@@ -27,41 +27,68 @@ struct BodyLoadRowLabel: View {
             HStack(alignment: .center, spacing: 8) {
                 nameCluster
                 Spacer(minLength: 8)
-                totalText
+                trailingReadout
             }
             statusLine
         }
     }
 
-    /// Dot · name · optional intake count (`13×`). The count is baseline-aligned to
-    /// the name so it sits on the same line rather than riding high.
+    /// Dot · name · optional intake-count pill (`2×`). The count is a small neutral
+    /// capsule rather than a tiny inline word so a redose count reads as a badge,
+    /// not a stray glyph riding beside the name.
     private var nameCluster: some View {
         HStack(alignment: .center, spacing: 8) {
             Image(systemName: "circle.fill")
                 .font(.system(size: 9))
                 .foregroundStyle(dotColor)
                 .accessibilityHidden(true)
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text(name)
-                    .font(.body.weight(.semibold))
-                    .lineLimit(1)
-                if count > 1 {
-                    Text(verbatim: "\(count)×")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .monospacedDigit()
-                }
+            Text(name)
+                .font(.body.weight(.semibold))
+                .lineLimit(1)
+            if count > 1 {
+                Text(verbatim: "\(count)×")
+                    .monospacedDigit()
+                    .capsuleChip(tint: Theme.secondaryLabel)
             }
         }
     }
 
-    /// The session total in the dose rows' rounded hero face, uncolored — the
-    /// strength tier isn't carried on the cumulative rows.
-    private var totalText: some View {
-        Text("\(total.doseFormatted) \(unit)")
-            .font(.system(.title3, design: .rounded).weight(.semibold))
-            .foregroundStyle(.primary)
-            .lineLimit(1)
+    /// The quantity, deliberately quieter than the entry rows' hero number — the
+    /// totals section restates the same doses, so it shouldn't carry equal weight.
+    /// An active substance shows "remaining / total unit" so the still-circulating
+    /// amount leads; a cleared/static one shows the total alone.
+    @ViewBuilder
+    private var trailingReadout: some View {
+        switch status {
+        case let .eliminating(_, _, remaining):
+            cumulativeReadout(remaining: remaining)
+        case .cleared, nil:
+            MeasurementLabel(amount: total, unit: unit, numberStyle: .body, unitStyle: .caption)
+        }
+    }
+
+    /// "33 / 110 mg" — remaining (primary, rounded) over the session total
+    /// (secondary), unit trailing. Compact so seven glyphs don't take on the mass
+    /// of the hero readout.
+    private func cumulativeReadout(remaining: Double) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 2) {
+            Text(remaining.doseFormatted)
+                .font(.system(.body, design: .rounded).weight(.semibold))
+                .foregroundStyle(.primary)
+            Text(verbatim: " / ")
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundStyle(.tertiary)
+            Text(total.doseFormatted)
+                .font(.system(.subheadline, design: .rounded).weight(.medium))
+                .foregroundStyle(.secondary)
+            Text(unit)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .lineLimit(1)
+        .monospacedDigit()
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text("\(remaining.doseFormatted) of \(total.doseFormatted) \(unit) remaining"))
     }
 
     /// The secondary line, in the dose row's meta size (`.subheadline`, secondary):
@@ -70,18 +97,16 @@ struct BodyLoadRowLabel: View {
     @ViewBuilder
     private var statusLine: some View {
         switch status {
-        case let .eliminating(percent, clear, remaining):
-            HStack(spacing: 8) {
-                Text("\(percent)% eliminated · clear ~\(clear)")
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-                Spacer(minLength: 8)
-                Text("\(remaining.doseFormatted) \(unit) left")
-                    .lineLimit(1)
-                    .layoutPriority(1)
-            }
-            .font(.subheadline)
-            .foregroundStyle(Theme.secondaryLabel)
+        case let .eliminating(percent, clear, _):
+            // The still-circulating amount now leads the trailing readout
+            // ("33 / 110 mg"), so this line carries only the eliminated share and
+            // the clear-by projection.
+            Text("\(percent)% eliminated · clear ~\(clear)")
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
         case .cleared:
             Text("Fully eliminated")
                 .font(.subheadline)

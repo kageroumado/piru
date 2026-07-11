@@ -944,7 +944,7 @@ private struct SessionEntryListSection: View {
     let isRecentDay: Bool
 
     var body: some View {
-        Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
+        Section {
             ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
                 DayEntryRow(
                     entry: entry,
@@ -954,7 +954,23 @@ private struct SessionEntryListSection: View {
                 )
                 .equatable()
             }
+        } footer: {
+            Text(footerText)
         }
+    }
+
+    /// The dose count and, for a multi-dose session, its span — moved off a section
+    /// *header* (a bare counter that only bought breathing room) into the footer,
+    /// where a count-plus-duration reads as a proper caption and the entries lead
+    /// straight into their card.
+    private var footerText: String {
+        let countText = entries.count == 1
+            ? String(localized: "1 dose")
+            : String(localized: "\(entries.count) doses")
+        guard let first = entries.first?.timestamp,
+              let last = entries.last?.timestamp,
+              last > first else { return countText }
+        return "\(countText) · \(last.timeIntervalSince(first).durationHM)"
     }
 }
 

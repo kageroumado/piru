@@ -469,12 +469,7 @@ struct EntryDetailView: View {
                                 .background(substanceColor.opacity(0.16), in: Capsule())
                                 .foregroundStyle(substanceColor)
                         }
-                        Text(entry.route.localizedName)
-                            .font(.caption.weight(.semibold))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
-                            .background(entry.route.tintColor.opacity(0.16), in: Capsule())
-                            .foregroundStyle(entry.route.tintColor)
+                        ROAPill(route: entry.route, size: .regular)
                     }
                 }
                 Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
