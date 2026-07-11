@@ -1,4 +1,3 @@
-import Speech
 import SwiftUI
 import UIKit
 
@@ -92,8 +91,8 @@ final class DockSheetGeometry {
 ///
 /// State ownership: the tray, content caches, and search text live on
 /// `QuickLogView` (browse-list taps stage into the same tray). The dock owns
-/// only what's local to its surface — keyboard focus, dictation, and the
-/// detent transitions.
+/// only what's local to its surface — keyboard focus and the detent
+/// transitions.
 struct QuickLogDock: View {
     var tray: DoseTrayModel
     var content: QuickLogContentModel
@@ -110,8 +109,6 @@ struct QuickLogDock: View {
 
     @FocusState private var searchFocused: Bool
     @State private var customSubstanceStore = CustomSubstanceStore.shared
-    @State private var dictation = DockDictation()
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// The bare (Maps collapsed-pill) face: nothing but the floating search
@@ -256,7 +253,6 @@ struct QuickLogDock: View {
             // the commit bar (panels opening), and staging changes all funnel
             // into this one value.
             .onChange(of: compactHeightValue) { handleCompactHeightChanged() }
-            .onChange(of: dictation.transcript) { handleTranscriptChanged() }
             // A routine prestaged before the sheet mounted (notification deep
             // link) should land already showing the tray.
             .onAppear(perform: handleAppear)
@@ -369,7 +365,7 @@ struct QuickLogDock: View {
             // the sheet, and UIKit auto-expands a keyboard-covered sheet to
             // its largest detent anyway.
             moveDetent(to: .large)
-        } else if searchText.isEmpty, searchActive, !dictation.isListening {
+        } else if searchText.isEmpty, searchActive {
             withAnimation(.snappy) { searchActive = false }
         }
     }
@@ -377,7 +373,6 @@ struct QuickLogDock: View {
     private func handleSearchActiveChanged() {
         guard !searchActive else { return }
         searchFocused = false
-        dictation.stop()
         selectedFamilyID = nil
         browseResults = []
         if tray.isEmpty { awaitingBareCollapse = true }
@@ -395,11 +390,6 @@ struct QuickLogDock: View {
         awaitingBareCollapse = tray.isEmpty && !searchActive
         if tray.isEmpty { unrevealedItemIDs.removeAll() }
         refreshDetents()
-    }
-
-    private func handleTranscriptChanged() {
-        guard dictation.isListening || !dictation.transcript.isEmpty else { return }
-        searchText = dictation.transcript
     }
 
     private func handleAppear() {
@@ -803,9 +793,9 @@ struct QuickLogDock: View {
 
     /// The single pinned field — present in every detent, so SwiftUI animates
     /// it in place as the sheet resizes and the content morphs beneath it.
-    /// Trailing affordances follow the system search field: a microphone
-    /// (dictation) while empty, the clear button once text exists; a
-    /// full-size glass cancel appears beside the field while searching.
+    /// A clear button trails the field once text exists; a full-size glass
+    /// cancel appears beside the field while searching. Dictation is the
+    /// keyboard's own mic key — the app never touches the microphone.
     private var searchBar: some View {
         HStack(spacing: 8) {
             HStack(spacing: 8) {
@@ -820,20 +810,12 @@ struct QuickLogDock: View {
                 if !searchText.isEmpty {
                     Button {
                         searchText = ""
-                        dictation.stop()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Clear search")
-                } else {
-                    // Device-only: the simulator's CoreAudio bridge aborts
-                    // intermittently on mic access (AURemoteIO RPC timeout) —
-                    // Apple's own speech samples are marked device-only.
-                    #if !targetEnvironment(simulator)
-                        micButton
-                    #endif
                 }
             }
             .padding(.horizontal, 14)
@@ -861,28 +843,6 @@ struct QuickLogDock: View {
         }
         .animation(.snappy, value: searchActive)
         .animation(.snappy, value: searchText.isEmpty)
-    }
-
-    /// In-field dictation toggle, mirroring the system search field's
-    /// trailing microphone. Listening state pulses the filled glyph.
-    private var micButton: some View {
-        Button {
-            if dictation.isListening {
-                dictation.stop()
-            } else {
-                searchActive = true
-                moveDetent(to: .large)
-                dictation.start()
-            }
-        } label: {
-            Image(systemName: dictation.isListening ? "microphone.fill" : "microphone")
-                .foregroundStyle(dictation.isListening ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.secondaryLabel))
-                .symbolEffect(.pulse, options: .repeating, isActive: dictation.isListening && !reduceMotion)
-                .frame(width: 44, height: 44)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(dictation.isListening ? "Stop dictation" : "Start dictation")
     }
 
     /// The bottom safe-area bar: chips + Log button. Content scrolls beneath
@@ -936,7 +896,6 @@ struct QuickLogDock: View {
 
     private func cancelSearch() {
         searchFocused = false
-        dictation.stop()
         withAnimation(.snappy) {
             searchActive = false
             searchText = ""
@@ -1419,203 +1378,5 @@ private struct TrayDerivedObserver: View {
             .onChange(of: Self.estimatedStagedCardHeight(count: tray.staged.count), initial: true) { _, estimate in
                 onStagedEstimate(estimate)
             }
-    }
-}
-
-// MARK: - Dictation
-
-/// Streams live speech into the dock's search field — the system search
-/// field's microphone affordance, reproduced with the iOS 26 Speech
-/// framework's `SpeechAnalyzer` + `DictationTranscriber`.
-///
-/// **Fully on-device by design.** The old `SFSpeechRecognizer` path required
-/// a speech-recognition authorization whose system prompt warns that audio
-/// is sent to Apple's servers — unacceptable for a dose tracker's search
-/// terms. `DictationTranscriber` uses the locally installed keyboard-
-/// dictation models (via `AssetInventory`): no server round-trip, no
-/// speech-recognition permission — only the microphone permission.
-@Observable
-@MainActor
-final class DockDictation {
-    private(set) var isListening = false
-    private(set) var transcript = ""
-
-    private var audioEngine: AVAudioEngine?
-    private var analyzer: SpeechAnalyzer?
-    private var inputBuilder: AsyncStream<AnalyzerInput>.Continuation?
-    private var resultsTask: Task<Void, Never>?
-    /// Generation token: tearing down an old session must never clear state
-    /// that a newer session has since taken over.
-    private var generation = 0
-
-    func start() {
-        guard !isListening else { return }
-        transcript = ""
-        isListening = true
-        let startedGeneration = generation
-        Task { @MainActor in
-            let granted = await AVAudioApplication.requestRecordPermission()
-            guard granted, generation == startedGeneration, isListening else {
-                if generation == startedGeneration { isListening = false }
-                return
-            }
-            await beginTranscription(generation: startedGeneration)
-        }
-    }
-
-    func stop() {
-        generation += 1
-        isListening = false
-        inputBuilder?.finish()
-        inputBuilder = nil
-        // Stop but keep the engine instance — re-creating AVAudioEngine per
-        // session is the flaky path for CoreAudio's remote-IO bridge.
-        if let engine = audioEngine {
-            engine.stop()
-            engine.inputNode.removeTap(onBus: 0)
-        }
-        if let analyzer {
-            Task { try? await analyzer.finalizeAndFinishThroughEndOfInput() }
-        }
-        analyzer = nil
-        resultsTask = nil
-        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-    }
-
-    private func beginTranscription(generation startedGeneration: Int) async {
-        // The dictation module for the user's language, on the local
-        // keyboard-dictation models.
-        let supported = await DictationTranscriber.supportedLocales
-        guard let locale = supported.first(where: {
-            $0.identifier(.bcp47) == Locale.current.identifier(.bcp47)
-        }) ?? supported.first(where: {
-            $0.language.languageCode == Locale.current.language.languageCode
-        }) else {
-            isListening = false
-            return
-        }
-        let transcriber = DictationTranscriber(locale: locale, preset: .progressiveShortDictation)
-
-        do {
-            // First run may download the locale's model — everything stays on
-            // the device afterwards.
-            if let installation = try await AssetInventory.assetInstallationRequest(supporting: [transcriber]) {
-                try await installation.downloadAndInstall()
-            }
-        } catch {
-            isListening = false
-            return
-        }
-
-        guard generation == startedGeneration, isListening else { return }
-
-        let session = AVAudioSession.sharedInstance()
-        do {
-            try session.setCategory(.record, mode: .measurement, options: .duckOthers)
-            try session.setActive(true, options: .notifyOthersOnDeactivation)
-        } catch {
-            isListening = false
-            return
-        }
-
-        let engine = audioEngine ?? AVAudioEngine()
-        audioEngine = engine
-        let inputNode = engine.inputNode
-        let tapFormat = inputNode.outputFormat(forBus: 0)
-        // No usable input (headless simulator, mic revoked at the OS level):
-        // installing a tap with a 0 Hz format raises an NSException.
-        guard tapFormat.sampleRate > 0, tapFormat.channelCount > 0 else {
-            try? session.setActive(false, options: .notifyOthersOnDeactivation)
-            isListening = false
-            return
-        }
-
-        guard let analyzerFormat = await SpeechAnalyzer.bestAvailableAudioFormat(compatibleWith: [transcriber]) else {
-            try? session.setActive(false, options: .notifyOthersOnDeactivation)
-            isListening = false
-            return
-        }
-
-        // stop() may have landed while the format negotiation was suspended.
-        // It already deactivated the session and cleared state — resuming past
-        // it would re-arm the tap and leave the mic hot with no owner.
-        guard generation == startedGeneration, isListening else { return }
-
-        let (inputSequence, builder) = AsyncStream.makeStream(of: AnalyzerInput.self)
-        inputBuilder = builder
-
-        // The tap fires on the audio thread. The converter and continuation
-        // are used from there exclusively once installed.
-        let converter = AVAudioConverter(from: tapFormat, to: analyzerFormat)
-        let needsConversion = tapFormat != analyzerFormat
-        inputNode.installTap(onBus: 0, bufferSize: 2_048, format: tapFormat) { buffer, _ in
-            if !needsConversion {
-                builder.yield(AnalyzerInput(buffer: buffer))
-                return
-            }
-            guard let converter else { return }
-            let ratio = analyzerFormat.sampleRate / tapFormat.sampleRate
-            let capacity = AVAudioFrameCount((Double(buffer.frameLength) * ratio).rounded(.up) + 16)
-            guard let converted = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: capacity) else { return }
-            // The input block is marked @Sendable in the SDK, but
-            // convert(to:error:) calls it synchronously on this thread
-            // before returning — nothing here crosses threads.
-            nonisolated(unsafe) var consumed = false
-            nonisolated(unsafe) let inputBuffer = buffer
-            var conversionError: NSError?
-            converter.convert(to: converted, error: &conversionError) { _, inputStatus in
-                if consumed {
-                    inputStatus.pointee = .noDataNow
-                    return nil
-                }
-                consumed = true
-                inputStatus.pointee = .haveData
-                return inputBuffer
-            }
-            guard conversionError == nil, converted.frameLength > 0 else { return }
-            builder.yield(AnalyzerInput(buffer: converted))
-        }
-
-        do {
-            engine.prepare()
-            try engine.start()
-        } catch {
-            inputNode.removeTap(onBus: 0)
-            builder.finish()
-            inputBuilder = nil
-            try? session.setActive(false, options: .notifyOthersOnDeactivation)
-            isListening = false
-            return
-        }
-
-        audioEngine = engine
-
-        // Volatile results replace the tail; finalized results accumulate.
-        resultsTask = Task { @MainActor [weak self] in
-            var finalized = ""
-            do {
-                for try await result in transcriber.results {
-                    guard let self, self.generation == startedGeneration else { return }
-                    let text = String(result.text.characters)
-                    if result.isFinal {
-                        finalized += text
-                        transcript = finalized
-                    } else {
-                        transcript = finalized + text
-                    }
-                }
-            } catch {
-                // Analysis failed or was torn down — the stop path owns state.
-            }
-        }
-
-        let newAnalyzer = SpeechAnalyzer(modules: [transcriber])
-        analyzer = newAnalyzer
-        do {
-            try await newAnalyzer.start(inputSequence: inputSequence)
-        } catch {
-            guard generation == startedGeneration else { return }
-            stop()
-        }
     }
 }
