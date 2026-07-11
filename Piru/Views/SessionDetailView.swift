@@ -615,6 +615,7 @@ struct SessionDetailView: View {
         }
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
+        .contentMargins(.horizontal, 16, for: .scrollContent)
         .listSectionSpacing(16)
         .background(Theme.background)
         .task(id: colorSignature) {
@@ -921,14 +922,17 @@ private struct SessionTimelineSection: View {
                     vitals: vitals,
                     vitalsBandEnlarged: timelineEnlarged,
                     focusAroundNow: hasOngoingDose,
+                    chartFrame: true,
                     synchronous: true,
                 )
             }
             .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
-            // Full-bleed the canvas to the card edge so continuous curves run edge
-            // to edge. A grouped List ignores `leading: 0` (it falls back to the
-            // ~20pt content margin), so a 0.5pt epsilon reliably reaches the edge.
-            .listRowInsets(EdgeInsets(top: 0, leading: 0.5, bottom: 0, trailing: 0.5))
+            // Bordered-chart treatment: no card fill (clear the shared
+            // CardBackground for this row) and a modest top margin so the frame
+            // breathes below the nav bar. Spans the content column; the drawn frame
+            // provides the visual side edges.
+            .listRowInsets(EdgeInsets(top: 8, leading: 0.5, bottom: 0, trailing: 0.5))
+            .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
             .popoverTip(GraphGestureTip())
         }

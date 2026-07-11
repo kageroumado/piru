@@ -10,6 +10,10 @@ enum GraphMetrics {
     static let canvasInset: CGFloat = 14
     /// Inset on compact thumbnails — kept tight so small cards aren't eaten by padding.
     static let compactInset: CGFloat = 2
+    /// Vertical breathing for the bordered chart host — the curves run flush to the
+    /// side frame horizontally, but keep a small gap above/below so the peak and
+    /// baseline don't jam the top label band and the origin line.
+    static let chartFrameVInset: CGFloat = 8
     /// Padding inside the hosting card / section.
     static let cardInset: CGFloat = 12
     /// Vertical rhythm between stacked graph elements.
@@ -156,6 +160,12 @@ struct TimelineGraphView: View, Equatable {
     /// happening *now* is front and center. Past sessions leave it `false` and
     /// open full-extent. Ignored when `compact` or a `presetSpanMinutes` is set.
     var focusAroundNow: Bool = false
+    /// Draws the graph as a bordered chart rather than inside a filled card: side
+    /// verticals + a bottom origin line (square corners, top-left open), with a
+    /// tighter horizontal inset since there's no rounded card corner to clear. Set
+    /// only by the session-detail host; every compact/thumbnail/widget context
+    /// leaves it off.
+    var chartFrame: Bool = false
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -267,6 +277,7 @@ struct TimelineGraphView: View, Equatable {
         vitals: SessionVitals? = nil,
         vitalsBandEnlarged: Bool = false,
         focusAroundNow: Bool = false,
+        chartFrame: Bool = false,
         synchronous: Bool = false,
     ) {
         self.substances = substances
@@ -281,6 +292,7 @@ struct TimelineGraphView: View, Equatable {
         self.vitals = vitals
         self.vitalsBandEnlarged = vitalsBandEnlarged
         self.focusAroundNow = focusAroundNow
+        self.chartFrame = chartFrame
         let key = DerivedKey(substances: substances, markers: markers, stackRedoses: stackRedoses, dayBounded: dayBounded)
         if synchronous {
             // Live Activity / widget snapshots render in one synchronous pass —
@@ -640,15 +652,19 @@ struct TimelineGraphView: View, Equatable {
     }
 
     private func graphGeometry(for size: CGSize) -> GraphGeometry {
-        let inset: CGFloat = compact ? GraphMetrics.compactInset : GraphMetrics.canvasInset
+        // The bordered chart runs flush to its side frame horizontally (no rounded
+        // card corner to clear) but keeps a small vertical gap; every other host
+        // uses a uniform inset.
+        let hInset: CGFloat = compact ? GraphMetrics.compactInset : (chartFrame ? 0 : GraphMetrics.canvasInset)
+        let vInset: CGFloat = compact ? GraphMetrics.compactInset : (chartFrame ? GraphMetrics.chartFrameVInset : GraphMetrics.canvasInset)
         return GraphGeometry(
-            inset: inset,
-            top: inset + topLabelAreaHeight,
-            width: size.width - inset * 2,
+            inset: hInset,
+            top: vInset + topLabelAreaHeight,
+            width: size.width - hInset * 2,
             // The effect-curve region excludes the companion vitals lane, which
             // sits in the extra height the host reserves below it (via
             // GraphMetrics.vitalsBandTotal), so the curves keep their normal size.
-            height: size.height - labelAreaHeight - topLabelAreaHeight - inset * 2 - vitalsBandTotal,
+            height: size.height - labelAreaHeight - topLabelAreaHeight - vInset * 2 - vitalsBandTotal,
         )
     }
 
@@ -1066,6 +1082,26 @@ struct TimelineGraphView: View, Equatable {
                 )
             }
 
+            // Bordered-chart frame — drawn on top of the bands/curves so the lines
+            // read crisply (not tinted through the fills), but under the now-line.
+            // Left + right verticals down to a bottom origin line (the effect-curve
+            // baseline); square corners, top-left open. The verticals sit a hair
+            // inside the canvas so a 1pt stroke isn't halved by the edge.
+            if chartFrame, !compact, graphHeight > 0 {
+                let left = max(graphInset, 0.5), right = min(graphInset + graphWidth, size.width - 0.5)
+                let baseline = graphTop + graphHeight
+                var verticals = Path()
+                verticals.move(to: CGPoint(x: left, y: graphTop))
+                verticals.addLine(to: CGPoint(x: left, y: baseline))
+                verticals.move(to: CGPoint(x: right, y: graphTop))
+                verticals.addLine(to: CGPoint(x: right, y: baseline))
+                context.stroke(verticals, with: .color(.primary.opacity(0.20)), lineWidth: 1)
+                var origin = Path()
+                origin.move(to: CGPoint(x: left, y: baseline))
+                origin.addLine(to: CGPoint(x: right, y: baseline))
+                context.stroke(origin, with: .color(.primary.opacity(0.28)), lineWidth: 1)
+            }
+
             let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
             let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
             // Only while the session is live. Once every dose's effect window has
@@ -1080,11 +1116,11 @@ struct TimelineGraphView: View, Equatable {
                 // rule is one continuous line across both the curves and the HR band.
                 nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight + vitalsBandTotal))
                 context.stroke(nowLine, with: .color(.primary.opacity(0.7)), lineWidth: 2.5)
-                // A small cap where the rule meets the plot top, so it reads as a
-                // deliberate "now" marker rather than another gridline.
+                // A small dot centered on the baseline (the origin line), anchoring
+                // the rule to "now" on the time axis rather than floating at the top.
                 let capRadius: CGFloat = 3
                 context.fill(
-                    Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop, width: capRadius * 2, height: capRadius * 2)),
+                    Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop + graphHeight - capRadius, width: capRadius * 2, height: capRadius * 2)),
                     with: .color(.primary.opacity(0.7)),
                 )
             }
@@ -1947,8 +1983,11 @@ struct TimelineGraphView: View, Equatable {
         // a layer so the rounding affects only the bands, not the curve/gridlines.
         // Internal phase boundaries stay crisp — only edges meeting a corner round.
         let plotRect = CGRect(x: graphInset, y: graphTop, width: graphWidth, height: graphHeight)
+        // Square corners in the bordered-chart host (the drawn frame is square);
+        // rounded to sit concentric with the card everywhere else.
+        let bandCorner: CGFloat = chartFrame ? 0 : 10
         context.drawLayer { layer in
-            layer.clip(to: Path(roundedRect: plotRect, cornerRadius: 10, style: .continuous))
+            layer.clip(to: Path(roundedRect: plotRect, cornerRadius: bandCorner, style: .continuous))
             for band in bands {
                 guard band.end > band.start else { continue }
                 let gStart = doseOffset + band.start
@@ -2012,11 +2051,15 @@ struct TimelineGraphView: View, Equatable {
                 bottomTick.addLine(to: CGPoint(x: x, y: graphTop + graphHeight + 4))
                 context.stroke(bottomTick, with: .color(.primary.opacity(0.25)), lineWidth: 0.75)
 
-                // Small tick mark at top edge
-                var topTick = Path()
-                topTick.move(to: CGPoint(x: x, y: graphTop))
-                topTick.addLine(to: CGPoint(x: x, y: graphTop - 3))
-                context.stroke(topTick, with: .color(.primary.opacity(0.2)), lineWidth: 0.5)
+                // Small tick mark at top edge — skipped in the bordered-chart host,
+                // where the full-height gridline already marks the hour under each
+                // duration label (the tick just doubles it).
+                if !chartFrame {
+                    var topTick = Path()
+                    topTick.move(to: CGPoint(x: x, y: graphTop))
+                    topTick.addLine(to: CGPoint(x: x, y: graphTop - 3))
+                    context.stroke(topTick, with: .color(.primary.opacity(0.2)), lineWidth: 0.5)
+                }
             }
             tickDate = tickDate.addingTimeInterval(interval * 60)
         }
@@ -2355,8 +2398,8 @@ struct TimelineGraphView: View, Equatable {
                 let label = String(localized: "\(hour)h")
 
                 let text = Text(label)
-                    .font(.system(size: 9, weight: .medium, design: .rounded))
-                    .foregroundStyle(.secondary.opacity(0.5))
+                    .font(.system(size: 10, weight: .medium, design: .rounded))
+                    .foregroundStyle(.primary.opacity(0.6))
                 let resolved = context.resolve(text)
                 let labelWidth = resolved.measure(in: size).width
 
