@@ -78,5 +78,6 @@ struct DosePhaseProgressBar: View {
                     .monospacedDigit()
             }
         }
+        .accessibilityElement(children: .combine)
     }
 }

@@ -3,6 +3,8 @@ import SwiftUI
 struct DoseLevelIndicator: View {
     let doseRange: DoseRange
     let currentDose: Double?
+    /// Unit spoken in the VoiceOver summary ("Common range, 25 mg").
+    var unit: String?
 
     private var level: DoseLevel? {
         guard let currentDose else { return nil }
@@ -39,6 +41,19 @@ struct DoseLevelIndicator: View {
                 }
             }
         }
+        // The ladder conveys the dose's tier by opacity and a marker dot alone;
+        // collapse it into one spoken summary. Without a dose it's decorative —
+        // the range rows beneath spell the ladder out.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Dose level"))
+        .accessibilityValue(accessibilitySummary)
+        .accessibilityHidden(level == nil)
+    }
+
+    private var accessibilitySummary: Text {
+        guard let level, let currentDose else { return Text(verbatim: "") }
+        let amount = unit.map { "\(currentDose.doseFormatted) \($0)" } ?? currentDose.doseFormatted
+        return Text("\(level.displayName) range, \(amount)")
     }
 
     private struct Segment {
@@ -117,7 +132,7 @@ struct DoseInfoView: View {
         if let doseRange {
             VStack(alignment: .leading, spacing: 10) {
                 let unit = substance.unit(for: route, saltForm: saltForm)
-                DoseLevelIndicator(doseRange: doseRange, currentDose: currentDose)
+                DoseLevelIndicator(doseRange: doseRange, currentDose: currentDose, unit: unit)
 
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
                     if let threshold = doseRange.threshold {
@@ -330,6 +345,7 @@ struct DurationTimelineBar: View {
             }
             .frame(height: 8)
             .clipShape(Capsule())
+            .accessibilityHidden(true)
         }
     }
 }

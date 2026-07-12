@@ -431,6 +431,7 @@ struct EntryListView: View {
                 .foregroundStyle(isSelected ? .white : .primary)
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     // MARK: - Recent (Flat) Content
@@ -563,8 +564,10 @@ struct EntryListView: View {
                             .font(.caption2.weight(.semibold))
                             .foregroundStyle(.tertiary)
                             .rotationEffect(.degrees(isCollapsed ? 0 : 90))
+                            .accessibilityHidden(true)
                     }
                 }
+                .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
             }
         }
     }
@@ -603,8 +606,10 @@ struct EntryListView: View {
                             .font(.caption2.weight(.semibold))
                             .foregroundStyle(.tertiary)
                             .rotationEffect(.degrees(isCollapsed ? 0 : 90))
+                            .accessibilityHidden(true)
                     }
                 }
+                .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
             }
         }
     }
@@ -648,6 +653,7 @@ struct EntryListView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { showingCalendar = false } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel(Text("Close"))
                 }
             }
         }
@@ -691,6 +697,15 @@ private struct JournalFilterMenu: View {
         !filterCategories.isEmpty
     }
 
+    /// Spoken filter state — the active/inactive cue is otherwise tint-only.
+    private var filterValue: Text {
+        guard hasActiveFilters else { return Text("Off") }
+        return Text(verbatim: filterCategories
+            .map { String(localized: $0.displayName) }
+            .sorted()
+            .joined(separator: ", "))
+    }
+
     var body: some View {
         // Active state: an accent-filled circle nested inside the item's platter,
         // Phone-app style. A prominent `Menu` can't replace the platter the way a
@@ -712,6 +727,7 @@ private struct JournalFilterMenu: View {
             .controlSize(.regular)
             .tint(Theme.accent)
             .accessibilityLabel(Text("Filter"))
+            .accessibilityValue(filterValue)
         } else {
             Menu {
                 menuContent
@@ -720,6 +736,7 @@ private struct JournalFilterMenu: View {
                     .font(.system(size: 17, weight: .semibold))
             }
             .accessibilityLabel(Text("Filter"))
+            .accessibilityValue(filterValue)
         }
     }
 
@@ -1190,6 +1207,9 @@ private struct ActiveSessionHeroCard: View {
         .equatable()
         .frame(height: 160)
         .allowsHitTesting(false)
+        // The phase bar above already speaks the graph's story; inside the
+        // card button the timeline summary would only double-read.
+        .accessibilityHidden(true)
     }
 
     // MARK: Multi-substance — dots + names, the full session timeline, aggregate timing.
@@ -1231,6 +1251,7 @@ private struct ActiveSessionHeroCard: View {
         .equatable()
         .frame(height: multiGraphHeight)
         .allowsHitTesting(false)
+        .accessibilityHidden(true)
         // No aggregate "elapsed / next phase" line here: across several
         // substances "10h in" answers "in what?" and only adds weight beneath an
         // already busy graph. The now-line carries the temporal cue.
@@ -1344,6 +1365,7 @@ struct JournalCalendarView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                 }
+                .accessibilityLabel(Text("Previous month"))
                 Spacer()
                 Text(selectedMonth.formatted(.dateTime.month(.wide).year()))
                     .font(.headline)
@@ -1353,6 +1375,7 @@ struct JournalCalendarView: View {
                 } label: {
                     Image(systemName: "chevron.right")
                 }
+                .accessibilityLabel(Text("Next month"))
             }
             .padding(.horizontal)
 
@@ -1396,6 +1419,8 @@ struct JournalCalendarView: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
+                        .accessibilityLabel(dayAccessibilityLabel(for: date))
+                        .accessibilityValue(count > 0 ? Text("^[\(count) dose](inflect: true)") : Text(verbatim: ""))
                     }
                 }
             }
@@ -1407,6 +1432,12 @@ struct JournalCalendarView: View {
         .task(id: entriesSignature) {
             rebuildDayCounts()
         }
+    }
+
+    /// "July 15" — plus "Today", the accent halo's only spoken equivalent.
+    private func dayAccessibilityLabel(for date: Date) -> Text {
+        let name = date.formatted(.dateTime.month(.wide).day())
+        return calendar.isDateInToday(date) ? Text("\(name), Today") : Text(verbatim: name)
     }
 
     private struct CalendarDay: Identifiable, Hashable {
