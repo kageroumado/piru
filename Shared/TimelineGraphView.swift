@@ -727,6 +727,22 @@ struct TimelineGraphView: View, Equatable {
         Self.timeLabelFormatter.string(from: earliestDose.addingTimeInterval(global * 60))
     }
 
+    /// One-utterance VoiceOver summary of the graph at `currentTime`, built from
+    /// the same scrub sampling the callout uses so the two never disagree.
+    private var accessibilitySummary: Text {
+        let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
+        let samples = scrubSamples(atMinute: nowMinutes)
+        guard !samples.isEmpty else { return Text("No active doses") }
+        let parts: [String] = samples.prefix(4).map { sample in
+            let percent = Int((sample.value * 100).rounded())
+            if let phase = sample.phase {
+                return String(localized: "\(sample.name) in \(String(localized: phase)) at \(percent) percent")
+            }
+            return String(localized: "\(sample.name) at \(percent) percent")
+        }
+        return Text(verbatim: parts.joined(separator: ", "))
+    }
+
     var body: some View {
         Group {
             if derivedBox != nil {
@@ -744,7 +760,10 @@ struct TimelineGraphView: View, Equatable {
     @ViewBuilder
     private var loadedGraph: some View {
         if compact {
+            // Thumbnails ride inside card buttons that already speak the
+            // session — an unlabeled Canvas would only double-read there.
             graphCanvas
+                .accessibilityHidden(true)
         } else {
             GeometryReader { geo in
                 let geom = graphGeometry(for: geo.size)
@@ -765,6 +784,12 @@ struct TimelineGraphView: View, Equatable {
                     scrubCallout(geom: geom)
                 }
             }
+            // Inlined equivalent of the app target's `chartSummaryAccessibility`
+            // helper — this file also compiles into the widget targets, which
+            // don't include Piru/Views/Components.
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text("Timeline"))
+            .accessibilityValue(accessibilitySummary)
             .onAppear {
                 if focusAroundNow, presetSpanMinutes == nil {
                     frameAroundNow()

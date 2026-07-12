@@ -565,6 +565,10 @@ struct SessionDetailView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .contentShape(.rect)
                                 .onTapGesture { editNote() }
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint(Text("Edits the note"))
+                                .accessibilityAction(named: Text("Edit Note")) { editNote() }
+                                .accessibilityAction(named: Text("Delete Note")) { deleteNote() }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(role: .destructive) { deleteNote() } label: {
                                         Label("Delete", systemImage: "trash")
@@ -746,6 +750,7 @@ struct SessionDetailView: View {
         } label: {
             Image(systemName: "ellipsis")
         }
+        .accessibilityLabel(Text("Session options"))
     }
 
     /// The dose immediately after the session's widest interior gap — the pivot a
@@ -998,6 +1003,7 @@ private struct TimeAdjustSheet: View {
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button { dismiss() } label: { Image(systemName: "xmark") }
+                    .accessibilityLabel(Text("Cancel"))
             }
         }
         .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
@@ -1286,6 +1292,7 @@ private struct MoveToSessionView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel(Text("Cancel"))
                 }
             }
         }
@@ -1375,6 +1382,10 @@ private struct SessionTargetRow: View {
                 .foregroundStyle(Theme.accent)
         }
         .contentShape(Rectangle())
+        // One element per target session; the clock glyph's re-time warning is
+        // color/icon-only, so it becomes a spoken hint instead.
+        .accessibilityElement(children: .combine)
+        .accessibilityHint(requiresRetime ? Text("Moving here will ask for a new time") : Text(verbatim: ""))
     }
 
     /// Overlapping color dots, each ringed in the card color so they read as a

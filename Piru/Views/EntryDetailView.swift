@@ -609,6 +609,7 @@ struct EntryDetailView: View {
                         .frame(height: 140)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .allowsHitTesting(false)
+                        .accessibilityHidden(true)
                         .listRowInsets(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
                     }
                     Button {
@@ -625,6 +626,7 @@ struct EntryDetailView: View {
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
+                    .accessibilityHint(Text("Opens in Maps"))
                 }
             }
         }

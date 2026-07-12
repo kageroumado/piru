@@ -132,6 +132,7 @@ struct DoseSuggestionCard: View {
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Theme.accent)
                 .padding(.top, 1)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
                 // Leads with the same absolute amount as the badge — the two
@@ -149,6 +150,7 @@ struct DoseSuggestionCard: View {
         }
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
         // Accent-tinted so it reads as an informational callout instead of a
         // second gray surface clashing with the card behind it.
         .background(Theme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
