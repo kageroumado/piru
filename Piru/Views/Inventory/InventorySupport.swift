@@ -157,6 +157,9 @@ enum InventoryStep {
 struct InventoryStepperRow: View {
     @Binding var value: Double
     let unit: String
+    /// What quantity this stepper edits, spoken as the VoiceOver label of the
+    /// combined, adjustable element the whole row collapses into.
+    let label: LocalizedStringResource
     /// A fixed dose-anchored increment basis (the substance's reference dose) so
     /// caffeine nudges in ~5 mg regardless of the current value; falls back to a
     /// value-relative step for off-library substances or a still-empty field.
@@ -189,6 +192,16 @@ struct InventoryStepperRow: View {
         }
         .sensoryFeedback(.increase, trigger: stepTick)
         .padding(.vertical, 4)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(label))
+        .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(unit)"))
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment: bump(to: value + step)
+            case .decrement: bump(to: max(0, value - step))
+            @unknown default: break
+            }
+        }
     }
 
     /// The number and its unit share a baseline so "50,000 mg" reads as one
@@ -230,6 +243,7 @@ struct InventoryStepperRow: View {
                 HStack(alignment: .firstTextBaseline, spacing: 2) {
                     Text(unit)
                     Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
+                        .accessibilityHidden(true)
                 }
                 .font(.body.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)

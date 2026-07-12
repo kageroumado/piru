@@ -352,6 +352,7 @@ struct DataStorageView: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: systemImage)
                     .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
                     Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
@@ -378,6 +379,7 @@ struct DataStorageView: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: systemImage)
                     .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
                     Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
@@ -449,6 +451,7 @@ struct DataStorageView: View {
     private func howItWorksRow(icon: String, title: LocalizedStringKey, detail: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon).font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.subheadline.weight(.semibold))
                 Text(detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
@@ -487,10 +490,12 @@ struct DataStorageView: View {
                     .font(.title3)
                     .foregroundStyle(store.isIntentional ? Theme.secondaryLabel : .orange)
                     .frame(width: 28)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(reasonTitle(store.reason)).foregroundStyle(.primary)
                     Text(subtitle(for: store)).font(.caption).foregroundStyle(Theme.secondaryLabel)
                         .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityLabel(subtitle(for: store, separator: ", "))
                 }
                 Spacer(minLength: 0)
                 if store.rowCount > 0 {
@@ -538,10 +543,10 @@ struct DataStorageView: View {
         }
     }
 
-    private func subtitle(for store: RecoverableStore) -> String {
+    private func subtitle(for store: RecoverableStore, separator: String = " · ") -> String {
         let rows = store.rowCount > 0 ? rowCountText(store.rowCount) : String(localized: "unreadable")
         let when = store.timestamp?.formatted(date: .abbreviated, time: .shortened) ?? String(localized: "unknown date")
-        return "\(rows) · \(byteString(store.bytes)) · \(when)"
+        return [rows, byteString(store.bytes), when].joined(separator: separator)
     }
 
     private func rowCountText(_ count: Int) -> String {

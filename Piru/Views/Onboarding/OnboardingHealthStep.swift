@@ -43,7 +43,7 @@ struct OnboardingHealthStep: View {
                             .font(.subheadline.weight(.semibold))
                         Spacer()
                     }
-                    InventoryStepperRow(value: $weightKg, unit: "kg", stepBasis: 10)
+                    InventoryStepperRow(value: $weightKg, unit: "kg", label: "Your body weight", stepBasis: 10)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
                         .themeCapsule()

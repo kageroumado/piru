@@ -79,6 +79,7 @@ struct SubstanceColorPickerView: View {
             RoundedRectangle(cornerRadius: 3)
                 .fill(previewColor)
                 .frame(width: 5, height: 44)
+                .accessibilityHidden(true)
             VStack(alignment: .leading) {
                 Text(CustomSubstanceStore.shared.displayName(for: substanceName))
                     .font(.title3.weight(.semibold))
@@ -141,7 +142,7 @@ struct SubstanceColorPickerView: View {
         let takenBy = takenColors[hex]
         let isTaken = takenBy != nil
 
-        Button {
+        let circleButton = Button {
             selectedHex = hex
         } label: {
             VStack(spacing: 4) {
@@ -168,6 +169,13 @@ struct SubstanceColorPickerView: View {
             }
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+
+        if let takenBy {
+            circleButton.accessibilityValue(Text("Used by \(takenBy)"))
+        } else {
+            circleButton
+        }
     }
 
     // MARK: - Custom Color Creator
@@ -192,6 +200,7 @@ struct SubstanceColorPickerView: View {
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: "paintpalette")
+                    .accessibilityHidden(true)
                 Text("Create Custom Shade")
                     .fontWeight(.medium)
             }
@@ -276,6 +285,7 @@ struct SubstanceColorPickerView: View {
                 Circle()
                     .fill(Color(hex: sanitizedHex))
                     .frame(width: 24, height: 24)
+                    .accessibilityHidden(true)
             }
         }
         .padding(.horizontal)
@@ -288,6 +298,7 @@ struct SubstanceColorPickerView: View {
                 Circle()
                     .fill(Color(hex: sanitizedHex))
                     .frame(width: 32, height: 32)
+                    .accessibilityHidden(true)
                 Text("#\(sanitizedHex)")
                     .font(.system(.body, design: .monospaced))
                     .foregroundStyle(Theme.secondaryLabel)

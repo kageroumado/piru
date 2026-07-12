@@ -683,6 +683,7 @@ private struct SessionAccessoryInfo: View {
             .frame(width: 60, height: 36)
             .clipShape(RoundedRectangle(cornerRadius: 6))
             .allowsHitTesting(false)
+            .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(uniqueNames)

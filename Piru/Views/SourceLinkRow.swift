@@ -14,6 +14,7 @@ struct SourceLinkRow: View {
                         Image(systemName: "arrow.up.right.square")
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
+                            .accessibilityHidden(true)
                     }
             }
         } else {

@@ -12,10 +12,15 @@ struct SourcePriorityView: View {
     var body: some View {
         List {
             Section {
-                ForEach(states) { state in
+                ForEach(Array(states.enumerated()), id: \.element.id) { index, state in
                     SourceRow(
                         state: state,
                         toggle: { toggle(state, enabled: $0) },
+                    )
+                    .accessibilityValue(
+                        Text(state.enabled ? "On" : "Off")
+                            + Text(verbatim: ", ")
+                            + Text("Priority \(index + 1) of \(states.count)"),
                     )
                 }
                 .onMove(perform: move)
