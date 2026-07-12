@@ -1923,6 +1923,13 @@ struct SubstanceDetailView: View {
         // don't offer the misleading homepage — `mergedSourceLinks` upgrades the
         // bare "TiHKAL" row to the citation's chapter URL.
         if slug == "erowid-pihkal" || slug == "erowid-tihkal" { return nil }
+        // The hand-curated overlay has no per-substance page of its own. When we
+        // curated a real reference for the compound (NIH ODS / examine.com for a
+        // supplement, a paper for an RC), link the attribution to that source
+        // instead of dead-ending on the bare "Piru hand-curated overlay" label.
+        if slug == "piru-curated" {
+            return substance.references.first(where: { $0.resolvedURL != nil })?.resolvedURL
+        }
         return AppSources.substanceURL(forSlug: slug, substance: substance.name)
     }
 

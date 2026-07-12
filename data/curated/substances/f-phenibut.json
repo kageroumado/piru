@@ -6,28 +6,6 @@
   ],
   "category": "GABAergic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 50,
-          "upper": 100
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 300
-        },
-        "heavy": 400
-      }
-    }
-  ],
   "effects": [
     "Severe protracted withdrawal; dependence develops within 2-3 weeks of daily use. AVOID frequent dosing.",
     "5-10x more potent than phenibut",

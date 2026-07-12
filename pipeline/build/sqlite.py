@@ -1907,6 +1907,31 @@ def is_chemistry_noise(name: str) -> bool:
     return bool(_CHEM_NOISE_PREFIX.search(n)) or bool(_CHEM_NOISE_BODY.search(n))
 
 
+# A bare CIP stereo-descriptor followed by a redundant parenthesised optical
+# rotation — "S-(+)-MDMA", "R-(-)-MDMA", "D-(−)-…". These aren't chemistry NOISE
+# (they're real, keepable enantiomers), so is_chemistry_noise() rightly leaves
+# them; but the raw double-descriptor reads badly. legible_stereo_name() cleans
+# them for DISPLAY only.
+_STEREO_ROTATION_PREFIX = re.compile(r"^([DLRS])-\(\s*[+\-−]\s*\)-(.+)$", re.IGNORECASE)
+
+
+def legible_stereo_name(name: str) -> str | None:
+    """Reformat a redundant CIP-plus-rotation prefix into the clean, standard
+    parenthesised-descriptor form for display: "S-(+)-MDMA" → "(S)-MDMA",
+    "R-(-)-MDMA" → "(R)-MDMA". The optical rotation is dropped as redundant with
+    the CIP letter. Returns None when the name doesn't match (leave it alone).
+
+    Sets *display_name* only — the canonical name (the dedup key, and what
+    isomer-families.json / _CATEGORY_OVERRIDES reference) is untouched, so the
+    enantiomer stays a distinct row until the isomer fold lands. Note the clean
+    "(S)-…" form would normalise onto the racemate's key, so it must NEVER become
+    the canonical pre-fold — display only."""
+    m = _STEREO_ROTATION_PREFIX.match((name or "").strip())
+    if not m:
+        return None
+    return f"({m.group(1).upper()})-{m.group(2)}"
+
+
 # ---------------------------------------------------------------------------
 # Display-policy classification vocab (consumed by Build.classify_compounds)
 # ---------------------------------------------------------------------------
@@ -2888,6 +2913,11 @@ _REMOVE_NAMES: set[str] = {
     normalise("Hydrogen"),
     # Redundant protonated-cation duplicate of Oxedrine (synephrine).
     normalise("D-synephrine(1+)"),
+    # Pharmacologically inactive modafinil metabolites — not consumable/loggable
+    # substances (no wake-promoting activity, no human dosing). The curated stub
+    # files were removed alongside these entries.
+    normalise("Modafinil acid"),
+    normalise("Modafinil sulfone"),
 }
 
 # Tags that mark a row as pharmacologically inert / fake. A substance carrying
@@ -6404,6 +6434,91 @@ class Build:
         print(f"  drop_orphan_stubs sample: {sample}", file=sys.stderr)
         return {"dropped": len(drop_ids)}
 
+    # Per-substance category corrections for rows whose ONLY category came from a
+    # source that miscategorised them, and which have no curated file to outrank
+    # it. Keyed by canonical_name → correct category. Substances that DO have a
+    # curated file should be fixed in the file, not here. Adds a piru-curated
+    # category row (priority 1) so it wins resolution and drives display_class.
+    _CATEGORY_OVERRIDES: dict[str, str] = {
+        # Wikidata labels the whole MDMA/MDA entactogen family "Antidepressant"
+        # (from MDMA-assisted-therapy trials). MDMA itself is pinned Empathogen by
+        # its curated file; its enantiomers and the MDA lysine-prodrug have no
+        # curated file, so Wikidata's label leaks through. They are entactogens.
+        "S-(+)-MDMA": "Empathogen",
+        "R-(-)-MDMA": "Empathogen",
+        "Lys-MDA": "Empathogen",
+    }
+
+    def apply_category_overrides(self) -> int:
+        """Force a curated category onto the _CATEGORY_OVERRIDES rows. Runs after
+        all ingest/dedup, before classify_compounds so display_class sees the
+        corrected category."""
+        n = 0
+        for name, category in self._CATEGORY_OVERRIDES.items():
+            row = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name = ?", (name,)
+            ).fetchone()
+            if row:
+                self.add_category(row[0], "piru-curated", category)
+                n += 1
+        return n
+
+    def apply_legible_stereo_names(self) -> int:
+        """Give redundant CIP-plus-rotation canonical names ("S-(+)-MDMA") a clean
+        parenthesised display_name ("(S)-MDMA"). Only fills an empty display_name,
+        never overwrites a curated one, and never touches canonical_name."""
+        n = 0
+        for sid, cname in self.cur.execute(
+            "SELECT id, canonical_name FROM substances WHERE display_name IS NULL"
+        ).fetchall():
+            legible = legible_stereo_name(cname)
+            if legible and legible != cname:
+                self.cur.execute(
+                    "UPDATE substances SET display_name = ? WHERE id = ?", (legible, sid)
+                )
+                n += 1
+        return n
+
+    # Categories whose prescription (medical_rx) members must carry NO dose /
+    # duration data at all — a doctor's domain, shown via the app's Rx-medication
+    # card, never a dose ladder. Deleting (not just hiding) keeps clinical doses
+    # from polluting the DB or leaking into ingest/effect models. OTC members of
+    # these categories (diphenhydramine, cetirizine, …) KEEP their on-package
+    # dose; only display_class='medical_rx' rows are stripped.
+    _RX_DOSELESS_CATEGORIES = frozenset({"Antihistamine", "Anticonvulsant", "Antidepressant"})
+
+    def strip_medical_rx_doses(self) -> dict[str, int]:
+        """Delete dose/duration rows from prescription (medical_rx) substances in
+        _RX_DOSELESS_CATEGORIES. Runs AFTER classify_compounds so display_class is
+        final (and the delete can't perturb the classification, which reads dose
+        provenance). The app already hides these, so this is invisible cleanup."""
+        prim = """
+            WITH prim AS (
+              SELECT c.substance_id sid, c.category cat,
+                     ROW_NUMBER() OVER (PARTITION BY c.substance_id
+                                        ORDER BY s.default_priority) rn
+                FROM categories c JOIN sources s ON s.id = c.source_id)
+            SELECT sub.id FROM substances sub
+              JOIN prim ON prim.sid = sub.id AND prim.rn = 1
+             WHERE sub.display_class = 'medical_rx'
+               AND prim.cat IN ({})
+        """.format(",".join("?" * len(self._RX_DOSELESS_CATEGORIES)))
+        sids = [r[0] for r in self.cur.execute(prim, tuple(self._RX_DOSELESS_CATEGORIES))]
+        if not sids:
+            return {"substances": 0, "rows": 0}
+        ph = ",".join("?" * len(sids))
+        rows = 0
+        # Keep salt-tagged rows: a salt family (e.g. Lithium) can be medical_rx at
+        # the parent yet carry an OTC/supplement salt (lithium orotate) with a real
+        # ladder the salt picker needs. Only the plain (salt_form IS NULL) clinical
+        # ladder is a prescriber's-domain dose to drop.
+        for table in ("dose_ranges", "durations", "durations_of_action", "protocol_dosing"):
+            cur = self.cur.execute(
+                f"DELETE FROM {table} WHERE substance_id IN ({ph}) AND salt_form IS NULL", sids
+            )
+            rows += cur.rowcount
+        return {"substances": len(sids), "rows": rows}
+
     def classify_compounds(self) -> dict[str, int]:
         """Bake each substance's display_class + duration_implausible from the
         resolved signals. Runs AFTER all ingest + promote_via_tags so category
@@ -7064,11 +7179,32 @@ def main() -> int:
         )
         print(f"Wikipedia popularity applied: {pop_n}", file=sys.stderr)
 
+    # Per-substance category corrections (Wikidata-miscategorised rows with no
+    # curated file). Runs before classify so display_class uses the fix.
+    cat_overrides = build.apply_category_overrides()
+    print(f"Category overrides: {cat_overrides}", file=sys.stderr)
+
+    # Clean redundant CIP+rotation names ("S-(+)-MDMA" → display "(S)-MDMA").
+    stereo_named = build.apply_legible_stereo_names()
+    print(f"Legible stereo display names: {stereo_named}", file=sys.stderr)
+
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
     # category, tags, regulatory status). Must run LAST.
     classified = build.classify_compounds()
     print(f"Display classification: {classified}", file=sys.stderr)
+
+    # Prescription (medical_rx) antihistamines/anticonvulsants/antidepressants
+    # carry no dose/duration data — deleted here (the app hides them anyway; this
+    # keeps clinical doses out of the DB/ingest). OTC members keep their dose.
+    rx_stripped = build.strip_medical_rx_doses()
+    print(f"Medical-Rx dose strip: {rx_stripped}", file=sys.stderr)
+
+    # Re-flag dose-less stubs: the strip above just removed the last dose/duration
+    # from the plain medical_rx rows, so `is_stub` must be recomputed to stay
+    # consistent (it was baked before classify/strip).
+    restub = build.flag_dose_less_stubs()
+    print(f"Re-flagged dose-less stubs after Rx strip: {restub}", file=sys.stderr)
 
     # Curate the Library's "Common" card down to the hand-picked everyday set
     # (drops the ~70 aggregator-flagged RCs/designer compounds). After classify

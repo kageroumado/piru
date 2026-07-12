@@ -11,22 +11,6 @@
     {
       "route": "oral",
       "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 50,
-          "upper": 100
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 300
-        },
-        "heavy": 400
-      },
       "duration": {
         "onset": {
           "min": 30,

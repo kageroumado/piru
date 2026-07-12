@@ -6,28 +6,6 @@
   ],
   "category": "Nootropic",
   "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 250,
-        "light": {
-          "lower": 500,
-          "upper": 1000
-        },
-        "common": {
-          "lower": 1000,
-          "upper": 2000
-        },
-        "strong": {
-          "lower": 2000,
-          "upper": 3000
-        },
-        "heavy": 4000
-      }
-    }
-  ],
   "effects": [
     "Polyamine arginine metabolite",
     "Imidazoline I1/I2 receptor activity, NMDA-antagonism",

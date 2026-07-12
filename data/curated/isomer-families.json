@@ -1,0 +1,34 @@
+{
+  "_comment": "Curated stereoisomer fold map — PREP DATA, not yet consumed by the build. Seeds `_ISOMER_FAMILIES` for Specs/stereoisomer-and-release-form-axes.md Stage A: each variant folds into its `parent` as one substance with an isomer selector (e.g. Ketamine is one entry; Esketamine is its S-isomer, not a separate row). Auto-derived by pipeline/audit/overlay_lib.py isomer_families() from InChIKey connectivity-block clusters, then hand-vetted. `isomer` = stored stereo code (drives dedup); `displayName` = the recognized name shown in the picker title. When fold_isomer_families() lands it should read this file (or transcribe it into sqlite.py), fold each variant under the parent, tag the moved dose/duration rows with the isomer code, and keep variant names + brands as aliases.",
+  "families": [
+    { "parent": "Ketamine",       "variants": [
+      { "name": "Esketamine", "isomer": "S", "displayName": "Esketamine", "brands": ["Spravato"] },
+      { "name": "Arketamine", "isomer": "R", "displayName": "Arketamine" } ] },
+    { "parent": "MDMA",           "variants": [
+      { "name": "S-(+)-MDMA", "isomer": "S", "displayName": "S(+)-MDMA" },
+      { "name": "R-(-)-MDMA", "isomer": "R", "displayName": "R(−)-MDMA" } ] },
+    { "parent": "Methamphetamine", "variants": [
+      { "name": "D-methamphetamine", "isomer": "D", "displayName": "Dextromethamphetamine" },
+      { "name": "L-methamphetamine", "isomer": "L", "displayName": "Levomethamphetamine" } ] },
+    { "parent": "Amphetamine",    "variants": [
+      { "name": "Dextroamphetamine", "isomer": "D", "displayName": "Dextroamphetamine", "brands": ["Dexedrine"] } ] },
+    { "parent": "Methylphenidate", "variants": [
+      { "name": "Dexmethylphenidate", "isomer": "D", "displayName": "Dexmethylphenidate", "brands": ["Focalin"] } ] },
+    { "parent": "Modafinil",      "variants": [
+      { "name": "Armodafinil", "isomer": "R", "displayName": "Armodafinil", "brands": ["Nuvigil"] } ] },
+    { "parent": "Citalopram",     "variants": [
+      { "name": "Escitalopram", "isomer": "S", "displayName": "Escitalopram", "brands": ["Lexapro", "Cipralex"] } ] },
+    { "parent": "Zopiclone",      "variants": [
+      { "name": "Eszopiclone", "isomer": "S", "displayName": "Eszopiclone", "brands": ["Lunesta"] } ] },
+    { "parent": "Milnacipran",    "variants": [
+      { "name": "Levomilnacipran", "isomer": "L", "displayName": "Levomilnacipran", "brands": ["Fetzima"] } ] },
+    { "parent": "Etiracetam",     "variants": [
+      { "name": "Levetiracetam", "isomer": "S", "displayName": "Levetiracetam", "brands": ["Keppra"] } ] }
+  ],
+  "excluded": [
+    { "cluster": ["Dextromethorphan", "Levomethorphan"], "reason": "Genuine enantiomers, but they currently share an EXACT (identical) InChIKey MKXZASYAUGDDCJ-CGTJXYLNSA-N — one is corrupt. Fix the identifier first (they must differ in the stereo layer), then fold; there is also no racemic parent row." },
+    { "cluster": ["Serotonin", "Serotonin(1+)"], "reason": "Protonation states (charge layer N vs O), not stereoisomers. Serotonin(1+) is the cation, not a chiral variant; likely chemistry-noise that should not be a separate row." },
+    { "cluster": ["Mescaline", "4-D", "beta-D"], "reason": "Mescaline is achiral (no stereocenter); the '4-D'/'beta-D' rows are truncated/garbled names carrying spurious stereo layers. Investigate the names, not a fold." },
+    { "cluster": ["LY-404187", "LY-451646"], "reason": "Obscure AMPAkine research compounds; relationship (enantiomer vs regioisomer) unconfirmed. Needs a human call before folding." }
+  ]
+}

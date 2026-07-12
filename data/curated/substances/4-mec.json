@@ -4,30 +4,10 @@
     "4-Methyl-N-ethylcathinone"
   ],
   "category": "Stimulant",
-  "extraCategories": ["Empathogen"],
-  "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 50,
-          "upper": 100
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 300
-        },
-        "heavy": 400
-      }
-    }
+  "extraCategories": [
+    "Empathogen"
   ],
+  "defaultRoute": "insufflation",
   "effects": [
     "Mephedrone N-ethyl analog",
     "Slightly less euphoric than mephedrone",

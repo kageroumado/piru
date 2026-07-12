@@ -46,26 +46,6 @@
           "max": 240
         }
       }
-    },
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 75,
-          "upper": 125
-        },
-        "common": {
-          "lower": 125,
-          "upper": 250
-        },
-        "strong": {
-          "lower": 250,
-          "upper": 400
-        },
-        "heavy": 500
-      }
     }
   ],
   "effects": [

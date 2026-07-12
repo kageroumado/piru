@@ -10,44 +10,6 @@
   "defaultRoute": "oral",
   "routes": [
     {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": {
-          "lower": 10,
-          "upper": 25
-        },
-        "common": {
-          "lower": 25,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 300
-        },
-        "heavy": 300
-      },
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 90
-        },
-        "peak": {
-          "min": 90,
-          "max": 240
-        },
-        "offset": {
-          "min": 180,
-          "max": 360
-        },
-        "total": {
-          "min": 240,
-          "max": 480
-        }
-      }
-    },
-    {
       "route": "sublingual",
       "unit": "mg",
       "doses": {

@@ -44,26 +44,6 @@
           "max": 240
         }
       }
-    },
-    {
-      "route": "sublingual",
-      "unit": "mg",
-      "doses": {
-        "threshold": 3,
-        "light": {
-          "lower": 5,
-          "upper": 10
-        },
-        "common": {
-          "lower": 10,
-          "upper": 20
-        },
-        "strong": {
-          "lower": 20,
-          "upper": 30
-        },
-        "heavy": 40
-      }
     }
   ],
   "effects": [

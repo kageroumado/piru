@@ -53,6 +53,7 @@ python3 pipeline/build/snapshots.py
 
 step "8/8  Regression + invariant tests"
 python3 pipeline/build/tests/test_sqlite.py
+python3 pipeline/build/tests/test_overlay_integrity.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
 
 step "Done. Commit: Piru/Data/piru-substances.sqlite, Piru/Data/manifest.json,"
