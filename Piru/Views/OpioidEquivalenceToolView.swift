@@ -52,6 +52,7 @@ struct OpioidEquivalenceToolView: View {
             Image(systemName: "cross.case")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
+                .accessibilityHidden(true)
             Text("Opioid Equivalence")
                 .font(.title3.weight(.semibold))
             Text("Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.")
@@ -74,6 +75,8 @@ struct OpioidEquivalenceToolView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                 HStack(spacing: 10) {
                     opioidMenu(selection: $fromName)
+                        .accessibilityLabel(Text("Convert from"))
+                        .accessibilityValue(Text(from?.displayName ?? String(localized: "Select")))
                     HStack(spacing: 0) {
                         TextField("0", text: $doseText)
                             .keyboardType(.decimalPad)
@@ -95,6 +98,8 @@ struct OpioidEquivalenceToolView: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
                 opioidMenu(selection: $toName)
+                    .accessibilityLabel(Text("Convert to"))
+                    .accessibilityValue(Text(to?.displayName ?? String(localized: "Select")))
             }
         }
         .padding()
@@ -214,6 +219,7 @@ struct OpioidEquivalenceToolView: View {
             Label("Not a simple conversion", systemImage: "exclamationmark.octagon")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.orange)
+                .accessibilityAddTraits(.isHeader)
             Text(reason)
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -230,6 +236,7 @@ struct OpioidEquivalenceToolView: View {
             Label("Incomplete cross-tolerance", systemImage: "arrow.triangle.2.circlepath")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(Theme.accent)
+                .accessibilityAddTraits(.isHeader)
             Text("When switching opioids, the equianalgesic dose is an over-estimate: tolerance to one opioid doesn't fully transfer to another. Clinicians start the new opioid **25–50% lower** than the calculated dose (more for high doses or frail/elderly people) and re-titrate. Never take the full converted dose.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -246,6 +253,7 @@ struct OpioidEquivalenceToolView: View {
             Label("Safety", systemImage: "exclamationmark.triangle")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.yellow)
+                .accessibilityAddTraits(.isHeader)
             VStack(alignment: .leading, spacing: 6) {
                 safetyPoint("MME is a population risk metric, not a precision dosing tool. CDC states the calculated MME should not be used to determine the dose when switching opioids.")
                 safetyPoint("Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.")
@@ -264,6 +272,7 @@ struct OpioidEquivalenceToolView: View {
                 .fill(Theme.secondaryLabel)
                 .frame(width: 4, height: 4)
                 .padding(.top, 6)
+                .accessibilityHidden(true)
             Text(text)
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)

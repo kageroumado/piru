@@ -59,7 +59,6 @@ struct ExperimentalTag: View {
             .padding(.horizontal, 7)
             .padding(.vertical, 2)
             .background(Color(.secondarySystemFill), in: Capsule())
-            .accessibilityHidden(true)
     }
 }
 

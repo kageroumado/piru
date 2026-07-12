@@ -81,6 +81,7 @@ struct BenzoEquivalenceToolView: View {
             Image(systemName: "moon.fill")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
+                .accessibilityHidden(true)
             Text("Benzo Equivalence")
                 .font(.title3.weight(.semibold))
             Text("Compare benzodiazepine doses against diazepam, or convert between two — the way clinicians do when switching for a taper.")
@@ -148,6 +149,8 @@ struct BenzoEquivalenceToolView: View {
             .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 10))
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(target == .from ? Text("Convert from") : Text("Convert to"))
+        .accessibilityValue(Text(selection?.displayName ?? String(localized: "Select")))
     }
 
     // MARK: - Result
@@ -206,6 +209,7 @@ struct BenzoEquivalenceToolView: View {
         VStack(alignment: .leading, spacing: 10) {
             Label("Cited equivalence", systemImage: "text.quote")
                 .font(.subheadline.weight(.semibold))
+                .accessibilityAddTraits(.isHeader)
             if let text = from?.equivalent.displayText {
                 citationLine(text)
             }
@@ -228,6 +232,7 @@ struct BenzoEquivalenceToolView: View {
                 .font(.caption2)
                 .foregroundStyle(Theme.accent)
                 .padding(.top, 2)
+                .accessibilityHidden(true)
             Text(text)
                 .font(.caption)
                 .foregroundStyle(.primary)
@@ -240,6 +245,7 @@ struct BenzoEquivalenceToolView: View {
         VStack(alignment: .leading, spacing: 10) {
             Label("Half-life", systemImage: "hourglass")
                 .font(.subheadline.weight(.semibold))
+                .accessibilityAddTraits(.isHeader)
             if let from { halfLifeLine(for: from) }
             if let to, to.name != from?.name { halfLifeLine(for: to) }
             Text("A cross-taper usually switches from a short- to a long-half-life benzo: the longer drug self-tapers more smoothly. Diazepam's long-acting active metabolites stretch its effective half-life well beyond the parent.")
@@ -276,6 +282,7 @@ struct BenzoEquivalenceToolView: View {
             Label("Safety", systemImage: "exclamationmark.triangle")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.yellow)
+                .accessibilityAddTraits(.isHeader)
             VStack(alignment: .leading, spacing: 6) {
                 safetyPoint("This converts and compares — it is not a taper schedule. Plan any dose reduction with a clinician.")
                 safetyPoint("Never stop a benzodiazepine abruptly. Withdrawal can be dangerous (seizures); a slow taper is the safe path.")
@@ -293,6 +300,7 @@ struct BenzoEquivalenceToolView: View {
                 .fill(Theme.secondaryLabel)
                 .frame(width: 4, height: 4)
                 .padding(.top, 6)
+                .accessibilityHidden(true)
             Text(text)
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)

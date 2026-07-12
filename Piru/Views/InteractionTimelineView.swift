@@ -328,6 +328,7 @@ struct InteractionTimelineView: View {
     private func chartSection(data: ChartData) -> some View {
         let nowHours = Date.now.timeIntervalSince(referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
+        let window = overlapWindow(in: data)
 
         return VStack(alignment: .leading, spacing: 8) {
             Text("Concentration Curves")
@@ -399,6 +400,12 @@ struct InteractionTimelineView: View {
             .chartYScale(domain: 0 ... 105)
             .chartLegend(.hidden)
             .frame(height: 220)
+            .chartSummaryAccessibility(
+                label: Text("Concentration Curves"),
+                value: window.map { w in
+                    Text("\(substanceA) and \(substanceB) over time; both active from \(formatHours(w.start)) to \(formatHours(w.end)).")
+                } ?? Text("\(substanceA) and \(substanceB) over time; no overlapping active window."),
+            )
 
             HStack(spacing: 16) {
                 legendItem(color: colorA, label: substanceA)
@@ -604,6 +611,10 @@ struct InteractionTimelineView: View {
             .chartYAxis(.hidden)
             .chartYScale(domain: 0 ... yMax)
             .frame(height: 130)
+            .chartSummaryAccessibility(
+                label: Text("Combined depression over time"),
+                value: Text("Peaks around \(peakClockTime(d.peakDate)); the dashed line marks the dangerous threshold."),
+            )
 
             Text(depressionCaveat(d))
                 .font(.caption2)

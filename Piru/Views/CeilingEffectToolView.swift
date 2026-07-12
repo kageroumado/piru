@@ -116,6 +116,7 @@ struct CeilingEffectToolView: View {
             HStack {
                 Text(sub.displayName)
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
                 ConfidenceBadge(tier: sub.confidence)
             }
@@ -123,6 +124,7 @@ struct CeilingEffectToolView: View {
                 Image(systemName: mechanismIcon(sub.mechanism))
                     .font(.caption2)
                     .foregroundStyle(tint(for: sub))
+                    .accessibilityHidden(true)
                 Text(mechanismLabel(sub.mechanism))
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -137,6 +139,7 @@ struct CeilingEffectToolView: View {
             HStack {
                 Text("Same class, opposite behavior")
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
                 ConfidenceBadge(tier: .high)
             }
@@ -285,6 +288,10 @@ struct CeilingEffectToolView: View {
             .chartXScale(domain: 0 ... windowHours)
             .chartLegend(.hidden)
             .frame(height: 170)
+            .chartSummaryAccessibility(
+                label: Text("Concentration over time"),
+                value: Text("\(curves.count) doses plotted; the largest reaches about \(multipleText(chart.exposureMultipleAtMax))× the total exposure of one reference dose."),
+            )
 
             doseLegend(curves: curves, tint: tint)
             Text(

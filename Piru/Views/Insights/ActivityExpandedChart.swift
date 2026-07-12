@@ -91,6 +91,10 @@ struct ActivityExpandedChart: View {
                         }
                     }
                     .chartXSelection(value: $selectedDay)
+                    .chartSummaryAccessibility(
+                        label: Text("Entries per day"),
+                        value: Text("\(dailyTotals.reduce(0) { $0 + $1.total }) entries across \(dailyTotals.count) days."),
+                    )
                     .id("chart")
                 }
                 .defaultScrollAnchor(.trailing)

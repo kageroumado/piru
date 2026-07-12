@@ -322,6 +322,7 @@ struct HalfLifeCalculatorView: View {
                 HStack {
                     Image(systemName: "arrow.up.circle.fill")
                         .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading) {
                         Text("Peak concentration")
                             .font(.subheadline.weight(.medium))
@@ -346,6 +347,7 @@ struct HalfLifeCalculatorView: View {
                 HStack {
                     Image(systemName: "\(n).circle.fill")
                         .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading) {
                         Text("\(Int(eliminatedPct))% eliminated")
                             .font(.subheadline.weight(.medium))

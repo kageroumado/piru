@@ -68,6 +68,7 @@ struct InteractionCheckerView: View {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
                 TextField("Search substances...", text: $searchText)
                     .autocorrectionDisabled()
                     .focused($isSearchFocused)
@@ -124,6 +125,7 @@ struct InteractionCheckerView: View {
             HStack(spacing: 8) {
                 Image(systemName: "hand.tap")
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
                 Text("Choose at least 2 substances")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -143,6 +145,7 @@ struct InteractionCheckerView: View {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
                         .font(.title3)
+                        .accessibilityHidden(true)
                     Text("No known interactions found.")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -162,6 +165,7 @@ struct InteractionCheckerView: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle((results.first?.severity ?? .caution).color)
                     .textCase(.uppercase)
+                    .accessibilityAddTraits(.isHeader)
                     .padding(.horizontal, 16)
                     .padding(.top, 12)
                     .padding(.bottom, 8)
@@ -208,6 +212,7 @@ struct InteractionCheckerView: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
+                    .accessibilityAddTraits(.isHeader)
 
                 FlowLayout(spacing: 8) {
                     ForEach(mostUsed, id: \.name) { item in
@@ -269,6 +274,7 @@ struct InteractionCheckerView: View {
                     HStack {
                         Image(systemName: "plus.circle.fill")
                             .foregroundStyle(Theme.accent)
+                            .accessibilityHidden(true)
                         Text("Use \"\(searchText)\"")
                             .font(.body)
                             .foregroundStyle(.primary)
@@ -353,6 +359,7 @@ struct InteractionCheckerView: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
+                    .accessibilityAddTraits(.isHeader)
                     .padding(.horizontal, 16)
                     .padding(.top, 12)
                     .padding(.bottom, 8)
@@ -382,6 +389,7 @@ struct InteractionCheckerView: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
+                    .accessibilityAddTraits(.isHeader)
                     .padding(.horizontal, 16)
                     .padding(.top, 12)
                     .padding(.bottom, 8)

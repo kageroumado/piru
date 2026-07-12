@@ -448,6 +448,10 @@ struct ToleranceToolView: View {
                     }
                 }
                 .frame(height: 92)
+                .chartSummaryAccessibility(
+                    label: Text("Tolerance recovery"),
+                    value: Text("Starts at \(String(localized: toleranceWord(row.snapshot.responseFraction))), fading toward none."),
+                )
 
                 Text(chartCaption(row))
                     .font(.caption2)
@@ -1135,6 +1139,7 @@ struct ToleranceToolView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 9)
             .contentShape(Rectangle())
+            .accessibilityAddTraits(tier == option ? [.isSelected] : [])
         }
     }
 
@@ -1269,6 +1274,10 @@ struct ToleranceToolView: View {
                 }
             }
             .frame(height: 160)
+            .chartSummaryAccessibility(
+                label: Text("Recovery by mechanism"),
+                value: Text("\(series.count) mechanisms plotted, each fading from its current tolerance toward none."),
+            )
         }
     }
 }

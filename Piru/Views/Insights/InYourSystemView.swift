@@ -55,6 +55,7 @@ struct InYourSystemView: View {
             Image(systemName: "hourglass")
                 .font(.system(size: 36))
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             Text("Nothing active right now")
                 .font(.headline)
             Text("Substances you log will appear here while they're still estimated to be in your body.")
@@ -147,6 +148,7 @@ struct InYourSystemView: View {
                                 .font(.caption2)
                                 .foregroundStyle(active.color.opacity(0.8))
                         }
+                        .accessibilityElement(children: .combine)
                     }
                     if active.doses.count > Self.maxDosesShown {
                         HStack {

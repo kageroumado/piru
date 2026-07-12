@@ -113,6 +113,7 @@ struct InsightsView: View {
                                 .monospacedDigit()
                                 .frame(width: 34, alignment: .trailing)
                         }
+                        .accessibilityElement(children: .combine)
                     }
                     if active.count > 3 {
                         GlanceMoreRow(count: active.count - 3)

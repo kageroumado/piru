@@ -146,6 +146,7 @@ struct UsageStatsView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
         .themeCard(cornerRadius: 12)
+        .accessibilityElement(children: .combine)
     }
 
     // MARK: - Frequency Chart
@@ -165,6 +166,7 @@ struct UsageStatsView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Activity")
                         .font(.headline)
+                        .accessibilityAddTraits(.isHeader)
                     Text("Entries per day")
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -211,6 +213,7 @@ struct UsageStatsView: View {
                                 .clipShape(Capsule())
                                 .overlay(Capsule().stroke(.quaternary))
                         }
+                        .accessibilityAddTraits(activityCategoryFilter == nil ? [.isSelected] : [])
                         ForEach(activityCategories, id: \.category) { item in
                             Button {
                                 withAnimation(.easeInOut(duration: 0.2)) {
@@ -231,6 +234,7 @@ struct UsageStatsView: View {
                                 .clipShape(Capsule())
                                 .overlay(Capsule().stroke(.quaternary))
                             }
+                            .accessibilityAddTraits(activityCategoryFilter == item.category ? [.isSelected] : [])
                         }
                     }
                 }
@@ -300,6 +304,10 @@ struct UsageStatsView: View {
                     }
                 }
                 .chartXSelection(value: $selectedActivityDay)
+                .chartSummaryAccessibility(
+                    label: Text("Entries per day"),
+                    value: Text("\(model.dailyTotals.reduce(0) { $0 + $1.count }) entries across \(model.dailyTotals.count) days."),
+                )
 
                 // Selected day detail
                 if let day = selectedActivityDay {
@@ -323,6 +331,7 @@ struct UsageStatsView: View {
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
+                        .accessibilityElement(children: .combine)
                         .padding(.horizontal, 4)
                         .transition(.opacity)
                     }
@@ -391,6 +400,7 @@ private struct FrequencyChartContent: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Frequency")
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
 
             ForEach(data, id: \.substance) { item in
                 VStack(alignment: .leading, spacing: 4) {
@@ -412,6 +422,7 @@ private struct FrequencyChartContent: View {
                             .frame(minWidth: 48, alignment: .leading)
                     }
                 }
+                .accessibilityElement(children: .combine)
             }
         }
         .padding()
@@ -440,9 +451,13 @@ private struct TimeOfDayChartContent: View {
             TimeBucket(name: String(localized: "Night\n0–6"), count: buckets[3], color: .blue),
         ]
 
-        VStack(alignment: .leading, spacing: 8) {
+        let periodNames: [LocalizedStringResource] = ["morning", "afternoon", "evening", "night"]
+        let peakIndex = buckets.indices.max { buckets[$0] < buckets[$1] } ?? 0
+
+        return VStack(alignment: .leading, spacing: 8) {
             Text("Time of Day")
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
 
             Chart(items) { bucket in
                 BarMark(
@@ -478,6 +493,10 @@ private struct TimeOfDayChartContent: View {
                         .font(.caption2)
                 }
             }
+            .chartSummaryAccessibility(
+                label: Text("Time of Day"),
+                value: Text("Most entries in the \(String(localized: periodNames[peakIndex])); \(total) total."),
+            )
         }
         .padding()
         .themeCard()
@@ -507,6 +526,7 @@ private struct DoseTrendSection: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Dose Trends")
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
 
                 HStack(spacing: 8) {
                     Image(systemName: "magnifyingglass")
@@ -545,6 +565,7 @@ private struct DoseTrendSection: View {
                                     .clipShape(Capsule())
                                     .overlay(Capsule().stroke(.quaternary))
                             }
+                            .accessibilityAddTraits(isSelected ? [.isSelected] : [])
                         }
                     }
                 }
@@ -694,6 +715,10 @@ private struct DoseTrendInnerChart: View {
                         gestureStartZoom = zoom
                     },
             )
+            .chartSummaryAccessibility(
+                label: Text("Dose Trends"),
+                value: Text("\(data.count) points, peak \((data.map(\.total).max() ?? 0).doseFormatted) \(unit)."),
+            )
         }
         .scrollBounceBehavior(.basedOnSize)
         .defaultScrollAnchor(.trailing)
@@ -761,6 +786,7 @@ private struct CategoryBreakdownContent: View {
             } else {
                 Text("Categories")
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
             }
 
             if sorted.isEmpty {
@@ -782,6 +808,13 @@ private struct CategoryBreakdownContent: View {
                 .frame(height: 200)
                 .chartLegend(.hidden)
                 .chartAngleSelection(value: $categoryAngleValue)
+                .chartSummaryAccessibility(
+                    label: Text("Categories"),
+                    value: Text(sorted.prefix(3).map { item in
+                        let pct = total > 0 ? Int(round(Double(item.count) / Double(total) * 100)) : 0
+                        return "\(String(localized: item.category.displayName)) \(pct)%"
+                    }.joined(separator: ", ")),
+                )
                 .onChange(of: categoryAngleValue) { _, newValue in
                     if let newValue {
                         withAnimation(.easeInOut(duration: 0.3)) {
@@ -845,6 +878,13 @@ private struct CategoryBreakdownContent: View {
             }
             .frame(height: 200)
             .chartLegend(.hidden)
+            .chartSummaryAccessibility(
+                label: Text(category.displayName),
+                value: Text(counts.prefix(3).map { item in
+                    let pct = drillTotal > 0 ? Int(round(Double(item.count) / Double(drillTotal) * 100)) : 0
+                    return "\(CustomSubstanceStore.shared.displayName(for: item.substance)) \(pct)%"
+                }.joined(separator: ", ")),
+            )
 
             FlowLayout(spacing: 8) {
                 ForEach(counts, id: \.substance) { item in
