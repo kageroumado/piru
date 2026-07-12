@@ -1106,13 +1106,13 @@ private struct ActiveSessionHeroCard: View {
                         multiSubstanceContent(now: now)
                     }
                 }
-                // Horizontal padding matches the regular cards (14) so the title
-                // aligns with the session titles below. Bottom padding is tighter
-                // than the top — the graph already carries its own axis-label band,
-                // so anything more beneath it reads as a gap.
-                .padding(.top, 16)
-                .padding(.horizontal, 14)
-                .padding(.bottom, 6)
+                // 12pt horizontal keeps the title and the graph canvas on one
+                // shared inset. Bottom padding is near-zero — the graph already
+                // carries its own axis-label band, so anything more beneath it
+                // reads as a gap.
+                .padding(.top, 12)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 2)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(RoundedRectangle(cornerRadius: 16))
             }
