@@ -1,6 +1,26 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ at %lld percent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ at %2$lld percent"
+          }
+        }
+      }
+    },
+    "%@ in %@ at %lld percent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ in %2$@ at %3$lld percent"
+          }
+        }
+      }
+    },
     "%lld bpm" : {
 
     },
@@ -99,6 +119,9 @@
     "Monthly" : {
 
     },
+    "No active doses" : {
+
+    },
     "Offset" : {
 
     },
@@ -133,6 +156,9 @@
 
     },
     "Sublingual" : {
+
+    },
+    "Timeline" : {
 
     },
     "Transdermal" : {
