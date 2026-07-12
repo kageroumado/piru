@@ -116,6 +116,7 @@ struct ReportView: View {
                         Text("\(dailyDoseItems.count)")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
+                    .accessibilityElement(children: .combine)
 
                     HStack {
                         Label("Usage Entries", systemImage: "list.bullet")
@@ -123,6 +124,7 @@ struct ReportView: View {
                         Text("\(entryCount)")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
+                    .accessibilityElement(children: .combine)
 
                     HStack {
                         Label("Interaction Alerts", systemImage: "exclamationmark.triangle")
@@ -131,6 +133,7 @@ struct ReportView: View {
                         Text("\(count)")
                             .foregroundStyle(count > 0 ? .orange : Theme.secondaryLabel)
                     }
+                    .accessibilityElement(children: .combine)
                 }
 
                 // Notes

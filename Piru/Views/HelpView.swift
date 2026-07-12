@@ -99,9 +99,11 @@ struct HelpView: View {
                 Image(systemName: "heart.fill")
                     .font(.largeTitle)
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
 
                 Text("You're going to be okay")
                     .font(.title2.weight(.semibold))
+                    .accessibilityAddTraits(.isHeader)
 
                 Text("Whatever you're experiencing right now, help is available and you don't have to face it alone.")
                     .font(.subheadline)
@@ -114,6 +116,7 @@ struct HelpView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
+            .accessibilityElement(children: .combine)
 
             groundingTip(
                 icon: "music.note",
@@ -516,6 +519,7 @@ struct HelpView: View {
                             .font(.body.weight(.semibold))
                             .foregroundStyle(service.tint)
                             .frame(width: 28)
+                            .accessibilityHidden(true)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(service.title)
@@ -530,6 +534,7 @@ struct HelpView: View {
                         Image(systemName: "arrow.up.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.tertiary)
+                            .accessibilityHidden(true)
                     }
                 }
             }
@@ -551,6 +556,7 @@ struct HelpView: View {
                     Circle()
                         .fill(substance.color)
                         .frame(width: 10, height: 10)
+                        .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(substance.name)
@@ -561,6 +567,7 @@ struct HelpView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+                .accessibilityElement(children: .combine)
             }
         } header: {
             Text("Currently In Your System")
@@ -582,6 +589,7 @@ struct HelpView: View {
                     RoundedRectangle(cornerRadius: 2)
                         .fill(colorFor(entry))
                         .frame(width: 4, height: 40)
+                        .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 3) {
                         Text(CustomSubstanceStore.shared.displayName(for: entry.substance))
@@ -589,7 +597,7 @@ struct HelpView: View {
 
                         HStack(spacing: 4) {
                             Text("\(entry.amount.doseFormatted) \(entry.unit)")
-                            Text("\u{00B7}")
+                            Middot()
                                 .foregroundStyle(.tertiary)
                             Text(entry.route.localizedName)
                         }
@@ -608,6 +616,7 @@ struct HelpView: View {
                     }
                 }
                 .padding(.vertical, 2)
+                .accessibilityElement(children: .combine)
             }
         }
     }

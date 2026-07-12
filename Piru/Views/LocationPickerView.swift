@@ -178,6 +178,7 @@ struct LocationPickerView: View {
                         }
                     }
                     .disabled(model.isLocating)
+                    .accessibilityValue(model.isLocating ? Text("Locating…") : Text(verbatim: ""))
                     .listRowBackground(CardBackground())
                 } footer: {
                     if model.authDenied {
@@ -198,6 +199,7 @@ struct LocationPickerView: View {
                                 } icon: {
                                     Image(systemName: "mappin.circle.fill")
                                         .foregroundStyle(Theme.accent)
+                                        .accessibilityHidden(true)
                                 }
                             }
                             .listRowBackground(CardBackground())

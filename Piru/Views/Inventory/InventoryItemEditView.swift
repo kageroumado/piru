@@ -81,6 +81,7 @@ struct InventoryItemEditView: View {
                     InventoryStepperRow(
                         value: $onHand,
                         unit: unit,
+                        label: "On hand",
                         stepBasis: stepBasis,
                         unitChoices: unitChoices,
                         onUnitChange: { unit = $0 },
@@ -93,7 +94,7 @@ struct InventoryItemEditView: View {
                 .listRowBackground(CardBackground())
 
                 Section {
-                    InventoryStepperRow(value: $baseline, unit: unit, stepBasis: stepBasis)
+                    InventoryStepperRow(value: $baseline, unit: unit, label: "Baseline (100%)", stepBasis: stepBasis)
                 } header: {
                     Text("Baseline (100%)")
                 } footer: {
@@ -102,7 +103,7 @@ struct InventoryItemEditView: View {
                 .listRowBackground(CardBackground())
 
                 Section {
-                    InventoryStepperRow(value: $doseSize, unit: unit, stepBasis: stepBasis)
+                    InventoryStepperRow(value: $doseSize, unit: unit, label: "Single dose", stepBasis: stepBasis)
                 } header: {
                     Text("Single dose")
                 } footer: {
@@ -111,7 +112,7 @@ struct InventoryItemEditView: View {
                 .listRowBackground(CardBackground())
 
                 Section {
-                    InventoryStepperRow(value: $threshold, unit: unit, stepBasis: stepBasis)
+                    InventoryStepperRow(value: $threshold, unit: unit, label: "Warn when below", stepBasis: stepBasis)
                 } header: {
                     Text("Warn when below")
                 } footer: {

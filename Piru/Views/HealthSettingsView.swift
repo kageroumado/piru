@@ -43,7 +43,7 @@ struct HealthSettingsView: View {
 
     private var weightSection: some View {
         Section {
-            InventoryStepperRow(value: $weightKg, unit: "kg", stepBasis: 10)
+            InventoryStepperRow(value: $weightKg, unit: "kg", label: "Your body weight", stepBasis: 10)
                 .onChange(of: weightKg) { _, newValue in
                     if isProgrammaticWeightChange {
                         isProgrammaticWeightChange = false
@@ -91,6 +91,7 @@ struct HealthSettingsView: View {
                 }
             }
             .disabled(isConnecting)
+            .accessibilityValue(isConnecting ? Text("Connecting…") : Text(verbatim: ""))
         } header: {
             Text("Apple Health")
         } footer: {

@@ -158,6 +158,9 @@ struct OnboardingProgressBar: View {
             }
         }
         .animation(.smooth(duration: 0.3), value: current)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Progress"))
+        .accessibilityValue(Text("Step \(current) of \(total)"))
     }
 }
 
@@ -193,6 +196,7 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
                 Text(title)
                     .font(.largeTitle.weight(.bold))
                     .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
                 if let subtitle {
                     Text(subtitle)
                         .font(.body)

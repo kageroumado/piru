@@ -98,6 +98,7 @@ struct OnboardingBulletRow: View {
             }
             Spacer(minLength: 0)
         }
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -197,6 +198,7 @@ struct OnboardingDepthStep: View {
                     .font(.title3)
                     .foregroundStyle(isSelected ? Theme.accent : Theme.secondaryLabel)
                     .frame(width: 30)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(tier.displayName)
                         .font(.subheadline.weight(.semibold))
@@ -212,11 +214,13 @@ struct OnboardingDepthStep: View {
                     .font(.body.weight(.semibold))
                     .foregroundStyle(Theme.accent)
                     .opacity(isSelected ? 1 : 0)
+                    .accessibilityHidden(!isSelected)
             }
             .contentShape(.rect)
             .padding(.vertical, 6)
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
         .listRowBackground(CardBackground())
     }
 }

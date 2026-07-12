@@ -56,6 +56,7 @@ struct SubstanceDBUpdateRow: View {
                     .font(.caption.monospaced())
                     .foregroundStyle(Theme.secondaryLabel)
             }
+            .accessibilityElement(children: .combine)
             Spacer()
             Button("Check for Updates") {
                 Task { await updater.checkForUpdates() }
@@ -75,6 +76,7 @@ struct SubstanceDBUpdateRow: View {
                 .font(.caption.monospaced())
                 .foregroundStyle(Theme.secondaryLabel)
         }
+        .accessibilityElement(children: .combine)
     }
 
     private func updateAvailableRow(local: SubstanceDBManifest, remote: SubstanceDBManifest) -> some View {
@@ -88,6 +90,7 @@ struct SubstanceDBUpdateRow: View {
                     .font(.caption.monospaced())
                     .foregroundStyle(Theme.secondaryLabel)
             }
+            .accessibilityElement(children: .combine)
             if !remote.releaseNotes.isEmpty {
                 Text(remote.releaseNotes)
                     .font(.caption)
@@ -114,6 +117,7 @@ struct SubstanceDBUpdateRow: View {
                 .font(.subheadline)
             ProgressView(value: progress)
         }
+        .accessibilityElement(children: .combine)
     }
 
     private func appliedRow(applied: SubstanceDBManifest) -> some View {

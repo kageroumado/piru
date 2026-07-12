@@ -24,15 +24,16 @@ struct CustomSubstancesListView: View {
                             Image(systemName: substance.category.icon)
                                 .foregroundStyle(substance.category.color)
                                 .frame(width: 24)
+                                .accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(substance.name)
                                     .font(.body.weight(.medium))
                                     .foregroundStyle(.primary)
                                 HStack(spacing: 6) {
                                     Text(substance.category.displayName)
-                                    Text("·")
+                                    Middot()
                                     Text(substance.defaultRoute.localizedName)
-                                    Text("·")
+                                    Middot()
                                     Text(substance.unit)
                                 }
                                 .font(.caption)
@@ -42,7 +43,9 @@ struct CustomSubstancesListView: View {
                             Image(systemName: "chevron.right")
                                 .font(.caption)
                                 .foregroundStyle(Theme.secondaryLabel)
+                                .accessibilityHidden(true)
                         }
+                        .accessibilityElement(children: .combine)
                     }
                 }
                 .onDelete { offsets in

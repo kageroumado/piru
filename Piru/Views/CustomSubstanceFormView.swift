@@ -126,6 +126,7 @@ struct CustomSubstanceFormView: View {
             TextField("min", value: min, format: .number)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
             Text("–").foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             TextField("max", value: max, format: .number)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
             Text(suffix).foregroundStyle(Theme.secondaryLabel)

@@ -96,6 +96,7 @@ struct MedicationItemFormView: View {
                                 Text("Days")
                                     .font(.subheadline)
                                     .foregroundStyle(Theme.secondaryLabel)
+                                    .accessibilityAddTraits(.isHeader)
                                 HStack(spacing: 6) {
                                     ForEach(Self.weekdaySymbols, id: \.index) { day in
                                         let isSelected = selectedWeekdays.contains(day.index)

@@ -180,6 +180,7 @@ struct InventoryItemForm: View {
                 if selectedSubstance == nil, !substanceName.isEmpty {
                     HStack(spacing: 4) {
                         Image(systemName: "info.circle")
+                            .accessibilityHidden(true)
                         Text("Custom substance — its doses count by exact name match.")
                     }
                     .font(.caption)
@@ -215,6 +216,7 @@ struct InventoryItemForm: View {
             InventoryStepperRow(
                 value: $amount,
                 unit: unit,
+                label: isRestock ? "Amount added" : "Starting amount",
                 stepBasis: stepBasis,
                 unitChoices: isRestock ? nil : unitChoices,
                 onUnitChange: isRestock ? nil : { unit = $0 },

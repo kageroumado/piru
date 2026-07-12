@@ -30,6 +30,8 @@ struct OnboardingFeatureTour: View {
             }
             .padding(.top, 4)
             .padding(.bottom, 20)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text("Page \(page + 1) of \(pages.count)"))
 
             OnboardingPrimaryButton(title: "Continue", action: nav.advance)
                 .padding(.horizontal, 24)
@@ -53,6 +55,7 @@ struct OnboardingFeatureTour: View {
             }
             .padding(.horizontal, 32)
             .padding(.bottom, 8)
+            .accessibilityElement(children: .combine)
         }
     }
 }

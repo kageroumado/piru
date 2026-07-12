@@ -94,6 +94,7 @@ struct NavCardLabel<Detail: View>: View {
                 .font(.title2)
                 .foregroundStyle(Theme.accent)
                 .frame(width: 32)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 3) {
                 title
                     .font(.headline)
@@ -106,6 +107,7 @@ struct NavCardLabel<Detail: View>: View {
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)

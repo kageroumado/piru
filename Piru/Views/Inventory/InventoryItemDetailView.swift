@@ -72,13 +72,14 @@ struct InventoryItemDetailView: View {
                             } label: {
                                 HStack(spacing: 4) {
                                     Image(systemName: "info.circle")
+                                        .accessibilityHidden(true)
                                     Text(basisLine(runOut))
                                 }
                                 .font(.caption)
                                 .foregroundStyle(Theme.secondaryLabel)
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel("How this is calculated")
+                            .accessibilityHint("How this is calculated")
                         }
                     }
                 }

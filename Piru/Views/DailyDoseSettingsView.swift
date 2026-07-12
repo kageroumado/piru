@@ -111,6 +111,7 @@ struct RoutinesSettingsView: View {
                 .foregroundStyle(.white)
                 .frame(width: 30, height: 30)
                 .background(Theme.accent, in: Circle())
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(routine.name)
                     .font(.body)
@@ -122,6 +123,7 @@ struct RoutinesSettingsView: View {
                         if routine.remind {
                             Image(systemName: "bell.fill")
                                 .font(.caption2)
+                                .accessibilityLabel("Reminder on")
                         }
                     }
                 }
@@ -343,6 +345,7 @@ private struct RoutineItemRow: View {
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
             }
             .contentShape(Rectangle())
         }

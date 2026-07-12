@@ -27,9 +27,11 @@ struct DiscordPromptView: View {
                 .font(.system(size: 54))
                 .foregroundStyle(Self.blurple)
                 .padding(.top, 4)
+                .accessibilityHidden(true)
 
             Text("Join the community")
                 .font(.title2.weight(.bold))
+                .accessibilityAddTraits(.isHeader)
 
             Text("Have feedback, questions, or want to discuss the app? Join our Discord — we'd love to hear from you.")
                 .font(.subheadline)
