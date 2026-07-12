@@ -29,8 +29,10 @@ struct ProtocolDosingCard: View {
             HStack(spacing: 8) {
                 Image(systemName: "calendar.badge.clock")
                     .foregroundStyle(.blue)
+                    .accessibilityHidden(true)
                 Text("Typical protocol")
                     .font(.subheadline.weight(.semibold))
+                    .accessibilityAddTraits(.isHeader)
             }
 
             if let amountText {
@@ -59,6 +61,7 @@ struct ProtocolDosingCard: View {
                 Text("Titration")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityAddTraits(.isHeader)
                 ForEach(Array(titration.enumerated()), id: \.offset) { _, step in
                     HStack {
                         Text(step.label)
@@ -123,6 +126,7 @@ struct PeptideHandlingCard: View {
                 HStack(spacing: 8) {
                     Image(systemName: storage.temperature.icon)
                         .foregroundStyle(.cyan)
+                        .accessibilityHidden(true)
                     Text(storage.temperature.displayName)
                         .font(.subheadline.weight(.medium))
                 }
@@ -210,6 +214,7 @@ struct ReconstitutionCalculatorView: View {
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 70)
+                    .accessibilityLabel(Text("Target dose"))
                 Picker("Unit", selection: $doseUnit) {
                     ForEach(DoseUnitChoice.allCases) { u in
                         Text(u.label).tag(u)
@@ -246,6 +251,7 @@ struct ReconstitutionCalculatorView: View {
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 80)
+                .accessibilityLabel(Text(label))
             Text(unit)
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)

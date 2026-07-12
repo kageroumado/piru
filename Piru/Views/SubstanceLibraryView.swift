@@ -127,6 +127,7 @@ private struct SubstanceSearchResultsList: View {
                     Image(systemName: "hand.raised.fill")
                         .font(.largeTitle)
                         .foregroundStyle(.blue)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Take a breath.")
                             .font(.title3.weight(.semibold))
@@ -141,6 +142,7 @@ private struct SubstanceSearchResultsList: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("If you need help right now:")
                         .font(.subheadline.weight(.semibold))
+                        .accessibilityAddTraits(.isHeader)
 
                     helpLink(
                         icon: "phone.fill",
@@ -184,6 +186,7 @@ private struct SubstanceSearchResultsList: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("While you wait or if you just need to calm down:")
                         .font(.subheadline.weight(.semibold))
+                        .accessibilityAddTraits(.isHeader)
                     Text("Breathe slowly: 4 seconds in, hold for 4, out for 4.")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -208,6 +211,7 @@ private struct SubstanceSearchResultsList: View {
                 Image(systemName: icon)
                     .foregroundStyle(color)
                     .frame(width: 24)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 1) {
                     Text(title)
                         .font(.subheadline.weight(.medium))
@@ -220,6 +224,7 @@ private struct SubstanceSearchResultsList: View {
                 Image(systemName: "arrow.up.right")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
             }
         }
     }
@@ -415,6 +420,7 @@ struct SubstanceCategoryListView: View {
                         }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
+                            .accessibilityLabel(Text("Sort"))
                     }
                 }
             }
@@ -452,6 +458,7 @@ struct SubstanceRowView: View {
             Circle()
                 .fill(substance.category.color.gradient)
                 .frame(width: 10, height: 10)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(personalName ?? substance.displayTitle)
                     .font(.body.weight(.medium))
@@ -817,6 +824,7 @@ struct SubstanceDetailView: View {
                 HStack(spacing: 3) {
                     Text(verbatim: "\(cid)").font(.subheadline)
                     Image(systemName: "arrow.up.right").font(.caption2)
+                        .accessibilityHidden(true)
                 }
                 .foregroundStyle(Theme.accent)
             }
@@ -909,6 +917,7 @@ struct SubstanceDetailView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                             }
                         }
+                        .accessibilityElement(children: .combine)
                         .padding(.vertical, 2)
                     }
                 } else if hasAllEffects {
@@ -930,6 +939,7 @@ struct SubstanceDetailView: View {
                             HStack(spacing: 2) {
                                 Text("Show All")
                                 Image(systemName: "chevron.right").font(.caption2)
+                                    .accessibilityHidden(true)
                             }
                             .font(.subheadline)
                             .foregroundStyle(Theme.accent)
@@ -1103,6 +1113,7 @@ struct SubstanceDetailView: View {
                     HStack(spacing: 2) {
                         Text("Show All")
                         Image(systemName: "chevron.right").font(.caption2)
+                            .accessibilityHidden(true)
                     }
                     .font(.subheadline)
                     .foregroundStyle(Theme.accent)
@@ -1383,6 +1394,7 @@ struct SubstanceDetailView: View {
                 Image(systemName: "arrow.up.right")
                     .font(.caption)
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
             }
         }
     }
@@ -2089,6 +2101,7 @@ struct SubstanceDetailView: View {
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
+                    .accessibilityElement(children: .combine)
                 }
                 if entries.count > 10, !showAllHistory {
                     Button {
@@ -2189,30 +2202,41 @@ private struct CollapsibleSection<Content: View>: View {
 
     var body: some View {
         Section {
-            DisclosureGroup(isExpanded: $isExpanded) {
-                content()
-            } label: {
-                HStack(spacing: 6) {
-                    Label(title, systemImage: systemImage)
-                        .font(.subheadline.weight(.semibold))
-                    if let count {
-                        Text(verbatim: "\(count)")
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 1)
-                            .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+            if let onInfo {
+                // The (i) button nested in a DisclosureGroup label isn't reliably reachable under
+                // VoiceOver, so expose the same help via a custom action on the section itself.
+                disclosureGroup
+                    .accessibilityAction(named: Text("About this section")) { onInfo() }
+            } else {
+                disclosureGroup
+            }
+        }
+    }
+
+    private var disclosureGroup: some View {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            content()
+        } label: {
+            HStack(spacing: 6) {
+                Label(title, systemImage: systemImage)
+                    .font(.subheadline.weight(.semibold))
+                if let count {
+                    Text(verbatim: "\(count)")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 1)
+                        .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+                }
+                if let onInfo {
+                    Spacer(minLength: 0)
+                    Button(action: onInfo) {
+                        Image(systemName: "info.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.accent)
                     }
-                    if let onInfo {
-                        Spacer(minLength: 0)
-                        Button(action: onInfo) {
-                            Image(systemName: "info.circle")
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.accent)
-                        }
-                        .buttonStyle(.borderless)
-                        .accessibilityLabel("What do these mean?")
-                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel("What do these mean?")
                 }
             }
         }

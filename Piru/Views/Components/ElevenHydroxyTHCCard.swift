@@ -17,6 +17,7 @@ struct ElevenHydroxyTHCCard: View {
                     .foregroundStyle(.orange)
                     .font(.title3)
                     .padding(.top, 2)
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text("11-OH-THC")
@@ -30,6 +31,7 @@ struct ElevenHydroxyTHCCard: View {
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
+                .accessibilityElement(children: .combine)
             }
             .padding(.vertical, 2)
         } header: {

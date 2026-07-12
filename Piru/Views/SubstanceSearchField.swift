@@ -103,6 +103,7 @@ struct SubstanceSearchField: View {
                                                 Image(systemName: "star.fill")
                                                     .font(.caption2)
                                                     .foregroundStyle(.yellow)
+                                                    .accessibilityHidden(true)
                                             }
                                         }
                                         if let secondary = secondaryNames(for: substance) {
@@ -123,6 +124,7 @@ struct SubstanceSearchField: View {
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
+                            .accessibilityValue(favoriteNames.contains(substance.name.lowercased()) ? Text("Favorite") : Text(verbatim: ""))
 
                             Divider().padding(.leading, 12)
                         }
@@ -137,6 +139,7 @@ struct SubstanceSearchField: View {
                                 HStack {
                                     Image(systemName: "plus.circle.fill")
                                         .foregroundStyle(Theme.accent)
+                                        .accessibilityHidden(true)
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text("Use \"\(text)\"")
                                             .font(.body)

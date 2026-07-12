@@ -24,6 +24,7 @@ struct GlanceCardHeader<Trailing: View>: View {
                 .font(.headline)
                 .foregroundStyle(iconTint)
                 .frame(width: Self.iconWidth, alignment: .center)
+                .accessibilityHidden(true)
             title
                 .font(.headline)
                 .foregroundStyle(titleColor)
@@ -44,6 +45,7 @@ struct GlanceCardChevron: View {
             .font(.caption.weight(.semibold))
             .foregroundStyle(Theme.secondaryLabel)
             .rotationEffect(.degrees(rotated ? 180 : 0))
+            .accessibilityHidden(true)
     }
 }
 

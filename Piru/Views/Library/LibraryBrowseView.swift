@@ -157,9 +157,12 @@ private struct LibraryFamilyCard: View {
     private var umbrella: some View {
         surface {
             VStack(alignment: .leading, spacing: 12) {
-                header(chevron: "chevron.down", rotates: true)
-                    .contentShape(Rectangle())
-                    .onTapGesture(perform: toggle)
+                Button(action: toggle) {
+                    header(chevron: "chevron.down", rotates: true)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
 
                 if isExpanded {
                     VStack(spacing: 8) {
@@ -199,6 +202,7 @@ private struct LibraryFamilyCard: View {
                     .font(.system(size: 21, weight: .semibold))
                     .foregroundStyle(.white)
                     .frame(height: 28, alignment: .leading)
+                    .accessibilityHidden(true)
                 Text(family.title)
                     .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(.white)
@@ -223,6 +227,7 @@ private struct LibraryFamilyCard: View {
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(.white.opacity(0.9))
                         .rotationEffect(.degrees(rotates && isExpanded ? 180 : 0))
+                        .accessibilityHidden(true)
                 }
             }
             .padding(.top, 4)
@@ -304,6 +309,7 @@ private struct LibrarySubclassRow: View {
                 .foregroundStyle(.white)
                 .frame(width: 32, height: 32)
                 .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(sub.title)
                     .font(.subheadline.weight(.semibold))
@@ -322,6 +328,7 @@ private struct LibrarySubclassRow: View {
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.white.opacity(0.8))
+                .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)
         .padding(.vertical, 11)
@@ -360,6 +367,7 @@ private struct LibraryFavoritesCard: View {
                     .foregroundStyle(.white.opacity(0.16))
                     .rotationEffect(.degrees(8))
                     .offset(x: 30, y: -18)
+                    .accessibilityHidden(true)
             } content: {
                 HStack(alignment: .top, spacing: 0) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -388,6 +396,7 @@ private struct LibraryFavoritesCard: View {
                         Image(systemName: "chevron.right")
                             .font(.subheadline.weight(.bold))
                             .foregroundStyle(.white.opacity(0.9))
+                            .accessibilityHidden(true)
                     }
                     .padding(.top, 4)
                     .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)

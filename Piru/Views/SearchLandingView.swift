@@ -139,6 +139,7 @@ private struct SubstanceRowsCard: View {
                         Image(systemName: "chevron.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)
+                            .accessibilityHidden(true)
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 11)
@@ -160,6 +161,7 @@ private struct SectionLabel: View {
         Text(title)
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(Theme.secondaryLabel)
+            .accessibilityAddTraits(.isHeader)
     }
 }
 
@@ -177,6 +179,7 @@ private struct HelpCard: View {
                     .font(.system(size: 124, weight: .regular))
                     .foregroundStyle(.white.opacity(0.16))
                     .offset(x: 26, y: -4)
+                    .accessibilityHidden(true)
             } content: {
                 VStack(alignment: .leading, spacing: 4) {
                     Image(systemName: "lifepreserver")
@@ -307,6 +310,7 @@ private struct ClassLabel: View {
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(.white)
                 .frame(height: 26, alignment: .leading)
+                .accessibilityHidden(true)
             Spacer(minLength: 14)
             Text(title)
                 .font(.system(size: 16, weight: .bold))
@@ -329,5 +333,7 @@ private struct FoldBackLabel: View {
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, minHeight: 78)
+        .accessibilityElement()
+        .accessibilityLabel(Text("Collapse"))
     }
 }

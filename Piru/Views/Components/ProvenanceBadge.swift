@@ -29,7 +29,7 @@ struct ProvenanceBadge: View {
         .padding(.vertical, 2)
         .background(color.opacity(0.15), in: Capsule())
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Evidence source: \(kind.accessibleName), \(String(localized: confidence.label))")
+        .accessibilityLabel("Evidence source: \(String(localized: kind.accessibleName)), \(String(localized: confidence.label))")
     }
 
     /// Color tracks the trust grade so an at-a-glance read combines method *and* how much to trust it —
@@ -62,7 +62,7 @@ struct ProvenanceBadge: View {
             }
         }
 
-        var accessibleName: String {
+        var accessibleName: LocalizedStringResource {
             switch self {
             case .human: "human assay"
             case .rat: "rat assay"

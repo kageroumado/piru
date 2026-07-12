@@ -13,6 +13,7 @@ struct CombinedDepressionBanner: View {
             Image(systemName: "lungs.fill")
                 .foregroundStyle(color)
                 .font(.title3)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("Combined respiratory depression peaks around \(result.peakDate.formatted(date: .omitted, time: .shortened)).")
@@ -22,6 +23,7 @@ struct CombinedDepressionBanner: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
+            .accessibilityElement(children: .combine)
             Spacer(minLength: 0)
         }
     }

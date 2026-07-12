@@ -16,6 +16,7 @@ struct ContraceptionCautionBanner: View {
             Image(systemName: "pills.circle")
                 .foregroundStyle(.orange)
                 .font(.title3)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("May reduce hormonal birth-control efficacy")
@@ -25,6 +26,7 @@ struct ContraceptionCautionBanner: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            .accessibilityElement(children: .combine)
             Spacer(minLength: 0)
         }
     }
