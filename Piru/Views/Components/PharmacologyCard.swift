@@ -19,12 +19,6 @@ struct PharmacologyCard: View {
     private var accent: Color {
         category.color
     }
-    private var serotoninColor: Color {
-        SubstanceCategory.empathogen.color
-    }
-    private var dopamineColor: Color {
-        SubstanceCategory.stimulant.color
-    }
 
     /// The summary is a short *title* ("Monoamine-Releasing Stimulant") — color it as a headline.
     /// Some substances carry a multi-sentence essay in the summary field; render that as calm body
@@ -91,6 +85,7 @@ struct PharmacologyCard: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Minor / off-targets")
                         .font(.caption.weight(.semibold)).foregroundStyle(Theme.secondaryLabel)
+                        .accessibilityAddTraits(.isHeader)
                     Text(minor).font(.caption).foregroundStyle(Theme.secondaryLabel)
                 }
                 .fixedSize(horizontal: false, vertical: true)
@@ -113,6 +108,7 @@ struct PharmacologyCard: View {
             }
             .font(.caption2.weight(.semibold))
             .foregroundStyle(Theme.secondaryLabel)
+            .accessibilityAddTraits(.isHeader)
 
             ForEach(moa.bindings) { binding in
                 GridRow {
@@ -120,6 +116,7 @@ struct PharmacologyCard: View {
                     Text(binding.action.displayName).foregroundStyle(.secondary)
                     AffinityDots(filled: binding.affinity.rawValue, tint: accent)
                 }
+                .accessibilityElement(children: .combine)
             }
         }
         .font(.caption)
@@ -143,40 +140,11 @@ struct PharmacologyCard: View {
     }
 
     private func spectrum(_ profile: MonoamineProfile) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(LinearGradient(colors: [serotoninColor, dopamineColor], startPoint: .leading, endPoint: .trailing))
-                        .frame(height: 8)
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 16, height: 16)
-                        .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
-                        .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
-                        .offset(x: geo.size.width * (profile.leanPosition ?? 0.5) - 8)
-                }
-                .frame(height: 16)
-            }
-            .frame(height: 16)
-
-            HStack {
-                Text("Serotonin").font(.caption2.weight(.medium)).foregroundStyle(serotoninColor)
-                Spacer()
-                Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
-            }
-
-            // Two lines: the lean label, then the ratio beneath it — keeps a long label from colliding
-            // with the ratio on one row.
-            VStack(alignment: .leading, spacing: 1) {
-                Text(profile.leanLabel).font(.caption.weight(.semibold))
-                if let r = profile.datSertRatio {
-                    Text("DAT:SERT \(ratioText(r))")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-        }
+        DopamineSerotoninLeanBar(
+            leanPosition: profile.leanPosition,
+            leanLabel: profile.leanLabel,
+            ratioText: profile.datSertRatio.map { ratioText($0) },
+        )
     }
 
     @ViewBuilder

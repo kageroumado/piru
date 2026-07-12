@@ -55,6 +55,7 @@ struct AcetaldehydeCard: View {
                     .foregroundStyle(.orange)
                     .font(.title3)
                     .padding(.top, 2)
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
@@ -79,6 +80,7 @@ struct AcetaldehydeCard: View {
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
+                .accessibilityElement(children: .combine)
             }
             .padding(.vertical, 2)
         } header: {

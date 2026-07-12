@@ -47,9 +47,12 @@ struct GroupedReceptorLiterature: View {
                         speciesCell(only)
                         linkCell(only)
                     }
+                    .accessibilityElement(children: .combine)
                 } else {
                     GridRow {
-                        Text(group.id).font(.subheadline.weight(.bold))
+                        Text(group.id)
+                            .font(.subheadline.weight(.bold))
+                            .accessibilityAddTraits(.isHeader)
                     }
                     ForEach(group.rows) { hit in
                         GridRow {
@@ -62,6 +65,7 @@ struct GroupedReceptorLiterature: View {
                             speciesCell(hit)
                             linkCell(hit)
                         }
+                        .accessibilityElement(children: .combine)
                     }
                 }
             }
@@ -120,11 +124,7 @@ struct GroupedReceptorLiterature: View {
     @ViewBuilder
     private func linkCell(_ hit: SubstanceStore.BindingHit) -> some View {
         if let url = citationURL(doi: hit.doi, pmid: hit.pmid) {
-            Link(destination: url) {
-                Image(systemName: "arrow.up.right")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+            CitationLink(url: url)
         } else {
             Color.clear.frame(width: 0, height: 0)
         }
@@ -219,6 +219,9 @@ struct AffinityDots: View {
                     .frame(width: 6, height: 6)
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Binding strength"))
+        .accessibilityValue(Text("\(filled) of 3"))
     }
 }
 
@@ -236,6 +239,23 @@ func citationURL(doi: String?, pmid: Int?) -> URL? {
     return nil
 }
 
+/// A citation `Link` rendered as a lone ↗ glyph — the receptor-literature rows and the species-cite
+/// clusters both need it, so it carries one explicit VoiceOver label instead of the bare image reading
+/// as nothing. `size` scales the glyph to the caller's row.
+struct CitationLink: View {
+    let url: URL
+    var size: CGFloat = 11
+
+    var body: some View {
+        Link(destination: url) {
+            Image(systemName: "arrow.up.right")
+                .font(.system(size: size, weight: .semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .accessibilityLabel(Text("View citation"))
+    }
+}
+
 /// The source name rendered as its own citation link (name + trailing ↗) when a DOI/PMID exists, else
 /// plain text. Folds the old "PubMed … (spacer) … DOI↗" split into one tappable element so the name and
 /// its link stop sitting at opposite ends of the row.
@@ -247,6 +267,7 @@ func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> 
                 Text(name).font(.caption2)
                 Image(systemName: "arrow.up.right")
                     .font(.system(size: 9, weight: .semibold))
+                    .accessibilityHidden(true)
             }
             .foregroundStyle(accent)
         }
@@ -313,6 +334,7 @@ private struct PKMetricChip: View {
             Text(value)
                 .font(.subheadline.weight(.semibold).monospacedDigit())
         }
+        .accessibilityElement(children: .combine)
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
         .background(Theme.secondaryLabel.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
@@ -364,6 +386,7 @@ struct MetabolismRow: View {
                 Image(systemName: "drop")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
                 Text(eliminationLabel)
                     .font(.subheadline.weight(.semibold))
                 Spacer()
@@ -405,6 +428,7 @@ struct MetabolismRow: View {
                     Image(systemName: "arrow.turn.down.right")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                     Text(metabolite).font(.subheadline)
                     if let active = hit.metaboliteActive {
                         Text(active ? "active" : "inactive")
@@ -429,7 +453,7 @@ struct MetabolismRow: View {
 /// the source and its link read as one element instead of sitting at opposite ends of the row.
 private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
     HStack(spacing: 6) {
-        Image(systemName: "doc.text.magnifyingglass").font(.caption2)
+        Image(systemName: "doc.text.magnifyingglass").font(.caption2).accessibilityHidden(true)
         sourceNameLink(pharmaSourceName(slug), doi: doi, pmid: pmid, accent: accent)
         if let detail, !detail.isEmpty {
             Middot().font(.caption2)

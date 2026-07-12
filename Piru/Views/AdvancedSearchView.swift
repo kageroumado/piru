@@ -75,6 +75,7 @@ struct AdvancedSearchView: View {
             Toggle("Ki ≤ \(Int(kiCeilingNm)) nM", isOn: $kiCeilingEnabled)
             if kiCeilingEnabled {
                 Slider(value: $kiCeilingNm, in: kiSliderRange, step: 10)
+                    .accessibilityValue(Text("\(Int(kiCeilingNm)) nM"))
             }
         } header: {
             Text("Filters")
@@ -137,10 +138,10 @@ private struct BindingHitRow: View {
             HStack(spacing: 6) {
                 Text(hit.target)
                     .font(.caption.monospaced())
-                Text("·")
+                Middot()
                 Text(hit.action)
                 if let species = hit.species, !species.isEmpty {
-                    Text("·")
+                    Middot()
                     Text(species)
                         .italic()
                 }
@@ -160,6 +161,7 @@ private struct BindingHitRow: View {
             }
             .foregroundStyle(.tertiary)
         }
+        .accessibilityElement(children: .combine)
         .padding(.vertical, 2)
     }
 }

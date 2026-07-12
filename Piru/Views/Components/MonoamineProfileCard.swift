@@ -129,15 +129,6 @@ struct MonoamineProfile {
 struct MonoamineProfileCard: View {
     let profile: MonoamineProfile
 
-    /// Fixed spectrum endpoints, tied to the effect-family card colors so the axis reads the same on
-    /// every substance: serotonin = empathogen pink, dopamine = stimulant orange.
-    private var serotoninColor: Color {
-        SubstanceCategory.empathogen.color
-    }
-    private var dopamineColor: Color {
-        SubstanceCategory.stimulant.color
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             mechanismChip
@@ -189,45 +180,11 @@ struct MonoamineProfileCard: View {
     // MARK: - Dopamine ↔ serotonin spectrum
 
     private var spectrum: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: [serotoninColor, dopamineColor],
-                                startPoint: .leading,
-                                endPoint: .trailing,
-                            ),
-                        )
-                        .frame(height: 8)
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 16, height: 16)
-                        .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
-                        .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
-                        .offset(x: geo.size.width * (profile.leanPosition ?? 0.5) - 8)
-                }
-                .frame(height: 16)
-            }
-            .frame(height: 16)
-
-            HStack {
-                Text("Serotonin").font(.caption2.weight(.medium)).foregroundStyle(serotoninColor)
-                Spacer()
-                Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
-            }
-
-            HStack(spacing: 6) {
-                Text(profile.leanLabel)
-                    .font(.caption.weight(.medium))
-                if let r = profile.datSertRatio {
-                    Text("· DAT:SERT \(ratioText(r))")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-        }
+        DopamineSerotoninLeanBar(
+            leanPosition: profile.leanPosition,
+            leanLabel: profile.leanLabel,
+            ratioText: profile.datSertRatio.map { ratioText($0) },
+        )
     }
 
     private func flag(icon: String, tint: Color, text: LocalizedStringResource) -> some View {
@@ -253,5 +210,60 @@ struct MonoamineProfileCard: View {
         if r >= 1 { return String(format: "%.1f", r) }
         if r >= 0.01 { return String(format: "%.2f", r) }
         return "<0.01"
+    }
+}
+
+/// The dopamine ↔ serotonin lean spectrum — a gradient bar with a marker at `leanPosition`, the two
+/// endpoint labels, and the lean label with its optional DAT:SERT ratio beneath. Shared by the unified
+/// Pharmacology card and the standalone Monoamine Profile card so the axis reads identically on both,
+/// and collapsed into a single VoiceOver element (the marker/gradient are decorative on their own).
+struct DopamineSerotoninLeanBar: View {
+    let leanPosition: Double?
+    let leanLabel: LocalizedStringResource
+    let ratioText: String?
+
+    private var serotoninColor: Color {
+        SubstanceCategory.empathogen.color
+    }
+    private var dopamineColor: Color {
+        SubstanceCategory.stimulant.color
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(LinearGradient(colors: [serotoninColor, dopamineColor], startPoint: .leading, endPoint: .trailing))
+                        .frame(height: 8)
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 16, height: 16)
+                        .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
+                        .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
+                        .offset(x: geo.size.width * (leanPosition ?? 0.5) - 8)
+                }
+                .frame(height: 16)
+            }
+            .frame(height: 16)
+
+            HStack {
+                Text("Serotonin").font(.caption2.weight(.medium)).foregroundStyle(serotoninColor)
+                Spacer()
+                Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
+            }
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(leanLabel).font(.caption.weight(.semibold))
+                if let ratioText {
+                    Text("DAT:SERT \(ratioText)")
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Dopamine–serotonin lean"))
+        .accessibilityValue(Text(leanLabel))
     }
 }

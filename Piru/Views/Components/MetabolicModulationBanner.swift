@@ -14,6 +14,7 @@ struct MetabolicModulationBanner: View {
             Image(systemName: effect.raisesLevels ? "arrow.up.right.circle" : "arrow.down.right.circle")
                 .foregroundStyle(.secondary)
                 .font(.title3)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(headline)
@@ -28,6 +29,7 @@ struct MetabolicModulationBanner: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
+            .accessibilityElement(children: .combine)
             Spacer(minLength: 0)
         }
     }

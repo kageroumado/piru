@@ -242,10 +242,7 @@ struct SpeciesCite: View {
                 .background((species.lowercased() == "human" ? Color.green : Theme.secondaryLabel).opacity(0.16), in: Capsule())
         }
         if let citation {
-            Link(destination: citation) {
-                Image(systemName: "arrow.up.right").font(.system(size: 9, weight: .semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+            CitationLink(url: citation, size: 9)
         }
     }
 }
@@ -274,6 +271,7 @@ struct ReceptorPanel: View {
                         .frame(width: 92, alignment: .trailing)
                     SpeciesCite(species: row.species, citation: row.citation)
                 }
+                .accessibilityElement(children: .combine)
                 .padding(.vertical, 7)
             }
         }
@@ -319,5 +317,9 @@ struct PotencyBars: View {
                 }
             }
         }
+        .chartSummaryAccessibility(
+            label: Text("Enantiomer potency"),
+            value: Text(bars.map { "\($0.label) \($0.value)" }.joined(separator: ", ")),
+        )
     }
 }

@@ -141,6 +141,7 @@ struct SubstanceEliminationCurve: View {
                 .foregroundStyle(color)
                 .padding(10)
         }
+        .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Elimination curve for \(active.name)"))
         .accessibilityValue(Text("\(active.totalRemaining.doseFormatted) \(active.unit) remaining, \(Int(active.eliminatedFraction * 100))% eliminated, half-life \(Self.formatDuration(halfLife))"))
     }

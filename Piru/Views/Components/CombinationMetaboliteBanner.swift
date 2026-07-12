@@ -13,6 +13,7 @@ struct CombinationMetaboliteBanner: View {
             Image(systemName: "heart.text.square")
                 .foregroundStyle(.orange)
                 .font(.title3)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(formation.displayName)
@@ -24,6 +25,7 @@ struct CombinationMetaboliteBanner: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
+            .accessibilityElement(children: .combine)
             Spacer(minLength: 0)
         }
     }

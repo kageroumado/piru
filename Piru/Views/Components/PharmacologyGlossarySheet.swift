@@ -50,6 +50,7 @@ struct PharmacologyGlossarySheet: View {
                                     .foregroundStyle(.secondary)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
+                            .accessibilityElement(children: .combine)
                             .padding(.vertical, 2)
                         }
                     }
