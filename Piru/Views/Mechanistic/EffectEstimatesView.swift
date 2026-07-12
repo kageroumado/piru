@@ -243,6 +243,7 @@ struct EffectEstimatesView: View {
                 Image(systemName: lens.symbol)
                     .foregroundStyle(lens.color)
                     .imageScale(.small)
+                    .accessibilityHidden(true)
                 Text(lens.label)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.primary)

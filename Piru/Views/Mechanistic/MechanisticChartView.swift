@@ -106,10 +106,33 @@ struct MechanisticChartView: View {
             .gesture(panGesture, including: interactive && isZoomedIn ? .all : .none)
             .simultaneousGesture(zoomGesture, including: interactive ? .all : .none)
             // A raw Canvas is invisible to VoiceOver — expose the lens plus its
-            // sampled now-state ("Feeling, Good") as one element.
+            // sampled now-state and the curve's peak as one element.
             .accessibilityElement()
             .accessibilityLabel(Text(lens.label))
-            .accessibilityValue(Text(lens.readout(nowValue)))
+            .accessibilityValue(accessibilitySummary)
+    }
+
+    /// "Now Good; peaked Euphoric 45 min after the first dose" — the whole
+    /// curve's shape in one sentence, since VoiceOver can't scrub the Canvas.
+    private var accessibilitySummary: Text {
+        let now = Text(lens.readout(nowValue))
+        guard let peak = peakPoint else { return now }
+        let offset = DosePK.shortDuration(minutes: max(0, peak.hour - contentStart) * 60)
+        if peak.hour > min(nowHours, span) + 0.05 {
+            return Text("Now \(now); expected to peak \(Text(lens.readout(peak.value))) about \(offset) after the first dose")
+        }
+        return Text("Now \(now); peaked \(Text(lens.readout(peak.value))) about \(offset) after the first dose")
+    }
+
+    /// The lens channel's maximum and when it occurs, from the modeled timeline.
+    private var peakPoint: (value: Double, hour: Double)? {
+        guard let channel = lens.channel else { return nil }
+        let series = result.timeline[keyPath: channel]
+        let t = result.timeline.t
+        guard series.count == t.count,
+              let maxIndex = series.indices.max(by: { series[$0] < series[$1] })
+        else { return nil }
+        return (series[maxIndex], t[maxIndex])
     }
 
     /// Whether the window is tighter than the full content — pan is only useful

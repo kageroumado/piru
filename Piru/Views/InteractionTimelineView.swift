@@ -333,6 +333,7 @@ struct InteractionTimelineView: View {
         return VStack(alignment: .leading, spacing: 8) {
             Text("Concentration Curves")
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
 
             Chart {
                 ForEach(data.overlap, id: \.hours) { point in
@@ -509,6 +510,7 @@ struct InteractionTimelineView: View {
                     Image(systemName: "clock.arrow.2.circlepath")
                         .font(.title3)
                         .foregroundStyle(severity.color)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Both substances active")
                             .font(.subheadline.weight(.semibold))
@@ -517,11 +519,13 @@ struct InteractionTimelineView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
+                .accessibilityElement(children: .combine)
             } else {
                 HStack(spacing: 10) {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.title3)
                         .foregroundStyle(.green)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text("No active overlap")
                             .font(.subheadline.weight(.semibold))
@@ -530,6 +534,7 @@ struct InteractionTimelineView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
+                .accessibilityElement(children: .combine)
             }
         }
         .padding()
@@ -553,6 +558,7 @@ struct InteractionTimelineView: View {
                     .foregroundStyle(bandColor)
                 Text("Combined depression")
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
                 if let level = d.levelLabel {
                     Text(level)
@@ -652,6 +658,7 @@ struct InteractionTimelineView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                 Text("Reduced effect")
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
                 Text("~\(a.reductionRangeText)")
                     .font(.caption.weight(.semibold))
