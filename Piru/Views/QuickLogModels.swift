@@ -194,6 +194,19 @@ struct CardPKBadge: Equatable {
     var showsBadge: Bool {
         remainingPercent > 5
     }
+
+    /// VoiceOver value for the badge — the visible chip's numbers spoken as a
+    /// sentence, since the badge button's label is just a short noun ("Active
+    /// dose"). Mirrors `DosePKBadge.label`, so the two never disagree.
+    var accessibilityValue: String {
+        let active = (lastDoseAmount * remainingPercent / 100).doseFormatted
+        let ago = DosePK.shortElapsed(since: lastDoseTimestamp)
+        if waitMinutes > 1 {
+            let wait = DosePK.shortDuration(minutes: waitMinutes)
+            return String(localized: "about \(active) \(lastDoseUnit) active, last dose \(ago) ago, \(wait) left")
+        }
+        return String(localized: "about \(active) \(lastDoseUnit) active, last dose \(ago) ago")
+    }
 }
 
 // MARK: - Quick Log Content Model

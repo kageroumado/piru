@@ -69,6 +69,7 @@ struct SubstanceCardView: View, Equatable {
                     .frame(width: 10, height: 10)
                 Text(customSubstanceStore.displayName(for: card.substanceName))
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 // PK status as a glanceable badge instead of a two-line card —
                 // tap to expand the full advice when it actually matters. The
                 // badge hides while the card is open so the same fact never
@@ -86,7 +87,9 @@ struct SubstanceCardView: View, Equatable {
                         )
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Active dose details")
+                    .accessibilityLabel("Active dose")
+                    .accessibilityValue(badge.accessibilityValue)
+                    .accessibilityHint("Shows dosing advice")
                 }
                 Spacer()
                 Button(action: onToggleFavorite) {
@@ -113,7 +116,7 @@ struct SubstanceCardView: View, Equatable {
                     )
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Collapse")
+                .accessibilityHint("Collapses the dosing advice")
             }
 
             inventoryHint
@@ -124,6 +127,10 @@ struct SubstanceCardView: View, Equatable {
         }
         .padding(14)
         .themeCard(cornerRadius: 20)
+        // Group the card's elements into one container so a VoiceOver user can
+        // tell which name/badge/chips belong together, instead of 8–10 loose
+        // siblings whose card-membership is only inferable from reading order.
+        .accessibilityElement(children: .contain)
     }
 
     /// The matching tracked item for this card's substance (salt-agnostic — the
@@ -197,7 +204,7 @@ struct SubstanceCardView: View, Equatable {
                     .clipShape(Capsule())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Custom dose")
+            .accessibilityLabel("Custom dose of \(customSubstanceStore.displayName(for: group.substanceName))")
         }
     }
 
@@ -221,6 +228,13 @@ struct SubstanceCardView: View, Equatable {
                     emoji: chip.emoji,
                 )
             }
+            // Staging is otherwise conveyed by color alone — the tree is
+            // byte-identical after a tap. Speak it so a VoiceOver user gets
+            // confirmation the tap did something.
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: String(localized: "Staged \(customSubstanceStore.displayName(for: group.substanceName))"),
+            )
         } label: {
             chipLabel(chip)
                 .font(.subheadline.weight(.medium))
@@ -238,6 +252,8 @@ struct SubstanceCardView: View, Equatable {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(chipAccessibilityLabel(chip, group: group))
+        .accessibilityValue(stagedCount > 0 ? Text("\(stagedCount) staged") : Text(verbatim: ""))
+        .accessibilityAddTraits(stagedCount > 0 ? [.isSelected] : [])
         .contextMenu {
             Button {
                 onMoveChip(group, chip, true)

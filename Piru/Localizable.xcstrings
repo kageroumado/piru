@@ -2013,6 +2013,22 @@
         }
       }
     },
+    "%lld staged" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已暂存 %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已暫存 %lld"
+          }
+        }
+      }
+    },
     "%lld substance%@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2427,6 +2443,22 @@
         }
       }
     },
+    "^[%lld item](inflect: true), all logged today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 项，今天已全部记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 項，今天已全部記錄"
+          }
+        }
+      }
+    },
     "^[%lld saved substance](inflect: true)." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2457,6 +2489,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 種物質"
+          }
+        }
+      }
+    },
+    "^[%lld tag](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個標籤"
           }
         }
       }
@@ -4141,6 +4189,38 @@
         }
       }
     },
+    "about %@ %@ active, last dose %@ ago" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约 %@ %@ 仍在活性，上次用药于 %@ 前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約 %@ %@ 仍在活性，上次用藥於 %@ 前"
+          }
+        }
+      }
+    },
+    "about %@ %@ active, last dose %@ ago, %@ left" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约 %@ %@ 仍在活性，上次用药于 %@ 前，剩余 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約 %@ %@ 仍在活性，上次用藥於 %@ 前，剩餘 %@"
+          }
+        }
+      }
+    },
     "Absolutely do not drive or operate machinery." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4319,7 +4399,24 @@
         }
       }
     },
+    "Active dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性劑量"
+          }
+        }
+      }
+    },
     "Active dose details" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5406,6 +5503,22 @@
         }
       }
     },
+    "Adds a note to this dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为此剂量添加备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為此劑量新增備註"
+          }
+        }
+      }
+    },
     "Adds this dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6214,6 +6327,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "磷脂醯膽鹼合成中的內源性中間體。同時提供膽鹼(用於乙醯膽鹼合成)和胞苷(轉化為支持突觸膜形成的尿苷)。除膽鹼能效應外還增強多巴胺受體密度和多巴胺釋放。支持神經元膜的完整性和修復。"
+          }
+        }
+      }
+    },
+    "An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每种物质在你体内残留量的估算。这并不总是与效果的强弱，或可被检测到的时长直接相关。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每種物質在你體內殘留量的估算。這並不總是與效果的強弱，或可被檢測到的時長直接相關。"
           }
         }
       }
@@ -9968,6 +10097,22 @@
         }
       }
     },
+    "Collapses the dosing advice" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起用药建议"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起用藥建議"
+          }
+        }
+      }
+    },
     "Collapses the editor" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11459,6 +11604,7 @@
       }
     },
     "Custom dose" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11470,6 +11616,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自訂劑量"
+          }
+        }
+      }
+    },
+    "Custom dose of %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定 %@ 剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂 %@ 劑量"
           }
         }
       }
@@ -12060,6 +12222,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "減少"
+          }
+        }
+      }
+    },
+    "Decrease amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减少剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減少劑量"
           }
         }
       }
@@ -13406,6 +13584,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量趨勢"
+          }
+        }
+      }
+    },
+    "Dose unit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量單位"
           }
         }
       }
@@ -15721,6 +15915,7 @@
       }
     },
     "Estimates from population half-lives — individual clearance varies." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20150,6 +20345,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "增加"
+          }
+        }
+      }
+    },
+    "Increase amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加劑量"
           }
         }
       }
@@ -30402,6 +30613,22 @@
         }
       }
     },
+    "Reminder on" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已开启"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已開啟"
+          }
+        }
+      }
+    },
     "Reminders" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -30447,6 +30674,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除 %@"
+          }
+        }
+      }
+    },
+    "Remove dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除劑量"
           }
         }
       }
@@ -31691,6 +31934,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "安全性"
+          }
+        }
+      }
+    },
+    "Salt form" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "盐形式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鹽形式"
           }
         }
       }
@@ -34130,6 +34389,22 @@
         }
       }
     },
+    "Shows dosing advice" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示用药建议"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示用藥建議"
+          }
+        }
+      }
+    },
     "Shows the elimination curve" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35320,6 +35595,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "疊加阿片不可預測 — 呼吸抑制風險疊加。"
+          }
+        }
+      }
+    },
+    "Staged %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已暂存 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已暫存 %@"
+          }
+        }
+      }
+    },
+    "Stages this routine’s doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂存此日常的剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫存此日常的劑量"
           }
         }
       }

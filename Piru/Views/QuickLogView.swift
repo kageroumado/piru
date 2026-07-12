@@ -625,6 +625,7 @@ private struct QuickLogCardList: View {
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(Theme.secondaryLabel)
             .padding(.top, 8)
+            .accessibilityAddTraits(.isHeader)
     }
 
     @ViewBuilder
@@ -756,6 +757,17 @@ private struct QuickLogCardList: View {
             )
         }
         .buttonStyle(.plain)
+        // Otherwise reads "Daily, middle dot, 2"; speak it as a clean
+        // label + item count, with the logged-today state as a value.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(group.title)
+        .accessibilityValue(
+            done
+                ? Text("^[\(group.items.count) item](inflect: true), all logged today")
+                : Text("^[\(group.items.count) item](inflect: true)"),
+        )
+        .accessibilityHint("Stages this routine’s doses")
+        .accessibilityAddTraits(.isButton)
         .contextMenu {
             Button {
                 navigator.present(.dailyDoseSettings)

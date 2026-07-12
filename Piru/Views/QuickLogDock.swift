@@ -801,12 +801,14 @@ struct QuickLogDock: View {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
                 TextField("Search", text: $searchText)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .focused($searchFocused)
                     .submitLabel(.search)
+                    .accessibilityLabel("Search substances")
                 if !searchText.isEmpty {
                     Button {
                         searchText = ""

@@ -215,20 +215,32 @@ struct StagedDoseEditor: View {
         // 8pt chevron→text gap, matching the collapsed row exactly so the
         // matched-geometry morph doesn't shift the leading column.
         HStack(spacing: 8) {
-            // Same glyph as the collapsed row, rotated to point down
-            // (expanded, per Apple's disclosure convention) — the matched-
-            // geometry swap morphs it in place like a rotation.
-            Image(systemName: "chevron.right")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-                .rotationEffect(.degrees(90))
-                .frame(width: 16)
-                .trayMorph(id: "chevron-\(item.id)", in: namespace)
-                .accessibilityHidden(true)
-            Text(CustomSubstanceStore.shared.displayName(for: item.substanceName))
-                .font(.body.weight(.semibold))
-                .trayMorph(id: "title-\(item.id)", in: namespace)
-            Spacer()
+            // The title + chevron are the collapse target — merged into ONE
+            // element carrying the "Collapses the editor" hint. Keeping the
+            // trash a separate sibling stops that hint from bleeding onto it
+            // (it used to read "trash … Collapses the editor").
+            HStack(spacing: 8) {
+                // Same glyph as the collapsed row, rotated to point down
+                // (expanded, per Apple's disclosure convention) — the matched-
+                // geometry swap morphs it in place like a rotation.
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+                    .rotationEffect(.degrees(90))
+                    .frame(width: 16)
+                    .trayMorph(id: "chevron-\(item.id)", in: namespace)
+                    .accessibilityHidden(true)
+                Text(CustomSubstanceStore.shared.displayName(for: item.substanceName))
+                    .font(.body.weight(.semibold))
+                    .trayMorph(id: "title-\(item.id)", in: namespace)
+                Spacer()
+            }
+            .contentShape(Rectangle())
+            .onTapGesture(perform: onCollapse)
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint("Collapses the editor")
+
             // 42pt — the stepper-button size, so the trash sits on the same
             // vertical line as the + button below it.
             Button(action: onRemove) {
@@ -239,12 +251,8 @@ struct StagedDoseEditor: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Remove")
+            .accessibilityLabel("Remove dose")
         }
-        .contentShape(Rectangle())
-        .onTapGesture(perform: onCollapse)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityHint("Collapses the editor")
     }
 
     /// Behaves like the location chip: neutral "Note" when empty, accent-
@@ -272,6 +280,9 @@ struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .frame(maxWidth: 180, alignment: .leading)
+        .accessibilityLabel("Note")
+        .accessibilityValue(item.note.isEmpty ? Text("None") : Text(item.note))
+        .accessibilityHint("Adds a note to this dose")
     }
 
     /// By-volume capability for this staged substance (alcohol), gated on the
@@ -289,10 +300,12 @@ struct StagedDoseEditor: View {
                 stepButton(systemImage: "minus") {
                     setAmount(max(0, item.amount - amountStep))
                 }
+                .accessibilityLabel("Decrease amount")
                 amountField
                 stepButton(systemImage: "plus") {
                     setAmount(item.amount + amountStep)
                 }
+                .accessibilityLabel("Increase amount")
             }
             .phaseAnimator(reduceMotion ? [1.0] : [1.0, 1.03], trigger: stepTick) { content, scale in
                 content.scaleEffect(scale)
@@ -307,6 +320,7 @@ struct StagedDoseEditor: View {
                     }
                     if item.breakdownLabel != nil, item.doseLevel != nil {
                         Text(verbatim: "·").foregroundStyle(.tertiary)
+                            .accessibilityHidden(true)
                     }
                     if let level = item.doseLevel {
                         Text(level.displayName)
@@ -316,6 +330,9 @@ struct StagedDoseEditor: View {
                 }
                 .font(.caption.weight(.medium))
                 .frame(maxWidth: .infinity)
+                // One spoken element ("13 mg, light") instead of a fragmented
+                // run that includes a lone "·" stop.
+                .accessibilityElement(children: .combine)
             }
         }
     }
@@ -393,6 +410,9 @@ struct StagedDoseEditor: View {
                     .frame(height: 42)
                     .frame(maxWidth: .infinity)
                     .background(Color(.secondarySystemFill), in: Capsule())
+                    // Label before the overlay so it scopes to the field, not
+                    // the unit menu / "%" composited on top of it.
+                    .accessibilityLabel(label)
                     .overlay(alignment: .trailing) {
                         trailing
                             .padding(.trailing, 12)
@@ -435,6 +455,7 @@ struct StagedDoseEditor: View {
                     .foregroundStyle(Theme.secondaryLabel)
                 if let level = item.doseLevel {
                     Text(verbatim: "·").foregroundStyle(.tertiary)
+                        .accessibilityHidden(true)
                     Text(level.displayName)
                         .textCase(.lowercase)
                         .foregroundStyle(level.labelColor)
@@ -442,6 +463,8 @@ struct StagedDoseEditor: View {
             }
             .font(.subheadline.weight(.medium))
             .frame(maxWidth: .infinity)
+            // One spoken element instead of a run broken by a lone "·" stop.
+            .accessibilityElement(children: .combine)
         }
         // No placeholder when empty — the strength/volume steppers are right above.
     }
@@ -590,6 +613,10 @@ struct StagedDoseEditor: View {
             .frame(maxWidth: .infinity)
             // Same fill as the −/+ buttons — one control system, one shade.
             .background(Color(.secondarySystemFill), in: Capsule())
+            // Label the field *before* the overlay, so the "Amount" label
+            // sticks to the text field and doesn't shadow the unit menu
+            // composited on top (which keeps its own "Dose unit" label).
+            .accessibilityLabel("Amount")
             .overlay(alignment: .trailing) {
                 unitMenu
                     .padding(.trailing, 12)
@@ -620,6 +647,8 @@ struct StagedDoseEditor: View {
             .foregroundStyle(Theme.secondaryLabel)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Dose unit")
+        .accessibilityValue(item.unit)
     }
 
     private var unitMenuChoices: [String] {
@@ -698,6 +727,8 @@ struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .trayMorph(id: "route-\(item.id)", in: namespace)
+        .accessibilityLabel("Route")
+        .accessibilityValue(item.route.localizedName)
     }
 }
 

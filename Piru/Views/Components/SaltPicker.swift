@@ -75,6 +75,8 @@ struct SaltPicker: View {
         }
         .buttonStyle(.plain)
         .matchedGeometryEffect(id: id, in: namespace)
+        .accessibilityLabel("Salt form")
+        .accessibilityValue(selection ?? forms.first ?? "")
     }
 
     // MARK: Form row (entry forms + library detail)

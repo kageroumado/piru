@@ -1744,6 +1744,34 @@ T = {
     "Show %lld more doses": ("显示另外 %lld 个剂量", "顯示另外 %lld 個劑量"),
     "Custom dose": ("自定剂量", "自訂劑量"),
     "Active dose details": ("活性剂量详情", "活性劑量詳情"),
+    # Quick-log VoiceOver audit fixes (2026-07-12)
+    "Active dose": ("活性剂量", "活性劑量"),
+    "Shows dosing advice": ("显示用药建议", "顯示用藥建議"),
+    "about %@ %@ active, last dose %@ ago, %@ left": (
+        "约 %@ %@ 仍在活性，上次用药于 %@ 前，剩余 %@",
+        "約 %@ %@ 仍在活性，上次用藥於 %@ 前，剩餘 %@",
+    ),
+    "about %@ %@ active, last dose %@ ago": (
+        "约 %@ %@ 仍在活性，上次用药于 %@ 前",
+        "約 %@ %@ 仍在活性，上次用藥於 %@ 前",
+    ),
+    "Collapses the dosing advice": ("收起用药建议", "收起用藥建議"),
+    "Custom dose of %@": ("自定 %@ 剂量", "自訂 %@ 劑量"),
+    "Staged %@": ("已暂存 %@", "已暫存 %@"),
+    "%lld staged": ("已暂存 %lld", "已暫存 %lld"),
+    "Remove dose": ("移除剂量", "移除劑量"),
+    "Decrease amount": ("减少剂量", "減少劑量"),
+    "Increase amount": ("增加剂量", "增加劑量"),
+    "Dose unit": ("剂量单位", "劑量單位"),
+    "Adds a note to this dose": ("为此剂量添加备注", "為此劑量新增備註"),
+    "Salt form": ("盐形式", "鹽形式"),
+    "Stages this routine’s doses": ("暂存此日常的剂量", "暫存此日常的劑量"),
+    "^[%lld item](inflect: true), all logged today": (
+        "%lld 项，今天已全部记录",
+        "%lld 項，今天已全部記錄",
+    ),
+    "^[%lld tag](inflect: true)": ("%lld 个标签", "%lld 個標籤"),
+    "Reminder on": ("提醒已开启", "提醒已開啟"),
     # Quick-log v2 — morphing dock, Daily routine card
     "Add another…": ("再添加一个…", "再新增一個…"),
     "Remove from Tray": ("移除此剂量", "移除此劑量"),
@@ -4645,6 +4673,25 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Quick-log VoiceOver audit fixes (2026-07-12).
+        "Active dose",
+        "Shows dosing advice",
+        "about %@ %@ active, last dose %@ ago, %@ left",
+        "about %@ %@ active, last dose %@ ago",
+        "Collapses the dosing advice",
+        "Custom dose of %@",
+        "Staged %@",
+        "%lld staged",
+        "Remove dose",
+        "Decrease amount",
+        "Increase amount",
+        "Dose unit",
+        "Adds a note to this dose",
+        "Salt form",
+        "Stages this routine’s doses",
+        "^[%lld item](inflect: true), all logged today",
+        "^[%lld tag](inflect: true)",
+        "Reminder on",
         # Dose detail redesign — session language (2026-07-12).
         "In Your Body",
         "Part of Session",

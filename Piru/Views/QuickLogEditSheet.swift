@@ -114,15 +114,18 @@ struct QuickLogEditSheet: View {
                 Text("^[\(count) item](inflect: true)")
                 if let time = routine.timeAsDate {
                     Text(verbatim: "·")
+                        .accessibilityHidden(true)
                     Text(time, style: .time)
                     if routine.remind {
                         Image(systemName: "bell.fill")
                             .font(.caption2)
+                            .accessibilityLabel("Reminder on")
                     }
                 }
             }
             .font(.caption)
             .foregroundStyle(Theme.secondaryLabel)
+            .accessibilityElement(children: .combine)
         }
     }
 

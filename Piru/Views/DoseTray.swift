@@ -728,6 +728,10 @@ struct TrayMetaChips: View {
             .foregroundStyle(model.tags.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
         }
         .buttonStyle(.plain)
+        // Otherwise once tags exist the chip reads as a bare number with no
+        // "Tags" word; keep the noun as the label and put the count in a value.
+        .accessibilityLabel("Tags")
+        .accessibilityValue(model.tags.isEmpty ? Text("None") : Text("^[\(model.tags.count) tag](inflect: true)"))
         .popover(isPresented: $showTagsPopover, arrowEdge: .bottom) {
             TrayTagsPopover(model: model, tagSuggestions: tagSuggestions)
                 .presentationCompactAdaptation(.popover)
