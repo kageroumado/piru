@@ -63,6 +63,50 @@
         }
       }
     },
+    "%@ at %lld percent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ at %2$lld percent"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %lld%%"
+          }
+        }
+      }
+    },
+    "%@ in %@ at %lld percent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ in %2$@ at %3$lld percent"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 处于%@，%lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 處於%@，%lld%%"
+          }
+        }
+      }
+    },
     "%@ left" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -624,6 +668,22 @@
         }
       }
     },
+    "No active doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无活性剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無活性劑量"
+          }
+        }
+      }
+    },
     "No active session" : {
       "localizations" : {
         "zh-Hans" : {
@@ -961,6 +1021,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "舌下"
+          }
+        }
+      }
+    },
+    "Timeline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间轴"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間軸"
           }
         }
       }

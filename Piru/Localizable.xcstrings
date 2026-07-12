@@ -104,9 +104,6 @@
         }
       }
     },
-    "· DAT:SERT %@" : {
-
-    },
     "· DOI" : {
       "localizations" : {
         "zh-Hans" : {
@@ -810,6 +807,38 @@
         }
       }
     },
+    "%@ and %@ over time; both active from %@ to %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 与 %@ 随时间变化；两者均在 %@ 至 %@ 期间具活性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 與 %@ 隨時間變化；兩者均在 %@ 至 %@ 期間具活性。"
+          }
+        }
+      }
+    },
+    "%@ and %@ over time; no overlapping active window." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 与 %@ 随时间变化；无重叠的活性窗口。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 與 %@ 隨時間變化；無重疊的活性窗口。"
+          }
+        }
+      }
+    },
     "%@ and %@: %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -822,6 +851,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 與 %@：%@"
+          }
+        }
+      }
+    },
+    "%@ at %lld percent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %lld%%"
           }
         }
       }
@@ -924,6 +969,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 後 · 剩 %@"
+          }
+        }
+      }
+    },
+    "%@ in %@ at %lld percent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 处于%@，%lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 處於%@，%lld%%"
           }
         }
       }
@@ -1105,6 +1166,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "剩 %1$@，共 %2$@ %3$@"
+          }
+        }
+      }
+    },
+    "%@ range, %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 范围，%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 範圍，%@"
           }
         }
       }
@@ -1333,6 +1410,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@，來源：%@"
+          }
+        }
+      }
+    },
+    "%@, Today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，今天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，今天"
           }
         }
       }
@@ -1596,6 +1689,22 @@
         }
       }
     },
+    "%lld doses plotted; the largest reaches about %@× the total exposure of one reference dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已绘制 %lld 个剂量；最大者约达单次参考剂量总暴露量的 %@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已繪製 %lld 個劑量；最大者約達單次參考劑量總暴露量的 %@ 倍。"
+          }
+        }
+      }
+    },
     "%lld drinks" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1664,6 +1773,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld 筆記錄 · 每天 %2$@"
+          }
+        }
+      }
+    },
+    "%lld entries across %lld days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 条记录，跨越 %lld 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 筆記錄，跨越 %lld 天。"
           }
         }
       }
@@ -1860,6 +1985,22 @@
         }
       }
     },
+    "%lld mechanisms plotted, each fading from its current tolerance toward none." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已绘制 %lld 种机制，各自从当前耐受逐渐消退至无。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已繪製 %lld 種機制，各自從當前耐受逐漸消退至無。"
+          }
+        }
+      }
+    },
     "%lld mechanisms showing tolerance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1925,6 +2066,22 @@
         }
       }
     },
+    "%lld nM" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld nM"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld nM"
+          }
+        }
+      }
+    },
     "%lld of %lld substances from receptor occupancy, the rest estimated from effect curves · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1937,6 +2094,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld/%lld 種物質來自受體佔據率，其餘依據效應曲線估算 · %@。"
+          }
+        }
+      }
+    },
+    "%lld of 3" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / 3"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / 3"
+          }
+        }
+      }
+    },
+    "%lld points, peak %@ %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个点，峰值 %@ %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個點，峰值 %@ %@。"
           }
         }
       }
@@ -2407,6 +2596,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "•"
+          }
+        }
+      }
+    },
+    "^[%lld dose](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個劑量"
           }
         }
       }
@@ -4221,6 +4426,22 @@
         }
       }
     },
+    "About this section" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于此部分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於此部分"
+          }
+        }
+      }
+    },
     "Absolutely do not drive or operate machinery." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5684,6 +5905,22 @@
         }
       }
     },
+    "afternoon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下午"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下午"
+          }
+        }
+      }
+    },
     "Afternoon" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5733,7 +5970,6 @@
       }
     },
     "aggregator source" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6495,7 +6731,6 @@
       }
     },
     "animal assay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7900,6 +8135,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "結合親和力來自 NIMH PDSP Kᵢ 資料庫及原始文獻；耐受動力學依據已發表的人體恢復研究校準。每個參數都經過分級，任何依賴類別預設值的內容都會被標註。這裡沒有任何數據是從你身上測得的——而是依據你的劑量記錄和這些經過整理的數值預測得出。"
+          }
+        }
+      }
+    },
+    "Binding strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结合强度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結合強度"
           }
         }
       }
@@ -10225,6 +10476,22 @@
         }
       }
     },
+    "Combined depression over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "综合抑制随时间变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "綜合抑制隨時間變化"
+          }
+        }
+      }
+    },
     "Combined QTc prolongation risk — monitor cardiac rhythm." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10762,6 +11029,22 @@
         }
       }
     },
+    "Concentration over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度随时间变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度隨時間變化"
+          }
+        }
+      }
+    },
     "Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10939,6 +11222,22 @@
         }
       }
     },
+    "Convert from" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從"
+          }
+        }
+      }
+    },
     "Convert opioid doses to morphine (MME)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10951,6 +11250,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "將阿片劑量換算為嗎啡（MME）"
+          }
+        }
+      }
+    },
+    "Convert to" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "转换为"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轉換為"
           }
         }
       }
@@ -13391,6 +13706,22 @@
         }
       }
     },
+    "Dopamine–serotonin lean" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多巴胺–血清素倾向"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多巴胺–血清素傾向"
+          }
+        }
+      }
+    },
     "Dopamine/noradrenaline transporter (DAT/NET)" : {
 
     },
@@ -13504,6 +13835,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量階梯、持續時間與主要警告，略去深入的藥理學內容。"
+          }
+        }
+      }
+    },
+    "Dose level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量级别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量級別"
           }
         }
       }
@@ -14819,6 +15166,22 @@
         }
       }
     },
+    "Edits the note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯備註"
+          }
+        }
+      }
+    },
     "Educated predictions from typical pharmacology, not measured for you." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15288,6 +15651,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "啟用緩和期提醒"
+          }
+        }
+      }
+    },
+    "Enantiomer potency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对映体效价"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對映體效價"
           }
         }
       }
@@ -16008,6 +16387,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "欣快"
+          }
+        }
+      }
+    },
+    "evening" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傍晚"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傍晚"
           }
         }
       }
@@ -19427,7 +19822,6 @@
       }
     },
     "human assay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20269,7 +20663,6 @@
       }
     },
     "in-vitro assay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21963,6 +22356,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在載入藥理學資料…"
+          }
+        }
+      }
+    },
+    "Locating…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定位中…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定位中…"
           }
         }
       }
@@ -23965,6 +24374,22 @@
         }
       }
     },
+    "morning" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上午"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上午"
+          }
+        }
+      }
+    },
     "Morning" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24031,6 +24456,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最常見:%@ %@"
+          }
+        }
+      }
+    },
+    "Most entries in the %@; %lld total." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多数记录在%@；共 %lld 条。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多數記錄在%@；共 %lld 筆。"
           }
         }
       }
@@ -24166,7 +24607,6 @@
       }
     },
     "mouse assay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24274,6 +24714,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移至其他記錄…"
+          }
+        }
+      }
+    },
+    "Moving here will ask for a new time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移到此处将要求输入新时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移到此處將要求輸入新時間"
           }
         }
       }
@@ -24837,6 +25293,22 @@
         }
       }
     },
+    "Next month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下個月"
+          }
+        }
+      }
+    },
     "Next Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24902,6 +25374,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "菸鹼型乙醯膽鹼受體 (nAChR) 激動劑"
+          }
+        }
+      }
+    },
+    "night" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜間"
           }
         }
       }
@@ -25035,6 +25523,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "NMDA 受體拮抗劑(解離劑)"
+          }
+        }
+      }
+    },
+    "No active doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无活性剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無活性劑量"
           }
         }
       }
@@ -26240,6 +26744,38 @@
         }
       }
     },
+    "Now %@; expected to peak %@ about %@ after the first dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前 %@；预计在首次剂量后约 %@ 达到 %@ 峰值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前 %@；預計在首次劑量後約 %@ 達到 %@ 峰值"
+          }
+        }
+      }
+    },
+    "Now %@; peaked %@ about %@ after the first dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前 %@；在首次剂量后约 %@ 达到 %@ 峰值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前 %@；在首次劑量後約 %@ 達到 %@ 峰值"
+          }
+        }
+      }
+    },
     "Nowhere to Move" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26273,7 +26809,6 @@
       }
     },
     "Off" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26338,7 +26873,6 @@
       }
     },
     "On" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26497,6 +27031,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開設定"
+          }
+        }
+      }
+    },
+    "Opens in Maps" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在地图中打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在地圖中開啟"
           }
         }
       }
@@ -27053,6 +27603,22 @@
         }
       }
     },
+    "Page %lld of %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 页，共 %lld 页"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 頁，共 %lld 頁"
+          }
+        }
+      }
+    },
     "Pain relief, euphoria, and sedation." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27454,6 +28020,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "峰濃度"
+          }
+        }
+      }
+    },
+    "Peaks around %@; the dashed line marks the dangerous threshold." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约在 %@ 达到峰值；虚线标示危险阈值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約在 %@ 達到峰值；虛線標示危險閾值。"
           }
         }
       }
@@ -28799,6 +29381,22 @@
         }
       }
     },
+    "Previous month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上個月"
+          }
+        }
+      }
+    },
     "Previous Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28926,6 +29524,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主要作用位點: "
+          }
+        }
+      }
+    },
+    "Priority %lld of %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "优先级 %lld，共 %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優先順序 %lld，共 %lld"
           }
         }
       }
@@ -29111,6 +29725,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "個人資料"
+          }
+        }
+      }
+    },
+    "Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進度"
           }
         }
       }
@@ -29508,7 +30138,6 @@
       }
     },
     "rat assay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30069,6 +30698,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "立即恢復"
+          }
+        }
+      }
+    },
+    "Recovery by mechanism" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按机制的恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按機制的恢復"
           }
         }
       }
@@ -33714,6 +34359,22 @@
         }
       }
     },
+    "Session options" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会话选项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "工作階段選項"
+          }
+        }
+      }
+    },
     "Session Report" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34417,6 +35078,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示消除曲線"
+          }
+        }
+      }
+    },
+    "Shows the remaining doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示其余剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示其餘劑量"
           }
         }
       }
@@ -35777,6 +36454,22 @@
         }
       }
     },
+    "Starts at %@, fading toward none." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从 %@ 开始，逐渐消退至无。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從 %@ 開始，逐漸消退至無。"
+          }
+        }
+      }
+    },
     "State Data" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -35983,6 +36676,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "陡峭、超線性——以文字說明，未繪製曲線（缺乏可靠的人體動力學數據）。"
+          }
+        }
+      }
+    },
+    "Step %lld of %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 步，共 %lld 步"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 步，共 %lld 步"
           }
         }
       }
@@ -39036,6 +39745,22 @@
         }
       }
     },
+    "Tolerance recovery" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受恢復"
+          }
+        }
+      }
+    },
     "Too short — use at least %lld characters." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40309,6 +41034,22 @@
         }
       }
     },
+    "Used by %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已用于 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已用於 %@"
+          }
+        }
+      }
+    },
     "Used to show how many doses you have left. Set to 0 to disable." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40467,6 +41208,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示方式"
+          }
+        }
+      }
+    },
+    "View citation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看引用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看引用"
           }
         }
       }
