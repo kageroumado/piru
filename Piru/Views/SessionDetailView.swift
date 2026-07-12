@@ -929,13 +929,18 @@ private struct SessionTimelineSection: View {
             .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
             // Bordered-chart treatment: no card fill (clear the shared
             // CardBackground for this row) and a modest top margin so the frame
-            // breathes below the nav bar. Spans the content column; the drawn frame
-            // provides the visual side edges.
-            .listRowInsets(EdgeInsets(top: 8, leading: 0.5, bottom: 0, trailing: 0.5))
+            // breathes below the nav bar. List rows clip their content to the
+            // section's rounded-rect mask (no public opt-out), so the row carries
+            // enough side/bottom margin that the flat chart's corners, axis
+            // labels, and pan-extent track stay clear of the corner rounding.
+            .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
             .popoverTip(GraphGestureTip())
         }
+        // The screen's 16pt section gap plus the row's own 8pt bottom margin
+        // reads as a hole below a fill-less chart; tighten the gap to compensate.
+        .listSectionSpacing(12)
     }
 }
 
@@ -1051,6 +1056,7 @@ private struct DayEntryRow: View, Equatable {
             navigator.push(.entry(timestamp: display.core.timestamp, id: display.core.entryID))
         } label: {
             EntryRowView(display: display, showRelativeTime: showRelativeTime)
+                .contentShape(.rect)
         }
         .buttonStyle(.plain)
         .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))

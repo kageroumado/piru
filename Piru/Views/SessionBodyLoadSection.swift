@@ -259,8 +259,9 @@ struct SessionBodyLoadModel {
     /// Clock time for a same-day milestone; weekday + hour once it crosses into
     /// another day ("Fri 6 AM") — minutes are dropped there both because they're
     /// false precision that far out and because the full "Fri 6:54 AM" overflows
-    /// the meta line next to the trailing "N mg left".
-    private static func milestoneText(_ date: Date) -> String {
+    /// the meta line next to the trailing "N mg left". Also used by the dose
+    /// detail's "effects ended · cleared" receipt so milestones read alike.
+    static func milestoneText(_ date: Date) -> String {
         if Calendar.current.isDateInToday(date) {
             return date.formatted(date: .omitted, time: .shortened)
         }
@@ -278,6 +279,14 @@ struct SessionBodyLoadModel {
 struct SessionBodyLoadSection: View {
     let entries: [DoseEntry]
     let colorMap: [String: Color]
+    /// Section header — the session screen's per-substance aggregate reads
+    /// "Total in Your Body"; the dose detail reuses the section for a single
+    /// dose, where there is no "total" to speak of.
+    var header: LocalizedStringKey = "Total in Your Body"
+    /// When `true` the section renders only while something is still
+    /// circulating — a fully cleared dose shows nothing at all rather than a
+    /// "cleared" placeholder row (the dose detail's behavior).
+    var activeOnly = false
 
     /// Which substances have their elimination curve expanded in place.
     @State private var expanded: Set<String> = []
@@ -286,7 +295,7 @@ struct SessionBodyLoadSection: View {
 
     var body: some View {
         let model = SessionBodyLoadModel.make(entries: entries, colorMap: colorMap)
-        if !model.isEmpty {
+        if !model.isEmpty, !(activeOnly && model.active.isEmpty) {
             Section {
                 ForEach(model.active) { row in
                     activeRow(row)
@@ -304,10 +313,10 @@ struct SessionBodyLoadSection: View {
                     .accessibilityElement(children: .combine)
                 }
             } header: {
-                Text("Total in Your Body")
+                Text(header)
             } footer: {
                 if !model.active.isEmpty {
-                    Text("Estimates from population half-lives — individual clearance varies.")
+                    Text("An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable.")
                 }
             }
             // Open the first substance's curve by default, so the fold — and the

@@ -1,12 +1,15 @@
 import MapKit
 import SwiftData
 import SwiftUI
+import TipKit
 import WidgetKit
 
 /// Detail screen for a single logged dose, reached by tapping a journal intake
-/// row. Leads with a **hero** that answers what / how much / when / where-am-I-now
-/// at a glance, then the timeline graph, then demoted reference material (dose
-/// ranges, duration phases, notes, tags, comedown).
+/// row. The session screen's language, scoped to one substance: the hero is the
+/// large-title name + the timeline graph (the session's full-bleed treatment),
+/// the dose card beneath explains the curve (amount / chips / when / where-am-I-
+/// now), then body load, session context, journaling context, and — last — the
+/// substance's reference card with a "Show All" hop to its full page.
 ///
 /// Editing is **in place**: the toolbar's *Edit* flips the hero's facts into
 /// editable controls (the graph stays visible and live-previews the drafts) and
@@ -15,6 +18,7 @@ import WidgetKit
 struct EntryDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @Query private var substanceColors: [SubstanceColor]
 
     let entry: DoseEntry
@@ -53,6 +57,11 @@ struct EntryDetailView: View {
     /// blocking `lookupByNameOrAlias` per body pass (3–5× per keystroke in edit
     /// mode, each a heavy resolve).
     @State private var substanceInfo: Substance?
+
+    /// The worst interaction among the parent session's substances, resolved
+    /// once alongside ``substanceInfo`` — the "Part of Session" echo row. `nil`
+    /// for a solo dose or an interaction-free combination.
+    @State private var sessionInteraction: InteractionResult?
 
     private var resolvedDuration: DurationProfile? {
         substanceInfo?.resolveDuration(for: entry.route)
@@ -235,7 +244,8 @@ struct EntryDetailView: View {
             .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
-        .contentMargins(.top, 8, for: .scrollContent)
+        .contentMargins(.top, 0, for: .scrollContent)
+        .listSectionSpacing(20)
         .background(Theme.background)
         // Keep the draft amount/unit synced with the by-volume fields in drink mode.
         .onChange(of: draftByVolumeGrams) { syncDraftByVolumeAmount() }
@@ -284,6 +294,15 @@ struct EntryDetailView: View {
             if substanceInfo == nil {
                 substanceInfo = SubstanceLibrary.lookupByNameOrAlias(entry.substance)
             }
+            // The session's worst interaction, for the "Part of Session" echo.
+            // One batch check per screen — not per body pass.
+            if sessionInteraction == nil, let doses = entry.session?.doses, doses.count >= 2 {
+                let names = Array(Set(doses.map(\.substance)))
+                if names.count >= 2 {
+                    sessionInteraction = InteractionChecker.checkBatch(names, against: [])
+                        .max { $0.severity.rawValue < $1.severity.rawValue }
+                }
+            }
         }
     }
 
@@ -301,47 +320,76 @@ struct EntryDetailView: View {
                     .disabled(parsedDraftAmount == nil)
             }
         } else {
-            ToolbarItem(placement: .primaryAction) {
-                Button { beginEditing() } label: {
-                    Image(systemName: "square.and.pencil")
-                }
-                .accessibilityLabel("Edit")
+            // Two explicit trailing buttons in the same accent tint — the text
+            // "Edit" (Apple's convention over a pencil glyph) on the leading side
+            // and a separate ⋯ menu, split into their own glass groups by a
+            // ToolbarSpacer so they read as distinct controls.
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Edit") { beginEditing() }
+                    .tint(Theme.accent)
+            }
+            ToolbarSpacer(.fixed, placement: .topBarTrailing)
+            ToolbarItem(placement: .topBarTrailing) {
+                doseMenu
             }
         }
+    }
+
+    /// The ⋯ overflow: the Live Activity toggle (while the dose is live) and a
+    /// destructive delete — the dose-level equivalents of the session menu.
+    private var doseMenu: some View {
+        Menu {
+            if isSessionActive {
+                liveActivityButton
+            }
+            Button(role: .destructive) {
+                showingDeleteConfirmation = true
+            } label: {
+                Label("Delete Entry", systemImage: "trash")
+            }
+        } label: {
+            Image(systemName: "ellipsis")
+        }
+        .tint(Theme.accent)
+        .accessibilityLabel(Text("More"))
     }
 
     // MARK: - Read mode
 
     @ViewBuilder
     private var readContent: some View {
-        Section {
-            readHero
-        }
-
+        // Timeline graph — the session screen's bordered-chart treatment as a
+        // headerless section of its own: no card fill, no gesture caption (the
+        // one-time TipKit popover teaches pan/zoom/inspect). List rows clip
+        // their content to the section's rounded-rect mask and there's no public
+        // way to turn that off, so the row carries enough side/bottom margin
+        // that the flat chart's corners and pan-extent track stay clear of the
+        // corner rounding.
         if substanceState != nil {
             Section {
-                graph
-                    .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
-            } header: {
-                HStack {
-                    Text("Timeline")
-                    Spacer()
-                    if isSessionActive {
-                        liveActivityButton
-                    }
-                }
-            } footer: {
-                Text("Slide to move, pinch to zoom, hold to inspect")
+                timelineGraph(chartFrame: true)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .popoverTip(GraphGestureTip())
             }
+            .listSectionSpacing(12)
         } else {
             Section {
                 Label("No pharmacokinetic data available for this substance and route.", systemImage: "info.circle")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .padding(.vertical, 4)
-            } header: {
-                Text("Timeline")
             }
+        }
+
+        // The dose card — the graph's explainer: amount, chips, when, and the
+        // live phase rail (or the ended/cleared receipt). The chip cluster tucks
+        // into the top-right corner concentrically, so the row's insets are the
+        // corner gap; the leading text column keeps the standard 20pt.
+        Section {
+            readHero
+                .listRowInsets(EdgeInsets(top: 14, leading: 20, bottom: 16, trailing: 20))
         }
 
         if isAlcoholEntry, UserProfileStore.shared.aldh2Deficient {
@@ -352,78 +400,21 @@ struct EntryDetailView: View {
             ElevenHydroxyTHCCard()
         }
 
-        if let info = substanceInfo {
-            if info.displayClass.showsDoseLadder, let doses = info.doseRange(for: entry.route, saltForm: entry.saltForm) {
-                let refUnit = info.unit(for: entry.route, saltForm: entry.saltForm)
-                Section("Dose Ranges") {
-                    DoseLevelIndicator(
-                        doseRange: doses,
-                        currentDose: entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame ? entry.amount : nil,
-                    )
-                    .padding(.vertical, 4)
-                    DoseRangeRows(doseRange: doses, unit: refUnit)
-                }
-            }
+        // Body load, scoped to this dose. The section renders only while the
+        // substance is actually still in the body — a cleared dose answers the
+        // residual fact via the hero's receipt line instead.
+        SessionBodyLoadSection(
+            entries: [entry],
+            colorMap: Array(substanceColors).colorMap,
+            header: "In Your Body",
+            activeOnly: true,
+        )
 
-            if info.displayClass.showsDuration,
-               !(info.displayClass == .otc && info.durationImplausible),
-               let duration = info.resolveDuration(for: entry.route) {
-                Section("Duration") {
-                    DurationInfoView(duration: duration)
-                }
-            }
+        partOfSessionSection
 
-            Section {
-                NavigationLink(value: PushRoute.substance(name: info.name)) {
-                    Label("Substance Info", systemImage: "info.circle")
-                }
-            }
-        }
+        contextSection
 
-        if let notes = entry.notes, !notes.isEmpty {
-            Section("Notes") {
-                Text(notes)
-            }
-        }
-
-        if let locationName = entry.locationName {
-            Section("Location") {
-                if let coordinate = entry.coordinate {
-                    Map(initialPosition: .region(MKCoordinateRegion(
-                        center: coordinate,
-                        latitudinalMeters: 400,
-                        longitudinalMeters: 400,
-                    ))) {
-                        Marker(locationName, coordinate: coordinate)
-                            .tint(Theme.accent)
-                    }
-                    .frame(height: 140)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .allowsHitTesting(false)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
-                }
-                Button {
-                    openInMaps(name: locationName, coordinate: entry.coordinate)
-                } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: "mappin.circle.fill")
-                            .foregroundStyle(Theme.accent)
-                        Text(locationName)
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        Image(systemName: "arrow.up.forward.app")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                }
-            }
-        }
-
-        if !entry.tags.isEmpty {
-            Section("Tags") {
-                TagChipsView(tags: entry.tags)
-            }
-        }
+        aboutSection
 
         if resolvedDuration != nil {
             Section {
@@ -444,6 +435,252 @@ struct EntryDetailView: View {
         }
     }
 
+    // MARK: - Session context
+
+    /// The session this dose belongs to: its title row (a link only when the
+    /// session isn't already beneath us in the navigation path), the sibling
+    /// doses taken alongside, and — when the combination warrants it — the
+    /// session's worst interaction echoed with its severity chip. The echo names
+    /// one pair only; the session screen holds the full list.
+    @ViewBuilder
+    private var partOfSessionSection: some View {
+        if let session = entry.session {
+            let siblings = session.orderedDoses.filter { $0.id != entry.id }
+            Section("Part of Session") {
+                sessionRow(session)
+                let shown = siblings.prefix(Self.maxSiblingRows)
+                ForEach(Array(shown), id: \.id) { sibling in
+                    siblingRow(sibling, sessionActive: sessionIsActive(session))
+                }
+                if siblings.count > Self.maxSiblingRows {
+                    Text("+ \(siblings.count - Self.maxSiblingRows) more")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                if let warning = sessionInteraction {
+                    interactionEchoRow(warning)
+                }
+            }
+        }
+    }
+
+    private static let maxSiblingRows = 3
+
+    @ViewBuilder
+    private func sessionRow(_ session: Session) -> some View {
+        if sessionInNavigationPath(session) {
+            sessionRowLabel(session)
+        } else {
+            NavigationLink(value: PushRoute.session(id: session.id)) {
+                sessionRowLabel(session)
+            }
+        }
+    }
+
+    private func sessionRowLabel(_ session: Session) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(session.title ?? formattedSessionDate(session.startDate))
+                .font(.body.weight(.semibold))
+                .lineLimit(1)
+            Text(sessionSubtitle(session))
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .monospacedDigit()
+        }
+        .padding(.vertical, 2)
+    }
+
+    /// "Saturday, July 11" — the session screen's untitled-session title, so the
+    /// link previews exactly what pushing it shows.
+    private func formattedSessionDate(_ date: Date) -> String {
+        let base = Date.FormatStyle.dateTime.day().month(.wide)
+        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
+        let dateTitle = date.formatted(sameYear ? base : base.year())
+        return "\(date.formatted(.dateTime.weekday(.wide))), \(dateTitle)"
+    }
+
+    /// "2 doses · 3h 21m" for an ended session; "2 doses · 44m ago" (since the
+    /// first dose) while it's still running.
+    private func sessionSubtitle(_ session: Session) -> String {
+        let doses = session.orderedDoses
+        let countText = doses.count == 1
+            ? String(localized: "1 dose")
+            : String(localized: "\(doses.count) doses")
+        if sessionIsActive(session) {
+            return "\(countText) · \(relativeText(from: session.startDate, now: .now))"
+        }
+        guard let first = doses.first?.timestamp, let last = doses.last?.timestamp,
+              last > first else { return countText }
+        return "\(countText) · \(last.timeIntervalSince(first).durationHM)"
+    }
+
+    /// Whether any dose in the session is still inside its modeled effect window.
+    private func sessionIsActive(_ session: Session) -> Bool {
+        session.orderedDoses.contains { dose in
+            guard let state = ActiveSubstanceState.from(entry: dose, colorHex: "000000") else { return false }
+            let end = state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)
+            return Date.now >= state.doseTimestamp && Date.now < end
+        }
+    }
+
+    /// `true` when the session screen is already below us in this tab's push
+    /// path — the usual arrival — so the row carries no link back to it. Deep
+    /// links and search land here without the session, and get the link.
+    private func sessionInNavigationPath(_ session: Session) -> Bool {
+        navigator.path(for: navigator.selectedTab).contains(.session(id: session.id))
+    }
+
+    private func siblingRow(_ dose: DoseEntry, sessionActive: Bool) -> some View {
+        let name = CustomSubstanceStore.shared.displayName(for: dose.substance)
+        let time = sessionActive
+            ? relativeText(from: dose.timestamp, now: .now)
+            : dose.timestamp.formatted(date: .omitted, time: .shortened)
+        let detail = "\(name) \(dose.amount.doseFormatted) \(dose.unit) · \(time)"
+        return HStack(spacing: 8) {
+            Image(systemName: "circle.fill")
+                .font(.system(size: 9))
+                .foregroundStyle(color(for: dose.substance))
+                .accessibilityHidden(true)
+            Text("with \(detail)")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .lineLimit(1)
+        }
+        .padding(.vertical, 2)
+    }
+
+    /// One interaction row in the session-safety anatomy: severity triangle in
+    /// the dot slot, the pair in primary text, the severity as the only colored
+    /// element, the explanation beneath.
+    private func interactionEchoRow(_ warning: InteractionResult) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Image(systemName: warning.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
+                    .font(.system(size: 9, weight: .semibold))
+                    .foregroundStyle(warning.severity.labelColor)
+                    .accessibilityHidden(true)
+                Text(verbatim: "\(warning.substanceA) + \(warning.substanceB)")
+                    .font(.body.weight(.semibold))
+                    .lineLimit(1)
+                Spacer(minLength: 8)
+                Text(String(localized: warning.severity.label).lowercased())
+                    .capsuleChip(tint: warning.severity.labelColor)
+            }
+            Text(warning.description)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.vertical, 2)
+        .accessibilityElement(children: .combine)
+    }
+
+    private func color(for substance: String) -> Color {
+        Color(hex: substanceColors.first {
+            $0.substance.lowercased() == substance.lowercased()
+        }?.hexColor ?? PresetColor.defaultHex)
+    }
+
+    // MARK: - Journaling context
+
+    /// The user's own words and place, merged into one card — notes, tags, and
+    /// location were three separate one-row sections before.
+    @ViewBuilder
+    private var contextSection: some View {
+        let notes = entry.notes ?? ""
+        if !notes.isEmpty || !entry.tags.isEmpty || entry.locationName != nil {
+            Section("Your Notes") {
+                if !notes.isEmpty {
+                    Text(notes)
+                }
+                if !entry.tags.isEmpty {
+                    TagChipsView(tags: entry.tags)
+                }
+                if let locationName = entry.locationName {
+                    if let coordinate = entry.coordinate {
+                        Map(initialPosition: .region(MKCoordinateRegion(
+                            center: coordinate,
+                            latitudinalMeters: 400,
+                            longitudinalMeters: 400,
+                        ))) {
+                            Marker(locationName, coordinate: coordinate)
+                                .tint(Theme.accent)
+                        }
+                        .frame(height: 140)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .allowsHitTesting(false)
+                        .listRowInsets(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
+                    }
+                    Button {
+                        openInMaps(name: locationName, coordinate: entry.coordinate)
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "mappin.circle.fill")
+                                .foregroundStyle(Theme.accent)
+                            Text(locationName)
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Image(systemName: "arrow.up.forward.app")
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Reference
+
+    /// "About <substance>" — the substance screen's dose & duration card,
+    /// verbatim (``RouteDosingCard``), filtered to this dose's route and salt
+    /// form. No folding: the header's "Show All" hops to the full substance page
+    /// for every other route, sources, and the rest.
+    @ViewBuilder
+    private var aboutSection: some View {
+        if let info = substanceInfo {
+            let showsLadder = info.displayClass.showsDoseLadder
+            let durationVisible = info.displayClass.showsDuration
+                && !(info.displayClass == .otc && info.durationImplausible)
+            let doses = showsLadder ? info.doseRange(for: entry.route, saltForm: entry.saltForm) : nil
+            let duration = durationVisible ? info.resolveDuration(for: entry.route) : nil
+            if doses?.hasAnyValue == true || duration != nil {
+                Section {
+                    RouteDosingCard(
+                        route: entry.route,
+                        unit: info.unit(for: entry.route, saltForm: entry.saltForm),
+                        doses: doses,
+                        duration: duration,
+                        releaseWindow: info.routes.first { $0.route == entry.route }?.durationOfAction?.formattedWindow,
+                        elementalFraction: info.elementalFraction(for: entry.route, saltForm: entry.saltForm),
+                        showsDoseLadder: showsLadder,
+                        showsDuration: duration != nil,
+                        showsTitle: false,
+                    )
+                } header: {
+                    HStack {
+                        // The card is route-specific (dose ladder + duration for
+                        // this dose's ROA), so the header names the route: "About
+                        // Kratom (Oral)".
+                        Text("About \(CustomSubstanceStore.shared.displayName(for: entry.substance)) (\(entry.route.localizedName))")
+                        Spacer()
+                        NavigationLink(value: PushRoute.substance(name: info.name)) {
+                            Text("Show All")
+                        }
+                    }
+                }
+            } else {
+                // No dose/duration data for this route — keep the substance
+                // page reachable through the familiar plain link.
+                Section {
+                    NavigationLink(value: PushRoute.substance(name: info.name)) {
+                        Label("Substance Info", systemImage: "info.circle")
+                    }
+                }
+            }
+        }
+    }
+
     /// "IPA · 568 mL · 6% ABV" for a dose logged by volume, else nil.
     private var byVolumeDisplayLine: String? {
         guard let ml = entry.volumeML, let abv = entry.abv else { return nil }
@@ -451,57 +688,137 @@ struct EntryDetailView: View {
     }
 
     private var readHero: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 3) {
-                HStack(alignment: .center) {
-                    Text("\(entry.amount.doseFormatted) \(entry.unit)")
-                        .font(.system(.largeTitle, design: .rounded).weight(.bold))
-                        .foregroundStyle(committedDoseLevel?.swiftUIColor ?? .primary)
-                        .contentTransition(.numericText())
-                    Spacer(minLength: 8)
-                    HStack(spacing: 6) {
-                        if let saltForm = entry.saltForm {
-                            // Chemical proper noun — not localized.
-                            Text(saltForm)
-                                .font(.caption.weight(.semibold))
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 5)
-                                .background(substanceColor.opacity(0.16), in: Capsule())
-                                .foregroundStyle(substanceColor)
+        // Minute ticks keep the relative time, the phase rail, and the
+        // ended/cleared receipt current while the screen stays open.
+        TimelineView(.periodic(from: .now, by: 60)) { context in
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(alignment: .top) {
+                        // The dose row's number treatment (rounded numeral in the
+                        // primary color, a smaller secondary unit) at hero scale —
+                        // the tier is carried by the strength chip, not by tinting
+                        // the figure.
+                        MeasurementLabel(
+                            amount: entry.amount,
+                            unit: entry.unit,
+                            numberStyle: .largeTitle,
+                            numberWeight: .bold,
+                            unitStyle: .title3,
+                        )
+                        Spacer(minLength: 8)
+                        // Top-aligned and pulled 6pt past the text column so the
+                        // capsules sit ~14pt off the card's top and trailing edges —
+                        // concentric with its corner radius.
+                        HStack(spacing: 6) {
+                            if let saltForm = entry.saltForm {
+                                // Chemical proper noun — not localized. Matches the
+                                // ROA pill's regular metrics so the badges align.
+                                Text(saltForm)
+                                    .heroChip(tint: substanceColor)
+                            }
+                            ROAPill(route: entry.route, size: .regular)
+                            strengthChip
                         }
-                        ROAPill(route: entry.route, size: .regular)
+                        .padding(.trailing, -6)
+                    }
+                    Text(verbatim: "\(entry.timestamp.formatted(date: .abbreviated, time: .shortened)) · \(relativeText(from: entry.timestamp, now: context.date))")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .monospacedDigit()
+                    if let drinkLine = byVolumeDisplayLine {
+                        Label(drinkLine, systemImage: "wineglass")
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(substanceColor)
                     }
                 }
-                Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                if let drinkLine = byVolumeDisplayLine {
-                    Label(drinkLine, systemImage: "wineglass")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(substanceColor)
-                }
-            }
 
-            liveStatus
+                liveStatus(now: context.date)
+            }
         }
-        .padding(.bottom, 6)
+    }
+
+    /// The tier badge ("light"/"common"/"heavy"). Uses the hero chip metrics
+    /// (matching ``ROAPill``'s `.regular` size) rather than the denser row
+    /// ``capsuleChip`` so "common" and "oral" are the same height in the hero.
+    @ViewBuilder
+    private var strengthChip: some View {
+        if let level = committedDoseLevel {
+            Text(String(localized: level.displayName).lowercased())
+                .heroChip(tint: level.labelColor)
+        }
     }
 
     @ViewBuilder
-    private var liveStatus: some View {
+    private func liveStatus(now: Date) -> some View {
         if let state = substanceState {
-            let now = Date.now
             let start = state.doseTimestamp
             let end = start.addingTimeInterval(state.totalMinutes * 60)
 
             if now >= start, now < end {
                 DosePhaseProgressBar(state: state, now: now)
             } else if now >= end {
-                Label("Effects ended", systemImage: "checkmark.circle")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                endedReceipt(end: end)
             }
         }
+    }
+
+    /// The archival answer once effects have worn off: when they ended, and —
+    /// when the PK model can say — when the body finished clearing the dose.
+    /// Lives in the same slot as the live phase rail, so the hero's shape
+    /// doesn't reflow between states.
+    private func endedReceipt(end: Date) -> some View {
+        Label {
+            if let cleared = clearedDate, cleared > end {
+                Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end)) · cleared ~\(SessionBodyLoadModel.milestoneText(cleared))")
+            } else {
+                Text("Effects ended ~\(SessionBodyLoadModel.milestoneText(end))")
+            }
+        } icon: {
+            Image(systemName: "checkmark.circle")
+        }
+        .font(.caption)
+        .foregroundStyle(Theme.secondaryLabel)
+    }
+
+    /// When this dose dropped below ~3% remaining — the same threshold the
+    /// session's body-load projection uses. `nil` when no half-life is known.
+    private var clearedDate: Date? {
+        let halfLife = substanceInfo?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: entry.substance)
+        guard let halfLife, halfLife > 0 else { return nil }
+        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
+        let ka = SubstanceEliminationCurve.estimateKa(for: entry.substance, ke: ke)
+        let step = max(1.0, halfLife / 200)
+        var minutes = 0.0
+        var absorbed = false
+        while minutes <= halfLife * 10 {
+            let fraction = PKModel.fractionRemainingInBody(at: minutes, ke: ke, ka: ka)
+            if fraction > 0.03 {
+                absorbed = true
+            } else if absorbed {
+                return entry.timestamp.addingTimeInterval(minutes * 60)
+            }
+            minutes += step
+        }
+        return nil
+    }
+
+    /// "44m ago" / "3h 21m ago" / "2d ago" — the row grammar's relative time,
+    /// reusing its localized keys.
+    private func relativeText(from date: Date, now: Date) -> String {
+        let elapsed = max(0, now.timeIntervalSince(date))
+        let totalMinutes = Int(elapsed / 60)
+        guard totalMinutes >= 1 else { return String(localized: "just now") }
+        let hours = totalMinutes / 60
+        if hours >= 24 {
+            return String(localized: "\(hours / 24)d ago")
+        }
+        let minutes = totalMinutes % 60
+        if hours > 0, minutes > 0 {
+            return String(localized: "\(hours)h \(minutes)m ago")
+        } else if hours > 0 {
+            return String(localized: "\(hours)h ago")
+        }
+        return String(localized: "\(minutes)m ago")
     }
 
     // MARK: - Edit mode
@@ -608,7 +925,7 @@ struct EntryDetailView: View {
 
         if substanceState != nil {
             Section {
-                graph
+                timelineGraph(chartFrame: false)
                     .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
             } header: {
                 Text("Timeline")
@@ -646,18 +963,25 @@ struct EntryDetailView: View {
 
     // MARK: - Shared
 
+    /// The dose's PK curve. Read mode draws it as the hero with the session
+    /// screen's chart frame; edit mode keeps it in a plain card, live-previewing
+    /// the drafts.
     @ViewBuilder
-    private var graph: some View {
+    private func timelineGraph(chartFrame: Bool) -> some View {
         if let state = substanceState {
             TimelineGraphView(
                 substances: [state],
                 currentTime: .now,
                 compact: false,
+                chartFrame: chartFrame,
+                synchronous: chartFrame,
             )
-            .frame(height: 160)
+            .frame(height: chartFrame ? 176 : 160)
         }
     }
 
+    /// Toolbar Live Activity toggle — the session screen keeps this in its ⋯
+    /// menu, so the hero graph carries no chrome of its own.
     private var liveActivityButton: some View {
         let isRunning = LiveActivityManager.shared.isLiveActivityRunning
         return Button {
@@ -671,16 +995,11 @@ struct EntryDetailView: View {
                 LiveActivityManager.shared.startLiveActivity()
             }
         } label: {
-            HStack(spacing: 4) {
-                Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
-                Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
-            }
-            .font(.caption2.weight(.semibold))
+            Label(
+                isRunning ? "Stop Live Activity" : "Start Live Activity",
+                systemImage: isRunning ? "stop.fill" : "dot.radiowaves.up.forward",
+            )
         }
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.capsule)
-        .controlSize(.mini)
-        .tint(Theme.accent)
     }
 
     // MARK: - Phases

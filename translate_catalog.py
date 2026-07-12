@@ -2795,6 +2795,18 @@ T = {
     "Recovery tips": ("恢复提示", "恢復提示"),
     "Recovery Tips": ("恢复提示", "恢復提示"),
     "Total in Your Body": ("体内总量", "體內總量"),
+    # Dose detail redesign — session language (2026-07-12).
+    "In Your Body": ("体内残留", "體內殘留"),
+    "Part of Session": ("所属记录", "所屬記錄"),
+    "About %@": ("关于%@", "關於%@"),
+    "About %@ (%@)": ("关于%1$@（%2$@）", "關於%1$@（%2$@）"),
+    "with %@": ("同服 %@", "同服 %@"),
+    "+ %lld more": ("还有 %lld 条", "還有 %lld 條"),
+    "Effects ended ~%@": ("效果已于 ~%@ 结束", "效果已於 ~%@ 結束"),
+    "Effects ended ~%@ · cleared ~%@": (
+        "效果已于 ~%1$@ 结束 · 约 %2$@ 清除",
+        "效果已於 ~%1$@ 結束 · 約 %2$@ 清除",
+    ),
     "Universal recovery basics": ("通用恢复基础", "通用恢復基礎"),
     "Hydrate — water or electrolyte drinks, sip steadily": (
         "补水 — 水或电解质饮料,小口慢饮",
@@ -4322,6 +4334,10 @@ T = {
         "基于群体半衰期的估算——个体清除速率各异。",
         "基於群體半衰期的估算——個體清除速率各異。",
     ),
+    "An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable.": (
+        "每种物质在你体内残留量的估算。这并不总是与效果的强弱，或可被检测到的时长直接相关。",
+        "每種物質在你體內殘留量的估算。這並不總是與效果的強弱，或可被檢測到的時長直接相關。",
+    ),
     "soon": ("很快", "很快"),
     "All recovery tips": ("全部恢复提示", "全部恢復提示"),
     "%@ total · %lld%% eliminated · clear ~%@": (
@@ -4629,6 +4645,14 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Dose detail redesign — session language (2026-07-12).
+        "In Your Body",
+        "Part of Session",
+        "About %@ (%@)",
+        "with %@",
+        "+ %lld more",
+        "Effects ended ~%@",
+        "Effects ended ~%@ · cleared ~%@",
         # In Your Body cumulative rows — cleared-substance second line (2026-07-10).
         "Fully eliminated",
         # In Your Body cumulative readout — VoiceOver label (2026-07-11).
@@ -4674,6 +4698,7 @@ if __name__ == "__main__":
         "Recovery Tips",
         # Session detail "In Your Body" section + row redesign (2026-07-09).
         "Estimates from population half-lives — individual clearance varies.",
+        "An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable.",
         "soon",
         "Recovery",
         "All recovery tips",

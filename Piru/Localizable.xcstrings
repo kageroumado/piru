@@ -2461,6 +2461,22 @@
         }
       }
     },
+    "+ %lld more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还有 %lld 条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還有 %lld 條"
+          }
+        }
+      }
+    },
     "+%lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4088,6 +4104,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關於"
+          }
+        }
+      }
+    },
+    "About %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於%@"
+          }
+        }
+      }
+    },
+    "About %@ (%@)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于%1$@（%2$@）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於%1$@（%2$@）"
           }
         }
       }
@@ -14658,6 +14707,7 @@
       }
     },
     "Effects ended" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14669,6 +14719,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效果已結束"
+          }
+        }
+      }
+    },
+    "Effects ended ~%@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果已于 ~%@ 结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果已於 ~%@ 結束"
+          }
+        }
+      }
+    },
+    "Effects ended ~%@ · cleared ~%@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果已于 ~%1$@ 结束 · 约 %2$@ 清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果已於 ~%1$@ 結束 · 約 %2$@ 清除"
           }
         }
       }
@@ -19923,6 +20005,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "進行中"
+          }
+        }
+      }
+    },
+    "In Your Body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内残留"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內殘留"
           }
         }
       }
@@ -26772,6 +26870,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正向變構調節劑 (PAM)"
+          }
+        }
+      }
+    },
+    "Part of Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所属记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所屬記錄"
           }
         }
       }
@@ -34413,6 +34527,7 @@
 
     },
     "Slide to move, pinch to zoom, hold to inspect" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40872,6 +40987,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "亢奮"
+          }
+        }
+      }
+    },
+    "with %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同服 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同服 %@"
           }
         }
       }

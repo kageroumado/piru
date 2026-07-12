@@ -13,6 +13,19 @@ extension Text {
             .foregroundStyle(tint)
     }
 
+    /// The filled capsule at the larger **hero** size — same tint grammar as
+    /// ``capsuleChip`` but matching ``ROAPill``'s `.regular` metrics
+    /// (`.caption`/10·5) so a strength or salt badge sits the same height as the
+    /// route pill in a standalone hero. Row chips stay on ``capsuleChip``.
+    func heroChip(tint: Color) -> some View {
+        font(.caption.weight(.semibold))
+            .lineLimit(1)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(tint.opacity(0.16), in: Capsule())
+            .foregroundStyle(tint)
+    }
+
     /// A bordered, **unfilled** capsule for freeform tags — deliberately a
     /// different grammar from the filled ``capsuleChip`` (route/strength/severity)
     /// so a rarely-used tag reads as a quiet annotation rather than competing with
