@@ -113,8 +113,7 @@ struct QuickLogEditSheet: View {
             HStack(spacing: 4) {
                 Text("^[\(count) item](inflect: true)")
                 if let time = routine.timeAsDate {
-                    Text(verbatim: "·")
-                        .accessibilityHidden(true)
+                    Middot()
                     Text(time, style: .time)
                     if routine.remind {
                         Image(systemName: "bell.fill")

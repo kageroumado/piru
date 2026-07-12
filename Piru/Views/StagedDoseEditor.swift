@@ -319,8 +319,7 @@ struct StagedDoseEditor: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     if item.breakdownLabel != nil, item.doseLevel != nil {
-                        Text(verbatim: "·").foregroundStyle(.tertiary)
-                            .accessibilityHidden(true)
+                        Middot().foregroundStyle(.tertiary)
                     }
                     if let level = item.doseLevel {
                         Text(level.displayName)
@@ -454,8 +453,7 @@ struct StagedDoseEditor: View {
                 Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
                     .foregroundStyle(Theme.secondaryLabel)
                 if let level = item.doseLevel {
-                    Text(verbatim: "·").foregroundStyle(.tertiary)
-                        .accessibilityHidden(true)
+                    Middot().foregroundStyle(.tertiary)
                     Text(level.displayName)
                         .textCase(.lowercase)
                         .foregroundStyle(level.labelColor)

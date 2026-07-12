@@ -1006,7 +1006,7 @@ private struct TrayRow: View {
                         .textCase(.lowercase)
                         .foregroundStyle(Theme.secondaryLabel)
                         .trayMorph(id: "route-\(dose.id)", in: namespace)
-                    Text(verbatim: "·").foregroundStyle(.tertiary)
+                    Middot().foregroundStyle(.tertiary)
                     Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
                         .fontWeight(.semibold)
                         .foregroundStyle(.primary)
@@ -1020,18 +1020,18 @@ private struct TrayRow: View {
                     // No level for a zero amount — "0 g · sub-threshold" reads
                     // like a valid dose; the trailing warning marks it instead.
                     if dose.totalAmount > 0, let level = dose.doseLevel {
-                        Text(verbatim: "·").foregroundStyle(.tertiary)
+                        Middot().foregroundStyle(.tertiary)
                         Text(level.displayName)
                             .textCase(.lowercase)
                             .foregroundStyle(level.labelColor)
                     }
                     if let breakdown = dose.breakdownLabel {
-                        Text(verbatim: "·").foregroundStyle(.tertiary)
+                        Middot().foregroundStyle(.tertiary)
                         Text(verbatim: breakdown)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     if !dose.note.isEmpty {
-                        Text(verbatim: "·").foregroundStyle(.tertiary)
+                        Middot().foregroundStyle(.tertiary)
                         Text(dose.note)
                             .foregroundStyle(Theme.secondaryLabel)
                             .lineLimit(1)

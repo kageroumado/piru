@@ -432,7 +432,7 @@ private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?,
         Image(systemName: "doc.text.magnifyingglass").font(.caption2)
         sourceNameLink(pharmaSourceName(slug), doi: doi, pmid: pmid, accent: accent)
         if let detail, !detail.isEmpty {
-            Text(verbatim: "·").font(.caption2)
+            Middot().font(.caption2)
             Text(detail).font(.caption2).italic().lineLimit(1)
         }
         Spacer()

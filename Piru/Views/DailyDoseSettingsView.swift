@@ -117,7 +117,7 @@ struct RoutinesSettingsView: View {
                 HStack(spacing: 4) {
                     Text("\(count) item\(count == 1 ? "" : "s")")
                     if let time = routine.timeAsDate {
-                        Text(verbatim: "·")
+                        Middot()
                         Text(time, style: .time)
                         if routine.remind {
                             Image(systemName: "bell.fill")
