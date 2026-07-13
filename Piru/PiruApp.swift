@@ -141,6 +141,15 @@ struct PiruApp: App {
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.
             if phase == .background {
+                // Tear down any live keyboard before suspension. Suspending with
+                // a first responder up can strand UIKit's scene-level keyboard
+                // state, and every sheet presented after foregrounding then lays
+                // out keyboard-avoiding — the QuickLog dock floats one keyboard
+                // height above the bottom with a dead touch zone below it
+                // (TestFlight feedback on build 2.2 (30), iOS 26.5.2).
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
+                )
                 let context = container.mainContext
                 // Hold a background-execution assertion across the await so
                 // iOS can't suspend the process mid-write; ended on completion
