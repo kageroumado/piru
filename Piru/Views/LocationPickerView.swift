@@ -9,6 +9,31 @@ struct PickedLocation: Equatable {
     var longitude: Double
 }
 
+/// One as-you-type place completion, as a value type the view can render safely.
+///
+/// The picker deliberately never exposes the raw `[MKLocalSearchCompletion]`: the
+/// completer replaces that array asynchronously on its delegate callback, and a
+/// `ForEach` reading it by index crashes when it shrinks mid-update. This struct
+/// carries only what a row draws (`title` / `subtitle`) plus the completion
+/// needed to resolve a coordinate, with a **content-derived** identity so
+/// unchanged suggestions keep their SwiftUI identity across keystrokes (stable
+/// diffing) and the view can never index out of bounds.
+struct LocationSuggestion: Identifiable, Equatable {
+    let title: String
+    let subtitle: String
+    /// The MapKit completion this row resolves to. Excluded from identity and
+    /// equality — those are content-based (`title` + `subtitle`).
+    let completion: MKLocalSearchCompletion
+
+    var id: String {
+        subtitle.isEmpty ? title : "\(title)\u{1}\(subtitle)"
+    }
+
+    static func == (lhs: LocationSuggestion, rhs: LocationSuggestion) -> Bool {
+        lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
+    }
+}
+
 /// Drives the location picker: as-you-type address/POI completions
 /// (`MKLocalSearchCompleter`), resolving a completion to a coordinate
 /// (`MKLocalSearch`), and a one-shot "current location" via `CLLocationManager`
@@ -19,7 +44,8 @@ struct PickedLocation: Equatable {
 @MainActor
 @Observable
 final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLocationManagerDelegate {
-    var results: [MKLocalSearchCompletion] = []
+    /// As-you-type place completions as value types (see ``LocationSuggestion``).
+    var suggestions: [LocationSuggestion] = []
     var isLocating = false
     var authDenied = false
 
@@ -28,7 +54,7 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
         didSet {
             let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.isEmpty {
-                results = []
+                suggestions = []
             } else {
                 completer.queryFragment = trimmed
             }
@@ -98,12 +124,12 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
     // MARK: - Resolving a search completion
 
     /// Resolve a completer suggestion into a concrete place with a coordinate.
-    func resolve(_ completion: MKLocalSearchCompletion) async -> PickedLocation? {
-        let search = MKLocalSearch(request: MKLocalSearch.Request(completion: completion))
+    func resolve(_ suggestion: LocationSuggestion) async -> PickedLocation? {
+        let search = MKLocalSearch(request: MKLocalSearch.Request(completion: suggestion.completion))
         guard let response = try? await search.start(), let item = response.mapItems.first else { return nil }
         let coordinate = item.location.coordinate
         return PickedLocation(
-            name: item.name ?? completion.title,
+            name: item.name ?? suggestion.title,
             latitude: coordinate.latitude,
             longitude: coordinate.longitude,
         )
@@ -112,11 +138,15 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
     // MARK: - MKLocalSearchCompleterDelegate
 
     nonisolated func completerDidUpdateResults(_: MKLocalSearchCompleter) {
-        MainActor.assumeIsolated { results = completer.results }
+        MainActor.assumeIsolated {
+            suggestions = completer.results.map {
+                LocationSuggestion(title: $0.title, subtitle: $0.subtitle, completion: $0)
+            }
+        }
     }
 
     nonisolated func completer(_: MKLocalSearchCompleter, didFailWithError _: Error) {
-        MainActor.assumeIsolated { results = [] }
+        MainActor.assumeIsolated { suggestions = [] }
     }
 
     // MARK: - CLLocationManagerDelegate
@@ -186,7 +216,7 @@ struct LocationPickerView: View {
                     }
                 }
 
-                if model.results.isEmpty, !recents.isEmpty {
+                if model.suggestions.isEmpty, !recents.isEmpty {
                     Section("Recents") {
                         ForEach(recents, id: \.name) { place in
                             Button {
@@ -207,23 +237,22 @@ struct LocationPickerView: View {
                     }
                 }
 
-                if !model.results.isEmpty {
+                if !model.suggestions.isEmpty {
                     Section("Results") {
-                        ForEach(model.results.indices, id: \.self) { index in
-                            let result = model.results[index]
+                        ForEach(model.suggestions) { suggestion in
                             Button {
                                 Task {
-                                    if let picked = await model.resolve(result) {
+                                    if let picked = await model.resolve(suggestion) {
                                         onPick(picked)
                                         dismiss()
                                     }
                                 }
                             } label: {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(result.title)
+                                    Text(suggestion.title)
                                         .foregroundStyle(.primary)
-                                    if !result.subtitle.isEmpty {
-                                        Text(result.subtitle)
+                                    if !suggestion.subtitle.isEmpty {
+                                        Text(suggestion.subtitle)
                                             .font(.caption)
                                             .foregroundStyle(Theme.secondaryLabel)
                                     }
