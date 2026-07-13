@@ -13,6 +13,13 @@ import SwiftUI
 /// placeholder rather than crashing.
 struct SheetRouteView: View {
     let route: SheetRoute
+    /// This sheet's depth in the navigator's stack. Keys the sheet's own push
+    /// path (`AppNavigator.sheetPathBinding(atDepth:)`) for routes that host a
+    /// `NavigationStack` — an unbound stack here would leave `navigator.push`
+    /// calls from the sheet's content mutating the tab stack *behind* it.
+    var depth: Int = 0
+
+    @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         switch route {
@@ -30,7 +37,7 @@ struct SheetRouteView: View {
             OnboardingView()
 
         case .sessionDetail:
-            NavigationStack {
+            NavigationStack(path: navigator.sheetPathBinding(atDepth: depth)) {
                 CurrentSessionHost()
                     .withCancellationCloseButton()
                     .withAppDestinations()
@@ -38,7 +45,7 @@ struct SheetRouteView: View {
 
         case let .entryDetail(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in
-                NavigationStack {
+                NavigationStack(path: navigator.sheetPathBinding(atDepth: depth)) {
                     EntryDetailView(entry: entry)
                         .withCancellationCloseButton()
                         .withAppDestinations()

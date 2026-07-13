@@ -6,6 +6,7 @@ import UIKit
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.modelContext) private var modelContext
 
     /// Shared namespace for the quick-log zoom transition. The floating add
     /// button and the session accessory's add button tag themselves as the
@@ -39,8 +40,22 @@ struct ContentView: View {
 
     private func handleDeepLink(_ url: URL) {
         guard let outcome = DeepLink.decode(url) else { return }
-        navigator.apply(outcome)
+        // A `piru://day` link targets the current session; resolving its id
+        // here lets the navigator reveal an already-open session screen
+        // instead of presenting a duplicate sheet over it.
+        let sessionID = outcome.sheet == .sessionDetail ? mostRecentSessionID(in: modelContext) : nil
+        navigator.apply(outcome, currentSessionID: sessionID)
     }
+}
+
+/// The session the `.sessionDetail` sheet would resolve — the most recent by
+/// start date (mirrors `CurrentSessionHost`). Used by the deep link handler
+/// and the session accessory to reveal an already-open session screen rather
+/// than presenting a duplicate sheet.
+private func mostRecentSessionID(in context: ModelContext) -> UUID? {
+    var descriptor = FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate, order: .reverse)])
+    descriptor.fetchLimit = 1
+    return try? context.fetch(descriptor).first?.id
 }
 
 // MARK: - Launch Chrome Modifiers
@@ -243,7 +258,9 @@ private struct MainTabView: View {
             // when tapped, so the body no longer depends on it.
             onShowSessionDetail: {
                 guard navigator.sheetStack.isEmpty else { return }
-                navigator.present(.sessionDetail)
+                navigator.revealOrPresentSessionDetail(
+                    currentSessionID: mostRecentSessionID(in: modelContext),
+                )
             },
             onAdd: {
                 guard navigator.sheetStack.isEmpty else { return }

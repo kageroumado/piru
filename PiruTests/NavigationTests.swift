@@ -227,6 +227,166 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack == [.settings, .help, .quickLog(routine: nil)])
     }
 
+    // MARK: - Sheet push paths
+
+    @Test
+    func `Push with a nav-capable sheet on top targets the sheet's path, not the tab`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        nav.present(.sessionDetail)
+        nav.push(.entry(timestamp: .now, id: UUID()))
+        #expect(nav.sheetPath(atDepth: 0).count == 1)
+        #expect(nav.path(for: .journal).isEmpty)
+    }
+
+    @Test
+    func `Push with a non-navigable sheet on top still targets the tab`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        nav.present(.settings)
+        nav.push(.session(id: UUID()))
+        #expect(nav.sheetPath(atDepth: 0).isEmpty)
+        #expect(nav.path(for: .journal).count == 1)
+    }
+
+    @Test
+    func `Push with an explicit tab bypasses the sheet path`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        nav.present(.sessionDetail)
+        nav.push(.substance(name: "LSD"), in: .library)
+        #expect(nav.sheetPath(atDepth: 0).isEmpty)
+        #expect(nav.path(for: .library) == [.substance(name: "LSD")])
+    }
+
+    @Test
+    func `Pop with a nav-capable sheet on top pops the sheet path and never the tab`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        nav.push(.session(id: UUID()), in: .journal)
+        nav.present(.sessionDetail)
+        nav.push(.entry(timestamp: .now, id: UUID()))
+        nav.pop()
+        #expect(nav.sheetPath(atDepth: 0).isEmpty)
+        #expect(nav.path(for: .journal).count == 1)
+        // Sheet path already empty — pop must not fall through to the tab.
+        nav.pop()
+        #expect(nav.path(for: .journal).count == 1)
+    }
+
+    @Test
+    func `Dismiss clears the dismissed sheet's path`() {
+        let nav = makeNavigator()
+        nav.present(.sessionDetail)
+        nav.push(.entry(timestamp: .now, id: UUID()))
+        nav.dismiss()
+        nav.present(.sessionDetail)
+        #expect(nav.sheetPath(atDepth: 0).isEmpty)
+    }
+
+    @Test
+    func `truncateSheetStack drops the trimmed sheets' paths`() {
+        let nav = makeNavigator()
+        nav.present(.settings)
+        nav.present(.sessionDetail)
+        nav.push(.entry(timestamp: .now, id: UUID()))
+        nav.truncateSheetStack(to: 1)
+        #expect(nav.sheetPath(atDepth: 1).isEmpty)
+    }
+
+    @Test
+    func `present with replacingTop clears the replaced sheet's path`() {
+        let nav = makeNavigator()
+        nav.present(.sessionDetail)
+        nav.push(.entry(timestamp: .now, id: UUID()))
+        nav.present(.entryDetail(timestamp: .now, id: nil), replacingTop: true)
+        #expect(nav.sheetPath(atDepth: 0).isEmpty)
+    }
+
+    @Test
+    func `dismiss(_:) of a mid-stack sheet shifts deeper sheet paths down`() {
+        let nav = makeNavigator()
+        nav.present(.settings)
+        nav.present(.sessionDetail)
+        nav.push(.entry(timestamp: .now, id: UUID()))
+        nav.dismiss(.settings)
+        #expect(nav.sheetStack == [.sessionDetail])
+        #expect(nav.sheetPath(atDepth: 0).count == 1)
+        #expect(nav.sheetPath(atDepth: 1).isEmpty)
+    }
+
+    // MARK: - Reveal-or-present session detail
+
+    @Test
+    func `revealOrPresent switches to the tab already showing the session, without a sheet`() {
+        let nav = makeNavigator(selectedTab: .tools)
+        let id = UUID()
+        nav.push(.session(id: id), in: .journal)
+        nav.revealOrPresentSessionDetail(currentSessionID: id)
+        #expect(nav.selectedTab == .journal)
+        #expect(nav.sheetStack.isEmpty)
+    }
+
+    @Test
+    func `revealOrPresent trims routes stacked above the revealed session`() {
+        let nav = makeNavigator(selectedTab: .tools)
+        let id = UUID()
+        nav.push(.session(id: id), in: .journal)
+        nav.push(.entry(timestamp: .now, id: UUID()), in: .journal)
+        nav.revealOrPresentSessionDetail(currentSessionID: id)
+        #expect(nav.path(for: .journal) == [.session(id: id)])
+    }
+
+    @Test
+    func `revealOrPresent prefers the selected tab when several show the session`() {
+        let nav = makeNavigator(selectedTab: .search)
+        let id = UUID()
+        nav.push(.session(id: id), in: .journal)
+        nav.push(.session(id: id), in: .search)
+        nav.revealOrPresentSessionDetail(currentSessionID: id)
+        #expect(nav.selectedTab == .search)
+    }
+
+    @Test
+    func `revealOrPresent falls back to the sheet when the session is not open`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        nav.push(.session(id: UUID()), in: .journal)
+        nav.revealOrPresentSessionDetail(currentSessionID: UUID())
+        #expect(nav.sheetStack == [.sessionDetail])
+    }
+
+    @Test
+    func `revealOrPresent presents rather than revealing under an open sheet`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        let id = UUID()
+        nav.push(.session(id: id), in: .journal)
+        nav.present(.settings)
+        nav.revealOrPresentSessionDetail(currentSessionID: id)
+        #expect(nav.sheetStack == [.settings, .sessionDetail])
+    }
+
+    @Test
+    func `apply reveals an open session for a day link instead of presenting`() {
+        let nav = makeNavigator(selectedTab: .tools)
+        let id = UUID()
+        nav.push(.session(id: id), in: .journal)
+        nav.apply(DeepLinkOutcome(tab: .journal, sheet: .sessionDetail), currentSessionID: id)
+        #expect(nav.selectedTab == .journal)
+        #expect(nav.sheetStack.isEmpty)
+    }
+
+    @Test
+    func `apply presents the day sheet when the session is not open`() {
+        let nav = makeNavigator(selectedTab: .tools)
+        nav.apply(DeepLinkOutcome(tab: .journal, sheet: .sessionDetail), currentSessionID: UUID())
+        #expect(nav.selectedTab == .journal)
+        #expect(nav.sheetStack == [.sessionDetail])
+    }
+
+    @Test
+    func `apply still no-ops a day link when the session sheet is already on top`() {
+        let nav = makeNavigator(selectedTab: .journal)
+        nav.present(.sessionDetail)
+        nav.apply(DeepLinkOutcome(tab: .journal, sheet: .sessionDetail), currentSessionID: UUID())
+        #expect(nav.sheetStack == [.sessionDetail])
+    }
+
     // MARK: - Color picker queue (the Phase 3 bug fix)
 
     @Test

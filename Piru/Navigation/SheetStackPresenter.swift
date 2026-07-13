@@ -91,7 +91,7 @@ private struct SheetLayer: ViewModifier {
     }
 
     private func routeContent(_ route: SheetRoute) -> some View {
-        SheetRouteView(route: route)
+        SheetRouteView(route: route, depth: depth)
             .environment(\.appNavigator, navigator)
             .sheetZoomTransition(
                 depth: depth,

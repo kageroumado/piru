@@ -137,6 +137,18 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     var id: Self {
         self
     }
+
+    /// Sheets whose root hosts a `NavigationStack` with the app's push
+    /// destinations registered. While one of these is on top of the sheet
+    /// stack, `AppNavigator.push` targets the sheet's own path — pushing onto
+    /// the tab stack would navigate the screen *behind* the sheet instead.
+    /// Must stay in sync with `SheetRouteView`'s dispatch.
+    var supportsPushNavigation: Bool {
+        switch self {
+        case .sessionDetail, .entryDetail: true
+        default: false
+        }
+    }
 }
 
 // MARK: - Payloads

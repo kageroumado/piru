@@ -33,6 +33,13 @@ final class AppNavigator {
     /// only gracefully renders ~3 deep on iOS 26.
     private(set) var sheetStack: [SheetRoute]
 
+    /// Push paths for sheets that host their own `NavigationStack`
+    /// (`SheetRoute.supportsPushNavigation`), keyed by depth in `sheetStack`.
+    /// While such a sheet is on top, `push`/`pop` target its path — the tab
+    /// stacks are behind the sheet, so pushing there would navigate a screen
+    /// the user can't see while the sheet itself stays put.
+    private(set) var sheetPaths: [Int: [PushRoute]] = [:]
+
     /// `matchedTransitionSource` id the current depth-0 sheet should zoom out of,
     /// set by `present(_:zoomSource:)`. Drives the Mail-style grow-from-button
     /// effect for the quick-log and current-session sheets. `nil` → default
@@ -76,12 +83,27 @@ final class AppNavigator {
 
     // MARK: - Push
 
+    /// Push onto the current navigation context. With an explicit `tab` the
+    /// route always lands on that tab's stack; otherwise, when a push-capable
+    /// sheet is on top (`SheetRoute.supportsPushNavigation`), the route goes
+    /// to *that sheet's* path — the visible stack — not the tab behind it.
     func push(_ route: PushRoute, in tab: AppTab? = nil) {
+        if tab == nil, let top = sheetStack.last, top.supportsPushNavigation {
+            sheetPaths[sheetStack.count - 1, default: []].append(route)
+            return
+        }
         let target = tab ?? selectedTab
         paths[target, default: []].append(route)
     }
 
     func pop(in tab: AppTab? = nil) {
+        if tab == nil, let top = sheetStack.last, top.supportsPushNavigation {
+            let depth = sheetStack.count - 1
+            guard var sheetPath = sheetPaths[depth], !sheetPath.isEmpty else { return }
+            sheetPath.removeLast()
+            sheetPaths[depth] = sheetPath
+            return
+        }
         let target = tab ?? selectedTab
         guard var stack = paths[target], !stack.isEmpty else { return }
         stack.removeLast()
@@ -108,6 +130,19 @@ final class AppNavigator {
         Binding(
             get: { [weak self] in self?.paths[tab, default: []] ?? [] },
             set: { [weak self] in self?.paths[tab] = $0 },
+        )
+    }
+
+    func sheetPath(atDepth depth: Int) -> [PushRoute] {
+        sheetPaths[depth, default: []]
+    }
+
+    /// Binding into a presented sheet's own push path (see `sheetPaths`), so
+    /// the sheet's `NavigationStack` can mutate it directly on system pops.
+    func sheetPathBinding(atDepth depth: Int) -> Binding<[PushRoute]> {
+        Binding(
+            get: { [weak self] in self?.sheetPaths[depth, default: []] ?? [] },
+            set: { [weak self] in self?.sheetPaths[depth] = $0 },
         )
     }
 
@@ -138,8 +173,10 @@ final class AppNavigator {
         sheetZoomSourceID = zoomSource
         if replacingTop, !sheetStack.isEmpty {
             sheetStack[sheetStack.count - 1] = sheet
+            sheetPaths[sheetStack.count - 1] = nil
         } else if sheetStack.count < Self.maxSheetDepth {
             sheetStack.append(sheet)
+            sheetPaths[sheetStack.count - 1] = nil
         }
     }
 
@@ -147,11 +184,13 @@ final class AppNavigator {
     func dismiss() {
         guard !sheetStack.isEmpty else { return }
         sheetStack.removeLast()
+        sheetPaths[sheetStack.count] = nil
     }
 
     /// Dismiss every sheet at once.
     func dismissAll() {
         sheetStack.removeAll()
+        sheetPaths.removeAll()
     }
 
     /// Dismiss the last occurrence of a specific sheet from the stack (rare;
@@ -159,6 +198,11 @@ final class AppNavigator {
     func dismiss(_ sheet: SheetRoute) {
         guard let idx = sheetStack.lastIndex(of: sheet) else { return }
         sheetStack.remove(at: idx)
+        // Sheets above `idx` shift down one — their paths must follow.
+        sheetPaths = Dictionary(uniqueKeysWithValues: sheetPaths.compactMap { depth, path in
+            if depth == idx { return nil }
+            return (depth > idx ? depth - 1 : depth, path)
+        })
     }
 
     /// Trim the sheet stack to the given depth. Called by the sheet stack
@@ -167,6 +211,7 @@ final class AppNavigator {
     func truncateSheetStack(to depth: Int) {
         guard sheetStack.count > depth else { return }
         sheetStack = Array(sheetStack.prefix(depth))
+        sheetPaths = sheetPaths.filter { $0.key < depth }
     }
 
     // MARK: - Snapshot
@@ -183,13 +228,49 @@ final class AppNavigator {
             // limit and create invisible sheets that `dismiss()` would have
             // to drain before reaching what the user can see.
             sheetStack = Array(newValue.sheetStack.prefix(Self.maxSheetDepth))
+            // Snapshots don't carry sheet paths; whatever was tracked belongs
+            // to the replaced stack.
+            sheetPaths.removeAll()
         }
+    }
+
+    // MARK: - Session Detail
+
+    /// Open the current session (accessory pill tap): if that session's detail
+    /// is already somewhere on a tab's push stack, reveal it there instead of
+    /// presenting a duplicate `.sessionDetail` sheet over it; otherwise present
+    /// the sheet as before. Reveal only applies with no sheets up — under an
+    /// open sheet the revealed tab wouldn't be visible.
+    func revealOrPresentSessionDetail(currentSessionID: UUID?) {
+        if sheetStack.isEmpty, let id = currentSessionID, revealOpenSession(id: id) { return }
+        present(.sessionDetail)
+    }
+
+    /// If `.session(id:)` is on some tab's push stack, switch to that tab and
+    /// trim the stack so the session screen is on top — the intent is "show me
+    /// this screen", not "show me whatever was stacked above it". The selected
+    /// tab is preferred when several tabs have it. Returns whether a reveal
+    /// happened.
+    private func revealOpenSession(id: UUID) -> Bool {
+        let target = PushRoute.session(id: id)
+        let candidates = [selectedTab] + AppTab.allCases.filter { $0 != selectedTab }
+        guard let tab = candidates.first(where: { paths[$0, default: []].contains(target) }),
+              let index = paths[tab]?.lastIndex(of: target)
+        else { return false }
+        paths[tab] = Array(paths[tab]![...index])
+        selectedTab = tab
+        return true
     }
 
     /// Apply a deep-link outcome. Unlike setting `snapshot`, this only mutates
     /// the slices the URL spoke about — a sheet-only URL doesn't clobber the
     /// current tab.
-    func apply(_ outcome: DeepLinkOutcome) {
+    ///
+    /// `currentSessionID` is the session the `.sessionDetail` sheet would show
+    /// (resolved by the caller, which has store access); it lets a `piru://day`
+    /// link reveal an already-open session screen instead of presenting a
+    /// duplicate sheet whose pushes would land on the stack behind it.
+    func apply(_ outcome: DeepLinkOutcome, currentSessionID: UUID? = nil) {
         if let tab = outcome.tab {
             selectedTab = tab
         }
@@ -201,6 +282,12 @@ final class AppNavigator {
             setPath(path, in: outcome.tab)
         }
         if let sheet = outcome.sheet {
+            if sheet == .sessionDetail, sheetStack.isEmpty,
+               let sessionID = currentSessionID, revealOpenSession(id: sessionID) {
+                // Revealed the existing screen (overriding the outcome's
+                // default `.journal` tab with wherever it actually lives).
+                return
+            }
             // A link targeting the kind of sheet that's already on top is a
             // no-op: `piru://quicklog?routine=…` while quick-log is open must
             // not stack a duplicate — or worse, rebuild the tray and discard
