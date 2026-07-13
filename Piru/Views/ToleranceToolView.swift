@@ -1095,7 +1095,7 @@ struct ToleranceToolView: View {
                 mode = option
             } label: {
                 VStack(spacing: 8) {
-                    PhoneThumbnail(mode: option, selected: selected)
+                    MenuPhoneThumbnail(selected: selected, sketch: PhoneThumbnailArt.sketch(for: option))
                         .frame(width: 72, height: 148) // aspect 0.486 — the iPhone 17 bezel
                     Text(option.title)
                         .font(.subheadline)
@@ -1143,56 +1143,18 @@ struct ToleranceToolView: View {
         }
     }
 
-    /// A line-art iPhone silhouette drawn in a single color (accent when selected, gray otherwise),
-    /// its screen sketched with the mode — stacked cards for **By mechanism**, list rows for **By
-    /// substance**. Proportions are taken from the Apple iPhone 17 bezel (aspect ≈ 0.485, continuous
-    /// corners) so it reads as a phone rather than an arbitrary rectangle. No image assets.
-    private struct PhoneThumbnail: View {
-        let mode: ToleranceDetailMode
-        let selected: Bool
-
-        var body: some View {
-            Canvas { context, size in
-                let color: Color = selected ? Theme.accent : .secondary
-                let line = max(1.6, size.width * 0.03)
-
-                // Phone body — inset so the stroke sits fully inside the frame. Corner radius 0.16·width
-                // (the measured iPhone 17 corner extent, continuous), not a pill.
-                let body = CGRect(x: line, y: line, width: size.width - line * 2, height: size.height - line * 2)
-                let bodyPath = Path(roundedRect: body, cornerRadius: size.width * 0.16, style: .continuous)
-                context.stroke(bodyPath, with: .color(color), lineWidth: line)
-
-                // The Dynamic Island floats inside the screen near the top (a display cutout, not part of
-                // the frame): center ≈ 0.05·height down, a ~3.4:1 pill — the measured iPhone 17 geometry.
-                let islandW = body.width * 0.32
-                let islandH = body.height * 0.045
-                let island = CGRect(
-                    x: body.midX - islandW / 2,
-                    y: body.minY + body.height * 0.052 - islandH / 2,
-                    width: islandW, height: islandH,
-                )
-                context.fill(Path(roundedRect: island, cornerRadius: islandH / 2), with: .color(color))
-
-                // Content sits below the island with even side margins and a matching bottom inset, so it
-                // never touches the frame — and both modes share the same top edge.
-                let sideInset = body.width * 0.13
-                let contentTop = island.maxY + body.height * 0.04
-                let content = CGRect(
-                    x: body.minX + sideInset,
-                    y: contentTop,
-                    width: body.width - sideInset * 2,
-                    height: body.maxY - body.height * 0.06 - contentTop,
-                )
-                let tint = color.opacity(0.5)
-                switch mode {
-                case .perReceptor: drawCards(context, in: content, color: tint)
-                case .perSubstance: drawRows(context, in: content, color: tint)
-                }
+    /// The tolerance modes' screen sketches for ``MenuPhoneThumbnail`` — stacked cards for
+    /// **By mechanism**, list rows for **By substance**.
+    private enum PhoneThumbnailArt {
+        static func sketch(for mode: ToleranceDetailMode) -> (GraphicsContext, CGRect, Color) -> Void {
+            switch mode {
+            case .perReceptor: drawCards
+            case .perSubstance: drawRows
             }
         }
 
         /// Three stacked card bars.
-        private func drawCards(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        private static func drawCards(_ context: GraphicsContext, in rect: CGRect, color: Color) {
             let count = 3
             let gap = rect.height * 0.14
             let h = (rect.height - gap * CGFloat(count - 1)) / CGFloat(count) * 0.6
@@ -1205,7 +1167,7 @@ struct ToleranceToolView: View {
 
         /// Four list rows: a leading dot + a line each. Rows are laid top-down with the same gap model as
         /// the cards, so the first row begins at `rect.minY` — matching the cards' top padding.
-        private func drawRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        private static func drawRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
             let count = 4
             let gap = rect.height * 0.12
             let rowH = (rect.height - gap * CGFloat(count - 1)) / CGFloat(count)

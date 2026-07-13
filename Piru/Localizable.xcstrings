@@ -18716,6 +18716,7 @@
       }
     },
     "Group by" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31400,6 +31401,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除位置"
+          }
+        }
+      }
+    },
+    "Removes this filter." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除此筛选条件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除此篩選條件。"
           }
         }
       }

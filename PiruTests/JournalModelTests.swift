@@ -44,8 +44,9 @@ struct JournalModelTests {
             entries: entries,
             grouping: .byDay,
             searchText: "",
-            selectedTag: nil,
+            filterTags: [],
             filterCategories: [],
+            filterRoutes: [],
             stackRedoses: true,
             entriesSignature: signature,
         )

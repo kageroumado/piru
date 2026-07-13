@@ -1,5 +1,4 @@
 import SwiftUI
-import TipKit
 
 /// Shared `•••` overflow toolbar menu: optional per-screen `menuExtras`
 /// followed by the always-present Settings/Help. Used as a trailing
@@ -13,7 +12,10 @@ struct AppOverflowMenu<Extras: View>: View {
     }
 
     var body: some View {
-        let menu = Menu {
+        // The "your data lives here" tip used to anchor here on the Journal tab;
+        // it moved to the Journal's options button (`JournalOptionsButton`) when
+        // that screen consolidated its toolbar and stopped using this menu.
+        Menu {
             menuExtras()
             // A trailing Section keeps the always-present app actions visually
             // grouped and below any per-screen extras, with no dangling
@@ -31,14 +33,6 @@ struct AppOverflowMenu<Extras: View>: View {
                 .font(.system(size: 17, weight: .semibold))
         }
         .accessibilityLabel(Text("More"))
-
-        // The "your data lives here" tip points at Settings — surface it once, on
-        // the Journal landing tab, rather than repeating on every tab's overflow.
-        if navigator.selectedTab == .journal {
-            menu.popoverTip(SettingsDataTip(), arrowEdge: .top)
-        } else {
-            menu
-        }
     }
 
     private func present(_ route: SheetRoute) {

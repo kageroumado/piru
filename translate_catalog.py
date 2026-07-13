@@ -2398,6 +2398,7 @@ T = {
     "Amount": ("剂量", "劑量"),
     "Unit": ("单位", "單位"),
     "Route": ("给药途径", "給藥途徑"),
+    "Removes this filter.": ("移除此筛选条件。", "移除此篩選條件。"),
     "Form": ("盐型", "鹽型"),
     "≈ %@ %@ elemental": ("≈ %@ %@ 元素含量", "≈ %@ %@ 元素含量"),
     "%lld%% elemental": ("%lld%% 元素含量", "%lld%% 元素含量"),
@@ -5895,6 +5896,8 @@ if __name__ == "__main__":
         "Recovery chart",
         "One card per mechanism",
         "All mechanisms, one axis",
+        # Journal toolbar consolidation — filter facet accessibility hint (2026-07-13).
+        "Removes this filter.",
     }
 
     print("--- Piru main app catalog ---")

@@ -28,8 +28,10 @@ final class JournalModel {
     private(set) var derived: [PersistentIdentifier: EntryDerived] = [:]
     /// Categories present in the data, for the filter menu.
     private(set) var categories: [SubstanceCategory] = []
-    /// Distinct tags across all entries, most-used first, for the chip bar.
+    /// Distinct tags across all entries, most-used first, for the filter menu.
     private(set) var tags: [String] = []
+    /// Routes present in the data (declaration order), for the filter menu.
+    private(set) var routes: [RouteOfAdministration] = []
     private(set) var colorMap: [String: Color] = [:]
 
     /// The current filter result, plus the grouping buckets derived from it.
@@ -306,6 +308,7 @@ final class JournalModel {
         var seen = Set<SubstanceCategory>()
         var cats: [SubstanceCategory] = []
         var tagCounts: [String: Int] = [:]
+        var seenRoutes = Set<RouteOfAdministration>()
         for entry in entries {
             if let category = derived[entry.persistentModelID]?.category, seen.insert(category).inserted {
                 cats.append(category)
@@ -313,9 +316,11 @@ final class JournalModel {
             for tag in entry.tags {
                 tagCounts[tag, default: 0] += 1
             }
+            seenRoutes.insert(entry.route)
         }
         categories = cats.sorted { $0.rawValue < $1.rawValue }
         tags = tagCounts.sorted { $0.value > $1.value }.map(\.key)
+        routes = RouteOfAdministration.allCases.filter(seenRoutes.contains)
     }
 
     /// Re-filter and re-bucket. Pure grouping work — timelines come from
@@ -325,16 +330,18 @@ final class JournalModel {
         entries: [DoseEntry],
         grouping: JournalGrouping,
         searchText: String,
-        selectedTag: String?,
+        filterTags: Set<String>,
         filterCategories: Set<SubstanceCategory>,
+        filterRoutes: Set<RouteOfAdministration>,
         stackRedoses: Bool,
         entriesSignature: Int,
     ) {
         var sigHasher = Hasher()
         sigHasher.combine(grouping)
         sigHasher.combine(searchText)
-        sigHasher.combine(selectedTag)
+        sigHasher.combine(filterTags)
         sigHasher.combine(filterCategories)
+        sigHasher.combine(filterRoutes)
         // Fold the entries fingerprint in so a change that affects *grouping*
         // but not per-entry resolution — a session split/merge, a moved
         // timestamp — still re-buckets. (The derive step may legitimately no-op
@@ -362,8 +369,9 @@ final class JournalModel {
         let result = filteredEntries(
             entries: entries,
             searchText: searchText,
-            selectedTag: selectedTag,
+            filterTags: filterTags,
             filterCategories: filterCategories,
+            filterRoutes: filterRoutes,
         )
         filtered = result
 
@@ -457,13 +465,22 @@ final class JournalModel {
     private func filteredEntries(
         entries: [DoseEntry],
         searchText: String,
-        selectedTag: String?,
+        filterTags: Set<String>,
         filterCategories: Set<SubstanceCategory>,
+        filterRoutes: Set<RouteOfAdministration>,
     ) -> [DoseEntry] {
         var result = entries
 
-        if let selectedTag {
-            result = result.filter { $0.tags.contains(selectedTag) }
+        // Within a facet the selected values OR together (any matching tag);
+        // across facets they AND (must match tag *and* category *and* route).
+        if !filterTags.isEmpty {
+            result = result.filter { entry in
+                entry.tags.contains(where: filterTags.contains)
+            }
+        }
+
+        if !filterRoutes.isEmpty {
+            result = result.filter { filterRoutes.contains($0.route) }
         }
 
         if !searchText.isEmpty {

@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import TipKit
 
 // MARK: - Journal Grouping
 
@@ -59,7 +60,6 @@ struct EntryListView: View {
     /// searching the Library instead when a query finds no journal entries.
     var onSwitchToLibrary: (() -> Void)?
 
-    @State private var selectedTag: String? = nil
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingCalendar = false
 
@@ -67,13 +67,17 @@ struct EntryListView: View {
     /// computes geometry under the same key the cards will look up.
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
-    // Filter state — category facets only. (Substance and date filtering were
-    // dropped: substance duplicates Search, and a chronological day list makes
-    // time windows pointless — the calendar *scrolls* to a day instead.)
+    // Filter state — the funnel menu's three facets: tag, category, route.
+    // Within a facet the values OR; across facets they AND. (Substance and date
+    // filtering were dropped: substance duplicates Search, and a chronological
+    // day list makes time windows pointless — the calendar *scrolls* to a day
+    // instead.)
+    @State private var filterTags: Set<String> = []
     @State private var filterCategories: Set<SubstanceCategory> = []
+    @State private var filterRoutes: Set<RouteOfAdministration> = []
 
     private var hasActiveFilters: Bool {
-        !filterCategories.isEmpty
+        !filterTags.isEmpty || !filterCategories.isEmpty || !filterRoutes.isEmpty
     }
 
     /// Surface the live session as a hero card atop the Journal. Independent of
@@ -213,8 +217,9 @@ struct EntryListView: View {
             entries: entries,
             grouping: grouping,
             searchText: searchText,
-            selectedTag: selectedTag,
+            filterTags: filterTags,
             filterCategories: filterCategories,
+            filterRoutes: filterRoutes,
             stackRedoses: stackRedoses,
             entriesSignature: entriesSignature,
         )
@@ -235,8 +240,12 @@ struct EntryListView: View {
         let activeCard = activeSessionCard
         let activeID = activeCard?.id
         return List {
-            if !isSearchSurface, !model.tags.isEmpty {
-                tagChipBar
+            // Active-filter summary — the funnel's accent fill alone says *that*
+            // something is filtered; this strip says *what*, chip-per-value, each
+            // removable in place. It only exists while filtering, so the common
+            // (unfiltered) case pays no standing row for it.
+            if !isSearchSurface, hasActiveFilters {
+                activeFilterBar
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
@@ -281,19 +290,21 @@ struct EntryListView: View {
         .background(Theme.background)
         .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
         .toolbar {
+            // Two controls, Files/Mail style: the funnel is the single home for
+            // narrowing (tags + categories + routes), the ellipsis for everything
+            // view-related (grouping thumbnails, Jump to Date, Settings, Help).
             if !isSearchSurface {
-                ToolbarItem(placement: .topBarTrailing) { JournalGroupingMenu(grouping: $grouping) }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                ToolbarItem(placement: .topBarTrailing) { JournalFilterMenu(model: model, filterCategories: $filterCategories) }
+                ToolbarItem(placement: .topBarTrailing) {
+                    JournalFilterMenu(
+                        model: model,
+                        filterTags: $filterTags,
+                        filterCategories: $filterCategories,
+                        filterRoutes: $filterRoutes,
+                    )
+                }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
-                    AppOverflowMenu {
-                        Button {
-                            showingCalendar = true
-                        } label: {
-                            Label("Jump to Date", systemImage: "calendar")
-                        }
-                    }
+                    JournalOptionsButton(grouping: $grouping) { showingCalendar = true }
                 }
             }
         }
@@ -330,9 +341,10 @@ struct EntryListView: View {
             }
             resetWindowAndRegroup()
         }
-        .onChange(of: selectedTag) { resetWindowAndRegroup() }
+        .onChange(of: filterTags) { resetWindowAndRegroup() }
         .onChange(of: grouping) { resetWindowAndRegroup() }
         .onChange(of: filterCategories) { resetWindowAndRegroup() }
+        .onChange(of: filterRoutes) { resetWindowAndRegroup() }
         .onChange(of: colorSignature) {
             Task { await rebuildAll(animated: true) }
         }
@@ -377,33 +389,41 @@ struct EntryListView: View {
         }
     }
 
-    // MARK: - Header Controls
+    // MARK: - Active Filter Bar
 
-    // MARK: - Tag Chip Bar
-
-    private var tagChipBar: some View {
+    /// One removable chip per active filter value (tags, then categories, then
+    /// routes) and a trailing Clear. Only rendered while a filter is active —
+    /// the funnel menu is where filters are *applied*; this strip is where the
+    /// current selection stays visible and individually dismissible.
+    private var activeFilterBar: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 8) {
-                // Grouping and category filtering live in the navbar menus
-                // (Mail's idiom); this row is purely the tag facet. The leading
-                // "All" reset plus the single-select accent fill carry the
-                // filter affordance, so no separate funnel glyph is needed —
-                // having one here duplicated the navbar's filter button.
-                tagPill(
-                    title: Text("All"),
-                    isSelected: selectedTag == nil,
-                ) {
-                    selectedTag = nil
-                }
-
-                ForEach(model.tags, id: \.self) { tag in
-                    tagPill(
-                        title: Text(verbatim: "#\(tag)"),
-                        isSelected: selectedTag == tag,
-                    ) {
-                        selectedTag = selectedTag == tag ? nil : tag
+                ForEach(filterTags.sorted(), id: \.self) { tag in
+                    filterChip(title: Text(verbatim: "#\(tag)")) {
+                        filterTags.remove(tag)
                     }
                 }
+                ForEach(filterCategories.sorted { $0.rawValue < $1.rawValue }, id: \.self) { category in
+                    filterChip(title: Text(category.displayName)) {
+                        filterCategories.remove(category)
+                    }
+                }
+                ForEach(filterRoutes.sorted { $0.rawValue < $1.rawValue }, id: \.self) { route in
+                    filterChip(title: Text(route.localizedName)) {
+                        filterRoutes.remove(route)
+                    }
+                }
+
+                Button {
+                    withAnimation(.snappy) { clearFilters() }
+                } label: {
+                    Text("Clear")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(Theme.accent)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                }
+                .buttonStyle(.plain)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 4)
@@ -411,27 +431,30 @@ struct EntryListView: View {
         .scrollIndicators(.hidden)
     }
 
-    private func tagPill(title: Text, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    private func filterChip(title: Text, remove: @escaping () -> Void) -> some View {
         Button {
-            withAnimation(.snappy) {
-                action()
-                regroup()
-            }
+            withAnimation(.snappy) { remove() }
         } label: {
-            title
-                .font(.subheadline.weight(.medium))
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    isSelected
-                        ? AnyShapeStyle(Theme.accent)
-                        : AnyShapeStyle(Color(.secondarySystemFill)),
-                    in: Capsule(),
-                )
-                .foregroundStyle(isSelected ? .white : .primary)
+            HStack(spacing: 5) {
+                title
+                Image(systemName: "xmark")
+                    .font(.caption2.weight(.semibold))
+                    .opacity(0.8)
+            }
+            .font(.subheadline.weight(.medium))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Theme.accent, in: Capsule())
+            .foregroundStyle(.white)
         }
         .buttonStyle(.plain)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+        .accessibilityHint(Text("Removes this filter."))
+    }
+
+    private func clearFilters() {
+        filterTags = []
+        filterCategories = []
+        filterRoutes = []
     }
 
     // MARK: - Recent (Flat) Content
@@ -662,48 +685,267 @@ struct EntryListView: View {
 
 // MARK: - Toolbar Menus
 
-/// The Journal's "group by" toolbar menu. Owns only the grouping binding.
-private struct JournalGroupingMenu: View {
+/// The rows of the Journal options popover that act *after* it closes. A sheet
+/// can't be presented while the popover is still up (the root is already
+/// presenting), so the popover records the choice, dismisses, and the button
+/// fires it once the dismissal settles.
+private enum JournalMenuAction {
+    case jumpToDate
+    case settings
+    case help
+}
+
+/// The Journal's `•••` toolbar button: a Mail-style options popover carrying the
+/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help
+/// (folded in from the removed ``AppOverflowMenu`` so the toolbar stays at two
+/// controls). A popover rather than a `Menu` because a menu can't host the
+/// custom thumbnail views — same pattern as the Tolerance screen's options menu.
+private struct JournalOptionsButton: View {
+    @Environment(\.appNavigator) private var navigator
     @Binding var grouping: JournalGrouping
+    let onJumpToDate: () -> Void
+
+    @State private var showsOptions = false
+    @State private var pendingAction: JournalMenuAction?
 
     var body: some View {
-        Menu {
-            Picker("Group by", selection: $grouping) {
-                ForEach(JournalGrouping.allCases, id: \.self) { mode in
-                    Label(mode.displayName, systemImage: mode.icon).tag(mode)
+        Button {
+            showsOptions = true
+        } label: {
+            Image(systemName: "ellipsis")
+                .font(.system(size: 17, weight: .semibold))
+        }
+        .accessibilityLabel(Text("More"))
+        .popover(isPresented: $showsOptions) {
+            JournalOptionsMenu(grouping: $grouping) { action in
+                pendingAction = action
+                showsOptions = false
+            }
+            .presentationCompactAdaptation(.popover)
+        }
+        // The "your data lives here" tip points at Settings — it anchored to the
+        // Journal's overflow menu before the toolbar consolidation, so it lives
+        // on this button now (Journal is the landing tab; other tabs never
+        // surfaced it).
+        .popoverTip(SettingsDataTip(), arrowEdge: .top)
+        .onChange(of: showsOptions) {
+            guard !showsOptions, let action = pendingAction else { return }
+            pendingAction = nil
+            // Let the popover's dismissal settle before presenting a sheet — an
+            // immediate present races the teardown (the root is still
+            // "presenting" the popover) and gets dropped by UIKit.
+            Task {
+                try? await Task.sleep(for: .milliseconds(300))
+                switch action {
+                case .jumpToDate: onJumpToDate()
+                case .settings: present(.settings)
+                case .help: present(.help)
                 }
             }
-        } label: {
-            HStack(spacing: 4) {
-                Text(grouping.displayName)
-                    .lineLimit(1)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.bold))
-            }
-            .fixedSize(horizontal: true, vertical: false)
-            .font(.subheadline.weight(.semibold))
         }
+    }
+
+    private func present(_ route: SheetRoute) {
+        guard navigator.sheetStack.isEmpty else { return }
+        navigator.present(route)
     }
 }
 
-/// The Journal's category-filter toolbar menu. Reads the model's available
-/// categories and toggles the parent's `filterCategories` set through the
-/// binding (the parent's `onChange(of:)` drives the regroup + Day-window reset).
+/// The options popover content, modeled on Mail's view-options menu: the
+/// grouping thumbnail picker across the top (four line-art phones with a radio
+/// each), then Jump to Date, then the app-level Settings/Help. Picking a
+/// grouping keeps the popover open (Mail's behavior — the list re-buckets
+/// behind it); the action rows dismiss.
+private struct JournalOptionsMenu: View {
+    @Binding var grouping: JournalGrouping
+    let onAction: (JournalMenuAction) -> Void
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .top, spacing: 10) {
+                ForEach(JournalGrouping.allCases, id: \.self) { option in
+                    groupingColumn(option)
+                }
+            }
+            .padding(.horizontal, 14)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
+
+            Divider()
+
+            VStack(spacing: 0) {
+                actionRow(.jumpToDate, title: Text("Jump to Date"), systemImage: "calendar")
+            }
+            .padding(.vertical, 4)
+
+            Divider()
+
+            VStack(spacing: 0) {
+                actionRow(.settings, title: Text("Settings"), systemImage: "gearshape")
+                actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
+            }
+            .padding(.vertical, 4)
+        }
+        .frame(width: 296)
+    }
+
+    private func groupingColumn(_ option: JournalGrouping) -> some View {
+        let selected = grouping == option
+        return Button {
+            grouping = option
+        } label: {
+            VStack(spacing: 7) {
+                MenuPhoneThumbnail(selected: selected, sketch: JournalGroupingArt.sketch(for: option))
+                    .frame(width: 56, height: 115) // aspect 0.486 — the iPhone 17 bezel
+                Text(option.displayName)
+                    .font(.caption)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .foregroundStyle(.primary)
+                radio(selected: selected)
+                    .frame(width: 18, height: 18)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(option.displayName))
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
+    }
+
+    private func radio(selected: Bool) -> some View {
+        ZStack {
+            if selected {
+                Circle().fill(Theme.accent)
+                Image(systemName: "checkmark")
+                    .font(.system(size: 9, weight: .bold))
+                    .foregroundStyle(.white)
+            } else {
+                Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
+            }
+        }
+    }
+
+    private func actionRow(_ action: JournalMenuAction, title: Text, systemImage: String) -> some View {
+        Button {
+            onAction(action)
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: systemImage)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 24)
+                title
+                    .foregroundStyle(.primary)
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 9)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+/// The groupings' screen sketches for ``MenuPhoneThumbnail`` — each mode's list
+/// shape reduced to line art: day-grouped, flat-chronological, grouped by a
+/// substance dot, grouped by a category tile.
+private enum JournalGroupingArt {
+    static func sketch(for grouping: JournalGrouping) -> (GraphicsContext, CGRect, Color) -> Void {
+        switch grouping {
+        case .byDay: drawDayGroups
+        case .recent: drawFlatRows
+        case .bySubstance: drawDotGroups
+        case .byCategory: drawTileGroups
+        }
+    }
+
+    /// A solid header bar, then indented line rows — twice (two "days").
+    private static func drawDayGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        let unit = rect.height / 24
+        for groupTop in [rect.minY, rect.minY + unit * 13] {
+            let header = CGRect(x: rect.minX, y: groupTop, width: rect.width * 0.55, height: unit * 2)
+            context.fill(Path(roundedRect: header, cornerRadius: unit), with: .color(color))
+            for row in 0 ..< 2 {
+                let y = groupTop + unit * (4.5 + CGFloat(row) * 3.5)
+                line(context, x: rect.minX, y: y, width: rect.width, height: unit * 1.6, color: color)
+            }
+        }
+    }
+
+    /// Five uniform rows — the flat chronological list.
+    private static func drawFlatRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        let unit = rect.height / 24
+        for row in 0 ..< 5 {
+            let y = rect.minY + unit * CGFloat(row) * 5
+            line(context, x: rect.minX, y: y, width: rect.width, height: unit * 1.6, color: color)
+            line(context, x: rect.minX, y: y + unit * 2.2, width: rect.width * 0.55, height: unit * 1.1, color: color.opacity(0.55))
+        }
+    }
+
+    /// A leading dot + header line, then indented rows — twice (two substances).
+    private static func drawDotGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        let unit = rect.height / 24
+        let dot = unit * 2.4
+        for groupTop in [rect.minY, rect.minY + unit * 13] {
+            context.fill(
+                Path(ellipseIn: CGRect(x: rect.minX, y: groupTop, width: dot, height: dot)),
+                with: .color(color),
+            )
+            line(context, x: rect.minX + dot * 1.5, y: groupTop + (dot - unit * 1.6) / 2, width: rect.width - dot * 1.5, height: unit * 1.6, color: color)
+            for row in 0 ..< 2 {
+                let y = groupTop + unit * (4.5 + CGFloat(row) * 3.5)
+                line(context, x: rect.minX + dot * 1.5, y: y, width: rect.width - dot * 1.5, height: unit * 1.4, color: color.opacity(0.55))
+            }
+        }
+    }
+
+    /// A leading rounded tile + header line, then indented rows — twice.
+    private static func drawTileGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        let unit = rect.height / 24
+        let tile = unit * 2.4
+        for groupTop in [rect.minY, rect.minY + unit * 13] {
+            context.fill(
+                Path(roundedRect: CGRect(x: rect.minX, y: groupTop, width: tile, height: tile), cornerRadius: tile * 0.3),
+                with: .color(color),
+            )
+            line(context, x: rect.minX + tile * 1.5, y: groupTop + (tile - unit * 1.6) / 2, width: rect.width - tile * 1.5, height: unit * 1.6, color: color)
+            for row in 0 ..< 2 {
+                let y = groupTop + unit * (4.5 + CGFloat(row) * 3.5)
+                line(context, x: rect.minX + tile * 1.5, y: y, width: rect.width - tile * 1.5, height: unit * 1.4, color: color.opacity(0.55))
+            }
+        }
+    }
+
+    private static func line(_ context: GraphicsContext, x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, color: Color) {
+        context.fill(
+            Path(roundedRect: CGRect(x: x, y: y, width: width, height: height), cornerRadius: height / 2),
+            with: .color(color),
+        )
+    }
+}
+
+/// The Journal's filter toolbar menu — the single home for narrowing the list.
+/// Reads the model's available facet values (only what's actually present in
+/// the journal) and toggles the parent's filter sets through the bindings (the
+/// parent's `onChange(of:)` drives the regroup + Day-window reset). Tags and
+/// categories are multi-select checkmark sections; routes live one level down
+/// so the top level stays short.
 private struct JournalFilterMenu: View {
     let model: JournalModel
+    @Binding var filterTags: Set<String>
     @Binding var filterCategories: Set<SubstanceCategory>
+    @Binding var filterRoutes: Set<RouteOfAdministration>
 
     private var hasActiveFilters: Bool {
-        !filterCategories.isEmpty
+        !filterTags.isEmpty || !filterCategories.isEmpty || !filterRoutes.isEmpty
     }
 
     /// Spoken filter state — the active/inactive cue is otherwise tint-only.
     private var filterValue: Text {
         guard hasActiveFilters else { return Text("Off") }
-        return Text(verbatim: filterCategories
-            .map { String(localized: $0.displayName) }
-            .sorted()
-            .joined(separator: ", "))
+        let parts = filterTags.sorted().map { "#\($0)" }
+            + filterCategories.map { String(localized: $0.displayName) }.sorted()
+            + filterRoutes.map { String(localized: $0.localizedName) }.sorted()
+        return Text(verbatim: parts.joined(separator: ", "))
     }
 
     var body: some View {
@@ -740,24 +982,52 @@ private struct JournalFilterMenu: View {
         }
     }
 
-    /// Shared menu body for both filter button states.
+    /// Shared menu body for both filter button states. Each facet is its own
+    /// drill-in submenu (substance type, tags, route of administration) whose
+    /// rows are checkmark toggles — the top level stays a short list of facets,
+    /// and the label carries a `(count)` badge so an applied filter is visible
+    /// without opening the submenu. No time window — the list already shows
+    /// every day in order, and the calendar *scrolls* to a day instead.
     @ViewBuilder
     private var menuContent: some View {
-        // Category is the only meaningful filter here — the list already shows
-        // every day in order, so a time window adds nothing. Each category is a
-        // checkmark toggle (activate/deactivate in place).
-        if !model.categories.isEmpty {
-            Section("Category") {
-                ForEach(model.categories, id: \.self) { category in
-                    Button {
-                        toggleCategory(category)
-                    } label: {
-                        Label {
-                            Text(category.displayName)
-                        } icon: {
-                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
-                        }
+        Section {
+            if !model.categories.isEmpty {
+                Menu {
+                    ForEach(model.categories, id: \.self) { category in
+                        toggleRow(
+                            isOn: filterCategories.contains(category),
+                            title: Text(category.displayName),
+                            icon: category.icon,
+                        ) { toggle(category, in: $filterCategories) }
                     }
+                } label: {
+                    facetLabel("Category", systemImage: "square.grid.2x2", count: filterCategories.count)
+                }
+            }
+
+            if !model.tags.isEmpty {
+                Menu {
+                    ForEach(model.tags, id: \.self) { tag in
+                        toggleRow(
+                            isOn: filterTags.contains(tag),
+                            title: Text(verbatim: "#\(tag)"),
+                        ) { toggle(tag, in: $filterTags) }
+                    }
+                } label: {
+                    facetLabel("Tags", systemImage: "number", count: filterTags.count)
+                }
+            }
+
+            if model.routes.count > 1 {
+                Menu {
+                    ForEach(model.routes, id: \.self) { route in
+                        toggleRow(
+                            isOn: filterRoutes.contains(route),
+                            title: Text(route.localizedName),
+                        ) { toggle(route, in: $filterRoutes) }
+                    }
+                } label: {
+                    facetLabel("Route", systemImage: "point.topleft.down.to.point.bottomright.curvepath", count: filterRoutes.count)
                 }
             }
         }
@@ -765,17 +1035,51 @@ private struct JournalFilterMenu: View {
         if hasActiveFilters {
             Section {
                 Button("Clear Filters", role: .destructive) {
+                    filterTags = []
                     filterCategories = []
+                    filterRoutes = []
                 }
             }
         }
     }
 
-    private func toggleCategory(_ category: SubstanceCategory) {
-        if filterCategories.contains(category) {
-            filterCategories.remove(category)
+    /// A submenu's title with a `(count)` suffix once that facet has selections,
+    /// so the collapsed top level advertises what's applied. The facet name stays
+    /// localized; the numeric suffix is universal.
+    private func facetLabel(_ title: LocalizedStringResource, systemImage: String, count: Int) -> some View {
+        Label {
+            if count > 0 {
+                Text(verbatim: "\(String(localized: title)) (\(count))")
+            } else {
+                Text(title)
+            }
+        } icon: {
+            Image(systemName: systemImage)
+        }
+    }
+
+    /// A checkmark toggle row inside a facet submenu. When `icon` is supplied it
+    /// shows in place of the checkmark while unselected (matching the category
+    /// rows' glyphs); otherwise the row is glyph-less until checked.
+    private func toggleRow(isOn: Bool, title: Text, icon: String? = nil, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Label {
+                title
+            } icon: {
+                if isOn {
+                    Image(systemName: "checkmark")
+                } else if let icon {
+                    Image(systemName: icon)
+                }
+            }
+        }
+    }
+
+    private func toggle<Value: Hashable>(_ value: Value, in set: Binding<Set<Value>>) {
+        if set.wrappedValue.contains(value) {
+            set.wrappedValue.remove(value)
         } else {
-            filterCategories.insert(category)
+            set.wrappedValue.insert(value)
         }
     }
 }
