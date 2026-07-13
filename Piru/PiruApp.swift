@@ -186,25 +186,36 @@ struct PiruApp: App {
         // attributes, .unique constraints), failing every container open.
         let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .none)
 
-        // 1. Automatic lightweight migration (also the fresh-install path).
+        // 1. Integrity pre-check, then automatic lightweight migration (also the
+        //    fresh-install path). The `quick_check` gate is what keeps a corrupt
+        //    store from reaching SwiftData's open, which aborts the process
+        //    *natively* on malformed SQLite (the build-30 crash) instead of
+        //    throwing — a failure the `catch` below could never intercept. A
+        //    missing file passes the gate (fresh install). On a healthy store,
         //    SwiftData infers the migration from the on-disk shape to the current
         //    models; the post-open backfill in `init` uniquifies any shared
         //    DoseEntry.id the lightweight `id` migration filled in.
-        do {
-            return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
-        } catch {
-            // 2. Preserve the store untouched; launch in-memory and flag the UI.
-            appLogger.fault("Store open failed under automatic lightweight migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
-            StoreLaunchState.shared.storeUnavailable = true
-            StoreLaunchState.shared.failureDetail = error.localizedDescription
+        if StoreHealth.isReadable(at: storeURL) {
             do {
-                return try ModelContainer(
-                    for: Schema(StoreRecovery.models),
-                    configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
-                )
+                return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
             } catch {
-                fatalError("Failed to create even an in-memory ModelContainer: \(error)")
+                appLogger.fault("Store open failed under automatic lightweight migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
+                StoreLaunchState.shared.failureDetail = error.localizedDescription
             }
+        } else {
+            appLogger.fault("Store failed the integrity pre-check. Preserving the store on disk and launching in-memory; data is not lost.")
+            StoreLaunchState.shared.failureDetail = "Store failed the SQLite integrity pre-check (PRAGMA quick_check)."
+        }
+
+        // 2. Preserve the store untouched; launch in-memory and flag the UI.
+        StoreLaunchState.shared.storeUnavailable = true
+        do {
+            return try ModelContainer(
+                for: Schema(StoreRecovery.models),
+                configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
+            )
+        } catch {
+            fatalError("Failed to create even an in-memory ModelContainer: \(error)")
         }
     }
 }

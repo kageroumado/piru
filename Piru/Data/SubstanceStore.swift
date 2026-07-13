@@ -212,8 +212,18 @@ final class SubstanceStore {
     /// prefs DB holds only source priorities / profile / overrides — all
     /// re-seedable from bundled defaults — so a corrupt file or a bad leftover
     /// `-wal`/`-shm` (commonly left when the app is killed mid-write) is deleted
-    /// and recreated rather than crashing the app at launch. Only a failure to
-    /// create even a *fresh* store stays fatal (a genuinely broken sandbox).
+    /// and recreated rather than crashing the app at launch.
+    ///
+    /// If even a *fresh* on-disk store can't be created, fall back to an
+    /// in-memory queue instead of crashing. The dominant reason an otherwise
+    /// healthy sandbox refuses the open is Data Protection: when the app is
+    /// launched into the background while the device is still locked (widget
+    /// timeline refresh, background task), files with complete protection are
+    /// unreadable and the create throws `EPERM`. That is transient — a plain
+    /// foreground launch would have succeeded — so a persistent, launch-time
+    /// crash is the wrong response. In-memory prefs are non-persisted (the user
+    /// falls back to bundled-default source priorities for that session) but let
+    /// the app run; the next disk open re-persists them.
     private static func openUserPrefs(at url: URL, configuration: Configuration) -> DatabaseQueue {
         do {
             return try DatabaseQueue(path: url.path, configuration: configuration)
@@ -227,7 +237,11 @@ final class SubstanceStore {
             do {
                 return try DatabaseQueue(path: url.path, configuration: configuration)
             } catch {
-                fatalError("Failed to recreate user-prefs DB at \(url.path): \(error)")
+                logger.error("user-prefs DB unrecreatable at \(url.path, privacy: .public) (\(error.localizedDescription, privacy: .public)); falling back to an in-memory prefs store")
+                if let memory = try? DatabaseQueue(named: nil, configuration: configuration) {
+                    return memory
+                }
+                fatalError("Failed to open even an in-memory user-prefs DB: \(error)")
             }
         }
     }

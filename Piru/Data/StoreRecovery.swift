@@ -299,6 +299,16 @@ nonisolated enum StoreRecovery {
     ///    writing it off as unreadable.
     static func userDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
+        // Integrity gate: a corrupt store must never be handed to a SwiftData
+        // `ModelContainer` open, which aborts the process *natively* (below the
+        // Swift error layer) on malformed SQLite rather than throwing — the
+        // build-30 launch crash. `quick_check` fails throwably, so corruption
+        // resolves to "unreadable" (-1), which recovery already handles by
+        // recovering from a data-bearing candidate instead.
+        guard StoreHealth.isReadable(at: url) else {
+            recoveryLogger.error("Store at \(url.lastPathComponent, privacy: .public) failed the integrity pre-check; treating as unreadable")
+            return -1
+        }
         if let count = countUserRows(at: url, schema: Schema(models)) { return count }
         if let count = countViaMigratingCopy(at: url) { return count }
         return -1
