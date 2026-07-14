@@ -548,3 +548,36 @@ def cross_family(names: list[str]) -> bool:
     a copy-paste / template signal rather than a real family default."""
     stems = {family_stem(n) for n in names}
     return len(stems) >= 2
+
+
+def clone_clusters(fps: dict, category_of: dict) -> list[dict]:
+    """Group dose/duration fingerprints into clone clusters — the build/curation
+    smell where ≥2 substances carry an identical dose or duration profile.
+
+    Single source of truth for the survey report, the clean tool, and the
+    overlay-integrity test, which previously each re-derived the same rule.
+
+    ``fps`` maps a fingerprint key to a list of ``(substance, route)`` members;
+    ``category_of`` maps a substance name to its resolved category. Returns one
+    dict per cluster of ≥2 distinct substances — **cross-category clusters
+    first** (near-certain copy bugs), then by descending size — each carrying:
+    ``block``, ``members`` (the raw ``(substance, route)`` list), ``substances``
+    (sorted unique), ``categories`` (sorted unique resolved), ``cross_category``
+    (spans ≥2 categories) and ``cross_family`` (spans ≥2 name-stems)."""
+    out = []
+    for key, members in fps.items():
+        subs = sorted({s for s, _ in members})
+        if len(subs) < 2:
+            continue
+        cats = sorted({category_of.get(s) for s in subs if category_of.get(s)})
+        out.append(
+            {
+                "block": key,
+                "members": list(members),
+                "substances": subs,
+                "categories": cats,
+                "cross_category": len(cats) >= 2,
+                "cross_family": cross_family(subs),
+            }
+        )
+    return sorted(out, key=lambda c: (not c["cross_category"], -len(c["substances"])))

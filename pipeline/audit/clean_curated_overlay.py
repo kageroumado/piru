@@ -73,16 +73,12 @@ def build_plan(db: dict) -> dict:
     # Cross-category clone routes: (substance, route) -> True if the block is a
     # cross-category clone. Keyed per route so we strip only the offending route.
     def cross_cat_routes(fps):
-        flagged = {}
-        for _key, members in fps.items():
-            subs = {s for s, _ in members}
-            if len(subs) < 2:
-                continue
-            categories = {cats.get(s) for s in subs if cats.get(s)}
-            if len(categories) >= 2:
-                for s, route in members:
-                    flagged[(s, route)] = True
-        return flagged
+        return {
+            (s, route): True
+            for c in L.clone_clusters(fps, cats)
+            if c["cross_category"]
+            for s, route in c["members"]
+        }
 
     xdose = cross_cat_routes(dose_fps)
     xdur = cross_cat_routes(dur_fps)

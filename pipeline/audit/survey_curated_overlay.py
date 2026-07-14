@@ -88,8 +88,8 @@ def build_survey(db: dict) -> dict:
         )
 
     clones = {
-        "doses": _clone_clusters(dose_fps, sub_category),
-        "durations": _clone_clusters(dur_fps, sub_category),
+        "doses": L.clone_clusters(dose_fps, sub_category),
+        "durations": L.clone_clusters(dur_fps, sub_category),
     }
     return {
         "files": results,
@@ -98,25 +98,6 @@ def build_survey(db: dict) -> dict:
         "pubchem_cid_dups": L.pubchem_cid_duplicates(db),
         "isomer_families": L.isomer_families(db),
     }
-
-
-def _clone_clusters(fps: dict, sub_category: dict) -> list:
-    out = []
-    for key, members in fps.items():
-        subs = sorted({s for s, _ in members})
-        if len(subs) >= 2:
-            cats = sorted({sub_category.get(s) for s in subs if sub_category.get(s)})
-            out.append(
-                {
-                    "block": key,
-                    "substances": subs,
-                    "categories": cats,
-                    "cross_category": len(cats) >= 2,
-                    "cross_family": L.cross_family(subs),
-                }
-            )
-    # Cross-category first (near-certain copy bugs), then wider clusters.
-    return sorted(out, key=lambda c: (not c["cross_category"], -len(c["substances"])))
 
 
 def _top_keys(entry: dict) -> list:

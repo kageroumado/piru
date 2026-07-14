@@ -125,7 +125,9 @@ class OverlayIntegrity(unittest.TestCase):
 
     # --- 3. no cross-category clone blocks ---
     def _cross_category(self, kind):
-        # Rebuild fingerprints straight from curated files + resolved categories.
+        # Rebuild fingerprints straight from curated files + resolved categories,
+        # then apply the SAME clone-cluster rule the survey/clean tools use
+        # (via L.clone_clusters) so the guard can't drift from the code it guards.
         from collections import defaultdict
 
         fps = defaultdict(list)
@@ -138,17 +140,11 @@ class OverlayIntegrity(unittest.TestCase):
             cats[name] = L.resolved_category(entry, rec)
             analysis = L.analyze_file(entry, rec)
             key = "dose_fingerprints" if kind == "dose" else "dur_fingerprints"
-            for fpkey, _route in analysis[key]:
-                fps[fpkey].append(name)
-        out = set()
-        for _key, members in fps.items():
-            subs = frozenset(members)
-            if len(subs) < 2:
-                continue
-            categories = {cats.get(s) for s in subs if cats.get(s)}
-            if len(categories) >= 2:
-                out.add(subs)
-        return out
+            for fpkey, route in analysis[key]:
+                fps[fpkey].append((name, route))
+        return {
+            frozenset(c["substances"]) for c in L.clone_clusters(fps, cats) if c["cross_category"]
+        }
 
     def test_no_cross_category_dose_clones(self):
         found = self._cross_category("dose")
