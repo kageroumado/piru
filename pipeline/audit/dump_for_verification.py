@@ -78,11 +78,6 @@ def main() -> int:
     db = sqlite3.connect(DB)
     db.row_factory = sqlite3.Row
 
-    source_priority = {
-        r["slug"]: r["default_priority"]
-        for r in db.execute("SELECT slug, default_priority FROM sources WHERE default_enabled = 1")
-    }
-
     substances = list(
         db.execute("""
         SELECT id, canonical_name FROM substances ORDER BY canonical_name COLLATE NOCASE
@@ -156,13 +151,11 @@ def main() -> int:
             skipped += 1
             continue
         block = render_substance(
-            sid,
             s["canonical_name"],
             cat,
             doses_by_sub.get(sid, {}),
             dur_by_sub.get(sid, {}),
             hl_by_sub.get(sid, []),
-            source_priority,
         )
         by_cat[cat].append((s["canonical_name"], block))
 
@@ -218,9 +211,7 @@ def _header_legend() -> str:
     )
 
 
-def render_substance(
-    sid, name, category, doses_by_route, dur_by_route, hl_rows, source_priority
-) -> str:
+def render_substance(name, category, doses_by_route, dur_by_route, hl_rows) -> str:
     lines = [f"## {name} ({category})"]
 
     routes = sorted(set(list(doses_by_route.keys()) + list(dur_by_route.keys())))
@@ -245,7 +236,7 @@ def render_substance(
 
         dur_candidates = dur_by_route.get(route, [])
         if dur_candidates:
-            dur_str = _format_duration_resolved(dur_candidates, source_priority)
+            dur_str = _format_duration_resolved(dur_candidates)
             if dur_str:
                 line_parts.append("|")
                 line_parts.append(dur_str)
@@ -323,7 +314,7 @@ def _within_ratio(a, b, ratio) -> bool:
     return r <= ratio
 
 
-def _format_duration_resolved(candidates, source_priority) -> str:
+def _format_duration_resolved(candidates) -> str:
     candidates_sorted = sorted(candidates, key=lambda r: r["prio"])
     winning_source = candidates_sorted[0]["source"]
     winning_phases = [c for c in candidates if c["source"] == winning_source]

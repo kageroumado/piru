@@ -4743,7 +4743,7 @@ def canonicalize_catalogs(project_path: Path, languages=CANONICAL_LANGUAGES) -> 
     return True
 
 
-sys.path.insert(0, "/tmp")
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from moa_translations import MOA_DESCRIPTIONS, MOA_SUMMARIES
 

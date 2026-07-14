@@ -26,7 +26,6 @@ __all__ = [
     "normalize_effect",
     "PW_EFFECT_CATEGORY",
     "CANONICAL_EFFECTS",
-    "CATEGORY_ORDER",
 ]
 
 _WHITESPACE_RE = re.compile(r"\s+")
@@ -206,7 +205,6 @@ _COGNITIVE = [
     "Suggestibility suppression",
     "Personal bias suppression",
     "Personal meaning enhancement",
-    "Conceptual thinking",
     "Subconscious communication",
     "Mindfulness",
     # Focus / motivation / drive
@@ -235,7 +233,6 @@ _COGNITIVE = [
     "Delusions",
     "Delusion",
     "Psychosis",
-    "Mania",
     "Confusion",
     "Perspective alterations",
     "Perspective distortions",

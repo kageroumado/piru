@@ -100,8 +100,8 @@ def main() -> int:
             else:
                 # Prefer the higher-confidence record; merge fields where one is null
                 conf_order = {"high": 3, "medium": 2, "low": 1, "": 0, None: 0}
-                if conf_order.get(entry.get("confidence")) > conf_order.get(
-                    existing.get("confidence")
+                if conf_order.get(entry.get("confidence"), 0) > conf_order.get(
+                    existing.get("confidence"), 0
                 ):
                     per_compound[key] = entry
                 else:

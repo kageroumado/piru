@@ -342,7 +342,7 @@ def parse_page(path: Path) -> dict | None:
         if label in DOSE_TIERS:
             parsed = parse_dose_value(value)
             if parsed:
-                kind, val, unit = parsed
+                _, val, unit = parsed
                 d = rec["doses"].setdefault(current_route, {"unit": "mg"})
                 d[DOSE_TIERS[label]] = val
                 # Only a recognized, number-attached unit overrides the route's

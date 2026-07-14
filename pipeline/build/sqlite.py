@@ -1264,7 +1264,7 @@ def apply_identifier_reconciliation(con, mapping: dict) -> dict:
     the snapshot's basis) and **before** ``apply_pubchem_cids`` so CID resolution
     keys off the corrected InChIKey. Returns per-field change counts."""
     if not mapping:
-        return {"inchikey": 0, "smiles": 0}
+        return {"inchikey": 0, "smiles": 0, "cas": 0}
     cur = con.cursor()
     res = {"inchikey": 0, "smiles": 0, "cas": 0}
     for name, fix in mapping.items():
@@ -2609,16 +2609,6 @@ def _parse_bioavailability(text: str | None) -> list[tuple[str, float, str]]:
         pct = round((lo + float(m.group(3))) / 2.0, 1) if m.group(3) else lo
         out.append((m.group(1).strip(), pct, seg.rstrip(".")))
     return out
-
-
-def get(d: dict | None, *keys, default=None):
-    """Safe nested-dict access."""
-    cur = d
-    for k in keys:
-        if not isinstance(cur, dict):
-            return default
-        cur = cur.get(k)
-    return cur if cur is not None else default
 
 
 def split_compound_name(name: str) -> tuple[str, list[str]]:
@@ -4841,9 +4831,6 @@ class Build:
             for se in s.get("subjective_effects") or []:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
-
-    # drug.community phase-key aliases: source key → profile dict key.
-    _DC_PHASE_KEY = {"after_effects": "afterglow", "total_duration": "total"}
 
     @staticmethod
     def _dc_phase_bounds(phase) -> tuple[float, float] | None:

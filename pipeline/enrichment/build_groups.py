@@ -60,7 +60,6 @@ def route_substance(entry: dict) -> str:
     all_names = [name] + aliases
     tags = set(entry.get("tags") or [])
     category = entry.get("category", "")
-    normalise(entry.get("chemical_class", "") or "")
 
     def has_name(*patterns) -> bool:
         for p in patterns:

@@ -91,7 +91,7 @@ class TestRobustnessGuards(unittest.TestCase):
         # A prose "heavy" cell (e.g. a "…fatal…" warning) must not yield a stray
         # unit from a bare latin "g"/"l"; with no number-attached unit it returns
         # None for the unit so the caller keeps the route's real unit.
-        kind, val, unit = parse("300 µg + 在严重剂量下可能是致命的")
+        _, _, unit = parse("300 µg + 在严重剂量下可能是致命的")
         self.assertEqual(unit, "µg")  # the real number-attached unit wins
         self.assertIsNone(parse("（待测定）mg"))  # no number → no dose at all
 
