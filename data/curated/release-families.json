@@ -1,0 +1,69 @@
+{
+  "_comment": "Curated release-form (IR/XR/DEP) vocabulary + brand map — Specs/stereoisomer-and-release-form-axes.md Stage B. IDENTITY/LABEL ONLY: the data-reality check (2026-07-15) confirmed NO source carries a distinct extended-release dose or duration row — every durations/dose_ranges row for Methylphenidate/Amphetamine is the base form, and no curated file keys a duration by release. IR vs XR differ only in duration, and that duration data does not exist for us. So release form is deliberately NOT a dose/duration axis (no release_form column on dose_ranges/durations, no app picker): it is a pure identity + label facet that lets a logged brand string ('Concerta') recover the form it named. Consumed by sqlite.py annotate_alias_facets() -> aliases.release_form and build_substance_forms() -> the PSID <release> field. If per-release durations are ever authored, THAT is the point to promote this to a real axis with a picker.",
+  "_fields": "codes.<CODE>: displayName = the prose label; titleSuffix = what a form title appends ('Methylphenidate XR', 'Naltrexone Depot' — the bare code reads well for the recognized abbreviations but not for DEP); rank = default-selection order mirroring _SALT_METADATA (0 = pre-select), forward-looking until anything consumes it; tokens = bare abbreviations, matched only as a TRAILING standalone token; phrases = matched anywhere on a word boundary. CODE must be radix-36 to ride the PSID <release> field, and must not be '0' (the unspecified sentinel).",
+
+  "codes": {
+    "IR": {
+      "displayName": "Immediate-release",
+      "titleSuffix": "IR",
+      "rank": 0,
+      "_comment": "Only tagged where a brand EXPLICITLY says IR to contrast with an XR sibling ('Adderall IR', 'MAS-IR'). A bare base brand ('Adderall', 'Ritalin') is left untagged — it is the unspecified/standard form, i.e. the PSID `0` sentinel — so we never assert a form the name didn't claim.",
+      "tokens": ["ir"],
+      "phrases": ["immediate release", "immediate-release"]
+    },
+    "XR": {
+      "displayName": "Extended-release",
+      "titleSuffix": "XR",
+      "rank": 1,
+      "_comment": "Umbrella for every prolonged-release marketing variant (XR/ER/SR/CR/LA/XL). These are deliberately NOT split into separate codes: their kinetic differences are real but we hold no duration data to back them, so a finer code would assert a distinction we cannot substantiate. The literal brand ('Ritalin LA') survives as the alias, so nothing is lost.",
+      "tokens": ["xr", "er", "sr", "cr", "la", "xl"],
+      "phrases": [
+        "extended release", "extended-release",
+        "sustained release", "sustained-release",
+        "controlled release", "controlled-release",
+        "modified release", "modified-release",
+        "prolonged release", "prolonged-release",
+        "long acting", "long-acting"
+      ]
+    },
+    "DEP": {
+      "displayName": "Depot",
+      "titleSuffix": "Depot",
+      "rank": 2,
+      "_comment": "Long-acting injectables (weeks-to-months). Genuinely distinct from oral XR rather than a marketing variant of it, which is why it earns its own code. Curated-only — no token fires for it.",
+      "tokens": [],
+      "phrases": ["depot"]
+    }
+  },
+
+  "brands": [
+    { "parent": "Methylphenidate", "brand": "Concerta", "release": "XR", "note": "OROS osmotic ER — the flagship tokenless case." },
+    { "parent": "Methylphenidate", "brand": "Jornay PM", "release": "XR", "note": "Delayed-onset/extended-release evening dose." },
+    { "parent": "Methylphenidate", "brand": "Metadate CD", "release": "XR", "note": "Controlled-delivery ER. Bare 'Metadate' is a family name and stays untagged." },
+    { "parent": "Methylphenidate", "brand": "Relexxii", "release": "XR", "note": "Generic OROS Concerta." },
+    { "parent": "Clonidine", "brand": "Kapvay", "release": "XR" },
+    { "parent": "Guanfacine", "brand": "Intuniv", "release": "XR" },
+    { "parent": "Amphetamine", "brand": "Mydayis", "release": "XR", "note": "Triple-bead ER." },
+    { "parent": "Dextroamphetamine-Amphetamine", "brand": "Mydayis", "release": "XR" },
+    { "parent": "Oxycodone", "brand": "OxyContin", "release": "XR" },
+    { "parent": "Morphine", "brand": "MS Contin", "release": "XR" },
+    { "parent": "Morphine", "brand": "Kadian", "release": "XR" },
+    { "parent": "Morphine", "brand": "Avinza", "release": "XR" },
+    { "parent": "Hydromorphone", "brand": "Exalgo", "release": "XR" },
+    { "parent": "Paliperidone", "brand": "Invega", "release": "XR", "note": "Oral OROS ER — distinct from the Sustenna/Trinza depots below." },
+
+    { "parent": "Paliperidone", "brand": "Invega Sustenna", "release": "DEP", "note": "1-month LAI." },
+    { "parent": "Paliperidone", "brand": "Invega Trinza", "release": "DEP", "note": "3-month LAI." },
+    { "parent": "Risperidone", "brand": "Risperdal Consta", "release": "DEP" },
+    { "parent": "Naltrexone", "brand": "Vivitrol", "release": "DEP" },
+    { "parent": "Buprenorphine", "brand": "Sublocade", "release": "DEP" },
+    { "parent": "Aripiprazole", "brand": "Aristada", "release": "DEP", "note": "Aripiprazole lauroxil LAI." },
+    { "parent": "Aripiprazole", "brand": "Abilify Maintena", "release": "DEP" }
+  ],
+
+  "_excluded_comment": "Transdermal patches (Daytrana, Butrans, Duragesic, Xelstrym) are prolonged-delivery but are NOT tagged: transdermal is the ROUTE axis, and tagging them here would conflate two orthogonal axes. Prodrugs (Vyvanse, Azstarys/serdexmethylphenidate) are not release forms either — their duration comes from metabolic conversion, not a formulation. Combos (Suboxone, Contrave) and route-specific forms (Belbuca, buccal) likewise stay out. Ambiguous bare brands that ship in both IR and ER (Nucynta, Palexia, bare 'Metadate') are left untagged rather than guessed.",
+  "exclude": [
+    { "alias": "both extended-release)", "reason": "Garbled alias — a scrape artifact, not a brand. Pre-existing alias-quality bug; excluded so the detector doesn't stamp a form onto junk." },
+    { "alias": "LA & XR", "reason": "Garbled alias — a fragment of prose, not a brand. Same as above." }
+  ]
+}

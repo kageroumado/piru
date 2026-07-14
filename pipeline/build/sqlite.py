@@ -22,6 +22,7 @@ Run from the repo root:
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import json
 import os
@@ -528,9 +529,15 @@ CREATE TABLE aliases (
     source_id        INTEGER REFERENCES sources(id),
     -- Form-facet annotation (Stage A+): the structured form an alias *names*, so a
     -- resolver (and the once-only DoseEntry backfill) can recover it from a logged
-    -- string. "Focalin"/"Dexmethylphenidate" → isomer='D'; "Magnesium Citrate" →
-    -- salt_form='Citrate'; a future "Concerta" → release_form='XR'. All NULL for a
-    -- plain synonym that names the parent's canonical/unspecified form.
+    -- string. "Focalin"/"Dexmethylphenidate" → isomer='D'; "Concerta"/"Adderall XR"
+    -- → release_form='XR'; "Focalin XR" → BOTH (isomer='D', release_form='XR'). All
+    -- NULL for a plain synonym that names the parent's canonical/unspecified form.
+    -- Populated by annotate_alias_facets().
+    --
+    -- `salt_form` is intentionally never populated: normalise() strips salt suffixes
+    -- ("Magnesium Citrate" → "magnesium"), so a salt alias collides with the base's
+    -- normalized key and can't be tagged unambiguously — and DoseEntry stores
+    -- `saltForm` as a scalar anyway. Kept for symmetry with the other two axes.
     isomer           TEXT,
     salt_form        TEXT,
     release_form     TEXT,
@@ -6240,6 +6247,122 @@ class Build:
         normalises case and maps NULL/'' to the unspecified sentinel."""
         return (isomer or "").strip().upper() or psid.UNSPECIFIED_FACET
 
+    @staticmethod
+    def _release_code(release_form: str | None) -> str:
+        """PSID <release> code for a stored release label; unspecified sentinel for
+        NULL. Like isomer (and unlike salt) the stored label IS the code — the
+        curated vocabulary (IR/XR/DEP) is radix-36 by construction — so this only
+        normalises case. `_release_registry()` validates the vocabulary at load, so
+        an un-encodable code can never reach here."""
+        return (release_form or "").strip().upper() or psid.UNSPECIFIED_FACET
+
+    @functools.cached_property
+    def _release_registry(self) -> dict:
+        """The validated curated release registry (data/curated/release-families.json).
+
+        Validates once, at first use, that every code is radix-36 (so it can ride
+        the PSID <release> field) and is not the unspecified sentinel — a bad vocab
+        fails the build loudly rather than shipping an un-encodable PSID.
+        """
+        reg = collision_registry.release_registry()
+        for code in reg.get("codes", {}):
+            if code == psid.UNSPECIFIED_FACET or not re.fullmatch(r"[0-9A-Z]+", code):
+                raise SystemExit(
+                    f"_release_registry: release code {code!r} is not a usable radix-36 "
+                    f"PSID facet — fix data/curated/release-families.json"
+                )
+        return reg
+
+    @functools.cached_property
+    def _release_alias_re(self) -> re.Pattern:
+        """One alternation over the curated tokens/phrases, capturing the code.
+
+        Release form is spelled out in the product name itself ("Adderall XR",
+        "Morphine Sulfate Extended-release"), so detection beats hand-listing all
+        ~65 token-bearing brands — it is typo-proof and picks up new brands on a
+        rescrape for free. Only *tokenless* brands (Concerta, Kapvay, the depots)
+        need the curated `brands` map. Phrases match anywhere; bare abbreviations
+        must be a trailing standalone token, so an "er"/"la" inside a word (or an
+        ordinary name) can never fire. Verified zero false positives across all
+        5790 catalog aliases.
+        """
+        # Group names must be unique, so each alternative is suffixed with its index;
+        # the code is recovered from the matched group name (codes are radix-36, so
+        # they never contain the "_" separator). Phrases are matched before bare
+        # tokens so "… extended-release" wins over a trailing token elsewhere.
+        parts = []
+        for code, spec in self._release_registry.get("codes", {}).items():
+            for phrase in spec.get("phrases", []):
+                parts.append((code, rf"\b{re.escape(phrase)}\b"))
+            tokens = spec.get("tokens", [])
+            if tokens:
+                alt = "|".join(re.escape(t) for t in tokens)
+                # Trailing token, optionally with an "-ODT"-style form suffix
+                # ("Cotempla XR-ODT", "Adzenys XR-ODT").
+                parts.append((code, rf"\b(?:{alt})\b(?:[-\s]?odt)?\s*$"))
+        return re.compile(
+            "|".join(f"(?P<g{i}_{code}>{pat})" for i, (code, pat) in enumerate(parts)),
+            re.I,
+        )
+
+    def _detect_release(self, alias: str) -> str | None:
+        """The release code an alias *names*, or None for an unmarked/standard form.
+
+        Curated tokenless brands win over detection; the curated `exclude` list
+        suppresses known-garbled aliases.
+        """
+        cleaned = (alias or "").strip()
+        if not cleaned:
+            return None
+        if cleaned.casefold() in self._release_excludes:
+            return None
+        override = self._release_brand_overrides.get(normalise(cleaned))
+        if override:
+            return override
+        match = self._release_alias_re.search(cleaned)
+        if not match or not match.lastgroup:
+            return None
+        return match.lastgroup.split("_", 1)[1]
+
+    def _release_title_suffix(self, code: str) -> str:
+        """What a form title appends for a release code ("XR", "Depot"). Falls back
+        to the code itself, which is already the suffix for the recognized
+        abbreviations."""
+        return self._release_registry["codes"].get(code, {}).get("titleSuffix") or code
+
+    @functools.cached_property
+    def _release_excludes(self) -> frozenset[str]:
+        return frozenset(
+            e["alias"].strip().casefold() for e in self._release_registry.get("exclude", [])
+        )
+
+    @functools.cached_property
+    def _release_brand_overrides(self) -> dict[str, str]:
+        """normalise(brand) -> code, for the tokenless brands the detector can't see
+        (Concerta, Kapvay, Invega Sustenna, …). Keyed by normalised name, not by
+        (parent, brand): a brand is a trademark for one product line, so the mapping
+        is global, and keying it that way stays robust to a parent being renamed or
+        folded (Focalin's rows now live under Methylphenidate). The `parent` field in
+        the JSON is retained for review + the coverage gate below. A brand claiming
+        two different codes is a curation bug, so fail rather than silently take one.
+        """
+        overrides: dict[str, str] = {}
+        for brand in self._release_registry.get("brands", []):
+            code = brand["release"].strip().upper()
+            if code not in self._release_registry.get("codes", {}):
+                raise SystemExit(
+                    f"_release_brand_overrides: {brand['brand']!r} claims unknown release "
+                    f"code {code!r} — add it to release-families.json `codes`"
+                )
+            key = normalise(brand["brand"])
+            if overrides.get(key, code) != code:
+                raise SystemExit(
+                    f"_release_brand_overrides: {brand['brand']!r} mapped to both "
+                    f"{overrides[key]!r} and {code!r} — resolve in release-families.json"
+                )
+            overrides[key] = code
+        return overrides
+
     def _salt_code(self, salt_form: str | None) -> str:
         """PSID <salt> code for a stored salt label; unspecified sentinel for NULL.
         Raises for an unknown non-null salt so a new family can't ship an
@@ -6503,21 +6626,38 @@ class Build:
             self.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (max_pop, parent_id))
         return {"families": families, "folded": folded}
 
+    def _release_stripped_norm(self, alias: str) -> str:
+        """`normalise()` of an alias with its release token/phrase removed, so a
+        release-bearing brand can be matched against the isomer map's base name
+        ("Focalin XR" → "focalin"; "Dexmethylphenidate Hydrochloride
+        Extended-release" → "dexmethylphenidate", since normalise() then strips the
+        now-trailing salt)."""
+        return normalise(self._release_alias_re.sub(" ", alias))
+
     def annotate_alias_facets(self) -> dict[str, int]:
-        """Stamp the isomer form facet onto the alias rows that name a resolved
-        enantiomer/brand, so a resolver — and the once-only DoseEntry backfill —
-        can recover the form from a logged string ("Focalin" → isomer='D';
-        "Esketamine" / "Spravato" → isomer='S'). Built from the curated fold map,
-        matched to the parent's alias rows by normalized name. Runs after the fold
-        + chemnoise purge (so it annotates surviving aliases) and after uid
-        assignment.
+        """Stamp the isomer + release form facets onto the alias rows that name a
+        resolved enantiomer/brand, so a resolver — and the once-only DoseEntry
+        backfill — can recover the form from a logged string ("Focalin" →
+        isomer='D'; "Esketamine"/"Spravato" → isomer='S'; "Concerta"/"Adderall XR"
+        → release='XR'). Runs after the fold + chemnoise purge (so it annotates
+        surviving aliases) and after uid assignment.
+
+        Release (Stage B) is annotation-only — there is no substance fold to mirror,
+        because extended-release products exist in the catalog solely as brand
+        aliases of their parent, never as rows of their own. It is also identity-only:
+        no source carries a distinct extended-release dose or duration, so the facet
+        labels a form rather than keying a ladder. See release-families.json.
 
         Salt is deliberately NOT annotated here: normalise() strips salt suffixes
         ("Magnesium Citrate" → "magnesium"), so a salt-variant alias shares the
         base's normalized key and can't be tagged unambiguously — and it isn't
-        needed, since DoseEntry stores `saltForm` as a scalar directly. Release is
-        greenfield until Stage B."""
+        needed, since DoseEntry stores `saltForm` as a scalar directly. Release has
+        no such problem: normalise() leaves "xr"/"extended-release" intact, so
+        "adderall xr" stays distinct from the base "adderall"."""
         iso = 0
+        # Isomer: exact variant/brand name → code. Also retained as a lookup so a
+        # release-bearing spelling of the same brand can inherit it below.
+        iso_by_alias: dict[tuple[int, str], str] = {}
         for fam in collision_registry.fold_families():
             prow = self.cur.execute(
                 "SELECT id FROM substances WHERE canonical_name=?", (fam["parent"],)
@@ -6527,12 +6667,61 @@ class Build:
             for v in fam["variants"]:
                 code = self._isomer_code(v["isomer"])
                 for nm in (v["name"], *(v.get("brands") or [])):
+                    iso_by_alias[(prow[0], normalise(nm))] = code
                     cur = self.cur.execute(
                         "UPDATE aliases SET isomer=? WHERE substance_id=? AND alias_normalized=?",
                         (code, prow[0], normalise(nm)),
                     )
                     iso += cur.rowcount
-        return {"isomer_aliases": iso}
+
+        rel, cross = 0, 0
+        for rowid, sid, alias, alias_iso in self.cur.execute(
+            "SELECT rowid, substance_id, alias, isomer FROM aliases"
+        ).fetchall():
+            code = self._detect_release(alias)
+            if code is None:
+                continue
+            self.cur.execute("UPDATE aliases SET release_form=? WHERE rowid=?", (code, rowid))
+            rel += 1
+            # Cross-axis (the Focalin XR case). "Focalin XR" normalises to
+            # "focalin xr", which the isomer pass above never matched — so without
+            # this it would be tagged release=XR but isomer NULL, asserting that
+            # Focalin XR is *racemic* methylphenidate XR. It is the D-enantiomer.
+            # Recover the isomer from the alias's release-stripped base name.
+            if alias_iso is None:
+                inherited = iso_by_alias.get((sid, self._release_stripped_norm(alias)))
+                if inherited:
+                    self.cur.execute(
+                        "UPDATE aliases SET isomer=? WHERE rowid=?", (inherited, rowid)
+                    )
+                    iso += 1
+                    cross += 1
+
+        # Coverage gate: a curated tokenless brand that matches no alias of its
+        # stated parent is drift (renamed/purged alias, or a typo) — the override
+        # would silently never fire. Report rather than fail: the catalog legitimately
+        # varies by which sources were available at build time.
+        missing = []
+        for brand in self._release_registry.get("brands", []):
+            hit = self.cur.execute(
+                "SELECT 1 FROM aliases a JOIN substances s ON s.id=a.substance_id "
+                "WHERE a.alias_normalized=? AND s.canonical_name=? LIMIT 1",
+                (normalise(brand["brand"]), brand["parent"]),
+            ).fetchone()
+            if not hit:
+                missing.append(f"{brand['brand']} ({brand['parent']})")
+        if missing:
+            print(
+                f"  release brand overrides: {len(missing)} curated brand(s) matched no "
+                f"alias of their parent: {', '.join(missing)}",
+                file=sys.stderr,
+            )
+        return {
+            "isomer_aliases": iso,
+            "release_aliases": rel,
+            "cross_axis_isomer": cross,
+            "release_brands_unmatched": len(missing),
+        }
 
     def build_substance_forms(self) -> dict[str, int]:
         """Enumerate `substance_forms` — one row per distinct (uid, stereo, salt,
@@ -6574,12 +6763,15 @@ class Build:
             for iso_label, salt_label, rel_label in combos:
                 stereo = self._isomer_code(iso_label)
                 salt_code = self._salt_code(salt_label)
-                release_code = psid.UNSPECIFIED_FACET  # greenfield until Stage B
+                release_code = self._release_code(rel_label)
                 psid_str = psid.compose(uid, stereo, salt_code, release_code)
                 parsed = psid.parse(psid_str)  # round-trip self-check (Deferred #1)
-                assert parsed and parsed["stereo"] == stereo and parsed["salt"] == salt_code, (
-                    f"PSID round-trip failed for {canonical!r}: {psid_str}"
-                )
+                assert (
+                    parsed
+                    and parsed["stereo"] == stereo
+                    and parsed["salt"] == salt_code
+                    and parsed["release"] == release_code
+                ), f"PSID round-trip failed for {canonical!r}: {psid_str}"
                 iso_name = (
                     iso_display.get((canonical, stereo))
                     if stereo != psid.UNSPECIFIED_FACET
@@ -6587,6 +6779,10 @@ class Build:
                 )
                 head = iso_name or base_title
                 title = f"{head} {salt_label}" if salt_label else head
+                # "Methylphenidate XR", "Dexmethylphenidate XR" (Focalin XR — the
+                # cross-axis form), "Naltrexone Depot".
+                if release_code != psid.UNSPECIFIED_FACET:
+                    title = f"{title} {self._release_title_suffix(release_code)}"
                 is_default = (
                     1 if (iso_label is None and salt_label is None and rel_label is None) else 0
                 )

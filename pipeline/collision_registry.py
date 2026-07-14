@@ -30,6 +30,7 @@ from pathlib import Path
 
 _REGISTRY = Path(__file__).resolve().parent.parent / "data/curated/inchikey-collisions.json"
 _ISOMER_FAMILIES = _REGISTRY.parent / "isomer-families.json"
+_RELEASE_FAMILIES = _REGISTRY.parent / "release-families.json"
 
 
 def load() -> dict:
@@ -41,6 +42,17 @@ def fold_families() -> list[dict]:
     """The curated stereoisomer fold families (from isomer-families.json). Each is
     ``{parent, variants:[{name, isomer, ...}]}`` — all members share one FAMILY."""
     return json.loads(_ISOMER_FAMILIES.read_text()).get("families", [])
+
+
+def release_registry() -> dict:
+    """The curated release-form registry (from release-families.json):
+    ``{codes:{CODE:{displayName, rank, tokens, phrases}}, brands:[...], exclude:[...]}``.
+
+    Unlike the isomer families this drives **no substance fold** — extended-release
+    products live in the catalog as brand *aliases* of their parent, never as rows
+    of their own, so Stage B annotates aliases rather than merging substances.
+    """
+    return json.loads(_RELEASE_FAMILIES.read_text())
 
 
 def distinct_clusters() -> list[list[str]]:

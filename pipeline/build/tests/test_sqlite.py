@@ -1362,17 +1362,19 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         D-form; Ketamine → base + Esketamine (S) + Arketamine (R). The base form is
         marked default. Even dose-less folded enantiomers (Dextromethamphetamine)
         get an identity + title row so a logged form can be displayed."""
+        # Keyed by the table's full PK — (stereo, salt, release) — since Stage B
+        # populates release, so Methylphenidate has both a base and an XR form.
         forms = {
-            (r["stereo"], r["salt"]): dict(r)
+            (r["stereo"], r["salt"], r["release"]): dict(r)
             for r in self.db.execute(
-                "SELECT f.stereo, f.salt, f.display_name, f.is_default, f.psid "
+                "SELECT f.stereo, f.salt, f.release, f.display_name, f.is_default, f.psid "
                 "FROM substance_forms f JOIN substances s ON s.id=f.substance_id "
                 "WHERE s.canonical_name='Methylphenidate'"
             )
         }
-        self.assertEqual(forms[("0", "0")]["display_name"], "Methylphenidate")
-        self.assertEqual(forms[("0", "0")]["is_default"], 1)
-        self.assertEqual(forms[("D", "0")]["display_name"], "Dexmethylphenidate")
+        self.assertEqual(forms[("0", "0", "0")]["display_name"], "Methylphenidate")
+        self.assertEqual(forms[("0", "0", "0")]["is_default"], 1)
+        self.assertEqual(forms[("D", "0", "0")]["display_name"], "Dexmethylphenidate")
 
         ket = {
             r["display_name"]
@@ -1427,6 +1429,112 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             self.assertIsNotNone(r, f"{alias} alias missing")
             self.assertEqual(r["canonical_name"], parent, f"{alias} resolves to wrong parent")
             self.assertEqual(r["isomer"], code, f"{alias} missing isomer facet {code}")
+
+    def test_release_brand_aliases_carry_facet(self):
+        """Stage B's name→form resolver: a release-form brand is annotated with its
+        release facet on the parent, so a logged "Concerta" recovers 'XR'. Covers
+        both detection routes — the token-bearing names the regex reads
+        ("Adderall XR") and the tokenless brands only curation knows ("Concerta")."""
+        for alias, parent, code in [
+            ("Concerta", "Methylphenidate", "XR"),  # curated: no token in the name
+            ("Ritalin LA", "Methylphenidate", "XR"),  # detected: trailing token
+            ("Adderall XR", "Amphetamine", "XR"),
+            ("Adderall IR", "Amphetamine", "IR"),
+            ("Morphine Sulfate Extended-release", "Morphine", "XR"),  # detected: phrase
+            ("Kapvay", "Clonidine", "XR"),
+            ("Vivitrol", "Naltrexone", "DEP"),
+            ("Invega Sustenna", "Paliperidone", "DEP"),
+            ("Invega", "Paliperidone", "XR"),  # oral ER, NOT the depot sibling
+        ]:
+            r = self.db.execute(
+                "SELECT s.canonical_name, a.release_form FROM aliases a "
+                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?)",
+                (alias,),
+            ).fetchone()
+            self.assertIsNotNone(r, f"{alias} alias missing")
+            self.assertEqual(r["canonical_name"], parent, f"{alias} resolves to wrong parent")
+            self.assertEqual(r["release_form"], code, f"{alias} missing release facet {code}")
+
+    def test_release_facet_not_claimed_for_non_release_forms(self):
+        """The negative half — asserting a form the name never claimed is the way
+        this feature does damage. A bare base brand is the unspecified form (not
+        "IR"); a prodrug's long duration comes from metabolism, not a formulation;
+        and a patch is the *route* axis, so tagging it here would conflate two
+        orthogonal axes."""
+        for alias in [
+            "Adderall",  # base brand — the unspecified form, sibling of Adderall XR/IR
+            "Ritalin",
+            "Vyvanse",  # prodrug, not a release form
+            "Daytrana",  # transdermal patch — route axis, not release
+            "Suboxone",  # combination product
+        ]:
+            rows = self.db.execute(
+                "SELECT a.release_form FROM aliases a WHERE lower(a.alias)=lower(?)", (alias,)
+            ).fetchall()
+            self.assertTrue(rows, f"{alias} alias missing")
+            for r in rows:
+                self.assertIsNone(r["release_form"], f"{alias} wrongly tagged {r['release_form']}")
+
+    def test_cross_axis_alias_carries_both_facets(self):
+        """Focalin XR is the D-enantiomer *and* extended-release. The isomer pass
+        matches "focalin" exactly, so it never sees "focalin xr" — without the
+        release-stripped fallback this alias would be tagged XR-but-racemic, which
+        asserts the wrong drug. Both axes must land, and compose into one title."""
+        for alias in ("Focalin XR", "Dexmethylphenidate Hydrochloride Extended-release"):
+            r = self.db.execute(
+                "SELECT s.canonical_name, a.isomer, a.release_form FROM aliases a "
+                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?)",
+                (alias,),
+            ).fetchone()
+            self.assertIsNotNone(r, f"{alias} alias missing")
+            self.assertEqual(r["canonical_name"], "Methylphenidate")
+            self.assertEqual(r["isomer"], "D", f"{alias} lost its isomer facet")
+            self.assertEqual(r["release_form"], "XR")
+
+        title = self.db.execute(
+            "SELECT f.display_name FROM substance_forms f JOIN substances s "
+            "ON s.id=f.substance_id WHERE s.canonical_name='Methylphenidate' "
+            "AND f.stereo='D' AND f.salt='0' AND f.release='XR'"
+        ).fetchone()
+        self.assertIsNotNone(title, "no (D, XR) form enumerated for Methylphenidate")
+        self.assertEqual(title["display_name"], "Dexmethylphenidate XR")
+
+    def test_substance_forms_enumerate_release_forms(self):
+        """A release-bearing alias spawns its own identity + title row, so a logged
+        brand can be titled from its resolved form. Release rows are never default —
+        the unspecified form is."""
+        forms = {
+            (r["stereo"], r["release"]): dict(r)
+            for r in self.db.execute(
+                "SELECT f.stereo, f.release, f.display_name, f.is_default "
+                "FROM substance_forms f JOIN substances s ON s.id=f.substance_id "
+                "WHERE s.canonical_name='Methylphenidate' AND f.salt='0'"
+            )
+        }
+        self.assertEqual(forms[("0", "XR")]["display_name"], "Methylphenidate XR")
+        self.assertEqual(forms[("0", "XR")]["is_default"], 0)
+        self.assertEqual(forms[("0", "0")]["is_default"], 1)
+        # `titleSuffix` exists so a code that doesn't read as a suffix gets prose.
+        depot = self.db.execute(
+            "SELECT f.display_name FROM substance_forms f JOIN substances s "
+            "ON s.id=f.substance_id WHERE s.canonical_name='Naltrexone' AND f.release='DEP'"
+        ).fetchone()
+        self.assertEqual(depot["display_name"], "Naltrexone Depot")
+
+    def test_release_codes_are_psid_encodable(self):
+        """Every stored release code must ride the PSID <release> field (radix-36,
+        never the '0' unspecified sentinel) — otherwise a facet-bearing PSID can't
+        be composed at all. Guards a new curated code from shipping un-encodable."""
+        codes = {
+            r["release_form"]
+            for r in self.db.execute(
+                "SELECT DISTINCT release_form FROM aliases WHERE release_form IS NOT NULL"
+            )
+        }
+        self.assertTrue(codes, "no release facets annotated at all")
+        for code in codes:
+            self.assertRegex(code, r"^[0-9A-Z]+$", f"release code {code!r} is not radix-36")
+            self.assertNotEqual(code, "0", "release code collides with the unspecified sentinel")
 
     def test_unmerged_duplicate_debt_bounded(self):
         """Tracks the safe-baseline duplicate debt: data-poor records whose
