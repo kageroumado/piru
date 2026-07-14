@@ -27,21 +27,10 @@ DB = REPO / "Piru/Data/piru-substances.sqlite"
 sys.path.insert(0, str(REPO / "pipeline/build"))  # for the canonical unit helper
 from sqlite import _unit_to_mg_factor as unit_to_mg_factor  # noqa: E402
 
-# Source priority order (lower wins). Mirrors the resolver's default.
-PRIORITY = {
-    "piru-curated": 1,
-    "peer-review-primary": 2,
-    "psychonautwiki": 3,
-    "tripsit": 4,
-    "drug.community": 5,
-    "dailymed": 6,
-    "erowid-pihkal": 7,
-    "erowid-tihkal": 8,
-    "pdsp": 9,
-    "pubchem": 10,
-    "wikidata": 11,
-    "dea-orange-book": 12,
-}
+# Source priority (lower wins) is loaded from the DB's `sources` table once the
+# connection opens (below), not hard-coded here — a hard-coded copy silently
+# goes stale when a source's default_priority changes, making this audit
+# "resolve" differently from the shipped app it's meant to mirror.
 
 # Significant divergence thresholds. ≥2× either direction is the bar:
 # values within 0.5×–2× are considered "broadly consistent" given the
@@ -96,6 +85,13 @@ def fmt_dur(phases: dict) -> str:
 
 db = sqlite3.connect(str(DB))
 db.row_factory = sqlite3.Row
+
+# Source priority from the DB (lower wins) — the single source of truth the
+# resolver uses. Replaces the previously hard-coded copy that could go stale.
+PRIORITY = {
+    row["slug"]: row["default_priority"]
+    for row in db.execute("SELECT slug, default_priority FROM sources")
+}
 
 # ── Popularity score per substance ────────────────────────────────────────
 # Heuristic: aliases (well-known compounds have many street names),
