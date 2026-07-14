@@ -5435,6 +5435,24 @@ class Build:
         ),
     }
 
+    def _alias_index(self) -> dict[str, int]:
+        """name/alias → sid index over everything already in the DB. Canonical
+        names win over aliases (seeded first, aliases folded in with setdefault).
+        Used by the enrichment ingesters, which match existing substances by
+        name OR alias and never mint a new row."""
+        index: dict[str, int] = dict(self.substance_ids)
+        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
+            index.setdefault(row[1], row[0])
+        return index
+
+    @staticmethod
+    def _resolve_by_name_alias(
+        name: str | None, index: dict[str, int], aliases: list[str] | None = None
+    ) -> int | None:
+        """Resolve a record to an existing sid by normalised name, then aliases."""
+        candidates = [normalise(name or "")] + [normalise(a) for a in (aliases or [])]
+        return next((index[c] for c in candidates if c and c in index), None)
+
     def ingest_benzos_cited(self, path: Path) -> None:
         """Enrichment-only (0 novel). Attaches cross-benzo diazepam-equivalency,
         plus the curated prose fields (discontinuation warning, summary, oral
@@ -5447,15 +5465,12 @@ class Build:
         # exists in Piru (often as an alias, not a canonical name), so we match
         # against both and NEVER mint a new substance — minting brand-named rows
         # like "Ativan" was the bug this guards against.
-        name_to_sid: dict[str, int] = dict(self.substance_ids)
-        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
-            name_to_sid.setdefault(row[1], row[0])
+        name_to_sid = self._alias_index()
         for rec in json.loads(path.read_text()):
             name = rec.get("name")
             if not name:
                 continue
-            candidates = [normalise(name)] + [normalise(a) for a in (rec.get("aliases") or [])]
-            sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
+            sid = self._resolve_by_name_alias(name, name_to_sid, rec.get("aliases"))
             if sid is None:
                 continue
             prose = rec.get("x_dose_to_diazepam")
@@ -5515,15 +5530,11 @@ class Build:
         if not path.exists():
             return
         # name/alias → sid index over what's already in the DB.
-        name_to_sid: dict[str, int] = dict(self.substance_ids)
-        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
-            name_to_sid.setdefault(row[1], row[0])
+        name_to_sid = self._alias_index()
         matched = 0
         chem = 0
         for rec in json.loads(path.read_text()):
-            candidates = [normalise(rec.get("name") or "")]
-            candidates += [normalise(a) for a in (rec.get("aliases") or [])]
-            sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
+            sid = self._resolve_by_name_alias(rec.get("name"), name_to_sid, rec.get("aliases"))
             if sid is None:
                 continue
             self.cur.execute(
@@ -5588,16 +5599,13 @@ class Build:
             )
             return
         slug = "peer-review-primary"
-        name_to_sid: dict[str, int] = dict(self.substance_ids)
-        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
-            name_to_sid.setdefault(row[1], row[0])
+        name_to_sid = self._alias_index()
         bindings_added = pk_added = pk_refs_added = 0
         unmatched: list[str] = []
         for rec in json.loads(path.read_text()):
             names = rec.get("names") or ([rec["name"]] if rec.get("name") else [])
             for name in names:
-                candidates = [normalise(name)] + [normalise(a) for a in (rec.get("aliases") or [])]
-                sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
+                sid = self._resolve_by_name_alias(name, name_to_sid, rec.get("aliases"))
                 if sid is None:
                     unmatched.append(name)
                     continue
