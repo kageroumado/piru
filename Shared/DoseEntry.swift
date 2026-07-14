@@ -58,6 +58,18 @@ final class DoseEntry {
     /// is the correct value for every pre-existing row.
     var saltForm: String?
 
+    /// The stereoisomer form logged (D/S/L/R), for the handful of substances that
+    /// resolve to a distinct enantiomer (Focalin = `D`, Esketamine = `S`). `nil`
+    /// = racemic/unspecified — the correct value for every pre-existing row, so the
+    /// field-add stays a lightweight migration. Participates in the PSID form
+    /// identity, so a Focalin dose is a distinct recent/favorite from a
+    /// methylphenidate one. Populated at log time and by the PSID backfill.
+    var isomer: String?
+
+    /// The release form logged (IR/XR/…). Greenfield until Stage B — `nil` for
+    /// every dose today, kept here so the schema change is a single additive step.
+    var releaseForm: String?
+
     /// The PSID FAMILY (`substances.substance_uid`) this dose resolves to — the
     /// stable, collision-proof substance identity, superseding the fuzzy
     /// `substance` *name* match. `nil` for a dose whose name doesn't resolve
@@ -153,6 +165,8 @@ final class DoseEntry {
         unit: String = "mg",
         route: RouteOfAdministration = .oral,
         saltForm: String? = nil,
+        isomer: String? = nil,
+        releaseForm: String? = nil,
         substanceUID: String? = nil,
         displayNameSnapshot: String? = nil,
         timestamp: Date = .now,
@@ -172,6 +186,8 @@ final class DoseEntry {
         self.unit = unit
         self.route = route
         self.saltForm = saltForm
+        self.isomer = isomer
+        self.releaseForm = releaseForm
         self.substanceUID = substanceUID
         self.displayNameSnapshot = displayNameSnapshot
         self.timestamp = timestamp

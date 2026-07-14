@@ -1765,6 +1765,7 @@ T = {
     "Dose unit": ("剂量单位", "劑量單位"),
     "Adds a note to this dose": ("为此剂量添加备注", "為此劑量新增備註"),
     "Salt form": ("盐形式", "鹽形式"),
+    "Isomer": ("异构体", "異構體"),
     "Stages this routine’s doses": ("暂存此日常的剂量", "暫存此日常的劑量"),
     "^[%lld item](inflect: true), all logged today": (
         "%lld 项，今天已全部记录",
@@ -4759,6 +4760,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Stereoisomer picker (Stage A, 2026-07-15).
+        "Isomer",
         # Quick-log VoiceOver audit fixes (2026-07-12).
         "Active dose",
         "Shows dosing advice",

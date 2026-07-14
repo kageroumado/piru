@@ -1608,6 +1608,20 @@ struct Substance: Identifiable {
         return out
     }
 
+    /// The recognized title for an isomer `code` across this substance's forms
+    /// ("Dexmethylphenidate" for `"D"`, "Esketamine" for `"S"`), searched over
+    /// every route; `nil` when the code names no known form. Used to snapshot a
+    /// resolved form's display title onto a logged dose.
+    func isomerDisplayName(for code: String) -> String? {
+        for route in routes {
+            if let variant = route.saltForms?.first(where: { $0.isomer == code }),
+               let name = variant.isomerDisplayName {
+                return name
+            }
+        }
+        return nil
+    }
+
     /// Default isomer selection for a route — racemic (`nil`) when the family
     /// has a racemic form, else the first resolved enantiomer. `nil` for
     /// substances with no isomer axis too (harmless — no picker is shown).

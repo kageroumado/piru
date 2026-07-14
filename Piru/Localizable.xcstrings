@@ -21406,6 +21406,22 @@
         }
       }
     },
+    "Isomer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "异构体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "異構體"
+          }
+        }
+      }
+    },
     "It's been a long session. Your body and brain need sleep to recover. Try to wind down." : {
       "localizations" : {
         "zh-Hans" : {

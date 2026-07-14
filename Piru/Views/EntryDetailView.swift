@@ -33,6 +33,7 @@ struct EntryDetailView: View {
     @State private var draftUnit = "mg"
     @State private var draftRoute: RouteOfAdministration = .oral
     @State private var draftSaltForm: String?
+    @State private var draftIsomer: String?
     @State private var draftTimestamp = Date.now
     @State private var draftNotes = ""
     @State private var draftTags: [String] = []
@@ -141,13 +142,26 @@ struct EntryDetailView: View {
 
     private var draftDoseLevel: DoseLevel? {
         guard let normalizedDraftAmount,
-              let range = substanceInfo?.doseRange(for: draftRoute, saltForm: draftSaltForm) else { return nil }
+              let range = substanceInfo?.doseRange(for: draftRoute, saltForm: draftSaltForm, isomer: draftIsomer) else { return nil }
         return range.level(for: normalizedDraftAmount)
     }
 
     /// Salt forms offered for the draft route — drives the edit-mode salt picker.
     private var draftSaltForms: [String] {
         substanceInfo?.saltForms(for: draftRoute) ?? []
+    }
+
+    /// Named isomer options for the draft route — drives the edit-mode isomer picker.
+    private var draftIsomerOptions: [IsomerPicker.Option] {
+        (substanceInfo?.isomerOptions(for: draftRoute) ?? []).map {
+            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+        }
+    }
+
+    /// The draft isomer form's recognized title for the displayNameSnapshot.
+    private var draftDisplayNameSnapshot: String? {
+        guard let draftIsomer, let sub = substanceInfo else { return nil }
+        return sub.isomerOptions(for: draftRoute).first { $0.code == draftIsomer }?.displayName
     }
 
     // MARK: By-volume draft helpers
@@ -871,14 +885,21 @@ struct EntryDetailView: View {
             }
             .onChange(of: draftRoute) {
                 SaltPicker.revalidate(&draftSaltForm, against: draftSaltForms)
+                IsomerPicker.revalidate(&draftIsomer, against: draftIsomerOptions)
                 if let sub = substanceInfo {
-                    draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm)
+                    draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm, isomer: draftIsomer)
                 }
             }
             SaltPicker(forms: draftSaltForms, selection: $draftSaltForm, style: .formRow)
                 .onChange(of: draftSaltForm) {
                     if let sub = substanceInfo {
-                        draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm)
+                        draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm, isomer: draftIsomer)
+                    }
+                }
+            IsomerPicker(options: draftIsomerOptions, selection: $draftIsomer, style: .formRow)
+                .onChange(of: draftIsomer) {
+                    if let sub = substanceInfo {
+                        draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm, isomer: draftIsomer)
                     }
                 }
             DatePicker("Date & Time", selection: $draftTimestamp)
@@ -940,6 +961,7 @@ struct EntryDetailView: View {
                     substance: sub,
                     route: draftRoute,
                     saltForm: draftSaltForm,
+                    isomer: draftIsomer,
                     currentDose: normalizedDraftAmount,
                 )
                 .padding(.vertical, 4)
@@ -1015,6 +1037,7 @@ struct EntryDetailView: View {
         draftUnit = entry.unit
         draftRoute = entry.route
         draftSaltForm = entry.saltForm
+        draftIsomer = entry.isomer
         draftTimestamp = entry.timestamp
         draftNotes = entry.notes ?? ""
         draftTags = entry.tags
@@ -1064,6 +1087,9 @@ struct EntryDetailView: View {
         entry.unit = storedUnit
         entry.route = draftRoute
         entry.saltForm = draftSaltForm
+        entry.isomer = draftIsomer
+        entry.substanceUID = substanceInfo?.substanceUID
+        entry.displayNameSnapshot = draftDisplayNameSnapshot
         entry.timestamp = draftTimestamp
         entry.notes = draftNotes.isEmpty ? nil : draftNotes
         // By-volume metadata, set when logged as a drink, cleared otherwise.

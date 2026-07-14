@@ -94,6 +94,13 @@ enum SubstanceLibrary {
         SubstanceStore.shared.substanceUID(forNameOrAlias: nameOrAlias)
     }
 
+    /// The isomer form-code a logged name/alias names ("Focalin" → `"D"`), from
+    /// the facet-annotated alias table, or `nil` for the racemic/unspecified form.
+    /// Used by the PSID backfill to recover the form a legacy string logged.
+    static func isomer(for nameOrAlias: String) -> String? {
+        SubstanceStore.shared.isomer(forNameOrAlias: nameOrAlias)
+    }
+
     /// The substances sharing a PSID FAMILY `uid` (a fold family — a racemate and
     /// its enantiomers, or IR and XR), each overlaid with any custom edit. Empty
     /// when the uid is unknown.

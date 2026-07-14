@@ -50,17 +50,24 @@ struct PSIDBackfillMigrationTests {
             #expect(byName[name] != nil, "row for \(name) must survive")
         }
 
-        // Form-bearing + bare names resolve to the expected FAMILY (the value the
-        // library itself reports, so the assertion survives a catalog re-mint).
-        for name in ["Concerta", "Adderall XR", "Methylphenidate", "Esketamine"] {
+        // Names that resolve to the racemic/unspecified form (a bare name, or a
+        // release-form brand whose facet Stage A doesn't resolve yet) snapshot the
+        // locale-stable CANONICAL name — not a region-resolved display title.
+        for name in ["Concerta", "Adderall XR", "Methylphenidate"] {
             let match = try #require(SubstanceLibrary.timelineLookup(name))
             let row = try #require(byName[name])
             #expect(row.substanceUID == match.substanceUID, "\(name) should carry its FAMILY uid")
             #expect(try PSID.isWellformedFamily(#require(row.substanceUID)))
-            // The snapshot is the locale-stable CANONICAL name, not a region-
-            // resolved display title (Acetaminophen vs Paracetamol).
             #expect(row.displayNameSnapshot == match.name, "\(name) should snapshot its canonical name")
         }
+
+        // An isomer form-string (Esketamine) resolves its facet + form title (Stage
+        // A), sharing the parent FAMILY but titled by its own recognized name.
+        let esk = try #require(byName["Esketamine"])
+        let ketamine = try #require(SubstanceLibrary.timelineLookup("Esketamine"))
+        #expect(esk.substanceUID == ketamine.substanceUID, "Esketamine carries the Ketamine FAMILY")
+        #expect(esk.isomer == "S", "Esketamine recovers the S-enantiomer form")
+        #expect(esk.displayNameSnapshot == "Esketamine", "titled by its form")
 
         // Concerta and Methylphenidate share the methylphenidate FAMILY.
         #expect(byName["Concerta"]?.substanceUID == byName["Methylphenidate"]?.substanceUID)
@@ -86,6 +93,34 @@ struct PSIDBackfillMigrationTests {
         PSIDBackfillMigration.runIfNeeded(container: context.container, defaults: defaults)
         let uidAfterSecond = try context.fetch(FetchDescriptor<DoseEntry>()).first?.substanceUID
         #expect(uidAfterFirst == uidAfterSecond)
+    }
+
+    @Test
+    func `A form-bearing legacy string resolves its isomer facet + title`() throws {
+        // Stage A extends the backfill: a logged enantiomer/brand string recovers
+        // its form via the facet-annotated alias table, so it keeps its identity
+        // and title instead of collapsing to the racemate — without ever dropping
+        // the original string.
+        let context = try makeContext()
+        let defaults = makeDefaults()
+        let focalin = DoseEntry(substance: "Dexmethylphenidate", amount: 10)
+        context.insert(focalin)
+        try context.save()
+
+        PSIDBackfillMigration.run(context: context, defaults: defaults, snapshotsStore: false)
+
+        #expect(focalin.substanceUID != nil, "resolves to the Methylphenidate FAMILY")
+        #expect(focalin.isomer == "D", "recovers the D-enantiomer form")
+        #expect(focalin.displayNameSnapshot == "Dexmethylphenidate", "titled by its form")
+        #expect(focalin.substance == "Dexmethylphenidate", "original string retained")
+
+        // A plain racemic string resolves the FAMILY with no isomer facet.
+        let plain = DoseEntry(substance: "Methylphenidate", amount: 10)
+        context.insert(plain)
+        try context.save()
+        PSIDBackfillMigration.run(context: context, defaults: defaults, snapshotsStore: false)
+        #expect(plain.substanceUID == focalin.substanceUID, "same FAMILY as its enantiomer")
+        #expect(plain.isomer == nil, "racemic — no isomer facet")
     }
 
     @Test

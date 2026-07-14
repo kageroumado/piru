@@ -130,6 +130,13 @@ struct StagedDoseEditor: View {
                     selection: $item.saltForm,
                     style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: pillHeight),
                 )
+                IsomerPicker(
+                    options: (item.librarySubstance?.isomerOptions(for: item.route) ?? []).map {
+                        IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+                    },
+                    selection: $item.isomer,
+                    style: .menuPill(namespace: namespace, id: "isomer-\(item.id)", height: pillHeight),
+                )
                 notePill
                 if profileStore.grapefruitLoggingEnabled, isGrapefruitSubstrate {
                     grapefruitPill
@@ -700,6 +707,12 @@ struct StagedDoseEditor: View {
                 Button {
                     item.route = route
                     SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
+                    IsomerPicker.revalidate(
+                        &item.isomer,
+                        against: (item.librarySubstance?.isomerOptions(for: route) ?? []).map {
+                            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+                        },
+                    )
                 } label: {
                     if route == item.route {
                         Label(String(localized: route.localizedName), systemImage: "checkmark")

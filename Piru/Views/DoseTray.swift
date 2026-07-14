@@ -86,6 +86,9 @@ struct StagedDose: Identifiable, Equatable {
     /// Selected salt/ester form (Citrate, Glycinate…). `nil` for the vast
     /// majority of substances, which have a single unspecified form.
     var saltForm: String?
+    /// Selected stereoisomer form (D/S/L/R). `nil` = racemic/unspecified — the
+    /// common case; set for the handful of isomer families (Focalin, Esketamine…).
+    var isomer: String?
     var note: String = ""
     var colorHex: String?
     var librarySubstance: Substance?
@@ -113,6 +116,7 @@ struct StagedDose: Identifiable, Equatable {
         unit: String,
         route: RouteOfAdministration,
         saltForm: String? = nil,
+        isomer: String? = nil,
         colorHex: String? = nil,
         librarySubstance: Substance? = nil,
         isFromDailySet: Bool = false,
@@ -123,6 +127,7 @@ struct StagedDose: Identifiable, Equatable {
         self.unit = unit
         self.route = route
         self.saltForm = saltForm
+        self.isomer = isomer
         self.colorHex = colorHex
         self.librarySubstance = librarySubstance
         self.isFromDailySet = isFromDailySet
@@ -160,8 +165,8 @@ struct StagedDose: Identifiable, Equatable {
     /// a different unit are converted to the route's reference unit first.
     var doseLevel: DoseLevel? {
         guard let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
-              let range = librarySubstance.doseRange(for: route, saltForm: saltForm) else { return nil }
-        let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm)
+              let range = librarySubstance.doseRange(for: route, saltForm: saltForm, isomer: isomer) else { return nil }
+        let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm, isomer: isomer)
         let normalized = unit.caseInsensitiveCompare(referenceUnit) == .orderedSame
             ? totalAmount
             : (librarySubstance.convert(amount: totalAmount, from: unit, toRoute: route, saltForm: saltForm) ?? totalAmount)
@@ -172,13 +177,27 @@ struct StagedDose: Identifiable, Equatable {
     /// unit — anchors stepper increments and draft prefills to what a person
     /// actually takes (LSD steps in 10 µg, not 0.25 µg).
     var referenceDose: Double? {
-        Self.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm)
+        Self.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm, isomer: isomer)
     }
 
-    static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String, saltForm: String? = nil) -> Double? {
+    /// The PSID FAMILY for the staged substance, snapshotted onto the committed
+    /// dose so it carries a stable identity from log time (not only via backfill).
+    var substanceUID: String? {
+        librarySubstance?.substanceUID
+    }
+
+    /// The recognized title of the *selected* isomer form ("Dexmethylphenidate",
+    /// "Esketamine") — `nil` for the racemic / no-isomer case, so the journal then
+    /// titles from the plain substance name. Snapshotted onto the committed dose.
+    var isomerDisplayName: String? {
+        guard let isomer, let librarySubstance else { return nil }
+        return librarySubstance.isomerOptions(for: route).first { $0.code == isomer }?.displayName
+    }
+
+    static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String, saltForm: String? = nil, isomer: String? = nil) -> Double? {
         guard let substance,
-              let doses = substance.doseRange(for: route, saltForm: saltForm),
-              substance.unit(for: route, saltForm: saltForm) == unit
+              let doses = substance.doseRange(for: route, saltForm: saltForm, isomer: isomer),
+              substance.unit(for: route, saltForm: saltForm, isomer: isomer) == unit
         else { return nil }
         return doses.common?.lowerBound
             ?? doses.light?.upperBound
@@ -380,6 +399,7 @@ final class DoseTrayModel {
                 unit: unit,
                 route: route,
                 saltForm: librarySubstance?.saltForms(for: route).first,
+                isomer: librarySubstance?.defaultIsomer(for: route),
                 colorHex: colorHex,
                 librarySubstance: librarySubstance,
                 isFromDailySet: isFromDailySet,
@@ -422,6 +442,7 @@ final class DoseTrayModel {
             unit: unit,
             route: route,
             saltForm: saltForm,
+            isomer: librarySubstance?.defaultIsomer(for: route),
             colorHex: colorHex,
             librarySubstance: librarySubstance,
         )

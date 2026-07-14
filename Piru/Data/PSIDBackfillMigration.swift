@@ -41,11 +41,14 @@ private let logger = Logger(subsystem: "dev.yumeji.piru", category: "PSIDBackfil
 /// — the *snapshot* is the one thing worth a flag (repeating it every launch
 /// while stragglers persist would be wasteful); resolution itself needs none.
 ///
-/// Facets (`isomer` / `releaseForm`) are intentionally **not** resolved here:
-/// the facet-annotated alias table is a Stage A/B build artifact that doesn't
-/// exist yet, so at Stage 0.3 a form-bearing string ("Concerta", "Focalin",
-/// "Adderall XR") resolves to the correct *FAMILY* uid with facets left
-/// unspecified. Stage A/B extends the backfill to recover the form.
+/// **Isomer facet (Stage A):** once the facet-annotated alias table ships, a
+/// form-bearing string is resolved to its form too — "Focalin"/"Dexmethylphenidate"
+/// → `isomer = "D"` with the form's recognized title ("Dexmethylphenidate") as the
+/// snapshot — via ``SubstanceLibrary/isomer(for:)``. A racemic/plain string still
+/// resolves to the FAMILY uid with `isomer` nil. The `releaseForm` facet stays
+/// unresolved until Stage B. Because the candidate gate is `substanceUID == nil`,
+/// a row already given a uid by a pre-Stage-A build keeps its (canonical) title —
+/// harmless while Stage 0.3 is unreleased; new stores resolve uid + isomer together.
 @MainActor
 enum PSIDBackfillMigration {
     /// Field kill-switch: when `true`, the backfill is skipped entirely. Clearing
@@ -102,10 +105,19 @@ enum PSIDBackfillMigration {
             }
 
             entry.substanceUID = uid
-            // Snapshot the **canonical** name, not the region-resolved display
-            // title (Acetaminophen vs Paracetamol) — the snapshot must be a
-            // locale-stable anchor; the render layer regionalizes/localizes it.
-            entry.displayNameSnapshot = match.name
+            // Recover the isomer form the logged string named ("Focalin" → D) from
+            // the facet-annotated alias table, so a legacy enantiomer/brand log
+            // keeps its identity + title instead of collapsing to the racemate.
+            if let iso = SubstanceLibrary.isomer(for: entry.substance),
+               let formName = match.isomerDisplayName(for: iso) {
+                entry.isomer = iso
+                entry.displayNameSnapshot = formName
+            } else {
+                // Snapshot the **canonical** name, not the region-resolved display
+                // title (Acetaminophen vs Paracetamol) — the snapshot must be a
+                // locale-stable anchor; the render layer regionalizes/localizes it.
+                entry.displayNameSnapshot = match.name
+            }
             resolved += 1
         }
 

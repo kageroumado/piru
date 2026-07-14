@@ -177,13 +177,17 @@ final class SubstanceStore {
     /// full SQL scan tax.
     private(set) var nameIndex: [String: Int64] = [:]
     private var aliasIndex: [String: Int64] = [:]
+    /// Normalized alias → isomer code, for the facet-annotated aliases only
+    /// ("focalin" → "D", "esketamine" → "S"). Lets a logged brand/enantiomer
+    /// string recover its form during the PSID backfill. Built from `aliases.isomer`.
+    private(set) var aliasIsomerIndex: [String: String] = [:]
     /// PSID FAMILY (`substances.substance_uid`) → member row ids. One-to-many:
     /// fold-family siblings (racemate + enantiomers, IR + XR) share a uid, so a
     /// FAMILY can map to several substance rows. Built once at init alongside
     /// ``nameIndex``. Drives ``substances(uid:)`` / ``substanceUID(forNameOrAlias:)``.
     private var uidIndex: [String: [Int64]] = [:]
     /// Reverse of ``uidIndex`` — row id → its FAMILY, for the O(1) name→uid path.
-    private var idToUIDIndex: [Int64: String] = [:]
+    private(set) var idToUIDIndex: [Int64: String] = [:]
     private(set) var allNames: [String] = []
 
     /// `source.slug` → `source.display_name`. Built once at init; consumed by
@@ -522,28 +526,29 @@ final class SubstanceStore {
 
     private func buildIndexes() {
         do {
-            let (names, aliases, displayNames, uids):
-                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(Int64, String)]) = try substancesDB.read { db in
+            let (names, aliases, aliasIsomers, displayNames, uids):
+                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String)], [(Int64, String)]) = try substancesDB.read { db in
                     let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE")
                     let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
                     let uids = nameRows.compactMap { row -> (Int64, String)? in
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
                     }
-                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized FROM aliases")
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized, isomer FROM aliases")
                     let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
+                    let aliasIsomers = aliasRows.compactMap { row -> (String, String)? in
+                        guard let iso = row["isomer"] as String? else { return nil }
+                        return (row["alias_normalized"] as String, iso)
+                    }
                     let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
                     let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
-                    return (names, aliases, displayNames, uids)
+                    return (names, aliases, aliasIsomers, displayNames, uids)
                 }
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
-            // lowercased canonical name — e.g. an opt-in updated or imported DB
-            // carrying both `MDMA` and `mdma`, or a custom substance that failed
-            // to merge — collapses to the first row instead of *trapping* at
-            // launch. This runs eagerly on every cold start, and a trap here is
-            // an unrecoverable launch crash (the enclosing do/catch can't catch
-            // a precondition failure).
+            // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an
+            // unmerged custom) collapses to the first row instead of *trapping* at
+            // launch — a trap here is an uncatchable cold-start crash.
             self.nameIndex = Dictionary(names.map { ($0.2, $0.1) }, uniquingKeysWith: { first, _ in first })
             if self.nameIndex.count != names.count {
                 logger.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
@@ -553,9 +558,13 @@ final class SubstanceStore {
                 ax[alias] = sid
             }
             self.aliasIndex = ax
-            // PSID FAMILY → its member row ids. Not unique — a racemate and its
-            // enantiomers (Ketamine / Es- / Arketamine) share one uid pre-fold —
-            // so this is one-to-many. Members keep DB (canonical-name) order.
+            var aix: [String: String] = [:]
+            for (alias, iso) in aliasIsomers where aix[alias] == nil {
+                aix[alias] = iso
+            }
+            self.aliasIsomerIndex = aix
+            // PSID FAMILY → its member row ids. One-to-many for co-familied-but-
+            // unfolded rows (Etiracetam/Levetiracetam), else one row per uid.
             var ux: [String: [Int64]] = [:]
             var idux: [Int64: String] = [:]
             for (sid, uid) in uids {
@@ -615,30 +624,10 @@ final class SubstanceStore {
         return nameIndex[key] ?? aliasIndex[key]
     }
 
-    // MARK: - PSID resolution
+    // MARK: - PSID resolution (see SubstanceStore+PSID.swift for the name→uid maps)
 
-    /// The PSID FAMILY (`substance_uid`) for a substance named or aliased
-    /// `nameOrAlias`, or `nil` when the name doesn't resolve or the row has no
-    /// uid. This is the forward name→uid map the Stage 0.3 dose-backfill uses.
-    ///
-    /// **Raw library value** — bypasses the custom overlay; app code resolves
-    /// through ``SubstanceLibrary/substanceUID(for:)``.
-    func substanceUID(forNameOrAlias nameOrAlias: String) -> String? {
-        guard let id = substanceID(forNameOrAlias: nameOrAlias) else { return nil }
-        return idToUIDIndex[id]
-    }
-
-    /// Row ids sharing the PSID FAMILY `uid` (a fold family — racemate +
-    /// enantiomers, or IR + XR), in canonical-name order; empty when unknown.
-    func substanceIDs(forUID uid: String) -> [Int64] {
-        uidToID[uid] ?? []
-    }
-
-    /// The fully-resolved substances sharing the PSID FAMILY `uid`. Empty when
-    /// the uid is unknown. A family is small (≤ a few members), so resolving
-    /// each is cheap.
-    ///
-    /// **Raw library rows** — bypass the custom overlay; app code resolves
+    /// The fully-resolved substances sharing the PSID FAMILY `uid`; empty when
+    /// unknown. **Raw library rows** — bypass the custom overlay; app code resolves
     /// through ``SubstanceLibrary/substances(uid:)``.
     func substances(uid: String) -> [Substance] {
         substanceIDs(forUID: uid).compactMap { resolveSubstance(id: $0, canonicalName: nil) }
@@ -653,10 +642,9 @@ final class SubstanceStore {
     /// resolved array is *not* cached as a unit (resolvedCache caches per
     /// substance so partial fills still benefit from prior work).
     var all: [Substance] {
-        // Register the observation dependency on the one observable input these
-        // resolved values derive from, *before* the warm-cache early return —
-        // `allCache` is `@ObservationIgnored`, so a body that reads `all` would
-        // otherwise not re-render when the user reorders sources.
+        // Register the observation dependency (on the reorder-able source order)
+        // *before* the warm-cache early return — `allCache` is @ObservationIgnored,
+        // so a body reading `all` would otherwise not re-render on a source reorder.
         let order = enabledSourceOrder
         if let cached = allCache { return cached }
         let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: order)

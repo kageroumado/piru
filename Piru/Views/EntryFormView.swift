@@ -15,6 +15,7 @@ struct EntryFormView: View {
     @State private var route: RouteOfAdministration = .oral
     /// Selected salt/ester form; `nil` unless the substance offers a choice.
     @State private var saltForm: String?
+    @State private var isomer: String?
     @State private var timestamp = Date.now
     @State private var notes = ""
     @State private var entryTags: [String] = []
@@ -86,12 +87,26 @@ struct EntryFormView: View {
     }
 
     private var currentDoseRange: DoseRange? {
-        selectedSubstance?.doseRange(for: route, saltForm: saltForm)
+        selectedSubstance?.doseRange(for: route, saltForm: saltForm, isomer: isomer)
     }
 
     /// Salt forms offered for the current route; the picker shows only when >1.
     private var currentSaltForms: [String] {
         selectedSubstance?.saltForms(for: route) ?? []
+    }
+
+    /// Named isomer options for the current route; the picker shows only when >1.
+    private var currentIsomerOptions: [IsomerPicker.Option] {
+        (selectedSubstance?.isomerOptions(for: route) ?? []).map {
+            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+        }
+    }
+
+    /// The selected isomer form's recognized title ("Dexmethylphenidate") for the
+    /// displayNameSnapshot; `nil` for the racemic / no-isomer case.
+    private var formDisplayNameSnapshot: String? {
+        guard let isomer, let sub = selectedSubstance else { return nil }
+        return sub.isomerOptions(for: route).first { $0.code == isomer }?.displayName
     }
 
     /// The user's input converted to the substance's native unit for accurate dose level comparison.
@@ -203,14 +218,21 @@ struct EntryFormView: View {
                         }
                         .onChange(of: route) {
                             SaltPicker.revalidate(&saltForm, against: currentSaltForms)
+                            IsomerPicker.revalidate(&isomer, against: currentIsomerOptions)
                             if let sub = selectedSubstance {
-                                unit = sub.unit(for: route, saltForm: saltForm)
+                                unit = sub.unit(for: route, saltForm: saltForm, isomer: isomer)
                             }
                         }
                         SaltPicker(forms: currentSaltForms, selection: $saltForm, style: .formRow)
                             .onChange(of: saltForm) {
                                 if let sub = selectedSubstance {
-                                    unit = sub.unit(for: route, saltForm: saltForm)
+                                    unit = sub.unit(for: route, saltForm: saltForm, isomer: isomer)
+                                }
+                            }
+                        IsomerPicker(options: currentIsomerOptions, selection: $isomer, style: .formRow)
+                            .onChange(of: isomer) {
+                                if let sub = selectedSubstance {
+                                    unit = sub.unit(for: route, saltForm: saltForm, isomer: isomer)
                                 }
                             }
                     }
@@ -221,6 +243,7 @@ struct EntryFormView: View {
                                 substance: selectedSubstance,
                                 route: route,
                                 saltForm: saltForm,
+                                isomer: isomer,
                                 currentDose: normalizedAmount,
                             )
                             .padding(.vertical, 4)
@@ -313,7 +336,8 @@ struct EntryFormView: View {
         selectedSubstance = sub
         route = sub.defaultRoute
         saltForm = sub.saltForms(for: sub.defaultRoute).first
-        unit = sub.unit(for: sub.defaultRoute, saltForm: saltForm)
+        isomer = sub.defaultIsomer(for: sub.defaultRoute)
+        unit = sub.unit(for: sub.defaultRoute, saltForm: saltForm, isomer: isomer)
         availableRoutes = sub.orderedRoutes
         // Default a new alcohol entry to the natural by-volume input. Editing an
         // existing entry leaves the mode at its manual default (Stage 2 round-trips).
@@ -342,6 +366,7 @@ struct EntryFormView: View {
             unit = entry.unit
             route = entry.route
             saltForm = entry.saltForm
+            isomer = entry.isomer
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
             entryTags = entry.tags
@@ -417,6 +442,9 @@ struct EntryFormView: View {
             entry.unit = storedUnit
             entry.route = route
             entry.saltForm = saltForm
+            entry.isomer = isomer
+            entry.substanceUID = selectedSubstance?.substanceUID
+            entry.displayNameSnapshot = formDisplayNameSnapshot
             entry.timestamp = timestamp
             entry.notes = finalNotes
             entry.volumeML = byVolume.0
@@ -456,6 +484,9 @@ struct EntryFormView: View {
                 unit: storedUnit,
                 route: route,
                 saltForm: saltForm,
+                isomer: isomer,
+                substanceUID: selectedSubstance?.substanceUID,
+                displayNameSnapshot: formDisplayNameSnapshot,
                 timestamp: timestamp,
                 notes: finalNotes,
                 tags: allTags,

@@ -122,16 +122,18 @@ struct DoseInfoView: View {
     let route: RouteOfAdministration
     /// Selected salt form; `nil` (the default) selects the route's default ladder.
     var saltForm: String?
+    /// Selected isomer code; `nil` (the default) selects the racemic ladder.
+    var isomer: String?
     let currentDose: Double?
 
     private var doseRange: DoseRange? {
-        substance.doseRange(for: route, saltForm: saltForm)
+        substance.doseRange(for: route, saltForm: saltForm, isomer: isomer)
     }
 
     var body: some View {
         if let doseRange {
             VStack(alignment: .leading, spacing: 10) {
-                let unit = substance.unit(for: route, saltForm: saltForm)
+                let unit = substance.unit(for: route, saltForm: saltForm, isomer: isomer)
                 DoseLevelIndicator(doseRange: doseRange, currentDose: currentDose, unit: unit)
 
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
@@ -188,10 +190,10 @@ struct DoseInfoView: View {
     /// Hidden when the selected salt has no known elemental fraction.
     @ViewBuilder
     private func elementalNote(unit: String) -> some View {
-        if let fraction = substance.elementalFraction(for: route, saltForm: saltForm) {
+        if let fraction = substance.elementalFraction(for: route, saltForm: saltForm, isomer: isomer) {
             HStack(spacing: 5) {
                 Image(systemName: "atom").imageScale(.small)
-                if let currentDose, let elemental = substance.elementalAmount(of: currentDose, for: route, saltForm: saltForm) {
+                if let currentDose, let elemental = substance.elementalAmount(of: currentDose, for: route, saltForm: saltForm, isomer: isomer) {
                     Text("≈ \(elemental.doseFormatted) \(unit) elemental", comment: "Elemental content of a salt dose")
                 } else {
                     Text("\(Int((fraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")

@@ -535,6 +535,10 @@ struct SubstanceDetailView: View {
     /// ``activeSaltVariant``).
     @State private var selectedSaltForm: String?
 
+    /// The stereoisomer code the dose card is showing (`nil` = racemic default).
+    /// Drives the isomer picker on isomer-family substances (Ketamine, Focalin…).
+    @State private var selectedIsomer: String?
+
     /// The user's personal override for this substance, if any (keyed by canonical name).
     private var personalOverride: CustomSubstanceEntry? {
         customStore.first(whereName: baseSubstance.name)
@@ -1043,6 +1047,11 @@ struct SubstanceDetailView: View {
                 if let current = selectedSaltForm, !forms.contains(where: { $0.saltForm == current }) {
                     selectedSaltForm = nil
                 }
+                // Keep the isomer across the route change if the new route offers
+                // it, else fall back to the racemic default.
+                if let current = selectedIsomer, !forms.contains(where: { $0.isomer == current }) {
+                    selectedIsomer = nil
+                }
             },
         )
     }
@@ -1060,14 +1069,18 @@ struct SubstanceDetailView: View {
         return activeSaltForms.compactMap(\.saltForm).filter { seen.insert($0).inserted }
     }
 
-    /// The salt variant driving the dose card: the user's pick when valid, else
-    /// the route's default (first) form. `nil` when the route has no salt dimension.
+    /// The dose-form variant driving the dose card, matched on BOTH axes: the
+    /// user's picked salt (or the route's default salt) and the picked isomer (or
+    /// the racemic default). Falls back gracefully so a single-axis substance
+    /// resolves from whichever axis it has. `nil` when the route has no variants.
     private var activeSaltVariant: SaltVariant? {
         let forms = activeSaltForms
-        if let selectedSaltForm, let match = forms.first(where: { $0.saltForm == selectedSaltForm }) {
-            return match
-        }
-        return forms.first
+        guard !forms.isEmpty else { return nil }
+        let salt = selectedSaltForm ?? forms.compactMap(\.saltForm).first
+        let isomer = selectedIsomer
+        return forms.first { $0.saltForm == salt && $0.isomer == isomer }
+            ?? forms.first { $0.isomer == isomer }
+            ?? forms.first
     }
 
     /// Drives the salt ``SaltPicker``. Reads the active variant (the user's pick
@@ -1078,6 +1091,24 @@ struct SubstanceDetailView: View {
         Binding(
             get: { activeSaltVariant.flatMap(\.saltForm) ?? activeSaltForms.first.flatMap(\.saltForm) },
             set: { selectedSaltForm = $0 },
+        )
+    }
+
+    /// The named isomer options for the active route (racemic first). Empty when
+    /// the substance has no isomer axis, so the picker stays hidden.
+    private var activeIsomerOptions: [IsomerPicker.Option] {
+        guard let route = activeSubstanceRoute?.route else { return [] }
+        return substance.isomerOptions(for: route).map {
+            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+        }
+    }
+
+    /// Drives the ``IsomerPicker`` — reads the active variant's isomer (so it
+    /// tracks the racemic default until an explicit pick), writes the selection.
+    private var isomerSelection: Binding<String?> {
+        Binding(
+            get: { activeSaltVariant?.isomer ?? selectedIsomer },
+            set: { selectedIsomer = $0 },
         )
     }
 
@@ -1221,6 +1252,14 @@ struct SubstanceDetailView: View {
                     SaltPicker(
                         forms: activeSaltLabels,
                         selection: saltSelection,
+                        style: .formRow,
+                    )
+                    .listRowSeparator(.hidden)
+                }
+                if activeIsomerOptions.count > 1 {
+                    IsomerPicker(
+                        options: activeIsomerOptions,
+                        selection: isomerSelection,
                         style: .formRow,
                     )
                     .listRowSeparator(.hidden)
