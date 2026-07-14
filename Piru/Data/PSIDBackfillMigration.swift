@@ -41,14 +41,20 @@ private let logger = Logger(subsystem: "dev.yumeji.piru", category: "PSIDBackfil
 /// — the *snapshot* is the one thing worth a flag (repeating it every launch
 /// while stragglers persist would be wasteful); resolution itself needs none.
 ///
-/// **Isomer facet (Stage A):** once the facet-annotated alias table ships, a
-/// form-bearing string is resolved to its form too — "Focalin"/"Dexmethylphenidate"
-/// → `isomer = "D"` with the form's recognized title ("Dexmethylphenidate") as the
-/// snapshot — via ``SubstanceLibrary/isomer(for:)``. A racemic/plain string still
-/// resolves to the FAMILY uid with `isomer` nil. The `releaseForm` facet stays
-/// unresolved until Stage B. Because the candidate gate is `substanceUID == nil`,
-/// a row already given a uid by a pre-Stage-A build keeps its (canonical) title —
-/// harmless while Stage 0.3 is unreleased; new stores resolve uid + isomer together.
+/// **Form facets (Stage A + B):** a form-bearing string resolves to its form too,
+/// via ``SubstanceLibrary/isomer(for:)`` / ``SubstanceLibrary/releaseForm(for:)`` —
+/// "Focalin" → `isomer = "D"`, "Concerta" → `releaseForm = "XR"`, "Focalin XR" →
+/// both — titled from the build's composed form title ("Dexmethylphenidate XR") via
+/// ``SubstanceLibrary/formTitle(for:)``. A plain string still resolves to the FAMILY
+/// uid with both facets nil. Release is **identity/label only**: no source carries a
+/// distinct extended-release dose or duration, so recovering it names the form
+/// logged without implying a different ladder or curve.
+///
+/// Because the candidate gate is `substanceUID == nil`, a row already given a uid by
+/// an earlier build keeps its (canonical) title and gains no facets — harmless while
+/// Stage 0.3 is unreleased (no store in the field has run this), and new stores
+/// resolve uid + both facets in one pass. If any of this ever ships before a further
+/// facet lands, that facet needs its own gate rather than reusing this one.
 @MainActor
 enum PSIDBackfillMigration {
     /// Field kill-switch: when `true`, the backfill is skipped entirely. Clearing
@@ -105,19 +111,18 @@ enum PSIDBackfillMigration {
             }
 
             entry.substanceUID = uid
-            // Recover the isomer form the logged string named ("Focalin" → D) from
-            // the facet-annotated alias table, so a legacy enantiomer/brand log
-            // keeps its identity + title instead of collapsing to the racemate.
-            if let iso = SubstanceLibrary.isomer(for: entry.substance),
-               let formName = match.isomerDisplayName(for: iso) {
-                entry.isomer = iso
-                entry.displayNameSnapshot = formName
-            } else {
-                // Snapshot the **canonical** name, not the region-resolved display
-                // title (Acetaminophen vs Paracetamol) — the snapshot must be a
-                // locale-stable anchor; the render layer regionalizes/localizes it.
-                entry.displayNameSnapshot = match.name
-            }
+            // Recover the form facets the logged string named — isomer ("Focalin" →
+            // D) and release form ("Concerta" → XR; "Focalin XR" → both) — from the
+            // facet-annotated alias table, so a legacy enantiomer/brand log keeps
+            // its identity + title instead of collapsing to the plain parent.
+            entry.isomer = SubstanceLibrary.isomer(for: entry.substance)
+            entry.releaseForm = SubstanceLibrary.releaseForm(for: entry.substance)
+            // The build composes every form's title ("Dexmethylphenidate XR"), so we
+            // snapshot it rather than re-assembling facets here. Falls back to the
+            // **canonical** name — never the region-resolved display title
+            // (Acetaminophen vs Paracetamol) — because the snapshot must be a
+            // locale-stable anchor; the render layer regionalizes/localizes it.
+            entry.displayNameSnapshot = SubstanceLibrary.formTitle(for: entry.substance) ?? match.name
             resolved += 1
         }
 

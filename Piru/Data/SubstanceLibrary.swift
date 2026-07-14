@@ -101,6 +101,20 @@ enum SubstanceLibrary {
         SubstanceStore.shared.isomer(forNameOrAlias: nameOrAlias)
     }
 
+    /// The release form-code a logged name/alias names ("Concerta" → `"XR"`), or
+    /// `nil` for the standard/unspecified form. Used by the PSID backfill to
+    /// recover the form a legacy brand string logged.
+    static func releaseForm(for nameOrAlias: String) -> String? {
+        SubstanceStore.shared.releaseForm(forNameOrAlias: nameOrAlias)
+    }
+
+    /// The composed display title for the form a name/alias names ("Concerta" →
+    /// "Methylphenidate XR"), or `nil` when it resolves to no enumerated form.
+    /// Used by the PSID backfill to snapshot a resolved dose's title.
+    static func formTitle(for nameOrAlias: String) -> String? {
+        SubstanceStore.shared.formTitle(forNameOrAlias: nameOrAlias)
+    }
+
     /// The substances sharing a PSID FAMILY `uid` (a fold family — a racemate and
     /// its enantiomers, or IR and XR), each overlaid with any custom edit. Empty
     /// when the uid is unknown.

@@ -56,6 +56,36 @@ struct PSIDResolutionTests {
     }
 
     @Test
+    func `A release-form brand resolves to its parent plus a release facet`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        // Stage B: brands are aliases of their parent (there is no separate XR row),
+        // so the facet is what carries "which form" — and only the names that
+        // actually claim a form get one.
+        let mphUID = try #require(store.substanceUID(forNameOrAlias: "Methylphenidate"))
+        #expect(store.substanceUID(forNameOrAlias: "Concerta") == mphUID)
+        #expect(store.releaseForm(forNameOrAlias: "Concerta") == "XR")
+        #expect(store.releaseForm(forNameOrAlias: "Ritalin LA") == "XR")
+        #expect(store.releaseForm(forNameOrAlias: "Methylphenidate") == nil, "plain name, no form")
+        #expect(store.releaseForm(forNameOrAlias: "Vyvanse") == nil, "prodrug, not a release form")
+        #expect(store.releaseForm(forNameOrAlias: "not-a-real-substance-xyz") == nil)
+    }
+
+    @Test
+    func `Form titles come composed from the build, across both axes`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        #expect(store.formTitle(forNameOrAlias: "Methylphenidate") == "Methylphenidate")
+        #expect(store.formTitle(forNameOrAlias: "Concerta") == "Methylphenidate XR")
+        #expect(store.formTitle(forNameOrAlias: "Focalin") == "Dexmethylphenidate")
+        // Both axes at once — the title the app must never assemble itself.
+        #expect(store.formTitle(forNameOrAlias: "Focalin XR") == "Dexmethylphenidate XR")
+        #expect(store.formTitle(forNameOrAlias: "not-a-real-substance-xyz") == nil)
+    }
+
+    @Test
     func `An unknown name or uid resolves to nothing`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }

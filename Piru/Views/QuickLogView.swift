@@ -403,6 +403,7 @@ struct QuickLogView: View {
                     route: item.route,
                     saltForm: item.saltForm,
                     isomer: item.isomer,
+                    releaseForm: item.releaseForm,
                     substanceUID: item.substanceUID,
                     displayNameSnapshot: item.isomerDisplayName,
                     timestamp: sharedTime,

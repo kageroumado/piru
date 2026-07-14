@@ -66,8 +66,14 @@ final class DoseEntry {
     /// methylphenidate one. Populated at log time and by the PSID backfill.
     var isomer: String?
 
-    /// The release form logged (IR/XR/…). Greenfield until Stage B — `nil` for
-    /// every dose today, kept here so the schema change is a single additive step.
+    /// The release form logged — `"XR"` (extended-release, the umbrella for
+    /// XR/ER/SR/CR/LA/XL), `"IR"`, or `"DEP"` (depot); `nil` = standard/unspecified.
+    ///
+    /// **Identity/label only.** No source carries a distinct extended-release dose
+    /// or duration, so this records *which form the logged string named* — recovered
+    /// from a brand ("Concerta" → `"XR"`) by the PSID backfill — and never selects a
+    /// dose ladder or curve. There is deliberately no release picker: the axis
+    /// offers no real choice until per-release durations are authored.
     var releaseForm: String?
 
     /// The PSID FAMILY (`substances.substance_uid`) this dose resolves to — the

@@ -443,6 +443,9 @@ struct EntryFormView: View {
             entry.route = route
             entry.saltForm = saltForm
             entry.isomer = isomer
+            // Re-derived, so renaming an entry off (or onto) a release-form brand
+            // doesn't leave the old facet behind.
+            entry.releaseForm = SubstanceLibrary.releaseForm(for: substance)
             entry.substanceUID = selectedSubstance?.substanceUID
             entry.displayNameSnapshot = formDisplayNameSnapshot
             entry.timestamp = timestamp
@@ -485,6 +488,10 @@ struct EntryFormView: View {
                 route: route,
                 saltForm: saltForm,
                 isomer: isomer,
+                // Derived from the name (no picker — see `DoseEntry.releaseForm`),
+                // and recorded here because a committed dose gets its uid at log
+                // time and so is never revisited by the backfill.
+                releaseForm: SubstanceLibrary.releaseForm(for: substance),
                 substanceUID: selectedSubstance?.substanceUID,
                 displayNameSnapshot: formDisplayNameSnapshot,
                 timestamp: timestamp,

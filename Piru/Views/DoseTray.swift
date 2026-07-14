@@ -186,6 +186,16 @@ struct StagedDose: Identifiable, Equatable {
         librarySubstance?.substanceUID
     }
 
+    /// The release form the staged *name* denotes — a daily item saved as
+    /// "Concerta" stages under Methylphenidate but is still the XR product, so the
+    /// committed dose records `"XR"`. Derived, not stored: with no release picker
+    /// there is nothing for a user to choose, so the name is the only source. This
+    /// has to happen at log time — a committed dose gets its uid here, so the
+    /// (`substanceUID == nil`)-gated backfill would never revisit it to recover this.
+    var releaseForm: String? {
+        SubstanceLibrary.releaseForm(for: substanceName)
+    }
+
     /// The recognized title of the *selected* isomer form ("Dexmethylphenidate",
     /// "Esketamine") — `nil` for the racemic / no-isomer case, so the journal then
     /// titles from the plain substance name. Snapshotted onto the committed dose.

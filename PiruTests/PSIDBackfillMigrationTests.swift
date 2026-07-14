@@ -50,15 +50,25 @@ struct PSIDBackfillMigrationTests {
             #expect(byName[name] != nil, "row for \(name) must survive")
         }
 
-        // Names that resolve to the racemic/unspecified form (a bare name, or a
-        // release-form brand whose facet Stage A doesn't resolve yet) snapshot the
+        // A bare name resolves to the unspecified form and snapshots the
         // locale-stable CANONICAL name — not a region-resolved display title.
-        for name in ["Concerta", "Adderall XR", "Methylphenidate"] {
+        let plain = try #require(byName["Methylphenidate"])
+        let mph = try #require(SubstanceLibrary.timelineLookup("Methylphenidate"))
+        #expect(plain.substanceUID == mph.substanceUID, "should carry its FAMILY uid")
+        #expect(try PSID.isWellformedFamily(#require(plain.substanceUID)))
+        #expect(plain.displayNameSnapshot == mph.name, "bare name snapshots its canonical name")
+        #expect(plain.releaseForm == nil, "a bare name claims no release form")
+
+        // Stage B: a release-form brand now recovers its facet and is titled by that
+        // form, while still resolving to the parent's FAMILY (there is no separate
+        // XR row — the facet is what distinguishes it).
+        for (name, title) in [("Concerta", "Methylphenidate XR"), ("Adderall XR", "Amphetamine XR")] {
             let match = try #require(SubstanceLibrary.timelineLookup(name))
             let row = try #require(byName[name])
             #expect(row.substanceUID == match.substanceUID, "\(name) should carry its FAMILY uid")
             #expect(try PSID.isWellformedFamily(#require(row.substanceUID)))
-            #expect(row.displayNameSnapshot == match.name, "\(name) should snapshot its canonical name")
+            #expect(row.releaseForm == "XR", "\(name) recovers the extended-release form")
+            #expect(row.displayNameSnapshot == title, "\(name) titled by its form")
         }
 
         // An isomer form-string (Esketamine) resolves its facet + form title (Stage
@@ -121,6 +131,50 @@ struct PSIDBackfillMigrationTests {
         PSIDBackfillMigration.run(context: context, defaults: defaults, snapshotsStore: false)
         #expect(plain.substanceUID == focalin.substanceUID, "same FAMILY as its enantiomer")
         #expect(plain.isomer == nil, "racemic — no isomer facet")
+    }
+
+    @Test
+    func `A release-form brand resolves its release facet + title`() throws {
+        // Stage B: a logged brand recovers the release form it named. Identity/label
+        // only — no source carries a distinct extended-release duration, so this
+        // records *which form was logged* and never implies a different curve.
+        let context = try makeContext()
+        let defaults = makeDefaults()
+        let concerta = DoseEntry(substance: "Concerta", amount: 36)
+        context.insert(concerta)
+        try context.save()
+
+        PSIDBackfillMigration.run(context: context, defaults: defaults, snapshotsStore: false)
+
+        #expect(concerta.substanceUID != nil, "resolves to the Methylphenidate FAMILY")
+        #expect(concerta.releaseForm == "XR", "recovers the extended-release form")
+        #expect(concerta.isomer == nil, "Concerta is racemic — no isomer facet")
+        #expect(concerta.displayNameSnapshot == "Methylphenidate XR", "titled by its form")
+        #expect(concerta.substance == "Concerta", "original string retained")
+
+        // The base brand names no release form — it must NOT be inferred as "IR".
+        let adderall = DoseEntry(substance: "Adderall", amount: 20)
+        context.insert(adderall)
+        try context.save()
+        PSIDBackfillMigration.run(context: context, defaults: defaults, snapshotsStore: false)
+        #expect(adderall.releaseForm == nil, "a bare base brand is the unspecified form")
+    }
+
+    @Test
+    func `A cross-axis brand resolves both facets into one title`() throws {
+        // Focalin XR is the D-enantiomer AND extended-release. Recovering only the
+        // release form would assert *racemic* methylphenidate XR — the wrong drug.
+        let context = try makeContext()
+        let defaults = makeDefaults()
+        let focalinXR = DoseEntry(substance: "Focalin XR", amount: 20)
+        context.insert(focalinXR)
+        try context.save()
+
+        PSIDBackfillMigration.run(context: context, defaults: defaults, snapshotsStore: false)
+
+        #expect(focalinXR.isomer == "D", "the D-enantiomer, not the racemate")
+        #expect(focalinXR.releaseForm == "XR")
+        #expect(focalinXR.displayNameSnapshot == "Dexmethylphenidate XR", "both facets compose")
     }
 
     @Test

@@ -181,6 +181,26 @@ final class SubstanceStore {
     /// ("focalin" → "D", "esketamine" → "S"). Lets a logged brand/enantiomer
     /// string recover its form during the PSID backfill. Built from `aliases.isomer`.
     private(set) var aliasIsomerIndex: [String: String] = [:]
+    /// Normalized alias → release-form code ("concerta"/"adderall xr" → "XR",
+    /// "vivitrol" → "DEP"). The release sibling of ``aliasIsomerIndex``, built from
+    /// `aliases.release_form`; an alias can carry both ("focalin xr" → D + XR).
+    ///
+    /// Identity/label only: no source carries a distinct extended-release dose or
+    /// duration, so this recovers *which form a logged string named* — it never
+    /// selects a dose ladder, and there is deliberately no release picker.
+    private(set) var aliasReleaseFormIndex: [String: String] = [:]
+    /// Composed form titles from `substance_forms` — "Methylphenidate",
+    /// "Methylphenidate XR", "Dexmethylphenidate XR" (the cross-axis Focalin XR
+    /// form), "Naltrexone Depot". The build composes these once, so the app never
+    /// re-implements title assembly (or duplicates the curated `titleSuffix`
+    /// vocabulary) and can't drift from the DB.
+    ///
+    /// Keyed by **row id**, not uid: fold-family siblings that are co-familied but
+    /// unfolded (Etiracetam/Levetiracetam) share a uid while having different
+    /// titles, so a uid key would collide. Salt is excluded from the key — the
+    /// index covers only `salt='0'` rows, which is exhaustive for name resolution
+    /// since salt is deliberately never alias-annotated (see `aliases.salt_form`).
+    private(set) var formTitleIndex: [FormKey: String] = [:]
     /// PSID FAMILY (`substances.substance_uid`) → member row ids. One-to-many:
     /// fold-family siblings (racemate + enantiomers, IR + XR) share a uid, so a
     /// FAMILY can map to several substance rows. Built once at init alongside
@@ -526,23 +546,38 @@ final class SubstanceStore {
 
     private func buildIndexes() {
         do {
-            let (names, aliases, aliasIsomers, displayNames, uids):
-                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String)], [(Int64, String)]) = try substancesDB.read { db in
+            let (names, aliases, aliasFacets, displayNames, uids, formTitles):
+                ([(String, Int64, String)], [(String, Int64)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)]) = try substancesDB.read { db in
                     let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE")
                     let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
                     let uids = nameRows.compactMap { row -> (Int64, String)? in
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
                     }
-                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized, isomer FROM aliases")
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized, isomer, release_form FROM aliases")
                     let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
-                    let aliasIsomers = aliasRows.compactMap { row -> (String, String)? in
-                        guard let iso = row["isomer"] as String? else { return nil }
-                        return (row["alias_normalized"] as String, iso)
+                    // Only the facet-bearing rows — the vast majority of aliases name
+                    // the plain/unspecified form and would just bloat both indexes.
+                    let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?)? in
+                        let iso = row["isomer"] as String?
+                        let release = row["release_form"] as String?
+                        guard iso != nil || release != nil else { return nil }
+                        return (row["alias_normalized"] as String, iso, release)
                     }
                     let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
                     let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
-                    return (names, aliases, aliasIsomers, displayNames, uids)
+                    let formRows = try Row.fetchAll(db, sql: "SELECT substance_id, stereo, release, display_name FROM substance_forms WHERE salt = '0'")
+                    let formTitles = formRows.map { row in
+                        (
+                            FormKey(
+                                substanceID: row["substance_id"] as Int64,
+                                stereo: row["stereo"] as String,
+                                release: row["release"] as String,
+                            ),
+                            row["display_name"] as String,
+                        )
+                    }
+                    return (names, aliases, aliasFacets, displayNames, uids, formTitles)
                 }
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
@@ -558,11 +593,20 @@ final class SubstanceStore {
                 ax[alias] = sid
             }
             self.aliasIndex = ax
+            // First-wins per facet, matching `aliasIndex` — an alias owned by >1
+            // substance resolves to the first, and `audit_alias_collisions()` in the
+            // build reports any such collision for triage.
             var aix: [String: String] = [:]
-            for (alias, iso) in aliasIsomers where aix[alias] == nil {
-                aix[alias] = iso
+            var arx: [String: String] = [:]
+            for (alias, iso, release) in aliasFacets {
+                if let iso, aix[alias] == nil { aix[alias] = iso }
+                if let release, arx[alias] == nil { arx[alias] = release }
             }
             self.aliasIsomerIndex = aix
+            self.aliasReleaseFormIndex = arx
+            // `substance_forms`' PK already makes these unique; uniquing defensively
+            // rather than trapping at launch, matching `nameIndex` above.
+            self.formTitleIndex = Dictionary(formTitles, uniquingKeysWith: { first, _ in first })
             // PSID FAMILY → its member row ids. One-to-many for co-familied-but-
             // unfolded rows (Etiracetam/Levetiracetam), else one row per uid.
             var ux: [String: [Int64]] = [:]
@@ -1501,10 +1545,17 @@ final class SubstanceStore {
 
     /// Builds a `CASE src.slug WHEN ... THEN ... END` expression that maps
     /// enabled source slugs to their priority rank. Used in `ORDER BY`.
-    private var priorityCaseSQL: String {
+    ///
+    /// Internal rather than `private` only so the same-type extension in
+    /// `SubstanceStore+Provenance.swift` can mirror this ordering — Swift scopes
+    /// `private` to the file, and provenance must resolve by the identical
+    /// priority as the resolvers or the attributed slug would disagree with the
+    /// value shown. Not part of the store's API; don't call from outside the type.
+    var priorityCaseSQL: String {
         Self.priorityCaseSQL(enabledSourceOrder)
     }
-    private var enabledSourceListSQL: String {
+    /// See ``priorityCaseSQL`` for why this isn't `private`.
+    var enabledSourceListSQL: String {
         Self.enabledSourceListSQL(enabledSourceOrder)
     }
 
@@ -1737,7 +1788,10 @@ final class SubstanceStore {
     /// protocol-/DOA-/duration-only routes are appended, matching the legacy
     /// resolver's surfacing order. Still set-based — three queries for the id,
     /// not per-route.
-    private func resolvedRoutes(db: Database, substanceID: Int64) throws -> [SubstanceRoute] {
+    ///
+    /// Internal rather than `private` so `SubstanceStore+Provenance.swift` can
+    /// attribute the same route set it resolves. Not part of the store's API.
+    func resolvedRoutes(db: Database, substanceID: Int64) throws -> [SubstanceRoute] {
         let doseRoutes = try Self.resolveRoutes(db: db, substanceIDs: [substanceID], order: enabledSourceOrder)[substanceID] ?? []
         return try attachAuxiliaryRoutes(db: db, substanceID: substanceID, doseRoutes: doseRoutes)
     }
@@ -2307,122 +2361,6 @@ final class SubstanceStore {
             logger.error("bindings query failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
-    }
-
-    // MARK: - Provenance (per-field source attribution)
-
-    /// Source attribution for the fields displayed in a substance detail
-    /// view. Distinct from the substance-level `sources` list (which is just
-    /// "every source that contributed anything") — this surfaces *which*
-    /// source supplied a specific field after priority resolution.
-    struct RouteProvenance: Hashable {
-        let doseSource: String?
-        let durationSource: String?
-    }
-
-    struct SubstanceProvenance: Hashable {
-        let categorySource: String?
-        let halfLifeSource: String?
-        let mechanismSource: String?
-        /// Keyed by route for O(1) lookup from per-route UI rows. Routes
-        /// without any source data (e.g. the route is in `dose_ranges` but no
-        /// enabled source has it after priority resolution) are simply absent.
-        let routesBySource: [RouteOfAdministration: RouteProvenance]
-    }
-
-    /// Resolves per-field source slugs for a substance using the same
-    /// priority order as the field resolvers themselves, so the slug shown
-    /// in the UI matches the source that actually won the field.
-    func provenance(forSubstanceName name: String) -> SubstanceProvenance? {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
-        do {
-            return try substancesDB.read { db in
-                let categorySource = try fieldSource(
-                    db: db,
-                    sql: """
-                        SELECT src.slug FROM categories c
-                          JOIN sources src ON src.id = c.source_id
-                         WHERE c.substance_id = ?
-                           AND src.slug IN (\(enabledSourceListSQL))
-                         ORDER BY \(priorityCaseSQL) ASC LIMIT 1
-                    """,
-                    substanceID: substanceID,
-                )
-                let halfLifeSource = try fieldSource(
-                    db: db,
-                    sql: """
-                        SELECT src.slug FROM half_lives h
-                          JOIN sources src ON src.id = h.source_id
-                         WHERE h.substance_id = ?
-                           AND src.slug IN (\(enabledSourceListSQL))
-                         ORDER BY \(priorityCaseSQL) ASC LIMIT 1
-                    """,
-                    substanceID: substanceID,
-                )
-                let mechanismSource = try fieldSource(
-                    db: db,
-                    sql: """
-                        SELECT src.slug FROM mechanisms_summary m
-                          JOIN sources src ON src.id = m.source_id
-                         WHERE m.substance_id = ?
-                           AND src.slug IN (\(enabledSourceListSQL))
-                         ORDER BY \(priorityCaseSQL) ASC LIMIT 1
-                    """,
-                    substanceID: substanceID,
-                )
-
-                let routes = try resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
-                var routesBySource: [RouteOfAdministration: RouteProvenance] = [:]
-                routesBySource.reserveCapacity(routes.count)
-                for route in routes {
-                    let doseSource = try fieldSource(
-                        db: db,
-                        sql: """
-                            SELECT src.slug FROM dose_ranges d
-                              JOIN sources src ON src.id = d.source_id
-                             WHERE d.substance_id = ? AND d.route = ?
-                               AND src.slug IN (\(enabledSourceListSQL))
-                             ORDER BY \(priorityCaseSQL) ASC LIMIT 1
-                        """,
-                        substanceID: substanceID,
-                        extra: [route.rawValue],
-                    )
-                    let durationSource = try fieldSource(
-                        db: db,
-                        sql: """
-                            SELECT src.slug FROM durations du
-                              JOIN sources src ON src.id = du.source_id
-                             WHERE du.substance_id = ? AND du.route = ?
-                               AND src.slug IN (\(enabledSourceListSQL))
-                             ORDER BY \(priorityCaseSQL) ASC LIMIT 1
-                        """,
-                        substanceID: substanceID,
-                        extra: [route.rawValue],
-                    )
-                    routesBySource[route] = RouteProvenance(
-                        doseSource: doseSource,
-                        durationSource: durationSource,
-                    )
-                }
-
-                return SubstanceProvenance(
-                    categorySource: categorySource,
-                    halfLifeSource: halfLifeSource,
-                    mechanismSource: mechanismSource,
-                    routesBySource: routesBySource,
-                )
-            }
-        } catch {
-            logger.error("provenance(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
-            return nil
-        }
-    }
-
-    /// Helper: fetch a single source slug given a `SELECT src.slug …` query.
-    private func fieldSource(db: Database, sql: String, substanceID: Int64, extra: [DatabaseValueConvertible] = []) throws -> String? {
-        var values: [DatabaseValueConvertible] = [substanceID]
-        values.append(contentsOf: extra)
-        return try String.fetchOne(db, sql: sql, arguments: StatementArguments(values))
     }
 
     /// A group of effects sharing one PsychonautWiki category, for the
