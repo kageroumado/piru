@@ -1199,6 +1199,13 @@ struct Substance: Identifiable {
     let contraindications: [Contraindication]
     /// Cross-benzo diazepam equivalency (benzodiazepines only).
     let diazepamEquivalent: DiazepamEquivalent?
+    /// PSID FAMILY — the stable substance-identity anchor (InChIKey connectivity
+    /// block 1, or a sentinel-digit name-hash for structure-less / collision
+    /// rows). Fold-family siblings (a racemate and its enantiomers, IR and XR)
+    /// share this, so it is *not* unique per row; the full form identity is
+    /// `substanceUID` + the facet scalars. Loaded in **both** the batch and
+    /// detail paths — `DoseEntry.substanceUID` will reference it. See ``PSID``.
+    let substanceUID: String?
     /// Chemical identifiers (detail-only; nil in the batch/browse path).
     let cas: String?
     let inchikey: String?
@@ -1278,6 +1285,7 @@ struct Substance: Identifiable {
         indications: [String] = [],
         contraindications: [Contraindication] = [],
         diazepamEquivalent: DiazepamEquivalent? = nil,
+        substanceUID: String? = nil,
         cas: String? = nil,
         inchikey: String? = nil,
         formula: String? = nil,
@@ -1315,6 +1323,7 @@ struct Substance: Identifiable {
         self.indications = indications
         self.contraindications = contraindications
         self.diazepamEquivalent = diazepamEquivalent
+        self.substanceUID = substanceUID
         self.cas = cas
         self.inchikey = inchikey
         self.formula = formula
@@ -1668,6 +1677,7 @@ extension Substance: Codable {
         case indications
         case contraindications
         case diazepamEquivalent
+        case substanceUID
         case cas
         case inchikey
         case formula
@@ -1709,6 +1719,7 @@ extension Substance: Codable {
         indications = try c.decodeIfPresent([String].self, forKey: .indications) ?? []
         contraindications = try c.decodeIfPresent([Contraindication].self, forKey: .contraindications) ?? []
         diazepamEquivalent = try c.decodeIfPresent(DiazepamEquivalent.self, forKey: .diazepamEquivalent)
+        substanceUID = try c.decodeIfPresent(String.self, forKey: .substanceUID)
         cas = try c.decodeIfPresent(String.self, forKey: .cas)
         inchikey = try c.decodeIfPresent(String.self, forKey: .inchikey)
         formula = try c.decodeIfPresent(String.self, forKey: .formula)
@@ -1762,6 +1773,7 @@ extension Substance: Codable {
             try c.encode(contraindications, forKey: .contraindications)
         }
         try c.encodeIfPresent(diazepamEquivalent, forKey: .diazepamEquivalent)
+        try c.encodeIfPresent(substanceUID, forKey: .substanceUID)
         try c.encodeIfPresent(cas, forKey: .cas)
         try c.encodeIfPresent(inchikey, forKey: .inchikey)
         try c.encodeIfPresent(formula, forKey: .formula)

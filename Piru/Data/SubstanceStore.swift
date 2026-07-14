@@ -177,6 +177,13 @@ final class SubstanceStore {
     /// full SQL scan tax.
     private(set) var nameIndex: [String: Int64] = [:]
     private var aliasIndex: [String: Int64] = [:]
+    /// PSID FAMILY (`substances.substance_uid`) → member row ids. One-to-many:
+    /// fold-family siblings (racemate + enantiomers, IR + XR) share a uid, so a
+    /// FAMILY can map to several substance rows. Built once at init alongside
+    /// ``nameIndex``. Drives ``substances(uid:)`` / ``substanceUID(forNameOrAlias:)``.
+    private var uidIndex: [String: [Int64]] = [:]
+    /// Reverse of ``uidIndex`` — row id → its FAMILY, for the O(1) name→uid path.
+    private var idToUIDIndex: [Int64: String] = [:]
     private(set) var allNames: [String] = []
 
     /// `source.slug` → `source.display_name`. Built once at init; consumed by
@@ -515,15 +522,20 @@ final class SubstanceStore {
 
     private func buildIndexes() {
         do {
-            let (names, aliases, displayNames): ([(String, Int64, String)], [(String, Int64)], [(String, String)]) = try substancesDB.read { db in
-                let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name FROM substances ORDER BY canonical_name COLLATE NOCASE")
-                let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
-                let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized FROM aliases")
-                let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
-                let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
-                let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
-                return (names, aliases, displayNames)
-            }
+            let (names, aliases, displayNames, uids):
+                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(Int64, String)]) = try substancesDB.read { db in
+                    let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE")
+                    let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
+                    let uids = nameRows.compactMap { row -> (Int64, String)? in
+                        guard let uid = row["substance_uid"] as String? else { return nil }
+                        return (row["id"] as Int64, uid)
+                    }
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized FROM aliases")
+                    let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
+                    let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
+                    let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
+                    return (names, aliases, displayNames, uids)
+                }
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name — e.g. an opt-in updated or imported DB
@@ -541,6 +553,17 @@ final class SubstanceStore {
                 ax[alias] = sid
             }
             self.aliasIndex = ax
+            // PSID FAMILY → its member row ids. Not unique — a racemate and its
+            // enantiomers (Ketamine / Es- / Arketamine) share one uid pre-fold —
+            // so this is one-to-many. Members keep DB (canonical-name) order.
+            var ux: [String: [Int64]] = [:]
+            var idux: [Int64: String] = [:]
+            for (sid, uid) in uids {
+                ux[uid, default: []].append(sid)
+                idux[sid] = uid
+            }
+            self.uidIndex = ux
+            self.idToUIDIndex = idux
             self.sourceDisplayNames = Dictionary(displayNames, uniquingKeysWith: { first, _ in first })
         } catch {
             logger.error("Failed to build indexes: \(error.localizedDescription, privacy: .public)")
@@ -590,6 +613,40 @@ final class SubstanceStore {
     func substanceID(forNameOrAlias name: String) -> Int64? {
         let key = name.lowercased()
         return nameIndex[key] ?? aliasIndex[key]
+    }
+
+    // MARK: - PSID resolution
+
+    /// The PSID FAMILY (`substance_uid`) for a substance named or aliased
+    /// `nameOrAlias`, or `nil` when the name doesn't resolve or the row has no
+    /// uid. This is the forward name→uid map the Stage 0.3 dose-backfill uses.
+    ///
+    /// **Raw library value** — bypasses the custom overlay; app code resolves
+    /// through ``SubstanceLibrary/substanceUID(for:)``.
+    func substanceUID(forNameOrAlias nameOrAlias: String) -> String? {
+        guard let id = substanceID(forNameOrAlias: nameOrAlias) else { return nil }
+        return idToUIDIndex[id]
+    }
+
+    /// Row ids sharing the PSID FAMILY `uid` (a fold family — racemate +
+    /// enantiomers, or IR + XR), in canonical-name order; empty when unknown.
+    func substanceIDs(forUID uid: String) -> [Int64] {
+        uidToID[uid] ?? []
+    }
+
+    /// The fully-resolved substances sharing the PSID FAMILY `uid`. Empty when
+    /// the uid is unknown. A family is small (≤ a few members), so resolving
+    /// each is cheap.
+    ///
+    /// **Raw library rows** — bypass the custom overlay; app code resolves
+    /// through ``SubstanceLibrary/substances(uid:)``.
+    func substances(uid: String) -> [Substance] {
+        substanceIDs(forUID: uid).compactMap { resolveSubstance(id: $0, canonicalName: nil) }
+    }
+
+    /// Test/diagnostic view over the FAMILY → ids index.
+    var uidToID: [String: [Int64]] {
+        uidIndex
     }
 
     /// All substances in the library. Lazily resolves on first access; the
@@ -923,7 +980,7 @@ final class SubstanceStore {
                 let allRows = try Row.fetchAll(
                     db,
                     sql:
-                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity, is_stub FROM substances ORDER BY canonical_name COLLATE NOCASE",
+                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity, is_stub, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE",
                 )
                 let ids: [Int64] = allRows.map { $0["id"] }
                 let names: [Int64: String] = Dictionary(
@@ -940,6 +997,7 @@ final class SubstanceStore {
                 var regulatoryByID: [Int64: String] = [:]
                 var durationImplausibleByID: [Int64: Bool] = [:]
                 var isStubByID: [Int64: Bool] = [:]
+                var substanceUIDByID: [Int64: String] = [:]
                 for row in allRows {
                     let sid: Int64 = row["id"]
                     if let raw: String = row["display_class"], let cls = CompoundDisplayClass(rawValue: raw) {
@@ -950,6 +1008,7 @@ final class SubstanceStore {
                     if let dn: String = row["display_name"] { displayNameByID[sid] = dn }
                     popularityByID[sid] = row["popularity"] as Double? ?? 0
                     isStubByID[sid] = (row["is_stub"] as Int64? ?? 0) != 0
+                    if let uid: String = row["substance_uid"] { substanceUIDByID[sid] = uid }
                 }
 
                 // Aliases — union across sources.
@@ -1095,6 +1154,7 @@ final class SubstanceStore {
                         displayClass: displayClassByID[sid] ?? .recreational,
                         regulatoryStatus: regulatoryByID[sid],
                         durationImplausible: durationImplausibleByID[sid] ?? false,
+                        substanceUID: substanceUIDByID[sid],
                         popularity: popularityByID[sid] ?? 0,
                         isStub: isStubByID[sid] ?? false,
                     )
@@ -1328,7 +1388,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, logd, pka, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, logd, pka, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -1336,6 +1396,7 @@ final class SubstanceStore {
                 let displayClass = (coreRow["display_class"] as String?).flatMap(CompoundDisplayClass.init(rawValue:)) ?? .recreational
                 let regulatoryStatus: String? = coreRow["regulatory_status"]
                 let durationImplausible = (coreRow["duration_implausible"] as Int64? ?? 0) != 0
+                let substanceUID: String? = coreRow["substance_uid"]
                 let cas: String? = coreRow["cas"]
                 let inchikey: String? = coreRow["inchikey"]
                 let formula: String? = coreRow["formula"]
@@ -1402,6 +1463,7 @@ final class SubstanceStore {
                     indications: indications,
                     contraindications: contraindications,
                     diazepamEquivalent: diazepamEquivalent,
+                    substanceUID: substanceUID,
                     cas: cas,
                     inchikey: inchikey,
                     formula: formula,

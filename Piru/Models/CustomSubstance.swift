@@ -183,6 +183,7 @@ extension Substance {
             indications: indications,
             contraindications: contraindications,
             diazepamEquivalent: diazepamEquivalent,
+            substanceUID: substanceUID,
             cas: cas,
             inchikey: inchikey,
             formula: formula,

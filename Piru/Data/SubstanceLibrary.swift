@@ -84,6 +84,25 @@ enum SubstanceLibrary {
         return overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
     }
 
+    // MARK: - PSID (substance_uid) resolution
+
+    /// The PSID FAMILY (`substance_uid`) for the substance named or aliased
+    /// `nameOrAlias`, or `nil` when it doesn't resolve. The forward name→uid map
+    /// the Stage 0.3 dose backfill uses. Name resolution still runs in parallel —
+    /// this is additive; it changes no existing behavior.
+    static func substanceUID(for nameOrAlias: String) -> String? {
+        SubstanceStore.shared.substanceUID(forNameOrAlias: nameOrAlias)
+    }
+
+    /// The substances sharing a PSID FAMILY `uid` (a fold family — a racemate and
+    /// its enantiomers, or IR and XR), each overlaid with any custom edit. Empty
+    /// when the uid is unknown.
+    static func substances(uid: String) -> [Substance] {
+        SubstanceStore.shared.substances(uid: uid).map {
+            overlayCustom(library: $0, query: $0.name) ?? $0
+        }
+    }
+
     static func search(_ query: String, limit: Int = 50) -> [Substance] {
         SubstanceStore.shared.search(query, limit: limit)
     }
