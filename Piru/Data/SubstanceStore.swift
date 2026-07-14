@@ -771,6 +771,9 @@ final class SubstanceStore {
     /// unspecified/base form that the vast majority of substances use.
     struct RouteVariant {
         let salt: String?
+        /// Stereoisomer code (D/S/L/R; `nil` = racemic) + its title ("Esketamine").
+        let isomer: String?
+        let isomerDisplayName: String?
         let unit: String
         let doses: DoseRange
         let duration: DurationProfile?
@@ -792,14 +795,12 @@ final class SubstanceStore {
         protocolDosing: ProtocolDosing? = nil,
         durationOfAction: DurationOfAction? = nil,
     ) -> SubstanceRoute {
-        // Order by curated `salt_rank` (0 = default); fall back to label for ties
-        // or when no rank is set (older DBs), so the default is data-driven, not
-        // alphabetical-by-accident.
-        let tagged = variants.filter { $0.salt != nil }.sorted {
-            ($0.rank ?? Int.max, $0.salt!) < ($1.rank ?? Int.max, $1.salt!)
-        }
-        guard let first = tagged.first else {
-            // No salt dimension — use the base (unspecified) variant.
+        let hasSalt = variants.contains { $0.salt != nil }
+        let hasIsomer = variants.contains { $0.isomer != nil }
+
+        /// The base (unspecified) route, used when there's no form axis or nothing
+        /// to fold — the single spot that mirrors a variant into the top-level route.
+        func baseRoute() -> SubstanceRoute {
             let base = variants.first
             return SubstanceRoute(
                 route: route, unit: base?.unit ?? "mg",
@@ -807,9 +808,24 @@ final class SubstanceStore {
                 protocolDosing: protocolDosing, durationOfAction: durationOfAction,
             )
         }
-        let saltForms = tagged.map {
+        guard hasSalt || hasIsomer else { return baseRoute() }
+
+        // Selectable forms: an isomer family keeps ALL variants (racemic parent
+        // coexists with its enantiomers, each with its own ladder); a salt-only
+        // substance keeps just the salt-tagged variants (unchanged salt behavior).
+        let forms = hasIsomer ? variants : variants.filter { $0.salt != nil }
+
+        // Racemic (nil-isomer) first — the sensible default — then curated
+        // salt_rank, then label for a data-driven (not alphabetical) default.
+        let ordered = forms.sorted {
+            ($0.isomer == nil ? 0 : 1, $0.rank ?? Int.max, $0.salt ?? "", $0.isomer ?? "")
+                < ($1.isomer == nil ? 0 : 1, $1.rank ?? Int.max, $1.salt ?? "", $1.isomer ?? "")
+        }
+        guard let first = ordered.first else { return baseRoute() }
+        let saltForms = ordered.map {
             SaltVariant(
-                saltForm: $0.salt!, unit: $0.unit, doses: $0.doses,
+                saltForm: $0.salt, isomer: $0.isomer, isomerDisplayName: $0.isomerDisplayName,
+                unit: $0.unit, doses: $0.doses,
                 duration: $0.duration, elementalFraction: $0.elementalFraction,
             )
         }
@@ -827,22 +843,18 @@ final class SubstanceStore {
     /// the `nonisolated static` resolver (which runs off-main during the
     /// library prewarm) — without it the default `MainActor` isolation would
     /// taint the conformance and reject the off-main dictionary keying.
-    private nonisolated struct RouteSaltKey: Hashable { let sid: Int64; let route: String; let salt: String? }
+    private nonisolated struct RouteSaltKey: Hashable {
+        let sid: Int64; let route: String; let salt: String?; let isomer: String?
+    }
 
     /// The **single** set-based dose/duration route resolver, shared by the
     /// batch loader and the per-substance detail/`lookup` path. Given a set of
     /// substance ids it runs **one windowed query per table** (`dose_ranges`,
-    /// `durations`) — partitioned by `(substance_id, route, salt_form)`
+    /// `durations`) — partitioned by `(substance_id, route, salt_form, isomer)`
     /// (durations also by `phase`) and restricted to `substance_id IN (…)` —
     /// then groups the rows in Swift and assembles each substance's dose-bearing
-    /// `[SubstanceRoute]` via ``makeRoute`` (the single salt-fold point).
-    ///
-    /// This collapses the former detail-path N+1 — one dose query per substance,
-    /// then a `resolvedDoseForRoute` per route and a per-salt
-    /// `resolvedDurationForRoute` under it (~10-15 tiny queries) — into a
-    /// constant two queries regardless of id-set size, and removes the
-    /// string-built `salt_form IS NULL` vs `= ?` branch: a row's `salt_form` is
-    /// read as `String?` and grouped in Swift.
+    /// `[SubstanceRoute]` via ``makeRoute`` (the single form-fold point). This
+    /// collapses the former detail-path N+1 into a constant two queries.
     ///
     /// `nonisolated` so it runs off-main during the library prewarm; every model
     /// it builds (`DoseRange`, `DurationProfile`, `SubstanceRoute`,
@@ -850,10 +862,7 @@ final class SubstanceStore {
     /// duration-of-action — whose model initializers are `MainActor`-isolated,
     /// and which never appeared in the browse path — are folded in afterward by
     /// the MainActor ``attachAuxiliaryRoutes(db:substanceID:doseRoutes:)`` on the
-    /// detail path only.
-    ///
-    /// The returned arrays are **not** route-rank sorted — callers sort, exactly
-    /// as they did before.
+    /// detail path only. Returned arrays are **not** route-rank sorted — callers sort.
     private nonisolated static func resolveRoutes(
         db: Database,
         substanceIDs: Set<Int64>,
@@ -868,14 +877,15 @@ final class SubstanceStore {
         let idListSQL = substanceIDs.map(String.init).joined(separator: ", ")
 
         // 1. Dose ladders — highest-priority source per (substance, route, salt).
-        var dosesByKey: [RouteSaltKey: (unit: String, doses: DoseRange, rank: Int?, elemental: Double?)] = [:]
+        var dosesByKey: [RouteSaltKey: (unit: String, doses: DoseRange, rank: Int?, elemental: Double?, isomerDisplay: String?)] = [:]
         for row in try Row.fetchAll(db, sql: """
-            SELECT substance_id, route, salt_form, salt_rank, elemental_fraction, unit, threshold,
+            SELECT substance_id, route, salt_form, isomer, isomer_display_name, salt_rank,
+                   elemental_fraction, unit, threshold,
                    light_lower, light_upper, common_lower, common_upper,
                    strong_lower, strong_upper, heavy
               FROM (
                 SELECT d.*, ROW_NUMBER() OVER (
-                    PARTITION BY d.substance_id, d.route, d.salt_form
+                    PARTITION BY d.substance_id, d.route, d.salt_form, d.isomer
                     ORDER BY \(priorityCaseSQL) ASC) AS rn
                   FROM dose_ranges d
                   JOIN sources src ON src.id = d.source_id
@@ -883,7 +893,10 @@ final class SubstanceStore {
                    AND src.slug IN (\(enabledSourceListSQL))
             ) WHERE rn = 1
         """) {
-            let key = RouteSaltKey(sid: row["substance_id"], route: row["route"], salt: row["salt_form"])
+            let key = RouteSaltKey(
+                sid: row["substance_id"], route: row["route"],
+                salt: row["salt_form"], isomer: row["isomer"],
+            )
             let dose = DoseRange(
                 threshold: row["threshold"],
                 light: rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
@@ -894,6 +907,7 @@ final class SubstanceStore {
             dosesByKey[key] = (
                 row["unit"] ?? "mg", dose,
                 (row["salt_rank"] as Int64?).map(Int.init), row["elemental_fraction"],
+                row["isomer_display_name"],
             )
         }
 
@@ -915,7 +929,8 @@ final class SubstanceStore {
         for (key, value) in dosesByKey {
             variantsByID[key.sid, default: [:]][key.route, default: []].append(
                 RouteVariant(
-                    salt: key.salt, unit: value.unit, doses: value.doses,
+                    salt: key.salt, isomer: key.isomer, isomerDisplayName: value.isomerDisplay,
+                    unit: value.unit, doses: value.doses,
                     duration: durationByKey[key],
                     rank: value.rank, elementalFraction: value.elemental,
                 ),
@@ -939,12 +954,12 @@ final class SubstanceStore {
     ) throws -> [RouteSaltKey: DurationProfile] {
         var phasesByKey: [RouteSaltKey: [String: DurationRange]] = [:]
         for row in try Row.fetchAll(db, sql: """
-            SELECT substance_id, route, salt_form, phase, min_minutes, max_minutes
+            SELECT substance_id, route, salt_form, isomer, phase, min_minutes, max_minutes
               FROM (
-                SELECT du.substance_id, du.route, du.salt_form, du.phase,
+                SELECT du.substance_id, du.route, du.salt_form, du.isomer, du.phase,
                        du.min_minutes, du.max_minutes,
                        ROW_NUMBER() OVER (
-                           PARTITION BY du.substance_id, du.route, du.phase, du.salt_form
+                           PARTITION BY du.substance_id, du.route, du.phase, du.salt_form, du.isomer
                            ORDER BY \(priorityCaseSQL) ASC) AS rn
                   FROM durations du
                   JOIN sources src ON src.id = du.source_id
@@ -952,7 +967,10 @@ final class SubstanceStore {
                    AND src.slug IN (\(enabledSourceListSQL))
             ) WHERE rn = 1
         """) {
-            let key = RouteSaltKey(sid: row["substance_id"], route: row["route"], salt: row["salt_form"])
+            let key = RouteSaltKey(
+                sid: row["substance_id"], route: row["route"],
+                salt: row["salt_form"], isomer: row["isomer"],
+            )
             phasesByKey[key, default: [:]][row["phase"]] = DurationRange(
                 min: row["min_minutes"], max: row["max_minutes"],
             )
@@ -1549,14 +1567,14 @@ final class SubstanceStore {
         guard !order.isEmpty else { return nil }
         let priorityCaseSQL = priorityCaseSQL(order)
         let enabledSourceListSQL = enabledSourceListSQL(order)
-        let rows: [(route: String, common: Double?, strong: Double?, heavy: Double?)]
+        let rows: [(route: String, isomer: String?, common: Double?, strong: Double?, heavy: Double?)]
         do {
             rows = try queue.read { db in
                 try Row.fetchAll(db, sql: """
-                    SELECT route, common_upper, strong_upper, heavy
+                    SELECT route, isomer, common_upper, strong_upper, heavy
                       FROM (
                         SELECT d.*, ROW_NUMBER() OVER (
-                            PARTITION BY d.substance_id, d.route, d.salt_form
+                            PARTITION BY d.substance_id, d.route, d.salt_form, d.isomer
                             ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM dose_ranges d
                           JOIN sources src ON src.id = d.source_id
@@ -1564,25 +1582,33 @@ final class SubstanceStore {
                            AND src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1
                 """, arguments: [substanceID]).map {
-                    (route: $0["route"] ?? "", common: $0["common_upper"], strong: $0["strong_upper"], heavy: $0["heavy"])
+                    (
+                        route: $0["route"] ?? "",
+                        isomer: $0["isomer"],
+                        common: $0["common_upper"],
+                        strong: $0["strong_upper"],
+                        heavy: $0["heavy"],
+                    )
                 }
             }
         } catch {
             logger.error("referenceDoseMg failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
-        func reference(_ row: (route: String, common: Double?, strong: Double?, heavy: Double?)) -> Double? {
+        func reference(_ row: (route: String, isomer: String?, common: Double?, strong: Double?, heavy: Double?)) -> Double? {
             row.heavy ?? row.strong ?? row.common
         }
-        // Oral first (the dose-ladder primary route), else the first route that yields a value.
-        if let oral = rows.first(where: { RouteOfAdministration.from(string: $0.route) == .oral }),
-           let value = reference(oral) {
-            return value
+        /// Prefer the racemic form so a family's reference is the parent's, not an
+        /// arbitrary enantiomer's; oral first, else the first route yielding a value.
+        func firstReference(preferRacemic: Bool) -> Double? {
+            let candidates = preferRacemic ? rows.filter { $0.isomer == nil } : rows
+            if let oral = candidates.first(where: { RouteOfAdministration.from(string: $0.route) == .oral }),
+               let value = reference(oral) {
+                return value
+            }
+            return candidates.lazy.compactMap(reference).first
         }
-        for row in rows where reference(row) != nil {
-            return reference(row)
-        }
-        return nil
+        return firstReference(preferRacemic: true) ?? firstReference(preferRacemic: false)
     }
 
     private nonisolated static func priorityCaseSQL(_ order: [String]) -> String {
@@ -1806,12 +1832,16 @@ final class SubstanceStore {
                 // so re-folding through makeRoute is order-preserving and lossless.
                 saltForms.enumerated().map { idx, sv in
                     RouteVariant(
-                        salt: sv.saltForm, unit: sv.unit, doses: sv.doses, duration: sv.duration,
+                        salt: sv.saltForm, isomer: sv.isomer, isomerDisplayName: sv.isomerDisplayName,
+                        unit: sv.unit, doses: sv.doses, duration: sv.duration,
                         rank: idx, elementalFraction: sv.elementalFraction,
                     )
                 }
             } else {
-                [RouteVariant(salt: nil, unit: route.unit, doses: route.doses, duration: route.duration)]
+                [RouteVariant(
+                    salt: nil, isomer: nil, isomerDisplayName: nil,
+                    unit: route.unit, doses: route.doses, duration: route.duration,
+                )]
             }
             return Self.makeRoute(
                 route: route.route, variants: variants,
@@ -1830,7 +1860,7 @@ final class SubstanceStore {
         for routeStr in durationRoutes.sorted() {
             let ra = RouteOfAdministration.from(string: routeStr)
             guard !haveRoutes.contains(ra) else { continue }
-            let duration = durationByKey[RouteSaltKey(sid: substanceID, route: routeStr, salt: nil)]
+            let duration = durationByKey[RouteSaltKey(sid: substanceID, route: routeStr, salt: nil, isomer: nil)]
             resolved.append(SubstanceRoute(
                 route: ra, unit: "mg", doses: DoseRange(), duration: duration,
                 protocolDosing: protocolByRoute[ra]?.dosing,

@@ -20,19 +20,21 @@ struct PSIDResolutionTests {
     }
 
     @Test
-    func `A fold family shares one uid across its members`() throws {
+    func `A folded family folds to one row exposing its isomers`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        // Ketamine / Esketamine / Arketamine coexist pre-fold under one block-1
-        // FAMILY — the canonical one-to-many case the uid index must model.
-        let uid = try #require(store.substanceUID(forNameOrAlias: "Ketamine"))
-        let family = store.substances(uid: uid)
-        let names = Set(family.map(\.name))
-        #expect(names.contains("Ketamine"))
-        #expect(names.contains("Esketamine"))
-        #expect(names.contains("Arketamine"))
-        #expect(family.allSatisfy { $0.substanceUID == uid })
+        // Stage A folds Ketamine / Esketamine / Arketamine into ONE row: the
+        // enantiomer names resolve to Ketamine's FAMILY via alias, and Ketamine
+        // exposes them as selectable isomer forms rather than separate rows.
+        let ketUID = try #require(store.substanceUID(forNameOrAlias: "Ketamine"))
+        #expect(store.substanceUID(forNameOrAlias: "Esketamine") == ketUID)
+        #expect(store.substanceUID(forNameOrAlias: "Arketamine") == ketUID)
+
+        let ketamine = try #require(store.lookup("Ketamine"))
+        let isomers = Set(ketamine.availableIsomers)
+        #expect(isomers.contains("S"), "Esketamine folds in as isomer S")
+        #expect(isomers.contains("R"), "Arketamine folds in as isomer R")
     }
 
     @Test
@@ -40,10 +42,17 @@ struct PSIDResolutionTests {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
+        // A folded family is one row: the enantiomer alias resolves to the
+        // racemate's FAMILY, and the reverse uid→rows lookup returns just that row.
         let esUID = try #require(store.substanceUID(forNameOrAlias: "Esketamine"))
         let ketUID = try #require(store.substanceUID(forNameOrAlias: "Ketamine"))
-        #expect(esUID == ketUID, "enantiomer and racemate share a FAMILY")
-        #expect(store.substanceIDs(forUID: esUID).count >= 2)
+        #expect(esUID == ketUID, "enantiomer alias resolves to the racemate's FAMILY")
+        #expect(store.substanceIDs(forUID: ketUID).count == 1)
+
+        // The intentionally-unfolded Etiracetam/Levetiracetam pair are two distinct
+        // rows sharing one FAMILY — the surviving genuine one-to-many uid case.
+        let levUID = try #require(store.substanceUID(forNameOrAlias: "Levetiracetam"))
+        #expect(store.substanceIDs(forUID: levUID).count >= 2)
     }
 
     @Test

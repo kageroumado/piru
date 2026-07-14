@@ -1047,9 +1047,17 @@ struct SubstanceDetailView: View {
         )
     }
 
-    /// Salt forms offered by the active route — drives the browse-time salt picker.
+    /// Dose-form variants offered by the active route — drives the browse-time
+    /// salt/isomer pickers.
     private var activeSaltForms: [SaltVariant] {
         activeSubstanceRoute?.saltForms ?? []
+    }
+
+    /// Distinct real salt labels on the active route (the racemic/isomer variants
+    /// carry no salt, so they're excluded). Drives the salt picker's visibility.
+    private var activeSaltLabels: [String] {
+        var seen = Set<String>()
+        return activeSaltForms.compactMap(\.saltForm).filter { seen.insert($0).inserted }
     }
 
     /// The salt variant driving the dose card: the user's pick when valid, else
@@ -1068,7 +1076,7 @@ struct SubstanceDetailView: View {
     /// the explicit pick.
     private var saltSelection: Binding<String?> {
         Binding(
-            get: { activeSaltVariant?.saltForm ?? activeSaltForms.first?.saltForm },
+            get: { activeSaltVariant.flatMap(\.saltForm) ?? activeSaltForms.first.flatMap(\.saltForm) },
             set: { selectedSaltForm = $0 },
         )
     }
@@ -1209,9 +1217,9 @@ struct SubstanceDetailView: View {
                         .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 8, trailing: 20))
                         .listRowSeparator(.hidden)
                 }
-                if activeSaltForms.count > 1 {
+                if activeSaltLabels.count > 1 {
                     SaltPicker(
-                        forms: activeSaltForms.map(\.saltForm),
+                        forms: activeSaltLabels,
                         selection: saltSelection,
                         style: .formRow,
                     )

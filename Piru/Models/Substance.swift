@@ -668,9 +668,22 @@ struct DurationOfAction: Codable, Hashable {
 /// ``SubstanceRoute/saltForms`` lists all forms, ordered with the default first;
 /// the route's top-level `doses`/`unit`/`duration` mirror that default form so
 /// salt-unaware code keeps working transparently.
+/// A single dose-bearing **form** of a route — historically salt-only, now
+/// multi-axis (Stage A). Each variant carries its own `unit`/`doses`/`duration`
+/// so a resolved enantiomer's distinct pharmacology (armodafinil's longer
+/// exposure, Focalin's ~2× potency) is real per-form data, not a cosmetic label.
+/// The two orthogonal facets are independent: `saltForm` (the counter-ion) and
+/// `isomer` (the stereo code). `nil` on either = unspecified/racemic on that axis.
 struct SaltVariant: Codable, Hashable {
-    /// Free-form label (Citrate, Glycinate, L-Threonate, Carbonate, Orotate…).
-    let saltForm: String
+    /// Salt/ester label (Citrate, Glycinate, L-Threonate…). `nil` = freebase /
+    /// unspecified — the common case, and the racemic form of an isomer family.
+    let saltForm: String?
+    /// Stereoisomer code (D/S/L/R). `nil` = racemate/unspecified. Drives PSID
+    /// identity + dedup; never shown bare (see `isomerDisplayName`).
+    let isomer: String?
+    /// The recognized name titling this isomer form ("Dexmethylphenidate",
+    /// "Esketamine", "Armodafinil"). `nil` for the racemic/unspecified form.
+    let isomerDisplayName: String?
     let unit: String
     let doses: DoseRange
     let duration: DurationProfile?
@@ -680,13 +693,17 @@ struct SaltVariant: Codable, Hashable {
     let elementalFraction: Double?
 
     nonisolated init(
-        saltForm: String,
+        saltForm: String? = nil,
+        isomer: String? = nil,
+        isomerDisplayName: String? = nil,
         unit: String,
         doses: DoseRange,
         duration: DurationProfile? = nil,
         elementalFraction: Double? = nil,
     ) {
         self.saltForm = saltForm
+        self.isomer = isomer
+        self.isomerDisplayName = isomerDisplayName
         self.unit = unit
         self.doses = doses
         self.duration = duration
@@ -1504,15 +1521,29 @@ struct Substance: Identifiable {
     // overload whenever a salt is in scope; reach for the route-only one only
     // when no salt selection exists.
 
+    /// The dose-bearing variant of a route matching BOTH form axes — the salt
+    /// counter-ion and the stereoisomer. Returns `nil` when the route has no
+    /// variant list or no exact match, so callers fall back to the route's
+    /// top-level (default-form) fields. A salt-only substance carries `isomer ==
+    /// nil` on every variant, so passing `isomer: nil` reduces to a salt match
+    /// (and vice-versa) — the two axes stay independent.
+    private func doseVariant(
+        for route: RouteOfAdministration, saltForm: String?, isomer: String?,
+    ) -> SaltVariant? {
+        routes.first { $0.route == route }?
+            .saltForms?.first { $0.saltForm == saltForm && $0.isomer == isomer }
+    }
+
     /// Distinct salt/ester forms across all routes, ordered (default first,
     /// then by first appearance). Empty for the vast majority of substances.
     /// Drives the "does this substance have a salt dimension at all" check.
+    /// Skips the `nil`-salt racemic entry that isomer families now carry.
     var availableSaltForms: [String] {
         var seen = Set<String>()
         var ordered: [String] = []
         for route in routes {
-            for variant in route.saltForms ?? [] where seen.insert(variant.saltForm).inserted {
-                ordered.append(variant.saltForm)
+            for variant in route.saltForms ?? [] {
+                if let salt = variant.saltForm, seen.insert(salt).inserted { ordered.append(salt) }
             }
         }
         return ordered
@@ -1521,62 +1552,119 @@ struct Substance: Identifiable {
     /// Salt forms available for a specific route, in stored order (default
     /// first). The salt picker is shown only when this has more than one entry.
     func saltForms(for route: RouteOfAdministration) -> [String] {
-        routes.first { $0.route == route }?.saltForms?.map(\.saltForm) ?? []
+        var seen = Set<String>()
+        var ordered: [String] = []
+        for variant in routes.first(where: { $0.route == route })?.saltForms ?? [] {
+            if let salt = variant.saltForm, seen.insert(salt).inserted { ordered.append(salt) }
+        }
+        return ordered
     }
 
-    /// The salt form selected by default — the default route's first form,
+    /// The salt form selected by default — the default route's first salt form,
     /// falling back to any route's first form. `nil` when the substance has no
     /// salt dimension.
     var defaultSaltForm: String? {
         (routes.first { $0.route == defaultRoute } ?? routes.first)?
-            .saltForms?.first?.saltForm
+            .saltForms?.compactMap(\.saltForm).first
     }
 
-    /// Dose ladder for a route, narrowed to a salt form when one is given and
-    /// present. Falls back to the route's default (top-level) ladder when the
-    /// salt is `nil` or not found — so salt-unaware callers stay correct.
-    func doseRange(for route: RouteOfAdministration, saltForm: String?) -> DoseRange? {
-        guard let r = routes.first(where: { $0.route == route }) else { return nil }
-        if let saltForm, let variant = r.saltForms?.first(where: { $0.saltForm == saltForm }) {
-            return variant.doses
+    // MARK: - Isomer forms (Stage A)
+
+    /// Distinct isomer codes across all routes (the racemic `nil` form is the
+    /// default and is excluded). Drives the "does this substance have an isomer
+    /// axis" check — empty for the overwhelming majority.
+    var availableIsomers: [String] {
+        var seen = Set<String>()
+        var ordered: [String] = []
+        for route in routes {
+            for variant in route.saltForms ?? [] {
+                if let iso = variant.isomer, seen.insert(iso).inserted { ordered.append(iso) }
+            }
         }
-        return r.doses
+        return ordered
     }
 
-    /// Unit for a route, narrowed to a salt form when present (salts may differ:
-    /// elemental mg vs compound mg). Falls back to the route/default unit.
-    func unit(for route: RouteOfAdministration, saltForm: String?) -> String {
+    /// The named isomer options for a route — racemic first (titled with the
+    /// substance's own name), then each resolved enantiomer titled with its
+    /// recognized name ("Esketamine", "Armodafinil"). Empty when the route has
+    /// no isomer axis; the isomer picker is shown only when this has >1 entry.
+    /// `code == nil` is the racemic/unspecified selection.
+    func isomerOptions(for route: RouteOfAdministration) -> [(code: String?, displayName: String)] {
+        guard let variants = routes.first(where: { $0.route == route })?.saltForms,
+              variants.contains(where: { $0.isomer != nil })
+        else { return [] }
+        var seenCodes = Set<String>()
+        var sawRacemic = false
+        var out: [(code: String?, displayName: String)] = []
+        for variant in variants {
+            if let iso = variant.isomer {
+                guard seenCodes.insert(iso).inserted else { continue }
+                out.append((iso, variant.isomerDisplayName ?? "\(name) (\(iso))"))
+            } else if !sawRacemic {
+                sawRacemic = true
+                out.append((nil, name))
+            }
+        }
+        return out
+    }
+
+    /// Default isomer selection for a route — racemic (`nil`) when the family
+    /// has a racemic form, else the first resolved enantiomer. `nil` for
+    /// substances with no isomer axis too (harmless — no picker is shown).
+    func defaultIsomer(for route: RouteOfAdministration) -> String? {
+        guard let variants = routes.first(where: { $0.route == route })?.saltForms,
+              variants.contains(where: { $0.isomer != nil })
+        else { return nil }
+        if variants.contains(where: { $0.isomer == nil }) { return nil } // racemic is default
+        return variants.first?.isomer
+    }
+
+    /// Dose ladder for a route, narrowed to a specific form (salt × isomer) when
+    /// given and present. Falls back to the route's default (top-level) ladder
+    /// when the form is `nil`/unspecified or not found — so form-unaware callers
+    /// stay correct.
+    func doseRange(
+        for route: RouteOfAdministration, saltForm: String?, isomer: String? = nil,
+    ) -> DoseRange? {
+        guard let r = routes.first(where: { $0.route == route }) else { return nil }
+        return doseVariant(for: route, saltForm: saltForm, isomer: isomer)?.doses ?? r.doses
+    }
+
+    /// Unit for a route, narrowed to a specific form when present (forms may
+    /// differ: elemental mg vs compound mg). Falls back to the route/default unit.
+    func unit(
+        for route: RouteOfAdministration, saltForm: String?, isomer: String? = nil,
+    ) -> String {
         guard let r = routes.first(where: { $0.route == route }) else { return defaultUnit }
-        if let saltForm, let variant = r.saltForms?.first(where: { $0.saltForm == saltForm }) {
-            return variant.unit
-        }
-        return r.unit
+        return doseVariant(for: route, saltForm: saltForm, isomer: isomer)?.unit ?? r.unit
     }
 
-    /// Duration profile for a route, narrowed to a salt form when present.
+    /// Duration profile for a route, narrowed to a specific form when present.
     /// Falls back to the route's default duration.
-    func duration(for route: RouteOfAdministration, saltForm: String?) -> DurationProfile? {
+    func duration(
+        for route: RouteOfAdministration, saltForm: String?, isomer: String? = nil,
+    ) -> DurationProfile? {
         guard let r = routes.first(where: { $0.route == route }) else { return nil }
-        if let saltForm, let variant = r.saltForms?.first(where: { $0.saltForm == saltForm }) {
-            return variant.duration
-        }
-        return r.duration
+        return doseVariant(for: route, saltForm: saltForm, isomer: isomer)?.duration ?? r.duration
     }
 
     /// Mass fraction of the elemental active for a salt form on a route (e.g.
     /// 0.14 for Magnesium glycinate). `nil` when unknown / not applicable.
-    func elementalFraction(for route: RouteOfAdministration, saltForm: String?) -> Double? {
-        guard let saltForm else { return nil }
-        return routes.first { $0.route == route }?
-            .saltForms?.first { $0.saltForm == saltForm }?.elementalFraction
+    func elementalFraction(
+        for route: RouteOfAdministration, saltForm: String?, isomer: String? = nil,
+    ) -> Double? {
+        guard saltForm != nil else { return nil }
+        return doseVariant(for: route, saltForm: saltForm, isomer: isomer)?.elementalFraction
     }
 
     /// The amount of *elemental* active (e.g. elemental magnesium) in `amount`
     /// of the given salt form on a route — `amount × elementalFraction`. `nil`
     /// when the salt has no known elemental fraction (the common case), so the
     /// UI shows the breakdown only where it's meaningful (Magnesium, Lithium…).
-    func elementalAmount(of amount: Double, for route: RouteOfAdministration, saltForm: String?) -> Double? {
-        elementalFraction(for: route, saltForm: saltForm).map { amount * $0 }
+    func elementalAmount(
+        of amount: Double, for route: RouteOfAdministration, saltForm: String?, isomer: String? = nil,
+    ) -> Double? {
+        elementalFraction(for: route, saltForm: saltForm, isomer: isomer).map { amount * $0 }
     }
 
     /// Best available duration: exact route → similar route → generic fallback.
