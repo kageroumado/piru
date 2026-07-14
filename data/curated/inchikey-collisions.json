@@ -1,0 +1,25 @@
+{
+  "_comment": "Single source of truth for how InChIKey collisions are resolved. Several same-skeleton (block-1) or same-full-key collisions in the catalog are not accidental: some are distinct drugs whose upstream keys were corrupted to collide, some are the same drug split across two rows, and some are legitimate stereoisomer families. This registry unifies the dispositions that used to drift across _DO_NOT_MERGE and _FORCE_MERGE (pipeline/build/sqlite.py) and _KNOWN_INCHIKEY_DUPS (the overlay-integrity test); it is loaded via pipeline/collision_registry.py. The fold families live in isomer-families.json and are referenced here by disposition only. Each cluster is a set of EXACT canonical_name values with a disposition: 'distinct' = different drugs sharing (or having shared, pre-correction) an InChIKey block, which the dedup merge must never fuse; 'merge' = the same drug split across rows, folded into `into`. Corrupt shared keys are fixed separately in IDENTIFIER_CORRECTIONS (Stage 0.0a); this registry records the classification the fixes and guards consume. Stage 0.1 (PSID FAMILY assignment) reads it too.",
+  "distinct": [
+    { "members": ["Methylone", "Cyclobenzaprine"], "note": "unrelated drugs; one row carried a wrong shared connectivity block" },
+    { "members": ["CBC", "CBG"], "note": "distinct cannabinoids sharing a block" },
+    { "members": ["3-MMC", "Myristicin"], "note": "unrelated" },
+    { "members": ["Tilidine", "Methylphenidate"], "note": "unrelated; corrupt shared block" },
+    { "members": ["Tilidine", "Dexmethylphenidate"], "note": "unrelated; corrupt shared block" },
+    { "members": ["Picamilon", "Selegiline"], "note": "unrelated" },
+    { "members": ["CBDV", "THCV"], "note": "distinct cannabinoids" },
+    { "members": ["4-Chloroamphetamine", "Fenfluramine"], "note": "unrelated" },
+    { "members": ["Cannabis", "THC"], "note": "plant vs single molecule; Cannabis's structure is nulled in 0.0a so the plant no longer carries THC's key" },
+    { "members": ["Dextromethorphan", "Levomethorphan"], "note": "enantiomers, genuinely distinct drugs (antitussive vs opioid); shared full key corrected in 0.0a (Dextromethorphan -> MKXZASYAUGDDCJ-NJAFHUGGSA-N)" },
+    { "members": ["Ephedrine", "Pseudoephedrine"], "note": "diastereomers; both rows had lost their stereo (identical flat key). Corrected to distinct stereo keys in 0.0a. Default disposition is distinct (see spec open question 3); revisit if a diastereomer fold is ever wanted" },
+    { "members": ["4F-PHP", "alpha-Pyrrolidinohexiophenone"], "note": "4F-PHP had a-PHP's (fluorine-less) structure; corrected in 0.0a to the 4-fluoro key BCJXLSGKMNRRKO" },
+    { "members": ["Butonitazene", "Metodesnitazene"], "note": "distinct nitazene opioids; Butonitazene had metodesnitazene's methoxy/desnitro structure; corrected in 0.0a to the butoxy-nitro key UZZPOLCDCVWLAZ" },
+    { "members": ["4-HO-DiPT", "4-HO-MPT"], "note": "distinct tryptamines; 4-HO-DiPT carried 4-HO-MPT's structure/CID; corrected in 0.0a to the diisopropyl key KBRYKXCBGISXQV" }
+  ],
+  "merge": [
+    { "members": ["Marinol", "THC"], "into": "THC", "note": "Marinol is the brand of dronabinol, which IS delta-9-THC; fold the brand row into THC" },
+    { "members": ["Hydroxetamine", "HXE"], "into": "HXE", "note": "same drug (3-hydroxy analog of eticyclidone); two rows with identical CID/structure" },
+    { "members": ["Ethylketamine", "Ethketamine"], "into": "Ethketamine", "note": "same drug (N-ethylnorketamine / NENK); two rows with identical CID/structure" },
+    { "members": ["4-Fluoro-alpha-PHP", "4F-PHP"], "into": "4F-PHP", "note": "same drug; the 4F-PHP row's corrupt (a-PHP) key had hidden this duplicate from structural dedup. 4F-PHP is the standard short name; the richer 4-Fluoro-alpha-PHP row folds into it (data reassigned by _merge_into). Merge runs before the 0.0a key correction, which then fixes the surviving row's key to BCJXLSGKMNRRKO." }
+  ]
+}

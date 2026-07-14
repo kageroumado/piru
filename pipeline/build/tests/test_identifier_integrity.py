@@ -59,6 +59,23 @@ ANCHORS = {
     "Salvinorin B": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",
     "Theobromine": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
     "Tianeptine": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
+    # Stage 0.0 collision cleanup: distinct keys restored to drugs whose upstream
+    # keys were corrupted to collide (0.0a) and stereo-layer fixes (0.0b). Pinning
+    # these guards against a source re-fetch reintroducing the shared/wrong key.
+    "4-HO-DiPT": "KBRYKXCBGISXQV-UHFFFAOYSA-N",
+    "4F-PHP": "BCJXLSGKMNRRKO-UHFFFAOYSA-N",
+    "Butonitazene": "UZZPOLCDCVWLAZ-UHFFFAOYSA-N",
+    "Dasotraline": "SRPXSILJHWNFMK-MEDUHNTESA-N",
+    "Dextromethorphan": "MKXZASYAUGDDCJ-NJAFHUGGSA-N",
+    "Ephedrine": "KWGRBVOPPLSCSI-WPRPVWTQSA-N",
+    "Indatraline": "SVFXPTLYMIXFRX-XJKSGUPXSA-N",
+    "Levomethorphan": "MKXZASYAUGDDCJ-CGTJXYLNSA-N",
+    "Phendimetrazine": "MFOCDFTXLCYLKU-CMPLNLGQSA-N",
+    "Phenylephrine": "SONNWYBIRXJNDC-VIFPVBQESA-N",
+    "Pseudoephedrine": "KWGRBVOPPLSCSI-WCBMZHEXSA-N",
+    "R-(-)-MDMA": "SHXWCVYOXRDMCX-MRVPVSSYSA-N",
+    "RTI-113": "AAEKULYONKUBOZ-NBYUQASBSA-N",
+    "S-(+)-MDMA": "SHXWCVYOXRDMCX-QMMMGPOBSA-N",
 }
 
 

@@ -37,7 +37,9 @@ from pathlib import Path
 # sqlite.py`, where the script dir is already on sys.path) and when the test
 # suite loads this file via importlib spec (where it is not).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
 
+import collision_registry  # noqa: E402
 from effect_vocab import EFFECT_VOCAB, vocab_id_for, vocab_labels  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
@@ -1247,6 +1249,98 @@ IDENTIFIER_CORRECTIONS: dict[str, dict] = {
     # PubChem canonical 177.24 (CID not in the offline snapshots) so it matches its
     # isomers mephedrone/3-MMC exactly rather than the atomic-table 177.25.
     "2-MMC": {"formula": "C11H15NO", "molecular_weight": 177.24},
+    # --- Stage 0.0a: InChIKey collision cleanup (prerequisite to PSID minting).
+    # Each pair below shared a full InChIKey because ONE row was overwritten with
+    # the OTHER's structure. Correct keys/SMILES are re-derived from PubChem and
+    # obabel-verified (obabel(smiles) == inchikey); see the collision registry
+    # data/curated/inchikey-collisions.json for the classification.
+    # Ephedrine / Pseudoephedrine: both rows had lost their stereo (identical flat
+    # key KWGRBVOPPLSCSI-PSASIEDQSA-N + identical flat SMILES). Restore the two
+    # distinct diastereomer keys (1R,2S vs 1S,2S).
+    "Ephedrine": {
+        "cid": 9294,
+        "inchikey": "KWGRBVOPPLSCSI-WPRPVWTQSA-N",
+        "smiles": "C[C@@H]([C@@H](C1=CC=CC=C1)O)NC",
+    },
+    "Pseudoephedrine": {
+        "cid": 7028,
+        "inchikey": "KWGRBVOPPLSCSI-WCBMZHEXSA-N",
+        "smiles": "C[C@@H]([C@H](C1=CC=CC=C1)O)NC",
+    },
+    # Dextromethorphan carried levomethorphan's key (MKXZASYAUGDDCJ-CGTJXYLNSA-N);
+    # its own is -NJAFHUGGSA-N. Levomethorphan's stored key is already correct — we
+    # only upgrade its flat SMILES to the stereo form so the pair is self-consistent.
+    "Dextromethorphan": {
+        "inchikey": "MKXZASYAUGDDCJ-NJAFHUGGSA-N",
+        "smiles": "CN1CC[C@@]23CCCC[C@@H]2[C@@H]1CC4=C3C=C(C=C4)OC",
+    },
+    "Levomethorphan": {"smiles": "CN1CC[C@]23CCCC[C@H]2[C@H]1CC4=C3C=C(C=C4)OC"},
+    # 4-HO-DiPT carried 4-HO-MPT's CID/key/structure (N-methyl-N-propyl, C14H20N2O).
+    # Restore the di(isopropyl) structure (CID 21854225, C16H24N2O).
+    "4-HO-DiPT": {
+        "cid": 21854225,
+        "inchikey": "KBRYKXCBGISXQV-UHFFFAOYSA-N",
+        "smiles": "CC(C)N(CCC1=CNC2=C1C(=CC=C2)O)C(C)C",
+        "formula": "C16H24N2O",
+        "molecular_weight": 260.38,
+    },
+    # Butonitazene carried metodesnitazene's structure (4-methoxy, desnitro).
+    # Restore the 4-butoxy / 5-nitro benzimidazole (CID 156588955, C24H32N4O3).
+    "Butonitazene": {
+        "cid": 156588955,
+        "inchikey": "UZZPOLCDCVWLAZ-UHFFFAOYSA-N",
+        "smiles": "CCCCOC1=CC=C(C=C1)CC2=NC3=C(N2CCN(CC)CC)C=CC(=C3)[N+](=O)[O-]",
+        "formula": "C24H32N4O3",
+        "molecular_weight": 424.54,
+    },
+    # 4F-PHP carried alpha-PHP's (fluorine-less) structure. Restore the 4'-fluoro
+    # ketone (CID 132989300, C16H22FNO).
+    "4F-PHP": {
+        "cid": 132989300,
+        "inchikey": "BCJXLSGKMNRRKO-UHFFFAOYSA-N",
+        "smiles": "CCCCC(C(=O)C1=CC=C(C=C1)F)N2CCCC2",
+        "formula": "C16H22FNO",
+        "molecular_weight": 263.35,
+    },
+    # Cannabis is a plant, not a single molecule — it carried delta-9-THC's key,
+    # colliding with THC/Marinol. Null its structure so the plant no longer claims
+    # a molecular identity (its THC/CBD content is modeled elsewhere).
+    "Cannabis": {"inchikey": None, "smiles": None},
+    # --- Stage 0.0b: stereo-layer corrections surfaced by the stereo-aware
+    # integrity check. Each row's InChIKey and SMILES disagreed in the STEREO
+    # block (both specified, different) — a wrong-enantiomer/diastereomer error the
+    # old skeleton-only check couldn't see. Corrected to PubChem's name-verified
+    # structure (obabel(smiles) == inchikey confirmed). For most the stored key was
+    # already right and only the SMILES was wrong; Indatraline and RTI-113 had the
+    # key wrong too. Notably R/S-MDMA had their SMILES SWAPPED.
+    "Dasotraline": {
+        "inchikey": "SRPXSILJHWNFMK-MEDUHNTESA-N",
+        "smiles": "C1C[C@H](C2=CC=CC=C2[C@@H]1C3=CC(=C(C=C3)Cl)Cl)N",
+    },
+    "Indatraline": {
+        "inchikey": "SVFXPTLYMIXFRX-XJKSGUPXSA-N",
+        "smiles": "CN[C@@H]1C[C@H](C2=CC=CC=C12)C3=CC(=C(C=C3)Cl)Cl",
+    },
+    "Phendimetrazine": {
+        "inchikey": "MFOCDFTXLCYLKU-CMPLNLGQSA-N",
+        "smiles": "C[C@H]1[C@@H](OCCN1C)C2=CC=CC=C2",
+    },
+    "Phenylephrine": {
+        "inchikey": "SONNWYBIRXJNDC-VIFPVBQESA-N",
+        "smiles": "CNC[C@@H](C1=CC(=CC=C1)O)O",
+    },
+    "R-(-)-MDMA": {
+        "inchikey": "SHXWCVYOXRDMCX-MRVPVSSYSA-N",
+        "smiles": "C[C@H](CC1=CC2=C(C=C1)OCO2)NC",
+    },
+    "S-(+)-MDMA": {
+        "inchikey": "SHXWCVYOXRDMCX-QMMMGPOBSA-N",
+        "smiles": "C[C@@H](CC1=CC2=C(C=C1)OCO2)NC",
+    },
+    "RTI-113": {
+        "inchikey": "AAEKULYONKUBOZ-NBYUQASBSA-N",
+        "smiles": "CN1[C@H]2CC[C@@H]1[C@H]([C@H](C2)C3=CC=C(C=C3)Cl)C(=O)OC4=CC=CC=C4",
+    },
 }
 
 
@@ -1384,6 +1478,11 @@ def apply_identifier_corrections(con, props: dict | None = None) -> dict:
             changed[name] = (
                 changed.get(name, "") + f" inchikey {old_ik}→{fix['inchikey']}"
             ).strip()
+        # SMILES correction (presence-based, so an explicit null clears a bogus
+        # structure — e.g. nulling a plant row that carried a single molecule's key).
+        if "smiles" in fix:
+            cur.execute("UPDATE substances SET smiles = ? WHERE id = ?", (fix["smiles"], sid))
+            changed[name] = (changed.get(name, "") + " smiles→corrected").strip()
         if "formula" in fix:
             cur.execute("UPDATE substances SET formula = ? WHERE id = ?", (fix["formula"], sid))
             changed[name] = (changed.get(name, "") + f" formula→{fix['formula']}").strip()
@@ -2787,30 +2886,19 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # Greek/Latin spelling variant the capital-Greek normalise() fold can't
     # reach (βH spelled out as "BOH"). Keep the curated β-hydroxy canonical.
     ("BOH-2C-B", "βH-2C-B", True),
-]
+    # Same-drug rows that collide on an EXACT InChIKey (a dronabinol brand, split
+    # RC dupes). Sourced from the unified collision registry so the disposition
+    # lives in one place — see data/curated/inchikey-collisions.json.
+] + collision_registry.force_merge_tuples()
 
-# Do-NOT-merge pairs: distinct compounds whose source InChIKeys collide on the
-# first-14 connectivity block, so the structural auto-dedup (mergeable()) would
-# wrongly fuse them if a linking alias ever puts them in the same union-find
-# group (#8). The collisions are NPS-catalogue salt-form / mislabelled-key
-# artifacts — e.g. Methylone and Cyclobenzaprine both carry JURKNVYFZMSNLP in the
-# raw data though they are unrelated molecules. Keyed on the unordered pair of
-# normalise(canonical) names; the guard fires regardless of which is winner/loser.
-# Floor deliverable (no external PubChem re-lookup required); each pair is
-# verified to stay SPLIT after rebuild.
+# Distinct compounds whose source InChIKeys collide on the connectivity block
+# (one record carries a wrong key) and must NEVER fuse in dedup. Derived from the
+# unified collision registry (data/curated/inchikey-collisions.json) so this
+# guard, the forced-merge pass, and the overlay-integrity test share one source
+# of truth instead of drifting apart. Names normalised here; the registry stores
+# raw canonical names.
 _DO_NOT_MERGE: set[frozenset[str]] = {
-    frozenset({normalise("Methylone"), normalise("Cyclobenzaprine")}),
-    frozenset({normalise("Cannabis"), normalise("THC")}),
-    frozenset({normalise("CBC"), normalise("CBG")}),
-    frozenset({normalise("3-MMC"), normalise("Myristicin")}),
-    # Further mislabelled-InChIKey collisions surfaced by the by-category audit
-    # (_FLAGS dup_same_inchikey_block). Each pair is unrelated chemistry sharing
-    # a connectivity block only because one record carries a wrong key.
-    frozenset({normalise("Tilidine"), normalise("Methylphenidate")}),
-    frozenset({normalise("Tilidine"), normalise("Dexmethylphenidate")}),
-    frozenset({normalise("Picamilon"), normalise("Selegiline")}),
-    frozenset({normalise("CBDV"), normalise("THCV")}),
-    frozenset({normalise("4-Chloroamphetamine"), normalise("Fenfluramine")}),
+    frozenset(normalise(n) for n in pair) for pair in collision_registry.do_not_merge_pairs()
 }
 
 # Force a specific canonical display casing for names that arrive mis-cased and

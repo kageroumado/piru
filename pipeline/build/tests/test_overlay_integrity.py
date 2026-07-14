@@ -32,7 +32,9 @@ from pathlib import Path
 _REPO = Path(__file__).resolve().parents[3]
 _DB = _REPO / "Piru/Data/piru-substances.sqlite"
 sys.path.insert(0, str(_REPO / "pipeline/audit"))
+sys.path.insert(0, str(_REPO / "pipeline"))
 
+import collision_registry  # noqa: E402
 import overlay_lib as L  # noqa: E402
 
 is_chemistry_noise = L.is_chemistry_noise
@@ -68,16 +70,15 @@ _KNOWN_CROSS_CATEGORY_DURATION = {
     frozenset({"Methocarbamol", "Vitamin C"}),
 }
 # Exact-InChIKey collisions across distinct rows: merge failures / corruption.
-_KNOWN_INCHIKEY_DUPS = {
-    "CYQFCXCEBYINGO-IAGOWNOFSA-N",  # Cannabis (mixture, wrong key) / Marinol / THC
-    "CQERUJSORROCGH-UHFFFAOYSA-N",  # HXE / Hydroxetamine (merge failure)
-    "ITBBBZIIFJJMDU-UHFFFAOYSA-N",  # Ethketamine / Ethylketamine (merge failure)
-    "KWGRBVOPPLSCSI-PSASIEDQSA-N",  # Ephedrine / Pseudoephedrine (diastereomers, corruption)
-    "KYIJLDDXQWBNGX-UHFFFAOYSA-N",  # 4F-PHP / alpha-Pyrrolidinohexiophenone (corruption)
-    "MKXZASYAUGDDCJ-CGTJXYLNSA-N",  # Dextromethorphan / Levomethorphan (enantiomers, wrong shared key)
-    "SFNKTTXBZXVGOH-UHFFFAOYSA-N",  # Butonitazene / Metodesnitazene (corruption)
-    "XFQDDPQGBLSNCN-UHFFFAOYSA-N",  # 4-HO-DiPT / 4-HO-MPT (corruption)
-}
+# Emptied by Stage 0.0a — every cluster that used to appear here is now resolved:
+# the corrupt-key clusters (Ephedrine/Pseudoephedrine, 4F-PHP/a-PHP, Dextro/Levo-
+# methorphan, Butonitazene/Metodesnitazene, 4-HO-DiPT/4-HO-MPT) got distinct
+# PubChem-verified keys via IDENTIFIER_CORRECTIONS; the same-drug dupes (HXE/
+# Hydroxetamine, Ethketamine/Ethylketamine, Marinol) merge via the collision
+# registry's forced merges; and Cannabis's plant structure is nulled so it no
+# longer carries THC's key. See data/curated/inchikey-collisions.json. Any new
+# exact-key collision now fails immediately — this set must stay empty.
+_KNOWN_INCHIKEY_DUPS: set[str] = set()
 
 
 def _load():
@@ -208,6 +209,52 @@ class OverlayIntegrity(unittest.TestCase):
         parents = {f["parent"] for f in seed["families"]}
         variants = {v["name"] for f in seed["families"] for v in f["variants"]}
         self.assertEqual(parents & variants, set(), "isomer variant also listed as a parent")
+
+    # --- 5. collision registry dispositions actually hold in the built DB ---
+    def _key_of(self, name):
+        row = self.con.execute(
+            "SELECT inchikey FROM substances WHERE canonical_name = ?", (name,)
+        ).fetchone()
+        return row[0] if row else "__MISSING__"
+
+    def test_collision_registry_distinct_have_distinct_keys(self):
+        """Every 'distinct' cluster's members that carry a full InChIKey must NOT
+        share one — the Stage 0.0a corrections made these genuinely-different (or
+        structure-null) so PSID FAMILY seeding can trust them (spec 0.1 criterion)."""
+        self.con = sqlite3.connect(f"file:{_DB}?mode=ro", uri=True)
+        try:
+            for members in collision_registry.distinct_clusters():
+                keys = [self._key_of(n) for n in members]
+                present = [k for k in keys if k not in ("__MISSING__", None) and len(k) >= 27]
+                self.assertEqual(
+                    len(present),
+                    len(set(present)),
+                    f"distinct cluster shares a full InChIKey (0.0a regressed): "
+                    f"{dict(zip(members, keys, strict=True))}",
+                )
+        finally:
+            self.con.close()
+
+    def test_collision_registry_merges_applied(self):
+        """Every 'merge' cluster collapsed: the winner (`into`) survives as a
+        canonical row and each loser is gone (folded to an alias)."""
+        self.con = sqlite3.connect(f"file:{_DB}?mode=ro", uri=True)
+        try:
+            for cluster in collision_registry.load().get("merge", []):
+                into = cluster["into"]
+                self.assertNotEqual(
+                    self._key_of(into), "__MISSING__", f"merge winner missing: {into}"
+                )
+                for loser in cluster["members"]:
+                    if loser == into:
+                        continue
+                    self.assertEqual(
+                        self._key_of(loser),
+                        "__MISSING__",
+                        f"merge loser still a canonical row (not folded): {loser} -> {into}",
+                    )
+        finally:
+            self.con.close()
 
 
 if __name__ == "__main__":

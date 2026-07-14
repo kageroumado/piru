@@ -10,9 +10,17 @@ SMILES). The reconciliation pass (``reconcile_identifiers_pubchem.py`` +
 This check keeps it there: any *new* skeleton mismatch (e.g. a re-fetched
 enrichment batch reintroducing bad keys) fails CI.
 
-Comparison is on the InChIKey skeleton (first 14 chars — the connectivity block).
-A stereo-layer-only difference is tolerated (often a flat-source-SMILES vs a
-stereo key — a representation choice, not a wrong molecule).
+Two comparisons run:
+
+* **skeleton** — the InChIKey connectivity block (first 14 chars) must match. A
+  mismatch here means a wrong 2D structure (the corruption fixed in 2026-06).
+* **stereo** — when the skeleton matches AND *both* keys carry a specified stereo
+  layer (block 2 != the ``UHFFFAOYSA`` sentinel), those layers must agree. A row
+  whose SMILES encodes one enantiomer/diastereomer while its stored key claims
+  another is a wrong-3D-structure error the skeleton-only check can't see (e.g.
+  the swapped R/S-MDMA SMILES and the dextromethorphan-family stereo mixups). A
+  flat-source SMILES (sentinel block 2) against a stereo key is still tolerated —
+  that is a representation choice, not a wrong molecule.
 
 ``ALLOWLIST`` holds the known-irreducible mismatches: novel RCs PubChem doesn't
 index (so no external arbiter) and one whose upstream name+CAS both collide with
@@ -31,7 +39,13 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — for chem_ids
-from chem_ids import inchikey_block1, obabel_available, obabel_inchikey  # noqa: E402
+from chem_ids import (  # noqa: E402
+    UNSPECIFIED_STEREO_BLOCK,
+    inchikey_block1,
+    inchikey_block2,
+    obabel_available,
+    obabel_inchikey,
+)
 
 DEFAULT_DB = Path(__file__).resolve().parents[2] / "Piru/Data/piru-substances.sqlite"
 
@@ -46,10 +60,18 @@ ALLOWLIST = {
 }
 
 
-def find_mismatches(db_path: Path = DEFAULT_DB) -> list[tuple[str, str, str]]:
-    """Return [(name, stored_inchikey, smiles_derived_inchikey)] for substances
-    whose stored InChIKey skeleton disagrees with their SMILES, excluding the
-    allowlist. Stereo-layer-only differences and obabel parse failures are skipped."""
+def _stereo_specified(key: str | None) -> bool:
+    """True when an InChIKey carries a specified (non-sentinel) stereo layer."""
+    block = inchikey_block2(key)
+    return bool(block) and block != UNSPECIFIED_STEREO_BLOCK
+
+
+def find_mismatches(db_path: Path = DEFAULT_DB) -> list[tuple[str, str, str, str]]:
+    """Return [(name, stored_inchikey, smiles_derived_inchikey, kind)] for
+    substances whose stored InChIKey disagrees with their SMILES, excluding the
+    allowlist. ``kind`` is "skeleton" (block-1 differs) or "stereo" (block-1 agrees
+    but both keys specify a stereo layer and those disagree). Flat-vs-stereo
+    differences and obabel parse failures are skipped."""
     con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
         rows = con.execute(
@@ -58,7 +80,7 @@ def find_mismatches(db_path: Path = DEFAULT_DB) -> list[tuple[str, str, str]]:
         ).fetchall()
     finally:
         con.close()
-    out: list[tuple[str, str, str]] = []
+    out: list[tuple[str, str, str, str]] = []
     for name, stored, smiles in rows:
         if name in ALLOWLIST:
             continue
@@ -66,7 +88,13 @@ def find_mismatches(db_path: Path = DEFAULT_DB) -> list[tuple[str, str, str]]:
         if not derived:
             continue
         if inchikey_block1(derived) != inchikey_block1(stored):
-            out.append((name, stored, derived))
+            out.append((name, stored, derived, "skeleton"))
+        elif (
+            _stereo_specified(stored)
+            and _stereo_specified(derived)
+            and inchikey_block2(stored) != inchikey_block2(derived)
+        ):
+            out.append((name, stored, derived, "stereo"))
     return out
 
 
@@ -78,8 +106,8 @@ def main() -> int:
     mismatches = find_mismatches(db)
     if mismatches:
         print(f"InChIKey↔SMILES integrity FAILED — {len(mismatches)} unexpected mismatch(es):")
-        for name, stored, derived in mismatches:
-            print(f"  {name:32s} stored={stored}  from-smiles={derived}")
+        for name, stored, derived, kind in mismatches:
+            print(f"  [{kind:8s}] {name:32s} stored={stored}  from-smiles={derived}")
         print(
             "\nIf a substance genuinely can't be verified against PubChem, add it to "
             "ALLOWLIST with a reason; otherwise fix the identifier via "

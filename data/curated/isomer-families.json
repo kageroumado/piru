@@ -26,7 +26,7 @@
       { "name": "Levetiracetam", "isomer": "S", "displayName": "Levetiracetam", "brands": ["Keppra"] } ] }
   ],
   "excluded": [
-    { "cluster": ["Dextromethorphan", "Levomethorphan"], "reason": "Genuine enantiomers, but they currently share an EXACT (identical) InChIKey MKXZASYAUGDDCJ-CGTJXYLNSA-N — one is corrupt. Fix the identifier first (they must differ in the stereo layer), then fold; there is also no racemic parent row." },
+    { "cluster": ["Dextromethorphan", "Levomethorphan"], "reason": "Genuine enantiomers. The shared-key corruption is fixed in Stage 0.0a (Dextromethorphan -> MKXZASYAUGDDCJ-NJAFHUGGSA-N, Levomethorphan keeps -CGTJXYLNSA-N), but they stay EXCLUDED from folding: they are clinically distinct drugs (antitussive vs opioid) with no racemic parent row, so they remain separate substances (classified 'distinct' in inchikey-collisions.json), not one folded family." },
     { "cluster": ["Serotonin", "Serotonin(1+)"], "reason": "Protonation states (charge layer N vs O), not stereoisomers. Serotonin(1+) is the cation, not a chiral variant; likely chemistry-noise that should not be a separate row." },
     { "cluster": ["Mescaline", "4-D", "beta-D"], "reason": "Mescaline is achiral (no stereocenter); the '4-D'/'beta-D' rows are truncated/garbled names carrying spurious stereo layers. Investigate the names, not a fold." },
     { "cluster": ["LY-404187", "LY-451646"], "reason": "Obscure AMPAkine research compounds; relationship (enantiomer vs regioisomer) unconfirmed. Needs a human call before folding." }
