@@ -29,11 +29,18 @@ from itertools import combinations
 from pathlib import Path
 
 _REGISTRY = Path(__file__).resolve().parent.parent / "data/curated/inchikey-collisions.json"
+_ISOMER_FAMILIES = _REGISTRY.parent / "isomer-families.json"
 
 
 def load() -> dict:
     """The raw registry (``distinct``/``merge`` lists), metadata keys included."""
     return json.loads(_REGISTRY.read_text())
+
+
+def fold_families() -> list[dict]:
+    """The curated stereoisomer fold families (from isomer-families.json). Each is
+    ``{parent, variants:[{name, isomer, ...}]}`` — all members share one FAMILY."""
+    return json.loads(_ISOMER_FAMILIES.read_text()).get("families", [])
 
 
 def distinct_clusters() -> list[list[str]]:
@@ -49,6 +56,29 @@ def do_not_merge_pairs() -> list[frozenset[str]]:
     for members in distinct_clusters():
         pairs.extend(frozenset(pair) for pair in combinations(members, 2))
     return pairs
+
+
+def classify(names) -> str | None:
+    """Disposition for a set of canonical names that share an InChIKey block 1:
+    ``"fold"`` (one stereoisomer family — share a FAMILY), ``"distinct"`` (different
+    drugs — separate FAMILYs), ``"merge"`` (same drug, one should fold into the
+    other), or ``None`` when the collision is unclassified. The build's PSID
+    FAMILY assignment fails loudly on ``None`` so a corrupt/un-triaged collision
+    can never silently merge two drugs into one identity."""
+    members = set(names)
+    for fam in fold_families():
+        family_members = {fam["parent"]} | {v["name"] for v in fam["variants"]}
+        if members <= family_members:
+            return "fold"
+    distinct_pairs = {frozenset(pair) for pair in do_not_merge_pairs()}
+    if len(members) >= 2 and all(
+        frozenset(pair) in distinct_pairs for pair in combinations(members, 2)
+    ):
+        return "distinct"
+    for cluster in load().get("merge", []):
+        if members <= set(cluster["members"]):
+            return "merge"
+    return None
 
 
 def force_merge_tuples() -> list[tuple[str, str, bool]]:

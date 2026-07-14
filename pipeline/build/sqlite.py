@@ -40,6 +40,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
 
 import collision_registry  # noqa: E402
+import psid  # noqa: E402
 from effect_vocab import EFFECT_VOCAB, vocab_id_for, vocab_labels  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
@@ -47,6 +48,12 @@ REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
 OUT_REPORT = REPO / "docs/audit/sqlite-build-report.md"
+
+# Committed PSID FAMILY registry (derive-once, pin-forever). Maps canonical_name
+# → FAMILY so an InChIKey correction, a rename, or a re-fold never moves an
+# existing substance's identity. assign_substance_uids() reads it first and only
+# mints for genuinely-new substances, appending them back.
+SUBSTANCE_IDS = REPO / "data/curated/substance-ids.json"
 
 SOURCED = REPO / "data/intermediate/sourced-substances.json"
 # Curated substances, one JSON file per compound (authoritative hand-curated
@@ -497,12 +504,22 @@ CREATE TABLE substances (
     -- Carried across substance merges via _merge_into's COALESCE. NULL = no surrogate.
     pk_reference_name       TEXT,
     pk_reference_fields     TEXT,
-    pk_reference_confidence TEXT
+    pk_reference_confidence TEXT,
+    -- PSID FAMILY (Piru Substance ID skeleton) — the stable, rebuild-invariant
+    -- identity key (Stage 0.1, Specs/stereoisomer-and-release-form-axes.md). A
+    -- 14-char InChIKey block-1 when that block is unique+trusted, else a
+    -- sentinel-digit name-hash (see pipeline/psid.py). NOT unique per row:
+    -- stereoisomer-family siblings (Ketamine/Esketamine) share a FAMILY and are
+    -- distinguished by the form facets. Assigned by assign_substance_uids() and
+    -- pinned via data/curated/substance-ids.json (derive-once). NULL only if
+    -- assignment was skipped. DoseEntry.substanceUID references this value.
+    substance_uid           TEXT
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
 CREATE INDEX idx_substances_pubchem_cid ON substances(pubchem_cid) WHERE pubchem_cid IS NOT NULL;
 CREATE INDEX idx_substances_cas         ON substances(cas)         WHERE cas         IS NOT NULL;
+CREATE INDEX idx_substances_uid         ON substances(substance_uid) WHERE substance_uid IS NOT NULL;
 
 CREATE TABLE aliases (
     substance_id     INTEGER NOT NULL REFERENCES substances(id),
@@ -5854,6 +5871,112 @@ class Build:
             print(f"  apply_forced_merges: targets not found: {missing}", file=sys.stderr)
         return {"merged": merged, "missing": len(missing)}
 
+    def assign_substance_uids(self) -> dict[str, int]:
+        """Assign every substance its PSID FAMILY (``substance_uid``) — the stable,
+        rebuild-invariant identity key (Stage 0.1). Rules:
+
+        * a substance whose InChIKey connectivity block (block 1) is UNIQUE in the
+          catalog gets that block 1 as its FAMILY (cross-references PubChem);
+        * a same-block-1 cluster classified ``fold`` (one stereoisomer family)
+          shares block 1 as its FAMILY — the racemate and its enantiomers are one
+          family, distinguished later by facets;
+        * a ``distinct`` cluster (different drugs colliding on a block) and every
+          structure-less row get a sentinel-digit name-hash FAMILY, so distinct
+          drugs never share an identity;
+        * an UNCLASSIFIED same-block-1 collision **fails the build** — a corrupt or
+          un-triaged key must never silently merge two drugs into one identity.
+
+        FAMILYs are pinned via ``data/curated/substance-ids.json`` (derive-once):
+        a substance already in the registry keeps its frozen FAMILY (so an InChIKey
+        correction, rename, or re-fold never moves an existing id); only
+        genuinely-new substances mint, and the registry is rewritten with them
+        appended. Must run AFTER all merges/corrections/renames settle."""
+        pinned: dict[str, str] = {}
+        if SUBSTANCE_IDS.exists():
+            pinned = {
+                k: v
+                for k, v in json.loads(SUBSTANCE_IDS.read_text()).items()
+                if not k.startswith("_")
+            }
+
+        by_block: dict[str, list[str]] = defaultdict(list)
+        structureless: list[str] = []
+        for name, ik in self.cur.execute("SELECT canonical_name, inchikey FROM substances"):
+            block = ik[:14] if ik and len(ik) >= 14 else None
+            if block:
+                by_block[block].append(name)
+            else:
+                structureless.append(name)
+
+        derived: dict[str, str] = {}
+        unclassified: list[str] = []
+        for block, names in by_block.items():
+            if len(names) == 1:
+                derived[names[0]] = block  # unique + trusted → the real block 1
+                continue
+            disposition = collision_registry.classify(names)
+            if disposition == "fold":
+                for name in names:
+                    derived[name] = block  # family siblings share the FAMILY
+            elif disposition in ("distinct", "merge"):
+                # Distinct drugs → separate name-hash identities. (`merge` should
+                # have collapsed pre-assignment; a residual member is safe to keep
+                # separate rather than fuse.)
+                for name in names:
+                    derived[name] = psid.name_hash_family(normalise(name))
+            else:
+                unclassified.append(f"{block}: {sorted(names)}")
+        for name in structureless:
+            derived[name] = psid.name_hash_family(normalise(name))
+
+        if unclassified:
+            raise SystemExit(
+                "PSID FAMILY assignment: unclassified same-block-1 collision(s). Add a "
+                "disposition to data/curated/inchikey-collisions.json (or correct the "
+                "identifier):\n  " + "\n  ".join(unclassified)
+            )
+
+        # Pin: registry FAMILY wins; genuinely-new substances mint.
+        final: dict[str, str] = {}
+        minted: dict[str, str] = {}
+        for name, fam in derived.items():
+            resolved = pinned.get(name, fam)
+            final[name] = resolved
+            if name not in pinned:
+                minted[name] = resolved
+
+        # Guard: every FAMILY well-formed; distinct drugs never share one (fold
+        # siblings SHARE by design, so exclude block-1 FAMILYs held by a fold set).
+        for name, fam in final.items():
+            if not psid.is_wellformed_family(fam):
+                raise SystemExit(f"PSID FAMILY malformed: {fam!r} for {name!r}")
+
+        for name, fam in final.items():
+            self.cur.execute(
+                "UPDATE substances SET substance_uid=? WHERE canonical_name=?", (fam, name)
+            )
+        self.cur.connection.commit()
+
+        if minted:
+            merged = {**pinned, **minted}
+            body = {k: merged[k] for k in sorted(merged)}
+            out = {
+                "_comment": (
+                    "Pinned PSID FAMILY registry (Stage 0.1) — canonical_name -> FAMILY. "
+                    "Derive-once, pin-forever: assign_substance_uids() reads this first so "
+                    "an InChIKey correction, rename, or re-fold never moves an existing "
+                    "substance's identity; only genuinely-new substances mint and are "
+                    "appended. A 14-letter value is an InChIKey block 1; a leading-digit "
+                    "value is a name-hash (structure-less row or distinct-collision member). "
+                    "Generated by pipeline/build/sqlite.py; edit only to intentionally "
+                    "re-pin. See pipeline/psid.py and Specs/stereoisomer-and-release-form-axes.md."
+                ),
+                **body,
+            }
+            SUBSTANCE_IDS.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n")
+
+        return {"assigned": len(final), "minted": len(minted), "reused": len(final) - len(minted)}
+
     def merge_self_flagged_duplicates(
         self, protect_norms: set[str] | None = None
     ) -> dict[str, int]:
@@ -7301,6 +7424,16 @@ def main() -> int:
     # can't drop its display override. See reapply_curated_display_names.
     redisplay = build.reapply_curated_display_names(CURATED_DIR)
     print(f"Curated display_name re-applied: {redisplay}", file=sys.stderr)
+
+    # Assign the PSID FAMILY (substance_uid) — the stable identity key — now that
+    # all merges/corrections/renames have settled. Fails loudly on an unclassified
+    # same-block-1 collision (Stage 0.1). Pins via data/curated/substance-ids.json.
+    uids = build.assign_substance_uids()
+    print(
+        f"PSID FAMILY assignment: {uids['assigned']} substances "
+        f"({uids['minted']} minted, {uids['reused']} pinned-reuse)",
+        file=sys.stderr,
+    )
 
     # Effect controlled-vocabulary coverage + curation candidates (no-silent-caps:
     # whitelisted effects with no vocab_id still ship via raw `text`, but surface

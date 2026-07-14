@@ -1,17 +1,17 @@
 # Piru SQLite build report
 
-Built 2026-07-14.0 → `Piru/Data/piru-substances.sqlite` (17,375,232 bytes, sha256 `a362ae8315b6f9f95e804a03ec9364da69031acae192eeb20d380ed265cc74f9`)
+Built 2026-07-14.0 → `Piru/Data/piru-substances.sqlite` (17,448,960 bytes, sha256 `83c4f79a979b3f3ac3fe9060a61903ae340b0ca5a0055acf763f96611b825190`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,927 |
+| substances | 1,926 |
 | aliases | 5,818 |
 | sources | 17 |
 | citations | 1,865 |
-| categories | 1,850 |
-| tags | 7,797 |
+| categories | 1,849 |
+| tags | 7,795 |
 | dose_ranges | 2,826 |
 | durations | 9,312 |
 | half_lives | 279 |
@@ -26,7 +26,7 @@ Built 2026-07-14.0 → `Piru/Data/piru-substances.sqlite` (17,375,232 bytes, sha
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 786 |
+| downstream_signalling | 785 |
 | neuroimaging | 57 |
 | pk_routes | 430 |
 | concentration_effects | 38 |
@@ -51,7 +51,7 @@ Built 2026-07-14.0 → `Piru/Data/piru-substances.sqlite` (17,375,232 bytes, sha
 | erowid-tihkal | 41 | 0 | 52 | 138 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 149 | 500 |
+| wikidata | 0 | 0 | 148 | 498 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
 | pyrls | 0 | 0 | 102 | 617 |
 | medtap | 0 | 0 | 0 | 0 |

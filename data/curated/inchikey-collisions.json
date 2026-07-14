@@ -9,6 +9,8 @@
     { "members": ["Picamilon", "Selegiline"], "note": "unrelated" },
     { "members": ["CBDV", "THCV"], "note": "distinct cannabinoids" },
     { "members": ["4-Chloroamphetamine", "Fenfluramine"], "note": "unrelated" },
+    { "members": ["Mescaline", "4-D", "beta-D"], "note": "4-D and beta-D are deuterated mescaline isotopologues (4-trideuteromescaline, beta,beta-dideuteromescaline) — distinct molecules sharing mescaline's skeleton, not a fold. Their names are garbled/truncated (separate cleanup); kept distinct so they never fold their dose data into achiral mescaline" },
+    { "members": ["LY-404187", "LY-451646"], "note": "two AMPAkine research dev-codes sharing a skeleton (one flat, one resolved); enantiomer-vs-regioisomer relationship unconfirmed, so distinct by default (never auto-fold an unconfirmed pair) — see isomer-families.json excluded list" },
     { "members": ["Cannabis", "THC"], "note": "plant vs single molecule; Cannabis's structure is nulled in 0.0a so the plant no longer carries THC's key" },
     { "members": ["Dextromethorphan", "Levomethorphan"], "note": "enantiomers, genuinely distinct drugs (antitussive vs opioid); shared full key corrected in 0.0a (Dextromethorphan -> MKXZASYAUGDDCJ-NJAFHUGGSA-N)" },
     { "members": ["Ephedrine", "Pseudoephedrine"], "note": "diastereomers; both rows had lost their stereo (identical flat key). Corrected to distinct stereo keys in 0.0a. Default disposition is distinct (see spec open question 3); revisit if a diastereomer fold is ever wanted" },
@@ -20,6 +22,7 @@
     { "members": ["Marinol", "THC"], "into": "THC", "note": "Marinol is the brand of dronabinol, which IS delta-9-THC; fold the brand row into THC" },
     { "members": ["Hydroxetamine", "HXE"], "into": "HXE", "note": "same drug (3-hydroxy analog of eticyclidone); two rows with identical CID/structure" },
     { "members": ["Ethylketamine", "Ethketamine"], "into": "Ethketamine", "note": "same drug (N-ethylnorketamine / NENK); two rows with identical CID/structure" },
-    { "members": ["4-Fluoro-alpha-PHP", "4F-PHP"], "into": "4F-PHP", "note": "same drug; the 4F-PHP row's corrupt (a-PHP) key had hidden this duplicate from structural dedup. 4F-PHP is the standard short name; the richer 4-Fluoro-alpha-PHP row folds into it (data reassigned by _merge_into). Merge runs before the 0.0a key correction, which then fixes the surviving row's key to BCJXLSGKMNRRKO." }
+    { "members": ["4-Fluoro-alpha-PHP", "4F-PHP"], "into": "4F-PHP", "note": "same drug; the 4F-PHP row's corrupt (a-PHP) key had hidden this duplicate from structural dedup. 4F-PHP is the standard short name; the richer 4-Fluoro-alpha-PHP row folds into it (data reassigned by _merge_into). Merge runs before the 0.0a key correction, which then fixes the surviving row's key to BCJXLSGKMNRRKO." },
+    { "members": ["Serotonin(1+)", "Serotonin"], "into": "Serotonin", "note": "Serotonin(1+) is the protonated cation (InChIKey charge layer, ...-O vs ...-N) — a chemistry-noise row, not a distinct substance. Fold it into neutral Serotonin so the block-1 no longer collides." }
   ]
 }

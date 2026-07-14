@@ -36,6 +36,7 @@ sys.path.insert(0, str(_REPO / "pipeline"))
 
 import collision_registry  # noqa: E402
 import overlay_lib as L  # noqa: E402
+import psid  # noqa: E402
 
 is_chemistry_noise = L.is_chemistry_noise
 
@@ -255,6 +256,60 @@ class OverlayIntegrity(unittest.TestCase):
                     )
         finally:
             self.con.close()
+
+    # --- 6. PSID FAMILY (substance_uid) assignment invariants (Stage 0.1) ---
+    def test_every_substance_has_wellformed_checkvalid_uid(self):
+        con = sqlite3.connect(f"file:{_DB}?mode=ro", uri=True)
+        try:
+            rows = con.execute("SELECT canonical_name, substance_uid FROM substances").fetchall()
+        finally:
+            con.close()
+        for name, uid in rows:
+            self.assertIsNotNone(uid, f"{name} has no substance_uid")
+            self.assertTrue(psid.is_wellformed_family(uid), f"{name}: malformed FAMILY {uid!r}")
+            self.assertTrue(
+                psid.is_valid(psid.compose(uid)), f"{name}: FAMILY {uid!r} yields invalid PSID"
+            )
+
+    def test_uid_pinned_to_registry(self):
+        """Every DB substance_uid matches its pinned entry in substance-ids.json —
+        the derive-once registry is the source of truth, not a stale artifact."""
+        import json
+
+        pinned = {
+            k: v
+            for k, v in json.loads((L.REPO / "data/curated/substance-ids.json").read_text()).items()
+            if not k.startswith("_")
+        }
+        con = sqlite3.connect(f"file:{_DB}?mode=ro", uri=True)
+        try:
+            rows = con.execute("SELECT canonical_name, substance_uid FROM substances").fetchall()
+        finally:
+            con.close()
+        for name, uid in rows:
+            self.assertEqual(
+                pinned.get(name), uid, f"{name}: DB uid {uid} != registry {pinned.get(name)}"
+            )
+
+    def test_fold_families_share_uid_distinct_clusters_differ(self):
+        con = sqlite3.connect(f"file:{_DB}?mode=ro", uri=True)
+        try:
+            uid = dict(con.execute("SELECT canonical_name, substance_uid FROM substances"))
+        finally:
+            con.close()
+        # Fold families: every present member shares ONE FAMILY.
+        for fam in collision_registry.fold_families():
+            names = [fam["parent"]] + [v["name"] for v in fam["variants"]]
+            uids = {uid[n] for n in names if n in uid}
+            if len(uids) > 1:
+                self.fail(f"fold family {fam['parent']} split across FAMILYs: {uids}")
+        # Distinct clusters: members present in the DB never share a FAMILY.
+        for members in collision_registry.distinct_clusters():
+            present = [(n, uid[n]) for n in members if n in uid]
+            fams = [u for _, u in present]
+            self.assertEqual(
+                len(fams), len(set(fams)), f"distinct cluster shares a FAMILY: {present}"
+            )
 
 
 if __name__ == "__main__":
