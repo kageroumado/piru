@@ -26,11 +26,12 @@ Exits non-zero if any non-allowlisted mismatch is found.
 
 from __future__ import annotations
 
-import shutil
 import sqlite3
-import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — for chem_ids
+from chem_ids import inchikey_block1, obabel_available, obabel_inchikey  # noqa: E402
 
 DEFAULT_DB = Path(__file__).resolve().parents[2] / "Piru/Data/piru-substances.sqlite"
 
@@ -45,25 +46,6 @@ ALLOWLIST = {
 }
 
 
-def obabel_available() -> bool:
-    return shutil.which("obabel") is not None
-
-
-def _obabel_inchikey(smiles: str, _cache: dict) -> str | None:
-    if smiles in _cache:
-        return _cache[smiles]
-    try:
-        p = subprocess.run(
-            ["obabel", f"-:{smiles}", "-oinchikey"], capture_output=True, text=True, timeout=20
-        )
-        out = [ln.strip() for ln in p.stdout.splitlines() if ln.strip() and ln.strip() != "*"]
-        key = out[0] if out else None
-    except Exception:
-        key = None
-    _cache[smiles] = key
-    return key
-
-
 def find_mismatches(db_path: Path = DEFAULT_DB) -> list[tuple[str, str, str]]:
     """Return [(name, stored_inchikey, smiles_derived_inchikey)] for substances
     whose stored InChIKey skeleton disagrees with their SMILES, excluding the
@@ -76,15 +58,14 @@ def find_mismatches(db_path: Path = DEFAULT_DB) -> list[tuple[str, str, str]]:
         ).fetchall()
     finally:
         con.close()
-    cache: dict[str, str | None] = {}
     out: list[tuple[str, str, str]] = []
     for name, stored, smiles in rows:
         if name in ALLOWLIST:
             continue
-        derived = _obabel_inchikey(smiles, cache)
+        derived = obabel_inchikey(smiles)
         if not derived:
             continue
-        if derived[:14] != stored[:14]:
+        if inchikey_block1(derived) != inchikey_block1(stored):
             out.append((name, stored, derived))
     return out
 

@@ -38,7 +38,6 @@ from __future__ import annotations
 
 import json
 import sqlite3
-import subprocess
 import sys
 import time
 import urllib.error
@@ -53,29 +52,13 @@ OUT = REPO / "data/sources/identifier-corrections.json"
 META = REPO / "data/sources/identifier-corrections.meta.json"
 MANUAL = REPO / "data/sources/identifier-corrections-manual.json"
 
+sys.path.insert(0, str(REPO / "pipeline"))  # for chem_ids
+from chem_ids import obabel_inchikey  # noqa: E402
+
 UA = "Piru-DataFetcher/1.0 (+https://github.com/kageroumado/piru; first-party data snapshot)"
 SPACING = 0.16
 TIMEOUT = 30
 RETRIES = 2
-
-_ob_cache: dict[str, str | None] = {}
-
-
-def obabel_inchikey(smiles: str | None) -> str | None:
-    if not smiles:
-        return None
-    if smiles in _ob_cache:
-        return _ob_cache[smiles]
-    try:
-        p = subprocess.run(
-            ["obabel", f"-:{smiles}", "-oinchikey"], capture_output=True, text=True, timeout=20
-        )
-        out = [ln.strip() for ln in p.stdout.splitlines() if ln.strip() and ln.strip() != "*"]
-        key = out[0] if out else None
-    except Exception:
-        key = None
-    _ob_cache[smiles] = key
-    return key
 
 
 def _get(url: str) -> bytes | None:

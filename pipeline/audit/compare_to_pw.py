@@ -17,11 +17,15 @@ Run from the repo root:
 from __future__ import annotations
 
 import sqlite3
+import sys
 from collections import defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru/Data/piru-substances.sqlite"
+
+sys.path.insert(0, str(REPO / "pipeline/build"))  # for the canonical unit helper
+from sqlite import _unit_to_mg_factor as unit_to_mg_factor  # noqa: E402
 
 # Source priority order (lower wins). Mirrors the resolver's default.
 PRIORITY = {
@@ -44,27 +48,6 @@ PRIORITY = {
 # wide between-individual variation in psychoactive dosing.
 RATIO_LO = 0.5
 RATIO_HI = 2.0
-
-
-def unit_to_mg_factor(unit: str | None) -> float | None:
-    """Same idea as the build script's helper — convert mass units to mg,
-    return None for things we can't validate."""
-    if unit is None:
-        return 1.0
-    u = unit.lower().strip()
-    if not u:
-        return 1.0
-    if "/kg" in u or "/day" in u or "/24h" in u:
-        return None
-    if u in ("mg", "mgs"):
-        return 1.0
-    if u in ("g", "gram", "grams"):
-        return 1000.0
-    if u in ("µg", "ug", "mcg", "μg", "micrograms"):
-        return 0.001
-    if u in ("µg/hr", "ug/hr", "mcg/hr", "mcg/hour", "mcg/hr (patch)"):
-        return 0.001
-    return None
 
 
 def ratio_significant(pw: float | None, resolved: float | None) -> bool:

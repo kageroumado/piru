@@ -30,7 +30,6 @@ from __future__ import annotations
 import glob
 import json
 import re
-import subprocess
 import sys
 import urllib.error
 import urllib.parse
@@ -40,31 +39,15 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 RAW = REPO / "data/enrichment/raw"
 
+sys.path.insert(0, str(REPO / "pipeline"))  # for chem_ids
+from chem_ids import obabel_inchikey  # noqa: E402
+
 _NAME = re.compile(r'^\s*"name"\s*:')
 _SMILES = re.compile(r'^(\s*"smiles"\s*:\s*")([^"]*)(".*)$')
 _INCHIKEY = re.compile(r'^(\s*"inchikey"\s*:\s*")([^"]*)(".*)$')
 _CAS = re.compile(r'^\s*"cas"\s*:\s*"([^"]*)"')
 
-_cache: dict[str, str | None] = {}
 _cas_cache: dict[str, str | None] = {}
-
-
-def obabel_inchikey(smiles: str) -> str | None:
-    if smiles in _cache:
-        return _cache[smiles]
-    try:
-        p = subprocess.run(
-            ["obabel", f"-:{smiles}", "-oinchikey"],
-            capture_output=True,
-            text=True,
-            timeout=20,
-        )
-        out = [ln.strip() for ln in p.stdout.splitlines() if ln.strip() and ln.strip() != "*"]
-        key = out[0] if out else None
-    except Exception:
-        key = None
-    _cache[smiles] = key
-    return key
 
 
 def cas_inchikey(cas: str) -> str | None:
