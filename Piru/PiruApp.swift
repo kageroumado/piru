@@ -113,6 +113,12 @@ struct PiruApp: App {
                     // One-time: break up multi-day sessions that the old flat-ceiling
                     // heuristic chained together (nonstop redosing / long-acting tails).
                     SessionService.resplitOverlongSessions(in: container.mainContext)
+                    // One-time: remap every logged dose onto its stable PSID identity
+                    // (substanceUID + displayNameSnapshot). Backup-first, additive,
+                    // never-drop, guarded once — see PSIDBackfillMigration. Runs here
+                    // (post-launch, off the critical path) because nothing reads the
+                    // new fields yet; SubstanceStore is already warm above.
+                    PSIDBackfillMigration.runIfNeeded(container: container)
                     ActiveSessionManager.shared.recoverSession(container: container)
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).

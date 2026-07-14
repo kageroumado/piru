@@ -31,7 +31,7 @@ nonisolated enum StoreRecovery {
     /// them would undo an intentional delete. They remain visible for *manual*
     /// recovery in the Data & Storage screen. Everything else (``corrupt``,
     /// ``empty-before-recovery``) is an unintended quarantine and IS auto-recovered.
-    static let intentionalReasons: Set<String> = ["predelete", "prerestore"]
+    static let intentionalReasons: Set<String> = ["predelete", "prerestore", "prepsid"]
 
     // MARK: - Schema-migration policy
 

@@ -57,6 +57,24 @@ final class DoseEntry {
     /// every other dose — which keeps the V4→V5 migration lightweight, since nil
     /// is the correct value for every pre-existing row.
     var saltForm: String?
+
+    /// The PSID FAMILY (`substances.substance_uid`) this dose resolves to — the
+    /// stable, collision-proof substance identity, superseding the fuzzy
+    /// `substance` *name* match. `nil` for a dose whose name doesn't resolve
+    /// (typo, deleted, or an exotic custom substance): such a dose stays
+    /// fully functional via the retained ``substance`` string, per the
+    /// never-drop migration posture. Populated by the once-only PSID backfill
+    /// (``PSIDBackfillMigration``) and, going forward, at log time. Additive/
+    /// optional, so the schema change is a free lightweight migration. See
+    /// `Specs/stereoisomer-and-release-form-axes.md` and ``PSID``.
+    var substanceUID: String?
+
+    /// The composite display title captured at resolve time — "Methylphenidate",
+    /// "Esketamine", later "Methylphenidate XR" once facets exist — so the
+    /// journal can title a dose from its resolved identity without re-deriving,
+    /// and so the title is stable even if the catalog later relabels. `nil` until
+    /// the dose resolves to a ``substanceUID``. Additive/optional.
+    var displayNameSnapshot: String?
     /// When the dose was taken.
     var timestamp: Date
     /// Optional free-form note attached to the dose.
@@ -135,6 +153,8 @@ final class DoseEntry {
         unit: String = "mg",
         route: RouteOfAdministration = .oral,
         saltForm: String? = nil,
+        substanceUID: String? = nil,
+        displayNameSnapshot: String? = nil,
         timestamp: Date = .now,
         notes: String? = nil,
         tags: [String] = [],
@@ -152,6 +172,8 @@ final class DoseEntry {
         self.unit = unit
         self.route = route
         self.saltForm = saltForm
+        self.substanceUID = substanceUID
+        self.displayNameSnapshot = displayNameSnapshot
         self.timestamp = timestamp
         self.notes = notes
         self.tagsRaw = tags.isEmpty ? nil : tags.joined(separator: ",")
