@@ -526,9 +526,43 @@ CREATE TABLE aliases (
     alias            TEXT NOT NULL,
     alias_normalized TEXT NOT NULL,
     source_id        INTEGER REFERENCES sources(id),
+    -- Form-facet annotation (Stage A+): the structured form an alias *names*, so a
+    -- resolver (and the once-only DoseEntry backfill) can recover it from a logged
+    -- string. "Focalin"/"Dexmethylphenidate" → isomer='D'; "Magnesium Citrate" →
+    -- salt_form='Citrate'; a future "Concerta" → release_form='XR'. All NULL for a
+    -- plain synonym that names the parent's canonical/unspecified form.
+    isomer           TEXT,
+    salt_form        TEXT,
+    release_form     TEXT,
     PRIMARY KEY (substance_id, alias)
 );
 CREATE INDEX idx_aliases_normalized ON aliases(alias_normalized);
+
+-- Enumerated valid *forms* per substance (Stage A) — one row per distinct
+-- (substance_uid, stereo, salt, release) facet combination the catalog knows,
+-- with its composed check-valid PSID and the display name to title it. The
+-- single source both the QuickLog named-product picker and the migration's
+-- displayNameSnapshot read, so they cannot drift. Facet columns hold the PSID
+-- radix-36 CODES ('0' = unspecified; isomer D/S/L/R; salt CIT/GLY/…); the
+-- `*_label` columns hold the app-facing display strings (isomer NULL, "Citrate")
+-- that DoseEntry stores. Enumerated from the union of dose/duration facet tags
+-- AND the facet-annotated aliases, so a dose-less folded enantiomer (D-meth,
+-- Levetiracetam) still gets an identity + title even with no dose ladder.
+CREATE TABLE substance_forms (
+    substance_id  INTEGER NOT NULL REFERENCES substances(id),
+    substance_uid TEXT NOT NULL,
+    stereo        TEXT NOT NULL DEFAULT '0',
+    salt          TEXT NOT NULL DEFAULT '0',
+    release       TEXT NOT NULL DEFAULT '0',
+    psid          TEXT NOT NULL,
+    display_name  TEXT NOT NULL,
+    isomer_label  TEXT,
+    salt_label    TEXT,
+    release_label TEXT,
+    is_default    INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (substance_id, stereo, salt, release)
+);
+CREATE INDEX idx_substance_forms_uid ON substance_forms(substance_uid);
 
 CREATE TABLE categories (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -589,8 +623,17 @@ CREATE TABLE dose_ranges (
     -- everything that isn't an elemental-mineral salt row. Lets the app surface
     -- "= ⟨elemental⟩ mg elemental Mg" alongside the salt dose.
     elemental_fraction REAL,
+    -- Stereoisomer facet (Stage A). NULL = racemate/unspecified; else the stored
+    -- CIP/rotation code that drives dedup + the PSID `<stereo>` field: D, L, R, S.
+    -- A folded enantiomer's dose ladder rides under the parent tagged here, so
+    -- Focalin (isomer='D') coexists with racemic Methylphenidate (isomer NULL).
+    isomer        TEXT,
+    -- The recognized name shown when *titling* this isomer form ("Dexmethylphenidate",
+    -- "Esketamine", "Armodafinil") — distinct from the bare code above, which is not
+    -- presentable. NULL for racemate/unspecified rows. Sourced from isomer-families.json.
+    isomer_display_name TEXT,
     citation_id   INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id, salt_form)
+    UNIQUE (substance_id, route, source_id, salt_form, isomer)
 );
 CREATE INDEX idx_dose_substance_route ON dose_ranges(substance_id, route);
 
@@ -603,8 +646,11 @@ CREATE TABLE durations (
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
     salt_form     TEXT,
+    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer. Lets a resolved
+    -- enantiomer carry its own distinct duration profile (e.g. armodafinil).
+    isomer        TEXT,
     citation_id   INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id, phase, salt_form)
+    UNIQUE (substance_id, route, source_id, phase, salt_form, isomer)
 );
 CREATE INDEX idx_durations_substance_route ON durations(substance_id, route);
 
@@ -620,8 +666,10 @@ CREATE TABLE durations_of_action (
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
     salt_form     TEXT,
+    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer.
+    isomer        TEXT,
     citation_id   INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id, salt_form)
+    UNIQUE (substance_id, route, source_id, salt_form, isomer)
 );
 CREATE INDEX idx_doa_substance_route ON durations_of_action(substance_id, route);
 
@@ -1022,8 +1070,10 @@ CREATE TABLE protocol_dosing (
     course_duration TEXT,
     notes           TEXT,
     salt_form       TEXT,
+    -- Stereoisomer facet (Stage A) — see dose_ranges.isomer.
+    isomer          TEXT,
     citation_id     INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id, salt_form)
+    UNIQUE (substance_id, route, source_id, salt_form, isomer)
 );
 CREATE INDEX idx_protocol_substance_route ON protocol_dosing(substance_id, route);
 
@@ -3097,14 +3147,10 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "diphenhydramine": {"dimenhydrinate", "fexofenadine", "meclizine"},
     "4-ho-met": {"ethocin"},  # ethocin = 4-HO-DET
     "dextromethorphan": {"duract"},  # bromfenac (an NSAID)
-    # Methylphenidate (racemate) ≠ dexmethylphenidate (d-isomer, Focalin) — a
-    # distinct, ~2x-potency compound with its own entry. Don't cross-alias.
-    "methylphenidate": {
-        "dexmethylphenidate",
-        "focalin",
-        "focalin xr",
-        "dexmethylphenidate hydrochloride extended-release",
-    },
+    # NOTE (Stage A): the former "methylphenidate" anti-alias guard (which kept
+    # dexmethylphenidate / Focalin from cross-aliasing the racemate) is retired —
+    # fold_isomer_families() now folds Dexmethylphenidate INTO Methylphenidate as
+    # the isomer='D' form, with Focalin surviving as a facet-annotated brand alias.
     # medtap (FDA product labels) cross-drug contamination: a combo-product or
     # related-drug label leaked another compound's name in as an alias. Each
     # alias below names a DIFFERENT substance that has its own entry — dangerous
@@ -3206,6 +3252,11 @@ class Build:
         # salt-family parent — protected from the chemnoise alias purge so the
         # variant stays searchable. Populated by fold_salt_families().
         self.salt_alias_protect: set[str] = set()
+        # Normalised isomer-variant names + brands (Dexmethylphenidate, Focalin,
+        # Esketamine, …) folded into a racemic parent — protected from BOTH the
+        # strip_stereo chiral-alias drop and the chemnoise purge so they stay
+        # searchable. Populated by fold_isomer_families().
+        self.isomer_alias_protect: set[str] = set()
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
         self.citation_cache: dict[tuple[str | None, int | None, str | None], int] = {}
         # Per-substance union of tags seen across every source so far. The
@@ -3444,7 +3495,12 @@ class Build:
             # the Dextroamphetamine record keeps its own name.
             cnorm = normalise(canon[0])
             anorm = normalise(alias)
-            if anorm != cnorm and strip_stereo(anorm) == cnorm and strip_stereo(cnorm) == cnorm:
+            if (
+                anorm != cnorm
+                and strip_stereo(anorm) == cnorm
+                and strip_stereo(cnorm) == cnorm
+                and anorm not in self.isomer_alias_protect
+            ):
                 self.stats["dropped_chiral_alias"] = self.stats.get("dropped_chiral_alias", 0) + 1
                 return
         norm = normalise(alias)
@@ -6154,6 +6210,49 @@ class Build:
         },
     }
 
+    # ---- PSID facet code maps (Stage A; closes spec Deferred #1) --------------
+    # The PSID grammar's <stereo>/<salt>/<release> fields are radix-36 (0-9A-Z),
+    # but the app stores facets as display strings. `substance_forms` bridges the
+    # two: these maps turn a display facet into its stable, collision-free PSID
+    # code. Isomer codes (D/S/L/R) are already radix-36 and ARE the stored value,
+    # so they need no map — only salt (and, later, release) need one.
+    #
+    # Salt display label -> PSID <salt> code. Vocab pinned in the spec (open Q3):
+    # CARB/CIT/GLY/THR/ORO/NA/SO4, extended for the two supplement salts that also
+    # ship (Hydroxide, Hydrobromide). compose_form_psid() asserts every salt-tagged
+    # form has a code, so a new salt without one fails the build loudly.
+    _SALT_CODES: dict[str, str] = {
+        "Carbonate": "CARB",
+        "Citrate": "CIT",
+        "Glycinate": "GLY",
+        "L-Threonate": "THR",
+        "Orotate": "ORO",
+        "Sodium": "NA",
+        "Sulfate": "SO4",
+        "Hydroxide": "OH",
+        "Hydrobromide": "HBR",
+    }
+
+    @staticmethod
+    def _isomer_code(isomer: str | None) -> str:
+        """PSID <stereo> code for a stored isomer label. The stored code (D/S/L/R,
+        or a diastereomer code like 1R2S) is already radix-36, so this only
+        normalises case and maps NULL/'' to the unspecified sentinel."""
+        return (isomer or "").strip().upper() or psid.UNSPECIFIED_FACET
+
+    def _salt_code(self, salt_form: str | None) -> str:
+        """PSID <salt> code for a stored salt label; unspecified sentinel for NULL.
+        Raises for an unknown non-null salt so a new family can't ship an
+        un-encodable PSID."""
+        if not salt_form:
+            return psid.UNSPECIFIED_FACET
+        code = self._SALT_CODES.get(salt_form)
+        if code is None:
+            raise SystemExit(
+                f"_salt_code: no PSID code for salt {salt_form!r} — add it to _SALT_CODES"
+            )
+        return code
+
     def fold_salt_families(self) -> dict[str, int]:
         """Fold curated salt variants into a shared parent, tagging each variant's
         dose/duration rows with its `salt_form` label.
@@ -6310,6 +6409,237 @@ class Build:
             )
             removed += cur.rowcount
         return {"removed_duration_rows": removed}
+
+    # Families that stay in isomer-families.json (so members share one FAMILY and
+    # the same-block-1 collision stays classified as `fold`) but are NOT collapsed
+    # to a single substance row. Etiracetam/Levetiracetam: the racemate is
+    # unmarketed while Levetiracetam (Keppra) is a substantive tracked entry with
+    # its own curated categories, and BOTH are dose-less — so folding would demote
+    # the recognized drug to an alias of an obscure racemate (and orphan its curated
+    # data) for zero dose-ladder benefit. Kept as distinct, co-familied rows.
+    _ISOMER_FOLD_SKIP: frozenset[str] = frozenset({"Etiracetam"})
+
+    def fold_isomer_families(self) -> dict[str, int]:
+        """Fold curated stereoisomer variants (Esketamine→Ketamine, Dexmethylphenidate
+        →Methylphenidate, Armodafinil→Modafinil, …) into their racemic parent,
+        tagging each variant's dose/duration rows with its `isomer` code +
+        `isomer_display_name`.
+
+        Mirrors fold_salt_families: the variant's dose ladder rides under the parent
+        tagged by the facet (so a resolved enantiomer coexists with the racemate as
+        a distinct, fully-labeled form), the variant name + brands survive as
+        facet-annotated aliases, and the parent inherits max popularity. Reads the
+        vetted data/curated/isomer-families.json via collision_registry.fold_families().
+        All members already share one FAMILY (assign_substance_uids treats the cluster
+        as a fold), so this adds the substance-level fold the identity layer assumes.
+        Runs in the same post-dedup / pre-classify window as the salt fold."""
+        folded, families = 0, 0
+        isomer_tables = ("dose_ranges", "durations", "durations_of_action", "protocol_dosing")
+
+        def tag_isomer(sid: int, code: str, display: str) -> None:
+            # dose_ranges carries the presentable name alongside the code; the other
+            # tables only need the code to group/filter by isomer.
+            self.cur.execute(
+                "UPDATE OR IGNORE dose_ranges SET isomer=?, isomer_display_name=? "
+                "WHERE substance_id=?",
+                (code, display, sid),
+            )
+            for table in isomer_tables[1:]:
+                self.cur.execute(
+                    f"UPDATE OR IGNORE {table} SET isomer=? WHERE substance_id=?",
+                    (code, sid),
+                )
+
+        for fam in collision_registry.fold_families():
+            parent_name = fam["parent"]
+            if parent_name in self._ISOMER_FOLD_SKIP:
+                continue
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (parent_name,)
+            ).fetchone()
+            present = []  # (variant id, popularity, variant dict) for rows that exist
+            for v in fam["variants"]:
+                vr = self.cur.execute(
+                    "SELECT id, popularity FROM substances WHERE canonical_name=?", (v["name"],)
+                ).fetchone()
+                if vr:
+                    present.append((vr[0], vr[1] or 0.0, v))
+            if not present:
+                continue
+
+            # Ensure the racemic parent exists so its enantiomer can fold under it —
+            # some racemates (Etiracetam) have no marketed row of their own, exactly
+            # the salt fold's Tianeptine case.
+            if prow is None:
+                parent_id = self.upsert_substance(parent_name, source_slug="piru-curated")
+                if parent_id is None:
+                    continue
+            else:
+                parent_id = prow[0]
+            families += 1
+
+            max_pop = (
+                self.cur.execute(
+                    "SELECT COALESCE(popularity, 0) FROM substances WHERE id=?", (parent_id,)
+                ).fetchone()[0]
+                or 0.0
+            )
+            for vid, vpop, v in present:
+                if vid == parent_id:
+                    continue
+                code = self._isomer_code(v["isomer"])
+                display = v.get("displayName") or v["name"]
+                max_pop = max(max_pop, vpop)
+                tag_isomer(vid, code, display)
+                # Protect the variant name + brands from the strip_stereo drop and
+                # the chemnoise purge so they survive as searchable parent aliases.
+                for nm in (v["name"], *(v.get("brands") or [])):
+                    self.isomer_alias_protect.add(normalise(nm))
+                self._merge_into(parent_id, vid, fold_aliases=True)
+                # Brands may not already be aliases on the variant row — add them.
+                for brand in v.get("brands") or []:
+                    self._add_alias(parent_id, brand, "piru-curated")
+                folded += 1
+            self.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (max_pop, parent_id))
+        return {"families": families, "folded": folded}
+
+    def annotate_alias_facets(self) -> dict[str, int]:
+        """Stamp the isomer form facet onto the alias rows that name a resolved
+        enantiomer/brand, so a resolver — and the once-only DoseEntry backfill —
+        can recover the form from a logged string ("Focalin" → isomer='D';
+        "Esketamine" / "Spravato" → isomer='S'). Built from the curated fold map,
+        matched to the parent's alias rows by normalized name. Runs after the fold
+        + chemnoise purge (so it annotates surviving aliases) and after uid
+        assignment.
+
+        Salt is deliberately NOT annotated here: normalise() strips salt suffixes
+        ("Magnesium Citrate" → "magnesium"), so a salt-variant alias shares the
+        base's normalized key and can't be tagged unambiguously — and it isn't
+        needed, since DoseEntry stores `saltForm` as a scalar directly. Release is
+        greenfield until Stage B."""
+        iso = 0
+        for fam in collision_registry.fold_families():
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (fam["parent"],)
+            ).fetchone()
+            if prow is None:
+                continue
+            for v in fam["variants"]:
+                code = self._isomer_code(v["isomer"])
+                for nm in (v["name"], *(v.get("brands") or [])):
+                    cur = self.cur.execute(
+                        "UPDATE aliases SET isomer=? WHERE substance_id=? AND alias_normalized=?",
+                        (code, prow[0], normalise(nm)),
+                    )
+                    iso += cur.rowcount
+        return {"isomer_aliases": iso}
+
+    def build_substance_forms(self) -> dict[str, int]:
+        """Enumerate `substance_forms` — one row per distinct (uid, stereo, salt,
+        release) the catalog knows, each with a composed check-valid PSID and a
+        display title. Facet combos come from the union of the dose/duration facet
+        tags AND the facet-annotated aliases, so a dose-less folded enantiomer
+        (D-methamphetamine, Levetiracetam) still gets an identity + title. The
+        canonical unspecified form is always emitted (and marked default). Runs
+        after assign_substance_uids + annotate_alias_facets."""
+        # Curated isomer display names keyed by (parent canonical_name, isomer code).
+        iso_display: dict[tuple[str, str], str] = {}
+        for fam in collision_registry.fold_families():
+            for v in fam["variants"]:
+                iso_display[(fam["parent"], self._isomer_code(v["isomer"]))] = (
+                    v.get("displayName") or v["name"]
+                )
+
+        self.cur.execute("DELETE FROM substance_forms")
+        rows = 0
+        subs = self.cur.execute(
+            "SELECT id, canonical_name, display_name, substance_uid FROM substances "
+            "WHERE substance_uid IS NOT NULL"
+        ).fetchall()
+        for sid, canonical, display, uid in subs:
+            base_title = display or canonical
+            combos: set[tuple[str | None, str | None, str | None]] = {(None, None, None)}
+            for table in ("dose_ranges", "durations", "durations_of_action", "protocol_dosing"):
+                for iso, salt in self.cur.execute(
+                    f"SELECT DISTINCT isomer, salt_form FROM {table} WHERE substance_id=?", (sid,)
+                ):
+                    combos.add((iso, salt, None))
+            for iso, salt, rel in self.cur.execute(
+                "SELECT DISTINCT isomer, salt_form, release_form FROM aliases WHERE substance_id=?",
+                (sid,),
+            ):
+                if iso or salt or rel:
+                    combos.add((iso, salt, rel))
+
+            for iso_label, salt_label, rel_label in combos:
+                stereo = self._isomer_code(iso_label)
+                salt_code = self._salt_code(salt_label)
+                release_code = psid.UNSPECIFIED_FACET  # greenfield until Stage B
+                psid_str = psid.compose(uid, stereo, salt_code, release_code)
+                parsed = psid.parse(psid_str)  # round-trip self-check (Deferred #1)
+                assert parsed and parsed["stereo"] == stereo and parsed["salt"] == salt_code, (
+                    f"PSID round-trip failed for {canonical!r}: {psid_str}"
+                )
+                iso_name = (
+                    iso_display.get((canonical, stereo))
+                    if stereo != psid.UNSPECIFIED_FACET
+                    else None
+                )
+                head = iso_name or base_title
+                title = f"{head} {salt_label}" if salt_label else head
+                is_default = (
+                    1 if (iso_label is None and salt_label is None and rel_label is None) else 0
+                )
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO substance_forms "
+                    "(substance_id, substance_uid, stereo, salt, release, psid, display_name, "
+                    " isomer_label, salt_label, release_label, is_default) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                    (
+                        sid,
+                        uid,
+                        stereo,
+                        salt_code,
+                        release_code,
+                        psid_str,
+                        title,
+                        iso_label,
+                        salt_label,
+                        rel_label,
+                        is_default,
+                    ),
+                )
+                rows += 1
+        return {"forms": rows}
+
+    def audit_alias_collisions(self) -> dict[str, int]:
+        """Deferred #2: surface cross-substance alias collisions before Stage A
+        freezes + displays a resolved form via displayNameSnapshot. The resolver /
+        backfill is first-wins on a shared alias_normalized, so a normalized alias
+        owned by >1 substance risks a frozen identity being the wrong sibling. This
+        is a report, not a hard fail (some collisions are legitimate slang the app
+        already tolerates) — it makes them visible for triage."""
+        rows = self.cur.execute(
+            "SELECT alias_normalized, COUNT(DISTINCT substance_id) AS c FROM aliases "
+            "GROUP BY alias_normalized HAVING c > 1 ORDER BY c DESC, alias_normalized"
+        ).fetchall()
+        if rows:
+            print(
+                f"  alias-collision audit: {len(rows)} normalized aliases own >1 substance",
+                file=sys.stderr,
+            )
+            for an, count in rows[:15]:
+                owners = [
+                    r[0]
+                    for r in self.cur.execute(
+                        "SELECT s.canonical_name FROM aliases a JOIN substances s "
+                        "ON s.id=a.substance_id WHERE a.alias_normalized=? "
+                        "ORDER BY s.canonical_name",
+                        (an,),
+                    )
+                ]
+                print(f"    {an!r} ({count}) → {owners}", file=sys.stderr)
+        return {"colliding_aliases": len(rows)}
 
     def flag_dose_less_stubs(self) -> int:
         """Set `substances.is_stub = 1` for every substance with ZERO dose_ranges,
@@ -6988,7 +7318,7 @@ class Build:
         sources_summary: dict,
     ) -> None:
         for k, v in [
-            ("schema_version", "5"),
+            ("schema_version", "6"),
             ("content_version", content_version),
             ("generated_at", datetime.now(UTC).isoformat()),
             ("generator_version", generator_version),
@@ -7153,6 +7483,15 @@ def main() -> int:
     dur_audit = build.audit_salt_supplement_durations()
     print(f"Salt-supplement duration audit: {dur_audit}", file=sys.stderr)
 
+    # Fold curated stereoisomer variants (Esketamine→Ketamine, Dexmethylphenidate→
+    # Methylphenidate, Armodafinil→Modafinil, …) into their racemic parent, tagging
+    # each variant's dose ladder with its `isomer` code. Same window as the salt
+    # fold: after dedup (operate on survivors), before classify (parent classified
+    # once). Must precede stub/junk drops so a dose-less enantiomer folds into its
+    # parent as an alias instead of being dropped. See Stage A.
+    isomers = build.fold_isomer_families()
+    print(f"Isomer-family folding: {isomers}", file=sys.stderr)
+
     # Remove non-substance junk (enzyme/reagent names, hoaxes) and inert/fake
     # compounds (no dose data, no curated file). Runs after dedup/merges so a
     # junk row that was an unmerged duplicate has already folded.
@@ -7173,7 +7512,11 @@ def main() -> int:
     # detail view's dedicated chemistry fields instead.
     purged = 0
     for rowid, alias in build.cur.execute("SELECT rowid, alias FROM aliases").fetchall():
-        if is_chemnoise_alias(alias) and normalise(alias) not in build.salt_alias_protect:
+        if (
+            is_chemnoise_alias(alias)
+            and normalise(alias) not in build.salt_alias_protect
+            and normalise(alias) not in build.isomer_alias_protect
+        ):
             build.cur.execute("DELETE FROM aliases WHERE rowid=?", (rowid,))
             purged += 1
     print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
@@ -7435,6 +7778,17 @@ def main() -> int:
         file=sys.stderr,
     )
 
+    # Annotate the surviving aliases with the form facets they name, enumerate the
+    # per-form PSID table, and surface cross-substance alias collisions (Stage A).
+    # Order matters: facets first (the resolver map), then substance_forms (which
+    # reads those facets), then the collision audit.
+    alias_facets = build.annotate_alias_facets()
+    print(f"Alias facet annotation: {alias_facets}", file=sys.stderr)
+    forms = build.build_substance_forms()
+    print(f"Substance forms enumerated: {forms}", file=sys.stderr)
+    alias_collisions = build.audit_alias_collisions()
+    print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
+
     # Effect controlled-vocabulary coverage + curation candidates (no-silent-caps:
     # whitelisted effects with no vocab_id still ship via raw `text`, but surface
     # here so a future vocab entry can be added).
@@ -7497,7 +7851,7 @@ def main() -> int:
     size = OUT_SQLITE.stat().st_size
 
     manifest = {
-        "schema_version": 5,
+        "schema_version": 6,
         "content_version": content_version,
         "generated_at": datetime.now(UTC).isoformat(),
         "generator_version": "pipeline/build/sqlite.py 0.1.0",

@@ -25,6 +25,7 @@ is_chemnoise_alias = _mod.is_chemnoise_alias
 normalize_category = _mod.normalize_category
 normalise = _mod.normalise
 canonical_salt_form = _mod.canonical_salt_form
+psid = _mod.psid
 smart_title_case = _mod.smart_title_case
 chem_caps = _mod.chem_caps
 is_identifier_citation = _mod.is_identifier_citation
@@ -1052,11 +1053,11 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ).fetchone()
             self.assertIsNotNone(row, f"combo {combo!r} should remain standalone")
 
-    def test_schema_version_is_five(self):
-        """The physicochemical-columns + effect_vocab localization-shape bump
-        (Workstream 1 + Track 1 of substance-data-hardening) set it to 5."""
+    def test_schema_version_is_six(self):
+        """Stage A adds the isomer facet columns, the substance_forms enumeration,
+        and the facet-annotated aliases, bumping the schema version to 6."""
         v = self.db.execute("select value from manifest where key='schema_version'").fetchone()
-        self.assertEqual(v["value"], "5")
+        self.assertEqual(v["value"], "6")
 
     def test_physicochemical_columns_present(self):
         """Stage 0 adds the forensic chem columns (NULL until Stage 1 fills them)."""
@@ -1321,24 +1322,111 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         ).fetchone()["c"]
         self.assertEqual(n, 0, f"{n} substances carry case/salt-duplicate aliases")
 
-    def test_stereoisomers_not_over_merged(self):
-        """Dedup must NOT fuse enantiomer/racemate pairs — they are distinct
-        drugs with different potency/dosing."""
-        for a, b in [
-            ("Methylphenidate", "Dexmethylphenidate"),
-            ("Amphetamine", "Dextroamphetamine"),
-            ("Citalopram", "Escitalopram"),
-            ("Modafinil", "Armodafinil"),
+    def test_stereoisomers_folded_into_parent(self):
+        """Stage A folds curated enantiomers INTO their racemic parent as the
+        isomer form (inverting the old don't-merge invariant). The variant is no
+        longer a standalone row; it survives as a searchable alias of the parent,
+        and where it carried its own dose ladder the parent now has isomer-tagged
+        dose rows (so per-enantiomer dosing is preserved, never flattened)."""
+        for parent, variant, code, has_dose in [
+            ("Methylphenidate", "Dexmethylphenidate", "D", True),
+            ("Amphetamine", "Dextroamphetamine", "D", True),
+            ("Modafinil", "Armodafinil", "R", True),
+            ("Citalopram", "Escitalopram", "S", False),  # no per-enantiomer ladder
         ]:
-            ra = self.db.execute(
-                "select id from substances where lower(canonical_name)=lower(?)", (a,)
+            pr = self.db.execute(
+                "select id from substances where lower(canonical_name)=lower(?)", (parent,)
             ).fetchone()
-            rb = self.db.execute(
-                "select id from substances where lower(canonical_name)=lower(?)", (b,)
+            self.assertIsNotNone(pr, f"{parent} missing")
+            vr = self.db.execute(
+                "select id from substances where lower(canonical_name)=lower(?)", (variant,)
             ).fetchone()
-            self.assertIsNotNone(ra, f"{a} missing")
-            self.assertIsNotNone(rb, f"{b} missing")
-            self.assertNotEqual(ra["id"], rb["id"], f"{a} and {b} were wrongly merged")
+            self.assertIsNone(vr, f"{variant} should be folded into {parent}, not standalone")
+            al = self.db.execute(
+                "select 1 from aliases where substance_id=? and lower(alias)=lower(?)",
+                (pr["id"], variant),
+            ).fetchone()
+            self.assertIsNotNone(al, f"{variant} should survive as an alias of {parent}")
+            if has_dose:
+                n = self.db.execute(
+                    "select count(*) c from dose_ranges where substance_id=? and isomer=?",
+                    (pr["id"], code),
+                ).fetchone()["c"]
+                self.assertGreater(
+                    n, 0, f"{parent} should carry isomer={code} dose rows from {variant}"
+                )
+
+    def test_substance_forms_enumerate_isomers(self):
+        """substance_forms enumerates one row per known (uid, stereo, salt, release)
+        with a composed PSID + display title. Methylphenidate → base + Focalin's
+        D-form; Ketamine → base + Esketamine (S) + Arketamine (R). The base form is
+        marked default. Even dose-less folded enantiomers (Dextromethamphetamine)
+        get an identity + title row so a logged form can be displayed."""
+        forms = {
+            (r["stereo"], r["salt"]): dict(r)
+            for r in self.db.execute(
+                "SELECT f.stereo, f.salt, f.display_name, f.is_default, f.psid "
+                "FROM substance_forms f JOIN substances s ON s.id=f.substance_id "
+                "WHERE s.canonical_name='Methylphenidate'"
+            )
+        }
+        self.assertEqual(forms[("0", "0")]["display_name"], "Methylphenidate")
+        self.assertEqual(forms[("0", "0")]["is_default"], 1)
+        self.assertEqual(forms[("D", "0")]["display_name"], "Dexmethylphenidate")
+
+        ket = {
+            r["display_name"]
+            for r in self.db.execute(
+                "SELECT f.display_name FROM substance_forms f JOIN substances s "
+                "ON s.id=f.substance_id WHERE s.canonical_name='Ketamine'"
+            )
+        }
+        self.assertSetEqual(ket, {"Ketamine", "Esketamine", "Arketamine"})
+
+        # Dose-less enantiomer still gets an identity + title (from annotated alias).
+        meth = {
+            r["display_name"]
+            for r in self.db.execute(
+                "SELECT f.display_name FROM substance_forms f JOIN substances s "
+                "ON s.id=f.substance_id WHERE s.canonical_name='Methamphetamine'"
+            )
+        }
+        self.assertIn("Dextromethamphetamine", meth)
+
+    def test_every_substance_form_psid_is_check_valid(self):
+        """Every substance_forms.psid round-trips: it parses, its check char
+        verifies, and the parsed facets equal the stored codes — the guarantee that
+        a facet-bearing PSID (deep link / export) fails fast if mistyped rather than
+        resolving to a different valid form (closes spec Deferred #1)."""
+        bad = []
+        for r in self.db.execute("SELECT psid, stereo, salt, release FROM substance_forms"):
+            parsed = psid.parse(r["psid"])
+            if not parsed or (parsed["stereo"], parsed["salt"], parsed["release"]) != (
+                r["stereo"],
+                r["salt"],
+                r["release"],
+            ):
+                bad.append(r["psid"])
+        self.assertEqual(bad, [], f"{len(bad)} substance_forms PSIDs failed round-trip: {bad[:5]}")
+
+    def test_isomer_brand_aliases_carry_facet(self):
+        """The migration's name→form resolver: an enantiomer brand/name alias is
+        annotated with its isomer facet on the parent, so a logged "Focalin" or
+        "Spravato" recovers isomer='D'/'S' rather than resolving form-blind."""
+        for alias, parent, code in [
+            ("Focalin", "Methylphenidate", "D"),
+            ("Spravato", "Ketamine", "S"),
+            ("Armodafinil", "Modafinil", "R"),
+            ("Dexmethylphenidate", "Methylphenidate", "D"),
+        ]:
+            r = self.db.execute(
+                "SELECT s.canonical_name, a.isomer FROM aliases a "
+                "JOIN substances s ON s.id=a.substance_id WHERE lower(a.alias)=lower(?)",
+                (alias,),
+            ).fetchone()
+            self.assertIsNotNone(r, f"{alias} alias missing")
+            self.assertEqual(r["canonical_name"], parent, f"{alias} resolves to wrong parent")
+            self.assertEqual(r["isomer"], code, f"{alias} missing isomer facet {code}")
 
     def test_unmerged_duplicate_debt_bounded(self):
         """Tracks the safe-baseline duplicate debt: data-poor records whose

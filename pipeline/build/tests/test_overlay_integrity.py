@@ -183,14 +183,25 @@ class OverlayIntegrity(unittest.TestCase):
         )
 
     # --- tooling smoke test: the audit lib can read the DB and derive candidates ---
-    def test_isomer_families_derivable(self):
-        fams = L.isomer_families(self.db)
-        parents = {f["parent"] for f in fams}
-        # Ketamine/Esketamine is the canonical example the spec names; it must derive.
-        self.assertIn("Ketamine", parents, "expected Ketamine as a stereoisomer fold parent")
-        ket = next(f for f in fams if f["parent"] == "Ketamine")
-        codes = {v["name"]: v["isomer"] for v in ket["variants"]}
-        self.assertEqual(codes.get("Esketamine"), "S")
+    def test_isomer_families_collapsed_after_fold(self):
+        """Provenance guard, inverted for Stage A. The block-1 auto-deriver clusters
+        *present* rows, and fold_isomer_families() has now collapsed each folded
+        family into a single parent row — so a folded parent (Ketamine, the spec's
+        canonical example) is no longer a derivable multi-row cluster, which is the
+        proof the fold landed. An intentionally-unfolded family (Etiracetam/
+        Levetiracetam — see _ISOMER_FOLD_SKIP) is still two co-familied rows and
+        therefore still derives."""
+        parents = {f["parent"] for f in L.isomer_families(self.db)}
+        self.assertNotIn(
+            "Ketamine",
+            parents,
+            "Ketamine should have folded — its enantiomers are no longer separate rows",
+        )
+        self.assertIn(
+            "Etiracetam",
+            parents,
+            "Etiracetam/Levetiracetam is intentionally left unfolded and should still derive",
+        )
 
     # --- the curated isomer fold seed stays valid (every name is a real row) ---
     def test_isomer_seed_map_valid(self):
