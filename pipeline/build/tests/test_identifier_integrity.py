@@ -73,9 +73,14 @@ ANCHORS = {
     "Phendimetrazine": "MFOCDFTXLCYLKU-CMPLNLGQSA-N",
     "Phenylephrine": "SONNWYBIRXJNDC-VIFPVBQESA-N",
     "Pseudoephedrine": "KWGRBVOPPLSCSI-WCBMZHEXSA-N",
-    "R-(-)-MDMA": "SHXWCVYOXRDMCX-MRVPVSSYSA-N",
     "RTI-113": "AAEKULYONKUBOZ-NBYUQASBSA-N",
-    "S-(+)-MDMA": "SHXWCVYOXRDMCX-QMMMGPOBSA-N",
+    # NOTE: `R-(-)-MDMA` / `S-(+)-MDMA` were anchored here by Stage 0.0, but Stage A's
+    # fold_isomer_families() folded both enantiomers INTO `MDMA`, so neither exists as
+    # a canonical_name row any more and the anchors could never match. They are now
+    # facet-annotated aliases of MDMA (isomer='R'/'S') with their own PSID stereo
+    # forms; test_isomer_brand_aliases_carry_facet + test_substance_forms_enumerate_isomers
+    # guard that identity. There is no per-enantiomer InChIKey left to anchor — the
+    # parent's key is anchored via the fold, so nothing is left unguarded.
 }
 
 
