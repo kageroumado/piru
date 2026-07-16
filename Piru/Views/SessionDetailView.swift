@@ -201,6 +201,32 @@ struct SessionDetailView: View {
         resolvedDay.interactions
     }
 
+    /// The line to show where the timeline would be when the session names a form
+    /// the app declines to model (``DoseEntry/namesUnmodeledForm``) — a Concerta, a
+    /// depot injection. `nil` when nothing here needs explaining. Runs only over
+    /// the (rare, few) unmodeled doses, so the title/base resolves it does cost
+    /// nothing on an ordinary session, where the filter returns empty.
+    private var unmodeledFormNote: UnmodeledFormNote.Content? {
+        let unmodeled = entries.filter(\.namesUnmodeledForm)
+        guard !unmodeled.isEmpty else { return nil }
+        var seen = Set<String>()
+        var pairs: [(product: String, base: String)] = []
+        for entry in unmodeled {
+            let base = SubstanceLibrary.timelineLookup(entry.substance)?.name ?? entry.substance
+            let product = DoseTitle.resolve(for: entry)
+            if seen.insert(product.lowercased() + "\u{1}" + base.lowercased()).inserted {
+                pairs.append((product, base))
+            }
+        }
+        // Name the form only when there's exactly one and its title isn't just the
+        // base with a suffix — "the Methylphenidate XR form of Methylphenidate"
+        // reads badly, so that (and any multi-form session) gets the neutral line.
+        if pairs.count == 1, !pairs[0].product.localizedCaseInsensitiveContains(pairs[0].base) {
+            return .named(product: pairs[0].product, base: pairs[0].base)
+        }
+        return .generic
+    }
+
     // MARK: Mechanistic effect model
 
     /// Hours from session start to now, for the "now" indicator.
@@ -516,6 +542,14 @@ struct SessionDetailView: View {
                             hasOngoingDose: hasOngoingDose,
                             vitals: sessionVitals,
                         )
+                    }
+
+                    // Where the curve is withheld: a Concerta-only day drops the
+                    // timeline entirely, and a mixed day shows one only for the
+                    // doses it can model. Either way, say why the unmodeled dose is
+                    // just a dot rather than leaving a conspicuous gap.
+                    if let unmodeledFormNote {
+                        UnmodeledFormNote(content: unmodeledFormNote)
                     }
 
                     // Effect Estimates — the mechanistic model as its own graph
@@ -877,6 +911,47 @@ private final class DayResolveCache {
 }
 
 // MARK: - Session Detail Sections
+
+/// One line, where the timeline would be, explaining why a dose here draws a dot
+/// instead of a curve: the session names a form the app declines to model
+/// (``DoseEntry/namesUnmodeledForm``). Better to withhold the timing than to draw
+/// the base form's curve under a form that doesn't follow it — see
+/// `Specs/psid-identity-consumption.md` LB-2.
+private struct UnmodeledFormNote: View {
+    enum Content: Equatable {
+        /// A single form, named for the row: "the Concerta form of Methylphenidate".
+        case named(product: String, base: String)
+        /// More than one, or a title that would restate its base — a neutral line.
+        case generic
+    }
+    let content: Content
+
+    var body: some View {
+        Section {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: "clock.badge.questionmark")
+                    .font(.title3)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
+    private var message: LocalizedStringKey {
+        switch content {
+        case let .named(product, base):
+            "Piru doesn't model a timeline for the \(product) form of \(base). How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts."
+        case .generic:
+            "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts."
+        }
+    }
+}
 
 /// The day-detail's timeline graph — a single headerless, full-bleed section.
 /// No collapse chevron (the graph earns its place at the top of every session)

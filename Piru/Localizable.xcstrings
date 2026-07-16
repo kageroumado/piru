@@ -28771,6 +28771,38 @@
         }
       }
     },
+    "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 无法为其中部分剂型绘制时间线。它们的作用会持续多久并不在 Piru 的估算范围内，因此本次记录只显示每次用药的时间，而非其持续时长。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 無法為其中部分劑型繪製時間線。它們的作用會持續多久並不在 Piru 的估算範圍內，因此本次記錄只顯示每次用藥的時間，而非其持續時長。"
+          }
+        }
+      }
+    },
+    "Piru doesn't model a timeline for the %@ form of %@. How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 无法为 %2$@ 的 %1$@ 剂型绘制时间线。这类剂型的作用会持续多久并不在 Piru 的估算范围内，因此本次记录只显示每次用药的时间，而非其持续时长。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 無法為 %2$@ 的 %1$@ 劑型繪製時間線。這類劑型的作用會持續多久並不在 Piru 的估算範圍內，因此本次記錄只顯示每次用藥的時間，而非其持續時長。"
+          }
+        }
+      }
+    },
     "Piru is built for sensitive data. Yours never leaves your device unless you choose." : {
       "localizations" : {
         "zh-Hans" : {

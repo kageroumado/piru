@@ -4583,6 +4583,17 @@ T = {
         "阴影区域即是你的感受。当多巴胺消退、预期滞留于其上时，这段落差便转为退效期。",
         "陰影區域即是你的感受。當多巴胺消退、預期滯留於其上時，這段落差便轉為退效期。",
     ),
+    # Unmodeled release-form explainer on session detail — why a Concerta draws a
+    # dot, not a curve (D.4.4, 2026-07-16). Named form reorders in zh, so the two
+    # drop-ins are positional (%1$@ = product, %2$@ = base substance).
+    "Piru doesn't model a timeline for the %@ form of %@. How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts.": (
+        "Piru 无法为 %2$@ 的 %1$@ 剂型绘制时间线。这类剂型的作用会持续多久并不在 Piru 的估算范围内，因此本次记录只显示每次用药的时间，而非其持续时长。",
+        "Piru 無法為 %2$@ 的 %1$@ 劑型繪製時間線。這類劑型的作用會持續多久並不在 Piru 的估算範圍內，因此本次記錄只顯示每次用藥的時間，而非其持續時長。",
+    ),
+    "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts.": (
+        "Piru 无法为其中部分剂型绘制时间线。它们的作用会持续多久并不在 Piru 的估算范围内，因此本次记录只显示每次用药的时间，而非其持续时长。",
+        "Piru 無法為其中部分劑型繪製時間線。它們的作用會持續多久並不在 Piru 的估算範圍內，因此本次記錄只顯示每次用藥的時間，而非其持續時長。",
+    ),
 }
 
 # Widget translations
@@ -4760,6 +4771,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Unmodeled release-form explainer on session detail (D.4.4, 2026-07-16).
+        "Piru doesn't model a timeline for the %@ form of %@. How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts.",
+        "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts.",
         # Stereoisomer picker (Stage A, 2026-07-15).
         "Isomer",
         # Quick-log VoiceOver audit fixes (2026-07-12).
