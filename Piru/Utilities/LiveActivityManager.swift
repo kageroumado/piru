@@ -20,6 +20,17 @@ struct DoseSnapshot {
     let unit: String
     let route: RouteOfAdministration
     let timestamp: Date
+    /// What to call this dose (``DoseTitle``), resolved once here. The Live
+    /// Activity and the tab-bar accessory render off the snapshot rather than the
+    /// entry, so without this they show the raw canonical string — a dose logged
+    /// as Concerta reading "Methylphenidate" on the Lock Screen.
+    let title: String
+    /// Whether the dose names a form the app declines to model
+    /// (``DoseEntry/namesUnmodeledForm``). Carried so ``ActiveSessionManager``
+    /// can deny it a duration the same way the timeline denies it a curve —
+    /// otherwise a Concerta dose spawns an "active session" counting down
+    /// Ritalin's window.
+    let namesUnmodeledForm: Bool
 
     init(entry: DoseEntry) {
         self.id = entry.id
@@ -28,15 +39,30 @@ struct DoseSnapshot {
         self.unit = entry.unit
         self.route = entry.route
         self.timestamp = entry.timestamp
+        self.title = DoseTitle.resolve(for: entry)
+        self.namesUnmodeledForm = entry.namesUnmodeledForm
     }
 
-    init(id: UUID? = nil, substance: String, amount: Double, unit: String, route: RouteOfAdministration, timestamp: Date) {
+    init(
+        id: UUID? = nil,
+        substance: String,
+        amount: Double,
+        unit: String,
+        route: RouteOfAdministration,
+        timestamp: Date,
+        title: String? = nil,
+        namesUnmodeledForm: Bool = false,
+    ) {
         self.id = id
         self.substance = substance
         self.amount = amount
         self.unit = unit
         self.route = route
         self.timestamp = timestamp
+        // Recovered from a running Live Activity, which carries no entry
+        // reference — the substance string is all there is.
+        self.title = title ?? substance
+        self.namesUnmodeledForm = namesUnmodeledForm
     }
 }
 

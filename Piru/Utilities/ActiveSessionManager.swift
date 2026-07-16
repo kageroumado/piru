@@ -81,7 +81,7 @@ final class ActiveSessionManager {
         activeEntries = entries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
             let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
-            let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
+            let duration = Self.resolveDuration(substance: matchedSubstance, entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             return (snapshot: snapshot, duration: duration, colorHex: hex)
         }
@@ -98,7 +98,7 @@ final class ActiveSessionManager {
         allColors: [SubstanceColor],
     ) {
         let snapshot = DoseSnapshot(entry: entry)
-        let duration = Self.resolveDuration(substance: substance, route: entry.route)
+        let duration = Self.resolveDuration(substance: substance, entry: entry)
         activeEntries.append((snapshot: snapshot, duration: duration, colorHex: colorHex))
 
         let colorMap = Self.buildColorMap(from: allColors)
@@ -121,7 +121,7 @@ final class ActiveSessionManager {
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
-            let duration = Self.resolveDuration(substance: substance, route: entry.route)
+            let duration = Self.resolveDuration(substance: substance, entry: entry)
             activeEntries.append((snapshot: snapshot, duration: duration, colorHex: hex))
         }
 
@@ -186,7 +186,7 @@ final class ActiveSessionManager {
         cachedColorMap = colorMap
 
         let snapshot = DoseSnapshot(entry: entry)
-        let duration = Self.resolveDuration(substance: substance, route: entry.route)
+        let duration = Self.resolveDuration(substance: substance, entry: entry)
         let hex = colorMap[snapshot.substance.lowercased()] ?? colorHex
         let updated = (snapshot: snapshot, duration: duration, colorHex: hex)
 
@@ -246,7 +246,7 @@ final class ActiveSessionManager {
         activeEntries = doseEntries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
             let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
-            let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
+            let duration = Self.resolveDuration(substance: matchedSubstance, entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             return (snapshot: snapshot, duration: duration, colorHex: hex)
         }
@@ -297,7 +297,10 @@ final class ActiveSessionManager {
                 doseRange: doseRange,
             )
             return ActiveSubstanceState(
-                name: item.snapshot.substance,
+                // The snapshot's resolved title, not the raw canonical string —
+                // this said "Methylphenidate" on the accessory and the Lock Screen
+                // for a dose the user logged as Concerta.
+                name: item.snapshot.title,
                 colorHex: hex,
                 timestamp: item.snapshot.timestamp,
                 amount: item.snapshot.amount,
@@ -319,11 +322,24 @@ final class ActiveSessionManager {
 
     // MARK: - Private
 
-    static func resolveDuration(substance: Substance?, route: RouteOfAdministration) -> DurationProfile? {
+    static func resolveDuration(substance: Substance?, entry: DoseEntry) -> DurationProfile? {
+        resolveDuration(substance: substance, route: entry.route, namesUnmodeledForm: entry.namesUnmodeledForm)
+    }
+
+    static func resolveDuration(
+        substance: Substance?,
+        route: RouteOfAdministration,
+        namesUnmodeledForm: Bool,
+    ) -> DurationProfile? {
+        // A dose naming a form we don't model gets no window at all, matching the
+        // timeline. The base profile is the wrong answer here in a way that shows:
+        // a Concerta dose would open an active session counting down Ritalin's
+        // ~3h24m, and the accessory would say so to the minute.
+        guard !namesUnmodeledForm else { return nil }
         // `timelineDuration` (not `resolveDuration`) so a long-acting maintenance
         // med — bupropion, an SSRI, a weekly GLP-1 — never spawns a multi-day
         // "active session" with a flat countdown in the tab-bar accessory.
-        substance?.timelineDuration(for: route)
+        return substance?.timelineDuration(for: route)
     }
 
     static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {

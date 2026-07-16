@@ -67,6 +67,15 @@ enum ActiveSubstanceCalculator {
             // insight. Excluded here to match their suppression on the timeline and
             // in the entry-row rail (see `from`).
             if substance?.category == .supplement { continue }
+            // A dose naming a form we don't model contributes no body-load estimate
+            // either. The elimination half-life *is* a property of the molecule and
+            // survives the delivery matrix — but the readout is not pure
+            // elimination: `ka` below comes from the route's duration profile, i.e.
+            // the immediate-release absorption limb, so a dose released over ~10 h
+            // would be modelled as if it landed at once, and "clear ~12:33 PM"
+            // states a time we have no basis for. Better to show nothing than
+            // something misleading.
+            if entry.namesUnmodeledForm { continue }
             guard let halfLife = resolveHalfLife(substance: substance, entryName: entry.substance) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
@@ -210,6 +219,13 @@ extension ActiveSubstanceState {
         // heavy per-substance chem/mechanism SQL. Falls back to the full lookup
         // when the batch cache is cold or the substance is custom-only.
         guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else { return nil }
+        // A dose that names a form we don't model draws no curve at all. Both
+        // fallbacks below would answer with the *base* form's kinetics: a Concerta
+        // dose would take Ritalin's 150–240 min profile, and an OxyContin dose
+        // oxycodone's ~4 h — the exact number that invites a redose. We know the
+        // form and we know we can't model it, so we say when it was taken and stop
+        // there. This must precede both tiers; see `namesUnmodeledForm`.
+        if entry.namesUnmodeledForm { return nil }
         let doseRange = Self.resolveDoseRange(substance: substance, route: entry.route)
         let intensity = Self.computeDoseIntensity(amount: entry.amount, doseRange: doseRange)
         let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
@@ -238,6 +254,12 @@ extension ActiveSubstanceState {
         // marker. A supplement with a *real* acute profile (e.g. melatonin) still
         // resolves above via `timelineDuration`, so this only suppresses the
         // fabricated curve, not genuine ones.
+        //
+        // An unmodeled release form is denied this tier too, above — and has to be.
+        // `resolveHalfLifeMinutes` searches by name *and by every alias*, so a
+        // Concerta dose skipping only the duration tier would find methylphenidate's
+        // half-life here and synthesize a curve anyway: the same fabricated arc,
+        // wearing an XR label.
         if substance.category != .supplement,
            let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {
             return ActiveSubstanceState(

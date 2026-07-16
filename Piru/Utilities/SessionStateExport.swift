@@ -268,6 +268,19 @@ extension SessionStateExport {
         let substance = SubstanceLibrary.timelineLookup(entries.first?.substance ?? name)
         let isAlcohol = ["alcohol", "ethanol"].contains(name.lowercased())
 
+        // A group containing a dose whose form we don't model can't be totalled:
+        // this curve is the *combined* body load for the substance, so one
+        // extended-release dose in it makes the sum unknowable, not merely
+        // approximate. Reported as `.unknown` — the state this export already has
+        // for "no half-life data", which reads "elimination not modeled" rather
+        // than drawing a confident wrong curve.
+        if entries.contains(where: \.namesUnmodeledForm) {
+            return EliminationGroup(
+                id: name.lowercased(), name: name, doseCount: entries.count, model: .unknown,
+                curve: [], unit: entries.first?.unit ?? "mg", horizonMinutes: 1, groupStart: earliest,
+            )
+        }
+
         func offset(_ entry: DoseEntry) -> Double {
             entry.timestamp.timeIntervalSince(earliest) / 60
         }
