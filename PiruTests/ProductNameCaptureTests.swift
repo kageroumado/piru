@@ -157,4 +157,20 @@ struct ProductNameCaptureTests {
         let entry = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", route: .oral)
         #expect(entry.productName == nil)
     }
+
+    // MARK: - Alias ordering (D.1.7)
+
+    @Test
+    func `displayAliases lead with the brand name`() {
+        // Alphabetical ordering buried Vyvanse behind Elvanse/LDX; `aliases.kind`
+        // now floats the brand first, so the "Also known as" subtitle shows the
+        // name people actually know. Findability is untouched (normalized index).
+        let ldx = SubstanceLibrary.lookupByNameOrAlias("Lisdexamfetamine")
+        #expect(ldx?.displayAliases.first == "Vyvanse")
+
+        // A substance with many brands still leads with one (Concerta) instead of
+        // an alphabetically-first "Adhansia XR".
+        let mph = SubstanceLibrary.lookupByNameOrAlias("Methylphenidate")
+        #expect(mph?.displayAliases.first == "Concerta")
+    }
 }

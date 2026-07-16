@@ -31,6 +31,7 @@ from pathlib import Path
 _REGISTRY = Path(__file__).resolve().parent.parent / "data/curated/inchikey-collisions.json"
 _ISOMER_FAMILIES = _REGISTRY.parent / "isomer-families.json"
 _RELEASE_FAMILIES = _REGISTRY.parent / "release-families.json"
+_BRANDS = _REGISTRY.parent / "brands.json"
 
 
 def load() -> dict:
@@ -53,6 +54,18 @@ def release_registry() -> dict:
     of their own, so Stage B annotates aliases rather than merging substances.
     """
     return json.loads(_RELEASE_FAMILIES.read_text())
+
+
+def brand_registry() -> list[dict]:
+    """The curated flagship brand list (from brands.json): ``[{parent, brand}, ...]``.
+
+    Seeds `aliases.kind='brand'` for the famous base-form brands the search subtitle
+    should lead with (Vyvanse, Ritalin, Xanax…) that the release/isomer form maps
+    don't already enumerate. Purely a name-provenance hint for display ordering —
+    it drives no fold and no facet (D.1.7). Empty list if the file is absent."""
+    if not _BRANDS.exists():
+        return []
+    return json.loads(_BRANDS.read_text()).get("brands", [])
 
 
 def distinct_clusters() -> list[list[str]]:

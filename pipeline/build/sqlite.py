@@ -541,6 +541,14 @@ CREATE TABLE aliases (
     isomer           TEXT,
     salt_form        TEXT,
     release_form     TEXT,
+    -- Name provenance (D.1.7): 'brand' for a marketed product name (Vyvanse,
+    -- Ritalin, Concerta), NULL for everything else. Lets the display layer lead
+    -- the "Also known as" subtitle with the names people recognize instead of the
+    -- alphabetically-first chemical synonym. Populated by annotate_alias_facets()
+    -- from the form-map brand lists + curated brands.json; only 'brand' is seeded
+    -- (the full chemical/abbreviation/street/regional taxonomy is deferred). Not a
+    -- facet and not a lookup key — display ordering only.
+    kind             TEXT,
     PRIMARY KEY (substance_id, alias)
 );
 CREATE INDEX idx_aliases_normalized ON aliases(alias_normalized);
@@ -6703,19 +6711,53 @@ class Build:
                     iso += 1
                     cross += 1
 
+        # Name provenance (D.1.7): tag the marketed brand names so display can lead
+        # with the word people recognize instead of the alphabetically-first
+        # synonym. Seeded from the brand lists the form axes already enumerate
+        # (release XR brands, isomer-variant brands) plus curated flagship base
+        # brands (brands.json) — every other alias stays NULL. `kind` drives no
+        # fold, no facet, no dose: it is a display-ordering hint only.
+        brand_pairs: list[tuple[str, str]] = []
+        for b in self._release_registry.get("brands", []):
+            brand_pairs.append((b["parent"], b["brand"]))
+        for fam in collision_registry.fold_families():
+            for v in fam["variants"]:
+                for nm in v.get("brands") or []:
+                    brand_pairs.append((fam["parent"], nm))
+        for b in collision_registry.brand_registry():
+            brand_pairs.append((b["parent"], b["brand"]))
+
+        brand, brand_missing = 0, []
+        for parent, name in brand_pairs:
+            cur = self.cur.execute(
+                "UPDATE aliases SET kind='brand' WHERE alias_normalized=? AND substance_id="
+                "(SELECT id FROM substances WHERE canonical_name=?)",
+                (normalise(name), parent),
+            )
+            if cur.rowcount:
+                brand += cur.rowcount
+            else:
+                brand_missing.append(f"{name} ({parent})")
+        if brand_missing:
+            print(
+                f"  brand-kind seeding: {len(brand_missing)} curated brand(s) matched no "
+                f"alias of their parent: {', '.join(brand_missing)}",
+                file=sys.stderr,
+            )
+
         # Coverage gate: a curated tokenless brand that matches no alias of its
         # stated parent is drift (renamed/purged alias, or a typo) — the override
         # would silently never fire. Report rather than fail: the catalog legitimately
         # varies by which sources were available at build time.
         missing = []
-        for brand in self._release_registry.get("brands", []):
+        for brand_row in self._release_registry.get("brands", []):
             hit = self.cur.execute(
                 "SELECT 1 FROM aliases a JOIN substances s ON s.id=a.substance_id "
                 "WHERE a.alias_normalized=? AND s.canonical_name=? LIMIT 1",
-                (normalise(brand["brand"]), brand["parent"]),
+                (normalise(brand_row["brand"]), brand_row["parent"]),
             ).fetchone()
             if not hit:
-                missing.append(f"{brand['brand']} ({brand['parent']})")
+                missing.append(f"{brand_row['brand']} ({brand_row['parent']})")
         if missing:
             print(
                 f"  release brand overrides: {len(missing)} curated brand(s) matched no "
@@ -6727,6 +6769,8 @@ class Build:
             "release_aliases": rel,
             "cross_axis_isomer": cross,
             "release_brands_unmatched": len(missing),
+            "brand_kind_aliases": brand,
+            "brand_kind_unmatched": len(brand_missing),
         }
 
     def build_substance_forms(self) -> dict[str, int]:

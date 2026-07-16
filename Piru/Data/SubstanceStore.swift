@@ -1081,7 +1081,12 @@ final class SubstanceStore {
                 for row in try Row.fetchAll(
                     db,
                     sql:
-                    "SELECT substance_id, alias FROM aliases ORDER BY alias",
+                    // Brand names first (D.1.7), then alphabetical — so the "Also
+                    // known as" subtitle leads with Vyvanse/Ritalin/Concerta, not
+                    // the alphabetically-first chemical synonym. `kind` is 'brand'
+                    // for a marketed product name, NULL otherwise; findability is
+                    // unaffected (search uses the normalized index).
+                    "SELECT substance_id, alias FROM aliases ORDER BY CASE WHEN kind = 'brand' THEN 0 ELSE 1 END, alias",
                 ) {
                     let sid: Int64 = row["substance_id"]
                     aliasesByID[sid, default: []].append(row["alias"])
@@ -1389,7 +1394,8 @@ final class SubstanceStore {
                     boilingPointC: coreRow["boiling_point_c"] as Double?,
                 )
 
-                let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
+                // Brand names first (D.1.7), then alphabetical — see the batch path.
+                let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY CASE WHEN kind = 'brand' THEN 0 ELSE 1 END, alias", arguments: [id])
                 let peptideProfile = try resolvedPeptideProfile(db: db, substanceID: id)
                 let references = try resolvedReferences(db: db, substanceID: id)
 
