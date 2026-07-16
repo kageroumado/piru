@@ -77,6 +77,19 @@ final class DailyDoseItem {
     /// Optional category label used to group items in the UI.
     var category: String = ""
 
+    /// The PSID identity this daily item resolves to, so its "logged today" check
+    /// joins a matching dose by identity rather than a lowercased name — a
+    /// "Concerta" daily item then matches a dose logged as Methylphenidate XR,
+    /// which a name join never could. All `nil` for an item created before PSID
+    /// (name join, as before) until the backfill resolves its ``substance``
+    /// string. `productName` keeps the literal word the item was saved under.
+    /// Additive optionals — a free lightweight migration.
+    var substanceUID: String?
+    var isomer: String?
+    var releaseForm: String?
+    var saltForm: String?
+    var productName: String?
+
     /// When `true`, doses logged from this medication are *background*: they
     /// never open or extend a recreational session (they fold into the current
     /// session if one is active, otherwise form a quiet maintenance session that
@@ -121,6 +134,11 @@ final class DailyDoseItem {
         frequencyDays: [Int] = [],
         startDate: Date = .distantPast,
         isBackgroundMed: Bool = false,
+        substanceUID: String? = nil,
+        isomer: String? = nil,
+        releaseForm: String? = nil,
+        saltForm: String? = nil,
+        productName: String? = nil,
     ) {
         self.substance = substance
         self.amount = amount
@@ -132,6 +150,21 @@ final class DailyDoseItem {
         self.frequencyDaysData = (try? JSONEncoder().encode(frequencyDays)) ?? Data()
         self.startDate = startDate
         self.isBackgroundMed = isBackgroundMed
+        self.substanceUID = substanceUID
+        self.isomer = isomer
+        self.releaseForm = releaseForm
+        self.saltForm = saltForm
+        self.productName = productName
+    }
+
+    /// This daily item's substance-identity key — joined against a dose's
+    /// ``DoseEntry/identityKey`` for the "logged today" check. See
+    /// ``QuickLogDose/identityKey``.
+    var identityKey: String {
+        QuickLogDose.identityKey(
+            substanceUID: substanceUID, substance: substance,
+            isomer: isomer, releaseForm: releaseForm, saltForm: saltForm,
+        )
     }
 }
 

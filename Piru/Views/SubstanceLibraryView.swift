@@ -72,7 +72,7 @@ private struct SubstanceSearchResultsList: View {
                         .swipeActions(edge: .trailing) {
                             let isFav = favoriteNames.contains(substance.name.lowercased())
                             Button {
-                                FavoriteService.toggle(substance.name, in: modelContext)
+                                FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
                             } label: {
                                 Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
                             }
@@ -392,7 +392,7 @@ struct SubstanceCategoryListView: View {
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
                     Button {
-                        FavoriteService.toggle(substance.name, in: modelContext)
+                        FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
                     } label: {
                         Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
                     }
@@ -987,7 +987,7 @@ struct SubstanceDetailView: View {
     }
 
     private func toggleFavorite() {
-        FavoriteService.toggle(substance.name, in: modelContext)
+        FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
         try? modelContext.save()
     }
 

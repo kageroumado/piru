@@ -43,19 +43,38 @@ enum QuickLogManager {
             var amount: Double; var unit: String; var count: Int; var last: Date
             var volumeML: Double?; var abv: Double?; var drinkName: String?
         }
-        // groupKey -> (substance, route) and measureKey -> aggregated Measure.
-        var groupMeta: [String: (substance: String, route: RouteOfAdministration)] = [:]
+        // The (substance, route) plus the PSID facets the group's chips inherit,
+        // captured from the group's representative (newest) history row.
+        struct GroupMeta {
+            var substance: String; var route: RouteOfAdministration
+            var substanceUID: String?; var isomer: String?
+            var releaseForm: String?; var saltForm: String?; var productName: String?
+        }
+        // groupKey -> GroupMeta and measureKey -> aggregated Measure.
+        var groupMeta: [String: GroupMeta] = [:]
         var groupMeasures: [String: [String: Measure]] = [:]
 
         for entry in history {
-            let groupKey = "\(entry.substance.lowercased())|\(entry.route.rawValue)"
+            // Group by substance *identity* + route so a Concerta history seeds a
+            // distinct chip from a Ritalin one (both canonical Methylphenidate).
+            let groupKey = "\(entry.identityKey)|\(entry.route.rawValue)"
             // By-volume drinks (alcohol) key by their drink identity so distinct
             // drinks seed as distinct detailed chips, not one merged grams chip.
             let measureKey = QuickLogDose.makeKey(
                 substance: entry.substance, route: entry.route, amount: entry.amount, unit: entry.unit,
+                substanceUID: entry.substanceUID, isomer: entry.isomer,
+                releaseForm: entry.releaseForm, saltForm: entry.saltForm,
                 volumeML: entry.volumeML, abv: entry.abv, drinkName: entry.drinkName,
             )
-            groupMeta[groupKey] = (entry.substance, entry.route)
+            // First-seen wins — `history` is newest-first, so the group keeps the
+            // most recent product name (facets are identical across the group).
+            if groupMeta[groupKey] == nil {
+                groupMeta[groupKey] = GroupMeta(
+                    substance: entry.substance, route: entry.route,
+                    substanceUID: entry.substanceUID, isomer: entry.isomer,
+                    releaseForm: entry.releaseForm, saltForm: entry.saltForm, productName: entry.productName,
+                )
+            }
             var measures = groupMeasures[groupKey] ?? [:]
             var m = measures[measureKey] ?? Measure(
                 amount: entry.amount, unit: entry.unit, count: 0, last: .distantPast,
@@ -83,6 +102,11 @@ enum QuickLogManager {
                     volumeML: m.volumeML,
                     abv: m.abv,
                     drinkName: m.drinkName,
+                    substanceUID: meta.substanceUID,
+                    isomer: meta.isomer,
+                    releaseForm: meta.releaseForm,
+                    saltForm: meta.saltForm,
+                    productName: meta.productName,
                 ))
             }
         }
@@ -103,6 +127,15 @@ enum QuickLogManager {
         var abv: Double?
         var drinkName: String?
         var emoji: String?
+        /// PSID identity carried from the committed dose so the chip groups by
+        /// substance identity, not name — a Concerta chip stays distinct from a
+        /// Ritalin IR chip, and re-staging it logs the product it named. All `nil`
+        /// for a facet-less log, which keys by name exactly as before.
+        var substanceUID: String?
+        var isomer: String?
+        var releaseForm: String?
+        var saltForm: String?
+        var productName: String?
     }
 
     /// Record a freshly-logged dose. Convenience wrapper around the batch form.
@@ -148,10 +181,17 @@ enum QuickLogManager {
         all: inout [QuickLogDose],
         context: ModelContext,
     ) {
-        let name = dose.substance.lowercased()
-        var group = all.filter { $0.substance.lowercased() == name && $0.route == dose.route }
+        // Group by substance *identity* (family + form facets), not name, so a
+        // Concerta dose floats its own chip rather than merging into Ritalin's.
+        let identity = QuickLogDose.identityKey(
+            substanceUID: dose.substanceUID, substance: dose.substance,
+            isomer: dose.isomer, releaseForm: dose.releaseForm, saltForm: dose.saltForm,
+        )
+        var group = all.filter { $0.identityKey == identity && $0.route == dose.route }
         let key = QuickLogDose.makeKey(
             substance: dose.substance, route: dose.route, amount: dose.amount, unit: dose.unit,
+            substanceUID: dose.substanceUID, isomer: dose.isomer,
+            releaseForm: dose.releaseForm, saltForm: dose.saltForm,
             volumeML: dose.volumeML, abv: dose.abv, drinkName: dose.drinkName,
         )
 
@@ -178,6 +218,11 @@ enum QuickLogManager {
             abv: dose.abv,
             drinkName: dose.drinkName,
             emoji: dose.emoji,
+            substanceUID: dose.substanceUID,
+            isomer: dose.isomer,
+            releaseForm: dose.releaseForm,
+            saltForm: dose.saltForm,
+            productName: dose.productName,
         )
         context.insert(inserted)
         all.append(inserted)

@@ -222,6 +222,17 @@ struct StagedDose: Identifiable, Equatable {
         DoseTitle.snapshot(canonicalName: substanceName, isomer: isomer, releaseForm: releaseForm)
     }
 
+    /// This staged dose's substance-identity key — matched against a recents
+    /// card's ``SubstanceCard/id`` so its staged-count badge lands on the right
+    /// card (Concerta's staged count on the Concerta card, not Ritalin's). See
+    /// ``QuickLogDose/identityKey``.
+    var identityKey: String {
+        QuickLogDose.identityKey(
+            substanceUID: substanceUID, substance: substanceName,
+            isomer: isomer, releaseForm: releaseForm, saltForm: saltForm,
+        )
+    }
+
     /// What to call this dose while it's staged — the same answer the search row
     /// above it gave, and the journal row below it will give.
     ///
@@ -381,17 +392,19 @@ final class DoseTrayModel {
     /// instead of re-diffing all its chips. Keyed identically to ``quantity`` —
     /// `(substance, route, unit, amount-at-display-resolution)`.
     func stagedCountsBySubstance() -> [String: StagedChipCounts] {
-        var byName: [String: [StagedChipKey: Int]] = [:]
+        // Bucketed by substance *identity* (== a card's `id`), so a Concerta chip's
+        // staged count shows on the Concerta card, not a plain Methylphenidate one.
+        var byIdentity: [String: [StagedChipKey: Int]] = [:]
         for dose in staged {
-            let name = dose.substanceName.lowercased()
-            var keyed = byName[name] ?? [:]
+            let identity = dose.identityKey
+            var keyed = byIdentity[identity] ?? [:]
             for component in dose.components {
                 let key = StagedChipKey(route: dose.route, unit: dose.unit, amountKey: Self.displayKey(component.amount))
                 keyed[key, default: 0] += component.count
             }
-            byName[name] = keyed
+            byIdentity[identity] = keyed
         }
-        return byName.mapValues { StagedChipCounts(counts: $0) }
+        return byIdentity.mapValues { StagedChipCounts(counts: $0) }
     }
 
     /// Match two chip amounts at their *display* resolution, replacing a

@@ -97,7 +97,7 @@ struct QuickLogSearchResults: View {
         case let .recent(card):
             resultRow(
                 result: result,
-                name: customSubstanceStore.displayName(for: card.substanceName),
+                name: card.title ?? customSubstanceStore.displayName(for: card.substanceName),
                 source: String(localized: "Recent"),
                 tint: card.colorHex.map { Color(hex: $0) } ?? .gray,
                 detail: card.routes.first?.librarySubstance.flatMap { substanceDetail($0) }
@@ -232,6 +232,7 @@ struct QuickLogSearchResults: View {
                 amount: chip?.amount ?? 0,
                 colorHex: card.colorHex,
                 librarySubstance: group?.librarySubstance,
+                productName: group?.stageProductName,
                 volumeML: chip?.volumeML,
                 abv: chip?.abv,
                 drinkName: chip?.drinkName,

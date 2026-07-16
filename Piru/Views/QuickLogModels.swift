@@ -5,26 +5,48 @@ import SwiftData
 
 /// A recent/favorite substance with its route groups, backing one card in the
 /// quick-log list. Built from the curated `QuickLogDose` rows, not raw history.
+///
+/// Identified by substance **identity** (``id`` = the PSID family + form facets),
+/// not name — so a Concerta card (Methylphenidate·XR) and a Ritalin IR card
+/// (Methylphenidate·IR) are two cards, not one merged history. See
+/// ``QuickLogDose/identityKey`` and `Specs/psid-identity-consumption.md` D.2.
 struct SubstanceCard: Identifiable, Equatable {
+    /// The substance-identity key — also what favorites/staged-counts join on.
+    let id: String
+    /// The canonical substance name (the color key and the fallback title).
     let substanceName: String
+    /// The product/form title to show ("Concerta", "Methylphenidate XR"), or
+    /// `nil` for a plain card — which titles from the regionalized display name.
+    let title: String?
     let colorHex: String?
     let routes: [SubstanceGroup]
     let latestTimestamp: Date
-
-    var id: String {
-        substanceName.lowercased()
-    }
+    /// Identity components, carried so favoriting this card pins the same form.
+    let substanceUID: String?
+    let isomer: String?
+    let releaseForm: String?
+    let saltForm: String?
+    let productName: String?
 }
 
 /// One (substance, route) pairing within a card, carrying its curated dose
 /// chips sorted for display.
 struct SubstanceGroup: Identifiable, Equatable {
     let id: String
+    /// The card this group belongs to — its substance-identity key (== card id).
+    /// Replaces splitting `id` on `"|"` to recover the card grouping.
+    let cardKey: String
     let substanceName: String
     let route: RouteOfAdministration
     let colorHex: String?
     let librarySubstance: Substance?
     var latestTimestamp: Date
+    /// Identity + product carried so a re-staged chip logs the same form/product.
+    let substanceUID: String?
+    let isomer: String?
+    let releaseForm: String?
+    let saltForm: String?
+    let productName: String?
 
     /// One curated chip's backing data, including optional by-volume drink detail.
     private struct ChipEntry {
@@ -63,13 +85,48 @@ struct SubstanceGroup: Identifiable, Equatable {
             .map { DoseChip(amount: $0.amount, unit: $0.unit, drinkName: $0.drinkName, emoji: $0.emoji, volumeML: $0.volumeML, abv: $0.abv) }
     }
 
-    init(substanceName: String, route: RouteOfAdministration, colorHex: String?, librarySubstance: Substance?, latestTimestamp: Date) {
-        self.id = "\(substanceName.lowercased())|\(route.rawValue)"
+    init(
+        cardKey: String,
+        substanceName: String,
+        route: RouteOfAdministration,
+        colorHex: String?,
+        librarySubstance: Substance?,
+        latestTimestamp: Date,
+        substanceUID: String? = nil,
+        isomer: String? = nil,
+        releaseForm: String? = nil,
+        saltForm: String? = nil,
+        productName: String? = nil,
+    ) {
+        self.id = "\(cardKey)|\(route.rawValue)"
+        self.cardKey = cardKey
         self.substanceName = substanceName
         self.route = route
         self.colorHex = colorHex
         self.librarySubstance = librarySubstance
         self.latestTimestamp = latestTimestamp
+        self.substanceUID = substanceUID
+        self.isomer = isomer
+        self.releaseForm = releaseForm
+        self.saltForm = saltForm
+        self.productName = productName
+    }
+
+    /// The product name to re-stage this group's chips under, so a tapped Concerta
+    /// chip logs Concerta — not the canonical family. Prefers the user's literal
+    /// word; for a faceted group with no product string, falls back to the composed
+    /// form title ("Methylphenidate XR") so the release/isomer still round-trips
+    /// through the staging pipeline (which keys off the product name). `nil` for a
+    /// plain group, which stages canonically as before. Computed on tap, not in
+    /// `body`, so the `formTitle` resolve is off the render path.
+    var stageProductName: String? {
+        if let product = productName?.trimmingCharacters(in: .whitespaces), !product.isEmpty {
+            return product
+        }
+        let namesForm = (isomer?.isEmpty == false && isomer != "0")
+            || (releaseForm?.isEmpty == false && releaseForm != "0")
+        guard namesForm else { return nil }
+        return SubstanceLibrary.formTitle(for: substanceName, isomer: isomer, release: releaseForm)
     }
 
     /// Add a curated chip (sorted by `sortOrder` for display). Tracks the most
@@ -308,10 +365,13 @@ final class QuickLogContentModel {
         var stillToday = true
 
         for entry in allEntries {
-            let lower = entry.substance.lowercased()
-            if displayed.contains(lower), mostRecentEntry[lower] == nil { mostRecentEntry[lower] = entry }
+            // Key on substance identity, not name, so a displayed card's badge and
+            // a daily item's "done today" check match the same form — a Concerta
+            // dose satisfies a Concerta card/item, not a plain Methylphenidate one.
+            let identity = entry.identityKey
+            if displayed.contains(identity), mostRecentEntry[identity] == nil { mostRecentEntry[identity] = entry }
             if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
-                loggedToday.insert(lower)
+                loggedToday.insert(identity)
             } else {
                 stillToday = false
             }
@@ -334,13 +394,17 @@ final class QuickLogContentModel {
         // touches a live `DoseEntry` or recomputes PK on every render.
         var badges: [String: CardPKBadge] = [:]
         badges.reserveCapacity(mostRecentEntry.count)
-        for (lower, entry) in mostRecentEntry {
+        for (identity, entry) in mostRecentEntry {
+            // A form whose kinetics we decline to model (Concerta, a depot) draws
+            // no "≈X active · Yh left" badge — that is base-form timing wearing the
+            // product's name, exactly what D.4 withholds everywhere else.
+            guard !entry.namesUnmodeledForm else { continue }
             guard let status = DosePK.status(
                 substanceName: entry.substance,
                 route: entry.route,
                 lastDoseTimestamp: entry.timestamp,
             ) else { continue }
-            badges[lower] = CardPKBadge(
+            badges[identity] = CardPKBadge(
                 remainingPercent: status.remainingPercent,
                 waitMinutes: status.waitMinutes,
                 lastDoseAmount: entry.amount,
@@ -359,6 +423,22 @@ final class QuickLogContentModel {
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
     }
 
+    /// The product/form title a card shows, or `nil` for a plain card (which
+    /// titles from the regionalized display name). Mirrors ``DoseTitle``'s
+    /// precedence — a relabel outranks the product, which outranks the composed
+    /// form title — so a card and its doses' journal rows never disagree.
+    private static func cardTitle(for group: SubstanceGroup) -> String? {
+        let hasProduct = group.productName?.trimmingCharacters(in: .whitespaces).isEmpty == false
+        let namesForm = (group.isomer?.isEmpty == false && group.isomer != "0")
+            || (group.releaseForm?.isEmpty == false && group.releaseForm != "0")
+        guard hasProduct || namesForm else { return nil }
+        if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: group.substanceName) {
+            return relabel
+        }
+        if hasProduct { return group.productName }
+        return SubstanceLibrary.formTitle(for: group.substanceName, isomer: group.isomer, release: group.releaseForm)
+    }
+
     func rebuildCards(quickLogDoses: [QuickLogDose], favorites: [FavoriteSubstance]) {
         let colorLookup = cachedColorLookup
 
@@ -366,10 +446,12 @@ final class QuickLogContentModel {
 
         // Cards are built from the curated quick-log list (seeded once from
         // history, then maintained on log), not raw history — so a removed chip
-        // stays gone and the order is the user's, not just recency.
+        // stays gone and the order is the user's, not just recency. Grouped by
+        // substance *identity* (family + form facets), so Concerta and Ritalin IR
+        // split into two cards even though both are canonical Methylphenidate.
         for dose in quickLogDoses {
-            let nameLower = dose.substance.lowercased()
-            let key = "\(nameLower)|\(dose.route.rawValue)"
+            let cardKey = dose.identityKey
+            let key = "\(cardKey)|\(dose.route.rawValue)"
             if var group = groupMap[key] {
                 group.addChip(
                     amount: dose.amount,
@@ -384,15 +466,23 @@ final class QuickLogContentModel {
                 groupMap[key] = group
             } else {
                 var group = SubstanceGroup(
+                    cardKey: cardKey,
                     substanceName: dose.substance,
                     route: dose.route,
-                    colorHex: colorLookup[nameLower],
+                    // Color keys on the canonical name so every form of a substance
+                    // shares its color — a Concerta chip takes Methylphenidate's.
+                    colorHex: colorLookup[dose.substance.lowercased()],
                     // Batch-cache lookup (class/routes/doses/salts/durations) —
                     // all a card needs — instead of the heavy per-substance SQL
                     // resolve, which cold-stalled the first open. Same path the
                     // journal uses; pre-warmed via `ensureAllLoaded()` on open.
-                    librarySubstance: SubstanceLibrary.timelineLookup(nameLower),
+                    librarySubstance: SubstanceLibrary.timelineLookup(dose.substance.lowercased()),
                     latestTimestamp: dose.lastUsedAt,
+                    substanceUID: dose.substanceUID,
+                    isomer: dose.isomer,
+                    releaseForm: dose.releaseForm,
+                    saltForm: dose.saltForm,
+                    productName: dose.productName,
                 )
                 group.addChip(
                     amount: dose.amount,
@@ -410,17 +500,24 @@ final class QuickLogContentModel {
 
         var cardMap: [String: [SubstanceGroup]] = [:]
         for group in groupMap.values {
-            cardMap[group.id.components(separatedBy: "|").first ?? "", default: []].append(group)
+            cardMap[group.cardKey, default: []].append(group)
         }
 
-        let newCards: [SubstanceCard] = cardMap.values.map { routes in
+        let newCards: [SubstanceCard] = cardMap.map { cardKey, routes in
             let sorted = routes.sorted { $0.latestTimestamp > $1.latestTimestamp }
             let first = sorted[0]
             return SubstanceCard(
+                id: cardKey,
                 substanceName: first.substanceName,
+                title: Self.cardTitle(for: first),
                 colorHex: first.colorHex,
                 routes: sorted,
-                latestTimestamp: sorted[0].latestTimestamp,
+                latestTimestamp: first.latestTimestamp,
+                substanceUID: first.substanceUID,
+                isomer: first.isomer,
+                releaseForm: first.releaseForm,
+                saltForm: first.saltForm,
+                productName: first.productName,
             )
         }.sorted { $0.latestTimestamp > $1.latestTimestamp }
 
@@ -430,11 +527,13 @@ final class QuickLogContentModel {
     }
 
     func rebuildFavorites(favorites: [FavoriteSubstance]) {
-        cachedFavoriteSet = Set(favorites.map { $0.substance.lowercased() })
-        // `uniquingKeysWith` guards against two casings of one name colliding
-        // when lowercased (the unique attribute is case-sensitive).
+        // Membership keys on substance identity (== a card's `id`), so a Concerta
+        // favorite highlights the Concerta card, not a plain Methylphenidate one.
+        cachedFavoriteSet = Set(favorites.map(\.identityKey))
+        // `uniquingKeysWith` guards against two rows resolving to one identity
+        // (e.g. a pre-PSID and a resolved row for the same drug).
         cachedFavoriteOrder = Dictionary(
-            favorites.enumerated().map { ($0.element.substance.lowercased(), $0.offset) },
+            favorites.enumerated().map { ($0.element.identityKey, $0.offset) },
             uniquingKeysWith: { first, _ in first },
         )
 
@@ -448,8 +547,10 @@ final class QuickLogContentModel {
                 .filter { !cachedFavoriteSet.contains($0.id) }
                 .prefix(Self.recentCardLimit),
         )
+        // Favorites with no recents card of their own (never logged) — matched by
+        // identity, since `cachedHistoryNames` holds card identity keys.
         cachedFavoriteLibrarySubstances = favorites
-            .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
+            .filter { !cachedHistoryNames.contains($0.identityKey) }
             .compactMap { SubstanceLibrary.timelineLookup($0.substance.lowercased()) }
     }
 
@@ -464,7 +565,9 @@ final class QuickLogContentModel {
         let loggedToday = cachedLoggedToday
 
         func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
-            items.filter { !loggedToday.contains($0.substance.lowercased()) }
+            // Join on substance identity — a "Concerta" daily item is satisfied by
+            // a dose logged as Methylphenidate XR, which a name join never matched.
+            items.filter { !loggedToday.contains($0.identityKey) }
         }
 
         // Routines flow through the day: timed ones first by clock,
@@ -513,15 +616,15 @@ final class QuickLogContentModel {
 
     // MARK: Favorites
 
-    /// Toggle `name`'s membership in the cached favorite set without a full
+    /// Toggle a card's membership in the cached favorite set without a full
     /// rebuild — the persistence write happens in the view; this keeps the
-    /// in-memory set in sync for an instant chip update.
-    func setFavorite(_ name: String, on: Bool) {
-        let lowered = name.lowercased()
+    /// in-memory set in sync for an instant star update. Keyed by the card's
+    /// substance-identity (its `id`), not a name.
+    func setFavorite(identity: String, on: Bool) {
         if on {
-            cachedFavoriteSet.insert(lowered)
+            cachedFavoriteSet.insert(identity)
         } else {
-            cachedFavoriteSet.remove(lowered)
+            cachedFavoriteSet.remove(identity)
         }
     }
 }

@@ -432,6 +432,8 @@ struct QuickLogView: View {
                         curation.append(QuickLogManager.LoggedDose(
                             substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit,
                             volumeML: item.volumeML, abv: item.abv, drinkName: item.drinkName, emoji: item.emoji,
+                            substanceUID: item.substanceUID, isomer: item.isomer,
+                            releaseForm: item.releaseForm, saltForm: item.saltForm, productName: item.productName,
                         ))
                     }
                 }
@@ -811,7 +813,7 @@ private struct QuickLogCardList: View {
             badge: content.cachedMostRecent[card.id],
             stagedCounts: staged[card.id] ?? .empty,
             tray: tray,
-            onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card.substanceName) } },
+            onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card) } },
             onMoveChip: { group, chip, toFront in moveChip(group: group, chip: chip, toFront: toFront) },
             onRemoveChip: { group, chip in removeChip(group: group, chip: chip) },
         )
@@ -820,8 +822,17 @@ private struct QuickLogCardList: View {
         .equatable()
     }
 
-    private func toggleFavorite(_ name: String) {
-        content.setFavorite(name, on: FavoriteService.toggle(name, in: modelContext))
+    private func toggleFavorite(_ card: SubstanceCard) {
+        let nowFavorite = FavoriteService.toggle(
+            substance: card.substanceName,
+            substanceUID: card.substanceUID,
+            isomer: card.isomer,
+            releaseForm: card.releaseForm,
+            saltForm: card.saltForm,
+            productName: card.productName,
+            in: modelContext,
+        )
+        content.setFavorite(identity: card.id, on: nowFavorite)
     }
 
     // MARK: - Library Row
@@ -876,6 +887,10 @@ private struct QuickLogCardList: View {
             route: group.route,
             amount: chip.amount,
             unit: chip.unit,
+            substanceUID: group.substanceUID,
+            isomer: group.isomer,
+            releaseForm: group.releaseForm,
+            saltForm: group.saltForm,
             volumeML: chip.volumeML,
             abv: chip.abv,
             drinkName: chip.drinkName,
@@ -894,8 +909,9 @@ private struct QuickLogCardList: View {
     /// rewriting its `sortOrder` just past the current min/max.
     private func moveChip(group: SubstanceGroup, chip: DoseChip, toFront: Bool) {
         guard let dose = quickLogDose(for: group, chip: chip) else { return }
-        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)"
-        let siblings = quickLogDoses.filter { key == "\($0.substance.lowercased())|\($0.route.rawValue)" }
+        // Reorder within the same (identity, route) group — a Concerta chip floats
+        // past its Concerta siblings, not Ritalin's.
+        let siblings = quickLogDoses.filter { $0.identityKey == group.cardKey && $0.route == group.route }
         if toFront {
             dose.sortOrder = (siblings.map(\.sortOrder).min() ?? 0) - 1
         } else {

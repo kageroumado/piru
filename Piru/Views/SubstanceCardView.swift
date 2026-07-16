@@ -67,7 +67,10 @@ struct SubstanceCardView: View, Equatable {
                 Circle()
                     .fill(color)
                     .frame(width: 10, height: 10)
-                Text(customSubstanceStore.displayName(for: card.substanceName))
+                // A product/form card titles by what the user named ("Concerta",
+                // "Methylphenidate XR"); a plain card keeps the regionalized,
+                // relabel-aware display name.
+                Text(card.title ?? customSubstanceStore.displayName(for: card.substanceName))
                     .font(.headline)
                     .accessibilityAddTraits(.isHeader)
                 // PK status as a glanceable badge instead of a two-line card —
@@ -192,6 +195,7 @@ struct SubstanceCardView: View, Equatable {
                         unit: group.doses.first?.unit ?? "mg",
                         colorHex: group.colorHex,
                         librarySubstance: group.librarySubstance,
+                        productName: group.stageProductName,
                     )
                 }
             } label: {
@@ -222,6 +226,7 @@ struct SubstanceCardView: View, Equatable {
                     unit: chip.unit,
                     colorHex: group.colorHex,
                     librarySubstance: group.librarySubstance,
+                    productName: group.stageProductName,
                     volumeML: chip.volumeML,
                     abv: chip.abv,
                     drinkName: chip.drinkName,

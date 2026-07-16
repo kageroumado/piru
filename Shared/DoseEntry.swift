@@ -166,6 +166,18 @@ final class DoseEntry {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
+    /// This dose's substance-identity key, matching the one recents/favorites/
+    /// daily items group on (``QuickLogDose/identityKey``) — the PSID family plus
+    /// form facets, or the lowercased name when unresolved. Used to join a dose to
+    /// its curated chip and to a daily item's "logged today" check by identity
+    /// rather than a bare name.
+    var identityKey: String {
+        QuickLogDose.identityKey(
+            substanceUID: substanceUID, substance: substance,
+            isomer: isomer, releaseForm: releaseForm, saltForm: saltForm,
+        )
+    }
+
     /// Free-form labels attached to the dose, decoded from ``tagsRaw``.
     ///
     /// Backed by a comma-separated string for portable SwiftData storage across
