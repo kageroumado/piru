@@ -228,7 +228,7 @@ final class QuickLogContentModel {
     private(set) var cachedFavoriteSet: Set<String> = []
     private(set) var cachedFavoriteOrder: [String: Int] = [:]
     private(set) var cachedHistoryNames: Set<String> = []
-    private(set) var cachedLibraryResults: [Substance] = []
+    private(set) var cachedLibraryResults: [SubstanceMatch] = []
     private(set) var cachedColorLookup: [String: String] = [:]
 
     /// Lowercased substance names logged today — drives the routine "done" check.
@@ -507,7 +507,7 @@ final class QuickLogContentModel {
 
     // MARK: Search
 
-    func setLibraryResults(_ results: [Substance]) {
+    func setLibraryResults(_ results: [SubstanceMatch]) {
         cachedLibraryResults = results
     }
 

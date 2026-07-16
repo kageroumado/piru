@@ -237,7 +237,7 @@ struct StagedDoseEditor: View {
                     .frame(width: 16)
                     .trayMorph(id: "chevron-\(item.id)", in: namespace)
                     .accessibilityHidden(true)
-                Text(CustomSubstanceStore.shared.displayName(for: item.substanceName))
+                Text(item.displayTitle)
                     .font(.body.weight(.semibold))
                     .trayMorph(id: "title-\(item.id)", in: namespace)
                 Spacer()

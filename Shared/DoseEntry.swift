@@ -87,6 +87,22 @@ final class DoseEntry {
     /// `Specs/stereoisomer-and-release-form-axes.md` and ``PSID``.
     var substanceUID: String?
 
+    /// The name the user named this dose by, when it wasn't the canonical one —
+    /// the catalog alias their search matched ("Concerta", "Vyvanse", "Adderall"),
+    /// or the literal string a daily item was saved under. `nil` when they named
+    /// the substance itself, so this never asserts a product they didn't say.
+    ///
+    /// Not a facet and not a key: ``substance`` stays canonical and every lookup
+    /// keeps resolving through it. This is the user's word, kept verbatim —
+    /// the one representation that is precise *and* honest without new
+    /// pharmacology, and the only thing that serves both Concerta (a release form
+    /// we decline to model) and Vyvanse (a prodrug with no form at all).
+    ///
+    /// Populated at log time only. A pre-existing dose has none and cannot get
+    /// one: the string it was logged under was canonicalized at staging and is
+    /// gone. See `Specs/psid-identity-consumption.md` LB-1/D.1.
+    var productName: String?
+
     /// The composite display title captured at resolve time — "Methylphenidate",
     /// "Esketamine", later "Methylphenidate XR" once facets exist — so the
     /// journal can title a dose from its resolved identity without re-deriving,
@@ -173,6 +189,7 @@ final class DoseEntry {
         saltForm: String? = nil,
         isomer: String? = nil,
         releaseForm: String? = nil,
+        productName: String? = nil,
         substanceUID: String? = nil,
         displayNameSnapshot: String? = nil,
         timestamp: Date = .now,
@@ -194,6 +211,7 @@ final class DoseEntry {
         self.saltForm = saltForm
         self.isomer = isomer
         self.releaseForm = releaseForm
+        self.productName = productName
         self.substanceUID = substanceUID
         self.displayNameSnapshot = displayNameSnapshot
         self.timestamp = timestamp

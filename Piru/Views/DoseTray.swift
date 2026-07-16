@@ -89,6 +89,14 @@ struct StagedDose: Identifiable, Equatable {
     /// Selected stereoisomer form (D/S/L/R). `nil` = racemic/unspecified — the
     /// common case; set for the handful of isomer families (Focalin, Esketamine…).
     var isomer: String?
+    /// The name the user named this dose by — the alias their search matched
+    /// ("Concerta"), or the literal string a daily item was saved under. `nil`
+    /// when they named the canonical substance.
+    ///
+    /// This is the *only* record that the dose was Concerta and not Ritalin:
+    /// `substanceName` is canonicalized at staging, so once this is dropped the
+    /// distinction is gone for good.
+    var productName: String?
     var note: String = ""
     var colorHex: String?
     var librarySubstance: Substance?
@@ -117,6 +125,7 @@ struct StagedDose: Identifiable, Equatable {
         route: RouteOfAdministration,
         saltForm: String? = nil,
         isomer: String? = nil,
+        productName: String? = nil,
         colorHex: String? = nil,
         librarySubstance: Substance? = nil,
         isFromDailySet: Bool = false,
@@ -128,6 +137,7 @@ struct StagedDose: Identifiable, Equatable {
         self.route = route
         self.saltForm = saltForm
         self.isomer = isomer
+        self.productName = productName
         self.colorHex = colorHex
         self.librarySubstance = librarySubstance
         self.isFromDailySet = isFromDailySet
@@ -186,22 +196,47 @@ struct StagedDose: Identifiable, Equatable {
         librarySubstance?.substanceUID
     }
 
-    /// The release form the staged *name* denotes — a daily item saved as
-    /// "Concerta" stages under Methylphenidate but is still the XR product, so the
-    /// committed dose records `"XR"`. Derived, not stored: with no release picker
-    /// there is nothing for a user to choose, so the name is the only source. This
-    /// has to happen at log time — a committed dose gets its uid here, so the
-    /// (`substanceUID == nil`)-gated backfill would never revisit it to recover this.
+    /// The release form the staged dose names — "Concerta" is Methylphenidate, but
+    /// it is the XR product, so the committed dose records `"XR"`. Derived, not
+    /// stored: with no release picker there is nothing for a user to choose, so the
+    /// name is the only source.
+    ///
+    /// Resolves `productName` **first**. `substanceName` is canonicalized the moment
+    /// a search hit is staged (`QuickLogSearchResults.payload(for:)`), so asking it
+    /// about a release form asks the wrong string: "Concerta" has already become
+    /// "Methylphenidate", which names no form, and the answer is always `nil`. Only
+    /// the daily-item path — which stages the user's literal string — ever worked.
+    ///
+    /// This has to happen at log time. A committed dose gets its uid here, so the
+    /// (`substanceUID == nil`)-gated backfill will never revisit it, and by then the
+    /// typed string is gone: a Concerta dose that commits without its form is
+    /// byte-identical to a Ritalin one, forever.
     var releaseForm: String? {
-        SubstanceLibrary.releaseForm(for: substanceName)
+        SubstanceLibrary.releaseForm(for: productName ?? substanceName)
     }
 
-    /// The recognized title of the *selected* isomer form ("Dexmethylphenidate",
-    /// "Esketamine") — `nil` for the racemic / no-isomer case, so the journal then
-    /// titles from the plain substance name. Snapshotted onto the committed dose.
-    var isomerDisplayName: String? {
-        guard let isomer, let librarySubstance else { return nil }
-        return librarySubstance.isomerOptions(for: route).first { $0.code == isomer }?.displayName
+    /// The locale-stable identity anchor to snapshot onto the committed dose —
+    /// the full composed form title across both facets ("Dexmethylphenidate XR"),
+    /// not just the isomer's name. See ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)``.
+    var displayNameSnapshot: String? {
+        DoseTitle.snapshot(canonicalName: substanceName, isomer: isomer, releaseForm: releaseForm)
+    }
+
+    /// What to call this dose while it's staged — the same answer the search row
+    /// above it gave, and the journal row below it will give.
+    ///
+    /// `substanceName` is canonical, so titling from it made the tray contradict
+    /// the row that fed it: you tapped "Concerta" and a card named
+    /// "Methylphenidate" appeared. Mirrors ``DoseTitle``'s precedence, minus the
+    /// facets a staged dose can't have yet resolved.
+    var displayTitle: String {
+        if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: substanceName) { return relabel }
+        if let productName, !productName.isEmpty { return productName }
+        if let isomer, let librarySubstance,
+           let named = librarySubstance.isomerOptions(for: route).first(where: { $0.code == isomer })?.displayName {
+            return named
+        }
+        return CustomSubstanceStore.shared.displayName(for: substanceName)
     }
 
     static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String, saltForm: String? = nil, isomer: String? = nil) -> Double? {
@@ -388,6 +423,7 @@ final class DoseTrayModel {
         unit: String,
         colorHex: String?,
         librarySubstance: Substance?,
+        productName: String? = nil,
         isFromDailySet: Bool = false,
         isBackgroundMed: Bool = false,
         volumeML: Double? = nil,
@@ -409,7 +445,8 @@ final class DoseTrayModel {
                 unit: unit,
                 route: route,
                 saltForm: librarySubstance?.saltForms(for: route).first,
-                isomer: librarySubstance?.defaultIsomer(for: route),
+                isomer: Self.seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
+                productName: productName,
                 colorHex: colorHex,
                 librarySubstance: librarySubstance,
                 isFromDailySet: isFromDailySet,
@@ -425,11 +462,37 @@ final class DoseTrayModel {
         }
     }
 
+    /// The isomer a staged dose should open on: the one its product names, else
+    /// the route's default.
+    ///
+    /// A user who searched "Focalin" has already told us the enantiomer — opening
+    /// the picker on racemic Methylphenidate would make them re-answer a question
+    /// they answered by typing, and silently mis-classify the dose against the
+    /// racemic ladder if they don't notice. Guarded on the option actually
+    /// existing for this route, since the alias names a substance-wide fact while
+    /// the ladder is per-route (methylphenidate has a D ladder on oral but not
+    /// insufflation).
+    static func seedIsomer(productName: String?, librarySubstance: Substance?, route: RouteOfAdministration) -> String? {
+        guard let productName,
+              let named = SubstanceLibrary.isomer(for: productName),
+              let substance = librarySubstance,
+              substance.isomerOptions(for: route).contains(where: { $0.code == named })
+        else { return librarySubstance?.defaultIsomer(for: route) }
+        return named
+    }
+
     /// Stage a draft (from search / the ⋯ chip) and open it for editing.
     /// Prefilled with the library's common dose when one is known — the
     /// editor focuses the amount field only when it opens empty. A draft for
     /// an already-staged substance opens that row instead of duplicating it.
-    func stageDraft(substance: String, route: RouteOfAdministration, unit: String, colorHex: String?, librarySubstance: Substance?) {
+    func stageDraft(
+        substance: String,
+        route: RouteOfAdministration,
+        unit: String,
+        colorHex: String?,
+        librarySubstance: Substance?,
+        productName: String? = nil,
+    ) {
         // A by-volume substance (alcohol) must draft in its canonical unit —
         // the drink editor (By Drink / By Weight) gates on it, so a draft
         // arriving as "units" (a recent's chip unit) would silently lose the
@@ -452,7 +515,8 @@ final class DoseTrayModel {
             unit: unit,
             route: route,
             saltForm: saltForm,
-            isomer: librarySubstance?.defaultIsomer(for: route),
+            isomer: Self.seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
+            productName: productName,
             colorHex: colorHex,
             librarySubstance: librarySubstance,
         )
@@ -1026,7 +1090,7 @@ private struct TrayRow: View {
                 // Same font and leading column as "Add another…" so the
                 // tray reads as one aligned list (the color dot is gone —
                 // the chips already carry the substance color).
-                Text(CustomSubstanceStore.shared.displayName(for: dose.substanceName))
+                Text(dose.displayTitle)
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.primary)
                     .trayMorph(id: "title-\(dose.id)", in: namespace)

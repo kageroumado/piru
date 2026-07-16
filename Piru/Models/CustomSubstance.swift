@@ -341,6 +341,22 @@ final class CustomSubstanceStore {
         }
     }
 
+    /// The user's relabel for a canonical name (THC → "joint"), or `nil` when
+    /// they haven't set one.
+    ///
+    /// The bare question, without ``displayName(for:fallback:)``'s fallback
+    /// chain — ``DoseTitle`` needs to know whether a relabel *exists* before it
+    /// decides between the user's word, a composed form title, and the catalog's.
+    /// Matches on the canonical name only, so resolve an alias-logged dose to its
+    /// canonical name first.
+    func relabel(forCanonicalName canonicalName: String) -> String? {
+        guard let entry = first(whereName: canonicalName),
+              let relabel = entry.displayName?.trimmingCharacters(in: .whitespaces),
+              !relabel.isEmpty
+        else { return nil }
+        return relabel
+    }
+
     /// The label to show for a substance identified by its canonical name. When
     /// a personal override sets a display name (e.g. THC → "joint") that wins;
     /// otherwise `fallback` (typically the library's `displayTitle`) is used, or
@@ -357,8 +373,14 @@ final class CustomSubstanceStore {
         // tolerance chips — instead of the long systematic name. Resolve by name OR
         // ALIAS: a dose logged under a name that is now an alias (e.g. an old
         // "Lysergic Acid Diethylamide" entry after LSD's canonical was shortened)
-        // still maps to the "LSD" row. `resolvedCache`-memoised.
-        if let library = SubstanceLibrary.lookupByNameOrAlias(canonicalName) {
+        // still maps to the "LSD" row.
+        //
+        // `timelineLookup` — a dict hit over the warm batch cache, keyed on name
+        // *and* alias — rather than `lookupByNameOrAlias`, which is ~21 SQL per
+        // substance whenever `resolvedCache` is cold (launch, or any source
+        // reorder) and runs on the main actor. This is a name lookup; it has no
+        // business touching the chem/mechanism tables to answer it.
+        if let library = SubstanceLibrary.timelineLookup(canonicalName) {
             return library.displayTitle
         }
         return canonicalName

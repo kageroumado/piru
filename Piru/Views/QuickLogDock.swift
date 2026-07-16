@@ -981,7 +981,9 @@ struct QuickLogDock: View {
         if let family = families.first(where: { $0.id == selectedFamilyID }) {
             groupedCard {
                 QuickLogSearchResults(
-                    results: browseResults.map { .library($0) },
+                    // Browsing a family names no product — there's no query to have
+                    // matched an alias with, so these rows title canonically.
+                    results: browseResults.map { .library(SubstanceMatch(substance: $0, matchedAlias: nil)) },
                     onAdd: stagePayload,
                     onAddDraft: stageDraftPayload,
                     onCreateCustom: nil,
@@ -1013,6 +1015,7 @@ struct QuickLogDock: View {
                 unit: payload.unit,
                 colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
                 librarySubstance: payload.librarySubstance,
+                productName: payload.productName,
                 volumeML: payload.volumeML,
                 abv: payload.abv,
                 drinkName: payload.drinkName,
@@ -1031,6 +1034,7 @@ struct QuickLogDock: View {
                 unit: payload.unit,
                 colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
                 librarySubstance: payload.librarySubstance,
+                productName: payload.productName,
             )
         }
     }
@@ -1142,7 +1146,7 @@ struct QuickLogDock: View {
     private var filteredCustomSubstances: [Substance] {
         guard !searchText.isEmpty else { return [] }
         let query = searchText.lowercased()
-        let libraryNames = Set(content.cachedLibraryResults.map { $0.name.lowercased() })
+        let libraryNames = Set(content.cachedLibraryResults.map { $0.substance.name.lowercased() })
         return customSubstanceStore.all
             .filter { custom in
                 let nameLower = custom.name.lowercased()

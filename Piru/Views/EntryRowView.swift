@@ -16,9 +16,59 @@ struct DayEntryCore: Equatable {
     let tags: [String]
     /// The dose's full modeled duration in minutes (onset → afterglow end), used
     /// to draw the row's elimination-progress rail. `nil` when the substance has
-    /// no duration data (the rail is then omitted). Static — the live fraction is
-    /// computed in the row body from this + the timestamp.
+    /// no duration data, or when the dose names a form we decline to model (a
+    /// Concerta, a depot injection) — the rail is then omitted, matching the
+    /// graph, which marks the dose rather than drawing it.
     var totalMinutes: Double?
+    /// The color-map key — the canonical substance string, not the title. A
+    /// Concerta row titles "Concerta" but must take Methylphenidate's color, or
+    /// the same substance would render in two colors depending on what it was
+    /// called.
+    let substanceKey: String
+
+    /// Resolve each dose row's substance facts once: title, dose level, and the
+    /// rail's window.
+    ///
+    /// The single builder for both `EntryRowView.make` (journal, share images) and
+    /// `SessionDetailView` (session rows), which carried byte-identical copies of
+    /// this and drifted — the session's markers still named substances differently
+    /// from the journal's. Caches the per-substance lookup so repeated substances
+    /// in a day resolve once.
+    @MainActor
+    static func make(from entries: [DoseEntry]) -> [DayEntryCore] {
+        var cache: [String: Substance?] = [:]
+        func substance(_ name: String) -> Substance? {
+            let key = name.lowercased()
+            if let cached = cache[key] { return cached }
+            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
+            cache[key] = resolved
+            return resolved
+        }
+        return entries.map { entry in
+            // Classify against the ladder the dose was actually logged on. Omitting
+            // the facets read a 10 mg Dexmethylphenidate dose — "common" on the D
+            // ladder and shown as such in the staged editor — as "light" against
+            // racemic methylphenidate's, and disagreed with `EntryDetailView`'s
+            // edit mode, so tapping Edit visibly flipped the badge.
+            let doseLevel = substance(entry.substance)?
+                .doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)?
+                .level(for: entry.amount)
+            return DayEntryCore(
+                entryID: entry.id,
+                timestamp: entry.timestamp,
+                displayName: DoseTitle.resolve(for: entry),
+                amount: entry.amount,
+                unit: entry.unit,
+                route: entry.route,
+                doseLevel: doseLevel,
+                tags: entry.tags,
+                // Acute effect window (same source as the timeline curve), so the
+                // rail matches the graph — not the long elimination tail.
+                totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
+                substanceKey: entry.substance.lowercased(),
+            )
+        }
+    }
 }
 
 /// A `DayEntryCore` plus the row's resolved color. Color is applied at the
@@ -33,38 +83,14 @@ struct DayEntryDisplay: Equatable {
     /// the heavy substance resolve. Nil — the default — renders no chip.
     var hr: DoseHRResponse?
 
-    /// Build render-ready displays for a set of doses — the same resolution
-    /// `SessionDetailView` does inline (substance lookup, dose-level classification,
-    /// `CustomSubstanceStore` name override, color map), hoisted so off-screen
+    /// Build render-ready displays for a set of doses. Hoisted so off-screen
     /// consumers (e.g. the share-image renderer) reproduce the on-screen rows
-    /// exactly. Caches the per-substance lookup so repeated substances resolve once.
+    /// exactly.
     @MainActor
     static func make(from entries: [DoseEntry], colors: [SubstanceColor]) -> [DayEntryDisplay] {
         let colorMap = colors.colorMap
-        var cache: [String: Substance?] = [:]
-        func substance(_ name: String) -> Substance? {
-            let key = name.lowercased()
-            if let cached = cache[key] { return cached }
-            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
-            cache[key] = resolved
-            return resolved
-        }
-        return entries.map { entry in
-            let doseLevel = substance(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount)
-            let core = DayEntryCore(
-                entryID: entry.id,
-                timestamp: entry.timestamp,
-                displayName: CustomSubstanceStore.shared.displayName(for: entry.substance),
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route,
-                doseLevel: doseLevel,
-                tags: entry.tags,
-                // Acute effect window (same source as the timeline curve), so the
-                // rail matches the graph — not the long elimination tail.
-                totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
-            )
-            return DayEntryDisplay(core: core, color: colorMap[entry.substance.lowercased()] ?? Theme.accent)
+        return DayEntryCore.make(from: entries).map { core in
+            DayEntryDisplay(core: core, color: colorMap[core.substanceKey] ?? Theme.accent)
         }
     }
 }

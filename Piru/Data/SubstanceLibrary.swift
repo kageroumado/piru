@@ -115,6 +115,12 @@ enum SubstanceLibrary {
         SubstanceStore.shared.formTitle(forNameOrAlias: nameOrAlias)
     }
 
+    /// ``formTitle(for:)`` with the facets a logged dose recorded, rather than the
+    /// ones its name implies — see ``SubstanceStore/formTitle(forNameOrAlias:isomer:release:)``.
+    static func formTitle(for nameOrAlias: String, isomer: String?, release: String?) -> String? {
+        SubstanceStore.shared.formTitle(forNameOrAlias: nameOrAlias, isomer: isomer, release: release)
+    }
+
     /// The substances sharing a PSID FAMILY `uid` (a fold family — a racemate and
     /// its enantiomers, or IR and XR), each overlaid with any custom edit. Empty
     /// when the uid is unknown.
@@ -128,10 +134,22 @@ enum SubstanceLibrary {
         SubstanceStore.shared.search(query, limit: limit)
     }
 
+    /// ``search(_:limit:)``, keeping the alias each hit matched so the caller can
+    /// title a row with the name the user typed ("Concerta") rather than the one
+    /// the catalog resolved to ("Methylphenidate").
+    static func searchMatches(_ query: String, limit: Int = 50) -> [SubstanceMatch] {
+        SubstanceStore.shared.searchMatches(query, limit: limit)
+    }
+
     /// Off-main ranked search for the interactive search field — ranks + resolves
     /// on a background task so typing never stalls the keyboard.
     static func searchAsync(_ query: String, limit: Int = 50) async -> [Substance] {
         await SubstanceStore.shared.searchAsync(query, limit: limit)
+    }
+
+    /// ``searchAsync(_:limit:)``, keeping the matched alias on each hit.
+    static func searchMatchesAsync(_ query: String, limit: Int = 50) async -> [SubstanceMatch] {
+        await SubstanceStore.shared.searchMatchesAsync(query, limit: limit)
     }
 
     /// Resolve the user-defined entry that should overlay (or replace) the

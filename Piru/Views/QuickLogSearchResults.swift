@@ -5,13 +5,15 @@ import SwiftUI
 /// One in-dock search hit: a recent card, a library substance, or a custom one.
 enum QuickLogSearchResult: Identifiable {
     case recent(SubstanceCard)
-    case library(Substance)
+    /// A library hit, carrying the alias the query matched — so a search for
+    /// "Concerta" can say so instead of silently resolving to "Methylphenidate".
+    case library(SubstanceMatch)
     case custom(Substance)
 
     var id: String {
         switch self {
         case let .recent(card): "recent|\(card.id)"
-        case let .library(substance): "library|\(substance.name.lowercased())"
+        case let .library(match): "library|\(match.substance.name.lowercased())"
         case let .custom(substance): "custom|\(substance.name.lowercased())"
         }
     }
@@ -25,6 +27,13 @@ struct QuickLogStagePayload {
     let amount: Double
     let colorHex: String?
     let librarySubstance: Substance?
+    /// The name the user actually named this dose by — the catalog alias their
+    /// query matched ("Concerta", "Vyvanse"). `nil` when they searched the
+    /// canonical name, so nothing is asserted that they didn't say.
+    ///
+    /// Never a lookup key: `substance` stays canonical and every resolve keeps
+    /// going through it (`Specs/psid-identity-consumption.md` LB-1).
+    var productName: String?
     /// By-volume drink metadata carried from a recent's chip, so a re-logged
     /// drink re-stages exactly (name, strength, volume — chip parity) instead
     /// of opening a blank drink draft. `nil` everywhere else.
@@ -91,16 +100,16 @@ struct QuickLogSearchResults: View {
                 name: customSubstanceStore.displayName(for: card.substanceName),
                 source: String(localized: "Recent"),
                 tint: card.colorHex.map { Color(hex: $0) } ?? .gray,
-                detail: card.routes.first?.librarySubstance.flatMap(substanceDetail)
+                detail: card.routes.first?.librarySubstance.flatMap { substanceDetail($0) }
                     ?? card.routes.first.map { String(localized: $0.route.localizedName) },
             )
-        case let .library(substance):
+        case let .library(match):
             resultRow(
                 result: result,
-                name: substance.displayTitle,
+                name: match.displayName,
                 source: String(localized: "Library"),
-                tint: substance.category.color,
-                detail: substanceDetail(substance),
+                tint: match.substance.category.color,
+                detail: substanceDetail(match.substance, matchedAlias: match.matchedAlias),
             )
         case let .custom(substance):
             resultRow(
@@ -115,7 +124,12 @@ struct QuickLogSearchResults: View {
 
     /// "Psychedelic · Common 75–150 µg" — class plus the default route's
     /// common-dose band.
-    private func substanceDetail(_ substance: Substance) -> String? {
+    ///
+    /// When the query named an alias, the identity displaces the dose band: a row
+    /// titled "Concerta" has to answer *what is that* before it answers *how much*,
+    /// and a successful brand match currently looks identical to a failed one.
+    private func substanceDetail(_ substance: Substance, matchedAlias: String? = nil) -> String? {
+        if let matchedAlias { return resolvedIdentity(substance, matchedAlias: matchedAlias) }
         var parts = [String(localized: substance.category.displayName)]
         if let routeInfo = substance.routes.first(where: { $0.route == substance.defaultRoute }),
            let common = routeInfo.doses.common {
@@ -124,6 +138,22 @@ struct QuickLogSearchResults: View {
             parts.append(String(localized: "Common \(low)–\(high) \(routeInfo.unit)"))
         }
         return parts.joined(separator: " · ")
+    }
+
+    /// What the alias resolved to — "Methylphenidate XR" under a "Concerta" title,
+    /// "Lisdexamfetamine" under "Vyvanse".
+    ///
+    /// The composed form title is right only when the alias actually names a form.
+    /// For a plain brand the catalog's own title is better: `displayTitle` is
+    /// region-resolved, which `substance_forms` deliberately is not, so a UK user
+    /// searching a paracetamol brand should not be told it is "Acetaminophen".
+    private func resolvedIdentity(_ substance: Substance, matchedAlias: String) -> String {
+        let namesAForm = SubstanceLibrary.releaseForm(for: matchedAlias) != nil
+            || SubstanceLibrary.isomer(for: matchedAlias) != nil
+        if namesAForm, let composed = SubstanceLibrary.formTitle(for: matchedAlias) {
+            return composed
+        }
+        return substance.displayTitle
     }
 
     /// Leading ⊕ tinted with the substance/category color — the whole row is
@@ -207,18 +237,28 @@ struct QuickLogSearchResults: View {
                 drinkName: chip?.drinkName,
                 emoji: chip?.emoji,
             )
-        case let .library(substance), let .custom(substance):
-            let route = substance.defaultRoute
-            let unit = substance.defaultUnit
-            return QuickLogStagePayload(
-                substance: substance.name,
-                route: route,
-                unit: unit,
-                amount: StagedDose.lookupReferenceDose(substance: substance, route: route, unit: unit) ?? 0,
-                colorHex: nil,
-                librarySubstance: substance,
-            )
+        case let .library(match):
+            return payload(for: match.substance, productName: match.matchedAlias)
+        case let .custom(substance):
+            return payload(for: substance, productName: nil)
         }
+    }
+
+    private func payload(for substance: Substance, productName: String?) -> QuickLogStagePayload {
+        let route = substance.defaultRoute
+        let unit = substance.defaultUnit
+        return QuickLogStagePayload(
+            // Canonical, always — `substance` is the lookup key every downstream
+            // resolve depends on. The user's word rides alongside in `productName`
+            // and never becomes a key.
+            substance: substance.name,
+            route: route,
+            unit: unit,
+            amount: StagedDose.lookupReferenceDose(substance: substance, route: route, unit: unit) ?? 0,
+            colorHex: nil,
+            librarySubstance: substance,
+            productName: productName,
+        )
     }
 
     private func createCustomRow(_ action: @escaping () -> Void) -> some View {

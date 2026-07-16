@@ -55,11 +55,30 @@ extension SubstanceStore {
     /// Titles come straight from the build's `substance_forms`, so composition
     /// (which facet leads, how a suffix reads) is decided once, in the pipeline.
     func formTitle(forNameOrAlias nameOrAlias: String) -> String? {
+        formTitle(
+            forNameOrAlias: nameOrAlias,
+            isomer: isomer(forNameOrAlias: nameOrAlias),
+            release: releaseForm(forNameOrAlias: nameOrAlias),
+        )
+    }
+
+    /// ``formTitle(forNameOrAlias:)`` with the facets supplied rather than
+    /// recovered from the name — the form a *logged dose* records.
+    ///
+    /// A dose's facets don't always come from its name: an isomer can be picked
+    /// ("Ketamine" + `S` = Esketamine, where the string names no enantiomer), and
+    /// the name a dose is stored under is canonical anyway, so asking it about
+    /// facets would answer for the base form. Titling a dose therefore has to pass
+    /// what the *entry* holds.
+    ///
+    /// A `nil` or `"0"` facet is the unspecified sentinel and selects the default
+    /// form, so a plain dose composes its plain title.
+    func formTitle(forNameOrAlias nameOrAlias: String, isomer: String?, release: String?) -> String? {
         guard let id = substanceID(forNameOrAlias: nameOrAlias) else { return nil }
         return formTitleIndex[FormKey(
             substanceID: id,
-            stereo: isomer(forNameOrAlias: nameOrAlias) ?? PSID.unspecifiedFacet,
-            release: releaseForm(forNameOrAlias: nameOrAlias) ?? PSID.unspecifiedFacet,
+            stereo: isomer.flatMap { $0.isEmpty ? nil : $0 } ?? PSID.unspecifiedFacet,
+            release: release.flatMap { $0.isEmpty ? nil : $0 } ?? PSID.unspecifiedFacet,
         )]
     }
 }

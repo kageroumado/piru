@@ -112,9 +112,14 @@ struct EntryDetailView: View {
     /// the same way the dose ladder colors it. `nil` when the substance has no
     /// meaningful ladder.
     private var committedDoseLevel: DoseLevel? {
+        // Classify against the ladder the dose was logged on — isomer included.
+        // Omitting it here while `draftDoseLevel` includes it made the two modes
+        // disagree about the same dose: a 10 mg Dexmethylphenidate entry read
+        // "light" against the racemic ladder in view mode and "common" the instant
+        // you tapped Edit, then flipped back on Cancel.
         guard let sub = substanceInfo, sub.displayClass.showsDoseLadder,
-              let range = sub.doseRange(for: entry.route, saltForm: entry.saltForm) else { return nil }
-        let refUnit = sub.unit(for: entry.route, saltForm: entry.saltForm)
+              let range = sub.doseRange(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer) else { return nil }
+        let refUnit = sub.unit(for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer)
         let amount = entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame
             ? entry.amount
             : (sub.convert(amount: entry.amount, from: entry.unit, toRoute: entry.route, saltForm: entry.saltForm) ?? entry.amount)
@@ -158,10 +163,14 @@ struct EntryDetailView: View {
         }
     }
 
-    /// The draft isomer form's recognized title for the displayNameSnapshot.
+    /// The draft's composed form title for the displayNameSnapshot. This view's
+    /// edit can't rename the substance, so the dose keeps its release form and
+    /// only the isomer is in play — but the snapshot still composes across both,
+    /// so a Focalin XR dose stays "Dexmethylphenidate XR" after an edit rather
+    /// than collapsing to "Dexmethylphenidate". See
+    /// ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)``.
     private var draftDisplayNameSnapshot: String? {
-        guard let draftIsomer, let sub = substanceInfo else { return nil }
-        return sub.isomerOptions(for: draftRoute).first { $0.code == draftIsomer }?.displayName
+        DoseTitle.snapshot(canonicalName: entry.substance, isomer: draftIsomer, releaseForm: entry.releaseForm)
     }
 
     // MARK: By-volume draft helpers
@@ -269,7 +278,7 @@ struct EntryDetailView: View {
             guard let v = Double(draftVolumeText.replacingOccurrences(of: ",", with: ".")), v > 0 else { return }
             draftVolumeText = ByVolumeDefaults.format(Measurement(value: v, unit: old).converted(to: new).value)
         }
-        .navigationTitle(CustomSubstanceStore.shared.displayName(for: entry.substance))
+        .navigationTitle(DoseTitle.resolve(for: entry))
         .navigationBarTitleDisplayMode(.large)
         .animation(.snappy(duration: 0.28), value: isEditing)
         .toolbar { toolbarContent }

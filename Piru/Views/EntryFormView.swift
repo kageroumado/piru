@@ -102,11 +102,25 @@ struct EntryFormView: View {
         }
     }
 
-    /// The selected isomer form's recognized title ("Dexmethylphenidate") for the
-    /// displayNameSnapshot; `nil` for the racemic / no-isomer case.
-    private var formDisplayNameSnapshot: String? {
-        guard let isomer, let sub = selectedSubstance else { return nil }
-        return sub.isomerOptions(for: route).first { $0.code == isomer }?.displayName
+    /// The form the edited name denotes, preserving the product the dose was
+    /// logged under when the edit didn't rename it.
+    ///
+    /// `substance` here is the user's raw field text, not a canonical name — so a
+    /// dose logged as Concerta stores `substance: "Methylphenidate"` and asking
+    /// *that* about a release form answers `nil`, silently stripping the XR and
+    /// handing the dose back its immediate-release curve. The product name is the
+    /// only record of the form, so it has to be consulted first. Renaming the
+    /// substance does drop it: the dose is no longer that product, and the new
+    /// string re-derives its own facet (typing "Concerta" still yields XR).
+    private func resolvedProductAndRelease(previousSubstanceName: String?) -> (product: String?, release: String?) {
+        let renamed = previousSubstanceName?.lowercased() != substance.lowercased()
+        let product = renamed ? nil : entry?.productName
+        return (product, SubstanceLibrary.releaseForm(for: product ?? substance))
+    }
+
+    /// The composed form title to snapshot — see ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)``.
+    private func formDisplayNameSnapshot(release: String?) -> String? {
+        DoseTitle.snapshot(canonicalName: substance, isomer: isomer, releaseForm: release)
     }
 
     /// The user's input converted to the substance's native unit for accurate dose level comparison.
@@ -444,10 +458,13 @@ struct EntryFormView: View {
             entry.saltForm = saltForm
             entry.isomer = isomer
             // Re-derived, so renaming an entry off (or onto) a release-form brand
-            // doesn't leave the old facet behind.
-            entry.releaseForm = SubstanceLibrary.releaseForm(for: substance)
+            // doesn't leave the old facet behind — while an edit that *didn't*
+            // rename it keeps the product it was logged under.
+            let form = resolvedProductAndRelease(previousSubstanceName: previousSubstanceName)
+            entry.productName = form.product
+            entry.releaseForm = form.release
             entry.substanceUID = selectedSubstance?.substanceUID
-            entry.displayNameSnapshot = formDisplayNameSnapshot
+            entry.displayNameSnapshot = formDisplayNameSnapshot(release: form.release)
             entry.timestamp = timestamp
             entry.notes = finalNotes
             entry.volumeML = byVolume.0
@@ -481,6 +498,9 @@ struct EntryFormView: View {
             )
         } else {
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
+            // A new entry has no prior name, so nothing to preserve: the facet comes
+            // from whatever the user typed.
+            let release = SubstanceLibrary.releaseForm(for: substance)
             let newEntry = DoseEntry(
                 substance: substance,
                 amount: storedAmount,
@@ -491,9 +511,9 @@ struct EntryFormView: View {
                 // Derived from the name (no picker — see `DoseEntry.releaseForm`),
                 // and recorded here because a committed dose gets its uid at log
                 // time and so is never revisited by the backfill.
-                releaseForm: SubstanceLibrary.releaseForm(for: substance),
+                releaseForm: release,
                 substanceUID: selectedSubstance?.substanceUID,
-                displayNameSnapshot: formDisplayNameSnapshot,
+                displayNameSnapshot: formDisplayNameSnapshot(release: release),
                 timestamp: timestamp,
                 notes: finalNotes,
                 tags: allTags,

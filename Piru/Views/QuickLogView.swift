@@ -255,8 +255,8 @@ struct QuickLogView: View {
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }
                 content.setLibraryResults(
-                    SubstanceLibrary.search(searchText)
-                        .filter { !content.cachedHistoryNames.contains($0.name.lowercased()) },
+                    SubstanceLibrary.searchMatches(searchText)
+                        .filter { !content.cachedHistoryNames.contains($0.substance.name.lowercased()) },
                 )
             }
         }
@@ -404,8 +404,9 @@ struct QuickLogView: View {
                     saltForm: item.saltForm,
                     isomer: item.isomer,
                     releaseForm: item.releaseForm,
+                    productName: item.productName,
                     substanceUID: item.substanceUID,
-                    displayNameSnapshot: item.isomerDisplayName,
+                    displayNameSnapshot: item.displayNameSnapshot,
                     timestamp: sharedTime,
                     notes: item.note.isEmpty ? nil : item.note,
                     tags: tags,

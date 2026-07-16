@@ -91,9 +91,23 @@ struct TodaySummaryProvider: TimelineProvider {
             grouped[key] = existing
         }
 
+        // The personal display-name override (THC → "joint") the app mirrors into
+        // the app group. This widget had none, so a relabel reached every surface
+        // except this one.
+        //
+        // Only the relabel: these rows are per-*substance* totals, so the title
+        // must stay canonical. A Concerta 36 mg and a Ritalin 10 mg sum to
+        // "Methylphenidate 46 mg", which is the honest answer for a total — while
+        // titling the group from either dose's product or snapshot would name the
+        // whole group after one of the forms in it.
+        let displayNames = (
+            UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
+                .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
+        ) ?? [:]
+
         let doses = grouped.map { name, data in
             DoseSummary(
-                substance: name,
+                substance: displayNames[name.lowercased()] ?? name,
                 totalAmount: data.total,
                 unit: data.unit,
                 count: data.count,

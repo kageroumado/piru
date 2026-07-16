@@ -176,7 +176,13 @@ final class SubstanceStore {
     /// startup so `lookup` / `lookupByNameOrAlias` / `search` don't pay the
     /// full SQL scan tax.
     private(set) var nameIndex: [String: Int64] = [:]
-    private var aliasIndex: [String: Int64] = [:]
+    private(set) var aliasIndex: [String: Int64] = [:]
+    /// Normalized alias → the alias in its display casing ("concerta" → "Concerta").
+    /// `alias_normalized` is the *pipeline's* normalization — Greek-cap folding and
+    /// all — which `lowercased()` does not reproduce, so a search hit recovers its
+    /// display form through this map rather than by re-deriving it. Read by
+    /// ``rankedSearch`` to title a row with the name the user actually typed.
+    private(set) var aliasDisplayIndex: [String: String] = [:]
     /// Normalized alias → isomer code, for the facet-annotated aliases only
     /// ("focalin" → "D", "esketamine" → "S"). Lets a logged brand/enantiomer
     /// string recover its form during the PSID backfill. Built from `aliases.isomer`.
@@ -546,16 +552,17 @@ final class SubstanceStore {
 
     private func buildIndexes() {
         do {
-            let (names, aliases, aliasFacets, displayNames, uids, formTitles):
-                ([(String, Int64, String)], [(String, Int64)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)]) = try substancesDB.read { db in
+            let (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles):
+                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)]) = try substancesDB.read { db in
                     let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE")
                     let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
                     let uids = nameRows.compactMap { row -> (Int64, String)? in
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
                     }
-                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized, isomer, release_form FROM aliases")
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form FROM aliases")
                     let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
+                    let aliasDisplay = aliasRows.map { ($0["alias_normalized"] as String, $0["alias"] as String) }
                     // Only the facet-bearing rows — the vast majority of aliases name
                     // the plain/unspecified form and would just bloat both indexes.
                     let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?)? in
@@ -577,7 +584,7 @@ final class SubstanceStore {
                             row["display_name"] as String,
                         )
                     }
-                    return (names, aliases, aliasFacets, displayNames, uids, formTitles)
+                    return (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles)
                 }
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
@@ -593,6 +600,14 @@ final class SubstanceStore {
                 ax[alias] = sid
             }
             self.aliasIndex = ax
+            // First-wins, matching `aliasIndex`: two aliases normalizing to the same
+            // key ("Biphentin"/"biphentin") resolve to one substance, so they must
+            // resolve to one display form too.
+            var adx: [String: String] = [:]
+            for (normalized, display) in aliasDisplay where adx[normalized] == nil {
+                adx[normalized] = display
+            }
+            self.aliasDisplayIndex = adx
             // First-wins per facet, matching `aliasIndex` — an alias owned by >1
             // substance resolves to the first, and `audit_alias_collisions()` in the
             // build reports any such collision for triage.
@@ -751,7 +766,7 @@ final class SubstanceStore {
     /// Row id → lightweight `Substance`, built once from the batch cache and the
     /// `nameIndex` (canonical name → id). Lets ``search`` resolve ranked ids
     /// without SQL. Warms `all` via ``batchIndex()`` on first use.
-    private func batchByIDIndex() -> [Int64: Substance] {
+    func batchByIDIndex() -> [Int64: Substance] {
         if let batchByID { return batchByID }
         let byName = batchIndex()
         var map: [Int64: Substance] = [:]
@@ -1322,103 +1337,6 @@ final class SubstanceStore {
         let result = SubstanceCategory.allCases.filter { (summary[$0] ?? 0) > 0 }
         nonEmptyCategoriesCache = result
         return result
-    }
-
-    // MARK: - Search
-
-    /// Ranked search: exact name → alias → prefix → contains → fuzzy.
-    ///
-    /// Resolves from the warm batch cache (no per-result SQL). Synchronous entry
-    /// kept for tests and non-interactive callers; the interactive search field
-    /// uses ``searchAsync(_:limit:)`` so the ranking never runs on the main thread.
-    func search(_ query: String, limit: Int = 50) -> [Substance] {
-        Self.rankedSearch(
-            query, nameIndex: nameIndex, aliasIndex: aliasIndex,
-            idToSubstance: batchByIDIndex(), limit: limit,
-        )
-    }
-
-    /// Off-main ranked search: snapshot the (Sendable) indexes on the main actor,
-    /// then rank + resolve on a background task. The keystroke handler awaits this
-    /// instead of calling `search` directly, so neither the index scan / fuzzy
-    /// pass nor result resolution stalls the keyboard. The snapshots are
-    /// copy-on-write dictionaries, so handing them to the detached task is cheap.
-    func searchAsync(_ query: String, limit: Int = 50) async -> [Substance] {
-        await ensureAllLoaded()
-        let names = nameIndex
-        let aliases = aliasIndex
-        let byID = batchByIDIndex()
-        return await Task.detached(priority: .userInitiated) {
-            Self.rankedSearch(query, nameIndex: names, aliasIndex: aliases, idToSubstance: byID, limit: limit)
-        }.value
-    }
-
-    /// Pure ranking over the index snapshots — runnable on any thread. Order is
-    /// identical to the original (exact → prefix → contains → fuzzy); only the
-    /// resolution changed from per-id SQL to a batch-cache dict hit.
-    nonisolated static func rankedSearch(
-        _ query: String,
-        nameIndex: [String: Int64],
-        aliasIndex: [String: Int64],
-        idToSubstance: [Int64: Substance],
-        limit: Int,
-    ) -> [Substance] {
-        let q = query.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !q.isEmpty else { return [] }
-
-        var exactIDs: [Int64] = []
-        var prefixIDs: [Int64] = []
-        var containsIDs: [Int64] = []
-        var seen = Set<Int64>()
-
-        if let id = nameIndex[q] ?? aliasIndex[q] {
-            exactIDs.append(id); seen.insert(id)
-        }
-        for (key, id) in nameIndex {
-            guard !seen.contains(id) else { continue }
-            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) } else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
-        }
-        for (key, id) in aliasIndex {
-            guard !seen.contains(id) else { continue }
-            if key.hasPrefix(q) { prefixIDs.append(id); seen.insert(id) } else if key.contains(q) { containsIDs.append(id); seen.insert(id) }
-        }
-
-        var ranked: [Int64] = exactIDs + prefixIDs + containsIDs
-        if ranked.count > limit {
-            ranked = Array(ranked.prefix(limit))
-        }
-        if ranked.count < limit, q.count >= 4 {
-            let needed = limit - ranked.count
-            ranked.append(contentsOf: fuzzyMatch(q, nameIndex: nameIndex, excluding: seen, limit: needed))
-        }
-        return ranked.prefix(limit).compactMap { idToSubstance[$0] }
-    }
-
-    private nonisolated static func fuzzyMatch(_ query: String, nameIndex: [String: Int64], excluding seen: Set<Int64>, limit: Int) -> [Int64] {
-        let maxDist = max(1, Int(Double(query.count) * 0.3))
-        var matches: [(Int64, Int)] = []
-        for (key, id) in nameIndex where !seen.contains(id) {
-            let d = levenshtein(query, key)
-            if d <= maxDist { matches.append((id, d)) }
-        }
-        return matches.sorted { $0.1 < $1.1 }.prefix(limit).map(\.0)
-    }
-
-    private nonisolated static func levenshtein(_ a: String, _ b: String) -> Int {
-        let a = Array(a), b = Array(b)
-        if a.isEmpty { return b.count }
-        if b.isEmpty { return a.count }
-        var prev = Array(0 ... b.count)
-        var curr = [Int](repeating: 0, count: b.count + 1)
-        for i in 1 ... a.count {
-            curr[0] = i
-            for j in 1 ... b.count {
-                let cost = a[i - 1] == b[j - 1] ? 0 : 1
-                curr[j] = min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost)
-            }
-            swap(&prev, &curr)
-        }
-        return prev[b.count]
     }
 
     // MARK: - Substance resolver (source-priority aware)

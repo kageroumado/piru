@@ -23,6 +23,10 @@ final class JournalModel {
         let category: SubstanceCategory
         let state: ActiveSubstanceState?
         let marker: DoseMarker?
+        /// The dose's resolved title (``DoseTitle``), amortized here with
+        /// `category` rather than re-derived per row. Cheap — a `timelineLookup`
+        /// dict hit — but not free, and a row `body` re-runs on every scroll tick.
+        let title: String
     }
 
     private(set) var derived: [PersistentIdentifier: EntryDerived] = [:]
@@ -144,16 +148,20 @@ final class JournalModel {
         let category = SubstanceLibrary.timelineLookup(entry.substance)?.category ?? .other
         let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
         let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
+        let title = DoseTitle.resolve(for: entry)
         let marker = state == nil
             ? DoseMarker(
-                substanceName: entry.substance,
+                // The resolved title, matching the curves' lane labels — this
+                // rendered the raw logged string, so a marker could name the same
+                // substance differently from the curve beside it.
+                substanceName: title,
                 timestamp: entry.timestamp,
                 colorHex: hex,
                 amount: entry.amount,
                 unit: entry.unit,
             )
             : nil
-        return EntryDerived(category: category, state: state, marker: marker)
+        return EntryDerived(category: category, state: state, marker: marker, title: title)
     }
 
     /// Incrementally resolve each entry's category, timeline inputs, and color.

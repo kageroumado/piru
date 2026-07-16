@@ -154,6 +154,12 @@ struct SessionDetailView: View {
         }
         return entries.compactMap { entry in
             guard inLibrary(entry.substance) else { return nil }
+            // The effect engine models absorption from the route's profile, which
+            // is the immediate-release one — so an extended-release dose would be
+            // simulated as if it landed all at once, and the whole session's
+            // estimate would inherit that. A dose whose form we decline to model
+            // is left out rather than modelled wrong.
+            guard !entry.namesUnmodeledForm else { return nil }
             return MechanisticSessionModel.DoseInput(
                 name: entry.substance,
                 amount: entry.amount,
@@ -179,34 +185,10 @@ struct SessionDetailView: View {
         return result
     }
 
-    /// Resolve each dose row's substance facts once. Caches the per-substance
-    /// `SubstanceLibrary` lookup so repeated substances in a session don't
-    /// re-resolve, and applies the `CustomSubstanceStore` display-name override.
+    /// Resolve each dose row's substance facts once — see ``DayEntryCore/make(from:)``,
+    /// which the journal's rows share.
     private static func computeEntryCores(_ entries: [DoseEntry]) -> [DayEntryCore] {
-        var substanceCache: [String: Substance?] = [:]
-        func substance(_ name: String) -> Substance? {
-            let key = name.lowercased()
-            if let cached = substanceCache[key] { return cached }
-            let resolved = SubstanceLibrary.lookupByNameOrAlias(name)
-            substanceCache[key] = resolved
-            return resolved
-        }
-        return entries.map { entry in
-            let doseLevel = substance(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount)
-            return DayEntryCore(
-                entryID: entry.id,
-                timestamp: entry.timestamp,
-                displayName: CustomSubstanceStore.shared.displayName(for: entry.substance),
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route,
-                doseLevel: doseLevel,
-                tags: entry.tags,
-                // Acute effect window (same source as the timeline curve), so the
-                // rail matches the graph — not the long elimination tail.
-                totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
-            )
-        }
+        DayEntryCore.make(from: entries)
     }
 
     private var substanceStates: [ActiveSubstanceState] {
