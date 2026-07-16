@@ -115,7 +115,14 @@ struct IsomerPicker: View {
     /// route offers: keep the current selection when the route still offers that
     /// code, otherwise fall to the racemic form (or the first option). Call this
     /// from every route-change handler, mirroring ``SaltPicker/revalidate(_:against:)``.
+    ///
+    /// When the new route has **no** isomer axis at all, the selection is
+    /// preserved rather than cleared: switching Focalin from oral (which offers a
+    /// D ladder) to a route with none should keep the user's Dexmethylphenidate
+    /// intent — no picker is shown there anyway — instead of silently reverting
+    /// the dose to racemic and misclassifying it on the way back.
     static func revalidate(_ selection: inout String?, against options: [Option]) {
+        guard !options.isEmpty else { return }
         if options.contains(where: { $0.code == selection }) { return }
         selection = options.first?.code
     }

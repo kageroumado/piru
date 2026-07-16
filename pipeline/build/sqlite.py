@@ -2095,10 +2095,16 @@ def legible_stereo_name(name: str) -> str | None:
     the CIP letter. Returns None when the name doesn't match (leave it alone).
 
     Sets *display_name* only — the canonical name (the dedup key, and what
-    isomer-families.json / _CATEGORY_OVERRIDES reference) is untouched, so the
-    enantiomer stays a distinct row until the isomer fold lands. Note the clean
-    "(S)-…" form would normalise onto the racemate's key, so it must NEVER become
-    the canonical pre-fold — display only."""
+    isomer-families.json / _CATEGORY_OVERRIDES reference) is untouched. Note the
+    clean "(S)-…" form would normalise onto the racemate's key, so it must NEVER
+    become the canonical — display only.
+
+    Now that the isomer fold has landed (Stage A), every enantiomer we recognize
+    folds into its parent as an isomer variant, so this matches **zero** rows on a
+    full build ("Legible stereo display names: 0"). It is kept as a display safety
+    net for an enantiomer that carries a redundant CIP-plus-rotation prefix but is
+    not yet in `isomer-families.json` — such a row stays distinct and still reads
+    cleanly until it is folded."""
     m = _STEREO_ROTATION_PREFIX.match((name or "").strip())
     if not m:
         return None
@@ -7668,8 +7674,9 @@ def main() -> int:
 
     # Stamp curated salt_rank (default-salt intent) + elemental_fraction onto the
     # salt-tagged dose rows. Must run right after folding (so the salt_form tags
-    # exist) and asserts full coverage. Loader reads salt_rank in WS-2b; until
-    # then it's forward-looking metadata that changes no dose value.
+    # exist) and asserts full coverage. The loader consumes salt_rank: it selects
+    # and orders a substance's salt forms by it (see SubstanceStore.swift), for a
+    # data-driven — not alphabetical — default salt.
     salt_meta = build.apply_salt_metadata()
     print(f"Salt metadata: {salt_meta}", file=sys.stderr)
 
