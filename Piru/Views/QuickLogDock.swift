@@ -1135,7 +1135,15 @@ struct QuickLogDock: View {
         let query = searchText.lowercased()
         guard !query.isEmpty else { return [] }
         var results: [QuickLogSearchResult] = content.cachedCards
-            .filter { $0.id.contains(query) }
+            // Match the card's names, not its id — the id is now an opaque
+            // substance-identity key (a PSID uid), so filtering on it would miss a
+            // resolved card by its own name. Matching the product/form title too
+            // makes a Concerta recents chip findable by "concerta" (D.1.6).
+            .filter { card in
+                card.substanceName.lowercased().contains(query)
+                    || card.title?.lowercased().contains(query) == true
+                    || card.productName?.lowercased().contains(query) == true
+            }
             .prefix(2)
             .map { .recent($0) }
         results += content.cachedLibraryResults.prefix(3).map { .library($0) }
