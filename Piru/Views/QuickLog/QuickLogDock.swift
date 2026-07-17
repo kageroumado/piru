@@ -107,8 +107,6 @@ struct QuickLogDock: View {
     let onCommit: () -> Void
 
     @FocusState private var searchFocused: Bool
-    @State private var customSubstanceStore = CustomSubstanceStore.shared
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// The bare (Maps collapsed-pill) face: nothing but the floating search
     /// pill. Driven by the *live* sheet height, not the settled detent, so the
@@ -183,7 +181,7 @@ struct QuickLogDock: View {
         ZStack(alignment: .top) {
             // Proposal probe: measures the sheet's *proposed* height (the live
             // detent size), not the content's laid-out height. The two differ
-            // when the always-mounted commit bar (see ``commitBarArea``) puts a
+            // when the always-mounted commit bar (see ``DockCommitBarArea``) puts a
             // minimum height under the scroll view: post-delete, the content
             // can't shrink to the bare zone, so a content-height read would
             // never flip ``isBare`` back — a layout deadlock that left the
@@ -243,15 +241,38 @@ struct QuickLogDock: View {
             // corrupt — and it's already what the taller detents do, correctly.
             // The peek detent is sized (``peekHeight``) so the pinned pill + the
             // fixed ``bareFloat`` gap below read as a floating bar.
-            searchBar
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                .padding(.bottom, 6)
+            DockSearchBar(
+                searchText: $searchText,
+                searchActive: searchActive,
+                searchFocused: $searchFocused,
+                onCancel: cancelSearch,
+            )
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 6)
 
             ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-                    middleContent
-                }
+                DockMiddleContent(
+                    isBare: isBare,
+                    searchActive: searchActive,
+                    searchText: searchText,
+                    tray: tray,
+                    content: content,
+                    families: families,
+                    selectedFamilyID: $selectedFamilyID,
+                    browseResults: $browseResults,
+                    interactions: interactions,
+                    interactionsHeight: $interactionsHeight,
+                    unrevealedItemIDs: unrevealedItemIDs,
+                    awaitingBareCollapse: awaitingBareCollapse,
+                    onCreateCustom: {
+                        // Release focus before presenting — restoring focus
+                        // mid-transition on dismiss caused the SheetBridge
+                        // exclusivity crash (builds 13/14).
+                        searchFocused = false
+                        onCreateCustom()
+                    },
+                )
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
@@ -264,8 +285,16 @@ struct QuickLogDock: View {
             // the soft edge effect — content passes beneath it instead of
             // being hard-clipped above it.
             .scrollEdgeEffectStyle(.soft, for: .bottom)
-            .safeAreaBar(edge: .bottom) { commitBarArea }
-            // The bar above never unmounts (see ``commitBarArea``), so its
+            .safeAreaBar(edge: .bottom) {
+                DockCommitBarArea(
+                    tray: tray,
+                    content: content,
+                    isBare: isBare,
+                    commitBarHeight: $commitBarHeight,
+                    onCommit: onCommit,
+                )
+            }
+            // The bar above never unmounts (see ``DockCommitBarArea``), so its
             // safe-area inset becomes the scroll region's *minimum* height —
             // taller than the whole bare pill. Left unchecked, that minimum
             // wedges the sheet's shrink to peek: UIKit can't compress the
@@ -766,97 +795,7 @@ struct QuickLogDock: View {
         }
     }
 
-    // MARK: Search bar
-
-    /// The single pinned field — present in every detent, so SwiftUI animates
-    /// it in place as the sheet resizes and the content morphs beneath it.
-    /// A clear button trails the field once text exists; a full-size glass
-    /// cancel appears beside the field while searching. Dictation is the
-    /// keyboard's own mic key — the app never touches the microphone.
-    private var searchBar: some View {
-        HStack(spacing: 8) {
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .accessibilityHidden(true)
-                TextField("Search", text: $searchText)
-                    .textFieldStyle(.plain)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .focused($searchFocused)
-                    .submitLabel(.search)
-                    .accessibilityLabel("Search substances")
-                if !searchText.isEmpty {
-                    Button {
-                        searchText = ""
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Clear search")
-                }
-            }
-            .padding(.horizontal, 14)
-            .frame(height: QuickLogDockMetrics.fieldHeight)
-            .background(Color(.secondarySystemFill), in: Capsule())
-
-            if searchActive {
-                // Same fill and height as the field — the pair reads as one
-                // control system, not two materials (glass here clashed with
-                // the field's flat fill and shrank the glyph).
-                Button {
-                    cancelSearch()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .frame(width: QuickLogDockMetrics.fieldHeight, height: QuickLogDockMetrics.fieldHeight)
-                        .background(Color(.secondarySystemFill), in: Circle())
-                        .contentShape(Circle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Cancel search")
-                .transition(.move(edge: .trailing).combined(with: .opacity))
-            }
-        }
-        .animation(.snappy, value: searchActive)
-        .animation(.snappy, value: searchText.isEmpty)
-    }
-
-    /// The bottom safe-area bar: chips + Log button. Content scrolls beneath
-    /// it with the soft edge effect.
-    ///
-    /// The bar stays mounted at its intrinsic height for the dock's whole
-    /// lifetime and is only *faded* out while the tray is empty.
-    /// Structurally removing it (or collapsing it to zero height) unregisters
-    /// the scroll pocket, and re-registering a pocket on a live sheet corrupts
-    /// UIKit's scroll-edge-effect layout: the bottom effect view inflates to
-    /// cover the entire scroll view (a full-height blur that "erases" the
-    /// content) with a touch blocker over everything — the delete-last-dose →
-    /// stage-again wedge. The bare face's geometry is protected on the scroll
-    /// view instead (see the frame in `body`).
-    private var commitBarArea: some View {
-        let visible = !tray.isEmpty && !isBare
-        return TrayCommitBar(
-            model: tray,
-            content: content,
-            onCommit: onCommit,
-        )
-        .padding(.horizontal, 16)
-        // Intrinsic height always: when a drag squeezes the sheet
-        // below the compact detent, the bar must clip rather than
-        // compress — a compressed measurement re-minted the compact
-        // detent mid-gesture and snapped the sheet to the wrong one.
-        .fixedSize(horizontal: false, vertical: true)
-        .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-            guard abs(newValue - commitBarHeight) > 0.5 else { return }
-            commitBarHeight = newValue
-        }
-        .opacity(visible ? 1 : 0)
-        .allowsHitTesting(visible)
-        .accessibilityHidden(!visible)
-    }
+    // MARK: Keyboard & search dismissal
 
     @ToolbarContentBuilder
     private var keyboardDoneToolbar: some ToolbarContent {
@@ -878,270 +817,6 @@ struct QuickLogDock: View {
             searchActive = false
             searchText = ""
         }
-    }
-
-    // MARK: Content
-
-    /// Search content swaps deliberately carry NO transitions: fades clip the
-    /// moment a detent change lays the content out at the final size, and a
-    /// fade-then-move sequence read worse (a beat of empty sheet). Instant
-    /// swaps + the animated platter are the model everywhere else in the dock.
-    @ViewBuilder
-    private var middleContent: some View {
-        if !isBare {
-            if searchActive {
-                if CrisisKeywords.matches(searchText) {
-                    QuickLogHelpBanner()
-                } else if searchText.isEmpty {
-                    suggestions
-                } else {
-                    groupedCard {
-                        QuickLogSearchResults(
-                            results: results,
-                            onAdd: stagePayload,
-                            onAddDraft: stageDraftPayload,
-                            onCreateCustom: {
-                                // Release focus before presenting — restoring
-                                // focus mid-transition on dismiss caused the
-                                // SheetBridge exclusivity crash (builds 13/14).
-                                searchFocused = false
-                                onCreateCustom()
-                            },
-                        )
-                    }
-                }
-            } else if tray.isEmpty, !awaitingBareCollapse {
-                // Dragged tall with nothing staged: browse suggestions, not a
-                // page of nothing. Suppressed while the dock is shrinking to
-                // bare — that transient is the same shape, but showing the
-                // pills mid-collapse reads as a flash of the search state.
-                suggestions
-            }
-
-            if !tray.isEmpty {
-                // The staged basket never disappears — search results render
-                // above it, so staging more is not a context switch.
-                TrayStagedListCard(model: tray, hiddenItemIDs: unrevealedItemIDs)
-
-                // At accessibility sizes the When/Tags/Location chips live in
-                // the scroll content: stacked, they made the pinned bar taller
-                // than the compact detent's cap and clipped the Log button
-                // (see ``TrayCommitBar``).
-                if dynamicTypeSize.isAccessibilitySize {
-                    TrayMetaChips(model: tray, content: content)
-                }
-
-                if !interactions.isEmpty {
-                    interactionsCard
-                        .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-                            guard abs(newValue - interactionsHeight) > 0.5 else { return }
-                            interactionsHeight = newValue
-                        }
-                }
-            }
-        }
-    }
-
-    /// The pre-typing search surface: effect-family pills over one-tap
-    /// suggestion rows (a selected family's most known substances, or the
-    /// user's recents).
-    @ViewBuilder
-    private var suggestions: some View {
-        if !families.isEmpty {
-            familyPills
-        }
-        if let family = families.first(where: { $0.id == selectedFamilyID }) {
-            groupedCard {
-                QuickLogSearchResults(
-                    // Browsing a family names no product — there's no query to have
-                    // matched an alias with, so these rows title canonically.
-                    results: browseResults.map { .library(SubstanceMatch(substance: $0, matchedAlias: nil)) },
-                    onAdd: stagePayload,
-                    onAddDraft: stageDraftPayload,
-                    onCreateCustom: nil,
-                )
-            }
-            .id(family.id)
-        } else if !content.cachedCards.isEmpty {
-            groupedCard {
-                QuickLogSearchResults(
-                    results: content.cachedCards.prefix(6).map { .recent($0) },
-                    onAdd: stagePayload,
-                    onAddDraft: stageDraftPayload,
-                    onCreateCustom: nil,
-                )
-            }
-        }
-    }
-
-    // MARK: Staging from rows
-
-    /// Inline Add: a complete dose joins the tray's collapsed rows — search
-    /// stays exactly where it is, the staged card below just grows.
-    private func stagePayload(_ payload: QuickLogStagePayload) {
-        withAnimation(.snappy) {
-            tray.stage(
-                substance: payload.substance,
-                route: payload.route,
-                amount: payload.amount,
-                unit: payload.unit,
-                colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
-                librarySubstance: payload.librarySubstance,
-                productName: payload.productName,
-                volumeML: payload.volumeML,
-                abv: payload.abv,
-                drinkName: payload.drinkName,
-                emoji: payload.emoji,
-            )
-        }
-    }
-
-    /// "Add & edit" (by-volume drinks): a draft opens its full editor in the
-    /// staged card — still without leaving the search context.
-    private func stageDraftPayload(_ payload: QuickLogStagePayload) {
-        withAnimation(.snappy) {
-            tray.stageDraft(
-                substance: payload.substance,
-                route: payload.route,
-                unit: payload.unit,
-                colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
-                librarySubstance: payload.librarySubstance,
-                productName: payload.productName,
-            )
-        }
-    }
-
-    /// Horizontally scrolling effect-family filter pills (Library taxonomy).
-    private var familyPills: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(families) { family in
-                    familyPill(family)
-                }
-            }
-            // Bleed to the sheet edges so the row scrolls edge-to-edge while
-            // resting pills align with the cards.
-            .padding(.horizontal, 16)
-        }
-        .padding(.horizontal, -16)
-    }
-
-    private func familyPill(_ family: LibraryFamily) -> some View {
-        let selected = selectedFamilyID == family.id
-        return Button {
-            withAnimation(.snappy) {
-                if selected {
-                    selectedFamilyID = nil
-                    browseResults = []
-                } else {
-                    selectedFamilyID = family.id
-                    browseResults = Self.substances(for: family)
-                }
-            }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: family.icon)
-                    .imageScale(.small)
-                Text(family.title)
-            }
-            .font(.subheadline.weight(.semibold))
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(
-                selected ? AnyShapeStyle(family.color) : AnyShapeStyle(family.color.opacity(0.15)),
-                in: Capsule(),
-            )
-            .foregroundStyle(selected ? AnyShapeStyle(Color.white) : AnyShapeStyle(family.color))
-        }
-        .buttonStyle(.plain)
-        .accessibilityAddTraits(selected ? [.isSelected] : [])
-    }
-
-    /// The most recognisable substances of one family, by curated popularity —
-    /// umbrellas union their sub-classes.
-    private static func substances(for family: LibraryFamily) -> [Substance] {
-        let list: [Substance] = switch family.source {
-        case let .category(category): SubstanceLibrary.substances(in: category)
-        case let .tag(tag): SubstanceLibrary.substances(taggedWith: tag)
-        case nil: family.subclasses.flatMap { SubstanceLibrary.substances(in: $0.category) }
-        }
-        return Array(
-            list
-                .sorted {
-                    $0.popularity != $1.popularity
-                        ? $0.popularity > $1.popularity
-                        : $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending
-                }
-                .prefix(20),
-        )
-    }
-
-    /// Inset-grouped card chrome shared by the results, suggestions, and
-    /// staged surfaces — the dock's one visual container.
-    private func groupedCard(@ViewBuilder content: () -> some View) -> some View {
-        content()
-            .background(
-                Color(.secondarySystemGroupedBackground),
-                in: RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous),
-            )
-    }
-
-    /// The live interaction warnings as their own card, sitting above the
-    /// commit bar — not loose rows floating on the sheet.
-    private var interactionsCard: some View {
-        groupedCard {
-            VStack(alignment: .leading, spacing: 6) {
-                ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
-                    InteractionWarningRow(warning: warning)
-                }
-            }
-            .padding(12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-
-    // MARK: Search results
-
-    /// The ranked hits shown beneath the field (recent → library → custom).
-    private var results: [QuickLogSearchResult] {
-        let query = searchText.lowercased()
-        guard !query.isEmpty else { return [] }
-        var results: [QuickLogSearchResult] = content.cachedCards
-            // Match the card's names, not its id — the id is now an opaque
-            // substance-identity key (a PSID uid), so filtering on it would miss a
-            // resolved card by its own name. Matching the product/form title too
-            // makes a Concerta recents chip findable by "concerta" (D.1.6).
-            .filter { card in
-                card.substanceName.lowercased().contains(query)
-                    || card.title?.lowercased().contains(query) == true
-                    || card.productName?.lowercased().contains(query) == true
-            }
-            .prefix(2)
-            .map { .recent($0) }
-        results += content.cachedLibraryResults.prefix(3).map { .library($0) }
-        results += filteredCustomSubstances.prefix(1).map { .custom($0) }
-        return Array(results.prefix(4))
-    }
-
-    private var filteredCustomSubstances: [Substance] {
-        guard !searchText.isEmpty else { return [] }
-        let query = searchText.lowercased()
-        let libraryNames = Set(content.cachedLibraryResults.map { $0.substance.name.lowercased() })
-        return customSubstanceStore.all
-            .filter { custom in
-                let nameLower = custom.name.lowercased()
-                let displayLower = custom.displayName?.lowercased() ?? ""
-                // Match the canonical name OR the personal display name, so a
-                // relabelled substance is findable by the name the user gave it.
-                let matches = nameLower.contains(query) || (!displayLower.isEmpty && displayLower.contains(query))
-                return matches
-                    && !content.cachedHistoryNames.contains(nameLower)
-                    && !libraryNames.contains(nameLower)
-            }
-            // Resolve through the library so an override of a shipped substance
-            // carries its full dose/duration data (labeled with the personal
-            // name); a net-new custom falls back to its own asSubstance.
-            .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
     }
 }
 
