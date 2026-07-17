@@ -543,6 +543,17 @@ private nonisolated struct PiruDoseData: Codable {
     /// doses, and absent from files written before salt-form support, which
     /// import with `saltForm == nil` unchanged.
     var saltForm: String?
+    /// PSID identity + the user's product word, carried so a backup→restore keeps
+    /// a Concerta dose Concerta. All optional on both sides: omitted for a plain
+    /// dose, and absent from files written before PSID (which import unresolved and
+    /// self-heal via the launch backfill). `productName` especially must ride
+    /// along — the backfill can recover the facets from the canonical name but not
+    /// the brand word, which is gone once `substance` is canonical.
+    var substanceUID: String?
+    var isomer: String?
+    var releaseForm: String?
+    var productName: String?
+    var displayNameSnapshot: String?
     var timestamp: Int64
     var notes: String?
     var tags: [String]
@@ -751,6 +762,8 @@ enum DataExportImport {
                 id: e.id,
                 substance: e.substance, amount: e.amount, unit: e.unit, route: e.route,
                 saltForm: e.saltForm,
+                substanceUID: e.substanceUID, isomer: e.isomer, releaseForm: e.releaseForm,
+                productName: e.productName, displayNameSnapshot: e.displayNameSnapshot,
                 timestamp: e.timestamp.msSince1970, notes: e.notes, tags: e.tags,
                 isBackgroundMed: e.isBackgroundMed,
                 locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
@@ -833,6 +846,14 @@ enum DataExportImport {
         // Cluster any session-less imports (PsyLog/legacy) into sessions. The
         // native importer assigns its own sessions, so this is a no-op for it.
         SessionService.assignUnassignedDoses(in: context)
+
+        // Resolve the PSID identity of anything that came in name-only — a PsyLog
+        // dose, or a native file written before PSID — so it keys on identity and
+        // titles from its resolved form right away, not only after the next launch.
+        // Data-driven (substanceUID == nil gate), so a fully-resolved native import
+        // finds nothing pending. Curated rows (imported favorites/daily) too.
+        PSIDBackfillMigration.run(context: context)
+        CuratedIdentityBackfillMigration.run(context: context)
 
         // One debounced tick wakes the tolerance cache after a bulk import (the burst coalesces).
         DoseLogService.shared.changed()
@@ -987,6 +1008,8 @@ enum DataExportImport {
             let entry = DoseEntry(
                 substance: d.substance, amount: d.amount, unit: d.unit, route: d.route,
                 saltForm: d.saltForm,
+                isomer: d.isomer, releaseForm: d.releaseForm, productName: d.productName,
+                substanceUID: d.substanceUID, displayNameSnapshot: d.displayNameSnapshot,
                 timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
             )

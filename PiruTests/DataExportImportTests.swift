@@ -120,6 +120,38 @@ struct DataExportImportRoundTripTests {
         #expect(magnesium.saltForm == "Glycinate") // salt form survives the backup
     }
 
+    @Test
+    func `PSID identity and product survive a backup round-trip`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        // A Concerta dose: canonical substance, but the brand + release form + uid
+        // are what make it Concerta and not plain Methylphenidate. The backfill can
+        // recover the facets from the name but NEVER the brand word, so the native
+        // backup must carry them verbatim (#3a).
+        context.insert(DoseEntry(
+            substance: "Methylphenidate", amount: 36, unit: "mg", route: .oral,
+            isomer: nil, releaseForm: "XR", productName: "Concerta",
+            substanceUID: "MPHUID", displayNameSnapshot: "Methylphenidate XR",
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
+        try context.save()
+
+        let data = try DataExportImport.exportJSON(context: context)
+        try DataExportImport.deleteAll(context: context)
+        try context.save()
+
+        try DataExportImport.importJSON(data: data, context: context)
+        try context.save()
+
+        let dose = try #require(try context.fetch(FetchDescriptor<DoseEntry>()).first)
+        #expect(dose.substance == "Methylphenidate")
+        #expect(dose.productName == "Concerta")
+        #expect(dose.releaseForm == "XR")
+        #expect(dose.substanceUID == "MPHUID")
+        #expect(dose.displayNameSnapshot == "Methylphenidate XR")
+    }
+
     // MARK: SubstanceColor and DailyDoseItem
 
     @Test
