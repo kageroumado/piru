@@ -100,7 +100,7 @@ struct HalfLifeCalculatorView: View {
 
     private var inputSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            SubstanceSearchField(text: $substanceName) { substance in
+            SubstanceSearchField(text: $substanceName) { substance, _ in
                 selectedSubstance = substance
                 substanceName = substance.name
                 doseUnit = substance.defaultUnit

@@ -24,6 +24,10 @@ struct MedicationItemFormView: View {
     @State private var isBackgroundMed = false
 
     @State private var selectedSubstance: Substance?
+    /// The brand the user picked ("Concerta"), kept so the daily item logs — and
+    /// its "done today" check joins — as that form, not the canonical family. `nil`
+    /// when they picked the canonical name. See ``QuickLogDose/identityKey``.
+    @State private var productName: String?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
 
     @Query(sort: \DailyDoseItem.sortOrder) private var existingItems: [DailyDoseItem]
@@ -56,8 +60,8 @@ struct MedicationItemFormView: View {
             Form {
                 Group {
                     Section("Substance") {
-                        SubstanceSearchField(text: $substance) { selected in
-                            selectSubstance(selected)
+                        SubstanceSearchField(text: $substance) { selected, product in
+                            selectSubstance(selected, product: product)
                         } onCustom: {
                             useCustomSubstance()
                         }
@@ -201,8 +205,10 @@ struct MedicationItemFormView: View {
         }
     }
 
-    private func selectSubstance(_ sub: Substance) {
+    private func selectSubstance(_ sub: Substance, product: String? = nil) {
         selectedSubstance = sub
+        let trimmed = product?.trimmingCharacters(in: .whitespaces)
+        productName = (trimmed?.isEmpty == false) ? trimmed : nil
         route = sub.defaultRoute
         unit = sub.unit(for: sub.defaultRoute)
         availableRoutes = sub.orderedRoutes
@@ -210,7 +216,24 @@ struct MedicationItemFormView: View {
 
     private func useCustomSubstance() {
         selectedSubstance = nil
+        // A hand-typed custom substance names no catalog product.
+        productName = nil
         availableRoutes = RouteOfAdministration.allCases
+    }
+
+    /// The identity to stamp on the saved item, derived from the picked product
+    /// (or its canonical name): the PSID family plus the release/isomer the name
+    /// resolves to, and the user's product word. Mirrors the quick-log capture, so
+    /// a "Concerta" daily item joins the same identity a Concerta dose logs under.
+    private func resolvedIdentity() -> (uid: String?, isomer: String?, release: String?, product: String?) {
+        let product = (productName?.isEmpty == false) ? productName : nil
+        let nameForFacets = product ?? substance
+        return (
+            selectedSubstance?.substanceUID,
+            SubstanceLibrary.isomer(for: nameForFacets),
+            SubstanceLibrary.releaseForm(for: nameForFacets),
+            product,
+        )
     }
 
     private var categories: [String] {
@@ -234,6 +257,7 @@ struct MedicationItemFormView: View {
             selectedWeekdays = Set(item.frequencyDays)
             startDate = item.startDate
             isBackgroundMed = item.isBackgroundMed
+            productName = item.productName
 
             if let match = SubstanceLibrary.search(item.substance).first,
                match.name.lowercased() == item.substance.lowercased() {
@@ -248,6 +272,7 @@ struct MedicationItemFormView: View {
     private func save() {
         guard let parsedAmount = amount else { return }
 
+        let identity = resolvedIdentity()
         if let item {
             item.substance = substance
             item.amount = parsedAmount
@@ -258,6 +283,10 @@ struct MedicationItemFormView: View {
             item.frequencyDays = Array(selectedWeekdays)
             item.startDate = startDate
             item.isBackgroundMed = isBackgroundMed
+            item.substanceUID = identity.uid
+            item.isomer = identity.isomer
+            item.releaseForm = identity.release
+            item.productName = identity.product
         } else {
             let newItem = DailyDoseItem(
                 substance: substance,
@@ -270,6 +299,10 @@ struct MedicationItemFormView: View {
                 frequencyDays: Array(selectedWeekdays),
                 startDate: startDate,
                 isBackgroundMed: isBackgroundMed,
+                substanceUID: identity.uid,
+                isomer: identity.isomer,
+                releaseForm: identity.release,
+                productName: identity.product,
             )
             modelContext.insert(newItem)
         }

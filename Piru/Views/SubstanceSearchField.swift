@@ -2,7 +2,11 @@ import SwiftUI
 
 struct SubstanceSearchField: View {
     @Binding var text: String
-    var onSelect: (Substance) -> Void
+    /// Reports the picked substance and the **brand/alias the query matched**, if
+    /// any — so a caller can keep "Concerta" as the product name even though the
+    /// field then shows the canonical "Methylphenidate". `nil` when the user typed
+    /// the canonical/display name. Callers that don't track products ignore it.
+    var onSelect: (Substance, String?) -> Void
     var onCustom: (() -> Void)?
     var locked: Bool
     var favoriteNames: Set<String>
@@ -13,12 +17,20 @@ struct SubstanceSearchField: View {
     @State private var searchTrigger = 0
     @FocusState private var isFocused: Bool
 
-    init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
+    init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], onSelect: @escaping (Substance, String?) -> Void, onCustom: (() -> Void)? = nil) {
         _text = text
         self.locked = locked
         self.favoriteNames = favoriteNames
         self.onSelect = onSelect
         self.onCustom = onCustom
+    }
+
+    /// The product name to carry for a tapped result: the alias the current query
+    /// matched, resolved through the same ranked search the quick-log capture uses
+    /// (`SubstanceMatch/matchedAlias`), so both paths keep the user's word the same
+    /// way. `nil` when the query was the canonical/display name.
+    private func matchedProduct(for substance: Substance) -> String? {
+        SubstanceLibrary.searchMatches(text).first { $0.substance.id == substance.id }?.matchedAlias
     }
 
     private var hasExactMatch: Bool {
@@ -82,11 +94,12 @@ struct SubstanceSearchField: View {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(results.prefix(12)) { substance in
                             Button {
+                                let product = matchedProduct(for: substance)
                                 suppressSearch = true
                                 text = substance.name
                                 showResults = false
                                 isFocused = false
-                                onSelect(substance)
+                                onSelect(substance, product)
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {

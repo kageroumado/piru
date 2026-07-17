@@ -10,6 +10,11 @@ struct EntryFormView: View {
     var entry: DoseEntry?
 
     @State private var substance = ""
+    /// The brand picked from search this session ("Concerta"), if any — so an edit
+    /// that re-selects a product keeps it. `nil` until the user picks from search;
+    /// the original ``entry`` product then still applies (see
+    /// ``resolvedProductAndRelease(previousSubstanceName:)``).
+    @State private var typedProductName: String?
     @State private var amount = ""
     @State private var unit = "mg"
     @State private var route: RouteOfAdministration = .oral
@@ -114,7 +119,10 @@ struct EntryFormView: View {
     /// string re-derives its own facet (typing "Concerta" still yields XR).
     private func resolvedProductAndRelease(previousSubstanceName: String?) -> (product: String?, release: String?) {
         let renamed = previousSubstanceName?.lowercased() != substance.lowercased()
-        let product = renamed ? nil : entry?.productName
+        // A brand picked from search this edit wins; otherwise keep the original
+        // product unless the substance was renamed (a rename drops it — the dose is
+        // no longer that product, and the new name re-derives its own facet).
+        let product = typedProductName ?? (renamed ? nil : entry?.productName)
         return (product, SubstanceLibrary.releaseForm(for: product ?? substance))
     }
 
@@ -173,8 +181,8 @@ struct EntryFormView: View {
             Form {
                 Group {
                     Section("Substance") {
-                        SubstanceSearchField(text: $substance, locked: substanceLocked, favoriteNames: Array(favorites).favoriteSet) { selected in
-                            selectSubstance(selected)
+                        SubstanceSearchField(text: $substance, locked: substanceLocked, favoriteNames: Array(favorites).favoriteSet) { selected, product in
+                            selectSubstance(selected, product: product)
                         } onCustom: {
                             useCustomSubstance()
                         }
@@ -346,11 +354,15 @@ struct EntryFormView: View {
         byVolumeMode = false
     }
 
-    private func selectSubstance(_ sub: Substance) {
+    private func selectSubstance(_ sub: Substance, product: String? = nil) {
         selectedSubstance = sub
+        let trimmed = product?.trimmingCharacters(in: .whitespaces)
+        typedProductName = (trimmed?.isEmpty == false) ? trimmed : nil
         route = sub.defaultRoute
         saltForm = sub.saltForms(for: sub.defaultRoute).first
-        isomer = sub.defaultIsomer(for: sub.defaultRoute)
+        // Seed the enantiomer the product names (a "Focalin" pick → D) rather than
+        // the racemic default, mirroring the quick-log tray's `seedIsomer`.
+        isomer = DoseTrayModel.seedIsomer(productName: typedProductName, librarySubstance: sub, route: sub.defaultRoute)
         unit = sub.unit(for: sub.defaultRoute, saltForm: saltForm, isomer: isomer)
         availableRoutes = sub.orderedRoutes
         // Default a new alcohol entry to the natural by-volume input. Editing an

@@ -353,6 +353,9 @@ struct QuickLogView: View {
             unit: item.unit,
             colorHex: content.cachedColorLookup[item.substance.lowercased()],
             librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
+            // Carry the daily item's product so a Concerta med logs as Concerta —
+            // the tray derives the release form/isomer from it, same as search.
+            productName: item.productName,
             isFromDailySet: true,
             isBackgroundMed: item.isBackgroundMed,
         )
@@ -796,6 +799,9 @@ private struct QuickLogCardList: View {
             unit: item.unit,
             colorHex: content.cachedColorLookup[item.substance.lowercased()],
             librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
+            // Carry the daily item's product so a Concerta med logs as Concerta —
+            // the tray derives the release form/isomer from it, same as search.
+            productName: item.productName,
             isFromDailySet: true,
             isBackgroundMed: item.isBackgroundMed,
         )

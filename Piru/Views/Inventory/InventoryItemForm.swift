@@ -172,7 +172,7 @@ struct InventoryItemForm: View {
     private var substanceSection: some View {
         if !substanceFixed {
             Section {
-                SubstanceSearchField(text: $substanceName) { selected in
+                SubstanceSearchField(text: $substanceName) { selected, _ in
                     selectSubstance(selected)
                 } onCustom: {
                     selectedSubstance = nil
