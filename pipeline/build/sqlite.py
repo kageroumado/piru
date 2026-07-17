@@ -2929,6 +2929,11 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     ("Ethyl-pentedrone", "N-Ethylpentedrone", True),
     # Aspirin = acetylsalicylic acid (Aspirin is the recognisable canonical)
     ("Acetylsalicylic acid", "Aspirin", True),
+    # "Methylphenidate-transdermal" (Daytrana) is a scraped stub for the patch —
+    # same molecule as Methylphenidate, delivered transdermally, so it is a ROUTE
+    # not a distinct drug. Fold it in (Daytrana survives as an alias); the patch
+    # route lives on Methylphenidate via the curated transdermal route.
+    ("Methylphenidate-transdermal", "Methylphenidate", True),
     # Same-InChIKey real duplicates dedup missed (not alias-linked).
     ("S-Ketamine", "Esketamine", True),  # esketamine IS the S-enantiomer (YQEZLKZALYSWHR)
     ("Ethylcathinone", "N-Ethylcathinone", True),  # ethcathinone (QTFKIBOSWFGCSL); NEC is curated

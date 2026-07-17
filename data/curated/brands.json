@@ -3,6 +3,7 @@
   "brands": [
     { "parent": "Lisdexamfetamine", "brand": "Vyvanse" },
     { "parent": "Methylphenidate", "brand": "Ritalin" },
+    { "parent": "Methylphenidate", "brand": "Daytrana" },
     { "parent": "Amphetamine", "brand": "Dexedrine" },
     { "parent": "Methamphetamine", "brand": "Desoxyn" },
     { "parent": "Modafinil", "brand": "Provigil" },

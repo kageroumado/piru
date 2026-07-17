@@ -1,26 +1,26 @@
 # Piru SQLite build report
 
-Built 2026-07-16.0 → `Piru/Data/piru-substances.sqlite` (17,702,912 bytes, sha256 `d613ac1d0821777a8dc894cb7c4fb540b87a20deac6f880f0c77ba171ff7d730`)
+Built 2026-07-17.0 → `Piru/Data/piru-substances.sqlite` (17,702,912 bytes, sha256 `ce6c812cae22e03afc2dc415a2490a968fdefcbc74d2c5e1799f2bc24c7512f9`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,914 |
+| substances | 1,913 |
 | aliases | 5,790 |
 | sources | 17 |
 | citations | 1,865 |
-| categories | 1,834 |
-| tags | 7,734 |
-| dose_ranges | 2,827 |
+| categories | 1,833 |
+| tags | 7,733 |
+| dose_ranges | 2,828 |
 | durations | 9,312 |
 | half_lives | 276 |
-| mechanisms_summary | 1,050 |
+| mechanisms_summary | 1,049 |
 | effects | 2,997 |
 | subjective_effects | 24,023 |
 | tolerance | 331 |
-| indications | 1,139 |
-| contraindications | 1,663 |
+| indications | 1,138 |
+| contraindications | 1,658 |
 | diazepam_equivalents | 33 |
 | bindings | 1,280 |
 | functional_assays | 218 |
@@ -41,7 +41,7 @@ Built 2026-07-16.0 → `Piru/Data/piru-substances.sqlite` (17,702,912 bytes, sha
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 432 | 289 | 621 | 2,594 |
+| piru-curated | 433 | 289 | 621 | 2,594 |
 | peer-review-primary | 0 | 991 | 0 | 1,737 |
 | psychonautwiki | 389 | 0 | 75 | 321 |
 | tripsit | 596 | 0 | 424 | 1,274 |
@@ -53,7 +53,7 @@ Built 2026-07-16.0 → `Piru/Data/piru-substances.sqlite` (17,702,912 bytes, sha
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 144 | 477 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
-| pyrls | 0 | 0 | 102 | 613 |
+| pyrls | 0 | 0 | 101 | 612 |
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
