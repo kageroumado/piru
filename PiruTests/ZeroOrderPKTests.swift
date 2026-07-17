@@ -63,6 +63,26 @@ struct ZeroOrderPKTests {
     }
 
     @Test
+    func `Duration scales inversely with body weight — a heavier body clears the same dose faster`() {
+        let dose = 8 * oneDrinkMg // a heavy night, absorption long complete before clearance
+        let at60 = PKModel.zeroOrderClearMinutes(doseMg: dose, kinetics: PKModel.ethanolZeroOrder(weightKg: 60))
+        let at120 = PKModel.zeroOrderClearMinutes(doseMg: dose, kinetics: PKModel.ethanolZeroOrder(weightKg: 120))
+        #expect(at120 < at60)
+        // Vmax ∝ weight ⇒ clear time ≈ F·D/Vmax ∝ 1/weight; doubling weight ≈ halves it.
+        let ratio = at60 / at120
+        #expect(ratio > 1.8 && ratio < 2.15)
+    }
+
+    @Test
+    func `Reference weight reproduces the canonical 95 mg per min kinetics`() {
+        #expect(PKModel.ethanolZeroOrder(weightKg: 60) == PKModel.ethanolZeroOrder)
+        #expect(abs(PKModel.ethanolZeroOrder(weightKg: 60).vmaxMgPerMin - 95) < 1e-9)
+        // Out-of-range weights clamp to the 20–300 kg band rather than producing a degenerate curve.
+        #expect(PKModel.ethanolZeroOrder(weightKg: 5).vmaxMgPerMin == PKModel.ethanolZeroOrder(weightKg: 20).vmaxMgPerMin)
+        #expect(PKModel.ethanolZeroOrder(weightKg: 999).vmaxMgPerMin == PKModel.ethanolZeroOrder(weightKg: 300).vmaxMgPerMin)
+    }
+
+    @Test
     func `Decline is linear — second difference on the descending limb is ≈ 0`() throws {
         // Four drinks: clears in ~9 h, so 200/300/400 min all sit on the post-absorption descending limb.
         let dose = 4 * oneDrinkMg

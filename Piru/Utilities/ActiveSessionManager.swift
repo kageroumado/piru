@@ -309,6 +309,7 @@ final class ActiveSessionManager {
                 duration: item.duration,
                 category: substance?.category,
                 doseIntensity: intensity,
+                weightKg: UserProfileStore.shared.effectiveWeightKg,
             )
         }
     }

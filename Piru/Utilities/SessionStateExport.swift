@@ -342,7 +342,7 @@ extension SessionStateExport {
     }
 
     private static func zeroOrderGroup(name: String, doses: [ZeroOrderDose], groupStart: Date, doseCount: Int, now: Date) -> EliminationGroup {
-        let kinetics = PKModel.ethanolZeroOrder
+        let kinetics = PKModel.ethanolZeroOrder(weightKg: UserProfileStore.shared.effectiveWeightKg)
         let totalGrams = doses.reduce(0.0) { $0 + $1.doseMg } / 1_000
         func body(_ global: Double) -> Double { // grams
             doses.reduce(0.0) { acc, dose in

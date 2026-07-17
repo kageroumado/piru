@@ -313,16 +313,16 @@ nonisolated enum TimelineCurveModel {
     /// clearing enzyme saturates across its dose range (alcohol). `nil` for every first-order
     /// substance, or when the dose can't be read as a mass — both fall back to the phase bell.
     nonisolated static func zeroOrderKinetics(for s: ActiveSubstanceState) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
-        zeroOrderKinetics(substanceName: s.substanceName, amount: s.amount, unit: s.unit)
+        zeroOrderKinetics(substanceName: s.substanceName, amount: s.amount, unit: s.unit, weightKg: s.bodyWeightKg)
     }
 
     /// The zero-order kinetics + dose (mg) for a substance identified by raw fields, so the
     /// state *builder* can consult the same model the curve uses before an `ActiveSubstanceState`
     /// exists. `nil` for every first-order substance or an unreadable dose.
-    nonisolated static func zeroOrderKinetics(substanceName: String, amount: Double, unit: String) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
+    nonisolated static func zeroOrderKinetics(substanceName: String, amount: Double, unit: String, weightKg: Double = PKModel.referenceBodyWeightKg) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
         let kinetics: PKModel.ZeroOrderKinetics
         switch substanceName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
-        case "alcohol", "ethanol": kinetics = PKModel.ethanolZeroOrder
+        case "alcohol", "ethanol": kinetics = PKModel.ethanolZeroOrder(weightKg: weightKg)
         default: return nil
         }
         guard let mg = zeroOrderDoseMilligrams(amount: amount, unit: unit) else { return nil }
@@ -338,9 +338,9 @@ nonisolated enum TimelineCurveModel {
     /// The curve is an absorption rise to a BAC peak (`zeroOrderPeakMinutes`) followed by a long
     /// linear decline to clearance (`zeroOrderClearMinutes`), so the whole descending limb maps to a
     /// single wide "offset" and there is no afterglow.
-    nonisolated static func zeroOrderBoundaries(substanceName: String, amount: Double, unit: String)
+    nonisolated static func zeroOrderBoundaries(substanceName: String, amount: Double, unit: String, weightKg: Double = PKModel.referenceBodyWeightKg)
         -> (onsetEnd: Double, comeupEnd: Double, peakEnd: Double, offsetEnd: Double, total: Double)? {
-        guard let (kinetics, doseMg) = zeroOrderKinetics(substanceName: substanceName, amount: amount, unit: unit) else { return nil }
+        guard let (kinetics, doseMg) = zeroOrderKinetics(substanceName: substanceName, amount: amount, unit: unit, weightKg: weightKg) else { return nil }
         let peak = PKModel.zeroOrderPeakMinutes(doseMg: doseMg, kinetics: kinetics)
         let clear = PKModel.zeroOrderClearMinutes(doseMg: doseMg, kinetics: kinetics)
         guard peak > 0, clear > peak else { return nil }

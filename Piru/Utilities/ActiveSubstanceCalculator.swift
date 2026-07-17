@@ -139,7 +139,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0) {
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -151,7 +151,7 @@ extension ActiveSubstanceState {
         // bar, phase-band coloring, now-line active window, "{elapsed} in · {remaining} left" — must
         // track the same kinetics the curve draws, not the fixed `DurationProfile`. Falls back to the
         // profile below when the dose can't be read as a mass or is too small to form a BAC peak.
-        let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(substanceName: name, amount: amount, unit: unit)
+        let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(substanceName: name, amount: amount, unit: unit, weightKg: weightKg)
         self.init(
             substanceName: name,
             colorHex: colorHex,
@@ -168,6 +168,7 @@ extension ActiveSubstanceState {
             doseIntensity: doseIntensity,
             doseMagnitude: doseMagnitude,
             tachyphylaxis: tachyphylaxis,
+            bodyWeightKg: weightKg,
         )
     }
 
@@ -244,6 +245,7 @@ extension ActiveSubstanceState {
                 doseIntensity: intensity,
                 doseMagnitude: magnitude,
                 tachyphylaxis: substance.category.acuteToleranceFactor,
+                weightKg: UserProfileStore.shared.effectiveWeightKg,
             )
         }
         // Vitamins/supplements (Vitamin D3, magnesium, creatine…) have no

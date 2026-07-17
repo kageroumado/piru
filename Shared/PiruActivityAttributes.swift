@@ -71,7 +71,14 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     /// leaves the pure Bateman offset unchanged.
     let tachyphylaxis: Double
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0) {
+    /// The user's body weight (kg) captured when this state was built. Only ethanol's zero-order
+    /// elimination reads it — a heavier body clears a fixed gram dose faster (`Vmax ∝ weight`), so the
+    /// alcohol curve narrows with weight. Riding inside the (immutable, `Hashable`) state keeps the
+    /// off-main curve math weight-aware without a shared global, and folds weight into the model cache
+    /// key for free. Defaults to ``PKModel/referenceBodyWeightKg`` for non-alcohol doses, which ignore it.
+    let bodyWeightKg: Double
+
+    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg) {
         self.substanceName = substanceName
         self.colorHex = colorHex
         self.doseTimestamp = doseTimestamp
@@ -87,6 +94,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.doseIntensity = doseIntensity
         self.doseMagnitude = doseMagnitude ?? doseIntensity
         self.tachyphylaxis = tachyphylaxis
+        self.bodyWeightKg = bodyWeightKg
     }
 
     init(from decoder: Decoder) throws {
@@ -106,5 +114,6 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         doseIntensity = try c.decodeIfPresent(Double.self, forKey: .doseIntensity) ?? 1.0
         doseMagnitude = try c.decodeIfPresent(Double.self, forKey: .doseMagnitude) ?? doseIntensity
         tachyphylaxis = try c.decodeIfPresent(Double.self, forKey: .tachyphylaxis) ?? 0
+        bodyWeightKg = try c.decodeIfPresent(Double.self, forKey: .bodyWeightKg) ?? PKModel.referenceBodyWeightKg
     }
 }
