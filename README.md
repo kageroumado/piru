@@ -27,20 +27,17 @@
 > **服用注意 ・ a dose is not a confession.**
 >
 > Most tracking apps are built to make you take less. Piru isn't. It assumes you already know what
-> you're doing and simply want to *see* it: what you took, when, and what it's still doing to you
-> right now. So it keeps a clean ledger and draws the pharmacology over it — the curve rising and
-> clearing, the second dose stacking on the first, the interaction window opening — and it cites
-> every claim to a real source so you can check the work. This is not harm reduction. Nobody here
-> thinks you need reducing. It's a question of dose, not of goodness. ♡
+> you're doing and just want to *see* it — what you took, when, and what it's still doing to you
+> right now — so it keeps a clean ledger and draws the pharmacology over it: the curve rising and
+> clearing, the second dose stacking on the first, the interaction window opening. It's a question
+> of dose, not of goodness. ♡
 
 ---
 
-Piru is an iOS dose journal and reference for anyone who takes things — prescriptions, supplements,
-or recreational substances — and wants an honest, private record of it. Log a dose in a couple of
-taps; Piru overlays a pharmacokinetic curve so you can see what's still active, warns you before you
-stack a dangerous pair, models how tolerance builds and fades, and backs its pharmacology with
-citations down to the study. Everything lives on your device. There is no account, no cloud, and no
-one watching.
+Piru is an iOS dose journal and pharmacology reference for anyone who takes things — prescriptions,
+supplements, or recreational substances. Log a dose in two taps and Piru draws the pharmacokinetics
+over your day: what's still active, what stacks into a dangerous pair, how tolerance builds and
+fades. Everything stays on your device.
 
 ## Features
 
@@ -52,9 +49,9 @@ one watching.
   effects — resolved per-field from **17 data sources** and linked back to each one.
 - **Interaction warnings.** Class-based danger rules (MAOI + stimulant, opioid + depressant, serotonergic
   stacks, and more) surface inline as you log and paint a danger window onto the timeline.
-- **Tolerance & session forecasting.** A tolerance model tracks how sensitivity builds and recovers;
-  a calibrated effect engine forecasts the arc of a stimulant or cathinone session — tuned for
-  **amphetamine, methylphenidate, and mephedrone (2-/3-/4-MMC)**.
+- **Tolerance & effect forecasting.** A tolerance model tracks how sensitivity builds and recovers;
+  for stimulants and cathinones a calibrated pharmacodynamic engine forecasts how the session will
+  *feel* — its rush, its plateau, its crash. See [below](#where-piru-is-different).
 - **Adjustable depth.** Choose **Casual**, **Curious**, or **Pharma Nerd** and the whole app dials in
   to match — from plain dose ladders and top-line warnings up to receptor-binding tables, biased
   agonism, and CYP metabolism with citations down to the DOI.
@@ -67,10 +64,27 @@ one watching.
 - **Share a session.** Export the current state of your body as a clean image, a PDF report with the
   PK charts, or a Markdown summary — for a doctor, a friend, or your own notes.
 
-## Modeling that actually responds to you
+## Where Piru is different
 
-Most trackers draw one generic curve for everything and call it a day. Piru does two things I haven't
-seen in any other dose tracker.
+Most dose trackers draw one generic bell curve for everything. Piru models three things they don't.
+
+### It predicts how a stimulant will feel — *when*, not how much
+
+For **amphetamine, methylphenidate, and the cathinones (2-/3-/4-MMC)**, Piru runs a real
+pharmacodynamic model instead of a stored curve. It treats what you *feel* as the gap between the
+dopamine a dose forces and how fast your brain compensates for it — and the whole shape falls out of
+that one idea. The same drug gives a rush intravenously but barely orally, because the rush tracks
+how *fast* dopamine rises, not how high it peaks. Euphoria fades on a plateau as your brain catches
+up, until residual drug feels like nothing. The comedown gets deeper with a bigger dose, then curves
+back toward baseline — and it isn't a dopamine dip but an over-correction: the brake still clamped
+down after dopamine has already returned to normal.
+
+The model is calibrated on human PET and primate microdialysis, not eyeballed — **Breier et al.
+(PNAS 1997)** for the dopamine-to-effect transfer function, **Volkow (2001, 2023)** for the rate
+hypothesis, and **Kuczenski & Segal (1997)** for the releaser-vs-blocker split that makes amphetamine
+hit harder and crash worse than methylphenidate. It forecasts **shape and sign, not milligrams** —
+when the effect lands, when it fades, when the crash arrives. Any substance the model can't ground
+falls back to the standard curve.
 
 ### Your heart rate, mapped to each dose
 
@@ -82,7 +96,7 @@ and the delta. Read-only, and the numbers never leave your device.
 <img src=".github/piru-heart-rate.png" alt="A session timeline with a red heart-rate band and a blood-pressure marker under the pharmacokinetic curves, and per-dose chips showing 64→75, 70→83, and 81→97 bpm" width="330">
 </div>
 
-### Alcohol, modeled the way alcohol actually works
+### Alcohol, modeled the way it clears
 
 Alcohol doesn't decay like everything else. Its clearing enzyme saturates almost immediately, so it
 comes off at a **constant grams-per-hour** — *zero-order* elimination — which means **duration scales
@@ -109,7 +123,7 @@ wider, not taller-and-shorter. And because elimination tracks liver and body mas
 
 ## The library — 1,900+ substances, every claim cited
 
-Piru bundles an offline SQLite library of **1,913 substances**. Each field — a dose range, a duration,
+Piru bundles an offline SQLite library of **1,900+ substances**. Each field — a dose range, a duration,
 a receptor affinity, a mechanism summary — is resolved by **source priority** (which you can reorder)
 and carries its own attribution, so a substance sheet ends with a **Data Sources** list that links
 straight to each source's page for that compound. The primary reference is
