@@ -14,32 +14,55 @@ struct SubstanceDetailView: View {
     @State private var baseSubstance: Substance
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
-    @Environment(\.openURL) private var openURL
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
     @Query private var inventoryItems: [InventoryItem]
-    @State private var customStore = CustomSubstanceStore.shared
-    @State private var showAllHistory = false
-    @State private var showEntries = false
-    @State private var showingPersonalize = false
 
-    /// O(n) dose-history aggregates for the history card, memoized off `body`
-    /// so toggling a disclosure doesn't re-scan the full history. Rebuilt by
-    /// the `historySignature`-keyed task whenever the entries change.
-    @State private var historyStats = HistoryStats()
+    @State private var customStore = CustomSubstanceStore.shared
+
+    /// Holding the @Observable profile store as @State (rather than reading
+    /// `UserProfileStore.shared.disclosureTier` via a plain computed) is what makes
+    /// SwiftUI re-render this view when the user changes the tier in Settings.
+    @State private var profileStore = UserProfileStore.shared
+
+    /// Async-loaded, store-backed detail data (provenance, receptor bindings, PK,
+    /// metabolism, history aggregates). Filled in the `.task` blocks below so each
+    /// section reveals as its data resolves.
+    @State private var model = SubstanceDetailModel()
 
     /// The route the dose/duration card is showing. `nil` defaults to the
-    /// substance's default route (resolved in ``activeSubstanceRoute``).
+    /// substance's default route (resolved by ``RouteResolution``).
     @State private var selectedRoute: RouteOfAdministration?
 
     /// The salt/ester form the dose card is showing (Magnesium, Lithium).
-    /// `nil` defaults to the active route's first form (resolved in
-    /// ``activeDoseVariant``).
+    /// `nil` defaults to the active route's first form.
     @State private var selectedSaltForm: String?
 
     /// The stereoisomer code the dose card is showing (`nil` = racemic default).
-    /// Drives the isomer picker on isomer-family substances (Ketamine, Focalin…).
     @State private var selectedIsomer: String?
+
+    /// The plain-language help sheet shown from a card header's (i) button.
+    @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
+    /// Contraindications & cautions disclosure, owned here so it survives while
+    /// ``MedicalInfoSection`` is re-created; the section reads it as a binding.
+    @State private var cautionsExpanded = false
+    /// Drives the push to the grouped "All effects" screen from the Effects
+    /// header's "Show All" (a header NavigationLink isn't reliably hittable).
+    @State private var showAllEffects = false
+    /// Drives the push to the full Inventory list from the stock card's "Show All".
+    @State private var showAllInventory = false
+
+    init(substance: Substance) {
+        _baseSubstance = State(initialValue: substance)
+        let name = substance.name
+        _historyEntries = Query(
+            filter: #Predicate<DoseEntry> { entry in
+                entry.substance == name
+            },
+            sort: \DoseEntry.timestamp,
+            order: .reverse,
+        )
+    }
 
     /// The user's personal override for this substance, if any (keyed by canonical name).
     private var personalOverride: CustomSubstanceEntry? {
@@ -53,302 +76,81 @@ struct SubstanceDetailView: View {
         personalOverride.map { baseSubstance.applyingOverride(from: $0) } ?? baseSubstance
     }
 
-    @State private var store = SubstanceStore.shared
-
-    /// Holding the @Observable profile store as @State (rather than reading
-    /// `UserProfileStore.shared.disclosureTier` via a plain computed) is what makes
-    /// SwiftUI re-render this view when the user changes the tier in Settings.
-    @State private var profileStore = UserProfileStore.shared
-
-    // Section expansion state. `nil` means "use the policy default for the
-    // current tier"; once the user toggles a section, the stored Bool sticks.
-    // Reset to nil on profile change so the new tier's defaults take effect
-    // (otherwise the user would be permanently stuck on whatever defaults
-    // applied the first time the section was rendered).
-    @State private var overviewExpanded: Bool?
-    @State private var mechanismExpanded: Bool?
-    @State private var monoamineProfile: MonoamineProfile?
-    @State private var receptorLitExpanded: Bool?
-    @State private var pharmacokineticsExpanded: Bool?
-    @State private var metabolismExpanded: Bool?
-    /// The plain-language help sheet shown from a card header's (i) button (PK / receptor data).
-    @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
-    /// Contraindications & cautions — verbose clinical data, collapsed by default
-    /// so the screen reads like a harm-reduction app, not a drug monograph.
-    @State private var cautionsExpanded = false
-    /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
-    /// collapsed by default — few users need the chemical identity up front.
-    @State private var infoExpanded = false
-    /// Chemistry / identifiers — demoted to a collapsed "Additional information"
-    /// disclosure; the chemical numbers are reference data few users open.
-    @State private var chemistryExpanded = false
-    /// Reveals the full alias list behind the "+N more" chip in the Info grid.
-    @State private var aliasesExpanded = false
-    /// Drives the push to the grouped "All effects" screen from the Effects
-    /// header's "Show All" (a header NavigationLink isn't reliably hittable).
-    @State private var showAllEffects = false
-    /// Drives the push to the full Inventory list from the stock card's "Show All".
-    @State private var showAllInventory = false
-    @State private var literatureBindings: [SubstanceStore.BindingHit] = []
-    @State private var pkRoutes: [SubstanceStore.PKRouteHit] = []
-    @State private var metabolismRows: [SubstanceStore.MetabolismHit] = []
-    /// Educational metabolic-modulation effects (grapefruit / smoking / self-edge) for this substance
-    /// (Stage 4c). Loaded for non-casual tiers from a dedicated metabolism fetch so the card reaches
-    /// harm-reduction users even though the full PK table is pharma-nerd-only.
-    @State private var metabolicEducation: [MetabolicModulation.Effect] = []
-    /// Set when this substance is a meaningful CYP3A4 inducer (modafinil, rifampicin, …) → it can lower
-    /// hormonal-contraception levels. Ungated (a safety fact, like a boxed warning), loaded for every tier.
-    @State private var contraceptionCaution: MetabolicModulation.Modulator?
-    @State private var provenance: SubstanceStore.SubstanceProvenance?
-
     private var profile: UserProfile {
         profileStore.disclosureTier
     }
+
     private var policy: DisclosurePolicy {
         .init(profile: profile)
     }
-    /// The class-specific hero for the unified Pharmacology card (opioid / benzo / dissociative receptor
-    /// panel). `nil` for monoamine and other classes, which fall back to the slider/target grid and keep
-    /// the separate Receptor Literature section.
-    private var pharmacologyHero: PharmacologyHero? {
-        PharmacologyHero.resolve(category: substance.category, bindings: Self.dedupedLiterature(visibleLiteratureBindings))
-    }
-    private var displayClass: CompoundDisplayClass {
-        substance.displayClass
-    }
 
-    /// Human-readable availability label from the parsed regulatory_status.
-    private func regulatoryDisplay(_ raw: String) -> String {
-        switch raw {
-        case "otc": return String(localized: "Over-the-counter")
-        case "rx": return String(localized: "Prescription only")
-        case "rx_otc_dependent": return String(localized: "OTC / Prescription")
-        default:
-            if raw.hasPrefix("controlled_schedule_"), let n = raw.split(separator: "_").last {
-                return String(localized: "Schedule \(String(n)) (controlled)")
-            }
-            return raw
-        }
-    }
-
-    /// Chemical identity (formula / molar mass / CAS / InChIKey) folded into a
-    /// collapsed "Chemistry" disclosure below the identity Info card. Every value
-    /// is selectable and carries a Copy action — an InChIKey you can't copy is
-    /// useless.
-    @ViewBuilder private var chemistryDisclosure: some View {
-        let hasPubChem = substance.pubChemURL != nil
-        let phys = substance.physicochemical
-        let hasChem = substance.formula != nil || substance.cas != nil || substance.inchikey != nil
-            || substance.molarMass != nil || hasPubChem || substance.smiles != nil
-            || substance.iupacName != nil || (phys?.hasAnyValue ?? false)
-        if policy.showsMechanism, hasChem {
-            CollapsibleSection("Chemistry", systemImage: "atom", isExpanded: $chemistryExpanded) {
-                let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
-                Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
-                    if substance.formula != nil || showMW {
-                        GridRow {
-                            if let f = substance.formula { gridCell("Formula", f) } else { Color.clear }
-                            if showMW, let mw = substance.molarMass {
-                                gridCell("Molar mass", "\(mw.doseFormatted) g/mol")
-                            } else { Color.clear }
-                        }
-                    }
-                    physicochemicalRows(phys)
-                    if let iupac = substance.iupacName {
-                        GridRow { gridCell("IUPAC name", iupac).gridCellColumns(2) }
-                    }
-                    if let smiles = substance.smiles {
-                        GridRow { gridCell("SMILES", smiles, mono: true).gridCellColumns(2) }
-                    }
-                    if let k = substance.inchikey {
-                        GridRow { gridCell("InChIKey", k, mono: true).gridCellColumns(2) }
-                    }
-                    if substance.cas != nil || hasPubChem {
-                        GridRow {
-                            if let c = substance.cas { gridCell("CAS", c, mono: true) } else { Color.clear }
-                            if let cid = substance.pubchemCID, let url = substance.pubChemURL {
-                                pubChemCell(cid: cid, url: url)
-                            } else { Color.clear }
-                        }
-                    }
-                }
-                .padding(.vertical, 4)
-                if let phys, phys.hasAnyValue {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation.")
-                        if phys.hasLD50 {
-                            Text("LD50 is rodent toxicity (order of magnitude) — not a human safe dose.")
-                        }
-                    }
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 2)
-                }
-            }
-        }
-    }
-
-    /// The Stage-1 physicochemical descriptors, laid into the Chemistry grid as
-    /// two-column rows. logD/pKa are unsourced today (always nil) but the
-    /// `if let` guards keep them future-proof — a populated column just appears.
-    @ViewBuilder
-    private func physicochemicalRows(_ phys: Physicochemical?) -> some View {
-        if let phys {
-            if phys.logP != nil || phys.tpsa != nil {
-                GridRow {
-                    if let v = phys.logP { gridCell("LogP", Self.chemNumber(v)) } else { Color.clear }
-                    if let v = phys.tpsa { gridCell("TPSA", "\(Self.chemNumber(v)) Å²") } else { Color.clear }
-                }
-            }
-            if phys.hba != nil || phys.hbd != nil {
-                GridRow {
-                    if let v = phys.hba { gridCell("H-bond acceptors", "\(v)") } else { Color.clear }
-                    if let v = phys.hbd { gridCell("H-bond donors", "\(v)") } else { Color.clear }
-                }
-            }
-            if phys.logD != nil || phys.pKa != nil {
-                GridRow {
-                    if let v = phys.logD { gridCell("LogD", Self.chemNumber(v)) } else { Color.clear }
-                    if let v = phys.pKa { gridCell("pKa", Self.chemNumber(v)) } else { Color.clear }
-                }
-            }
-            if phys.meltingPointC != nil || phys.boilingPointC != nil {
-                GridRow {
-                    if let v = phys.meltingPointC { gridCell("Melting point", "\(Self.chemNumber(v)) °C") } else { Color.clear }
-                    if let v = phys.boilingPointC { gridCell("Boiling point", "\(Self.chemNumber(v)) °C") } else { Color.clear }
-                }
-            }
-            if phys.ld50OralMgPerKg != nil || phys.ld50DermalMgPerKg != nil {
-                GridRow {
-                    if let v = phys.ld50OralMgPerKg { gridCell("LD50 (oral, rodent)", "\(Self.chemNumber(v)) mg/kg") } else { Color.clear }
-                    if let v = phys.ld50DermalMgPerKg { gridCell("LD50 (dermal, rodent)", "\(Self.chemNumber(v)) mg/kg") } else { Color.clear }
-                }
-            }
-        }
-    }
-
-    /// Compact numeric formatter for chemistry values: drops a trailing `.0`
-    /// (so `45.0` → `45`) but keeps real decimals (`2.34` → `2.34`).
-    static func chemNumber(_ value: Double) -> String {
-        value == value.rounded() ? String(format: "%.0f", value) : String(format: "%g", value)
-    }
-
-    /// One labeled cell in the Info / Chemistry two-column grids. Only the
-    /// *value* is selectable (long-press to select & copy) — the label isn't,
-    /// so you can't accidentally grab the neighbouring cell's value (the old
-    /// whole-row contextMenu copied the wrong field and felt confusing).
-    private func gridCell(_ label: LocalizedStringResource, _ value: String, mono: Bool = false) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text(label)
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .textCase(.uppercase)
-            Text(value)
-                .font(mono ? .footnote.monospaced() : .subheadline)
-                .textSelection(.enabled)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    /// PubChem cell — a tappable link out to the curated chemistry record. Lives
-    /// in Chemistry (not Info): it's a chemical identifier, same as the rest.
-    ///
-    /// A borderless `Button` (not a `Link`): a lone `Link` in a Form/List row gets
-    /// promoted to a full-row tap target, so the *whole* Chemistry card opened
-    /// PubChem. Borderless keeps the hit area to this one cell.
-    private func pubChemCell(cid: Int, url: URL) -> some View {
-        Button {
-            openURL(url)
-        } label: {
-            VStack(alignment: .leading, spacing: 3) {
-                Text("PubChem CID")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                HStack(spacing: 3) {
-                    Text(verbatim: "\(cid)").font(.subheadline)
-                    Image(systemName: "arrow.up.right").font(.caption2)
-                        .accessibilityHidden(true)
-                }
-                .foregroundStyle(Theme.accent)
-            }
-            .contentShape(Rectangle())
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .buttonStyle(.borderless)
-    }
-
-    /// Effects — the merged surface. Curated subjective effects (rich tier) read
-    /// as the readable summary; the full PsychonautWiki taxonomy lives one tap
-    /// away on the grouped ``AllEffectsView`` so the detail view stays short.
     /// First-hand Erowid reports show on the pushed "All effects" screen, gated
     /// to recreational / dual-use compounds where such reports exist.
     private var showsErowidReports: Bool {
-        displayClass == .recreational || displayClass == .dualUse
+        substance.displayClass == .recreational || substance.displayClass == .dualUse
     }
 
-    /// Long-form overview prose (FreeOD Wiki), resolved locale-first by the
-    /// store: native Chinese when the app runs in Chinese, machine-translated
-    /// English as a fallback. Hidden when no source supplies an overview.
-    @ViewBuilder private var overviewSection: some View {
-        if let overview = substance.overview, !overview.text.isEmpty {
-            // Unlike the other folded blocks, the Overview reads better as a few
-            // lines of prose with an inline "Read more" than as a closed
-            // disclosure — you see what the substance *is* without a tap.
-            let expanded = overviewExpanded ?? false
-            let isLong = overview.text.count > overviewCollapsedThreshold
-            Section {
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Overview", systemImage: "text.justify.left")
-                        .font(.subheadline.weight(.semibold))
-                    Text(overview.text)
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(isLong && !expanded ? overviewCollapsedLines : nil)
-                        .fixedSize(horizontal: false, vertical: true)
-                    if isLong {
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.2)) { overviewExpanded = !expanded }
-                        } label: {
-                            Text(expanded ? "Read less" : "Read more")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(Theme.accent)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    if overview.machineTranslated {
-                        Label("Machine-translated from FreeOD Wiki", systemImage: "character.bubble")
-                            .font(.caption2)
-                            .foregroundStyle(.tertiary)
-                    }
-                }
-                SourceAttributionRow(
-                    slug: overview.sourceSlug,
-                    label: "Overview",
-                    deepLink: sourceDeepLink(overview.sourceSlug),
-                )
-            }
-        }
-    }
+    // MARK: - Route resolution
 
-    /// Overview collapses to `overviewCollapsedLines` lines with a "Read more"
-    /// when the prose exceeds `overviewCollapsedThreshold` characters (≈ that
-    /// many lines), so short blurbs show in full with no toggle.
-    private let overviewCollapsedLines = 5
-    private let overviewCollapsedThreshold = 320
-
-    init(substance: Substance) {
-        _baseSubstance = State(initialValue: substance)
-        let name = substance.name
-        _historyEntries = Query(
-            filter: #Predicate<DoseEntry> { entry in
-                entry.substance == name
-            },
-            sort: \DoseEntry.timestamp,
-            order: .reverse,
+    /// The route/salt/isomer cascade, resolved from the current picks. Shared by
+    /// the dose card and the toolbar share action.
+    private var routes: RouteResolution {
+        RouteResolution(
+            substance: substance,
+            selectedRoute: selectedRoute,
+            selectedSaltForm: selectedSaltForm,
+            selectedIsomer: selectedIsomer,
         )
+    }
+
+    private var routeSelection: Binding<RouteOfAdministration> {
+        Binding(
+            get: { routes.activeSubstanceRoute?.route ?? substance.defaultRoute },
+            set: { newRoute in
+                selectedRoute = newRoute
+                // Reset the salt to the new route's default unless it carries
+                // the same form (salt is a sub-dimension of route).
+                let forms = routes.presentableRoutes.first { $0.route == newRoute }?.saltForms ?? []
+                if let current = selectedSaltForm, !forms.contains(where: { $0.saltForm == current }) {
+                    selectedSaltForm = nil
+                }
+                // Keep the isomer across the route change if the new route offers
+                // it, else fall back to the racemic default.
+                if let current = selectedIsomer, !forms.contains(where: { $0.isomer == current }) {
+                    selectedIsomer = nil
+                }
+            },
+        )
+    }
+
+    /// Reads the active variant (the user's pick or the route's default) so the
+    /// picker highlights the right form even when `selectedSaltForm` is still
+    /// `nil` ("track the default"); writing records the explicit pick.
+    private var saltSelection: Binding<String?> {
+        Binding(
+            get: { routes.activeDoseVariant.flatMap(\.saltForm) ?? routes.activeSaltForms.first.flatMap(\.saltForm) },
+            set: { selectedSaltForm = $0 },
+        )
+    }
+
+    /// Reads the active variant's isomer (so it tracks the racemic default until
+    /// an explicit pick), writes the selection.
+    private var isomerSelection: Binding<String?> {
+        Binding(
+            get: { routes.activeDoseVariant?.isomer ?? selectedIsomer },
+            set: { selectedIsomer = $0 },
+        )
+    }
+
+    // MARK: - Favorites & sharing
+
+    private var isFavorite: Bool {
+        Array(favorites).isFavorite(substance.name)
+    }
+
+    private func toggleFavorite() {
+        FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
+        try? modelContext.save()
     }
 
     /// Resolve the full per-field record (mechanism, chemistry identifiers, molar
@@ -363,358 +165,16 @@ struct SubstanceDetailView: View {
         }
     }
 
-    private var isFavorite: Bool {
-        Array(favorites).isFavorite(substance.name)
-    }
-
-    private func toggleFavorite() {
-        FavoriteService.toggle(substance: substance.name, substanceUID: substance.substanceUID, in: modelContext)
-        try? modelContext.save()
-    }
-
-    /// Mechanism shown in the detail card, composed from three sources by
-    /// precedence so real receptor data isn't hidden behind a generic template:
-    ///
-    /// - **Summary text**: a curated DB `mechanisms_summary` row wins; otherwise
-    ///   the hand-curated per-name entry, then the per-category fallback.
-    /// - **Bindings**: a hand-curated per-name entry wins (its targets are
-    ///   deliberately complete — e.g. mitragynine's α2-adrenergic activity that
-    ///   the measured opioid panel omits); otherwise measured DB bindings (real
-    ///   actions like `releasingAgent`) beat the category fallback's generic
-    ///   `.modulator` placeholders.
-    ///
-    /// This keeps substances with clear receptor data (mephedrone, the MMC
-    /// cathinones) from showing a generic "Monoamine Modulator" mechanism.
-    private var composedMechanism: MechanismOfAction? {
-        MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: substance.mechanismOfAction,
-            substanceName: substance.name,
-            category: substance.category,
-        )
-    }
-
-    /// Whether the acute duration timeline should be shown for this compound.
-    private var durationVisible: Bool {
-        displayClass.showsDuration && !(displayClass == .otc && substance.durationImplausible)
-    }
-
-    /// Routes with something worth showing — a dose ladder, an acute duration,
-    /// or a long-acting release window. These populate the route picker.
-    private var presentableRoutes: [SubstanceRoute] {
-        substance.routes.filter { route in
-            (displayClass.showsDoseLadder && route.doses.hasAnyValue)
-                || (route.duration != nil && durationVisible)
-                || route.durationOfAction != nil
-        }
-    }
-
-    /// The route currently driving the dose/duration card: the user's pick when
-    /// it's still valid, otherwise the default route, otherwise the first.
-    private var activeSubstanceRoute: SubstanceRoute? {
-        if let selectedRoute, let match = presentableRoutes.first(where: { $0.route == selectedRoute }) {
-            return match
-        }
-        return presentableRoutes.first { $0.route == substance.defaultRoute } ?? presentableRoutes.first
-    }
-
-    private var routeSelection: Binding<RouteOfAdministration> {
-        Binding(
-            get: { activeSubstanceRoute?.route ?? substance.defaultRoute },
-            set: { newRoute in
-                selectedRoute = newRoute
-                // Reset the salt to the new route's default unless it carries
-                // the same form (salt is a sub-dimension of route).
-                let forms = presentableRoutes.first { $0.route == newRoute }?.saltForms ?? []
-                if let current = selectedSaltForm, !forms.contains(where: { $0.saltForm == current }) {
-                    selectedSaltForm = nil
-                }
-                // Keep the isomer across the route change if the new route offers
-                // it, else fall back to the racemic default.
-                if let current = selectedIsomer, !forms.contains(where: { $0.isomer == current }) {
-                    selectedIsomer = nil
-                }
-            },
-        )
-    }
-
-    /// Dose-form variants offered by the active route — drives the browse-time
-    /// salt/isomer pickers.
-    private var activeSaltForms: [DoseVariant] {
-        activeSubstanceRoute?.saltForms ?? []
-    }
-
-    /// Distinct real salt labels on the active route (the racemic/isomer variants
-    /// carry no salt, so they're excluded). Drives the salt picker's visibility.
-    private var activeSaltLabels: [String] {
-        var seen = Set<String>()
-        return activeSaltForms.compactMap(\.saltForm).filter { seen.insert($0).inserted }
-    }
-
-    /// The dose-form variant driving the dose card, matched on BOTH axes: the
-    /// user's picked salt (or the route's default salt) and the picked isomer (or
-    /// the racemic default). Falls back gracefully so a single-axis substance
-    /// resolves from whichever axis it has. `nil` when the route has no variants.
-    private var activeDoseVariant: DoseVariant? {
-        let forms = activeSaltForms
-        guard !forms.isEmpty else { return nil }
-        let salt = selectedSaltForm ?? forms.compactMap(\.saltForm).first
-        let isomer = selectedIsomer
-        return forms.first { $0.saltForm == salt && $0.isomer == isomer }
-            ?? forms.first { $0.isomer == isomer }
-            ?? forms.first
-    }
-
-    /// Drives the salt ``SaltPicker``. Reads the active variant (the user's pick
-    /// or the route's default) so the picker highlights the right form even when
-    /// `selectedSaltForm` is still `nil` ("track the default"); writing records
-    /// the explicit pick.
-    private var saltSelection: Binding<String?> {
-        Binding(
-            get: { activeDoseVariant.flatMap(\.saltForm) ?? activeSaltForms.first.flatMap(\.saltForm) },
-            set: { selectedSaltForm = $0 },
-        )
-    }
-
-    /// The named isomer options for the active route (racemic first). Empty when
-    /// the substance has no isomer axis, so the picker stays hidden.
-    private var activeIsomerOptions: [IsomerPicker.Option] {
-        guard let route = activeSubstanceRoute?.route else { return [] }
-        return substance.isomerOptions(for: route).map {
-            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
-        }
-    }
-
-    /// Drives the ``IsomerPicker`` — reads the active variant's isomer (so it
-    /// tracks the racemic default until an explicit pick), writes the selection.
-    private var isomerSelection: Binding<String?> {
-        Binding(
-            get: { activeDoseVariant?.isomer ?? selectedIsomer },
-            set: { selectedIsomer = $0 },
-        )
-    }
-
-    // MARK: - Inventory stock card (2B)
-
-    /// The tracked item for this substance, preferring the currently-selected
-    /// salt, then the base form. Matched by canonical name (how stock is stored).
-    private var trackedItem: InventoryItem? {
-        let name = baseSubstance.name.lowercased()
-        let matches = inventoryItems.filter { $0.substance.lowercased() == name }
-        return matches.first { $0.saltForm == selectedSaltForm }
-            ?? matches.first { $0.saltForm == nil }
-            ?? matches.first
-    }
-
-    /// Rich stock card below Dose & Duration: amount, doses-left, supply bar, and
-    /// run-out when tracked; a quiet "Not tracked · Track" row otherwise.
-    private var inventoryStockSection: some View {
-        Section {
-            if let item = trackedItem {
-                trackedStockCard(item)
-            } else {
-                HStack {
-                    Text("Not tracked")
-                        .foregroundStyle(Theme.secondaryLabel)
-                    Spacer()
-                    inventoryPill("Track") {
-                        navigator.present(.inventoryItemForm(
-                            id: nil,
-                            prefillSubstance: baseSubstance.name,
-                            prefillSalt: selectedSaltForm,
-                        ))
-                    }
-                }
-            }
-        } header: {
-            HStack {
-                Text("Inventory")
-                Spacer()
-                Button { showAllInventory = true } label: {
-                    HStack(spacing: 2) {
-                        Text("Show All")
-                        Image(systemName: "chevron.right").font(.caption2)
-                            .accessibilityHidden(true)
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.accent)
-                    .textCase(nil)
-                }
-                .buttonStyle(.borderless)
-            }
-        }
-    }
-
-    private func trackedStockCard(_ item: InventoryItem) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 3) {
-                    StockAmountText(item: item, style: .title2)
-                    if let subtitle = stockSubtitle(item) {
-                        Text(subtitle)
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                }
-                Spacer(minLength: 12)
-                inventoryPill("Restock") {
-                    navigator.present(.inventoryItemForm(id: item.id))
-                }
-            }
-            if let fraction = item.fillFraction {
-                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
-            }
-            if hasUnitMismatch(item) {
-                Label("Doses in other units aren't counted.", systemImage: "info.circle")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    /// The shared accent text-pill used for both Track and Restock, so the two
-    /// states read as one affordance.
-    private func inventoryPill(_ title: LocalizedStringKey, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Theme.accent)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(Theme.accent.opacity(0.15), in: Capsule())
-        }
-        .buttonStyle(.plain)
-    }
-
-    /// Subtitle under the amount: "Citrate · ~24 doses · ~3 weeks left" when
-    /// stocked (salt + the combined supply line), or "last dose <date>" when out
-    /// (so we don't echo "Out").
-    private func stockSubtitle(_ item: InventoryItem) -> String? {
-        if item.stockStatus == .out {
-            guard let last = InventoryMath.doses(for: item, in: modelContext).map(\.timestamp).max() else {
-                return nil
-            }
-            let formatted = last.formatted(.dateTime.month().day())
-            return String(localized: "last dose \(formatted)")
-        }
-        var parts: [String] = []
-        if let salt = item.saltForm, !salt.isEmpty { parts.append(salt) }
-        let runOut = InventoryMath.runOut(for: item, in: modelContext)
-        if let supply = inventorySupplyLine(for: item, runOut: runOut) {
-            parts.append(supply)
-        }
-        return parts.isEmpty ? nil : parts.joined(separator: " · ")
-    }
-
-    /// True when any matching dose can't be converted into the item's unit, so
-    /// the card can show a calm "not counted" hint.
-    private func hasUnitMismatch(_ item: InventoryItem) -> Bool {
-        InventoryMath.doses(for: item, in: modelContext).contains {
-            InventoryMath.convert($0.amount, from: $0.unit, to: item.unit) == nil
-        }
-    }
-
-    /// Dose ladder + duration for the selected route, behind a segmented route
-    /// switcher when more than one route applies. Surfaced near the top of the
-    /// detail view — the primary thing people open a substance for. One
-    /// consolidated card per route replaces the old two-sections-per-route
-    /// stack, so a multi-route compound reads in a single screenful.
-    @ViewBuilder
-    private var doseDurationSections: some View {
-        if let route = activeSubstanceRoute {
-            let salt = activeDoseVariant
-            Section {
-                if presentableRoutes.count > 1 {
-                    routeChips
-                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 8, trailing: 20))
-                        .listRowSeparator(.hidden)
-                }
-                if activeSaltLabels.count > 1 {
-                    SaltPicker(
-                        forms: activeSaltLabels,
-                        selection: saltSelection,
-                        style: .formRow,
-                    )
-                    .listRowSeparator(.hidden)
-                }
-                if activeIsomerOptions.count > 1 {
-                    IsomerPicker(
-                        options: activeIsomerOptions,
-                        selection: isomerSelection,
-                        style: .formRow,
-                    )
-                    .listRowSeparator(.hidden)
-                }
-
-                RouteDosingCard(
-                    route: route.route,
-                    unit: salt?.unit ?? route.unit,
-                    doses: salt?.doses ?? route.doses,
-                    duration: durationVisible ? (salt?.duration ?? route.duration) : nil,
-                    releaseWindow: route.durationOfAction?.formattedWindow,
-                    elementalFraction: salt?.elementalFraction,
-                    showsDoseLadder: displayClass.showsDoseLadder,
-                    showsDuration: durationVisible,
-                    showsTitle: false,
-                )
-                .listRowSeparator(.hidden)
-
-                // One source line: dose + duration usually share a source (and a
-                // deep link), so collapse to a single row when they match.
-                let doseSlug = displayClass.showsDoseLadder && route.doses.hasAnyValue ? doseSourceSlug(for: route.route) : nil
-                let durSlug = durationVisible && route.duration != nil ? durationSourceSlug(for: route.route) : nil
-                if let doseSlug, doseSlug == durSlug {
-                    SourceAttributionRow(slug: doseSlug, label: "Dose & Duration", deepLink: sourceDeepLink(doseSlug))
-                } else {
-                    if let doseSlug {
-                        SourceAttributionRow(slug: doseSlug, label: "Dose data", deepLink: sourceDeepLink(doseSlug))
-                    }
-                    if let durSlug {
-                        SourceAttributionRow(slug: durSlug, label: "Duration data", deepLink: sourceDeepLink(durSlug))
-                    }
-                }
-            } header: {
-                Text("Dose & Duration")
-            }
-        }
-    }
-
-    /// Horizontal capsule selector for routes — replaces the segmented/menu
-    /// picker. Reads clearly even with many routes (it scrolls) and the active
-    /// route is unmistakable.
-    private var routeChips: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(presentableRoutes, id: \.route) { r in
-                    let isOn = activeSubstanceRoute?.route == r.route
-                    Button {
-                        routeSelection.wrappedValue = r.route
-                    } label: {
-                        Text(r.route.localizedName)
-                            .font(.subheadline.weight(.medium))
-                            .foregroundStyle(isOn ? Color.white : Color.primary)
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule().fill(isOn ? Theme.accent : Color(.tertiarySystemFill)),
-                            )
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-    }
-
     /// Renders the current route's dose/duration card to a shareable image and
     /// opens the system share sheet. Mirrors the day-log camera export.
     @MainActor
     private func generateShareImage() {
-        guard let route = activeSubstanceRoute else { return }
+        guard let route = routes.activeSubstanceRoute else { return }
         let card = SubstanceShareCard(
             substance: substance,
             route: route,
-            showsDoseLadder: displayClass.showsDoseLadder,
-            showsDuration: durationVisible,
+            showsDoseLadder: routes.showsDoseLadder,
+            showsDuration: routes.durationVisible,
         )
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3 // @3x — crisp regardless of device
@@ -723,322 +183,40 @@ struct SubstanceDetailView: View {
         }
     }
 
-    /// Unified provenance: the **databases** that contributed this compound's
-    /// data (deep-linked to their page for it) followed by the **primary
-    /// literature** (DOIs / PMIDs / URLs as tappable links, free-text labels as
-    /// plain text). Merged into one disclosure — they used to read as two
-    /// near-identical "Sources"/"References" sections.
-    @ViewBuilder private var sourcesAndReferencesSection: some View {
-        let links = mergedSourceLinks
-        if policy.showsSources, !links.isEmpty {
-            Section {
-                ForEach(links) { link in
-                    if let url = link.url {
-                        Link(destination: url) {
-                            sourceLinkRow(link, linked: true)
-                        }
-                    } else {
-                        sourceLinkRow(link, linked: false)
-                    }
-                }
-            } header: {
-                Text("Sources")
-            } footer: {
-                Text("Each link opens this substance's page on that source. Always verify against the original.")
-            }
+    /// Cheap content fingerprint of the dose history — membership plus the
+    /// amounts the aggregates depend on, so an in-place edit invalidates too.
+    private var historySignature: Int {
+        var hasher = Hasher()
+        for entry in historyEntries {
+            hasher.combine(entry.persistentModelID)
+            hasher.combine(entry.amount)
         }
-    }
-
-    /// The merged, de-duplicated provenance list: the databases that contributed
-    /// this compound's data followed by any primary literature, each deep-linked
-    /// to the substance's own page where one exists. Used to be two near-identical
-    /// "Databases" / "References" subsections; collapsed into one tappable list.
-    private var mergedSourceLinks: [DetailSourceLink] {
-        var seenURLs = Set<String>()
-        var out: [DetailSourceLink] = []
-        func add(label: String, url: URL?) {
-            // The same work can arrive as both a database row and a citation
-            // (e.g. TiHKAL — the source only knows the book's homepage, the
-            // citation has this substance's chapter). Dedup by display label,
-            // and let a *linked* candidate upgrade an already-added bare-text
-            // one so the chapter URL wins over the missing homepage.
-            let labelKey = label.lowercased()
-            if let idx = out.firstIndex(where: { $0.label.lowercased() == labelKey }) {
-                if out[idx].url == nil, let url {
-                    seenURLs.insert(url.absoluteString)
-                    out[idx] = DetailSourceLink(label: out[idx].label, url: url)
-                }
-                return
-            }
-            if let url {
-                if seenURLs.contains(url.absoluteString) { return }
-                seenURLs.insert(url.absoluteString)
-            }
-            out.append(DetailSourceLink(label: label, url: url))
-        }
-        // `substance.sources` holds wire slugs ("peer-review-primary",
-        // "tripsit") — map each to a human source name and its per-substance page.
-        for slug in substance.sources {
-            add(label: sourceLabel(forSlug: slug), url: sourceDeepLink(slug))
-        }
-        for ref in substance.references {
-            add(label: friendlyReferenceLabel(ref), url: ref.resolvedURL)
-        }
-        return out
-    }
-
-    /// Human-readable name for a source slug — preferring the clean website
-    /// names in ``AppSources`` (PubMed, TripSit…), falling back to the bundled
-    /// `sources` table's display name (drug.community, Wikidata…).
-    private func sourceLabel(forSlug slug: String) -> String {
-        if let name = AppSources.slugToName[slug] { return name }
-        return SubstanceStore.shared.sourceDisplayName(forSlug: slug)
-    }
-
-    /// A tidy display name for a citation that lacks a title — the bare URL
-    /// (the old `Citation.label` fallback) reads as clutter, so name the work
-    /// (TiHKAL / PiHKAL) when recognisable, else show the host.
-    private func friendlyReferenceLabel(_ ref: Citation) -> String {
-        if let title = ref.title, !title.isEmpty { return title }
-        if let doi = ref.doi, !doi.isEmpty { return "DOI \(doi)" }
-        if let pmid = ref.pmid { return "PMID \(pmid)" }
-        if let urlString = ref.url?.lowercased() {
-            if urlString.contains("tihkal") { return "TiHKAL" }
-            if urlString.contains("pihkal") { return "PiHKAL" }
-        }
-        if let host = ref.resolvedURL?.host() {
-            return host.hasPrefix("www.") ? String(host.dropFirst(4)) : host
-        }
-        return ref.label
-    }
-
-    private func sourceLinkRow(_ link: DetailSourceLink, linked: Bool) -> some View {
-        HStack(spacing: 8) {
-            Text(link.label)
-                .font(.subheadline)
-                .foregroundStyle(linked ? Color.primary : Theme.secondaryLabel)
-            Spacer()
-            if linked {
-                Image(systemName: "arrow.up.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
-            }
-        }
-    }
-
-    /// Peptide / protocol-dosed compounds: clinical-protocol schedule,
-    /// reconstitution calculator, and handling/storage — surfaced in place of
-    /// the (suppressed) trip-intensity ladder and duration timeline.
-    @ViewBuilder private var peptideSections: some View {
-        ForEach(substance.routes, id: \.route) { substanceRoute in
-            if let pd = substanceRoute.protocolDosing {
-                Section("Protocol — \(String(localized: substanceRoute.route.localizedName))") {
-                    ProtocolDosingCard(unit: substanceRoute.unit, protocolDosing: pd)
-                }
-            }
-        }
-
-        if let pp = substance.peptideProfile {
-            if pp.suppliedForm?.isReconstituted == true {
-                Section("Reconstitution calculator") {
-                    ReconstitutionCalculatorView(defaultVialMg: pp.typicalVialMg)
-                }
-            }
-            if pp.hasAnyValue {
-                Section("Handling & storage") {
-                    PeptideHandlingCard(profile: pp, molarMass: substance.molarMass)
-                    if let solvent = pp.reconstitutionSolvent {
-                        LabeledContent("Reconstitute with") { Text(solvent) }
-                            .font(.subheadline)
-                    }
-                }
-            }
-        }
-    }
-
-    /// The contextual status banner shown above reference content. Peptides and
-    /// protocol-dosed performance compounds get framing appropriate to them
-    /// instead of the generic "ask your doctor" prescription notice.
-    @ViewBuilder private var statusBanner: some View {
-        if substance.usesPeptidePresentation {
-            banner(
-                title: "Peptide — protocol reference",
-                systemImage: "syringe.fill",
-                tint: .blue,
-                message: "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below.",
-            )
-        } else if displayClass == .medicalRx || displayClass == .nonRecreational {
-            if substance.primaryProtocolDosing != nil {
-                banner(
-                    title: "Research / performance compound",
-                    systemImage: "flask.fill",
-                    tint: .orange,
-                    message: "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data.",
-                )
-            } else {
-                banner(
-                    title: displayClass == .medicalRx ? "Prescription medication" : "Medical information only",
-                    systemImage: "cross.case.fill",
-                    tint: .blue,
-                    message: "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only.",
-                )
-            }
-        } else if substance.hasNoDoseData {
-            banner(
-                title: "Limited human data",
-                systemImage: "exclamationmark.triangle.fill",
-                tint: .orange,
-                message: "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.",
-            )
-        }
-    }
-
-    /// Plays along with an in-joke entry (PsychonautWiki's "🍰 Cake"). The emoji
-    /// is off the title now — so the gag lives here, deadpan, while making plain
-    /// the thing is fictional (this is a harm-reduction app; nobody should go
-    /// sourcing "Cake").
-    @ViewBuilder private var jokeBanner: some View {
-        if let emoji = substance.titlePictograph {
-            Section {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(spacing: 8) {
-                        Text(emoji)
-                        Text("Made-up drug")
-                            .font(.subheadline.weight(.semibold))
-                    }
-                    Text("A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .padding(.vertical, 4)
-            }
-        }
-    }
-
-    private func banner(title: LocalizedStringResource, systemImage: String, tint: Color, message: LocalizedStringResource) -> some View {
-        Section {
-            VStack(alignment: .leading, spacing: 8) {
-                Label(title, systemImage: systemImage)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(tint)
-                Text(message)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(.vertical, 4)
-        }
-    }
-
-    /// Name / aliases / route / chemistry — demoted below dosing and collapsed.
-    /// Chemists who want the full identity follow the PubChem link.
-    private var infoDisclosure: some View {
-        CollapsibleSection("Additional Info", systemImage: "info.circle", isExpanded: $infoExpanded) {
-            let extras = infoExtraCells
-            Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
-                GridRow {
-                    gridCell("Category", String(localized: substance.category.displayName))
-                    gridCell("Default route", String(localized: substance.defaultRoute.localizedName))
-                }
-                if !extras.isEmpty {
-                    GridRow {
-                        gridCell(extras[0].0, extras[0].1)
-                        if extras.count > 1 { gridCell(extras[1].0, extras[1].1) } else { Color.clear }
-                    }
-                }
-            }
-            .padding(.vertical, 4)
-
-            if !substance.displayAliases.isEmpty {
-                aliasChips
-            }
-            if !substance.tags.isEmpty {
-                SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
-                    .padding(.vertical, 4)
-            }
-            if let slug = provenance?.categorySource {
-                SourceAttributionRow(
-                    slug: slug,
-                    label: "Category",
-                    deepLink: sourceDeepLink(slug),
-                )
-            }
-            if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
-                SourceAttributionRow(
-                    slug: slug,
-                    label: "Half-life",
-                    deepLink: sourceDeepLink(slug),
-                )
-            }
-        }
-    }
-
-    /// Optional second-row identity cells — availability and (benzodiazepines
-    /// only) the cross-benzo diazepam equivalent. Empty for most compounds.
-    private var infoExtraCells: [(LocalizedStringResource, String)] {
-        var cells: [(LocalizedStringResource, String)] = []
-        if let reg = substance.regulatoryStatus {
-            cells.append(("Availability", regulatoryDisplay(reg)))
-        }
-        if displayClass.showsDoseLadder, let dz = substance.diazepamEquivalent, let text = dz.displayText {
-            cells.append(("Diazepam equivalent", text))
-        }
-        return cells
-    }
-
-    /// Aliases as a wrapping chip flow, collapsed to the first few with a
-    /// "+N more" chip — a long comma list was a single over-tall row before.
-    private var aliasChips: some View {
-        let all = substance.displayAliases
-        let limit = 5
-        let shown = aliasesExpanded ? all : Array(all.prefix(limit))
-        let hidden = all.count - shown.count
-        return VStack(alignment: .leading, spacing: 7) {
-            Text("Also known as")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .textCase(.uppercase)
-            FlowLayout(spacing: 6) {
-                ForEach(shown, id: \.self) { alias in
-                    aliasChip(Text(alias))
-                        .textSelection(.enabled)
-                }
-                if hidden > 0 {
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) { aliasesExpanded = true }
-                    } label: {
-                        aliasChip(Text("+\(hidden) more"), accent: true)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    private func aliasChip(_ text: Text, accent: Bool = false) -> some View {
-        text
-            .font(.caption.weight(.medium))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(accent ? Theme.accent.opacity(0.12) : Color(.tertiarySystemFill), in: Capsule())
-            .foregroundStyle(accent ? Theme.accent : Theme.secondaryLabel)
+        return hasher.finalize()
     }
 
     var body: some View {
         List {
             Group {
                 if !historyEntries.isEmpty {
-                    historySection
+                    HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
                 }
 
-                doseDurationSections
+                DoseDurationSection(
+                    routes: routes,
+                    routeSelection: routeSelection,
+                    saltSelection: saltSelection,
+                    isomerSelection: isomerSelection,
+                    provenance: model.provenance,
+                )
 
-                inventoryStockSection
+                InventoryStockSection(
+                    substanceName: baseSubstance.name,
+                    selectedSaltForm: selectedSaltForm,
+                    inventoryItems: inventoryItems,
+                    showAllInventory: $showAllInventory,
+                )
 
-                peptideSections
+                SubstancePeptideSection(substance: substance)
 
                 if let notes = personalOverride?.notes,
                    !notes.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -1050,123 +228,31 @@ struct SubstanceDetailView: View {
                     }
                 }
 
-                statusBanner
-                jokeBanner
+                StatusBanner(substance: substance)
+                JokeBanner(pictograph: substance.titlePictograph)
 
-                overviewSection
+                OverviewSection(substance: substance)
 
-                // Effects — curated summary + grouped "All effects" navigation.
                 EffectsSection(substance: substance, policy: policy, showAllEffects: $showAllEffects)
 
-                // Unified Pharmacology card — merges the former Mechanism-of-Action and
-                // Monoamine-Profile sections (hybrid redesign step 2). The monoamine slider hero
-                // appears inline when the substance has a monoamine profile.
-                if policy.showsMechanism, let moa = composedMechanism {
-                    CollapsibleSection(
-                        "Pharmacology",
-                        systemImage: "atom",
-                        onInfo: { glossaryTopic = .mechanism },
-                        isExpanded: Binding(
-                            get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
-                            set: { mechanismExpanded = $0 },
-                        ),
-                    ) {
-                        PharmacologyCard(moa: moa, monoamine: monoamineProfile, category: substance.category, hero: pharmacologyHero)
-                        if let slug = provenance?.mechanismSource {
-                            SourceAttributionRow(
-                                slug: slug,
-                                label: "Mechanism",
-                                deepLink: sourceDeepLink(slug),
-                            )
-                        }
-                    }
-                }
+                PharmacologySections(
+                    substance: substance,
+                    model: model,
+                    policy: policy,
+                    profile: profile,
+                    onGlossary: { glossaryTopic = $0 },
+                )
 
-                // Suppressed for receptor-panel classes (opioid/benzo/dissociative): their hero already
-                // carries the primary receptors, so a second table would duplicate it.
-                if policy.showsReceptorLiterature, pharmacologyHero == nil, !visibleLiteratureBindings.isEmpty {
-                    CollapsibleSection(
-                        "Receptor Literature",
-                        systemImage: "function",
-                        onInfo: { glossaryTopic = .receptor },
-                        isExpanded: Binding(
-                            get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
-                            set: { receptorLitExpanded = $0 },
-                        ),
-                    ) {
-                        receptorLiteratureBody
-                    }
-                }
-
-                if policy.showsPharmacokinetics, !pkRoutes.isEmpty {
-                    CollapsibleSection(
-                        "Pharmacokinetics",
-                        systemImage: "waveform.path.ecg",
-                        onInfo: { glossaryTopic = .pharmacokinetics },
-                        isExpanded: Binding(
-                            get: { pharmacokineticsExpanded ?? policy.pharmacokineticsDefaultExpanded },
-                            set: { pharmacokineticsExpanded = $0 },
-                        ),
-                    ) {
-                        pharmacokineticsBody
-                    }
-                }
-
-                // Metabolism (CYP enzymes / metabolites) — split out of Pharmacokinetics into its own
-                // section and placed next to the metabolic-interaction banners below: it's the more
-                // actionable, grapefruit-adjacent half of the PK story.
-                if policy.showsPharmacokinetics, !metabolismRows.isEmpty {
-                    CollapsibleSection(
-                        "Metabolism",
-                        systemImage: "arrow.triangle.branch",
-                        onInfo: { glossaryTopic = .metabolism },
-                        isExpanded: Binding(
-                            get: { metabolismExpanded ?? policy.pharmacokineticsDefaultExpanded },
-                            set: { metabolismExpanded = $0 },
-                        ),
-                    ) {
-                        metabolismBody
-                    }
-                }
-
-                // Metabolic modulation (Stage 4c) — grapefruit/smoking/self-edge education for
-                // substances with a major clearance route through a modulated enzyme.
-                if !metabolicEducation.isEmpty {
-                    Section {
-                        ForEach(metabolicEducation) { effect in
-                            MetabolicModulationBanner(effect: effect)
-                        }
-                    } header: {
-                        // Not "fork.knife" — smoking and enzyme induction aren't eating; an up/down glyph
-                        // reads as "these change the drug's levels". Trailing (i) explains the section.
-                        sectionHeaderWithInfo(
-                            "Metabolism Interactions",
-                            systemImage: "arrow.up.arrow.down",
-                            topic: .metabolismInteractions,
-                        )
-                    }
-                }
-
-                // Enzyme-induction contraceptive caution — a CYP3A4 inducer (modafinil, rifampicin, …)
-                // can lower hormonal-contraception levels. Ungated (a safety fact), kept to one compact
-                // note since it only applies to people on hormonal birth control.
-                if let contraceptionCaution {
-                    Section {
-                        ContraceptionCautionBanner(inducer: contraceptionCaution)
-                    }
-                }
-
-                // Medical context (indications / contraindications / boxed warnings)
-                // — shown for any compound that has clinical data. Net-new surface.
+                // Medical context (indications / contraindications / boxed warnings).
                 MedicalInfoSection(substance: substance, cautionsExpanded: $cautionsExpanded)
 
                 // Identity (name / aliases / route) — collapsed by default.
-                infoDisclosure
+                InfoDisclosureSection(substance: substance, model: model)
 
                 // Chemistry numbers — folded into their own collapsed disclosure.
-                chemistryDisclosure
+                ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
 
-                sourcesAndReferencesSection
+                SourcesSection(substance: substance, showsSources: policy.showsSources)
             }
             .listRowBackground(CardBackground())
         }
@@ -1184,7 +270,7 @@ struct SubstanceDetailView: View {
             InventoryListView()
         }
         .toolbar {
-            if activeSubstanceRoute != nil {
+            if routes.activeSubstanceRoute != nil {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         generateShareImage()
@@ -1248,62 +334,14 @@ struct SubstanceDetailView: View {
             }
         }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
-            // Always fetch provenance — per-field source attribution is
-            // shown to every tier so users can see where each fact came from.
-            provenance = store.provenance(forSubstanceName: substance.name)
-
-            // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil, rifampicin, …) can lower
-            // hormonal-contraception levels. Ungated like a boxed warning: a safety fact for every tier.
-            contraceptionCaution = MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: substance.name)
-
-            // Binding rows feed two surfaces: the pharma-nerd "Receptor Literature" list AND the
-            // broader harm-reduction "Monoamine Profile" card (DA↔5-HT character, releaser/blocker,
-            // valvulopathy / mis-sold-as-MDMA flags). The card loads for the mechanism audience (like
-            // the metabolic-education surface), so fetch once when either surface is shown.
-            if policy.showsMechanism || policy.showsReceptorLiterature {
-                let binds = store.bindings(forSubstanceName: substance.name)
-                monoamineProfile = MonoamineProfile.from(bindings: binds, substanceName: substance.name)
-                // Loaded for the mechanism audience too (not just pharma-nerd): the unified card's
-                // class hero (opioid/benzo/dissociative receptor panel) is built from these rows.
-                literatureBindings = binds
-            } else {
-                monoamineProfile = nil
-                literatureBindings = []
-            }
-
-            // Pharmacokinetics (per-route PK + CYP metabolism) is likewise a
-            // pharma-nerd surface — skip the two queries for other tiers.
-            if policy.showsPharmacokinetics {
-                pkRoutes = store.pharmacokinetics(forSubstanceName: substance.name)
-                metabolismRows = store.metabolism(forSubstanceName: substance.name)
-            } else {
-                pkRoutes = []
-                metabolismRows = []
-            }
-
-            // Grapefruit/smoking/self-edge education is harm-reduction-relevant, so it loads for
-            // non-casual tiers from its own metabolism fetch (the full PK table above stays pharma-nerd).
-            if policy.showsMechanism {
-                let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substance.name)
-                metabolicEducation = MetabolicModulation.educationalEffects(forSubstance: substance.name, metabolism: rows)
-            } else {
-                metabolicEducation = []
-            }
+            model.load(substanceName: substance.name, policy: policy)
         }
         .task(id: baseSubstance.name) {
             // Upgrade the pushed shell to the full resolved record off the push.
             upgradeToFullRecord()
         }
         .task(id: historySignature) {
-            rebuildHistoryStats()
-        }
-        .onChange(of: profile) { _, _ in
-            // Reset stuck Bool? overrides so the new tier's policy defaults
-            // win. Any disclosure the user touches after this point sticks
-            // until the next profile change.
-            mechanismExpanded = nil
-            receptorLitExpanded = nil
-            pharmacokineticsExpanded = nil
+            model.rebuildHistoryStats(from: historyEntries)
         }
     }
 
@@ -1312,268 +350,10 @@ struct SubstanceDetailView: View {
         let profile: UserProfile
     }
 
-    private struct HistoryStats {
-        var minDose: Double = 0
-        var maxDose: Double = 0
-        var mostCommon: Double = 0
-    }
-
-    /// Cheap content fingerprint of the dose history — membership plus the
-    /// amounts the aggregates depend on, so an in-place edit invalidates too.
-    private var historySignature: Int {
-        var hasher = Hasher()
-        for entry in historyEntries {
-            hasher.combine(entry.persistentModelID)
-            hasher.combine(entry.amount)
-        }
-        return hasher.finalize()
-    }
-
-    private func rebuildHistoryStats() {
-        let amounts = historyEntries.map(\.amount)
-        var freq: [Double: Int] = [:]
-        for a in amounts {
-            freq[a, default: 0] += 1
-        }
-        historyStats = HistoryStats(
-            minDose: amounts.min() ?? 0,
-            maxDose: amounts.max() ?? 0,
-            mostCommon: freq.max(by: { $0.value < $1.value })?.key ?? 0,
-        )
-    }
-
-    // MARK: - Source attribution
-
-    /// Deep link for a source-attribution row. drug.community's `/drug/<slug>`
-    /// page resolves only the canonical slug captured at build time (no alias
-    /// fallback), so it can't be derived from the app's name; every other source
-    /// deep-links from the substance name via ``AppSources``.
-    private func sourceDeepLink(_ slug: String) -> URL? {
-        if slug == "drug.community" {
-            guard let dc = substance.drugCommunitySlug else { return nil }
-            return URL(string: "https://drug.community/drug/\(dc)")
-        }
-        // FreeOD Wiki pages are titled in Chinese, so deep-link the captured
-        // page slug rather than the app's (English) substance name.
-        if slug == "freeodwiki" {
-            return AppSources.freeodwikiURL(slug: substance.freeodwikiSlug)
-        }
-        // The Shulgin books (PiHKAL/TiHKAL) only have a book homepage, not a
-        // per-substance page. The citation carries the real chapter link, so
-        // don't offer the misleading homepage — `mergedSourceLinks` upgrades the
-        // bare "TiHKAL" row to the citation's chapter URL.
-        if slug == "erowid-pihkal" || slug == "erowid-tihkal" { return nil }
-        // The hand-curated overlay has no per-substance page of its own. When we
-        // curated a real reference for the compound (NIH ODS / examine.com for a
-        // supplement, a paper for an RC), link the attribution to that source
-        // instead of dead-ending on the bare "Piru hand-curated overlay" label.
-        if slug == "piru-curated" {
-            return substance.references.first(where: { $0.resolvedURL != nil })?.resolvedURL
-        }
-        return AppSources.substanceURL(forSlug: slug, substance: substance.name)
-    }
-
-    private func doseSourceSlug(for route: RouteOfAdministration) -> String? {
-        provenance?.routesBySource[route]?.doseSource
-    }
-
-    private func durationSourceSlug(for route: RouteOfAdministration) -> String? {
-        provenance?.routesBySource[route]?.durationSource
-    }
-
-    // MARK: - Literature bodies
-
-    /// The receptor rows worth showing: the 10 µM relevance cap. Drops a **Kᵢ-based** off-target binding
-    /// ≥ 10,000 nM (the standard "no meaningful affinity" cutoff) — ketamine's σ/µ/κ, meth's σ2, MDMA's
-    /// 12–15 µM modulators — *unless* it sits within 10× of the substance's tightest binding, so a
-    /// substance whose primary targets are all weak (caffeine's matched A1/A2A adenosine pair) keeps them.
-    /// EC₅₀/IC₅₀ functional transporter rows are never capped: a releaser's DAT EC₅₀ is legitimately tens
-    /// of µM yet is the primary mechanism.
-    private var visibleLiteratureBindings: [SubstanceStore.BindingHit] {
-        let floor = literatureBindings
-            .compactMap { [$0.kiNm, $0.ec50Nm, $0.ic50Nm].compactMap(\.self).min() }
-            .min()
-        let capped = literatureBindings.filter { hit in
-            // Drop curated tier-only rows (no measured value) — they drive the MOA dot table, not this
-            // literature list, and would otherwise render as empty rows.
-            guard hit.kiNm != nil || hit.ec50Nm != nil || hit.ic50Nm != nil else { return false }
-            guard let ki = hit.kiNm, ki >= 10_000 else { return true }
-            if let floor, ki <= floor * 10 { return true }
-            return false
-        }
-        // Strongest receptors first: by strength tier desc, then more-potent-first within a tier.
-        return Self.dedupedLiterature(capped).sorted { lhs, rhs in
-            let lt = strengthTier(for: lhs) ?? 0
-            let rt = strengthTier(for: rhs) ?? 0
-            if lt != rt { return lt > rt }
-            let lv = lhs.kiNm ?? lhs.ec50Nm ?? lhs.ic50Nm ?? .greatestFiniteMagnitude
-            let rv = rhs.kiNm ?? rhs.ec50Nm ?? rhs.ic50Nm ?? .greatestFiniteMagnitude
-            return lv < rv
-        }
-    }
-
-    /// Collapse the literature list: when a (target, action) has any **human** row, drop its non-human
-    /// (in-vitro / animal) rows — "who cares about in vitro when we have human data" — then remove exact
-    /// duplicate measurements (same target+action+value across sources), so MDMA's 5-HT2A 7800 ×2 and
-    /// DAT 22000 ×2 collapse to one. Order is preserved (the store already sorts Kᵢ-tightest first, then
-    /// functional EC₅₀/IC₅₀), so binding affinities still lead the functional transporter rows.
-    private static func dedupedLiterature(_ rows: [SubstanceStore.BindingHit]) -> [SubstanceStore.BindingHit] {
-        func isHuman(_ s: String?) -> Bool {
-            (s ?? "").lowercased().contains("human")
-        }
-        let humanTAs = Set(rows.filter { isHuman($0.species) }.map { "\($0.target)|\($0.action)" })
-        let preferred = rows.filter { hit in
-            humanTAs.contains("\(hit.target)|\(hit.action)") ? isHuman(hit.species) : true
-        }
-        var seen = Set<String>()
-        return preferred.filter { hit in
-            let value = if let ki = hit.kiNm {
-                "ki\(ki)"
-            } else if let ec = hit.ec50Nm {
-                "ec\(ec)"
-            } else if let ic = hit.ic50Nm {
-                "ic\(ic)"
-            } else {
-                "na"
-            }
-            return seen.insert("\(hit.target)|\(hit.action)|\(value)").inserted
-        }
-    }
-
-    private var receptorLiteratureBody: some View {
-        GroupedReceptorLiterature(rows: visibleLiteratureBindings, accent: substance.category.color)
-            .padding(.vertical, 4)
-    }
-
-    /// Strength tier (1–3) for a literature row's dots — the single, systematic `ReceptorStrength`
-    /// model (measurement-aware bands). The Mechanism card computes the *same* bands from the *same*
-    /// measured values in SQL, so the two cards agree by construction (no per-target inheritance hack).
-    private func strengthTier(for hit: SubstanceStore.BindingHit) -> Int? {
-        ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm)
-    }
-
-    /// A plain `Section` header (icon + title) with a trailing (i) that opens the card's help sheet —
-    /// the equivalent of `CollapsibleSection`'s `onInfo` for the non-collapsible interaction sections.
-    private func sectionHeaderWithInfo(
-        _ title: LocalizedStringResource,
-        systemImage: String,
-        topic: PharmacologyGlossarySheet.Topic,
-    ) -> some View {
-        HStack {
-            Label(title, systemImage: systemImage)
-            Spacer()
-            Button { glossaryTopic = topic } label: {
-                Image(systemName: "info.circle")
-                    .foregroundStyle(Theme.accent)
-                    .textCase(nil)
-            }
-            .buttonStyle(.borderless)
-            .accessibilityLabel("What do these mean?")
-        }
-    }
-
-    /// Per-route PK (bioavailability/tmax/half-life) above the CYP metabolism
-    /// pathways, each row carrying its own source/citation. Mirrors the Receptor
-    /// Literature layout — dense, attributed, pharma-nerd-only.
-    private var pharmacokineticsBody: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ForEach(pkRoutes) { hit in
-                PKRouteRow(hit: hit, accent: substance.category.color)
-                if hit.id != pkRoutes.last?.id { Divider() }
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    /// The CYP/enzyme clearance pathways and their metabolites — its own section now, sitting next to the
-    /// grapefruit/smoking interaction banners (which act on these same enzymes).
-    private var metabolismBody: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ForEach(metabolismRows) { hit in
-                MetabolismRow(hit: hit, accent: substance.category.color)
-                if hit.id != metabolismRows.last?.id { Divider() }
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    // MARK: - History
-
-    @ViewBuilder
-    private var historySection: some View {
-        let entries = historyEntries
-        let count = entries.count
-        let minDose = historyStats.minDose
-        let maxDose = historyStats.maxDose
-        let mostCommon = historyStats.mostCommon
-        let unit = entries.first?.unit ?? substance.defaultUnit
-
-        // Date range
-        let earliest = entries.last?.timestamp
-        let latest = entries.first?.timestamp
-
-        Section("Your History") {
-            DisclosureGroup(isExpanded: $showEntries) {
-                let displayEntries = showAllHistory ? entries : Array(entries.prefix(10))
-                ForEach(displayEntries) { entry in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("\(entry.amount.doseFormatted) \(entry.unit)")
-                                .font(.subheadline)
-                            Text(entry.route.localizedName)
-                                .font(.caption2)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        Spacer()
-                        Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    .accessibilityElement(children: .combine)
-                }
-                if entries.count > 10, !showAllHistory {
-                    Button {
-                        showAllHistory = true
-                    } label: {
-                        Text("Show all \(entries.count) entries")
-                            .font(.subheadline)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-            } label: {
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("^[\(count) entry](inflect: true)")
-                            .font(.subheadline.weight(.medium))
-                        if let earliest, let latest {
-                            if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
-                                Text(earliest.formatted(.dateTime.month(.wide).year()))
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                            } else {
-                                Text("\(earliest.formatted(.dateTime.month(.abbreviated).year())) – \(latest.formatted(.dateTime.month(.abbreviated).year()))")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                            }
-                        }
-                    }
-                    Spacer()
-                    VStack(alignment: .trailing, spacing: 2) {
-                        if minDose == maxDose {
-                            Text("\(minDose.doseFormatted) \(unit)")
-                                .font(.subheadline.weight(.medium))
-                        } else {
-                            Text("\(minDose.doseFormatted) – \(maxDose.doseFormatted) \(unit)")
-                                .font(.subheadline.weight(.medium))
-                        }
-                        Text("Most common: \(mostCommon.doseFormatted) \(unit)")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                }
-            }
-        }
+    /// Compact numeric formatter for chemistry values: drops a trailing `.0`
+    /// (so `45.0` → `45`) but keeps real decimals (`2.34` → `2.34`). Shared with
+    /// the pharmacology rows in `Components`.
+    static func chemNumber(_ value: Double) -> String {
+        value == value.rounded() ? String(format: "%.0f", value) : String(format: "%g", value)
     }
 }
-
-// MARK: - Source Attribution
