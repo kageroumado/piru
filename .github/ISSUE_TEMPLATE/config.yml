@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or privacy issue
+    url: https://github.com/kageroumado/piru/security/advisories/new
+    about: Report vulnerabilities privately, never as a public issue. See SECURITY.md.
+  - name: Question or general feedback
+    url: https://x.com/kageroumado
+    about: For anything that isn't a bug or a data correction.
