@@ -865,8 +865,7 @@ struct QuickLogDock: View {
         let visible = !tray.isEmpty && !isBare
         return TrayCommitBar(
             model: tray,
-            tagSuggestions: content.cachedTagSuggestions,
-            recentLocations: content.cachedRecentLocations,
+            content: content,
             onCommit: onCommit,
         )
         .padding(.horizontal, 16)
@@ -954,11 +953,7 @@ struct QuickLogDock: View {
                 // than the compact detent's cap and clipped the Log button
                 // (see ``TrayCommitBar``).
                 if dynamicTypeSize.isAccessibilitySize {
-                    TrayMetaChips(
-                        model: tray,
-                        tagSuggestions: content.cachedTagSuggestions,
-                        recentLocations: content.cachedRecentLocations,
-                    )
+                    TrayMetaChips(model: tray, content: content)
                 }
 
                 if !interactions.isEmpty {

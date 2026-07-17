@@ -616,10 +616,12 @@ struct TrayStagedListCard: View {
 /// scroll content instead, and only the button stays pinned.
 struct TrayCommitBar: View {
     @Bindable var model: DoseTrayModel
-    let tagSuggestions: [String]
-    /// Distinct places from dose history, most recent first — the inline
-    /// location panel offers the first three, the full picker all of them.
-    let recentLocations: [PickedLocation]
+    /// Source of the chips' derived caches (tag suggestions, recent
+    /// locations). A stable reference on purpose: handing the arrays down as
+    /// values re-minted this view's inputs on every dock body pass, which
+    /// defeated SwiftUI's view-value diff and re-ran the whole bar + chips
+    /// each time (`_printChanges`: `@self changed` on nearly every pass).
+    let content: QuickLogContentModel
     let onCommit: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -627,7 +629,7 @@ struct TrayCommitBar: View {
     var body: some View {
         VStack(spacing: 0) {
             if !dynamicTypeSize.isAccessibilitySize {
-                TrayMetaChips(model: model, tagSuggestions: tagSuggestions, recentLocations: recentLocations)
+                TrayMetaChips(model: model, content: content)
 
                 commitButton
                     .padding(.top, 14)
@@ -672,8 +674,11 @@ struct TrayCommitBar: View {
 /// dock hosts them in the scroll content (see ``TrayCommitBar``).
 struct TrayMetaChips: View {
     @Bindable var model: DoseTrayModel
-    let tagSuggestions: [String]
-    let recentLocations: [PickedLocation]
+    /// Source of the tag suggestions and recent locations. A stable reference
+    /// — and this body reads its caches only inside the popover/menu/sheet
+    /// closures, which resolve at presentation time — so neither a dock body
+    /// pass nor a cache rebuild re-renders the chips at all.
+    let content: QuickLogContentModel
 
     @State private var showLocationPicker = false
     /// Anchored presentations off the chips — Apple's idiom for quick options
@@ -684,7 +689,6 @@ struct TrayMetaChips: View {
     /// Owns current-location requests for the location menu; the chip shows a
     /// spinner while a request is in flight.
     @State private var locationModel = LocationSearchModel()
-    @Environment(\.openURL) private var openURL
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// Chips side by side normally; stacked at accessibility sizes, where
@@ -705,14 +709,18 @@ struct TrayMetaChips: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
-            LocationPickerView(recents: recentLocations) { picked in
+            LocationPickerView(recents: content.cachedRecentLocations) { picked in
                 model.location = picked
             }
         }
         .alert("Location access is off", isPresented: $showLocationDeniedAlert) {
             Button("Open Settings") {
+                // UIApplication directly, not `@Environment(\.openURL)`: the
+                // environment's action wrapper compares as changed on every
+                // parent pass, so reading it re-rendered these chips whenever
+                // the dock body ran (`_printChanges`: `_openURL changed`).
                 if let url = URL(string: UIApplication.openSettingsURLString) {
-                    openURL(url)
+                    UIApplication.shared.open(url)
                 }
             }
             Button("Cancel", role: .cancel) {}
@@ -841,7 +849,7 @@ struct TrayMetaChips: View {
         .accessibilityLabel("Tags")
         .accessibilityValue(model.tags.isEmpty ? Text("None") : Text("^[\(model.tags.count) tag](inflect: true)"))
         .popover(isPresented: $showTagsPopover, arrowEdge: .bottom) {
-            TrayTagsPopover(model: model, tagSuggestions: tagSuggestions)
+            TrayTagsPopover(model: model, tagSuggestions: content.cachedTagSuggestions)
                 .presentationCompactAdaptation(.popover)
         }
     }
@@ -902,7 +910,7 @@ struct TrayMetaChips: View {
         } label: {
             Label("Current Location", systemImage: "location.fill")
         }
-        ForEach(Array(recentLocations.prefix(3)), id: \.name) { place in
+        ForEach(Array(content.cachedRecentLocations.prefix(3)), id: \.name) { place in
             Button {
                 withAnimation(.snappy) { model.location = place }
             } label: {
