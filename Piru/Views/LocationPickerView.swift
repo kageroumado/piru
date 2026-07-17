@@ -152,8 +152,20 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
 
     nonisolated func completerDidUpdateResults(_: MKLocalSearchCompleter) {
         MainActor.assumeIsolated {
-            suggestions = completer.results.map {
-                LocationSuggestion(title: $0.title, subtitle: $0.subtitle, completion: $0)
+            // Deduplicate by identity. MapKit routinely returns completions that
+            // share a title+subtitle (chain POIs, ambiguous addresses), and
+            // ``LocationSuggestion``'s identity is content-derived — so the raw
+            // results can carry colliding ids. Two elements with the same id in a
+            // `ForEach` desyncs SwiftUI's id-keyed child storage from the element
+            // count and crashes it with an out-of-bounds index during diffing.
+            var seen = Set<LocationSuggestion.ID>()
+            suggestions = completer.results.compactMap { completion in
+                let suggestion = LocationSuggestion(
+                    title: completion.title,
+                    subtitle: completion.subtitle,
+                    completion: completion,
+                )
+                return seen.insert(suggestion.id).inserted ? suggestion : nil
             }
         }
     }
@@ -202,7 +214,13 @@ struct LocationPickerView: View {
     @State private var searchActive = true
 
     var body: some View {
-        NavigationStack {
+        // Snapshot both collections once so the `.isEmpty` section gating and the
+        // `ForEach` below agree, and dedupe `recents` by the exact key its
+        // `ForEach` uses (`name`) — duplicate ids crash `ForEach`'s diffing (see
+        // ``completerDidUpdateResults`` for the same guard on live results).
+        let suggestions = model.suggestions
+        let recents = recents.uniqued(by: \.name)
+        return NavigationStack {
             List {
                 Section {
                     Button {
@@ -225,7 +243,7 @@ struct LocationPickerView: View {
                     }
                 }
 
-                if model.suggestions.isEmpty, !recents.isEmpty {
+                if suggestions.isEmpty, !recents.isEmpty {
                     Section("Recents") {
                         ForEach(recents, id: \.name) { place in
                             Button {
@@ -246,9 +264,9 @@ struct LocationPickerView: View {
                     }
                 }
 
-                if !model.suggestions.isEmpty {
+                if !suggestions.isEmpty {
                     Section("Results") {
-                        ForEach(model.suggestions) { suggestion in
+                        ForEach(suggestions) { suggestion in
                             Button {
                                 Task {
                                     if let picked = await model.resolve(suggestion) {
@@ -295,5 +313,14 @@ private extension CLLocationCoordinate2D {
     /// A plain "lat, long" fallback label when reverse geocoding yields no name.
     var formattedDegrees: String {
         String(format: "%.4f, %.4f", latitude, longitude)
+    }
+}
+
+private extension Sequence {
+    /// The elements in order, keeping only the first for each distinct key —
+    /// so a `ForEach` keyed on that value can never see a duplicate id.
+    func uniqued<Key: Hashable>(by key: (Element) -> Key) -> [Element] {
+        var seen = Set<Key>()
+        return filter { seen.insert(key($0)).inserted }
     }
 }
