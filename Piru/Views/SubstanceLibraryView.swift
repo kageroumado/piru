@@ -532,7 +532,7 @@ struct SubstanceDetailView: View {
 
     /// The salt/ester form the dose card is showing (Magnesium, Lithium).
     /// `nil` defaults to the active route's first form (resolved in
-    /// ``activeSaltVariant``).
+    /// ``activeDoseVariant``).
     @State private var selectedSaltForm: String?
 
     /// The stereoisomer code the dose card is showing (`nil` = racemic default).
@@ -1058,7 +1058,7 @@ struct SubstanceDetailView: View {
 
     /// Dose-form variants offered by the active route — drives the browse-time
     /// salt/isomer pickers.
-    private var activeSaltForms: [SaltVariant] {
+    private var activeSaltForms: [DoseVariant] {
         activeSubstanceRoute?.saltForms ?? []
     }
 
@@ -1073,7 +1073,7 @@ struct SubstanceDetailView: View {
     /// user's picked salt (or the route's default salt) and the picked isomer (or
     /// the racemic default). Falls back gracefully so a single-axis substance
     /// resolves from whichever axis it has. `nil` when the route has no variants.
-    private var activeSaltVariant: SaltVariant? {
+    private var activeDoseVariant: DoseVariant? {
         let forms = activeSaltForms
         guard !forms.isEmpty else { return nil }
         let salt = selectedSaltForm ?? forms.compactMap(\.saltForm).first
@@ -1089,7 +1089,7 @@ struct SubstanceDetailView: View {
     /// the explicit pick.
     private var saltSelection: Binding<String?> {
         Binding(
-            get: { activeSaltVariant.flatMap(\.saltForm) ?? activeSaltForms.first.flatMap(\.saltForm) },
+            get: { activeDoseVariant.flatMap(\.saltForm) ?? activeSaltForms.first.flatMap(\.saltForm) },
             set: { selectedSaltForm = $0 },
         )
     }
@@ -1107,7 +1107,7 @@ struct SubstanceDetailView: View {
     /// tracks the racemic default until an explicit pick), writes the selection.
     private var isomerSelection: Binding<String?> {
         Binding(
-            get: { activeSaltVariant?.isomer ?? selectedIsomer },
+            get: { activeDoseVariant?.isomer ?? selectedIsomer },
             set: { selectedIsomer = $0 },
         )
     }
@@ -1241,7 +1241,7 @@ struct SubstanceDetailView: View {
     @ViewBuilder
     private var doseDurationSections: some View {
         if let route = activeSubstanceRoute {
-            let salt = activeSaltVariant
+            let salt = activeDoseVariant
             Section {
                 if presentableRoutes.count > 1 {
                     routeChips

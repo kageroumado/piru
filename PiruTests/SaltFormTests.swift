@@ -15,9 +15,9 @@ struct SaltFormTests {
             unit: "mg",
             doses: DoseRange(common: 400 ... 600), // mirrors Citrate (the default)
             saltForms: [
-                SaltVariant(saltForm: "Citrate", unit: "mg", doses: DoseRange(common: 400 ... 600)),
-                SaltVariant(saltForm: "Glycinate", unit: "mg", doses: DoseRange(common: 200 ... 400)),
-                SaltVariant(saltForm: "L-Threonate", unit: "mg", doses: DoseRange(common: 1_500 ... 2_000)),
+                DoseVariant(saltForm: "Citrate", unit: "mg", doses: DoseRange(common: 400 ... 600)),
+                DoseVariant(saltForm: "Glycinate", unit: "mg", doses: DoseRange(common: 200 ... 400)),
+                DoseVariant(saltForm: "L-Threonate", unit: "mg", doses: DoseRange(common: 1_500 ... 2_000)),
             ],
         )
         return Substance(

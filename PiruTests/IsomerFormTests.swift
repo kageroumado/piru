@@ -4,7 +4,7 @@ import Testing
 
 /// Stereoisomer forms (Stage A): a route can carry a racemic ladder plus one or
 /// more resolved-enantiomer ladders (Ketamine + Esketamine + Arketamine), nested
-/// as `SaltVariant`s under one `SubstanceRoute` alongside — and orthogonal to —
+/// as `DoseVariant`s under one `SubstanceRoute` alongside — and orthogonal to —
 /// the salt axis. The racemic form is a first-class, named picker option, and
 /// `…(for:…:isomer:)` overloads narrow the dose data to a chosen enantiomer.
 @MainActor
@@ -18,8 +18,8 @@ struct IsomerFormTests {
             unit: "mg",
             doses: DoseRange(common: 10 ... 40), // mirrors the racemic default
             saltForms: [
-                SaltVariant(isomer: nil, unit: "mg", doses: DoseRange(common: 10 ... 40)),
-                SaltVariant(
+                DoseVariant(isomer: nil, unit: "mg", doses: DoseRange(common: 10 ... 40)),
+                DoseVariant(
                     isomer: "D", isomerDisplayName: "Dexmethylphenidate",
                     unit: "mg", doses: DoseRange(common: 5 ... 20),
                 ),

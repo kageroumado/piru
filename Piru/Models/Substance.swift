@@ -674,7 +674,7 @@ struct DurationOfAction: Codable, Hashable {
 /// exposure, Focalin's ~2× potency) is real per-form data, not a cosmetic label.
 /// The two orthogonal facets are independent: `saltForm` (the counter-ion) and
 /// `isomer` (the stereo code). `nil` on either = unspecified/racemic on that axis.
-struct SaltVariant: Codable, Hashable {
+struct DoseVariant: Codable, Hashable {
     /// Salt/ester label (Citrate, Glycinate, L-Threonate…). `nil` = freebase /
     /// unspecified — the common case, and the racemic form of an isomer family.
     let saltForm: String?
@@ -729,7 +729,7 @@ struct SubstanceRoute: Codable {
     /// top-level `unit`/`doses`/`duration` mirror `saltForms.first` (the
     /// default), so code that ignores salt form transparently gets the default.
     /// The salt picker is shown only when this holds more than one form.
-    let saltForms: [SaltVariant]?
+    let saltForms: [DoseVariant]?
 
     nonisolated init(
         route: RouteOfAdministration,
@@ -738,7 +738,7 @@ struct SubstanceRoute: Codable {
         duration: DurationProfile? = nil,
         protocolDosing: ProtocolDosing? = nil,
         durationOfAction: DurationOfAction? = nil,
-        saltForms: [SaltVariant]? = nil,
+        saltForms: [DoseVariant]? = nil,
     ) {
         self.route = route
         self.unit = unit
@@ -1529,7 +1529,7 @@ struct Substance: Identifiable {
     /// (and vice-versa) — the two axes stay independent.
     private func doseVariant(
         for route: RouteOfAdministration, saltForm: String?, isomer: String?,
-    ) -> SaltVariant? {
+    ) -> DoseVariant? {
         routes.first { $0.route == route }?
             .saltForms?.first { $0.saltForm == saltForm && $0.isomer == isomer }
     }

@@ -18,9 +18,9 @@ struct SubstanceConvertSaltTests {
             unit: "mg", // mirrors the default variant ("Citrate")
             doses: DoseRange(common: 400 ... 600),
             saltForms: [
-                SaltVariant(saltForm: "Citrate", unit: "mg", doses: DoseRange(common: 400 ... 600)),
-                SaltVariant(saltForm: "Threonate", unit: "g", doses: DoseRange(common: 1.5 ... 2)),
-                SaltVariant(saltForm: "Hormone", unit: "IU", doses: DoseRange(common: 4 ... 8)),
+                DoseVariant(saltForm: "Citrate", unit: "mg", doses: DoseRange(common: 400 ... 600)),
+                DoseVariant(saltForm: "Threonate", unit: "g", doses: DoseRange(common: 1.5 ... 2)),
+                DoseVariant(saltForm: "Hormone", unit: "IU", doses: DoseRange(common: 4 ... 8)),
             ],
         )
         return Substance(

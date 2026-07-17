@@ -870,7 +870,7 @@ final class SubstanceStore {
         }
         guard let first = ordered.first else { return baseRoute() }
         let saltForms = ordered.map {
-            SaltVariant(
+            DoseVariant(
                 saltForm: $0.salt, isomer: $0.isomer, isomerDisplayName: $0.isomerDisplayName,
                 unit: $0.unit, doses: $0.doses,
                 duration: $0.duration, elementalFraction: $0.elementalFraction,
@@ -905,7 +905,7 @@ final class SubstanceStore {
     ///
     /// `nonisolated` so it runs off-main during the library prewarm; every model
     /// it builds (`DoseRange`, `DurationProfile`, `SubstanceRoute`,
-    /// `SaltVariant`) has a `nonisolated init`. Protocol-dosing and
+    /// `DoseVariant`) has a `nonisolated init`. Protocol-dosing and
     /// duration-of-action — whose model initializers are `MainActor`-isolated,
     /// and which never appeared in the browse path — are folded in afterward by
     /// the MainActor ``attachAuxiliaryRoutes(db:substanceID:doseRoutes:)`` on the
