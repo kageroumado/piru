@@ -32,6 +32,7 @@ _REGISTRY = Path(__file__).resolve().parent.parent / "data/curated/inchikey-coll
 _ISOMER_FAMILIES = _REGISTRY.parent / "isomer-families.json"
 _RELEASE_FAMILIES = _REGISTRY.parent / "release-families.json"
 _BRANDS = _REGISTRY.parent / "brands.json"
+_PRODUCT_STRENGTHS = _REGISTRY.parent / "product-strengths.json"
 
 
 def load() -> dict:
@@ -66,6 +67,19 @@ def brand_registry() -> list[dict]:
     if not _BRANDS.exists():
         return []
     return json.loads(_BRANDS.read_text()).get("brands", [])
+
+
+def product_strengths_registry() -> list[dict]:
+    """Curated per-product tablet/capsule strengths (from product-strengths.json):
+    ``[{parent, product, form, strengths_mg:[...]}, ...]``.
+
+    A display/entry convenience so a logged brand can be logged as a *pill* — the
+    strengths select the dose `amount` only; they drive no fold, no facet, no dose
+    ladder, no curve (like the alcohol by-volume logger picking grams). Consumed by
+    sqlite.py build_product_strengths(). Empty list if the file is absent."""
+    if not _PRODUCT_STRENGTHS.exists():
+        return []
+    return json.loads(_PRODUCT_STRENGTHS.read_text()).get("products", [])
 
 
 def distinct_clusters() -> list[list[str]]:

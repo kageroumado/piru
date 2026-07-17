@@ -195,6 +195,12 @@ final class SubstanceStore {
     /// duration, so this recovers *which form a logged string named* — it never
     /// selects a dose ladder, and there is deliberately no release picker.
     private(set) var aliasReleaseFormIndex: [String: String] = [:]
+    /// Lowercased product name → the strengths it ships in (`product_strengths`).
+    /// Lets a logged brand ("concerta") be entered as a *pill* by tapping a real
+    /// strength. Display/entry only — see ``ProductStrengths``. Built at load by a
+    /// small separate read so its absence in an older bundled DB degrades to "no
+    /// chips" rather than failing the whole index build.
+    private(set) var productStrengthIndex: [String: ProductStrengths] = [:]
     /// Composed form titles from `substance_forms` — "Methylphenidate",
     /// "Methylphenidate XR", "Dexmethylphenidate XR" (the cross-axis Focalin XR
     /// form), "Naltrexone Depot". The build composes these once, so the app never
@@ -635,6 +641,29 @@ final class SubstanceStore {
             self.sourceDisplayNames = Dictionary(displayNames, uniquingKeysWith: { first, _ in first })
         } catch {
             logger.error("Failed to build indexes: \(error.localizedDescription, privacy: .public)")
+        }
+
+        // Per-product tablet/capsule strengths (`product_strengths`), read
+        // separately: it's a small table used only when the pill editor opens, and
+        // its own do/catch means an older bundled DB that predates the table
+        // degrades to "no pill chips" instead of failing the whole index build.
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: "SELECT product_normalized, form, strengths_mg FROM product_strengths")
+            }
+            var index: [String: ProductStrengths] = [:]
+            for row in rows {
+                let strengths = (row["strengths_mg"] as String)
+                    .split(separator: ",")
+                    .compactMap { Double($0) }
+                guard !strengths.isEmpty else { continue }
+                index[row["product_normalized"] as String] = ProductStrengths(
+                    strengths: strengths, form: row["form"] as String,
+                )
+            }
+            self.productStrengthIndex = index
+        } catch {
+            logger.warning("buildIndexes: product_strengths unavailable (\(error.localizedDescription, privacy: .public)) — pill chips disabled")
         }
     }
 

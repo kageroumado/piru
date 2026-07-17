@@ -30,6 +30,14 @@ struct StagedDoseEditor: View {
     /// Bumped on each stepper tap — drives the value-change pulse + haptic.
     @State private var stepTick = 0
 
+    // Pill picker (branded fixed-strength meds): the selected per-unit strength
+    // and how many units, mirroring the alcohol logger's custom picker. `nil`
+    // strength = the user dropped to free-form mg via the "mg…" chip.
+    @State private var pillStrength: Double?
+    @State private var pillCount = 1
+    /// Guards the one-time seed of pill state from the staged amount on appear.
+    @State private var pillSeeded = false
+
     /// Whether this substance is CYP3A4-heavy — gates the per-dose grapefruit toggle (Stage 4c).
     /// Computed once on appear; the metabolism lookup shouldn't run every render.
     @State private var isGrapefruitSubstrate = false
@@ -113,6 +121,8 @@ struct StagedDoseEditor: View {
                 } else {
                     stepperBlock
                 }
+            } else if let product = tabletProduct {
+                pillBlock(product)
             } else {
                 stepperBlock
             }
@@ -149,13 +159,14 @@ struct StagedDoseEditor: View {
         }
         .sensoryFeedback(.increase, trigger: stepTick)
         .onAppear {
+            if let product = tabletProduct { seedPillIfNeeded(product) }
             if item.amount > 0 {
                 suppressAmountSync = true
                 amountText = item.amount.doseFormatted
             }
-            // Don't pop the keyboard for by-volume substances — the drink presets
-            // are the primary action, not manual amount entry.
-            if item.amount <= 0, byVolumeCapability == nil { amountFocused = true }
+            // Don't pop the keyboard for by-volume substances (drink presets are
+            // the primary action) or branded pills (tap a strength chip, don't type).
+            if item.amount <= 0, byVolumeCapability == nil, tabletProduct == nil { amountFocused = true }
             if profileStore.grapefruitLoggingEnabled {
                 isGrapefruitSubstrate = MetabolicModulation
                     .majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: item.substanceName))
@@ -237,9 +248,27 @@ struct StagedDoseEditor: View {
                     .frame(width: 16)
                     .trayMorph(id: "chevron-\(item.id)", in: namespace)
                     .accessibilityHidden(true)
-                Text(item.displayTitle)
-                    .font(.body.weight(.semibold))
-                    .trayMorph(id: "title-\(item.id)", in: namespace)
+                VStack(alignment: .leading, spacing: 1) {
+                    HStack(spacing: 5) {
+                        Text(item.displayTitle)
+                            .font(.body.weight(.semibold))
+                            .trayMorph(id: "title-\(item.id)", in: namespace)
+                        // The "recognized" seal: the app says out loud it
+                        // understood the brand, so a hit no longer looks like a miss.
+                        if recognitionSubtitle != nil {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.caption2)
+                                .foregroundStyle(.green)
+                                .accessibilityHidden(true)
+                        }
+                    }
+                    if let subtitle = recognitionSubtitle {
+                        Text(subtitle)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .lineLimit(1)
+                    }
+                }
                 Spacer()
             }
             .contentShape(Rectangle())
@@ -740,6 +769,200 @@ struct StagedDoseEditor: View {
         .trayMorph(id: "route-\(item.id)", in: namespace)
         .accessibilityLabel("Route")
         .accessibilityValue(item.route.localizedName)
+    }
+
+    // MARK: - Pill picker (branded fixed-strength meds)
+
+    /// The branded product's tablet/capsule strengths, when this staged dose is a
+    /// known branded pill logged in mg — gates the pill picker. This is the med
+    /// analogue of ``byVolumeCapability``: a real strength is picked as a chip and
+    /// logged as a *pill*, rather than typed as raw milligrams. Nil for canonical
+    /// logs, non-mg units, or brands with no curated strengths (→ plain mg stepper).
+    private var tabletProduct: ProductStrengths? {
+        guard item.unit == "mg", byVolumeCapability == nil,
+              let product = item.productName, !product.isEmpty else { return nil }
+        return SubstanceLibrary.productStrengths(for: product)
+    }
+
+    /// "Methylphenidate · extended-release" — the recognition beat shown under a
+    /// branded title (Concerta). Only when the product actually resolves to a
+    /// *different* canonical substance, so a plain-name log stays unadorned.
+    private var recognitionSubtitle: String? {
+        guard let product = item.productName, !product.isEmpty else { return nil }
+        let canonical = item.librarySubstance?.displayTitle ?? item.substanceName
+        guard product.caseInsensitiveCompare(canonical) != .orderedSame else { return nil }
+        if let phrase = releasePhrase(for: item.releaseForm) {
+            return "\(canonical) · \(phrase)"
+        }
+        return canonical
+    }
+
+    private func releasePhrase(for code: String?) -> String? {
+        switch code {
+        case "XR": String(localized: "extended-release")
+        case "IR": String(localized: "immediate-release")
+        case "DEP": String(localized: "depot")
+        default: nil
+        }
+    }
+
+    /// Localized count noun for a form — "1 tablet" / "2 capsules". Kept simple
+    /// (English adds a trailing "s"; zh has no plural); the count shows numerically.
+    private func formNoun(_ form: String, count: Int) -> String {
+        let n = "\(count)"
+        switch form {
+        case "capsule":
+            return count == 1 ? String(localized: "\(n) capsule") : String(localized: "\(n) capsules")
+        default:
+            return count == 1 ? String(localized: "\(n) tablet") : String(localized: "\(n) tablets")
+        }
+    }
+
+    /// The pill-entry surface: strength chips (mirroring the drink-preset chips),
+    /// then a tablet-count stepper — or the plain mg stepper when the user drops to
+    /// free-form via the "mg…" chip.
+    private func pillBlock(_ product: ProductStrengths) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(product.strengths, id: \.self) { mg in
+                        strengthChip(mg, selected: pillStrength == mg)
+                    }
+                    freeFormChip(selected: pillStrength == nil)
+                }
+                .padding(.horizontal, 2)
+            }
+            if let strength = pillStrength {
+                pillCountRow(product, strength: strength)
+            } else {
+                stepperBlock
+            }
+        }
+    }
+
+    private func strengthChip(_ mg: Double, selected: Bool) -> some View {
+        Button { selectStrength(mg) } label: {
+            HStack(spacing: 2) {
+                Text(mg.doseFormatted)
+                    .font(.subheadline.weight(.semibold))
+                Text(verbatim: "mg")
+                    .font(.caption2)
+                    .foregroundStyle(selected ? AnyShapeStyle(Theme.accent.opacity(0.85)) : AnyShapeStyle(Theme.secondaryLabel))
+            }
+            .padding(.horizontal, 13)
+            .frame(height: pillHeight)
+            .background(
+                selected ? AnyShapeStyle(Theme.accent.opacity(0.15)) : AnyShapeStyle(Color(.secondarySystemFill)),
+                in: Capsule(),
+            )
+            .foregroundStyle(selected ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
+            .overlay(Capsule().strokeBorder(selected ? Theme.accent : .clear, lineWidth: 1.5))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("\(mg.doseFormatted) mg"))
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
+    }
+
+    private func freeFormChip(selected: Bool) -> some View {
+        Button { selectFreeForm() } label: {
+            Text(verbatim: "mg…")
+                .font(.subheadline.weight(.medium))
+                .padding(.horizontal, 13)
+                .frame(height: pillHeight)
+                .background(Color(.secondarySystemFill), in: Capsule())
+                .foregroundStyle(selected ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.secondaryLabel))
+                .overlay(Capsule().strokeBorder(selected ? Theme.accent : .clear, lineWidth: 1.5))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Custom milligrams"))
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
+    }
+
+    /// −/+ over the pill count, with the "1 tablet · 36 mg" readout and the live
+    /// dose-level, so a branded pill reads in the unit the user holds.
+    private func pillCountRow(_ product: ProductStrengths, strength _: Double) -> some View {
+        VStack(alignment: .center, spacing: 5) {
+            HStack(spacing: 8) {
+                stepButton(systemImage: "minus") { setPillCount(pillCount - 1) }
+                    .accessibilityLabel("Fewer pills")
+                Text(formNoun(product.form, count: pillCount))
+                    .font(.title3.weight(.semibold))
+                    .frame(height: 42)
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.secondarySystemFill), in: Capsule())
+                    .accessibilityLabel("Quantity")
+                    .accessibilityValue(formNoun(product.form, count: pillCount))
+                stepButton(systemImage: "plus") { setPillCount(pillCount + 1) }
+                    .accessibilityLabel("More pills")
+            }
+            .phaseAnimator(reduceMotion ? [1.0] : [1.0, 1.03], trigger: stepTick) { content, scale in
+                content.scaleEffect(scale)
+            } animation: { _ in
+                .snappy(duration: 0.15)
+            }
+            HStack(spacing: 5) {
+                Text(verbatim: "= \(item.totalAmount.doseFormatted) \(item.unit)")
+                    .foregroundStyle(Theme.secondaryLabel)
+                if let level = item.doseLevel {
+                    Middot().foregroundStyle(.tertiary)
+                    Text(level.displayName)
+                        .textCase(.lowercase)
+                        .foregroundStyle(level.labelColor)
+                }
+            }
+            .font(.caption.weight(.medium))
+            .frame(maxWidth: .infinity)
+            .accessibilityElement(children: .combine)
+        }
+    }
+
+    /// Adopt a strength chip: the dose becomes `pillCount` units of this strength.
+    private func selectStrength(_ mg: Double) {
+        if pillCount < 1 { pillCount = 1 }
+        pillStrength = mg
+        item.components = [StagedDose.Component(amount: mg, count: pillCount)]
+        stepTick += 1
+    }
+
+    /// Drop to free-form mg (the "mg…" chip): keep the current amount and seed the
+    /// stepper's text field so it opens populated rather than blank.
+    private func selectFreeForm() {
+        pillStrength = nil
+        suppressAmountSync = true
+        amountText = item.amount > 0 ? item.amount.doseFormatted : ""
+        stepTick += 1
+    }
+
+    private func setPillCount(_ newCount: Int) {
+        let clamped = max(1, newCount)
+        pillCount = clamped
+        if let strength = pillStrength {
+            item.components = [StagedDose.Component(amount: strength, count: clamped)]
+        }
+        stepTick += 1
+    }
+
+    /// Seed the picker once from the staged amount: if it already factors as a whole
+    /// number of a catalog strength, adopt that; otherwise pre-select the strength
+    /// nearest the staged/reference amount (one pill) so the picker opens meaningful.
+    private func seedPillIfNeeded(_ product: ProductStrengths) {
+        guard !pillSeeded else { return }
+        pillSeeded = true
+        for strength in product.strengths where strength > 0 {
+            let ratio = item.amount / strength
+            let rounded = ratio.rounded()
+            if rounded >= 1, abs(ratio - rounded) < 0.001 {
+                pillStrength = strength
+                pillCount = Int(rounded)
+                return
+            }
+        }
+        let target = item.amount > 0 ? item.amount : (item.referenceDose ?? product.strengths.first ?? 0)
+        if let nearest = product.strengths.min(by: { abs($0 - target) < abs($1 - target) }) {
+            pillStrength = nearest
+            pillCount = 1
+            item.components = [StagedDose.Component(amount: nearest, count: 1)]
+        }
     }
 }
 

@@ -585,6 +585,23 @@ CREATE TABLE substance_forms (
 );
 CREATE INDEX idx_substance_forms_uid ON substance_forms(substance_uid);
 
+-- Per-product fixed strengths (product-strengths.json) — the tablet/capsule
+-- strengths a branded medication ships in, so a logged brand ("Concerta") can be
+-- logged as a *pill* (tap 36 mg) instead of typing raw milligrams. DISPLAY/ENTRY
+-- ONLY: `strengths_mg` selects the dose `amount` (strength × count) and nothing
+-- else — no fold, no facet, no dose ladder, no curve (the alcohol by-volume logger
+-- picking grams is the analogue). One row per product; `strengths_mg` is a CSV of
+-- ascending milligram strengths ("18,27,36,54"); `form` is 'tablet'|'capsule' (the
+-- count noun). `substance_id` ties it to the brand's parent for the coverage gate.
+-- Read by SubstanceStore.productStrengths(forProduct:) keyed on `product_normalized`.
+CREATE TABLE product_strengths (
+    product_normalized TEXT PRIMARY KEY,
+    product            TEXT NOT NULL,
+    substance_id       INTEGER REFERENCES substances(id),
+    form               TEXT NOT NULL,
+    strengths_mg       TEXT NOT NULL
+);
+
 CREATE TABLE categories (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
@@ -6799,6 +6816,48 @@ class Build:
             "brand_kind_unmatched": len(brand_missing),
         }
 
+    def build_product_strengths(self) -> dict[str, int]:
+        """Load per-product fixed strengths (product-strengths.json) into
+        `product_strengths` — the strengths a branded medication ships in, so a
+        logged brand can be logged as a *pill* (tap 36 mg) rather than typed mg.
+        Display/entry only: it selects the dose amount, nothing else.
+
+        Keyed by a plain lowercased product name, deliberately NOT normalise():
+        normalise() strips release/salt suffixes, so it would collapse
+        'Ritalin LA' onto 'Ritalin' — but those are different products with
+        different strengths. The `substance_id` ties a product to its parent for
+        the coverage gate (a product whose parent substance is absent is dead
+        data — skipped and reported, not failed, since availability varies)."""
+        inserted, missing_parent = 0, []
+        for row in collision_registry.product_strengths_registry():
+            parent, product = row["parent"], row["product"]
+            form = row.get("form", "tablet")
+            strengths = row.get("strengths_mg") or []
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (parent,)
+            ).fetchone()
+            if prow is None:
+                missing_parent.append(f"{product} ({parent})")
+                continue
+            csv = ",".join(format(float(s), "g") for s in strengths)
+            self.cur.execute(
+                "INSERT OR REPLACE INTO product_strengths "
+                "(product_normalized, product, substance_id, form, strengths_mg) "
+                "VALUES (?,?,?,?,?)",
+                (product.lower().strip(), product, prow[0], form, csv),
+            )
+            inserted += 1
+        if missing_parent:
+            print(
+                f"  product strengths: {len(missing_parent)} product(s) whose parent "
+                f"substance is absent, skipped: {', '.join(missing_parent)}",
+                file=sys.stderr,
+            )
+        return {
+            "product_strengths": inserted,
+            "product_strengths_missing_parent": len(missing_parent),
+        }
+
     def build_substance_forms(self) -> dict[str, int]:
         """Enumerate `substance_forms` — one row per distinct (uid, stereo, salt,
         release) the catalog knows, each with a composed check-valid PSID and a
@@ -8059,6 +8118,8 @@ def main() -> int:
     print(f"Alias facet annotation: {alias_facets}", file=sys.stderr)
     forms = build.build_substance_forms()
     print(f"Substance forms enumerated: {forms}", file=sys.stderr)
+    strengths = build.build_product_strengths()
+    print(f"Product strengths: {strengths}", file=sys.stderr)
     alias_collisions = build.audit_alias_collisions()
     print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
 

@@ -887,6 +887,38 @@
         }
       }
     },
+    "%@ capsule" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 粒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 粒"
+          }
+        }
+      }
+    },
+    "%@ capsules" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 粒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 粒"
+          }
+        }
+      }
+    },
     "%@ combined depression · predicted (model, %@)." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1138,6 +1170,9 @@
         }
       }
     },
+    "%@ mg" : {
+
+    },
     "%@ mg %@ ≈ %@ mg %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1182,6 +1217,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 範圍，%@"
+          }
+        }
+      }
+    },
+    "%@ tablet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 片"
+          }
+        }
+      }
+    },
+    "%@ tablets" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 片"
           }
         }
       }
@@ -2726,6 +2793,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還有 %lld 條"
+          }
+        }
+      }
+    },
+    "+%@h" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+%@ 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+%@ 小時"
           }
         }
       }
@@ -5137,6 +5220,54 @@
         }
       }
     },
+    "Add a calibrated substance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加一种已校准的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一種已校準的物質"
+          }
+        }
+      }
+    },
+    "Add a dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增劑量"
+          }
+        }
+      }
+    },
+    "Add a dose to model it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加剂量以进行建模"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增劑量以進行建模"
+          }
+        }
+      }
+    },
     "Add another…" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7082,6 +7213,22 @@
         }
       }
     },
+    "at start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在起始时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在起始時"
+          }
+        }
+      }
+    },
     "At this timing, the substances are not simultaneously active above threshold." : {
       "localizations" : {
         "zh-Hans" : {
@@ -8954,6 +9101,22 @@
         }
       }
     },
+    "Calibrated on five stimulants; other substances shape the curves through how they interact with those. Compare the shape of a curve more than its exact height." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于五种兴奋剂校准；其他物质通过与它们的相互作用来影响曲线。比较曲线的形态，胜过比较其确切高度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於五種興奮劑校準；其他物質透過與它們的相互作用來影響曲線。比較曲線的形態，勝過比較其確切高度。"
+          }
+        }
+      }
+    },
     "Call 911 (US) or your local emergency number" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9928,6 +10091,22 @@
         }
       }
     },
+    "Choose substance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇物質"
+          }
+        }
+      }
+    },
     "Cited equivalence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10755,6 +10934,22 @@
         }
       }
     },
+    "Compare substances and preview how they may feel" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比较不同物质，预览它们可能带来的感受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比較不同物質，預覽它們可能帶來的感受"
+          }
+        }
+      }
+    },
     "Compare the shape of a curve more than its exact height." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10767,6 +10962,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "多比較曲線的形狀，而非其確切高度。"
+          }
+        }
+      }
+    },
+    "Compare two meds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比较两种药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比較兩種藥物"
           }
         }
       }
@@ -11983,6 +12194,22 @@
         }
       }
     },
+    "Custom milligrams" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义毫克"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂毫克"
+          }
+        }
+      }
+    },
     "Custom shades you create will appear here." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12779,6 +13006,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "譫妄劑"
+          }
+        }
+      }
+    },
+    "depot" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長效"
           }
         }
       }
@@ -14778,6 +15021,22 @@
         }
       }
     },
+    "Earlier" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前"
+          }
+        }
+      }
+    },
     "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15227,6 +15486,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效應估算"
+          }
+        }
+      }
+    },
+    "Effect Estimator" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果估算器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果估算器"
           }
         }
       }
@@ -17128,6 +17403,22 @@
         }
       }
     },
+    "extended-release" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缓释"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緩釋"
+          }
+        }
+      }
+    },
     "Extremely Potent Substance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17303,6 +17594,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在取得 TripSit 資料…"
+          }
+        }
+      }
+    },
+    "Fewer pills" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减少药片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減少藥片"
           }
         }
       }
@@ -20306,6 +20613,22 @@
         }
       }
     },
+    "immediate-release" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速释"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速釋"
+          }
+        }
+      }
+    },
     "Immune modulators and steroids." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21874,6 +22197,22 @@
         }
       }
     },
+    "Later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "延后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "延後"
+          }
+        }
+      }
+    },
     "LD50 (dermal, rodent)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22957,6 +23296,9 @@
           }
         }
       }
+    },
+    "Lower is better. Load on the body." : {
+
     },
     "Lower is better. The pull to take another dose." : {
       "localizations" : {
@@ -24387,6 +24729,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更多"
+          }
+        }
+      }
+    },
+    "More pills" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加药片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加藥片"
           }
         }
       }
@@ -28560,6 +28918,38 @@
         }
       }
     },
+    "Pick a substance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇物質"
+          }
+        }
+      }
+    },
+    "Pick a substance and an amount above to see how it may feel over time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上方选择一种物质和剂量，即可查看它随时间可能带来的感受。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上方選擇一種物質和劑量，即可查看它隨時間可能帶來的感受。"
+          }
+        }
+      }
+    },
     "Pick both substances and a dose." : {
       "localizations" : {
         "zh-Hans" : {
@@ -28966,6 +29356,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請在「設定」中開啟通知以使用緩和期提醒。"
+          }
+        }
+      }
+    },
+    "plus %@ hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加 %@ 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加 %@ 小時"
           }
         }
       }
@@ -30037,6 +30443,22 @@
         }
       }
     },
+    "Quantity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數量"
+          }
+        }
+      }
+    },
     "Quick Log" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -30328,6 +30750,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如何理解估算"
+          }
+        }
+      }
+    },
+    "Reading these estimates" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解读这些估算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解讀這些估算"
           }
         }
       }
@@ -33265,6 +33703,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮靜與抑制劑"
+          }
+        }
+      }
+    },
+    "See how doses might feel over time — compare two meds, preview a stack, or change the timing — without logging anything. This is a scratch surface; nothing here touches your journal." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看看不同剂量随时间可能带来的感受——比较两种药物、预览叠加、或调整时间——无需记录任何内容。这是一个草稿区，不会影响你的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看看不同劑量隨時間可能帶來的感受——比較兩種藥物、預覽疊加、或調整時間——無需記錄任何內容。這是一個草稿區，不會影響你的記錄。"
           }
         }
       }
@@ -36373,6 +36827,22 @@
         }
       }
     },
+    "start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始"
+          }
+        }
+      }
+    },
     "Start a Live Activity to follow this session on your Lock Screen and Dynamic Island." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37527,6 +37997,7 @@
       }
     },
     "Suppresses the enzyme that makes serotonin, so recovery takes weeks, not days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38466,6 +38937,22 @@
         }
       }
     },
+    "The model anchors on five stimulants — amphetamine, methylphenidate, mephedrone, 3-MMC, 2-MMC. Add one of those (or a brand of it) and the others will shape the curves around it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该模型以五种兴奋剂为基准——安非他明、哌甲酯、4-甲基甲卡西酮、3-MMC、2-MMC。添加其中之一（或它的品牌药），其他物质便会围绕它塑造曲线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該模型以五種興奮劑為基準——安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC、2-MMC。加入其中之一（或它的品牌藥），其他物質便會圍繞它塑造曲線。"
+          }
+        }
+      }
+    },
     "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error." : {
       "localizations" : {
         "zh-Hans" : {
@@ -39278,6 +39765,22 @@
         }
       }
     },
+    "This shows what the model predicts about the shape and sign of an effect — not what you should take. It is an estimate from typical pharmacology, never a recommendation or a safe-dose guide." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里展示的是模型对某种效果形态与正负的预测——而非你应该服用什么。它是基于典型药理学的估算，绝非建议或安全剂量指南。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡展示的是模型對某種效果形態與正負的預測——而非你應該服用什麼。它是基於典型藥理學的估算，絕非建議或安全劑量指南。"
+          }
+        }
+      }
+    },
     "This substance's mechanism of action may involve multiple pharmacological targets or may not be fully characterized. Consult specific pharmacological references for detailed mechanistic information." : {
       "localizations" : {
         "zh-Hans" : {
@@ -39452,6 +39955,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "時段"
+          }
+        }
+      }
+    },
+    "Time offset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间偏移"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間偏移"
           }
         }
       }
@@ -40310,6 +40829,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TripSit"
+          }
+        }
+      }
+    },
+    "Try a combination" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "试试组合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "試試組合"
           }
         }
       }
@@ -42871,6 +43406,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的備註"
+          }
+        }
+      }
+    },
+    "Your own response shifts with tolerance, body chemistry, and the day. Talk to a prescriber about your medication." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你自身的反应会随耐受度、身体状况和当天情况而变化。有关你的用药，请咨询开药医生。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你自身的反應會隨耐受度、身體狀況和當天情況而變化。有關你的用藥，請諮詢開藥醫生。"
           }
         }
       }

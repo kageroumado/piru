@@ -1,10 +1,34 @@
 import Foundation
 
+/// The fixed tablet/capsule strengths a branded product ships in (Concerta →
+/// 18/27/36/54 mg), from the bundled `product_strengths` table.
+///
+/// **Display/entry convenience only** — the strengths let a logged brand be
+/// entered as a *pill* (a chip sets the dose `amount`), exactly as the alcohol
+/// logger lets a drink be entered by volume. They drive no pharmacology, no PSID
+/// identity, no dose ladder, and no curve.
+struct ProductStrengths: Equatable {
+    /// Available per-unit strengths in milligrams, ascending.
+    let strengths: [Double]
+    /// Dosage form — `"tablet"` or `"capsule"` (drives the count noun).
+    let form: String
+}
+
 /// PSID (Piru Substance ID) resolution — the forward name/alias → FAMILY + form
 /// maps the Stage 0.3 dose backfill and identity-keyed features read. Split out
 /// of ``SubstanceStore`` for file size; the reverse `uid → substances` lookups
 /// live on the main type.
 extension SubstanceStore {
+    /// The tablet/capsule strengths a logged product name ships in ("Concerta" →
+    /// 18/27/36/54 mg tablets), or `nil` when the name isn't a known branded
+    /// product — in which case the dose stays free-form milligrams.
+    ///
+    /// **Raw library value**, keyed by a plain lowercased product name (matching
+    /// the pipeline's simple key, which deliberately keeps "Ritalin LA" distinct
+    /// from "Ritalin"). Display/entry only — see ``ProductStrengths``.
+    func productStrengths(forProduct name: String) -> ProductStrengths? {
+        productStrengthIndex[name.lowercased().trimmingCharacters(in: .whitespaces)]
+    }
     /// The PSID FAMILY (`substance_uid`) for a substance named or aliased
     /// `nameOrAlias`, or `nil` when the name doesn't resolve or the row has no uid.
     ///

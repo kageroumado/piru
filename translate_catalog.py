@@ -9,6 +9,63 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Effect Estimator — the what-if / compare-two-meds sandbox tool (2026-07-17).
+    "Effect Estimator": ("效果估算器", "效果估算器"),
+    "Compare substances and preview how they may feel": (
+        "比较不同物质，预览它们可能带来的感受",
+        "比較不同物質，預覽它們可能帶來的感受",
+    ),
+    "Try a combination": ("试试组合", "試試組合"),
+    "See how doses might feel over time — compare two meds, preview a stack, or change the timing — without logging anything. This is a scratch surface; nothing here touches your journal.": (
+        "看看不同剂量随时间可能带来的感受——比较两种药物、预览叠加、或调整时间——无需记录任何内容。这是一个草稿区，不会影响你的记录。",
+        "看看不同劑量隨時間可能帶來的感受——比較兩種藥物、預覽疊加、或調整時間——無需記錄任何內容。這是一個草稿區，不會影響你的記錄。",
+    ),
+    "Compare two meds": ("比较两种药物", "比較兩種藥物"),
+    "Add a dose": ("添加剂量", "新增劑量"),
+    "Add a calibrated substance": ("添加一种已校准的物质", "新增一種已校準的物質"),
+    "Add a dose to model it": ("添加剂量以进行建模", "新增劑量以進行建模"),
+    "The model anchors on five stimulants — amphetamine, methylphenidate, mephedrone, 3-MMC, 2-MMC. Add one of those (or a brand of it) and the others will shape the curves around it.": (
+        "该模型以五种兴奋剂为基准——安非他明、哌甲酯、4-甲基甲卡西酮、3-MMC、2-MMC。添加其中之一（或它的品牌药），其他物质便会围绕它塑造曲线。",
+        "該模型以五種興奮劑為基準——安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC、2-MMC。加入其中之一（或它的品牌藥），其他物質便會圍繞它塑造曲線。",
+    ),
+    "Pick a substance and an amount above to see how it may feel over time.": (
+        "在上方选择一种物质和剂量，即可查看它随时间可能带来的感受。",
+        "在上方選擇一種物質和劑量，即可查看它隨時間可能帶來的感受。",
+    ),
+    "This shows what the model predicts about the shape and sign of an effect — not what you should take. It is an estimate from typical pharmacology, never a recommendation or a safe-dose guide.": (
+        "这里展示的是模型对某种效果形态与正负的预测——而非你应该服用什么。它是基于典型药理学的估算，绝非建议或安全剂量指南。",
+        "這裡展示的是模型對某種效果形態與正負的預測——而非你應該服用什麼。它是基於典型藥理學的估算，絕非建議或安全劑量指南。",
+    ),
+    "Calibrated on five stimulants; other substances shape the curves through how they interact with those. Compare the shape of a curve more than its exact height.": (
+        "基于五种兴奋剂校准；其他物质通过与它们的相互作用来影响曲线。比较曲线的形态，胜过比较其确切高度。",
+        "基於五種興奮劑校準；其他物質透過與它們的相互作用來影響曲線。比較曲線的形態，勝過比較其確切高度。",
+    ),
+    "Your own response shifts with tolerance, body chemistry, and the day. Talk to a prescriber about your medication.": (
+        "你自身的反应会随耐受度、身体状况和当天情况而变化。有关你的用药，请咨询开药医生。",
+        "你自身的反應會隨耐受度、身體狀況和當天情況而變化。有關你的用藥，請諮詢開藥醫生。",
+    ),
+    "Reading these estimates": ("解读这些估算", "解讀這些估算"),
+    "Choose substance": ("选择物质", "選擇物質"),
+    "start": ("起始", "起始"),
+    "+%@h": ("+%@ 小时", "+%@ 小時"),
+    "Earlier": ("提前", "提前"),
+    "Later": ("延后", "延後"),
+    "Time offset": ("时间偏移", "時間偏移"),
+    "Pick a substance": ("选择物质", "選擇物質"),
+    "at start": ("在起始时", "在起始時"),
+    "plus %@ hours": ("加 %@ 小时", "加 %@ 小時"),
+    # Pill picker — branded fixed-strength meds logged as tablets/capsules (2026-07-17).
+    "extended-release": ("缓释", "緩釋"),
+    "immediate-release": ("速释", "速釋"),
+    "depot": ("长效", "長效"),
+    "%@ tablet": ("%@ 片", "%@ 片"),
+    "%@ tablets": ("%@ 片", "%@ 片"),
+    "%@ capsule": ("%@ 粒", "%@ 粒"),
+    "%@ capsules": ("%@ 粒", "%@ 粒"),
+    "Custom milligrams": ("自定义毫克", "自訂毫克"),
+    "Fewer pills": ("减少药片", "減少藥片"),
+    "More pills": ("增加药片", "增加藥片"),
+    "Quantity": ("数量", "數量"),
     # Apple Health vitals overlay — heart rate / blood pressure on sessions (2026-07-06).
     "Heart rate": ("心率", "心率"),
     "Heart Rate": ("心率", "心率"),

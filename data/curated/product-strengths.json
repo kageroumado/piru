@@ -1,0 +1,38 @@
+{
+  "_comment": "Curated per-product tablet/capsule strengths — the strengths a branded fixed-dose medication actually ships in, so a logged brand ('Concerta') can be logged as a *pill* (tap 36 mg → '1 tablet · 36 mg') instead of typing raw milligrams. DISPLAY/ENTRY CONVENIENCE ONLY: a chip selects the dose `amount` (strength × count) and nothing else — it drives no pharmacology, no PSID identity, no dose ladder, and no curve, exactly like the alcohol by-volume logger picks grams. Consumed by sqlite.py build_product_strengths() → the `product_strengths` table, read by SubstanceStore.productStrengths(forProduct:). Every `product` must already exist as a brand alias of its `parent` (the same coverage gate release-families/brands.json use); a miss is reported by the build, not failed, since available aliases vary by build. Scope is deliberately the ADHD/adjacent stimulant + non-stimulant formulations the med-manager audience takes daily (Specs/adhd-audience-fit); extend as other branded fixed-strength products earn it. Strengths are FDA prescribing information (DailyMed), ascending, in milligrams; `form` is 'tablet' or 'capsule' (the count noun). Liquid/patch/ODT products are intentionally omitted until their unit is modeled.",
+  "products": [
+    { "parent": "Methylphenidate", "product": "Ritalin", "form": "tablet", "strengths_mg": [5, 10, 20] },
+    { "parent": "Methylphenidate", "product": "Ritalin LA", "form": "capsule", "strengths_mg": [10, 20, 30, 40] },
+    { "parent": "Methylphenidate", "product": "Ritalin SR", "form": "tablet", "strengths_mg": [20] },
+    { "parent": "Methylphenidate", "product": "Concerta", "form": "tablet", "strengths_mg": [18, 27, 36, 54] },
+    { "parent": "Methylphenidate", "product": "Metadate CD", "form": "capsule", "strengths_mg": [10, 20, 30, 40, 50, 60] },
+    { "parent": "Methylphenidate", "product": "Aptensio XR", "form": "capsule", "strengths_mg": [10, 15, 20, 30, 40, 50, 60] },
+    { "parent": "Methylphenidate", "product": "Adhansia XR", "form": "capsule", "strengths_mg": [25, 35, 45, 55, 70, 85] },
+    { "parent": "Methylphenidate", "product": "Jornay PM", "form": "capsule", "strengths_mg": [20, 40, 60, 80, 100] },
+
+    { "parent": "Methylphenidate", "product": "Focalin", "form": "tablet", "strengths_mg": [2.5, 5, 10] },
+    { "parent": "Methylphenidate", "product": "Focalin XR", "form": "capsule", "strengths_mg": [5, 10, 15, 20, 25, 30, 35, 40] },
+
+    { "parent": "Amphetamine", "product": "Adderall", "form": "tablet", "strengths_mg": [5, 7.5, 10, 12.5, 15, 20, 30] },
+    { "parent": "Amphetamine", "product": "Adderall XR", "form": "capsule", "strengths_mg": [5, 10, 15, 20, 25, 30] },
+    { "parent": "Amphetamine", "product": "Mydayis", "form": "capsule", "strengths_mg": [12.5, 25, 37.5, 50] },
+
+    { "parent": "Amphetamine", "product": "Dexedrine", "form": "tablet", "strengths_mg": [5, 10] },
+    { "parent": "Amphetamine", "product": "Zenzedi", "form": "tablet", "strengths_mg": [2.5, 5, 7.5, 10, 15, 20, 30] },
+
+    { "parent": "Lisdexamfetamine", "product": "Vyvanse", "form": "capsule", "strengths_mg": [10, 20, 30, 40, 50, 60, 70] },
+
+    { "parent": "Methamphetamine", "product": "Desoxyn", "form": "tablet", "strengths_mg": [5] },
+
+    { "parent": "Atomoxetine", "product": "Strattera", "form": "capsule", "strengths_mg": [10, 18, 25, 40, 60, 80, 100] },
+    { "parent": "Viloxazine", "product": "Qelbree", "form": "capsule", "strengths_mg": [100, 150, 200] },
+    { "parent": "Guanfacine", "product": "Intuniv", "form": "tablet", "strengths_mg": [1, 2, 3, 4] },
+    { "parent": "Clonidine", "product": "Kapvay", "form": "tablet", "strengths_mg": [0.1, 0.2] },
+
+    { "parent": "Modafinil", "product": "Provigil", "form": "tablet", "strengths_mg": [100, 200] },
+    { "parent": "Modafinil", "product": "Nuvigil", "form": "tablet", "strengths_mg": [50, 150, 200, 250] },
+    { "parent": "Bupropion", "product": "Wellbutrin", "form": "tablet", "strengths_mg": [75, 100] },
+    { "parent": "Bupropion", "product": "Wellbutrin SR", "form": "tablet", "strengths_mg": [100, 150, 200] },
+    { "parent": "Bupropion", "product": "Wellbutrin XL", "form": "tablet", "strengths_mg": [150, 300] }
+  ]
+}

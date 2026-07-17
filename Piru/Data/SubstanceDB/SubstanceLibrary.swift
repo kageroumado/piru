@@ -115,6 +115,14 @@ enum SubstanceLibrary {
         SubstanceStore.shared.formTitle(forNameOrAlias: nameOrAlias)
     }
 
+    /// The tablet/capsule strengths a logged product name ships in ("Concerta" →
+    /// 18/27/36/54 mg), or `nil` when the name isn't a known branded product.
+    /// Lets the quick-log editor offer a *pill* picker instead of raw milligrams —
+    /// display/entry only (see ``ProductStrengths``).
+    static func productStrengths(for name: String) -> ProductStrengths? {
+        SubstanceStore.shared.productStrengths(forProduct: name)
+    }
+
     /// ``formTitle(for:)`` with the facets a logged dose recorded, rather than the
     /// ones its name implies — see ``SubstanceStore/formTitle(forNameOrAlias:isomer:release:)``.
     static func formTitle(for nameOrAlias: String, isomer: String?, release: String?) -> String? {
