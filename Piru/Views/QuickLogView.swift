@@ -69,8 +69,6 @@ struct QuickLogView: View {
     @State private var showCustomForm = false
     @State private var showEditSheet = false
 
-    @State private var pendingCustomPrefill: EntryPrefillPayload?
-
     /// Staged-but-uncommitted doses. Tapping a chip stages it here; the dock
     /// (the screen's single bottom surface) is the commit surface for one dose
     /// or a whole stack.
@@ -87,14 +85,6 @@ struct QuickLogView: View {
     /// from the first body evaluation so it presents *with* the cover's own
     /// transition rather than popping in afterwards.
     @State private var dockPresented = true
-
-    /// The dock's current detent. Owned here so browse-side staging can grow
-    /// the dock; ``QuickLogDock`` drives the transitions.
-    @State private var dockDetent: PresentationDetent = QuickLogDockMetrics.peekDetent
-
-    /// The live detent set — dynamic because the dock's smallest detent is
-    /// fit-to-content once doses are staged. ``QuickLogDock`` owns the swaps.
-    @State private var dockDetents: Set<PresentationDetent> = QuickLogDockMetrics.emptyDetents
 
     /// Measured height of the cover — bounds the dock's compact detent.
     @State private var containerHeight: CGFloat = 0
@@ -270,44 +260,16 @@ struct QuickLogView: View {
             containerHeight = newValue
         }
         .sheet(isPresented: $dockPresented) {
-            QuickLogDock(
+            DockSheetHost(
                 tray: tray,
                 content: content,
                 containerHeight: containerHeight,
                 searchText: $searchText,
                 searchActive: $searchActive,
-                detent: $dockDetent,
-                detents: $dockDetents,
-                onCreateCustom: { showCustomForm = true },
+                showCustomForm: $showCustomForm,
+                showEditSheet: $showEditSheet,
                 onCommit: commitTray,
             )
-            .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
-                CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
-                    pendingCustomPrefill = EntryPrefillPayload(
-                        substance: saved.name,
-                        route: saved.defaultRoute,
-                        unit: saved.unit,
-                    )
-                }
-            }
-            .sheet(isPresented: $showEditSheet) {
-                QuickLogEditSheet()
-            }
-            // Navigator sheets launched from quick log (Manage Routines, Edit
-            // Routine…) present here, stacked on the dock — the dock occupies
-            // the cover's only presentation slot, so they can't present there.
-            .hostsNestedNavigatorSheets(navigator)
-            // Presentation configuration lives at the closure root so it
-            // reliably reaches the presentation (not shadowed by the nested
-            // sheet/cover wrappers above). The background *style* is clear:
-            // that swaps the default full-width sheet backing for the
-            // system's inset floating glass platter, which is the dock's one
-            // surface in every detent (Maps' collapsed-bar look at peek).
-            .presentationDetents(dockDetents, selection: $dockDetent)
-            .presentationBackgroundInteraction(.enabled(upThrough: .medium))
-            .presentationContentInteraction(.resizes)
-            .presentationBackground { Color.clear }
-            .interactiveDismissDisabled()
         }
     }
 
@@ -488,6 +450,88 @@ struct QuickLogView: View {
                 }
             }
         }
+    }
+
+}
+
+// MARK: - Dock Sheet Host
+
+/// The dock sheet's content root: owns the detent state and applies the
+/// presentation configuration.
+///
+/// Split out of `QuickLogView` so the dock's detent churn stays local: the
+/// detent selection and set are rewritten several times per transition (every
+/// stage, search enter/exit, drag settle), and while they were `@State` on
+/// `QuickLogView` each write re-ran the *whole screen's* body — toolbar,
+/// scroll chrome, and this sheet closure — just to re-apply an unchanged
+/// presentation. Owned here, a detent write invalidates only this wrapper.
+/// Localizing the re-application also narrows the window where a SwiftUI
+/// presentation update can rewrite the sheet's detents mid-ramp (the
+/// self-heal in `QuickLogDock.animateHeightDetent` exists for exactly that).
+///
+/// Presentation configuration lives at this view's root so it reliably
+/// reaches the presentation (not shadowed by the nested sheet wrappers
+/// above it). The background *style* is clear: that swaps the default
+/// full-width sheet backing for the system's inset floating glass platter,
+/// which is the dock's one surface in every detent (Maps' collapsed-bar
+/// look at peek).
+private struct DockSheetHost: View {
+    var tray: DoseTrayModel
+    var content: QuickLogContentModel
+    var containerHeight: CGFloat
+    @Binding var searchText: String
+    @Binding var searchActive: Bool
+    /// Owned by `QuickLogView` (its body hides the cover content from
+    /// assistive tech while either sheet is up); presented from here because
+    /// the dock occupies the cover's only presentation slot, so these must
+    /// stack on the dock.
+    @Binding var showCustomForm: Bool
+    @Binding var showEditSheet: Bool
+    let onCommit: () -> Void
+
+    @Environment(\.appNavigator) private var navigator
+
+    /// The dock's current detent. ``QuickLogDock`` drives the transitions.
+    @State private var detent: PresentationDetent = QuickLogDockMetrics.peekDetent
+    /// The live detent set — dynamic because the dock's smallest detent is
+    /// fit-to-content once doses are staged. ``QuickLogDock`` owns the swaps.
+    @State private var detents: Set<PresentationDetent> = QuickLogDockMetrics.emptyDetents
+
+    @State private var pendingCustomPrefill: EntryPrefillPayload?
+
+    var body: some View {
+        QuickLogDock(
+            tray: tray,
+            content: content,
+            containerHeight: containerHeight,
+            searchText: $searchText,
+            searchActive: $searchActive,
+            detent: $detent,
+            detents: $detents,
+            onCreateCustom: { showCustomForm = true },
+            onCommit: onCommit,
+        )
+        .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
+            CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
+                pendingCustomPrefill = EntryPrefillPayload(
+                    substance: saved.name,
+                    route: saved.defaultRoute,
+                    unit: saved.unit,
+                )
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            QuickLogEditSheet()
+        }
+        // Navigator sheets launched from quick log (Manage Routines, Edit
+        // Routine…) present here, stacked on the dock — the dock occupies
+        // the cover's only presentation slot, so they can't present there.
+        .hostsNestedNavigatorSheets(navigator)
+        .presentationDetents(detents, selection: $detent)
+        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+        .presentationContentInteraction(.resizes)
+        .presentationBackground { Color.clear }
+        .interactiveDismissDisabled()
     }
 
     private func onCustomFormDismiss() {
