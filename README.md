@@ -1,150 +1,202 @@
-# Piru
+<div align="center">
 
-A substance dose tracker for iOS. Logs what you took, when, and at what
-dose; overlays pharmacokinetic curves so you can see what's still active;
-warns about drug interactions before you stack them.
+<a href="README.md">English</a> ・ <a href="README.zh-Hans.md">简体中文</a>
 
-<p align="center">
-  <img src=".github/screenshot-journal.png" alt="Piru Journal — sessions grouped by day with pharmacokinetic timeline previews and tag filters" width="300">
-  <img src=".github/screenshot-day.png" alt="Piru session detail — a Friday evening of alcohol doses and a melatonin dose overlaid on a pharmacokinetic timeline" width="300">
-</p>
+[![piru](https://readme-typing-svg.demolab.com/?font=DotGothic16&weight=400&size=22&duration=3800&pause=900&color=EB4470&center=true&vCenter=true&width=820&height=60&lines=a%20dose%20journal%20and%20a%20pharmacopeia%20%E2%99%A1;what%20you%20took%20%E2%80%94%20and%20what%20it%27s%20still%20doing;1%2C900%2B%20substances%20%E3%83%BB%20every%20claim%20cited%20to%20its%20source;rx%20no.%20007%20%E3%83%BB%20%E6%9C%8D%E7%94%A8%E8%A8%98%E9%8C%B2%20%E3%83%BB%20%E4%BD%95%E3%82%92%E6%91%82%E3%81%A3%E3%81%A6%E3%80%81%E3%81%84%E3%81%BE%E3%81%A9%E3%81%86%E5%8A%B9%E3%81%84%E3%81%A6%E3%81%84%E3%82%8B%E3%81%8B)](https://kagerou.glass)
 
-Built primarily for harm reduction: medication adherence, recreational
-session tracking, and stack safety. Substance data is sourced from
-[TripSit][tripsit], [PsychonautWiki][pw], and the FDA's
-[DailyMed][dailymed] — merged and deduplicated into a single library of
-~1,100 substances with dose ranges, routes, durations, and half-lives.
+<img src=".github/piru-icon.png" alt="Piru icon" width="128" height="128">
 
-[tripsit]: https://tripsit.me
-[pw]: https://psychonautwiki.org
-[dailymed]: https://dailymed.nlm.nih.gov
+# piru
+
+**rx no. 007 ・ pi·ru ・ a dose journal and a pharmacopeia ♡**
+
+[![kagerou.glass](https://img.shields.io/badge/kagerou.glass-EB4470?style=for-the-badge&logo=safari&logoColor=white)](https://kagerou.glass/piru/)
+[![@kageroumado](https://img.shields.io/badge/@kageroumado-76e6e0?style=for-the-badge&logo=x&logoColor=0d0a10)](https://x.com/kageroumado)
+[![iOS 26+](https://img.shields.io/badge/iOS-26%2B-0d0a10?style=for-the-badge&logo=apple&logoColor=white)](#requirements)
+[![简体中文](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-README-EB4470?style=for-the-badge)](README.zh-Hans.md)
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-journal.png" alt="Piru Journal — a live session graph with overlaid pharmacokinetic curves for caffeine, alcohol, and melatonin, above a list of past sessions grouped by day" width="380"><br><sub><b>the journal</b> ・ what you took, drawn as it rises and clears</sub></td>
+    <td align="center"><img src=".github/piru-pharmacology.png" alt="Piru pharmacology card for cocaine — a triple monoamine reuptake inhibitor with a serotonin–dopamine balance slider, receptor target table, and source attribution" width="380"><br><sub><b>the pharmacopeia</b> ・ mechanism, binding, and citations for 1,900+ substances</sub></td>
+  </tr>
+</table>
+
+</div>
+
+> **服用注意 ・ a dose is not a confession.**
+>
+> Most tracking apps are built to make you take less. Piru isn't. It assumes you already know what
+> you're doing and simply want to *see* it: what you took, when, and what it's still doing to you
+> right now. So it keeps a clean ledger and draws the pharmacology over it — the curve rising and
+> clearing, the second dose stacking on the first, the interaction window opening — and it cites
+> every claim to a real source so you can check the work. This is not harm reduction. Nobody here
+> thinks you need reducing. It's a question of dose, not of goodness. ♡
+
+---
+
+Piru is an iOS dose journal and reference for anyone who takes things — prescriptions, supplements,
+or recreational substances — and wants an honest, private record of it. Log a dose in a couple of
+taps; Piru overlays a pharmacokinetic curve so you can see what's still active, warns you before you
+stack a dangerous pair, models how tolerance builds and fades, and backs its pharmacology with
+citations down to the study. Everything lives on your device. There is no account, no cloud, and no
+one watching.
 
 ## Features
 
-- **~1,100 substances** with dose ranges (threshold / light / common /
-  strong / heavy), administration routes, duration profiles, and
-  half-lives.
-- **Pharmacokinetic timeline.** A one-compartment oral PK model
-  estimates absorption rate from each route's onset and renders the
-  resulting concentration curve; doses scale the curve height by
-  amount-to-heavy ratio.
-- **Interaction warnings.** 59 class-based interaction rules covering
-  the common danger pairs (MAOI + stimulant, opioid + benzo, lithium +
-  NSAID, etc.). Warnings appear inline during logging and as a danger
-  window on the timeline.
-- **Live Activity.** Active doses appear on the Lock Screen and in the
-  Dynamic Island with their remaining duration.
-- **Harm-reduction notifications.** Optional ramp-down reminders
-  grouped into 6-hour sessions, so back-to-back doses don't fragment
-  into separate alert chains.
-- **Daily medication tracking.** Prescription / supplement adherence
-  with weekday-aware reminders, separate from the recreational journal.
-- **Insights.** Activity heatmap, usage stats, half-life calculator,
-  per-substance trend charts.
-- **Custom substances.** Add anything not in the merged library — name,
-  category, dose ranges, route, half-life — and it participates in
-  search, interactions, and PK.
-- **Export.** PsyLog-compatible JSON and PDF reports with PK charts.
+- **A journal that draws itself.** Every dose becomes a pharmacokinetic curve. Doses within a window
+  group into **sessions**, and the session graph overlays each substance so you can read the whole
+  night at a glance — what's peaking, what's fading, what's about to come back around.
+- **1,900+ substances, cited.** Dose ladders (threshold → light → common → strong → heavy), routes,
+  onset/peak/offset durations, half-lives, mechanism of action, receptor binding, and subjective
+  effects — resolved per-field from **17 data sources** and linked back to each one.
+- **Interaction warnings.** Class-based danger rules (MAOI + stimulant, opioid + depressant, serotonergic
+  stacks, and more) surface inline as you log and paint a danger window onto the timeline.
+- **Tolerance & session forecasting.** A tolerance model tracks how sensitivity builds and recovers;
+  a calibrated effect engine forecasts the arc of a stimulant or cathinone session — tuned for
+  **amphetamine, methylphenidate, and mephedrone (2-/3-/4-MMC)**.
+- **Adjustable depth.** Choose **Casual**, **Curious**, or **Pharma Nerd** and the whole app dials in
+  to match — from plain dose ladders and top-line warnings up to receptor-binding tables, biased
+  agonism, and CYP metabolism with citations down to the DOI.
+- **A toolbox.** Half-life calculator, volumetric dosing, benzodiazepine and opioid equivalence
+  converters, inventory tracking, and an interaction checker.
+- **Live Activity & widgets.** Active doses on the Lock Screen and Dynamic Island with time remaining;
+  Home Screen widgets for the current session and last dose.
+- **Insights.** Usage trends, an adherence calendar, a per-substance tolerance readout, and a live
+  "in your system" estimate.
+- **Share a session.** Export the current state of your body as a clean image, a PDF report with the
+  PK charts, or a Markdown summary — for a doctor, a friend, or your own notes.
+
+## Modeling that actually responds to you
+
+Most trackers draw one generic curve for everything and call it a day. Piru does two things I haven't
+seen in any other dose tracker.
+
+### Your heart rate, mapped to each dose
+
+Connect Apple Health and Piru overlays your **heart rate and blood pressure** right on the session
+timeline — then reads how your body answered *each* dose: the resting rate before it, the peak after,
+and the delta. Read-only, and the numbers never leave your device.
+
+<div align="center">
+<img src=".github/piru-heart-rate.png" alt="A session timeline with a red heart-rate band and a blood-pressure marker under the pharmacokinetic curves, and per-dose chips showing 64→75, 70→83, and 81→97 bpm" width="330">
+</div>
+
+### Alcohol, modeled the way alcohol actually works
+
+Alcohol doesn't decay like everything else. Its clearing enzyme saturates almost immediately, so it
+comes off at a **constant grams-per-hour** — *zero-order* elimination — which means **duration scales
+with the dose** and the decline is a straight line, not the usual exponential tail. Enter a drink by
+**volume × ABV** and Piru draws it correctly:
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-alcohol-beer.png" alt="A 330 mL 5% beer — 13 g of ethanol — peaking and clearing in about two hours" width="290"><br><sub><b>a beer</b> ・ 330 mL · 5% → 13 g · clears in ~2 h</sub></td>
+    <td align="center"><img src=".github/piru-alcohol-whiskey.png" alt="A 700 mL 40% bottle of whiskey — 221 g of ethanol — declining as a straight line over about 34 hours" width="290"><br><sub><b>a bottle of whiskey</b> ・ 700 mL · 40% → 221 g · ~34 h, ruler-straight</sub></td>
+  </tr>
+</table>
+
+Seventeen times the ethanol takes roughly seventeen times as long to clear — the curve just gets
+wider, not taller-and-shorter. And because elimination tracks liver and body mass, Piru scales it by
+**your body weight**: the *same* bottle clears far faster in a larger body.
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-alcohol-whiskey.png" alt="The whiskey bottle at 60 kg body weight, clearing in about 34 hours" width="290"><br><sub><b>at 60 kg</b> ・ ~34 h to clear</sub></td>
+    <td align="center"><img src=".github/piru-alcohol-whiskey-heavy.png" alt="The same whiskey bottle at 100 kg body weight, clearing in about 20 hours" width="290"><br><sub><b>at 100 kg</b> ・ same bottle, ~20 h</sub></td>
+  </tr>
+</table>
+
+## The library — 1,900+ substances, every claim cited
+
+Piru bundles an offline SQLite library of **1,913 substances**. Each field — a dose range, a duration,
+a receptor affinity, a mechanism summary — is resolved by **source priority** (which you can reorder)
+and carries its own attribution, so a substance sheet ends with a **Data Sources** list that links
+straight to each source's page for that compound. The primary reference is
+**[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)**, a community-maintained encyclopedia of
+psychoactive substances, alongside:
+
+- **[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** — primary substance profiles & subjective effects
+- **[PsychonautWiki](https://psychonautwiki.org)** — dose ranges, durations, effect vocabulary
+- **[TripSit](https://tripsit.me)** — interaction data and harm-reduction dosing
+- **[DailyMed](https://dailymed.nlm.nih.gov)** (FDA) & **DEA Orange Book** — prescription labels & scheduling
+- **[PubChem](https://pubchem.ncbi.nlm.nih.gov)** & **[Wikidata](https://www.wikidata.org)** — identifiers, chemistry
+- **[PDSP K<sub>i</sub> database](https://pdsp.unc.edu)** — receptor binding affinities
+- **Erowid PiHKAL/TiHKAL**, **drug.community**, and **peer-reviewed primary literature** for the rest
+- **Piru's own hand-curated overlay** for mechanism summaries and corrections
+
+<div align="center">
+<img src=".github/piru-sources-zh.png" alt="A substance's Data Sources list — drug.community, FreeOD Wiki, PubMed, Piru's hand-curated overlay, PsychonautWiki, and TripSit, each a tappable link" width="300">
+</div>
+
+## Reads in your language
+
+Piru ships a **full localization in English, Simplified Chinese (简体中文), and Traditional Chinese
+(繁體中文)** — not just the interface chrome, but the pharmacology summaries, effect names, and safety
+copy. Crisis resources are **region-aware**: the *Get Help* screen shows the emergency and crisis
+lines for where you actually are.
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-journal-zh.png" alt="The Journal in Simplified Chinese, showing the current-session graph and past sessions" width="250"><br><sub>日志 ・ the journal, localized</sub></td>
+    <td align="center"><img src=".github/piru-pharmacology-zh.png" alt="A pharmacology card in Simplified Chinese explaining cocaine's dopamine transporter blockade" width="250"><br><sub>药理学 ・ the pharmacology, in full</sub></td>
+    <td align="center"><img src=".github/piru-help-zh.png" alt="The Get Help screen in Simplified Chinese showing China's 120 ambulance number and a local crisis line" width="250"><br><sub>获取帮助 ・ region-aware crisis lines</sub></td>
+  </tr>
+</table>
+
+## A closer look
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-session.png" alt="Session detail — four doses of caffeine, alcohol, and melatonin with individual progress rails and remaining time" width="250"><br><sub><b>session detail</b> ・ every dose, still ticking</sub></td>
+    <td align="center"><img src=".github/piru-library.png" alt="The Library browsing substances by effect class — Common, Stimulants, Empathogens, Hallucinogens" width="250"><br><sub><b>library</b> ・ browse by effect class</sub></td>
+    <td align="center"><img src=".github/piru-insights.png" alt="Insights — usage bar chart, in-your-system estimate, an adherence calendar, and a tolerance readout" width="250"><br><sub><b>insights</b> ・ usage, adherence, tolerance</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src=".github/piru-tools.png" alt="The Tools tab — education, interactions, inventory, half-life calculator, volumetric dosing, benzo and opioid equivalence" width="250"><br><sub><b>tools</b> ・ calculators, converters, inventory</sub></td>
+    <td align="center"><img src=".github/piru-help.png" alt="The Get Help screen — grounding suggestions and US emergency, crisis, and poison-control lines" width="250"><br><sub><b>get help</b> ・ one tap away, always</sub></td>
+    <td align="center"><img src=".github/piru-share.png" alt="The Share Session sheet offering a session image, a PDF report, and a Markdown summary" width="250"><br><sub><b>share</b> ・ image, PDF, or Markdown</sub></td>
+  </tr>
+</table>
+
+## Private by design
+
+Piru is built for sensitive data, so the default is the safe one: **nothing leaves your device.**
+
+- **On-device only.** Your journal lives locally in SwiftData. No sign-up, no account, no server.
+- **No cloud unless you ask.** Backups are opt-in and **end-to-end encrypted** (AES-256-GCM) with a
+  device key held in your iCloud Keychain, or a passphrase only you know.
+- **No ads, no trackers, no analytics selling.** Your data is yours alone.
 
 ## Requirements
 
-- **iOS 26 or later.** The UI is built around Liquid Glass; older iOS
-  versions are not supported.
-- **Xcode 26 or later** with Swift 6.
-- Apple developer account for code signing (TestFlight only; not on the
-  App Store).
+- **iOS 26 or later.** The interface is built around Liquid Glass; earlier iOS is not supported.
+- **Xcode 26+** with Swift 6 to build — clone, open `Piru.xcodeproj`, and Run.
+- Distributed via TestFlight; not on the App Store.
 
-## Building
+The bundled substance library is built by an offline, reproducible Python pipeline from committed
+source snapshots — see [`pipeline/`](pipeline/). Never hand-edit `Piru/Data/piru-substances.sqlite`;
+rebuild it with `pipeline/build.sh`.
 
-```bash
-git clone https://github.com/kageroumado/piru.git
-cd piru
-open Piru.xcodeproj
-```
+## The name
 
-Select the **Piru** scheme and Run. Code signing is configured for the
-original developer team; set your own `DEVELOPMENT_TEAM` and bundle
-identifiers in Xcode's signing settings before building to a device.
-
-For a headless compile check:
-
-```bash
-xcodebuild -scheme Piru \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  build
-```
-
-To run the test suite (Apple Testing framework):
-
-```bash
-xcodebuild -scheme Piru \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  test
-```
-
-There is also a Swift Package Manager CLI in `Tools/SubstanceValidator`
-that cross-checks the merged substance library against the upstream
-APIs; useful when refreshing the cache.
-
-```bash
-cd Tools/SubstanceValidator
-swift run SubstanceValidator validate
-```
-
-## Architecture
-
-```
-Piru/
-├── Models/                 Substance, DoseRange, DurationProfile, units
-├── Views/                  SwiftUI tabs: Journal, Library, Tools, Insights
-├── Data/                   SubstanceLibrary, HalfLifeDatabase, Interactions
-├── Services/               TripSit, PsychonautWiki, DailyMed API clients
-└── Utilities/              PKModel, RampDownScheduler, exporters
-
-Shared/                     Code shared with widgets + Live Activity
-PiruLiveActivityExtension/  Lock Screen / Dynamic Island widget
-PiruWidget/                 Home Screen widgets
-PiruTests/                  Swift Testing suites
-Tools/SubstanceValidator/   CLI for validating substance data
-```
-
-- **SwiftUI + SwiftData.** `@Model` types are used directly in views;
-  there is no separate ViewModel layer. Managers (`SubstanceLibrary`,
-  `LiveActivityManager`, etc.) are `@Observable @MainActor` singletons.
-- **Swift 6 strict concurrency** with `@MainActor` default isolation.
-- **Substance data lifecycle.** Three API clients fetch in parallel,
-  results are merged with a name-normalising deduplicator, and the
-  combined library is cached to `substances_cache.json` with a 7-day
-  TTL.
-- **Search.** Ranked cascade — exact match → alias → prefix → substring
-  → fuzzy (Levenshtein) — so common names beat obscure ones even when
-  both match.
-- **PK model.** One-compartment oral with route-aware absorption.
-  `ka` is estimated from each route's onset time; `Cmax` and `Tmax`
-  are derived from the resulting curve and overlaid on the timeline.
-
-## Contributing
-
-Issues and PRs welcome, with the caveat above about maintenance pace.
-Substance data corrections are especially useful — open an issue with
-the substance name and the source you're using.
-
-If you ship a fork, please don't call it "Piru" — the name and the pink
-flame icon are pharmacykitty's. Pick your own.
+**Piru** (ピル) is Japanese for *pill* — hence the smiling capsule. The name and mascot are inherited
+from the app's original author, [pharmacykitty](https://github.com/pharmacykitty). It keeps its shelf
+among the other prescriptions at [kagerou.glass](https://kagerou.glass) — **rx no. 007**, the one you
+reach for to remember what you took.
 
 ## License
 
-Piru is free software, licensed under the **GNU General Public
-License, version 3** — see [LICENSE](LICENSE).
+Piru is free software under the **GNU General Public License v3** — see [LICENSE](LICENSE).
 
 ## Acknowledgements
 
-Originally built by [pharmacykitty](https://github.com/pharmacykitty);
-development is now continued by
-[kageroumado](https://github.com/kageroumado). Pharmacology data courtesy
-of [TripSit][tripsit], [PsychonautWiki][pw], and the
-[NIH's DailyMed][dailymed]. Half-life values are drawn from a hand-curated
-database of ~1,100 entries; see `Piru/Data/HalfLifeDatabase.swift`.
+Originally built by [pharmacykitty](https://github.com/pharmacykitty); continued by
+[@kageroumado](https://x.com/kageroumado), dispensed at [kagerou.glass](https://kagerou.glass).
+Pharmacology data courtesy of [FreeODwiki](https://github.com/SalviaSWC/FreeODwiki),
+[PsychonautWiki](https://psychonautwiki.org), [TripSit](https://tripsit.me), the NIH's
+[DailyMed](https://dailymed.nlm.nih.gov), [PubChem](https://pubchem.ncbi.nlm.nih.gov), the
+[PDSP K<sub>i</sub> database](https://pdsp.unc.edu), and the peer-reviewed literature cited throughout the app.
 
-**Piru is not medical advice.** It will not stop you from making a bad
-decision. Get a test kit, dose low, and have a sober friend.
+> **服用注意 ・ Piru is not medical advice.** It will not stop you from making a bad decision, and its
+> models are estimates, not measurements. Get a test kit, dose low, and keep a sober friend. ♡
