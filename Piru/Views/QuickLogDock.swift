@@ -132,38 +132,12 @@ struct QuickLogDock: View {
     /// Rendered height of the pinned commit bar (chips + Log button + any
     /// open panel).
     @State private var commitBarHeight: CGFloat = 0
-    /// The current fit-to-content compact detent, kept alongside ``detents``
-    /// so detent-change handlers can recognize it by value.
-    @State private var compactDetent: PresentationDetent?
-    /// The height the current ``compactDetent`` was minted at — refreshes are
-    /// skipped for sub-6pt drift so transient re-measures (the commit bar
-    /// animating a panel open, geometry settling) don't re-mint the detent
-    /// mid-gesture.
-    @State private var compactValue: CGFloat = 0
-    /// Invalidates deferred detent work (the UIKit selection hand-off and the
-    /// member prune in ``applyDetents(_:selecting:height:onSettled:)``) when a
-    /// newer change supersedes it.
-    @State private var detentGeneration = 0
-    /// Memoized handle to the UIKit view controller presenting this dock —
-    /// resolved once by ``SheetHostProbe`` when the content lands in a window
-    /// (the controller never changes for the sheet's lifetime), so detent
-    /// moves can drive the presentation directly without re-walking the
-    /// responder chain.
-    @State private var sheetHost = SheetHostBox()
-    /// Display-link driver for the frame-level sheet resize (see
-    /// ``animateFrame(of:fromLogical:toLogical:onSettled:)``).
-    @State private var frameAnimator = DisplayLinkAnimator()
-    /// Logical height the in-flight ramp is heading to — marks "a ramp owns
-    /// the sheet right now" and anchors chained retargets.
-    @State private var sheetRampLogicalTarget: CGFloat?
-    /// The mutable custom detent driving the ramp (see
-    /// ``animateHeightDetent(in:from:to:onSettled:)``).
-    @State private var rampDetent = MutableSheetDetent()
-    /// Numeric value of the *resting* selection (`nil` at `.medium`/`.large`),
-    /// maintained by ``detentChanged(from:to:)`` — which sees every settle,
-    /// drag or programmatic — so a move can anchor its frame animation even
-    /// after `compactValue` has been re-minted for the new target.
-    @State private var restingLogicalHeight: CGFloat? = QuickLogDockMetrics.peekHeight
+    /// The detent machine's mutable registers + UIKit handles, boxed in a
+    /// plain (non-observable) class on purpose: nothing in this body renders
+    /// from them, and as individual `@State`s every transition's bookkeeping
+    /// writes re-ran the whole dock body several times per move. See
+    /// ``DockDetentBookkeeping``.
+    @State private var bookkeeping = DockDetentBookkeeping()
     /// The dock is animating down to the bare pill after its content emptied
     /// (last dose deleted, search cancelled with nothing staged). While set,
     /// the browse suggestions stay unmounted: the shrink passes through
@@ -338,7 +312,7 @@ struct QuickLogDock: View {
                 },
             )
         }
-        .background { SheetHostProbe(box: sheetHost) }
+        .background { SheetHostProbe(box: bookkeeping.host) }
         // The empty⇄staged face swap mounts/unmounts dock content with NO
         // animation: the sheet's detent change is the one animated element,
         // and the content — laid out at its final frame from the first
@@ -383,7 +357,7 @@ struct QuickLogDock: View {
 
     private func handleExpandedItemsChanged() {
         guard !tray.expandedItemIDs.isEmpty,
-              detent == QuickLogDockMetrics.peekDetent || detent == compactDetent
+              detent == QuickLogDockMetrics.peekDetent || detent == bookkeeping.compactDetent
         else { return }
         moveDetent(to: .medium)
     }
@@ -398,7 +372,7 @@ struct QuickLogDock: View {
         families = LibraryFamily.browsable
         guard !tray.isEmpty else { return }
         refreshDetents()
-        if tray.expandedItemIDs.isEmpty, let compactDetent {
+        if tray.expandedItemIDs.isEmpty, let compactDetent = bookkeeping.compactDetent {
             detent = compactDetent
         } else {
             detent = .medium
@@ -450,8 +424,8 @@ struct QuickLogDock: View {
     /// `onSettled` fires once the sheet is at rest at the new selection.
     private func refreshDetents(onSettled: (() -> Void)? = nil) {
         if tray.isEmpty {
-            compactDetent = nil
-            compactValue = 0
+            bookkeeping.compactDetent = nil
+            bookkeeping.compactValue = 0
             let target = QuickLogDockMetrics.emptyDetents
             if target.contains(detent) || searchActive {
                 applyDetents(target, selecting: searchActive ? .large : detent, onSettled: onSettled)
@@ -464,7 +438,7 @@ struct QuickLogDock: View {
                 )
             }
         } else {
-            let wasCompact = compactDetent != nil && detent == compactDetent
+            let wasCompact = bookkeeping.compactDetent != nil && detent == bookkeeping.compactDetent
             // Fresh staged-card term, not the mirrored @State: a handler can
             // run before the observer's callback has delivered the estimate
             // for the mutation that triggered it (e.g. staging at peek), and
@@ -473,8 +447,8 @@ struct QuickLogDock: View {
                 stagedCard: TrayDerivedObserver.estimatedStagedCardHeight(count: tray.staged.count),
             )
             let newCompact = PresentationDetent.height(newValue)
-            compactDetent = newCompact
-            compactValue = newValue
+            bookkeeping.compactDetent = newCompact
+            bookkeeping.compactValue = newValue
             let target: Set<PresentationDetent> = [newCompact, .medium, .large]
             let needsMove = wasCompact || !target.contains(detent)
             applyDetents(
@@ -509,8 +483,8 @@ struct QuickLogDock: View {
         height: CGFloat? = nil,
         onSettled: (() -> Void)? = nil,
     ) {
-        detentGeneration &+= 1
-        let generation = detentGeneration
+        bookkeeping.generation &+= 1
+        let generation = bookkeeping.generation
         guard selection != detent else {
             detents = target
             onSettled?()
@@ -524,8 +498,8 @@ struct QuickLogDock: View {
         // only works if `.large` is already gone).
         detents = target.union([detent])
         Task { @MainActor in
-            guard generation == detentGeneration else { return }
-            guard let sheet = sheetHost.sheetController else {
+            guard generation == bookkeeping.generation else { return }
+            guard let sheet = bookkeeping.host.sheetController else {
                 // Not yet presented (first-appear configuration) — a plain
                 // binding write is correct here; there is nothing on screen
                 // to animate.
@@ -535,7 +509,7 @@ struct QuickLogDock: View {
                 return
             }
             animateSelection(selection, height: height, in: sheet) {
-                guard generation == detentGeneration else { return }
+                guard generation == bookkeeping.generation else { return }
                 detents = target
                 onSettled?()
             }
@@ -582,8 +556,8 @@ struct QuickLogDock: View {
             }
             return
         }
-        frameAnimator.cancel()
-        sheetRampLogicalTarget = nil
+        bookkeeping.frameAnimator.cancel()
+        bookkeeping.rampLogicalTarget = nil
         var identifier: UISheetPresentationController.Detent.Identifier?
         if selection == .medium {
             identifier = .medium
@@ -623,7 +597,7 @@ struct QuickLogDock: View {
     /// when one is running (chained retargets), otherwise the resting value
     /// tracked by ``detentChanged(from:to:)``. `nil` for `.medium`/`.large`.
     private func currentLogicalHeight() -> CGFloat? {
-        sheetRampLogicalTarget ?? restingLogicalHeight
+        bookkeeping.rampLogicalTarget ?? bookkeeping.restingLogicalHeight
     }
 
     /// The interpolated drag, through the controller's own machinery: a
@@ -644,18 +618,18 @@ struct QuickLogDock: View {
         onSettled: @escaping @MainActor () -> Void,
     ) {
         // Chained retarget: continue from the ramp's live height.
-        let start = sheetRampLogicalTarget != nil ? rampDetent.height : fromLogical
-        sheetRampLogicalTarget = toLogical
-        rampDetent.height = start
+        let start = bookkeeping.rampLogicalTarget != nil ? bookkeeping.rampDetent.height : fromLogical
+        bookkeeping.rampLogicalTarget = toLogical
+        bookkeeping.rampDetent.height = start
         installRampDetent(in: sheet)
-        frameAnimator.run(from: start, to: toLogical) { height in
-            rampDetent.height = height
+        bookkeeping.frameAnimator.run(from: start, to: toLogical) { height in
+            bookkeeping.rampDetent.height = height
             // Self-heal: a SwiftUI presentation update mid-ramp can rewrite
             // the sheet's detents/selection; re-assert before invalidating.
             installRampDetent(in: sheet)
             sheet.invalidateDetents()
         } completion: {
-            sheetRampLogicalTarget = nil
+            bookkeeping.rampLogicalTarget = nil
             onSettled()
         }
     }
@@ -664,7 +638,7 @@ struct QuickLogDock: View {
     /// is the selection (both idempotent — no-ops while already installed).
     private func installRampDetent(in sheet: UISheetPresentationController) {
         if !sheet.detents.contains(where: { $0.identifier == MutableSheetDetent.identifier }) {
-            sheet.detents += [rampDetent.detent]
+            sheet.detents += [bookkeeping.rampDetent.detent]
         }
         if sheet.selectedDetentIdentifier != MutableSheetDetent.identifier {
             sheet.selectedDetentIdentifier = MutableSheetDetent.identifier
@@ -686,11 +660,11 @@ struct QuickLogDock: View {
         // Track the resting numeric height for the frame-level resize (every
         // settle passes through here — drags and programmatic moves alike).
         if newValue == QuickLogDockMetrics.peekDetent {
-            restingLogicalHeight = QuickLogDockMetrics.peekHeight
-        } else if let compactDetent, newValue == compactDetent {
-            restingLogicalHeight = compactValue
+            bookkeeping.restingLogicalHeight = QuickLogDockMetrics.peekHeight
+        } else if let compactDetent = bookkeeping.compactDetent, newValue == compactDetent {
+            bookkeeping.restingLogicalHeight = bookkeeping.compactValue
         } else {
-            restingLogicalHeight = nil
+            bookkeeping.restingLogicalHeight = nil
         }
         // Any move that isn't headed to the bare pill revives the suggestions
         // (the user grabbed the sheet mid-shrink).
@@ -703,7 +677,7 @@ struct QuickLogDock: View {
                 searchText = ""
             }
         }
-        guard let compactDetent else { return }
+        guard let compactDetent = bookkeeping.compactDetent else { return }
         // The expansion side effects run a turn later: mutating the sheet's
         // content inside the same transaction as the detent change cancels
         // the sheet's settle animation — the selection lands on the new
@@ -735,7 +709,7 @@ struct QuickLogDock: View {
         guard !searchActive else { return }
         if detent == QuickLogDockMetrics.peekDetent {
             refreshDetents()
-        } else if let compactDetent, detent == compactDetent,
+        } else if let compactDetent = bookkeeping.compactDetent, detent == compactDetent,
                   let newest = tray.staged.last,
                   !tray.expandedItemIDs.contains(newest.id) {
             unrevealedItemIDs.insert(newest.id)
@@ -751,11 +725,12 @@ struct QuickLogDock: View {
     /// animations see-saw the bottom-pinned commit bar (the mirror image of
     /// the staged-row sequencing in ``handleStaged()``).
     private func handleCompactHeightChanged() {
-        guard !tray.isEmpty, abs(compactHeightValue - compactValue) >= 6 else { return }
-        if compactHeightValue < compactValue, let compactDetent, detent == compactDetent {
+        guard !tray.isEmpty, abs(compactHeightValue - bookkeeping.compactValue) >= 6 else { return }
+        if compactHeightValue < bookkeeping.compactValue,
+           let compactDetent = bookkeeping.compactDetent, detent == compactDetent {
             Task { @MainActor in
                 try? await Task.sleep(for: .milliseconds(450))
-                guard !tray.isEmpty, abs(compactHeightValue - compactValue) >= 6 else { return }
+                guard !tray.isEmpty, abs(compactHeightValue - bookkeeping.compactValue) >= 6 else { return }
                 refreshDetents()
             }
         } else {
@@ -783,8 +758,8 @@ struct QuickLogDock: View {
             )
         } else {
             refreshDetents()
-            if tray.expandedItemIDs.isEmpty, let compactDetent {
-                moveDetent(to: compactDetent, height: compactValue)
+            if tray.expandedItemIDs.isEmpty, let compactDetent = bookkeeping.compactDetent {
+                moveDetent(to: compactDetent, height: bookkeeping.compactValue)
             } else {
                 moveDetent(to: .medium)
             }
@@ -1167,162 +1142,6 @@ struct QuickLogDock: View {
             // carries its full dose/duration data (labeled with the personal
             // name); a net-new custom falls back to its own asSubstance.
             .compactMap { SubstanceLibrary.timelineLookup($0.name) ?? $0.asSubstance }
-    }
-}
-
-// MARK: - Display-link animator
-
-/// Eases a scalar from one value to another with a callback per display
-/// frame — the driver for the dock's frame-level sheet resize. Vsync-locked
-/// (a `Task.sleep` loop adds scheduler wake latency and visibly stutters)
-/// and eased against `targetTimestamp`, i.e. computed for the frame being
-/// *presented*.
-@MainActor
-final class DisplayLinkAnimator: NSObject {
-    private var displayLink: CADisplayLink?
-    private var startTimestamp: CFTimeInterval?
-    private var start: CGFloat = 0
-    private var end: CGFloat = 0
-    private var duration: Double = 0.32
-    private var tick: ((CGFloat) -> Void)?
-    private var completion: (() -> Void)?
-
-    func run(
-        from start: CGFloat,
-        to end: CGFloat,
-        duration: Double = 0.32,
-        tick: @escaping (CGFloat) -> Void,
-        completion: @escaping () -> Void,
-    ) {
-        cancel()
-        self.start = start
-        self.end = end
-        self.duration = duration
-        self.tick = tick
-        self.completion = completion
-        startTimestamp = nil
-        let link = CADisplayLink(target: self, selector: #selector(step(_:)))
-        link.add(to: .main, forMode: .common)
-        displayLink = link
-    }
-
-    func cancel() {
-        displayLink?.invalidate()
-        displayLink = nil
-        tick = nil
-        completion = nil
-    }
-
-    @objc
-    private func step(_ link: CADisplayLink) {
-        // First callback anchors the timeline so the animation never skips
-        // ahead by however late the link started.
-        let reference = startTimestamp ?? link.timestamp
-        if startTimestamp == nil { startTimestamp = reference }
-        let progress = min(1, (link.targetTimestamp - reference) / duration)
-        let eased = 1 - pow(1 - progress, 3)
-        tick?(start + (end - start) * eased)
-        if progress >= 1 {
-            let completion = completion
-            cancel()
-            completion?()
-        }
-    }
-}
-
-// MARK: - Mutable ramp detent
-
-/// A UIKit custom detent whose resolved height reads a mutable value — the
-/// supported mechanism for continuously resizing a sheet (the pattern Apple
-/// documents for keyboard-tracking sheets): update `height`, call
-/// `invalidateDetents()`, and the controller re-resolves and lays out
-/// through its own full resize path.
-@MainActor
-final class MutableSheetDetent {
-    static let identifier = UISheetPresentationController.Detent.Identifier("dev.yumeji.piru.dock-ramp")
-
-    var height: CGFloat = 0
-
-    /// The UIKit detent. Lazy so the resolver can weakly capture `self`; the
-    /// resolver runs on the main thread as part of sheet layout.
-    private(set) lazy var detent: UISheetPresentationController.Detent = .custom(identifier: Self.identifier) { [weak self] context in
-        MainActor.assumeIsolated {
-            guard let self else { return context.maximumDetentValue }
-            return min(self.height, context.maximumDetentValue)
-        }
-    }
-}
-
-// MARK: - Sheet host access
-
-/// Memoized handle to the UIKit view controller presenting the dock sheet.
-///
-/// Resolved once when the dock content first lands in a window — the
-/// controller never changes for the presented sheet's lifetime — so the dock
-/// can drive `UISheetPresentationController.animateChanges` (which SwiftUI
-/// doesn't expose) without re-walking the responder chain per move. Weak:
-/// the box must not keep a dismissed sheet's controller alive.
-@MainActor
-final class SheetHostBox {
-    weak var viewController: UIViewController?
-
-    /// The dock sheet's presentation controller — `sheetPresentationController`
-    /// resolves through the nearest presented ancestor, which for a view
-    /// inside the dock's content is the dock sheet itself.
-    var sheetController: UISheetPresentationController? {
-        viewController?.sheetPresentationController
-    }
-}
-
-/// Zero-size leaf that captures the dock's presenting view controller into a
-/// ``SheetHostBox`` via the responder chain, once, on first window entry.
-private struct SheetHostProbe: UIViewRepresentable {
-    let box: SheetHostBox
-
-    func makeUIView(context _: Context) -> ProbeView {
-        ProbeView(box: box)
-    }
-    func updateUIView(_: ProbeView, context _: Context) {}
-
-    final class ProbeView: UIView {
-        private let box: SheetHostBox
-
-        init(box: SheetHostBox) {
-            self.box = box
-            super.init(frame: .zero)
-            isUserInteractionEnabled = false
-        }
-
-        @available(*, unavailable)
-        required init?(coder _: NSCoder) {
-            nil
-        }
-
-        override func didMoveToWindow() {
-            super.didMoveToWindow()
-            guard window != nil, box.viewController == nil else { return }
-            var responder: UIResponder? = next
-            while let current = responder {
-                if let viewController = current as? UIViewController {
-                    box.viewController = viewController
-                    return
-                }
-                responder = current.next
-            }
-        }
-    }
-}
-
-/// Minimal context for resolving `.height` detents' values when matching the
-/// UIKit detents SwiftUI minted (their identifiers are opaque; their resolved
-/// heights are exact).
-private final class SheetDetentResolutionContext: NSObject, UISheetPresentationControllerDetentResolutionContext {
-    let containerTraitCollection: UITraitCollection
-    let maximumDetentValue: CGFloat
-
-    init(containerTraitCollection: UITraitCollection, maximumDetentValue: CGFloat) {
-        self.containerTraitCollection = containerTraitCollection
-        self.maximumDetentValue = maximumDetentValue
     }
 }
 
