@@ -11,6 +11,8 @@
 **rx no. 007 ・ pi·ru ・ 一部剂量日志，也是一部药典 ♡**
 
 [![kagerou.glass](https://img.shields.io/badge/kagerou.glass-EB4470?style=for-the-badge&logo=safari&logoColor=white)](https://kagerou.glass/piru/)
+[![TestFlight](https://img.shields.io/badge/TestFlight-%E5%8A%A0%E5%85%A5%E6%B5%8B%E8%AF%95-0D96F6?style=for-the-badge&logo=testflight&logoColor=white)](https://testflight.apple.com/join/4vcA7dY3)
+[![Discord](https://img.shields.io/badge/Discord-%E5%8A%A0%E5%85%A5%E6%88%91%E4%BB%AC-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/hbpMZhPSdx)
 [![@kageroumado](https://img.shields.io/badge/@kageroumado-76e6e0?style=for-the-badge&logo=x&logoColor=0d0a10)](https://x.com/kageroumado)
 [![iOS 26+](https://img.shields.io/badge/iOS-26%2B-0d0a10?style=for-the-badge&logo=apple&logoColor=white)](#系统要求)
 [![English](https://img.shields.io/badge/English-README-EB4470?style=for-the-badge)](README.md)
@@ -35,6 +37,20 @@
 Piru 是一款 iOS 剂量日志与药理参考工具，献给每一个会摄入某些东西的人——处方药、膳食补充剂或
 消遣性物质。两下点击记录一剂，Piru 便把药代动力学画在你的一天之上：什么仍在活跃、什么会叠成危险
 组合、耐受性如何建立与消退。一切都留在你的设备上。
+
+## 下载测试版
+
+Piru 通过 **TestFlight**（苹果官方的测试 app）发布。两分钟搞定：
+
+1. 点邀请链接：**[testflight.apple.com/join/4vcA7dY3](https://testflight.apple.com/join/4vcA7dY3)**
+2. 在 **第 1 步「获取 TestFlight」** 下面，点 **「在 App Store 中查看」** 把 TestFlight 装上（已经有的话跳过）。
+3. 回到邀请页面，在 **第 2 步「查看 Piru Beta」** 下面，点 **「在 TestFlight 中查看」**。
+4. TestFlight 会打开 Piru 的页面 —— 点 **「安装」**。
+5. 装好后点 **「打开」**，或者直接从主屏幕启动 Piru。
+
+就这样。之后有新版本会收到通知，在 TestFlight 里一点就能更新。
+
+有问题、想报 bug，或者只是来聊聊？**[加入 Discord →](https://discord.gg/hbpMZhPSdx)**
 
 ## 功能
 
@@ -165,7 +181,7 @@ Piru 是为敏感数据打造的，因此默认就是最稳妥的那一种：**�
 
 - **iOS 26 或更高版本。** 界面围绕 Liquid Glass 打造；不支持更早的 iOS。
 - 构建需 **Xcode 26+** 与 Swift 6——克隆后打开 `Piru.xcodeproj` 运行即可。
-- 通过 TestFlight 分发；未上架 App Store。
+- 通过 [TestFlight](https://testflight.apple.com/join/4vcA7dY3) 分发，未上架 App Store —— 见 [下载测试版](#下载测试版)。
 
 内置物质库由一条离线、可复现的 Python 流水线从已提交的来源快照构建——见 [`pipeline/`](pipeline/)。
 切勿手工编辑 `Piru/Data/piru-substances.sqlite`；请用 `pipeline/build.sh` 重新构建。

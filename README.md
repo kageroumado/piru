@@ -11,6 +11,8 @@
 **rx no. 007 ・ pi·ru ・ a dose journal and a pharmacopeia ♡**
 
 [![kagerou.glass](https://img.shields.io/badge/kagerou.glass-EB4470?style=for-the-badge&logo=safari&logoColor=white)](https://kagerou.glass/piru/)
+[![TestFlight](https://img.shields.io/badge/TestFlight-join%20the%20beta-0D96F6?style=for-the-badge&logo=testflight&logoColor=white)](https://testflight.apple.com/join/4vcA7dY3)
+[![Discord](https://img.shields.io/badge/Discord-join%20us-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/hbpMZhPSdx)
 [![@kageroumado](https://img.shields.io/badge/@kageroumado-76e6e0?style=for-the-badge&logo=x&logoColor=0d0a10)](https://x.com/kageroumado)
 [![iOS 26+](https://img.shields.io/badge/iOS-26%2B-0d0a10?style=for-the-badge&logo=apple&logoColor=white)](#requirements)
 [![简体中文](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-README-EB4470?style=for-the-badge)](README.zh-Hans.md)
@@ -38,6 +40,20 @@ Piru is an iOS dose journal and pharmacology reference for anyone who takes thin
 supplements, or recreational substances. Log a dose in two taps and Piru draws the pharmacokinetics
 over your day: what's still active, what stacks into a dangerous pair, how tolerance builds and
 fades. Everything stays on your device.
+
+## Get the beta
+
+Piru ships through **TestFlight**, Apple's beta app. Two-minute setup:
+
+1. Tap the invite link: **[testflight.apple.com/join/4vcA7dY3](https://testflight.apple.com/join/4vcA7dY3)**
+2. Under **Step 1 – Get TestFlight**, tap **View in App Store** and install TestFlight (skip if you already have it).
+3. Back on the invite page, under **Step 2 – View Piru Beta**, tap **View in TestFlight**.
+4. TestFlight opens the Piru page — tap **Install**.
+5. When it's done, tap **Open**, or launch Piru from your home screen.
+
+That's it. New builds arrive as a notification, and updating is one tap inside TestFlight.
+
+Questions, bug reports, or just want to hang out? **[Join the Discord →](https://discord.gg/hbpMZhPSdx)**
 
 ## Features
 
@@ -186,7 +202,7 @@ Piru is built for sensitive data, so the default is the safe one: **nothing leav
 
 - **iOS 26 or later.** The interface is built around Liquid Glass; earlier iOS is not supported.
 - **Xcode 26+** with Swift 6 to build — clone, open `Piru.xcodeproj`, and Run.
-- Distributed via TestFlight; not on the App Store.
+- Distributed via [TestFlight](https://testflight.apple.com/join/4vcA7dY3), not the App Store — see [Get the beta](#get-the-beta).
 
 The bundled substance library is built by an offline, reproducible Python pipeline from committed
 source snapshots — see [`pipeline/`](pipeline/). Never hand-edit `Piru/Data/piru-substances.sqlite`;
