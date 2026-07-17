@@ -10,17 +10,15 @@ Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, br
 
 ## Build & Test
 
-```bash
-# Build
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
+**Prefer the Xcode MCP over raw `xcodebuild`.** Use `mcp__xcode__BuildProject` to build and `mcp__xcode__RunAllTests` / `mcp__xcode__RunSomeTests` to test. The MCP surfaces compiler errors and warnings far more legibly than parsing `xcodebuild` output, and it drives the one shared Xcode/DerivedData instance — so it won't race a build another agent (or the IDE) already has in flight. Raw `xcodebuild` is a fallback for CI or when the MCP is unavailable; two concurrent `xcodebuild` invocations against the same DerivedData clobber each other.
 
-# Run tests (uses Apple Testing framework, not XCTest)
+```bash
+# Fallback only (prefer the Xcode MCP above):
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
 xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' test
 
-# Build SubstanceValidator CLI tool
+# Build & run the SubstanceValidator CLI tool
 cd Tools/SubstanceValidator && swift build
-
-# Run SubstanceValidator
 cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 ```
 
@@ -131,6 +129,7 @@ struct DoseEntryTests {
   - **Don't auto-prune stale entries.** `extractionState: stale` is a *candidate* signal, not proof of death — the lightweight extractor false-flags strings resolved via `String(localized:)` in helpers (e.g. `MechanismOfActionDatabase.moa()` summaries) or used only from another target. Deleting those ships English to zh users at runtime. Leave orphans in place (harmless unused entries); a future clean build re-evaluates them. We do **not** use a TMS (SimpleLocalize/Localazy) — translations are authored directly in `translate_catalog.py`.
 - **iOS 26+** minimum deployment target (Liquid Glass UI throughout)
 - **Swift 6** strict concurrency (`default-isolation=MainActor`)
+- **No `Text + Text` concatenation.** The SwiftUI `+` operator on `Text` is deprecated in iOS 26 and trips a build warning (`'+' was deprecated in iOS 26.0: Use string interpolation on Text`). Build the value in one shot instead: a single `Text("… \(value) …")`, or — when several **independently localized** pieces must join (e.g. an `accessibilityValue`) — compose a plain `String` from `String(localized:)` pieces and pass that (`"\(status), \(position)"` assigned to a `let`, so it resolves to the `StringProtocol` overload rather than minting a `"%@, %@"` catalog key). Keep the build warning-clean; don't leave these to accumulate.
 - Colors: accent from `Assets.xcassets` (soft pink light / hot pink dark), substances get user-assignable `PresetColor`s
 - All singleton managers use `@Observable @MainActor`
 - Route parsing is case-insensitive with abbreviation support

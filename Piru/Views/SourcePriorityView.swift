@@ -13,15 +13,14 @@ struct SourcePriorityView: View {
         List {
             Section {
                 ForEach(Array(states.enumerated()), id: \.element.id) { index, state in
+                    let status = state.enabled ? String(localized: "On") : String(localized: "Off")
+                    let position = String(localized: "Priority \(index + 1) of \(states.count)")
+                    let accessibilityValue = "\(status), \(position)"
                     SourceRow(
                         state: state,
                         toggle: { toggle(state, enabled: $0) },
                     )
-                    .accessibilityValue(
-                        Text(state.enabled ? "On" : "Off")
-                            + Text(verbatim: ", ")
-                            + Text("Priority \(index + 1) of \(states.count)"),
-                    )
+                    .accessibilityValue(accessibilityValue)
                 }
                 .onMove(perform: move)
             } header: {

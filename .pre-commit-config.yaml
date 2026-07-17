@@ -19,6 +19,20 @@ repos:
         entry: swiftformat
         language: system
         types: [swift]
+
+      # Pre-push gate: refuse to push unformatted Swift. Mirrors CI exactly
+      # (`swiftformat --lint .`) so a green push means a green CI format check.
+      # The commit-time `swiftformat` hook above only reformats *staged* files;
+      # this catches anything that slipped through (amends, --no-verify, partial
+      # stages) before it reaches the remote. Install once:
+      #   pre-commit install --hook-type pre-push
+      - id: swiftformat-lint
+        name: SwiftFormat (lint, pre-push)
+        entry: swiftformat --lint .
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
       - id: swiftlint
         name: SwiftLint
         entry: swiftlint lint --quiet
