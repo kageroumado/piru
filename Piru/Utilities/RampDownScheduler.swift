@@ -141,6 +141,10 @@ enum RampDownScheduler {
         duration: DurationProfile,
         entryKey: String,
         category: SubstanceCategory? = nil,
+        // The name to *show* — the brand the dose was logged as ("Concerta"),
+        // resolved via `DoseTitle` by the caller. `substanceName` stays canonical
+        // for identity; only the copy uses this. Falls back to canonical.
+        displayName: String? = nil,
     ) {
         let center = UNUserNotificationCenter.current()
 
@@ -163,7 +167,7 @@ enum RampDownScheduler {
         let message = comedownMessage(for: category)
 
         let content = UNMutableNotificationContent()
-        content.title = message.title.replacingOccurrences(of: "{name}", with: substanceName)
+        content.title = message.title.replacingOccurrences(of: "{name}", with: displayName ?? substanceName)
         content.body = message.body
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = rampDownCategoryID
@@ -332,6 +336,8 @@ enum RampDownScheduler {
         unit: String,
         category: SubstanceCategory?,
         doseTime: Date = .now,
+        // Brand to show in the copy; `substanceName` stays canonical for the id.
+        displayName: String? = nil,
     ) {
         guard wellnessNotificationsEnabled else { return }
         let threadId = sessionIdentifier(for: doseTime)
@@ -344,7 +350,7 @@ enum RampDownScheduler {
 
             scheduleSimpleNotification(
                 id: "\(cumulativeCategoryID)_\(substanceName.lowercased())_\(Int(Date.now.timeIntervalSince1970))",
-                title: String(localized: "Heads up — \(totalAmount.doseFormatted)\(unit) \(substanceName) today"),
+                title: String(localized: "Heads up — \(totalAmount.doseFormatted)\(unit) \(displayName ?? substanceName) today"),
                 body: String(localized: "That's a high cumulative dose. \(tip)"),
                 timeInterval: 5,
                 category: cumulativeCategoryID,
@@ -397,8 +403,11 @@ enum RampDownScheduler {
         substanceName: String,
         doseTime: Date,
         duration: DurationProfile?,
+        // Brand to show in the phase titles; `substanceName` stays canonical.
+        displayName: String? = nil,
     ) {
         guard phaseNotificationsEnabled, let duration else { return }
+        let shownName = displayName ?? substanceName
         let threadId = sessionIdentifier(for: doseTime)
 
         Task {
@@ -423,12 +432,12 @@ enum RampDownScheduler {
                 }
             }
 
-            schedulePhase(.onset, of: substanceName, delaySec: 60, body: body(for: .onset), doseTime: doseTime, threadId: threadId)
+            schedulePhase(.onset, of: shownName, delaySec: 60, body: body(for: .onset), doseTime: doseTime, threadId: threadId)
             if onsetEndSec > 0 {
-                schedulePhase(.comeup, of: substanceName, delaySec: onsetEndSec, body: body(for: .comeup), doseTime: doseTime, threadId: threadId)
+                schedulePhase(.comeup, of: shownName, delaySec: onsetEndSec, body: body(for: .comeup), doseTime: doseTime, threadId: threadId)
             }
             if comeupEndSec > 0, comeupEndSec > onsetEndSec {
-                schedulePhase(.peak, of: substanceName, delaySec: comeupEndSec, body: body(for: .peak), doseTime: doseTime, threadId: threadId)
+                schedulePhase(.peak, of: shownName, delaySec: comeupEndSec, body: body(for: .peak), doseTime: doseTime, threadId: threadId)
             }
         }
     }

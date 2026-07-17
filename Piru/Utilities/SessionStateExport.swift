@@ -157,18 +157,25 @@ extension SessionStateExport {
         guard !states.isEmpty else { return nil }
         states.sort { $0.doseTimestamp < $1.doseTimestamp }
 
-        // Elimination grouped by canonical substance name.
+        // Elimination grouped by canonical substance (so the combined body-load
+        // curve stays correct), but titled with the brand when every dose in the
+        // group shares one — the common single-med case. A group mixing forms
+        // (Concerta + Ritalin) keeps the canonical "Methylphenidate", since one
+        // brand can't title a total that isn't all that brand.
         var order: [String] = []
-        var groups: [String: (name: String, entries: [DoseEntry])] = [:]
+        var groups: [String: (name: String, entries: [DoseEntry], products: Set<String>)] = [:]
         for entry in working {
             let name = SubstanceLibrary.timelineLookup(entry.substance)?.displayTitle ?? entry.substance
             let key = name.lowercased()
-            if groups[key] == nil { order.append(key); groups[key] = (name, []) }
+            if groups[key] == nil { order.append(key); groups[key] = (name, [], []) }
             groups[key]?.entries.append(entry)
+            let product = entry.productName?.trimmingCharacters(in: .whitespaces)
+            groups[key]?.products.insert(product?.isEmpty == false ? product! : "")
         }
         let eliminations = order.compactMap { key -> EliminationGroup? in
             guard let group = groups[key] else { return nil }
-            return makeEliminationGroup(name: group.name, entries: group.entries, now: now)
+            let brand = (group.products.count == 1 && !group.products.contains("")) ? group.products.first : nil
+            return makeEliminationGroup(name: brand ?? group.name, entries: group.entries, now: now)
         }
 
         let names = Array(Set(working.map(\.substance)))
@@ -216,7 +223,9 @@ extension SessionStateExport {
 
         return SubstanceState(
             id: entry.id,
-            name: curve.substanceName,
+            // Per-dose, so it can show the brand the dose was logged as ("Concerta"),
+            // not the canonical "Methylphenidate" — same resolver the journal uses.
+            name: DoseTitle.resolve(for: entry),
             colorHex: hex,
             amount: entry.amount,
             unit: entry.unit,

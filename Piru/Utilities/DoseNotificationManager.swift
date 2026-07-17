@@ -22,6 +22,9 @@ enum DoseNotificationManager {
     static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry]) {
         let substance = library(for: entry)
         let duration = substance?.resolveDuration(for: entry.route)
+        // The name to *show* in copy — the brand the dose was logged as
+        // ("Concerta"), so a notification never reverts to "Methylphenidate".
+        let displayName = DoseTitle.resolve(for: entry)
 
         RampDownScheduler.scheduleWellnessNotifications(
             substanceName: entry.substance,
@@ -34,6 +37,7 @@ enum DoseNotificationManager {
             substanceName: entry.substance,
             doseTime: entry.timestamp,
             duration: duration,
+            displayName: displayName,
         )
 
         let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
@@ -49,6 +53,7 @@ enum DoseNotificationManager {
                 totalAmount: total,
                 unit: entry.unit,
                 category: substance?.category,
+                displayName: displayName,
             )
         }
     }
@@ -75,6 +80,7 @@ enum DoseNotificationManager {
             substanceName: entry.substance,
             doseTime: entry.timestamp,
             duration: duration,
+            displayName: DoseTitle.resolve(for: entry),
         )
     }
 

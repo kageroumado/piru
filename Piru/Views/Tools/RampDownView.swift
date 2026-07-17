@@ -188,6 +188,7 @@ struct RampDownView: View {
                 duration: duration,
                 entryKey: entryKey,
                 category: category,
+                displayName: DoseTitle.resolve(for: entry),
             )
             RampDownScheduler.saveActiveEntry(entryKey)
             isActive = true

@@ -80,8 +80,11 @@ struct TodaySummaryProvider: TimelineProvider {
             return (color.substance.lowercased(), hex)
         })
 
-        // Group by substance
+        // Group by substance, tracking the distinct product names each group holds
+        // (empty string = a dose logged with no product) so a single-brand group
+        // can title itself with the brand.
         var grouped: [String: (total: Double, unit: String, count: Int, lastTime: Date)] = [:]
+        var groupProducts: [String: Set<String>] = [:]
         for entry in entries {
             let key = entry.substance
             var existing = grouped[key] ?? (total: 0, unit: entry.unit, count: 0, lastTime: entry.timestamp)
@@ -89,25 +92,29 @@ struct TodaySummaryProvider: TimelineProvider {
             existing.count += 1
             if entry.timestamp > existing.lastTime { existing.lastTime = entry.timestamp }
             grouped[key] = existing
+            let product = entry.productName?.trimmingCharacters(in: .whitespaces)
+            groupProducts[key, default: []].insert(product?.isEmpty == false ? product! : "")
         }
 
         // The personal display-name override (THC → "joint") the app mirrors into
         // the app group. This widget had none, so a relabel reached every surface
         // except this one.
-        //
-        // Only the relabel: these rows are per-*substance* totals, so the title
-        // must stay canonical. A Concerta 36 mg and a Ritalin 10 mg sum to
-        // "Methylphenidate 46 mg", which is the honest answer for a total — while
-        // titling the group from either dose's product or snapshot would name the
-        // whole group after one of the forms in it.
         let displayNames = (
             UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
                 .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
         ) ?? [:]
 
-        let doses = grouped.map { name, data in
-            DoseSummary(
-                substance: displayNames[name.lowercased()] ?? name,
+        // These rows are per-*substance* totals. A group that mixes forms — a
+        // Concerta 36 mg and a Ritalin 10 mg — sums to "Methylphenidate 46 mg", the
+        // honest answer, since naming it after one product would mislabel the whole
+        // total. But a group whose doses ALL share one brand IS that brand (the
+        // common single-med case), so it titles with it — mirroring `DoseTitle`'s
+        // relabel > product > canonical precedence as far as a catalog-less widget can.
+        let doses = grouped.map { name, data -> DoseSummary in
+            let products = groupProducts[name] ?? []
+            let brand = (products.count == 1 && !products.contains("")) ? products.first : nil
+            return DoseSummary(
+                substance: displayNames[name.lowercased()] ?? brand ?? name,
                 totalAmount: data.total,
                 unit: data.unit,
                 count: data.count,
