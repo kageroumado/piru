@@ -451,7 +451,6 @@ struct QuickLogView: View {
             }
         }
     }
-
 }
 
 // MARK: - Dock Sheet Host
