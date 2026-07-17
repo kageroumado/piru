@@ -168,9 +168,11 @@ struct ProductNameCaptureTests {
         let ldx = SubstanceLibrary.lookupByNameOrAlias("Lisdexamfetamine")
         #expect(ldx?.displayAliases.first == "Vyvanse")
 
-        // A substance with many brands still leads with one (Concerta) instead of
-        // an alphabetically-first "Adhansia XR".
+        // A substance with many brands leads with the curated flagship (Ritalin,
+        // brand_rank 0) ahead of the auto-derived form brands (Concerta, rank 1) —
+        // not the alphabetically-first "Adhansia XR".
         let mph = SubstanceLibrary.lookupByNameOrAlias("Methylphenidate")
-        #expect(mph?.displayAliases.first == "Concerta")
+        #expect(mph?.displayAliases.first == "Ritalin")
+        #expect(mph?.displayAliases.prefix(2).contains("Concerta") == true)
     }
 }

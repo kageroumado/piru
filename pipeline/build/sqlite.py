@@ -549,6 +549,12 @@ CREATE TABLE aliases (
     -- (the full chemical/abbreviation/street/regional taxonomy is deferred). Not a
     -- facet and not a lookup key — display ordering only.
     kind             TEXT,
+    -- Ordering hint within the brands of one substance: 0 = a curated flagship
+    -- (brands.json — the name people know best, e.g. Ritalin), 1 = an auto-derived
+    -- form-map brand (a release/isomer product like Concerta/Focalin), NULL for a
+    -- non-brand. Lets the subtitle lead with the iconic base brand instead of the
+    -- alphabetically-first product, which alphabetical-among-brands still buried.
+    brand_rank       INTEGER,
     PRIMARY KEY (substance_id, alias)
 );
 CREATE INDEX idx_aliases_normalized ON aliases(alias_normalized);
@@ -6722,22 +6728,37 @@ class Build:
         # (release XR brands, isomer-variant brands) plus curated flagship base
         # brands (brands.json) — every other alias stays NULL. `kind` drives no
         # fold, no facet, no dose: it is a display-ordering hint only.
-        brand_pairs: list[tuple[str, str]] = []
+        # Two tiers so the subtitle leads with the iconic base brand. Form-map
+        # brands (release/isomer products the pipeline already enumerates) rank 1;
+        # the curated flagships (brands.json — the base brands people know) rank 0,
+        # seeded second so a brand in both ends at the flagship rank.
+        form_brands: list[tuple[str, str]] = []
         for b in self._release_registry.get("brands", []):
-            brand_pairs.append((b["parent"], b["brand"]))
+            form_brands.append((b["parent"], b["brand"]))
         for fam in collision_registry.fold_families():
             for v in fam["variants"]:
                 for nm in v.get("brands") or []:
-                    brand_pairs.append((fam["parent"], nm))
-        for b in collision_registry.brand_registry():
-            brand_pairs.append((b["parent"], b["brand"]))
+                    form_brands.append((fam["parent"], nm))
+        # A brands.json entry defaults to the flagship rank 0 but may opt down to 1
+        # (e.g. Daytrana — a real brand, but a niche patch that should not lead
+        # Ritalin in the Methylphenidate subtitle).
+        flagship_brands = [
+            (b["parent"], b["brand"], b.get("rank", 0)) for b in collision_registry.brand_registry()
+        ]
 
-        brand, brand_missing = 0, []
-        for parent, name in brand_pairs:
-            cur = self.cur.execute(
-                "UPDATE aliases SET kind='brand' WHERE alias_normalized=? AND substance_id="
+        brand = 0
+        for parent, name in form_brands:
+            brand += self.cur.execute(
+                "UPDATE aliases SET kind='brand', brand_rank=1 WHERE alias_normalized=? AND substance_id="
                 "(SELECT id FROM substances WHERE canonical_name=?)",
                 (normalise(name), parent),
+            ).rowcount
+        brand_missing = []
+        for parent, name, rank in flagship_brands:
+            cur = self.cur.execute(
+                "UPDATE aliases SET kind='brand', brand_rank=? WHERE alias_normalized=? AND substance_id="
+                "(SELECT id FROM substances WHERE canonical_name=?)",
+                (rank, normalise(name), parent),
             )
             if cur.rowcount:
                 brand += cur.rowcount
