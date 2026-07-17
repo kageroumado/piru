@@ -48,11 +48,10 @@ enum QuickLogDockMetrics {
 
 /// The dock sheet's live content height, reported by geometry every layout
 /// tick of an interactive detent drag. An `@Observable` box — not view
-/// `@State` — so those per-frame writes invalidate only the views that read
-/// the continuous ``height`` (the bare-pill centering modifier), never the
-/// dock's whole body. The threshold-crossing ``isHeightBare`` flag is stored
-/// separately and written only when it flips, so body-level readers
-/// re-evaluate once per crossing instead of once per frame.
+/// `@State` — so those per-frame writes never re-evaluate the dock's whole
+/// body. Only the threshold-crossing ``isHeightBare`` flag is read by the
+/// body (via ``QuickLogDock/isBare``), and it's written only when it flips, so
+/// body-level readers re-evaluate once per crossing instead of once per frame.
 @Observable
 @MainActor
 final class DockSheetGeometry {
@@ -260,16 +259,19 @@ struct QuickLogDock: View {
 
     private var dockLayout: some View {
         VStack(spacing: 0) {
-            // The search bar is identical in every dock state — same field,
-            // same insets. In the bare pill it is mathematically centered in
-            // the platter (computed from the live sheet height, so it holds
-            // on every device); the full faces pin it under the grabber. The
-            // live-height read lives in the modifier's own body — the one
-            // per-frame dependency during a drag — so this body never re-runs
-            // for continuous height changes.
+            // The search bar keeps one identity in every dock state and is simply
+            // pinned to the top — a fixed 16pt below the grabber — in all of them.
+            // The bare pill used to be *centered* by a measured top padding, but
+            // that read the live sheet height, which an orphaned keyboard (left by
+            // an app switch clobbering the shared keyboard) inflates via the
+            // keyboard layout guide, drifting the pill up and cropping it
+            // (TestFlight 2.2 (30), iOS 26.5.2). Top-pinning has no height to
+            // corrupt — and it's already what the taller detents do, correctly.
+            // The peek detent is sized (``peekHeight``) so the pinned pill + the
+            // fixed ``bareFloat`` gap below read as a floating bar.
             searchBar
                 .padding(.horizontal, 16)
-                .modifier(BarePillCentering(geometry: geometry, trayIsEmpty: tray.isEmpty))
+                .padding(.top, 16)
                 .padding(.bottom, 6)
 
             ScrollView {
@@ -1330,22 +1332,6 @@ private final class SheetDetentResolutionContext: NSObject, UISheetPresentationC
 }
 
 // MARK: - Geometry & tray leaves
-
-/// Centers the search pill in the bare face from the *live* sheet height.
-/// A `ViewModifier` so the continuous `geometry.height` read registers on the
-/// modifier's own body — during an interactive drag inside the bare zone only
-/// this leaf re-evaluates per frame, and outside it (the height read is
-/// skipped entirely) nothing does.
-private struct BarePillCentering: ViewModifier {
-    var geometry: DockSheetGeometry
-    var trayIsEmpty: Bool
-
-    func body(content: Content) -> some View {
-        let bare = trayIsEmpty && geometry.isHeightBare
-        return content
-            .padding(.top, bare ? max(16, (geometry.height - QuickLogDockMetrics.fieldHeight) / 2) : 16)
-    }
-}
 
 /// Zero-size leaf owning the dock's derived reads of the staged array — the
 /// interaction-check names and the collapsed-card height estimate. Both fold
