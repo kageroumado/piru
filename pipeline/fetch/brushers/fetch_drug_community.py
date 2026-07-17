@@ -2,19 +2,22 @@
 """Fetch the full drug.community dataset via its public API, storing the raw
 responses in-repo for versioned provenance.
 
-drug.community is a JSON-powered encyclopedia of psychoactive substances. It
-exposes a per-substance API:
-
-    https://drug.community/api/info?name=<name | slug | alias>
-
-and human-readable pages at https://drug.community/drug/<slug>, where the slug
+drug.community is a JSON-powered encyclopedia of psychoactive substances, and
+human-readable pages live at https://drug.community/drug/<slug>, where the slug
 is ``name.lower()`` with runs of non-alphanumeric characters collapsed to ``-``
 (mirrored here by :func:`slugify`).
 
-There is **no list endpoint**, so the substance roster is enumerated from the
-single-page app's bundled dataset: the homepage references a content-hashed JS
-asset that embeds every ``drug_name``. For each name we hit the official API and
-keep the response verbatim.
+As of the Sept-2025 redesign the whole substance roster ships in a single
+MongoDB-backed bootstrap payload rather than one API call per name:
+
+    GET https://drug.community/api/data/bootstrap  ->  { drugs: [...], ... }
+
+Each element of ``drugs`` is the same rich per-substance object the old
+``/api/info?name=<X>`` endpoint returned (drug_name, dosages, duration,
+duration_curves, subjective_effects, interactions, tolerance, half_life,
+citations, categories, …), so downstream consumers are unaffected — only the
+transport changed. We still record the content-hashed SPA asset from the
+homepage so the git history pins exactly which deploy each snapshot came from.
 
 Why store the responses in the repo: re-running this surfaces any upstream
 change as a reviewable git diff. That gives Piru a visible history of where its
@@ -22,14 +25,13 @@ drug.community data came from and when — proof of best-effort sourcing, not an
 opaque one-off export.
 
 This is sanctioned first-party use of an API the site operator provided; the
-fetcher identifies itself honestly via ``User-Agent`` and spaces its requests
-out politely.
+fetcher identifies itself honestly via ``User-Agent``.
 
 Usage:
     python3 pipeline/fetch/brushers/fetch_drug_community.py
 
 Writes:
-    data/sources/drug-community.json       — array of API responses, sorted by slug
+    data/sources/drug-community.json       — array of drug profiles, sorted by slug
     data/sources/drug-community.meta.json   — fetch provenance (when / how / how many)
 """
 
@@ -40,28 +42,31 @@ import re
 import sys
 import time
 import urllib.error
-import urllib.parse
 import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-OUT = REPO / "data/sources/drug-community.json"
-META = REPO / "data/sources/drug-community.meta.json"
+SOURCES = REPO / "data/sources"
+OUT = SOURCES / "drug-community.json"
+META = SOURCES / "drug-community.meta.json"
+# Companion datasets added in the Sept-2025 redesign (see fetch_extra_datasets).
+SPECTRA_OUT = SOURCES / "drug-community-spectra.json"
+EFFECTS_OUT = SOURCES / "drug-community-effects.json"
+COMBOS_OUT = SOURCES / "drug-community-combinations.json"
 
 BASE = "https://drug.community"
-API = BASE + "/api/info"
+API = BASE + "/api/data/bootstrap"
+DATA_API = BASE + "/api/data"
 # Honest identification — this is not a browser and not an AI crawler; it is
 # Piru's first-party data fetcher pulling an API made available to the project.
 UA = "Piru-DataFetcher/1.0 (+https://github.com/kageroumado/piru; first-party API use; contact via repo)"
-TIMEOUT = 20
-DELAY = 0.35  # polite spacing between API calls (~2.5 min for the full roster)
+TIMEOUT = 30
 RETRIES = 2
 
 _NONALNUM = re.compile(r"[^a-z0-9]+")
 _TRIM = re.compile(r"(^-|-$)")
 _ASSET = re.compile(r'src="(/assets/[^"]+\.js)"')
-_DRUG_NAME = re.compile(r'"drug_name":"((?:[^"\\]|\\.)*)"')
 
 
 def slugify(name: str) -> str:
@@ -69,13 +74,11 @@ def slugify(name: str) -> str:
     return _TRIM.sub("", _NONALNUM.sub("-", name.lower()))
 
 
-def _get(url: str) -> bytes:
+def _get(url: str, accept: str = "application/json, text/html") -> bytes:
     last: Exception | None = None
     for attempt in range(RETRIES + 1):
         try:
-            req = urllib.request.Request(
-                url, headers={"User-Agent": UA, "Accept": "application/json, text/html"}
-            )
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": accept})
             with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
                 return resp.read()
         except (urllib.error.URLError, TimeoutError) as exc:  # pragma: no cover - network
@@ -85,66 +88,122 @@ def _get(url: str) -> bytes:
     raise last  # type: ignore[misc]
 
 
-def enumerate_names() -> tuple[list[str], str]:
-    """Enumerate every drug_name from the SPA's bundled dataset.
+def current_asset() -> str | None:
+    """The content-hashed SPA bundle the homepage currently references.
 
-    Returns the de-duplicated name list and the JS asset path it came from (so
-    the build provenance can record exactly which deploy was scraped).
+    Recorded purely as deploy provenance — it pins which build a snapshot was
+    taken against. Best-effort: returns None rather than failing the fetch.
     """
-    home = _get(BASE + "/").decode("utf-8", "replace")
-    asset_match = _ASSET.search(home)
-    if not asset_match:
-        raise SystemExit("could not locate the JS asset in the drug.community homepage")
-    asset = asset_match.group(1)
-    js = _get(BASE + asset).decode("utf-8", "replace")
-    raw_names = _DRUG_NAME.findall(js)
-    seen: set[str] = set()
-    names: list[str] = []
-    for raw in raw_names:
-        name = json.loads(f'"{raw}"')  # unescape JSON string escapes
-        if name not in seen:
-            seen.add(name)
-            names.append(name)
-    if not names:
-        raise SystemExit("found the JS asset but no drug_name entries in it")
-    return names, asset
+    try:
+        home = _get(BASE + "/", accept="text/html").decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001 - provenance only
+        return None
+    match = _ASSET.search(home)
+    return match.group(1) if match else None
 
 
-def fetch_one(name: str) -> dict:
-    url = API + "?" + urllib.parse.urlencode({"name": slugify(name)})
-    obj = json.loads(_get(url))
-    if not isinstance(obj, dict) or "drug_name" not in obj:
-        raise ValueError(f"unexpected response for {name!r}: {str(obj)[:120]}")
-    return obj
+def fetch_bootstrap() -> list[dict]:
+    """Fetch the full roster from the MongoDB-backed bootstrap payload.
+
+    The data API only returns JSON when the request forbids text/html — a
+    browser-style Accept gets the SPA's index.html fallback instead.
+    """
+    payload = json.loads(_get(API, accept="application/json"))
+    drugs = payload.get("drugs") if isinstance(payload, dict) else None
+    if not isinstance(drugs, list) or not drugs:
+        raise SystemExit(
+            "bootstrap payload had no 'drugs' array — the API shape may have changed again"
+        )
+    for d in drugs:
+        if not isinstance(d, dict) or "drug_name" not in d:
+            raise SystemExit(f"unexpected drug entry in bootstrap: {str(d)[:120]}")
+    return drugs
+
+
+def _write_json(path: Path, obj) -> int:
+    """Write ``obj`` canonically (sorted keys, one trailing newline) and return
+    its size in KB — canonicalization keeps re-fetch diffs to real changes."""
+    text = json.dumps(obj, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+    path.write_text(text)
+    return len(text.encode("utf-8")) // 1024
+
+
+def fetch_extra_datasets() -> None:
+    """Snapshot the companion datasets the Sept-2025 redesign introduced.
+
+    These live behind ``/api/data/<name>`` and are fetched once by the SPA then
+    indexed client-side. We keep card-relevant slices verbatim so any upstream
+    change shows up as a reviewable git diff, mirroring the main roster snapshot.
+    Volatile MongoDB bookkeeping (``_id``, ``cache_key``, timestamps) is stripped
+    so it can't churn the diff, and aggregate reverse-indices the app rebuilds on
+    its own are dropped to keep the files reviewable. Best-effort: a failure here
+    is logged but never aborts the core roster fetch above.
+
+        intensity-spectra  → graded dose→effect model (162 substances)
+        effects            → erowid effect tags by domain + sample quotes (121)
+        combinations       → anecdotal drug-combo reports + top effects (2397)
+    """
+    # Intensity spectra: a flat list of per-substance documents. Drop the Mongo
+    # bookkeeping and sort by slug for a stable ordering.
+    try:
+        spectra = json.loads(_get(DATA_API + "/intensity-spectra", accept="application/json"))
+        cleaned = [
+            {k: v for k, v in doc.items() if k not in ("_id", "cache_key", "created_at")}
+            for doc in spectra
+            if isinstance(doc, dict) and doc.get("drug_slug")
+        ]
+        cleaned.sort(key=lambda d: d["drug_slug"])
+        kb = _write_json(SPECTRA_OUT, cleaned)
+        print(f"  spectra:      {len(cleaned):4} substances  ({kb} KB) → {SPECTRA_OUT.name}")
+    except Exception as exc:  # noqa: BLE001 - companion data is best-effort
+        print(f"  ! spectra fetch failed: {exc}", file=sys.stderr)
+
+    # Effects: {effectsIndex, drugEffects, effectsMeta}. Keep the per-substance
+    # `drugEffects` (what a card would render) + the small `effectsMeta`
+    # provenance block; drop the large effect→drugs reverse index the app derives.
+    try:
+        effects = json.loads(_get(DATA_API + "/effects", accept="application/json"))
+        payload = {
+            "effectsMeta": effects.get("effectsMeta"),
+            "drugEffects": effects.get("drugEffects") or {},
+        }
+        kb = _write_json(EFFECTS_OUT, payload)
+        print(
+            f"  effects:      {len(payload['drugEffects']):4} substances  ({kb} KB) → {EFFECTS_OUT.name}"
+        )
+    except Exception as exc:  # noqa: BLE001 - companion data is best-effort
+        print(f"  ! effects fetch failed: {exc}", file=sys.stderr)
+
+    # Combinations: a flat list keyed by combo slug; no Mongo bookkeeping.
+    try:
+        combos = json.loads(_get(DATA_API + "/combinations", accept="application/json"))
+        combos = [c for c in combos if isinstance(c, dict) and c.get("slug")]
+        combos.sort(key=lambda c: c["slug"])
+        kb = _write_json(COMBOS_OUT, combos)
+        print(f"  combinations: {len(combos):4} pairs       ({kb} KB) → {COMBOS_OUT.name}")
+    except Exception as exc:  # noqa: BLE001 - companion data is best-effort
+        print(f"  ! combinations fetch failed: {exc}", file=sys.stderr)
 
 
 def main() -> int:
     fetched_at = datetime.now(UTC).isoformat(timespec="seconds")
-    names, asset = enumerate_names()
-    print(f"enumerated {len(names)} substances from {asset}")
+    asset = current_asset()
+    drugs = fetch_bootstrap()
+    print(f"fetched {len(drugs)} substances from {API} (deploy asset {asset})")
 
-    results: list[dict] = []
-    failed: list[tuple[str, str]] = []
-    for i, name in enumerate(names, 1):
-        try:
-            results.append(fetch_one(name))
-        except Exception as exc:  # noqa: BLE001 - report and continue
-            failed.append((name, str(exc)))
-            print(f"  ! {name}: {exc}", file=sys.stderr)
-        if i % 25 == 0:
-            print(f"  {i}/{len(names)}")
-        time.sleep(DELAY)
-
-    # Canonicalize: key by slug (so aliases that resolve to the same entry can't
-    # double-list it), then sort by slug for a stable, reviewable diff.
-    by_slug: dict[str, dict] = {slugify(obj["drug_name"]): obj for obj in results}
+    # Canonicalize for a stable, reviewable diff: key by slug (so aliases that
+    # resolve to the same entry can't double-list it) and sort by slug. Sort
+    # object keys too (``sort_keys``) — the MongoDB-backed bootstrap emits each
+    # document's fields in arbitrary order, so without this every re-fetch would
+    # churn thousands of lines of pure key-reordering and bury real changes.
+    by_slug: dict[str, dict] = {slugify(obj["drug_name"]): obj for obj in drugs}
     ordered = [by_slug[k] for k in sorted(by_slug)]
 
     prev = json.loads(OUT.read_text()) if OUT.exists() else []
     prev_names = {d.get("drug_name") for d in prev}
     new_names = {d["drug_name"] for d in ordered}
 
-    OUT.write_text(json.dumps(ordered, indent=2, ensure_ascii=False) + "\n")
+    OUT.write_text(json.dumps(ordered, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
     META.write_text(
         json.dumps(
             {
@@ -154,8 +213,6 @@ def main() -> int:
                 "fetched_at": fetched_at,
                 "spa_asset": asset,
                 "substance_count": len(ordered),
-                "enumerated": len(names),
-                "failed": [n for n, _ in failed],
             },
             indent=2,
             ensure_ascii=False,
@@ -168,8 +225,10 @@ def main() -> int:
     removed = sorted(prev_names - new_names)
     print(f"  added ({len(added)}):   {added}")
     print(f"  removed ({len(removed)}): {removed}")
-    print(f"  failed ({len(failed)}):  {[n for n, _ in failed]}")
-    return 1 if failed else 0
+
+    print("\ncompanion datasets:")
+    fetch_extra_datasets()
+    return 0
 
 
 if __name__ == "__main__":

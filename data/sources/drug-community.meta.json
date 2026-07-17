@@ -1,10 +1,8 @@
 {
   "source": "drug.community",
-  "api": "https://drug.community/api/info",
+  "api": "https://drug.community/api/data/bootstrap",
   "human_url_pattern": "https://drug.community/drug/{slug}",
-  "fetched_at": "2026-06-16T00:56:10+00:00",
-  "spa_asset": "/assets/index-5PFw9XPw.js",
-  "substance_count": 421,
-  "enumerated": 422,
-  "failed": []
+  "fetched_at": "2026-07-17T20:28:06+00:00",
+  "spa_asset": "/assets/index-RD9I29rC.js",
+  "substance_count": 419
 }
