@@ -136,6 +136,7 @@ private struct PushRouteView: View {
         case .opioidEquivalence: OpioidEquivalenceToolView()
         case .toleranceInfo: ToleranceExplainerView()
         case .inventory: InventoryListView()
+        case .effectSandbox: EffectSandboxView()
         }
     }
 
