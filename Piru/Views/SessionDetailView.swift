@@ -732,6 +732,9 @@ struct SessionDetailView: View {
                         systemImage: timelineEnlarged ? "arrow.down.right.and.arrow.up.left" : "arrow.up.backward.and.arrow.down.forward",
                     )
                 }
+                Toggle(isOn: $stackRedoses) {
+                    Label("Stack Redoses", systemImage: "chart.line.uptrend.xyaxis")
+                }
                 if isToday, hasOngoingDose {
                     let isRunning = LiveActivityManager.shared.isLiveActivityRunning
                     Button {
