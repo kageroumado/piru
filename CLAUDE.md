@@ -47,7 +47,13 @@ Piru/
 ├── Views/           # SwiftUI views (ContentView has 4 tabs: Journal, Library, Tools, Insights)
 │   ├── Insights/    # Adherence, half-life calc, activity charts, usage stats
 │   └── Components/
-├── Data/            # SubstanceStore (GRDB over bundled SQLite), HalfLifeDatabase, Interactions, AppSources, StoreRecovery, BackupManager
+├── Data/            # per-concern subfolders (all filesystem-synchronized groups):
+│   ├── SubstanceDB/     # SubstanceStore (GRDB over bundled SQLite) + extensions, SubstanceLibrary façade, AppSources, DB updater/manifest, search history
+│   ├── Persistence/     # SwiftData store lifecycle: StoreRecovery, StoreHealth, StoreDiagnostics, backfill migrations
+│   ├── Backup/          # BackupManager, BackupCrypto (AES-256-GCM encrypted backups)
+│   ├── Pharmacology/    # the science: HalfLifeDatabase, MechanismOfActionDatabase, receptor/metabolism/effect models
+│   ├── Tolerance/       # ToleranceStore, ToleranceModulation
+│   └── Services/        # Interactions, Benzo/OpioidEquivalence, InventoryService, UserProfile(+Store)
 ├── Utilities/       # ActiveSubstanceCalculator, RampDownScheduler, LiveActivityManager, etc.
 ├── Navigation/      # AppNavigator + route enums + deep link codec — single source of truth for tab/sheet/path state
 Shared/              # Code shared across all targets: SwiftData models, PKModel, DoseFormatting, timeline graph
@@ -68,11 +74,11 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 | `Shared/SubstanceColor.swift` | SwiftData `@Model` + 31 preset colors (shared with widget) |
 | `Shared/RouteOfAdministration.swift` | 10 routes enum (shared with widget) |
 | `Shared/DoseFormatting.swift` | `Double.doseFormatted` extension (shared with widget) |
-| `Data/SubstanceStore.swift` | `@Observable @MainActor` singleton — GRDB queries over the bundled SQLite DB with per-field source-priority resolution, ranked search, caches. Also hosts the `SubstanceLibrary` static façade (overlay-aware lookups) at the bottom of the file |
-| `Data/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
-| `Data/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
-| `Data/HalfLifeDatabase.swift` | 1100+ hardcoded half-life values (minutes) |
-| `Data/Interactions.swift` | Drug class mapping + 59 interaction severity rules |
+| `Data/SubstanceDB/SubstanceStore.swift` | `@Observable @MainActor` singleton — GRDB queries over the bundled SQLite DB with per-field source-priority resolution, ranked search, caches. Also hosts the `SubstanceLibrary` static façade (overlay-aware lookups) at the bottom of the file |
+| `Data/SubstanceDB/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
+| `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
+| `Data/Pharmacology/HalfLifeDatabase.swift` | 1100+ hardcoded half-life values (minutes) |
+| `Data/Services/Interactions.swift` | Drug class mapping + 59 interaction severity rules |
 | `Shared/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
 | `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
 | `Views/InteractionTimelineView.swift` | PK curve overlay with interaction danger window visualization |
