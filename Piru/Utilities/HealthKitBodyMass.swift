@@ -10,12 +10,12 @@ import os
 /// observe a revocation — the user can turn Piru off in Settings ▸ Health and we'd never be notified,
 /// and on a reinstall / new device our stored weight is gone with no signal.
 ///
-/// The robust pattern, implemented here: never trust a status for reads — just *attempt the query*.
-/// A successful sample means access is live; an empty result means "no access OR no data" (we can't
-/// tell which), which the UI surfaces with a re-request / "open Settings" affordance. `requestAndSync`
-/// re-prompts only when status is undetermined (fresh install), and otherwise the caller can deep-link
-/// to Settings so a user who revoked access can restore it. This is what makes the Settings button
-/// keep working across revocation, reinstall, and new-device.
+/// The robust pattern, implemented here: never trust a status for reads — just *attempt the query* via
+/// ``syncLatest()``. A successful sample means access is live; an empty result means "no access OR no
+/// data" (we can't tell which), which the UI surfaces with an "open Settings" affordance. Body-weight
+/// authorization is requested only through the single combined Health prompt in
+/// ``HealthKitVitals/requestFullAccess()`` (weight + heart rate + blood pressure at once) — this type
+/// never prompts on its own, so a user always sees one Health sheet, never a weight-only flow.
 @MainActor
 @Observable
 final class HealthKitBodyMass {
@@ -45,25 +45,6 @@ final class HealthKitBodyMass {
     }
 
     private init() {}
-
-    /// Request read access (prompts only when undetermined) and pull the latest body mass into
-    /// ``UserProfileStore``. Safe to call repeatedly — it's how the Settings "Sync"/"Connect Health"
-    /// button recovers after a revocation or reinstall.
-    @discardableResult
-    func requestAndSync() async -> SyncResult {
-        guard isAvailable else {
-            lastResult = .unavailable
-            return .unavailable
-        }
-        do {
-            try await store.requestAuthorization(toShare: [], read: [bodyMassType])
-        } catch {
-            // A thrown error here is a request failure, not a denial; we still try the read, since a
-            // previously-granted permission keeps working even if this request can't re-prompt.
-            logger.error("HealthKit authorization request failed: \(error.localizedDescription, privacy: .public)")
-        }
-        return await syncLatest()
-    }
 
     /// Silently read the latest body mass without prompting. Use on launch/appear to keep a
     /// HealthKit-sourced weight fresh; never prompts, so it's safe to call unconditionally.

@@ -61,10 +61,28 @@ final class HealthKitVitals {
     func requestFullAccess() async {
         guard isAvailable else { return }
         let read = readTypes.union([HKQuantityType(.bodyMass)])
-        do {
-            try await store.requestAuthorization(toShare: [], read: read)
-        } catch {
-            logger.error("Combined authorization request failed: \(error.localizedDescription, privacy: .public)")
+        let store = store
+        let logger = logger
+        // HealthKit validates the request *synchronously* and raises an ObjC
+        // `NSException` (not a Swift error) when it's unhappy — a device-specific
+        // failure mode a `try`/`catch` can't reach, so it would terminate the app
+        // (see the b28–30 TestFlight crashes). Drive the completion-based API and
+        // wrap the throwing synchronous call in the ObjC catcher; a raised
+        // exception degrades to "access not granted" instead of a crash.
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            var thrown: NSError?
+            let started = PiruCatchNSException({
+                store.requestAuthorization(toShare: [], read: read) { _, error in
+                    if let error {
+                        logger.error("Combined authorization request failed: \(error.localizedDescription, privacy: .public)")
+                    }
+                    continuation.resume()
+                }
+            }, &thrown)
+            if !started {
+                logger.error("HealthKit authorization raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
+                continuation.resume()
+            }
         }
     }
 
@@ -80,10 +98,21 @@ final class HealthKitVitals {
     func connectWouldPrompt() async -> Bool {
         guard isAvailable else { return false }
         let store = store
+        let logger = logger
         let promptable: Set<HKObjectType> = [heartRateType, restingHeartRateType, HKQuantityType(.bodyMass)]
-        return await withCheckedContinuation { continuation in
-            store.getRequestStatusForAuthorization(toShare: [], read: promptable) { status, _ in
-                continuation.resume(returning: status == .shouldRequest)
+        // Same synchronous-`NSException` hazard as `requestFullAccess()` — this is
+        // what crashed on merely opening Settings ▸ Apple Health. Treat a raised
+        // exception as "nothing to prompt for" so the Connect affordance just hides.
+        return await withCheckedContinuation { (continuation: CheckedContinuation<Bool, Never>) in
+            var thrown: NSError?
+            let started = PiruCatchNSException({
+                store.getRequestStatusForAuthorization(toShare: [], read: promptable) { status, _ in
+                    continuation.resume(returning: status == .shouldRequest)
+                }
+            }, &thrown)
+            if !started {
+                logger.error("HealthKit status check raised an exception: \(thrown?.localizedDescription ?? "unknown", privacy: .public)")
+                continuation.resume(returning: false)
             }
         }
     }
