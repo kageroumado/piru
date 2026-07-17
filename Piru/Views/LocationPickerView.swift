@@ -61,17 +61,30 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
         }
     }
 
-    private let completer = MKLocalSearchCompleter()
-    private let manager = CLLocationManager()
-    private var locationContinuation: CheckedContinuation<CLLocation, Error>?
-    private var authContinuation: CheckedContinuation<Void, Never>?
-
-    override init() {
-        super.init()
+    /// Both MapKit/Core Location objects are created lazily on first use, not in
+    /// `init`. This model is the default value of a `@State` property, and SwiftUI
+    /// re-evaluates a `@State` default expression on *every* re-render of the
+    /// owning view — keeping the first instance and discarding the rest. If the
+    /// completer and manager were built in `init`, each throwaway model would spin
+    /// up (and tear down) a `CLLocationManager` and `MKLocalSearchCompleter` with
+    /// delegate wiring, dozens of times per session. Deferring them means a
+    /// discarded model costs nothing, and nothing touches Core Location until the
+    /// user actually searches or asks for their current location.
+    @ObservationIgnored private lazy var completer: MKLocalSearchCompleter = {
+        let completer = MKLocalSearchCompleter()
         completer.resultTypes = [.address, .pointOfInterest]
         completer.delegate = self
+        return completer
+    }()
+
+    @ObservationIgnored private lazy var manager: CLLocationManager = {
+        let manager = CLLocationManager()
         manager.delegate = self
-    }
+        return manager
+    }()
+
+    private var locationContinuation: CheckedContinuation<CLLocation, Error>?
+    private var authContinuation: CheckedContinuation<Void, Never>?
 
     // MARK: - Current location
 
