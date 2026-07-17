@@ -43,7 +43,7 @@ cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 
 ```
 Piru/
-├── Models/          # Substance struct, DoseRange, DurationProfile, DoseUnit
+├── Domain/          # value-type domain models (NOT SwiftData): Substance struct, DoseRange, DurationProfile, DoseUnit, JournalModel, PSID
 ├── Views/           # SwiftUI views (ContentView has 4 tabs: Journal, Library, Tools, Insights)
 │   ├── Insights/    # Adherence, half-life calc, activity charts, usage stats
 │   └── Components/
@@ -56,7 +56,11 @@ Piru/
 │   └── Services/        # Interactions, Benzo/OpioidEquivalence, InventoryService, UserProfile(+Store)
 ├── Utilities/       # ActiveSubstanceCalculator, RampDownScheduler, LiveActivityManager, etc.
 ├── Navigation/      # AppNavigator + route enums + deep link codec — single source of truth for tab/sheet/path state
-Shared/              # Code shared across all targets: SwiftData models, PKModel, DoseFormatting, timeline graph
+Shared/              # Code shared across all targets (widget + Live Activity):
+│   ├── Models/         # the 12 SwiftData @Model (DoseEntry, Session, DailyDoseItem, …)
+│   ├── Engines/        # PKModel, PDModel, EffectEngine, TimelineCurveModel, SessionClustering
+│   ├── Formatting/     # DoseFormatting, ColorHex, ConfidenceTier
+│   └── (root)          # value types: RouteOfAdministration, ByVolumeDosing, SessionVitals, TimelineGraphView, PiruActivityAttributes
 PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
 PiruTests/           # 50 test files, ~660 tests using Apple Testing framework (@Suite, @Test)
@@ -68,18 +72,18 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 
 | File | Purpose |
 |------|---------|
-| `Models/Substance.swift` | Core `Substance` struct, `DoseRange`, `DurationProfile`, `SubstanceCategory` enum (23 categories) |
-| `Shared/DoseEntry.swift` | SwiftData `@Model` for logged doses (shared with widget) |
-| `Shared/DailyDoseItem.swift` | SwiftData `@Model` for daily medication tracking (shared with widget) |
-| `Shared/SubstanceColor.swift` | SwiftData `@Model` + 31 preset colors (shared with widget) |
+| `Domain/Substance.swift` | Core `Substance` struct, `DoseRange`, `DurationProfile`, `SubstanceCategory` enum (23 categories) |
+| `Shared/Models/DoseEntry.swift` | SwiftData `@Model` for logged doses (shared with widget) |
+| `Shared/Models/DailyDoseItem.swift` | SwiftData `@Model` for daily medication tracking (shared with widget) |
+| `Shared/Models/SubstanceColor.swift` | SwiftData `@Model` + 31 preset colors (shared with widget) |
 | `Shared/RouteOfAdministration.swift` | 10 routes enum (shared with widget) |
-| `Shared/DoseFormatting.swift` | `Double.doseFormatted` extension (shared with widget) |
+| `Shared/Formatting/DoseFormatting.swift` | `Double.doseFormatted` extension (shared with widget) |
 | `Data/SubstanceDB/SubstanceStore.swift` | `@Observable @MainActor` singleton — GRDB queries over the bundled SQLite DB with per-field source-priority resolution, ranked search, caches. Also hosts the `SubstanceLibrary` static façade (overlay-aware lookups) at the bottom of the file |
 | `Data/SubstanceDB/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
 | `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
 | `Data/Pharmacology/HalfLifeDatabase.swift` | 1100+ hardcoded half-life values (minutes) |
 | `Data/Services/Interactions.swift` | Drug class mapping + 59 interaction severity rules |
-| `Shared/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
+| `Shared/Engines/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
 | `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
 | `Views/InteractionTimelineView.swift` | PK curve overlay with interaction danger window visualization |
 | `Views/DoseSuggestionCard.swift` | Smart dose suggestion card shown during quick-log |
