@@ -213,12 +213,8 @@ struct LocationPickerView: View {
                             }
                         }
                     } label: {
-                        HStack {
-                            Label("Current Location", systemImage: "location.fill")
-                                .foregroundStyle(Theme.accent)
-                            Spacer()
-                            if model.isLocating { ProgressView() }
-                        }
+                        Label("Current Location", systemImage: "location.fill")
+                            .foregroundStyle(Theme.accent)
                     }
                     .disabled(model.isLocating)
                     .accessibilityValue(model.isLocating ? Text("Locating…") : Text(verbatim: ""))
