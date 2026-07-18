@@ -150,12 +150,6 @@ struct QuickLogEditSheet: View {
     }
 
     private func deleteRoutines(at offsets: IndexSet) {
-        // The @Query snapshot doesn't refresh mid-handler, so sync against the
-        // survivors — passing `routines` would re-schedule the deleted
-        // routine's reminder.
-        let remaining = routines.enumerated()
-            .filter { !offsets.contains($0.offset) }
-            .map(\.element)
         for index in offsets {
             let routine = routines[index]
             // Items survive the routine — they fall to Unassigned (visible in
@@ -166,7 +160,7 @@ struct QuickLogEditSheet: View {
             modelContext.delete(routine)
         }
         try? modelContext.save()
-        DoseNotificationManager.syncRoutineReminders(routines: remaining)
+        DoseNotificationManager.syncRoutineReminders(in: modelContext)
     }
 
     // MARK: Favorites
@@ -271,7 +265,9 @@ struct QuickLogEditSheet: View {
             if soleGroup {
                 Text("Drinks")
             } else {
-                Text("Drinks") + Text(verbatim: " · \(customStore.displayName(for: substance))")
+                // Composed as a String so the localized "Drinks" and the verbatim
+                // name join without the deprecated `Text + Text` operator.
+                Text(verbatim: "\(String(localized: "Drinks")) · \(customStore.displayName(for: substance))")
             }
         }
         .textCase(nil)

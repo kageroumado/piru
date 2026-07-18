@@ -100,20 +100,79 @@ enum DoseNotificationManager {
 
     // MARK: - Routine reminders
 
-    /// Reconcile the repeating routine reminders with the source of truth:
-    /// one daily calendar notification per routine that has a time and
-    /// "Remind Me" on. Also clears the legacy global `dailyDoseReminder_*`
-    /// set the pre-routines screen scheduled.
-    static func syncRoutineReminders(routines: [DoseRoutine]) {
-        let active = routines
+    /// Reconcile the routine reminders from the store: fetches routines,
+    /// items, and today's doses, then delegates to the value-based overload.
+    /// The one entry point every "something routine-relevant changed" site
+    /// calls — routine edits, dose commits, app foreground.
+    static func syncRoutineReminders(in context: ModelContext) {
+        let routines = (try? context.fetch(FetchDescriptor<DoseRoutine>())) ?? []
+        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
+        let dayStart = Calendar.current.startOfDay(for: .now)
+        let predicate = #Predicate<DoseEntry> { $0.timestamp >= dayStart }
+        let todaysEntries = (try? context.fetch(FetchDescriptor(predicate: predicate))) ?? []
+        syncRoutineReminders(routines: routines, items: items, todaysEntries: todaysEntries)
+    }
+
+    /// Reconcile the repeating routine reminders — one daily calendar
+    /// notification per routine that has a time and "Remind Me" on — plus
+    /// their snooze-style follow-ups. Also clears the legacy global
+    /// `dailyDoseReminder_*` set the pre-routines screen scheduled.
+    ///
+    /// **Follow-ups** ("still need to log?") can't be repeating triggers:
+    /// cancelling today's re-ask would cancel every future day's too. So they
+    /// are materialized as one-shot requests over a short rolling horizon
+    /// (``followUpHorizonDays``), re-derived on every sync — and today's are
+    /// skipped when the routine is already satisfied
+    /// (``routineSatisfiedToday(named:items:entries:on:)``).
+    static func syncRoutineReminders(
+        routines: [DoseRoutine],
+        items: [DailyDoseItem],
+        todaysEntries: [DoseEntry],
+    ) {
+        // With the type disabled, the sync degrades to a sweep: clear
+        // anything pending, schedule nothing. Per-routine `remind` flags stay
+        // untouched so re-enabling the type re-arms them.
+        let remindersAllowed = NotificationPreferencesStore.allows(.routine)
+        let followUpsAllowed = remindersAllowed && NotificationPreferencesStore.allows(.routineFollowUp)
+        let active = remindersAllowed
+            ? routines
             .filter { $0.remind && $0.timeMinutes != nil }
             .map { (name: $0.name, timeMinutes: $0.timeMinutes ?? 0) }
+            : []
+
+        // Snapshot the follow-up plan as plain values before the Task.
+        var followUps: [FollowUpRequest] = []
+        if followUpsAllowed {
+            for routine in routines where routine.remind && routine.timeMinutes != nil && !routine.followUpMinutes.isEmpty {
+                let satisfied = routineSatisfiedToday(named: routine.name, items: items, entries: todaysEntries)
+                let slots = followUpFireDates(
+                    timeMinutes: routine.timeMinutes ?? 0,
+                    offsets: routine.followUpMinutes,
+                    days: followUpHorizonDays,
+                    skipToday: satisfied,
+                    now: .now,
+                )
+                for slot in slots {
+                    followUps.append(FollowUpRequest(
+                        identifier: "\(routineFollowUpPrefix)\(routine.name.lowercased())_\(slot.dayKey)_\(slot.ordinal)",
+                        title: routine.name,
+                        // A question, deliberately — a follow-up re-asks, it
+                        // never implies the dose was taken or scolds.
+                        body: String(localized: "Still need to log your \(routine.name) routine?"),
+                        deepLink: routineDeepLink(name: routine.name)?.absoluteString,
+                        fireDate: slot.fireDate,
+                    ))
+                }
+            }
+        }
 
         Task {
             let center = UNUserNotificationCenter.current()
             let pending = await center.pendingNotificationRequests()
             let stale = pending.map(\.identifier).filter {
-                $0.hasPrefix(routineReminderPrefix) || $0.hasPrefix("dailyDoseReminder")
+                $0.hasPrefix(routineReminderPrefix)
+                    || $0.hasPrefix(routineFollowUpPrefix)
+                    || $0.hasPrefix("dailyDoseReminder")
             }
             center.removePendingNotificationRequests(withIdentifiers: stale)
 
@@ -141,13 +200,100 @@ enum DoseNotificationManager {
                     trigger: trigger,
                 ))
             }
+
+            for followUp in followUps {
+                let interval = followUp.fireDate.timeIntervalSince(.now)
+                guard interval > 0 else { continue }
+                let content = UNMutableNotificationContent()
+                content.title = followUp.title
+                content.body = followUp.body
+                content.sound = .default
+                if let link = followUp.deepLink {
+                    content.userInfo = [Self.deepLinkUserInfoKey: link]
+                }
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+                try? await center.add(UNNotificationRequest(
+                    identifier: followUp.identifier,
+                    content: content,
+                    trigger: trigger,
+                ))
+            }
         }
     }
 
-    private static let routineReminderPrefix = "routineReminder_"
+    // Internal + nonisolated: `NotificationType.identifierPrefixes` derives
+    // its cancel-by-prefix sets from these.
+    nonisolated static let routineReminderPrefix = "routineReminder_"
+    nonisolated static let routineFollowUpPrefix = "routineFollowUp_"
+
+    /// How many days of one-shot follow-ups to keep materialized. Deliberately
+    /// short: every app open / dose commit / routine edit rolls the horizon
+    /// forward, and a small window keeps well clear of iOS's 64-pending-
+    /// request cap. If the app isn't opened for this many days the primary
+    /// (repeating) reminder still fires — only the re-asks pause.
+    private static let followUpHorizonDays = 3
 
     private static func routineReminderIdentifier(name: String) -> String {
         routineReminderPrefix + name.lowercased()
+    }
+
+    /// One planned follow-up notification, snapshotted as plain values.
+    private struct FollowUpRequest {
+        let identifier: String
+        let title: String
+        let body: String
+        let deepLink: String?
+        let fireDate: Date
+    }
+
+    /// Whether every item of the named routine that is *due today* already
+    /// has a matching dose logged today — the "don't re-ask after it's
+    /// logged" gate for follow-ups. A routine with nothing due counts as
+    /// satisfied (there is nothing left to log). Partial logging keeps the
+    /// re-ask alive for the remaining items.
+    ///
+    /// This is inference over today's entries — interim until the
+    /// `RoutineOccurrence` subsystem (notifications spec §D) lands. Its worst
+    /// failure mode is a redundant *question* ("still need to log?"), never a
+    /// wrong assertion.
+    static func routineSatisfiedToday(
+        named name: String,
+        items: [DailyDoseItem],
+        entries: [DoseEntry],
+        on date: Date = .now,
+    ) -> Bool {
+        let due = items.filter { $0.category == name && AdherenceCalculator.isDue($0, on: date) }
+        guard !due.isEmpty else { return true }
+        return due.allSatisfy { item in
+            entries.contains { AdherenceCalculator.entryMatches(entry: $0, item: item) }
+        }
+    }
+
+    /// The one-shot fire slots for a routine's follow-ups over the rolling
+    /// horizon: `timeMinutes + offset` on each of the next `days` days,
+    /// dropping already-past times and (when `skipToday`) all of today's.
+    nonisolated static func followUpFireDates(
+        timeMinutes: Int,
+        offsets: [Int],
+        days: Int,
+        skipToday: Bool,
+        now: Date,
+        calendar: Calendar = .current,
+    ) -> [(dayKey: String, ordinal: Int, fireDate: Date)] {
+        let todayStart = calendar.startOfDay(for: now)
+        var slots: [(dayKey: String, ordinal: Int, fireDate: Date)] = []
+        for day in 0 ..< max(0, days) {
+            if day == 0, skipToday { continue }
+            guard let dayStart = calendar.date(byAdding: .day, value: day, to: todayStart) else { continue }
+            let parts = calendar.dateComponents([.year, .month, .day], from: dayStart)
+            let dayKey = String(format: "%04d%02d%02d", parts.year ?? 0, parts.month ?? 0, parts.day ?? 0)
+            for (ordinal, offset) in offsets.enumerated() {
+                guard let fireDate = calendar.date(byAdding: .minute, value: timeMinutes + offset, to: dayStart),
+                      fireDate > now else { continue }
+                slots.append((dayKey: dayKey, ordinal: ordinal, fireDate: fireDate))
+            }
+        }
+        return slots
     }
 
     // MARK: - Inventory low-stock
@@ -167,6 +313,7 @@ enum DoseNotificationManager {
         isOut: Bool,
         itemID: UUID,
     ) {
+        guard NotificationPreferencesStore.allows(.inventory) else { return }
         Task {
             guard await RampDownScheduler.requestPermissionIfNeeded() else { return }
             let content = UNMutableNotificationContent()
@@ -196,7 +343,7 @@ enum DoseNotificationManager {
         center.removeDeliveredNotifications(withIdentifiers: [identifier])
     }
 
-    private static let inventoryLowStockPrefix = "inventoryLowStock_"
+    nonisolated static let inventoryLowStockPrefix = "inventoryLowStock_"
 
     private static func inventoryNotificationIdentifier(_ id: UUID) -> String {
         inventoryLowStockPrefix + id.uuidString

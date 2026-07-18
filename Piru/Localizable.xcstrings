@@ -3510,6 +3510,38 @@
         }
       }
     },
+    "10 and 30 minutes later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 和 30 分钟后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 和 30 分鐘後"
+          }
+        }
+      }
+    },
+    "10 minutes later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分钟后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分鐘後"
+          }
+        }
+      }
+    },
     "11-OH-THC" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3784,6 +3816,22 @@
         }
       }
     },
+    "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天在各个日常设定的时间提醒你，不再漏掉任何一剂。点按通知即打开快捷记录，日常内容已预先排好。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天在各個日常設定的時間提醒你，不再漏掉任何一劑。點按通知即打開快捷記錄，日常內容已預先排好。"
+          }
+        }
+      }
+    },
     "A dipeptide nootropic structurally related to racetams but with distinct pharmacology. Modulates AMPA and NMDA glutamate receptors, enhancing long-term potentiation (LTP) and synaptic plasticity. Increases expression of brain-derived neurotrophic factor (BDNF) and nerve growth factor (NGF). Active at much lower doses than piracetam, suggesting additional mechanisms beyond glutamatergic modulation." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3894,6 +3942,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當時間已晚、再來一劑可能影響睡眠時，提前提醒你。"
+          }
+        }
+      }
+    },
+    "A heads-up when something you track runs low or out — before the empty bottle surprises you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你追踪的物品所剩不多或已用完时提前提醒——别等到瓶子空了才发现。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當你追蹤的物品所剩不多或已用完時提前提醒——別等到瓶子空了才發現。"
+          }
+        }
+      }
+    },
+    "A heads-up when your 12-hour total of one substance reaches a heavy range. Turning this off removes a safety net." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当某一物质 12 小时内的累积量达到大剂量范围时提醒你。关闭它等于拆掉一道安全网。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當某一物質 12 小時內的累積量達到大劑量範圍時提醒你。關閉它等於拆掉一道安全網。"
           }
         }
       }
@@ -4407,6 +4487,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "溫水淋浴或輕度拉伸有助於肌肉放鬆。"
+          }
+        }
+      }
+    },
+    "A wind-down reminder late into long stimulant sessions, when sleep is the best recovery." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在长时间兴奋剂使用的后段提醒你放松入睡——此时睡眠是最好的恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在長時間興奮劑使用的後段提醒你放鬆入睡——此時睡眠是最好的恢復。"
           }
         }
       }
@@ -6439,6 +6535,22 @@
         }
       }
     },
+    "Allow Notifications" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许通知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允許通知"
+          }
+        }
+      }
+    },
     "Already keep a journal? Import a Piru backup or a PsyLog-format export — or start with a clean slate." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7209,6 +7321,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當興奮劑開始起效，多巴胺迅速攀升。大腦預期的是一個穩定的基線，會向新水平調整，但追趕得很慢。二者之間的落差——當前多巴胺與大腦所預期之間——正是你所感受到的。"
+          }
+        }
+      }
+    },
+    "Ask Again" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再次提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再次提醒"
+          }
+        }
+      }
+    },
+    "Asking…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在请求…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在請求…"
+          }
+        }
+      }
+    },
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常中设置节奏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常中設定節奏。"
           }
         }
       }
@@ -9977,6 +10137,22 @@
         }
       }
     },
+    "Checking Permission…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在检查权限…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在檢查權限…"
+          }
+        }
+      }
+    },
     "Checking…" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10103,6 +10279,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇物質"
+          }
+        }
+      }
+    },
+    "Choose which notifications Piru sends — routine reminders, session alerts, safety warnings, and low-stock alerts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Piru 发送哪些通知——日常提醒、使用期间提醒、安全警告和低库存提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇 Piru 傳送哪些通知——日常提醒、使用期間提醒、安全警告和低庫存提醒。"
           }
         }
       }
@@ -10834,6 +11026,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩和期提醒"
+          }
+        }
+      }
+    },
+    "Comedown Alerts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缓和期提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緩和期提醒"
+          }
+        }
+      }
+    },
+    "Comedown alerts are turned off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缓和期提醒已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緩和期提醒已關閉"
           }
         }
       }
@@ -11964,6 +12188,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "累計"
+          }
+        }
+      }
+    },
+    "Cumulative Dose Warnings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累积剂量警告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累積劑量警告"
           }
         }
       }
@@ -14130,6 +14370,22 @@
         }
       }
     },
+    "Dose Reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量提醒"
+          }
+        }
+      }
+    },
     "Dose taken" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14822,6 +15078,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作用時長 — %@"
+          }
+        }
+      }
+    },
+    "During a Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用期间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用期間"
           }
         }
       }
@@ -17877,6 +18149,22 @@
         }
       }
     },
+    "Follow-Up Reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "后续提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "後續提醒"
+          }
+        }
+      }
+    },
     "For importing into the PsychonautWiki app" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20189,6 +20477,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "飲水檢查"
+          }
+        }
+      }
+    },
+    "Hydration Reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补水提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補水提醒"
           }
         }
       }
@@ -22632,7 +22936,6 @@
       }
     },
     "Live Activity" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23224,6 +23527,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "低可信度"
+          }
+        }
+      }
+    },
+    "Low Stock Alerts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低库存提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低庫存提醒"
           }
         }
       }
@@ -25700,6 +26019,22 @@
         }
       }
     },
+    "Next: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一次：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一次：%@"
+          }
+        }
+      }
+    },
     "Nicotine" : {
 
     },
@@ -27023,6 +27358,22 @@
         }
       }
     },
+    "Notification Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知設定"
+          }
+        }
+      }
+    },
     "Notifications" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27039,6 +27390,22 @@
         }
       }
     },
+    "Notifications Are Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已關閉"
+          }
+        }
+      }
+    },
     "Notifications Disabled" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27051,6 +27418,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知已關閉"
+          }
+        }
+      }
+    },
+    "Notifications Enabled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已开启"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已開啟"
+          }
+        }
+      }
+    },
+    "Notifications for Piru are off in the system Settings, so this reminder won't be delivered." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统设置中已关闭 Piru 的通知，因此这条提醒不会送达。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系統設定中已關閉 Piru 的通知，因此這條提醒不會送達。"
+          }
+        }
+      }
+    },
+    "Notifications for Piru are turned off in Settings. None of the alerts below can be delivered until they're allowed again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「设置」中已关闭 Piru 的通知。在重新允许之前，下方所有提醒都无法送达。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「設定」中已關閉 Piru 的通知。在重新允許之前，下方所有提醒都無法送達。"
           }
         }
       }
@@ -28254,6 +28669,22 @@
         }
       }
     },
+    "Pause All Notifications" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂停所有通知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫停所有通知"
+          }
+        }
+      }
+    },
     "PDF" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28772,7 +29203,24 @@
         }
       }
     },
+    "Phase Alerts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阶段提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "階段提醒"
+          }
+        }
+      }
+    },
     "Phase Notifications" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29097,6 +29545,22 @@
         }
       }
     },
+    "Piru asks the system once. You choose exactly what it's allowed to send below." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 只会向系统请求一次。它能发送什么，完全由你在下方决定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 只會向系統請求一次。它能傳送什麼，完全由你在下方決定。"
+          }
+        }
+      }
+    },
     "Piru backup" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29221,6 +29685,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 絕不會直接刪除資料儲存。系統自動留存的副本（升級出現問題後），或在你刪除、還原資料之前留存的副本，都會顯示在這裡，隨時可以還原。"
+          }
+        }
+      }
+    },
+    "Piru only sends the notifications listed on this screen." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 只会发送此页面列出的通知。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 只會傳送此頁面列出的通知。"
           }
         }
       }
@@ -32971,6 +33451,38 @@
         }
       }
     },
+    "Routine Reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常提醒"
+          }
+        }
+      }
+    },
+    "Routine reminders are turned off in Notification Settings, so this reminder won't be delivered." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知设置中已关闭日常提醒，因此这条提醒不会送达。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知設定中已關閉日常提醒，因此這條提醒不會送達。"
+          }
+        }
+      }
+    },
     "Routines" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33082,6 +33594,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "安全性"
+          }
+        }
+      }
+    },
+    "Safety Limits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安全限度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安全限度"
           }
         }
       }
@@ -35682,6 +36210,22 @@
         }
       }
     },
+    "Silences everything without losing your choices below." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静音全部通知，但保留你在下方的选择。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靜音全部通知，但保留你在下方的選擇。"
+          }
+        }
+      }
+    },
     "Similar to aripiprazole, acts as a partial agonist at dopamine D2 and serotonin 5-HT1A receptors, and an antagonist at 5-HT2A receptors. Compared to aripiprazole, has lower intrinsic activity at D2 receptors (more antagonist-like) and stronger 5-HT1A partial agonism, which may reduce akathisia and improve tolerability." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -35941,6 +36485,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今晚睡眠品質可能欠佳 — 褪黑素有幫助。"
+          }
+        }
+      }
+    },
+    "Sleep Reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠提醒"
           }
         }
       }
@@ -37231,6 +37791,22 @@
         }
       }
     },
+    "Still need to log your %@ routine?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没记录「%@」日常吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒記錄「%@」日常嗎？"
+          }
+        }
+      }
+    },
     "Stimulant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37976,6 +38552,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "供應形式"
+          }
+        }
+      }
+    },
+    "Supplies" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存"
           }
         }
       }
@@ -40104,6 +40696,22 @@
         }
       }
     },
+    "Timing cues at onset, come-up, and peak so you can anchor what you feel to the timeline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在起效、上升期和巅峰时给出时间提示，让你把感受对应到时间线上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在起效、上升期和巔峰時給出時間提示，讓你把感受對應到時間線上。"
+          }
+        }
+      }
+    },
     "Tisnovka" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40877,6 +41485,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嘗試調整篩選條件。"
+          }
+        }
+      }
+    },
+    "Turn comedown alerts back on in Notification Settings to arm one for this dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知设置中重新开启缓和期提醒，才能为这一剂设置提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知設定中重新開啟緩和期提醒，才能為這一劑設定提醒。"
           }
         }
       }
@@ -42171,6 +42795,38 @@
         }
       }
     },
+    "Warns you before a dose wears off, so the drop doesn't catch you off guard. Armed per dose from its comedown alert screen." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在药效消退前提醒你，让落差不至于让你措手不及。需在每剂的缓和期提醒页面单独开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。"
+          }
+        }
+      }
+    },
+    "Water nudges timed to your dose — stimulants and empathogens mask thirst." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按剂量时间安排的补水提醒——兴奋剂和共情剂会掩盖口渴感。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按劑量時間安排的補水提醒——興奮劑和共情劑會掩蓋口渴感。"
+          }
+        }
+      }
+    },
     "Weak μ-Opioid Agonist and Serotonin-Norepinephrine Reuptake Inhibitor" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -42238,6 +42894,7 @@
       }
     },
     "Wellness Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42254,6 +42911,7 @@
       }
     },
     "Wellness reminders send hydration and sleep nudges automatically. Phase notifications alert you at onset, come-up, and peak — requires a substance with duration data." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

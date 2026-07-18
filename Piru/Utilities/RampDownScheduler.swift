@@ -61,27 +61,19 @@ enum RampDownScheduler {
 
     // MARK: - Notification Category IDs
 
-    static let rampDownCategoryID = "rampDown"
-    private static let hydrationCategoryID = "hydration"
-    private static let sleepCategoryID = "sleepReminder"
-    private static let cumulativeCategoryID = "cumulativeDose"
-    private static let phaseCategoryID = "phaseAlert"
+    // Internal + nonisolated: `NotificationType.identifierPrefixes` derives
+    // its cancel-by-prefix sets from these so the two can't drift.
+    nonisolated static let rampDownCategoryID = "rampDown"
+    nonisolated static let hydrationCategoryID = "hydration"
+    nonisolated static let sleepCategoryID = "sleepReminder"
+    nonisolated static let cumulativeCategoryID = "cumulativeDose"
+    nonisolated static let phaseCategoryID = "phaseAlert"
 
     /// Groups doses within 6-hour windows into the same notification thread.
     static func sessionIdentifier(for doseTime: Date) -> String {
         let startOfDay = Calendar.current.startOfDay(for: doseTime)
         let window = Int(doseTime.timeIntervalSince(startOfDay) / Timing.sessionWindow)
         return "session_\(Int(startOfDay.timeIntervalSince1970))_\(window)"
-    }
-
-    /// Whether automatic wellness notifications (hydration, sleep) are enabled.
-    static var wellnessNotificationsEnabled: Bool {
-        UserDefaults.standard.object(forKey: "wellnessNotificationsEnabled") as? Bool ?? false
-    }
-
-    /// Whether per-phase notifications (onset / come-up / peak) are enabled.
-    static var phaseNotificationsEnabled: Bool {
-        UserDefaults.standard.object(forKey: "phaseNotificationsEnabled") as? Bool ?? false
     }
 
     // MARK: - Comedown Timing
@@ -146,6 +138,7 @@ enum RampDownScheduler {
         // for identity; only the copy uses this. Falls back to canonical.
         displayName: String? = nil,
     ) {
+        guard NotificationPreferencesStore.allows(.comedown) else { return }
         let center = UNUserNotificationCenter.current()
 
         let notifCategory = UNNotificationCategory(
@@ -231,7 +224,9 @@ enum RampDownScheduler {
         duration: DurationProfile?,
         recentStimHours: Double? = nil,
     ) {
-        guard wellnessNotificationsEnabled else { return }
+        let hydrationAllowed = NotificationPreferencesStore.allows(.hydration)
+        let sleepAllowed = NotificationPreferencesStore.allows(.sleep)
+        guard hydrationAllowed || sleepAllowed else { return }
         let threadId = sessionIdentifier(for: doseTime)
 
         Task {
@@ -267,7 +262,7 @@ enum RampDownScheduler {
 
             let hydrationInterval = doseTime.addingTimeInterval(hydrationDelay).timeIntervalSince(.now)
             let hydrationFireDate = doseTime.addingTimeInterval(hydrationDelay)
-            if hydrationInterval > 10 && !hasPendingWithin(of: hydrationFireDate, prefix: hydrationCategoryID) {
+            if hydrationAllowed, hydrationInterval > 10, !hasPendingWithin(of: hydrationFireDate, prefix: hydrationCategoryID) {
                 scheduleSimpleNotification(
                     id: "\(hydrationCategoryID)_\(Int(doseTime.timeIntervalSince1970))",
                     title: String(localized: "Stay hydrated"),
@@ -283,7 +278,8 @@ enum RampDownScheduler {
                 let offsetStart = duration.phaseBoundaries.peakEnd * 60
                 let secondInterval = doseTime.addingTimeInterval(offsetStart).timeIntervalSince(.now)
                 let secondFireDate = doseTime.addingTimeInterval(offsetStart)
-                if secondInterval > hydrationInterval + Timing.hydrationReminderSpacing,
+                if hydrationAllowed,
+                   secondInterval > hydrationInterval + Timing.hydrationReminderSpacing,
                    !hasPendingWithin(of: secondFireDate, prefix: hydrationCategoryID) {
                     scheduleSimpleNotification(
                         id: "\(hydrationCategoryID)2_\(Int(doseTime.timeIntervalSince1970))",
@@ -297,7 +293,7 @@ enum RampDownScheduler {
             }
 
             // Sleep reminder for stimulants — if session has been going 12+ hours
-            if category == .stimulant || category == .empathogen {
+            if sleepAllowed, category == .stimulant || category == .empathogen {
                 if let stimHours = recentStimHours, stimHours >= 10 {
                     let sleepFireDate = Date.now.addingTimeInterval(Timing.extendedStimSleepDelay)
                     if !hasPendingWithin(of: sleepFireDate, prefix: sleepCategoryID) {
@@ -339,7 +335,7 @@ enum RampDownScheduler {
         // Brand to show in the copy; `substanceName` stays canonical for the id.
         displayName: String? = nil,
     ) {
-        guard wellnessNotificationsEnabled else { return }
+        guard NotificationPreferencesStore.allows(.cumulative) else { return }
         let threadId = sessionIdentifier(for: doseTime)
 
         Task {
@@ -406,7 +402,7 @@ enum RampDownScheduler {
         // Brand to show in the phase titles; `substanceName` stays canonical.
         displayName: String? = nil,
     ) {
-        guard phaseNotificationsEnabled, let duration else { return }
+        guard NotificationPreferencesStore.allows(.phase), let duration else { return }
         let shownName = displayName ?? substanceName
         let threadId = sessionIdentifier(for: doseTime)
 
@@ -670,6 +666,13 @@ enum RampDownScheduler {
 
     static func isActive(for entryKey: String) -> Bool {
         loadActiveEntries().contains(entryKey)
+    }
+
+    /// Forget every armed comedown alert — called when the comedown type is
+    /// disabled in Notification Settings (their pending requests are cancelled
+    /// there; this keeps the per-entry "alert active" state honest).
+    static func clearActiveEntries() {
+        UserDefaults.standard.removeObject(forKey: storageKey)
     }
 
     private static func loadActiveEntries() -> Set<String> {

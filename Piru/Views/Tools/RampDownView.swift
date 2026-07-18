@@ -8,6 +8,7 @@ struct RampDownView: View {
     @State private var isActive: Bool = false
     @State private var permissionDenied = false
     @State private var showingCancelConfirmation = false
+    @State private var prefs = NotificationPreferencesStore.shared
 
     private var redoseTime: Date {
         RampDownScheduler.comedownStartTime(doseTime: entry.timestamp, duration: duration)
@@ -131,6 +132,21 @@ struct RampDownView: View {
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
+            } else if !prefs.isEffectivelyEnabled(.comedown) {
+                // The scheduler would silently drop the request — say so
+                // instead of offering a button that does nothing.
+                HStack {
+                    Image(systemName: "bell.slash")
+                        .foregroundStyle(.orange)
+                    Text("Comedown alerts are turned off")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                NavigationLink {
+                    NotificationSettingsView()
+                } label: {
+                    Label("Notification Settings", systemImage: "bell.badge")
+                }
             } else {
                 Button {
                     activateAlert()
@@ -143,7 +159,11 @@ struct RampDownView: View {
             }
         } footer: {
             if !isActive, !isRedoseTimePast {
-                Text("You'll get care reminders as the effects begin to fade — hydration, nutrition, and recovery tips.")
+                if !prefs.isEffectivelyEnabled(.comedown) {
+                    Text("Turn comedown alerts back on in Notification Settings to arm one for this dose.")
+                } else {
+                    Text("You'll get care reminders as the effects begin to fade — hydration, nutrition, and recovery tips.")
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import UserNotifications
 
 /// Reminders-style management for routines: a list of named routines (like
 /// Reminders' lists), each opening a detail screen with its name, optional
@@ -75,6 +76,17 @@ struct RoutinesSettingsView: View {
                     .listRowBackground(CardBackground())
                 }
             }
+
+            Section {
+                NavigationLink {
+                    NotificationSettingsView()
+                } label: {
+                    Label("Notification Settings", systemImage: "bell.badge")
+                }
+            } footer: {
+                Text("Choose which notifications Piru sends — routine reminders, session alerts, safety warnings, and low-stock alerts.")
+            }
+            .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -162,7 +174,7 @@ struct RoutinesSettingsView: View {
             }
             modelContext.delete(routine)
         }
-        DoseNotificationManager.syncRoutineReminders(routines: routines)
+        DoseNotificationManager.syncRoutineReminders(in: modelContext)
     }
 }
 
@@ -184,6 +196,10 @@ struct RoutineDetailView: View {
     @State private var name = ""
     @State private var showingAddItem = false
     @State private var editingItem: DailyDoseItem?
+    @State private var prefs = NotificationPreferencesStore.shared
+    /// Whether the OS-level grant is denied — the reminder then can't be
+    /// delivered no matter what the per-type toggle says.
+    @State private var systemDenied = false
 
     private var routineItems: [DailyDoseItem] {
         allItems.filter { $0.category == routine.name }
@@ -210,10 +226,32 @@ struct RoutineDetailView: View {
                     Toggle(isOn: $routine.remind) {
                         Label("Remind Me", systemImage: "bell")
                     }
+                    if routine.remind {
+                        Picker(selection: $routine.followUpMinutes) {
+                            Text("Never").tag([Int]())
+                            Text("10 minutes later").tag([10])
+                            Text("10 and 30 minutes later").tag([10, 30])
+                        } label: {
+                            Label("Ask Again", systemImage: "clock.arrow.circlepath")
+                        }
+                        NavigationLink {
+                            NotificationSettingsView()
+                        } label: {
+                            Label("Notification Settings", systemImage: "bell.badge")
+                        }
+                    }
                 }
             } footer: {
                 if routine.remind, routine.timeMinutes != nil {
-                    Text("A notification repeats daily at this time.")
+                    if !prefs.isEffectivelyEnabled(.routine) {
+                        Text("Routine reminders are turned off in Notification Settings, so this reminder won't be delivered.")
+                            .foregroundStyle(.orange)
+                    } else if systemDenied {
+                        Text("Notifications for Piru are off in the system Settings, so this reminder won't be delivered.")
+                            .foregroundStyle(.orange)
+                    } else {
+                        Text("A notification repeats daily at this time.")
+                    }
                 }
             }
             .listRowBackground(CardBackground())
@@ -254,12 +292,17 @@ struct RoutineDetailView: View {
             MedicationItemFormView(item: item)
         }
         .onAppear { name = routine.name }
+        .task {
+            let settings = await UNUserNotificationCenter.current().notificationSettings()
+            systemDenied = settings.authorizationStatus == .denied
+        }
         .onDisappear {
             applyRename()
-            DoseNotificationManager.syncRoutineReminders(routines: routines)
+            DoseNotificationManager.syncRoutineReminders(in: modelContext)
         }
         .onChange(of: routine.remind) { syncReminders() }
         .onChange(of: routine.timeMinutes) { syncReminders() }
+        .onChange(of: routine.followUpMinutes) { syncReminders() }
     }
 
     // MARK: Bindings
@@ -307,14 +350,13 @@ struct RoutineDetailView: View {
         for item in routineItems {
             item.category = ""
         }
-        let remaining = routines.filter { $0.persistentModelID != routine.persistentModelID }
         modelContext.delete(routine)
-        DoseNotificationManager.syncRoutineReminders(routines: remaining)
+        DoseNotificationManager.syncRoutineReminders(in: modelContext)
         dismiss()
     }
 
     private func syncReminders() {
-        DoseNotificationManager.syncRoutineReminders(routines: routines)
+        DoseNotificationManager.syncRoutineReminders(in: modelContext)
     }
 }
 

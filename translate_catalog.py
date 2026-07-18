@@ -9,6 +9,100 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Notifications management screen — unified per-type toggles (2026-07-17).
+    "Pause All Notifications": ("暂停所有通知", "暫停所有通知"),
+    "Silences everything without losing your choices below.": (
+        "静音全部通知，但保留你在下方的选择。",
+        "靜音全部通知，但保留你在下方的選擇。",
+    ),
+    "Dose Reminders": ("剂量提醒", "劑量提醒"),
+    "During a Session": ("使用期间", "使用期間"),
+    "Safety Limits": ("安全限度", "安全限度"),
+    "Supplies": ("库存", "庫存"),
+    "Notifications Enabled": ("通知已开启", "通知已開啟"),
+    "Notifications Are Off": ("通知已关闭", "通知已關閉"),
+    "Allow Notifications": ("允许通知", "允許通知"),
+    "Asking…": ("正在请求…", "正在請求…"),
+    "Checking Permission…": ("正在检查权限…", "正在檢查權限…"),
+    "Notifications for Piru are turned off in Settings. None of the alerts below can be delivered until they're allowed again.": (
+        "「设置」中已关闭 Piru 的通知。在重新允许之前，下方所有提醒都无法送达。",
+        "「設定」中已關閉 Piru 的通知。在重新允許之前，下方所有提醒都無法送達。",
+    ),
+    "Piru asks the system once. You choose exactly what it's allowed to send below.": (
+        "Piru 只会向系统请求一次。它能发送什么，完全由你在下方决定。",
+        "Piru 只會向系統請求一次。它能傳送什麼，完全由你在下方決定。",
+    ),
+    "Piru only sends the notifications listed on this screen.": (
+        "Piru 只会发送此页面列出的通知。",
+        "Piru 只會傳送此頁面列出的通知。",
+    ),
+    "Next: %@": ("下一次：%@", "下一次：%@"),
+    "Comedown Alerts": ("缓和期提醒", "緩和期提醒"),
+    "Hydration Reminders": ("补水提醒", "補水提醒"),
+    "Sleep Reminders": ("睡眠提醒", "睡眠提醒"),
+    "Phase Alerts": ("阶段提醒", "階段提醒"),
+    "Cumulative Dose Warnings": ("累积剂量警告", "累積劑量警告"),
+    "Routine Reminders": ("日常提醒", "日常提醒"),
+    "Low Stock Alerts": ("低库存提醒", "低庫存提醒"),
+    "Warns you before a dose wears off, so the drop doesn't catch you off guard. Armed per dose from its comedown alert screen.": (
+        "在药效消退前提醒你，让落差不至于让你措手不及。需在每剂的缓和期提醒页面单独开启。",
+        "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。",
+    ),
+    "Water nudges timed to your dose — stimulants and empathogens mask thirst.": (
+        "按剂量时间安排的补水提醒——兴奋剂和共情剂会掩盖口渴感。",
+        "按劑量時間安排的補水提醒——興奮劑和共情劑會掩蓋口渴感。",
+    ),
+    "A wind-down reminder late into long stimulant sessions, when sleep is the best recovery.": (
+        "在长时间兴奋剂使用的后段提醒你放松入睡——此时睡眠是最好的恢复。",
+        "在長時間興奮劑使用的後段提醒你放鬆入睡——此時睡眠是最好的恢復。",
+    ),
+    "Timing cues at onset, come-up, and peak so you can anchor what you feel to the timeline.": (
+        "在起效、上升期和巅峰时给出时间提示，让你把感受对应到时间线上。",
+        "在起效、上升期和巔峰時給出時間提示，讓你把感受對應到時間線上。",
+    ),
+    "A heads-up when your 12-hour total of one substance reaches a heavy range. Turning this off removes a safety net.": (
+        "当某一物质 12 小时内的累积量达到大剂量范围时提醒你。关闭它等于拆掉一道安全网。",
+        "當某一物質 12 小時內的累積量達到大劑量範圍時提醒你。關閉它等於拆掉一道安全網。",
+    ),
+    "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged.": (
+        "每天在各个日常设定的时间提醒你，不再漏掉任何一剂。点按通知即打开快捷记录，日常内容已预先排好。",
+        "每天在各個日常設定的時間提醒你，不再漏掉任何一劑。點按通知即打開快捷記錄，日常內容已預先排好。",
+    ),
+    "A heads-up when something you track runs low or out — before the empty bottle surprises you.": (
+        "当你追踪的物品所剩不多或已用完时提前提醒——别等到瓶子空了才发现。",
+        "當你追蹤的物品所剩不多或已用完時提前提醒——別等到瓶子空了才發現。",
+    ),
+    "Notification Settings": ("通知设置", "通知設定"),
+    "Choose which notifications Piru sends — routine reminders, session alerts, safety warnings, and low-stock alerts.": (
+        "选择 Piru 发送哪些通知——日常提醒、使用期间提醒、安全警告和低库存提醒。",
+        "選擇 Piru 傳送哪些通知——日常提醒、使用期間提醒、安全警告和低庫存提醒。",
+    ),
+    "Routine reminders are turned off in Notification Settings, so this reminder won't be delivered.": (
+        "通知设置中已关闭日常提醒，因此这条提醒不会送达。",
+        "通知設定中已關閉日常提醒，因此這條提醒不會送達。",
+    ),
+    "Notifications for Piru are off in the system Settings, so this reminder won't be delivered.": (
+        "系统设置中已关闭 Piru 的通知，因此这条提醒不会送达。",
+        "系統設定中已關閉 Piru 的通知，因此這條提醒不會送達。",
+    ),
+    # Snooze-style routine follow-up reminders (2026-07-17).
+    "Follow-Up Reminders": ("后续提醒", "後續提醒"),
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine.": (
+        "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常中设置节奏。",
+        "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常中設定節奏。",
+    ),
+    "Ask Again": ("再次提醒", "再次提醒"),
+    "10 minutes later": ("10 分钟后", "10 分鐘後"),
+    "10 and 30 minutes later": ("10 和 30 分钟后", "10 和 30 分鐘後"),
+    "Still need to log your %@ routine?": (
+        "还没记录「%@」日常吗？",
+        "還沒記錄「%@」日常嗎？",
+    ),
+    "Comedown alerts are turned off": ("缓和期提醒已关闭", "緩和期提醒已關閉"),
+    "Turn comedown alerts back on in Notification Settings to arm one for this dose.": (
+        "在通知设置中重新开启缓和期提醒，才能为这一剂设置提醒。",
+        "在通知設定中重新開啟緩和期提醒，才能為這一劑設定提醒。",
+    ),
     # Effect Estimator — the what-if / compare-two-meds sandbox tool (2026-07-17).
     "Effect Estimator": ("效果估算器", "效果估算器"),
     "Compare substances and preview how they may feel": (

@@ -188,6 +188,10 @@ final class DoseRoutine {
     var timeMinutes: Int?
     /// Schedule a repeating daily reminder notification at ``timeMinutes``.
     var remind: Bool = false
+    /// Snooze-style re-asks after the ``remind`` notification: minutes past
+    /// ``timeMinutes`` for each follow-up ("still need to log?"). Empty = no
+    /// follow-ups. Only meaningful while ``remind`` is on.
+    var followUpMinutes: [Int] = []
 
     init(name: String, sortOrder: Int = 0, timeMinutes: Int? = nil, remind: Bool = false) {
         self.name = name

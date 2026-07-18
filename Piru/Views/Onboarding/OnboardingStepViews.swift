@@ -229,8 +229,6 @@ struct OnboardingDepthStep: View {
 
 struct OnboardingRemindersStep: View {
     @Environment(\.onboardingNav) private var nav
-    @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
-    @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
     @State private var requesting = false
 
     var body: some View {
@@ -273,10 +271,15 @@ struct OnboardingRemindersStep: View {
         requesting = true
         let granted = await RampDownScheduler.requestPermissionIfNeeded()
         requesting = false
-        // Persist the intent regardless — if the user denied at the system prompt the toggles are
-        // harmless no-ops, and the Settings screen surfaces how to re-enable notifications.
-        wellnessNotificationsEnabled = granted
-        phaseNotificationsEnabled = granted
+        // Persist the intent regardless — if the user denied at the system prompt the
+        // preferences are harmless no-ops, and the Notifications screen surfaces the
+        // denied state with a path back to Settings. Comedown, routine, and low-stock
+        // default on; this step opts into the session set.
+        let prefs = NotificationPreferencesStore.shared
+        prefs.setEnabled(.hydration, granted)
+        prefs.setEnabled(.sleep, granted)
+        prefs.setEnabled(.phase, granted)
+        prefs.setEnabled(.cumulative, granted)
         nav.advance()
     }
 }

@@ -59,6 +59,10 @@ struct PiruApp: App {
         // into the store, so user-authored substances are backed up and recovered
         // with the rest of the data. Before any view reads them.
         CustomSubstanceStore.shared.configure(container: container)
+        // Bind notification preferences to the store (seeding once from the
+        // legacy wellness/phase flags) and refresh the UserDefaults mirror the
+        // schedulers gate on — before any dose can be logged this launch.
+        NotificationPreferencesStore.shared.configure(container: container)
 
         // Automatic lightweight migration fills the SAME UUID into every
         // pre-existing DoseEntry when it adds `id` (the default expression is
@@ -127,6 +131,10 @@ struct PiruApp: App {
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).
                     InventoryService.recomputeAll(in: container.mainContext)
+                    // Roll the routine follow-up horizon forward (they're
+                    // materialized as one-shots over a few days) and drop
+                    // today's re-asks for routines already logged.
+                    DoseNotificationManager.syncRoutineReminders(in: container.mainContext)
                     // If the user connected Apple Health for body weight, silently refresh it
                     // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
                     // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
@@ -147,6 +155,9 @@ struct PiruApp: App {
             // reflected, and a crossed threshold can notify.
             if phase == .active {
                 InventoryService.recomputeAll(in: container.mainContext)
+                // Same horizon-roll as launch: doses logged from other
+                // surfaces while away may have satisfied a routine.
+                DoseNotificationManager.syncRoutineReminders(in: container.mainContext)
             }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.
