@@ -126,6 +126,7 @@ struct ChemistrySection: View {
     let showsMechanism: Bool
 
     @State private var chemistryExpanded = false
+    @State private var moleculeStructure: MoleculeStructure?
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -136,6 +137,16 @@ struct ChemistrySection: View {
             || substance.iupacName != nil || (phys?.hasAnyValue ?? false)
         if showsMechanism, hasChem {
             CollapsibleSection("Chemistry", systemImage: "atom", isExpanded: $chemistryExpanded) {
+                // The molecule hero — omitted entirely when the substance has
+                // no generated structure (no SMILES, or obabel couldn't parse
+                // it; ~860 substances currently). Loaded lazily via a cheap
+                // local SQLite lookup, not baked into `Substance` itself.
+                if let moleculeStructure {
+                    MoleculeStructureView(structure: moleculeStructure, formula: substance.formula)
+                        .frame(height: 190)
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, 4)
+                }
                 let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
                 Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
                     if substance.formula != nil || showMW {
@@ -178,6 +189,11 @@ struct ChemistrySection: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 2)
                 }
+            }
+            .task(id: substance.name) {
+                moleculeStructure = substance.smiles != nil
+                    ? SubstanceStore.shared.moleculeStructure(forSubstanceName: substance.name)
+                    : nil
             }
         }
     }

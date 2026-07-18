@@ -1685,6 +1685,22 @@
         }
       }
     },
+    "%lld atoms" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个原子"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個原子"
+          }
+        }
+      }
+    },
     "%lld bpm" : {
       "localizations" : {
         "zh-Hans" : {
@@ -25244,6 +25260,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "莫耳質量"
+          }
+        }
+      }
+    },
+    "Molecular structure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分子结构"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分子結構"
           }
         }
       }

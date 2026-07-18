@@ -42,6 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — sh
 
 import collision_registry  # noqa: E402
 import psid  # noqa: E402
+from chem_ids import obabel_available  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
 )
@@ -49,6 +50,7 @@ from drug_community_effects import (  # noqa: E402
     spectrum_levels as dc_spectrum_levels,
 )
 from effect_vocab import EFFECT_VOCAB, vocab_id_for, vocab_labels  # noqa: E402
+from molecule_shapes import generate_molecule_shapes  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
@@ -178,9 +180,14 @@ SOURCES = [
         "Primary peer-reviewed literature",
         "Cited DOI/PMID from primary journal articles. Deep-pharma enrichment swarm output.",
     ),
+    # drug.community is our preferred dose/duration source (curated by a former
+    # pharma-industry contributor, cross-checked in-app) — ranked above the
+    # volunteer wikis so it wins per-field where it has data; PsychonautWiki and
+    # TripSit backfill any gaps. Genuine dc dose bugs are corrected in the
+    # piru-curated layer (which outranks everything).
+    ("drug.community", "drug.community", "Curated dose/duration & effects dataset (preferred)."),
     ("psychonautwiki", "PsychonautWiki", "Community harm-reduction wiki."),
     ("tripsit", "TripSit factsheets", "Community harm-reduction factsheets and combo matrix."),
-    ("drug.community", "drug.community", "Curated long-tail research-chemical dataset."),
     ("dailymed", "FDA DailyMed", "FDA-approved prescribing labels."),
     (
         "erowid-pihkal",
@@ -1175,6 +1182,23 @@ CREATE TABLE substance_citations (
     PRIMARY KEY (substance_id, citation_id)
 );
 CREATE INDEX idx_substance_citations_substance ON substance_citations(substance_id);
+
+-- 2D skeletal-diagram coordinates for the Chemistry card's molecule hero.
+-- Generated offline from the substance's `smiles` via OpenBabel (--gen2d);
+-- see molecule_shapes.py. Purely derived data (no source_id — it isn't
+-- "sourced" from any of our datasources, it's computed by us at build time).
+-- `atoms_json` = [{"el": "C", "x": .., "y": ..}, ...] (0-indexed, matching
+-- bond indices); `bonds_json` = [{"a": i, "b": j, "order": 1|2|3}, ...].
+-- Coordinates already live in a 0..100 screen-space box (Y grows downward) —
+-- the renderer draws them directly, no further transform needed.
+CREATE TABLE molecule_shapes (
+    id           INTEGER PRIMARY KEY,
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    atoms_json   TEXT NOT NULL,
+    bonds_json   TEXT NOT NULL,
+    UNIQUE(substance_id)
+);
+CREATE INDEX idx_molecule_shapes_substance ON molecule_shapes(substance_id);
 
 CREATE TABLE manifest (
     key   TEXT PRIMARY KEY,
@@ -5971,6 +5995,42 @@ class Build:
                 file=sys.stderr,
             )
 
+    def ingest_molecule_shapes(self) -> None:
+        """Compute 2D skeletal-diagram coordinates for every substance with a
+        SMILES, offline via OpenBabel — no network, fully deterministic (see
+        molecule_shapes.py for the batching/retry strategy). Powers the
+        Chemistry card's molecule hero.
+
+        Purely derived/additive — no source_id, keyed only on substance_id
+        (re-pointed automatically on merge by ``_substance_tables()``). Must
+        run after all substance ingest, dedup, and identifier reconciliation
+        so `smiles` is final; a rerun after a later smiles correction just
+        re-derives the shape (UNIQUE(substance_id) + INSERT OR REPLACE)."""
+        if not obabel_available():
+            print(
+                "WARNING: obabel not on PATH; skipping molecule_shapes "
+                "(Chemistry cards will show no structure diagram).",
+                file=sys.stderr,
+            )
+            return
+        rows = self.cur.execute(
+            "SELECT id, smiles FROM substances WHERE smiles IS NOT NULL AND smiles != ''"
+        ).fetchall()
+        pairs = [(str(sid), smiles) for sid, smiles in rows]
+        shapes, failed = generate_molecule_shapes(pairs)
+        for sid_str, shape in shapes.items():
+            self.cur.execute(
+                "INSERT OR REPLACE INTO molecule_shapes(substance_id, atoms_json, bonds_json) "
+                "VALUES (?, ?, ?)",
+                (
+                    int(sid_str),
+                    json.dumps(shape["atoms"], ensure_ascii=False),
+                    json.dumps(shape["bonds"], ensure_ascii=False),
+                ),
+            )
+            self.stats["molecule_shapes"] += 1
+        self.stats["molecule_shapes_failed"] += len(failed)
+
     def _substance_tables(self) -> list[str]:
         """Every table (besides ``substances``) that carries a substance_id.
 
@@ -8124,6 +8184,17 @@ def main() -> int:
     for c in fm["names"] + fm["filled_names"]:
         print(f"  {c}", file=sys.stderr)
 
+    # 2D skeletal-diagram coordinates for the Chemistry card's molecule hero
+    # (offline, via OpenBabel). Runs after every smiles-mutating pass above
+    # (identifier reconciliation, PubChem free-base correction) so it draws
+    # the final structure, not a since-corrected one.
+    build.ingest_molecule_shapes()
+    print(
+        f"Molecule shapes: {build.stats.get('molecule_shapes', 0)} generated, "
+        f"{build.stats.get('molecule_shapes_failed', 0)} failed to parse",
+        file=sys.stderr,
+    )
+
     # Drop exact-duplicate pharmacokinetic rows (alprazolam's five identical
     # "oral F 85%" rows from repeated enrichment ingest).
     pkd = dedup_pk_routes(build.cur.connection)
@@ -8356,6 +8427,7 @@ def main() -> int:
         "off_targets",
         "class_contexts",
         "substance_classes",
+        "molecule_shapes",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

@@ -4,5 +4,18 @@
     "可卡因",
     "古柯碱",
     "古柯鹼"
+  ],
+  "routes": [
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": { "lower": 2, "upper": 5 },
+        "common": { "lower": 5, "upper": 10 },
+        "strong": { "lower": 10, "upper": 15 },
+        "heavy": 15
+      }
+    }
   ]
 }
