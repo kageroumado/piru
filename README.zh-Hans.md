@@ -125,18 +125,20 @@ Piru 通过 **TestFlight**（苹果官方的测试 app）发布。两分钟搞�
 
 Piru 内置一个离线 SQLite 物质库，收录 **1,900+ 种物质**。每一个字段——一段剂量范围、一段时长、
 一项受体亲和力、一段机制概述——都按**来源优先级**（顺序可由你调整）解析，并各自携带出处，
-因此物质详情页的末尾会有一份 **数据来源** 列表，直接链接到各来源中该物质的页面。首要参考来源是
-**[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)**——一部社区维护的精神活性物质百科——
-此外还包括：
+因此物质详情页的末尾会有一份 **数据来源** 列表，直接链接到各来源中该物质的页面。剂量与时长
+优先取自 **[drug.community](https://drug.community)**——一份由曾在制药行业工作的贡献者整理、并在
+应用内交叉核对的数据集——其未覆盖的字段再由志愿者维基补足。各字段按以下优先级决定采用哪个来源：
 
-- **[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** —— 首要的物质档案与主观效应
-- **[PsychonautWiki](https://psychonautwiki.org)** —— 剂量范围、时长、效应词汇
-- **[TripSit](https://tripsit.me)** —— 相互作用数据与减害剂量
+- **Piru 自己的手工整理层** 与 **同行评审的一手文献** —— 优先级最高，经核实的勘误始终胜出
+  （上游确有的剂量错误也在这一层覆盖修正）
+- **[drug.community](https://drug.community)** —— **首选**的剂量/时长阶梯与效应强度谱
+- **[PsychonautWiki](https://psychonautwiki.org)** 与 **[TripSit](https://tripsit.me)** —— 补足剂量范围与
+  时长，并提供效应词汇、相互作用数据与减害剂量
+- **[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** —— **中文语境**下的物质档案正文来源
 - **[DailyMed](https://dailymed.nlm.nih.gov)**（FDA）与 **DEA Orange Book** —— 处方标签与管制分级
 - **[PubChem](https://pubchem.ncbi.nlm.nih.gov)** 与 **[Wikidata](https://www.wikidata.org)** —— 标识符与化学信息
 - **[PDSP K<sub>i</sub> 数据库](https://pdsp.unc.edu)** —— 受体结合亲和力
-- **Erowid PiHKAL/TiHKAL**、**drug.community** 与**同行评审的一手文献**补足其余
-- **Piru 自己的手工整理层**，用于机制概述与勘误
+- **Erowid PiHKAL/TiHKAL** 与其余一手文献补足剩余部分
 
 <div align="center">
 <img src=".github/piru-sources-zh.png" alt="某物质的数据来源列表 —— drug.community、FreeOD Wiki、PubMed、Piru 手工整理层、PsychonautWiki 与 TripSit，每一项都是可点按的链接" width="300">

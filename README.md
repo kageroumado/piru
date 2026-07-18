@@ -142,18 +142,22 @@ wider, not taller-and-shorter. And because elimination tracks liver and body mas
 Piru bundles an offline SQLite library of **1,900+ substances**. Each field — a dose range, a duration,
 a receptor affinity, a mechanism summary — is resolved by **source priority** (which you can reorder)
 and carries its own attribution, so a substance sheet ends with a **Data Sources** list that links
-straight to each source's page for that compound. The primary reference is
-**[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)**, a community-maintained encyclopedia of
-psychoactive substances, alongside:
+straight to each source's page for that compound. Doses and durations come first from
+**[drug.community](https://drug.community)** — a dataset curated by a former pharma-industry contributor
+and cross-checked in-app — with the volunteer wikis backfilling anything it doesn't cover. Which source
+wins a given field, in priority order:
 
-- **[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** — primary substance profiles & subjective effects
-- **[PsychonautWiki](https://psychonautwiki.org)** — dose ranges, durations, effect vocabulary
-- **[TripSit](https://tripsit.me)** — interaction data and harm-reduction dosing
+- **Piru's own hand-curated overlay** & **peer-reviewed primary literature** — outrank everything, so a
+  verified correction always wins (this is also where genuine upstream dose bugs get overridden)
+- **[drug.community](https://drug.community)** — **preferred** dose/duration ladders & reported-effect spectra
+- **[PsychonautWiki](https://psychonautwiki.org)** & **[TripSit](https://tripsit.me)** — backfill dose ranges
+  and durations, plus effect vocabulary, interaction data, and harm-reduction dosing
+- **[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** — the substance-profile copy for the **Chinese
+  locale** (读中文时的正文来源)
 - **[DailyMed](https://dailymed.nlm.nih.gov)** (FDA) & **DEA Orange Book** — prescription labels & scheduling
 - **[PubChem](https://pubchem.ncbi.nlm.nih.gov)** & **[Wikidata](https://www.wikidata.org)** — identifiers, chemistry
 - **[PDSP K<sub>i</sub> database](https://pdsp.unc.edu)** — receptor binding affinities
-- **Erowid PiHKAL/TiHKAL**, **drug.community**, and **peer-reviewed primary literature** for the rest
-- **Piru's own hand-curated overlay** for mechanism summaries and corrections
+- **Erowid PiHKAL/TiHKAL** and other primary literature for the rest
 
 <div align="center">
 <img src=".github/piru-sources-zh.png" alt="A substance's Data Sources list — drug.community, FreeOD Wiki, PubMed, Piru's hand-curated overlay, PsychonautWiki, and TripSit, each a tappable link" width="300">

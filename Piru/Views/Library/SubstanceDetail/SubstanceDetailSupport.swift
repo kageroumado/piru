@@ -143,60 +143,6 @@ struct SourceAttributionRow: View {
     }
 }
 
-// MARK: - All Effects
-
-/// The full PsychonautWiki effect taxonomy for a substance, grouped under
-/// category headers. Pushed from the detail view's Effects disclosure so the
-/// ~60-term list never clutters the main screen.
-struct AllEffectsView: View {
-    let substanceName: String
-    /// Show the Erowid "Experience reports" group at the bottom — gated to
-    /// recreational / dual-use compounds, where first-hand reports exist.
-    var showsExperienceReports = false
-    @State private var groups: [SubstanceStore.EffectGroup] = []
-
-    var body: some View {
-        List {
-            ForEach(groups) { group in
-                Section {
-                    ForEach(group.effects, id: \.self) { effect in
-                        Text(effect)
-                            .font(.subheadline)
-                    }
-                } header: {
-                    Text(LocalizedStringKey(group.category))
-                }
-                .listRowBackground(CardBackground())
-            }
-
-            // Erowid lives here as its own group rather than crowding the
-            // detail screen's curated Effects card. We can't link a specific
-            // page or show a count (Erowid blocks automated access), but a
-            // search always opens for the user in their browser.
-            if showsExperienceReports, let erowid = AppSources.erowidSearchURL(substance: substanceName) {
-                Section {
-                    Link(destination: erowid) {
-                        Label("Search experiences on Erowid", systemImage: "magnifyingglass")
-                            .font(.subheadline)
-                    }
-                } header: {
-                    Text("Experience reports")
-                } footer: {
-                    Text("First-hand reports from Erowid's Experience Vaults. Opens a search in your browser.")
-                }
-                .listRowBackground(CardBackground())
-            }
-        }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
-        .navigationTitle("Effects")
-        .navigationBarTitleDisplayMode(.inline)
-        .task(id: substanceName) {
-            groups = SubstanceStore.shared.effectsByCategory(forSubstanceName: substanceName)
-        }
-    }
-}
-
 // MARK: - Shareable Drug-Info Card
 
 /// The dark-themed card rendered to an image when the user shares a substance's
