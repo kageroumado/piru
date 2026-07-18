@@ -29,6 +29,10 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     /// Snooze-style re-ask a little after a routine reminder that hasn't
     /// been logged yet ("still need to log?").
     case routineFollowUp
+    /// "Your next dose window is open" — fires after a logged dose of a med
+    /// the user opted in per-item (spec §E; maintenance nudge, never a
+    /// recreational redose prompt).
+    case nextDose
     /// Low-stock / out-of-stock alert for tracked inventory items.
     case inventory
 
@@ -42,10 +46,10 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     /// flags that defaulted off until onboarding enabled them.
     var defaultEnabled: Bool {
         switch self {
-        // Follow-ups also default on: they fire only for routines the user
-        // explicitly gave an "ask again" cadence, so the toggle is a kill
-        // switch, not an opt-in.
-        case .comedown, .routine, .routineFollowUp, .inventory: true
+        // Follow-ups and next-dose also default on: they fire only where the
+        // user explicitly configured them (a routine's cadence, a med's
+        // opt-in), so these toggles are kill switches, not opt-ins.
+        case .comedown, .routine, .routineFollowUp, .nextDose, .inventory: true
         case .hydration, .sleep, .phase, .cumulative: false
         }
     }
@@ -86,6 +90,8 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
         case .cumulative: [identifierPrefix, "\(RampDownScheduler.cumulativeCategoryID)_"]
         case .routine: [identifierPrefix, DoseNotificationManager.legacyRoutineReminderPrefix]
         case .routineFollowUp: [identifierPrefix, DoseNotificationManager.legacyRoutineFollowUpPrefix]
+        // Born under the current grammar — no legacy prefix to sweep.
+        case .nextDose: [identifierPrefix]
         case .inventory: [identifierPrefix, DoseNotificationManager.legacyInventoryLowStockPrefix]
         }
     }
@@ -144,6 +150,11 @@ final class NotificationPreferencesStore {
         masterEnabled && isTypeEnabled(type)
     }
 
+    /// Quiet hours (minutes from midnight; window may wrap past midnight).
+    private(set) var quietHoursEnabled = false
+    private(set) var quietHoursStartMinutes = 23 * 60
+    private(set) var quietHoursEndMinutes = 7 * 60
+
     // MARK: - Scheduler gate
 
     private nonisolated static let masterMirrorKey = "notificationMasterEnabled"
@@ -159,6 +170,31 @@ final class NotificationPreferencesStore {
         let master = defaults.object(forKey: masterMirrorKey) as? Bool ?? true
         let enabled = defaults.object(forKey: mirrorKey(type)) as? Bool ?? type.defaultEnabled
         return master && enabled
+    }
+
+    private nonisolated static let quietEnabledMirrorKey = "notificationQuietHoursEnabled"
+    private nonisolated static let quietStartMirrorKey = "notificationQuietHoursStart"
+    private nonisolated static let quietEndMirrorKey = "notificationQuietHoursEnd"
+
+    /// Whether a fire time falls inside the user's quiet window. Schedulers
+    /// consult this for dose reminders and session nudges; cumulative safety
+    /// warnings and the user-timed routine primaries never do (spec §B —
+    /// a safety net is never silenced by accident, and an exact time the user
+    /// chose is honored as chosen).
+    nonisolated static func isInQuietHours(
+        _ date: Date,
+        defaults: UserDefaults = .standard,
+        calendar: Calendar = .current,
+    ) -> Bool {
+        guard defaults.bool(forKey: quietEnabledMirrorKey) else { return false }
+        let start = defaults.object(forKey: quietStartMirrorKey) as? Int ?? 23 * 60
+        let end = defaults.object(forKey: quietEndMirrorKey) as? Int ?? 7 * 60
+        let parts = calendar.dateComponents([.hour, .minute], from: date)
+        let minutes = (parts.hour ?? 0) * 60 + (parts.minute ?? 0)
+        if start == end { return false }
+        // A window that wraps midnight (23:00 → 07:00) is two half-ranges.
+        if start < end { return minutes >= start && minutes < end }
+        return minutes >= start || minutes < end
     }
 
     // MARK: - Configuration
@@ -204,6 +240,9 @@ final class NotificationPreferencesStore {
         typeEnabled = Dictionary(uniqueKeysWithValues: NotificationType.allCases.map {
             ($0, record[keyPath: $0.recordKeyPath])
         })
+        quietHoursEnabled = record.quietHoursEnabled
+        quietHoursStartMinutes = record.quietHoursStartMinutes
+        quietHoursEndMinutes = record.quietHoursEndMinutes
     }
 
     private func mirrorAll() {
@@ -211,6 +250,13 @@ final class NotificationPreferencesStore {
         for type in NotificationType.allCases {
             defaults.set(isTypeEnabled(type), forKey: Self.mirrorKey(type))
         }
+        mirrorQuietHours()
+    }
+
+    private func mirrorQuietHours() {
+        defaults.set(quietHoursEnabled, forKey: Self.quietEnabledMirrorKey)
+        defaults.set(quietHoursStartMinutes, forKey: Self.quietStartMirrorKey)
+        defaults.set(quietHoursEndMinutes, forKey: Self.quietEndMirrorKey)
     }
 
     // MARK: - Mutations
@@ -239,6 +285,24 @@ final class NotificationPreferencesStore {
         for type in NotificationType.allCases {
             reconcilePending(for: type, enabled: value && isTypeEnabled(type))
         }
+    }
+
+    /// Persist the quiet-hours window. Affects future scheduling only —
+    /// already-pending requests aren't retroactively silenced (they re-derive
+    /// on the next dose/sync anyway).
+    func setQuietHours(enabled: Bool, startMinutes: Int? = nil, endMinutes: Int? = nil) {
+        quietHoursEnabled = enabled
+        if let startMinutes { quietHoursStartMinutes = startMinutes }
+        if let endMinutes { quietHoursEndMinutes = endMinutes }
+        let record = ensureRecord()
+        record.quietHoursEnabled = quietHoursEnabled
+        record.quietHoursStartMinutes = quietHoursStartMinutes
+        record.quietHoursEndMinutes = quietHoursEndMinutes
+        save()
+        mirrorQuietHours()
+        // Re-derive the one repeating family so pending follow-ups respect
+        // the new window immediately.
+        resyncRoutineReminders()
     }
 
     // MARK: - Pending-queue reconciliation
@@ -309,6 +373,7 @@ private extension NotificationType {
         case .cumulative: \.cumulativeEnabled
         case .routine: \.routineEnabled
         case .routineFollowUp: \.routineFollowUpEnabled
+        case .nextDose: \.nextDoseEnabled
         case .inventory: \.inventoryEnabled
         }
     }

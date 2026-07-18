@@ -158,6 +158,12 @@ enum RampDownScheduler {
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = rampDownCategoryID
         content.threadIdentifier = sessionIdentifier(for: doseTime)
+        // Body tap / View Timeline land on the dose's detail (entryKey is the
+        // dose's stable id; the timestamp keeps id-less legacy resolution).
+        content.userInfo = [
+            DoseNotificationManager.deepLinkUserInfoKey:
+                "\(DeepLink.scheme)://entry/\(Int(doseTime.timeIntervalSince1970))?id=\(entryKey)",
+        ]
 
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: timeInterval,
@@ -352,6 +358,7 @@ enum RampDownScheduler {
             category: cumulativeCategoryID,
             threadId: threadId,
             interruptionLevel: .timeSensitive,
+            respectsQuietHours: false,
         )
     }
 
@@ -484,7 +491,15 @@ enum RampDownScheduler {
         category: String,
         threadId: String? = nil,
         interruptionLevel: UNNotificationInterruptionLevel = .active,
+        respectsQuietHours: Bool = true,
     ) {
+        // Session nudges are silenced inside the user's quiet window; the
+        // cumulative safety warning opts out (spec §B — never silenced).
+        if respectsQuietHours,
+           NotificationPreferencesStore.isInQuietHours(Date.now.addingTimeInterval(timeInterval)) {
+            logger.debug("\(category) notification skipped — inside quiet hours")
+            return
+        }
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body

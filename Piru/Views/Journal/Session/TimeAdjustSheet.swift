@@ -6,6 +6,7 @@ import SwiftUI
 struct TimeAdjustSheet: View {
     @Bindable var entry: DoseEntry
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @Query private var substanceColors: [SubstanceColor]
     @State private var originalTimestamp: Date?
 
@@ -33,7 +34,7 @@ struct TimeAdjustSheet: View {
             )
             // Pending reminders are keyed to the old timestamp — a moved dose
             // must drop them and reschedule from its new time.
-            DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original)
+            DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original, in: modelContext)
         }
     }
 }

@@ -98,6 +98,13 @@ final class DailyDoseItem {
     /// other dose unless the user opts in. See ``SessionClustering``.
     var isBackgroundMed: Bool = false
 
+    /// Per-item opt-in for the next-dose window reminder: after logging a
+    /// dose of this med, a nudge fires when the model says the next dose
+    /// window opens (notifications spec §E — a maintenance need the *user*
+    /// declares; never inferred, and off by default so a recreational one-off
+    /// never reads as a redose prompt).
+    var nextDoseReminder: Bool = false
+
     // Schedule
 
     /// Backing storage for ``frequency``. Prefer reading/writing ``frequency``.
@@ -188,10 +195,18 @@ final class DoseRoutine {
     var timeMinutes: Int?
     /// Schedule a repeating daily reminder notification at ``timeMinutes``.
     var remind: Bool = false
+    /// JSON-encoded backing storage for ``followUpMinutes`` — same idiom as
+    /// ``DailyDoseItem/frequencyDaysData`` (a raw `[Int]` attribute traps
+    /// SwiftData when the model is built in the test process).
+    var followUpMinutesData: Data = Data()
+
     /// Snooze-style re-asks after the ``remind`` notification: minutes past
     /// ``timeMinutes`` for each follow-up ("still need to log?"). Empty = no
     /// follow-ups. Only meaningful while ``remind`` is on.
-    var followUpMinutes: [Int] = []
+    var followUpMinutes: [Int] {
+        get { (try? JSONDecoder().decode([Int].self, from: followUpMinutesData)) ?? [] }
+        set { followUpMinutesData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+    }
 
     init(name: String, sortOrder: Int = 0, timeMinutes: Int? = nil, remind: Bool = false) {
         self.name = name

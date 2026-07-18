@@ -565,7 +565,7 @@ struct EntryFormView: View {
         if let editedPreviousSubstance { affected.insert(editedPreviousSubstance) }
         DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: modelContext) {
             if isNewEntry, let notifyEntry {
-                DoseNotificationManager.doseLogged(entry: notifyEntry, recentEntries: recents)
+                DoseNotificationManager.doseLogged(entry: notifyEntry, recentEntries: recents, in: modelContext)
             }
         }
 

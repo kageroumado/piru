@@ -25,37 +25,73 @@ enum DoseNotificationManager {
     /// Register every notification category once at launch — previously the
     /// only registration happened as a side effect of scheduling a comedown
     /// alert, which wiped the category set down to `rampDown` and left every
-    /// other `categoryIdentifier` pointing at nothing. Actions land in a
-    /// later stage; registering the categories now just makes each type a
-    /// real, non-phantom citizen of the notification system.
+    /// other `categoryIdentifier` pointing at nothing.
+    ///
+    /// Actions: routine + follow-up get **Log** (opens the pre-filled Quick
+    /// Log, same landing as the body tap) and **Skip Today** (a background
+    /// action — marks the occurrences skipped and cancels the remaining
+    /// re-asks *without launching the UI*, so dismissing a nag is
+    /// friction-free). Comedown and next-dose get **View Timeline**.
+    /// Inventory's Restock action waits on an inventory deep-link route.
     static func registerCategories() {
-        let identifiers = [
-            RampDownScheduler.rampDownCategoryID,
+        let log = UNNotificationAction(
+            identifier: logActionID,
+            title: String(localized: "Log"),
+            options: [.foreground],
+        )
+        let skip = UNNotificationAction(
+            identifier: skipTodayActionID,
+            title: String(localized: "Skip Today"),
+            options: [],
+        )
+        let viewTimeline = UNNotificationAction(
+            identifier: viewTimelineActionID,
+            title: String(localized: "View Timeline"),
+            options: [.foreground],
+        )
+
+        var categories: Set<UNNotificationCategory> = []
+        for identifier in [routineCategoryID, routineFollowUpCategoryID] {
+            categories.insert(UNNotificationCategory(
+                identifier: identifier, actions: [log, skip], intentIdentifiers: [], options: [],
+            ))
+        }
+        for identifier in [RampDownScheduler.rampDownCategoryID, nextDoseCategoryID] {
+            categories.insert(UNNotificationCategory(
+                identifier: identifier, actions: [viewTimeline], intentIdentifiers: [], options: [],
+            ))
+        }
+        for identifier in [
             RampDownScheduler.hydrationCategoryID,
             RampDownScheduler.sleepCategoryID,
             RampDownScheduler.cumulativeCategoryID,
             RampDownScheduler.phaseCategoryID,
-            routineCategoryID,
-            routineFollowUpCategoryID,
             inventoryCategoryID,
-        ]
-        let categories = identifiers.map {
-            UNNotificationCategory(identifier: $0, actions: [], intentIdentifiers: [], options: [])
+        ] {
+            categories.insert(UNNotificationCategory(
+                identifier: identifier, actions: [], intentIdentifiers: [], options: [],
+            ))
         }
-        UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
+        UNUserNotificationCenter.current().setNotificationCategories(categories)
     }
 
     nonisolated static let routineCategoryID = "routine"
     nonisolated static let routineFollowUpCategoryID = "routineFollowUp"
+    nonisolated static let nextDoseCategoryID = "nextDose"
     nonisolated static let inventoryCategoryID = "inventory"
+
+    nonisolated static let logActionID = "piru.action.log"
+    nonisolated static let skipTodayActionID = "piru.action.skipToday"
+    nonisolated static let viewTimelineActionID = "piru.action.viewTimeline"
 
     // MARK: - Dose lifecycle
 
-    /// Schedule the wellness + phase set (and run the cumulative-dose check)
-    /// for a freshly logged dose. Doses logged in the past schedule nothing —
+    /// Schedule the wellness + phase set (and run the cumulative-dose check,
+    /// and the per-item next-dose reminder when a context is supplied) for a
+    /// freshly logged dose. Doses logged in the past schedule nothing —
     /// every fire time is computed from the dose time and past intervals are
     /// skipped.
-    static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry]) {
+    static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry], in context: ModelContext? = nil) {
         let substance = library(for: entry)
         let duration = substance?.resolveDuration(for: entry.route)
         // The name to *show* in copy — the brand the dose was logged as
@@ -94,6 +130,64 @@ enum DoseNotificationManager {
                 displayName: displayName,
             )
         }
+
+        if let context {
+            scheduleNextDoseReminder(for: entry, duration: duration, displayName: displayName, in: context)
+        }
+    }
+
+    // MARK: - Next-dose window reminder (spec §E)
+
+    /// If the dose matches a daily-med item the user opted into next-dose
+    /// reminders, schedule "your next dose window is open" at the model's
+    /// redose time. Opt-in lives on the item — the app never guesses
+    /// therapeutic vs. recreational intent.
+    private static func scheduleNextDoseReminder(
+        for entry: DoseEntry,
+        duration: DurationProfile?,
+        displayName: String?,
+        in context: ModelContext,
+    ) {
+        guard NotificationPreferencesStore.allows(.nextDose), let duration else { return }
+        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
+        let optedIn = items.contains { item in
+            item.nextDoseReminder
+                && item.route == entry.route
+                && itemIdentityMatches(item: item, entry: entry)
+        }
+        guard optedIn else { return }
+
+        let windowOpens = RampDownScheduler.comedownStartTime(doseTime: entry.timestamp, duration: duration)
+        let interval = windowOpens.timeIntervalSince(.now)
+        guard interval > 60 else { return }
+        // A dose reminder — silenced inside the quiet window (spec §B).
+        guard !NotificationPreferencesStore.isInQuietHours(windowOpens) else { return }
+
+        let shownName = displayName ?? entry.substance
+        let content = UNMutableNotificationContent()
+        content.title = String(localized: "Next dose window — \(shownName)")
+        // Honesty: a prompt and an estimate, never a directive (spec §Honesty).
+        content.body = String(localized: "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule.")
+        content.sound = .default
+        content.categoryIdentifier = nextDoseCategoryID
+        content.threadIdentifier = RampDownScheduler.sessionIdentifier(for: entry.timestamp)
+        content.interruptionLevel = .timeSensitive
+        let linkTimestamp = Int(entry.timestamp.timeIntervalSince1970)
+        content.userInfo = [
+            Self.deepLinkUserInfoKey: "\(DeepLink.scheme)://entry/\(linkTimestamp)?id=\(entry.id.uuidString)",
+        ]
+        UNUserNotificationCenter.current().add(UNNotificationRequest(
+            identifier: NotificationType.nextDose.identifier(anchor: entry.id.uuidString),
+            content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false),
+        ))
+    }
+
+    private static func itemIdentityMatches(item: DailyDoseItem, entry: DoseEntry) -> Bool {
+        if let itemUID = item.substanceUID, let entryUID = entry.substanceUID {
+            return itemUID == entryUID
+        }
+        return item.substance.lowercased() == entry.substance.lowercased()
     }
 
     /// The dose moved in time (edit, retime, move-to-session): wellness and
@@ -101,12 +195,18 @@ enum DoseNotificationManager {
     /// reschedule from the new time. A dose moved into the past schedules
     /// nothing — which is the fix for a backdated dose still pinging
     /// "Stay hydrated" at its original fire times.
-    static func doseRescheduled(entry: DoseEntry, previousTimestamp: Date, recentEntries: [DoseEntry] = []) {
+    static func doseRescheduled(
+        entry: DoseEntry,
+        previousTimestamp: Date,
+        recentEntries: [DoseEntry] = [],
+        in context: ModelContext? = nil,
+    ) {
         guard previousTimestamp != entry.timestamp else { return }
         cancelDoseNotifications(entryID: entry.id, timestamp: previousTimestamp)
 
         let substance = library(for: entry)
         let duration = substance?.resolveDuration(for: entry.route)
+        let displayName = DoseTitle.resolve(for: entry)
         RampDownScheduler.scheduleWellnessNotifications(
             entryID: entry.id,
             category: substance?.category,
@@ -119,8 +219,11 @@ enum DoseNotificationManager {
             substanceName: entry.substance,
             doseTime: entry.timestamp,
             duration: duration,
-            displayName: DoseTitle.resolve(for: entry),
+            displayName: displayName,
         )
+        if let context {
+            scheduleNextDoseReminder(for: entry, duration: duration, displayName: displayName, in: context)
+        }
     }
 
     /// The dose is gone — so are its pending reminders. The timestamp rides
@@ -132,6 +235,9 @@ enum DoseNotificationManager {
     private static func cancelDoseNotifications(entryID: UUID, timestamp: Date) {
         RampDownScheduler.cancelWellnessNotifications(entryID: entryID, doseTimestamp: timestamp)
         RampDownScheduler.cancelPhaseNotifications(entryID: entryID, doseTimestamp: timestamp)
+        UNUserNotificationCenter.current().removePendingNotificationRequests(
+            withIdentifiers: [NotificationType.nextDose.identifier(anchor: entryID.uuidString)],
+        )
     }
 
     // MARK: - Comedown (armed per dose from the ramp-down screen)
@@ -166,18 +272,33 @@ enum DoseNotificationManager {
 
     // MARK: - Routine reminders
 
-    /// Reconcile the routine reminders from the store: fetches routines,
-    /// items, and today's doses, then delegates to the value-based overload.
-    /// The one entry point every "something routine-relevant changed" site
-    /// calls — routine edits, dose commits, app foreground.
+    /// Reconcile the routine reminders from the store. The one entry point
+    /// every "something routine-relevant changed" site calls — routine edits,
+    /// dose commits, app foreground. Runs the occurrence reconciler first, so
+    /// follow-up cancellation reads the durable record (spec §D), not a
+    /// re-inference over raw dose scans.
     static func syncRoutineReminders(in context: ModelContext) {
+        RoutineOccurrenceService.reconcile(in: context)
         let routines = (try? context.fetch(FetchDescriptor<DoseRoutine>())) ?? []
-        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
-        let dayStart = Calendar.current.startOfDay(for: .now)
-        let predicate = #Predicate<DoseEntry> { $0.timestamp >= dayStart }
-        let todaysEntries = (try? context.fetch(FetchDescriptor(predicate: predicate))) ?? []
-        syncRoutineReminders(routines: routines, items: items, todaysEntries: todaysEntries)
+        let satisfied = Set(routines.map(\.name).filter {
+            RoutineOccurrenceService.isSatisfiedToday(routineName: $0, in: context)
+        })
+        syncRoutineReminders(routines: routines, satisfiedToday: satisfied)
     }
+
+    /// Mark a routine's remaining due items skipped for today and cancel its
+    /// follow-ups — the "Skip Today" notification action. Runs headless (no
+    /// UI launch); needs ``modelContainer`` to have been set at app init.
+    static func skipRoutineToday(named name: String) {
+        guard let context = modelContainer?.mainContext else { return }
+        RoutineOccurrenceService.skipToday(routineName: name, in: context)
+        syncRoutineReminders(in: context)
+    }
+
+    /// The app's shared container, set once at launch — the notification
+    /// delegate's background actions (Skip Today) have no view hierarchy to
+    /// pull a context from.
+    static var modelContainer: ModelContainer?
 
     /// Reconcile the repeating routine reminders — one daily calendar
     /// notification per routine that has a time and "Remind Me" on — plus
@@ -188,12 +309,10 @@ enum DoseNotificationManager {
     /// cancelling today's re-ask would cancel every future day's too. So they
     /// are materialized as one-shot requests over a short rolling horizon
     /// (``followUpHorizonDays``), re-derived on every sync — and today's are
-    /// skipped when the routine is already satisfied
-    /// (``routineSatisfiedToday(named:items:entries:on:)``).
-    static func syncRoutineReminders(
+    /// skipped when the routine's occurrence record says it's satisfied.
+    private static func syncRoutineReminders(
         routines: [DoseRoutine],
-        items: [DailyDoseItem],
-        todaysEntries: [DoseEntry],
+        satisfiedToday: Set<String>,
     ) {
         // With the type disabled, the sync degrades to a sweep: clear
         // anything pending, schedule nothing. Per-routine `remind` flags stay
@@ -210,7 +329,7 @@ enum DoseNotificationManager {
         var followUps: [FollowUpRequest] = []
         if followUpsAllowed {
             for routine in routines where routine.remind && routine.timeMinutes != nil && !routine.followUpMinutes.isEmpty {
-                let satisfied = routineSatisfiedToday(named: routine.name, items: items, entries: todaysEntries)
+                let satisfied = satisfiedToday.contains(routine.name)
                 let slots = followUpFireDates(
                     timeMinutes: routine.timeMinutes ?? 0,
                     offsets: routine.followUpMinutes,
@@ -218,7 +337,9 @@ enum DoseNotificationManager {
                     skipToday: satisfied,
                     now: .now,
                 )
-                for slot in slots {
+                // Re-asks are silenced inside the quiet window (safety
+                // warnings and user-timed primaries are exempt; spec §B).
+                for slot in slots where !NotificationPreferencesStore.isInQuietHours(slot.fireDate) {
                     followUps.append(FollowUpRequest(
                         identifier: NotificationType.routineFollowUp.identifier(
                             anchor: routine.name.lowercased(),
@@ -265,10 +386,13 @@ enum DoseNotificationManager {
                 content.threadIdentifier = routineThreadIdentifier(name: routine.name)
                 content.interruptionLevel = .timeSensitive
                 // Tapping the reminder lands in quick-log with this routine's
-                // items already staged (handled by DoseNotificationDelegate).
+                // items already staged (handled by DoseNotificationDelegate);
+                // the routine name rides along for the Skip Today action.
+                var userInfo: [String: Any] = [Self.routineNameUserInfoKey: routine.name]
                 if let link = routineDeepLink(name: routine.name) {
-                    content.userInfo = [Self.deepLinkUserInfoKey: link.absoluteString]
+                    userInfo[Self.deepLinkUserInfoKey] = link.absoluteString
                 }
+                content.userInfo = userInfo
 
                 var components = DateComponents()
                 components.hour = routine.timeMinutes / 60
@@ -291,9 +415,11 @@ enum DoseNotificationManager {
                 content.categoryIdentifier = routineFollowUpCategoryID
                 content.threadIdentifier = routineThreadIdentifier(name: followUp.title)
                 content.interruptionLevel = .timeSensitive
+                var userInfo: [String: Any] = [Self.routineNameUserInfoKey: followUp.title]
                 if let link = followUp.deepLink {
-                    content.userInfo = [Self.deepLinkUserInfoKey: link]
+                    userInfo[Self.deepLinkUserInfoKey] = link
                 }
+                content.userInfo = userInfo
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
                 try? await center.add(UNNotificationRequest(
                     identifier: followUp.identifier,
@@ -332,29 +458,6 @@ enum DoseNotificationManager {
         let body: String
         let deepLink: String?
         let fireDate: Date
-    }
-
-    /// Whether every item of the named routine that is *due today* already
-    /// has a matching dose logged today — the "don't re-ask after it's
-    /// logged" gate for follow-ups. A routine with nothing due counts as
-    /// satisfied (there is nothing left to log). Partial logging keeps the
-    /// re-ask alive for the remaining items.
-    ///
-    /// This is inference over today's entries — interim until the
-    /// `RoutineOccurrence` subsystem (notifications spec §D) lands. Its worst
-    /// failure mode is a redundant *question* ("still need to log?"), never a
-    /// wrong assertion.
-    static func routineSatisfiedToday(
-        named name: String,
-        items: [DailyDoseItem],
-        entries: [DoseEntry],
-        on date: Date = .now,
-    ) -> Bool {
-        let due = items.filter { $0.category == name && AdherenceCalculator.isDue($0, on: date) }
-        guard !due.isEmpty else { return true }
-        return due.allSatisfy { item in
-            entries.contains { AdherenceCalculator.entryMatches(entry: $0, item: item) }
-        }
     }
 
     /// The one-shot fire slots for a routine's follow-ups over the rolling
@@ -445,6 +548,9 @@ enum DoseNotificationManager {
     // MARK: - Deep links
 
     nonisolated static let deepLinkUserInfoKey = "deepLink"
+    /// Routine name carried on routine + follow-up requests so the Skip
+    /// Today action knows whose occurrences to mark without launching UI.
+    nonisolated static let routineNameUserInfoKey = "routineName"
 
     /// `piru://quicklog?routine=<name>` — URLComponents handles the
     /// percent-encoding for arbitrary routine names.
@@ -477,19 +583,33 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
         withCompletionHandler completionHandler: @escaping @Sendable () -> Void,
     ) {
         // Extract before hopping — UNNotificationResponse is not Sendable.
-        let isDefaultAction = response.actionIdentifier == UNNotificationDefaultActionIdentifier
-        let link = response.notification.request.content
-            .userInfo[DoseNotificationManager.deepLinkUserInfoKey] as? String
+        let actionIdentifier = response.actionIdentifier
+        let userInfo = response.notification.request.content.userInfo
+        let link = userInfo[DoseNotificationManager.deepLinkUserInfoKey] as? String
+        let routineName = userInfo[DoseNotificationManager.routineNameUserInfoKey] as? String
 
         DispatchQueue.main.async {
             defer { completionHandler() }
-            // Only the default tap action navigates; dismissals do nothing.
-            guard isDefaultAction,
-                  let link,
-                  let url = URL(string: link),
-                  let outcome = DeepLink.decode(url)
-            else { return }
-            AppNavigator.shared.apply(outcome)
+            switch actionIdentifier {
+            // Skip Today runs headless: mark the occurrences, cancel the
+            // remaining re-asks, never launch the UI.
+            case DoseNotificationManager.skipTodayActionID:
+                if let routineName {
+                    DoseNotificationManager.skipRoutineToday(named: routineName)
+                }
+            // The body tap and every foreground action (Log, View Timeline)
+            // land at the notification's deep link; dismissals do nothing.
+            case UNNotificationDefaultActionIdentifier,
+                 DoseNotificationManager.logActionID,
+                 DoseNotificationManager.viewTimelineActionID:
+                guard let link,
+                      let url = URL(string: link),
+                      let outcome = DeepLink.decode(url)
+                else { return }
+                AppNavigator.shared.apply(outcome)
+            default:
+                break
+            }
         }
     }
 }

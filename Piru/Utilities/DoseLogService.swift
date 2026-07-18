@@ -54,7 +54,7 @@ final class DoseLogService {
         context.insert(entry)
         SessionService.assignSession(for: entry, in: context)
         try? context.save()
-        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
+        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries, in: context)
         // A logged dose may satisfy a routine — reconcile so its remaining
         // follow-up re-asks for today are cancelled.
         DoseNotificationManager.syncRoutineReminders(in: context)

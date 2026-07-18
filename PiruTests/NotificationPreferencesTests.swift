@@ -175,8 +175,9 @@ struct NotificationPreferencesStoreTests {
         #expect(NotificationType.cumulative.rawValue == "cumulative")
         #expect(NotificationType.routine.rawValue == "routine")
         #expect(NotificationType.routineFollowUp.rawValue == "routineFollowUp")
+        #expect(NotificationType.nextDose.rawValue == "nextDose")
         #expect(NotificationType.inventory.rawValue == "inventory")
-        #expect(NotificationType.allCases.count == 8)
+        #expect(NotificationType.allCases.count == 9)
     }
 
     @Test
@@ -206,7 +207,47 @@ struct NotificationPreferencesStoreTests {
         #expect(NotificationType.cumulative.identifierPrefixes == ["piru.notif.cumulative.", "cumulativeDose_"])
         #expect(NotificationType.routine.identifierPrefixes == ["piru.notif.routine.", "routineReminder_"])
         #expect(NotificationType.routineFollowUp.identifierPrefixes == ["piru.notif.routineFollowUp.", "routineFollowUp_"])
+        #expect(NotificationType.nextDose.identifierPrefixes == ["piru.notif.nextDose."])
         #expect(NotificationType.inventory.identifierPrefixes == ["piru.notif.inventory.", "inventoryLowStock_"])
+    }
+
+    // MARK: - Quiet hours
+
+    @Test
+    func `Quiet hours window matches inside, outside, wrap, and disabled`() {
+        let defaults = makeDefaults()
+        let calendar = Calendar.current
+        func at(_ hour: Int, _ minute: Int = 0) -> Date {
+            calendar.date(bySettingHour: hour, minute: minute, second: 0, of: .now)!
+        }
+
+        // Disabled → never quiet.
+        #expect(!NotificationPreferencesStore.isInQuietHours(at(3), defaults: defaults))
+
+        let store = NotificationPreferencesStore()
+        do {
+            let container = try ModelContainer(
+                for: Schema(StoreRecovery.models),
+                configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
+            )
+            store.configure(container: container, defaults: defaults)
+        } catch {
+            Issue.record("container: \(error)")
+            return
+        }
+
+        // Wrapping window 23:00 → 07:00 (the defaults).
+        store.setQuietHours(enabled: true)
+        #expect(NotificationPreferencesStore.isInQuietHours(at(23, 30), defaults: defaults))
+        #expect(NotificationPreferencesStore.isInQuietHours(at(3), defaults: defaults))
+        #expect(!NotificationPreferencesStore.isInQuietHours(at(7), defaults: defaults))
+        #expect(!NotificationPreferencesStore.isInQuietHours(at(12), defaults: defaults))
+
+        // Non-wrapping window 13:00 → 15:00.
+        store.setQuietHours(enabled: true, startMinutes: 13 * 60, endMinutes: 15 * 60)
+        #expect(NotificationPreferencesStore.isInQuietHours(at(14), defaults: defaults))
+        #expect(!NotificationPreferencesStore.isInQuietHours(at(12), defaults: defaults))
+        #expect(!NotificationPreferencesStore.isInQuietHours(at(15), defaults: defaults))
     }
 }
 
@@ -264,40 +305,5 @@ struct RoutineFollowUpTests {
         #expect(slots[0].fireDate < slots[1].fireDate)
     }
 
-    // MARK: - Satisfaction inference
-
-    private func makeItem(_ substance: String, routine: String) -> DailyDoseItem {
-        let item = DailyDoseItem(substance: substance, amount: 10, unit: "mg")
-        item.category = routine
-        return item
-    }
-
-    @Test
-    func `Routine with all due items logged today is satisfied`() {
-        let items = [makeItem("Vitamin D3", routine: "Morning"), makeItem("Magnesium", routine: "Morning")]
-        let entries = [
-            DoseEntry(substance: "vitamin d3", amount: 4_000, unit: "IU"),
-            DoseEntry(substance: "Magnesium", amount: 350, unit: "mg"),
-        ]
-        #expect(DoseNotificationManager.routineSatisfiedToday(named: "Morning", items: items, entries: entries))
-    }
-
-    @Test
-    func `Partially logged routine keeps re-asking`() {
-        let items = [makeItem("Vitamin D3", routine: "Morning"), makeItem("Magnesium", routine: "Morning")]
-        let entries = [DoseEntry(substance: "Vitamin D3", amount: 4_000, unit: "IU")]
-        #expect(!DoseNotificationManager.routineSatisfiedToday(named: "Morning", items: items, entries: entries))
-    }
-
-    @Test
-    func `Routine with nothing due counts as satisfied`() {
-        #expect(DoseNotificationManager.routineSatisfiedToday(named: "Morning", items: [], entries: []))
-    }
-
-    @Test
-    func `Other routines' items don't satisfy this one`() {
-        let items = [makeItem("Vitamin D3", routine: "Morning"), makeItem("Melatonin", routine: "Night")]
-        let entries = [DoseEntry(substance: "Melatonin", amount: 1, unit: "mg")]
-        #expect(!DoseNotificationManager.routineSatisfiedToday(named: "Morning", items: items, entries: entries))
-    }
+    // Satisfaction moved to the occurrence record — see RoutineOccurrenceTests.
 }

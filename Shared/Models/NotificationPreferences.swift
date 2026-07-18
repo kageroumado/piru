@@ -27,7 +27,16 @@ final class NotificationPreferences {
     var cumulativeEnabled: Bool = false
     var routineEnabled: Bool = true
     var routineFollowUpEnabled: Bool = true
+    var nextDoseEnabled: Bool = true
     var inventoryEnabled: Bool = true
+
+    /// Quiet hours: dose reminders and session nudges whose fire time falls
+    /// inside the window are silenced. Safety warnings (cumulative dose) and
+    /// routines the user timed explicitly are exempt. Minutes from midnight;
+    /// the window may wrap (23:00 → 07:00).
+    var quietHoursEnabled: Bool = false
+    var quietHoursStartMinutes: Int = 23 * 60
+    var quietHoursEndMinutes: Int = 7 * 60
 
     init() {}
 }

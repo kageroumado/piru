@@ -231,56 +231,105 @@ struct OnboardingRemindersStep: View {
     @Environment(\.onboardingNav) private var nav
     @State private var requesting = false
 
+    // Progressive, benefit-framed disclosure (notifications spec, Stage 4):
+    // the user opts into meaningful groups rather than answering one blanket
+    // prompt or facing a wall of nine switches. All three start on; each
+    // group is one tap to decline.
+    @State private var doseReminders = true
+    @State private var sessionAlerts = true
+    @State private var safetyNet = true
+
     var body: some View {
         OnboardingLayout(
-            title: "Gentle reminders",
-            subtitle: "Optional nudges that look out for you while a substance is active.",
+            title: "Notifications, your pick",
+            subtitle: "Choose what Piru may send. Everything stays adjustable in Settings, switch by switch.",
         ) {
             OnboardingIconHero(symbol: "bell.badge")
         } mid: {
             VStack(spacing: 18) {
-                OnboardingBulletRow(
+                OnboardingToggleRow(
+                    symbol: "repeat",
+                    title: "Never miss a dose",
+                    detail: "Reminders at each routine's time — and, if you want, a gentle re-ask a little later, like snooze.",
+                    isOn: $doseReminders,
+                )
+                OnboardingToggleRow(
                     symbol: "drop",
-                    title: "Stay hydrated",
-                    detail: "A reminder to drink water during stimulants and long sessions.",
+                    title: "During a session",
+                    detail: "Hydration and wind-down nudges, wearing-off alerts, and onset/peak timing cues while something is active.",
+                    isOn: $sessionAlerts,
                 )
-                OnboardingBulletRow(
-                    symbol: "moon.zzz",
-                    title: "Wind down for sleep",
-                    detail: "A heads-up when it's late enough that another dose could cost you sleep.",
-                )
-                OnboardingBulletRow(
-                    symbol: "waveform.path.ecg",
-                    title: "Know the phases",
-                    detail: "Optional alerts for onset, come-up, and peak so nothing catches you off guard.",
+                OnboardingToggleRow(
+                    symbol: "exclamationmark.triangle",
+                    title: "A safety net",
+                    detail: "A heads-up if one substance's daily total climbs into a heavy range, or tracked stock runs low.",
+                    isOn: $safetyNet,
                 )
             }
             .onboardingGroupedCard()
             .padding(.horizontal, 24)
             .padding(.top, 28)
         } footer: {
-            OnboardingPrimaryButton(title: requesting ? "Turning On…" : "Turn On Reminders") {
-                Task { await enableReminders() }
+            OnboardingPrimaryButton(title: requesting ? "Turning On…" : "Enable Selected") {
+                Task { await enableSelected() }
             }
             OnboardingSecondaryButton(title: "Not Now", action: nav.advance)
         }
     }
 
-    private func enableReminders() async {
+    private func enableSelected() async {
         guard !requesting else { return }
-        requesting = true
-        let granted = await DoseNotificationManager.requestAuthorization()
-        requesting = false
-        // Persist the intent regardless — if the user denied at the system prompt the
-        // preferences are harmless no-ops, and the Notifications screen surfaces the
-        // denied state with a path back to Settings. Comedown, routine, and low-stock
-        // default on; this step opts into the session set.
+        let anySelected = doseReminders || sessionAlerts || safetyNet
+        if anySelected {
+            // The single OS prompt, asked at the moment of the first yes.
+            requesting = true
+            _ = await DoseNotificationManager.requestAuthorization()
+            requesting = false
+        }
+        // Persist the choices regardless of the grant — if the user denied at
+        // the system prompt these are harmless no-ops, and the Notifications
+        // screen surfaces the denied state with a path back to Settings.
         let prefs = NotificationPreferencesStore.shared
-        prefs.setEnabled(.hydration, granted)
-        prefs.setEnabled(.sleep, granted)
-        prefs.setEnabled(.phase, granted)
-        prefs.setEnabled(.cumulative, granted)
+        prefs.setEnabled(.routine, doseReminders)
+        prefs.setEnabled(.routineFollowUp, doseReminders)
+        prefs.setEnabled(.nextDose, doseReminders)
+        prefs.setEnabled(.comedown, sessionAlerts)
+        prefs.setEnabled(.hydration, sessionAlerts)
+        prefs.setEnabled(.sleep, sessionAlerts)
+        prefs.setEnabled(.phase, sessionAlerts)
+        prefs.setEnabled(.cumulative, safetyNet)
+        prefs.setEnabled(.inventory, safetyNet)
         nav.advance()
+    }
+}
+
+/// An ``OnboardingBulletRow`` with a trailing switch — the progressive
+/// notification groups are opt-in choices, not just descriptions.
+struct OnboardingToggleRow: View {
+    let symbol: String
+    let title: LocalizedStringResource
+    let detail: LocalizedStringResource
+    @Binding var isOn: Bool
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 14) {
+            Image(systemName: symbol)
+                .font(.title3)
+                .foregroundStyle(Theme.accent)
+                .frame(width: 34)
+                .accessibilityHidden(true)
+            Toggle(isOn: $isOn) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(.subheadline.weight(.semibold))
+                    Text(detail)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .tint(Theme.accent)
+        }
     }
 }
 

@@ -3930,7 +3930,24 @@
         }
       }
     },
+    "A heads-up if one substance's daily total climbs into a heavy range, or tracked stock runs low." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当某一物质的当日总量攀升至大剂量范围，或追踪的库存不足时提醒你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當某一物質的當日總量攀升至大劑量範圍，或追蹤的庫存不足時提醒你。"
+          }
+        }
+      }
+    },
     "A heads-up when it's late enough that another dose could cost you sleep." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4277,6 +4294,7 @@
       }
     },
     "A reminder to drink water during stimulants and long sessions." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4321,6 +4339,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅供粗略參考，並非醫療建議。"
+          }
+        }
+      }
+    },
+    "A safety net" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一道安全网"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一道安全網"
           }
         }
       }
@@ -6112,6 +6146,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在大約 %lld 天的間斷後，你的阿片耐受已降至約滿值的 %lld%%——幾乎為零。間斷前讓你感覺沒問題的劑量，現在可能讓你停止呼吸。這是最常見的過量方式。"
+          }
+        }
+      }
+    },
+    "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录你已选择开启的药物后，会在下一剂窗口开启时提醒你。这只是估算，并非医疗建议——请按药物逐一开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄你已選擇開啟的藥物後，會在下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請按藥物逐一開啟。"
+          }
+        }
+      }
+    },
+    "After you log this med, a nudge when the model says its next dose window opens. An estimate, not medical advice — follow your prescriber's schedule." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录这种药物后，当模型判断下一剂窗口开启时提醒你。这只是估算，并非医疗建议——请遵循处方医生的安排。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄這種藥物後，當模型判斷下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請遵循處方醫生的安排。"
           }
         }
       }
@@ -10283,6 +10349,22 @@
         }
       }
     },
+    "Choose what Piru may send. Everything stays adjustable in Settings, switch by switch." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Piru 可以发送的内容。所有开关之后都能在设置中逐一调整。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇 Piru 可以傳送的內容。所有開關之後都能在設定中逐一調整。"
+          }
+        }
+      }
+    },
     "Choose which notifications Piru sends — routine reminders, session alerts, safety warnings, and low-stock alerts." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14386,6 +14468,22 @@
         }
       }
     },
+    "Dose reminders and session nudges inside this window stay silent. Cumulative dose warnings and reminders you set to an exact time still come through." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此时间段内的剂量提醒和使用期间提醒将保持静默。累积剂量警告以及你设定了确切时间的提醒仍会送达。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此時間段內的劑量提醒和使用期間提醒將保持靜默。累積劑量警告以及你設定了確切時間的提醒仍會送達。"
+          }
+        }
+      }
+    },
     "Dose taken" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15078,6 +15176,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作用時長 — %@"
+          }
+        }
+      }
+    },
+    "During a session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用期间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用期間"
           }
         }
       }
@@ -16202,6 +16316,22 @@
         }
       }
     },
+    "Enable Selected" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启所选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟所選"
+          }
+        }
+      }
+    },
     "Enantiomer potency" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16263,6 +16393,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "加密備份到 iCloud 或受通行碼保護的檔案。選用，預設關閉。"
+          }
+        }
+      }
+    },
+    "End" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束"
           }
         }
       }
@@ -16392,6 +16538,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "加重的呼吸抑制 — 加巴噴丁類增加阿片過量風險。"
+          }
+        }
+      }
+    },
+    "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距离你的上一剂已经过了足够的时间。这是模型估算——请遵循处方医生的安排。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距離你的上一劑已經過了足夠的時間。這是模型估算——請遵循處方醫生的安排。"
           }
         }
       }
@@ -18972,6 +19134,7 @@
       }
     },
     "Gentle reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20461,6 +20624,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "補水 — 水或電解質飲料,小口慢飲"
+          }
+        }
+      }
+    },
+    "Hydration and wind-down nudges, wearing-off alerts, and onset/peak timing cues while something is active." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在有物质起效期间，提供补水与放松提醒、药效消退警示，以及起效/巅峰时间提示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在有物質起效期間，提供補水與放鬆提醒、藥效消退警示，以及起效/巔峰時間提示。"
           }
         }
       }
@@ -22374,6 +22553,7 @@
       }
     },
     "Know the phases" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25793,6 +25973,22 @@
         }
       }
     },
+    "Never miss a dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不漏掉任何一剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不漏掉任何一劑"
+          }
+        }
+      }
+    },
     "Never mix with alcohol, benzos, or other depressants." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25987,6 +26183,22 @@
         }
       }
     },
+    "Next dose window — %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一剂窗口——%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一劑窗口——%@"
+          }
+        }
+      }
+    },
     "Next month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26015,6 +26227,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下個月"
+          }
+        }
+      }
+    },
+    "Next-Dose Window" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一剂窗口"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一劑窗口"
+          }
+        }
+      }
+    },
+    "Next-dose window reminder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一剂窗口提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一劑窗口提醒"
           }
         }
       }
@@ -27470,6 +27714,22 @@
         }
       }
     },
+    "Notifications, your pick" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知，由你决定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知，由你決定"
+          }
+        }
+      }
+    },
     "Notruf" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27988,6 +28248,7 @@
       }
     },
     "Optional alerts for onset, come-up, and peak so nothing catches you off guard." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28036,6 +28297,7 @@
       }
     },
     "Optional nudges that look out for you while a substance is active." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30975,6 +31237,22 @@
     "Quiet" : {
 
     },
+    "Quiet Hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "勿扰时段"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "勿擾時段"
+          }
+        }
+      }
+    },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32254,6 +32532,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提醒"
+          }
+        }
+      }
+    },
+    "Reminders at each routine's time — and, if you want, a gentle re-ask a little later, like snooze." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每个日常设定的时间提醒你——如果需要，稍后还会像闹钟稍后提醒一样轻轻再问一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每個日常設定的時間提醒你——如果需要，稍後還會像鬧鐘稍後提醒一樣輕輕再問一次。"
           }
         }
       }
@@ -36409,6 +36703,22 @@
         }
       }
     },
+    "Skip Today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天跳过"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天跳過"
+          }
+        }
+      }
+    },
     "Sleep if you can. Your body does its best recovery work unconscious." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37399,6 +37709,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起始"
+          }
+        }
+      }
+    },
+    "Start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始"
           }
         }
       }
@@ -41554,6 +41880,7 @@
       }
     },
     "Turn On Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42501,6 +42828,22 @@
         }
       }
     },
+    "View Timeline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看时间线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看時間線"
+          }
+        }
+      }
+    },
     "Visual" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -43266,6 +43609,7 @@
       }
     },
     "Wind down for sleep" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

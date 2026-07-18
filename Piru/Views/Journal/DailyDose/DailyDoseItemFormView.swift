@@ -22,6 +22,7 @@ struct MedicationItemFormView: View {
     @State private var selectedWeekdays: Set<Int> = []
     @State private var startDate: Date = .now
     @State private var isBackgroundMed = false
+    @State private var nextDoseReminder = false
 
     @State private var selectedSubstance: Substance?
     /// The brand the user picked ("Concerta"), kept so the daily item logs — and
@@ -148,6 +149,12 @@ struct MedicationItemFormView: View {
                         Text("Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact \u{201C}Medications\u{201D} row in the Journal.")
                     }
 
+                    Section {
+                        Toggle("Next-dose window reminder", isOn: $nextDoseReminder)
+                    } footer: {
+                        Text("After you log this med, a nudge when the model says its next dose window opens. An estimate, not medical advice — follow your prescriber's schedule.")
+                    }
+
                     if !categories.isEmpty {
                         Section("Routine") {
                             Picker("Routine", selection: $category) {
@@ -257,6 +264,7 @@ struct MedicationItemFormView: View {
             selectedWeekdays = Set(item.frequencyDays)
             startDate = item.startDate
             isBackgroundMed = item.isBackgroundMed
+            nextDoseReminder = item.nextDoseReminder
             productName = item.productName
 
             if let match = SubstanceLibrary.search(item.substance).first,
@@ -283,6 +291,7 @@ struct MedicationItemFormView: View {
             item.frequencyDays = Array(selectedWeekdays)
             item.startDate = startDate
             item.isBackgroundMed = isBackgroundMed
+            item.nextDoseReminder = nextDoseReminder
             item.substanceUID = identity.uid
             item.isomer = identity.isomer
             item.releaseForm = identity.release
@@ -304,6 +313,7 @@ struct MedicationItemFormView: View {
                 releaseForm: identity.release,
                 productName: identity.product,
             )
+            newItem.nextDoseReminder = nextDoseReminder
             modelContext.insert(newItem)
         }
 

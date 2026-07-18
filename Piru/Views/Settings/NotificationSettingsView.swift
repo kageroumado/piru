@@ -35,7 +35,7 @@ struct NotificationSettingsView: View {
                 pauseSection
 
                 typeSection(
-                    types: [.routine, .routineFollowUp],
+                    types: [.routine, .routineFollowUp, .nextDose],
                     header: "Dose Reminders",
                     footer: nil,
                 )
@@ -54,6 +54,8 @@ struct NotificationSettingsView: View {
                     header: "Supplies",
                     footer: nil,
                 )
+
+                quietHoursSection
 
                 liveActivitySection
             }
@@ -109,6 +111,36 @@ struct NotificationSettingsView: View {
         }
     }
 
+    private var quietHoursSection: some View {
+        Section {
+            Toggle(isOn: quietHoursBinding) {
+                Label("Quiet Hours", systemImage: "moon")
+            }
+            .tint(Theme.accent)
+            .disabled(authStatus == .denied)
+            if prefs.quietHoursEnabled {
+                DatePicker(
+                    "Start",
+                    selection: quietTimeBinding(\.quietHoursStartMinutes, apply: { start in
+                        prefs.setQuietHours(enabled: true, startMinutes: start)
+                    }),
+                    displayedComponents: .hourAndMinute,
+                )
+                DatePicker(
+                    "End",
+                    selection: quietTimeBinding(\.quietHoursEndMinutes, apply: { end in
+                        prefs.setQuietHours(enabled: true, endMinutes: end)
+                    }),
+                    displayedComponents: .hourAndMinute,
+                )
+            }
+        } header: {
+            Text("Quiet Hours")
+        } footer: {
+            Text("Dose reminders and session nudges inside this window stay silent. Cumulative dose warnings and reminders you set to an exact time still come through.")
+        }
+    }
+
     private var liveActivitySection: some View {
         Section {
             Toggle(isOn: $autoLiveActivity) {
@@ -128,6 +160,32 @@ struct NotificationSettingsView: View {
         Binding(
             get: { !prefs.masterEnabled },
             set: { prefs.setMasterEnabled(!$0) },
+        )
+    }
+
+    private var quietHoursBinding: Binding<Bool> {
+        Binding(
+            get: { prefs.quietHoursEnabled },
+            set: { prefs.setQuietHours(enabled: $0) },
+        )
+    }
+
+    /// Minutes-from-midnight ↔ `Date` bridge for the quiet-hours pickers.
+    private func quietTimeBinding(
+        _ keyPath: KeyPath<NotificationPreferencesStore, Int>,
+        apply: @escaping (Int) -> Void,
+    ) -> Binding<Date> {
+        Binding(
+            get: {
+                let minutes = prefs[keyPath: keyPath]
+                return Calendar.current.date(
+                    bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
+                ) ?? .now
+            },
+            set: { date in
+                let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
+                apply((parts.hour ?? 0) * 60 + (parts.minute ?? 0))
+            },
         )
     }
 
@@ -286,6 +344,7 @@ extension NotificationType {
         case .cumulative: "Cumulative Dose Warnings"
         case .routine: "Routine Reminders"
         case .routineFollowUp: "Follow-Up Reminders"
+        case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
         }
     }
@@ -299,6 +358,7 @@ extension NotificationType {
         case .cumulative: "exclamationmark.triangle"
         case .routine: "repeat"
         case .routineFollowUp: "clock.arrow.circlepath"
+        case .nextDose: "timer"
         case .inventory: "archivebox"
         }
     }
@@ -319,6 +379,8 @@ extension NotificationType {
             "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged."
         case .routineFollowUp:
             "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine."
+        case .nextDose:
+            "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:
             "A heads-up when something you track runs low or out — before the empty bottle surprises you."
         }

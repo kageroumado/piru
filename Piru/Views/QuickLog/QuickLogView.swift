@@ -446,7 +446,7 @@ struct QuickLogView: View {
             let affected = Set(stagedItems.map(\.substanceName))
             DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: context) {
                 for entry in createdEntries {
-                    DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
+                    DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries, in: modelContext)
                 }
             }
         }

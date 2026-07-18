@@ -252,7 +252,7 @@ struct EntryDetailView: View {
 
         // Pending reminders are keyed to the old timestamp — a moved dose must
         // drop them and reschedule from its new time.
-        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp)
+        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp, in: modelContext)
 
         // Inventory recompute (scoped to the old + new substance) and the widget
         // reload are deferred off the edit-commit path — neither is on screen.

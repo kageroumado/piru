@@ -85,6 +85,53 @@ T = {
         "系统设置中已关闭 Piru 的通知，因此这条提醒不会送达。",
         "系統設定中已關閉 Piru 的通知，因此這條提醒不會送達。",
     ),
+    # Notifications Stage 3+4 — occurrences, next-dose, quiet hours, actions,
+    # progressive onboarding (2026-07-18).
+    "Next-Dose Window": ("下一剂窗口", "下一劑窗口"),
+    "Next-dose window reminder": ("下一剂窗口提醒", "下一劑窗口提醒"),
+    "Next dose window — %@": ("下一剂窗口——%@", "下一劑窗口——%@"),
+    "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med.": (
+        "记录你已选择开启的药物后，会在下一剂窗口开启时提醒你。这只是估算，并非医疗建议——请按药物逐一开启。",
+        "記錄你已選擇開啟的藥物後，會在下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請按藥物逐一開啟。",
+    ),
+    "After you log this med, a nudge when the model says its next dose window opens. An estimate, not medical advice — follow your prescriber's schedule.": (
+        "记录这种药物后，当模型判断下一剂窗口开启时提醒你。这只是估算，并非医疗建议——请遵循处方医生的安排。",
+        "記錄這種藥物後，當模型判斷下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請遵循處方醫生的安排。",
+    ),
+    "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule.": (
+        "距离你的上一剂已经过了足够的时间。这是模型估算——请遵循处方医生的安排。",
+        "距離你的上一劑已經過了足夠的時間。這是模型估算——請遵循處方醫生的安排。",
+    ),
+    "Quiet Hours": ("勿扰时段", "勿擾時段"),
+    "Dose reminders and session nudges inside this window stay silent. Cumulative dose warnings and reminders you set to an exact time still come through.": (
+        "此时间段内的剂量提醒和使用期间提醒将保持静默。累积剂量警告以及你设定了确切时间的提醒仍会送达。",
+        "此時間段內的劑量提醒和使用期間提醒將保持靜默。累積劑量警告以及你設定了確切時間的提醒仍會送達。",
+    ),
+    "Start": ("开始", "開始"),
+    "End": ("结束", "結束"),
+    "Skip Today": ("今天跳过", "今天跳過"),
+    "View Timeline": ("查看时间线", "查看時間線"),
+    "Notifications, your pick": ("通知，由你决定", "通知，由你決定"),
+    "Choose what Piru may send. Everything stays adjustable in Settings, switch by switch.": (
+        "选择 Piru 可以发送的内容。所有开关之后都能在设置中逐一调整。",
+        "選擇 Piru 可以傳送的內容。所有開關之後都能在設定中逐一調整。",
+    ),
+    "Never miss a dose": ("不漏掉任何一剂", "不漏掉任何一劑"),
+    "Reminders at each routine's time — and, if you want, a gentle re-ask a little later, like snooze.": (
+        "在每个日常设定的时间提醒你——如果需要，稍后还会像闹钟稍后提醒一样轻轻再问一次。",
+        "在每個日常設定的時間提醒你——如果需要，稍後還會像鬧鐘稍後提醒一樣輕輕再問一次。",
+    ),
+    "During a session": ("使用期间", "使用期間"),
+    "Hydration and wind-down nudges, wearing-off alerts, and onset/peak timing cues while something is active.": (
+        "在有物质起效期间，提供补水与放松提醒、药效消退警示，以及起效/巅峰时间提示。",
+        "在有物質起效期間，提供補水與放鬆提醒、藥效消退警示，以及起效/巔峰時間提示。",
+    ),
+    "A safety net": ("一道安全网", "一道安全網"),
+    "A heads-up if one substance's daily total climbs into a heavy range, or tracked stock runs low.": (
+        "当某一物质的当日总量攀升至大剂量范围，或追踪的库存不足时提醒你。",
+        "當某一物質的當日總量攀升至大劑量範圍，或追蹤的庫存不足時提醒你。",
+    ),
+    "Enable Selected": ("开启所选", "開啟所選"),
     # Snooze-style routine follow-up reminders (2026-07-17).
     "Follow-Up Reminders": ("后续提醒", "後續提醒"),
     "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine.": (

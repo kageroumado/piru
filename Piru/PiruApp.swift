@@ -75,8 +75,11 @@ struct PiruApp: App {
         // keeps it alive.
         UNUserNotificationCenter.current().delegate = DoseNotificationDelegate.shared
         // Register every notification category once, here — not as a side
-        // effect of whichever type happens to schedule first.
+        // effect of whichever type happens to schedule first. The container
+        // reference lets the Skip Today background action write occurrence
+        // state without a view hierarchy.
         DoseNotificationManager.registerCategories()
+        DoseNotificationManager.modelContainer = container
 
         // Register on the main queue so the launch handler runs on the MainActor
         // executor. Otherwise — under `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` —
