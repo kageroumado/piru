@@ -268,7 +268,7 @@ struct EntryDetailView: View {
         let id = entry.id
         let name = entry.substance
         let timestamp = entry.timestamp
-        DoseNotificationManager.doseDeleted(timestamp: timestamp)
+        DoseNotificationManager.doseDeleted(entryID: id, timestamp: timestamp)
         modelContext.delete(entry)
         // Tear the dose out of the active session / Live Activity too; otherwise a
         // deleted "taking now" dose leaves the Live Activity and progress accessory

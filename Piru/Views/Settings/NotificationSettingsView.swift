@@ -161,7 +161,7 @@ struct NotificationSettingsView: View {
     }
 
     private func requestPermission() async {
-        _ = await RampDownScheduler.requestPermissionIfNeeded()
+        _ = await DoseNotificationManager.requestAuthorization()
         await refresh()
     }
 }

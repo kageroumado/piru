@@ -13,6 +13,42 @@ import UserNotifications
 /// survived a backdate edit.
 @MainActor
 enum DoseNotificationManager {
+    // MARK: - Authorization + category registry
+
+    /// The single OS-permission entry point (spec §B): invoked from the
+    /// management screen's header, onboarding's reminders step, and the
+    /// explicit per-dose comedown arm — never lazily from a scheduling path.
+    static func requestAuthorization() async -> Bool {
+        await RampDownScheduler.requestPermissionIfNeeded()
+    }
+
+    /// Register every notification category once at launch — previously the
+    /// only registration happened as a side effect of scheduling a comedown
+    /// alert, which wiped the category set down to `rampDown` and left every
+    /// other `categoryIdentifier` pointing at nothing. Actions land in a
+    /// later stage; registering the categories now just makes each type a
+    /// real, non-phantom citizen of the notification system.
+    static func registerCategories() {
+        let identifiers = [
+            RampDownScheduler.rampDownCategoryID,
+            RampDownScheduler.hydrationCategoryID,
+            RampDownScheduler.sleepCategoryID,
+            RampDownScheduler.cumulativeCategoryID,
+            RampDownScheduler.phaseCategoryID,
+            routineCategoryID,
+            routineFollowUpCategoryID,
+            inventoryCategoryID,
+        ]
+        let categories = identifiers.map {
+            UNNotificationCategory(identifier: $0, actions: [], intentIdentifiers: [], options: [])
+        }
+        UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
+    }
+
+    nonisolated static let routineCategoryID = "routine"
+    nonisolated static let routineFollowUpCategoryID = "routineFollowUp"
+    nonisolated static let inventoryCategoryID = "inventory"
+
     // MARK: - Dose lifecycle
 
     /// Schedule the wellness + phase set (and run the cumulative-dose check)
@@ -27,13 +63,14 @@ enum DoseNotificationManager {
         let displayName = DoseTitle.resolve(for: entry)
 
         RampDownScheduler.scheduleWellnessNotifications(
-            substanceName: entry.substance,
+            entryID: entry.id,
             category: substance?.category,
             doseTime: entry.timestamp,
             duration: duration,
             recentStimHours: RampDownScheduler.stimulantSessionHours(from: recentEntries),
         )
         RampDownScheduler.schedulePhaseNotifications(
+            entryID: entry.id,
             substanceName: entry.substance,
             doseTime: entry.timestamp,
             duration: duration,
@@ -49,6 +86,7 @@ enum DoseNotificationManager {
         )
         if shouldAlert {
             RampDownScheduler.scheduleCumulativeDoseNotification(
+                entryID: entry.id,
                 substanceName: entry.substance,
                 totalAmount: total,
                 unit: entry.unit,
@@ -65,18 +103,19 @@ enum DoseNotificationManager {
     /// "Stay hydrated" at its original fire times.
     static func doseRescheduled(entry: DoseEntry, previousTimestamp: Date, recentEntries: [DoseEntry] = []) {
         guard previousTimestamp != entry.timestamp else { return }
-        cancelDoseNotifications(timestamp: previousTimestamp)
+        cancelDoseNotifications(entryID: entry.id, timestamp: previousTimestamp)
 
         let substance = library(for: entry)
         let duration = substance?.resolveDuration(for: entry.route)
         RampDownScheduler.scheduleWellnessNotifications(
-            substanceName: entry.substance,
+            entryID: entry.id,
             category: substance?.category,
             doseTime: entry.timestamp,
             duration: duration,
             recentStimHours: RampDownScheduler.stimulantSessionHours(from: recentEntries),
         )
         RampDownScheduler.schedulePhaseNotifications(
+            entryID: entry.id,
             substanceName: entry.substance,
             doseTime: entry.timestamp,
             duration: duration,
@@ -84,14 +123,41 @@ enum DoseNotificationManager {
         )
     }
 
-    /// The dose is gone — so are its pending reminders.
-    static func doseDeleted(timestamp: Date) {
-        cancelDoseNotifications(timestamp: timestamp)
+    /// The dose is gone — so are its pending reminders. The timestamp rides
+    /// along for the pre-grammar epoch-keyed pending items.
+    static func doseDeleted(entryID: UUID, timestamp: Date) {
+        cancelDoseNotifications(entryID: entryID, timestamp: timestamp)
     }
 
-    private static func cancelDoseNotifications(timestamp: Date) {
-        RampDownScheduler.cancelWellnessNotifications(for: timestamp)
-        RampDownScheduler.cancelPhaseNotifications(for: timestamp)
+    private static func cancelDoseNotifications(entryID: UUID, timestamp: Date) {
+        RampDownScheduler.cancelWellnessNotifications(entryID: entryID, doseTimestamp: timestamp)
+        RampDownScheduler.cancelPhaseNotifications(entryID: entryID, doseTimestamp: timestamp)
+    }
+
+    // MARK: - Comedown (armed per dose from the ramp-down screen)
+
+    /// Arm the comedown alert for a dose — the façade path RampDownView uses
+    /// instead of driving the scheduler and its persistence by hand.
+    static func armComedownAlert(entry: DoseEntry, duration: DurationProfile) {
+        let entryKey = RampDownScheduler.entryKey(for: entry)
+        RampDownScheduler.scheduleNotification(
+            substanceName: entry.substance,
+            initialAmount: entry.amount,
+            unit: entry.unit,
+            doseTime: entry.timestamp,
+            duration: duration,
+            entryKey: entryKey,
+            category: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
+            displayName: DoseTitle.resolve(for: entry),
+        )
+        RampDownScheduler.saveActiveEntry(entryKey)
+    }
+
+    /// Cancel a dose's armed comedown alert and forget its armed state.
+    static func cancelComedownAlert(entry: DoseEntry) {
+        let entryKey = RampDownScheduler.entryKey(for: entry)
+        RampDownScheduler.cancelNotification(for: entryKey)
+        RampDownScheduler.removeActiveEntry(entryKey)
     }
 
     private static func library(for entry: DoseEntry) -> Substance? {
@@ -154,7 +220,10 @@ enum DoseNotificationManager {
                 )
                 for slot in slots {
                     followUps.append(FollowUpRequest(
-                        identifier: "\(routineFollowUpPrefix)\(routine.name.lowercased())_\(slot.dayKey)_\(slot.ordinal)",
+                        identifier: NotificationType.routineFollowUp.identifier(
+                            anchor: routine.name.lowercased(),
+                            ordinal: "\(slot.dayKey).\(slot.ordinal)",
+                        ),
                         title: routine.name,
                         // A question, deliberately — a follow-up re-asks, it
                         // never implies the dose was taken or scolds.
@@ -168,22 +237,33 @@ enum DoseNotificationManager {
 
         Task {
             let center = UNUserNotificationCenter.current()
+            // Sweep both grammars: the current prefixes plus the legacy sets
+            // (routine repeats fully self-migrate here on the first sync).
+            let sweepPrefixes = NotificationType.routine.identifierPrefixes
+                + NotificationType.routineFollowUp.identifierPrefixes
+                + ["dailyDoseReminder"]
             let pending = await center.pendingNotificationRequests()
-            let stale = pending.map(\.identifier).filter {
-                $0.hasPrefix(routineReminderPrefix)
-                    || $0.hasPrefix(routineFollowUpPrefix)
-                    || $0.hasPrefix("dailyDoseReminder")
+            let stale = pending.map(\.identifier).filter { id in
+                sweepPrefixes.contains { id.hasPrefix($0) }
             }
             center.removePendingNotificationRequests(withIdentifiers: stale)
 
+            // No permission gate here (an ambient-request site the spec
+            // removes): requests added before the grant simply deliver once
+            // the user allows notifications — the management screen's header
+            // is the honest surface for that state.
             guard !active.isEmpty else { return }
-            guard await RampDownScheduler.requestPermissionIfNeeded() else { return }
 
             for routine in active {
                 let content = UNMutableNotificationContent()
                 content.title = routine.name
                 content.body = String(localized: "Time for your \(routine.name) routine.")
                 content.sound = .default
+                content.categoryIdentifier = routineCategoryID
+                // A routine and its follow-ups share a thread so the re-asks
+                // stack under the reminder they follow.
+                content.threadIdentifier = routineThreadIdentifier(name: routine.name)
+                content.interruptionLevel = .timeSensitive
                 // Tapping the reminder lands in quick-log with this routine's
                 // items already staged (handled by DoseNotificationDelegate).
                 if let link = routineDeepLink(name: routine.name) {
@@ -208,6 +288,9 @@ enum DoseNotificationManager {
                 content.title = followUp.title
                 content.body = followUp.body
                 content.sound = .default
+                content.categoryIdentifier = routineFollowUpCategoryID
+                content.threadIdentifier = routineThreadIdentifier(name: followUp.title)
+                content.interruptionLevel = .timeSensitive
                 if let link = followUp.deepLink {
                     content.userInfo = [Self.deepLinkUserInfoKey: link]
                 }
@@ -221,10 +304,11 @@ enum DoseNotificationManager {
         }
     }
 
-    // Internal + nonisolated: `NotificationType.identifierPrefixes` derives
-    // its cancel-by-prefix sets from these.
-    nonisolated static let routineReminderPrefix = "routineReminder_"
-    nonisolated static let routineFollowUpPrefix = "routineFollowUp_"
+    // Pre-grammar identifier prefixes, still swept/cancelled during the
+    // transition (see `NotificationType.identifierPrefixes`). Delete a
+    // release or two after the `piru.notif.` grammar ships.
+    nonisolated static let legacyRoutineReminderPrefix = "routineReminder_"
+    nonisolated static let legacyRoutineFollowUpPrefix = "routineFollowUp_"
 
     /// How many days of one-shot follow-ups to keep materialized. Deliberately
     /// short: every app open / dose commit / routine edit rolls the horizon
@@ -234,7 +318,11 @@ enum DoseNotificationManager {
     private static let followUpHorizonDays = 3
 
     private static func routineReminderIdentifier(name: String) -> String {
-        routineReminderPrefix + name.lowercased()
+        NotificationType.routine.identifier(anchor: name.lowercased())
+    }
+
+    private nonisolated static func routineThreadIdentifier(name: String) -> String {
+        "piru.notif.thread.routine.\(name.lowercased())"
     }
 
     /// One planned follow-up notification, snapshotted as plain values.
@@ -314,39 +402,44 @@ enum DoseNotificationManager {
         itemID: UUID,
     ) {
         guard NotificationPreferencesStore.allows(.inventory) else { return }
-        Task {
-            guard await RampDownScheduler.requestPermissionIfNeeded() else { return }
-            let content = UNMutableNotificationContent()
-            if isOut {
-                content.title = String(localized: "Out of \(substance)")
-                content.body = String(localized: "You're out of \(substance). Restock when you can.")
-            } else {
-                content.title = String(localized: "Running low on \(substance)")
-                content.body = String(localized: "\(remaining.doseFormatted) \(unit) of \(substance) left.")
-            }
-            content.sound = .default
-            try? await UNUserNotificationCenter.current().add(UNNotificationRequest(
-                identifier: inventoryNotificationIdentifier(itemID),
-                content: content,
-                trigger: nil,
-            ))
+        let content = UNMutableNotificationContent()
+        if isOut {
+            content.title = String(localized: "Out of \(substance)")
+            content.body = String(localized: "You're out of \(substance). Restock when you can.")
+        } else {
+            content.title = String(localized: "Running low on \(substance)")
+            content.body = String(localized: "\(remaining.doseFormatted) \(unit) of \(substance) left.")
         }
+        content.sound = .default
+        content.categoryIdentifier = inventoryCategoryID
+        content.threadIdentifier = inventoryThreadIdentifier
+        UNUserNotificationCenter.current().add(UNNotificationRequest(
+            identifier: inventoryNotificationIdentifier(itemID),
+            content: content,
+            trigger: nil,
+        ))
     }
 
     /// Clear any pending or already-delivered low-stock alert for an item —
     /// called when the user stops tracking it, so a stale "running low" banner
     /// doesn't linger on the Lock Screen for something they no longer track.
+    /// Removes both grammars' identifiers during the transition.
     static func cancelInventoryLowStock(itemID: UUID) {
-        let identifier = inventoryNotificationIdentifier(itemID)
+        let identifiers = [
+            inventoryNotificationIdentifier(itemID),
+            legacyInventoryLowStockPrefix + itemID.uuidString,
+        ]
         let center = UNUserNotificationCenter.current()
-        center.removePendingNotificationRequests(withIdentifiers: [identifier])
-        center.removeDeliveredNotifications(withIdentifiers: [identifier])
+        center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        center.removeDeliveredNotifications(withIdentifiers: identifiers)
     }
 
-    nonisolated static let inventoryLowStockPrefix = "inventoryLowStock_"
+    nonisolated static let legacyInventoryLowStockPrefix = "inventoryLowStock_"
+
+    private nonisolated static let inventoryThreadIdentifier = "piru.notif.thread.inventory"
 
     private static func inventoryNotificationIdentifier(_ id: UUID) -> String {
-        inventoryLowStockPrefix + id.uuidString
+        NotificationType.inventory.identifier(anchor: id.uuidString)
     }
 
     // MARK: - Deep links

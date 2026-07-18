@@ -194,31 +194,21 @@ struct RampDownView: View {
 
     private func activateAlert() {
         Task {
-            let granted = await RampDownScheduler.requestPermissionIfNeeded()
+            // Arming an alert is the user explicitly asking for a
+            // notification — the one place outside the management screen and
+            // onboarding where the OS grant may be requested.
+            let granted = await DoseNotificationManager.requestAuthorization()
             guard granted else {
                 permissionDenied = true
                 return
             }
-            let entryKey = RampDownScheduler.entryKey(for: entry)
-            RampDownScheduler.scheduleNotification(
-                substanceName: entry.substance,
-                initialAmount: entry.amount,
-                unit: entry.unit,
-                doseTime: entry.timestamp,
-                duration: duration,
-                entryKey: entryKey,
-                category: category,
-                displayName: DoseTitle.resolve(for: entry),
-            )
-            RampDownScheduler.saveActiveEntry(entryKey)
+            DoseNotificationManager.armComedownAlert(entry: entry, duration: duration)
             isActive = true
         }
     }
 
     private func cancelAlert() {
-        let entryKey = RampDownScheduler.entryKey(for: entry)
-        RampDownScheduler.cancelNotification(for: entryKey)
-        RampDownScheduler.removeActiveEntry(entryKey)
+        DoseNotificationManager.cancelComedownAlert(entry: entry)
         isActive = false
     }
 }

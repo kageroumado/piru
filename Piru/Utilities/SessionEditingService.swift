@@ -52,7 +52,7 @@ final class SessionEditingService {
         let name = entry.substance
         let timestamp = entry.timestamp
 
-        DoseNotificationManager.doseDeleted(timestamp: timestamp)
+        DoseNotificationManager.doseDeleted(entryID: id, timestamp: timestamp)
         withAnimation {
             context.delete(entry)
         }

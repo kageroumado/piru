@@ -74,6 +74,9 @@ struct PiruApp: App {
         // link). The center holds its delegate weakly — the shared instance
         // keeps it alive.
         UNUserNotificationCenter.current().delegate = DoseNotificationDelegate.shared
+        // Register every notification category once, here — not as a side
+        // effect of whichever type happens to schedule first.
+        DoseNotificationManager.registerCategories()
 
         // Register on the main queue so the launch handler runs on the MainActor
         // executor. Otherwise — under `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` —

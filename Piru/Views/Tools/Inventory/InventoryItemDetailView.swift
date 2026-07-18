@@ -199,7 +199,7 @@ struct InventoryItemDetailView: View {
     // MARK: - Mutations
 
     private func deleteDose(_ dose: DoseEntry) {
-        DoseNotificationManager.doseDeleted(timestamp: dose.timestamp)
+        DoseNotificationManager.doseDeleted(entryID: dose.id, timestamp: dose.timestamp)
         modelContext.delete(dose)
         InventoryService.recompute(item, in: modelContext)
         WidgetCenter.shared.reloadAllTimelines()

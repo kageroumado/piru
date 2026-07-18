@@ -180,17 +180,33 @@ struct NotificationPreferencesStoreTests {
     }
 
     @Test
-    func `Cancel prefixes match the schedulers' identifier grammar`() {
+    func `Identifier grammar is piru-notif dot type dot anchor dot ordinal`() {
+        #expect(NotificationType.comedown.identifier(anchor: "ABC") == "piru.notif.comedown.ABC")
+        #expect(NotificationType.hydration.identifier(anchor: "ABC", ordinal: "2") == "piru.notif.hydration.ABC.2")
+        #expect(NotificationType.phase.identifier(anchor: "ABC", ordinal: "peak") == "piru.notif.phase.ABC.peak")
+        #expect(
+            NotificationType.routineFollowUp.identifier(anchor: "morning", ordinal: "20260718.1")
+                == "piru.notif.routineFollowUp.morning.20260718.1",
+        )
+        // Every built identifier must match its own type's cancel prefix.
+        for type in NotificationType.allCases {
+            #expect(type.identifier(anchor: "x").hasPrefix(type.identifierPrefix))
+        }
+    }
+
+    @Test
+    func `Cancel prefixes cover the current grammar plus the legacy set`() {
         // The exact strings the schedulers build identifiers from — if one of
         // these drifts, disabling a type stops cancelling its notifications.
-        #expect(NotificationType.comedown.identifierPrefixes == ["rampDown_"])
-        #expect(NotificationType.hydration.identifierPrefixes == ["hydration"])
-        #expect(NotificationType.sleep.identifierPrefixes == ["sleepReminder_"])
-        #expect(NotificationType.phase.identifierPrefixes == ["phaseAlert_"])
-        #expect(NotificationType.cumulative.identifierPrefixes == ["cumulativeDose_"])
-        #expect(NotificationType.routine.identifierPrefixes == ["routineReminder_"])
-        #expect(NotificationType.routineFollowUp.identifierPrefixes == ["routineFollowUp_"])
-        #expect(NotificationType.inventory.identifierPrefixes == ["inventoryLowStock_"])
+        // Legacy entries are the transition sweep for pre-grammar pending.
+        #expect(NotificationType.comedown.identifierPrefixes == ["piru.notif.comedown.", "rampDown_"])
+        #expect(NotificationType.hydration.identifierPrefixes == ["piru.notif.hydration.", "hydration"])
+        #expect(NotificationType.sleep.identifierPrefixes == ["piru.notif.sleep.", "sleepReminder_"])
+        #expect(NotificationType.phase.identifierPrefixes == ["piru.notif.phase.", "phaseAlert_"])
+        #expect(NotificationType.cumulative.identifierPrefixes == ["piru.notif.cumulative.", "cumulativeDose_"])
+        #expect(NotificationType.routine.identifierPrefixes == ["piru.notif.routine.", "routineReminder_"])
+        #expect(NotificationType.routineFollowUp.identifierPrefixes == ["piru.notif.routineFollowUp.", "routineFollowUp_"])
+        #expect(NotificationType.inventory.identifierPrefixes == ["piru.notif.inventory.", "inventoryLowStock_"])
     }
 }
 

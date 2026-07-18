@@ -50,19 +50,43 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
         }
     }
 
+    // MARK: Identifier grammar — `piru.notif.<type>.<anchor>[.<ordinal>]`
+
+    /// The one identifier grammar every scheduler builds requests with
+    /// (notifications spec §B). `<anchor>` is the *stable* anchor —
+    /// `DoseEntry.id` for dose-anchored types, the routine name for routine
+    /// types, `InventoryItem.id` for inventory — so a retime or delete
+    /// cancels cleanly by the same key it scheduled under.
+    nonisolated var identifierPrefix: String {
+        "piru.notif.\(rawValue)."
+    }
+
+    /// Build a request identifier for this type. `ordinal` distinguishes
+    /// members of a series (hydration 1/2, phase onset/comeup/peak,
+    /// follow-up day+index).
+    nonisolated func identifier(anchor: String, ordinal: String? = nil) -> String {
+        let base = identifierPrefix + anchor
+        guard let ordinal else { return base }
+        return "\(base).\(ordinal)"
+    }
+
     /// Prefixes of the pending-request identifiers this type schedules —
-    /// disabling a type cancels everything matching them.
+    /// disabling a type cancels everything matching them. Each list is the
+    /// current grammar's prefix plus the pre-grammar legacy prefixes; the
+    /// legacy entries are the transition sweep (dose-anchored pending
+    /// self-expires within ~2 days, routine repeats rebuild on first sync)
+    /// and can be dropped a release or two after the grammar ships.
     var identifierPrefixes: [String] {
         switch self {
-        // No underscore on hydration: covers both `hydration_` and `hydration2_`.
-        case .comedown: ["\(RampDownScheduler.rampDownCategoryID)_"]
-        case .hydration: [RampDownScheduler.hydrationCategoryID]
-        case .sleep: ["\(RampDownScheduler.sleepCategoryID)_"]
-        case .phase: ["\(RampDownScheduler.phaseCategoryID)_"]
-        case .cumulative: ["\(RampDownScheduler.cumulativeCategoryID)_"]
-        case .routine: [DoseNotificationManager.routineReminderPrefix]
-        case .routineFollowUp: [DoseNotificationManager.routineFollowUpPrefix]
-        case .inventory: [DoseNotificationManager.inventoryLowStockPrefix]
+        // No underscore on legacy hydration: covers `hydration_` and `hydration2_`.
+        case .comedown: [identifierPrefix, "\(RampDownScheduler.rampDownCategoryID)_"]
+        case .hydration: [identifierPrefix, RampDownScheduler.hydrationCategoryID]
+        case .sleep: [identifierPrefix, "\(RampDownScheduler.sleepCategoryID)_"]
+        case .phase: [identifierPrefix, "\(RampDownScheduler.phaseCategoryID)_"]
+        case .cumulative: [identifierPrefix, "\(RampDownScheduler.cumulativeCategoryID)_"]
+        case .routine: [identifierPrefix, DoseNotificationManager.legacyRoutineReminderPrefix]
+        case .routineFollowUp: [identifierPrefix, DoseNotificationManager.legacyRoutineFollowUpPrefix]
+        case .inventory: [identifierPrefix, DoseNotificationManager.legacyInventoryLowStockPrefix]
         }
     }
 }

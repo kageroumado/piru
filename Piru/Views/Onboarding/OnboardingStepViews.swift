@@ -269,7 +269,7 @@ struct OnboardingRemindersStep: View {
     private func enableReminders() async {
         guard !requesting else { return }
         requesting = true
-        let granted = await RampDownScheduler.requestPermissionIfNeeded()
+        let granted = await DoseNotificationManager.requestAuthorization()
         requesting = false
         // Persist the intent regardless — if the user denied at the system prompt the
         // preferences are harmless no-ops, and the Notifications screen surfaces the
