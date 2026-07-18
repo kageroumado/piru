@@ -27,9 +27,6 @@ no bad SMILES) it costs a single subprocess call.
 from __future__ import annotations
 
 import math
-import subprocess
-import tempfile
-from pathlib import Path
 
 # Target coordinate box (square) each molecule is normalized into. Aspect
 # ratio is preserved — a long, thin molecule fills one axis and is centered on
@@ -191,7 +188,13 @@ def _orient(
                 return len(seen)
 
             r, s = max(exo, key=lambda rs: _fragment_size(rs[1]))
-            theta = math.atan2(atoms[s][2] - atoms[r][2], atoms[s][1] - atoms[r][1])
+            # Point the exocyclic bond up-right at +30° (not flat-horizontal):
+            # since that bond is radial to the ring, a +30° direction lands the
+            # ipso atom on the ring's upper-right vertex, which makes the ring
+            # sit FLAT-TOP (horizontal top/bottom edges) — the textbook pose —
+            # with the chain trailing up to the right.
+            exo_angle = math.atan2(atoms[s][2] - atoms[r][2], atoms[s][1] - atoms[r][1])
+            theta = exo_angle - math.radians(30)
     if theta is None:
         sxx = sum((a[1] - cx) ** 2 for a in atoms)
         syy = sum((a[2] - cy) ** 2 for a in atoms)
@@ -271,89 +274,50 @@ def generate_molecule_shapes(
     box: float = DEFAULT_BOX,
     margin: float = DEFAULT_MARGIN,
 ) -> tuple[dict[str, dict], list[str]]:
-    """Generate normalized 2D shapes for every ``(key, smiles)`` pair.
+    """Generate normalized 2D skeletal shapes for every ``(key, smiles)`` pair
+    via RDKit's canonical depiction (proper 120-degree angles, standard bond
+    lengths, ring templates — a textbook layout), then a light rigid
+    reorientation (:func:`_orient`) for a consistent reading direction across
+    the app. Offline and deterministic.
 
-    ``key`` is an opaque, whitespace-free identifier (the substance id as a
-    string) round-tripped through OpenBabel as the SDF title so output rows
-    can be matched back to their input even across the retry-on-bad-line
-    splits below.
-
-    Returns ``(shapes_by_key, failed_keys)``. Assumes the caller already
-    checked ``chem_ids.obabel_available()`` — if obabel truly cannot run,
-    every key comes back failed rather than raising.
+    Returns ``(shapes_by_key, failed_keys)``. If RDKit is unavailable every key
+    comes back failed rather than raising.
     """
+    try:
+        from rdkit import Chem, RDLogger
+        from rdkit.Chem import rdDepictor
+    except ImportError:
+        return {}, [k for k, _ in pairs]
+    RDLogger.DisableLog("rdApp.*")  # silence per-molecule parse noise
+    rdDepictor.SetPreferCoordGen(True)  # CoordGen: cleaner, template-based layout
+
     shapes: dict[str, dict] = {}
     failed: list[str] = []
-    # Defensive: drop blank SMILES up front rather than feeding them to obabel.
-    remaining = [(k, s) for k, s in pairs if s and s.strip()]
-    failed.extend(k for k, s in pairs if not (s and s.strip()))
-
-    with tempfile.TemporaryDirectory() as tmp_dir:
-        batch_path = Path(tmp_dir) / "batch.smi"
-        while remaining:
-            batch_path.write_text("\n".join(f"{smiles} {key}" for key, smiles in remaining) + "\n")
-            try:
-                proc = subprocess.run(
-                    ["obabel", str(batch_path), "-osdf", "--gen2d"],
-                    capture_output=True,
-                    text=True,
-                    timeout=_OBABEL_TIMEOUT_S,
-                )
-                stdout = proc.stdout
-            except Exception:
-                # obabel itself is unusable (missing, crashed, timed out) —
-                # nothing in this batch can be recovered.
-                failed.extend(key for key, _ in remaining)
-                break
-
-            records = _parse_sdf_records(stdout)
-            if not records:
-                # The very first item in the batch is the one obabel choked
-                # on (it aborts before emitting anything). Drop it and retry
-                # the rest.
-                failed.append(remaining[0][0])
-                remaining = remaining[1:]
+    for key, smiles in pairs:
+        if not smiles or not smiles.strip():
+            failed.append(key)
+            continue
+        try:
+            mol = Chem.MolFromSmiles(smiles)
+            if mol is None:
+                failed.append(key)
                 continue
-
-            # Match by TITLE, not position: a molecule that fails 2D/stereo
-            # generation (kekulization, "no available bond" stereo errors —
-            # both seen in practice) still lets obabel continue to the next
-            # line, so it just leaves a hole *inside* the record stream rather
-            # than truncating it. Walking records positionally against
-            # `remaining` would misinterpret that hole as every subsequent
-            # substance being unmatched too. A genuinely invalid SMILES (bad
-            # syntax) is the only thing that truncates the read entirely —
-            # everything from that point on is simply absent from `by_title`.
-            by_title = {r["title"]: r for r in records}
-
-            # The last position (in `remaining`'s order) that DID produce a
-            # record. Everything up to and including it was reached by
-            # obabel's reader, so any gaps in that span are confirmed
-            # per-molecule failures (not read-truncation) and can be recorded
-            # directly without a retry.
-            last_reached = -1
-            for i, (key, _) in enumerate(remaining):
-                if key in by_title:
-                    last_reached = i
-
-            for key, _ in remaining[: last_reached + 1]:
-                record = by_title.get(key)
-                if record is None:
-                    # obabel reached past this position, so it did attempt
-                    # this molecule and produced no usable record for it.
-                    failed.append(key)
-                    continue
-                oriented = _orient(record["atoms"], record["bonds"])
-                shape = _normalize(oriented, record["bonds"], box=box, margin=margin)
-                if shape is None:
-                    failed.append(key)
-                else:
-                    shapes[key] = shape
-
-            # Whatever's left (nothing after `last_reached` was ever
-            # produced) is retried as a fresh batch. If the read truncated
-            # right at its first item, the next pass's "no records at all"
-            # branch above drops that one item and makes forward progress.
-            remaining = remaining[last_reached + 1 :]
-
+            Chem.Kekulize(mol, clearAromaticFlags=True)
+            rdDepictor.Compute2DCoords(mol)
+            conf = mol.GetConformer()
+            atoms = [
+                (atom.GetSymbol(), conf.GetAtomPosition(i).x, conf.GetAtomPosition(i).y)
+                for i, atom in enumerate(mol.GetAtoms())
+            ]
+            bonds = [
+                (b.GetBeginAtomIdx(), b.GetEndAtomIdx(), int(round(b.GetBondTypeAsDouble())))
+                for b in mol.GetBonds()
+            ]
+            shape = _normalize(_orient(atoms, bonds), bonds, box=box, margin=margin)
+            if shape is None:
+                failed.append(key)
+            else:
+                shapes[key] = shape
+        except Exception:  # noqa: BLE001 - one bad molecule must not sink the batch
+            failed.append(key)
     return shapes, failed

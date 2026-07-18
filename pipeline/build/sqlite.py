@@ -42,7 +42,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — sh
 
 import collision_registry  # noqa: E402
 import psid  # noqa: E402
-from chem_ids import obabel_available  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
 )
@@ -6029,22 +6028,14 @@ class Build:
 
     def ingest_molecule_shapes(self) -> None:
         """Compute 2D skeletal-diagram coordinates for every substance with a
-        SMILES, offline via OpenBabel — no network, fully deterministic (see
-        molecule_shapes.py for the batching/retry strategy). Powers the
-        Chemistry card's molecule hero.
+        SMILES, offline via RDKit's canonical depiction — no network, fully
+        deterministic. Powers the Chemistry card's molecule hero.
 
         Purely derived/additive — no source_id, keyed only on substance_id
         (re-pointed automatically on merge by ``_substance_tables()``). Must
         run after all substance ingest, dedup, and identifier reconciliation
         so `smiles` is final; a rerun after a later smiles correction just
         re-derives the shape (UNIQUE(substance_id) + INSERT OR REPLACE)."""
-        if not obabel_available():
-            print(
-                "WARNING: obabel not on PATH; skipping molecule_shapes "
-                "(Chemistry cards will show no structure diagram).",
-                file=sys.stderr,
-            )
-            return
         rows = self.cur.execute(
             "SELECT id, smiles FROM substances WHERE smiles IS NOT NULL AND smiles != ''"
         ).fetchall()
