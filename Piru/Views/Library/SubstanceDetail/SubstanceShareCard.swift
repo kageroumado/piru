@@ -79,10 +79,17 @@ struct SubstanceShareCard: View {
         }
         .frame(width: cardWidth, alignment: .leading)
         .background(background)
+        .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous))
         .overlay(plateBorder)
         .environment(\.colorScheme, .dark)
         .foregroundStyle(.white)
     }
+
+    /// The card's outer corner radius; the plate border and panels round
+    /// concentrically off it.
+    private static let cornerRadius: CGFloat = 34
+    /// Inset of the plate border from the card edge.
+    private static let borderInset: CGFloat = 13
 
     /// A vibrant diagonal wash that stays in the class hue (empathogen pink-red,
     /// stimulant orange…) — brightened at the top-left, gently deepened toward the
@@ -102,10 +109,11 @@ struct SubstanceShareCard: View {
     }
 
     /// A hairline inset frame — the "plate" edge that makes the card read as a
-    /// printed specimen rather than a UI panel.
+    /// printed specimen. Rounded and concentric with the card's outer corner
+    /// (radius − inset), matching the rounding of the molecule/curve panels.
     private var plateBorder: some View {
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-            .inset(by: 14)
+        RoundedRectangle(cornerRadius: Self.cornerRadius - Self.borderInset, style: .continuous)
+            .inset(by: Self.borderInset)
             .stroke(.white.opacity(0.22), lineWidth: 1)
             .allowsHitTesting(false)
     }
@@ -229,6 +237,10 @@ struct SubstanceShareCard: View {
         }
     }
 
+    /// Fixed row height shared by the dose ladder and the effect bars so the two
+    /// Rich-plate columns line up row-for-row.
+    private static let dataRowHeight: CGFloat = 34
+
     private var doseLadderRows: some View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Self.ladder, id: \.0) { index, name in
@@ -241,7 +253,7 @@ struct SubstanceShareCard: View {
                         Text(text)
                             .font(.subheadline.weight(.semibold).monospacedDigit())
                     }
-                    .padding(.vertical, 5)
+                    .frame(height: Self.dataRowHeight)
                     .overlay(alignment: .bottom) {
                         if index != 4, doseText[index + 1] != nil {
                             Rectangle().fill(.white.opacity(0.10)).frame(height: 1)
@@ -286,7 +298,7 @@ struct SubstanceShareCard: View {
     /// (under a section label) and the Rich plate's right column.
     private var effectsColumnBody: some View {
         let maxCount = max(frequencyEffects.map(\.reportCount).max() ?? 1, 1)
-        return VStack(alignment: .leading, spacing: 10) {
+        return VStack(alignment: .leading, spacing: 0) {
             ForEach(frequencyEffects) { effect in
                 HStack(spacing: 10) {
                     Circle().fill(effect.domain.color).frame(width: 7, height: 7)
@@ -301,12 +313,13 @@ struct SubstanceShareCard: View {
                                 .frame(width: max(8, geo.size.width * CGFloat(effect.reportCount) / CGFloat(maxCount)))
                         }
                     }
-                    .frame(width: 72, height: 7)
+                    .frame(width: 64, height: 7)
                     Text(verbatim: Self.compactCount(effect.reportCount))
                         .font(.caption2.weight(.semibold).monospacedDigit())
                         .foregroundStyle(.white.opacity(0.7))
-                        .frame(width: 34, alignment: .trailing)
+                        .frame(width: 30, alignment: .trailing)
                 }
+                .frame(height: Self.dataRowHeight)
             }
         }
     }
@@ -315,44 +328,40 @@ struct SubstanceShareCard: View {
 
     private var curvePanel: some View {
         panel {
-            VStack(spacing: 0) {
-                ZStack {
-                    if let boundaries = route?.duration?.phaseBoundaries {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("EFFECT OVER TIME")
+                    .font(.system(size: 8, weight: .bold)).tracking(0.6)
+                    .foregroundStyle(.white.opacity(0.55))
+                if let boundaries = route?.duration?.phaseBoundaries {
+                    ZStack {
                         EffectCurveShape(boundaries: boundaries)
-                            .fill(LinearGradient(colors: [.white.opacity(0.42), .white.opacity(0.05)], startPoint: .top, endPoint: .bottom))
+                            .fill(LinearGradient(colors: [.white.opacity(0.38), .white.opacity(0.04)], startPoint: .top, endPoint: .bottom))
                         EffectCurveShape(boundaries: boundaries, strokeOnly: true)
-                            .stroke(.white.opacity(0.92), style: StrokeStyle(lineWidth: 2.4, lineCap: .round, lineJoin: .round))
+                            .stroke(.white.opacity(0.92), style: StrokeStyle(lineWidth: 2.2, lineCap: .round, lineJoin: .round))
                     }
-                    VStack {
-                        HStack {
-                            Text("EFFECT OVER TIME")
-                                .font(.system(size: 8, weight: .bold)).tracking(0.6)
-                                .foregroundStyle(.white.opacity(0.55))
-                            Spacer()
-                        }
-                        Spacer()
-                    }
+                    .frame(height: 52)
                 }
-                .padding(.horizontal, 6)
-                .padding(.top, 14)
                 if let duration = route?.duration {
-                    phaseLabels(duration).frame(height: 40)
+                    phaseLabels(duration).frame(height: 46)
                 }
+                Spacer(minLength: 0)
             }
-            .padding(12)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .padding(16)
         }
         .frame(height: 190)
     }
 
     /// Phase durations written under the curve, each centered on its segment and
-    /// staggered onto two rows so the numbers never overlap.
+    /// staggered onto two rows so the numbers never overlap. Durations are
+    /// abbreviated (30–45m, 1.5–2.5h) to keep them compact.
     private func phaseLabels(_ duration: DurationProfile) -> some View {
         let b = duration.phaseBoundaries
         let total = max(b.offsetEnd, 1)
         var phases: [(name: LocalizedStringKey, text: String, mid: CGFloat)] = []
         func add(_ name: LocalizedStringKey, _ range: DurationRange?, _ start: Double, _ end: Double) {
             guard let range else { return }
-            phases.append((name, range.displayString, CGFloat((start + end) / 2 / total)))
+            phases.append((name, Self.compactDuration(range), CGFloat((start + end) / 2 / total)))
         }
         add("Onset", duration.onset, 0, b.onsetEnd)
         add("Come-up", duration.comeup, b.onsetEnd, b.comeupEnd)
@@ -364,48 +373,106 @@ struct SubstanceShareCard: View {
                     Text(phase.name)
                         .font(.system(size: 8, weight: .bold)).tracking(0.3)
                         .foregroundStyle(.white.opacity(0.6))
-                    Text(phase.text)
-                        .font(.system(size: 9, weight: .semibold, design: .rounded).monospacedDigit())
+                    Text(verbatim: phase.text)
+                        .font(.system(size: 10, weight: .bold, design: .rounded).monospacedDigit())
                 }
                 .fixedSize()
                 .position(
-                    x: min(max(geo.size.width * phase.mid, 22), geo.size.width - 22),
-                    y: i.isMultiple(of: 2) ? 12 : 30,
+                    x: min(max(geo.size.width * phase.mid, 24), geo.size.width - 24),
+                    y: i.isMultiple(of: 2) ? 13 : 34,
                 )
             }
         }
     }
 
-    // MARK: chemistry — PubChem CID (Rich, bottom)
-
-    private func pubchemChip(_ cid: Int) -> some View {
-        HStack(spacing: 6) {
-            Text("PUBCHEM CID")
-                .font(.system(size: 8, weight: .bold)).tracking(0.5)
-                .foregroundStyle(.white.opacity(0.5))
-            Text(verbatim: String(cid))
-                .font(.caption.weight(.semibold).monospacedDigit())
-                .foregroundStyle(.white.opacity(0.8))
+    /// Compact duration like "~30–45m", "~1.5–2.5h", or a mixed "~90m–2.5h" —
+    /// the unit is written once when both bounds share it.
+    private static func compactDuration(_ range: DurationRange) -> String {
+        func part(_ minutes: Double) -> (value: String, unit: String) {
+            if minutes >= 120 {
+                let h = (minutes / 60 * 2).rounded() / 2
+                return (h == h.rounded() ? "\(Int(h))" : String(format: "%.1f", h), "h")
+            }
+            return ("\(Int(minutes.rounded()))", "m")
         }
+        let lo = part(range.min), hi = part(range.max)
+        if lo.value == hi.value, lo.unit == hi.unit { return "~\(lo.value)\(lo.unit)" }
+        if lo.unit == hi.unit { return "~\(lo.value)–\(hi.value)\(lo.unit)" }
+        return "~\(lo.value)\(lo.unit)–\(hi.value)\(hi.unit)"
     }
 
     // MARK: pharmacology (Rich)
 
     private func pharmacologyBody(_ mechanism: MechanismOfAction) -> some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text(mechanism.summary)
-                .font(.title3.weight(.semibold))
-                .foregroundStyle(.white)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
-                .fixedSize(horizontal: false, vertical: true)
+        VStack(spacing: 18) {
+            if let monoamineProfile, monoamineProfile.leanPosition != nil {
+                leanBarHero(monoamineProfile)
+            } else {
+                Text(mechanism.summary)
+                    .font(.headline.weight(.semibold))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             HStack(alignment: .top, spacing: 26) {
-                if let monoamineProfile, monoamineProfile.leanPosition != nil {
-                    leanBar(monoamineProfile).frame(maxWidth: .infinity)
-                }
-                bindingTable(mechanism).frame(maxWidth: .infinity)
+                bindingTable(mechanism).frame(maxWidth: .infinity, alignment: .leading)
+                // The prose mechanism is the least-important text — kept small as a
+                // secondary caption beside the receptor table.
+                Text(mechanism.summary)
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.6))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+    }
+
+    /// The dopamine↔serotonin lean bar as the pharmacology hero — a wide gradient
+    /// with a marker, neurotransmitter chips at each end (Serotonin / Dopamine —
+    /// friendlier than SERT/DAT), the mechanism label, and the lean summary. The
+    /// bar *shows* the character instead of spelling it out.
+    private func leanBarHero(_ profile: MonoamineProfile) -> some View {
+        VStack(spacing: 12) {
+            Text(profile.mechanismLabel)
+                .font(.subheadline.weight(.bold))
+                .padding(.horizontal, 12).padding(.vertical, 5)
+                .background(.white.opacity(0.18), in: Capsule())
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(LinearGradient(
+                            colors: [SubstanceCategory.empathogen.color, SubstanceCategory.stimulant.color],
+                            startPoint: .leading, endPoint: .trailing,
+                        ))
+                        .frame(height: 12)
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 22, height: 22)
+                        .shadow(color: .black.opacity(0.3), radius: 3, y: 1)
+                        .offset(x: min(max(geo.size.width * CGFloat(profile.leanPosition ?? 0.5) - 11, 0), geo.size.width - 22))
+                }
+                .frame(height: 22)
+            }
+            .frame(height: 22)
+            HStack {
+                neurotransmitterChip("Serotonin", tint: SubstanceCategory.empathogen.color)
+                Spacer()
+                neurotransmitterChip("Dopamine", tint: SubstanceCategory.stimulant.color)
+            }
+            Text(profile.leanLabel)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func neurotransmitterChip(_ name: LocalizedStringKey, tint: Color) -> some View {
+        Text(name)
+            .font(.caption.weight(.bold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10).padding(.vertical, 4)
+            .background(tint.mix(with: .white, by: 0.12).opacity(0.85), in: Capsule())
     }
 
     private func bindingTable(_ mechanism: MechanismOfAction) -> some View {
@@ -435,43 +502,6 @@ struct SubstanceShareCard: View {
         }
     }
 
-    /// The dopamine↔serotonin lean bar — a gradient with a marker at the profile's
-    /// position, the mechanism label, and the DAT:SERT ratio. Card-native styling.
-    private func leanBar(_ profile: MonoamineProfile) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(profile.mechanismLabel)
-                .font(.caption.weight(.bold))
-                .padding(.horizontal, 9).padding(.vertical, 4)
-                .background(.white.opacity(0.16), in: Capsule())
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(LinearGradient(
-                            colors: [SubstanceCategory.empathogen.color, SubstanceCategory.stimulant.color],
-                            startPoint: .leading, endPoint: .trailing,
-                        ))
-                        .frame(height: 8)
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 16, height: 16)
-                        .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
-                        .offset(x: geo.size.width * CGFloat(profile.leanPosition ?? 0.5) - 8)
-                }
-                .frame(height: 16)
-            }
-            .frame(height: 16)
-            HStack {
-                Text("Serotonin").font(.caption2.weight(.bold)).foregroundStyle(SubstanceCategory.empathogen.color.mix(with: .white, by: 0.35))
-                Spacer()
-                Text("Dopamine").font(.caption2.weight(.bold)).foregroundStyle(SubstanceCategory.stimulant.color.mix(with: .white, by: 0.35))
-            }
-            Text(profile.leanLabel)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(0.9))
-                .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-
     // MARK: footer
 
     private var footer: some View {
@@ -481,10 +511,8 @@ struct SubstanceShareCard: View {
     private var richFooter: some View {
         VStack(spacing: 12) {
             Rectangle().fill(.white.opacity(0.16)).frame(height: 1)
-            HStack {
+            HStack(alignment: .center) {
                 footerBrand
-                Spacer()
-                if let cid = substance.pubchemCID { pubchemChip(cid) }
                 Spacer()
                 Text("kagerou.glass/piru")
                     .font(.system(.caption2, design: .rounded).weight(.medium))
