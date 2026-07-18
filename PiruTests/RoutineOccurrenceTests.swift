@@ -9,12 +9,15 @@ import Testing
 @Suite("RoutineOccurrences", .serialized)
 @MainActor
 struct RoutineOccurrenceTests {
-    private func makeContext() throws -> ModelContext {
-        let container = try ModelContainer(
+    /// A throwaway in-memory container. Each test must hold this for its
+    /// whole body: a `ModelContext` does NOT retain its container, and an
+    /// orphaned context traps (EXC_BREAKPOINT) on the first mutation — the
+    /// lifetime rule documented on `UserProfileStore`.
+    private func makeContainer() throws -> ModelContainer {
+        try ModelContainer(
             for: Schema(StoreRecovery.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
-        return container.mainContext
     }
 
     @discardableResult
@@ -62,7 +65,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Due items get occurrences; off-schedule items don't; reruns are idempotent`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
         // Weekly item starting a distant Monday-ish past date — only due on
@@ -82,7 +86,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Items outside any routine get no occurrence`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Orphan", routine: "", in: context)
         RoutineOccurrenceService.reconcile(in: context)
@@ -93,7 +98,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `A logged dose satisfies its occurrence by name`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
         let entry = addEntry("vitamin d3", in: context)
@@ -106,7 +112,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Identity matching prefers substanceUID over the name`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Concerta", routine: "Morning", uid: "psid:mph", in: context)
         // Relabeled dose: different name, same identity (spec §D — a relabel
@@ -119,7 +126,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `A route mismatch does not match`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Melatonin", routine: "Morning", route: .oral, in: context)
         addEntry("Melatonin", route: .sublingual, in: context)
@@ -130,7 +138,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `One entry claims one occurrence; two entries satisfy two routines by nearest time`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         let calendar = Calendar.current
         addRoutine("Morning", timeMinutes: 8 * 60, in: context)
         addRoutine("Night", timeMinutes: 22 * 60, in: context)
@@ -149,7 +158,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `An ad-hoc dose matching nothing claims nothing`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
         addEntry("Caffeine", in: context)
@@ -162,7 +172,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Deleting the satisfying dose returns the occurrence to pending`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
         let entry = addEntry("Vitamin D3", in: context)
@@ -179,7 +190,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Skipped is sticky through reconciles and matching`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
 
@@ -197,7 +209,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Yesterday's pending expires to missed; history states survive`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         let yesterday = try #require(Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: .now)))
         let stale = RoutineOccurrence(routineName: "Morning", substance: "Vitamin D3", route: .oral, dueDay: yesterday)
         let done = RoutineOccurrence(routineName: "Morning", substance: "Magnesium", route: .oral, dueDay: yesterday)
@@ -214,7 +227,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Satisfied means every occurrence logged or skipped; partial keeps asking`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
         addItem("Magnesium", routine: "Morning", in: context)
@@ -230,7 +244,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Nothing due counts as satisfied`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         RoutineOccurrenceService.reconcile(in: context)
         #expect(RoutineOccurrenceService.isSatisfiedToday(routineName: "Morning", in: context))
@@ -238,7 +253,8 @@ struct RoutineOccurrenceTests {
 
     @Test
     func `Skipping the whole routine satisfies it`() throws {
-        let context = try makeContext()
+        let container = try makeContainer()
+        let context = container.mainContext
         addRoutine("Morning", in: context)
         addItem("Vitamin D3", routine: "Morning", in: context)
 
