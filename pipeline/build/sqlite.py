@@ -42,6 +42,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — sh
 
 import collision_registry  # noqa: E402
 import psid  # noqa: E402
+from drug_community_effects import (  # noqa: E402
+    reported_effects as dc_reported_effects,
+)
+from drug_community_effects import (  # noqa: E402
+    spectrum_levels as dc_spectrum_levels,
+)
 from effect_vocab import EFFECT_VOCAB, vocab_id_for, vocab_labels  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
@@ -73,6 +79,11 @@ MECHANISMS = REPO / "data/curated/mechanisms.json"
 FLAGSHIP_PHARMA = REPO / "data/curated/pharmacology-flagship.json"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
+# drug.community experiential companion datasets (Sept-2025 redesign): the
+# intensity spectra + reported effects that power the "Effects & Intensity"
+# screen. Keyed on the canonical dc slug, so ingested AFTER the roster stamps it.
+DRUG_COMMUNITY_SPECTRA = REPO / "data/sources/drug-community-spectra.json"
+DRUG_COMMUNITY_EFFECTS = REPO / "data/sources/drug-community-effects.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # Citation link-health cache produced by pipeline/audit/validate_links.py.
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
@@ -796,6 +807,45 @@ CREATE TABLE subjective_effects (
     citation_id  INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_subjective_substance ON subjective_effects(substance_id);
+
+-- drug.community intensity spectrum: one row per dose band (dc's 6 fixed levels
+-- mapped onto Piru's dose-band vocabulary). Powers the circular dose-intensity
+-- dial. `top_effects_json` = [{name, freq}] most-reported at that band;
+-- `warnings_json` = generic safety lines for the high bands (dc's specific prose
+-- claims are deliberately NOT ingested — see drug_community_effects.py).
+CREATE TABLE spectrum_levels (
+    id           INTEGER PRIMARY KEY,
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    band_index   INTEGER NOT NULL,              -- 0 (Threshold) .. 5 (Overdose)
+    band_name    TEXT NOT NULL,
+    description  TEXT,
+    top_effects_json TEXT,
+    warnings_json    TEXT,
+    UNIQUE(substance_id, band_index)
+);
+CREATE INDEX idx_spectrum_substance ON spectrum_levels(substance_id);
+
+-- drug.community reported effects: one enriched row per effect, merging the
+-- spectrum's report frequency + dose-emergence band with the erowid-tagged
+-- domain and a representative quote. Drives the grouped, frequency-barred
+-- "Effects" list on the Effects & Intensity screen (distinct from the vetted,
+-- PW-whitelisted `effects` table above — this is community-reported data).
+-- First-hand reports come from FreeODWiki at the section level, never dc's erowid
+-- quotes (which we don't translate/surface). `name` is English pending the curated
+-- dc-effect translation vocab (built once the design is final) — see the
+-- effects-whitelist localization rationale.
+CREATE TABLE reported_effects (
+    id           INTEGER PRIMARY KEY,
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    name         TEXT NOT NULL,
+    domain       TEXT NOT NULL,                 -- Emotional/Cognitive/Sensory/Physical/Social
+    report_count INTEGER NOT NULL DEFAULT 0,
+    emerges_band INTEGER,                        -- 0..5, or NULL if unknown
+    UNIQUE(substance_id, name)
+);
+CREATE INDEX idx_reported_effects_substance ON reported_effects(substance_id);
 
 -- Long-form substance overview prose ("what it is / history / risk profile"),
 -- distinct from mechanisms_summary (pharmacology). Currently fed only by
@@ -5042,6 +5092,71 @@ class Build:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
 
+    def ingest_drug_community_experiential(self, spectra_path: Path, effects_path: Path) -> None:
+        """Ingest dc intensity spectra + reported effects → spectrum_levels /
+        reported_effects, keyed on the already-stamped ``drug_community_slug``.
+
+        Must run AFTER :meth:`ingest_drug_community` (which stamps the slug).
+        Takes only dc's structured signals (frequency, dose-emergence, domain,
+        quotes); the prose transform lives in ``drug_community_effects.py``.
+        """
+        slug = "drug.community"
+        src = self.source_ids[slug]
+
+        def _sid_for(dc_slug: str) -> int | None:
+            row = self.cur.execute(
+                "SELECT id FROM substances WHERE drug_community_slug = ?", (dc_slug,)
+            ).fetchone()
+            return row[0] if row else None
+
+        # Effects records are keyed by slug → dict; spectra is a flat list.
+        effects_by_slug: dict[str, dict] = {}
+        if effects_path.exists():
+            payload = json.loads(effects_path.read_text())
+            effects_by_slug = payload.get("drugEffects") or {}
+
+        spectra = json.loads(spectra_path.read_text()) if spectra_path.exists() else []
+        for rec in spectra:
+            dc_slug = rec.get("drug_slug")
+            spectrum = rec.get("spectrum_data") or {}
+            if not dc_slug or not spectrum:
+                continue
+            sid = _sid_for(dc_slug)
+            if sid is None:
+                continue
+            for lvl in dc_spectrum_levels(spectrum):
+                self.cur.execute(
+                    "INSERT OR IGNORE INTO spectrum_levels(substance_id, source_id, "
+                    "band_index, band_name, description, top_effects_json, warnings_json) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        src,
+                        lvl["band_index"],
+                        lvl["band_name"],
+                        lvl["description"] or None,
+                        json.dumps(lvl["top_effects"], ensure_ascii=False),
+                        json.dumps(lvl["warnings"], ensure_ascii=False)
+                        if lvl["warnings"]
+                        else None,
+                    ),
+                )
+                self.stats["spectrum_levels"] += 1
+            for eff in dc_reported_effects(effects_by_slug.get(dc_slug), spectrum):
+                self.cur.execute(
+                    "INSERT OR IGNORE INTO reported_effects(substance_id, source_id, name, "
+                    "domain, report_count, emerges_band) VALUES (?, ?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        src,
+                        eff["name"],
+                        eff["domain"],
+                        eff["report_count"],
+                        eff["emerges_band"],
+                    ),
+                )
+                self.stats["reported_effects"] += 1
+
     @staticmethod
     def _dc_phase_bounds(phase) -> tuple[float, float] | None:
         """Absolute (start, end) for a drug.community phase dict, in source units.
@@ -7702,6 +7817,7 @@ def main() -> int:
     print(f"After psychonautwiki: {build.stats}", file=sys.stderr)
 
     build.ingest_drug_community(DRUG_COMMUNITY)
+    build.ingest_drug_community_experiential(DRUG_COMMUNITY_SPECTRA, DRUG_COMMUNITY_EFFECTS)
     build.ingest_freeodwiki(FREEODWIKI)
     print(f"After drug.community: {build.stats}", file=sys.stderr)
 

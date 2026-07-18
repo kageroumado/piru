@@ -261,7 +261,7 @@ struct SubstanceDetailView: View {
         .navigationTitle(substance.displayTitle)
         .navigationBarTitleDisplayMode(.large)
         .navigationDestination(isPresented: $showAllEffects) {
-            AllEffectsView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
+            EffectsAndIntensityView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
         }
         .sheet(item: $glossaryTopic) { topic in
             PharmacologyGlossarySheet(topic: topic)

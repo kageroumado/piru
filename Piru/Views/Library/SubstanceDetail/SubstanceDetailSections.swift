@@ -79,65 +79,105 @@ struct EffectsSection: View {
     /// How many curated effects show inline before the rest move to "Show All".
     private let mainEffectsLimit = 6
 
+    /// The drug.community intensity spectrum, loaded lazily. When present it
+    /// replaces the flat effect list with the interactive dose-intensity dial —
+    /// the engaging surface belongs on the main screen, not hidden behind
+    /// "Show All". "Show All" then opens the full effect list.
+    @State private var bands: [SpectrumBand] = []
+    @State private var bandDoseText: [Int: String] = [:]
+    @State private var dcDeepLink: URL?
+
     private var displayClass: CompoundDisplayClass {
         substance.displayClass
     }
 
     var body: some View {
+        content
+            .task(id: substance.name) { loadSpectrum() }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         let curated = policy.showsRichSubjective ? substance.subjectiveEffects : []
         let hasAllEffects = !substance.effects.isEmpty
-        // Only the first few curated effects read as the "main effects" summary;
-        // a long list (e.g. MPH) belongs behind "Show All", not dumped inline.
         let mainEffects = Array(curated.prefix(mainEffectsLimit))
-        // Offer "Show All" when there are more curated effects than we show, or
-        // when the full taxonomy adds rows beyond the curated set (not Melatonin,
-        // where it would reveal *fewer*).
         let showsMoreEffects = curated.count > mainEffects.count || substance.effects.count > curated.count
-        if displayClass != .nonRecreational, !curated.isEmpty || hasAllEffects {
-            Section {
-                if !mainEffects.isEmpty {
-                    ForEach(mainEffects, id: \.name) { effect in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(effect.name)
-                                .font(.subheadline)
-                            if !effect.description.isEmpty {
-                                Text(effect.description)
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                        }
-                        .accessibilityElement(children: .combine)
-                        .padding(.vertical, 2)
-                    }
-                } else if hasAllEffects {
-                    Button { showAllEffects = true } label: {
-                        Label("All effects (\(substance.effects.count))", systemImage: "list.bullet.rectangle")
-                            .font(.subheadline)
-                    }
+
+        if displayClass != .nonRecreational {
+            if !bands.isEmpty {
+                // Dial-first: the interactive spectrum is the section body.
+                Section {
+                    DoseIntensityCard(
+                        bands: bands,
+                        bandDoseText: bandDoseText,
+                        citationSlug: "drug.community",
+                        citationDeepLink: dcDeepLink,
+                    )
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                } header: {
+                    effectsHeader(showsShowAll: hasAllEffects)
                 }
-            } header: {
-                HStack {
-                    Text("Effects")
-                    Spacer()
-                    // Health-style "Show All" → the full PsychonautWiki taxonomy
-                    // (and Erowid reports), grouped by category, one tap away.
-                    // A header NavigationLink isn't reliably hittable, so drive a
-                    // navigationDestination from a Button instead.
-                    if !mainEffects.isEmpty, showsMoreEffects {
-                        Button { showAllEffects = true } label: {
-                            HStack(spacing: 2) {
-                                Text("Show All")
-                                Image(systemName: "chevron.right").font(.caption2)
-                                    .accessibilityHidden(true)
+            } else if !curated.isEmpty || hasAllEffects {
+                // Fallback (no dc coverage): the prior flat curated list.
+                Section {
+                    if !mainEffects.isEmpty {
+                        ForEach(mainEffects, id: \.name) { effect in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(effect.name)
+                                    .font(.subheadline)
+                                if !effect.description.isEmpty {
+                                    Text(effect.description)
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
                             }
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.accent)
-                            .textCase(nil)
+                            .accessibilityElement(children: .combine)
+                            .padding(.vertical, 2)
+                        }
+                    } else if hasAllEffects {
+                        Button { showAllEffects = true } label: {
+                            Label("All effects (\(substance.effects.count))", systemImage: "list.bullet.rectangle")
+                                .font(.subheadline)
                         }
                     }
+                } header: {
+                    effectsHeader(showsShowAll: !mainEffects.isEmpty && showsMoreEffects)
                 }
             }
         }
+    }
+
+    private func effectsHeader(showsShowAll: Bool) -> some View {
+        HStack {
+            Text("Effects")
+            Spacer()
+            // A header NavigationLink isn't reliably hittable, so drive a
+            // navigationDestination from a Button instead.
+            if showsShowAll {
+                Button { showAllEffects = true } label: {
+                    HStack(spacing: 2) {
+                        Text("Show All")
+                        Image(systemName: "chevron.right").font(.caption2)
+                            .accessibilityHidden(true)
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.accent)
+                    .textCase(nil)
+                }
+            }
+        }
+    }
+
+    private func loadSpectrum() {
+        let loaded = SubstanceStore.shared.spectrumBands(forSubstanceName: substance.name)
+        guard !loaded.isEmpty else { return }
+        bands = loaded
+        if let route = substance.routes.first(where: { $0.route == substance.defaultRoute })
+            ?? substance.routes.first {
+            bandDoseText = EffectsIntensityModel.bandDoseText(from: route.doses, unit: route.unit)
+        }
+        dcDeepLink = SubstanceSourceLinks.deepLink("drug.community", substance: substance)
     }
 }

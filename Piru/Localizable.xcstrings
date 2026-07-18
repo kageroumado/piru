@@ -2236,6 +2236,9 @@
         }
       }
     },
+    "%lld reports" : {
+
+    },
     "%lld results" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9231,6 +9234,9 @@
         }
       }
     },
+    "BY DOSE" : {
+      "comment" : "Intensity dial eyebrow"
+    },
     "By Drink" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10755,7 +10761,7 @@
       }
     },
     "Cognitive" : {
-      "extractionState" : "stale",
+      "comment" : "Effect domain",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11228,6 +11234,7 @@
       }
     },
     "Common" : {
+      "comment" : "Dose band",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14455,6 +14462,9 @@
         }
       }
     },
+    "Dose intensity" : {
+      "comment" : "Dial accessibility label"
+    },
     "Dose ladders, durations, top-line warnings. Skip the deep pharmacology." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14841,6 +14851,9 @@
           }
         }
       }
+    },
+    "Drag to explore doses" : {
+      "comment" : "Intensity dial interaction hint"
     },
     "Drag to pan, pinch to zoom, hold to inspect" : {
       "extractionState" : "stale",
@@ -15977,6 +15990,7 @@
       }
     },
     "Effects" : {
+      "comment" : "Screen title",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16335,6 +16349,12 @@
           }
         }
       }
+    },
+    "Emerges at %@" : {
+      "comment" : "Effect dose-emergence caption"
+    },
+    "Emotional" : {
+      "comment" : "Effect domain"
     },
     "Empathogen" : {
       "localizations" : {
@@ -18311,6 +18331,9 @@
         }
       }
     },
+    "First-hand reports. Opens in your browser." : {
+      "comment" : "Reports link caption"
+    },
     "Fixed Order" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -20017,6 +20040,7 @@
       }
     },
     "Heavy" : {
+      "comment" : "Dose band",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22038,6 +22062,9 @@
         }
       }
     },
+    "Intensity spectrum" : {
+
+    },
     "Interaction Alerts" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22977,6 +23004,7 @@
       }
     },
     "Light" : {
+      "comment" : "Dose band",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25515,6 +25543,9 @@
           }
         }
       }
+    },
+    "MOST REPORTED AT THIS DOSE" : {
+      "comment" : "Intensity dial effects heading"
     },
     "Mostly fast receptor desensitization that recovers between uses rather than a lasting change." : {
       "localizations" : {
@@ -28673,6 +28704,9 @@
         }
       }
     },
+    "Overdose" : {
+      "comment" : "Dose band"
+    },
     "Overlap" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29679,7 +29713,7 @@
       }
     },
     "Physical" : {
-      "extractionState" : "stale",
+      "comment" : "Effect domain",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31577,6 +31611,9 @@
           }
         }
       }
+    },
+    "Read experience reports on FreeODWiki" : {
+      "comment" : "Reports link, Chinese source"
     },
     "Read less" : {
       "localizations" : {
@@ -34410,6 +34447,7 @@
       }
     },
     "Search experiences on Erowid" : {
+      "comment" : "Reports link, Erowid",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35217,7 +35255,7 @@
       }
     },
     "Sensory" : {
-      "extractionState" : "stale",
+      "comment" : "Effect domain",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37146,6 +37184,9 @@
         }
       }
     },
+    "Social" : {
+      "comment" : "Effect domain"
+    },
     "Solution Concentration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38520,6 +38561,7 @@
       }
     },
     "Strong" : {
+      "comment" : "Dose band",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39122,6 +39164,9 @@
           }
         }
       }
+    },
+    "Swipe up or down to change the dose" : {
+      "comment" : "Dial accessibility hint"
     },
     "Synced from Apple Health — check the number looks right." : {
       "localizations" : {
@@ -40957,6 +41002,7 @@
       }
     },
     "Threshold" : {
+      "comment" : "Dose band",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
