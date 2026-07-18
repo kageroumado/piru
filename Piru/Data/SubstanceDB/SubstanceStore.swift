@@ -2346,4 +2346,49 @@ final class SubstanceStore {
             return []
         }
     }
+
+    private struct RawMoleculeAtom: Decodable {
+        let el: String
+        let x: Double
+        let y: Double
+    }
+
+    private struct RawMoleculeBond: Decodable {
+        let a: Int
+        let b: Int
+        let order: Int
+    }
+
+    /// The substance's 2D skeletal-structure diagram, if one was generated at
+    /// build time (offline, from `smiles` — see `molecule_shapes.py`). `nil`
+    /// when the substance has no SMILES or the structure failed to parse
+    /// (~860 substances currently have neither). Purely derived data — no
+    /// source-priority gating, unlike most `SubstanceStore` queries.
+    func moleculeStructure(forSubstanceName name: String) -> MoleculeStructure? {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        do {
+            let row = try substancesDB.read { db in
+                try Row.fetchOne(db, sql: """
+                    SELECT atoms_json, bonds_json
+                      FROM molecule_shapes
+                     WHERE substance_id = ?
+                """, arguments: [substanceID])
+            }
+            guard let row,
+                  let atomsJSON = (row["atoms_json"] as String?)?.data(using: .utf8),
+                  let bondsJSON = (row["bonds_json"] as String?)?.data(using: .utf8)
+            else { return nil }
+            let decoder = JSONDecoder()
+            let rawAtoms = try decoder.decode([RawMoleculeAtom].self, from: atomsJSON)
+            let rawBonds = try decoder.decode([RawMoleculeBond].self, from: bondsJSON)
+            guard !rawAtoms.isEmpty else { return nil }
+            return MoleculeStructure(
+                atoms: rawAtoms.map { MoleculeAtom(element: $0.el, x: $0.x, y: $0.y) },
+                bonds: rawBonds.map { MoleculeBond(a: $0.a, b: $0.b, order: $0.order) },
+            )
+        } catch {
+            logger.error("moleculeStructure(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            return nil
+        }
+    }
 }

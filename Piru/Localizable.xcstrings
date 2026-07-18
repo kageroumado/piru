@@ -1618,6 +1618,22 @@
         }
       }
     },
+    "%lld atoms" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个原子"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個原子"
+          }
+        }
+      }
+    },
     "%lld bpm" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24278,6 +24294,22 @@
         }
       }
     },
+    "Molecular structure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分子结构"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分子結構"
+          }
+        }
+      }
+    },
     "Monoamine Profile" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37527,6 +37559,7 @@
       }
     },
     "Suppresses the enzyme that makes serotonin, so recovery takes weeks, not days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

@@ -2797,6 +2797,8 @@ T = {
         "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。",
     ),
     "IUPAC name": ("IUPAC 名称", "IUPAC 名稱"),
+    "Molecular structure": ("分子结构", "分子結構"),
+    "%lld atoms": ("%lld 个原子", "%lld 個原子"),
     "H-bond acceptors": ("氢键受体", "氫鍵受體"),
     "H-bond donors": ("氢键供体", "氫鍵供體"),
     "Melting point": ("熔点", "熔點"),
