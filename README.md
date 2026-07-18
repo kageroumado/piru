@@ -143,9 +143,8 @@ Piru bundles an offline SQLite library of **1,900+ substances**. Each field — 
 a receptor affinity, a mechanism summary — is resolved by **source priority** (which you can reorder)
 and carries its own attribution, so a substance sheet ends with a **Data Sources** list that links
 straight to each source's page for that compound. Doses and durations come first from
-**[drug.community](https://drug.community)** — a dataset curated by a former pharma-industry contributor
-and cross-checked in-app — with the volunteer wikis backfilling anything it doesn't cover. Which source
-wins a given field, in priority order:
+**[drug.community](https://drug.community)** — our main dose/duration dataset — with the volunteer wikis
+backfilling anything it doesn't cover. Which source wins a given field, in priority order:
 
 - **Piru's own hand-curated overlay** & **peer-reviewed primary literature** — outrank everything, so a
   verified correction always wins (this is also where genuine upstream dose bugs get overridden)

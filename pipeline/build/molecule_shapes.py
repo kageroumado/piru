@@ -188,13 +188,31 @@ def _orient(
                 return len(seen)
 
             r, s = max(exo, key=lambda rs: _fragment_size(rs[1]))
-            # Point the exocyclic bond up-right at +30° (not flat-horizontal):
-            # since that bond is radial to the ring, a +30° direction lands the
-            # ipso atom on the ring's upper-right vertex, which makes the ring
-            # sit FLAT-TOP (horizontal top/bottom edges) — the textbook pose —
-            # with the chain trailing up to the right.
             exo_angle = math.atan2(atoms[s][2] - atoms[r][2], atoms[s][1] - atoms[r][1])
-            theta = exo_angle - math.radians(30)
+            # The exocyclic bond is radial to the ring, so its final direction
+            # fixes the ring's rotation. Two textbook poses:
+            #  • +30° (up-right) → ring on the LEFT, chain trailing up-right. The
+            #    canonical amine pose (amphetamine, methamphetamine).
+            #  • +90° (straight up) → ring sits UPRIGHT below the chain, with a
+            #    PARA substituent hanging straight down. The canonical cathinone
+            #    pose (mephedrone: ketone up, ring-methyl down). Using +30° here
+            #    would swing that para group out to the lower-left and read as a
+            #    tilted, diagonal ring.
+            # Detect the para case: another substituent on the ring roughly
+            # opposite (≈180° around the ring centroid) the chain's ipso atom.
+            rcx = sum(atoms[i][1] for i in ring) / len(ring)
+            rcy = sum(atoms[i][2] for i in ring) / len(ring)
+            ipso_angle = math.atan2(atoms[r][2] - rcy, atoms[r][1] - rcx)
+            has_para = False
+            for r2, _s2 in exo:
+                if r2 == r:
+                    continue
+                a2 = math.atan2(atoms[r2][2] - rcy, atoms[r2][1] - rcx)
+                delta = abs((a2 - ipso_angle + math.pi) % (2 * math.pi) - math.pi)
+                if delta > math.radians(150):
+                    has_para = True
+                    break
+            theta = exo_angle - math.radians(90 if has_para else 30)
     if theta is None:
         sxx = sum((a[1] - cx) ** 2 for a in atoms)
         syy = sum((a[2] - cy) ** 2 for a in atoms)
