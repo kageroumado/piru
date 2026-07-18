@@ -51,6 +51,8 @@ struct SubstanceDetailView: View {
     @State private var showAllEffects = false
     /// Drives the push to the full Inventory list from the stock card's "Show All".
     @State private var showAllInventory = false
+    /// Presents the "Share Substance" sheet (colorful specimen card + detail picker).
+    @State private var showShareSheet = false
 
     init(substance: Substance) {
         _baseSubstance = State(initialValue: substance)
@@ -165,24 +167,6 @@ struct SubstanceDetailView: View {
         }
     }
 
-    /// Renders the current route's dose/duration card to a shareable image and
-    /// opens the system share sheet. Mirrors the day-log camera export.
-    @MainActor
-    private func generateShareImage() {
-        guard let route = routes.activeSubstanceRoute else { return }
-        let card = SubstanceShareCard(
-            substance: substance,
-            route: route,
-            showsDoseLadder: routes.showsDoseLadder,
-            showsDuration: routes.durationVisible,
-        )
-        let renderer = ImageRenderer(content: card)
-        renderer.scale = 3 // @3x — crisp regardless of device
-        if let image = renderer.uiImage {
-            ShareSheetPresenter.present([image])
-        }
-    }
-
     /// Cheap content fingerprint of the dose history — membership plus the
     /// amounts the aggregates depend on, so an in-place edit invalidates too.
     private var historySignature: Int {
@@ -266,23 +250,23 @@ struct SubstanceDetailView: View {
         .sheet(item: $glossaryTopic) { topic in
             PharmacologyGlossarySheet(topic: topic)
         }
+        .sheet(isPresented: $showShareSheet) {
+            SubstanceShareSheet(substance: substance, route: routes.activeSubstanceRoute)
+        }
         .navigationDestination(isPresented: $showAllInventory) {
             InventoryListView()
         }
         .toolbar {
-            if routes.activeSubstanceRoute != nil {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        generateShareImage()
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                            .foregroundStyle(Theme.accent)
-                    }
-                    .accessibilityLabel("Share drug info")
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showShareSheet = true
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                        .foregroundStyle(Theme.accent)
                 }
+                .accessibilityLabel("Share drug info")
             }
-            // Split the glass platter so Share sits on its own, separate from the overflow menu.
-            ToolbarSpacer(.fixed, placement: .topBarTrailing)
+            // Share and the overflow menu share one glass platter (no separator).
             ToolbarItem(placement: .topBarTrailing) {
                 // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
                 // four bar buttons was a button too many. Favorite, Personalize, and the detail-level

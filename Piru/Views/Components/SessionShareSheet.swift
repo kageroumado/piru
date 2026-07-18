@@ -345,8 +345,9 @@ enum ShareSheetPresenter {
 }
 
 /// A transparent overlay whose `UIView` is handed back so QuickLook can zoom its
-/// open/close transition out of (and back into) the image thumbnail.
-private struct ZoomSourceView: UIViewRepresentable {
+/// open/close transition out of (and back into) the image thumbnail. Shared by
+/// ``SessionShareSheet`` and ``SubstanceShareSheet``.
+struct ZoomSourceView: UIViewRepresentable {
     let onResolve: (UIView) -> Void
 
     func makeUIView(context _: Context) -> UIView {
