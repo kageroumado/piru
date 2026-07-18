@@ -15,6 +15,7 @@ struct SubstanceShareSheet: View {
 
     @State private var detail: ShareDetailLevel = .standard
     @State private var molecule: MoleculeStructure?
+    @State private var reportedEffects: [ReportedEffect] = []
     @State private var moleculeLoaded = false
     @State private var images: [ShareDetailLevel: UIImage] = [:]
     @State private var imageFileURL: URL?
@@ -58,7 +59,7 @@ struct SubstanceShareSheet: View {
         }
         .presentationDetents([.height(fittedHeight), .large])
         .presentationDragIndicator(.visible)
-        .task { await loadMolecule() }
+        .task { await loadData() }
         .onChange(of: detail) { _, _ in renderIfNeeded() }
     }
 
@@ -135,11 +136,12 @@ struct SubstanceShareSheet: View {
 
     // MARK: rendering
 
-    private func loadMolecule() async {
+    private func loadData() async {
         if !moleculeLoaded {
             molecule = substance.smiles != nil
                 ? SubstanceStore.shared.moleculeStructure(forSubstanceName: substance.name)
                 : nil
+            reportedEffects = SubstanceStore.shared.reportedEffects(forSubstanceName: substance.name)
             moleculeLoaded = true
         }
         renderIfNeeded()
@@ -150,7 +152,10 @@ struct SubstanceShareSheet: View {
             refreshFileURL()
             return
         }
-        let card = SubstanceShareCard(substance: substance, route: route, molecule: molecule, detail: detail)
+        let card = SubstanceShareCard(
+            substance: substance, route: route, molecule: molecule,
+            reportedEffects: reportedEffects, detail: detail,
+        )
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3
         if let image = renderer.uiImage {
@@ -188,6 +193,10 @@ struct SubstanceShareSheet: View {
 
     private func share() {
         guard let currentImage else { return }
-        ShareSheetPresenter.present([currentImage])
+        // Include the app link so recipients get a tappable kagerou.glass/piru
+        // alongside the image (where Piru's info lives).
+        var items: [Any] = [currentImage]
+        if let url = URL(string: "https://kagerou.glass/piru") { items.append(url) }
+        ShareSheetPresenter.present(items)
     }
 }
