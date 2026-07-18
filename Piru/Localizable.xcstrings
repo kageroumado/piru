@@ -7423,7 +7423,24 @@
         }
       }
     },
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常中开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常中開啟。"
+          }
+        }
+      }
+    },
     "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up with Ask Again on each routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18379,6 +18396,7 @@
       }
     },
     "Follow-Up Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41064,6 +41082,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "時間範圍"
+          }
+        }
+      }
+    },
+    "Time Sensitive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时效性通知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時效性通知"
+          }
+        }
+      }
+    },
+    "Time Sensitive notifications can break through Focus modes and the notification summary. Turn off any you'd rather have wait." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时效性通知可以突破专注模式和通知摘要。不希望立即送达的可以在这里关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時效性通知可以突破專注模式和通知摘要。不希望立即送達的可以在這裡關閉。"
           }
         }
       }

@@ -355,7 +355,7 @@ enum RampDownScheduler {
             timeInterval: 5,
             category: cumulativeCategoryID,
             threadId: threadId,
-            interruptionLevel: .timeSensitive,
+            interruptionLevel: NotificationPreferencesStore.interruptionLevel(for: .cumulative),
             respectsQuietHours: false,
         )
     }

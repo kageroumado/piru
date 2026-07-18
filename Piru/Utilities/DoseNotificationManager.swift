@@ -184,7 +184,7 @@ enum DoseNotificationManager {
         content.sound = .default
         content.categoryIdentifier = nextDoseCategoryID
         content.threadIdentifier = RampDownScheduler.sessionIdentifier(for: entry.timestamp)
-        content.interruptionLevel = .timeSensitive
+        content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: .nextDose)
         let linkTimestamp = Int(entry.timestamp.timeIntervalSince1970)
         content.userInfo = [
             deepLinkUserInfoKey: "\(DeepLink.scheme)://entry/\(linkTimestamp)?id=\(entry.id.uuidString)",
@@ -385,6 +385,7 @@ enum DoseNotificationManager {
                 let content = routineReminderContent(
                     title: routine.name,
                     body: String(localized: "Time to log your \(routine.name) routine."),
+                    type: .routine,
                     category: routineCategoryID,
                     deepLink: routineDeepLink(name: routine.name)?.absoluteString,
                 )
@@ -405,6 +406,7 @@ enum DoseNotificationManager {
                 let content = routineReminderContent(
                     title: followUp.title,
                     body: followUp.body,
+                    type: .routineFollowUp,
                     category: routineFollowUpCategoryID,
                     deepLink: followUp.deepLink,
                 )
@@ -449,6 +451,7 @@ enum DoseNotificationManager {
     private nonisolated static func routineReminderContent(
         title: String,
         body: String,
+        type: NotificationType,
         category: String,
         deepLink: String?,
     ) -> UNMutableNotificationContent {
@@ -458,7 +461,7 @@ enum DoseNotificationManager {
         content.sound = .default
         content.categoryIdentifier = category
         content.threadIdentifier = routineThreadIdentifier(name: title)
-        content.interruptionLevel = .timeSensitive
+        content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: type)
         var userInfo: [String: Any] = [routineNameUserInfoKey: title]
         if let deepLink { userInfo[deepLinkUserInfoKey] = deepLink }
         content.userInfo = userInfo

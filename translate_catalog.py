@@ -141,9 +141,14 @@ T = {
     "Enable Selected": ("开启所选", "開啟所選"),
     # Snooze-style routine follow-up reminders (2026-07-17).
     "Follow-Up Reminders": ("后续提醒", "後續提醒"),
-    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up with Ask Again on each routine.": (
-        "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常的「再次提醒」中开启。",
-        "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常的「再次提醒」中開啟。",
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine.": (
+        "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常中开启。",
+        "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常中開啟。",
+    ),
+    "Time Sensitive": ("时效性通知", "時效性通知"),
+    "Time Sensitive notifications can break through Focus modes and the notification summary. Turn off any you'd rather have wait.": (
+        "时效性通知可以突破专注模式和通知摘要。不希望立即送达的可以在这里关闭。",
+        "時效性通知可以突破專注模式和通知摘要。不希望立即送達的可以在這裡關閉。",
     ),
     "Ask Again": ("再次提醒", "再次提醒"),
     "10 minutes later": ("10 分钟后", "10 分鐘後"),

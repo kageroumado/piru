@@ -34,6 +34,8 @@ struct NotificationSettingsView: View {
 
                 pauseSection
 
+                liveActivitySection
+
                 typeSection(types: [.routine, .routineFollowUp, .nextDose], header: "Dose Reminders")
                 typeSection(types: [.comedown, .phase, .hydration, .sleep], header: "During a Session")
                 typeSection(types: [.cumulative], header: "Safety Limits")
@@ -41,7 +43,7 @@ struct NotificationSettingsView: View {
 
                 quietHoursSection
 
-                liveActivitySection
+                timeSensitiveSection
             }
             .listRowBackground(CardBackground())
         }
@@ -122,6 +124,24 @@ struct NotificationSettingsView: View {
         }
     }
 
+    private var timeSensitiveSection: some View {
+        Section {
+            // Reminders first, the safety net last — mirroring the type
+            // sections above rather than raw enum order.
+            ForEach([NotificationType.routine, .routineFollowUp, .nextDose, .cumulative]) { type in
+                Toggle(isOn: timeSensitiveBinding(type)) {
+                    Label(type.rowTitle, systemImage: type.rowSymbol)
+                }
+                .tint(Theme.accent)
+            }
+        } header: {
+            Text("Time Sensitive")
+        } footer: {
+            Text("Time Sensitive notifications can break through Focus modes and the notification summary. Turn off any you'd rather have wait.")
+        }
+        .disabled(rowsDisabled)
+    }
+
     private var liveActivitySection: some View {
         Section {
             Toggle(isOn: $autoLiveActivity) {
@@ -141,6 +161,13 @@ struct NotificationSettingsView: View {
         Binding(
             get: { !prefs.masterEnabled },
             set: { prefs.setMasterEnabled(!$0) },
+        )
+    }
+
+    private func timeSensitiveBinding(_ type: NotificationType) -> Binding<Bool> {
+        Binding(
+            get: { prefs.isTimeSensitiveEnabled(type) },
+            set: { prefs.setTimeSensitive(type, $0) },
         )
     }
 
@@ -328,7 +355,7 @@ extension NotificationType {
         case .phase: "Phase Alerts"
         case .cumulative: "Cumulative Dose Warnings"
         case .routine: "Routine Reminders"
-        case .routineFollowUp: "Follow-Up Reminders"
+        case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
         }
@@ -363,7 +390,7 @@ extension NotificationType {
         case .routine:
             "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged."
         case .routineFollowUp:
-            "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up with Ask Again on each routine."
+            "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine."
         case .nextDose:
             "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:

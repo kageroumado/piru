@@ -74,6 +74,16 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
         return "\(base).\(ordinal)"
     }
 
+    /// Types eligible for Time Sensitive delivery (breaking through Focus and
+    /// the notification summary): the adherence set plus the safety net.
+    /// Session nudges always deliver as ordinary notifications.
+    var supportsTimeSensitive: Bool {
+        switch self {
+        case .routine, .routineFollowUp, .nextDose, .cumulative: true
+        case .comedown, .hydration, .sleep, .phase, .inventory: false
+        }
+    }
+
     /// Prefixes of the pending-request identifiers this type schedules —
     /// disabling a type cancels everything matching them. Each list is the
     /// current grammar's prefix plus the pre-grammar legacy prefixes; the
@@ -155,6 +165,16 @@ final class NotificationPreferencesStore {
     private(set) var quietHoursStartMinutes = 23 * 60
     private(set) var quietHoursEndMinutes = 7 * 60
 
+    /// The user's per-type Time Sensitive choice, for the eligible types.
+    private(set) var timeSensitiveEnabled: [NotificationType: Bool] = [:]
+
+    /// Whether the type delivers as Time Sensitive — what the screen's
+    /// break-through toggles show.
+    func isTimeSensitiveEnabled(_ type: NotificationType) -> Bool {
+        guard type.supportsTimeSensitive else { return false }
+        return timeSensitiveEnabled[type] ?? true
+    }
+
     // MARK: - Scheduler gate
 
     private nonisolated static let masterMirrorKey = "notificationMasterEnabled"
@@ -170,6 +190,23 @@ final class NotificationPreferencesStore {
         let master = defaults.object(forKey: masterMirrorKey) as? Bool ?? true
         let enabled = defaults.object(forKey: mirrorKey(type)) as? Bool ?? type.defaultEnabled
         return master && enabled
+    }
+
+    private nonisolated static func timeSensitiveMirrorKey(_ type: NotificationType) -> String {
+        "notificationTimeSensitive_\(type.rawValue)"
+    }
+
+    /// The interruption level a type should schedule with — Time Sensitive
+    /// only for eligible types the user hasn't opted out of (the OS grant
+    /// and Focus configuration still have the final word on delivery).
+    nonisolated static func interruptionLevel(
+        for type: NotificationType,
+        defaults: UserDefaults = .standard,
+    ) -> UNNotificationInterruptionLevel {
+        guard type.supportsTimeSensitive,
+              defaults.object(forKey: timeSensitiveMirrorKey(type)) as? Bool ?? true
+        else { return .active }
+        return .timeSensitive
     }
 
     private nonisolated static let quietEnabledMirrorKey = "notificationQuietHoursEnabled"
@@ -243,12 +280,18 @@ final class NotificationPreferencesStore {
         quietHoursEnabled = record.quietHoursEnabled
         quietHoursStartMinutes = record.quietHoursStartMinutes
         quietHoursEndMinutes = record.quietHoursEndMinutes
+        timeSensitiveEnabled = Dictionary(uniqueKeysWithValues: NotificationType.allCases.compactMap { type in
+            type.timeSensitiveKeyPath.map { (type, record[keyPath: $0]) }
+        })
     }
 
     private func mirrorAll() {
         defaults.set(masterEnabled, forKey: Self.masterMirrorKey)
         for type in NotificationType.allCases {
             defaults.set(isTypeEnabled(type), forKey: Self.mirrorKey(type))
+            if type.supportsTimeSensitive {
+                defaults.set(isTimeSensitiveEnabled(type), forKey: Self.timeSensitiveMirrorKey(type))
+            }
         }
         mirrorQuietHours()
     }
@@ -284,6 +327,22 @@ final class NotificationPreferencesStore {
         defaults.set(value, forKey: Self.masterMirrorKey)
         for type in NotificationType.allCases {
             reconcilePending(for: type, enabled: value && isTypeEnabled(type))
+        }
+    }
+
+    /// Persist a per-type Time Sensitive choice. Repeating routine requests
+    /// bake the level in at schedule time, so the routine family resyncs to
+    /// apply it immediately; dose-anchored types pick it up on future doses.
+    func setTimeSensitive(_ type: NotificationType, _ value: Bool) {
+        guard type.supportsTimeSensitive, value != isTimeSensitiveEnabled(type) else { return }
+        timeSensitiveEnabled[type] = value
+        if let keyPath = type.timeSensitiveKeyPath {
+            ensureRecord()[keyPath: keyPath] = value
+        }
+        save()
+        defaults.set(value, forKey: Self.timeSensitiveMirrorKey(type))
+        if type == .routine || type == .routineFollowUp {
+            resyncRoutineReminders()
         }
     }
 
@@ -380,6 +439,18 @@ private extension NotificationType {
         case .routineFollowUp: \.routineFollowUpEnabled
         case .nextDose: \.nextDoseEnabled
         case .inventory: \.inventoryEnabled
+        }
+    }
+
+    /// Backing field for the per-type Time Sensitive choice; `nil` for types
+    /// that never deliver time-sensitively.
+    var timeSensitiveKeyPath: ReferenceWritableKeyPath<NotificationPreferences, Bool>? {
+        switch self {
+        case .routine: \.routineTimeSensitive
+        case .routineFollowUp: \.routineFollowUpTimeSensitive
+        case .nextDose: \.nextDoseTimeSensitive
+        case .cumulative: \.cumulativeTimeSensitive
+        case .comedown, .hydration, .sleep, .phase, .inventory: nil
         }
     }
 }

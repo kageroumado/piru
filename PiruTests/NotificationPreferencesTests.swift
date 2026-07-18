@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 import Testing
+import UserNotifications
 @testable import Piru
 
 @Suite("NotificationPreferencesStore", .serialized)
@@ -209,6 +210,29 @@ struct NotificationPreferencesStoreTests {
         #expect(NotificationType.routineFollowUp.identifierPrefixes == ["piru.notif.routineFollowUp.", "routineFollowUp_"])
         #expect(NotificationType.nextDose.identifierPrefixes == ["piru.notif.nextDose."])
         #expect(NotificationType.inventory.identifierPrefixes == ["piru.notif.inventory.", "inventoryLowStock_"])
+    }
+
+    // MARK: - Time Sensitive
+
+    @Test
+    func `Time Sensitive defaults on for eligible types and toggles through the mirror`() throws {
+        let defaults = makeDefaults()
+
+        // Pre-configure defaults: eligible types are time-sensitive, others never.
+        #expect(NotificationPreferencesStore.interruptionLevel(for: .routine, defaults: defaults) == .timeSensitive)
+        #expect(NotificationPreferencesStore.interruptionLevel(for: .cumulative, defaults: defaults) == .timeSensitive)
+        #expect(NotificationPreferencesStore.interruptionLevel(for: .hydration, defaults: defaults) == .active)
+
+        let store = NotificationPreferencesStore()
+        try store.configure(container: makeContainer(), defaults: defaults)
+        store.setTimeSensitive(.routine, false)
+        #expect(!store.isTimeSensitiveEnabled(.routine))
+        #expect(NotificationPreferencesStore.interruptionLevel(for: .routine, defaults: defaults) == .active)
+        #expect(NotificationPreferencesStore.interruptionLevel(for: .routineFollowUp, defaults: defaults) == .timeSensitive)
+
+        // Ineligible types ignore writes.
+        store.setTimeSensitive(.hydration, true)
+        #expect(!store.isTimeSensitiveEnabled(.hydration))
     }
 
     // MARK: - Quiet hours
