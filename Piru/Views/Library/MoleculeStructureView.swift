@@ -1,22 +1,21 @@
 import SwiftUI
 
 /// A labeled 2D skeletal-structure diagram for a substance's Chemistry card:
-/// bonds drawn as sticks (double/triple bonds as parallel lines), heteroatoms
-/// labeled with their element symbol, carbons left implicit (bare vertices —
-/// the standard skeletal-formula convention). Monochrome, matching the app's
-/// restraint — not the rainbow CPK coloring a full chemistry tool would use.
+/// bonds drawn as sticks (double/triple bonds as inner-offset skeletal lines),
+/// heteroatoms labeled with their element symbol, carbons left implicit (bare
+/// vertices — the standard skeletal-formula convention). Monochrome, matching
+/// the app's restraint — not the rainbow CPK coloring a full chemistry tool
+/// would use.
 ///
-/// Coordinates come from ``MoleculeStructure``, already normalized into a
-/// `0...100` box with margin baked in (`pipeline/build/molecule_shapes.py`);
-/// this view just scales that box to fit its frame.
+/// The view sizes itself to the molecule's own aspect ratio and scales to the
+/// atoms' actual bounds (not a padded square), so a wide molecule renders in a
+/// short frame instead of floating in vertical whitespace. Coordinates come
+/// from ``MoleculeStructure`` (`pipeline/build/molecule_shapes.py`).
 ///
-/// Bond lines are shortened near a labeled endpoint rather than drawn full
-/// length and painted over with an opaque "knockout" rectangle — the
-/// Chemistry card's background is a translucent material (`CardBackground`,
-/// `.ultraThinMaterial` in light mode), so a flat rectangle can't reliably
-/// match it. Stopping the line short of the glyph is the same technique real
-/// cheminformatics renderers (RDKit, ChemDraw) use, and it's correct
-/// regardless of what's behind the canvas.
+/// Bond lines stop short of a labeled endpoint rather than being drawn full
+/// length and painted over with an opaque knockout — the Chemistry card sits on
+/// translucent material, so a flat rectangle can't match it. Stopping short is
+/// the same technique real cheminformatics renderers use.
 struct MoleculeStructureView: View {
     let structure: MoleculeStructure
     /// Read into the VoiceOver summary alongside the atom count — pass the
@@ -25,19 +24,34 @@ struct MoleculeStructureView: View {
     var color: Color = .primary
     var lineWidth: CGFloat = 1.6
 
-    /// The coordinate space every atom position already lives in.
-    private nonisolated static let box: CGFloat = 100
-    /// How far (in box units) a bond stops short of a labeled atom's center,
-    /// so the stroke never runs under the element-symbol glyph.
-    private nonisolated static let labelInset: CGFloat = 6.5
-    /// Perpendicular spacing (in box units) between the parallel lines of a
-    /// double/triple bond.
-    private nonisolated static let multiBondGap: CGFloat = 3.2
+    /// Point padding reserved inside the canvas so element-symbol glyphs and the
+    /// bond ends near them never clip against the frame edge.
+    private nonisolated static let edgePadding: CGFloat = 14
+    /// How far (points) a bond stops short of a labeled atom's center.
+    private nonisolated static let labelInset: CGFloat = 9
+    /// Perpendicular spacing (points) for the inner line of a double/triple bond.
+    private nonisolated static let bondGap: CGFloat = 3.6
+
+    private var bounds: (minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
+        let xs = structure.atoms.map { CGFloat($0.x) }
+        let ys = structure.atoms.map { CGFloat($0.y) }
+        return (xs.min() ?? 0, xs.max() ?? 1, ys.min() ?? 0, ys.max() ?? 1)
+    }
+
+    /// Width-to-height ratio of the molecule, clamped so a near-linear molecule
+    /// doesn't collapse to a sliver and a tall one doesn't dominate the card.
+    private var aspect: CGFloat {
+        let b = bounds
+        let w = max(b.maxX - b.minX, 0.001)
+        let h = max(b.maxY - b.minY, 0.001)
+        return min(max(w / h, 0.85), 3.0)
+    }
 
     var body: some View {
         Canvas { context, size in
             draw(in: &context, size: size)
         }
+        .aspectRatio(aspect, contentMode: .fit)
         .accessibilityElement(children: .ignore)
         .chartSummaryAccessibility(
             label: Text("Molecular structure"),
@@ -47,37 +61,51 @@ struct MoleculeStructureView: View {
 
     private func draw(in context: inout GraphicsContext, size: CGSize) {
         guard !structure.atoms.isEmpty else { return }
-        let scale = min(size.width, size.height) / Self.box
-        let offsetX = (size.width - Self.box * scale) / 2
-        let offsetY = (size.height - Self.box * scale) / 2
+        let b = bounds
+        let w = max(b.maxX - b.minX, 0.001)
+        let h = max(b.maxY - b.minY, 0.001)
+        let pad = Self.edgePadding
+        let scale = min((size.width - 2 * pad) / w, (size.height - 2 * pad) / h)
+        let drawnW = w * scale
+        let drawnH = h * scale
+        let offX = (size.width - drawnW) / 2
+        let offY = (size.height - drawnH) / 2
 
         func point(_ index: Int) -> CGPoint? {
             guard structure.atoms.indices.contains(index) else { return nil }
             let atom = structure.atoms[index]
-            return CGPoint(x: atom.x * scale + offsetX, y: atom.y * scale + offsetY)
+            return CGPoint(
+                x: offX + (CGFloat(atom.x) - b.minX) * scale,
+                y: offY + (CGFloat(atom.y) - b.minY) * scale,
+            )
         }
         func isHeteroatom(_ index: Int) -> Bool {
             structure.atoms.indices.contains(index) && structure.atoms[index].element != "C"
         }
 
-        // Molecule centroid — the inner line of a double bond is drawn on the
-        // side facing it, which reads as the textbook skeletal convention
-        // (inner line inside a ring, not a symmetric railroad track).
-        let centerPoints = structure.atoms.indices.compactMap(point)
-        let centroid = CGPoint(
-            x: centerPoints.map(\.x).reduce(0, +) / CGFloat(max(centerPoints.count, 1)),
-            y: centerPoints.map(\.y).reduce(0, +) / CGFloat(max(centerPoints.count, 1)),
-        )
+        func centroid(of points: [CGPoint]) -> CGPoint {
+            CGPoint(
+                x: points.map(\.x).reduce(0, +) / CGFloat(max(points.count, 1)),
+                y: points.map(\.y).reduce(0, +) / CGFloat(max(points.count, 1)),
+            )
+        }
+        let moleculeCentroid = centroid(of: structure.atoms.indices.compactMap(point))
+        // A ring double bond's inner line must be offset toward the ring's own
+        // center, not the whole molecule's — a long substituent chain pulls the
+        // molecule centroid off to one side, which would push an inner line
+        // *outside* the ring.
+        let ringAtoms = ringAtomIndices()
+        let ringCentroid = ringAtoms.isEmpty
+            ? moleculeCentroid
+            : centroid(of: ringAtoms.compactMap(point))
 
         var sticks = Path()
         for bond in structure.bonds {
-            guard let a = point(bond.a), let b = point(bond.b) else { continue }
-            let start = isHeteroatom(bond.a) ? Self.inset(a, towards: b, by: Self.labelInset * scale) : a
-            let end = isHeteroatom(bond.b) ? Self.inset(b, towards: a, by: Self.labelInset * scale) : b
-            Self.appendBondLines(
-                &sticks, from: start, to: end, order: bond.order,
-                gap: Self.multiBondGap * scale, centroid: centroid,
-            )
+            guard let a = point(bond.a), let b2 = point(bond.b) else { continue }
+            let start = isHeteroatom(bond.a) ? Self.inset(a, towards: b2, by: Self.labelInset) : a
+            let end = isHeteroatom(bond.b) ? Self.inset(b2, towards: a, by: Self.labelInset) : b2
+            let towards = (ringAtoms.contains(bond.a) && ringAtoms.contains(bond.b)) ? ringCentroid : moleculeCentroid
+            Self.appendBondLines(&sticks, from: start, to: end, order: bond.order, gap: Self.bondGap, centroid: towards)
         }
         context.stroke(
             sticks,
@@ -88,15 +116,61 @@ struct MoleculeStructureView: View {
         for (index, atom) in structure.atoms.enumerated() where atom.element != "C" {
             guard let p = point(index) else { continue }
             context.draw(
-                Text(atom.element).font(.caption2.weight(.bold)).foregroundStyle(color),
+                Text(heteroatomLabel(index)).font(.caption2.weight(.bold)).foregroundStyle(color),
                 at: p,
             )
         }
     }
 
-    /// Moves `point` a fixed distance towards `other`, capped at 40% of the
-    /// segment so a very short bond (common in fused rings) never collapses
-    /// to nothing.
+    /// Indices of ring atoms (the bond graph's 2-core), by iteratively pruning
+    /// terminal atoms — matches the pipeline's `_ring_atoms`.
+    private func ringAtomIndices() -> Set<Int> {
+        var adjacency: [Int: Set<Int>] = [:]
+        for bond in structure.bonds where bond.a != bond.b {
+            adjacency[bond.a, default: []].insert(bond.b)
+            adjacency[bond.b, default: []].insert(bond.a)
+        }
+        var alive = Set(structure.atoms.indices)
+        var changed = true
+        while changed {
+            changed = false
+            for i in alive where (adjacency[i] ?? []).count(where: { alive.contains($0) }) <= 1 {
+                alive.remove(i)
+                changed = true
+            }
+        }
+        return alive
+    }
+
+    /// A heteroatom's label with its implicit hydrogens spelled out the way a
+    /// textbook does — "NH₂", "OH", "N" — computed from standard valence minus
+    /// the atom's bond orders. Carbons stay implicit and aren't labeled.
+    private func heteroatomLabel(_ index: Int) -> String {
+        let element = structure.atoms[index].element
+        let valence: Int? = switch element {
+        case "N": 3
+        case "O", "S": 2
+        case "P": 3
+        case "F", "Cl", "Br", "I": 1
+        default: nil
+        }
+        guard let valence else { return element }
+        let bondOrderSum = structure.bonds.reduce(0) { sum, bond in
+            (bond.a == index || bond.b == index) ? sum + bond.order : sum
+        }
+        let hydrogens = max(0, valence - bondOrderSum)
+        switch hydrogens {
+        case 0: return element
+        case 1: return "\(element)H"
+        default:
+            let subscripts = "₀₁₂₃₄₅₆₇₈₉"
+            let digit = subscripts[subscripts.index(subscripts.startIndex, offsetBy: min(hydrogens, 9))]
+            return "\(element)H\(digit)"
+        }
+    }
+
+    /// Moves `point` towards `other` by `amount` points, capped at 40% of the
+    /// segment so a very short bond never collapses to nothing.
     private static func inset(_ point: CGPoint, towards other: CGPoint, by amount: CGFloat) -> CGPoint {
         let dx = other.x - point.x
         let dy = other.y - point.y
@@ -106,11 +180,9 @@ struct MoleculeStructureView: View {
         return CGPoint(x: point.x + dx * t, y: point.y + dy * t)
     }
 
-    /// Appends one, two, or three parallel line segments between `start` and
-    /// `end` depending on bond `order` (double/triple bonds fan out
-    /// perpendicular to the bond axis). Any order outside 1...3 (e.g. a raw
-    /// aromatic bond type that slipped through) falls back to a single line
-    /// rather than drawing nothing.
+    /// Appends the line(s) for a bond. A double bond is a full line on the axis
+    /// plus a shorter inner line offset toward the molecule interior (the
+    /// textbook skeletal look); a triple bond is three parallel lines.
     private static func appendBondLines(_ path: inout Path, from start: CGPoint, to end: CGPoint, order: Int, gap: CGFloat, centroid: CGPoint) {
         let dx = end.x - start.x
         let dy = end.y - start.y
@@ -119,7 +191,6 @@ struct MoleculeStructureView: View {
         let perpX = -dy / length
         let perpY = dx / length
 
-        /// The main bond always sits on the axis, full length.
         func full(offset: CGFloat) {
             path.move(to: CGPoint(x: start.x + perpX * offset, y: start.y + perpY * offset))
             path.addLine(to: CGPoint(x: end.x + perpX * offset, y: end.y + perpY * offset))
@@ -128,8 +199,6 @@ struct MoleculeStructureView: View {
         switch order {
         case 2:
             full(offset: 0)
-            // Second line offset toward the molecule interior, inset from both
-            // ends — the standard skeletal double-bond look.
             let midX = (start.x + end.x) / 2
             let midY = (start.y + end.y) / 2
             let side: CGFloat = ((centroid.x - midX) * perpX + (centroid.y - midY) * perpY) >= 0 ? 1 : -1

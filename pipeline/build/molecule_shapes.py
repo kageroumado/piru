@@ -178,6 +178,21 @@ def _orient(
         # Ring belongs on the left (smaller x): flip horizontally if it isn't.
         if ring_mx > other_mx:
             rot = [(el, -x, y) for el, x, y in rot]
+
+    # Vertical polarity (independent of the ring-left flip, which only touches x):
+    # PCA leaves the up/down direction arbitrary. Prefer the textbook reading —
+    # a carbonyl (C=O) points up (how cathinones, ketones, amides are drawn);
+    # with no carbonyl, nudge heteroatoms (N/O) toward the top. Here y is still
+    # math-orientation (up = larger y); _normalize flips to screen space after.
+    carbonyl = {
+        i for a, b, order in bonds if order == 2 for i in (a, b) if 0 <= i < n and rot[i][0] == "O"
+    }
+    mean_y = sum(p[2] for p in rot) / n
+    ref_indices = carbonyl or {i for i in range(n) if rot[i][0] in ("O", "N")}
+    if ref_indices:
+        ref_y = sum(rot[i][2] for i in ref_indices) / len(ref_indices)
+        if ref_y < mean_y:  # reference group sits below center → flip it up
+            rot = [(el, x, -y) for el, x, y in rot]
     return rot
 
 

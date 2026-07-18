@@ -142,9 +142,12 @@ struct ChemistrySection: View {
                 // it; ~860 substances currently). Loaded lazily via a cheap
                 // local SQLite lookup, not baked into `Substance` itself.
                 if let moleculeStructure {
+                    // The view fits its own aspect ratio, so wide molecules stay
+                    // short instead of floating in whitespace; cap the height so a
+                    // tall/near-square one doesn't dominate the card.
                     MoleculeStructureView(structure: moleculeStructure, formula: substance.formula)
-                        .frame(height: 190)
                         .frame(maxWidth: .infinity)
+                        .frame(maxHeight: 150)
                         .padding(.bottom, 4)
                 }
                 let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
