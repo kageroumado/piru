@@ -9250,8 +9250,11 @@
         }
       }
     },
-    "BY DOSE" : {
+    "By dose" : {
       "comment" : "Intensity dial eyebrow"
+    },
+    "By dose · %@" : {
+      "comment" : "Intensity dial eyebrow with route of administration"
     },
     "By Drink" : {
       "localizations" : {

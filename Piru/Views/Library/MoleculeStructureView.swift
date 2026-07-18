@@ -30,7 +30,7 @@ struct MoleculeStructureView: View {
     /// How far (points) a bond stops short of a labeled atom's center.
     private nonisolated static let labelInset: CGFloat = 9
     /// Perpendicular spacing (points) for the inner line of a double/triple bond.
-    private nonisolated static let bondGap: CGFloat = 3.6
+    private nonisolated static let bondGap: CGFloat = 5.2
 
     private var bounds: (minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
         let xs = structure.atoms.map { CGFloat($0.x) }

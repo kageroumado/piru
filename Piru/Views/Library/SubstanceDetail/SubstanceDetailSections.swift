@@ -85,6 +85,7 @@ struct EffectsSection: View {
     /// "Show All". "Show All" then opens the full effect list.
     @State private var bands: [SpectrumBand] = []
     @State private var bandDoseText: [Int: String] = [:]
+    @State private var doseRouteName: String?
     @State private var dcDeepLink: URL?
 
     private var displayClass: CompoundDisplayClass {
@@ -112,6 +113,7 @@ struct EffectsSection: View {
                         bandDoseText: bandDoseText,
                         citationSlug: "drug.community",
                         citationDeepLink: dcDeepLink,
+                        routeName: doseRouteName,
                     )
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
@@ -177,6 +179,7 @@ struct EffectsSection: View {
         if let route = substance.routes.first(where: { $0.route == substance.defaultRoute })
             ?? substance.routes.first {
             bandDoseText = EffectsIntensityModel.bandDoseText(from: route.doses, unit: route.unit)
+            doseRouteName = route.route.displayName
         }
         dcDeepLink = SubstanceSourceLinks.deepLink("drug.community", substance: substance)
     }

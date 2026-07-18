@@ -1,0 +1,10 @@
+{
+  "_note": "Substances/routes where a data source's DOSE ladder is skipped at ingest, so the next-priority source backfills. A declarative override (with a reason) instead of duplicating corrected dose data in the curated layer. Omit `routes` to skip that source's doses for the whole substance. Full candidate list from the dc/PW/TripSit audit: /tmp/piru-dose-audit/dc-dose-issues.csv — these should also be reported upstream for a real fix.",
+  "drug.community": [
+    { "name": "Cocaine", "routes": ["intravenous"], "note": "dc IV ~6x too high — copies the insufflation ladder; IV should be lower." },
+    { "name": "Ketamine", "routes": ["insufflation"], "note": "dc insufflation ladder incomplete and odd (T28, missing strong/heavy)." },
+    { "name": "Quetiapine", "note": "dc common ~2.5–5x above the FDA-labeled range for this antipsychotic." },
+    { "name": "Amobarbital", "routes": ["intravenous"], "note": "dc IV common > oral — implausible for a barbiturate." },
+    { "name": "2C-E", "routes": ["insufflation"], "note": "dc row is an empty placeholder (no tiers)." }
+  ]
+}

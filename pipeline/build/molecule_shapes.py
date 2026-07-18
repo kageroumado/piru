@@ -159,18 +159,47 @@ def _orient(
     n = len(atoms)
     if n < 3:
         return atoms
-    xs = [a[1] for a in atoms]
-    ys = [a[2] for a in atoms]
-    cx = sum(xs) / n
-    cy = sum(ys) / n
-    # Principal-axis angle from the coordinate covariance matrix.
-    sxx = sum((x - cx) ** 2 for x in xs)
-    syy = sum((y - cy) ** 2 for y in ys)
-    sxy = sum((xs[i] - cx) * (ys[i] - cy) for i in range(n))
-    theta = 0.5 * math.atan2(2 * sxy, sxx - syy)
+    cx = sum(a[1] for a in atoms) / n
+    cy = sum(a[2] for a in atoms) / n
+    ring = _ring_atoms(n, bonds)
+
+    # Orientation angle. For a ring molecule, align the main exocyclic bond
+    # (ring → substituent chain) horizontal — this reproduces the canonical
+    # textbook ring pose (attachment at the ring's right vertex, flat top/bottom)
+    # far better than a whole-molecule principal-axis fit, which tilts the ring.
+    # Ringless molecules fall back to the principal axis.
+    theta: float | None = None
+    if ring:
+        adj: dict[int, list[int]] = {i: [] for i in range(n)}
+        for a, b, _ in bonds:
+            if a != b:
+                adj[a].append(b)
+                adj[b].append(a)
+        # exocyclic bonds, oriented ring-atom (r) → chain-atom (s)
+        exo = [(a, b) if a in ring else (b, a) for a, b, _ in bonds if (a in ring) != (b in ring)]
+        if exo:
+
+            def _fragment_size(s: int) -> int:
+                seen = {s}
+                stack = [s]
+                while stack:
+                    u = stack.pop()
+                    for v in adj[u]:
+                        if v not in seen and v not in ring:
+                            seen.add(v)
+                            stack.append(v)
+                return len(seen)
+
+            r, s = max(exo, key=lambda rs: _fragment_size(rs[1]))
+            theta = math.atan2(atoms[s][2] - atoms[r][2], atoms[s][1] - atoms[r][1])
+    if theta is None:
+        sxx = sum((a[1] - cx) ** 2 for a in atoms)
+        syy = sum((a[2] - cy) ** 2 for a in atoms)
+        sxy = sum((a[1] - cx) * (a[2] - cy) for a in atoms)
+        theta = 0.5 * math.atan2(2 * sxy, sxx - syy)
+
     ct, st = math.cos(-theta), math.sin(-theta)
     rot = [(el, (x - cx) * ct - (y - cy) * st, (x - cx) * st + (y - cy) * ct) for el, x, y in atoms]
-    ring = _ring_atoms(n, bonds)
     if ring:
         ring_mx = sum(rot[i][1] for i in ring) / len(ring)
         others = [i for i in range(n) if i not in ring]

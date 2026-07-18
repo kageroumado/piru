@@ -15,6 +15,9 @@ struct DoseIntensityCard: View {
     let bandDoseText: [Int: String]
     let citationSlug: String
     let citationDeepLink: URL?
+    /// The route the dose ranges belong to (e.g. "Oral") — shown in the eyebrow
+    /// so it's clear which ROA the dial's dose bands refer to.
+    var routeName: String?
 
     @State private var selected: Int = 0
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -33,12 +36,19 @@ struct DoseIntensityCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("BY DOSE", comment: "Intensity dial eyebrow")
-                .font(.caption2.weight(.bold))
-                .tracking(0.6)
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(maxWidth: .infinity)
-                .padding(.top, 4)
+            Group {
+                if let routeName {
+                    Text("By dose · \(routeName)", comment: "Intensity dial eyebrow with route of administration")
+                } else {
+                    Text("By dose", comment: "Intensity dial eyebrow")
+                }
+            }
+            .font(.caption2.weight(.bold))
+            .tracking(0.6)
+            .textCase(.uppercase)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 4)
 
             gauge
                 .frame(height: 200)

@@ -5,18 +5,5 @@
     "K粉",
     "K他命",
     "克他命"
-  ],
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 5,
-        "light": { "lower": 10, "upper": 30 },
-        "common": { "lower": 30, "upper": 75 },
-        "strong": { "lower": 75, "upper": 150 },
-        "heavy": 150
-      }
-    }
   ]
 }

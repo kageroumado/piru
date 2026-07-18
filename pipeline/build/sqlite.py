@@ -86,6 +86,10 @@ DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 # screen. Keyed on the canonical dc slug, so ingested AFTER the roster stamps it.
 DRUG_COMMUNITY_SPECTRA = REPO / "data/sources/drug-community-spectra.json"
 DRUG_COMMUNITY_EFFECTS = REPO / "data/sources/drug-community-effects.json"
+# Declarative "skip this source's doses for these substances/routes" list — a
+# correction override that lets the next-priority source backfill, instead of
+# duplicating fixed dose data in the curated layer.
+DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # Citation link-health cache produced by pipeline/audit/validate_links.py.
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
@@ -4989,11 +4993,29 @@ class Build:
                 continue
             self._ingest_substance_record(substance, "psychonautwiki")
 
+    @staticmethod
+    def _dose_skip_map(source_slug: str) -> dict[str, set[str] | None]:
+        """Load the per-substance dose-skip list for a source (see
+        ``dose-source-exceptions.json``). Returns {normalized name: set of
+        lowercased routes to skip, or None to skip every route}."""
+        if not DOSE_SOURCE_EXCEPTIONS.exists():
+            return {}
+        entries = json.loads(DOSE_SOURCE_EXCEPTIONS.read_text()).get(source_slug) or []
+        out: dict[str, set[str] | None] = {}
+        for e in entries:
+            key = (e.get("name") or "").strip().lower()
+            if not key:
+                continue
+            routes = e.get("routes")
+            out[key] = {str(r).strip().lower() for r in routes} if routes else None
+        return out
+
     def ingest_drug_community(self, path: Path) -> None:
         if not path.exists():
             return
         data = json.loads(path.read_text())
         slug = "drug.community"
+        dose_skip = self._dose_skip_map(slug)
         for s in sorted(data, key=lambda x: (x.get("drug_name") or "").lower()):
             raw = s.get("drug_name") or ""
             name, paren_aliases = split_compound_name(raw)
@@ -5022,8 +5044,18 @@ class Build:
                 cc = str(s["chemical_class"]).strip()
                 if cc and len(cc) <= 48 and ";" not in cc and "(" not in cc:
                     self.add_tag(sid, slug, f"class:{cc}")
+            skip_routes = dose_skip.get(name.strip().lower(), False)
             dosages = (s.get("dosages") or {}).get("routes_of_administration") or []
             for r in dosages:
+                # Normalize the raw dc route ("IV", "insufflated", …) to Piru's
+                # canonical route the same way add_dose does, so the exception
+                # list can be written in canonical terms (intravenous, …).
+                route_key = normalise_route(r.get("route") or "")
+                # Correction override: drop dc's dose ladder for excepted
+                # substances/routes so the next-priority source backfills.
+                if skip_routes is None or (skip_routes and route_key in skip_routes):
+                    self.stats["dc_dose_skipped"] += 1
+                    continue
                 dr = r.get("dose_ranges") or {}
                 row_unit = r.get("units") or "mg"
                 threshold = self._parse_dc_scalar(dr.get("threshold"), row_unit)
