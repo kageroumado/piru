@@ -44,7 +44,7 @@ T = {
     "Cumulative Dose Warnings": ("累积剂量警告", "累積劑量警告"),
     "Routine Reminders": ("日常提醒", "日常提醒"),
     "Low Stock Alerts": ("低库存提醒", "低庫存提醒"),
-    "Warns you before a dose wears off, so the drop doesn't catch you off guard. Armed per dose from its comedown alert screen.": (
+    "Warns you before a dose wears off, so the drop doesn't catch you off guard. Turned on per dose from its comedown alert screen.": (
         "在药效消退前提醒你，让落差不至于让你措手不及。需在每剂的缓和期提醒页面单独开启。",
         "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。",
     ),
@@ -89,7 +89,7 @@ T = {
     # progressive onboarding (2026-07-18).
     "Next-Dose Window": ("下一剂窗口", "下一劑窗口"),
     "Next-dose window reminder": ("下一剂窗口提醒", "下一劑窗口提醒"),
-    "Next dose window — %@": ("下一剂窗口——%@", "下一劑窗口——%@"),
+    "Next-dose window — %@": ("下一剂窗口——%@", "下一劑窗口——%@"),
     "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med.": (
         "记录你已选择开启的药物后，会在下一剂窗口开启时提醒你。这只是估算，并非医疗建议——请按药物逐一开启。",
         "記錄你已選擇開啟的藥物後，會在下一劑窗口開啟時提醒你。這只是估算，並非醫療建議——請按藥物逐一開啟。",
@@ -103,9 +103,16 @@ T = {
         "距離你的上一劑已經過了足夠的時間。這是模型估算——請遵循處方醫生的安排。",
     ),
     "Quiet Hours": ("勿扰时段", "勿擾時段"),
-    "Dose reminders and session nudges inside this window stay silent. Cumulative dose warnings and reminders you set to an exact time still come through.": (
-        "此时间段内的剂量提醒和使用期间提醒将保持静默。累积剂量警告以及你设定了确切时间的提醒仍会送达。",
-        "此時間段內的劑量提醒和使用期間提醒將保持靜默。累積劑量警告以及你設定了確切時間的提醒仍會送達。",
+    "Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through.": (
+        "此时间段内的使用期间提醒、再次提醒和下一剂窗口提醒将保持静默。你设定了时间的日常提醒和累积剂量警告仍会送达。",
+        "此時間段內的使用期間提醒、再次提醒和下一劑窗口提醒將保持靜默。你設定了時間的日常提醒和累積劑量警告仍會送達。",
+    ),
+    "Start time": ("开始时间", "開始時間"),
+    "End time": ("结束时间", "結束時間"),
+    "Delete this routine?": ("删除这个日常？", "刪除這個日常？"),
+    "Its items aren't deleted — they move to Unassigned in the Routines list.": (
+        "其中的项目不会被删除——它们会移到日常列表的「未分组」中。",
+        "其中的項目不會被刪除——它們會移到日常列表的「未分組」中。",
     ),
     "Start": ("开始", "開始"),
     "End": ("结束", "結束"),
@@ -134,19 +141,20 @@ T = {
     "Enable Selected": ("开启所选", "開啟所選"),
     # Snooze-style routine follow-up reminders (2026-07-17).
     "Follow-Up Reminders": ("后续提醒", "後續提醒"),
-    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine.": (
-        "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常中设置节奏。",
-        "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常中設定節奏。",
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up with Ask Again on each routine.": (
+        "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常的「再次提醒」中开启。",
+        "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常的「再次提醒」中開啟。",
     ),
     "Ask Again": ("再次提醒", "再次提醒"),
     "10 minutes later": ("10 分钟后", "10 分鐘後"),
     "10 and 30 minutes later": ("10 和 30 分钟后", "10 和 30 分鐘後"),
+    "Time to log your %@ routine.": ("该记录「%@」日常了。", "該記錄「%@」日常了。"),
     "Still need to log your %@ routine?": (
         "还没记录「%@」日常吗？",
         "還沒記錄「%@」日常嗎？",
     ),
     "Comedown alerts are turned off": ("缓和期提醒已关闭", "緩和期提醒已關閉"),
-    "Turn comedown alerts back on in Notification Settings to arm one for this dose.": (
+    "Turn comedown alerts back on in Notification Settings to turn one on for this dose.": (
         "在通知设置中重新开启缓和期提醒，才能为这一剂设置提醒。",
         "在通知設定中重新開啟緩和期提醒，才能為這一劑設定提醒。",
     ),
@@ -828,7 +836,12 @@ T = {
         "你的 %@ 已用盡。請盡快補充。",
     ),
     "Nothing tracked": ("未追踪任何物质", "未追蹤任何物質"),
-    "%@ %@ of %@ left.": ("剩 %@ %@，共 %@。", "剩 %@ %@，共 %@。"),
+    # Positional specifiers: EN order is (remaining, unit, substance) but zh
+    # leads with the substance — the old "共 %@" rendered the drug NAME as a
+    # "total" quantity.
+    "%@ %@ of %@ left.": ("%3$@还剩 %1$@ %2$@。", "%3$@還剩 %1$@ %2$@。"),
+    "Out of %@": ("%@已用尽", "%@已用盡"),
+    "Running low on %@": ("%@所剩不多", "%@所剩不多"),
     "%@ of %@ %@ remaining": ("剩 %1$@，共 %2$@ %3$@", "剩 %1$@，共 %2$@ %3$@"),
     "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.": (
         "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。导入的条目会添加到你的日志中（重复项会跳过）。加密备份的恢复可以合并或替换。库存包含在 Piru 和加密备份中，但不包含在 PsychonautWiki 文件中。",

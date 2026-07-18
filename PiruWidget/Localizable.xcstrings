@@ -52,13 +52,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "剩 %@ %@，共 %@。"
+            "value" : "%3$@还剩 %1$@ %2$@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "剩 %@ %@，共 %@。"
+            "value" : "%3$@還剩 %1$@ %2$@。"
           }
         }
       }

@@ -160,7 +160,7 @@ struct RampDownView: View {
         } footer: {
             if !isActive, !isRedoseTimePast {
                 if !prefs.isEffectivelyEnabled(.comedown) {
-                    Text("Turn comedown alerts back on in Notification Settings to arm one for this dose.")
+                    Text("Turn comedown alerts back on in Notification Settings to turn one on for this dose.")
                 } else {
                     Text("You'll get care reminders as the effects begin to fade — hydration, nutrition, and recovery tips.")
                 }

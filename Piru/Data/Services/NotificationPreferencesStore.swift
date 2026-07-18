@@ -313,7 +313,12 @@ final class NotificationPreferencesStore {
             // schedules off future dose/stock events.
             if type == .routine || type == .routineFollowUp { resyncRoutineReminders() }
         } else {
-            Self.removePending(withPrefixes: type.identifierPrefixes)
+            var prefixes = type.identifierPrefixes
+            // Follow-ups exist only in service of an enabled routine
+            // reminder — turning the primary off silences the already-
+            // materialized re-asks immediately, not on the next sync.
+            if type == .routine { prefixes += NotificationType.routineFollowUp.identifierPrefixes }
+            Self.removePending(withPrefixes: prefixes)
             // Keep the per-entry "alert active" chips honest — their pending
             // requests are gone.
             if type == .comedown { RampDownScheduler.clearActiveEntries() }

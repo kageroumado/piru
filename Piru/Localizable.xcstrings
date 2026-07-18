@@ -637,13 +637,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "剩 %@ %@，共 %@。"
+            "value" : "%3$@还剩 %1$@ %2$@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "剩 %@ %@，共 %@。"
+            "value" : "%3$@還剩 %1$@ %2$@。"
           }
         }
       }
@@ -7423,7 +7423,24 @@
         }
       }
     },
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up with Ask Again on each routine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常的「再次提醒」中开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常的「再次提醒」中開啟。"
+          }
+        }
+      }
+    },
     "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7435,6 +7452,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常中設定節奏。"
+          }
+        }
+      }
+    },
+    "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence with Ask Again on each routine." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常迟迟未记录，稍后会再问一次——就像闹钟的稍后提醒。可在每个日常的「再次提醒」中设置节奏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果日常遲遲未記錄，稍後會再問一次——就像鬧鐘的稍後提醒。可在每個日常的「再次提醒」中設定節奏。"
           }
         }
       }
@@ -13316,6 +13350,22 @@
         }
       }
     },
+    "Delete this routine?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除这个日常？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除這個日常？"
+          }
+        }
+      }
+    },
     "Deliriant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14469,6 +14519,7 @@
       }
     },
     "Dose reminders and session nudges inside this window stay silent. Cumulative dose warnings and reminders you set to an exact time still come through." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16409,6 +16460,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "結束"
+          }
+        }
+      }
+    },
+    "End time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结束时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束時間"
           }
         }
       }
@@ -22260,6 +22327,22 @@
         }
       }
     },
+    "Its items aren't deleted — they move to Unassigned in the Routines list." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中的项目不会被删除——它们会移到日常列表的「未分组」中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中的項目不會被刪除——它們會移到日常列表的「未分組」中。"
+          }
+        }
+      }
+    },
     "IUPAC name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26184,6 +26267,7 @@
       }
     },
     "Next dose window — %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26243,6 +26327,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下一劑窗口"
+          }
+        }
+      }
+    },
+    "Next-dose window — %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一剂窗口——%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一劑窗口——%@"
           }
         }
       }
@@ -28476,7 +28576,20 @@
       }
     },
     "Out of %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@已用尽"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@已用盡"
+          }
+        }
+      }
     },
     "Out of stock" : {
       "localizations" : {
@@ -33826,7 +33939,20 @@
       }
     },
     "Running low on %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@所剩不多"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@所剩不多"
+          }
+        }
+      }
     },
     "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply, not just the receptors." : {
       "localizations" : {
@@ -35696,6 +35822,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄備註"
+          }
+        }
+      }
+    },
+    "Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此时间段内的使用期间提醒、再次提醒和下一剂窗口提醒将保持静默。你设定了时间的日常提醒和累积剂量警告仍会送达。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此時間段內的使用期間提醒、再次提醒和下一劑窗口提醒將保持靜默。你設定了時間的日常提醒和累積劑量警告仍會送達。"
           }
         }
       }
@@ -37806,6 +37948,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從任何進行中的記錄開啟，即可在鎖定畫面上查看。"
+          }
+        }
+      }
+    },
+    "Start time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始時間"
           }
         }
       }
@@ -40830,6 +40988,7 @@
       }
     },
     "Time for your %@ routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40921,6 +41080,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "服用時間"
+          }
+        }
+      }
+    },
+    "Time to log your %@ routine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该记录「%@」日常了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該記錄「%@」日常了。"
           }
         }
       }
@@ -41816,6 +41991,23 @@
       }
     },
     "Turn comedown alerts back on in Notification Settings to arm one for this dose." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知设置中重新开启缓和期提醒，才能为这一剂设置提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知設定中重新開啟緩和期提醒，才能為這一劑設定提醒。"
+          }
+        }
+      }
+    },
+    "Turn comedown alerts back on in Notification Settings to turn one on for this dose." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43139,6 +43331,23 @@
       }
     },
     "Warns you before a dose wears off, so the drop doesn't catch you off guard. Armed per dose from its comedown alert screen." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在药效消退前提醒你，让落差不至于让你措手不及。需在每剂的缓和期提醒页面单独开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。"
+          }
+        }
+      }
+    },
+    "Warns you before a dose wears off, so the drop doesn't catch you off guard. Turned on per dose from its comedown alert screen." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

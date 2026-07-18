@@ -34,26 +34,10 @@ struct NotificationSettingsView: View {
 
                 pauseSection
 
-                typeSection(
-                    types: [.routine, .routineFollowUp, .nextDose],
-                    header: "Dose Reminders",
-                    footer: nil,
-                )
-                typeSection(
-                    types: [.comedown, .phase, .hydration, .sleep],
-                    header: "During a Session",
-                    footer: nil,
-                )
-                typeSection(
-                    types: [.cumulative],
-                    header: "Safety Limits",
-                    footer: nil,
-                )
-                typeSection(
-                    types: [.inventory],
-                    header: "Supplies",
-                    footer: nil,
-                )
+                typeSection(types: [.routine, .routineFollowUp, .nextDose], header: "Dose Reminders")
+                typeSection(types: [.comedown, .phase, .hydration, .sleep], header: "During a Session")
+                typeSection(types: [.cumulative], header: "Safety Limits")
+                typeSection(types: [.inventory], header: "Supplies")
 
                 quietHoursSection
 
@@ -92,7 +76,6 @@ struct NotificationSettingsView: View {
     private func typeSection(
         types: [NotificationType],
         header: LocalizedStringKey,
-        footer: LocalizedStringKey?,
     ) -> some View {
         Section {
             ForEach(types) { type in
@@ -104,10 +87,6 @@ struct NotificationSettingsView: View {
             }
         } header: {
             Text(header)
-        } footer: {
-            if let footer {
-                Text(footer)
-            }
         }
     }
 
@@ -126,6 +105,7 @@ struct NotificationSettingsView: View {
                     }),
                     displayedComponents: .hourAndMinute,
                 )
+                .accessibilityLabel(Text("Start time"))
                 DatePicker(
                     "End",
                     selection: quietTimeBinding(\.quietHoursEndMinutes, apply: { end in
@@ -133,11 +113,12 @@ struct NotificationSettingsView: View {
                     }),
                     displayedComponents: .hourAndMinute,
                 )
+                .accessibilityLabel(Text("End time"))
             }
         } header: {
             Text("Quiet Hours")
         } footer: {
-            Text("Dose reminders and session nudges inside this window stay silent. Cumulative dose warnings and reminders you set to an exact time still come through.")
+            Text("Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through.")
         }
     }
 
@@ -309,9 +290,13 @@ private struct NotificationTypeRow: View {
                 Label(type.rowTitle, systemImage: type.rowSymbol)
             }
             .tint(Theme.accent)
+            // The visible caption doubles as the toggle's hint, so VoiceOver
+            // explains the switch at the control instead of one swipe later.
+            .accessibilityHint(Text(type.rowWhy))
             Text(type.rowWhy)
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             if let nextFireDate, prefs.isEffectivelyEnabled(type) {
                 Text("Next: \(nextFireDate, format: .dateTime.weekday(.wide).hour().minute())")
                     .font(.caption2)
@@ -366,7 +351,7 @@ extension NotificationType {
     var rowWhy: LocalizedStringKey {
         switch self {
         case .comedown:
-            "Warns you before a dose wears off, so the drop doesn't catch you off guard. Armed per dose from its comedown alert screen."
+            "Warns you before a dose wears off, so the drop doesn't catch you off guard. Turned on per dose from its comedown alert screen."
         case .hydration:
             "Water nudges timed to your dose — stimulants and empathogens mask thirst."
         case .sleep:
@@ -378,7 +363,7 @@ extension NotificationType {
         case .routine:
             "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged."
         case .routineFollowUp:
-            "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set the cadence on each routine."
+            "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up with Ask Again on each routine."
         case .nextDose:
             "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:

@@ -195,6 +195,7 @@ struct RoutineDetailView: View {
     /// can't collide with the unique constraint).
     @State private var name = ""
     @State private var showingAddItem = false
+    @State private var showingDeleteConfirmation = false
     @State private var editingItem: DailyDoseItem?
     @State private var prefs = NotificationPreferencesStore.shared
     /// Whether the OS-level grant is denied — the reminder then can't be
@@ -223,6 +224,7 @@ struct RoutineDetailView: View {
                         selection: timeAsDate,
                         displayedComponents: .hourAndMinute,
                     )
+                    .accessibilityLabel(Text("Time of day"))
                     Toggle(isOn: $routine.remind) {
                         Label("Remind Me", systemImage: "bell")
                     }
@@ -276,7 +278,7 @@ struct RoutineDetailView: View {
 
             Section {
                 Button("Delete Routine", role: .destructive) {
-                    deleteRoutine()
+                    showingDeleteConfirmation = true
                 }
             }
             .listRowBackground(CardBackground())
@@ -290,6 +292,17 @@ struct RoutineDetailView: View {
         }
         .sheet(item: $editingItem) { item in
             MedicationItemFormView(item: item)
+        }
+        .confirmationDialog(
+            "Delete this routine?",
+            isPresented: $showingDeleteConfirmation,
+            titleVisibility: .visible,
+        ) {
+            Button("Delete Routine", role: .destructive) {
+                deleteRoutine()
+            }
+        } message: {
+            Text("Its items aren't deleted — they move to Unassigned in the Routines list.")
         }
         .onAppear { name = routine.name }
         .task {

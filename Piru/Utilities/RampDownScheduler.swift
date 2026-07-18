@@ -128,8 +128,6 @@ enum RampDownScheduler {
     /// Schedule the main comedown notification — now with harm-reduction messaging
     static func scheduleNotification(
         substanceName: String,
-        initialAmount _: Double,
-        unit _: String,
         doseTime: Date,
         duration: DurationProfile,
         entryKey: String,
