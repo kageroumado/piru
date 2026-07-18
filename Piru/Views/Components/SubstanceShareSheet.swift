@@ -16,6 +16,8 @@ struct SubstanceShareSheet: View {
     @State private var detail: ShareDetailLevel = .standard
     @State private var molecule: MoleculeStructure?
     @State private var reportedEffects: [ReportedEffect] = []
+    @State private var mechanism: MechanismOfAction?
+    @State private var monoamineProfile: MonoamineProfile?
     @State private var moleculeLoaded = false
     @State private var images: [ShareDetailLevel: UIImage] = [:]
     @State private var imageFileURL: URL?
@@ -142,6 +144,15 @@ struct SubstanceShareSheet: View {
                 ? SubstanceStore.shared.moleculeStructure(forSubstanceName: substance.name)
                 : nil
             reportedEffects = SubstanceStore.shared.reportedEffects(forSubstanceName: substance.name)
+            mechanism = MechanismOfActionDatabase.resolvedMechanism(
+                dbMechanism: substance.mechanismOfAction,
+                substanceName: substance.name,
+                category: substance.category,
+            )
+            monoamineProfile = MonoamineProfile.from(
+                bindings: SubstanceStore.shared.bindings(forSubstanceName: substance.name),
+                substanceName: substance.name,
+            )
             moleculeLoaded = true
         }
         renderIfNeeded()
@@ -154,7 +165,8 @@ struct SubstanceShareSheet: View {
         }
         let card = SubstanceShareCard(
             substance: substance, route: route, molecule: molecule,
-            reportedEffects: reportedEffects, detail: detail,
+            reportedEffects: reportedEffects, mechanism: mechanism,
+            monoamineProfile: monoamineProfile, detail: detail,
         )
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3
