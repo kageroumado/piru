@@ -166,6 +166,8 @@ def _orient(
     # far better than a whole-molecule principal-axis fit, which tilts the ring.
     # Ringless molecules fall back to the principal axis.
     theta: float | None = None
+    has_para = False
+    aryl_ketone = False
     if ring:
         adj: dict[int, list[int]] = {i: [] for i in range(n)}
         for a, b, _ in bonds:
@@ -193,17 +195,23 @@ def _orient(
             # fixes the ring's rotation. Two textbook poses:
             #  • +30° (up-right) → ring on the LEFT, chain trailing up-right. The
             #    canonical amine pose (amphetamine, methamphetamine).
-            #  • +90° (straight up) → ring sits UPRIGHT below the chain, with a
-            #    PARA substituent hanging straight down. The canonical cathinone
-            #    pose (mephedrone: ketone up, ring-methyl down). Using +30° here
-            #    would swing that para group out to the lower-left and read as a
-            #    tilted, diagonal ring.
+            #  • 0° (horizontal) → ring on the LEFT reading left-to-right. The
+            #    canonical cathinone pose (methcathinone/mephedrone: aryl ketone
+            #    up, chain to the right; any para substituent points straight LEFT
+            #    opposite the chain). At +30° a para group swings out to the
+            #    lower-left and the whole molecule reads as a tilted, diagonal ring.
+            # Horizontal is chosen for aryl ketones (cathinones) and for any ring
+            # with a para substituent.
+            s_is_carbonyl = any(
+                order == 2 and s in (u, v) and (atoms[u][0] == "O" or atoms[v][0] == "O")
+                for u, v, order in bonds
+            )
+            aryl_ketone = s_is_carbonyl
             # Detect the para case: another substituent on the ring roughly
             # opposite (≈180° around the ring centroid) the chain's ipso atom.
             rcx = sum(atoms[i][1] for i in ring) / len(ring)
             rcy = sum(atoms[i][2] for i in ring) / len(ring)
             ipso_angle = math.atan2(atoms[r][2] - rcy, atoms[r][1] - rcx)
-            has_para = False
             for r2, _s2 in exo:
                 if r2 == r:
                     continue
@@ -212,7 +220,7 @@ def _orient(
                 if delta > math.radians(150):
                     has_para = True
                     break
-            theta = exo_angle - math.radians(90 if has_para else 30)
+            theta = exo_angle - math.radians(0 if (has_para or aryl_ketone) else 30)
     if theta is None:
         sxx = sum((a[1] - cx) ** 2 for a in atoms)
         syy = sum((a[2] - cy) ** 2 for a in atoms)
@@ -221,11 +229,22 @@ def _orient(
 
     ct, st = math.cos(-theta), math.sin(-theta)
     rot = [(el, (x - cx) * ct - (y - cy) * st, (x - cx) * st + (y - cy) * ct) for el, x, y in atoms]
-    # When the rotation was set from the exocyclic (ring→chain) bond pointing
-    # up-right, geometry already guarantees the ring sits on the left with the
-    # chain trailing up and to the right (the ring extends opposite the chain) —
-    # the way every reference draws a phenethylamine. So no ring-left or vertical
-    # flip: an explicit "heteroatom up" flip actively inverts the chain back down.
+    # For the +30° amine pose, geometry already puts the ring on the left with
+    # the chain trailing up-right (a phenethylamine), so no vertical flip — an
+    # explicit "heteroatom up" flip would invert the chain back down.
+    #
+    # For the horizontal (cathinone) pose, RDKit's zig-zag may land the carbonyl
+    # below the chain axis. Textbooks draw the aryl ketone pointing UP, so flip
+    # vertically when it doesn't. _normalize folds math-Y (up) to screen-Y (down),
+    # so "renders on top" == larger rot-Y; flip when the carbonyl O sits below the
+    # ring.
+    if has_para or aryl_ketone:
+        carbonyl_o = [i for (u, v, o) in bonds if o == 2 for i in (u, v) if atoms[i][0] == "O"]
+        if carbonyl_o:
+            oy = sum(rot[i][2] for i in carbonyl_o) / len(carbonyl_o)
+            ring_y = sum(rot[i][2] for i in ring) / len(ring)
+            if oy < ring_y:
+                rot = [(el, x, -y) for el, x, y in rot]
     return rot
 
 
