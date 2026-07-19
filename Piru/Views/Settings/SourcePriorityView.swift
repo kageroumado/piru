@@ -29,7 +29,7 @@ struct SourcePriorityView: View {
                 Text("Sources at the top take precedence when a fact is reported by multiple sources. Disabled sources are hidden from resolved values but still searchable in advanced views.")
             }
         }
-        .navigationTitle("Data Sources")
+        .navigationTitle("Source Priority")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {

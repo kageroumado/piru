@@ -6652,6 +6652,22 @@
         }
       }
     },
+    "Also has this" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "也有此项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "也有此項"
+          }
+        }
+      }
+    },
     "Also known as" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12989,6 +13005,7 @@
       }
     },
     "Data Sources" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17811,6 +17828,22 @@
         }
       }
     },
+    "Explains why this source was used and lets you reorder sources" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说明为何采用此来源，并可重新排序来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "說明為何採用此來源，並可重新排序來源"
+          }
+        }
+      }
+    },
     "Explore the timeline" : {
 
     },
@@ -20342,6 +20375,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "越高越有活力。驅動力升至基線之上，鎮靜則落於其下。"
+          }
+        }
+      }
+    },
+    "Higher-priority sources that don't list this field are skipped." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "优先级更高但未提供此项的来源会被跳过。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優先級更高但未提供此項的來源會被跳過。"
           }
         }
       }
@@ -24178,6 +24227,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "管理日常…"
+          }
+        }
+      }
+    },
+    "Manage source priority" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理来源优先级"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理來源優先級"
           }
         }
       }
@@ -28323,6 +28388,22 @@
         }
       }
     },
+    "Open %@ page" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 %@ 页面"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟 %@ 頁面"
+          }
+        }
+      }
+    },
     "Open Health Settings" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -30335,6 +30416,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 僅以唯讀方式從健康讀取你最新的體重。你可以隨時在 設定 ▸ 健康 ▸ 資料存取 中關閉。"
+          }
+        }
+      }
+    },
+    "Piru shows the highest-priority source you've enabled that has this data — and you choose the order." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 会显示你已启用的、拥有该数据的最高优先级来源——顺序由你决定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 會顯示你已啟用的、擁有該數據的最高優先級來源——順序由你決定。"
           }
         }
       }
@@ -36780,6 +36877,22 @@
         }
       }
     },
+    "Shown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "采用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "採用"
+          }
+        }
+      }
+    },
     "Shown everywhere in place of \"%@\". Leave blank to keep the original name. Your dose history is unaffected." : {
       "localizations" : {
         "zh-Hans" : {
@@ -36792,6 +36905,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在所有位置代替「%@」顯示。留空則保留原名稱。你的劑量記錄不受影響。"
+          }
+        }
+      }
+    },
+    "Shown from" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示來源"
           }
         }
       }
@@ -37663,6 +37792,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "來源"
+          }
+        }
+      }
+    },
+    "Source Priority" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源优先级"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源優先級"
           }
         }
       }
@@ -44077,6 +44222,22 @@
         }
       }
     },
+    "Where this comes from" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据来自哪里"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數據來自哪裡"
+          }
+        }
+      }
+    },
     "Where you use it matters" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44137,6 +44298,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為什麼一停反而像反過來了"
+          }
+        }
+      }
+    },
+    "Why this source" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为何选此来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為何選此來源"
           }
         }
       }

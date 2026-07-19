@@ -9,6 +9,27 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Source-attribution explainer + priority surfacing (2026-07-19).
+    "Shown from": ("显示来源", "顯示來源"),
+    "Why this source": ("为何选此来源", "為何選此來源"),
+    "Shown": ("采用", "採用"),
+    "Also has this": ("也有此项", "也有此項"),
+    "Manage source priority": ("管理来源优先级", "管理來源優先級"),
+    "Where this comes from": ("数据来自哪里", "數據來自哪裡"),
+    "Source Priority": ("来源优先级", "來源優先級"),
+    "Piru shows the highest-priority source you've enabled that has this data — and you choose the order.": (
+        "Piru 会显示你已启用的、拥有该数据的最高优先级来源——顺序由你决定。",
+        "Piru 會顯示你已啟用的、擁有該數據的最高優先級來源——順序由你決定。",
+    ),
+    "Higher-priority sources that don't list this field are skipped.": (
+        "优先级更高但未提供此项的来源会被跳过。",
+        "優先級更高但未提供此項的來源會被跳過。",
+    ),
+    "Open %@ page": ("打开 %@ 页面", "開啟 %@ 頁面"),
+    "Explains why this source was used and lets you reorder sources": (
+        "说明为何采用此来源，并可重新排序来源",
+        "說明為何採用此來源，並可重新排序來源",
+    ),
     # Share-card redesign — effects-mode toggle + effects section (2026-07-19).
     "Minimal": ("简约", "簡約"),
     "Standard": ("标准", "標準"),

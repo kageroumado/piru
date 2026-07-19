@@ -15,7 +15,7 @@ struct SubstanceDatabaseView: View {
                         SourcePriorityView()
                     } label: {
                         HStack {
-                            Label("Data Sources", systemImage: "list.bullet.rectangle")
+                            Label("Source Priority", systemImage: "arrow.up.arrow.down")
                             Spacer()
                             Text("\(SubstanceStore.shared.enabledSourceOrder.count) enabled")
                                 .foregroundStyle(Theme.secondaryLabel)

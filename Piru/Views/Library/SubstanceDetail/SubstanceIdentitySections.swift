@@ -39,6 +39,7 @@ struct InfoDisclosureSection: View {
                     slug: slug,
                     label: "Category",
                     deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
+                    substanceName: substance.name, field: .category,
                 )
             }
             if let slug = model.provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
@@ -46,6 +47,7 @@ struct InfoDisclosureSection: View {
                     slug: slug,
                     label: "Half-life",
                     deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
+                    substanceName: substance.name, field: .halfLife,
                 )
             }
         }

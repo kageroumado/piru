@@ -122,4 +122,49 @@ extension SubstanceStore {
         values.append(contentsOf: extra)
         return try String.fetchOne(db, sql: sql, arguments: StatementArguments(values))
     }
+
+    /// A displayed field whose "why this source?" explainer can list the sources
+    /// that actually carry it. Mirrors the badged fields on the substance screen.
+    enum AttributableField: Hashable {
+        case dose(RouteOfAdministration)
+        case duration(RouteOfAdministration)
+        case category
+        case halfLife
+        case mechanism
+
+        /// (table, extra WHERE fragment, extra bound args) for the availability query.
+        fileprivate var query: (table: String, whereClause: String, args: [DatabaseValueConvertible]) {
+            switch self {
+            case let .dose(route): ("dose_ranges", "AND t.route = ?", [route.rawValue])
+            case let .duration(route): ("durations", "AND t.route = ?", [route.rawValue])
+            case .category: ("categories", "", [])
+            case .halfLife: ("half_lives", "", [])
+            case .mechanism: ("mechanisms_summary", "", [])
+            }
+        }
+    }
+
+    /// The enabled sources that supply `field` for this substance, ranked by the
+    /// user's current priority (winner first). Same ordering as the resolvers, so
+    /// the first element is exactly the source the UI shows. Powers the badge's
+    /// "why this source?" explainer — higher-priority sources absent from the list
+    /// simply had no value for this field, which is *why* a lower one won.
+    func sourcesProviding(_ field: AttributableField, forSubstanceName name: String) -> [String] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        let (table, whereClause, args) = field.query
+        do {
+            return try substancesDB.read { db in
+                try String.fetchAll(db, sql: """
+                    SELECT DISTINCT src.slug FROM \(table) t
+                      JOIN sources src ON src.id = t.source_id
+                     WHERE t.substance_id = ? \(whereClause)
+                       AND src.slug IN (\(enabledSourceListSQL))
+                     ORDER BY \(priorityCaseSQL) ASC
+                """, arguments: StatementArguments([substanceID] + args))
+            }
+        } catch {
+            logger.error("sourcesProviding failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
 }

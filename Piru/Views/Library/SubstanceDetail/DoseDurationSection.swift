@@ -152,13 +152,25 @@ struct DoseDurationSection: View {
         let doseSlug = routes.showsDoseLadder && route.doses.hasAnyValue ? provenance?.routesBySource[route.route]?.doseSource : nil
         let durSlug = routes.durationVisible && route.duration != nil ? provenance?.routesBySource[route.route]?.durationSource : nil
         if let doseSlug, doseSlug == durSlug {
-            SourceAttributionRow(slug: doseSlug, label: "Dose & Duration", deepLink: SubstanceSourceLinks.deepLink(doseSlug, substance: substance))
+            SourceAttributionRow(
+                slug: doseSlug, label: "Dose & Duration",
+                deepLink: SubstanceSourceLinks.deepLink(doseSlug, substance: substance),
+                substanceName: substance.name, field: .dose(route.route),
+            )
         } else {
             if let doseSlug {
-                SourceAttributionRow(slug: doseSlug, label: "Dose data", deepLink: SubstanceSourceLinks.deepLink(doseSlug, substance: substance))
+                SourceAttributionRow(
+                    slug: doseSlug, label: "Dose data",
+                    deepLink: SubstanceSourceLinks.deepLink(doseSlug, substance: substance),
+                    substanceName: substance.name, field: .dose(route.route),
+                )
             }
             if let durSlug {
-                SourceAttributionRow(slug: durSlug, label: "Duration data", deepLink: SubstanceSourceLinks.deepLink(durSlug, substance: substance))
+                SourceAttributionRow(
+                    slug: durSlug, label: "Duration data",
+                    deepLink: SubstanceSourceLinks.deepLink(durSlug, substance: substance),
+                    substanceName: substance.name, field: .duration(route.route),
+                )
             }
         }
     }

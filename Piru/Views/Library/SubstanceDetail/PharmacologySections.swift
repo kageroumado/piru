@@ -48,6 +48,7 @@ struct PharmacologySections: View {
                             slug: slug,
                             label: "Mechanism",
                             deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
+                            substanceName: substance.name, field: .mechanism,
                         )
                     }
                 }
