@@ -48,7 +48,8 @@ struct QuickLogStagePayload {
 /// staging/create actions; this view owns the row layout.
 ///
 /// Every row is one big Add button: a tap stages the dose with its recent /
-/// reference defaults into the staged card below — search never moves. Doses
+/// reference defaults, then ends the search (the dock settles onto medium with
+/// the new row's editor open — see ``DockMiddleContent/onDidStage``). Doses
 /// that still need input (by-volume drinks, substances with no known dose)
 /// stage as a draft, which opens the full editor in the tray. There is no
 /// inline mini-editor: the staged card's editor is the one editing surface.

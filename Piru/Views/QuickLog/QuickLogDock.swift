@@ -272,6 +272,7 @@ struct QuickLogDock: View {
                         searchFocused = false
                         onCreateCustom()
                     },
+                    onDidStage: finishStagingFromSearch,
                 )
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
@@ -323,10 +324,14 @@ struct QuickLogDock: View {
         // riding the keyboard animation, half staged — which read as chaos.
         // Search results live at the top, so nothing needed is hidden.
         .ignoresSafeArea(.keyboard)
-        // The dose fields use the decimal pad, which has no return key — the
-        // accessory Done button is the only way to put the keyboard away
-        // without dragging the whole sheet down.
-        .toolbar { keyboardDoneToolbar }
+        // The dose fields use the decimal pad, which has no return key. Rather
+        // than the lone floating "Done" accessory (unpolished), a tap anywhere
+        // outside the focused field dismisses the keyboard — the value is
+        // already committed live per keystroke, so there is nothing to submit.
+        // A window-level recognizer is what catches taps in the sheet's large
+        // empty area, not just within the laid-out content (see
+        // ``KeyboardDismissTap``). Drag/scroll dismissal still applies too.
+        .background { KeyboardDismissTap() }
         // The staged-array reads (interaction names, collapsed-card estimate)
         // live in this zero-size leaf, not in this body — otherwise every
         // amount keystroke in a staged editor would re-run the whole dock.
@@ -797,25 +802,138 @@ struct QuickLogDock: View {
 
     // MARK: Keyboard & search dismissal
 
-    @ToolbarContentBuilder
-    private var keyboardDoneToolbar: some ToolbarContent {
-        ToolbarItemGroup(placement: .keyboard) {
-            Spacer()
-            Button("Done", action: Self.dismissKeyboard)
-                .fontWeight(.semibold)
-        }
-    }
-
-    /// Resigns whatever field is first responder — SwiftUI or UIKit-backed.
-    private static func dismissKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-
     private func cancelSearch() {
         searchFocused = false
         withAnimation(.snappy) {
             searchActive = false
             searchText = ""
+        }
+    }
+
+    /// Ends the search after a result is staged: dismisses the keyboard, drops
+    /// the search state, and settles onto medium with the staged rows expanded.
+    ///
+    /// Leaving search up (the old behavior) left the results list and keyboard
+    /// covering the row the user had just added — so a stage from search now
+    /// finishes the search the same way picking a result in a search field
+    /// dismisses it. No-op when nothing is searching, which keeps a tap on the
+    /// browse suggestions (dragged tall with the field unfocused) growing the
+    /// dock in place as before.
+    ///
+    /// The exit is deferred a runloop turn on purpose. Staging fires its *own*
+    /// detent bookkeeping this turn — `tray.isEmpty` flipping (first dose) and
+    /// `stageTick` each run `refreshDetents`, which bumps the detent
+    /// generation. Closing the search in the same transaction would schedule
+    /// the `.medium` settle and then have that later refresh cancel it (the
+    /// generation guard in ``applyDetents``), stranding the dock at `.large`
+    /// with a collapsed row. Run next turn, the close owns the transaction:
+    /// expanding every row first makes ``settleDetent`` land on `.medium` with
+    /// the editors open rather than the compact collapsed face.
+    private func finishStagingFromSearch() {
+        guard searchActive else { return }
+        Task { @MainActor in
+            tray.expandedItemIDs = Set(tray.staged.map(\.id))
+            searchFocused = false
+            withAnimation(.snappy) {
+                searchActive = false
+                searchText = ""
+            }
+        }
+    }
+}
+
+// MARK: - Tap-outside-to-dismiss
+
+/// Installs a tap recognizer on the host window that resigns the keyboard on a
+/// tap outside the focused field — the polished substitute for a "Done"
+/// accessory the decimal pad can't host (it has no return key). The dose fields
+/// commit their value live on every keystroke, so dismissing *is* the only job.
+///
+/// Why window-level (not a SwiftUI `onTapGesture`): the sheet's empty region —
+/// the tall gap below a short staged card when the keyboard is up — lies
+/// *outside* the laid-out content, where a content-attached gesture never
+/// fires. A window recognizer sees every tap in the presentation.
+///
+/// `cancelsTouchesInView = false` lets the tap still reach whatever it hit, so
+/// buttons/steppers/menus keep working; the delegate declines taps that land in
+/// a text input (`UITextField`/`UITextView`, which back SwiftUI's amount and
+/// note fields) so *re-tapping a field* doesn't immediately blur it. The
+/// recognizer is torn down with the dock, so it's live only while staging.
+private struct KeyboardDismissTap: UIViewRepresentable {
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    func makeUIView(context: Context) -> InstallerView {
+        let view = InstallerView()
+        view.isUserInteractionEnabled = false
+        view.coordinator = context.coordinator
+        return view
+    }
+
+    func updateUIView(_: InstallerView, context _: Context) {}
+
+    static func dismantleUIView(_: InstallerView, coordinator: Coordinator) {
+        coordinator.detach()
+    }
+
+    /// Installs/removes the recognizer as it actually enters and leaves a
+    /// window — `didMoveToWindow` is the reliable hook (the window is not yet
+    /// attached inside `makeUIView`).
+    final class InstallerView: UIView {
+        weak var coordinator: Coordinator?
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            if let window { coordinator?.attach(to: window) } else { coordinator?.detach() }
+        }
+    }
+
+    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        private weak var window: UIWindow?
+        private weak var recognizer: UITapGestureRecognizer?
+
+        func attach(to window: UIWindow) {
+            guard self.recognizer == nil else { return }
+            let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+            tap.cancelsTouchesInView = false
+            tap.delegate = self
+            window.addGestureRecognizer(tap)
+            self.window = window
+            self.recognizer = tap
+        }
+
+        func detach() {
+            if let recognizer { window?.removeGestureRecognizer(recognizer) }
+            recognizer = nil
+            window = nil
+        }
+
+        @objc
+        private func handleTap() {
+            UIApplication.shared.sendAction(
+                #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
+            )
+        }
+
+        /// Let the sheet's own pan/scroll gestures run alongside this tap.
+        func gestureRecognizer(
+            _: UIGestureRecognizer,
+            shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
+        ) -> Bool {
+            true
+        }
+
+        /// Don't fire when the tap lands in a text input — that tap is the user
+        /// (re)focusing a field, and dismissing would fight it.
+        func gestureRecognizer(
+            _: UIGestureRecognizer, shouldReceive touch: UITouch,
+        ) -> Bool {
+            var view = touch.view
+            while let current = view {
+                if current is UITextField || current is UITextView { return false }
+                view = current.superview
+            }
+            return true
         }
     }
 }

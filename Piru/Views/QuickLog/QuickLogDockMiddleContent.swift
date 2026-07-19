@@ -29,6 +29,11 @@ struct DockMiddleContent: View {
     /// focus before running this — restoring focus mid-transition on dismiss
     /// caused the SheetBridge exclusivity crash (builds 13/14).
     let onCreateCustom: () -> Void
+    /// A row (search hit or suggestion) staged a dose. ``QuickLogDock`` uses it
+    /// to end an active search — dismiss the keyboard, leave the search state,
+    /// and settle onto medium with the new row's editor open — so the results
+    /// list no longer covers the row the user just added.
+    let onDidStage: () -> Void
 
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -98,8 +103,9 @@ struct DockMiddleContent: View {
 
     // MARK: Staging from rows
 
-    /// Inline Add: a complete dose joins the tray's collapsed rows — search
-    /// stays exactly where it is, the staged card below just grows.
+    /// Inline Add: a complete dose joins the tray's collapsed rows. Picking a
+    /// hit then ends the search (see ``onDidStage``) so the added row surfaces
+    /// instead of sitting hidden beneath the results.
     private func stagePayload(_ payload: QuickLogStagePayload) {
         withAnimation(.snappy) {
             tray.stage(
@@ -116,10 +122,11 @@ struct DockMiddleContent: View {
                 emoji: payload.emoji,
             )
         }
+        onDidStage()
     }
 
     /// "Add & edit" (by-volume drinks): a draft opens its full editor in the
-    /// staged card — still without leaving the search context.
+    /// staged card; picking it likewise ends the search.
     private func stageDraftPayload(_ payload: QuickLogStagePayload) {
         withAnimation(.snappy) {
             tray.stageDraft(
@@ -131,6 +138,7 @@ struct DockMiddleContent: View {
                 productName: payload.productName,
             )
         }
+        onDidStage()
     }
 
     // MARK: Search results
