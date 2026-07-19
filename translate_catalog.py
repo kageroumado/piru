@@ -9,6 +9,19 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Share-card redesign — effects-mode toggle + effects section (2026-07-19).
+    "Minimal": ("简约", "簡約"),
+    "Standard": ("标准", "標準"),
+    "Rich": ("详尽", "詳盡"),
+    "EFFECT OVER TIME": ("效应时程", "效應時程"),
+    "Ramp": ("梯度", "梯度"),
+    "Columns": ("分栏", "分欄"),
+    "Effects style": ("效应样式", "效應樣式"),
+    "Most common effects · by dose": ("最常见效应 · 按剂量", "最常見效應 · 按劑量"),
+    "release": ("释放", "釋放"),
+    "uptake": ("再摄取", "再攝取"),
+    "Reported effects": ("报告的效应", "報告的效應"),
+    "Most reported": ("最多报告", "最多報告"),
     # Notifications management screen — unified per-type toggles (2026-07-17).
     "Pause All Notifications": ("暂停所有通知", "暫停所有通知"),
     "Silences everything without losing your choices below.": (
