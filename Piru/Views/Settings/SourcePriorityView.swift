@@ -1,11 +1,14 @@
 import SwiftUI
 
-/// Lets the user reorder and enable/disable the substance-data sources the
-/// store consults when resolving fields. Highest priority is at the top — the
-/// first enabled source with a value wins.
+/// Lets the user rank the handful of sources that actually compete for the data
+/// on a substance card (dose, duration, effects, category, mechanism). The first
+/// source that has a value for a field wins it. Niche / identifier-only sources
+/// aren't listed — they resolve at their bundled priority but never realistically
+/// win a displayed field, so exposing them only adds noise.
 ///
-/// Mutations go through ``SubstanceStore`` which clears its resolved-substance
-/// cache, so the rest of the app sees the new priority on the next lookup.
+/// Reorder-only: there's no enable/disable here. Mutations go through
+/// ``SubstanceStore`` which clears its resolved-substance cache, so the rest of
+/// the app sees the new order on the next lookup.
 struct SourcePriorityView: View {
     @State private var states: [SubstanceStore.SourceState] = []
 
@@ -13,69 +16,63 @@ struct SourcePriorityView: View {
         List {
             Section {
                 ForEach(Array(states.enumerated()), id: \.element.id) { index, state in
-                    let status = state.enabled ? String(localized: "On") : String(localized: "Off")
-                    let position = String(localized: "Priority \(index + 1) of \(states.count)")
-                    let accessibilityValue = "\(status), \(position)"
-                    SourceRow(
-                        state: state,
-                        toggle: { toggle(state, enabled: $0) },
-                    )
-                    .accessibilityValue(accessibilityValue)
+                    SourceRow(rank: index + 1, state: state)
                 }
                 .onMove(perform: move)
-            } header: {
-                Text("Priority Order")
             } footer: {
-                Text("Sources at the top take precedence when a fact is reported by multiple sources. Disabled sources are hidden from resolved values but still searchable in advanced views.")
+                Text("When several sources report the same fact — a dose, a duration — Piru shows the one nearest the top. Drag to set which you trust most.")
             }
         }
+        // Permanent edit mode: the reorder grips are always visible, and with no
+        // delete/toggle the row is unmistakably about order.
+        .environment(\.editMode, .constant(.active))
         .navigationTitle("Source Priority")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                EditButton()
+                Button("Reset") {
+                    SubstanceStore.shared.resetSourcePriorityToDefaults()
+                    reload()
+                }
             }
         }
         .onAppear(perform: reload)
     }
 
     private func reload() {
-        states = SubstanceStore.shared.sourceStates()
+        states = SubstanceStore.shared.primarySourceStates()
     }
 
     private func move(from offsets: IndexSet, to destination: Int) {
         states.move(fromOffsets: offsets, toOffset: destination)
-        SubstanceStore.shared.setSourcePriority(orderedSlugs: states.map(\.slug))
-        reload()
-    }
-
-    private func toggle(_ state: SubstanceStore.SourceState, enabled: Bool) {
-        SubstanceStore.shared.setSource(state.slug, enabled: enabled)
+        SubstanceStore.shared.setPrimarySourcePriority(orderedPrimarySlugs: states.map(\.slug))
         reload()
     }
 }
 
 private struct SourceRow: View {
+    let rank: Int
     let state: SubstanceStore.SourceState
-    let toggle: (Bool) -> Void
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Toggle(isOn: Binding(get: { state.enabled }, set: { toggle($0) })) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(state.displayName)
-                        .font(.body)
-                    if let description = state.description, !description.isEmpty {
-                        Text(description)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
-                    }
+        HStack(spacing: 14) {
+            Text("\(rank)")
+                .font(.headline.monospacedDigit())
+                .foregroundStyle(Theme.accent)
+                .frame(width: 20, alignment: .center)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(state.displayName)
+                    .font(.body)
+                if let description = state.description, !description.isEmpty {
+                    Text(description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
                 }
             }
-            .toggleStyle(.switch)
         }
-        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text("\(state.displayName), priority \(rank)"))
     }
 }
 

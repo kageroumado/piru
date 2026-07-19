@@ -1459,6 +1459,28 @@
         }
       }
     },
+    "%@, priority %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, priority %2$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@，优先级 %2$lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@，優先級 %2$lld"
+          }
+        }
+      }
+    },
     "%@, source: %@" : {
       "localizations" : {
         "en" : {
@@ -1805,6 +1827,7 @@
       }
     },
     "%lld enabled" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28276,6 +28299,7 @@
       }
     },
     "On" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31127,6 +31151,7 @@
       }
     },
     "Priority %lld of %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31143,6 +31168,7 @@
       }
     },
     "Priority Order" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33358,6 +33384,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "研究化學品"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置"
           }
         }
       }
@@ -37879,6 +37921,7 @@
       }
     },
     "Sources at the top take precedence when a fact is reported by multiple sources. Disabled sources are hidden from resolved values but still searchable in advanced views." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44170,6 +44213,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開啟後，每次你離開 App 時，Piru 都會加密你的日誌並儲存到你的私人 iCloud 雲碟。金鑰只儲存在你的 iCloud 鑰匙圈中，因此是端對端加密——**Apple 和 Piru 都無法讀取**——並且會在登入同一 Apple 帳號的其他裝置上自動還原。"
+          }
+        }
+      }
+    },
+    "When several sources report the same fact — a dose, a duration — Piru shows the one nearest the top. Drag to set which you trust most." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当多个来源报告同一事实（如剂量、时长）时，Piru 会显示最靠上的那个。拖动以设置你最信任的来源。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當多個來源報告同一事實（如劑量、時長）時，Piru 會顯示最靠上的那個。拖動以設定你最信任的來源。"
           }
         }
       }

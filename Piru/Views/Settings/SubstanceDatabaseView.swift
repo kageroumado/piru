@@ -14,12 +14,7 @@ struct SubstanceDatabaseView: View {
                     NavigationLink {
                         SourcePriorityView()
                     } label: {
-                        HStack {
-                            Label("Source Priority", systemImage: "arrow.up.arrow.down")
-                            Spacer()
-                            Text("\(SubstanceStore.shared.enabledSourceOrder.count) enabled")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+                        Label("Source Priority", systemImage: "arrow.up.arrow.down")
                     }
                     LabeledContent("Substances", value: "\(SubstanceStore.shared.count)")
                     SubstanceDBUpdateRow()

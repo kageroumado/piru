@@ -9,6 +9,13 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Source-priority screen rework (2026-07-19).
+    "Reset": ("重置", "重置"),
+    "When several sources report the same fact — a dose, a duration — Piru shows the one nearest the top. Drag to set which you trust most.": (
+        "当多个来源报告同一事实（如剂量、时长）时，Piru 会显示最靠上的那个。拖动以设置你最信任的来源。",
+        "當多個來源報告同一事實（如劑量、時長）時，Piru 會顯示最靠上的那個。拖動以設定你最信任的來源。",
+    ),
+    "%@, priority %lld": ("%1$@，优先级 %2$lld", "%1$@，優先級 %2$lld"),
     # Source-attribution explainer + priority surfacing (2026-07-19).
     "Shown from": ("显示来源", "顯示來源"),
     "Why this source": ("为何选此来源", "為何選此來源"),

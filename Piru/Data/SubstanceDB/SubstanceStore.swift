@@ -459,10 +459,37 @@ final class SubstanceStore {
                     )
                 }
             }
+
+            // One-time source-order migration. Source priority was never surfaced
+            // prominently, so existing installs carry whatever order they first
+            // seeded — often stale after the bundled defaults were reprioritized
+            // (e.g. drug.community promoted above PsychonautWiki, which left
+            // methamphetamine's dose resolving from the wrong source). Re-apply the
+            // bundled default order + enabled once per migration version, so
+            // everyone lands on the current recommendation without resetting by
+            // hand. Bump `currentSourceOrderMigration` whenever the default order
+            // changes and you want it re-applied to existing installs.
+            if UserDefaults.standard.integer(forKey: Self.sourceOrderMigrationKey) < Self.currentSourceOrderMigration {
+                try userPrefsDB.write { db in
+                    for row in bundledSources {
+                        try db.execute(
+                            sql: "UPDATE source_preferences SET priority = ?, enabled = ? WHERE source_slug = ?",
+                            arguments: [row["default_priority"] as Int, row["default_enabled"] as Int, row["slug"] as String],
+                        )
+                    }
+                }
+                UserDefaults.standard.set(Self.currentSourceOrderMigration, forKey: Self.sourceOrderMigrationKey)
+                logger.info("Applied source-order migration v\(Self.currentSourceOrderMigration)")
+            }
         } catch {
             logger.error("Failed to seed user prefs: \(error.localizedDescription, privacy: .public)")
         }
     }
+
+    private static let sourceOrderMigrationKey = "piru.sourceOrderMigrationVersion"
+    /// Bump this (and it re-applies bundled default source priority to every
+    /// install on next launch) whenever the default `SOURCES` order changes.
+    private static let currentSourceOrderMigration = 1
 
     // MARK: - Source priority
 
@@ -500,6 +527,55 @@ final class SubstanceStore {
             reloadSourceOrder()
         } catch {
             logger.error("Failed to update source priority: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+
+    /// The sources shown in the user-facing priority screen — the ones that
+    /// actually compete for the fields on a substance card (dose, duration,
+    /// effects, category, mechanism). Identifier-only and niche sources (PubChem,
+    /// Wikidata, NPS Data Hub, PDSP, Erowid, DEA, pyrls, MedTAP, benzo-equivalency,
+    /// FreeOD Wiki — the last floats up on its own in Chinese) still resolve at
+    /// their bundled priority but aren't user-reorderable: they rarely or never
+    /// win a displayed field, so surfacing them only adds noise.
+    nonisolated static let reorderableSourceSlugs: Set<String> = [
+        "piru-curated", "peer-review-primary", "drug.community",
+        "psychonautwiki", "tripsit", "dailymed",
+    ]
+
+    /// ``sourceStates()`` limited to the reorderable primary sources, in the
+    /// user's current priority order.
+    func primarySourceStates() -> [SourceState] {
+        sourceStates().filter { Self.reorderableSourceSlugs.contains($0.slug) }
+    }
+
+    /// Reorder just the primary sources; every other (hidden) source keeps its
+    /// current relative order, slotted beneath the primaries. Keeps the priority
+    /// space consistent without exposing the niche sources.
+    func setPrimarySourcePriority(orderedPrimarySlugs: [String]) {
+        let primary = Set(orderedPrimarySlugs)
+        let others = sourceStates().map(\.slug).filter { !primary.contains($0) }
+        setSourcePriority(orderedSlugs: orderedPrimarySlugs + others)
+    }
+
+    /// Reset every source to its bundled default priority + enabled state — the
+    /// recommended order. Fixes prefs that went stale after a default changed
+    /// (e.g. drug.community was promoted but existing installs kept the old rank).
+    func resetSourcePriorityToDefaults() {
+        do {
+            let defaults = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: "SELECT slug, default_priority, default_enabled FROM sources")
+            }
+            try userPrefsDB.write { db in
+                for row in defaults {
+                    try db.execute(
+                        sql: "UPDATE source_preferences SET priority = ?, enabled = ? WHERE source_slug = ?",
+                        arguments: [row["default_priority"] as Int, row["default_enabled"] as Int, row["slug"] as String],
+                    )
+                }
+            }
+            reloadSourceOrder()
+        } catch {
+            logger.error("Failed to reset source priority: \(error.localizedDescription, privacy: .public)")
         }
     }
 
