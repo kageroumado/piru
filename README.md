@@ -71,8 +71,12 @@ Questions, bug reports, or just want to hang out? **[Join the Discord →](https
 - **Adjustable depth.** Choose **Casual**, **Curious**, or **Pharma Nerd** and the whole app dials in
   to match — from plain dose ladders and top-line warnings up to receptor-binding tables, biased
   agonism, and CYP metabolism with citations down to the DOI.
-- **A toolbox.** Half-life calculator, volumetric dosing, benzodiazepine and opioid equivalence
-  converters, inventory tracking, and an interaction checker.
+- **Medications & reminders.** Log branded meds by the tablet (Concerta → 18/27/36/54 mg), group daily
+  meds into **routines** with scheduled reminders that open Quick Log pre-filled, and let supplies count
+  down to a refill — plus opt-in nudges for next-dose windows and comedowns. See [below](#more-than-a-logger).
+- **A toolbox.** An **Effect Estimator** (compare two meds or preview a stack), half-life calculator,
+  volumetric dosing, benzodiazepine and opioid equivalence converters, inventory tracking, and an
+  interaction checker.
 - **Live Activity & widgets.** Active doses on the Lock Screen and Dynamic Island with time remaining;
   Home Screen widgets for the current session and last dose.
 - **Insights.** Usage trends, an adherence calendar, a per-substance tolerance readout, and a live
@@ -134,6 +138,23 @@ wider, not taller-and-shorter. And because elimination tracks liver and body mas
   <tr>
     <td align="center"><img src=".github/piru-alcohol-whiskey.png" alt="The whiskey bottle at 60 kg body weight, clearing in about 34 hours" width="290"><br><sub><b>at 60 kg</b> ・ ~34 h to clear</sub></td>
     <td align="center"><img src=".github/piru-alcohol-whiskey-heavy.png" alt="The same whiskey bottle at 100 kg body weight, clearing in about 20 hours" width="290"><br><sub><b>at 100 kg</b> ・ same bottle, ~20 h</sub></td>
+  </tr>
+</table>
+
+## More than a logger
+
+Piru keeps a clean ledger — but calling it a dose logger sells it short. The same app that draws
+your pharmacokinetics is also a medication tracker, a reminder engine, and a pharmacodynamic
+sandbox. None of it is bolted on.
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-pill.png" alt="Logging Concerta in Quick Log — the dose editor offers its real tablet strengths as chips (18, 27, 36, 54 mg) with a tablet-count stepper reading '1 tablet = 18 mg'" width="380"><br><sub><b>log the pill, not the milligram</b> ・ pick a brand like <b>Concerta</b> and Piru offers its real tablet strengths — 18 / 27 / 36 / 54 mg — and counts the dose by the tablet</sub></td>
+    <td align="center"><img src=".github/piru-routine.png" alt="A daily medication routine named Daily, scheduled for 9:00 AM with a reminder, holding Vitamin D3 4000 IU and Magnesium 350 mg" width="380"><br><sub><b>prescriptions &amp; routines</b> ・ group your daily meds into a routine, give it a time, and a reminder opens Quick Log already filled in — with supplies that count down to a refill</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src=".github/piru-notifications.png" alt="The notifications management screen listing every alert type as an opt-in toggle: routine reminders, ask again, next-dose window, comedown alerts" width="380"><br><sub><b>reminders that fit the dose</b> ・ routine nudges, an <i>ask-again</i> snooze, next-dose windows, and comedown alerts before a dose wears off — every type opt-in, on one screen</sub></td>
+    <td align="center"><img src=".github/piru-estimator.png" alt="The Effect Estimator's forecast — a Feeling curve and an Energy curve comparing two stimulants across eight hours, above a Compulsion curve" width="380"><br><sub><b>the effect estimator</b> ・ a what-if sandbox — compare two meds or preview a stack and watch how it might <i>feel</i> over the hours, without logging a thing</sub></td>
   </tr>
 </table>
 
