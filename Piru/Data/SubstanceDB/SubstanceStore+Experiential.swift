@@ -65,20 +65,38 @@ extension SubstanceStore {
     /// disabled. Drives the grouped, frequency-barred effects list.
     func reportedEffects(forSubstanceName name: String) -> [ReportedEffect] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        let language = languageOverride ?? Self.contentLanguage
         do {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
-                    SELECT re.name, re.domain, re.report_count, re.emerges_band
+                    SELECT re.name, re.domain, re.report_count, re.emerges_band,
+                           (SELECT lbl.label FROM effect_vocab_labels lbl
+                             WHERE lbl.vocab_id = re.vocab_id AND lbl.language = ?) AS loc_label,
+                           (SELECT lbl.label FROM effect_vocab_labels lbl
+                             WHERE lbl.vocab_id = re.vocab_id AND lbl.language = 'en') AS en_label
                       FROM reported_effects re
                       JOIN sources src ON src.id = re.source_id
                      WHERE re.substance_id = ?
                        AND src.slug IN (\(enabledSourceListSQL))
                      ORDER BY re.report_count DESC, re.name COLLATE NOCASE
-                """, arguments: [substanceID])
+                """, arguments: [language.rawValue, substanceID])
             }
             return rows.map { row in
-                ReportedEffect(
-                    name: row["name"],
+                let raw: String = row["name"]
+                let localized = row["loc_label"] as String?
+                let english = row["en_label"] as String?
+                let display: String = if language.isChinese {
+                    localized ?? english ?? raw
+                } else if let english, english.count <= raw.count {
+                    // English keeps its own vocab label only when it isn't longer
+                    // than the raw drug.community phrasing (some vocab terms are verbose).
+                    english
+                } else {
+                    raw
+                }
+                return ReportedEffect(
+                    name: raw,
+                    displayName: display,
                     domain: EffectDomain(rawValue: row["domain"]) ?? .physical,
                     reportCount: row["report_count"],
                     emergesBand: row["emerges_band"] as Int?,

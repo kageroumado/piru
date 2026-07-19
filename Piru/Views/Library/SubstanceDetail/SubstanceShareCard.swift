@@ -59,12 +59,38 @@ struct SubstanceShareCard: View {
         substance.subjectiveEffects.prefix(6).map(\.name)
     }
 
+    /// Reported effects merged by their resolved display name — drug.community
+    /// often lists the same effect under several phrasings that collapse to one
+    /// localized vocab term (e.g. "increased sociability" + "emotional bonding").
+    /// Merging sums the report counts and keeps the earliest emergence band.
+    private var dedupedReportedEffects: [ReportedEffect] {
+        var byName: [String: ReportedEffect] = [:]
+        for effect in reportedEffects {
+            if let existing = byName[effect.displayName] {
+                byName[effect.displayName] = ReportedEffect(
+                    name: existing.name,
+                    displayName: existing.displayName,
+                    domain: existing.domain,
+                    reportCount: existing.reportCount + effect.reportCount,
+                    emergesBand: [existing.emergesBand, effect.emergesBand].compactMap(\.self).min(),
+                )
+            } else {
+                byName[effect.displayName] = effect
+            }
+        }
+        // Stable order (count desc, then name) so a substance always renders the
+        // same card — dictionary iteration order is otherwise nondeterministic.
+        return byName.values.sorted {
+            $0.reportCount != $1.reportCount ? $0.reportCount > $1.reportCount : $0.displayName < $1.displayName
+        }
+    }
+
     private var frequencyEffects: [ReportedEffect] {
-        Array(reportedEffects.sorted { $0.reportCount > $1.reportCount }.prefix(5))
+        Array(dedupedReportedEffects.prefix(5))
     }
 
     private var hasBandedEffects: Bool {
-        reportedEffects.contains { $0.emergesBand != nil }
+        dedupedReportedEffects.contains { $0.emergesBand != nil }
     }
 
     /// The ramp rows: top-2 by report count from each band Light…Heavy (1…4), laid
@@ -73,12 +99,12 @@ struct SubstanceShareCard: View {
     private var rampEffects: [RampEffect] {
         var out: [RampEffect] = []
         for band in 1 ... 4 {
-            let inBand = reportedEffects
+            let inBand = dedupedReportedEffects
                 .filter { $0.emergesBand == band }
                 .sorted { $0.reportCount > $1.reportCount }
                 .prefix(2)
             out.append(contentsOf: inBand.map {
-                RampEffect(name: $0.name, color: $0.domain.color, count: $0.reportCount, band: band)
+                RampEffect(name: $0.displayName, color: $0.domain.color, count: $0.reportCount, band: band)
             })
         }
         return out.sorted { $0.band != $1.band ? $0.band < $1.band : $0.count > $1.count }
@@ -362,7 +388,7 @@ struct SubstanceShareCard: View {
                 ForEach(frequencyEffects) { effect in
                     HStack(spacing: 10) {
                         Circle().fill(effect.domain.color).frame(width: 7, height: 7)
-                        Text(effect.name)
+                        Text(effect.displayName)
                             .font(.footnote.weight(.medium))
                             .lineLimit(1)
                         Spacer(minLength: 8)

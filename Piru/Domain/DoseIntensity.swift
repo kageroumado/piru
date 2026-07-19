@@ -42,14 +42,26 @@ struct BandEffect: Hashable {
 /// the dose band at which it first becomes prominent. Grouped by ``domain`` in
 /// the UI and sorted by ``reportCount``.
 ///
-/// `name` is English pending the curated dc-effect translation vocabulary; it is
-/// gated for localization the same way the PsychonautWiki effect whitelist is.
+/// `name` is the raw drug.community string (kept for identity/dedup). `displayName`
+/// is the short, localized label resolved from the effect vocabulary when a curated
+/// alias matched (falling back to `name` — no-silent-caps).
 struct ReportedEffect: Identifiable, Hashable {
     let name: String
+    /// Short, locale-resolved label for the UI (canonical vocab term when mapped,
+    /// else the raw `name`). Defaults to `name` for call sites that don't resolve it.
+    var displayName: String
     let domain: EffectDomain
     let reportCount: Int
     /// Dose band (0…5) at which this effect first becomes prominent, if known.
     let emergesBand: Int?
+
+    init(name: String, displayName: String? = nil, domain: EffectDomain, reportCount: Int, emergesBand: Int?) {
+        self.name = name
+        self.displayName = displayName ?? name
+        self.domain = domain
+        self.reportCount = reportCount
+        self.emergesBand = emergesBand
+    }
 
     var id: String {
         name

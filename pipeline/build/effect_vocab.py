@@ -34,6 +34,7 @@ __all__ = [
     "EFFECT_VOCAB",
     "slugify",
     "vocab_id_for",
+    "dc_alias_for",
     "vocab_labels",
     "LANGUAGES",
 ]
@@ -119,6 +120,33 @@ def vocab_id_for(text: str) -> str | None:
     if not text:
         return None
     return _TEXT_TO_VOCAB.get(normalize_effect(text))
+
+
+_DC_ALIAS_PATH = Path(__file__).resolve().parent / "dc_effect_aliases.json"
+
+
+def _load_dc_aliases() -> dict[str, str]:
+    """Curated drug.community-name -> vocab_id map (lowercased keys)."""
+    if not _DC_ALIAS_PATH.exists():
+        return {}
+    raw = json.loads(_DC_ALIAS_PATH.read_text(encoding="utf-8"))
+    return {k.lower(): v for k, v in raw.items() if not k.startswith("_")}
+
+
+_DC_ALIASES: dict[str, str] = _load_dc_aliases()
+
+
+def dc_alias_for(name: str) -> str | None:
+    """Resolve a drug.community ``reported_effects.name`` to a ``vocab_id``.
+
+    Unlike the whitelisted ``effects`` table, drug.community names are colloquial
+    and rarely exact PW strings, so this first tries the orthographic
+    ``vocab_id_for`` and then the curated alias table. ``None`` keeps the raw name
+    as the localized fallback (no-silent-caps).
+    """
+    if not name:
+        return None
+    return vocab_id_for(name) or _DC_ALIASES.get(name.strip().lower())
 
 
 def _load_zh() -> tuple[dict[str, dict[str, str]], dict[str, int]]:

@@ -48,7 +48,7 @@ from drug_community_effects import (  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     spectrum_levels as dc_spectrum_levels,
 )
-from effect_vocab import EFFECT_VOCAB, vocab_id_for, vocab_labels  # noqa: E402
+from effect_vocab import EFFECT_VOCAB, dc_alias_for, vocab_id_for, vocab_labels  # noqa: E402
 from molecule_shapes import generate_molecule_shapes  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
@@ -842,9 +842,10 @@ CREATE INDEX idx_spectrum_substance ON spectrum_levels(substance_id);
 -- "Effects" list on the Effects & Intensity screen (distinct from the vetted,
 -- PW-whitelisted `effects` table above — this is community-reported data).
 -- First-hand reports come from FreeODWiki at the section level, never dc's erowid
--- quotes (which we don't translate/surface). `name` is English pending the curated
--- dc-effect translation vocab (built once the design is final) — see the
--- effects-whitelist localization rationale.
+-- quotes (which we don't translate/surface). `name` is the raw drug.community
+-- string; `vocab_id` points at a canonical PsychonautWiki effect (effect_vocab)
+-- when a curated alias matches, so the app can render the short, localized
+-- effect_vocab_labels term instead — NULL keeps the raw `name` (no-silent-caps).
 CREATE TABLE reported_effects (
     id           INTEGER PRIMARY KEY,
     substance_id INTEGER NOT NULL REFERENCES substances(id),
@@ -853,6 +854,7 @@ CREATE TABLE reported_effects (
     domain       TEXT NOT NULL,                 -- Emotional/Cognitive/Sensory/Physical/Social
     report_count INTEGER NOT NULL DEFAULT 0,
     emerges_band INTEGER,                        -- 0..5, or NULL if unknown
+    vocab_id     TEXT REFERENCES effect_vocab(vocab_id),
     UNIQUE(substance_id, name)
 );
 CREATE INDEX idx_reported_effects_substance ON reported_effects(substance_id);
@@ -5200,7 +5202,7 @@ class Build:
             for eff in dc_reported_effects(effects_by_slug.get(dc_slug), spectrum):
                 self.cur.execute(
                     "INSERT OR IGNORE INTO reported_effects(substance_id, source_id, name, "
-                    "domain, report_count, emerges_band) VALUES (?, ?, ?, ?, ?, ?)",
+                    "domain, report_count, emerges_band, vocab_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     (
                         sid,
                         src,
@@ -5208,6 +5210,7 @@ class Build:
                         eff["domain"],
                         eff["report_count"],
                         eff["emerges_band"],
+                        dc_alias_for(eff["name"]),
                     ),
                 )
                 self.stats["reported_effects"] += 1
