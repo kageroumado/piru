@@ -3683,6 +3683,16 @@ class Build:
     ) -> None:
         if not category:
             return
+        # drug.community's categories are coarse ("Depressant" for benzodiazepines,
+        # "Depressant" for GABAergics, etc.), which blurs the drug-class granularity
+        # that safety-critical interaction rules depend on — a benzo mislabeled
+        # "Depressant" loses its benzo+opioid danger flag. Because drug.community
+        # outranks the volunteer wikis, its coarse category would win. Per the
+        # effects-only data-trust policy we do NOT ingest its categories; its
+        # dose/duration/effects still resolve at full priority.
+        if source_slug == "drug.community":
+            self.stats["dropped_dc_category"] = self.stats.get("dropped_dc_category", 0) + 1
+            return
         # Normalise to the canonical SubstanceCategory enum at write time so
         # the iOS app's `SubstanceCategory(rawValue:)` decode succeeds for
         # every row. Without this, drug.community's long descriptive

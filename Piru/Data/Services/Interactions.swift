@@ -617,11 +617,18 @@ enum InteractionChecker {
 
     /// Lazy cache mapping lowercased substance names (and aliases) to their
     /// resolved drug classes. Filled on first lookup via ``SubstanceLibrary``.
-    private static var drugClassCache: [String: [DrugClass]] = [:]
+    /// Memoised drug-class lookups. `OSAllocatedUnfairLock` owns the dictionary,
+    /// so it can only be touched inside `withLock` — safe from the parallel
+    /// contexts this `nonisolated` static is called from (notably Swift Testing's
+    /// concurrent tasks, where an unsynchronized static `Dictionary` mutation
+    /// crashes with a spurious "index out of range").
+    private static let drugClassCache = OSAllocatedUnfairLock<[String: [DrugClass]]>(initialState: [:])
 
     /// Get drug classes for a substance name. Falls back to a `SubstanceLibrary`
     /// lookup (canonical name or alias) when not in the overrides table; the
-    /// result is memoised for subsequent calls.
+    /// result is memoised for subsequent calls. Misses are deliberately NOT
+    /// memoised: a transient lookup failure (store not yet warm, or a startup
+    /// race) must not permanently poison a substance's interactions.
     static func drugClasses(for substanceName: String) -> [DrugClass] {
         let lower = substanceName.lowercased()
 
@@ -629,16 +636,15 @@ enum InteractionChecker {
             return override
         }
 
-        if let cached = drugClassCache[lower] {
+        if let cached = drugClassCache.withLock({ $0[lower] }) {
             return cached
         }
 
         guard let substance = SubstanceLibrary.lookupByNameOrAlias(substanceName) else {
-            drugClassCache[lower] = []
             return []
         }
         let resolved = [categoryToDrugClass(substance.category)]
-        drugClassCache[lower] = resolved
+        drugClassCache.withLock { $0[lower] = resolved }
         return resolved
     }
 
