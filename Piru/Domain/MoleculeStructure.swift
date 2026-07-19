@@ -9,7 +9,7 @@ import Foundation
 /// Coordinates already live in a `0...100` box (a small margin baked in,
 /// aspect ratio preserved) with Y in screen space (grows downward) — the
 /// renderer draws them directly with no further transform.
-struct MoleculeStructure: Hashable, Sendable {
+struct MoleculeStructure: Hashable {
     let atoms: [MoleculeAtom]
     let bonds: [MoleculeBond]
 }
@@ -17,7 +17,7 @@ struct MoleculeStructure: Hashable, Sendable {
 /// One heavy atom (hydrogens are stripped, matching how the diagram reads —
 /// implicit hydrogens on carbon, explicit only via the label conventions the
 /// renderer applies).
-struct MoleculeAtom: Hashable, Sendable {
+struct MoleculeAtom: Hashable {
     /// Element symbol ("C", "N", "O", "Cl", …).
     let element: String
     /// Position in the `0...100` box.
@@ -27,7 +27,7 @@ struct MoleculeAtom: Hashable, Sendable {
 
 /// A bond between two atom indices (0-based, into the owning
 /// ``MoleculeStructure/atoms`` array).
-struct MoleculeBond: Hashable, Sendable {
+struct MoleculeBond: Hashable {
     let a: Int
     let b: Int
     /// 1 = single, 2 = double, 3 = triple.
