@@ -485,20 +485,19 @@ struct EntryListView: View {
     /// is a `Section`; its rows are the sessions that started that day, newest
     /// first. A maintenance session (only background meds) renders as a compact
     /// row; everything else is a full card with a mini per-session timeline.
+    @ViewBuilder
     private func sessionGroupedContent(activeID: UUID?) -> some View {
-        Group {
-            sessionDayRows(activeID: activeID)
-            // Load-more sentinel: when the last built day scrolls into view, pull
-            // in the next page of older sessions. Removed once the whole history
-            // is materialized (`hasMoreSessions == false`).
-            if model.hasMoreSessions {
-                Color.clear
-                    .frame(height: 1)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .onAppear { loadMoreSessions() }
-            }
+        sessionDayRows(activeID: activeID)
+        // Load-more sentinel: when the last built day scrolls into view, pull
+        // in the next page of older sessions. Removed once the whole history
+        // is materialized (`hasMoreSessions == false`).
+        if model.hasMoreSessions {
+            Color.clear
+                .frame(height: 1)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .onAppear { loadMoreSessions() }
         }
     }
 

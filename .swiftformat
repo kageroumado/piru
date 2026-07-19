@@ -18,7 +18,12 @@
 # Disabled rules. redundantSelf is off: under Swift 6 strict concurrency it
 # strips `self.` that the compiler REQUIRES in escaping/Sendable closures (e.g.
 # GRDB's db.read { … }), breaking the build. Leave self management to the author.
---disable wrapMultilineStatementBraces,wrapMultilineConditionalAssignment,blankLinesBetweenScopes,redundantInternal,redundantSelf
+#
+# wrapIfStatementBodies / wrapIfExpressionBodies became default rules in
+# SwiftFormat 0.62; they force single-line `if x { return }` guard bodies onto
+# their own lines. The codebase deliberately uses single-line bodies (1,300+ of
+# them), so keep them off rather than reflow the whole tree.
+--disable wrapMultilineStatementBraces,wrapMultilineConditionalAssignment,blankLinesBetweenScopes,redundantInternal,redundantSelf,wrapIfStatementBodies,wrapIfExpressionBodies
 
 # Header stripping
 --header strip
