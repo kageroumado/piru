@@ -41,27 +41,40 @@ final class ActiveSessionManager {
     // MARK: - Session Recovery
 
     /// Recover an active session on app launch.
-    /// First tries to recover from a running Live Activity, then falls back to SwiftData.
+    ///
+    /// **SwiftData is authoritative.** The Live Activity is only a fallback for
+    /// the case where the store yields nothing, and it is a lossy one: its
+    /// snapshots carry no `DoseEntry.id` (so `removeDose`/`updateDose` degrade to
+    /// substance + timestamp matching) and no resolved ``DoseTitle``. It used to
+    /// be consulted *first*, and returned unconditionally — so a stale or
+    /// partial activity replaced the real session wholesale and the store was
+    /// never read. An `.ended` activity's state is frozen at the moment it
+    /// ended, which made every subsequent cold launch resurrect the same
+    /// long-dead dose list. See ``LiveActivityManager/recoverEntriesFromActivity()``.
     func recoverSession(container: ModelContainer) {
         guard activeEntries.isEmpty else { return }
 
-        // Try recovering from a running Live Activity first
-        if let recoveredEntries = LiveActivityManager.shared.recoverEntriesFromActivity() {
-            activeEntries = recoveredEntries
-            if !activeEntries.isEmpty {
-                scheduleNextPrune()
-            }
-            return
-        }
+        if recoverFromStore(container: container) { return }
 
-        // Fall back to SwiftData
+        // Nothing in the store — fall back to a running Live Activity.
+        guard let recoveredEntries = LiveActivityManager.shared.recoverEntriesFromActivity() else { return }
+        activeEntries = recoveredEntries
+        pruneCompleted()
+    }
+
+    /// Rebuild the live session from SwiftData. Returns whether any dose was
+    /// recovered, so the caller knows if the Live Activity fallback is needed.
+    private func recoverFromStore(container: ModelContainer) -> Bool {
         let context = ModelContext(container)
-        // Recover anything potentially still active: look back 12 h rather
-        // than only the current session day — a 01:30 dose must still surface
-        // when the app cold-launches at 04:50, just past the day cutoff. The
-        // forward bound keeps today's deliberately future-dated doses, as
-        // before; `pruneCompleted()` drops whatever has already run out.
-        let lookbackStart = Date.now.addingTimeInterval(-12 * 3_600)
+        // Look back exactly as far as a dose can still be drawing a curve.
+        // ``Substance/maxAcuteTimelineMinutes`` is the hard ceiling on any
+        // timeline duration, so this window provably contains every dose that
+        // could still be active — which is what lets the store be authoritative
+        // over the Live Activity rather than merely a fallback. (It was 12 h,
+        // which could miss a still-active dose logged the previous evening.)
+        // The forward bound keeps today's deliberately future-dated doses;
+        // `pruneCompleted()` drops whatever has already run out.
+        let lookbackStart = Date.now.addingTimeInterval(-Substance.maxAcuteTimelineMinutes * 60)
         let endOfDay = Calendar.current.sessionDayStart(for: .now).addingTimeInterval(86_400)
 
         let descriptor = FetchDescriptor<DoseEntry>(
@@ -71,7 +84,7 @@ final class ActiveSessionManager {
             sortBy: [SortDescriptor(\.timestamp)],
         )
 
-        guard let entries = try? context.fetch(descriptor), !entries.isEmpty else { return }
+        guard let entries = try? context.fetch(descriptor), !entries.isEmpty else { return false }
 
         let colorDescriptor = FetchDescriptor<SubstanceColor>()
         let colors = (try? context.fetch(colorDescriptor)) ?? []
@@ -87,6 +100,10 @@ final class ActiveSessionManager {
         }
 
         pruneCompleted()
+        // The fetch found doses but every one had run out (or carries no curve):
+        // still a successful read of the authoritative source, so don't fall
+        // through to a Live Activity claiming otherwise.
+        return true
     }
 
     // MARK: - Add / Remove
@@ -347,6 +364,21 @@ final class ActiveSessionManager {
         allColors.hexColorMap
     }
 
+    /// Drop everything this manager can no longer speak for: doses that have run
+    /// out, and doses that never had a curve to run out of.
+    ///
+    /// The `nil` duration case is **membership, not expiry**. A durationless dose
+    /// is one ``resolveDuration(substance:entry:)`` declined to model: a
+    /// substance with no acute curve on any route (supplements like Omega-3), or
+    /// a dose naming an unmodeled release form. Keeping it would open an "active
+    /// session" counting down a curve the app has deliberately refused to draw.
+    /// The journal still renders those doses — via `ActiveSubstanceCalculator`'s
+    /// synthesized half-life tier, or as a timestamp marker — because the
+    /// timeline is a wider claim than the live session accessory this drives.
+    ///
+    /// "Long-acting" alone does **not** mean durationless: memantine's winning
+    /// source resolves a real ~18 h profile, inside
+    /// ``Substance/maxAcuteTimelineMinutes``, so it is a legitimate member.
     private func pruneCompleted() {
         let now = Date.now
         activeEntries.removeAll { item in

@@ -102,8 +102,16 @@ final class LiveActivityManager {
         // do NOT end it when auto-start is disabled: a manually-started activity
         // must survive relaunch, and the auto-start preference governs *creation*,
         // not teardown — tearing down here is what used to wipe the live session.
-        if let existing = Activity<PiruActivityAttributes>.activities.first {
-            currentActivity = existing
+        //
+        // Only a *running* activity counts. ActivityKit keeps `.ended` and
+        // `.dismissed` activities in `activities` until the user clears them (up
+        // to 4 h), and an ended activity's `content.state` is frozen at the moment
+        // it ended — `update()` on it is a no-op, so it can never catch up.
+        // Adopting one made `recoverSession` resurrect that frozen dose list on
+        // every cold launch, silently replacing the real session. `.stale` is kept:
+        // it's still on screen and still updatable, just past its `staleDate`.
+        currentActivity = Activity<PiruActivityAttributes>.activities.first {
+            $0.activityState == .active || $0.activityState == .stale
         }
     }
 
@@ -111,9 +119,17 @@ final class LiveActivityManager {
 
     /// Recover active entries from a running Live Activity.
     /// Called by `ActiveSessionManager.recoverSession()` on app launch.
-    /// Returns entries if a Live Activity is running, nil otherwise.
+    /// Returns entries only when an activity is genuinely running and carries
+    /// substances; `nil` otherwise, so the caller falls through to SwiftData.
+    ///
+    /// The `activityState` re-check is not redundant with `init`'s: the activity
+    /// can end (user dismissal, system expiry) while the process is alive, and
+    /// `currentActivity` is only cleared on the paths *we* drive.
     func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)]? {
-        guard let existing = currentActivity else { return nil }
+        guard let existing = currentActivity,
+              existing.activityState == .active || existing.activityState == .stale,
+              !existing.content.state.activeSubstances.isEmpty
+        else { return nil }
         return existing.content.state.activeSubstances.map { state in
             let snapshot = DoseSnapshot(
                 substance: state.substanceName,
