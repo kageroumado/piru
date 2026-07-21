@@ -1937,6 +1937,38 @@
         }
       }
     },
+    "%lld h %lld m later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 小时 %2$lld 分后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 小時 %2$lld 分後"
+          }
+        }
+      }
+    },
+    "%lld h later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時後"
+          }
+        }
+      }
+    },
     "%lld hours" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2172,6 +2204,22 @@
         }
       }
     },
+    "%lld min later" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘後"
+          }
+        }
+      }
+    },
     "%lld nM" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2401,6 +2449,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "連續 %1$lld 天 · 本月 %2$@"
+          }
+        }
+      }
+    },
+    "%lld. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@"
           }
         }
       }
@@ -2840,6 +2898,7 @@
       }
     },
     "+%@h" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4335,6 +4394,22 @@
         }
       }
     },
+    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths, not by one shared knob." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放剂的输出受限于囊泡中剩余的多巴胺存量；若同时存在再摄取抑制剂，还会被进一步压制。抑制剂则不受存量限制——它通过减慢清除而非推出递质来提升多巴胺。两者由不同的代码路径处理，而非共用一个参数。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放劑的輸出受限於囊泡中剩餘的多巴胺存量；若同時存在再攝取抑制劑，還會被進一步壓制。抑制劑則不受存量限制——它透過減慢清除而非推出遞質來提升多巴胺。兩者由不同的程式路徑處理，而非共用一個參數。"
+          }
+        }
+      }
+    },
     "A reminder to drink water during stimulants and long sessions." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4413,6 +4488,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "第一次之後沒多久再補一劑，效果會更弱——快速釋放的那一部分被用得差不多了（快速耐受）。它過一夜就會補回來，所以和下面那種慢一點的耐受是兩回事。靠多用來追效果很少奏效，反而把風險疊上去。"
+          }
+        }
+      }
+    },
+    "A second plan is drawn as its own curve, so you can hold two ideas side by side — two meds, or a split dose against a single one." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第二个方案会绘制为独立曲线，让你并排比较两种设想——两种药物，或分次服用与一次服用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第二個方案會繪製為獨立曲線，讓你並排比較兩種設想——兩種藥物，或分次服用與一次服用。"
           }
         }
       }
@@ -4709,6 +4800,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "絕對不要駕駛或操作機器。"
+          }
+        }
+      }
+    },
+    "Absorption rate (ka)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸收速率 (ka)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸收速率 (ka)"
           }
         }
       }
@@ -5393,6 +5500,7 @@
       }
     },
     "Add a calibrated substance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5409,6 +5517,22 @@
       }
     },
     "Add a dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增劑量"
+          }
+        }
+      }
+    },
+    "Add a Dose" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6514,6 +6638,22 @@
         }
       }
     },
+    "All four lenses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部四个视角"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部四個視角"
+          }
+        }
+      }
+    },
     "All mechanisms, one axis" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6543,6 +6683,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部漏服"
+          }
+        }
+      }
+    },
+    "All of it is a set of coupled differential equations advanced by forward Euler in half-minute steps across twelve hours or more." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这一切构成一组耦合微分方程，以前向欧拉法按半分钟步长推进，跨越十二小时以上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這一切構成一組耦合微分方程，以前向尤拉法按半分鐘步長推進，跨越十二小時以上。"
           }
         }
       }
@@ -7581,6 +7737,7 @@
       }
     },
     "at start" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7592,6 +7749,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在起始時"
+          }
+        }
+      }
+    },
+    "At start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始時"
           }
         }
       }
@@ -8669,6 +8842,22 @@
         }
       }
     },
+    "Binding used" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所用结合数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所用結合數據"
+          }
+        }
+      }
+    },
     "Binds to a distinct site on the GABA-A receptor, acting as a positive allosteric modulator that increases the duration of chloride channel opening (unlike benzodiazepines which increase frequency). At higher concentrations, can directly activate GABA-A receptors even without GABA, accounting for their greater overdose lethality. Also inhibits AMPA/kainate glutamate receptors." : {
       "localizations" : {
         "zh-Hans" : {
@@ -8801,6 +8990,22 @@
     },
     "Bioavailability" : {
 
+    },
+    "Bioavailability (F)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生物利用度 (F)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生物利用度 (F)"
+          }
+        }
+      }
     },
     "Bioavailability versus dose: gabapentin falls as the dose rises, pregabalin stays flat." : {
       "localizations" : {
@@ -9474,7 +9679,24 @@
         }
       }
     },
+    "Calibrated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已校准"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已校準"
+          }
+        }
+      }
+    },
     "Calibrated on five stimulants; other substances shape the curves through how they interact with those. Compare the shape of a curve more than its exact height." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10432,6 +10654,22 @@
         }
       }
     },
+    "Choose a different substance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择其他物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇其他物質"
+          }
+        }
+      }
+    },
     "Choose at least 2 substances" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10638,6 +10876,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除"
+          }
+        }
+      }
+    },
+    "Clear All" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部清除"
           }
         }
       }
@@ -11470,6 +11724,7 @@
       }
     },
     "Compare two meds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11481,6 +11736,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "比較兩種藥物"
+          }
+        }
+      }
+    },
+    "Compare with another plan" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与另一个方案比较"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與另一個方案比較"
           }
         }
       }
@@ -11663,6 +11934,22 @@
         }
       }
     },
+    "Compulsion sums a slowly-decaying incentive envelope that charges from the rate of rise, and the gap between the rush you remember and the rush you are getting now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「冲动」由两部分相加：一条由上升速率充能、衰减缓慢的激励包络，以及你记忆中的冲劲与当下实际冲劲之间的落差。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「衝動」由兩部分相加：一條由上升速率充能、衰減緩慢的激勵包絡，以及你記憶中的衝勁與當下實際衝勁之間的落差。"
+          }
+        }
+      }
+    },
     "Conc" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11691,6 +11978,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "濃度"
+          }
+        }
+      }
+    },
+    "Concentration becomes fractional occupancy of the dopamine, noradrenaline and serotonin transporters. The dopamine transporter gets a time-resolved binding equation — separate association and dissociation rates rather than instant equilibrium — so a drug that lets go slowly holds its occupancy plateau after concentration has begun to fall." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度会转换为多巴胺、去甲肾上腺素和血清素转运体的占据率。其中多巴胺转运体使用时间分辨的结合方程——分别设定结合与解离速率，而非瞬时平衡——因此解离缓慢的药物会在浓度开始下降后仍维持占据平台期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度會轉換為多巴胺、正腎上腺素和血清素轉運體的佔據率。其中多巴胺轉運體使用時間解析的結合方程——分別設定結合與解離速率，而非瞬時平衡——因此解離緩慢的藥物會在濃度開始下降後仍維持佔據平台期。"
           }
         }
       }
@@ -13546,6 +13849,22 @@
         }
       }
     },
+    "Depletion, and where the comedown comes from" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耗竭，以及退药反应的来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耗竭，以及退藥反應的來源"
+          }
+        }
+      }
+    },
     "depot" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13900,6 +14219,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分布容積"
+          }
+        }
+      }
+    },
+    "Distribution (Vd)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分布容积 (Vd)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分布容積 (Vd)"
           }
         }
       }
@@ -14636,6 +14971,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量級別"
+          }
+        }
+      }
+    },
+    "Dose options" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量选项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量選項"
           }
         }
       }
@@ -15680,6 +16032,7 @@
       }
     },
     "Earlier" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16446,6 +16799,22 @@
         }
       }
     },
+    "Elimination rate (ke)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除速率 (ke)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除速率 (ke)"
+          }
+        }
+      }
+    },
     "Emergencias" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16785,6 +17154,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "精力"
+          }
+        }
+      }
+    },
+    "Energy is a noradrenaline-led inverted U set against its own adaptation, minus sedative load. Past a point, more noradrenergic drive lowers functional energy instead of adding to it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「精力」是一条以去甲肾上腺素为主导、并与自身适应相抗衡的倒 U 形曲线，再减去镇静负荷。超过某一点后，更强的去甲肾上腺素驱动反而会降低而非提升功能性精力。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「精力」是一條以正腎上腺素為主導、並與自身適應相抗衡的倒 U 形曲線，再減去鎮靜負荷。超過某一點後，更強的正腎上腺素驅動反而會降低而非提升功能性精力。"
           }
         }
       }
@@ -17524,6 +17909,22 @@
         }
       }
     },
+    "Every curve starts as a number you typed and ends as a line on a chart. These are the steps in between." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条曲线都始于你输入的一个数字，终于图上的一条线。以下是中间的每一步。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條曲線都始於你輸入的一個數字，終於圖上的一條線。以下是中間的每一步。"
+          }
+        }
+      }
+    },
     "Every dose lands on a timeline so you can see what's active — and when it fades." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17552,6 +17953,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隔日"
+          }
+        }
+      }
+    },
+    "Every substance shares one set of neural constants. Only the store-depletion susceptibility is fitted per substance, anchored to the observed contrast between an amphetamine crash and a crashless cathinone." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有物质共用同一组神经常数。只有存量耗竭易感性是逐物质拟合的，其锚点是安非他命崩落与不产生崩落的卡西酮之间的实测反差。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有物質共用同一組神經常數。只有存量耗竭易感性是逐物質擬合的，其錨點是安非他命崩落與不產生崩落的卡西酮之間的實測反差。"
           }
         }
       }
@@ -17617,6 +18034,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 在本機儲存的全部內容。除非開啟 iCloud 備份，你的劑量資料只保存在這部裝置上。"
+          }
+        }
+      }
+    },
+    "Everything present draws on one shared pool of free transporters, so a second substance finds fewer sites open. This is the point where combinations stop being additive." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在场的所有物质共用同一个空闲转运体池，因此第二种物质可用的位点更少。组合效应正是从这里开始不再是简单相加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在場的所有物質共用同一個空閒轉運體池，因此第二種物質可用的位點更少。組合效應正是從這裡開始不再是簡單相加。"
           }
         }
       }
@@ -18343,6 +18776,22 @@
         }
       }
     },
+    "Feeling sums reward, serotonin and opioid warmth, and liking, minus the comedown." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「感受」将奖赏、血清素与阿片带来的暖意以及喜爱相加，再减去退药反应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「感受」將獎賞、血清素與鴉片帶來的暖意以及喜愛相加，再減去退藥反應。"
+          }
+        }
+      }
+    },
     "Fentanyl (transdermal)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18973,6 +19422,38 @@
         }
       }
     },
+    "From concentration to target engagement" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从浓度到靶点结合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從濃度到標靶結合"
+          }
+        }
+      }
+    },
+    "From dose to concentration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从剂量到浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從劑量到濃度"
+          }
+        }
+      }
+    },
     "From journal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19149,6 +19630,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "GABA（苯二氮平／酒精）"
+          }
+        }
+      }
+    },
+    "GABA-A drive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 驱动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 驅動"
           }
         }
       }
@@ -20002,6 +20499,22 @@
         }
       }
     },
+    "Half-life (t½)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期 (t½)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期 (t½)"
+          }
+        }
+      }
+    },
     "Half-Life Calculator" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20755,6 +21268,22 @@
         }
       }
     },
+    "How it is solved" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何求解"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何求解"
+          }
+        }
+      }
+    },
     "How it works" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20847,6 +21376,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如何計算"
+          }
+        }
+      }
+    },
+    "How this is estimated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算方式"
           }
         }
       }
@@ -23117,6 +23662,7 @@
       }
     },
     "Later" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24624,6 +25170,22 @@
         }
       }
     },
+    "Measured pharmacokinetics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实测药代动力学"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實測藥物動力學"
+          }
+        }
+      }
+    },
     "Measures how tightly the drug grips the target (Ki). A smaller number means a tighter grip — under 100 nM is strong, over 1000 nM is weak." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25379,6 +25941,22 @@
         }
       }
     },
+    "Model anchor dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型基准剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型基準劑量"
+          }
+        }
+      }
+    },
     "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak, not a measure of impairment. Not medical advice." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25423,6 +26001,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型根據你的劑量記錄估算，假設體重為 %lld kg——在設定裡填上你自己的。"
+          }
+        }
+      }
+    },
+    "Modeled alongside" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可与其一同模拟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可與其一同模擬"
           }
         }
       }
@@ -26059,6 +26653,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移動 %@"
+          }
+        }
+      }
+    },
+    "Move to" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動到"
           }
         }
       }
@@ -27115,6 +27726,22 @@
         }
       }
     },
+    "No body weight, bioavailability or volume of distribution. Concentration here is dimensionless and relative to a reference dose, not a measured blood level." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含体重、生物利用度或分布容积。此处的浓度是无量纲的、相对于参考剂量而言，并非实测血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含體重、生物利用度或分布容積。此處的濃度是無量綱的、相對於參考劑量而言，並非實測血藥濃度。"
+          }
+        }
+      }
+    },
     "No cloud unless you ask" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27228,6 +27855,22 @@
         }
       }
     },
+    "No genetics, no metabolizer phenotype, and no drug–drug metabolic interaction. Interactions are pharmacodynamic only: shared transporters, shared stores, shared receptors." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含遗传因素、代谢表型，也不含药物间代谢相互作用。相互作用仅限药效学层面：共用转运体、共用存量、共用受体。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含遺傳因素、代謝表型，也不含藥物間代謝交互作用。交互作用僅限藥效學層面：共用轉運體、共用存量、共用受體。"
+          }
+        }
+      }
+    },
     "No half-life data — elimination not modeled" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27273,6 +27916,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未找到此帳戶的 iCloud 備份。"
+          }
+        }
+      }
+    },
+    "No individual variability. The same inputs always give the same curve, and no confidence band is drawn around it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含个体差异。相同输入永远给出相同曲线，且不会绘制置信区间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含個體差異。相同輸入永遠給出相同曲線，且不會繪製信賴區間。"
           }
         }
       }
@@ -27449,6 +28108,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此裝置上沒有可還原的副本。"
+          }
+        }
+      }
+    },
+    "No resolved pharmacology for this substance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能解析该物质的药理数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能解析該物質的藥理數據。"
           }
         }
       }
@@ -27694,6 +28369,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒耐受"
+          }
+        }
+      }
+    },
+    "No tolerance between sessions. Every simulation starts from a naive baseline; acclimation within the session is modeled, carry-over from yesterday is not." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含跨次耐受。每次模拟都从未接触药物的基线开始；单次会话内的适应有被建模，但昨天的残留影响没有。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含跨次耐受。每次模擬都從未接觸藥物的基線開始；單次會話內的適應有被建模，但昨天的殘留影響沒有。"
           }
         }
       }
@@ -28150,6 +28841,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無到期項"
+          }
+        }
+      }
+    },
+    "Nothing here can anchor a curve. Add a calibrated substance — amphetamine, methylphenidate, mephedrone, 3-MMC, or 2-MMC." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此处没有可锚定曲线的物质。请添加一种已校准的物质——安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC 或 2-MMC。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此處沒有可錨定曲線的物質。請新增一種已校準的物質——安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC 或 2-MMC。"
           }
         }
       }
@@ -28682,6 +29389,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開設定"
+          }
+        }
+      }
+    },
+    "Opens full size" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开完整视图"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟完整檢視"
           }
         }
       }
@@ -29532,6 +30256,22 @@
         }
       }
     },
+    "Past a threshold that debt switches on a comedown term, which then recovers with accelerating synthesis over hours. Serotonin activity cushions it. That is why an amphetamine crash and a cathinone's calmer return separate so sharply in these curves." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越过某一阈值后，这份亏空会启动退药项，随后在数小时内以逐渐加速的合成恢复。血清素活性会起到缓冲作用。这正是安非他命的崩落与卡西酮类平缓回落在这些曲线上分野如此鲜明的原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越過某一閾值後，這份虧空會啟動退藥項，隨後在數小時內以逐漸加速的合成恢復。血清素活性會起到緩衝作用。這正是安非他命的崩落與卡西酮類平緩回落在這些曲線上分野如此鮮明的原因。"
+          }
+        }
+      }
+    },
     "Patient Name (Optional)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30262,6 +31002,7 @@
       }
     },
     "Pick a substance and an amount above to see how it may feel over time." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30273,6 +31014,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在上方選擇一種物質和劑量，即可查看它隨時間可能帶來的感受。"
+          }
+        }
+      }
+    },
+    "Pick a substance and an amount to see how it may feel over time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择一种物质和剂量，即可查看它随时间可能带来的感受。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇一種物質和劑量，即可查看它隨時間可能帶來的感受。"
           }
         }
       }
@@ -30719,6 +31476,38 @@
     "pKa" : {
 
     },
+    "Plan A" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方案 A"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方案 A"
+          }
+        }
+      }
+    },
+    "Plan B" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方案 B"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方案 B"
+          }
+        }
+      }
+    },
     "Please enable notifications in Settings to use Ramp Down alerts." : {
       "localizations" : {
         "zh-Hans" : {
@@ -30736,6 +31525,7 @@
       }
     },
     "plus %@ hours" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31688,6 +32478,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "迷幻劑（5-HT2A）"
+          }
+        }
+      }
+    },
+    "Psychedelics, dissociatives and cannabinoids are out of scope — pharmacokinetics is not what drives their effects." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷幻剂、解离剂与大麻素类不在适用范围内——药代动力学并非其效应的主导因素。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷幻劑、解離劑與大麻素類不在適用範圍內——藥物動力學並非其效應的主導因素。"
           }
         }
       }
@@ -32964,6 +33770,22 @@
         }
       }
     },
+    "Reference dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考劑量"
+          }
+        }
+      }
+    },
     "References" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -33106,6 +33928,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "釋放窗口"
+          }
+        }
+      }
+    },
+    "Releaser" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放劑"
+          }
+        }
+      }
+    },
+    "Releasers and reuptake blockers diverge" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放剂与再摄取抑制剂就此分道"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放劑與再攝取抑制劑就此分道"
+          }
+        }
+      }
+    },
+    "Releasers spend vesicular stores in proportion to concentration, and dopamine elevation itself throttles resynthesis — so the debt deepens while the drug is still on board rather than being repaid in real time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放剂消耗囊泡存量的速度与浓度成正比，而多巴胺升高本身又抑制再合成——因此在药物仍在体内时亏空会不断加深，而非实时偿还。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放劑消耗囊泡存量的速度與濃度成正比，而多巴胺升高本身又抑制再合成——因此在藥物仍在體內時虧空會不斷加深，而非即時償還。"
           }
         }
       }
@@ -34192,6 +35062,38 @@
         }
       }
     },
+    "Reward is gated by rate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "奖赏受上升速率闸控"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞受上升速率閘控"
+          }
+        }
+      }
+    },
+    "Reward is multiplied by a gate that integrates how fast dopamine is rising. A substance can occupy the transporter fully and still register almost no reward if it arrived slowly — the same pharmacology reading as therapeutic or as euphoric depending on speed alone." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "奖赏会乘上一个闸门，该闸门对多巴胺上升的速率进行积分。若到达缓慢，某物质即便完全占据转运体也几乎产生不了奖赏——同样的药理学，仅因速度不同，就可读作治疗性或欣快性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞會乘上一個閘門，該閘門對多巴胺上升的速率進行積分。若到達緩慢，某物質即便完全佔據轉運體也幾乎產生不了獎賞——同樣的藥理學，僅因速度不同，就可讀作治療性或欣快性。"
+          }
+        }
+      }
+    },
     "Rich" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34444,6 +35346,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "給藥途徑"
+          }
+        }
+      }
+    },
+    "Route changes how steeply the curve rises, and whether the drug redistributes into a peripheral compartment — not how high it peaks. An insufflated and an oral dose of the same size reach the same peak here. What differs is the slope, and the later stages are sensitive to slope." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给药途径改变的是曲线上升的陡峭程度，以及药物是否再分布到外周室——而非峰值高度。在此模型中，相同剂量的鼻吸与口服会达到相同的峰值。差别在于斜率，而后续各阶段对斜率非常敏感。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "給藥途徑改變的是曲線上升的陡峭程度，以及藥物是否再分布到周邊室——而非峰值高度。在此模型中，相同劑量的鼻吸與口服會達到相同的峰值。差別在於斜率，而後續各階段對斜率非常敏感。"
           }
         }
       }
@@ -38209,6 +39127,22 @@
         }
       }
     },
+    "Species" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物种"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物種"
+          }
+        }
+      }
+    },
     "Specific days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38582,6 +39516,7 @@
       }
     },
     "start" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39033,6 +39968,22 @@
         }
       }
     },
+    "Step by step" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步拆解"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步拆解"
+          }
+        }
+      }
+    },
     "Still need to log your %@ routine?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39223,6 +40174,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "負荷"
+          }
+        }
+      }
+    },
+    "Strain sums a noradrenergic cardiovascular term drawing on a depletable vasoconstriction pool, plus an opioid respiratory term. It deliberately follows concentration rather than the felt gap, so it stays elevated after the effect itself has faded." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「负荷」由两项相加：一项取用可耗竭血管收缩池的去甲肾上腺素心血管项，以及一项阿片类呼吸抑制项。它刻意跟随浓度而非主观差距，因此在效应本身消退后仍会维持在高位。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「負荷」由兩項相加：一項取用可耗竭血管收縮池的正腎上腺素心血管項，以及一項鴉片類呼吸抑制項。它刻意跟隨濃度而非主觀差距，因此在效應本身消退後仍會維持在高位。"
           }
         }
       }
@@ -40535,6 +41502,22 @@
         }
       }
     },
+    "The calculation, step by step" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步拆解计算过程"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步拆解計算過程"
+          }
+        }
+      }
+    },
     "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40583,6 +41566,22 @@
         }
       }
     },
+    "The comedown here is over-compensation plus a depletion debt — not dopamine falling below baseline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此处的退药反应是代偿过度加上耗竭亏空——并非多巴胺跌破基线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此處的退藥反應是代償過度加上耗竭虧空——並非多巴胺跌破基線。"
+          }
+        }
+      }
+    },
     "The concentration unit these values use. Lower numbers always mean the drug works at smaller amounts." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40611,6 +41610,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這次崩潰是您的神經系統在要求休息和補充。"
+          }
+        }
+      }
+    },
+    "The DAT:NET:SERT potency ratios are taken from one published assay, chosen by coverage and confidence, never mixed across labs. Only ratios measured in the same experiment are physically comparable." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DAT:NET:SERT 的效价比取自同一篇已发表的实验，依覆盖度与可信度择优，绝不跨实验室混用。只有在同一实验中测得的比值才具有物理可比性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DAT:NET:SERT 的效價比取自同一篇已發表的實驗，依覆蓋度與可信度擇優，絕不跨實驗室混用。只有在同一實驗中測得的比值才具有物理可比性。"
           }
         }
       }
@@ -40648,6 +41663,22 @@
         }
       }
     },
+    "The engine can simulate these as part of a plan, but they need a calibrated substance in the same plan to anchor the curve." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引擎可以在方案中模拟这些物质，但同一方案中需要有一种已校准的物质来锚定曲线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引擎可以在方案中模擬這些物質，但同一方案中需要有一種已校準的物質來錨定曲線。"
+          }
+        }
+      }
+    },
     "The exact amount you have now. Changing it is logged as a correction." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40664,6 +41695,22 @@
         }
       }
     },
+    "The fast gap is the rush. Because the fast signal catches up within minutes, that gap is effectively proportional to how quickly dopamine rose. The slow gap is the high while it stays positive; once the slow expectation overshoots the falling dopamine, the same term turns into part of the comedown." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速差距就是冲劲。由于快速信号在数分钟内即可追平，该差距实际上与多巴胺上升的速度成正比。缓慢差距在为正时即是高峰体验；一旦缓慢预期超过了正在下落的多巴胺，同一项便转为退药反应的一部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速差距就是衝勁。由於快速訊號在數分鐘內即可追平，該差距實際上與多巴胺上升的速度成正比。緩慢差距在為正時即是高峰體驗；一旦緩慢預期超過了正在下落的多巴胺，同一項便轉為退藥反應的一部分。"
+          }
+        }
+      }
+    },
     "The foggy feeling will clear. Give it hours, not minutes." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40676,6 +41723,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "迷糊感會消散。需要數小時,而非數分鐘。"
+          }
+        }
+      }
+    },
+    "The four readouts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "四项读数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "四項讀數"
           }
         }
       }
@@ -40725,6 +41788,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原理"
+          }
+        }
+      }
+    },
+    "The idea first, then every stage from your dose to the line on the chart." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先讲思路，再逐一拆解从你的剂量到图上那条线的每个阶段。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先講思路，再逐一拆解從你的劑量到圖上那條線的每個階段。"
           }
         }
       }
@@ -40795,6 +41874,7 @@
       }
     },
     "The model anchors on five stimulants — amphetamine, methylphenidate, mephedrone, 3-MMC, 2-MMC. Add one of those (or a brand of it) and the others will shape the curves around it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40838,6 +41918,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此模型基於五種興奮劑校準：安非他命、哌甲酯、4-甲基甲卡西酮、3-MMC 和 2-MMC。其他物質透過與它們的交互作用來影響曲線。鴉片類物質則依據其多巴胺活性來解讀，主要用於呈現這些交互作用。"
+          }
+        }
+      }
+    },
+    "The model was calibrated on these. Each one can be modeled on its own." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型以这些物质为基准校准，每一种都可单独模拟。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型以這些物質為基準校準，每一種都可單獨模擬。"
           }
         }
       }
@@ -41819,6 +42915,7 @@
       }
     },
     "Time offset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41942,6 +43039,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "達峰時間"
+          }
+        }
+      }
+    },
+    "Time to peak (Tmax)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达峰时间 (Tmax)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達峰時間 (Tmax)"
           }
         }
       }
@@ -42690,6 +43803,22 @@
         }
       }
     },
+    "Transporter weights" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "转运体权重"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轉運體權重"
+          }
+        }
+      }
+    },
     "Tricyclic Antidepressant (TCA)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -42757,6 +43886,7 @@
       }
     },
     "Try a combination" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42963,6 +44093,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "兩種作用於同一靶點的藥物，在加大劑量時表現相反：加巴噴丁吸收的比例下降，普瑞巴林則保持不變。"
+          }
+        }
+      }
+    },
+    "Two internal compensation signals chase the drug-driven dopamine elevation: a fast one that settles within minutes (autoreceptor feedback, transporter trafficking) and a slow one over hours (synthesis regulation). The felt effect is modeled as the distance between dopamine and those expectations — never the dopamine level itself." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两条内部代偿信号追赶着药物引起的多巴胺升高：一条在数分钟内稳定（自受体反馈、转运体转运），另一条历时数小时（合成调节）。主观效应被建模为多巴胺与这些预期之间的距离——而绝非多巴胺水平本身。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩條內部代償訊號追趕著藥物引起的多巴胺升高：一條在數分鐘內穩定（自受體回饋、轉運體運輸），另一條歷時數小時（合成調節）。主觀效應被建模為多巴胺與這些預期之間的距離——而絕非多巴胺水平本身。"
           }
         }
       }
@@ -44229,6 +45375,22 @@
         }
       }
     },
+    "Weakest input" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最弱输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最弱輸入"
+          }
+        }
+      }
+    },
     "Weekly" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44344,6 +45506,39 @@
         }
       }
     },
+    "What the engine uses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引擎实际使用的数值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引擎實際使用的數值"
+          }
+        }
+      }
+    },
+    "What the simulation is actually computing, and why rate matters more than amount." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模拟实际在计算什么，以及为何速率比剂量更重要。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模擬實際在計算什麼，以及為何速率比劑量更重要。"
+          }
+        }
+      }
+    },
     "What these curves cover" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44360,6 +45555,22 @@
         }
       }
     },
+    "What this does not model" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本模型不涵盖的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本模型不涵蓋的內容"
+          }
+        }
+      }
+    },
     "What to avoid" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44372,6 +45583,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "應避免的事"
+          }
+        }
+      }
+    },
+    "What you feel is a gap, not a level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你感受到的是差距，而非水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你感受到的是差距，而非水平"
           }
         }
       }
@@ -45357,6 +46584,22 @@
         }
       }
     },
+    "Your dose is first expressed as a multiple of that substance's reference dose — the amount the model was tuned around. It then moves through a three-stage absorption chain into a central compartment that clears by first-order elimination, using an absorption rate (ka) and an elimination rate (ke) derived from the measured half-life and time to peak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的剂量首先会换算为该物质参考剂量的倍数——即模型调校时所围绕的用量。随后它经过三级吸收链进入中央室，并以一级消除方式清除；其中吸收速率 (ka) 与消除速率 (ke) 由实测半衰期和达峰时间推导而来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的劑量首先會換算為該物質參考劑量的倍數——即模型調校時所圍繞的用量。隨後它經過三級吸收鏈進入中央室，並以一級消除方式清除；其中吸收速率 (ka) 與消除速率 (ke) 由實測半衰期和達峰時間推導而來。"
+          }
+        }
+      }
+    },
     "Your drinks" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -45773,6 +47016,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體拮抗劑"
+          }
+        }
+      }
+    },
+    "µ-opioid drive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "µ-阿片受体驱动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "µ-鴉片受體驅動"
           }
         }
       }

@@ -9,6 +9,20 @@ import SwiftUI
 /// Fills the height it's given so it lines up with the classic timeline graph
 /// (the host sizes both from ``GraphMetrics``). No card of its own — it sits in a
 /// grouped section like the timeline graph does.
+/// One named curve in a multi-plan comparison. Given these, a chart draws each
+/// as a plain colored line on a shared axis — no area fill and no crash recolor,
+/// because in a comparison the color has to mean *which plan*, not *how it's
+/// going*. Two red-tinted crashes would be indistinguishable.
+struct MechanisticComparisonSeries: Identifiable, Equatable {
+    let id: String
+    let timeline: EffectTimeline
+    let color: Color
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id && lhs.color == rhs.color && lhs.timeline.t.count == rhs.timeline.t.count
+    }
+}
+
 struct MechanisticChartView: View {
     let result: MechanisticSessionModel.Result
     let lens: EffectLens
@@ -28,6 +42,18 @@ struct MechanisticChartView: View {
     /// sub-window. The overview stack frames each full session yet still allows
     /// pinch-zoom; session detail leaves this off (it opens zoomed around now).
     var startFramed: Bool = false
+    /// When non-empty, these curves are drawn instead of `result`'s own — a
+    /// comparison of several plans on one axis. `result` still supplies the time
+    /// extent and (unless overridden) the axis.
+    var comparison: [MechanisticComparisonSeries] = []
+    /// A shared axis spanning every compared plan. Without it each plan would be
+    /// drawn against its own `result`'s range and two different doses could look
+    /// identical — the exact comparison the chart is there to make.
+    var axisOverride: MechanisticSessionModel.AxisRange?
+    /// Wall-clock labels along the bottom axis. Meaningless for a hypothetical
+    /// whose start date is synthetic, so the estimator turns them off and keeps
+    /// only the elapsed-hours row.
+    var showsClockAxis: Bool = true
 
     /// Visible window width in hours (zoom). Seeded on appear.
     @State private var winW: Double = 5.5
@@ -64,7 +90,7 @@ struct MechanisticChartView: View {
     }
 
     private var range: MechanisticSessionModel.AxisRange {
-        result.ranges[lens.rawValue] ?? .init(hi: 1, lo: 0)
+        axisOverride ?? result.ranges[lens.rawValue] ?? .init(hi: 1, lo: 0)
     }
 
     /// Scrollable extent — the real content span, not the padded `tMax`. So a
@@ -84,6 +110,16 @@ struct MechanisticChartView: View {
     /// The visible-content length the window/zoom/scroller frame.
     private var contentLength: Double {
         max(Metric.minWindow, span - contentStart)
+    }
+
+    /// A non-interactive chart has no gestures, so it has no window to remember:
+    /// it always frames its whole content, derived fresh from the current result
+    /// rather than from `@State` seeded once on first layout. Seeded state was
+    /// wrong here — a grid cell's window kept the default 5.5 h and silently
+    /// cropped curves that ran longer.
+    private var visibleWindow: (start: Double, width: Double) {
+        guard interactive else { return (clampStart(contentStart - edgePad), contentLength) }
+        return (winStart, winW)
     }
 
     var body: some View {
@@ -168,7 +204,8 @@ struct MechanisticChartView: View {
     /// indicator as the classic timeline (you pan by dragging the chart). Only
     /// when there's something to scroll to.
     private func drawPanIndicator(_ context: inout GraphicsContext, _ size: CGSize) {
-        guard winW < contentLength - 0.01 else { return }
+        let window = visibleWindow
+        guard window.width < contentLength - 0.01 else { return }
         let y = size.height - 1.5
         let trackX = Metric.edge
         let trackW = max(1, size.width - Metric.edge * 2)
@@ -176,8 +213,8 @@ struct MechanisticChartView: View {
         track.move(to: CGPoint(x: trackX, y: y))
         track.addLine(to: CGPoint(x: trackX + trackW, y: y))
         context.stroke(track, with: .color(.secondary.opacity(0.18)), lineWidth: 2)
-        let start = trackX + CGFloat(max(0, winStart - contentStart) / contentLength) * trackW
-        let end = trackX + CGFloat(min(contentLength, winStart + winW - contentStart) / contentLength) * trackW
+        let start = trackX + CGFloat(max(0, window.start - contentStart) / contentLength) * trackW
+        let end = trackX + CGFloat(min(contentLength, window.start + window.width - contentStart) / contentLength) * trackW
         var seg = Path()
         seg.move(to: CGPoint(x: start, y: y))
         seg.addLine(to: CGPoint(x: max(start, end), y: y))
@@ -211,7 +248,8 @@ struct MechanisticChartView: View {
             width: max(1, size.width - Metric.edge * 2),
             height: max(1, size.height - top - bottom),
         )
-        return Geometry(rect: rect, winStart: winStart, winW: winW, range: range, signed: lens.isSigned)
+        let window = visibleWindow
+        return Geometry(rect: rect, winStart: window.start, winW: window.width, range: range, signed: lens.isSigned)
     }
 
     private func indexRange(_ geo: Geometry) -> (Int, Int) {
@@ -241,7 +279,7 @@ struct MechanisticChartView: View {
             context.stroke(line, with: .color(.primary.opacity(0.22)), style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
             // Skip labels whose text would spill past the content margin into
             // the card's corner zone and get sliced. Grid line and ticks still draw.
-            if x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 {
+            if showsClockAxis, x >= geo.rect.minX + 8, x <= geo.rect.maxX - 8 {
                 var label = context.resolve(Text(clockShort(hour)).font(.system(size: 10)))
                 label.shading = .color(.secondary)
                 context.draw(label, at: CGPoint(x: x, y: geo.rect.maxY + 10))
@@ -294,6 +332,12 @@ struct MechanisticChartView: View {
 
     private func drawCurve(_ context: inout GraphicsContext, _ geo: Geometry) {
         guard let channel = lens.channel else { return }
+        guard comparison.isEmpty else {
+            for plan in comparison {
+                drawComparisonCurve(&context, geo, timeline: plan.timeline, channel: channel, color: plan.color)
+            }
+            return
+        }
         let series = result.timeline[keyPath: channel]
         let t = result.timeline.t
         let (i0, i1) = indexRange(geo)
@@ -331,6 +375,29 @@ struct MechanisticChartView: View {
             let crashing = geo.signed && (v0 < 0 || v1 < 0)
             context.stroke(seg, with: .color(crashing ? EffectLens.crash : lens.color), style: StrokeStyle(lineWidth: 2.6, lineJoin: .round))
         }
+    }
+
+    /// One plan's line: a plain stroke in the plan's color. No fill and no crash
+    /// red — overlapping translucent fills blend into a third color that reads as
+    /// a third plan, and a value-based recolor would break the color↔plan tie.
+    private func drawComparisonCurve(
+        _ context: inout GraphicsContext,
+        _ geo: Geometry,
+        timeline: EffectTimeline,
+        channel: KeyPath<EffectTimeline, [Double]>,
+        color: Color,
+    ) {
+        let series = timeline[keyPath: channel]
+        let t = timeline.t
+        guard series.count == t.count, t.count > 1 else { return }
+        let i0 = 0, i1 = t.count - 1
+
+        var path = Path()
+        for i in i0 ... i1 {
+            let point = CGPoint(x: geo.x(t[i]), y: geo.y(series[i]))
+            if i == i0 { path.move(to: point) } else { path.addLine(to: point) }
+        }
+        context.stroke(path, with: .color(color), style: StrokeStyle(lineWidth: 2.4, lineJoin: .round))
     }
 
     private func drawHeartRate(_ context: inout GraphicsContext, _ geo: Geometry) {

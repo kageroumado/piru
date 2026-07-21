@@ -274,4 +274,27 @@ nonisolated enum SubstanceModelDatabase {
         let key = normalize(name)
         return calibratedTriggerSet.contains(aliases[key] ?? key)
     }
+
+    /// Whether this substance can **anchor** a simulation on its own: calibrated *and* actually
+    /// resolvable to model params. Both halves are load-bearing — a name can alias into the
+    /// calibrated set yet still fail to model, because ``params(name:pharmacology:)`` needs a
+    /// mechanism from the substance's *own* DB row. Lisdexamfetamine is the worked example: it
+    /// aliases to `amphetamine` (so it picks up amphetamine's `ke` override) but the prodrug's row
+    /// carries no transporter binding, so `hasMechanism` fails and it models to nothing.
+    static func canAnchor(name: String, pharmacology: PharmacologyParameters?) -> Bool {
+        isCalibratedTrigger(name) && params(name: name, pharmacology: pharmacology) != nil
+    }
+
+    /// Whether the engine can simulate this substance *at all* — as an anchor, or as an adjunct
+    /// that shapes the curves once an anchor is present.
+    static func canParticipate(name: String, pharmacology: PharmacologyParameters?) -> Bool {
+        guard let built = params(name: name, pharmacology: pharmacology) else { return false }
+        return triggersMechanisticView(built)
+    }
+
+    /// Every substance the curated layer knows how to model, as canonical names. Bounded and static,
+    /// so a picker can resolve it without walking the 1100-substance catalog.
+    static var modelableCandidateNames: [String] {
+        Array(Set(calibratedTriggerSet).union(overrides.keys)).sorted()
+    }
 }
