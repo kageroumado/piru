@@ -35,8 +35,13 @@ import SwiftData
         /// read cleanly in screenshots.
         ///
         /// Only runs when fewer than 50 entries exist; clears existing data first.
+        ///
+        /// Launch with `-piruNoDemoData` to suppress the seed — needed when
+        /// restoring a real export onto a wiped simulator store, which would
+        /// otherwise come up pre-seeded and merge the two histories.
         @MainActor
         static func insertShowcaseData(container: ModelContainer) {
+            guard !ProcessInfo.processInfo.arguments.contains("-piruNoDemoData") else { return }
             let context = container.mainContext
             let count = (try? context.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0
             guard count < 50 else { return }
