@@ -49,12 +49,16 @@ enum AdherenceCalculator {
 
     /// The matching core over plain values, shared by the `@Model`
     /// ``entryMatches(entry:item:)`` and the `Sendable`-snapshot streak scan.
+    /// Delegates to ``MedSchedule`` (Shared/) so the Today's Meds widget joins
+    /// doses to meds with the exact same rule.
     nonisolated static func matches(
         entryKey: String, entryName: String, entryRoute: RouteOfAdministration,
         itemKey: String, itemName: String, itemRoute: RouteOfAdministration,
     ) -> Bool {
-        guard entryRoute == itemRoute else { return false }
-        return entryKey == itemKey || entryName.lowercased() == itemName.lowercased()
+        MedSchedule.matches(
+            entryKey: entryKey, entryName: entryName, entryRoute: entryRoute,
+            itemKey: itemKey, itemName: itemName, itemRoute: itemRoute,
+        )
     }
 
     /// Whether a prescription item is due on a given date, based on its frequency and start date.
@@ -64,44 +68,10 @@ enum AdherenceCalculator {
 
     /// The scheduling core over plain values, shared by the `@Model` `isDue`
     /// above and the `Sendable`-snapshot streak scan. `nonisolated` so the
-    /// off-main year pass can call it.
+    /// off-main year pass can call it. Delegates to ``MedSchedule`` (Shared/)
+    /// so the Today's Meds widget computes "due today" with the same rule.
     nonisolated static func isDue(startDate: Date, frequency: DoseFrequency, frequencyDays: [Int], on date: Date) -> Bool {
-        let calendar = Calendar.current
-        let day = calendar.startOfDay(for: date)
-        let start = calendar.startOfDay(for: startDate)
-
-        // Not due before the prescription start date
-        guard day >= start else { return false }
-
-        switch frequency {
-        case .daily:
-            return true
-
-        case .everyOtherDay:
-            let days = calendar.dateComponents([.day], from: start, to: day).day ?? 0
-            return days % 2 == 0
-
-        case .weekly:
-            let weeks = calendar.dateComponents([.day], from: start, to: day).day ?? 0
-            return weeks % 7 == 0
-
-        case .biweekly:
-            let days = calendar.dateComponents([.day], from: start, to: day).day ?? 0
-            return days % 14 == 0
-
-        case .monthly:
-            let startDay = calendar.component(.day, from: start)
-            let checkDay = calendar.component(.day, from: day)
-            // Match same day-of-month, accounting for shorter months
-            if checkDay == startDay { return true }
-            // Handle months shorter than the start day (e.g., start=31, Feb=28)
-            let daysInMonth = calendar.range(of: .day, in: .month, for: day)!.count
-            return startDay > daysInMonth && checkDay == daysInMonth
-
-        case .specificDays:
-            let weekday = calendar.component(.weekday, from: day)
-            return frequencyDays.contains(weekday)
-        }
+        MedSchedule.isDue(startDate: startDate, frequency: frequency, frequencyDays: frequencyDays, on: date)
     }
 
     static func adherence(
