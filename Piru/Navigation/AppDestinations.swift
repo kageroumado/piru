@@ -110,6 +110,9 @@ private struct PushRouteView: View {
         case let .insight(insight):
             insightView(for: insight)
                 .navigationBarTitleDisplayMode(.inline)
+
+        case .timelineRibbon:
+            TimelineRibbonScreen()
         }
     }
 

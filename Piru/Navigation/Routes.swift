@@ -37,6 +37,9 @@ nonisolated enum PushRoute: Hashable, Codable {
     case libraryFavorites
     case tool(Tool)
     case insight(Insight)
+    /// The continuous multi-day dose timeline (full-screen ribbon), pushed
+    /// from the Journal's compact ribbon card.
+    case timelineRibbon
 }
 
 /// A detail screen reachable from the Insights overview.

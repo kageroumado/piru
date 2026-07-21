@@ -275,6 +275,15 @@ struct EntryListView: View {
                 .listRowBackground(Color.clear)
             }
 
+            // Compact continuous-timeline ribbon — only when there's recent
+            // acute activity to draw (no dead chrome on a quiet journal).
+            if !isSearchSurface, TimelineRibbonCard.hasRecentDoses(entries) {
+                TimelineRibbonCard(entries: entries, colors: substanceColors)
+                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            }
+
             // Main content
             switch grouping {
             case .recent: recentContent
