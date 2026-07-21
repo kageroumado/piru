@@ -3972,6 +3972,7 @@
       }
     },
     "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4202,6 +4203,9 @@
           }
         }
       }
+    },
+    "A nudge at each med's set time so a dose never slips your mind. Tapping it opens Quick Log with that time's meds staged." : {
+
     },
     "A passphrase is required." : {
       "localizations" : {
@@ -7765,7 +7769,11 @@
         }
       }
     },
+    "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med." : {
+
+    },
     "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19252,7 +19260,7 @@
         }
       }
     },
-    "Folds into the “Supplements” row, shares one reminder per time of day, and stays off the timeline graphs." : {
+    "Folds into the “Supplements” row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it." : {
 
     },
     "Follow-Up Reminders" : {
@@ -25504,6 +25512,9 @@
       }
     },
     "Med" : {
+
+    },
+    "Med Reminders" : {
 
     },
     "Medical information only" : {
@@ -32895,7 +32906,10 @@
     "Quiet med" : {
 
     },
-    "Quiet meds share one reminder per time of day and stay off the timeline graphs. As-needed meds are never counted against you." : {
+    "Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you." : {
+
+    },
+    "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there." : {
 
     },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
@@ -35632,6 +35646,7 @@
       }
     },
     "Routine Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

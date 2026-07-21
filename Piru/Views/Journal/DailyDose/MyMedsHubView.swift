@@ -95,14 +95,16 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
 // MARK: - Hub
 
 /// The one front door for everything a user takes on a schedule — replaces
-/// the Routines screen. Meds auto-group by time of day; add/edit/detail are
-/// local sheets so the hub works both as a navigator sheet and pushed.
+/// the Routines screen. Meds auto-group by time of day. The hub is a *place*:
+/// it pushes med details onto whatever stack hosts it (the Journal tab stack,
+/// or the sheet's own bound stack when opened via `.dailyDoseSettings`); only
+/// the add/edit *task* is modal.
 struct MyMedsHubView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
 
     @State private var showingAddMed = false
-    @State private var detailItem: DailyDoseItem?
 
     private var groups: [(group: MedTimeGroup, items: [DailyDoseItem])] {
         MedTimeGroup.allCases.compactMap { group in
@@ -119,7 +121,9 @@ struct MyMedsHubView: View {
                 ForEach(groups, id: \.group) { group, members in
                     Section {
                         ForEach(members) { item in
-                            MedRow(item: item, group: group) { detailItem = item }
+                            MedRow(item: item, group: group) {
+                                navigator.push(.medDetail(identityKey: item.identityKey, sortOrder: item.sortOrder))
+                            }
                         }
                     } header: {
                         HStack(spacing: 6) {
@@ -137,7 +141,7 @@ struct MyMedsHubView: View {
                 Section {
                     addMedButton
                 } footer: {
-                    Text("Quiet meds share one reminder per time of day and stay off the timeline graphs. As-needed meds are never counted against you.")
+                    Text("Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you.")
                 }
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
@@ -170,9 +174,6 @@ struct MyMedsHubView: View {
         }
         .sheet(isPresented: $showingAddMed) {
             MedFormView()
-        }
-        .sheet(item: $detailItem) { item in
-            MedDetailView(item: item)
         }
     }
 
@@ -261,7 +262,7 @@ private struct MedRow: View {
                     .accessibilityLabel(item.remind && !item.reminderTimesMinutes.isEmpty ? "Reminders on" : "Reminders off")
                 Image(systemName: "chevron.right")
                     .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)
             }
             .contentShape(Rectangle())

@@ -126,7 +126,7 @@ struct MyMedsCard: View {
                 footer
             }
             .padding(14)
-            .background(CardBackground())
+            .themeCard()
             .task { await refreshStreak() }
             .sheet(isPresented: $showInteractionSheet) {
                 InteractionWarningSheet(
@@ -147,7 +147,7 @@ struct MyMedsCard: View {
 
     private var header: some View {
         Button {
-            navigator.present(.dailyDoseSettings)
+            navigator.push(.myMeds)
         } label: {
             HStack(spacing: 10) {
                 progressRing
@@ -156,7 +156,7 @@ struct MyMedsCard: View {
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .foregroundStyle(.tertiary)
             }
             .contentShape(Rectangle())
         }

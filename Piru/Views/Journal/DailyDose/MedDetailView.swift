@@ -1,9 +1,11 @@
 import SwiftData
 import SwiftUI
 
-/// The per-med depth sheet of the My Meds hub: schedule at a glance, live
-/// reminder controls (including the Ask Again override), and delete. Editing
-/// the med itself (substance, dose, times) goes through ``MedFormView``.
+/// The per-med detail screen, pushed from the My Meds hub
+/// (`PushRoute.medDetail`): schedule at a glance, live reminder controls
+/// (including the Ask Again override), and delete. Editing the med itself
+/// (substance, dose, times) goes through ``MedFormView`` — the one modal in
+/// the flow.
 struct MedDetailView: View {
     @Bindable var item: DailyDoseItem
 
@@ -56,57 +58,51 @@ struct MedDetailView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            List {
-                headerSection
+        List {
+            headerSection
 
-                if !item.isAsNeeded {
-                    timesSection
-                    remindersSection
-                }
+            if !item.isAsNeeded {
+                timesSection
+                remindersSection
+            }
 
-                quietSection
+            quietSection
 
-                Section {
-                    Button("Delete Med", role: .destructive) {
-                        showingDeleteConfirmation = true
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .listRowBackground(CardBackground())
-            }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
-                        .accessibilityLabel("Close")
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Edit") { showingEdit = true }
-                }
-            }
-            .sheet(isPresented: $showingEdit) {
-                MedFormView(item: item)
-            }
-            // Live toggles (remind, Ask Again, quiet) edit the model directly;
-            // one resync on close covers them all.
-            .onDisappear {
-                DoseNotificationManager.syncMedReminders(in: modelContext)
-            }
-            .confirmationDialog(
-                "Delete this med?",
-                isPresented: $showingDeleteConfirmation,
-                titleVisibility: .visible,
-            ) {
+            Section {
                 Button("Delete Med", role: .destructive) {
-                    modelContext.delete(item)
-                    dismiss()
+                    showingDeleteConfirmation = true
                 }
-            } message: {
-                Text("Reminders and adherence tracking stop. Doses you already logged stay in your journal.")
+                .frame(maxWidth: .infinity)
             }
+            .listRowBackground(CardBackground())
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Edit") { showingEdit = true }
+            }
+        }
+        .sheet(isPresented: $showingEdit) {
+            MedFormView(item: item)
+        }
+        // Live toggles (remind, Ask Again, quiet) edit the model directly;
+        // one resync on close covers them all.
+        .onDisappear {
+            DoseNotificationManager.syncMedReminders(in: modelContext)
+        }
+        .confirmationDialog(
+            "Delete this med?",
+            isPresented: $showingDeleteConfirmation,
+            titleVisibility: .visible,
+        ) {
+            Button("Delete Med", role: .destructive) {
+                modelContext.delete(item)
+                dismiss()
+            }
+        } message: {
+            Text("Reminders and adherence tracking stop. Doses you already logged stay in your journal.")
         }
     }
 
@@ -191,7 +187,7 @@ struct MedDetailView: View {
                 item.isBackgroundMed = item.isQuiet
             }
         } footer: {
-            Text("Folds into the \u{201C}Supplements\u{201D} row, shares one reminder per time of day, and stays off the timeline graphs.")
+            Text("Folds into the \u{201C}Supplements\u{201D} row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it.")
         }
         .listRowBackground(CardBackground())
     }

@@ -110,6 +110,16 @@ private struct PushRouteView: View {
         case let .insight(insight):
             insightView(for: insight)
                 .navigationBarTitleDisplayMode(.inline)
+
+        case .myMeds:
+            MyMedsHubView()
+
+        case let .medDetail(identityKey, sortOrder):
+            // If the med was deleted since the route was pushed, render
+            // nothing — the stack pops the dead route on next interaction.
+            if let item = lookupMed(identityKey: identityKey, sortOrder: sortOrder) {
+                MedDetailView(item: item)
+            }
         }
     }
 
@@ -138,6 +148,16 @@ private struct PushRouteView: View {
         case .inventory: InventoryListView()
         case .effectSandbox: EffectSandboxView()
         }
+    }
+
+    /// `identityKey` is computed (not a stored attribute), so this filters in
+    /// memory — the meds list is small by construction. `sortOrder`
+    /// disambiguates same-identity schedules; identity-only is the fallback
+    /// when a reorder happened between push and render.
+    private func lookupMed(identityKey: String, sortOrder: Int) -> DailyDoseItem? {
+        let items = (try? modelContext.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
+        return items.first { $0.identityKey == identityKey && $0.sortOrder == sortOrder }
+            ?? items.first { $0.identityKey == identityKey }
     }
 
     private func lookupSession(id: UUID) -> Session? {

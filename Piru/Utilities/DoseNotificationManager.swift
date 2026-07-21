@@ -335,6 +335,9 @@ enum DoseNotificationManager {
         /// specific due day (non-daily frequencies, which a repeating
         /// calendar trigger cannot express).
         let fireDate: Date?
+        /// Quiet-tier request: delivered `.passive` (no sound, no buzz, no
+        /// lock-screen wake) with a low `relevanceScore`.
+        var quiet = false
     }
 
     /// Reconcile the repeating med reminders (Specs/meds-reminders-redesign.md):
@@ -375,6 +378,7 @@ enum DoseNotificationManager {
             threadID: String,
             skipTarget: String,
             deepLink: String?,
+            quiet: Bool = false,
         ) {
             guard followUpsAllowed, !cadence.isEmpty else { return }
             let slots = followUpFireDates(
@@ -398,6 +402,7 @@ enum DoseNotificationManager {
                     skipTarget: skipTarget,
                     deepLink: deepLink,
                     fireDate: slot.fireDate,
+                    quiet: quiet,
                 ))
             }
         }
@@ -447,6 +452,7 @@ enum DoseNotificationManager {
                             deepLink: deepLink,
                             timeMinutes: time,
                             fireDate: nil,
+                            quiet: item.isQuiet,
                         ))
                         appendFollowUps(
                             anchor: anchor,
@@ -458,6 +464,7 @@ enum DoseNotificationManager {
                             threadID: threadID,
                             skipTarget: skipTarget,
                             deepLink: deepLink,
+                            quiet: item.isQuiet,
                         )
                         continue
                     }
@@ -482,6 +489,7 @@ enum DoseNotificationManager {
                                 deepLink: deepLink,
                                 timeMinutes: time,
                                 fireDate: fireDate,
+                                quiet: item.isQuiet,
                             ))
                         }
                         guard followUpsAllowed, !cadence.isEmpty else { continue }
@@ -500,6 +508,7 @@ enum DoseNotificationManager {
                                 skipTarget: skipTarget,
                                 deepLink: deepLink,
                                 fireDate: fireDate,
+                                quiet: item.isQuiet,
                             ))
                         }
                     }
@@ -552,6 +561,7 @@ enum DoseNotificationManager {
                     deepLink: deepLink,
                     timeMinutes: fireTime,
                     fireDate: nil,
+                    quiet: true,
                 ))
                 appendFollowUps(
                     anchor: anchor,
@@ -563,6 +573,7 @@ enum DoseNotificationManager {
                     threadID: threadID,
                     skipTarget: skipTarget,
                     deepLink: deepLink,
+                    quiet: true,
                 )
             }
         }
@@ -606,6 +617,7 @@ enum DoseNotificationManager {
                     threadID: primary.threadID,
                     skipTarget: primary.skipTarget,
                     deepLink: primary.deepLink,
+                    quiet: primary.quiet,
                 )
                 let trigger: UNNotificationTrigger
                 if let fireDate = primary.fireDate {
@@ -636,6 +648,7 @@ enum DoseNotificationManager {
                     threadID: followUp.threadID,
                     skipTarget: followUp.skipTarget,
                     deepLink: followUp.deepLink,
+                    quiet: followUp.quiet,
                 )
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
                 try? await center.add(UNNotificationRequest(
@@ -703,6 +716,12 @@ enum DoseNotificationManager {
     /// carry the skip target for the Skip Today action, share the med's (or
     /// quiet group's) notification thread so re-asks stack under the reminder
     /// they follow, and fire time-sensitive when the user allows it.
+    ///
+    /// Quiet-tier requests cooperate with the system instead of re-implementing
+    /// it (Specs/meds-ux-review.md §3): `.passive` delivery — silent, no
+    /// lock-screen wake — is the quiet contract, and it's what iOS's
+    /// opt-in Scheduled Summary was built to batch. `relevanceScore` orders a
+    /// summary stack: primary reminders outrank re-asks outrank quiet groups.
     private nonisolated static func medReminderContent(
         title: String,
         body: String,
@@ -711,14 +730,22 @@ enum DoseNotificationManager {
         threadID: String,
         skipTarget: String,
         deepLink: String?,
+        quiet: Bool,
     ) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
-        content.sound = .default
         content.categoryIdentifier = category
         content.threadIdentifier = threadID
-        content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: type)
+        if quiet {
+            content.sound = nil
+            content.interruptionLevel = .passive
+            content.relevanceScore = 0.3
+        } else {
+            content.sound = .default
+            content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: type)
+            content.relevanceScore = type == .routine ? 1.0 : 0.6
+        }
         var userInfo: [String: Any] = [skipTargetUserInfoKey: skipTarget]
         if let deepLink { userInfo[deepLinkUserInfoKey] = deepLink }
         content.userInfo = userInfo
@@ -734,6 +761,8 @@ enum DoseNotificationManager {
         let skipTarget: String
         let deepLink: String?
         let fireDate: Date
+        /// See ``PrimaryRequest/quiet``.
+        var quiet = false
     }
 
     /// The one-shot fire slots for a routine's follow-ups over the rolling
