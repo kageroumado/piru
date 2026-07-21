@@ -1836,6 +1836,9 @@
         }
       }
     },
+    "%lld due" : {
+
+    },
     "%lld enabled" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2168,6 +2171,9 @@
       }
     },
     "%lld meds" : {
+
+    },
+    "%lld meds due" : {
 
     },
     "%lld mg" : {
@@ -15846,6 +15852,12 @@
       }
     },
     "due" : {
+
+    },
+    "Due" : {
+
+    },
+    "Due now" : {
 
     },
     "Duplicate Name" : {
@@ -39702,6 +39714,9 @@
         }
       }
     },
+    "Staged" : {
+
+    },
     "Staged %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39717,6 +39732,9 @@
           }
         }
       }
+    },
+    "Stages this dose" : {
+
     },
     "Stages this group’s meds" : {
 
@@ -47101,6 +47119,9 @@
           }
         }
       }
+    },
+    "Your Substances" : {
+
     },
     "Your tolerance has dropped" : {
       "extractionState" : "stale",

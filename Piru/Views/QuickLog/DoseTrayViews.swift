@@ -536,60 +536,37 @@ struct TrayRow: View {
     }
 
     var body: some View {
-        // 8pt chevron→text gap: with the row's 8pt edge padding and the 16pt
-        // chevron frame, the chevron sits exactly midway between card edge
-        // and text.
-        HStack(spacing: 8) {
-            // Disclosure chevron leads the row (matching the search results).
-            // Apple's convention: points right collapsed, down expanded — the
-            // editor renders the same glyph rotated 90°, so the matched-
-            // geometry swap reads as the chevron rotating in place.
-            Image(systemName: "chevron.right")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-                .frame(width: 16)
-                .trayMorph(id: "chevron-\(dose.id)", in: namespace)
-            VStack(alignment: .leading, spacing: 2) {
-                // Same font and leading column as "Add another…" so the
-                // tray reads as one aligned list (the color dot is gone —
-                // the chips already carry the substance color).
+        // Session-row grammar (Specs/meds-ux-review.md §6): identity leading,
+        // the *numbers* on the trailing edge — ROA as a pill, the amount bold
+        // and large — with the disclosure chevron at the far trailing edge
+        // where every system disclosure puts it.
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(dose.displayTitle)
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.primary)
                     .trayMorph(id: "title-\(dose.id)", in: namespace)
-                // Day-list phrase: "oral · 100 mg · strong" — route as
-                // context, the amount emphasised, the level read via color.
+                // Secondary context under the title: dose level (read via
+                // color), component breakdown, note.
                 HStack(spacing: 5) {
-                    Text(dose.route.localizedName)
-                        .textCase(.lowercase)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .trayMorph(id: "route-\(dose.id)", in: namespace)
-                    Middot().foregroundStyle(.tertiary)
-                    Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.primary)
-                        // During the collapse morph the matched siblings carry
-                        // inflated mid-flight frames (the route text pairs with
-                        // the editor's wide pill), squeezing this text into a
-                        // momentary "37.…" ellipsis. Fixed-size keeps it at its
-                        // intrinsic width for the whole animation.
-                        .fixedSize()
-                        .trayMorph(id: "amount-\(dose.id)", in: namespace)
                     // No level for a zero amount — "0 g · sub-threshold" reads
                     // like a valid dose; the trailing warning marks it instead.
                     if dose.totalAmount > 0, let level = dose.doseLevel {
-                        Middot().foregroundStyle(.tertiary)
                         Text(level.displayName)
                             .textCase(.lowercase)
                             .foregroundStyle(level.labelColor)
                     }
                     if let breakdown = dose.breakdownLabel {
-                        Middot().foregroundStyle(.tertiary)
+                        if dose.totalAmount > 0, dose.doseLevel != nil {
+                            Middot().foregroundStyle(.tertiary)
+                        }
                         Text(verbatim: breakdown)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     if !dose.note.isEmpty {
-                        Middot().foregroundStyle(.tertiary)
+                        if (dose.totalAmount > 0 && dose.doseLevel != nil) || dose.breakdownLabel != nil {
+                            Middot().foregroundStyle(.tertiary)
+                        }
                         Text(dose.note)
                             .foregroundStyle(Theme.secondaryLabel)
                             .lineLimit(1)
@@ -597,7 +574,7 @@ struct TrayRow: View {
                 }
                 .font(.subheadline)
             }
-            Spacer()
+            Spacer(minLength: 8)
             // A zero-amount dose blocks the Log button — flag it on the row,
             // otherwise the disabled button gives no clue which dose is why.
             if dose.totalAmount <= 0 {
@@ -606,6 +583,25 @@ struct TrayRow: View {
                     .foregroundStyle(.orange)
                     .accessibilityLabel("Needs an amount")
             }
+            ROAPill(route: dose.route)
+                .trayMorph(id: "route-\(dose.id)", in: namespace)
+            Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
+                .font(.body.weight(.semibold))
+                .foregroundStyle(.primary)
+                // During the collapse morph the matched siblings carry
+                // inflated mid-flight frames, squeezing this text into a
+                // momentary "37.…" ellipsis. Fixed-size keeps it at its
+                // intrinsic width for the whole animation.
+                .fixedSize()
+                .trayMorph(id: "amount-\(dose.id)", in: namespace)
+            // Points right collapsed, down expanded (the editor renders the
+            // same glyph rotated 90°; the matched-geometry swap reads as a
+            // rotation in place).
+            Image(systemName: "chevron.right")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .frame(width: 16)
+                .trayMorph(id: "chevron-\(dose.id)", in: namespace)
         }
         .padding(.vertical, 12)
         .contentShape(Rectangle())

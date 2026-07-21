@@ -232,8 +232,14 @@ struct QuickLogCardList: View {
 
     @ViewBuilder
     private func scrollContentInner(staged: [String: StagedChipCounts]) -> some View {
-        // Routines are always surfaced (discoverability) — with none defined
-        // the section is just the New Routine pill, and the whole thing is
+        // "What should I take NOW?" answers first (Specs/meds-ux-review.md §5)
+        // — the strip disappears entirely when nothing is due, no dead chrome.
+        if !content.cachedDueNow.isEmpty {
+            dueNowSection(staged: staged)
+        }
+
+        // Meds are always surfaced (discoverability) — with none defined
+        // the section is just the Add a Med pill, and the whole thing is
         // collapsible for people who don't use it.
         dailySection(staged: staged)
 
@@ -245,8 +251,12 @@ struct QuickLogCardList: View {
             )
         }
 
-        if !content.cachedFavoriteCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
-            sectionHeader("Favorites")
+        // ONE substances section — favorites pinned first (their saved order),
+        // recents filling behind. Two headers ("Favorites" / "Recent") made
+        // three competing lists on one screen; the split is still visible
+        // through the star, without costing a second decision.
+        if !content.cachedCards.isEmpty || !content.cachedFavoriteLibrarySubstances.isEmpty {
+            sectionHeader("Your Substances")
             ForEach(content.cachedFavoriteCards) { card in
                 cardView(card, isFavorite: true, staged: staged)
                     .id("\(card.id)_fav")
@@ -254,17 +264,71 @@ struct QuickLogCardList: View {
             ForEach(content.cachedFavoriteLibrarySubstances) { substance in
                 libraryRow(substance)
             }
-        }
-
-        if !content.cachedNonFavoriteCards.isEmpty {
-            if !content.cachedFavoriteCards.isEmpty {
-                sectionHeader("Recent")
-            }
             ForEach(content.cachedNonFavoriteCards) { card in
                 cardView(card, isFavorite: false, staged: staged)
                     .id("\(card.id)_recent")
             }
         }
+    }
+
+    // MARK: - Due now
+
+    @ViewBuilder
+    private func dueNowSection(staged: [String: StagedChipCounts]) -> some View {
+        let slots = content.cachedDueNow
+        let loud = slots.filter { !$0.isQuiet }
+        let quiet = slots.filter(\.isQuiet)
+        // ≥2 quiet slots fold into one Supplements row (the hub/card rule);
+        // a lone quiet med just shows as itself.
+        let collapseQuiet = quiet.count >= 2
+
+        sectionHeader("Due now")
+        VStack(spacing: 0) {
+            ForEach(loud) { slot in
+                dueNowRow(slot, staged: staged)
+            }
+            if collapseQuiet {
+                DueNowRowView(
+                    timeText: quiet.compactMap(\.slotMinutes).min().map(Self.timeText),
+                    title: String(localized: "Supplements"),
+                    // "med" isn't in the system inflection lexicon; the fold
+                    // only exists at ≥2, so the plural is safe to hardcode.
+                    subtitle: String(localized: "\(quiet.count) meds"),
+                    staged: quiet.allSatisfy { stagedQuantity($0.item, staged: staged) > 0 },
+                    onTap: {
+                        withAnimation(.snappy) {
+                            for slot in quiet where stagedQuantity(slot.item, staged: staged) == 0 {
+                                stageDailyItem(slot.item)
+                            }
+                        }
+                    },
+                )
+            } else {
+                ForEach(quiet) { slot in
+                    dueNowRow(slot, staged: staged)
+                }
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 4)
+        .themeCard()
+    }
+
+    private func dueNowRow(_ slot: DueNowSlot, staged: [String: StagedChipCounts]) -> some View {
+        DueNowRowView(
+            timeText: slot.slotMinutes.map(Self.timeText),
+            title: slot.item.productName ?? CustomSubstanceStore.shared.displayName(for: slot.item.substance),
+            subtitle: "\(slot.item.amount.doseFormatted) \(slot.item.unit)",
+            staged: stagedQuantity(slot.item, staged: staged) > 0,
+            onTap: { withAnimation(.snappy) { stageDailyItem(slot.item) } },
+        )
+    }
+
+    private static func timeText(_ minutes: Int) -> String {
+        let date = Calendar.current.date(
+            bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
+        ) ?? .now
+        return date.formatted(date: .omitted, time: .shortened)
     }
 
     // MARK: - Daily routine
@@ -340,8 +404,12 @@ struct QuickLogCardList: View {
                 Image(systemName: done ? "checkmark" : group.icon)
                     .imageScale(.small)
                 Text(group.title)
-                Text(verbatim: "· \(group.items.count)")
-                    .opacity(0.75)
+                // A single-med pill (every PRN med) is just its name — "· 1"
+                // is noise.
+                if group.items.count > 1 {
+                    Text(verbatim: "· \(group.items.count)")
+                        .opacity(0.75)
+                }
             }
             .font(.subheadline.weight(.semibold))
             .padding(.horizontal, 14)
@@ -381,6 +449,51 @@ struct QuickLogCardList: View {
 
     private func stagedQuantity(_ item: DailyDoseItem, staged: [String: StagedChipCounts]) -> Int {
         staged[item.substance.lowercased()]?.count(route: item.route, amount: item.amount, unit: item.unit) ?? 0
+    }
+
+    // MARK: - Due-now row
+
+    /// One due slot: time leading, med + dose center, one big check trailing
+    /// (the Pillo-row grammar, in Apple's visual language). Its own struct —
+    /// value inputs only — so a staging change re-evaluates rows, not the list.
+    private struct DueNowRowView: View {
+        let timeText: String?
+        let title: String
+        let subtitle: String
+        let staged: Bool
+        let onTap: () -> Void
+
+        var body: some View {
+            Button(action: onTap) {
+                HStack(spacing: 12) {
+                    Text(timeText.map(\.self) ?? String(localized: "Anytime"))
+                        .font(.subheadline.weight(.medium).monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .frame(width: 64, alignment: .leading)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(title)
+                            .font(.body.weight(.medium))
+                            .foregroundStyle(.primary)
+                        Text(subtitle)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    Spacer()
+                    Image(systemName: staged ? "checkmark.circle.fill" : "circle")
+                        .font(.title3)
+                        .foregroundStyle(staged ? Theme.accent : Color(.tertiaryLabel))
+                        .contentTransition(.symbolEffect(.replace))
+                }
+                .padding(.vertical, 10)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text("\(title), \(subtitle)"))
+            .accessibilityValue(staged ? Text("Staged") : Text("Due"))
+            .accessibilityHint("Stages this dose")
+            .accessibilityAddTraits(.isButton)
+        }
     }
 
     private func stageDailyItem(_ item: DailyDoseItem) {

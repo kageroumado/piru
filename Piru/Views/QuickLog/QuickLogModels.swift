@@ -232,6 +232,60 @@ struct DailyCategoryGroup: Identifiable {
     let remaining: [DailyDoseItem]
 }
 
+/// One uncovered med slot that is due right now — the quick-log screen's
+/// "what should I take *now*?" answer (Specs/meds-ux-review.md §5). Derived
+/// per (med × earliest uncovered slot); a med never shows more than one row.
+struct DueNowSlot: Identifiable {
+    /// `identityKey|slot` — stable across rebuilds for row identity.
+    let id: String
+    let item: DailyDoseItem
+    /// Minutes from midnight, or `nil` for an "anytime" med (due all day).
+    let slotMinutes: Int?
+    let isQuiet: Bool
+
+    /// How far ahead of a slot's set time it starts counting as "due now".
+    static let dueSoonLeadMinutes = 60
+
+    /// The due-now derivation, shared by the quick-log strip and the tab-bar
+    /// accessory badge: for each non-PRN med due today, the earliest
+    /// uncovered slot whose time is within ``dueSoonLeadMinutes`` (or already
+    /// past) — "covered" assigns today's logged doses to the earliest slots
+    /// first, mirroring MyMedsCard. Anytime meds (no set times) are due all
+    /// day until taken and sort behind timed slots so an overdue 8:00 pill
+    /// outranks the anytime vitamin. `loggedToday` is doses-per-identity-key
+    /// for today.
+    static func derive(items: [DailyDoseItem], loggedToday: [String: Int], now: Date = .now) -> [DueNowSlot] {
+        guard !items.isEmpty else { return [] }
+        let calendar = Calendar.current
+        let nowMinutes = calendar.component(.hour, from: now) * 60 + calendar.component(.minute, from: now)
+
+        var slots: [DueNowSlot] = []
+        for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: now) {
+            let taken = loggedToday[item.identityKey] ?? 0
+            let times = item.reminderTimesMinutes.sorted()
+            if times.isEmpty {
+                guard taken == 0 else { continue }
+                slots.append(DueNowSlot(
+                    id: "\(item.identityKey)|any",
+                    item: item, slotMinutes: nil, isQuiet: item.isQuiet,
+                ))
+                continue
+            }
+            // The earliest uncovered slot, and only if its window has opened.
+            guard taken < times.count else { continue }
+            let slot = times[taken]
+            guard slot <= nowMinutes + dueSoonLeadMinutes else { continue }
+            slots.append(DueNowSlot(
+                id: "\(item.identityKey)|\(slot)",
+                item: item, slotMinutes: slot, isQuiet: item.isQuiet,
+            ))
+        }
+        return slots.sorted {
+            ($0.slotMinutes ?? .max, $0.item.sortOrder) < ($1.slotMinutes ?? .max, $1.item.sortOrder)
+        }
+    }
+}
+
 // MARK: - Card PK badge
 
 /// Precomputed PK badge data for one card, built when `cachedMostRecent`
@@ -314,6 +368,9 @@ final class QuickLogContentModel {
     private(set) var cachedFavoriteLibrarySubstances: [Substance] = []
 
     private(set) var cachedDailyGroups: [DailyCategoryGroup] = []
+    /// Med slots due right now (uncovered, at/past their time — or "anytime"
+    /// meds not yet taken). The screen's top strip; empty = strip hidden.
+    private(set) var cachedDueNow: [DueNowSlot] = []
 
     /// Gates the empty-state placeholder: it must not show until the first
     /// rebuild has actually run, or the sheet briefly flashes "No Previous
@@ -421,9 +478,10 @@ final class QuickLogContentModel {
         cachedMostRecent = badges
         cachedRecentLocations = locations
         cachedTagSuggestions = Array((used + extras).prefix(8))
-        // `makeDailyGroups` reads `cachedLoggedToday` (the "done" check), so it
-        // must rebuild after that's assigned above.
+        // `makeDailyGroups`/`makeDueNow` read `cachedLoggedToday` (the "done"
+        // check), so they must rebuild after that's assigned above.
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
+        cachedDueNow = makeDueNow(dailyDoseItems: dailyDoseItems)
     }
 
     /// The product/form title a card shows, or `nil` for a plain card (which
@@ -561,13 +619,17 @@ final class QuickLogContentModel {
     /// row or daily item, but history is unchanged).
     func rebuildDailyGroups(dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) {
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
+        cachedDueNow = makeDueNow(dailyDoseItems: dailyDoseItems)
     }
 
     /// The Meds redesign's group pills: one pill per derived time-of-day
     /// group (`MedTimeGroup`), no named routines. A multi-time med shows in
     /// every group it has a time in; staging is idempotent, so tapping two
-    /// groups never double-stages it. The `routines` parameter is retained
-    /// for call-site stability but no longer read.
+    /// groups never double-stages it. As-needed meds are NOT one all-or-
+    /// nothing group — different PRN meds serve different moments, so each
+    /// gets its own single-med pill (a pre-workout stack is still one tap
+    /// per med, never "stage every PRN med I own"). The `routines` parameter
+    /// is retained for call-site stability but no longer read.
     func makeDailyGroups(dailyDoseItems: [DailyDoseItem], routines _: [DoseRoutine]) -> [DailyCategoryGroup] {
         guard !dailyDoseItems.isEmpty else { return [] }
         let loggedToday = cachedLoggedToday
@@ -581,7 +643,8 @@ final class QuickLogContentModel {
             items.filter { (loggedToday[$0.identityKey] ?? 0) < max(1, $0.reminderTimesMinutes.count) }
         }
 
-        return MedTimeGroup.allCases.compactMap { group in
+        var groups: [DailyCategoryGroup] = MedTimeGroup.allCases.compactMap { group in
+            guard group != .asNeeded else { return nil }
             let items = dailyDoseItems.filter { MedTimeGroup.belongs($0, to: group) }
             guard !items.isEmpty else { return nil }
             return DailyCategoryGroup(
@@ -592,6 +655,25 @@ final class QuickLogContentModel {
                 remaining: remaining(in: items),
             )
         }
+
+        // PRN meds: one pill each. "Done" only when a declared daily cap is
+        // reached — an uncapped as-needed med is never "done" (no expectation).
+        for item in dailyDoseItems where item.isAsNeeded {
+            let capped = item.maxPerDay.map { (loggedToday[item.identityKey] ?? 0) >= $0 } ?? false
+            groups.append(DailyCategoryGroup(
+                id: "prn-\(item.identityKey)-\(item.sortOrder)",
+                title: item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance),
+                icon: "cross.vial",
+                items: [item],
+                remaining: capped ? [] : [item],
+            ))
+        }
+        return groups
+    }
+
+    /// Derive the due-now strip — see ``DueNowSlot/derive(items:loggedToday:now:)``.
+    func makeDueNow(dailyDoseItems: [DailyDoseItem], now: Date = .now) -> [DueNowSlot] {
+        DueNowSlot.derive(items: dailyDoseItems, loggedToday: cachedLoggedToday, now: now)
     }
 
     // MARK: Search

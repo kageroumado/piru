@@ -95,7 +95,6 @@ struct DockMiddleContent: View {
             families: families,
             selectedFamilyID: $selectedFamilyID,
             browseResults: $browseResults,
-            content: content,
             onStage: stagePayload,
             onStageDraft: stageDraftPayload,
         )

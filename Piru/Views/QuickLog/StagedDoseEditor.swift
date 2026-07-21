@@ -238,16 +238,6 @@ struct StagedDoseEditor: View {
             // trash a separate sibling stops that hint from bleeding onto it
             // (it used to read "trash … Collapses the editor").
             HStack(spacing: 8) {
-                // Same glyph as the collapsed row, rotated to point down
-                // (expanded, per Apple's disclosure convention) — the matched-
-                // geometry swap morphs it in place like a rotation.
-                Image(systemName: "chevron.right")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .rotationEffect(.degrees(90))
-                    .frame(width: 16)
-                    .trayMorph(id: "chevron-\(item.id)", in: namespace)
-                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 1) {
                     HStack(spacing: 5) {
                         Text(item.displayTitle)
@@ -270,6 +260,17 @@ struct StagedDoseEditor: View {
                     }
                 }
                 Spacer()
+                // Same glyph as the collapsed row, rotated to point down
+                // (expanded, per Apple's disclosure convention) — trailing,
+                // where the row's chevron now lives, so the matched-geometry
+                // swap morphs it in place like a rotation.
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+                    .rotationEffect(.degrees(90))
+                    .frame(width: 16)
+                    .trayMorph(id: "chevron-\(item.id)", in: namespace)
+                    .accessibilityHidden(true)
             }
             .contentShape(Rectangle())
             .onTapGesture(perform: onCollapse)

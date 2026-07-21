@@ -629,14 +629,13 @@ private struct BottomAccessoryContent: View {
 
                 Spacer(minLength: 0)
             } else {
-                // A flat-trend glyph mirrors the session graph's footprint: it
-                // balances the trailing "+" (so "Log a dose" sits at the true
-                // center) and reads as the timeline-before-it-has-data.
-                Image(systemName: "chart.line.flattrend.xyaxis")
-                    .font(compact ? .subheadline : .title3)
-                    .foregroundStyle(.secondary)
-                    .frame(width: controlSide, height: controlSide)
-                    .accessibilityHidden(true)
+                // Leading slot: normally a flat-trend glyph (the timeline-
+                // before-it-has-data, balancing the trailing "+"); when med
+                // slots are due it becomes a quiet "N due" badge — the
+                // accessory then names the next action instead of decoration
+                // (Specs/meds-ux-review.md §7). Same tap either way: open the
+                // log screen, where the due strip is the first thing on it.
+                MedsDueGlyph(currentTime: currentTime, compact: compact, controlSide: controlSide)
                     .transition(.opacity)
 
                 Spacer(minLength: 0)
@@ -670,6 +669,77 @@ private struct BottomAccessoryContent: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("Log dose"))
+    }
+}
+
+// MARK: - Meds Due Glyph
+
+/// The idle accessory's leading slot: a flat-trend placeholder glyph, or a
+/// "N due" badge when med slots are currently due. Recomputes once per
+/// accessory minute-tick (`currentTime`) via the same derivation as the
+/// quick-log due strip, over a cheap indexed fetch of today's entries.
+private struct MedsDueGlyph: View {
+    let currentTime: Date
+    let compact: Bool
+    let controlSide: CGFloat
+
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
+
+    @State private var dueCount = 0
+
+    var body: some View {
+        Group {
+            if dueCount > 0 {
+                HStack(spacing: 4) {
+                    Image(systemName: "pills.fill")
+                        .font(compact ? .caption : .subheadline)
+                    Text("\(dueCount) due")
+                        .font((compact ? Font.caption2 : Font.caption).weight(.semibold))
+                        .fixedSize()
+                }
+                .foregroundStyle(.secondary)
+                .frame(height: controlSide)
+                .accessibilityLabel(Text("\(dueCount) meds due"))
+            } else {
+                Image(systemName: "chart.line.flattrend.xyaxis")
+                    .font(compact ? .subheadline : .title3)
+                    .foregroundStyle(.secondary)
+                    .frame(width: controlSide, height: controlSide)
+                    .accessibilityHidden(true)
+            }
+        }
+        .task(id: recomputeKey) { recompute() }
+        // A committed dose changes "due" immediately — don't wait out the
+        // minute tick.
+        .task {
+            for await _ in DoseLogService.shared.changes {
+                recompute()
+            }
+        }
+    }
+
+    /// Once per accessory minute-tick, plus whenever the meds list itself
+    /// changes — not on every body evaluation.
+    private var recomputeKey: String {
+        "\(Int(currentTime.timeIntervalSinceReferenceDate / 60))|\(items.count)"
+    }
+
+    private func recompute() {
+        guard !items.isEmpty, items.contains(where: { !$0.isAsNeeded }) else {
+            dueCount = 0
+            return
+        }
+        let dayStart = Calendar.current.startOfDay(for: currentTime)
+        let descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= dayStart },
+        )
+        let todays = (try? modelContext.fetch(descriptor)) ?? []
+        var loggedToday: [String: Int] = [:]
+        for entry in todays {
+            loggedToday[entry.identityKey, default: 0] += 1
+        }
+        dueCount = DueNowSlot.derive(items: items, loggedToday: loggedToday, now: currentTime).count
     }
 }
 

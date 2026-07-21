@@ -2,8 +2,11 @@ import SwiftUI
 
 // MARK: - Pre-typing suggestions
 
-/// The pre-typing search surface: effect-family pills over one-tap suggestion
-/// rows (a selected family's most known substances, or the user's recents).
+/// The pre-typing search surface: effect-family pills, expanding into a
+/// selected family's most known substances. Recents deliberately do NOT
+/// repeat here — the main screen's Your Substances cards are the recents
+/// surface, and duplicating them one layer down was clutter, not help
+/// (Specs/meds-ux-review.md §5).
 ///
 /// The browse selection (`selectedFamilyID`, `browseResults`) is owned by
 /// ``QuickLogDock`` — its handlers reset it when search exits — so it arrives
@@ -12,7 +15,6 @@ struct DockSuggestions: View {
     let families: [LibraryFamily]
     @Binding var selectedFamilyID: String?
     @Binding var browseResults: [Substance]
-    var content: QuickLogContentModel
     let onStage: (QuickLogStagePayload) -> Void
     let onStageDraft: (QuickLogStagePayload) -> Void
 
@@ -32,15 +34,6 @@ struct DockSuggestions: View {
                 )
             }
             .id(family.id)
-        } else if !content.cachedCards.isEmpty {
-            DockGroupedCard {
-                QuickLogSearchResults(
-                    results: content.cachedCards.prefix(6).map { .recent($0) },
-                    onAdd: onStage,
-                    onAddDraft: onStageDraft,
-                    onCreateCustom: nil,
-                )
-            }
         }
     }
 
