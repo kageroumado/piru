@@ -4,10 +4,11 @@ import SwiftData
 /// The durable record of "was routine item X due on day Y, and what happened
 /// to it" — one row per (routine, item, day) where the item was due.
 ///
-/// Written exclusively by `RoutineOccurrenceService.reconcile(in:)` (see
-/// `Specs/routine-occurrences.md`): follow-up cancellation, the Skip Today
-/// notification action, and the future "did I take it" surfaces all read this
-/// record instead of re-inferring from raw `DoseEntry` scans.
+/// Written only by `RoutineOccurrenceService` (see
+/// `Specs/routine-occurrences.md`): `reconcile(in:)` re-derives the day's
+/// states, `skipToday(slotKeys:)` records the Skip Today action. Follow-up
+/// cancellation and the future "did I take it" surfaces read this record
+/// instead of re-inferring from raw `DoseEntry` scans.
 ///
 /// The item is referenced by an identity snapshot (`substance` /
 /// `substanceUID` / `routeRaw`), not a UUID — `DailyDoseItem` has no stable

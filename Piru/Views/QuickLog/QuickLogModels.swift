@@ -289,7 +289,10 @@ final class QuickLogContentModel {
     private(set) var cachedColorLookup: [String: String] = [:]
 
     /// Lowercased substance names logged today — drives the routine "done" check.
-    private(set) var cachedLoggedToday: Set<String> = []
+    /// Doses logged today per substance identity — a COUNT, not a set, so a
+    /// multi-time med's group pills only read "done" once every slot is
+    /// covered (one morning dose must not mark the evening pill done too).
+    private(set) var cachedLoggedToday: [String: Int] = [:]
     /// Precomputed PK badge per lowercased substance name — feeds each card's
     /// glanceable badge without re-running `DosePK.status` in `body`.
     private(set) var cachedMostRecent: [String: CardPKBadge] = [:]
@@ -357,7 +360,7 @@ final class QuickLogContentModel {
         // to have run first (the `.task` orders it so).
         let displayed = Set(cachedFavoriteCards.map(\.id)).union(cachedNonFavoriteCards.map(\.id))
 
-        var loggedToday: Set<String> = []
+        var loggedToday: [String: Int] = [:]
         var mostRecentEntry: [String: DoseEntry] = [:]
         var seenLocations = Set<String>()
         var locations: [PickedLocation] = []
@@ -371,7 +374,7 @@ final class QuickLogContentModel {
             let identity = entry.identityKey
             if displayed.contains(identity), mostRecentEntry[identity] == nil { mostRecentEntry[identity] = entry }
             if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
-                loggedToday.insert(identity)
+                loggedToday[identity, default: 0] += 1
             } else {
                 stillToday = false
             }
@@ -571,8 +574,11 @@ final class QuickLogContentModel {
 
         func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
             // Join on substance identity — a "Concerta" med is satisfied by
-            // a dose logged as Methylphenidate XR, which a name join never matched.
-            items.filter { !loggedToday.contains($0.identityKey) }
+            // a dose logged as Methylphenidate XR, which a name join never
+            // matched. A multi-time med needs one dose per slot before it
+            // stops counting as remaining, so its morning log doesn't mark
+            // its evening group's pill done.
+            items.filter { (loggedToday[$0.identityKey] ?? 0) < max(1, $0.reminderTimesMinutes.count) }
         }
 
         return MedTimeGroup.allCases.compactMap { group in

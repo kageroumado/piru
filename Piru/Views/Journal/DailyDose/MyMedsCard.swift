@@ -4,8 +4,9 @@ import SwiftUI
 /// The Journal tab's "My Meds" card — the daily front door of the Meds
 /// redesign (Specs/meds-reminders-redesign.md): today's checklist at a
 /// glance, tap a circle to log, quiet meds folded into one "Supplements"
-/// row with a one-tap Take All. Hidden entirely while the user has no meds,
-/// so a recreational-only journal never carries it.
+/// row with a one-tap Take All. Hidden entirely while nothing is due today
+/// (no meds at all, only PRN meds, or only off-cycle schedules) — so a
+/// recreational-only journal never carries it.
 struct MyMedsCard: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
@@ -110,7 +111,7 @@ struct MyMedsCard: View {
 
                 VStack(spacing: 0) {
                     ForEach(loudSlots) { slot in
-                        slotRow(slot)
+                        slotRow(slot, indented: false)
                     }
                     if !quietSlots.isEmpty {
                         supplementsRow
@@ -203,46 +204,20 @@ struct MyMedsCard: View {
 
     // MARK: Rows
 
-    private func slotRow(_ slot: MedSlot, indented: Bool = false) -> some View {
-        Button {
-            guard !slot.taken else { return }
+    /// One checklist row as its own invalidation boundary (value inputs
+    /// only), so toggling `supplementsExpanded` or logging one slot doesn't
+    /// re-evaluate every other row's body.
+    private func slotRow(_ slot: MedSlot, indented: Bool) -> some View {
+        SlotRowView(
+            title: displayName(for: slot.item),
+            subtitle: "\(slot.item.amount.doseFormatted) \(slot.item.unit)",
+            timeText: slot.time.map(Self.timeText),
+            taken: slot.taken,
+            due: slot.isDueNow,
+            indented: indented,
+        ) {
             attemptLog(slots: [slot])
-        } label: {
-            HStack(spacing: 10) {
-                checkCircle(done: slot.taken, due: slot.isDueNow)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(displayName(for: slot.item))
-                        .font(.subheadline.weight(slot.taken ? .regular : .medium))
-                        .foregroundStyle(slot.taken ? Theme.secondaryLabel : .primary)
-                        .strikethrough(slot.taken, color: Theme.secondaryLabel.opacity(0.5))
-                    Text("\(slot.item.amount.doseFormatted) \(slot.item.unit)")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer()
-                if slot.isDueNow, slot.time != nil {
-                    Text("due")
-                        .font(.caption2.weight(.bold))
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.accent.opacity(0.15), in: Capsule())
-                        .foregroundStyle(Theme.accent)
-                }
-                if let time = slot.time {
-                    Text(Self.timeText(time))
-                        .font(.caption.monospacedDigit())
-                        .foregroundStyle(slot.isDueNow ? Theme.accent : Theme.secondaryLabel)
-                }
-            }
-            .padding(.vertical, 7)
-            .padding(.leading, indented ? 22 : 0)
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
-        .disabled(slot.taken)
-        .accessibilityLabel(displayName(for: slot.item))
-        .accessibilityValue(slot.taken ? Text("Taken") : Text("Not taken yet"))
-        .accessibilityHint(slot.taken ? Text("") : Text("Logs this dose"))
     }
 
     private var supplementsRow: some View {
@@ -301,7 +276,7 @@ struct MyMedsCard: View {
         let allDone = done == quietSlots.count
         return ZStack {
             if allDone {
-                checkCircle(done: true, due: false)
+                CheckCircle(done: true, due: false)
             } else {
                 Circle()
                     .stroke(Color(.tertiarySystemFill), lineWidth: 2.5)
@@ -309,22 +284,6 @@ struct MyMedsCard: View {
                     .trim(from: 0, to: quietSlots.isEmpty ? 0 : CGFloat(done) / CGFloat(quietSlots.count))
                     .stroke(Color.green, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
                     .rotationEffect(.degrees(-90))
-            }
-        }
-        .frame(width: 24, height: 24)
-        .accessibilityHidden(true)
-    }
-
-    private func checkCircle(done: Bool, due: Bool) -> some View {
-        ZStack {
-            Circle()
-                .fill(done ? Color.green : Color.clear)
-            Circle()
-                .stroke(done ? Color.green : (due ? Theme.accent : Color(.tertiarySystemFill)), lineWidth: 2)
-            if done {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.white)
             }
         }
         .frame(width: 24, height: 24)
@@ -441,5 +400,85 @@ struct MyMedsCard: View {
             return String(localized: "in \(delta) min")
         }
         return String(localized: "in \(Int((Double(delta) / 60).rounded())) h")
+    }
+}
+
+// MARK: - Row subviews
+
+/// The checked/unchecked circle shared by slot rows and the collapsed
+/// Supplements row.
+private struct CheckCircle: View {
+    let done: Bool
+    let due: Bool
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(done ? Color.green : Color.clear)
+            Circle()
+                .stroke(done ? Color.green : (due ? Theme.accent : Color(.tertiarySystemFill)), lineWidth: 2)
+            if done {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.white)
+            }
+        }
+        .frame(width: 24, height: 24)
+        .accessibilityHidden(true)
+    }
+}
+
+/// One checklist row — value inputs only, so it invalidates independently of
+/// the card (CLAUDE.md decomposition rule: rows in a `ForEach` must not share
+/// the parent's boundary).
+private struct SlotRowView: View {
+    let title: String
+    let subtitle: String
+    let timeText: String?
+    let taken: Bool
+    let due: Bool
+    let indented: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button {
+            guard !taken else { return }
+            onTap()
+        } label: {
+            HStack(spacing: 10) {
+                CheckCircle(done: taken, due: due)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(title)
+                        .font(.subheadline.weight(taken ? .regular : .medium))
+                        .foregroundStyle(taken ? Theme.secondaryLabel : .primary)
+                        .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer()
+                if due, timeText != nil {
+                    Text("due")
+                        .font(.caption2.weight(.bold))
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 2)
+                        .background(Theme.accent.opacity(0.15), in: Capsule())
+                        .foregroundStyle(Theme.accent)
+                }
+                if let timeText {
+                    Text(timeText)
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(due ? Theme.accent : Theme.secondaryLabel)
+                }
+            }
+            .padding(.vertical, 7)
+            .padding(.leading, indented ? 22 : 0)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(taken)
+        .accessibilityLabel(title)
+        .accessibilityValue(taken ? Text("Taken") : Text("Not taken yet"))
+        .accessibilityHint(taken ? Text("") : Text("Logs this dose"))
     }
 }

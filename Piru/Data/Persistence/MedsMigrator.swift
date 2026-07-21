@@ -7,9 +7,9 @@ import SwiftData
 /// `remind`, `isBackgroundMed` maps onto the Quiet tier, and the most common
 /// routine follow-up cadence becomes the global Ask Again default.
 ///
-/// **Not wired yet** — Phase 2 (the My Meds hub replacing the Routines
-/// screen) calls this at cutover, so routine edits made until then can't go
-/// stale against already-folded item fields. `DoseRoutine` rows are left in
+/// Wired at app launch (`PiruApp`, before the reminder sync so folded state
+/// is what gets scheduled), guarded by a one-shot flag — a user's post-fold
+/// edits are never clobbered by a relaunch. `DoseRoutine` rows are left in
 /// place (never delete a shipped `@Model`); they just stop being read.
 @MainActor
 enum MedsMigrator {

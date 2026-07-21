@@ -321,7 +321,7 @@ enum DoseNotificationManager {
     /// pull a context from.
     static var modelContainer: ModelContainer?
 
-    /// One planned repeating primary reminder, snapshotted as plain values.
+    /// One planned primary reminder, snapshotted as plain values.
     private struct PrimaryRequest {
         let identifier: String
         let title: String
@@ -330,6 +330,11 @@ enum DoseNotificationManager {
         let skipTarget: String
         let deepLink: String?
         let timeMinutes: Int
+        /// `nil` = a repeating daily calendar trigger at ``timeMinutes``
+        /// (daily-frequency meds); a date = a one-shot materialized on a
+        /// specific due day (non-daily frequencies, which a repeating
+        /// calendar trigger cannot express).
+        let fireDate: Date?
     }
 
     /// Reconcile the repeating med reminders (Specs/meds-reminders-redesign.md):
@@ -399,51 +404,126 @@ enum DoseNotificationManager {
 
         if remindersAllowed {
             let scheduled = items.filter { !$0.isAsNeeded && $0.remind && !$0.reminderTimesMinutes.isEmpty }
+            let calendar = Calendar.current
+            let now = Date.now
 
-            // Regular meds: one primary per (med × time).
-            for item in scheduled where !item.isQuiet {
+            /// Per-(med × time) scheduling, frequency-aware: daily meds get a
+            /// repeating calendar trigger; every other frequency materializes
+            /// one-shots on its next due days (a repeating trigger cannot
+            /// express weekly/every-other-day/monthly, and an ungated repeat
+            /// would nag on off-days a med isn't even due). Used for regular
+            /// meds and for non-daily quiet meds (which can't ride the daily
+            /// repeating group).
+            func schedulePerMed(_ item: DailyDoseItem) {
                 let name = item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
                 let doseText = "\(item.amount.doseFormatted) \(item.unit)"
                 let cadence = item.askAgainOverrideMinutes ?? askAgainDefault
                 for time in item.reminderTimesMinutes.sorted() {
-                    let anchor = "\(anchorSlug(for: item)).\(time)"
+                    // `sortOrder` disambiguates two meds sharing an identity
+                    // + route + time — without it their requests collide to
+                    // one identifier and the second silently wins.
+                    let anchor = "\(anchorSlug(for: item)).\(item.sortOrder).\(time)"
                     let slotKey = RoutineOccurrenceService.slotKey(
                         substance: item.substance, substanceUID: item.substanceUID,
                         route: item.route, slotMinutes: time,
                     )
+                    let satisfied = satisfiedSlots.contains(slotKey)
                     let threadID = medThreadIdentifier(anchor: anchorSlug(for: item))
                     let skipTarget = "slot|\(slotKey)"
                     let deepLink = groupDeepLink(slug: MedTimeGroup.group(forMinutes: time).slug)?.absoluteString
-                    primaries.append(PrimaryRequest(
-                        identifier: NotificationType.routine.identifier(anchor: anchor),
-                        title: name,
-                        body: String(localized: "Time to log \(name) — \(doseText)."),
-                        threadID: threadID,
-                        skipTarget: skipTarget,
-                        deepLink: deepLink,
-                        timeMinutes: time,
-                    ))
-                    appendFollowUps(
-                        anchor: anchor,
-                        timeMinutes: time,
-                        cadence: cadence,
-                        satisfied: satisfiedSlots.contains(slotKey),
-                        title: name,
-                        // A question, deliberately — a follow-up re-asks, it
-                        // never implies the dose was taken or scolds.
-                        body: String(localized: "Still need to log \(name)?"),
-                        threadID: threadID,
-                        skipTarget: skipTarget,
-                        deepLink: deepLink,
-                    )
+                    let title = name
+                    let body = String(localized: "Time to log \(name) — \(doseText).")
+                    // A question, deliberately — a follow-up re-asks, it
+                    // never implies the dose was taken or scolds.
+                    let followUpBody = String(localized: "Still need to log \(name)?")
+
+                    if item.frequency == .daily {
+                        primaries.append(PrimaryRequest(
+                            identifier: NotificationType.routine.identifier(anchor: anchor),
+                            title: title,
+                            body: body,
+                            threadID: threadID,
+                            skipTarget: skipTarget,
+                            deepLink: deepLink,
+                            timeMinutes: time,
+                            fireDate: nil,
+                        ))
+                        appendFollowUps(
+                            anchor: anchor,
+                            timeMinutes: time,
+                            cadence: cadence,
+                            satisfied: satisfied,
+                            title: title,
+                            body: followUpBody,
+                            threadID: threadID,
+                            skipTarget: skipTarget,
+                            deepLink: deepLink,
+                        )
+                        continue
+                    }
+
+                    // Non-daily: one-shots on the next few due days — always
+                    // scanned far enough ahead that a monthly med's next
+                    // reminder exists even if the app isn't opened between
+                    // due days. Today's are skipped once the slot is
+                    // satisfied (a luxury the repeating trigger can't offer).
+                    for day in nextDueDays(for: item, limit: duePrimariesPerSlot, now: now) {
+                        let isToday = calendar.isDate(day, inSameDayAs: now)
+                        if isToday, satisfied { continue }
+                        let parts = calendar.dateComponents([.year, .month, .day], from: day)
+                        let dayKey = String(format: "%04d%02d%02d", parts.year ?? 0, parts.month ?? 0, parts.day ?? 0)
+                        if let fireDate = calendar.date(byAdding: .minute, value: time, to: day), fireDate > now {
+                            primaries.append(PrimaryRequest(
+                                identifier: NotificationType.routine.identifier(anchor: anchor, ordinal: dayKey),
+                                title: title,
+                                body: body,
+                                threadID: threadID,
+                                skipTarget: skipTarget,
+                                deepLink: deepLink,
+                                timeMinutes: time,
+                                fireDate: fireDate,
+                            ))
+                        }
+                        guard followUpsAllowed, !cadence.isEmpty else { continue }
+                        for (ordinal, offset) in cadence.enumerated() {
+                            guard let fireDate = calendar.date(byAdding: .minute, value: time + offset, to: day),
+                                  fireDate > now,
+                                  !NotificationPreferencesStore.isInQuietHours(fireDate) else { continue }
+                            followUps.append(FollowUpRequest(
+                                identifier: NotificationType.routineFollowUp.identifier(
+                                    anchor: anchor,
+                                    ordinal: "\(dayKey).\(ordinal)",
+                                ),
+                                title: title,
+                                body: followUpBody,
+                                threadID: threadID,
+                                skipTarget: skipTarget,
+                                deepLink: deepLink,
+                                fireDate: fireDate,
+                            ))
+                        }
+                    }
                 }
             }
 
-            // Quiet meds: one grouped primary per time-of-day group, firing
-            // at the group's earliest reminder time.
+            // Regular meds: one primary per (med × time), frequency-aware.
+            for item in scheduled where !item.isQuiet {
+                schedulePerMed(item)
+            }
+
+            // Quiet meds: one grouped repeating primary per time-of-day
+            // group, firing at the group's earliest reminder time. Only
+            // daily-frequency meds can ride a repeating group; non-daily
+            // quiet meds (a weekly B12, say) fall back to their own
+            // due-day one-shots — at their cadence that's one quiet
+            // notification a week, not spam.
             let quiet = scheduled.filter(\.isQuiet)
+            for item in quiet where item.frequency != .daily {
+                schedulePerMed(item)
+            }
+            let dailyQuiet = quiet.filter { $0.frequency == .daily }
             for group in MedTimeGroup.allCases {
-                let members: [(item: DailyDoseItem, time: Int)] = quiet.flatMap { item in
+                let members: [(item: DailyDoseItem, time: Int)] = dailyQuiet.flatMap { item in
                     item.reminderTimesMinutes
                         .filter { MedTimeGroup.group(forMinutes: $0) == group }
                         .map { (item, $0) }
@@ -471,6 +551,7 @@ enum DoseNotificationManager {
                     skipTarget: skipTarget,
                     deepLink: deepLink,
                     timeMinutes: fireTime,
+                    fireDate: nil,
                 ))
                 appendFollowUps(
                     anchor: anchor,
@@ -484,6 +565,17 @@ enum DoseNotificationManager {
                     deepLink: deepLink,
                 )
             }
+        }
+
+        // Follow-ups are the compressible tail of the SHARED 64-pending-
+        // request budget (next-dose, cumulative, inventory, and comedown
+        // requests draw from the same pool). Keep only the nearest ones so
+        // primaries and the other schedulers always fit; the horizon rolls
+        // forward on every sync, so trimmed re-asks reappear as their day
+        // approaches.
+        followUps.sort { $0.fireDate < $1.fireDate }
+        if followUps.count > maxFollowUpRequests {
+            followUps = Array(followUps.prefix(maxFollowUpRequests))
         }
 
         let primariesToAdd = primaries
@@ -515,10 +607,17 @@ enum DoseNotificationManager {
                     skipTarget: primary.skipTarget,
                     deepLink: primary.deepLink,
                 )
-                var components = DateComponents()
-                components.hour = primary.timeMinutes / 60
-                components.minute = primary.timeMinutes % 60
-                let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+                let trigger: UNNotificationTrigger
+                if let fireDate = primary.fireDate {
+                    let interval = fireDate.timeIntervalSince(.now)
+                    guard interval > 0 else { continue }
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+                } else {
+                    var components = DateComponents()
+                    components.hour = primary.timeMinutes / 60
+                    components.minute = primary.timeMinutes % 60
+                    trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+                }
                 try? await center.add(UNNotificationRequest(
                     identifier: primary.identifier,
                     content: content,
@@ -562,6 +661,31 @@ enum DoseNotificationManager {
     /// what would drop). If the app isn't opened for this many days the
     /// primary (repeating) reminder still fires — only the re-asks pause.
     private static let followUpHorizonDays = 3
+
+    /// How many upcoming due days a non-daily med materializes one-shot
+    /// primaries for. Two keeps the next reminder scheduled across even a
+    /// monthly gap without opening the app, at trivial budget cost.
+    private static let duePrimariesPerSlot = 2
+
+    /// The nearest cap on materialized follow-ups (nearest-first) — see the
+    /// budget note in `syncMedReminders`.
+    private static let maxFollowUpRequests = 30
+
+    /// The next due days (as `startOfDay`) for a med's schedule, scanned far
+    /// enough ahead to cover a monthly cadence.
+    private static func nextDueDays(for item: DailyDoseItem, limit: Int, now: Date) -> [Date] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: now)
+        var result: [Date] = []
+        for offset in 0 ..< 62 {
+            guard let day = calendar.date(byAdding: .day, value: offset, to: today) else { continue }
+            if AdherenceCalculator.isDue(item, on: day) {
+                result.append(day)
+                if result.count == limit { break }
+            }
+        }
+        return result
+    }
 
     /// A med's stable identifier fragment: its identity key plus route,
     /// sanitized to the notification-identifier grammar's alphabet.

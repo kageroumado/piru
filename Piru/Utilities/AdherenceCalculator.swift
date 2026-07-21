@@ -243,8 +243,12 @@ enum AdherenceCalculator {
                     itemKey: item.identityKey, itemName: item.substance, itemRoute: item.route,
                 )
             }
-            matched += min(hits, item.expectedPerDay)
-            expected += item.expectedPerDay
+            // Clamped here, not just at snapshot construction — a zero
+            // expectation would otherwise make `matched == expected` read as
+            // a false `.complete`.
+            let itemExpected = max(1, item.expectedPerDay)
+            matched += min(hits, itemExpected)
+            expected += itemExpected
         }
         if matched == expected { return .complete }
         return matched > 0 ? .partial : .missed
