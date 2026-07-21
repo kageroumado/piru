@@ -273,29 +273,47 @@ enum DoseNotificationManager {
         SubstanceLibrary.lookupByNameOrAlias(entry.substance.lowercased())
     }
 
-    // MARK: - Routine reminders
+    // MARK: - Med reminders
 
-    /// Reconcile the routine reminders from the store. The one entry point
-    /// every "something routine-relevant changed" site calls — routine edits,
-    /// dose commits, app foreground. Runs the occurrence reconciler first, so
-    /// follow-up cancellation reads the durable record (spec §D), not a
-    /// re-inference over raw dose scans.
-    static func syncRoutineReminders(in context: ModelContext) {
+    /// Reconcile the med reminders from the store. The one entry point every
+    /// "something med-relevant changed" site calls — med edits, dose commits,
+    /// app foreground. Runs the occurrence reconciler first, so follow-up
+    /// cancellation reads the durable record (spec §D), not a re-inference
+    /// over raw dose scans.
+    static func syncMedReminders(in context: ModelContext) {
         RoutineOccurrenceService.reconcile(in: context)
-        let routines = (try? context.fetch(FetchDescriptor<DoseRoutine>())) ?? []
-        let satisfied = Set(routines.map(\.name).filter {
-            RoutineOccurrenceService.isSatisfiedToday(routineName: $0, in: context)
-        })
-        syncRoutineReminders(routines: routines, satisfiedToday: satisfied)
+        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
+        let satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context)
+        let askAgainDefault = (try? context.fetch(FetchDescriptor<NotificationPreferences>()))?
+            .first?.askAgainDefaultMinutes ?? [10]
+        syncMedReminders(items: items, satisfiedSlots: satisfied, askAgainDefault: askAgainDefault)
     }
 
-    /// Mark a routine's remaining due items skipped for today and cancel its
-    /// follow-ups — the "Skip Today" notification action. Runs headless (no
-    /// UI launch); needs ``modelContainer`` to have been set at app init.
-    static func skipRoutineToday(named name: String) {
+    /// Mark a notification's remaining due slots skipped for today and cancel
+    /// their follow-ups — the "Skip Today" action. `target` is the request's
+    /// ``skipTargetUserInfoKey`` payload: `slot|<slotKey>` for one med's
+    /// reminder, `group|<groupSlug>` for a grouped quiet-med reminder (the
+    /// group expands to its members' slot keys at action time, so a med edited
+    /// after scheduling still resolves correctly). Runs headless (no UI
+    /// launch); needs ``modelContainer`` to have been set at app init.
+    static func skipMedsToday(target: String) {
         guard let context = modelContainer?.mainContext else { return }
-        RoutineOccurrenceService.skipToday(routineName: name, in: context)
-        syncRoutineReminders(in: context)
+        if target.hasPrefix("slot|") {
+            RoutineOccurrenceService.skipToday(slotKeys: [String(target.dropFirst(5))], in: context)
+        } else if target.hasPrefix("group|"), let group = MedTimeGroup(slug: String(target.dropFirst(6))) {
+            let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
+            var keys: Set<String> = []
+            for item in items where item.isQuiet && !item.isAsNeeded {
+                for time in item.reminderTimesMinutes where MedTimeGroup.group(forMinutes: time) == group {
+                    keys.insert(RoutineOccurrenceService.slotKey(
+                        substance: item.substance, substanceUID: item.substanceUID,
+                        route: item.route, slotMinutes: time,
+                    ))
+                }
+            }
+            RoutineOccurrenceService.skipToday(slotKeys: keys, in: context)
+        }
+        syncMedReminders(in: context)
     }
 
     /// The app's shared container, set once at launch — the notification
@@ -303,66 +321,177 @@ enum DoseNotificationManager {
     /// pull a context from.
     static var modelContainer: ModelContainer?
 
-    /// Reconcile the repeating routine reminders — one daily calendar
-    /// notification per routine that has a time and "Remind Me" on — plus
-    /// their snooze-style follow-ups. Also clears the legacy global
-    /// `dailyDoseReminder_*` set the pre-routines screen scheduled.
+    /// One planned repeating primary reminder, snapshotted as plain values.
+    private struct PrimaryRequest {
+        let identifier: String
+        let title: String
+        let body: String
+        let threadID: String
+        let skipTarget: String
+        let deepLink: String?
+        let timeMinutes: Int
+    }
+
+    /// Reconcile the repeating med reminders (Specs/meds-reminders-redesign.md):
+    /// one daily calendar notification per (med × reminder time) for regular
+    /// meds, and ONE grouped notification per time-of-day for quiet meds
+    /// ("Morning supplements (4)", firing at the group's earliest time) — the
+    /// Quiet tier's whole point, and what keeps many supplements from eating
+    /// the 64-pending-request cap. Plus their snooze-style follow-ups.
     ///
     /// **Follow-ups** ("still need to log?") can't be repeating triggers:
     /// cancelling today's re-ask would cancel every future day's too. So they
     /// are materialized as one-shot requests over a short rolling horizon
     /// (``followUpHorizonDays``), re-derived on every sync — and today's are
-    /// skipped when the routine's occurrence record says it's satisfied.
-    private static func syncRoutineReminders(
-        routines: [DoseRoutine],
-        satisfiedToday: Set<String>,
+    /// skipped when the slot's occurrence record says it's satisfied. The
+    /// cadence is the med's Ask Again override when set, else the global
+    /// default.
+    private static func syncMedReminders(
+        items: [DailyDoseItem],
+        satisfiedSlots: Set<String>,
+        askAgainDefault: [Int],
     ) {
         // With the type disabled, the sync degrades to a sweep: clear
-        // anything pending, schedule nothing. Per-routine `remind` flags stay
+        // anything pending, schedule nothing. Per-med `remind` flags stay
         // untouched so re-enabling the type re-arms them.
         let remindersAllowed = NotificationPreferencesStore.allows(.routine)
         let followUpsAllowed = remindersAllowed && NotificationPreferencesStore.allows(.routineFollowUp)
-        let active = remindersAllowed
-            ? routines
-            .filter { $0.remind && $0.timeMinutes != nil }
-            .map { (name: $0.name, timeMinutes: $0.timeMinutes ?? 0) }
-            : []
 
-        // Snapshot the follow-up plan as plain values before the Task.
+        var primaries: [PrimaryRequest] = []
         var followUps: [FollowUpRequest] = []
-        if followUpsAllowed {
-            for routine in routines where routine.remind && routine.timeMinutes != nil && !routine.followUpMinutes.isEmpty {
-                let satisfied = satisfiedToday.contains(routine.name)
-                let slots = followUpFireDates(
-                    timeMinutes: routine.timeMinutes ?? 0,
-                    offsets: routine.followUpMinutes,
-                    days: followUpHorizonDays,
-                    skipToday: satisfied,
-                    now: .now,
-                )
-                // Re-asks are silenced inside the quiet window (safety
-                // warnings and user-timed primaries are exempt; spec §B).
-                for slot in slots where !NotificationPreferencesStore.isInQuietHours(slot.fireDate) {
-                    followUps.append(FollowUpRequest(
-                        identifier: NotificationType.routineFollowUp.identifier(
-                            anchor: routine.name.lowercased(),
-                            ordinal: "\(slot.dayKey).\(slot.ordinal)",
-                        ),
-                        title: routine.name,
-                        // A question, deliberately — a follow-up re-asks, it
-                        // never implies the dose was taken or scolds.
-                        body: String(localized: "Still need to log your \(routine.name) routine?"),
-                        deepLink: routineDeepLink(name: routine.name)?.absoluteString,
-                        fireDate: slot.fireDate,
-                    ))
-                }
+
+        func appendFollowUps(
+            anchor: String,
+            timeMinutes: Int,
+            cadence: [Int],
+            satisfied: Bool,
+            title: String,
+            body: String,
+            threadID: String,
+            skipTarget: String,
+            deepLink: String?,
+        ) {
+            guard followUpsAllowed, !cadence.isEmpty else { return }
+            let slots = followUpFireDates(
+                timeMinutes: timeMinutes,
+                offsets: cadence,
+                days: followUpHorizonDays,
+                skipToday: satisfied,
+                now: .now,
+            )
+            // Re-asks are silenced inside the quiet window (safety warnings
+            // and user-timed primaries are exempt; spec §B).
+            for slot in slots where !NotificationPreferencesStore.isInQuietHours(slot.fireDate) {
+                followUps.append(FollowUpRequest(
+                    identifier: NotificationType.routineFollowUp.identifier(
+                        anchor: anchor,
+                        ordinal: "\(slot.dayKey).\(slot.ordinal)",
+                    ),
+                    title: title,
+                    body: body,
+                    threadID: threadID,
+                    skipTarget: skipTarget,
+                    deepLink: deepLink,
+                    fireDate: slot.fireDate,
+                ))
             }
         }
 
+        if remindersAllowed {
+            let scheduled = items.filter { !$0.isAsNeeded && $0.remind && !$0.reminderTimesMinutes.isEmpty }
+
+            // Regular meds: one primary per (med × time).
+            for item in scheduled where !item.isQuiet {
+                let name = item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
+                let doseText = "\(item.amount.doseFormatted) \(item.unit)"
+                let cadence = item.askAgainOverrideMinutes ?? askAgainDefault
+                for time in item.reminderTimesMinutes.sorted() {
+                    let anchor = "\(anchorSlug(for: item)).\(time)"
+                    let slotKey = RoutineOccurrenceService.slotKey(
+                        substance: item.substance, substanceUID: item.substanceUID,
+                        route: item.route, slotMinutes: time,
+                    )
+                    let threadID = medThreadIdentifier(anchor: anchorSlug(for: item))
+                    let skipTarget = "slot|\(slotKey)"
+                    let deepLink = groupDeepLink(slug: MedTimeGroup.group(forMinutes: time).slug)?.absoluteString
+                    primaries.append(PrimaryRequest(
+                        identifier: NotificationType.routine.identifier(anchor: anchor),
+                        title: name,
+                        body: String(localized: "Time to log \(name) — \(doseText)."),
+                        threadID: threadID,
+                        skipTarget: skipTarget,
+                        deepLink: deepLink,
+                        timeMinutes: time,
+                    ))
+                    appendFollowUps(
+                        anchor: anchor,
+                        timeMinutes: time,
+                        cadence: cadence,
+                        satisfied: satisfiedSlots.contains(slotKey),
+                        title: name,
+                        // A question, deliberately — a follow-up re-asks, it
+                        // never implies the dose was taken or scolds.
+                        body: String(localized: "Still need to log \(name)?"),
+                        threadID: threadID,
+                        skipTarget: skipTarget,
+                        deepLink: deepLink,
+                    )
+                }
+            }
+
+            // Quiet meds: one grouped primary per time-of-day group, firing
+            // at the group's earliest reminder time.
+            let quiet = scheduled.filter(\.isQuiet)
+            for group in MedTimeGroup.allCases {
+                let members: [(item: DailyDoseItem, time: Int)] = quiet.flatMap { item in
+                    item.reminderTimesMinutes
+                        .filter { MedTimeGroup.group(forMinutes: $0) == group }
+                        .map { (item, $0) }
+                }
+                guard let fireTime = members.map(\.time).min() else { continue }
+                let names = members.map { $0.item.productName ?? CustomSubstanceStore.shared.displayName(for: $0.item.substance) }
+                let uniqueNames = names.reduce(into: [String]()) { if !$0.contains($1) { $0.append($1) } }
+                let groupLabel = String(localized: group.label)
+                let title = String(localized: "\(groupLabel) supplements (\(uniqueNames.count))")
+                let anchor = "group.\(group.slug)"
+                let threadID = medThreadIdentifier(anchor: anchor)
+                let skipTarget = "group|\(group.slug)"
+                let deepLink = groupDeepLink(slug: group.slug)?.absoluteString
+                let allSatisfied = members.allSatisfy { member in
+                    satisfiedSlots.contains(RoutineOccurrenceService.slotKey(
+                        substance: member.item.substance, substanceUID: member.item.substanceUID,
+                        route: member.item.route, slotMinutes: member.time,
+                    ))
+                }
+                primaries.append(PrimaryRequest(
+                    identifier: NotificationType.routine.identifier(anchor: anchor),
+                    title: title,
+                    body: uniqueNames.joined(separator: ", "),
+                    threadID: threadID,
+                    skipTarget: skipTarget,
+                    deepLink: deepLink,
+                    timeMinutes: fireTime,
+                ))
+                appendFollowUps(
+                    anchor: anchor,
+                    timeMinutes: fireTime,
+                    cadence: askAgainDefault,
+                    satisfied: allSatisfied,
+                    title: title,
+                    body: String(localized: "Still need your \(groupLabel.localizedLowercase) supplements?"),
+                    threadID: threadID,
+                    skipTarget: skipTarget,
+                    deepLink: deepLink,
+                )
+            }
+        }
+
+        let primariesToAdd = primaries
+        let followUpsToAdd = followUps
         Task {
             let center = UNUserNotificationCenter.current()
             // Sweep both grammars: the current prefixes plus the legacy sets
-            // (routine repeats fully self-migrate here on the first sync).
+            // (routine-era requests fully self-migrate here on the first sync).
             let sweepPrefixes = NotificationType.routine.identifierPrefixes
                 + NotificationType.routineFollowUp.identifierPrefixes
                 + ["dailyDoseReminder"]
@@ -376,38 +505,37 @@ enum DoseNotificationManager {
             // removes): requests added before the grant simply deliver once
             // the user allows notifications — the management screen's header
             // is the honest surface for that state.
-            guard !active.isEmpty else { return }
-
-            for routine in active {
-                // Tapping the reminder lands in quick-log with this routine's
-                // items already staged (handled by DoseNotificationDelegate);
-                // the routine name rides along for the Skip Today action.
-                let content = routineReminderContent(
-                    title: routine.name,
-                    body: String(localized: "Time to log your \(routine.name) routine."),
+            for primary in primariesToAdd {
+                let content = medReminderContent(
+                    title: primary.title,
+                    body: primary.body,
                     type: .routine,
                     category: routineCategoryID,
-                    deepLink: routineDeepLink(name: routine.name)?.absoluteString,
+                    threadID: primary.threadID,
+                    skipTarget: primary.skipTarget,
+                    deepLink: primary.deepLink,
                 )
                 var components = DateComponents()
-                components.hour = routine.timeMinutes / 60
-                components.minute = routine.timeMinutes % 60
+                components.hour = primary.timeMinutes / 60
+                components.minute = primary.timeMinutes % 60
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
                 try? await center.add(UNNotificationRequest(
-                    identifier: routineReminderIdentifier(name: routine.name),
+                    identifier: primary.identifier,
                     content: content,
                     trigger: trigger,
                 ))
             }
 
-            for followUp in followUps {
+            for followUp in followUpsToAdd {
                 let interval = followUp.fireDate.timeIntervalSince(.now)
                 guard interval > 0 else { continue }
-                let content = routineReminderContent(
+                let content = medReminderContent(
                     title: followUp.title,
                     body: followUp.body,
                     type: .routineFollowUp,
                     category: routineFollowUpCategoryID,
+                    threadID: followUp.threadID,
+                    skipTarget: followUp.skipTarget,
                     deepLink: followUp.deepLink,
                 )
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
@@ -435,24 +563,29 @@ enum DoseNotificationManager {
     /// primary (repeating) reminder still fires — only the re-asks pause.
     private static let followUpHorizonDays = 3
 
-    private static func routineReminderIdentifier(name: String) -> String {
-        NotificationType.routine.identifier(anchor: name.lowercased())
+    /// A med's stable identifier fragment: its identity key plus route,
+    /// sanitized to the notification-identifier grammar's alphabet.
+    private static func anchorSlug(for item: DailyDoseItem) -> String {
+        let raw = "\(item.identityKey)-\(item.route.rawValue)".lowercased()
+        let sanitized = raw.map { $0.isLetter || $0.isNumber ? $0 : "-" }
+        return String(sanitized)
     }
 
-    private nonisolated static func routineThreadIdentifier(name: String) -> String {
-        "piru.notif.thread.routine.\(name.lowercased())"
+    private nonisolated static func medThreadIdentifier(anchor: String) -> String {
+        "piru.notif.thread.med.\(anchor)"
     }
 
-    /// Shared content for a routine reminder and its snooze-style follow-up:
-    /// both carry the routine name for the Skip Today action, share the
-    /// routine's notification thread so re-asks stack under the reminder they
-    /// follow, and fire time-sensitive. The title *is* the routine name for
-    /// both, so it doubles as the thread key and the carried routine name.
-    private nonisolated static func routineReminderContent(
+    /// Shared content for a med reminder and its snooze-style follow-up: both
+    /// carry the skip target for the Skip Today action, share the med's (or
+    /// quiet group's) notification thread so re-asks stack under the reminder
+    /// they follow, and fire time-sensitive when the user allows it.
+    private nonisolated static func medReminderContent(
         title: String,
         body: String,
         type: NotificationType,
         category: String,
+        threadID: String,
+        skipTarget: String,
         deepLink: String?,
     ) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
@@ -460,9 +593,9 @@ enum DoseNotificationManager {
         content.body = body
         content.sound = .default
         content.categoryIdentifier = category
-        content.threadIdentifier = routineThreadIdentifier(name: title)
+        content.threadIdentifier = threadID
         content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: type)
-        var userInfo: [String: Any] = [routineNameUserInfoKey: title]
+        var userInfo: [String: Any] = [skipTargetUserInfoKey: skipTarget]
         if let deepLink { userInfo[deepLinkUserInfoKey] = deepLink }
         content.userInfo = userInfo
         return content
@@ -473,6 +606,8 @@ enum DoseNotificationManager {
         let identifier: String
         let title: String
         let body: String
+        let threadID: String
+        let skipTarget: String
         let deepLink: String?
         let fireDate: Date
     }
@@ -565,17 +700,19 @@ enum DoseNotificationManager {
     // MARK: - Deep links
 
     nonisolated static let deepLinkUserInfoKey = "deepLink"
-    /// Routine name carried on routine + follow-up requests so the Skip
-    /// Today action knows whose occurrences to mark without launching UI.
-    nonisolated static let routineNameUserInfoKey = "routineName"
+    /// Skip target carried on med-reminder + follow-up requests so the Skip
+    /// Today action knows whose occurrences to mark without launching UI:
+    /// `slot|<slotKey>` or `group|<groupSlug>`.
+    nonisolated static let skipTargetUserInfoKey = "skipTarget"
 
-    /// `piru://quicklog?routine=<name>` — URLComponents handles the
-    /// percent-encoding for arbitrary routine names.
-    private nonisolated static func routineDeepLink(name: String) -> URL? {
+    /// `piru://quicklog?routine=<groupSlug>` — lands in quick-log with that
+    /// time-of-day group's meds staged (the query key stays `routine` for
+    /// deep-link compatibility).
+    private nonisolated static func groupDeepLink(slug: String) -> URL? {
         var components = URLComponents()
         components.scheme = DeepLink.scheme
         components.host = "quicklog"
-        components.queryItems = [URLQueryItem(name: "routine", value: name)]
+        components.queryItems = [URLQueryItem(name: "routine", value: slug)]
         return components.url
     }
 }
@@ -603,7 +740,7 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
         let actionIdentifier = response.actionIdentifier
         let userInfo = response.notification.request.content.userInfo
         let link = userInfo[DoseNotificationManager.deepLinkUserInfoKey] as? String
-        let routineName = userInfo[DoseNotificationManager.routineNameUserInfoKey] as? String
+        let skipTarget = userInfo[DoseNotificationManager.skipTargetUserInfoKey] as? String
 
         DispatchQueue.main.async {
             defer { completionHandler() }
@@ -611,8 +748,8 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
             // Skip Today runs headless: mark the occurrences, cancel the
             // remaining re-asks, never launch the UI.
             case DoseNotificationManager.skipTodayActionID:
-                if let routineName {
-                    DoseNotificationManager.skipRoutineToday(named: routineName)
+                if let skipTarget {
+                    DoseNotificationManager.skipMedsToday(target: skipTarget)
                 }
             // The body tap and every foreground action (Log, View Timeline)
             // land at the notification's deep link; dismissals do nothing.

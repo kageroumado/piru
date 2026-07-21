@@ -204,7 +204,6 @@ struct QuickLogView: View {
                 // not to block the present animation).
                 await SubstanceStore.shared.ensureAllLoaded()
                 QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
-                RoutineMigrator.seedIfNeeded(context: modelContext)
                 seedFavoriteOrderIfNeeded()
                 content.rebuildColorLookup(substanceColors: substanceColors)
                 // Cards first: `rebuildEntryDerived` scopes its per-substance PK
@@ -275,20 +274,14 @@ struct QuickLogView: View {
 
     // MARK: - Daily routine
 
-    /// Cheap change-signature for the routine pills' inputs (tiny N), used to
-    /// invalidate `cachedDailyGroups` on an in-place edit from the settings
-    /// sheet. Covers both the routine rows and the daily items in one key so
-    /// the body adds a single `onChange` rather than two.
+    /// Cheap change-signature for the group pills' inputs (tiny N), used to
+    /// invalidate `cachedDailyGroups` on an in-place edit from the My Meds
+    /// hub. Times/quiet/PRN all move a med between groups, so they key it.
     private var routineSignature: [String] {
-        var parts: [String] = []
-        for routine in routines {
-            let minutes = routine.timeMinutes ?? -1
-            parts.append("r:\(routine.name)|\(minutes)|\(routine.sortOrder)")
+        dailyDoseItems.map { item in
+            let times = item.reminderTimesMinutes.map(String.init).joined(separator: ",")
+            return "i:\(item.substance)|\(times)|\(item.isQuiet)|\(item.isAsNeeded)|\(item.sortOrder)"
         }
-        for item in dailyDoseItems {
-            parts.append("i:\(item.substance)|\(item.category)|\(item.sortOrder)")
-        }
-        return parts
     }
 
     private func stagedQuantity(_ item: DailyDoseItem) -> Int {
@@ -298,7 +291,14 @@ struct QuickLogView: View {
     /// Stage every item of the named routine, exactly as if its pill were
     /// tapped (idempotent) — the landing state for a reminder-notification tap.
     private func stageRoutine(named name: String) {
-        let items = dailyDoseItems.filter { $0.category == name }
+        // `name` is a MedTimeGroup slug ("morning") from a group pill or a
+        // reminder deep link; legacy routine-name links fall back to the
+        // dormant category field so old notifications still land somewhere.
+        let items: [DailyDoseItem] = if let group = MedTimeGroup(slug: name) {
+            dailyDoseItems.filter { MedTimeGroup.belongs($0, to: group) }
+        } else {
+            dailyDoseItems.filter { $0.category == name }
+        }
         guard !items.isEmpty else { return }
         withAnimation(.snappy) {
             for item in items where stagedQuantity(item) == 0 {

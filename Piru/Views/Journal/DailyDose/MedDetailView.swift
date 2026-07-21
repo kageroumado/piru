@@ -90,6 +90,11 @@ struct MedDetailView: View {
             .sheet(isPresented: $showingEdit) {
                 MedFormView(item: item)
             }
+            // Live toggles (remind, Ask Again, quiet) edit the model directly;
+            // one resync on close covers them all.
+            .onDisappear {
+                DoseNotificationManager.syncMedReminders(in: modelContext)
+            }
             .confirmationDialog(
                 "Delete this med?",
                 isPresented: $showingDeleteConfirmation,

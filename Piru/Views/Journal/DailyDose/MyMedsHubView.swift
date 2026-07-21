@@ -60,6 +60,36 @@ enum MedTimeGroup: Int, CaseIterable, Identifiable {
         case .asNeeded: "cross.vial"
         }
     }
+
+    /// Stable string id — rides in notification anchors, deep links
+    /// (`piru://quicklog?routine=morning`), and QuickLog group pills.
+    var slug: String {
+        switch self {
+        case .morning: "morning"
+        case .afternoon: "afternoon"
+        case .evening: "evening"
+        case .night: "night"
+        case .anytime: "anytime"
+        case .asNeeded: "as-needed"
+        }
+    }
+
+    init?(slug: String) {
+        guard let match = Self.allCases.first(where: { $0.slug == slug }) else { return nil }
+        self = match
+    }
+
+    /// Whether a med shows in this group: PRN meds live in `asNeeded`, meds
+    /// without times in `anytime`, and a multi-time med appears in every
+    /// group it has a time in.
+    static func belongs(_ item: DailyDoseItem, to group: MedTimeGroup) -> Bool {
+        if item.isAsNeeded {
+            return group == .asNeeded
+        }
+        let times = item.reminderTimesMinutes
+        guard !times.isEmpty else { return group == .anytime }
+        return times.contains { Self.group(forMinutes: $0) == group }
+    }
 }
 
 // MARK: - Hub
@@ -181,12 +211,7 @@ struct MyMedsHubView: View {
     }
 
     private func belongs(_ item: DailyDoseItem, to group: MedTimeGroup) -> Bool {
-        if item.isAsNeeded {
-            return group == .asNeeded
-        }
-        let times = item.reminderTimesMinutes
-        guard !times.isEmpty else { return group == .anytime }
-        return times.contains { MedTimeGroup.group(forMinutes: $0) == group }
+        MedTimeGroup.belongs(item, to: group)
     }
 }
 

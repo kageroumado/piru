@@ -3,18 +3,15 @@ import SwiftUI
 
 // MARK: - Quick-Log Edit Sheet
 
-/// The Log screen's single Edit surface: routines & prescriptions, the
-/// favorites order, and drink presets, one sheet. The list is permanently in edit mode so rows
-/// show the standard reorder grabbers and delete controls — a bare long-press
-/// drag technically reorders outside edit mode, but nothing advertises it.
-/// Edit mode disables `NavigationLink` rows, so the routine row is a `Button`
-/// that pushes its Reminders-style detail editor through a typed path; the
-/// `editMode` environment stays scoped to the `List` (with
-/// `navigationDestination` registered outside it) so the pushed editor doesn't
-/// inherit edit mode. Local sheet, so `@Environment(\.dismiss)` (NOT
+/// The Log screen's single Edit surface: the meds order, the favorites
+/// order, and drink presets, one sheet. The list is permanently in edit mode
+/// so rows show the standard reorder grabbers and delete controls — a bare
+/// long-press drag technically reorders outside edit mode, but nothing
+/// advertises it. The `editMode` environment stays scoped to the `List`
+/// (with `navigationDestination` registered outside it) so pushed editors
+/// don't inherit edit mode. Local sheet, so `@Environment(\.dismiss)` (NOT
 /// `navigator.dismiss()`, which would pop the whole Log cover).
 struct QuickLogEditSheet: View {
-    @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
     @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
     @Query(sort: [SortDescriptor(\CustomDrinkPreset.sortOrder), SortDescriptor(\CustomDrinkPreset.createdAt)]) private var drinkPresets: [CustomDrinkPreset]
@@ -22,25 +19,21 @@ struct QuickLogEditSheet: View {
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @State private var customStore = CustomSubstanceStore.shared
 
-    @State private var showingNewRoutine = false
-    @State private var newRoutineName = ""
     @State private var path = NavigationPath()
 
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                routinesSection
+                medsSection
                 if !favorites.isEmpty {
                     favoritesSection
                 }
                 drinksSections
             }
             .environment(\.editMode, .constant(.active))
-            .navigationDestination(for: DoseRoutine.self) { routine in
-                RoutineDetailView(routine: routine)
-            }
             .navigationDestination(for: CustomDrinkPreset.self) { preset in
                 DrinkPresetForm(preset: preset, substanceName: preset.substanceName)
             }
@@ -60,62 +53,48 @@ struct QuickLogEditSheet: View {
                     .accessibilityLabel("Done")
                 }
             }
-            .alert("New Routine", isPresented: $showingNewRoutine) {
-                TextField("Name", text: $newRoutineName)
-                Button("Add") { addRoutine() }
-                Button("Cancel", role: .cancel) {}
-            } message: {
-                Text("e.g. Morning, Pre-workout, Night")
-            }
         }
         .presentationDetents([.medium, .large])
     }
 
-    // MARK: Routines
+    // MARK: Meds
 
-    private var routinesSection: some View {
+    private var medsSection: some View {
         Section {
-            ForEach(routines) { routine in
-                Button {
-                    path.append(routine)
-                } label: {
-                    HStack {
-                        routineRow(routine)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.footnote.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                    }
-                }
-                .foregroundStyle(.primary)
+            ForEach(items) { item in
+                medRow(item)
             }
-            .onMove(perform: moveRoutines)
-            .onDelete(perform: deleteRoutines)
+            .onMove(perform: moveMeds)
+            .onDelete(perform: deleteMeds)
 
             Button {
-                newRoutineName = ""
-                showingNewRoutine = true
+                navigator.present(.dailyDoseSettings)
             } label: {
-                Label("New Routine", systemImage: "plus.circle")
+                Label("Manage Meds…", systemImage: "pills")
             }
         } header: {
-            Text("Routines & Prescriptions")
+            Text("My Meds")
                 .textCase(nil)
         }
     }
 
-    /// Name + item count and reminder time — plain rows, matching the
-    /// favorites section below.
-    private func routineRow(_ routine: DoseRoutine) -> some View {
-        let count = items.count(where: { $0.category == routine.name })
-        return VStack(alignment: .leading, spacing: 2) {
-            Text(routine.name)
+    /// Name + dose and reminder times — plain rows, matching the favorites
+    /// section below. Editing schedules lives in the My Meds hub.
+    private func medRow(_ item: DailyDoseItem) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(item.productName ?? customStore.displayName(for: item.substance))
             HStack(spacing: 4) {
-                Text("^[\(count) item](inflect: true)")
-                if let time = routine.timeAsDate {
+                Text(verbatim: "\(item.amount.doseFormatted) \(item.unit)")
+                if let first = item.reminderTimesMinutes.sorted().first,
+                   let time = Calendar.current.date(
+                       bySettingHour: first / 60, minute: first % 60, second: 0, of: .now,
+                   ) {
                     Middot()
                     Text(time, style: .time)
-                    if routine.remind {
+                    if item.reminderTimesMinutes.count > 1 {
+                        Text(verbatim: "+\(item.reminderTimesMinutes.count - 1)")
+                    }
+                    if item.remind {
                         Image(systemName: "bell.fill")
                             .font(.caption2)
                             .accessibilityLabel("Reminder on")
@@ -132,35 +111,21 @@ struct QuickLogEditSheet: View {
     // moment the handler returns (Done, swipe), and an edit still sitting in
     // the context when the container is released is silently lost.
 
-    private func addRoutine() {
-        let trimmed = newRoutineName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, !routines.contains(where: { $0.name == trimmed }) else { return }
-        let maxOrder = routines.map(\.sortOrder).max() ?? -1
-        modelContext.insert(DoseRoutine(name: trimmed, sortOrder: maxOrder + 1))
-        try? modelContext.save()
-    }
-
-    private func moveRoutines(from source: IndexSet, to destination: Int) {
-        var ordered = routines
+    private func moveMeds(from source: IndexSet, to destination: Int) {
+        var ordered = items
         ordered.move(fromOffsets: source, toOffset: destination)
-        for (index, routine) in ordered.enumerated() {
-            routine.sortOrder = index
+        for (index, item) in ordered.enumerated() {
+            item.sortOrder = index
         }
         try? modelContext.save()
     }
 
-    private func deleteRoutines(at offsets: IndexSet) {
+    private func deleteMeds(at offsets: IndexSet) {
         for index in offsets {
-            let routine = routines[index]
-            // Items survive the routine — they fall to Unassigned (visible in
-            // the full routines manager).
-            for item in items where item.category == routine.name {
-                item.category = ""
-            }
-            modelContext.delete(routine)
+            modelContext.delete(items[index])
         }
         try? modelContext.save()
-        DoseNotificationManager.syncRoutineReminders(in: modelContext)
+        DoseNotificationManager.syncMedReminders(in: modelContext)
     }
 
     // MARK: Favorites

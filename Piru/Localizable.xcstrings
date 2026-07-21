@@ -1221,6 +1221,16 @@
         }
       }
     },
+    "%@ supplements (%lld)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ supplements (%2$lld)"
+          }
+        }
+      }
+    },
     "%@ tablet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2074,6 +2084,7 @@
       }
     },
     "%lld item%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3644,6 +3655,7 @@
 
     },
     "10 and 30 minutes later" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3663,6 +3675,7 @@
 
     },
     "10 minutes later" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4174,6 +4187,7 @@
       }
     },
     "A notification repeats daily at this time." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5720,6 +5734,7 @@
       }
     },
     "Add Item" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5900,6 +5915,7 @@
       }
     },
     "Add Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8320,6 +8336,7 @@
       }
     },
     "Background medication" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10834,6 +10851,7 @@
       }
     },
     "Choose which notifications Piru sends — routine reminders, session alerts, safety warnings, and low-stock alerts." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13878,6 +13896,7 @@
       }
     },
     "Delete Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13913,6 +13932,7 @@
 
     },
     "Delete this routine?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15968,6 +15988,7 @@
       }
     },
     "e.g. Morning, Pre-workout, Night" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16405,6 +16426,7 @@
       }
     },
     "Edit Item" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16490,6 +16512,7 @@
       }
     },
     "Edit Routine…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20498,6 +20521,7 @@
       }
     },
     "Group the meds and supplements you take together — Pre-workout, Night — and stage a whole set with one tap." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23325,6 +23349,7 @@
       }
     },
     "Items" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23341,6 +23366,7 @@
       }
     },
     "Its items aren't deleted — they move to Unassigned in the Routines list." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23554,6 +23580,7 @@
       }
     },
     "Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact “Medications” row in the Journal." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25047,6 +25074,9 @@
           }
         }
       }
+    },
+    "Manage Meds…" : {
+
     },
     "Manage Routines" : {
       "extractionState" : "stale",
@@ -27394,6 +27424,7 @@
       }
     },
     "New Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28322,6 +28353,7 @@
       }
     },
     "No Routines" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29133,6 +29165,7 @@
       }
     },
     "Notifications for Piru are off in the system Settings, so this reminder won't be delivered." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35565,6 +35598,7 @@
       }
     },
     "Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35581,6 +35615,7 @@
       }
     },
     "Routine Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35613,6 +35648,7 @@
       }
     },
     "Routine reminders are turned off in Notification Settings, so this reminder won't be delivered." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35629,6 +35665,7 @@
       }
     },
     "Routines" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35645,6 +35682,7 @@
       }
     },
     "Routines & Prescriptions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39665,7 +39703,11 @@
         }
       }
     },
+    "Stages this group’s meds" : {
+
+    },
     "Stages this routine’s doses" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40166,7 +40208,11 @@
         }
       }
     },
+    "Still need to log %@?" : {
+
+    },
     "Still need to log your %@ routine?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40181,6 +40227,9 @@
           }
         }
       }
+    },
+    "Still need your %@ supplements?" : {
+
     },
     "Stimulant" : {
       "localizations" : {
@@ -43074,6 +43123,7 @@
       }
     },
     "Time of day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43186,7 +43236,18 @@
         }
       }
     },
+    "Time to log %@ — %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Time to log %1$@ — %2$@."
+          }
+        }
+      }
+    },
     "Time to log your %@ routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44340,6 +44401,7 @@
       }
     },
     "Unassigned" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

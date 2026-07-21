@@ -34,19 +34,27 @@ final class RoutineOccurrence {
     var stateRaw: String = "pending"
     /// The `DoseEntry.id` that satisfied this occurrence (when `logged`).
     var satisfyingEntryID: UUID?
+    /// The med's reminder time this occurrence tracks, as minutes from
+    /// midnight — the Meds redesign keys occurrences per (med × time slot),
+    /// so an 8:00 + 13:00 med has two rows per day. `nil` = the single
+    /// "anytime" slot of a med with no set times (and every pre-redesign
+    /// legacy row). Additive with a default — a pure lightweight migration.
+    var slotMinutes: Int?
 
     init(
-        routineName: String,
+        routineName: String = "",
         substance: String,
         substanceUID: String? = nil,
         route: RouteOfAdministration,
         dueDay: Date,
+        slotMinutes: Int? = nil,
     ) {
         self.routineName = routineName
         self.substance = substance
         self.substanceUID = substanceUID
         routeRaw = route.rawValue
         self.dueDay = dueDay
+        self.slotMinutes = slotMinutes
     }
 
     /// What happened to the due item. `missed` is neutral end-of-day history,

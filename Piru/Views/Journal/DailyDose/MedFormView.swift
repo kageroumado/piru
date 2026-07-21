@@ -461,6 +461,9 @@ struct MedFormView: View {
         target.releaseForm = identity.release
         target.productName = identity.product
 
+        // Reschedule from the saved state — times, remind, quiet grouping,
+        // and Ask Again cadence all feed the pending-notification set.
+        DoseNotificationManager.syncMedReminders(in: modelContext)
         dismiss()
     }
 }

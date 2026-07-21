@@ -145,7 +145,7 @@ struct PiruApp: App {
                     // Roll the routine follow-up horizon forward (they're
                     // materialized as one-shots over a few days) and drop
                     // today's re-asks for routines already logged.
-                    DoseNotificationManager.syncRoutineReminders(in: container.mainContext)
+                    DoseNotificationManager.syncMedReminders(in: container.mainContext)
                     // If the user connected Apple Health for body weight, silently refresh it
                     // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
                     // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
@@ -168,7 +168,7 @@ struct PiruApp: App {
                 InventoryService.recomputeAll(in: container.mainContext)
                 // Same horizon-roll as launch: doses logged from other
                 // surfaces while away may have satisfied a routine.
-                DoseNotificationManager.syncRoutineReminders(in: container.mainContext)
+                DoseNotificationManager.syncMedReminders(in: container.mainContext)
             }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.
