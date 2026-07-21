@@ -276,7 +276,7 @@ struct QuickLogCardList: View {
             withAnimation(.snappy) { routinesCollapsed.toggle() }
         } label: {
             HStack(spacing: 6) {
-                Text("Routines & Prescriptions")
+                Text("My Meds")
                     .font(.subheadline.weight(.semibold))
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
@@ -288,7 +288,7 @@ struct QuickLogCardList: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Routines & Prescriptions")
+        .accessibilityLabel("My Meds")
         .accessibilityValue(routinesCollapsed ? Text("Collapsed") : Text("Expanded"))
 
         if !routinesCollapsed {
@@ -296,21 +296,21 @@ struct QuickLogCardList: View {
                 ForEach(content.cachedDailyGroups) { group in
                     routinePill(group, staged: staged)
                 }
-                newRoutinePill
+                manageMedsPill
             }
         }
     }
 
-    /// Trailing pill of the routines row — creating a routine lives with the
-    /// pills it produces.
-    private var newRoutinePill: some View {
+    /// Trailing pill of the meds row — adding/editing meds lives with the
+    /// pills they produce.
+    private var manageMedsPill: some View {
         Button {
             navigator.present(.dailyDoseSettings)
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: "plus")
                     .imageScale(.small)
-                Text("New Routine")
+                Text("Add a Med")
             }
             .font(.subheadline.weight(.semibold))
             .padding(.horizontal, 14)
@@ -321,11 +321,11 @@ struct QuickLogCardList: View {
         .buttonStyle(.plain)
     }
 
-    /// A routine is one pill — a *shortcut* that stages its whole set into
-    /// the tray in one tap (the eight-supplements use case), idempotent for
-    /// anything already staged. The checkmark is informational ("all of these
-    /// were logged today"); the pill stays tappable for re-logs. Long-press
-    /// to edit the routine itself.
+    /// A time-of-day group is one pill — a *shortcut* that stages its whole
+    /// set into the tray in one tap (the eight-supplements use case),
+    /// idempotent for anything already staged. The checkmark is informational
+    /// ("all of these were logged today"); the pill stays tappable for
+    /// re-logs. Long-press to manage meds.
     private func routinePill(_ group: DailyCategoryGroup, staged: [String: StagedChipCounts]) -> some View {
         let done = group.remaining.isEmpty
         let allStaged = group.items.allSatisfy { stagedQuantity($0, staged: staged) > 0 }
@@ -368,13 +368,13 @@ struct QuickLogCardList: View {
                 ? Text("^[\(group.items.count) item](inflect: true), all logged today")
                 : Text("^[\(group.items.count) item](inflect: true)"),
         )
-        .accessibilityHint("Stages this routine’s doses")
+        .accessibilityHint("Stages this group’s meds")
         .accessibilityAddTraits(.isButton)
         .contextMenu {
             Button {
                 navigator.present(.dailyDoseSettings)
             } label: {
-                Label("Edit Routine…", systemImage: "pencil")
+                Label("Manage Meds…", systemImage: "pencil")
             }
         }
     }

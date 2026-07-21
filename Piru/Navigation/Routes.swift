@@ -37,8 +37,17 @@ nonisolated enum PushRoute: Hashable, Codable {
     case libraryFavorites
     case tool(Tool)
     case insight(Insight)
+    /// The My Meds hub — a *place*, so it pushes (Specs/meds-ux-review.md §2);
+    /// `SheetRoute.dailyDoseSettings` remains for deep links and contexts
+    /// without a bound stack.
+    case myMeds
+    /// One med's detail screen. `DailyDoseItem` has no stable id field (see
+    /// `RoutineOccurrence`), so the route carries an identity snapshot:
+    /// `identityKey` plus `sortOrder` to disambiguate two schedules of the
+    /// same substance (e.g. oral + injected MPH).
+    case medDetail(identityKey: String, sortOrder: Int)
     /// The continuous multi-day dose timeline (full-screen ribbon), pushed
-    /// from the Journal's compact ribbon card.
+    /// from the Journal's compact ribbon card (Specs/meds-ux-review.md §4).
     case timelineRibbon
 }
 
@@ -148,7 +157,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Must stay in sync with `SheetRouteView`'s dispatch.
     var supportsPushNavigation: Bool {
         switch self {
-        case .sessionDetail, .entryDetail: true
+        case .sessionDetail, .entryDetail, .dailyDoseSettings: true
         default: false
         }
     }

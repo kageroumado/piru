@@ -88,9 +88,14 @@ struct SheetRouteView: View {
             PersonalizeSubstanceHost(name: name)
 
         case .dailyDoseSettings:
-            NavigationStack {
-                RoutinesSettingsView()
+            // The Meds redesign: this route now lands on the My Meds hub
+            // (route case name kept for Codable compatibility with persisted
+            // snapshots and deep links). Path-bound so the hub's med-detail
+            // pushes land on THIS stack when the hub is a sheet.
+            NavigationStack(path: navigator.sheetPathBinding(atDepth: depth)) {
+                MyMedsHubView()
                     .withCancellationCloseButton()
+                    .withAppDestinations()
             }
 
         case let .inventoryItemForm(id, prefillSubstance, prefillSalt):

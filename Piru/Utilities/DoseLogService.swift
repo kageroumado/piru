@@ -57,7 +57,7 @@ final class DoseLogService {
         DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries, in: context)
         // A logged dose may satisfy a routine — reconcile so its remaining
         // follow-up re-asks for today are cancelled.
-        DoseNotificationManager.syncRoutineReminders(in: context)
+        DoseNotificationManager.syncMedReminders(in: context)
         changed()
     }
 
@@ -114,7 +114,7 @@ final class DoseLogService {
             }
             // Batched commits (quick-log tray, import) may satisfy a routine —
             // reconcile so its remaining follow-up re-asks are cancelled.
-            DoseNotificationManager.syncRoutineReminders(in: context)
+            DoseNotificationManager.syncMedReminders(in: context)
             WidgetCenter.shared.reloadAllTimelines()
         }
     }

@@ -386,7 +386,7 @@ final class NotificationPreferencesStore {
 
     private func resyncRoutineReminders() {
         guard let context else { return }
-        DoseNotificationManager.syncRoutineReminders(in: context)
+        DoseNotificationManager.syncMedReminders(in: context)
     }
 
     private nonisolated static func removePending(withPrefixes prefixes: [String]) {

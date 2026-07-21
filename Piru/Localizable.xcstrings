@@ -1221,6 +1221,16 @@
         }
       }
     },
+    "%@ supplements (%lld)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ supplements (%2$lld)"
+          }
+        }
+      }
+    },
     "%@ tablet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2074,6 +2084,7 @@
       }
     },
     "%lld item%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2155,6 +2166,9 @@
           }
         }
       }
+    },
+    "%lld meds" : {
+
     },
     "%lld mg" : {
       "localizations" : {
@@ -2248,6 +2262,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld/%lld 種物質來自受體佔據率，其餘依據效應曲線估算 · %@。"
+          }
+        }
+      }
+    },
+    "%lld of %lld taken" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld taken"
           }
         }
       }
@@ -2463,6 +2487,16 @@
         }
       }
     },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
+    },
     "%lld/%lld taken" : {
       "localizations" : {
         "en" : {
@@ -2573,6 +2607,9 @@
       }
     },
     "%lld×" : {
+
+    },
+    "%lld× daily" : {
 
     },
     "%lldd" : {
@@ -3527,6 +3564,9 @@
         }
       }
     },
+    "1 med" : {
+
+    },
     "1-800-222-1222 (US)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3611,7 +3651,11 @@
         }
       }
     },
+    "10 and 30 min later" : {
+
+    },
     "10 and 30 minutes later" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3627,7 +3671,11 @@
         }
       }
     },
+    "10 min later" : {
+
+    },
     "10 minutes later" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3674,6 +3722,12 @@
           }
         }
       }
+    },
+    "12:00 – 17:00" : {
+
+    },
+    "17:00 – 21:00" : {
+
     },
     "30D" : {
       "localizations" : {
@@ -3918,6 +3972,7 @@
       }
     },
     "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4112,6 +4167,9 @@
         }
       }
     },
+    "A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry." : {
+
+    },
     "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4130,6 +4188,7 @@
       }
     },
     "A notification repeats daily at this time." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4144,6 +4203,9 @@
           }
         }
       }
+    },
+    "A nudge at each med's set time so a dose never slips your mind. Tapping it opens Quick Log with that time's meds staged." : {
+
     },
     "A passphrase is required." : {
       "localizations" : {
@@ -4409,6 +4471,9 @@
           }
         }
       }
+    },
+    "A reminder at each time. If you don't log it, Piru asks again %@ later — never a scold, just a nudge." : {
+
     },
     "A reminder to drink water during stimulants and long sessions." : {
       "extractionState" : "stale",
@@ -5564,6 +5629,15 @@
         }
       }
     },
+    "Add a Med" : {
+
+    },
+    "Add a Time" : {
+
+    },
+    "Add Another Time" : {
+
+    },
     "Add another…" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5664,6 +5738,7 @@
       }
     },
     "Add Item" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5844,6 +5919,7 @@
       }
     },
     "Add Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6265,6 +6341,9 @@
           }
         }
       }
+    },
+    "after 21:00" : {
+
     },
     "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
       "extractionState" : "stale",
@@ -6830,6 +6909,9 @@
           }
         }
       }
+    },
+    "also %@" : {
+
     },
     "Also has this" : {
       "localizations" : {
@@ -7477,6 +7559,15 @@
         }
       }
     },
+    "anytime" : {
+
+    },
+    "Anytime" : {
+
+    },
+    "Anytime — no set times" : {
+
+    },
     "Appetite changes and sleep disruption are common after heavy sessions." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7637,6 +7728,12 @@
         }
       }
     },
+    "as needed" : {
+
+    },
+    "As needed" : {
+
+    },
     "Ask Again" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7652,6 +7749,9 @@
           }
         }
       }
+    },
+    "Ask Again re-asks if a dose isn't logged — “Default” follows the cadence in Notification Settings. Never a scold, just a nudge." : {
+
     },
     "Asking…" : {
       "localizations" : {
@@ -7669,7 +7769,11 @@
         }
       }
     },
+    "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med." : {
+
+    },
     "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8240,6 +8344,7 @@
       }
     },
     "Background medication" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8608,6 +8713,9 @@
           }
         }
       }
+    },
+    "before 12:00" : {
+
     },
     "Before a Restore" : {
       "localizations" : {
@@ -10751,6 +10859,7 @@
       }
     },
     "Choose which notifications Piru sends — routine reminders, session alerts, safety warnings, and low-stock alerts." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11265,6 +11374,9 @@
           }
         }
       }
+    },
+    "Collapses the list" : {
+
     },
     "Color" : {
       "localizations" : {
@@ -13639,6 +13751,9 @@
         }
       }
     },
+    "Default" : {
+
+    },
     "Default route" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13769,6 +13884,9 @@
         }
       }
     },
+    "Delete Med" : {
+
+    },
     "Delete Note" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13786,6 +13904,7 @@
       }
     },
     "Delete Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13817,7 +13936,11 @@
         }
       }
     },
+    "Delete this med?" : {
+
+    },
     "Delete this routine?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15722,6 +15845,9 @@
         }
       }
     },
+    "due" : {
+
+    },
     "Duplicate Name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15870,6 +15996,7 @@
       }
     },
     "e.g. Morning, Pre-workout, Night" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16307,6 +16434,7 @@
       }
     },
     "Edit Item" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16321,6 +16449,9 @@
           }
         }
       }
+    },
+    "Edit Med" : {
+
     },
     "Edit Note" : {
       "localizations" : {
@@ -16389,6 +16520,7 @@
       }
     },
     "Edit Routine…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18363,6 +18495,9 @@
         }
       }
     },
+    "Expands the list" : {
+
+    },
     "Expected level" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19125,6 +19260,9 @@
         }
       }
     },
+    "Folds into the “Supplements” row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it." : {
+
+    },
     "Follow-Up Reminders" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -19190,6 +19328,9 @@
           }
         }
       }
+    },
+    "For supplements and other low-key meds: they fold into one “Supplements” row, share a single reminder per time of day, and stay off the timeline graphs. Adherence still counts them." : {
+
     },
     "Form" : {
       "localizations" : {
@@ -20388,6 +20529,7 @@
       }
     },
     "Group the meds and supplements you take together — Pre-workout, Night — and stage a whole set with one tap." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22301,6 +22443,12 @@
         }
       }
     },
+    "in %lld h" : {
+
+    },
+    "in %lld min" : {
+
+    },
     "in body" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23209,6 +23357,7 @@
       }
     },
     "Items" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23225,6 +23374,7 @@
       }
     },
     "Its items aren't deleted — they move to Unassigned in the Routines list." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23418,6 +23568,9 @@
         }
       }
     },
+    "Keep track of what you take and when — one tap to set up gentle reminders. Prescriptions, supplements, vitamins: anything on a schedule." : {
+
+    },
     "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23435,6 +23588,7 @@
       }
     },
     "Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact “Medications” row in the Journal." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24628,6 +24782,9 @@
     "LogP" : {
 
     },
+    "Logs this dose" : {
+
+    },
     "Long-Acting Opioid Receptor Antagonist" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -24925,6 +25082,9 @@
           }
         }
       }
+    },
+    "Manage Meds…" : {
+
     },
     "Manage Routines" : {
       "extractionState" : "stale",
@@ -25350,6 +25510,12 @@
           }
         }
       }
+    },
+    "Med" : {
+
+    },
+    "Med Reminders" : {
+
     },
     "Medical information only" : {
       "localizations" : {
@@ -26922,6 +27088,9 @@
         }
       }
     },
+    "My Meds" : {
+
+    },
     "My Substances" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27266,6 +27435,7 @@
       }
     },
     "New Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27438,6 +27608,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下一次：%@"
+          }
+        }
+      }
+    },
+    "Next: %@ at %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Next: %1$@ at %2$@ · %3$@"
           }
         }
       }
@@ -27775,6 +27955,9 @@
         }
       }
     },
+    "No daily limit" : {
+
+    },
     "No data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28000,6 +28183,9 @@
         }
       }
     },
+    "No Meds Yet" : {
+
+    },
     "No notable predicted tolerance right now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28178,6 +28364,7 @@
       }
     },
     "No Routines" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28192,6 +28379,12 @@
           }
         }
       }
+    },
+    "no schedule" : {
+
+    },
+    "No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings." : {
+
     },
     "No Sessions" : {
       "localizations" : {
@@ -28208,6 +28401,12 @@
           }
         }
       }
+    },
+    "no set time" : {
+
+    },
+    "No set time — this med still counts toward adherence once per due day." : {
+
     },
     "No single “tolerance %” fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more." : {
       "extractionState" : "stale",
@@ -28749,6 +28948,9 @@
         }
       }
     },
+    "Not taken yet" : {
+
+    },
     "Not tracked" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28974,6 +29176,7 @@
       }
     },
     "Notifications for Piru are off in the system Settings, so this reminder won't be delivered." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29441,6 +29644,9 @@
           }
         }
       }
+    },
+    "Opens your meds" : {
+
     },
     "Opioid" : {
       "localizations" : {
@@ -32675,6 +32881,9 @@
         }
       }
     },
+    "quiet" : {
+
+    },
     "Quiet" : {
 
     },
@@ -32693,6 +32902,15 @@
           }
         }
       }
+    },
+    "Quiet med" : {
+
+    },
+    "Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you." : {
+
+    },
+    "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there." : {
+
     },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
@@ -34077,7 +34295,6 @@
       }
     },
     "Reminders" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34092,6 +34309,9 @@
           }
         }
       }
+    },
+    "Reminders and adherence tracking stop. Doses you already logged stay in your journal." : {
+
     },
     "Reminders at each routine's time — and, if you want, a gentle re-ask a little later, like snooze." : {
       "localizations" : {
@@ -34108,6 +34328,15 @@
           }
         }
       }
+    },
+    "Reminders off" : {
+
+    },
+    "Reminders on" : {
+
+    },
+    "Reminders, Ask Again, quiet hours, and everything else Piru sends." : {
+
     },
     "Remove" : {
       "localizations" : {
@@ -35383,6 +35612,7 @@
       }
     },
     "Routine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35399,6 +35629,7 @@
       }
     },
     "Routine Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35415,6 +35646,7 @@
       }
     },
     "Routine Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35431,6 +35663,7 @@
       }
     },
     "Routine reminders are turned off in Notification Settings, so this reminder won't be delivered." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35447,6 +35680,7 @@
       }
     },
     "Routines" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35463,6 +35697,7 @@
       }
     },
     "Routines & Prescriptions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39483,7 +39718,11 @@
         }
       }
     },
+    "Stages this group’s meds" : {
+
+    },
     "Stages this routine’s doses" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39984,7 +40223,11 @@
         }
       }
     },
+    "Still need to log %@?" : {
+
+    },
     "Still need to log your %@ routine?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39999,6 +40242,9 @@
           }
         }
       }
+    },
+    "Still need your %@ supplements?" : {
+
     },
     "Stimulant" : {
       "localizations" : {
@@ -41095,6 +41341,9 @@
         }
       }
     },
+    "Take All" : {
+
+    },
     "Take care of yourself — eat, hydrate, and rest. The effects will fade with time." : {
       "localizations" : {
         "zh-Hans" : {
@@ -41468,6 +41717,12 @@
           }
         }
       }
+    },
+    "That's everything today — %lld days and counting." : {
+
+    },
+    "That's everything today." : {
+
     },
     "The active compound salvinorin A is a structurally unique non-nitrogenous terpenoid that acts as a highly potent and selective agonist at κ-opioid receptors (KOR). Unlike virtually all other known psychoactive compounds, it has no significant activity at serotonin 5-HT2A receptors. KOR activation in the claustrum and prefrontal cortex produces intensely dissociative and hallucinatory effects." : {
       "extractionState" : "stale",
@@ -42883,6 +43138,7 @@
       }
     },
     "Time of day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42995,7 +43251,18 @@
         }
       }
     },
+    "Time to log %@ — %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Time to log %1$@ — %2$@."
+          }
+        }
+      }
+    },
     "Time to log your %@ routine." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43107,6 +43374,9 @@
           }
         }
       }
+    },
+    "Times" : {
+
     },
     "Timing" : {
       "localizations" : {
@@ -44146,6 +44416,7 @@
       }
     },
     "Unassigned" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44394,6 +44665,12 @@
           }
         }
       }
+    },
+    "up to %lld× daily" : {
+
+    },
+    "Up to %lld× daily" : {
+
     },
     "Up to date" : {
       "localizations" : {

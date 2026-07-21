@@ -6,19 +6,30 @@ import Testing
 struct AdherenceCalculatorTests {
     // MARK: - Helpers
 
-    private func makeEntry(substance: String, timestamp: Date = .now) -> DoseEntry {
-        DoseEntry(substance: substance, amount: 10, route: .oral, timestamp: timestamp)
+    private func makeEntry(
+        substance: String,
+        route: RouteOfAdministration = .oral,
+        substanceUID: String? = nil,
+        timestamp: Date = .now,
+    ) -> DoseEntry {
+        DoseEntry(substance: substance, amount: 10, route: route, substanceUID: substanceUID, timestamp: timestamp)
     }
 
     private func makeItem(
         substance: String,
+        route: RouteOfAdministration = .oral,
         frequency: DoseFrequency = .daily,
         frequencyDays: [Int] = [],
         startDate: Date = .distantPast,
+        substanceUID: String? = nil,
+        reminderTimesMinutes: [Int] = [],
+        isAsNeeded: Bool = false,
     ) -> DailyDoseItem {
         DailyDoseItem(
-            substance: substance, amount: 10, unit: "mg", route: .oral,
+            substance: substance, amount: 10, unit: "mg", route: route,
             frequency: frequency, frequencyDays: frequencyDays, startDate: startDate,
+            substanceUID: substanceUID,
+            reminderTimesMinutes: reminderTimesMinutes, isAsNeeded: isAsNeeded,
         )
     }
 
@@ -48,6 +59,30 @@ struct AdherenceCalculatorTests {
         let entry = makeEntry(substance: "Caffeine")
         let item = makeItem(substance: "Melatonin")
         #expect(!AdherenceCalculator.entryMatches(entry: entry, item: item))
+    }
+
+    @Test
+    func `Identity join credits a brand-name item from a generic-name dose`() {
+        // Same resolved PSID identity under different display names.
+        let entry = makeEntry(substance: "Methylphenidate", substanceUID: "psid:mph")
+        let item = makeItem(substance: "Concerta", substanceUID: "psid:mph")
+        #expect(AdherenceCalculator.entryMatches(entry: entry, item: item))
+    }
+
+    @Test
+    func `Route mismatch never credits, even with matching identity`() {
+        // Boundary semantics: MPH injected is a journal entry, not adherence
+        // credit against the oral prescription.
+        let entry = makeEntry(substance: "Methylphenidate", route: .intravenous, substanceUID: "psid:mph")
+        let item = makeItem(substance: "Methylphenidate", route: .oral, substanceUID: "psid:mph")
+        #expect(!AdherenceCalculator.entryMatches(entry: entry, item: item))
+    }
+
+    @Test
+    func `Name fallback still matches when only one side is PSID-resolved`() {
+        let entry = makeEntry(substance: "Caffeine")
+        let item = makeItem(substance: "caffeine", substanceUID: "psid:caffeine")
+        #expect(AdherenceCalculator.entryMatches(entry: entry, item: item))
     }
 
     // MARK: - isDue()
@@ -224,6 +259,92 @@ struct AdherenceCalculatorTests {
         let melatonin = result.items.first { $0.item.substance == "Melatonin" }
         #expect(caffeine?.taken == true)
         #expect(melatonin?.taken == false)
+    }
+
+    // MARK: - Multi-time expectations & PRN
+
+    @Test
+    func `Multi-time med expects one slot per reminder time`() throws {
+        let item = makeItem(substance: "Methylphenidate", reminderTimesMinutes: [480, 780])
+        let morning = try #require(calendar.date(bySettingHour: 8, minute: 0, second: 0, of: today))
+
+        let oneDose = AdherenceCalculator.adherence(
+            for: today, entries: [makeEntry(substance: "Methylphenidate", timestamp: morning)], dailyItems: [item],
+        )
+        #expect(oneDose.status == .partial)
+        #expect(oneDose.takenCount == 1)
+        #expect(oneDose.totalCount == 2)
+
+        let afternoon = try #require(calendar.date(bySettingHour: 13, minute: 5, second: 0, of: today))
+        let bothDoses = AdherenceCalculator.adherence(
+            for: today,
+            entries: [
+                makeEntry(substance: "Methylphenidate", timestamp: morning),
+                makeEntry(substance: "Methylphenidate", timestamp: afternoon),
+            ],
+            dailyItems: [item],
+        )
+        #expect(bothDoses.status == .complete)
+        #expect(bothDoses.takenCount == 2)
+    }
+
+    @Test
+    func `Extra doses beyond expectations do not overcount`() throws {
+        let item = makeItem(substance: "Caffeine")
+        let noon = try #require(calendar.date(bySettingHour: 12, minute: 0, second: 0, of: today))
+        let entries = (0 ..< 3).map { makeEntry(substance: "Caffeine", timestamp: noon.addingTimeInterval(Double($0) * 3_600)) }
+        let result = AdherenceCalculator.adherence(for: today, entries: entries, dailyItems: [item])
+        #expect(result.status == .complete)
+        #expect(result.takenCount == 1)
+        #expect(result.totalCount == 1)
+    }
+
+    @Test
+    func `As-needed items carry no expectation`() {
+        let prn = makeItem(substance: "Ibuprofen", isAsNeeded: true)
+        let result = AdherenceCalculator.adherence(for: today, entries: [], dailyItems: [prn])
+        #expect(result.status == .noData)
+        #expect(result.totalCount == 0)
+    }
+
+    @Test
+    func `As-needed items are excluded alongside scheduled ones`() throws {
+        let daily = makeItem(substance: "Sertraline")
+        let prn = makeItem(substance: "Ibuprofen", isAsNeeded: true)
+        let noon = try #require(calendar.date(bySettingHour: 12, minute: 0, second: 0, of: today))
+        let result = AdherenceCalculator.adherence(
+            for: today, entries: [makeEntry(substance: "Sertraline", timestamp: noon)], dailyItems: [daily, prn],
+        )
+        #expect(result.status == .complete)
+        #expect(result.totalCount == 1)
+        #expect(result.items.count == 1)
+    }
+
+    @Test
+    func `Snapshot dayStatus mirrors model adherence for identity, route, and multi-time`() throws {
+        let noon = try #require(calendar.date(bySettingHour: 12, minute: 0, second: 0, of: today))
+        let entries = [
+            AdherenceCalculator.EntrySnapshot(
+                substance: "Methylphenidate", identityKey: "psid:mph", route: .oral, timestamp: noon,
+            ),
+            AdherenceCalculator.EntrySnapshot(
+                substance: "Methylphenidate", identityKey: "psid:mph", route: .intravenous, timestamp: noon,
+            ),
+        ]
+        let item = AdherenceCalculator.DailyItemSnapshot(
+            substance: "Concerta", identityKey: "psid:mph", route: .oral,
+            expectedPerDay: 2, isAsNeeded: false,
+            startDate: .distantPast, frequency: .daily, frequencyDays: [],
+        )
+        // Only the oral dose counts (route gate) → 1 of 2 slots → partial.
+        #expect(AdherenceCalculator.dayStatus(for: today, entries: entries, items: [item]) == .partial)
+
+        let prn = AdherenceCalculator.DailyItemSnapshot(
+            substance: "Ibuprofen", identityKey: "ibuprofen", route: .oral,
+            expectedPerDay: 1, isAsNeeded: true,
+            startDate: .distantPast, frequency: .daily, frequencyDays: [],
+        )
+        #expect(AdherenceCalculator.dayStatus(for: today, entries: [], items: [prn]) == .noData)
     }
 
     // MARK: - currentStreak()

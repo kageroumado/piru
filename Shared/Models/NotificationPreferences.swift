@@ -46,5 +46,19 @@ final class NotificationPreferences {
     var nextDoseTimeSensitive: Bool = true
     var cumulativeTimeSensitive: Bool = true
 
+    /// JSON-encoded backing storage for ``askAgainDefaultMinutes``. Empty
+    /// (never written) reads as the `[10]` default; an explicit empty cadence
+    /// encodes as `"[]"` and round-trips as "no re-asks".
+    var askAgainDefaultData: Data = Data()
+
+    /// The global Ask Again cadence (Specs/meds-reminders-redesign.md):
+    /// minutes after a med's reminder time for each "still need to log?"
+    /// re-ask. User-editable intervals; a med can override or opt out via
+    /// `DailyDoseItem.askAgainOverrideMinutes`.
+    var askAgainDefaultMinutes: [Int] {
+        get { (try? JSONDecoder().decode([Int].self, from: askAgainDefaultData)) ?? [10] }
+        set { askAgainDefaultData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+    }
+
     init() {}
 }

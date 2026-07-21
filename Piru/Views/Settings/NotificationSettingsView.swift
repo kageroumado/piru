@@ -36,7 +36,11 @@ struct NotificationSettingsView: View {
 
                 liveActivitySection
 
-                typeSection(types: [.routine, .routineFollowUp, .nextDose], header: "Dose Reminders")
+                typeSection(
+                    types: [.routine, .routineFollowUp, .nextDose],
+                    header: "Dose Reminders",
+                    footer: "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there.",
+                )
                 typeSection(types: [.comedown, .phase, .hydration, .sleep], header: "During a Session")
                 typeSection(types: [.cumulative], header: "Safety Limits")
                 typeSection(types: [.inventory], header: "Supplies")
@@ -78,6 +82,7 @@ struct NotificationSettingsView: View {
     private func typeSection(
         types: [NotificationType],
         header: LocalizedStringKey,
+        footer: LocalizedStringKey? = nil,
     ) -> some View {
         Section {
             ForEach(types) { type in
@@ -89,6 +94,10 @@ struct NotificationSettingsView: View {
             }
         } header: {
             Text(header)
+        } footer: {
+            if let footer {
+                Text(footer)
+            }
         }
     }
 
@@ -354,7 +363,7 @@ extension NotificationType {
         case .sleep: "Sleep Reminders"
         case .phase: "Phase Alerts"
         case .cumulative: "Cumulative Dose Warnings"
-        case .routine: "Routine Reminders"
+        case .routine: "Med Reminders"
         case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
@@ -388,9 +397,9 @@ extension NotificationType {
         case .cumulative:
             "A heads-up when your 12-hour total of one substance reaches a heavy range. Turning this off removes a safety net."
         case .routine:
-            "A daily nudge at each routine's set time so a dose never slips your mind. Tapping it opens Quick Log with the routine staged."
+            "A nudge at each med's set time so a dose never slips your mind. Tapping it opens Quick Log with that time's meds staged."
         case .routineFollowUp:
-            "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine."
+            "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med."
         case .nextDose:
             "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:

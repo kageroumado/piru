@@ -137,10 +137,15 @@ struct PiruApp: App {
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).
                     InventoryService.recomputeAll(in: container.mainContext)
+                    // Meds redesign cutover: fold the routine layer (time,
+                    // remind, follow-up cadence) into per-med fields once.
+                    // Runs before the reminder sync so folded state is what
+                    // gets scheduled. See Specs/meds-reminders-redesign.md.
+                    MedsMigrator.foldRoutinesIfNeeded(context: container.mainContext)
                     // Roll the routine follow-up horizon forward (they're
                     // materialized as one-shots over a few days) and drop
                     // today's re-asks for routines already logged.
-                    DoseNotificationManager.syncRoutineReminders(in: container.mainContext)
+                    DoseNotificationManager.syncMedReminders(in: container.mainContext)
                     // If the user connected Apple Health for body weight, silently refresh it
                     // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
                     // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
@@ -163,7 +168,7 @@ struct PiruApp: App {
                 InventoryService.recomputeAll(in: container.mainContext)
                 // Same horizon-roll as launch: doses logged from other
                 // surfaces while away may have satisfied a routine.
-                DoseNotificationManager.syncRoutineReminders(in: container.mainContext)
+                DoseNotificationManager.syncMedReminders(in: container.mainContext)
             }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.

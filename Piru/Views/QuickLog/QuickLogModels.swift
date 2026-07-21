@@ -289,7 +289,10 @@ final class QuickLogContentModel {
     private(set) var cachedColorLookup: [String: String] = [:]
 
     /// Lowercased substance names logged today — drives the routine "done" check.
-    private(set) var cachedLoggedToday: Set<String> = []
+    /// Doses logged today per substance identity — a COUNT, not a set, so a
+    /// multi-time med's group pills only read "done" once every slot is
+    /// covered (one morning dose must not mark the evening pill done too).
+    private(set) var cachedLoggedToday: [String: Int] = [:]
     /// Precomputed PK badge per lowercased substance name — feeds each card's
     /// glanceable badge without re-running `DosePK.status` in `body`.
     private(set) var cachedMostRecent: [String: CardPKBadge] = [:]
@@ -357,7 +360,7 @@ final class QuickLogContentModel {
         // to have run first (the `.task` orders it so).
         let displayed = Set(cachedFavoriteCards.map(\.id)).union(cachedNonFavoriteCards.map(\.id))
 
-        var loggedToday: Set<String> = []
+        var loggedToday: [String: Int] = [:]
         var mostRecentEntry: [String: DoseEntry] = [:]
         var seenLocations = Set<String>()
         var locations: [PickedLocation] = []
@@ -371,7 +374,7 @@ final class QuickLogContentModel {
             let identity = entry.identityKey
             if displayed.contains(identity), mostRecentEntry[identity] == nil { mostRecentEntry[identity] = entry }
             if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
-                loggedToday.insert(identity)
+                loggedToday[identity, default: 0] += 1
             } else {
                 stillToday = false
             }
@@ -560,52 +563,35 @@ final class QuickLogContentModel {
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
     }
 
-    func makeDailyGroups(dailyDoseItems: [DailyDoseItem], routines: [DoseRoutine]) -> [DailyCategoryGroup] {
+    /// The Meds redesign's group pills: one pill per derived time-of-day
+    /// group (`MedTimeGroup`), no named routines. A multi-time med shows in
+    /// every group it has a time in; staging is idempotent, so tapping two
+    /// groups never double-stages it. The `routines` parameter is retained
+    /// for call-site stability but no longer read.
+    func makeDailyGroups(dailyDoseItems: [DailyDoseItem], routines _: [DoseRoutine]) -> [DailyCategoryGroup] {
         guard !dailyDoseItems.isEmpty else { return [] }
         let loggedToday = cachedLoggedToday
 
         func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
-            // Join on substance identity — a "Concerta" daily item is satisfied by
-            // a dose logged as Methylphenidate XR, which a name join never matched.
-            items.filter { !loggedToday.contains($0.identityKey) }
+            // Join on substance identity — a "Concerta" med is satisfied by
+            // a dose logged as Methylphenidate XR, which a name join never
+            // matched. A multi-time med needs one dose per slot before it
+            // stops counting as remaining, so its morning log doesn't mark
+            // its evening group's pill done.
+            items.filter { (loggedToday[$0.identityKey] ?? 0) < max(1, $0.reminderTimesMinutes.count) }
         }
 
-        // Routines flow through the day: timed ones first by clock,
-        // untimed after in the user's arranged order.
-        let ordered = routines.sorted {
-            ($0.timeMinutes ?? .max, $0.sortOrder) < ($1.timeMinutes ?? .max, $1.sortOrder)
-        }
-
-        var groups: [DailyCategoryGroup] = []
-        var claimed: Set<String> = []
-        for routine in ordered {
-            claimed.insert(routine.name)
-            let items = dailyDoseItems.filter { $0.category == routine.name }
-            guard !items.isEmpty else { continue }
-            groups.append(DailyCategoryGroup(
-                id: routine.name,
-                title: routine.name,
-                icon: RoutineIcon.symbol(for: routine.name),
+        return MedTimeGroup.allCases.compactMap { group in
+            let items = dailyDoseItems.filter { MedTimeGroup.belongs($0, to: group) }
+            guard !items.isEmpty else { return nil }
+            return DailyCategoryGroup(
+                id: group.slug,
+                title: String(localized: group.label),
+                icon: group.symbol,
                 items: items,
                 remaining: remaining(in: items),
-            ))
+            )
         }
-
-        // Items whose category has no routine row (first launch before
-        // seeding, or an import) still get a pill so nothing is unreachable.
-        let orphans = dailyDoseItems.filter { !claimed.contains($0.category) }
-        if !orphans.isEmpty {
-            for (category, items) in Dictionary(grouping: orphans, by: \.category).sorted(by: { $0.key < $1.key }) {
-                groups.append(DailyCategoryGroup(
-                    id: category.isEmpty ? "·uncategorized" : category,
-                    title: category.isEmpty ? String(localized: "Routine") : category,
-                    icon: RoutineIcon.symbol(for: category),
-                    items: items,
-                    remaining: remaining(in: items),
-                ))
-            }
-        }
-        return groups
     }
 
     // MARK: Search
