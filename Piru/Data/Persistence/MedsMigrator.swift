@@ -30,7 +30,12 @@ enum MedsMigrator {
             } else {
                 item.reminderTimesMinutes = []
             }
-            if item.isBackgroundMed {
+            // Quiet tier: background meds opted in explicitly; supplements
+            // fold in by library category (the same smart default the med
+            // form applies) — otherwise a shipped user's 6-supplement
+            // "Morning" routine would migrate from ONE routine notification
+            // to six individual ones.
+            if item.isBackgroundMed || isSupplement(item) {
                 item.isQuiet = true
             }
         }
@@ -45,5 +50,11 @@ enum MedsMigrator {
            .max(by: { $0.value.count < $1.value.count })?.key {
             record.askAgainDefaultMinutes = common
         }
+    }
+
+    private static func isSupplement(_ item: DailyDoseItem) -> Bool {
+        SubstanceLibrary.search(item.substance)
+            .first { $0.name.lowercased() == item.substance.lowercased() }?
+            .category == .supplement
     }
 }
