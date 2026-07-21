@@ -80,7 +80,7 @@ struct LogMedicationsView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
-            .navigationTitle(category.isEmpty ? "Log Prescriptions" : "Log \(category)")
+            .navigationTitle(category.isEmpty ? "Log Meds" : "Log \(category)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

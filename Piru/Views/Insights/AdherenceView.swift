@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct AdherenceView: View {
+    @Environment(\.appNavigator) private var navigator
     @Query(sort: \DoseEntry.timestamp) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
 
@@ -11,6 +12,9 @@ struct AdherenceView: View {
     /// instead of a linear `first { isDate(...) }` scan — the grid did O(days²)
     /// per body pass.
     @State private var monthAdherenceByDay: [Date: DayAdherence] = [:]
+    /// Today's adherence, computed independently of the displayed month so
+    /// the Today strip survives browsing back through the calendar.
+    @State private var today: DayAdherence?
     @State private var streak: Int = 0
     @State private var selectedDay: DayAdherence?
 
@@ -19,16 +23,33 @@ struct AdherenceView: View {
 
     var body: some View {
         if dailyItems.isEmpty {
-            ContentUnavailableView(
-                "No Prescriptions",
-                systemImage: "pills",
-                description: Text("Add prescriptions in Settings to start tracking adherence."),
-            )
+            // The empty state is a door, not a dead end — meds are created
+            // right here, never "somewhere in Settings".
+            VStack(spacing: 16) {
+                ContentUnavailableView(
+                    "No Meds Yet",
+                    systemImage: "pills",
+                    description: Text("Adherence tracks how consistently you take your scheduled meds. Add one and this screen starts working."),
+                )
+                Button {
+                    navigator.push(.myMeds)
+                } label: {
+                    Label("Add Your Meds", systemImage: "plus")
+                        .font(.body.weight(.semibold))
+                        .padding(.horizontal, 24)
+                }
+                .buttonStyle(.glassProminent)
+                .tint(Theme.accent)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Theme.background)
         } else {
             ScrollView {
                 VStack(spacing: 20) {
+                    todayCard
                     streakCard
                     calendarSection
+                    remindersLink
                 }
                 .padding()
             }
@@ -40,6 +61,76 @@ struct AdherenceView: View {
                     .presentationDetents([.medium])
             }
         }
+    }
+
+    // MARK: - Today
+
+    /// Today first (the i-have-adhd rule: the next action on screen, not a
+    /// month of history): each due med with its taken state, and one Log
+    /// button while anything is still open.
+    @ViewBuilder
+    private var todayCard: some View {
+        if let today, today.status != .noData {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Text("Today")
+                        .font(.headline)
+                    Spacer()
+                    Text("\(today.takenCount)/\(today.totalCount) taken")
+                        .font(.subheadline.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                VStack(spacing: 0) {
+                    ForEach(today.items) { itemAdherence in
+                        TodayAdherenceRow(
+                            title: itemAdherence.item.productName
+                                ?? CustomSubstanceStore.shared.displayName(for: itemAdherence.item.substance),
+                            doseText: "\(itemAdherence.item.amount.doseFormatted) \(itemAdherence.item.unit)",
+                            takenCount: itemAdherence.takenCount,
+                            totalCount: itemAdherence.totalCount,
+                        )
+                    }
+                }
+                if today.takenCount < today.totalCount {
+                    Button {
+                        navigator.present(.quickLog(routine: nil))
+                    } label: {
+                        Label("Log a Dose", systemImage: "plus")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.glass)
+                    .tint(Theme.accent)
+                }
+            }
+            .padding(14)
+            .themeCard()
+        }
+    }
+
+    // MARK: - Reminders link
+
+    /// The Adherence → Notifications shortcut: consistency is mostly a
+    /// reminders problem, so the controls are one tap away, not a Settings
+    /// expedition.
+    private var remindersLink: some View {
+        NavigationLink {
+            NotificationSettingsView()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "bell.badge")
+                    .foregroundStyle(Theme.accent)
+                Text("Reminders")
+                    .foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(14)
+            .themeCard()
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Streak Card
@@ -168,6 +259,7 @@ struct AdherenceView: View {
     /// (the heavy 365-day scan, off-main). Mirrors `InsightsView`'s pattern.
     private func recompute() async {
         recomputeMonth()
+        today = AdherenceCalculator.adherence(for: .now, entries: allEntries, dailyItems: dailyItems)
         await refreshStreak()
     }
 
@@ -237,6 +329,50 @@ struct AdherenceView: View {
             days.append(calendar.date(byAdding: .day, value: dayOffset - 1, to: start))
         }
         return days
+    }
+}
+
+// MARK: - Today Row
+
+/// One med in the Today strip: name + dose leading, the slot state trailing
+/// ("2/2" for multi-time meds, a check/circle for single). Its own struct with
+/// value inputs per the decomposition rules.
+private struct TodayAdherenceRow: View {
+    let title: String
+    let doseText: String
+    let takenCount: Int
+    let totalCount: Int
+
+    private var done: Bool {
+        takenCount >= totalCount
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                .font(.title3)
+                .foregroundStyle(done ? Color.green : Color(.tertiaryLabel))
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title)
+                    .font(.body)
+                    .foregroundStyle(.primary)
+                Text(doseText)
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            Spacer()
+            if totalCount > 1 {
+                Text(verbatim: "\(takenCount)/\(totalCount)")
+                    .font(.subheadline.monospacedDigit())
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+        .padding(.vertical, 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("\(title), \(doseText)"))
+        .accessibilityValue(
+            done ? Text("Taken") : Text("\(takenCount) of \(totalCount) taken"),
+        )
     }
 }
 
@@ -328,7 +464,7 @@ struct AdherenceDayDetailSheet: View {
                     }
                 }
 
-                Section("Prescriptions due") {
+                Section("Meds due") {
                     ForEach(day.items) { itemAdherence in
                         HStack(spacing: 12) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")

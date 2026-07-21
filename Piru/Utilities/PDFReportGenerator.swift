@@ -61,6 +61,11 @@ nonisolated enum PDFReportGenerator {
         let timestamp: Date
         let notes: String?
         let tags: [String]
+        /// Adherence-join fields mirroring ``AdherenceCalculator/matches`` —
+        /// the PSID identity key plus the raw route, so the PDF's adherence
+        /// table credits exactly what the in-app screen credits.
+        var identityKey: String = ""
+        var routeRaw: String = ""
     }
 
     struct DailyDoseSnapshot {
@@ -69,6 +74,9 @@ nonisolated enum PDFReportGenerator {
         let unit: String
         let route: String
         let sortOrder: Int
+        /// See ``EntrySnapshot/identityKey``.
+        var identityKey: String = ""
+        var routeRaw: String = ""
     }
 
     struct InteractionSnapshot {
@@ -386,9 +394,19 @@ nonisolated enum PDFReportGenerator {
             cursor.ensureSpace(Layout.rowHeight)
             drawRowBackground(&cursor, rowIndex: idx, height: Layout.rowHeight)
 
+            // The same predicate as the in-app Adherence screen
+            // (`AdherenceCalculator.matches`): route gate AND (identity key
+            // OR lowercased-name fallback) — a dose by another route is a
+            // journal entry, not adherence credit.
             let daysTaken = Set(
                 entries
-                    .filter { $0.substance.lowercased() == dose.substance.lowercased() }
+                    .filter { entry in
+                        entry.routeRaw == dose.routeRaw
+                            && (
+                                (!entry.identityKey.isEmpty && entry.identityKey == dose.identityKey)
+                                    || entry.substance.lowercased() == dose.substance.lowercased()
+                            )
+                    }
                     .map { calendar.sessionDayStart(for: $0.timestamp) },
             ).count
 

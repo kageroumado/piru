@@ -332,6 +332,38 @@
         }
       }
     },
+    "All taken" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已全部服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已全部服用"
+          }
+        }
+      }
+    },
+    "Anytime" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時"
+          }
+        }
+      }
+    },
     "Beer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -440,6 +472,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每日"
+          }
+        }
+      }
+    },
+    "Due · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用 · %@"
           }
         }
       }
@@ -620,6 +668,38 @@
         }
       }
     },
+    "Logs one dose of a scheduled med." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一次计划内用药。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一次計劃內用藥。"
+          }
+        }
+      }
+    },
+    "Logs your remaining supplements for today." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录你今天剩余的补剂。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄你今天剩餘的補劑。"
+          }
+        }
+      }
+    },
     "Low confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -636,6 +716,22 @@
         }
       }
     },
+    "Med identity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药标识"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥識別"
+          }
+        }
+      }
+    },
     "Medium confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -648,6 +744,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中等可信度"
+          }
+        }
+      }
+    },
+    "Meds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥"
           }
         }
       }
@@ -729,6 +841,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚無劑量"
+          }
+        }
+      }
+    },
+    "No meds today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日无用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日無用藥"
           }
         }
       }
@@ -894,7 +1022,36 @@
       }
     },
     "See how much you have left of what you track." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看你追踪的物品还剩多少。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看你追蹤的物品還剩多少。"
+          }
+        }
+      }
+    },
+    "See today's med schedule and take one right from the Home Screen." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看今天的用药安排，并直接从主屏幕完成服用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看今天的用藥安排，並直接從主畫面完成服用。"
+          }
+        }
+      }
     },
     "See what you've taken today at a glance." : {
       "extractionState" : "stale",
@@ -1025,6 +1182,102 @@
         }
       }
     },
+    "Supplements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "膳食补充"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "膳食補充"
+          }
+        }
+      }
+    },
+    "Take %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用 %@"
+          }
+        }
+      }
+    },
+    "Take all supplements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用全部补剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用全部補劑"
+          }
+        }
+      }
+    },
+    "Take Med" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用用藥"
+          }
+        }
+      }
+    },
+    "Take Supplements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用补剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服用補劑"
+          }
+        }
+      }
+    },
+    "That's everything today." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的都完成了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的都完成了。"
+          }
+        }
+      }
+    },
     "Timeline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1071,6 +1324,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日劑量"
+          }
+        }
+      }
+    },
+    "Today's Meds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日用藥"
           }
         }
       }

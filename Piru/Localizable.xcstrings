@@ -1228,6 +1228,18 @@
             "state" : "new",
             "value" : "%1$@ supplements (%2$lld)"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 补剂（%lld）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 補劑（%lld）"
+          }
         }
       }
     },
@@ -1837,7 +1849,20 @@
       }
     },
     "%lld due" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 项待服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 項待服用"
+          }
+        }
+      }
     },
     "%lld enabled" : {
       "extractionState" : "stale",
@@ -2171,10 +2196,36 @@
       }
     },
     "%lld meds" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 项用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 項用藥"
+          }
+        }
+      }
     },
     "%lld meds due" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 项用药待服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 項用藥待服用"
+          }
+        }
+      }
     },
     "%lld mg" : {
       "localizations" : {
@@ -2278,6 +2329,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld of %2$lld taken"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已服用 %lld / %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已服用 %lld / %lld"
           }
         }
       }
@@ -2616,7 +2679,20 @@
 
     },
     "%lld× daily" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日 %lld 次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日 %lld 次"
+          }
+        }
+      }
     },
     "%lldd" : {
       "localizations" : {
@@ -3571,7 +3647,20 @@
       }
     },
     "1 med" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 项用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 項用藥"
+          }
+        }
+      }
     },
     "1-800-222-1222 (US)" : {
       "localizations" : {
@@ -3658,7 +3747,20 @@
       }
     },
     "10 and 30 min later" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分钟和 30 分钟后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分鐘和 30 分鐘後"
+          }
+        }
+      }
     },
     "10 and 30 minutes later" : {
       "extractionState" : "stale",
@@ -3678,7 +3780,20 @@
       }
     },
     "10 min later" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分钟后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分鐘後"
+          }
+        }
+      }
     },
     "10 minutes later" : {
       "extractionState" : "stale",
@@ -3730,10 +3845,36 @@
       }
     },
     "12:00 – 17:00" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12:00 – 17:00"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12:00 – 17:00"
+          }
+        }
+      }
     },
     "17:00 – 21:00" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "17:00 – 21:00"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "17:00 – 21:00"
+          }
+        }
+      }
     },
     "30D" : {
       "localizations" : {
@@ -4174,7 +4315,20 @@
       }
     },
     "A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当物质和给药途径都匹配时，一次记录会将这项用药标记为已完成 — 同一物质若经其他途径使用，仍只是普通的日志记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當物質和給藥途徑都匹配時，一次記錄會將這項用藥標記為已完成 — 同一物質若經其他途徑使用，仍只是普通的日誌記錄。"
+          }
+        }
+      }
     },
     "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off." : {
       "extractionState" : "stale",
@@ -4211,7 +4365,20 @@
       }
     },
     "A nudge at each med's set time so a dose never slips your mind. Tapping it opens Quick Log with that time's meds staged." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每项用药的设定时间轻轻提醒，让你不会忘记服药。轻点即可打开快速记录，并预先放入该时段的用药。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每項用藥的設定時間輕輕提醒，讓你不會忘記服藥。點一下即可開啟快速記錄，並預先放入該時段的用藥。"
+          }
+        }
+      }
     },
     "A passphrase is required." : {
       "localizations" : {
@@ -4479,7 +4646,20 @@
       }
     },
     "A reminder at each time. If you don't log it, Piru asks again %@ later — never a scold, just a nudge." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每个时间提醒一次。如果你没有记录，Piru 会在 %@ 后再问一次 — 从不是责备，只是轻轻提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每個時間提醒一次。如果你沒有記錄，Piru 會在 %@ 後再問一次 — 從不是責備，只是輕輕提醒。"
+          }
+        }
+      }
     },
     "A reminder to drink water during stimulants and long sessions." : {
       "extractionState" : "stale",
@@ -5636,13 +5816,52 @@
       }
     },
     "Add a Med" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增用藥"
+          }
+        }
+      }
     },
     "Add a Time" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增時間"
+          }
+        }
+      }
     },
     "Add Another Time" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再添加一个时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再新增一個時間"
+          }
+        }
+      }
     },
     "Add another…" : {
       "extractionState" : "stale",
@@ -5858,6 +6077,7 @@
       }
     },
     "Add prescriptions in Settings to start tracking adherence." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6019,6 +6239,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "加入收藏"
+          }
+        }
+      }
+    },
+    "Add Your Meds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加你的用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增你的用藥"
+          }
+        }
+      }
+    },
+    "Add your meds to see adherence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加你的用药以查看依从性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增你的用藥以查看依從性"
           }
         }
       }
@@ -6316,6 +6568,22 @@
         }
       }
     },
+    "Adherence tracks how consistently you take your scheduled meds. Add one and this screen starts working." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依从性追踪你按计划服药的稳定程度。添加一项用药，这个页面就会开始工作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依從性追蹤你按計劃服藥的穩定程度。新增一項用藥，這個頁面就會開始運作。"
+          }
+        }
+      }
+    },
     "Adjust Time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6349,7 +6617,20 @@
       }
     },
     "after 21:00" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "21:00 之后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "21:00 之後"
+          }
+        }
+      }
     },
     "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
       "extractionState" : "stale",
@@ -6917,7 +7198,20 @@
       }
     },
     "also %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %@"
+          }
+        }
+      }
     },
     "Also has this" : {
       "localizations" : {
@@ -7566,13 +7860,52 @@
       }
     },
     "anytime" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時"
+          }
+        }
+      }
     },
     "Anytime" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時"
+          }
+        }
+      }
     },
     "Anytime — no set times" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时 — 未设定时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時 — 未設定時間"
+          }
+        }
+      }
     },
     "Appetite changes and sleep disruption are common after heavy sessions." : {
       "localizations" : {
@@ -7735,10 +8068,36 @@
       }
     },
     "as needed" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需"
+          }
+        }
+      }
     },
     "As needed" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需"
+          }
+        }
+      }
     },
     "Ask Again" : {
       "localizations" : {
@@ -7757,7 +8116,20 @@
       }
     },
     "Ask Again re-asks if a dose isn't logged — “Default” follows the cadence in Notification Settings. Never a scold, just a nudge." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若某次用药未被记录，“再次询问”会再问一次 —“默认”遵循通知设置中的节奏。它从不是责备，只是轻轻提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若某次用藥未被記錄，「再次詢問」會再問一次 —「預設」遵循通知設定中的節奏。它從不是責備，只是輕輕提醒。"
+          }
+        }
+      }
     },
     "Asking…" : {
       "localizations" : {
@@ -7776,7 +8148,20 @@
       }
     },
     "Asks again a little later if a med still isn't logged — like snooze for an alarm. Adjustable per med." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果某项用药仍未被记录，稍后会再问一次 — 就像闹钟的稍后提醒。可为每项用药单独调整。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果某項用藥仍未被記錄，稍後會再問一次 — 就像鬧鐘的稍後提醒。可為每項用藥單獨調整。"
+          }
+        }
+      }
     },
     "Asks again a little later if a routine still isn't logged — like snooze for an alarm. Set it up on each routine." : {
       "extractionState" : "stale",
@@ -8721,7 +9106,20 @@
       }
     },
     "before 12:00" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12:00 之前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12:00 之前"
+          }
+        }
+      }
     },
     "Before a Restore" : {
       "localizations" : {
@@ -11382,7 +11780,20 @@
       }
     },
     "Collapses the list" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "折叠列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摺疊列表"
+          }
+        }
+      }
     },
     "Color" : {
       "localizations" : {
@@ -12321,6 +12732,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "繼續"
+          }
+        }
+      }
+    },
+    "Continuous dose timeline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续剂量时间线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連續劑量時間線"
           }
         }
       }
@@ -13758,7 +14185,20 @@
       }
     },
     "Default" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設"
+          }
+        }
+      }
     },
     "Default route" : {
       "localizations" : {
@@ -13891,7 +14331,20 @@
       }
     },
     "Delete Med" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除用藥"
+          }
+        }
+      }
     },
     "Delete Note" : {
       "localizations" : {
@@ -13943,7 +14396,20 @@
       }
     },
     "Delete this med?" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除这项用药？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除這項用藥？"
+          }
+        }
+      }
     },
     "Delete this routine?" : {
       "extractionState" : "stale",
@@ -15218,6 +15684,22 @@
         }
       }
     },
+    "Dose timeline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量时间线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量時間線"
+          }
+        }
+      }
+    },
     "Dose Trends" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15509,7 +15991,21 @@
       }
     },
     "Drag to explore doses" : {
-      "comment" : "Intensity dial interaction hint"
+      "comment" : "Intensity dial interaction hint",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖动以浏览各次用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖動以瀏覽各次用藥"
+          }
+        }
+      }
     },
     "Drag to pan, pinch to zoom, hold to inspect" : {
       "extractionState" : "stale",
@@ -15852,13 +16348,52 @@
       }
     },
     "due" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用"
+          }
+        }
+      }
     },
     "Due" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用"
+          }
+        }
+      }
     },
     "Due now" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在该服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在該服用"
+          }
+        }
+      }
     },
     "Duplicate Name" : {
       "localizations" : {
@@ -16463,7 +16998,20 @@
       }
     },
     "Edit Med" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯用藥"
+          }
+        }
+      }
     },
     "Edit Note" : {
       "localizations" : {
@@ -18508,7 +19056,20 @@
       }
     },
     "Expands the list" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開列表"
+          }
+        }
+      }
     },
     "Expected level" : {
       "localizations" : {
@@ -18576,7 +19137,20 @@
       }
     },
     "Explore the timeline" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浏览时间线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "瀏覽時間線"
+          }
+        }
+      }
     },
     "Export" : {
       "extractionState" : "stale",
@@ -19273,7 +19847,20 @@
       }
     },
     "Folds into the “Supplements” row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "折叠进“补剂”一行，并且不出现在时间线图表中。它的提醒是无声的 — 只在通知中心等待而不会震动；如果你使用 iOS 的定时摘要，它们会汇总到那里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摺疊進「補劑」一行，並且不出現在時間線圖表中。它的提醒是無聲的 — 只在通知中心等待而不會震動；如果你使用 iOS 的定時摘要，它們會彙整到那裡。"
+          }
+        }
+      }
     },
     "Follow-Up Reminders" : {
       "extractionState" : "stale",
@@ -19342,7 +19929,20 @@
       }
     },
     "For supplements and other low-key meds: they fold into one “Supplements” row, share a single reminder per time of day, and stay off the timeline graphs. Adherence still counts them." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "适用于补剂和其他低调用药：它们会折叠成一行“补剂”，在每个时段共用一条提醒，并且不出现在时间线图表中。依从性仍会统计它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "適用於補劑和其他低調用藥：它們會摺疊成一行「補劑」，在每個時段共用一條提醒，並且不出現在時間線圖表中。依從性仍會統計它們。"
+          }
+        }
+      }
     },
     "Form" : {
       "localizations" : {
@@ -23581,7 +24181,20 @@
       }
     },
     "Keep track of what you take and when — one tap to set up gentle reminders. Prescriptions, supplements, vitamins: anything on a schedule." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录你服用了什么、何时服用 — 轻点一下即可设置温和的提醒。处方药、补剂、维生素：任何按计划服用的东西。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄你服用了什麼、何時服用 — 點一下即可設定溫和的提醒。處方藥、補劑、維生素：任何按計劃服用的東西。"
+          }
+        }
+      }
     },
     "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top." : {
       "localizations" : {
@@ -24578,6 +25191,38 @@
         }
       }
     },
+    "Log a Dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一次用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一次用藥"
+          }
+        }
+      }
+    },
+    "Log a dose and its effect curve will appear here." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一次用药，它的效果曲线就会出现在这里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一次用藥，它的效果曲線就會出現在這裡。"
+          }
+        }
+      }
+    },
     "Log a dose to start your first session." : {
       "localizations" : {
         "zh-Hans" : {
@@ -24724,7 +25369,24 @@
         }
       }
     },
+    "Log Meds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄用藥"
+          }
+        }
+      }
+    },
     "Log Prescriptions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24795,7 +25457,20 @@
 
     },
     "Logs this dose" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录此剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄此劑量"
+          }
+        }
+      }
     },
     "Long-Acting Opioid Receptor Antagonist" : {
       "extractionState" : "stale",
@@ -25096,7 +25771,20 @@
       }
     },
     "Manage Meds…" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理用药…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理用藥…"
+          }
+        }
+      }
     },
     "Manage Routines" : {
       "extractionState" : "stale",
@@ -25524,10 +26212,36 @@
       }
     },
     "Med" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥"
+          }
+        }
+      }
     },
     "Med Reminders" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥提醒"
+          }
+        }
+      }
     },
     "Medical information only" : {
       "localizations" : {
@@ -25605,6 +26319,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中等可信度"
+          }
+        }
+      }
+    },
+    "Meds due" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用藥"
           }
         }
       }
@@ -27101,7 +27831,20 @@
       }
     },
     "My Meds" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的用藥"
+          }
+        }
+      }
     },
     "My Substances" : {
       "localizations" : {
@@ -27968,7 +28711,20 @@
       }
     },
     "No daily limit" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无每日上限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無每日上限"
+          }
+        }
+      }
     },
     "No data" : {
       "localizations" : {
@@ -28196,7 +28952,20 @@
       }
     },
     "No Meds Yet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚无用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無用藥"
+          }
+        }
+      }
     },
     "No notable predicted tolerance right now" : {
       "localizations" : {
@@ -28263,6 +29032,7 @@
       }
     },
     "No Prescriptions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28393,10 +29163,36 @@
       }
     },
     "no schedule" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无计划"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無計劃"
+          }
+        }
+      }
     },
     "No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有计划，也永远不会被标记为遗漏 — 依从性不统计按需用药。设定每日上限可用于累积剂量警告。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有計劃，也永遠不會被標記為遺漏 — 依從性不統計按需用藥。設定每日上限可用於累積劑量警告。"
+          }
+        }
+      }
     },
     "No Sessions" : {
       "localizations" : {
@@ -28415,10 +29211,36 @@
       }
     },
     "no set time" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未设定时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未設定時間"
+          }
+        }
+      }
     },
     "No set time — this med still counts toward adherence once per due day." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未设定时间 — 这项用药在每个应服日仍计入一次依从性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未設定時間 — 這項用藥在每個應服日仍計入一次依從性。"
+          }
+        }
+      }
     },
     "No single “tolerance %” fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more." : {
       "extractionState" : "stale",
@@ -28547,6 +29369,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無物質"
+          }
+        }
+      }
+    },
+    "No Timeline Yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚无时间线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無時間線"
           }
         }
       }
@@ -28961,7 +29799,20 @@
       }
     },
     "Not taken yet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未服用"
+          }
+        }
+      }
     },
     "Not tracked" : {
       "localizations" : {
@@ -29641,6 +30492,22 @@
         }
       }
     },
+    "Opens the full timeline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开完整时间线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟完整時間線。"
+          }
+        }
+      }
+    },
     "Opens your drink presets" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29658,7 +30525,20 @@
       }
     },
     "Opens your meds" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开你的用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟你的用藥"
+          }
+        }
+      }
     },
     "Opioid" : {
       "localizations" : {
@@ -32153,6 +33033,7 @@
       }
     },
     "Prescriptions due" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32894,10 +33775,36 @@
       }
     },
     "quiet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静默"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靜默"
+          }
+        }
+      }
     },
     "Quiet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静默"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靜默"
+          }
+        }
+      }
     },
     "Quiet Hours" : {
       "localizations" : {
@@ -32916,13 +33823,52 @@
       }
     },
     "Quiet med" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静默用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靜默用藥"
+          }
+        }
+      }
     },
     "Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静默用药在每个时段共用一条无声提醒 — 它不会震动，只会在通知中心等待。按需用药永远不会被计为遗漏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靜默用藥在每個時段共用一條無聲提醒 — 它不會震動，只會在通知中心等待。按需用藥永遠不會被計為遺漏。"
+          }
+        }
+      }
     },
     "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静默用药的提醒会无声送达 — 不震动，也不点亮锁定屏幕。如果你使用 iOS 的定时摘要，它们会汇总到那里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靜默用藥的提醒會無聲送達 — 不震動，也不亮起鎖定畫面。如果你使用 iOS 的定時摘要，它們會彙整到那裡。"
+          }
+        }
+      }
     },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
@@ -34323,7 +35269,20 @@
       }
     },
     "Reminders and adherence tracking stop. Doses you already logged stay in your journal." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒和依从性追踪将停止。你已经记录的剂量仍保留在日志中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒和依從性追蹤將停止。你已經記錄的劑量仍保留在日誌中。"
+          }
+        }
+      }
     },
     "Reminders at each routine's time — and, if you want, a gentle re-ask a little later, like snooze." : {
       "localizations" : {
@@ -34342,13 +35301,52 @@
       }
     },
     "Reminders off" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已關閉"
+          }
+        }
+      }
     },
     "Reminders on" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已开启"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已開啟"
+          }
+        }
+      }
     },
     "Reminders, Ask Again, quiet hours, and everything else Piru sends." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒、再次询问、静默时段，以及 Piru 发送的其他一切。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒、再次詢問、靜默時段，以及 Piru 傳送的其他一切。"
+          }
+        }
+      }
     },
     "Remove" : {
       "localizations" : {
@@ -36125,6 +37123,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 類管制藥物"
+          }
+        }
+      }
+    },
+    "Scroll back through your history. Touch and hold to inspect a moment." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向后滚动浏览你的历史记录。触摸并按住可查看某一时刻。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向後捲動瀏覽你的歷史記錄。觸摸並按住可查看某一時刻。"
           }
         }
       }
@@ -39715,7 +40729,20 @@
       }
     },
     "Staged" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已暂存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已暫存"
+          }
+        }
+      }
     },
     "Staged %@" : {
       "localizations" : {
@@ -39734,10 +40761,36 @@
       }
     },
     "Stages this dose" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将此剂量加入暂存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將此劑量加入暫存"
+          }
+        }
+      }
     },
     "Stages this group’s meds" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将该组用药加入暂存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將該組用藥加入暫存"
+          }
+        }
+      }
     },
     "Stages this routine’s doses" : {
       "extractionState" : "stale",
@@ -40242,7 +41295,20 @@
       }
     },
     "Still need to log %@?" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还需要记录 %@ 吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還需要記錄 %@ 嗎？"
+          }
+        }
+      }
     },
     "Still need to log your %@ routine?" : {
       "extractionState" : "stale",
@@ -40262,7 +41328,20 @@
       }
     },
     "Still need your %@ supplements?" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还需要服用 %@ 的补剂吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還需要服用 %@ 的補劑嗎？"
+          }
+        }
+      }
     },
     "Stimulant" : {
       "localizations" : {
@@ -41360,7 +42439,20 @@
       }
     },
     "Take All" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部服用"
+          }
+        }
+      }
     },
     "Take care of yourself — eat, hydrate, and rest. The effects will fade with time." : {
       "localizations" : {
@@ -43276,6 +44368,18 @@
             "state" : "new",
             "value" : "Time to log %1$@ — %2$@."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该记录 %@ 了 — %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該記錄 %@ 了 — %@。"
+          }
         }
       }
     },
@@ -43394,7 +44498,20 @@
       }
     },
     "Times" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間"
+          }
+        }
+      }
     },
     "Timing" : {
       "localizations" : {
@@ -43915,6 +45032,7 @@
       }
     },
     "Track prescriptions in Settings to see adherence" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44685,10 +45803,36 @@
       }
     },
     "up to %lld× daily" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日最多 %lld 次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日最多 %lld 次"
+          }
+        }
+      }
     },
     "Up to %lld× daily" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日最多 %lld 次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日最多 %lld 次"
+          }
+        }
+      }
     },
     "Up to date" : {
       "localizations" : {
@@ -47121,7 +48265,20 @@
       }
     },
     "Your Substances" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的物質"
+          }
+        }
+      }
     },
     "Your tolerance has dropped" : {
       "extractionState" : "stale",

@@ -128,7 +128,7 @@ struct InsightsView: View {
     private var adherenceCard: some View {
         largeCard(icon: "flame.fill", tint: .orange, title: "Adherence", route: .insight(.adherence)) {
             if dailyItems.isEmpty {
-                emptyContent("Track prescriptions in Settings to see adherence")
+                emptyContent("Add your meds to see adherence")
             } else {
                 VStack(alignment: .leading, spacing: 14) {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {

@@ -208,6 +208,8 @@ struct ReportView: View {
                 timestamp: entry.timestamp,
                 notes: entry.notes,
                 tags: entry.tags,
+                identityKey: entry.identityKey,
+                routeRaw: entry.route.rawValue,
             )
         }
 
@@ -218,6 +220,8 @@ struct ReportView: View {
                 unit: item.unit,
                 route: item.route.displayName,
                 sortOrder: item.sortOrder,
+                identityKey: item.identityKey,
+                routeRaw: item.route.rawValue,
             )
         }
 
