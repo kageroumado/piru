@@ -46,6 +46,9 @@ nonisolated enum PushRoute: Hashable, Codable {
     /// `identityKey` plus `sortOrder` to disambiguate two schedules of the
     /// same substance (e.g. oral + injected MPH).
     case medDetail(identityKey: String, sortOrder: Int)
+    /// The continuous multi-day dose timeline (full-screen ribbon), pushed
+    /// from the Journal's compact ribbon card (Specs/meds-ux-review.md §4).
+    case timelineRibbon
 }
 
 /// A detail screen reachable from the Insights overview.
