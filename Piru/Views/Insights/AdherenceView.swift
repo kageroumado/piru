@@ -207,12 +207,16 @@ struct AdherenceView: View {
             return
         }
         let entrySnaps = allEntries.map {
-            AdherenceCalculator.EntrySnapshot(substance: $0.substance, timestamp: $0.timestamp)
+            AdherenceCalculator.EntrySnapshot(
+                substance: $0.substance, identityKey: $0.identityKey,
+                route: $0.route, timestamp: $0.timestamp,
+            )
         }
         let itemSnaps = dailyItems.map {
             AdherenceCalculator.DailyItemSnapshot(
-                substance: $0.substance, startDate: $0.startDate,
-                frequency: $0.frequency, frequencyDays: $0.frequencyDays,
+                substance: $0.substance, identityKey: $0.identityKey, route: $0.route,
+                expectedPerDay: max(1, $0.reminderTimesMinutes.count), isAsNeeded: $0.isAsNeeded,
+                startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays,
             )
         }
         let now = Date.now

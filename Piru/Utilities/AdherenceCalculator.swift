@@ -9,7 +9,14 @@ nonisolated enum AdherenceStatus {
 
 struct ItemAdherence: Identifiable {
     let item: DailyDoseItem
-    let taken: Bool
+    /// Dose slots satisfied vs expected today — a multi-time med expects one
+    /// slot per reminder time, so "1 of 2" is representable per item.
+    let takenCount: Int
+    let totalCount: Int
+    var taken: Bool {
+        takenCount >= totalCount
+    }
+
     var id: String {
         item.substance + String(item.sortOrder)
     }
@@ -27,8 +34,27 @@ struct DayAdherence: Identifiable {
 }
 
 enum AdherenceCalculator {
+    /// A dose satisfies a med when the substance identity AND the route match
+    /// (Specs/meds-reminders-redesign.md, boundary semantics) — the same
+    /// substance by another route is deliberately a plain journal entry, not
+    /// adherence credit. Identity joins by ``DoseEntry/identityKey`` with a
+    /// lowercased-name fallback, so a PSID-resolved item still credits a
+    /// legacy name-only dose (and vice versa) exactly as the old name join did.
     static func entryMatches(entry: DoseEntry, item: DailyDoseItem) -> Bool {
-        entry.substance.lowercased() == item.substance.lowercased()
+        matches(
+            entryKey: entry.identityKey, entryName: entry.substance, entryRoute: entry.route,
+            itemKey: item.identityKey, itemName: item.substance, itemRoute: item.route,
+        )
+    }
+
+    /// The matching core over plain values, shared by the `@Model`
+    /// ``entryMatches(entry:item:)`` and the `Sendable`-snapshot streak scan.
+    nonisolated static func matches(
+        entryKey: String, entryName: String, entryRoute: RouteOfAdministration,
+        itemKey: String, itemName: String, itemRoute: RouteOfAdministration,
+    ) -> Bool {
+        guard entryRoute == itemRoute else { return false }
+        return entryKey == itemKey || entryName.lowercased() == itemName.lowercased()
     }
 
     /// Whether a prescription item is due on a given date, based on its frequency and start date.
@@ -88,8 +114,9 @@ enum AdherenceCalculator {
         let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
         let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
 
-        // Filter to only items due on this date
-        let dueItems = dailyItems.filter { isDue($0, on: date) }
+        // Filter to only items due on this date. As-needed (PRN) meds carry
+        // no expectation and are never counted (or marked missed).
+        let dueItems = dailyItems.filter { !$0.isAsNeeded && isDue($0, on: date) }
 
         guard !dueItems.isEmpty else {
             return DayAdherence(date: date, status: .noData, takenCount: 0, totalCount: 0, items: [])
@@ -97,13 +124,18 @@ enum AdherenceCalculator {
 
         var itemResults: [ItemAdherence] = []
         var matched = 0
+        var expected = 0
         for item in dueItems {
-            let taken = dayEntries.contains { entryMatches(entry: $0, item: item) }
-            itemResults.append(ItemAdherence(item: item, taken: taken))
-            if taken { matched += 1 }
+            // A multi-time med expects one dose slot per reminder time.
+            let itemExpected = max(1, item.reminderTimesMinutes.count)
+            let hits = dayEntries.count { entryMatches(entry: $0, item: item) }
+            let itemTaken = min(hits, itemExpected)
+            itemResults.append(ItemAdherence(item: item, takenCount: itemTaken, totalCount: itemExpected))
+            matched += itemTaken
+            expected += itemExpected
         }
 
-        let status: AdherenceStatus = if matched == dueItems.count {
+        let status: AdherenceStatus = if matched == expected {
             .complete
         } else if matched > 0 {
             .partial
@@ -111,7 +143,7 @@ enum AdherenceCalculator {
             .missed
         }
 
-        return DayAdherence(date: date, status: status, takenCount: matched, totalCount: dueItems.count, items: itemResults)
+        return DayAdherence(date: date, status: status, takenCount: matched, totalCount: expected, items: itemResults)
     }
 
     static func currentStreak(adherenceData: [DayAdherence]) -> Int {
@@ -170,12 +202,19 @@ enum AdherenceCalculator {
     /// Sendable snapshot of a dose's matching fields for the off-main streak scan.
     struct EntrySnapshot {
         let substance: String
+        let identityKey: String
+        let route: RouteOfAdministration
         let timestamp: Date
     }
 
     /// Sendable snapshot of a daily item's scheduling/matching fields.
     struct DailyItemSnapshot {
         let substance: String
+        let identityKey: String
+        let route: RouteOfAdministration
+        /// `max(1, reminderTimesMinutes.count)` — dose slots expected per due day.
+        let expectedPerDay: Int
+        let isAsNeeded: Bool
         let startDate: Date
         let frequency: DoseFrequency
         let frequencyDays: [Int]
@@ -190,14 +229,24 @@ enum AdherenceCalculator {
         let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
         let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
 
-        let dueItems = items.filter { isDue(startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays, on: date) }
+        let dueItems = items.filter {
+            !$0.isAsNeeded && isDue(startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays, on: date)
+        }
         guard !dueItems.isEmpty else { return .noData }
 
         var matched = 0
-        for item in dueItems where dayEntries.contains(where: { $0.substance.lowercased() == item.substance.lowercased() }) {
-            matched += 1
+        var expected = 0
+        for item in dueItems {
+            let hits = dayEntries.count {
+                matches(
+                    entryKey: $0.identityKey, entryName: $0.substance, entryRoute: $0.route,
+                    itemKey: item.identityKey, itemName: item.substance, itemRoute: item.route,
+                )
+            }
+            matched += min(hits, item.expectedPerDay)
+            expected += item.expectedPerDay
         }
-        if matched == dueItems.count { return .complete }
+        if matched == expected { return .complete }
         return matched > 0 ? .partial : .missed
     }
 

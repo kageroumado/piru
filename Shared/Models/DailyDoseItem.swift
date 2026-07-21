@@ -105,6 +105,49 @@ final class DailyDoseItem {
     /// never reads as a redose prompt).
     var nextDoseReminder: Bool = false
 
+    // Meds redesign (Specs/meds-reminders-redesign.md) — all additive with
+    // defaults, so a pure lightweight migration. Dormant until the My Meds hub
+    // ships, except adherence, which reads ``reminderTimesMinutes`` for
+    // per-time expectations and ``isAsNeeded`` to exclude PRN meds.
+
+    /// JSON-encoded backing storage for ``reminderTimesMinutes`` — same idiom
+    /// as ``frequencyDaysData`` (a raw `[Int]` attribute traps SwiftData when
+    /// the model is built in the test process).
+    var reminderTimesMinutesData: Data = Data()
+    /// Per-med reminder master (replaces the routine-level `remind` once the
+    /// hub ships). Only meaningful when ``reminderTimesMinutes`` is non-empty.
+    var remind: Bool = true
+    /// JSON-encoded backing storage for ``askAgainOverrideMinutes``.
+    var askAgainOverrideData: Data?
+    /// Quiet tier: collapses into one "Supplements" row in checklists, shares
+    /// one grouped reminder per time-of-day, and stays off the timeline
+    /// graphs. Still fully counted by adherence. Supplements default in at
+    /// creation (by library category); user-overridable per med.
+    var isQuiet: Bool = false
+    /// As-needed (PRN) schedule: no reminder times, no adherence expectation,
+    /// never "missed". Shown in the hub's "As needed" group.
+    var isAsNeeded: Bool = false
+    /// Optional PRN daily cap ("up to N× daily") surfaced to the cumulative
+    /// dose warning engine. Only meaningful while ``isAsNeeded`` is `true`.
+    var maxPerDay: Int?
+
+    /// Daily reminder times as minutes from midnight (480 = 8:00), 0–N
+    /// entries — one med with a morning dose and an afternoon booster is ONE
+    /// item with two times. Empty = no reminders (the hub's "Anytime" group).
+    /// Adherence expects `max(1, count)` dose slots per due day.
+    var reminderTimesMinutes: [Int] {
+        get { (try? JSONDecoder().decode([Int].self, from: reminderTimesMinutesData)) ?? [] }
+        set { reminderTimesMinutesData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+    }
+
+    /// Per-med Ask Again override: `nil` = follow the global default
+    /// (`NotificationPreferences.askAgainDefaultMinutes`), `[]` = opted out,
+    /// otherwise the re-ask cadence in minutes after each reminder time.
+    var askAgainOverrideMinutes: [Int]? {
+        get { askAgainOverrideData.flatMap { try? JSONDecoder().decode([Int].self, from: $0) } }
+        set { askAgainOverrideData = newValue.flatMap { try? JSONEncoder().encode($0) } }
+    }
+
     // Schedule
 
     /// Backing storage for ``frequency``. Prefer reading/writing ``frequency``.
@@ -146,6 +189,11 @@ final class DailyDoseItem {
         releaseForm: String? = nil,
         saltForm: String? = nil,
         productName: String? = nil,
+        reminderTimesMinutes: [Int] = [],
+        remind: Bool = true,
+        isQuiet: Bool = false,
+        isAsNeeded: Bool = false,
+        maxPerDay: Int? = nil,
     ) {
         self.substance = substance
         self.amount = amount
@@ -162,6 +210,11 @@ final class DailyDoseItem {
         self.releaseForm = releaseForm
         self.saltForm = saltForm
         self.productName = productName
+        self.reminderTimesMinutesData = (try? JSONEncoder().encode(reminderTimesMinutes)) ?? Data()
+        self.remind = remind
+        self.isQuiet = isQuiet
+        self.isAsNeeded = isAsNeeded
+        self.maxPerDay = maxPerDay
     }
 
     /// This daily item's substance-identity key — joined against a dose's
