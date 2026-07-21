@@ -15,15 +15,15 @@ struct SettingsView: View {
             Group {
                 Section {
                     NavigationLink {
-                        RoutinesSettingsView()
+                        MyMedsHubView()
                     } label: {
-                        // The count is rendered through `Text`'s LocalizedStringKey
-                        // path so automatic grammar agreement runs; `String(localized:)`
-                        // here left the raw `^[…](inflect: true)` markup on screen.
+                        // Explicit singular/plural — the automatic-grammar
+                        // engine doesn't know "med" as a noun and leaves
+                        // "2 med" uninflected.
                         HStack {
-                            Label("Routines", systemImage: "repeat")
+                            Label("My Meds", systemImage: "pills")
                             Spacer()
-                            Text("^[\(dailyDoseItems.count) item](inflect: true)")
+                            Text(dailyDoseItems.count == 1 ? "1 med" : "\(dailyDoseItems.count) meds")
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }

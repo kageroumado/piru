@@ -251,6 +251,16 @@ struct EntryListView: View {
                     .listRowBackground(Color.clear)
             }
 
+            // The daily meds front door — today's checklist, tap to log
+            // (Specs/meds-reminders-redesign.md). Renders nothing while the
+            // user has no meds, so a recreational-only journal never sees it.
+            if !isSearchSurface {
+                MyMedsCard()
+                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            }
+
             // The live session is promoted to a hero card above the history —
             // no "Today" header (its card is pulled from the day list below).
             if showActiveHero {

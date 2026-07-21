@@ -137,6 +137,11 @@ struct PiruApp: App {
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).
                     InventoryService.recomputeAll(in: container.mainContext)
+                    // Meds redesign cutover: fold the routine layer (time,
+                    // remind, follow-up cadence) into per-med fields once.
+                    // Runs before the reminder sync so folded state is what
+                    // gets scheduled. See Specs/meds-reminders-redesign.md.
+                    MedsMigrator.foldRoutinesIfNeeded(context: container.mainContext)
                     // Roll the routine follow-up horizon forward (they're
                     // materialized as one-shots over a few days) and drop
                     // today's re-asks for routines already logged.

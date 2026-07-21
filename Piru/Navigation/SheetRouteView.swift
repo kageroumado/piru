@@ -88,8 +88,11 @@ struct SheetRouteView: View {
             PersonalizeSubstanceHost(name: name)
 
         case .dailyDoseSettings:
+            // The Meds redesign: this route now lands on the My Meds hub
+            // (route case name kept for Codable compatibility with persisted
+            // snapshots and deep links).
             NavigationStack {
-                RoutinesSettingsView()
+                MyMedsHubView()
                     .withCancellationCloseButton()
             }
 

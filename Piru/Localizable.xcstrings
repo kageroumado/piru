@@ -2156,6 +2156,9 @@
         }
       }
     },
+    "%lld meds" : {
+
+    },
     "%lld mg" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2248,6 +2251,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld/%lld 種物質來自受體佔據率，其餘依據效應曲線估算 · %@。"
+          }
+        }
+      }
+    },
+    "%lld of %lld taken" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld taken"
           }
         }
       }
@@ -2463,6 +2476,16 @@
         }
       }
     },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
+    },
     "%lld/%lld taken" : {
       "localizations" : {
         "en" : {
@@ -2573,6 +2596,9 @@
       }
     },
     "%lld×" : {
+
+    },
+    "%lld× daily" : {
 
     },
     "%lldd" : {
@@ -3527,6 +3553,9 @@
         }
       }
     },
+    "1 med" : {
+
+    },
     "1-800-222-1222 (US)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3611,6 +3640,9 @@
         }
       }
     },
+    "10 and 30 min later" : {
+
+    },
     "10 and 30 minutes later" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3626,6 +3658,9 @@
           }
         }
       }
+    },
+    "10 min later" : {
+
     },
     "10 minutes later" : {
       "localizations" : {
@@ -3674,6 +3709,12 @@
           }
         }
       }
+    },
+    "12:00 – 17:00" : {
+
+    },
+    "17:00 – 21:00" : {
+
     },
     "30D" : {
       "localizations" : {
@@ -4112,6 +4153,9 @@
         }
       }
     },
+    "A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry." : {
+
+    },
     "A modelled curve predicts what a dose *should* do; your heart rate shows what your body *actually* did — stimulants and alcohol both raise it, so seeing the two together turns a prediction into a record. A blood-pressure reading is worth attaching too: you often take one *because* you felt off." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4409,6 +4453,9 @@
           }
         }
       }
+    },
+    "A reminder at each time. If you don't log it, Piru asks again %@ later — never a scold, just a nudge." : {
+
     },
     "A reminder to drink water during stimulants and long sessions." : {
       "extractionState" : "stale",
@@ -5564,6 +5611,15 @@
         }
       }
     },
+    "Add a Med" : {
+
+    },
+    "Add a Time" : {
+
+    },
+    "Add Another Time" : {
+
+    },
     "Add another…" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6266,6 +6322,9 @@
         }
       }
     },
+    "after 21:00" : {
+
+    },
     "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6830,6 +6889,9 @@
           }
         }
       }
+    },
+    "also %@" : {
+
     },
     "Also has this" : {
       "localizations" : {
@@ -7477,6 +7539,15 @@
         }
       }
     },
+    "anytime" : {
+
+    },
+    "Anytime" : {
+
+    },
+    "Anytime — no set times" : {
+
+    },
     "Appetite changes and sleep disruption are common after heavy sessions." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7637,6 +7708,12 @@
         }
       }
     },
+    "as needed" : {
+
+    },
+    "As needed" : {
+
+    },
     "Ask Again" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7652,6 +7729,9 @@
           }
         }
       }
+    },
+    "Ask Again re-asks if a dose isn't logged — “Default” follows the cadence in Notification Settings. Never a scold, just a nudge." : {
+
     },
     "Asking…" : {
       "localizations" : {
@@ -8608,6 +8688,9 @@
           }
         }
       }
+    },
+    "before 12:00" : {
+
     },
     "Before a Restore" : {
       "localizations" : {
@@ -11266,6 +11349,9 @@
         }
       }
     },
+    "Collapses the list" : {
+
+    },
     "Color" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13639,6 +13725,9 @@
         }
       }
     },
+    "Default" : {
+
+    },
     "Default route" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13769,6 +13858,9 @@
         }
       }
     },
+    "Delete Med" : {
+
+    },
     "Delete Note" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13816,6 +13908,9 @@
           }
         }
       }
+    },
+    "Delete this med?" : {
+
     },
     "Delete this routine?" : {
       "localizations" : {
@@ -15722,6 +15817,9 @@
         }
       }
     },
+    "due" : {
+
+    },
     "Duplicate Name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16321,6 +16419,9 @@
           }
         }
       }
+    },
+    "Edit Med" : {
+
     },
     "Edit Note" : {
       "localizations" : {
@@ -18363,6 +18464,9 @@
         }
       }
     },
+    "Expands the list" : {
+
+    },
     "Expected level" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19125,6 +19229,9 @@
         }
       }
     },
+    "Folds into the “Supplements” row, shares one reminder per time of day, and stays off the timeline graphs." : {
+
+    },
     "Follow-Up Reminders" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -19190,6 +19297,9 @@
           }
         }
       }
+    },
+    "For supplements and other low-key meds: they fold into one “Supplements” row, share a single reminder per time of day, and stay off the timeline graphs. Adherence still counts them." : {
+
     },
     "Form" : {
       "localizations" : {
@@ -22301,6 +22411,12 @@
         }
       }
     },
+    "in %lld h" : {
+
+    },
+    "in %lld min" : {
+
+    },
     "in body" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23417,6 +23533,9 @@
           }
         }
       }
+    },
+    "Keep track of what you take and when — one tap to set up gentle reminders. Prescriptions, supplements, vitamins: anything on a schedule." : {
+
     },
     "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top." : {
       "localizations" : {
@@ -24628,6 +24747,9 @@
     "LogP" : {
 
     },
+    "Logs this dose" : {
+
+    },
     "Long-Acting Opioid Receptor Antagonist" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -25350,6 +25472,9 @@
           }
         }
       }
+    },
+    "Med" : {
+
     },
     "Medical information only" : {
       "localizations" : {
@@ -26922,6 +27047,9 @@
         }
       }
     },
+    "My Meds" : {
+
+    },
     "My Substances" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27442,6 +27570,16 @@
         }
       }
     },
+    "Next: %@ at %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Next: %1$@ at %2$@ · %3$@"
+          }
+        }
+      }
+    },
     "Nicotine" : {
 
     },
@@ -27775,6 +27913,9 @@
         }
       }
     },
+    "No daily limit" : {
+
+    },
     "No data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28000,6 +28141,9 @@
         }
       }
     },
+    "No Meds Yet" : {
+
+    },
     "No notable predicted tolerance right now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28193,6 +28337,12 @@
         }
       }
     },
+    "no schedule" : {
+
+    },
+    "No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings." : {
+
+    },
     "No Sessions" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28208,6 +28358,12 @@
           }
         }
       }
+    },
+    "no set time" : {
+
+    },
+    "No set time — this med still counts toward adherence once per due day." : {
+
     },
     "No single “tolerance %” fits: a fast within-session fade plus a slow, months-long recovery state — not a signal to take more." : {
       "extractionState" : "stale",
@@ -28748,6 +28904,9 @@
           }
         }
       }
+    },
+    "Not taken yet" : {
+
     },
     "Not tracked" : {
       "localizations" : {
@@ -29441,6 +29600,9 @@
           }
         }
       }
+    },
+    "Opens your meds" : {
+
     },
     "Opioid" : {
       "localizations" : {
@@ -32675,6 +32837,9 @@
         }
       }
     },
+    "quiet" : {
+
+    },
     "Quiet" : {
 
     },
@@ -32693,6 +32858,12 @@
           }
         }
       }
+    },
+    "Quiet med" : {
+
+    },
+    "Quiet meds share one reminder per time of day and stay off the timeline graphs. As-needed meds are never counted against you." : {
+
     },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
@@ -34077,7 +34248,6 @@
       }
     },
     "Reminders" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34092,6 +34262,9 @@
           }
         }
       }
+    },
+    "Reminders and adherence tracking stop. Doses you already logged stay in your journal." : {
+
     },
     "Reminders at each routine's time — and, if you want, a gentle re-ask a little later, like snooze." : {
       "localizations" : {
@@ -34108,6 +34281,15 @@
           }
         }
       }
+    },
+    "Reminders off" : {
+
+    },
+    "Reminders on" : {
+
+    },
+    "Reminders, Ask Again, quiet hours, and everything else Piru sends." : {
+
     },
     "Remove" : {
       "localizations" : {
@@ -41095,6 +41277,9 @@
         }
       }
     },
+    "Take All" : {
+
+    },
     "Take care of yourself — eat, hydrate, and rest. The effects will fade with time." : {
       "localizations" : {
         "zh-Hans" : {
@@ -41468,6 +41653,12 @@
           }
         }
       }
+    },
+    "That's everything today — %lld days and counting." : {
+
+    },
+    "That's everything today." : {
+
     },
     "The active compound salvinorin A is a structurally unique non-nitrogenous terpenoid that acts as a highly potent and selective agonist at κ-opioid receptors (KOR). Unlike virtually all other known psychoactive compounds, it has no significant activity at serotonin 5-HT2A receptors. KOR activation in the claustrum and prefrontal cortex produces intensely dissociative and hallucinatory effects." : {
       "extractionState" : "stale",
@@ -43108,6 +43299,9 @@
         }
       }
     },
+    "Times" : {
+
+    },
     "Timing" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44394,6 +44588,12 @@
           }
         }
       }
+    },
+    "up to %lld× daily" : {
+
+    },
+    "Up to %lld× daily" : {
+
     },
     "Up to date" : {
       "localizations" : {
