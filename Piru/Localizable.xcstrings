@@ -7433,6 +7433,38 @@
         }
       }
     },
+    "Arrange Classes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排列类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排列類別"
+          }
+        }
+      }
+    },
+    "Arrange Classes…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排列类别…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排列類別…"
+          }
+        }
+      }
+    },
     "As a stimulant takes hold, dopamine climbs quickly. Your brain expects a steady baseline and adjusts toward the new level, but it catches up slowly. The gap between the two — dopamine now versus what your brain expects — is what reaches you." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10512,6 +10544,22 @@
         }
       }
     },
+    "Class" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "類別"
+          }
+        }
+      }
+    },
     "Class Not Found" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10863,6 +10911,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收合"
+          }
+        }
+      }
+    },
+    "Collapse All" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部折叠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部折疊"
           }
         }
       }
@@ -14899,6 +14963,38 @@
         }
       }
     },
+    "Double tap to collapse" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点两下以折叠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點兩下以折疊"
+          }
+        }
+      }
+    },
+    "Double tap to expand" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点两下以展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點兩下以展開"
+          }
+        }
+      }
+    },
     "Download" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14963,6 +15059,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拖曳以重新排序。向左輕掃以移除。"
+          }
+        }
+      }
+    },
+    "Drag to set the order class sections appear in. Reset to let the current sort decide." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖动以设置类别分区的显示顺序。重置后将由当前排序方式决定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖動以設定類別分區的顯示順序。重置後將由目前排序方式決定。"
           }
         }
       }
@@ -17688,6 +17800,22 @@
         }
       }
     },
+    "Expand All" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部展開"
+          }
+        }
+      }
+    },
     "Expand Chart" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19729,6 +19857,22 @@
         }
       }
     },
+    "Group by Class" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按类别分组"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按類別分組"
+          }
+        }
+      }
+    },
     "Group items into routines by time of day or purpose — a routine stages everything in it with one tap on the Log screen. Drag items onto a category to assign them." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -21657,6 +21801,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "進行中"
+          }
+        }
+      }
+    },
+    "In Stock" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有庫存"
           }
         }
       }
@@ -24266,6 +24426,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "管理來源優先級"
+          }
+        }
+      }
+    },
+    "Manual" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動"
           }
         }
       }
@@ -27149,6 +27325,22 @@
         }
       }
     },
+    "No Matching Items" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无匹配项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無符合項目"
+          }
+        }
+      }
+    },
     "No notable predicted tolerance right now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27502,6 +27694,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒耐受"
+          }
+        }
+      }
+    },
+    "No tracked substance matches the current search and filters." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有符合当前搜索和筛选条件的追踪物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有符合目前搜尋與篩選條件的追蹤物質。"
           }
         }
       }
@@ -32088,6 +32296,22 @@
         }
       }
     },
+    "Recently Updated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近更新"
+          }
+        }
+      }
+    },
     "Recents" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33059,6 +33283,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除劑量"
+          }
+        }
+      }
+    },
+    "Remove filter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除筛选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除篩選"
           }
         }
       }
@@ -34834,6 +35074,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋一個物質開始第一次記錄。"
+          }
+        }
+      }
+    },
+    "Search Inventory" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索库存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋庫存"
           }
         }
       }
@@ -37725,6 +37981,22 @@
         }
       }
     },
+    "Sort By" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序方式"
+          }
+        }
+      }
+    },
     "Sort by %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38549,6 +38821,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "狀態報告"
+          }
+        }
+      }
+    },
+    "Status" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態"
           }
         }
       }
@@ -39523,6 +39811,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "庫存"
+          }
+        }
+      }
+    },
+    "Supply Level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存量水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存量水準"
           }
         }
       }

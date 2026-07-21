@@ -9,6 +9,33 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Inventory manager: collapsible class sections + class arrangement (2026-07-21).
+    "Arrange Classes": ("排列类别", "排列類別"),
+    "Arrange Classes…": ("排列类别…", "排列類別…"),
+    "Collapse All": ("全部折叠", "全部折疊"),
+    "Expand All": ("全部展开", "全部展開"),
+    "Double tap to collapse": ("轻点两下以折叠", "點兩下以折疊"),
+    "Double tap to expand": ("轻点两下以展开", "點兩下以展開"),
+    "Drag to set the order class sections appear in. Reset to let the current sort decide.": (
+        "拖动以设置类别分区的显示顺序。重置后将由当前排序方式决定。",
+        "拖動以設定類別分區的顯示順序。重置後將由目前排序方式決定。",
+    ),
+    # Inventory manager: search, sort, filter, group-by-class (2026-07-21).
+    "Search Inventory": ("搜索库存", "搜尋庫存"),
+    "Sort By": ("排序方式", "排序方式"),
+    "Supply Level": ("存量水平", "存量水準"),
+    "Recently Updated": ("最近更新", "最近更新"),
+    "Manual": ("手动", "手動"),
+    "Group by Class": ("按类别分组", "按類別分組"),
+    "Status": ("状态", "狀態"),
+    "Class": ("类别", "類別"),
+    "In Stock": ("有库存", "有庫存"),
+    "Remove filter": ("移除筛选", "移除篩選"),
+    "No Matching Items": ("无匹配项目", "無符合項目"),
+    "No tracked substance matches the current search and filters.": (
+        "没有符合当前搜索和筛选条件的追踪物质。",
+        "沒有符合目前搜尋與篩選條件的追蹤物質。",
+    ),
     # Source-priority screen rework (2026-07-19).
     "Reset": ("重置", "重置"),
     "When several sources report the same fact — a dose, a duration — Piru shows the one nearest the top. Drag to set which you trust most.": (

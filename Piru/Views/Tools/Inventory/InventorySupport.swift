@@ -5,10 +5,43 @@ import SwiftUI
 /// The health of an item's stock. Drives color, which — per the HIG rule the
 /// spec adopts — carries meaning *only* for Low/Out; a healthy supply reads
 /// neutral.
-enum StockStatus {
+enum StockStatus: String, CaseIterable, Identifiable {
     case ok
     case low
     case out
+
+    var id: String {
+        rawValue
+    }
+
+    /// Facet label. "In Stock" rather than "OK" — the filter reads as a
+    /// statement about the item, not a grade.
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .ok: "In Stock"
+        case .low: "Low"
+        case .out: "Out"
+        }
+    }
+
+    /// Glyph used in the filter menu, standing in for the checkmark while a
+    /// status is unselected.
+    var icon: String {
+        switch self {
+        case .ok: "checkmark.circle"
+        case .low: "exclamationmark.circle"
+        case .out: "xmark.circle"
+        }
+    }
+
+    /// Attention order (out → low → ok), so chips and rows agree on ranking.
+    var sortIndex: Int {
+        switch self {
+        case .out: 0
+        case .low: 1
+        case .ok: 2
+        }
+    }
 
     /// Number / label color. Neutral (`primary`) when healthy so color is
     /// reserved for the states that need attention.
