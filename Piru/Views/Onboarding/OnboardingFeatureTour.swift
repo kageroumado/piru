@@ -33,7 +33,7 @@ struct OnboardingFeatureTour: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text("Page \(page + 1) of \(pages.count)"))
 
-            OnboardingPrimaryButton(title: "Continue", action: nav.advance)
+            GlassPillButton(title: "Continue", action: nav.advance)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 12)
         }

@@ -52,10 +52,10 @@ struct OnboardingImportStep: View {
             .padding(.top, 28)
         } footer: {
             if imported {
-                OnboardingPrimaryButton(title: "Continue", action: nav.advance)
+                GlassPillButton(title: "Continue", action: nav.advance)
             } else {
-                OnboardingPrimaryButton(title: "Import Data") { picking = true }
-                OnboardingSecondaryButton(title: "Start Fresh", action: nav.advance)
+                GlassPillButton(title: "Import Data") { picking = true }
+                GlassPillButton(title: "Start Fresh", prominence: .neutral, action: nav.advance)
             }
         }
         .fileImporter(isPresented: $picking, allowedContentTypes: [.json]) { result in

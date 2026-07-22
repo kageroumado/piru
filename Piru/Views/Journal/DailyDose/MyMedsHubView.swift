@@ -144,7 +144,7 @@ struct MyMedsHubView: View {
                     Text("Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you.")
                 }
                 .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
 
                 Section {
                     NavigationLink {
@@ -185,30 +185,16 @@ struct MyMedsHubView: View {
                     systemImage: "pills",
                     description: Text("Keep track of what you take and when — one tap to set up gentle reminders. Prescriptions, supplements, vitamins: anything on a schedule."),
                 )
-                Button {
-                    showingAddMed = true
-                } label: {
-                    Label("Add a Med", systemImage: "plus")
-                        .font(.body.weight(.semibold))
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.glassProminent)
-                .tint(Theme.accent)
+                addMedButton
             }
         }
         .listRowBackground(CardBackground())
     }
 
     private var addMedButton: some View {
-        Button {
+        GlassPillButton(title: "Add a Med") {
             showingAddMed = true
-        } label: {
-            Label("Add a Med", systemImage: "plus")
-                .font(.body.weight(.semibold))
-                .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.glassProminent)
-        .tint(Theme.accent)
     }
 
     private func belongs(_ item: DailyDoseItem, to group: MedTimeGroup) -> Bool {

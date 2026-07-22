@@ -53,10 +53,10 @@ struct OnboardingHealthStep: View {
             .padding(.horizontal, 24)
             .padding(.top, 20)
         } footer: {
-            OnboardingPrimaryButton(title: connecting ? "Connecting…" : "Continue") {
+            GlassPillButton(title: connecting ? "Connecting…" : "Continue") {
                 Task { await connectAndAdvance() }
             }
-            OnboardingSecondaryButton(title: "I'll Set This Later", action: nav.advance)
+            GlassPillButton(title: "I'll Set This Later", prominence: .neutral, action: nav.advance)
         }
     }
 

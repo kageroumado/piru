@@ -214,43 +214,6 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
     }
 }
 
-/// Primary CTA — a full-width, accent-tinted Liquid Glass pill, matching the system's prominent
-/// glass buttons (the "Allow" button on a permission sheet). The tint colors the glass; the style
-/// supplies the material, capsule shape, and legible foreground.
-struct OnboardingPrimaryButton: View {
-    let title: LocalizedStringResource
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.headline)
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.glassProminent)
-        .controlSize(.large)
-        .tint(Theme.accent)
-    }
-}
-
-/// Secondary action — a neutral Liquid Glass pill (the "Don't Allow" counterpart) for the
-/// skip / not-now / do-this-later escape hatch on optional steps.
-struct OnboardingSecondaryButton: View {
-    let title: LocalizedStringResource
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.headline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.glass)
-        .controlSize(.large)
-    }
-}
-
 #Preview {
     OnboardingView()
 }

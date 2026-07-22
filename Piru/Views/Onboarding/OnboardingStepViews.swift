@@ -114,7 +114,7 @@ struct OnboardingWelcomeStep: View {
         ) {
             OnboardingAppIconHero(size: 108)
         } footer: {
-            OnboardingPrimaryButton(title: "Get Started", action: nav.advance)
+            GlassPillButton(title: "Get Started", action: nav.advance)
         }
     }
 }
@@ -152,7 +152,7 @@ struct OnboardingPrivacyStep: View {
             .padding(.horizontal, 24)
             .padding(.top, 28)
         } footer: {
-            OnboardingPrimaryButton(title: "Continue", action: nav.advance)
+            GlassPillButton(title: "Continue", action: nav.advance)
         }
     }
 }
@@ -181,7 +181,7 @@ struct OnboardingDepthStep: View {
             .frame(height: 340)
             .padding(.top, 8)
         } footer: {
-            OnboardingPrimaryButton(title: "Continue") {
+            GlassPillButton(title: "Continue") {
                 UserProfileStore.shared.setDisclosureTier(selection)
                 nav.advance()
             }
@@ -270,10 +270,10 @@ struct OnboardingRemindersStep: View {
             .padding(.horizontal, 24)
             .padding(.top, 28)
         } footer: {
-            OnboardingPrimaryButton(title: requesting ? "Turning On…" : "Enable Selected") {
+            GlassPillButton(title: requesting ? "Turning On…" : "Enable Selected") {
                 Task { await enableSelected() }
             }
-            OnboardingSecondaryButton(title: "Not Now", action: nav.advance)
+            GlassPillButton(title: "Not Now", prominence: .neutral, action: nav.advance)
         }
     }
 
@@ -366,7 +366,7 @@ struct OnboardingDoneStep: View {
             .padding(.horizontal, 24)
             .padding(.top, 28)
         } footer: {
-            OnboardingPrimaryButton(title: "Start Using Piru", action: nav.finish)
+            GlassPillButton(title: "Start Using Piru", action: nav.finish)
         }
     }
 }
