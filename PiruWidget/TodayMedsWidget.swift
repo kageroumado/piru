@@ -128,8 +128,8 @@ struct TodayMedsProvider: TimelineProvider {
         TodayMedsEntry(date: .now, slots: [
             TodayMedSlot(identityKey: "vyvanse", name: "Vyvanse", doseText: "40 mg", timeMinutes: 480, slotIndex: 0, taken: true, isQuiet: false),
             TodayMedSlot(identityKey: "sertraline", name: "Sertraline", doseText: "50 mg", timeMinutes: 540, slotIndex: 0, taken: false, isQuiet: false),
-            TodayMedSlot(identityKey: "magnesium", name: "Magnesium", doseText: "200 mg", timeMinutes: 1260, slotIndex: 0, taken: false, isQuiet: true),
-            TodayMedSlot(identityKey: "vitamin d", name: "Vitamin D", doseText: "2000 IU", timeMinutes: 1260, slotIndex: 0, taken: false, isQuiet: true),
+            TodayMedSlot(identityKey: "magnesium", name: "Magnesium", doseText: "200 mg", timeMinutes: 1_260, slotIndex: 0, taken: false, isQuiet: true),
+            TodayMedSlot(identityKey: "vitamin d", name: "Vitamin D", doseText: "2000 IU", timeMinutes: 1_260, slotIndex: 0, taken: false, isQuiet: true),
         ], relevance: nil)
     }
 
