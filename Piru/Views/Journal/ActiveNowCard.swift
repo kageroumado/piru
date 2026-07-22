@@ -5,19 +5,28 @@ import SwiftUI
 /// now, in one card. The feed reads plan → state → log — `MyMedsCard` is the
 /// plan, the labeled day list below is the log, and this card is the single
 /// answer to "what's in effect?". A lone active dose gets the quick-glance
-/// treatment (big amount + route badge, phase bar with countdown); several get
-/// substance dots + names. Beneath either sits a window of the *continuous*
-/// timeline (``ActiveNowWindowGraph``) — the same evaluator as the full
-/// timeline screen this card opens on tap. The session itself lives in the log
-/// under Today like any other; this card never says "session". Content, so it
-/// rides on `themeCard` — never glass.
+/// treatment (big amount + route badge, phase bar with countdown — the bar
+/// alone tells the story, no graph). Several *substances* get dots + names
+/// with a window of the *continuous* timeline (``ActiveNowWindowGraph``)
+/// beneath — overlapping curves need a picture where one phase bar doesn't.
+/// The session itself lives in the log under Today like any other; this card
+/// never says "session". Content, so it rides on `themeCard` — never glass.
 struct ActiveNowCard: View {
     let states: [ActiveSubstanceState]
+    let entries: [DoseEntry]
+    let colors: [SubstanceColor]
     let colorMap: [String: Color]
     var onTap: () -> Void
 
     private var isSingleDose: Bool {
         states.count == 1
+    }
+
+    /// The graph earns its height only when curves can overlap — two or more
+    /// distinct substances. A lone substance (even redosed) reads fine from
+    /// the phase bar.
+    private var showsGraph: Bool {
+        uniqueSubstances.count >= 2
     }
 
     var body: some View {
@@ -34,10 +43,18 @@ struct ActiveNowCard: View {
                     } else {
                         multiSubstanceContent
                     }
+                    if showsGraph {
+                        ActiveNowWindowGraph(
+                            entries: entries,
+                            colors: colors,
+                            states: states,
+                            now: now,
+                        )
+                    }
                 }
                 .padding(.top, 12)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, showsGraph ? 6 : 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(RoundedRectangle(cornerRadius: 16))
             }

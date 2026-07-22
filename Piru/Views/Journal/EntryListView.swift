@@ -263,6 +263,8 @@ struct EntryListView: View {
             if showActiveHero {
                 ActiveNowCard(
                     states: ActiveSessionManager.shared.activeSubstanceStates,
+                    entries: entries,
+                    colors: substanceColors,
                     colorMap: model.colorMap,
                     onTap: {
                         // Resolve the session id from the matched day card,
