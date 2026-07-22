@@ -31,8 +31,27 @@ struct TimelineRibbonView: View {
     /// The instant under the user's held finger, or `nil` at rest.
     @State private var scrubDate: Date?
 
+    /// Explicit scroll position, pinned to the trailing (now) edge whenever
+    /// the dose set changes. `defaultScrollAnchor(.trailing)` alone is not
+    /// enough: on a cold open the model's snapshots land *after* first
+    /// layout, and the tiles that rebuild prepends to the `LazyHStack` keep
+    /// the offset anchored to the leading edge — stranding the view at the
+    /// oldest dose, weeks back (the "empty white timeline" bug).
+    @State private var position = ScrollPosition(edge: .trailing)
+    /// Whether the view is scrolled meaningfully away from the now edge —
+    /// shows the jump-back button on the full screen.
+    @State private var awayFromNow = false
+    /// Armed on appear and on every dose-set change; disarmed the moment the
+    /// viewport is verified at the trailing edge. While armed, geometry
+    /// changes re-issue the pin — that's what lands the cold-open at *now*
+    /// (the rebuild lays its tiles out a frame after the revision bump, so a
+    /// single eager scroll targets the old, tiny content). It MUST disarm on
+    /// success: a pin that stays armed cancels the user's own drags at the
+    /// first moved frame, which reads as "the timeline can't scroll".
+    @State private var needsPinToNow = true
+
     private static let contentSpace = "timelineRibbonContent"
-    private static let projectionSeconds: TimeInterval = 2 * 3600
+    private static let projectionSeconds: TimeInterval = 2 * 3_600
 
     /// One tile's window. Identified by its start — stable across re-renders.
     struct TileWindow: Hashable, Identifiable {
@@ -68,6 +87,9 @@ struct TimelineRibbonView: View {
                     )
                 }
             }
+            // Registers each tile's identity with the scroll view — what
+            // makes the id-based `scrollTo` (the now-pinning) resolvable.
+            .scrollTargetLayout()
             .coordinateSpace(name: Self.contentSpace)
             .overlay(alignment: .topLeading) {
                 nowMarker(now: now, tiles: tiles)
@@ -77,11 +99,77 @@ struct TimelineRibbonView: View {
                     scrubOverlay(at: scrubDate, tiles: tiles)
                 }
             }
-            .gesture(scrubGesture(tiles: tiles))
+            // Simultaneous, not exclusive: a plain `.gesture` competes with
+            // the scroll view's pan and wins the tie, deadening horizontal
+            // scrolling entirely — the long-press prefix already keeps the
+            // scrub from firing on ordinary pans.
+            .simultaneousGesture(scrubGesture(tiles: tiles))
         }
         .scrollIndicators(.hidden)
+        .scrollPosition($position)
         .defaultScrollAnchor(.trailing)
         .defaultScrollAnchor(.trailing, for: .sizeChanges)
+        .onChange(of: model.revision) {
+            // A changed dose set re-lays the tiles: re-arm the pin; the
+            // geometry hook below lands it once the new tiles have real sizes.
+            needsPinToNow = true
+        }
+        .onScrollGeometryChange(for: RibbonScrollMetrics.self) { geometry in
+            RibbonScrollMetrics(
+                contentWidth: geometry.contentSize.width,
+                containerWidth: geometry.containerSize.width,
+                offsetX: geometry.contentOffset.x,
+            )
+        } action: { oldMetrics, newMetrics in
+            _ = oldMetrics
+            awayFromNow = newMetrics.distanceFromTrailing > 60
+            guard needsPinToNow else { return }
+            if newMetrics.distanceFromTrailing <= 1 {
+                needsPinToNow = false
+                // Release the id anchor once we're at now: an anchored
+                // ScrollPosition keeps re-asserting itself on later layout
+                // passes (every minute tick re-renders the tiles), which
+                // swallows the user's own drags — the "timeline can't
+                // scroll" defect.
+                position = ScrollPosition()
+            } else if let target = tiles.last?.id {
+                // Pin to the newest tile by **id**: `scrollTo(edge:)` is a
+                // no-op here (the position already *is* `.trailing`, so the
+                // state doesn't change), offsets chase a `LazyHStack`
+                // estimate, and the default anchor detaches when the rebuild
+                // re-lays weeks of tiles (the stranded-at-the-oldest-dose
+                // bug). Deferred a turn so the scroll isn't issued from
+                // inside the geometry update it reacts to.
+                Task { @MainActor in
+                    position.scrollTo(id: target, anchor: .trailing)
+                }
+            }
+        }
+        .overlay(alignment: .bottomTrailing) {
+            if awayFromNow, !compact {
+                jumpToNowButton(target: tiles.last?.id)
+            }
+        }
+    }
+
+    /// Jump back to the now edge after scrolling into history. Full-screen
+    /// variant only — the compact embed is a static preview.
+    private func jumpToNowButton(target: Date?) -> some View {
+        Button {
+            guard let target else { return }
+            withAnimation(.snappy) {
+                position.scrollTo(id: target, anchor: .trailing)
+            }
+        } label: {
+            Label("Now", systemImage: "arrow.right.to.line")
+                .labelStyle(.titleAndIcon)
+                .font(.footnote.weight(.semibold))
+                .padding(.horizontal, 4)
+        }
+        .buttonStyle(.glassProminent)
+        .tint(Theme.accent)
+        .padding(.trailing, 10)
+        .padding(.bottom, RibbonMetrics.labelBand(compact: compact) + 10)
     }
 
     // MARK: - Tile layout
@@ -92,7 +180,7 @@ struct TimelineRibbonView: View {
         let projectionEnd = projectionEnd(after: now, calendar: calendar)
 
         // Reach back to the earliest dose, but always show at least a day.
-        var historyStart = min(model.earliestDose ?? now, now.addingTimeInterval(-24 * 3600))
+        var historyStart = min(model.earliestDose ?? now, now.addingTimeInterval(-24 * 3_600))
         if let historyLimit {
             historyStart = max(historyStart, now.addingTimeInterval(-historyLimit))
         }
@@ -111,7 +199,7 @@ struct TimelineRibbonView: View {
             day = next
         }
         guard !boundaries.isEmpty else {
-            return [TileWindow(start: projectionEnd.addingTimeInterval(-6 * 3600), end: projectionEnd)]
+            return [TileWindow(start: projectionEnd.addingTimeInterval(-6 * 3_600), end: projectionEnd)]
         }
 
         // Trim to the slot containing the history start.
@@ -134,7 +222,7 @@ struct TimelineRibbonView: View {
     }
 
     private func width(of tile: TileWindow) -> CGFloat {
-        tileWidth * CGFloat(tile.end.timeIntervalSince(tile.start) / (6 * 3600))
+        tileWidth * CGFloat(tile.end.timeIntervalSince(tile.start) / (6 * 3_600))
     }
 
     /// X position of an instant in ribbon-content coordinates, or `nil` when
@@ -255,6 +343,19 @@ struct TimelineRibbonView: View {
             return (series.name, series.colorHex, min(1, value * yNorm))
         }
         .sorted { $0.fraction > $1.fraction }
+    }
+}
+
+/// The ribbon scroll view's live geometry, reduced to what the now-pinning
+/// logic needs. Equatable so `onScrollGeometryChange` can diff it.
+struct RibbonScrollMetrics: Equatable {
+    var contentWidth: CGFloat
+    var containerWidth: CGFloat
+    var offsetX: CGFloat
+
+    /// How far the viewport's trailing edge sits from the content's end.
+    var distanceFromTrailing: CGFloat {
+        contentWidth - offsetX - containerWidth
     }
 }
 

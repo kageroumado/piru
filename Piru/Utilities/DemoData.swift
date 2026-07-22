@@ -59,12 +59,24 @@ import SwiftData
                 return false
             }
 
+            // Wipe every model that surfaces in the UI — a persona must not
+            // inherit the previous store's state. (QuickLogDose is the recents
+            // store behind the Log sheet's "Your Substances"; leaving it made
+            // a meds-only persona offer the dev store's research chemicals.)
             let context = container.mainContext
             try? context.delete(model: DoseEntry.self)
             try? context.delete(model: Session.self)
             try? context.delete(model: SubstanceColor.self)
+            try? context.delete(model: UserColor.self)
             try? context.delete(model: FavoriteSubstance.self)
             try? context.delete(model: DailyDoseItem.self)
+            try? context.delete(model: QuickLogDose.self)
+            try? context.delete(model: DoseRoutine.self)
+            try? context.delete(model: RoutineOccurrence.self)
+            try? context.delete(model: InventoryItem.self)
+            try? context.delete(model: ToleranceState.self)
+            try? context.delete(model: CustomSubstanceRecord.self)
+            try? context.delete(model: CustomDrinkPreset.self)
 
             switch persona {
             case .dailyMeds: seedMedsPersona(context: context, sporadic: false)
@@ -101,6 +113,12 @@ import SwiftData
             ))
             context.insert(SubstanceColor(substance: "methylphenidate", hexColor: "2ca2f5"))
             context.insert(SubstanceColor(substance: "vitamin d", hexColor: "F9E2AF"))
+            // Quick-log recents mirror what this user actually logs, so the
+            // Log sheet's "Your Substances" shows their two meds — not the
+            // empty state (chips are normally minted at log time; seeded
+            // entries bypass that path).
+            context.insert(QuickLogDose(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", sortOrder: 0))
+            context.insert(QuickLogDose(substance: "Vitamin D", route: .oral, amount: 2_000, unit: "IU", sortOrder: 1))
 
             // Sporadic misses cluster (forgot for a few days, then a good
             // streak) — a Markov step, not per-day coin flips. The sporadic
@@ -199,6 +217,8 @@ import SwiftData
             for (name, hex) in [("ibuprofen", "f17395"), ("melatonin", "8394ff"), ("alcohol", "CBA6F7")] {
                 context.insert(SubstanceColor(substance: name, hexColor: hex))
             }
+            context.insert(QuickLogDose(substance: "Ibuprofen", route: .oral, amount: 400, unit: "mg", sortOrder: 0))
+            context.insert(QuickLogDose(substance: "Melatonin", route: .sublingual, amount: 0.5, unit: "mg", sortOrder: 1))
         }
 
         // MARK: - Showcase Data (~500 entries)

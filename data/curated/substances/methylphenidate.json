@@ -6,6 +6,24 @@
   ],
   "routes": [
     {
+      "route": "oral",
+      "unit": "mg",
+      "_comment": "Racemic (untagged) IR profile so a plain Methylphenidate oral dose wins a sane curve at priority 1 instead of falling through to drug.community's impossible onset-after-peak row (onset 120 > peak 60). The isomer-D curated rows are dexmethylphenidate's (2× potency) and don't match a racemic dose. Doses match the community consensus for racemic IR MPH; they must be present because a route with no `doses` still emits an (empty) dose row that would otherwise classify every dose as sub-threshold.",
+      "doses": {
+        "threshold": 2.5,
+        "light": { "lower": 5, "upper": 10 },
+        "common": { "lower": 10, "upper": 30 },
+        "strong": { "lower": 30, "upper": 60 },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": { "min": 20, "max": 45 },
+        "peak": { "min": 60, "max": 120 },
+        "offset": { "min": 120, "max": 240 },
+        "total": { "min": 180, "max": 300 }
+      }
+    },
+    {
       "route": "transdermal",
       "unit": "mg",
       "doses": {
