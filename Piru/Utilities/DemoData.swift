@@ -22,6 +22,185 @@ import SwiftData
             }
         }
 
+        // MARK: - Personas (-piruPersona <name>)
+
+        /// User-archetype fixtures for UI-state testing, selected with the
+        /// `-piruPersona <name>` launch argument:
+        ///
+        ///     xcrun simctl launch booted dev.yumeji.piru -piruPersona dailyMeds
+        ///
+        /// Unlike the showcase seed (which only fills an empty store), a
+        /// persona **always wipes and reseeds**, so relaunching with a
+        /// different name deterministically switches the whole UI state —
+        /// the point is auditing the same screens under the data shapes real
+        /// users actually have, not the dense dev journal we're blind to.
+        enum Persona: String, CaseIterable {
+            /// The archetypal real user (what TestFlight screenshots show):
+            /// one scheduled stimulant med + one quiet supplement, taken
+            /// consistently for 60 days; this morning's med is active now.
+            case dailyMeds
+            /// Same meds, ~60% adherence in streaks and multi-day gaps; the
+            /// last dose was three days ago and late. Nothing active, today
+            /// and yesterday untaken.
+            case sporadicMeds
+            /// Opens the app once every few weeks: a handful of as-needed
+            /// clusters across 90 days, the latest ~3 weeks ago. No scheduled
+            /// meds, nothing active — the Journal is mostly empty space.
+            case rareOpener
+        }
+
+        /// Seed the persona named by `-piruPersona`, if any. Returns `true`
+        /// when a persona was seeded, so the caller skips the showcase seed.
+        @MainActor
+        static func insertPersonaData(container: ModelContainer) -> Bool {
+            guard let name = UserDefaults.standard.string(forKey: "piruPersona") else { return false }
+            guard let persona = Persona(rawValue: name) else {
+                print("DemoData: unknown persona '\(name)' — known: \(Persona.allCases.map(\.rawValue).joined(separator: ", "))")
+                return false
+            }
+
+            let context = container.mainContext
+            try? context.delete(model: DoseEntry.self)
+            try? context.delete(model: Session.self)
+            try? context.delete(model: SubstanceColor.self)
+            try? context.delete(model: FavoriteSubstance.self)
+            try? context.delete(model: DailyDoseItem.self)
+
+            switch persona {
+            case .dailyMeds: seedMedsPersona(context: context, sporadic: false)
+            case .sporadicMeds: seedMedsPersona(context: context, sporadic: true)
+            case .rareOpener: seedRareOpener(context: context)
+            }
+
+            try? context.save()
+            SessionService.assignUnassignedDoses(in: context)
+            // The launch recovery pass ran against the pre-wipe store; re-run
+            // it so a persona's active dose opens the live session on this
+            // launch instead of needing a second one.
+            ActiveSessionManager.shared.clearSession()
+            ActiveSessionManager.shared.recoverSession(container: container)
+            return true
+        }
+
+        /// The meds-user personas share one shape — a morning stimulant med
+        /// and a quiet anytime supplement — and differ only in adherence.
+        @MainActor
+        private static func seedMedsPersona(context: ModelContext, sporadic: Bool) {
+            var rng = SeededRNG(seed: sporadic ? 20_260_722 : 20_260_721)
+            let cal = Calendar.current
+            let today = cal.startOfDay(for: .now)
+            let now = Date.now
+
+            context.insert(DailyDoseItem(
+                substance: "Methylphenidate", amount: 10, unit: "mg", sortOrder: 0,
+                reminderTimesMinutes: [8 * 60],
+            ))
+            context.insert(DailyDoseItem(
+                substance: "Vitamin D", amount: 2_000, unit: "IU", sortOrder: 1,
+                isBackgroundMed: true, isQuiet: true,
+            ))
+            context.insert(SubstanceColor(substance: "methylphenidate", hexColor: "2ca2f5"))
+            context.insert(SubstanceColor(substance: "vitamin d", hexColor: "F9E2AF"))
+
+            // Sporadic misses cluster (forgot for a few days, then a good
+            // streak) — a Markov step, not per-day coin flips. The sporadic
+            // history also starts at day 3 so "today, yesterday, and the day
+            // before are untaken" holds regardless of the RNG.
+            var tookPreviousDay = true
+            let oldestDay = 60
+            let newestDay = sporadic ? 3 : 1
+            for day in (newestDay ... oldestDay).reversed() {
+                let dayStart = today.addingTimeInterval(-Double(day) * 86_400)
+                let rate: Double = if !sporadic { 0.95 } else { tookPreviousDay ? 0.75 : 0.45 }
+                let taken = Double.random(in: 0 ..< 1, using: &rng) < rate
+                tookPreviousDay = taken
+                guard taken else { continue }
+
+                // The consistent user hits ~8:00; the sporadic one drifts as
+                // late as 11:30.
+                let lateness = sporadic
+                    ? Double.random(in: 0 ... 3.5, using: &rng)
+                    : Double.random(in: -0.2 ... 0.6, using: &rng)
+                let medTime = dayStart.addingTimeInterval((8 + lateness) * 3_600)
+                context.insert(DoseEntry(
+                    substance: "Methylphenidate",
+                    amount: 10, unit: "mg", route: .oral,
+                    timestamp: medTime,
+                    tags: ["meds"],
+                ))
+                if Double.random(in: 0 ..< 1, using: &rng) < (sporadic ? 0.5 : 0.85) {
+                    context.insert(DoseEntry(
+                        substance: "Vitamin D",
+                        amount: 2_000, unit: "IU", route: .oral,
+                        timestamp: medTime.addingTimeInterval(10 * 60),
+                        tags: ["supplement"],
+                        isBackgroundMed: true,
+                    ))
+                }
+            }
+
+            // Today: the consistent user took the med ~75 minutes ago (active
+            // right now, supplement still pending); the sporadic user's today
+            // is empty — the state the app must motivate, not celebrate.
+            if !sporadic {
+                let floor = cal.sessionDayStart(for: now).addingTimeInterval(5 * 60)
+                context.insert(DoseEntry(
+                    substance: "Methylphenidate",
+                    amount: 10, unit: "mg", route: .oral,
+                    timestamp: max(now.addingTimeInterval(-75 * 60), floor),
+                    tags: ["meds"],
+                ))
+            }
+        }
+
+        @MainActor
+        private static func seedRareOpener(context: ModelContext) {
+            var rng = SeededRNG(seed: 20_260_723)
+            let cal = Calendar.current
+            let today = cal.startOfDay(for: .now)
+
+            func at(_ daysAgo: Int, _ hour: Double) -> Date {
+                let jitter = Double.random(in: -25 ... 25, using: &rng) * 60
+                return today.addingTimeInterval(-Double(daysAgo) * 86_400 + hour * 3_600 + jitter)
+            }
+
+            // Sparse, self-contained episodes weeks apart — the newest ~3
+            // weeks old so nothing is active and "today" is empty.
+            for (daysAgo, kind) in [(21, "headache"), (24, "sleep"), (47, "party"), (52, "headache"), (78, "sleep"), (83, "party")] {
+                switch kind {
+                case "headache":
+                    context.insert(DoseEntry(
+                        substance: "Ibuprofen",
+                        amount: 400, unit: "mg", route: .oral,
+                        timestamp: at(daysAgo, 14.2),
+                        notes: "Headache",
+                        tags: ["as-needed"],
+                    ))
+                case "sleep":
+                    context.insert(DoseEntry(
+                        substance: "Melatonin",
+                        amount: 0.5, unit: "mg", route: .sublingual,
+                        timestamp: at(daysAgo, 23.1),
+                        tags: ["sleep"],
+                    ))
+                default:
+                    for round in 0 ..< 3 {
+                        context.insert(DoseEntry(
+                            substance: "Alcohol",
+                            amount: round == 0 ? 2 : 1, unit: "units", route: .oral,
+                            timestamp: at(daysAgo, 20.5 + Double(round) * 1.3),
+                            notes: round == 0 ? "Birthday drinks" : nil,
+                            tags: ["drinks", "social"],
+                        ))
+                    }
+                }
+            }
+
+            for (name, hex) in [("ibuprofen", "f17395"), ("melatonin", "8394ff"), ("alcohol", "CBA6F7")] {
+                context.insert(SubstanceColor(substance: name, hexColor: hex))
+            }
+        }
+
         // MARK: - Showcase Data (~500 entries)
 
         /// Inserts a realistic 90-day dose history for app showcasing.
