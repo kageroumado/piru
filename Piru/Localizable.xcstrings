@@ -7923,6 +7923,7 @@
       }
     },
     "Anytime — no set times" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
