@@ -2212,6 +2212,11 @@ T = {
     "Active dose details": ("活性剂量详情", "活性劑量詳情"),
     # Journal state card (2026-07-22 plan/state/log restructure)
     "Active Now": ("当前活跃", "目前活躍"),
+    # My Meds row split + Active Now → session (2026-07-22)
+    "Opens this session.": ("打开本次记录。", "打開本次記錄。"),
+    "Unlogs this dose": ("撤销此剂量记录", "撤銷此劑量記錄"),
+    "Opens this med": ("打开此用药", "打開此用藥"),
+    "%@ details": ("%@ 详情", "%@ 詳情"),
     # Quick-log VoiceOver audit fixes (2026-07-12)
     "Active dose": ("活性剂量", "活性劑量"),
     "Shows dosing advice": ("显示用药建议", "顯示用藥建議"),

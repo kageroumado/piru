@@ -215,9 +215,17 @@ struct MyMedsCard: View {
             taken: slot.taken,
             due: slot.isDueNow,
             indented: indented,
-        ) {
-            attemptLog(slots: [slot])
-        }
+            onToggle: {
+                if slot.taken {
+                    unlog(slot)
+                } else {
+                    attemptLog(slots: [slot])
+                }
+            },
+            onOpen: {
+                navigator.push(.medDetail(identityKey: slot.item.identityKey, sortOrder: slot.item.sortOrder))
+            },
+        )
     }
 
     private var supplementsRow: some View {
@@ -349,6 +357,29 @@ struct MyMedsCard: View {
         pendingSlots = []
     }
 
+    /// Undo a logged dose: delete today's most-recent entry matching this
+    /// slot's med and drop it from the live session. The check-circle toggles,
+    /// so an accidental tap-to-log is reversed by tapping the circle again —
+    /// the whole-row log with no undo was the reported surprise.
+    private func unlog(_ slot: MedSlot) {
+        let item = slot.item
+        guard let entry = todayEntries
+            .filter({ AdherenceCalculator.entryMatches(entry: $0, item: item) })
+            .max(by: { $0.timestamp < $1.timestamp })
+        else { return }
+
+        let id = entry.id
+        let timestamp = entry.timestamp
+        modelContext.delete(entry)
+        ActiveSessionManager.shared.removeDose(
+            id: id,
+            substanceName: item.substance,
+            timestamp: timestamp,
+            allColors: Array(substanceColors),
+        )
+        DoseLogService.shared.changed()
+    }
+
     // MARK: Helpers
 
     private func displayName(for item: DailyDoseItem) -> String {
@@ -438,47 +469,60 @@ private struct SlotRowView: View {
     let taken: Bool
     let due: Bool
     let indented: Bool
-    let onTap: () -> Void
+    /// Log (when untaken) or unlog (when taken) — driven by the check-circle.
+    let onToggle: () -> Void
+    /// Open the med's detail — driven by the rest of the row.
+    let onOpen: () -> Void
 
     var body: some View {
-        Button {
-            guard !taken else { return }
-            onTap()
-        } label: {
-            HStack(spacing: 10) {
+        HStack(spacing: 10) {
+            // The check-circle is the ONLY logging control — tap to log, tap
+            // again to unlog. Isolating it here is what stops a stray tap on
+            // the row from silently writing (or being unable to reverse) a dose.
+            Button(action: onToggle) {
                 CheckCircle(done: taken, due: due)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(title)
-                        .font(.subheadline.weight(taken ? .regular : .medium))
-                        .foregroundStyle(taken ? Theme.secondaryLabel : .primary)
-                        .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
-                    Text(subtitle)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer()
-                if due, timeText != nil {
-                    Text("due")
-                        .font(.caption2.weight(.bold))
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.accent.opacity(0.15), in: Capsule())
-                        .foregroundStyle(Theme.accent)
-                }
-                if let timeText {
-                    Text(timeText)
-                        .font(.caption.monospacedDigit())
-                        .foregroundStyle(due ? Theme.accent : Theme.secondaryLabel)
-                }
+                    .contentShape(Circle())
             }
-            .padding(.vertical, 7)
-            .padding(.leading, indented ? 22 : 0)
-            .contentShape(Rectangle())
+            .buttonStyle(.plain)
+            .accessibilityLabel(title)
+            .accessibilityValue(taken ? Text("Taken") : Text("Not taken yet"))
+            .accessibilityHint(taken ? Text("Unlogs this dose") : Text("Logs this dose"))
+
+            // The rest of the row opens the med — a safe, non-destructive tap
+            // (matching the Reminders idiom: circle completes, text opens).
+            Button(action: onOpen) {
+                HStack(spacing: 10) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(title)
+                            .font(.subheadline.weight(taken ? .regular : .medium))
+                            .foregroundStyle(taken ? Theme.secondaryLabel : .primary)
+                            .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
+                        Text(subtitle)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    Spacer()
+                    if due, timeText != nil {
+                        Text("due")
+                            .font(.caption2.weight(.bold))
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 2)
+                            .background(Theme.accent.opacity(0.15), in: Capsule())
+                            .foregroundStyle(Theme.accent)
+                    }
+                    if let timeText {
+                        Text(timeText)
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(due ? Theme.accent : Theme.secondaryLabel)
+                    }
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("\(title) details"))
+            .accessibilityHint(Text("Opens this med"))
         }
-        .buttonStyle(.plain)
-        .disabled(taken)
-        .accessibilityLabel(title)
-        .accessibilityValue(taken ? Text("Taken") : Text("Not taken yet"))
-        .accessibilityHint(taken ? Text("") : Text("Logs this dose"))
+        .padding(.vertical, 7)
+        .padding(.leading, indented ? 22 : 0)
     }
 }

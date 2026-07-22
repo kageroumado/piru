@@ -44,7 +44,6 @@ struct JournalOptionsButton: View {
             Task {
                 try? await Task.sleep(for: .milliseconds(300))
                 switch action {
-                case .timeline: navigator.push(.timelineRibbon)
                 case .jumpToDate: onJumpToDate()
                 case .settings: present(.settings)
                 case .help: present(.help)
@@ -82,10 +81,6 @@ struct JournalOptionsMenu: View {
             Divider()
 
             VStack(spacing: 0) {
-                // The full continuous timeline's persistent entry point — the
-                // Active Now card also opens it, but that card only exists
-                // while something is active.
-                actionRow(.timeline, title: Text("Timeline"), systemImage: "chart.xyaxis.line")
                 actionRow(.jumpToDate, title: Text("Jump to Date"), systemImage: "calendar")
             }
             .padding(.vertical, 4)

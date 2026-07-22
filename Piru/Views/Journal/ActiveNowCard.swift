@@ -13,8 +13,6 @@ import SwiftUI
 /// rides on `themeCard` — never glass.
 struct ActiveNowCard: View {
     let states: [ActiveSubstanceState]
-    let entries: [DoseEntry]
-    let colors: [SubstanceColor]
     let colorMap: [String: Color]
     var onTap: () -> Void
 
@@ -23,12 +21,12 @@ struct ActiveNowCard: View {
     }
 
     var body: some View {
-        // Re-evaluate every minute so the now-marker and the phase bar's
-        // countdown stay live without a per-frame tick.
+        // Re-evaluate every minute so the phase bar's countdown stays live
+        // without a per-frame tick.
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let now = context.date
             // One Button over the whole card — a single, properly-traited
-            // accessibility element — opening the full scrubbable timeline.
+            // accessibility element — opening today's session detail.
             Button(action: onTap) {
                 VStack(alignment: .leading, spacing: 10) {
                     if isSingleDose, let state = states.first {
@@ -36,22 +34,16 @@ struct ActiveNowCard: View {
                     } else {
                         multiSubstanceContent
                     }
-                    ActiveNowWindowGraph(
-                        entries: entries,
-                        colors: colors,
-                        states: states,
-                        now: now,
-                    )
                 }
                 .padding(.top, 12)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 6)
+                .padding(.bottom, 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(RoundedRectangle(cornerRadius: 16))
             }
             .buttonStyle(.plain)
             .themeCard()
-            .accessibilityHint(Text("Opens the full timeline."))
+            .accessibilityHint(Text("Opens this session."))
         }
     }
 

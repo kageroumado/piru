@@ -33,6 +33,7 @@ enum JournalGrouping: String, CaseIterable {
 // MARK: - Entry List View
 
 struct EntryListView: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
     @Query(Self.entriesDescriptor, transaction: .init(animation: nil)) private var entries: [DoseEntry]
 
@@ -103,6 +104,21 @@ struct EntryListView: View {
             }
         }
         return nil
+    }
+
+    /// The id of the session owning the currently-active doses, read straight
+    /// from SwiftData so an Active Now tap always resolves — even in the window
+    /// right after logging when the day groups are still rebuilding and
+    /// ``activeSessionCard`` hasn't matched. Anchored to the latest active dose.
+    private func resolveActiveSessionID() -> UUID? {
+        guard let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max() else { return nil }
+        let lo = anchor.addingTimeInterval(-1)
+        let hi = anchor.addingTimeInterval(1)
+        var descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= lo && $0.timestamp <= hi },
+        )
+        descriptor.fetchLimit = 1
+        return (try? modelContext.fetch(descriptor))?.first?.session?.id
     }
 
     // MARK: - Derived State
@@ -239,17 +255,24 @@ struct EntryListView: View {
                     .listRowBackground(Color.clear)
             }
 
-            // The state card: everything active right now, on a window of the
-            // continuous timeline. Tap opens the full scrubbable timeline; the
-            // live session's own card stays in the log below (badged), so the
+            // The state card: what's active right now, as a compact live
+            // status (dose · ROA · phase · countdown). Tapping opens *today's
+            // session* — the app is organized around sessions, so this is the
+            // door to the session detail, not a separate timeline surface. The
             // feed reads plan (My Meds) → state (Active Now) → log (History).
             if showActiveHero {
                 ActiveNowCard(
                     states: ActiveSessionManager.shared.activeSubstanceStates,
-                    entries: entries,
-                    colors: substanceColors,
                     colorMap: model.colorMap,
-                    onTap: { navigator.push(.timelineRibbon) },
+                    onTap: {
+                        // Resolve the session id from the matched day card,
+                        // falling back to a direct SwiftData lookup during the
+                        // brief window right after logging when the day groups
+                        // are still rebuilding — so the tap always lands.
+                        if let id = activeID ?? resolveActiveSessionID() {
+                            navigator.push(.session(id: id))
+                        }
+                    },
                 )
                 .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
                 .listRowSeparator(.hidden)
@@ -682,7 +705,6 @@ struct EntryListView: View {
 /// presenting), so the popover records the choice, dismisses, and the button
 /// fires it once the dismissal settles.
 enum JournalMenuAction {
-    case timeline
     case jumpToDate
     case settings
     case help

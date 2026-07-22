@@ -951,6 +951,22 @@
         }
       }
     },
+    "%@ details" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 详情"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 詳情"
+          }
+        }
+      }
+    },
     "%@ g/mol" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12753,6 +12769,7 @@
       }
     },
     "Continuous dose timeline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25225,6 +25242,7 @@
       }
     },
     "Log a dose and its effect curve will appear here." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29391,6 +29409,7 @@
       }
     },
     "No Timeline Yet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30510,6 +30529,7 @@
       }
     },
     "Opens the full timeline." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30521,6 +30541,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開啟完整時間線。"
+          }
+        }
+      }
+    },
+    "Opens this med" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开此用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開此用藥"
+          }
+        }
+      }
+    },
+    "Opens this session." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开本次记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開本次記錄。"
           }
         }
       }
@@ -37145,6 +37197,7 @@
       }
     },
     "Scroll back through your history. Touch and hold to inspect a moment." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45734,6 +45787,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未知日期"
+          }
+        }
+      }
+    },
+    "Unlogs this dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "撤销此剂量记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "撤銷此劑量記錄"
           }
         }
       }
