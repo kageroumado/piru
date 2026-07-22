@@ -279,16 +279,9 @@ struct EntryListView: View {
                 .listRowBackground(Color.clear)
             }
 
-            // The log's section label — the plan/state cards above are *about
-            // now*; everything below is the record.
-            if !isSearchSurface, !model.filtered.isEmpty {
-                Text("History")
-                    .font(.title3.weight(.semibold))
-                    .accessibilityAddTraits(.isHeader)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 30, bottom: 2, trailing: 16))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-            }
+            // No "History" label — the plan/state cards sit above, and the
+            // dated day headers below (Today, Yesterday, July 20…) already
+            // read as the record. The header was redundant chrome.
 
             // Main content
             switch grouping {

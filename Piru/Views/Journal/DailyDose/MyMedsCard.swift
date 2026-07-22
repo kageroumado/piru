@@ -21,6 +21,12 @@ struct MyMedsCard: View {
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var pendingSlots: [MedSlot] = []
     @State private var showInteractionSheet = false
+    /// The completion line ("That's everything today") is a *transient*
+    /// celebration — shown when the last dose lands, then collapsed so it
+    /// doesn't permanently grow the card. Not shown when the card loads
+    /// already-complete (the filled ring already says so).
+    @State private var showCompletionLine = false
+    @State private var completionHideTask: Task<Void, Never>?
 
     init() {
         let dayStart = Calendar.current.startOfDay(for: .now)
@@ -128,6 +134,22 @@ struct MyMedsCard: View {
             .padding(14)
             .themeCard()
             .task { await refreshStreak() }
+            // Drive the transient completion line off the *act* of finishing:
+            // fire only on the false→true edge during the session (not on a
+            // cold load that's already complete), then auto-collapse.
+            .onChange(of: isComplete) { _, complete in
+                completionHideTask?.cancel()
+                if complete {
+                    withAnimation(.snappy) { showCompletionLine = true }
+                    completionHideTask = Task {
+                        try? await Task.sleep(for: .seconds(3))
+                        guard !Task.isCancelled else { return }
+                        withAnimation(.snappy) { showCompletionLine = false }
+                    }
+                } else {
+                    withAnimation(.snappy) { showCompletionLine = false }
+                }
+            }
             .sheet(isPresented: $showInteractionSheet) {
                 InteractionWarningSheet(
                     warnings: interactionWarnings,
@@ -166,27 +188,55 @@ struct MyMedsCard: View {
         .accessibilityHint("Opens your meds")
     }
 
+    /// Every scheduled slot logged for today — drives the ring's completion
+    /// state and the transient celebration line.
+    private var isComplete: Bool {
+        !allSlots.isEmpty && takenCount == allSlots.count
+    }
+
     private var progressRing: some View {
-        ZStack {
+        let fraction = allSlots.isEmpty ? 0 : CGFloat(takenCount) / CGFloat(allSlots.count)
+        return ZStack {
             Circle()
                 .stroke(Color(.tertiarySystemFill), lineWidth: 4)
+            // The arc grows as doses land — `.snappy` keyed on the fraction so
+            // logging (or unlogging) animates the fill rather than snapping.
             Circle()
-                .trim(from: 0, to: allSlots.isEmpty ? 0 : CGFloat(takenCount) / CGFloat(allSlots.count))
+                .trim(from: 0, to: fraction)
                 .stroke(Color.green, style: StrokeStyle(lineWidth: 4, lineCap: .round))
                 .rotationEffect(.degrees(-90))
-            Text("\(takenCount)/\(allSlots.count)")
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .animation(.snappy, value: fraction)
+            // At completion the count gives way to a checkmark that bounces —
+            // the small "done!" moment. Reverts to the count if a dose is
+            // unlogged.
+            if isComplete {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(.green)
+                    .symbolEffect(.bounce, value: isComplete)
+                    .transition(.scale.combined(with: .opacity))
+            } else {
+                Text("\(takenCount)/\(allSlots.count)")
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .transition(.scale.combined(with: .opacity))
+            }
         }
         .frame(width: 36, height: 36)
+        .animation(.snappy, value: isComplete)
         .accessibilityHidden(true)
     }
 
     @ViewBuilder
     private var footer: some View {
-        if takenCount == allSlots.count {
-            Text(completionText)
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.green)
+        if isComplete {
+            // Transient (see `showCompletionLine`) — collapses after a few
+            // seconds so a finished card doesn't stay a line taller.
+            if showCompletionLine {
+                Text(completionText)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.green)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
         } else if let next = nextUpcoming, let time = next.time {
             Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
                 .font(.footnote)
