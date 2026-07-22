@@ -420,7 +420,12 @@ enum DoseNotificationManager {
             /// meds and for non-daily quiet meds (which can't ride the daily
             /// repeating group).
             func schedulePerMed(_ item: DailyDoseItem) {
-                let name = item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
+                // Eager fallback, not `??`'s autoclosure — the autoclosure is
+                // MainActor-isolated (displayName is) and capturing the
+                // non-Sendable @Model in it trips strict concurrency's
+                // `sending` check under the Release compile.
+                let fallbackName = CustomSubstanceStore.shared.displayName(for: item.substance)
+                let name = item.productName ?? fallbackName
                 let doseText = "\(item.amount.doseFormatted) \(item.unit)"
                 let cadence = item.askAgainOverrideMinutes ?? askAgainDefault
                 for time in item.reminderTimesMinutes.sorted() {
