@@ -16,12 +16,12 @@ struct TimelineRibbonCard: View {
     private static let ribbonHeight: CGFloat = 72
     /// Snapshot input window: doses up to 72 h back — a curve is capped at 48 h,
     /// so nothing older can reach into the ribbon's 24 h + projection span.
-    private static let inputWindow: TimeInterval = 72 * 3600
+    private static let inputWindow: TimeInterval = 72 * 3_600
 
     /// Cheap early-exit gate for the host: any acute (non-background) dose in
     /// the last 24 h. `entries` must be newest-first (the Journal query is).
     static func hasRecentDoses(_ entries: [DoseEntry], now: Date = .now) -> Bool {
-        let cutoff = now.addingTimeInterval(-24 * 3600)
+        let cutoff = now.addingTimeInterval(-24 * 3_600)
         for entry in entries {
             if entry.timestamp < cutoff { return false }
             if !entry.isBackgroundMed { return true }
@@ -56,8 +56,13 @@ struct TimelineRibbonCard: View {
             tileWidth: 150,
             height: Self.ribbonHeight,
             compact: true,
-            historyLimit: 24 * 3600,
+            historyLimit: 24 * 3_600,
         )
+        // The compact card is a static preview: its inner horizontal
+        // ScrollView would otherwise swallow every touch, so the card-level
+        // tap that opens the full timeline never fired (the "I can't click
+        // it" bug). Interaction — scroll + scrub — lives on the full screen.
+        .allowsHitTesting(false)
         .overlay(alignment: .topTrailing) {
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
