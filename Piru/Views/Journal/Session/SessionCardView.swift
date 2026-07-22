@@ -120,10 +120,6 @@ struct SessionCardView: View, Equatable {
     /// its own background (the container draws it) and relies on hairline
     /// dividers for separation.
     var inGroup: Bool = false
-    /// Whether this card is the session whose doses are active right now — it
-    /// then carries a small "Active" badge, tying the log row to the Active Now
-    /// card above the feed.
-    var isLive: Bool = false
 
     /// Compare only the real inputs (not the `@AppStorage`/`@State` wrappers) so
     /// `.equatable()` at the call site lets SwiftUI keep the existing instance
@@ -132,7 +128,7 @@ struct SessionCardView: View, Equatable {
     /// the model's prefix/tail publishes each land separately); without this skip
     /// every card re-rendered ~6× per open and re-subscribed its @AppStorage.
     static func == (lhs: SessionCardView, rhs: SessionCardView) -> Bool {
-        lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.isLive == rhs.isLive && lhs.colorMap == rhs.colorMap
+        lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.colorMap == rhs.colorMap
     }
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
@@ -155,13 +151,8 @@ struct SessionCardView: View, Equatable {
                 .font(.body)
                 .foregroundStyle(Theme.secondaryLabel)
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 6) {
-                    Text(card.title ?? String(localized: "Medications"))
-                        .font(.subheadline.weight(.semibold))
-                    if isLive {
-                        liveBadge
-                    }
-                }
+                Text(card.title ?? String(localized: "Medications"))
+                    .font(.subheadline.weight(.semibold))
                 Text(verbatim: "\(card.timeLabel)  ·  \(card.substanceSummary)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -181,13 +172,8 @@ struct SessionCardView: View, Equatable {
     private var fullCard: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
-                HStack(spacing: 6) {
-                    Text(card.title ?? card.timeLabel)
-                        .font(.headline)
-                    if isLive {
-                        liveBadge
-                    }
-                }
+                Text(card.title ?? card.timeLabel)
+                    .font(.headline)
                 Text(
                     verbatim: card.title == nil
                         ? card.doseCountText
@@ -226,18 +212,6 @@ struct SessionCardView: View, Equatable {
                     .frame(width: 7, height: 7)
             }
         }
-    }
-
-    /// The "doses still active" marker on the log row — deliberately quiet
-    /// (tint capsule, no pulse): the Active Now card above carries the state;
-    /// this only ties the two together.
-    private var liveBadge: some View {
-        Text("Active")
-            .font(.caption2.weight(.semibold))
-            .foregroundStyle(Theme.accent)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(Theme.accent.opacity(0.14), in: Capsule())
     }
 
     @ViewBuilder

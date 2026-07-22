@@ -364,8 +364,10 @@ struct EntryListView: View {
             model.growSessionWindow()
             regroup()
         }
-        // Only days that actually put rows on screen are valid scroll targets.
-        let rendered = model.sessionDays.filter { !$0.sessions.isEmpty }
+        // Only days that actually put rows on screen are valid scroll targets —
+        // a day holding just the (excluded) live session renders nothing.
+        let activeID = activeSessionCard?.id
+        let rendered = model.sessionDays.filter { day in day.sessions.contains { $0.id != activeID } }
         guard let day = rendered.first(where: { $0.date <= target }) ?? rendered.last else { return }
         // Let the sheet dismissal (and a possible grouping switch, which
         // recreates the List via `.id(grouping)`) settle before scrolling.
@@ -491,11 +493,13 @@ struct EntryListView: View {
 
     private func sessionDayRows(activeID: UUID?) -> some View {
         ForEach(model.sessionDays) { day in
-            // Every session stays in the log — including the live one, which
-            // gets an "Active" badge tying it to the Active Now card. (It used
-            // to be pulled out because the old hero *was* the session; the
-            // state card and the log are separate surfaces now.)
-            let cards = day.sessions
+            // History is the *completed* record: the live session lives only in
+            // the Active Now card until it ends, then enters the log. So drop
+            // it here — otherwise a single-dose day showed the exact same dose
+            // and curve twice (Active Now + a "Today" row). A day left empty by
+            // that removal renders nothing (no orphan header); the session
+            // reappears here once it wears off.
+            let cards = day.sessions.filter { $0.id != activeID }
             if !cards.isEmpty {
                 Section {
                     // The day's sessions share one rounded container, separated by
@@ -510,13 +514,8 @@ struct EntryListView: View {
                                     navigator.push(.session(id: session.id))
                                 }
                             } label: {
-                                SessionCardView(
-                                    card: card,
-                                    colorMap: model.colorMap,
-                                    inGroup: true,
-                                    isLive: card.id == activeID,
-                                )
-                                .equatable()
+                                SessionCardView(card: card, colorMap: model.colorMap, inGroup: true)
+                                    .equatable()
                             }
                             .buttonStyle(.plain)
 
