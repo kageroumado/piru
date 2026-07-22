@@ -45,6 +45,7 @@ struct JournalOptionsButton: View {
                 try? await Task.sleep(for: .milliseconds(300))
                 switch action {
                 case .jumpToDate: onJumpToDate()
+                case .myMeds: navigator.push(.myMeds)
                 case .settings: present(.settings)
                 case .help: present(.help)
                 }
@@ -82,6 +83,10 @@ struct JournalOptionsMenu: View {
 
             VStack(spacing: 0) {
                 actionRow(.jumpToDate, title: Text("Jump to Date"), systemImage: "calendar")
+                // The Journal's standing door to My Meds: the MyMedsCard only
+                // exists once meds do, so before the first med this row is the
+                // only way in from the Journal.
+                actionRow(.myMeds, title: Text("My Meds"), systemImage: "pills")
             }
             .padding(.vertical, 4)
 

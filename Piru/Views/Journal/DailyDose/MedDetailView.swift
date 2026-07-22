@@ -88,6 +88,21 @@ struct MedDetailView: View {
                     showingDeleteConfirmation = true
                 }
                 .frame(maxWidth: .infinity)
+                // Attached to the button, not the List — the dialog adapts to a
+                // popover on this screen, and a List-attached popover anchors to
+                // some mid-list row instead of the control that summoned it.
+                .confirmationDialog(
+                    "Delete this med?",
+                    isPresented: $showingDeleteConfirmation,
+                    titleVisibility: .visible,
+                ) {
+                    Button("Delete Med", role: .destructive) {
+                        modelContext.delete(item)
+                        dismiss()
+                    }
+                } message: {
+                    Text("Reminders and adherence tracking stop. Doses you already logged stay in your journal.")
+                }
             }
             .listRowBackground(CardBackground())
         }
@@ -98,18 +113,6 @@ struct MedDetailView: View {
         // reminders from the saved state (times, cadence, quiet grouping).
         .onDisappear {
             DoseNotificationManager.syncMedReminders(in: modelContext)
-        }
-        .confirmationDialog(
-            "Delete this med?",
-            isPresented: $showingDeleteConfirmation,
-            titleVisibility: .visible,
-        ) {
-            Button("Delete Med", role: .destructive) {
-                modelContext.delete(item)
-                dismiss()
-            }
-        } message: {
-            Text("Reminders and adherence tracking stop. Doses you already logged stay in your journal.")
         }
     }
 

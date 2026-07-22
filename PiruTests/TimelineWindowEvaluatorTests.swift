@@ -130,8 +130,10 @@ struct TimelineWindowEvaluatorTests {
             sampleCount: 61,
         )
 
-        let leftEdge = try #require(#require(left.series.first).values.last)
-        let rightEdge = try #require(#require(right.series.first).values.first)
+        let leftSeries = try #require(left.series.first)
+        let rightSeries = try #require(right.series.first)
+        let leftEdge = try #require(leftSeries.values.last)
+        let rightEdge = try #require(rightSeries.values.first)
         // Both tiles sample the exact boundary instant; the evaluated value is
         // a pure function of absolute time, so they agree to the bit.
         #expect(abs(leftEdge - rightEdge) < 1e-12)

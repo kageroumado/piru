@@ -701,6 +701,7 @@ struct EntryListView: View {
 /// fires it once the dismissal settles.
 enum JournalMenuAction {
     case jumpToDate
+    case myMeds
     case settings
     case help
 }
