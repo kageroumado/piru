@@ -805,6 +805,132 @@ struct DataExportImportFormatTests {
         #expect(colors.contains { $0.substance == "Ketamine" })
     }
 
+    /// PsychonautWiki writes `sortDate: null` for experiences that never got
+    /// one (its own importer falls back to the earliest ingestion). A real
+    /// user's export failed on this — the whole file must still import.
+    @Test
+    func `PW file with null or absent sortDate still imports`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let json = """
+        {
+          "exportSource": "iOS Journal 15.0",
+          "substanceCompanions": [],
+          "customUnits": [],
+          "experiences": [
+            {
+              "title": "Null sort", "text": "", "creationDate": 1735732800000, "sortDate": null,
+              "ingestions": [
+                { "substanceName": "MDMA", "dose": 100, "time": 1735732800000, "administrationRoute": "ORAL", "units": "mg", "notes": "" }
+              ]
+            },
+            {
+              "title": "No dates at all", "text": "",
+              "ingestions": [
+                { "substanceName": "Ketamine", "dose": 40, "time": 1735740000000, "administrationRoute": "INSUFFLATED", "units": "mg", "notes": "" }
+              ]
+            }
+          ]
+        }
+        """
+        try DataExportImport.importJSON(data: Data(json.utf8), context: context)
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+        #expect(entries.count == 2)
+        let sessions = try context.fetch(FetchDescriptor<Session>())
+        #expect(sessions.contains { $0.title == "Null sort" })
+        #expect(sessions.contains { $0.title == "No dates at all" })
+    }
+
+    /// PsychonautWiki's `LocationCodable` has optional coordinates — a user can
+    /// name a location without attaching lat/long. Such files must import, and
+    /// the name must be preserved on the doses.
+    @Test
+    func `PW file with coordinate-less location still imports and keeps the name`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let json = """
+        {
+          "exportSource": "iOS Journal 15.0",
+          "substanceCompanions": [],
+          "customUnits": [],
+          "experiences": [
+            {
+              "title": "Home night", "text": "", "creationDate": 1735732800000, "sortDate": 1735732800000,
+              "location": { "name": "Home" },
+              "ingestions": [
+                { "substanceName": "MDMA", "dose": 100, "time": 1735732800000, "administrationRoute": "ORAL", "units": "mg", "notes": "" }
+              ]
+            },
+            {
+              "title": "Null coords", "text": "", "creationDate": 1735832800000, "sortDate": 1735832800000,
+              "location": { "name": "Somewhere", "latitude": null, "longitude": null },
+              "ingestions": [
+                { "substanceName": "Caffeine", "dose": 80, "time": 1735832800000, "administrationRoute": "ORAL", "units": "mg", "notes": "" }
+              ]
+            }
+          ]
+        }
+        """
+        try DataExportImport.importJSON(data: Data(json.utf8), context: context)
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+        let mdma = try #require(entries.first { $0.substance == "MDMA" })
+        #expect(mdma.locationName == "Home")
+        #expect(mdma.latitude == nil)
+        #expect(mdma.longitude == nil)
+        let caffeine = try #require(entries.first { $0.substance == "Caffeine" })
+        #expect(caffeine.locationName == "Somewhere")
+    }
+
+    /// A name-only location survives a Piru→PsyLog export (previously the
+    /// export dropped locations without coordinates entirely).
+    @Test
+    func `PsyLog export keeps a name-only location`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let dose = DoseEntry(
+            substance: "Caffeine", amount: 80, unit: "mg", route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+            locationName: "Office",
+        )
+        context.insert(dose)
+        try context.save()
+
+        let data = try DataExportImport.exportJSON(format: .psyLog, context: context)
+        let json = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let experiences = try #require(json["experiences"] as? [[String: Any]])
+        let location = try #require(experiences.first?["location"] as? [String: Any])
+        #expect(location["name"] as? String == "Office")
+    }
+
+    /// Decoding failures name the field that broke, not just Foundation's
+    /// generic "data couldn't be read" message.
+    @Test
+    func `Import error message names the failing field`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        // An ingestion with no `time` — genuinely required, so the import fails.
+        let json = """
+        {
+          "exportSource": "iOS Journal 15.0",
+          "experiences": [
+            {
+              "title": "Broken", "text": "", "creationDate": 1735732800000, "sortDate": 1735732800000,
+              "ingestions": [
+                { "substanceName": "MDMA", "dose": 100, "administrationRoute": "ORAL", "units": "mg", "notes": "" }
+              ]
+            }
+          ]
+        }
+        """
+        do {
+            try DataExportImport.importJSON(data: Data(json.utf8), context: context)
+            Issue.record("import should have thrown")
+        } catch {
+            let message = DataExportImport.importErrorMessage(for: error)
+            #expect(message.contains("experiences[0].ingestions[0].time"))
+        }
+    }
+
     /// The PsyLog export must lowercase-match PsychonautWiki's route vocabulary,
     /// or PW throws on an unknown `administrationRoute`.
     @Test

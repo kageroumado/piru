@@ -206,10 +206,13 @@ private nonisolated struct PsyLogFile: Codable {
 
 /// A place attached to an experience (and, as a Piru extension, to an
 /// individual ingestion). Matches PsyLog's `{name, latitude, longitude}` shape.
+/// Coordinates are optional to mirror PsychonautWiki's `LocationCodable` —
+/// its users can name a location without attaching coordinates, and such
+/// files must still import.
 private nonisolated struct PsyLogLocation: Codable {
     var name: String
-    var latitude: Double
-    var longitude: Double
+    var latitude: Double?
+    var longitude: Double?
 }
 
 private nonisolated struct PsyLogExperience: Codable {
@@ -247,11 +250,18 @@ private nonisolated struct PsyLogExperience: Codable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         title = try c.decodeIfPresent(String.self, forKey: .title) ?? ""
         isFavorite = try c.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
-        creationDate = try c.decode(Int64.self, forKey: .creationDate)
-        sortDate = try c.decode(Int64.self, forKey: .sortDate)
         text = try c.decodeIfPresent(String.self, forKey: .text) ?? ""
         location = try c.decodeIfPresent(PsyLogLocation.self, forKey: .location)
         ingestions = try c.decodeIfPresent([PsyLogIngestion].self, forKey: .ingestions) ?? []
+        // PsychonautWiki writes `sortDate: null` for experiences that never had
+        // one, and its own importer falls back to the earliest ingestion — so
+        // must we. Both dates are lenient: a missing one falls back to the
+        // other, then to the earliest ingestion time.
+        let decodedCreation = try c.decodeIfPresent(Int64.self, forKey: .creationDate)
+        let decodedSort = try c.decodeIfPresent(Int64.self, forKey: .sortDate)
+        let earliestIngestion = ingestions.map(\.time).min()
+        creationDate = decodedCreation ?? decodedSort ?? earliestIngestion ?? 0
+        sortDate = decodedSort ?? earliestIngestion ?? creationDate
     }
 
     func encode(to encoder: Encoder) throws {
@@ -859,6 +869,43 @@ enum DataExportImport {
         DoseLogService.shared.changed()
     }
 
+    /// A user-facing message for an import failure. `DecodingError`'s stock
+    /// `localizedDescription` ("The data couldn't be read because it is
+    /// missing.") names neither the field nor the file shape, which made real
+    /// user reports undiagnosable — so name the failing field explicitly.
+    nonisolated static func importErrorMessage(for error: Error) -> String {
+        guard let decodingError = error as? DecodingError else {
+            return error.localizedDescription
+        }
+        switch decodingError {
+        case let .keyNotFound(key, context):
+            return String(localized: "The file is missing a required field: \(fieldPath(context.codingPath + [key])).")
+        case let .valueNotFound(_, context):
+            return String(localized: "The file has an empty value for a required field: \(fieldPath(context.codingPath)).")
+        case let .typeMismatch(_, context), let .dataCorrupted(context):
+            let path = fieldPath(context.codingPath)
+            if path.isEmpty {
+                return String(localized: "The file isn't valid JSON.")
+            }
+            return String(localized: "The file has an unexpected value at: \(path).")
+        @unknown default:
+            return error.localizedDescription
+        }
+    }
+
+    /// Renders a coding path as `experiences[2].sortDate`.
+    private nonisolated static func fieldPath(_ path: [any CodingKey]) -> String {
+        var rendered = ""
+        for key in path {
+            if let index = key.intValue {
+                rendered += "[\(index)]"
+            } else {
+                rendered += rendered.isEmpty ? key.stringValue : ".\(key.stringValue)"
+            }
+        }
+        return rendered
+    }
+
     @MainActor
     private static func importPsyLog(data: Data, context: ModelContext, customStore: CustomSubstanceStore) throws {
         let file = try JSONDecoder().decode(PsyLogFile.self, from: data)
@@ -1213,11 +1260,12 @@ enum DataExportImport {
     /// Content-based identity for a dose entry, used to skip duplicates on
     /// import. Lowercased substance/unit so cosmetic casing differences don't
     /// defeat it; millisecond timestamp matches the export precision.
-    /// A dose's location as the exportable shape, or `nil` unless it has both a
-    /// name and a coordinate.
+    /// A dose's location as the exportable shape, or `nil` if it has no name.
+    /// Coordinates are carried when present; a name-only location still
+    /// round-trips (PsychonautWiki's shape allows coordinate-less locations).
     private static func psyLogLocation(for entry: DoseEntry) -> PsyLogLocation? {
-        guard let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude else { return nil }
-        return PsyLogLocation(name: name, latitude: lat, longitude: lng)
+        guard let name = entry.locationName else { return nil }
+        return PsyLogLocation(name: name, latitude: entry.latitude, longitude: entry.longitude)
     }
 
     private static func doseDedupKey(substance: String, timestamp: Date, amount: Double, unit: String, route: RouteOfAdministration) -> String {

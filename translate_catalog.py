@@ -2497,6 +2497,19 @@ T = {
     "Import Failed": ("导入失败", "匯入失敗"),
     "Import Complete": ("导入完成", "匯入完成"),
     "Your data was imported.": ("你的数据已导入。", "你的資料已匯入。"),
+    "The file is missing a required field: %@.": (
+        "文件缺少必需字段：%@。",
+        "檔案缺少必要欄位：%@。",
+    ),
+    "The file has an empty value for a required field: %@.": (
+        "文件的必需字段为空值：%@。",
+        "檔案的必要欄位為空值：%@。",
+    ),
+    "The file isn't valid JSON.": ("文件不是有效的 JSON。", "檔案不是有效的 JSON。"),
+    "The file has an unexpected value at: %@.": (
+        "文件在此处包含意外的值：%@。",
+        "檔案在此處包含非預期的值：%@。",
+    ),
     "Export and import your journal under Data & Backup above.": (
         "在上方的“数据与备份”中导出和导入你的记录。",
         "在上方的「資料與備份」中匯出和匯入你的記錄。",
@@ -5413,6 +5426,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "The file is missing a required field: %@.",
+        "The file has an empty value for a required field: %@.",
+        "The file isn't valid JSON.",
+        "The file has an unexpected value at: %@.",
         "Active Now",
         "Pick a substance and an amount to see how it may feel over time.",
         "Plan A",

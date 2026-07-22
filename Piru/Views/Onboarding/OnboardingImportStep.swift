@@ -78,7 +78,7 @@ struct OnboardingImportStep: View {
                     error = nil
                     withAnimation(.smooth) { imported = true }
                 } catch {
-                    self.error = error.localizedDescription
+                    self.error = DataExportImport.importErrorMessage(for: error)
                 }
             }
         case let .failure(failure):

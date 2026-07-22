@@ -611,7 +611,7 @@ struct DataStorageView: View {
                     try DataExportImport.importJSON(data: data, context: modelContext)
                     notice = Notice(title: String(localized: "Import Complete"), message: String(localized: "Your data was imported."))
                 } catch {
-                    notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)
+                    notice = Notice(title: String(localized: "Import Failed"), message: DataExportImport.importErrorMessage(for: error))
                 }
             }
         case let .failure(error):

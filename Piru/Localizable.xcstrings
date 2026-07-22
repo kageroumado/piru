@@ -43146,6 +43146,70 @@
         }
       }
     },
+    "The file has an empty value for a required field: %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件的必需字段为空值：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案的必要欄位為空值：%@。"
+          }
+        }
+      }
+    },
+    "The file has an unexpected value at: %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件在此处包含意外的值：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案在此處包含非預期的值：%@。"
+          }
+        }
+      }
+    },
+    "The file is missing a required field: %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件缺少必需字段：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案缺少必要欄位：%@。"
+          }
+        }
+      }
+    },
+    "The file isn't valid JSON." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件不是有效的 JSON。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案不是有效的 JSON。"
+          }
+        }
+      }
+    },
     "The foggy feeling will clear. Give it hours, not minutes." : {
       "localizations" : {
         "zh-Hans" : {
