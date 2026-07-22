@@ -2210,6 +2210,8 @@ T = {
     "Show %lld more doses": ("显示另外 %lld 个剂量", "顯示另外 %lld 個劑量"),
     "Custom dose": ("自定剂量", "自訂劑量"),
     "Active dose details": ("活性剂量详情", "活性劑量詳情"),
+    # Journal state card (2026-07-22 plan/state/log restructure)
+    "Active Now": ("当前活跃", "目前活躍"),
     # Quick-log VoiceOver audit fixes (2026-07-12)
     "Active dose": ("活性剂量", "活性劑量"),
     "Shows dosing advice": ("显示用药建议", "顯示用藥建議"),
@@ -5406,6 +5408,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Active Now",
         "Pick a substance and an amount to see how it may feel over time.",
         "Plan A",
         "Plan B",

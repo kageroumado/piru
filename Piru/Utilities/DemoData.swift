@@ -86,7 +86,7 @@ import SwiftData
             // Day 0 is handcrafted below as a live session — generating it from
             // the daily template would future-date entries (e.g. tonight's
             // magnesium at a 9 AM capture) and never satisfy the active-window
-            // check the Journal's "Current Session" hero card keys on.
+            // check the Journal's "Active Now" card keys on.
             // Day 1 ("Yesterday") is curated too: cannabis evening + ibuprofen,
             // no supplements — vitamins draw flat, meaningless curves that
             // crowd the hero/day graphs in screenshots, and an early-morning
@@ -282,7 +282,7 @@ import SwiftData
 
             // ── Today: a session that's active right now ────────
             // Anchored to the seeding moment (not clock hours) so the Journal's
-            // "Current Session" hero card shows whenever screenshots are taken.
+            // "Active Now" card shows whenever screenshots are taken.
             // Session recovery only fetches the current session day, so clamp
             // each timestamp to just after the day cutoff — otherwise seeding
             // shortly after the cutoff (e.g. 04:15 with a 04:00 boundary)

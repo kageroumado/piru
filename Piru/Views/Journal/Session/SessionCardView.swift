@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import TipKit
 
 /// One session's card model, with its timeline inputs precomputed (in
 /// `JournalModel.rebuildGroups`) so the card's mini graph never re-derives PK
@@ -121,6 +120,10 @@ struct SessionCardView: View, Equatable {
     /// its own background (the container draws it) and relies on hairline
     /// dividers for separation.
     var inGroup: Bool = false
+    /// Whether this card is the session whose doses are active right now — it
+    /// then carries a small "Active" badge, tying the log row to the Active Now
+    /// card above the feed.
+    var isLive: Bool = false
 
     /// Compare only the real inputs (not the `@AppStorage`/`@State` wrappers) so
     /// `.equatable()` at the call site lets SwiftUI keep the existing instance
@@ -129,7 +132,7 @@ struct SessionCardView: View, Equatable {
     /// the model's prefix/tail publishes each land separately); without this skip
     /// every card re-rendered ~6× per open and re-subscribed its @AppStorage.
     static func == (lhs: SessionCardView, rhs: SessionCardView) -> Bool {
-        lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.colorMap == rhs.colorMap
+        lhs.card == rhs.card && lhs.inGroup == rhs.inGroup && lhs.isLive == rhs.isLive && lhs.colorMap == rhs.colorMap
     }
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
@@ -152,8 +155,13 @@ struct SessionCardView: View, Equatable {
                 .font(.body)
                 .foregroundStyle(Theme.secondaryLabel)
             VStack(alignment: .leading, spacing: 2) {
-                Text(card.title ?? String(localized: "Medications"))
-                    .font(.subheadline.weight(.semibold))
+                HStack(spacing: 6) {
+                    Text(card.title ?? String(localized: "Medications"))
+                        .font(.subheadline.weight(.semibold))
+                    if isLive {
+                        liveBadge
+                    }
+                }
                 Text(verbatim: "\(card.timeLabel)  ·  \(card.substanceSummary)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -173,8 +181,13 @@ struct SessionCardView: View, Equatable {
     private var fullCard: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
-                Text(card.title ?? card.timeLabel)
-                    .font(.headline)
+                HStack(spacing: 6) {
+                    Text(card.title ?? card.timeLabel)
+                        .font(.headline)
+                    if isLive {
+                        liveBadge
+                    }
+                }
                 Text(
                     verbatim: card.title == nil
                         ? card.doseCountText
@@ -215,6 +228,18 @@ struct SessionCardView: View, Equatable {
         }
     }
 
+    /// The "doses still active" marker on the log row — deliberately quiet
+    /// (tint capsule, no pulse): the Active Now card above carries the state;
+    /// this only ties the two together.
+    private var liveBadge: some View {
+        Text("Active")
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(Theme.accent)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(Theme.accent.opacity(0.14), in: Capsule())
+    }
+
     @ViewBuilder
     private var graph: some View {
         if !card.states.isEmpty || !card.markers.isEmpty {
@@ -238,249 +263,3 @@ struct SessionCardView: View, Equatable {
         }
     }
 }
-
-// MARK: - Active Session Hero Card
-
-/// The live session, promoted to a large card at the top of the Journal — the
-/// "what's happening right now" focal point. It borrows the dose-detail screen's
-/// language: a "Now" label, and then either the **single-dose** treatment (big
-/// dose amount + route, a phase bar with the current phase & countdown, and the
-/// phase-banded timeline) for the common one-substance case, or the
-/// **multi-substance** treatment (substance dots + names, the full session
-/// timeline — lane mode once it's busy — and an aggregate "elapsed · next phase"
-/// line below). Tapping the body opens the session detail. This is content, so
-/// it rides on `themeCard` — never glass.
-struct ActiveSessionHeroCard: View {
-    /// The matched day-list card, when the groups have been built. Supplies the
-    /// custom session title, substance summary, and dose markers. `nil` only in
-    /// the brief window right after logging, before the rebuild matches it — the
-    /// header then falls back to values derived straight from the live states.
-    let card: SessionCard?
-    let states: [ActiveSubstanceState]
-    let colorMap: [String: Color]
-    var onTap: () -> Void
-
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
-    @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
-    @AppStorage(LaneModeDefaults.thresholdKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeThreshold = LaneModeDefaults.thresholdDefault
-
-    private var isSingleDose: Bool {
-        states.count == 1
-    }
-
-    var body: some View {
-        // Re-evaluate every minute so the now-line, the phase bar's countdown,
-        // and the "next phase in …" readout stay live without a per-frame tick.
-        TimelineView(.periodic(from: .now, by: 60)) { context in
-            let now = context.date
-            // One Button over the whole card (opens the session detail) — a
-            // single, properly-traited accessibility element. The active card is
-            // pulled from the day list, so this is VoiceOver's only path to it.
-            Button(action: onTap) {
-                VStack(alignment: .leading, spacing: 10) {
-                    if isSingleDose, let state = states.first {
-                        singleDoseContent(state: state, now: now)
-                    } else {
-                        multiSubstanceContent(now: now)
-                    }
-                }
-                // 12pt horizontal keeps the title and the graph canvas on one
-                // shared inset. Bottom padding is near-zero — the graph already
-                // carries its own axis-label band, so anything more beneath it
-                // reads as a gap.
-                .padding(.top, 12)
-                .padding(.horizontal, 12)
-                .padding(.bottom, 2)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(RoundedRectangle(cornerRadius: 16))
-            }
-            .buttonStyle(.plain)
-            .themeCard()
-        }
-    }
-
-    // MARK: Header — the "Current Session" (or custom) label + disclosure chevron.
-
-    private var titleLabel: some View {
-        Text(titleText)
-            .font(.title3.weight(.semibold))
-            .lineLimit(1)
-    }
-
-    /// Overlaid (not laid out in a row) so the substance names beneath it can run
-    /// the card's full width rather than stopping short of a reserved column.
-    private var disclosureChevron: some View {
-        Image(systemName: "chevron.right")
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(.tertiary)
-    }
-
-    // MARK: Single-dose — the common, quick-glance case.
-
-    @ViewBuilder
-    private func singleDoseContent(state: ActiveSubstanceState, now: Date) -> some View {
-        let color = SubstancePalette.color(for: state.substanceName, colorMap: colorMap)
-
-        // Title + substance identity, kept tight as a title/subtitle pair, with
-        // the chevron overlaid at the trailing edge.
-        VStack(alignment: .leading, spacing: 2) {
-            titleLabel
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(color)
-                    .frame(width: 7, height: 7)
-                Text(verbatim: CustomSubstanceStore.shared.displayName(for: state.substanceName))
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(1)
-            }
-        }
-        // Fill the width so the overlaid chevron parks at the card's edge, not at
-        // the end of the (intrinsically narrower) text.
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .overlay(alignment: .trailing) { disclosureChevron }
-
-        // Big dose amount + route badge, mirroring the dose-detail hero.
-        HStack(alignment: .center, spacing: 8) {
-            Text(verbatim: "\(state.amount.doseFormatted) \(state.unit)")
-                .font(.system(.title, design: .rounded).weight(.bold))
-                .lineLimit(1)
-            Spacer(minLength: 8)
-            ROAPill(route: RouteOfAdministration.from(string: state.route), size: .regular)
-        }
-
-        // Phase bar carries the current phase + "{elapsed} in · {remaining} left"
-        // — unambiguous for a single substance.
-        DosePhaseProgressBar(state: state, now: now)
-
-        // Phase-banded timeline with the clock/hour axis (compact: false).
-        TimelineGraphView(
-            substances: [state],
-            currentTime: now,
-            compact: false,
-            // The hero is the focal, on-screen graph: compute its geometry
-            // synchronously so it draws at the right span on the first frame
-            // instead of flashing the placeholder, then popping + jumping a few
-            // px right when the off-main model lands. One small graph, cached
-            // after — cheap enough for the main thread.
-            synchronous: true,
-        )
-        .equatable()
-        .frame(height: 160)
-        .allowsHitTesting(false)
-        // The phase bar above already speaks the graph's story; inside the
-        // card button the timeline summary would only double-read.
-        .accessibilityHidden(true)
-    }
-
-    // MARK: Multi-substance — dots + names, the full session timeline, aggregate timing.
-
-    @ViewBuilder
-    private func multiSubstanceContent(now: Date) -> some View {
-        // Title + substance dots & names, kept tight as a title/subtitle pair,
-        // with the chevron overlaid so the names can run the full width.
-        VStack(alignment: .leading, spacing: 2) {
-            titleLabel
-            HStack(spacing: 6) {
-                substanceDots
-                Text(displayNames)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(1)
-            }
-        }
-        // Fill the width so the overlaid chevron parks at the card's edge, not at
-        // the end of the (intrinsically narrower) text.
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .overlay(alignment: .trailing) { disclosureChevron }
-
-        // The same renderer as the session screen: overlapping curves, or
-        // stacked per-substance lanes once it's busy (≥ 4), with the hour/clock
-        // axis and the now-line. `dayBounded` is what unlocks lane mode.
-        TimelineGraphView(
-            substances: graphStates,
-            currentTime: now,
-            compact: false,
-            markers: card?.markers ?? [],
-            stackRedoses: stackRedoses,
-            dayBounded: true,
-            // Focal on-screen graph — compute inline so it lands at the right
-            // span immediately (no placeholder pop / span jump). See the
-            // single-dose hero for the rationale.
-            synchronous: true,
-        )
-        .equatable()
-        .frame(height: multiGraphHeight)
-        .allowsHitTesting(false)
-        .accessibilityHidden(true)
-        // No aggregate "elapsed / next phase" line here: across several
-        // substances "10h in" answers "in what?" and only adds weight beneath an
-        // already busy graph. The now-line carries the temporal cue.
-    }
-
-    // MARK: - Derived values
-
-    private var titleText: String {
-        if let title = card?.title, !title.isEmpty { return title }
-        return String(localized: "Current Session")
-    }
-
-    /// Every active substance, comma-joined — no "+N more" truncation. The row is
-    /// `lineLimit(1)`, so the system truncates only if the names genuinely don't
-    /// fit, rather than pre-empting a name (e.g. "Memantine") that would.
-    private var displayNames: String {
-        // Canonical common names (the no-card fallback reads `states`, whose names are already
-        // canonical); `uniqueSubstances` stays raw because it also keys the color dots.
-        if let card { return card.substanceDisplayList.joined(separator: ", ") }
-        return uniqueSubstances.joined(separator: ", ")
-    }
-
-    private var uniqueSubstances: [String] {
-        if let card { return card.uniqueSubstances }
-        var seen = Set<String>()
-        return states.compactMap { state in
-            let key = state.substanceName.lowercased()
-            guard !seen.contains(key) else { return nil }
-            seen.insert(key)
-            return state.substanceName
-        }
-    }
-
-    private var dotColors: [Color] {
-        uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }
-    }
-
-    /// The full session's curves for the multi-substance graph, so it matches the
-    /// session-detail timeline exactly. Active-only states would start the axis at
-    /// the earliest *still-active* dose, shifting the origin and dropping the
-    /// leftmost clock label. Falls back to the live states before the card matches.
-    private var graphStates: [ActiveSubstanceState] {
-        card?.states ?? states
-    }
-
-    private var substanceDots: some View {
-        HStack(spacing: 3) {
-            ForEach(dotColors.enumerated(), id: \.offset) { _, color in
-                Circle()
-                    .fill(color)
-                    .frame(width: 7, height: 7)
-            }
-        }
-    }
-
-    /// Distinct substances on the graph — the lane count once it switches to
-    /// small multiples. Mirrors `SessionDetailView.graphHeight` so the embedded
-    /// hero timeline grows with the lane count instead of crushing each strip.
-    private var distinctCount: Int {
-        Set(graphStates.map { $0.substanceName.lowercased() }).count
-    }
-
-    private var multiGraphHeight: CGFloat {
-        let base = GraphMetrics.embedded
-        guard laneModeEnabled, distinctCount >= laneModeThreshold else { return base }
-        let ideal = CGFloat(distinctCount) * 32 + 40
-        return max(base, min(ideal, 380))
-    }
-}
-
-// MARK: - Journal Calendar View

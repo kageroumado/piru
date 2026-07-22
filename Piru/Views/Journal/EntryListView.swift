@@ -33,7 +33,6 @@ enum JournalGrouping: String, CaseIterable {
 // MARK: - Entry List View
 
 struct EntryListView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
     @Query(Self.entriesDescriptor, transaction: .init(animation: nil)) private var entries: [DoseEntry]
 
@@ -89,11 +88,10 @@ struct EntryListView: View {
 
     /// The day-list card representing the currently-active session — the cluster
     /// the user is in right now, matched by the *most-recent* active dose. (Using
-    /// the latest rather than the earliest keeps the tap on the real current
+    /// the latest rather than the earliest keeps the badge on the real current
     /// session even when an older long-acting dose in a separate, overlapping
-    /// session is still pharmacologically active.) It's excluded from the day
-    /// list (and its header suppressed when it was the day's only session)
-    /// because the hero already represents it.
+    /// session is still pharmacologically active.) The day list badges this
+    /// card's row as "Active".
     private var activeSessionCard: SessionCard? {
         guard showActiveHero,
               let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max()
@@ -105,25 +103,6 @@ struct EntryListView: View {
             }
         }
         return nil
-    }
-
-    private var activeSessionCardID: UUID? {
-        activeSessionCard?.id
-    }
-
-    /// The id of the session owning the currently-active doses, read straight from
-    /// SwiftData so a live-session tap always resolves — even in the window right
-    /// after logging when the journal's day groups are still rebuilding and
-    /// ``activeSessionCard`` hasn't matched. Anchored to the latest active dose.
-    private func resolveActiveSessionID() -> UUID? {
-        guard let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max() else { return nil }
-        let lo = anchor.addingTimeInterval(-1)
-        let hi = anchor.addingTimeInterval(1)
-        var descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= lo && $0.timestamp <= hi },
-        )
-        descriptor.fetchLimit = 1
-        return (try? modelContext.fetch(descriptor))?.first?.session?.id
     }
 
     // MARK: - Derived State
@@ -234,11 +213,10 @@ struct EntryListView: View {
     }
 
     private func list(proxy: ScrollViewProxy) -> some View {
-        // Resolve the active-session card *once* per body pass — the lookup scans
-        // sessionDays × sessions × entries, and it was previously re-run for the
-        // hero card, the hero's id check, and the Day grouping separately.
-        let activeCard = activeSessionCard
-        let activeID = activeCard?.id
+        // Resolve the active session's card id *once* per body pass — the
+        // lookup scans sessionDays × sessions × entries; the day list uses it
+        // to badge the live session's row.
+        let activeID = activeSessionCard?.id
         return List {
             // Active-filter summary — the funnel's accent fill alone says *that*
             // something is filtered; this strip says *what*, chip-per-value, each
@@ -261,35 +239,30 @@ struct EntryListView: View {
                     .listRowBackground(Color.clear)
             }
 
-            // The live session is promoted to a hero card above the history —
-            // no "Today" header (its card is pulled from the day list below).
+            // The state card: everything active right now, on a window of the
+            // continuous timeline. Tap opens the full scrubbable timeline; the
+            // live session's own card stays in the log below (badged), so the
+            // feed reads plan (My Meds) → state (Active Now) → log (History).
             if showActiveHero {
-                ActiveSessionHeroCard(
-                    card: activeCard,
+                ActiveNowCard(
                     states: ActiveSessionManager.shared.activeSubstanceStates,
+                    entries: entries,
+                    colors: substanceColors,
                     colorMap: model.colorMap,
-                    onTap: {
-                        // Always push the session detail, like a day card does —
-                        // the `.sessionDetail` sheet is reserved for notification
-                        // deep links, never a tap here. Resolve the id from the
-                        // matched card, falling back to a direct SwiftData lookup
-                        // while the day groups are mid-rebuild (right after logging)
-                        // so the tap still pushes instead of dead-ending.
-                        if let id = activeID ?? resolveActiveSessionID() {
-                            navigator.push(.session(id: id))
-                        }
-                    },
+                    onTap: { navigator.push(.timelineRibbon) },
                 )
                 .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
             }
 
-            // Compact continuous-timeline ribbon — only when there's recent
-            // acute activity to draw (no dead chrome on a quiet journal).
-            if !isSearchSurface, TimelineRibbonCard.hasRecentDoses(entries) {
-                TimelineRibbonCard(entries: entries, colors: substanceColors)
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
+            // The log's section label — the plan/state cards above are *about
+            // now*; everything below is the record.
+            if !isSearchSurface, !model.filtered.isEmpty {
+                Text("History")
+                    .font(.title3.weight(.semibold))
+                    .accessibilityAddTraits(.isHeader)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 30, bottom: 2, trailing: 16))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
             }
@@ -391,12 +364,8 @@ struct EntryListView: View {
             model.growSessionWindow()
             regroup()
         }
-        // A day whose only session is the live one renders no section (the hero
-        // card represents it), so only days that actually put rows on screen
-        // are valid scroll targets.
-        let rendered = model.sessionDays.filter { day in
-            day.sessions.contains { $0.id != activeSessionCardID }
-        }
+        // Only days that actually put rows on screen are valid scroll targets.
+        let rendered = model.sessionDays.filter { !$0.sessions.isEmpty }
         guard let day = rendered.first(where: { $0.date <= target }) ?? rendered.last else { return }
         // Let the sheet dismissal (and a possible grouping switch, which
         // recreates the List via `.id(grouping)`) settle before scrolling.
@@ -522,10 +491,11 @@ struct EntryListView: View {
 
     private func sessionDayRows(activeID: UUID?) -> some View {
         ForEach(model.sessionDays) { day in
-            // The active session lives in the hero card, so drop it here. A day
-            // left empty by that removal (e.g. Today held only the live session)
-            // renders nothing — no orphan header.
-            let cards = day.sessions.filter { $0.id != activeID }
+            // Every session stays in the log — including the live one, which
+            // gets an "Active" badge tying it to the Active Now card. (It used
+            // to be pulled out because the old hero *was* the session; the
+            // state card and the log are separate surfaces now.)
+            let cards = day.sessions
             if !cards.isEmpty {
                 Section {
                     // The day's sessions share one rounded container, separated by
@@ -540,8 +510,13 @@ struct EntryListView: View {
                                     navigator.push(.session(id: session.id))
                                 }
                             } label: {
-                                SessionCardView(card: card, colorMap: model.colorMap, inGroup: true)
-                                    .equatable()
+                                SessionCardView(
+                                    card: card,
+                                    colorMap: model.colorMap,
+                                    inGroup: true,
+                                    isLive: card.id == activeID,
+                                )
+                                .equatable()
                             }
                             .buttonStyle(.plain)
 
@@ -708,6 +683,7 @@ struct EntryListView: View {
 /// presenting), so the popover records the choice, dismisses, and the button
 /// fires it once the dismissal settles.
 enum JournalMenuAction {
+    case timeline
     case jumpToDate
     case settings
     case help
