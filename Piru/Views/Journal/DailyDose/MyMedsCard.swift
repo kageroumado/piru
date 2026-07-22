@@ -21,12 +21,6 @@ struct MyMedsCard: View {
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var pendingSlots: [MedSlot] = []
     @State private var showInteractionSheet = false
-    /// The completion line ("That's everything today") is a *transient*
-    /// celebration — shown when the last dose lands, then collapsed so it
-    /// doesn't permanently grow the card. Not shown when the card loads
-    /// already-complete (the filled ring already says so).
-    @State private var showCompletionLine = false
-    @State private var completionHideTask: Task<Void, Never>?
 
     init() {
         let dayStart = Calendar.current.startOfDay(for: .now)
@@ -128,28 +122,10 @@ struct MyMedsCard: View {
                         }
                     }
                 }
-
-                footer
             }
             .padding(14)
             .themeCard()
             .task { await refreshStreak() }
-            // Drive the transient completion line off the *act* of finishing:
-            // fire only on the false→true edge during the session (not on a
-            // cold load that's already complete), then auto-collapse.
-            .onChange(of: isComplete) { _, complete in
-                completionHideTask?.cancel()
-                if complete {
-                    withAnimation(.snappy) { showCompletionLine = true }
-                    completionHideTask = Task {
-                        try? await Task.sleep(for: .seconds(3))
-                        guard !Task.isCancelled else { return }
-                        withAnimation(.snappy) { showCompletionLine = false }
-                    }
-                } else {
-                    withAnimation(.snappy) { showCompletionLine = false }
-                }
-            }
             .sheet(isPresented: $showInteractionSheet) {
                 InteractionWarningSheet(
                     warnings: interactionWarnings,
@@ -173,8 +149,15 @@ struct MyMedsCard: View {
         } label: {
             HStack(spacing: 10) {
                 progressRing
-                Text("My Meds")
-                    .font(.headline)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("My Meds")
+                        .font(.headline)
+                    // Status as a subtitle rather than a footer line — it
+                    // swaps text (next dose → count left → "everything today")
+                    // without ever changing the card's height, which is what
+                    // made the old collapsing footer read as visually heavy.
+                    statusSubtitle
+                }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
@@ -186,6 +169,29 @@ struct MyMedsCard: View {
         .accessibilityLabel("My Meds")
         .accessibilityValue("\(takenCount) of \(allSlots.count) taken")
         .accessibilityHint("Opens your meds")
+    }
+
+    /// The always-present status line under "My Meds": the completion note
+    /// while done, otherwise the next timed dose, otherwise how many remain.
+    /// One line in every state, so the card height never moves.
+    @ViewBuilder
+    private var statusSubtitle: some View {
+        if isComplete {
+            Text(completionText)
+                .font(.caption)
+                .foregroundStyle(.green)
+                .lineLimit(1)
+        } else if let next = nextUpcoming, let time = next.time {
+            Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .lineLimit(1)
+        } else {
+            Text("\(allSlots.count - takenCount) left")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .lineLimit(1)
+        }
     }
 
     /// Every scheduled slot logged for today — drives the ring's completion
@@ -224,24 +230,6 @@ struct MyMedsCard: View {
         .frame(width: 36, height: 36)
         .animation(.snappy, value: isComplete)
         .accessibilityHidden(true)
-    }
-
-    @ViewBuilder
-    private var footer: some View {
-        if isComplete {
-            // Transient (see `showCompletionLine`) — collapses after a few
-            // seconds so a finished card doesn't stay a line taller.
-            if showCompletionLine {
-                Text(completionText)
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.green)
-                    .transition(.opacity.combined(with: .move(edge: .top)))
-            }
-        } else if let next = nextUpcoming, let time = next.time {
-            Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
-                .font(.footnote)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
     }
 
     private var completionText: String {

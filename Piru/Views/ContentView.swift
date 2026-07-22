@@ -735,11 +735,7 @@ private struct MedsDueGlyph: View {
             predicate: #Predicate { $0.timestamp >= dayStart },
         )
         let todays = (try? modelContext.fetch(descriptor)) ?? []
-        var loggedToday: [String: Int] = [:]
-        for entry in todays {
-            loggedToday[entry.identityKey, default: 0] += 1
-        }
-        dueCount = DueNowSlot.derive(items: items, loggedToday: loggedToday, now: currentTime).count
+        dueCount = DueNowSlot.derive(items: items, todayEntries: todays, now: currentTime).count
     }
 }
 

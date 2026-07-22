@@ -2145,7 +2145,6 @@
       }
     },
     "%lld left" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

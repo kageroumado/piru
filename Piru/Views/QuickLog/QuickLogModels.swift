@@ -252,16 +252,21 @@ struct DueNowSlot: Identifiable {
     /// past) — "covered" assigns today's logged doses to the earliest slots
     /// first, mirroring MyMedsCard. Anytime meds (no set times) are due all
     /// day until taken and sort behind timed slots so an overdue 8:00 pill
-    /// outranks the anytime vitamin. `loggedToday` is doses-per-identity-key
-    /// for today.
-    static func derive(items: [DailyDoseItem], loggedToday: [String: Int], now: Date = .now) -> [DueNowSlot] {
+    /// outranks the anytime vitamin.
+    ///
+    /// "Taken" is counted with ``AdherenceCalculator/entryMatches(entry:item:)``
+    /// — the SAME matcher MyMedsCard uses (identity *or* name, same route). A
+    /// prior strict `identityKey` dict lookup missed a dose whose PSID resolved
+    /// differently than its schedule item, so the accessory read "1 due" while
+    /// My Meds showed everything taken. `todayEntries` is today's doses.
+    static func derive(items: [DailyDoseItem], todayEntries: [DoseEntry], now: Date = .now) -> [DueNowSlot] {
         guard !items.isEmpty else { return [] }
         let calendar = Calendar.current
         let nowMinutes = calendar.component(.hour, from: now) * 60 + calendar.component(.minute, from: now)
 
         var slots: [DueNowSlot] = []
         for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: now) {
-            let taken = loggedToday[item.identityKey] ?? 0
+            let taken = todayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
             let times = item.reminderTimesMinutes.sorted()
             if times.isEmpty {
                 guard taken == 0 else { continue }
@@ -342,11 +347,17 @@ final class QuickLogContentModel {
     private(set) var cachedLibraryResults: [SubstanceMatch] = []
     private(set) var cachedColorLookup: [String: String] = [:]
 
-    /// Lowercased substance names logged today — drives the routine "done" check.
-    /// Doses logged today per substance identity — a COUNT, not a set, so a
-    /// multi-time med's group pills only read "done" once every slot is
-    /// covered (one morning dose must not mark the evening pill done too).
-    private(set) var cachedLoggedToday: [String: Int] = [:]
+    /// Today's logged doses — the "done today" source for the daily groups and
+    /// the due-now strip. Kept as entries (not a pre-aggregated identity dict)
+    /// so the done-check runs through ``AdherenceCalculator/entryMatches(entry:item:)``,
+    /// the same identity-or-name join MyMedsCard uses; a strict-key dict
+    /// disagreed with My Meds when a dose's PSID resolved differently.
+    private(set) var cachedTodayEntries: [DoseEntry] = []
+
+    /// Doses logged today that satisfy `item`, by the shared adherence matcher.
+    func takenToday(_ item: DailyDoseItem) -> Int {
+        cachedTodayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
+    }
     /// Precomputed PK badge per lowercased substance name — feeds each card's
     /// glanceable badge without re-running `DosePK.status` in `body`.
     private(set) var cachedMostRecent: [String: CardPKBadge] = [:]
@@ -417,7 +428,7 @@ final class QuickLogContentModel {
         // to have run first (the `.task` orders it so).
         let displayed = Set(cachedFavoriteCards.map(\.id)).union(cachedNonFavoriteCards.map(\.id))
 
-        var loggedToday: [String: Int] = [:]
+        var todayEntries: [DoseEntry] = []
         var mostRecentEntry: [String: DoseEntry] = [:]
         var seenLocations = Set<String>()
         var locations: [PickedLocation] = []
@@ -431,7 +442,7 @@ final class QuickLogContentModel {
             let identity = entry.identityKey
             if displayed.contains(identity), mostRecentEntry[identity] == nil { mostRecentEntry[identity] = entry }
             if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
-                loggedToday[identity, default: 0] += 1
+                todayEntries.append(entry)
             } else {
                 stillToday = false
             }
@@ -474,11 +485,11 @@ final class QuickLogContentModel {
             )
         }
 
-        cachedLoggedToday = loggedToday
+        cachedTodayEntries = todayEntries
         cachedMostRecent = badges
         cachedRecentLocations = locations
         cachedTagSuggestions = Array((used + extras).prefix(8))
-        // `makeDailyGroups`/`makeDueNow` read `cachedLoggedToday` (the "done"
+        // `makeDailyGroups`/`makeDueNow` read `cachedTodayEntries` (the "done"
         // check), so they must rebuild after that's assigned above.
         cachedDailyGroups = makeDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines)
         cachedDueNow = makeDueNow(dailyDoseItems: dailyDoseItems)
@@ -632,15 +643,15 @@ final class QuickLogContentModel {
     /// is retained for call-site stability but no longer read.
     func makeDailyGroups(dailyDoseItems: [DailyDoseItem], routines _: [DoseRoutine]) -> [DailyCategoryGroup] {
         guard !dailyDoseItems.isEmpty else { return [] }
-        let loggedToday = cachedLoggedToday
 
         func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
-            // Join on substance identity — a "Concerta" med is satisfied by
-            // a dose logged as Methylphenidate XR, which a name join never
-            // matched. A multi-time med needs one dose per slot before it
-            // stops counting as remaining, so its morning log doesn't mark
-            // its evening group's pill done.
-            items.filter { (loggedToday[$0.identityKey] ?? 0) < max(1, $0.reminderTimesMinutes.count) }
+            // Join via the shared adherence matcher (identity OR name, same
+            // route) — a "Concerta" med is satisfied by a dose logged as
+            // Methylphenidate XR, and the count agrees with My Meds even when
+            // PSID resolves the two sides differently. A multi-time med needs
+            // one dose per slot before it stops counting as remaining, so its
+            // morning log doesn't mark its evening group's pill done.
+            items.filter { takenToday($0) < max(1, $0.reminderTimesMinutes.count) }
         }
 
         var groups: [DailyCategoryGroup] = MedTimeGroup.allCases.compactMap { group in
@@ -659,7 +670,7 @@ final class QuickLogContentModel {
         // PRN meds: one pill each. "Done" only when a declared daily cap is
         // reached — an uncapped as-needed med is never "done" (no expectation).
         for item in dailyDoseItems where item.isAsNeeded {
-            let capped = item.maxPerDay.map { (loggedToday[item.identityKey] ?? 0) >= $0 } ?? false
+            let capped = item.maxPerDay.map { takenToday(item) >= $0 } ?? false
             groups.append(DailyCategoryGroup(
                 id: "prn-\(item.identityKey)-\(item.sortOrder)",
                 title: item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance),
@@ -671,9 +682,9 @@ final class QuickLogContentModel {
         return groups
     }
 
-    /// Derive the due-now strip — see ``DueNowSlot/derive(items:loggedToday:now:)``.
+    /// Derive the due-now strip — see ``DueNowSlot/derive(items:todayEntries:now:)``.
     func makeDueNow(dailyDoseItems: [DailyDoseItem], now: Date = .now) -> [DueNowSlot] {
-        DueNowSlot.derive(items: dailyDoseItems, loggedToday: cachedLoggedToday, now: now)
+        DueNowSlot.derive(items: dailyDoseItems, todayEntries: cachedTodayEntries, now: now)
     }
 
     // MARK: Search
