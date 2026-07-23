@@ -650,7 +650,9 @@ extension SubstanceStore {
             return try substancesDB.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT m.id, m.enzyme, m.fraction_of_clearance_pct, m.metabolite_name,
-                           m.metabolite_active, m.metabolite_potency_vs_parent_pct, m.notes,
+                           m.metabolite_active, m.metabolite_potency_vs_parent_pct,
+                           m.metabolite_potency_basis, m.metabolite_half_life_min,
+                           m.formation_fraction_pct, m.notes,
                            src.slug AS source_slug, c.doi, c.pmid
                       FROM metabolism m
                       JOIN sources src ON src.id = m.source_id
@@ -666,6 +668,10 @@ extension SubstanceStore {
                         metaboliteName: row["metabolite_name"],
                         metaboliteActive: (row["metabolite_active"] as Int64?).map { $0 != 0 },
                         metabolitePotencyVsParentPct: row["metabolite_potency_vs_parent_pct"],
+                        metabolitePotencyBasis: (row["metabolite_potency_basis"] as String?)
+                            .flatMap(MetabolitePotencyBasis.init(rawValue:)),
+                        metaboliteHalfLifeMinutes: row["metabolite_half_life_min"],
+                        formationFractionPct: row["formation_fraction_pct"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),

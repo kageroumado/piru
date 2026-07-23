@@ -13,6 +13,7 @@ struct MetabolicModulationTests {
         SubstanceStore.MetabolismHit(
             id: 0, enzyme: enzyme, fractionOfClearancePct: pct,
             metaboliteName: nil, metaboliteActive: nil, metabolitePotencyVsParentPct: nil,
+            metabolitePotencyBasis: nil, metaboliteHalfLifeMinutes: nil, formationFractionPct: nil,
             sourceSlug: "test", doi: nil, pmid: nil, notes: nil,
         )
     }

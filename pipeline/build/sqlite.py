@@ -1030,10 +1030,30 @@ CREATE TABLE metabolism (
     substance_id                     INTEGER NOT NULL REFERENCES substances(id),
     source_id                        INTEGER NOT NULL REFERENCES sources(id),
     enzyme                           TEXT NOT NULL,
+    -- The ENZYME's share of the parent's clearance. NOT how much metabolite
+    -- appears — that is formation_fraction_pct below. The two were conflated
+    -- before the metabolite columns existed.
     fraction_of_clearance_pct        REAL,
     metabolite_name                  TEXT,
     metabolite_active                INTEGER,
     metabolite_potency_vs_parent_pct REAL,
+    -- What metabolite_potency_vs_parent_pct MEANS: 'clinical' | 'receptor_affinity'
+    -- | 'in_vitro' | 'unknown'. Required whenever a potency is present, because
+    -- the column silently mixed units: tramadol -> M1 read 20000% from a source
+    -- reporting "~200x higher MOR affinity", which is an affinity ratio, not a
+    -- clinical potency. Any model multiplying by this column must branch on the
+    -- basis (or refuse anything that is not 'clinical').
+    metabolite_potency_basis         TEXT,
+    -- The metabolite's OWN elimination half-life (minutes). The field that makes
+    -- a two-compartment parent -> metabolite model possible at all; without it
+    -- a long-lived active metabolite can only be disclosed, not simulated.
+    metabolite_half_life_min         REAL,
+    metabolite_half_life_low_min     REAL,
+    metabolite_half_life_high_min    REAL,
+    -- Percent of an administered PARENT dose that becomes this metabolite.
+    -- Distinct from fraction_of_clearance_pct (see above).
+    formation_fraction_pct           REAL,
+    metabolite_tmax_min              REAL,
     citation_id                      INTEGER REFERENCES citations(id),
     notes                            TEXT
 );
@@ -4546,12 +4566,26 @@ class Build:
         )
         self.stats["concentration_effects"] += 1
 
+    #: Accepted values for ``metabolism.metabolite_potency_basis``. Anything else
+    #: is dropped to NULL rather than stored, so a consumer can trust that a
+    #: non-null basis is one it knows how to interpret.
+    POTENCY_BASES = {"clinical", "receptor_affinity", "in_vitro", "unknown"}
+
     def add_metabolism(self, sid: int, source_slug: str, m: dict) -> None:
         if not isinstance(m, dict) or not m.get("enzyme"):
             return
         src = self.source_ids[source_slug]
+        low, high = self._range_pair(m.get("metabolite_half_life_range_min"))
+        basis = m.get("metabolite_potency_basis")
+        basis = basis if basis in self.POTENCY_BASES else None
+        # A potency with no basis is uninterpretable — the column has held both
+        # clinical ratios and receptor-affinity ratios. Record it as 'unknown'
+        # rather than letting it pass as though it were clinical.
+        potency = to_float(m.get("metabolite_potency_vs_parent_pct"))
+        if potency is not None and basis is None:
+            basis = "unknown"
         self.cur.execute(
-            "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, metabolite_potency_basis, metabolite_half_life_min, metabolite_half_life_low_min, metabolite_half_life_high_min, formation_fraction_pct, metabolite_tmax_min, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 src,
@@ -4561,12 +4595,28 @@ class Build:
                 1
                 if m.get("metabolite_active")
                 else (0 if m.get("metabolite_active") is False else None),
-                to_float(m.get("metabolite_potency_vs_parent_pct")),
+                potency,
+                basis,
+                to_float(m.get("metabolite_half_life_min")),
+                low,
+                high,
+                to_float(m.get("formation_fraction_pct")),
+                to_float(m.get("metabolite_tmax_min")),
                 self.cite(m.get("reference")),
                 m.get("notes"),
             ),
         )
         self.stats["metabolism"] += 1
+
+    @staticmethod
+    def _range_pair(value: object) -> tuple[float | None, float | None]:
+        """Split a ``[low, high]`` range into a pair, tolerating junk shapes."""
+        if not isinstance(value, (list, tuple)) or len(value) != 2:
+            return (None, None)
+        low, high = to_float(value[0]), to_float(value[1])
+        if low is not None and high is not None and low > high:
+            low, high = high, low
+        return (low, high)
 
     def add_ddi(self, sid: int, source_slug: str, d: dict) -> None:
         if not isinstance(d, dict) or not d.get("with"):
@@ -7726,6 +7776,77 @@ class Build:
             counts[cls] += 1
         return dict(counts)
 
+    def dedupe_metabolism(self) -> dict[str, int]:
+        """Drop metabolism rows that a better-specified row supersedes.
+
+        The active-metabolite research layer names metabolites the class
+        enrichment files already named, and both land under the same source — so
+        without this the detail card lists a metabolite twice, once with a
+        half-life and a stated potency basis and once bare.
+
+        Superseded means strictly less informative: no metabolite half-life AND
+        no usable potency basis, while a sibling row for the same metabolite has
+        one. Rows that merely *disagree* are kept, because that is often
+        deliberate — oxycodone -> oxymorphone carries a 40x `receptor_affinity`
+        row and a 10x `clinical` row, and collapsing those to one number is the
+        conflation this whole workstream exists to undo.
+
+        Grouping is on a normalized metabolite name (case, spaces, hyphens and a
+        trailing parenthetical stripped), so "nordazepam" and "nordazepam
+        (desmethyldiazepam)" are one metabolite.
+        """
+        rows = self.cur.execute(
+            "SELECT id, substance_id, metabolite_name, metabolite_half_life_min,"
+            " metabolite_potency_basis FROM metabolism WHERE metabolite_name IS NOT NULL"
+        ).fetchall()
+
+        def key(substance_id: int, name: str) -> tuple[int, str]:
+            base = re.sub(r"\s*\([^)]*\)\s*$", "", name or "").strip()
+            return (substance_id, re.sub(r"[\s\-]+", "", base).lower())
+
+        groups: dict[tuple[int, str], list[tuple]] = {}
+        for row in rows:
+            groups.setdefault(key(row[1], row[2]), []).append(row)
+
+        def is_rich(row: tuple) -> bool:
+            return row[3] is not None or (row[4] not in (None, "unknown"))
+
+        doomed: list[int] = []
+        for members in groups.values():
+            if len(members) < 2 or not any(is_rich(m) for m in members):
+                continue
+            doomed += [m[0] for m in members if not is_rich(m)]
+
+        # Second pass: true duplicates — same metabolite, same enzyme, same
+        # potency basis — where neither row says anything the other doesn't.
+        # Keyed on basis so oxycodone's two oxymorphone rows survive: they share
+        # a metabolite and an enzyme but measure different things.
+        exact = self.cur.execute(
+            "SELECT id, substance_id, metabolite_name, enzyme, metabolite_potency_basis,"
+            " metabolite_half_life_min, metabolite_potency_vs_parent_pct,"
+            " formation_fraction_pct, citation_id, notes FROM metabolism"
+            " WHERE metabolite_name IS NOT NULL"
+        ).fetchall()
+        exact_groups: dict[tuple, list[tuple]] = {}
+        for row in exact:
+            if row[0] in doomed:
+                continue
+            enzyme = re.sub(r"[\s\-]+", "", row[3] or "").lower()
+            exact_groups.setdefault(key(row[1], row[2]) + (enzyme, row[4]), []).append(row)
+
+        def informativeness(row: tuple) -> int:
+            return sum(1 for field in row[5:] if field is not None)
+
+        for members in exact_groups.values():
+            if len(members) < 2:
+                continue
+            members = sorted(members, key=informativeness, reverse=True)
+            doomed += [m[0] for m in members[1:]]
+
+        if doomed:
+            self.cur.executemany("DELETE FROM metabolism WHERE id = ?", [(i,) for i in doomed])
+        return {"metabolism_superseded": len(doomed)}
+
     def curate_common_card(self) -> dict[str, int]:
         """Make the Library's "Common" card a curated set, not an aggregator dump.
 
@@ -7808,6 +7929,18 @@ class Build:
                 self.add_pk_route(sid, slug, r)
             for c in human_pk.get("concentration_effect") or []:
                 self.add_conc_effect(sid, slug, c)
+            # The PARENT molecule's own elimination half-life, kept distinct from
+            # the parent+metabolite washout that sources routinely quote as if it
+            # were the parent's. Fluoxetine is the motivating case: "16 days" is
+            # norfluoxetine-inclusive, while fluoxetine itself runs ~1-4 days
+            # acute. The metabolite's half-life rides on the metabolism row.
+            if rec.get("parent_half_life_min") is not None:
+                self.add_half_life(
+                    sid,
+                    slug,
+                    to_float(rec.get("parent_half_life_min")),
+                    rec.get("parent_half_life_reference"),
+                )
             for m in rec.get("metabolism") or []:
                 self.add_metabolism(sid, slug, m)
             for d in rec.get("drug_interactions_pk") or []:
@@ -8316,6 +8449,11 @@ def main() -> int:
     # card (not in REC_TAGS), so re-curating it changes no display class.
     common_card = build.curate_common_card()
     print(f"Common card curated: {common_card}", file=sys.stderr)
+
+    # After every source has contributed metabolism rows, collapse the ones a
+    # richer row supersedes (the research layer re-names metabolites the class
+    # files already carried). See dedupe_metabolism.
+    print(f"Metabolism dedupe: {build.dedupe_metabolism()}", file=sys.stderr)
 
     # Re-stamp curated displayName overrides onto the final survivors (after all
     # merges/folds settle) so a merge that demoted the curated name to an alias

@@ -2303,14 +2303,35 @@ final class SubstanceStore {
     struct MetabolismHit: Identifiable, Hashable {
         let id: Int64
         let enzyme: String
+        /// The **enzyme's** share of the parent's clearance — not how much
+        /// metabolite appears. See ``formationFractionPct``.
         let fractionOfClearancePct: Double?
         let metaboliteName: String?
         let metaboliteActive: Bool?
         let metabolitePotencyVsParentPct: Double?
+        /// What ``metabolitePotencyVsParentPct`` measures. Never assume clinical
+        /// potency: the column has also carried receptor-affinity ratios (tramadol
+        /// → M1 reads 20000% from a "~200× MOR affinity" source). Anything that
+        /// multiplies by the potency must branch on this.
+        let metabolitePotencyBasis: MetabolitePotencyBasis?
+        /// The metabolite's own elimination half-life (minutes) — the field a
+        /// two-compartment parent → metabolite model needs.
+        let metaboliteHalfLifeMinutes: Double?
+        /// Percent of an administered parent dose that becomes this metabolite.
+        let formationFractionPct: Double?
         let sourceSlug: String
         let doi: String?
         let pmid: Int?
         let notes: String?
+    }
+
+    /// What a ``MetabolismHit/metabolitePotencyVsParentPct`` value actually
+    /// measures. Only ``clinical`` is safe to treat as an effect multiplier.
+    enum MetabolitePotencyBasis: String, Hashable, Sendable {
+        case clinical
+        case receptorAffinity = "receptor_affinity"
+        case inVitro = "in_vitro"
+        case unknown
     }
 
     /// One row from the bindings table joined to its substance + source +
