@@ -46,11 +46,29 @@ extension SubstanceStore {
 
         /// Whether this metabolite's potency may be used to scale the parent's
         /// effect — the single gate any modelling must pass, and equally the
-        /// gate on **displaying a bare "N× parent"**. A reader assumes a
-        /// potency figure means clinical strength; only a row passing this
-        /// actually does. Everything else has to carry its basis and target
-        /// inline, or show nothing. See the UI-safety rules in
-        /// `Specs/active-metabolites.md`.
+        /// gate on **displaying a bare "N× parent"**. A reader assumes a potency
+        /// figure means clinical strength; only a row passing this actually
+        /// does.
+        ///
+        /// Three rules follow for any view that renders
+        /// ``metabolitePotencyVsParentPct``, because a large number reads as
+        /// authoritative regardless of what produced it:
+        ///
+        /// 1. A row failing this gate must carry its basis and target inline —
+        ///    "200× µ-opioid *binding affinity*, not clinical potency" — or show
+        ///    no figure. Tramadol → M1 is the worst case in the catalog: 20000%
+        ///    at MOR, with no clinical ratio existing at all to sit beside it.
+        /// 2. Never mix or average bases for the same metabolite. Oxycodone →
+        ///    oxymorphone is 4000% by affinity and 1000% clinically; a mean of
+        ///    those answers neither question. Group by basis, or show only the
+        ///    clinical row.
+        /// 3. A large potency whose basis is ``MetabolitePotencyBasis/unknown``
+        ///    gets no number at all — five rows sit at ≥1000% with nobody having
+        ///    recorded what was measured. Describe the metabolite instead.
+        ///
+        /// A ``MetaboliteMechanism/divergent`` metabolite is generally better
+        /// described than quantified: its number, whatever the basis, does not
+        /// summarize what actually changes.
         ///
         /// Both conditions are load-bearing. ``MetaboliteMechanism/scaled``
         /// establishes that one number *can* relate the two molecules at all,
