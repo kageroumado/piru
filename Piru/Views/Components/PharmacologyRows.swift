@@ -322,13 +322,25 @@ struct PKRouteRow: View {
 /// A labeled mini-stat chip for one pharmacokinetic value: plain-language term on top, the value with its
 /// unit below. The scientific symbol (Tmax, t½, …) is intentionally off the chip face — it lives in the
 /// card's help sheet so the chip stays scannable and self-explaining.
-private struct PKMetricChip: View {
-    let label: LocalizedStringResource
+struct PKMetricChip: View {
+    private let label: Text
     let value: String
+
+    init(label: LocalizedStringResource, value: String) {
+        self.label = Text(label)
+        self.value = value
+    }
+
+    /// For chips labeled with a proper noun — a substance name — which is not a
+    /// catalog key and must not be extracted as one.
+    init(verbatimLabel: String, value: String) {
+        label = Text(verbatim: verbatimLabel)
+        self.value = value
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
-            Text(label)
+            label
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Text(value)
@@ -451,7 +463,7 @@ struct MetabolismRow: View {
 /// Shared source/citation footer for the PK + metabolism rows — the friendly source name *is* the
 /// citation link (name + ↗), followed by an optional italic detail (PK demographics). Left-aligned so
 /// the source and its link read as one element instead of sitting at opposite ends of the row.
-private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
+func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
     HStack(spacing: 6) {
         Image(systemName: "doc.text.magnifyingglass").font(.caption2).accessibilityHidden(true)
         sourceNameLink(pharmaSourceName(slug), doi: doi, pmid: pmid, accent: accent)
@@ -465,10 +477,19 @@ private func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?,
 }
 
 /// Compact minutes→human formatter for PK timings: sub-hour stays in minutes,
-/// otherwise hours with one decimal where it matters (90 min → "1.5 h").
-/// `min`/`h` are universal SI-adjacent unit symbols — rendered verbatim.
-private func pkMinutes(_ minutes: Double) -> String {
+/// hours with one decimal where it matters (90 min → "1.5 h"), and days past two
+/// of them. `min`/`h` are universal SI-adjacent unit symbols — rendered verbatim;
+/// "days" is localized because it is a word.
+///
+/// The days tier exists for metabolites: norfluoxetine's 12,384-minute half-life
+/// read "206 h", a number nobody converts in their head, and the whole point of
+/// showing it beside fluoxetine's own is that the comparison lands.
+func pkMinutes(_ minutes: Double) -> String {
     if minutes < 60 { return "\(SubstanceDetailView.chemNumber(minutes)) min" }
+    if minutes >= 48 * 60 {
+        let days = (minutes / 144).rounded() / 10
+        return String(localized: "\(SubstanceDetailView.chemNumber(days)) days")
+    }
     // Round to one decimal so 155 min reads "2.6 h", not "2.58333 h"; chemNumber then drops a trailing
     // ".0" so a clean hour stays "3 h".
     let hours = (minutes / 6).rounded() / 10

@@ -4021,6 +4021,22 @@
         }
       }
     },
+    "A binding-affinity measurement, not clinical potency." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是受体结合亲和力的测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是受體結合親和力的測定值,並非臨床效價。"
+          }
+        }
+      }
+    },
     "A busy session" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4309,6 +4325,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當某一物質 12 小時內的累積量達到大劑量範圍時提醒你。關閉它等於拆掉一道安全網。"
+          }
+        }
+      }
+    },
+    "A lab measurement, not clinical potency." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是實驗室測定值,並非臨床效價。"
           }
         }
       }
@@ -5038,6 +5070,130 @@
         }
       }
     },
+    "About %@× %@'s activity at the %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About %1$@× %2$@'s activity at the %3$@."
+          }
+        }
+      }
+    },
+    "About %@× %@'s activity, by one measurement." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About %1$@× %2$@'s activity, by one measurement."
+          }
+        }
+      }
+    },
+    "About %@× as strong as %@, dose for dose." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About %1$@× as strong as %2$@, dose for dose."
+          }
+        }
+      }
+    },
+    "About %1$@× %2$@'s activity at the %3$@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%3$@上,活性约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%3$@上,活性約為 %2$@ 的 %1$@ 倍。"
+          }
+        }
+      }
+    },
+    "About %1$@× %2$@'s activity, by one measurement." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "据一项测定,活性约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "據一項測定,活性約為 %2$@ 的 %1$@ 倍。"
+          }
+        }
+      }
+    },
+    "About %1$@× as strong as %2$@, dose for dose." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按相同剂量计,强度约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按相同劑量計,強度約為 %2$@ 的 %1$@ 倍。"
+          }
+        }
+      }
+    },
+    "About as strong as %@ at the %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About as strong as %1$@ at the %2$@."
+          }
+        }
+      }
+    },
+    "About as strong as %@, dose for dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按相同剂量计,强度与 %@ 相当。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按相同劑量計,強度與 %@ 相當。"
+          }
+        }
+      }
+    },
+    "About as strong as %1$@ at the %2$@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%2$@上,强度与 %1$@ 相当。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%2$@上,強度與 %1$@ 相當。"
+          }
+        }
+      }
+    },
     "About this section" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5309,6 +5465,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "目前活躍"
+          }
+        }
+      }
+    },
+    "activity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性"
           }
         }
       }
@@ -5627,6 +5799,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作為組胺 H1 受體的反向激動劑,減少受體的本徵活性並阻斷組胺介導的訊號傳導。易於穿過血腦屏障,透過中樞 H1 阻斷產生鎮靜、抗焦慮和止吐作用。大多數還具有顯著的抗膽鹼(蕈毒鹼拮抗)活性。"
+          }
+        }
+      }
+    },
+    "Acts differently from %@ — not simply stronger or weaker." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用方式与 %@ 不同——并非单纯更强或更弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用方式與 %@ 不同——並非單純更強或更弱。"
           }
         }
       }
@@ -7244,6 +7432,22 @@
         }
       }
     },
+    "Also Active" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同时活跃"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同時活躍"
+          }
+        }
+      }
+    },
     "Also has this" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7272,6 +7476,60 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "別名"
+          }
+        }
+      }
+    },
+    "Also measured at %@× %@'s %@ — a lab measurement, not clinical potency." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Also measured at %1$@× %2$@'s %3$@ — a lab measurement, not clinical potency."
+          }
+        }
+      }
+    },
+    "Also measured at %@× %@'s %@ at the %@ — a lab measurement, not clinical potency." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Also measured at %1$@× %2$@'s %3$@ at the %4$@ — a lab measurement, not clinical potency."
+          }
+        }
+      }
+    },
+    "Also measured at %1$@× %2$@'s %3$@ — a lab measurement, not clinical potency." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
+          }
+        }
+      }
+    },
+    "Also measured at %1$@× %2$@'s %3$@ at the %4$@ — a lab measurement, not clinical potency." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另在%4$@上测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
           }
         }
       }
@@ -9366,6 +9624,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "結合親和力來自 NIMH PDSP Kᵢ 資料庫及原始文獻；耐受動力學依據已發表的人體恢復研究校準。每個參數都經過分級，任何依賴類別預設值的內容都會被標註。這裡沒有任何數據是從你身上測得的——而是依據你的劑量記錄和這些經過整理的數值預測得出。"
+          }
+        }
+      }
+    },
+    "binding affinity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结合亲和力"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結合親和力"
           }
         }
       }
@@ -15399,6 +15673,22 @@
         }
       }
     },
+    "dopamine transporter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多巴胺转运体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多巴胺轉運體"
+          }
+        }
+      }
+    },
     "Dopamine-leaning — more stimulant in character" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17288,6 +17578,33 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效果"
+          }
+        }
+      }
+    },
+    "Effects can outlast the duration above — %@ clears much more slowly than %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Effects can outlast the duration above — %1$@ clears much more slowly than %2$@."
+          }
+        }
+      }
+    },
+    "Effects can outlast the duration above — %1$@ clears much more slowly than %2$@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果可能超出上方时长——%1$@ 的清除速度远慢于 %2$@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果可能超出上方時長——%1$@ 的清除速度遠慢於 %2$@。"
           }
         }
       }
@@ -20536,7 +20853,20 @@
       }
     },
     "GABA-A receptor" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 受體"
+          }
+        }
+      }
     },
     "GABA-A Receptor Agonist (α1-Selective)" : {
       "localizations" : {
@@ -22132,6 +22462,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一次用藥中真正進入血液的比例。口服通常比注射進入血液的量更少。"
+          }
+        }
+      }
+    },
+    "How strong it is compared to %@ hasn't been established." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其相对于 %@ 的强度尚无定论。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其相對於 %@ 的強度尚無定論。"
           }
         }
       }
@@ -25773,6 +26119,22 @@
         }
       }
     },
+    "Made by" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成酶"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成酶"
+          }
+        }
+      }
+    },
     "Made-up drug" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26061,6 +26423,60 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。"
+          }
+        }
+      }
+    },
+    "Measured at %@× %@'s %@ — a lab measurement, not clinical potency." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Measured at %1$@× %2$@'s %3$@ — a lab measurement, not clinical potency."
+          }
+        }
+      }
+    },
+    "Measured at %@× %@'s %@ at the %@ — a lab measurement, not clinical potency." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Measured at %1$@× %2$@'s %3$@ at the %4$@ — a lab measurement, not clinical potency."
+          }
+        }
+      }
+    },
+    "Measured at %1$@× %2$@'s %3$@ — a lab measurement, not clinical potency." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
+          }
+        }
+      }
+    },
+    "Measured at %1$@× %2$@'s %3$@ at the %4$@ — a lab measurement, not clinical potency." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%4$@上测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
           }
         }
       }
@@ -28465,6 +28881,22 @@
         }
       }
     },
+    "nicotinic receptor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "烟碱型受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菸鹼型受體"
+          }
+        }
+      }
+    },
     "night" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28596,7 +29028,20 @@
       }
     },
     "NMDA receptor" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NMDA 受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NMDA 受體"
+          }
+        }
+      }
     },
     "NMDA Receptor Antagonist (Dissociative)" : {
       "localizations" : {
@@ -29752,6 +30197,22 @@
         }
       }
     },
+    "norepinephrine transporter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去甲肾上腺素转运体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去甲腎上腺素轉運體"
+          }
+        }
+      }
+    },
     "Norepinephrine-Dopamine Reuptake Inhibitor (NDRI)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -30590,6 +31051,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開本次記錄。"
+          }
+        }
+      }
+    },
+    "Opens this substance in the library." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在物质库中打开该物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在物質庫中開啟該物質。"
           }
         }
       }
@@ -39087,6 +39564,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享藥物資訊"
+          }
+        }
+      }
+    },
+    "Share of dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "占剂量比例"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "佔劑量比例"
           }
         }
       }
@@ -48030,6 +48523,33 @@
         }
       }
     },
+    "Your body turns %@ into %@, which is active too." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your body turns %1$@ into %2$@, which is active too."
+          }
+        }
+      }
+    },
+    "Your body turns %1$@ into %2$@, which is active too." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体会将 %1$@ 转化为 %2$@,后者同样具有活性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體會將 %1$@ 轉化為 %2$@,後者同樣具有活性。"
+          }
+        }
+      }
+    },
     "Your body weight" : {
       "localizations" : {
         "zh-Hans" : {
@@ -48609,6 +49129,22 @@
         }
       }
     },
+    "δ-opioid receptor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "δ-阿片受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "δ-鴉片受體"
+          }
+        }
+      }
+    },
     "κ-opioid agonists — salvia, salvinorin A." : {
       "localizations" : {
         "zh-Hans" : {
@@ -48621,6 +49157,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "κ-鴉片受體激動劑 — 鼠尾草、沙維諾林A。"
+          }
+        }
+      }
+    },
+    "κ-opioid receptor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "κ-阿片受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "κ-鴉片受體"
           }
         }
       }
@@ -48654,6 +49206,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "µ-鴉片受體驅動"
+          }
+        }
+      }
+    },
+    "µ-opioid receptor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "µ-阿片受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "µ-鴉片受體"
           }
         }
       }

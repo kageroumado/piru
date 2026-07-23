@@ -7939,6 +7939,7 @@ class Build:
         # a metabolite and an enzyme but measure different things.
         exact = self.cur.execute(
             "SELECT id, substance_id, metabolite_name, enzyme, metabolite_potency_basis,"
+            " metabolite_mechanism_vs_parent,"
             " metabolite_half_life_min, metabolite_potency_vs_parent_pct,"
             " formation_fraction_pct, citation_id, notes FROM metabolism"
             " WHERE metabolite_name IS NOT NULL"
@@ -7947,11 +7948,31 @@ class Build:
         for row in exact:
             if row[0] in doomed:
                 continue
-            enzyme = re.sub(r"[\s\-]+", "", row[3] or "").lower()
-            exact_groups.setdefault(key(row[1], row[2]) + (enzyme, row[4]), []).append(row)
+            # Strip the qualifier researchers append — "CYP3A4" and "CYP3A4
+            # (oxidation)" are one pathway, and treating them as two left
+            # contradicting rows standing side by side (oxycodone -> noroxycodone
+            # was both `unknown` and `divergent`, methadone -> EDDP likewise),
+            # which a metabolite-grouped UI renders as doubled statements.
+            enzyme = re.sub(r"\s*\([^)]*\)", "", row[3] or "")
+            enzyme = re.sub(r"[\s\-]+", "", enzyme).lower()
+            # NULL and 'unknown' basis are one bucket: both mean "no usable
+            # basis". Keeping them apart split two of the four contradicting
+            # pairs back into separate groups. Distinct *usable* bases still
+            # separate, which is what preserves oxycodone's clinical + affinity.
+            basis = row[4] if row[4] not in (None, "unknown") else None
+            exact_groups.setdefault(key(row[1], row[2]) + (enzyme, basis), []).append(row)
 
         def informativeness(row: tuple) -> int:
-            return sum(1 for field in row[5:] if field is not None)
+            # A classified mechanism outweighs raw field count: between a row
+            # carrying `potency = 0.0` with mechanism `unknown` and one carrying
+            # `divergent` with no potency, the second says more, and counting
+            # non-null fields alone would pick the first.
+            score = sum(1 for field in row[6:] if field is not None)
+            if row[5] not in (None, "unknown"):
+                score += 2
+            if row[4] not in (None, "unknown"):
+                score += 1
+            return score
 
         for members in exact_groups.values():
             if len(members) < 2:

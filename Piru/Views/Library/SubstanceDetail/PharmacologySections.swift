@@ -27,6 +27,8 @@ struct PharmacologySections: View {
     /// take effect (otherwise the user would be permanently stuck on whatever
     /// defaults applied the first time the section was rendered).
     @State private var expanded: [Disclosure: Bool] = [:]
+    /// Pushes a metabolite's own detail from an "Also Active" card.
+    @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         let hero = model.pharmacologyHero(category: substance.category)
@@ -65,6 +67,36 @@ struct PharmacologySections: View {
                 ) {
                     GroupedReceptorLiterature(rows: model.visibleLiteratureBindings, accent: substance.category.color)
                         .padding(.vertical, 4)
+                }
+            }
+
+            // "Also Active" — the metabolites doing some of the work. Sits above
+            // the reference sections because it answers a different question
+            // than they do ("is something other than what I took producing the
+            // effect?"), and at a lower tier for the same reason: it is a fact
+            // about the user's experience, not pharmacology reference data.
+            // Deliberately not collapsible — usually one card, and folding it
+            // re-buries the thing being surfaced.
+            if policy.showsMechanism, !model.activeMetabolites.isEmpty {
+                Section {
+                    ForEach(model.activeMetabolites) { metabolite in
+                        ActiveMetaboliteCard(
+                            metabolite: metabolite,
+                            parentName: substance.displayTitle,
+                            parentHalfLifeMinutes: substance.halfLifeMinutes,
+                            accent: substance.category.color,
+                            onOpenSubstance: { navigator.push(.substance(name: $0)) },
+                        )
+                        .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                    }
+                } header: {
+                    sectionHeaderWithInfo(
+                        "Also Active",
+                        systemImage: "arrow.trianglehead.branch",
+                        topic: .metabolism,
+                    )
                 }
             }
 

@@ -29,6 +29,12 @@ final class SubstanceDetailModel {
     /// Grapefruit / smoking / self-edge metabolic-modulation education.
     var metabolicEducation: [MetabolicModulation.Effect] = []
 
+    /// Metabolites doing some of the work — the "Also Active" surface. Folded
+    /// from ``metabolismRows`` by metabolite (the table groups by enzyme), and
+    /// filtered to the ones that can actually say something, so the section is
+    /// absent for the ~90% of the library with nothing to report.
+    var activeMetabolites: [ActiveMetabolite] = []
+
     /// Set when this substance is a meaningful CYP3A4 inducer (modafinil,
     /// rifampicin…) — it can lower hormonal-contraception levels.
     var contraceptionCaution: MetabolicModulation.Modulator?
@@ -86,9 +92,38 @@ final class SubstanceDetailModel {
         if policy.showsMechanism {
             let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substanceName)
             metabolicEducation = MetabolicModulation.educationalEffects(forSubstance: substanceName, metabolism: rows)
+            // "Also Active" reads the same rows at the same tier as the
+            // grapefruit/smoking education above — whether a metabolite is doing
+            // the work is a fact about what the user is experiencing, not
+            // reference data, so it does not belong behind the pharma-nerd gate
+            // that hides the enzyme table. No extra query on any tier.
+            activeMetabolites = Self.foldActiveMetabolites(from: rows)
         } else {
             metabolicEducation = []
+            activeMetabolites = []
         }
+    }
+
+    /// Group the metabolism rows by metabolite and keep the ones with something
+    /// to say. Excretion rows (no metabolite) and inactive byproducts drop out
+    /// here — an "Also Active" card for an inactive metabolite is a
+    /// contradiction, and one that only reads "Active" is noise.
+    static func foldActiveMetabolites(from rows: [SubstanceStore.MetabolismHit]) -> [ActiveMetabolite] {
+        var order: [String] = []
+        var byName: [String: [SubstanceStore.MetabolismHit]] = [:]
+        for row in rows {
+            guard row.metaboliteActive == true, let name = row.metaboliteName, !name.isEmpty else { continue }
+            // "unchanged <parent>" is an excretion row wearing a metabolite
+            // field — it names no new molecule. Mirrors `MetabolismRow`'s own
+            // elimination detection.
+            guard !name.lowercased().hasPrefix("unchanged") else { continue }
+            let key = name.lowercased()
+            if byName[key] == nil { order.append(key) }
+            byName[key, default: []].append(row)
+        }
+        return order
+            .compactMap { ActiveMetabolite.from(rows: byName[$0] ?? []) }
+            .filter(\.isWorthShowing)
     }
 
     func rebuildHistoryStats(from entries: [DoseEntry]) {
