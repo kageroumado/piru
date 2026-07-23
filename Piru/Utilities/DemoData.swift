@@ -59,24 +59,8 @@ import SwiftData
                 return false
             }
 
-            // Wipe every model that surfaces in the UI — a persona must not
-            // inherit the previous store's state. (QuickLogDose is the recents
-            // store behind the Log sheet's "Your Substances"; leaving it made
-            // a meds-only persona offer the dev store's research chemicals.)
             let context = container.mainContext
-            try? context.delete(model: DoseEntry.self)
-            try? context.delete(model: Session.self)
-            try? context.delete(model: SubstanceColor.self)
-            try? context.delete(model: UserColor.self)
-            try? context.delete(model: FavoriteSubstance.self)
-            try? context.delete(model: DailyDoseItem.self)
-            try? context.delete(model: QuickLogDose.self)
-            try? context.delete(model: DoseRoutine.self)
-            try? context.delete(model: RoutineOccurrence.self)
-            try? context.delete(model: InventoryItem.self)
-            try? context.delete(model: ToleranceState.self)
-            try? context.delete(model: CustomSubstanceRecord.self)
-            try? context.delete(model: CustomDrinkPreset.self)
+            wipeUserData(context: context)
 
             switch persona {
             case .dailyMeds: seedMedsPersona(context: context, sporadic: false)
@@ -91,6 +75,65 @@ import SwiftData
             // launch instead of needing a second one.
             ActiveSessionManager.shared.clearSession()
             ActiveSessionManager.shared.recoverSession(container: container)
+            return true
+        }
+
+        /// Wipe every model that surfaces in the UI — a fixture must not
+        /// inherit the previous store's state. (QuickLogDose is the recents
+        /// store behind the Log sheet's "Your Substances"; leaving it made
+        /// a meds-only persona offer the dev store's research chemicals.)
+        @MainActor
+        static func wipeUserData(context: ModelContext) {
+            try? context.delete(model: DoseEntry.self)
+            try? context.delete(model: Session.self)
+            try? context.delete(model: SubstanceColor.self)
+            try? context.delete(model: UserColor.self)
+            try? context.delete(model: FavoriteSubstance.self)
+            try? context.delete(model: DailyDoseItem.self)
+            try? context.delete(model: QuickLogDose.self)
+            try? context.delete(model: DoseRoutine.self)
+            try? context.delete(model: RoutineOccurrence.self)
+            try? context.delete(model: InventoryItem.self)
+            try? context.delete(model: ToleranceState.self)
+            try? context.delete(model: CustomSubstanceRecord.self)
+            try? context.delete(model: CustomDrinkPreset.self)
+        }
+
+        // MARK: - Import fixture (-piruImportFile <path>)
+
+        /// `-piruImportFile <absolute path>` launch argument: wipe the store and
+        /// import an exported JSON (Piru-native, PsyLog, or legacy), so a real
+        /// user's export can be installed on the simulator in one launch instead
+        /// of clicking through Settings ▸ Import Data:
+        ///
+        ///     xcrun simctl launch booted dev.yumeji.piru -piruImportFile /path/to/export.json
+        ///
+        /// Like personas, this always wipes first so relaunching is
+        /// deterministic. Returns `true` when the argument was present (even on
+        /// a failed import — the store was wiped, so the showcase seed must not
+        /// fill it and mask the failure).
+        @MainActor
+        static func insertImportFileData(container: ModelContainer) -> Bool {
+            guard let path = UserDefaults.standard.string(forKey: "piruImportFile") else { return false }
+            let context = container.mainContext
+            guard let data = FileManager.default.contents(atPath: path) else {
+                print("DemoData: -piruImportFile could not read '\(path)'")
+                return true
+            }
+            wipeUserData(context: context)
+            do {
+                try DataExportImport.importJSON(data: data, context: context)
+                try context.save()
+            } catch {
+                print("DemoData: -piruImportFile import failed: \(DataExportImport.importErrorMessage(for: error))")
+                return true
+            }
+            // The launch recovery pass ran against the pre-wipe store; re-run
+            // it so an imported active dose opens the live session on this
+            // launch instead of needing a second one.
+            ActiveSessionManager.shared.clearSession()
+            ActiveSessionManager.shared.recoverSession(container: container)
+            print("DemoData: -piruImportFile imported '\(path)'")
             return true
         }
 

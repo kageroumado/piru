@@ -155,10 +155,13 @@ struct PiruApp: App {
                         Task { await HealthKitBodyMass.shared.syncLatest() }
                     }
                     #if DEBUG
-                        // A `-piruPersona <name>` launch wipes + reseeds a user
-                        // archetype for UI-state testing; otherwise the dense
-                        // showcase journal fills an empty store as before.
-                        if !DemoData.insertPersonaData(container: container) {
+                        // A `-piruImportFile <path>` launch wipes + imports an
+                        // exported JSON; a `-piruPersona <name>` launch wipes +
+                        // reseeds a user archetype for UI-state testing;
+                        // otherwise the dense showcase journal fills an empty
+                        // store as before.
+                        if !DemoData.insertImportFileData(container: container),
+                           !DemoData.insertPersonaData(container: container) {
                             DemoData.insertShowcaseData(container: container)
                         }
                     #endif
