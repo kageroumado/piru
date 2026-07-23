@@ -12,8 +12,11 @@ struct MetabolicModulationTests {
     static func metab(_ enzyme: String, _ pct: Double? = nil) -> SubstanceStore.MetabolismHit {
         SubstanceStore.MetabolismHit(
             id: 0, enzyme: enzyme, fractionOfClearancePct: pct,
-            metaboliteName: nil, metaboliteActive: nil, metabolitePotencyVsParentPct: nil,
-            metabolitePotencyBasis: nil, metaboliteHalfLifeMinutes: nil, formationFractionPct: nil,
+            metaboliteName: nil, metaboliteSubstanceName: nil,
+            metaboliteActive: nil, metabolitePotencyVsParentPct: nil,
+            metabolitePotencyBasis: nil, metabolitePotencyTarget: nil,
+            metaboliteMechanismVsParent: .unknown,
+            metaboliteHalfLifeMinutes: nil, formationFractionPct: nil,
             sourceSlug: "test", doi: nil, pmid: nil, notes: nil,
         )
     }

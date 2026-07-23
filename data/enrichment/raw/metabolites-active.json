@@ -19,7 +19,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1002/j.1552-4604.1988.tb03228.x",
-        "notes": "Dominant active metabolite; a positive allosteric GABA-A modulator considered clinically ~equipotent to diazepam and responsible for much of diazepam's prolonged duration of action. Greenblatt et al 1988 (12 healthy volunteers, IV desmethyldiazepam) report t1/2=93h; broader literature (obesity/elderly studies) reports 30-200h range. StatPearls (pmid:1505149) cites ~100h."
+        "notes": "Dominant active metabolite; a positive allosteric GABA-A modulator considered clinically ~equipotent to diazepam and responsible for much of diazepam's prolonged duration of action. Greenblatt et al 1988 (12 healthy volunteers, IV desmethyldiazepam) report t1/2=93h; broader literature (obesity/elderly studies) reports 30-200h range. StatPearls (pmid:1505149) cites ~100h.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -43,7 +45,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:700911",
-        "notes": "First active metabolite formed via N-demethylation; accumulation half-lives of 9.9-17.7h reported across 3 subjects (Greenblatt et al 1978). No quantified potency ratio vs. parent was found in the literature searched."
+        "notes": "First active metabolite formed via N-demethylation; accumulation half-lives of 9.9-17.7h reported across 3 subjects (Greenblatt et al 1978). No quantified potency ratio vs. parent was found in the literature searched.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4 (oxidation)",
@@ -59,7 +62,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1002/jps.2600601012",
-        "notes": "Active metabolite; half-life extremely variable across subjects (14-95h; Schwartz, Postma & Gaut 1971) so no single point estimate is given. Often undetectable in plasma after a single CDX dose (appears with multiple dosing)."
+        "notes": "Active metabolite; half-life extremely variable across subjects (14-95h; Schwartz, Postma & Gaut 1971) so no single point estimate is given. Often undetectable in plasma after a single CDX dose (appears with multiple dosing).",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "reduction of demoxepam",
@@ -75,7 +79,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1002/j.1552-4604.1988.tb03228.x",
-        "notes": "Downstream active metabolite shared with the diazepam/clorazepate pathway; t1/2=93h in healthy volunteers (Greenblatt et al 1988). Considered clinically active GABA-A modulator contributing to chlordiazepoxide's prolonged effect."
+        "notes": "Downstream active metabolite shared with the diazepam/clorazepate pathway; t1/2=93h in healthy volunteers (Greenblatt et al 1988). Considered clinically active GABA-A modulator contributing to chlordiazepoxide's prolonged effect.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       },
       {
         "enzyme": "CYP3A4 hydroxylation + glucuronidation (from nordazepam)",
@@ -91,7 +97,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:6111408",
-        "notes": "Terminal active metabolite of the CDX/diazepam/clorazepate cascade; itself a marketed anxiolytic. Greenblatt's Clinical Pharmacokinetics review reports sex-differentiated t1/2: men 7.8h (4.9-10.8h), women 9.7h (6.3-19.4h). No quantified potency ratio vs. chlordiazepoxide itself was found."
+        "notes": "Terminal active metabolite of the CDX/diazepam/clorazepate cascade; itself a marketed anxiolytic. Greenblatt's Clinical Pharmacokinetics review reports sex-differentiated t1/2: men 7.8h (4.9-10.8h), women 9.7h (6.3-19.4h). No quantified potency ratio vs. chlordiazepoxide itself was found.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -112,7 +119,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1002/j.1552-4604.1988.tb03228.x",
-        "notes": "Nordazepam is the active species responsible for essentially all of clorazepate's clinical effect. t1/2=93h in healthy volunteers (Greenblatt et al 1988, 12 subjects, IV administration). Prolonged half-life documented in obesity (30-200h range; Abernethy et al, pmid:6811726) and in the elderly."
+        "notes": "Nordazepam is the active species responsible for essentially all of clorazepate's clinical effect. t1/2=93h in healthy volunteers (Greenblatt et al 1988, 12 subjects, IV administration). Prolonged half-life documented in obesity (30-200h range; Abernethy et al, pmid:6811726) and in the elderly.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       },
       {
         "enzyme": "CYP3A4 hydroxylation + glucuronidation",
@@ -128,7 +137,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:6111408",
-        "notes": "Further downstream active metabolite of nordazepam; a minor contributor relative to nordazepam given clorazepate's near-complete, rapid conversion pathway."
+        "notes": "Further downstream active metabolite of nordazepam; a minor contributor relative to nordazepam given clorazepate's near-complete, rapid conversion pathway.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -149,7 +159,9 @@
         "metabolite_potency_vs_parent_pct": 20,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:6121870",
-        "notes": "Minor metabolite; plasma concentrations <10% of alprazolam. Relative potency ~20% of parent in benzodiazepine receptor binding assays (Sethy & Harris 1982). No independently quantified metabolite half-life was found; FDA labeling states metabolite half-lives 'appear similar to that of alprazolam' without a distinct value. Low plasma levels + lower potency make clinical contribution minimal."
+        "notes": "Minor metabolite; plasma concentrations <10% of alprazolam. Relative potency ~20% of parent in benzodiazepine receptor binding assays (Sethy & Harris 1982). No independently quantified metabolite half-life was found; FDA labeling states metabolite half-lives 'appear similar to that of alprazolam' without a distinct value. Low plasma levels + lower potency make clinical contribution minimal.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "CYP3A4",
@@ -162,7 +174,9 @@
         "metabolite_potency_vs_parent_pct": 66,
         "metabolite_potency_basis": "in_vitro",
         "reference": "pmid:6121870",
-        "notes": "Minor metabolite; plasma concentrations <10% of alprazolam. Relative potency ~66% of parent in an animal seizure-inhibition (pentylenetetrazol) functional model (Sethy & Harris 1982) -- an in vivo functional assay, not a receptor-binding affinity ratio. No independently quantified metabolite half-life was found."
+        "notes": "Minor metabolite; plasma concentrations <10% of alprazolam. Relative potency ~66% of parent in an animal seizure-inhibition (pentylenetetrazol) functional model (Sethy & Harris 1982) -- an in vivo functional assay, not a receptor-binding affinity ratio. No independently quantified metabolite half-life was found.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -183,7 +197,9 @@
         "metabolite_potency_vs_parent_pct": 80,
         "metabolite_potency_basis": "clinical",
         "reference": "pmid:1611810",
-        "notes": "Mandema et al 1992 (Clin Pharmacol Ther 51(6):715-28) measured EC50 for EEG effect: 77 ng/ml (midazolam) vs 98 ng/ml (metabolite); EC50 for peak saccadic velocity: 40 vs 49 ng/ml -- implying the metabolite is roughly 80% as potent as midazolam on a plasma-concentration/PD-effect basis. Contrast: FDA/dailymed labeling states the metabolite is 'equipotent... on a total plasma concentration basis,' a simplification of this same dataset. The metabolite is itself glucuronidated (1-hydroxymidazolam glucuronide) and renally cleared; this conjugate can accumulate and cause prolonged sedation in renal failure. No independently sourced metabolite half-life value (distinct from the parent-metabolite PD study) was found."
+        "notes": "Mandema et al 1992 (Clin Pharmacol Ther 51(6):715-28) measured EC50 for EEG effect: 77 ng/ml (midazolam) vs 98 ng/ml (metabolite); EC50 for peak saccadic velocity: 40 vs 49 ng/ml -- implying the metabolite is roughly 80% as potent as midazolam on a plasma-concentration/PD-effect basis. Contrast: FDA/dailymed labeling states the metabolite is 'equipotent... on a total plasma concentration basis,' a simplification of this same dataset. The metabolite is itself glucuronidated (1-hydroxymidazolam glucuronide) and renally cleared; this conjugate can accumulate and cause prolonged sedation in renal failure. No independently sourced metabolite half-life value (distinct from the parent-metabolite PD study) was found.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -204,7 +220,9 @@
         "metabolite_potency_vs_parent_pct": 75,
         "metabolite_potency_basis": "in_vitro",
         "reference": "pmid:31483",
-        "notes": "Reported to retain 50-100% of triazolam's pharmacological activity (midpoint used here); short-acting, does not accumulate with multiple dosing. Glucuronide-conjugated form t1/2=3.9h per Eberts et al 1981 (pmid:6109586)."
+        "notes": "Reported to retain 50-100% of triazolam's pharmacological activity (midpoint used here); short-acting, does not accumulate with multiple dosing. Glucuronide-conjugated form t1/2=3.9h per Eberts et al 1981 (pmid:6109586).",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "GABA-A"
       }
     ]
   },
@@ -225,7 +243,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:28403803",
-        "notes": "Review describes this metabolite as retaining 'some intrinsic activity' and causing less sedation than flunitrazepam, but no quantified potency ratio or independently measured half-life with a verifiable primary citation was located -- left null rather than guessed. (7-aminoflunitrazepam, the major urinary metabolite, is generally regarded as pharmacologically inactive and is excluded per task instructions.)"
+        "notes": "Review describes this metabolite as retaining 'some intrinsic activity' and causing less sedation than flunitrazepam, but no quantified potency ratio or independently measured half-life with a verifiable primary citation was located -- left null rather than guessed. (7-aminoflunitrazepam, the major urinary metabolite, is generally regarded as pharmacologically inactive and is excluded per task instructions.)",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -252,7 +271,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1002/jps.2600621108",
-        "notes": "Identified as a urinary metabolite (13-30% of dose recovered as the conjugate) by Schwartz et al 1973 in human, dog, rat, and mouse. Secondary sources disagree on its clinical significance -- some describe it as active with a half-life similar to the parent, others as less active, and at least one notes that bromazepam's metabolites 'do not contribute significantly' to its effects overall. No primary study with a directly citable, verifiable half-life or potency value for 3-hydroxybromazepam was located, so those fields are left null rather than guessed. FLAGGED: genuine literature disagreement on this metabolite's clinical relevance."
+        "notes": "Identified as a urinary metabolite (13-30% of dose recovered as the conjugate) by Schwartz et al 1973 in human, dog, rat, and mouse. Secondary sources disagree on its clinical significance -- some describe it as active with a half-life similar to the parent, others as less active, and at least one notes that bromazepam's metabolites 'do not contribute significantly' to its effects overall. No primary study with a directly citable, verifiable half-life or potency value for 3-hydroxybromazepam was located, so those fields are left null rather than guessed. FLAGGED: genuine literature disagreement on this metabolite's clinical relevance.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -273,7 +293,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1007/BF00280074",
-        "notes": "Main active metabolite; t1/2=8.2h (Fracasso et al 1991), longer than the parent's single-dose t1/2 (3.4h), which may contribute to etizolam's duration of action. Widely described in secondary literature as pharmacologically active/comparable to the parent, but no quantified potency ratio with a verifiable primary citation was found -- left null rather than guessed. Formation is influenced by polymorphic CYP2C19 activity (Fukasawa et al 2005, pmid:16261363)."
+        "notes": "Main active metabolite; t1/2=8.2h (Fracasso et al 1991), longer than the parent's single-dose t1/2 (3.4h), which may contribute to etizolam's duration of action. Widely described in secondary literature as pharmacologically active/comparable to the parent, but no quantified potency ratio with a verifiable primary citation was found -- left null rather than guessed. Formation is influenced by polymorphic CYP2C19 activity (Fukasawa et al 2005, pmid:16261363).",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -294,7 +315,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "in_vitro",
         "reference": "pmid:18435755",
-        "notes": "Major/dominant plasma metabolite. Regulatory and clinical-toxicology sources (e.g., NCATS Inxight, Mayo Clinic Labs) typically describe it as 'inactive' in the context of interpreting urine drug screens. However, Munakata & Tsuchiya 2008 (Epilepsia 49(10):1803-8) directly measured GABA-A receptor function in rat nucleus reticularis thalami and found it IS a weak partial benzodiazepine-receptor agonist: EC50=124nM vs 1.8nM for clonazepam (~69-fold less potent), with much lower maximal efficacy (Emax 38% vs 170%). FLAGGED: genuine disagreement between the 'clinically inactive' framing used for toxicology interpretation and demonstrable weak intrinsic activity in a functional in vitro/ex vivo assay. No human clinical potency ratio or independently measured half-life was found, so those fields are null."
+        "notes": "Major/dominant plasma metabolite. Regulatory and clinical-toxicology sources (e.g., NCATS Inxight, Mayo Clinic Labs) typically describe it as 'inactive' in the context of interpreting urine drug screens. However, Munakata & Tsuchiya 2008 (Epilepsia 49(10):1803-8) directly measured GABA-A receptor function in rat nucleus reticularis thalami and found it IS a weak partial benzodiazepine-receptor agonist: EC50=124nM vs 1.8nM for clonazepam (~69-fold less potent), with much lower maximal efficacy (Emax 38% vs 170%). FLAGGED: genuine disagreement between the 'clinically inactive' framing used for toxicology interpretation and demonstrable weak intrinsic activity in a functional in vitro/ex vivo assay. No human clinical potency ratio or independently measured half-life was found, so those fields are null.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "7-Aminoclonazepam is a weak partial benzodiazepine-receptor agonist with much lower intrinsic efficacy (Emax ~38% vs ~170%) than clonazepam's full positive allosteric modulation, despite being toxicologically framed as 'inactive.'"
       }
     ]
   },
@@ -321,7 +344,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:10384858",
-        "notes": "Cetirizine is itself a marketed second-generation antihistamine (carboxylic-acid metabolite of hydroxyzine); it is a peripherally-restricted, minimally sedating H1 antagonist with a distinct CNS-penetration profile rather than a simple more/less-potent variant of the parent. Formation fraction (~45% of oral hydroxyzine dose) and cetirizine's own elimination half-life (~7.9 h) are consistently reported across hydroxyzine/cetirizine product labeling and antihistamine PK reviews."
+        "notes": "Cetirizine is itself a marketed second-generation antihistamine (carboxylic-acid metabolite of hydroxyzine); it is a peripherally-restricted, minimally sedating H1 antagonist with a distinct CNS-penetration profile rather than a simple more/less-potent variant of the parent. Formation fraction (~45% of oral hydroxyzine dose) and cetirizine's own elimination half-life (~7.9 h) are consistently reported across hydroxyzine/cetirizine product labeling and antihistamine PK reviews.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Cetirizine is a peripherally restricted, minimally sedating H1 antagonist with limited CNS penetration, giving it an antihistamine-only clinical profile distinct from hydroxyzine's sedative/anxiolytic action despite sharing the H1 receptor target."
       }
     ]
   },
@@ -360,7 +385,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:3760245",
-        "notes": "Metabolite AUC was significantly higher after oral than IV diphenhydramine (218 vs 145 hr·ng/mL, p<0.05), consistent with first-pass formation. The primary and secondary amine (demethylated) metabolites of diphenhydramine retain H1-antagonist activity per the pharmacology literature (e.g. patent US6372799), but a quantified potency ratio and the metabolite's own elimination half-life were not found in a peer-reviewed source, so those fields are left null."
+        "notes": "Metabolite AUC was significantly higher after oral than IV diphenhydramine (218 vs 145 hr·ng/mL, p<0.05), consistent with first-pass formation. The primary and secondary amine (demethylated) metabolites of diphenhydramine retain H1-antagonist activity per the pharmacology literature (e.g. patent US6372799), but a quantified potency ratio and the metabolite's own elimination half-life were not found in a peer-reviewed source, so those fields are left null.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -381,7 +407,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:7351114",
-        "notes": "ROUTE-DEPENDENT: 4-hydroxypropranolol is formed almost entirely by hepatic first-pass ring oxidation, so it is prominent after ORAL propranolol but much less so after IV dosing (Walle et al 1980: AUC 6.6 ng·hr/mL for HO-P vs 55 ng·hr/mL parent after 4 mg IV, versus AUC 59-162 ng·hr/mL for HO-P after 20-80 mg oral). HO-P plus its glucuronide accounted for ~9% of long-term oral propranolol dose recovered in urine. Formation also saturates with dose/chronic therapy: the HO-P/propranolol plasma ratio fell from 1.07 at 40 mg/day to 0.09 at 640 mg/day. HO-P is pharmacologically active as a beta-blocker and reported to have an equal or longer half-life than propranolol, but a rigorously quantified potency ratio and metabolite half-life were not confirmed in a directly-verified primary source, so those fields are left null."
+        "notes": "ROUTE-DEPENDENT: 4-hydroxypropranolol is formed almost entirely by hepatic first-pass ring oxidation, so it is prominent after ORAL propranolol but much less so after IV dosing (Walle et al 1980: AUC 6.6 ng·hr/mL for HO-P vs 55 ng·hr/mL parent after 4 mg IV, versus AUC 59-162 ng·hr/mL for HO-P after 20-80 mg oral). HO-P plus its glucuronide accounted for ~9% of long-term oral propranolol dose recovered in urine. Formation also saturates with dose/chronic therapy: the HO-P/propranolol plasma ratio fell from 1.07 at 40 mg/day to 0.09 at 640 mg/day. HO-P is pharmacologically active as a beta-blocker and reported to have an equal or longer half-life than propranolol, but a rigorously quantified potency ratio and metabolite half-life were not confirmed in a directly-verified primary source, so those fields are left null.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -405,7 +432,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.3390/jcm11030858",
-        "notes": "Meprobamate is itself a marketed Schedule IV anxiolytic/sedative-hypnotic with its own approved dosing (typically 400 mg TID) and GABA-A-related mechanism distinct from carisoprodol's own action; it is the reason carisoprodol is a controlled substance. CYP2C19 poor metabolizers show ~4-fold increased carisoprodol exposure and ~50% reduced meprobamate exposure versus extensive metabolizers. Because meprobamate's half-life (~9 h) far exceeds carisoprodol's (~2 h), meprobamate accumulates with repeated/chronic carisoprodol dosing."
+        "notes": "Meprobamate is itself a marketed Schedule IV anxiolytic/sedative-hypnotic with its own approved dosing (typically 400 mg TID) and GABA-A-related mechanism distinct from carisoprodol's own action; it is the reason carisoprodol is a controlled substance. CYP2C19 poor metabolizers show ~4-fold increased carisoprodol exposure and ~50% reduced meprobamate exposure versus extensive metabolizers. Because meprobamate's half-life (~9 h) far exceeds carisoprodol's (~2 h), meprobamate accumulates with repeated/chronic carisoprodol dosing.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Meprobamate is a distinct, independently marketed GABA-A-related anxiolytic/sedative-hypnotic, not simply a scaled version of carisoprodol's own muscle-relaxant action."
       }
     ]
   },
@@ -432,7 +461,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:12485958",
-        "notes": "4-Hydroxyatomoxetine is equipotent to atomoxetine as a norepinephrine transporter (NET) inhibitor, but it is rapidly O-glucuronidated (to 4-hydroxyatomoxetine-O-glucuronide) and reaches a much lower plasma concentration than the parent (Cmax approximately 1.3% of atomoxetine's), so despite equal in vitro potency its contribution to the overall clinical effect is minor. Formed via other CYP isoforms at a much slower rate in CYP2D6 poor metabolizers."
+        "notes": "4-Hydroxyatomoxetine is equipotent to atomoxetine as a norepinephrine transporter (NET) inhibitor, but it is rapidly O-glucuronidated (to 4-hydroxyatomoxetine-O-glucuronide) and reaches a much lower plasma concentration than the parent (Cmax approximately 1.3% of atomoxetine's), so despite equal in vitro potency its contribution to the overall clinical effect is minor. Formed via other CYP isoforms at a much slower rate in CYP2D6 poor metabolizers.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "NET"
       }
     ]
   },
@@ -465,7 +496,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "doi:10.1186/ar3860",
-        "notes": "Norcyclobenzaprine (NCBP) is an established active metabolite that binds the same monoaminergic/serotonergic receptor panel as cyclobenzaprine, with comparable or in some cases numerically tighter binding at individual receptors (e.g. 5-HT1A Ki reported as ~3200 nM for NCBP vs ~5300 nM for cyclobenzaprine), though it is generally described in the broader literature as less potent overall and longer-lived than the parent, contributing to extended CNS effects (e.g. next-day sedation) beyond what cyclobenzaprine's own half-life would predict. A directly verified, citable quantitative value for NCBP's own half-life or its formation fraction from cyclobenzaprine was not located, so those fields are left null rather than estimated."
+        "notes": "Norcyclobenzaprine (NCBP) is an established active metabolite that binds the same monoaminergic/serotonergic receptor panel as cyclobenzaprine, with comparable or in some cases numerically tighter binding at individual receptors (e.g. 5-HT1A Ki reported as ~3200 nM for NCBP vs ~5300 nM for cyclobenzaprine), though it is generally described in the broader literature as less potent overall and longer-lived than the parent, contributing to extended CNS effects (e.g. next-day sedation) beyond what cyclobenzaprine's own half-life would predict. A directly verified, citable quantitative value for NCBP's own half-life or its formation fraction from cyclobenzaprine was not located, so those fields are left null rather than estimated.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -489,7 +521,9 @@
         "metabolite_potency_vs_parent_pct": 1000,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1038/sj.tpj.6500406",
-        "notes": "Morphine is roughly an order of magnitude (~10x) more potent than codeine clinically -- this is a CLINICAL ratio, not a receptor-affinity ratio; do not confuse with the much larger in-vitro MOR affinity gap. CYP2D6 is highly polymorphic and clinically critical: poor metabolizers form little morphine and get inadequate analgesia (some cohorts show ~0% response vs ~25% in normal metabolizers per CYP2D6-genotype outcome studies); ultra-rapid metabolizers (CYP2D6 gene duplication) form supratherapeutic morphine and are the mechanism behind FDA's boxed warning on fatal respiratory depression in children and in breastfeeding infants of UM mothers. Formation fraction to morphine is commonly reported as a low single-digit-to-~10% share of an EM's dose in the literature, but no single formation-fraction value could be confidently pinned to one verifiable primary source here, so it is left null rather than guessed."
+        "notes": "Morphine is roughly an order of magnitude (~10x) more potent than codeine clinically -- this is a CLINICAL ratio, not a receptor-affinity ratio; do not confuse with the much larger in-vitro MOR affinity gap. CYP2D6 is highly polymorphic and clinically critical: poor metabolizers form little morphine and get inadequate analgesia (some cohorts show ~0% response vs ~25% in normal metabolizers per CYP2D6-genotype outcome studies); ultra-rapid metabolizers (CYP2D6 gene duplication) form supratherapeutic morphine and are the mechanism behind FDA's boxed warning on fatal respiratory depression in children and in breastfeeding infants of UM mothers. Formation fraction to morphine is commonly reported as a low single-digit-to-~10% share of an EM's dose in the literature, but no single formation-fraction value could be confidently pinned to one verifiable primary source here, so it is left null rather than guessed.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -513,7 +547,10 @@
         "metabolite_potency_vs_parent_pct": 20000,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:1309873",
-        "notes": "THIS IS THE ROW THAT WAS PREVIOUSLY MISLABELED. Raffa et al. 1992 (the foundational tramadol mechanism paper) reports M1 binds MOR with roughly 200x higher affinity than tramadol itself (tramadol has ~6000x lower MOR affinity than morphine; M1 closes most of that gap) -- that is a receptor-binding-affinity ratio from an in-vitro study, NOT a clinical potency ratio. It must not be read as 'M1 is 200x stronger analgesically.' No solid, independently-verifiable clinical (in-vivo equianalgesic) potency ratio for M1 alone vs. tramadol could be found -- clinical effect is a blend of M1's opioid action and tramadol's own monoaminergic action, so a single clinical multiplier is not well-defined in the literature. CYP2D6 status changes the BALANCE of the two mechanisms rather than simply scaling total effect: poor metabolizers have ~20% higher tramadol and ~40% lower M1 exposure (shifting effect toward the monoaminergic side, per population PK), which is why tramadol's seizure/serotonergic risk is not simply lower in PMs the way codeine's analgesic failure is."
+        "notes": "THIS IS THE ROW THAT WAS PREVIOUSLY MISLABELED. Raffa et al. 1992 (the foundational tramadol mechanism paper) reports M1 binds MOR with roughly 200x higher affinity than tramadol itself (tramadol has ~6000x lower MOR affinity than morphine; M1 closes most of that gap) -- that is a receptor-binding-affinity ratio from an in-vitro study, NOT a clinical potency ratio. It must not be read as 'M1 is 200x stronger analgesically.' No solid, independently-verifiable clinical (in-vivo equianalgesic) potency ratio for M1 alone vs. tramadol could be found -- clinical effect is a blend of M1's opioid action and tramadol's own monoaminergic action, so a single clinical multiplier is not well-defined in the literature. CYP2D6 status changes the BALANCE of the two mechanisms rather than simply scaling total effect: poor metabolizers have ~20% higher tramadol and ~40% lower M1 exposure (shifting effect toward the monoaminergic side, per population PK), which is why tramadol's seizure/serotonergic risk is not simply lower in PMs the way codeine's analgesic failure is.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "metabolite_potency_target": "MOR",
+        "mechanism_note": "Tramadol acts as a weak MOR agonist combined with SNRI-like monoamine reuptake inhibition, while M1 is a comparatively pure, strong MOR agonist with little monoaminergic activity, so no single clinical scalar converts one into the other."
       }
     ]
   },
@@ -531,7 +568,9 @@
         "metabolite_potency_vs_parent_pct": 3300,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:1851921",
-        "notes": "Chen et al. 1991 (rat brain homogenate, 3H-DAMGO binding) reported Ki = 19.8 nM for hydrocodone vs 0.6 nM for hydromorphone, i.e. ~33x higher MOR binding affinity for the metabolite -- an in-vitro affinity ratio, not a clinical potency ratio. CYP2D6 is the O-demethylation route to hydromorphone; poor metabolizers form less of this active metabolite and pain relief correlates with hydromorphone (not hydrocodone) plasma levels, so PM status can blunt analgesia analogous to codeine."
+        "notes": "Chen et al. 1991 (rat brain homogenate, 3H-DAMGO binding) reported Ki = 19.8 nM for hydrocodone vs 0.6 nM for hydromorphone, i.e. ~33x higher MOR binding affinity for the metabolite -- an in-vitro affinity ratio, not a clinical potency ratio. CYP2D6 is the O-demethylation route to hydromorphone; poor metabolizers form less of this active metabolite and pain relief correlates with hydromorphone (not hydrocodone) plasma levels, so PM status can blunt analgesia analogous to codeine.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "CYP3A4",
@@ -544,7 +583,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1046/j.1365-2125.2003.02002.x",
-        "notes": "Quantitatively the dominant hydrocodone metabolite by mass (CYP3A4 pathway), but weak/negligible MOR activity relative to hydromorphone; included for completeness on 'dominates duration' grounds even though it is not considered a clinically active opioid metabolite in most reviews. Some newer in-vivo work argues for modest residual activity, but no reliable potency number could be pinned to a primary source here."
+        "notes": "Quantitatively the dominant hydrocodone metabolite by mass (CYP3A4 pathway), but weak/negligible MOR activity relative to hydromorphone; included for completeness on 'dominates duration' grounds even though it is not considered a clinically active opioid metabolite in most reviews. Some newer in-vivo work argues for modest residual activity, but no reliable potency number could be pinned to a primary source here.",
+        "metabolite_mechanism_vs_parent": "unknown"
       }
     ]
   },
@@ -565,7 +605,9 @@
         "metabolite_potency_vs_parent_pct": 4000,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:1851921",
-        "notes": "Chen et al. 1991 in-vitro MOR binding: oxymorphone ~40x higher affinity than oxycodone. Formation fraction (~11% ± 6% of dose via CYP2D6 O-demethylation) from Lalovic et al. 2006."
+        "notes": "Chen et al. 1991 in-vitro MOR binding: oxymorphone ~40x higher affinity than oxycodone. Formation fraction (~11% ± 6% of dose via CYP2D6 O-demethylation) from Lalovic et al. 2006.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "CYP2D6",
@@ -578,7 +620,9 @@
         "metabolite_potency_vs_parent_pct": 1000,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1016/j.clpt.2006.01.009",
-        "notes": "Lalovic et al. 2006 (human PK/PD + in-vitro receptor activation study) separately report oxymorphone as roughly 10x more potent than oxycodone by intravenous administration -- this is the clinical/in-vivo-potency companion figure to the affinity ratio in the row above. CYP2D6 inhibition (e.g. by paroxetine) or poor-metabolizer status reduces oxymorphone formation and measurably reduces oxycodone analgesia."
+        "notes": "Lalovic et al. 2006 (human PK/PD + in-vitro receptor activation study) separately report oxymorphone as roughly 10x more potent than oxycodone by intravenous administration -- this is the clinical/in-vivo-potency companion figure to the affinity ratio in the row above. CYP2D6 inhibition (e.g. by paroxetine) or poor-metabolizer status reduces oxymorphone formation and measurably reduces oxycodone analgesia.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       },
       {
         "enzyme": "CYP3A4",
@@ -591,7 +635,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1016/j.clpt.2006.01.009",
-        "notes": "The major metabolite by mass (~45% of dose via CYP3A N-demethylation) but has ~3-fold LOWER MOR binding affinity than oxycodone and behaves close to an antagonist in vitro -- included only because it dominates the mass balance, not because it is analgesically active."
+        "notes": "The major metabolite by mass (~45% of dose via CYP3A N-demethylation) but has ~3-fold LOWER MOR binding affinity than oxycodone and behaves close to an antagonist in vitro -- included only because it dominates the mass balance, not because it is analgesically active.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Noroxycodone behaves close to a MOR antagonist in vitro, in contrast to oxycodone's agonist activity, despite dominating the metabolic mass balance."
       }
     ]
   },
@@ -615,7 +661,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.2165/00003088-200645040-00005",
-        "notes": "6-MAM is more lipophilic than morphine and crosses the blood-brain barrier faster, which is believed to drive heroin's characteristic rapid 'rush' relative to IV morphine; no independently verifiable quantitative potency ratio vs. heroin or vs. morphine could be pinned to a primary source, so left null rather than guessed. 6-MAM in blood/urine is the only analytical marker that unambiguously confirms heroin (as opposed to morphine or codeine) use."
+        "notes": "6-MAM is more lipophilic than morphine and crosses the blood-brain barrier faster, which is believed to drive heroin's characteristic rapid 'rush' relative to IV morphine; no independently verifiable quantitative potency ratio vs. heroin or vs. morphine could be pinned to a primary source, so left null rather than guessed. 6-MAM in blood/urine is the only analytical marker that unambiguously confirms heroin (as opposed to morphine or codeine) use.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "plasma/tissue esterases",
@@ -631,7 +678,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.2165/00003088-200645040-00005",
-        "notes": "Morphine (via 6-MAM) is the dominant metabolite responsible for heroin's sustained opioid effect; see the separate Morphine record for M6G/M3G downstream metabolism. A 'potency vs. parent' comparison is not very meaningful here since heroin itself has essentially no direct receptor activity of its own."
+        "notes": "Morphine (via 6-MAM) is the dominant metabolite responsible for heroin's sustained opioid effect; see the separate Morphine record for M6G/M3G downstream metabolism. A 'potency vs. parent' comparison is not very meaningful here since heroin itself has essentially no direct receptor activity of its own.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -654,7 +702,9 @@
         "metabolite_potency_vs_parent_pct": 10000,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "doi:10.1093/bja/aeu186",
-        "notes": "M6G is often quoted as ~100x more potent than morphine as a MOR agonist; this figure comes from receptor-binding/functional-assay work, not a simple clinical equianalgesic ratio -- M6G crosses the blood-brain barrier more slowly than morphine, so its clinical onset is delayed even though it is a strong agonist. The same 2014 BJA quantitative review (this reference) separately estimates M6G's AUC-based CONTRIBUTION to overall analgesia at roughly 85-97% depending on dosing regimen -- a different quantity (contribution share, not a per-molecule potency multiple) worth distinguishing when this is consumed downstream. M6G accumulates in renal impairment and can cause delayed, prolonged sedation/respiratory depression even when morphine dosing looks unremarkable."
+        "notes": "M6G is often quoted as ~100x more potent than morphine as a MOR agonist; this figure comes from receptor-binding/functional-assay work, not a simple clinical equianalgesic ratio -- M6G crosses the blood-brain barrier more slowly than morphine, so its clinical onset is delayed even though it is a strong agonist. The same 2014 BJA quantitative review (this reference) separately estimates M6G's AUC-based CONTRIBUTION to overall analgesia at roughly 85-97% depending on dosing regimen -- a different quantity (contribution share, not a per-molecule potency multiple) worth distinguishing when this is consumed downstream. M6G accumulates in renal impairment and can cause delayed, prolonged sedation/respiratory depression even when morphine dosing looks unremarkable.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "UGT2B7",
@@ -667,7 +717,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1093/bja/aeu186",
-        "notes": "M3G is the quantitatively dominant morphine metabolite but has essentially no MOR analgesic activity. It is marked active here (per instructions) because it is pharmacologically NOT inert: it is associated with neuroexcitatory effects (hyperalgesia, myoclonus, agitation, and at high accumulation seizures), particularly in renal impairment or very high-dose chronic morphine use. It has no meaningful analgesic potency, hence potency_vs_parent_pct is null rather than 0/fabricated."
+        "notes": "M3G is the quantitatively dominant morphine metabolite but has essentially no MOR analgesic activity. It is marked active here (per instructions) because it is pharmacologically NOT inert: it is associated with neuroexcitatory effects (hyperalgesia, myoclonus, agitation, and at high accumulation seizures), particularly in renal impairment or very high-dose chronic morphine use. It has no meaningful analgesic potency, hence potency_vs_parent_pct is null rather than 0/fabricated.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "M3G has essentially no MOR analgesic activity but produces neuroexcitatory effects (hyperalgesia, myoclonus, agitation, and at high accumulation seizures) via a distinct, non-analgesic mechanism, unlike morphine's own MOR-mediated analgesia."
       }
     ]
   },
@@ -688,7 +740,10 @@
         "metabolite_potency_vs_parent_pct": 32,
         "metabolite_potency_basis": "in_vitro",
         "reference": "pmid:11303059",
-        "notes": "Huang et al. 2001: in the mouse acetic-acid writhing antinociception assay (subcutaneous dosing), A50 = 0.067 mg/kg for buprenorphine vs 0.21 mg/kg for norbuprenorphine, i.e. norbuprenorphine needed ~3x the dose for equivalent effect (~32% as potent) in that in-vitro/in-vivo-functional model -- NOT a human clinical potency ratio. The same paper found norbuprenorphine has HIGHER intrinsic efficacy (more full agonist) at MOR than buprenorphine's partial agonism, which raises theoretical respiratory-depression concern, but norbuprenorphine is a P-glycoprotein substrate with limited brain penetration, so its real-world CNS/respiratory contribution is generally considered much smaller than plasma levels alone would suggest. Do not confuse this 32% in-vitro figure with the frequently-repeated but weakly-sourced claim that norbuprenorphine is '1/50th' as potent as buprenorphine IV -- that number could not be traced to a verifiable primary source here."
+        "notes": "Huang et al. 2001: in the mouse acetic-acid writhing antinociception assay (subcutaneous dosing), A50 = 0.067 mg/kg for buprenorphine vs 0.21 mg/kg for norbuprenorphine, i.e. norbuprenorphine needed ~3x the dose for equivalent effect (~32% as potent) in that in-vitro/in-vivo-functional model -- NOT a human clinical potency ratio. The same paper found norbuprenorphine has HIGHER intrinsic efficacy (more full agonist) at MOR than buprenorphine's partial agonism, which raises theoretical respiratory-depression concern, but norbuprenorphine is a P-glycoprotein substrate with limited brain penetration, so its real-world CNS/respiratory contribution is generally considered much smaller than plasma levels alone would suggest. Do not confuse this 32% in-vitro figure with the frequently-repeated but weakly-sourced claim that norbuprenorphine is '1/50th' as potent as buprenorphine IV -- that number could not be traced to a verifiable primary source here.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "metabolite_potency_target": "clinical-effect",
+        "mechanism_note": "Norbuprenorphine has higher intrinsic efficacy (near-full MOR agonism) than buprenorphine's own partial agonism, and its real-world CNS/respiratory impact is further limited by P-glycoprotein-restricted brain penetration."
       }
     ]
   },
@@ -706,7 +761,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1046/j.1365-2125.1998.00727.x",
-        "notes": "IMPORTANT and counter-intuitive finding (Wilder-Smith et al. 1998, quinidine-induced-PM crossover design): quinidine-induced CYP2D6 poor metabolizers had 3-4x LOWER plasma dihydromorphine, yet showed NO reduction in analgesic effect vs. extensive metabolizers on a single dose. This is the opposite pattern from codeine (where PM status abolishes analgesia) and suggests dihydrocodeine's own analgesic contribution (or a non-CYP2D6 pathway) may be more clinically important than the CYP2D6->dihydromorphine route, unlike codeine. No reliable dihydromorphine potency-vs-parent multiplier could be pinned to a primary source, so left null."
+        "notes": "IMPORTANT and counter-intuitive finding (Wilder-Smith et al. 1998, quinidine-induced-PM crossover design): quinidine-induced CYP2D6 poor metabolizers had 3-4x LOWER plasma dihydromorphine, yet showed NO reduction in analgesic effect vs. extensive metabolizers on a single dose. This is the opposite pattern from codeine (where PM status abolishes analgesia) and suggests dihydrocodeine's own analgesic contribution (or a non-CYP2D6 pathway) may be more clinically important than the CYP2D6->dihydromorphine route, unlike codeine. No reliable dihydromorphine potency-vs-parent multiplier could be pinned to a primary source, so left null.",
+        "metabolite_mechanism_vs_parent": "unknown"
       }
     ]
   },
@@ -729,7 +785,10 @@
         "metabolite_potency_vs_parent_pct": 50,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1097/00045391-200201000-00010",
-        "notes": "Normeperidine has roughly half the analgesic potency of meperidine but 2-3x the neurotoxic/proconvulsant potential (Latta, Ginsberg & Barkin 2002 critical review) -- it is not an effective analgesic and its clinical significance is almost entirely toxicity (anxiety, tremor, myoclonus, seizures), not pain relief. Half-life extends to ~30-40h with renal impairment; accumulation risk rises sharply with prolonged use (>48h) or high cumulative dose (>600 mg/24h in adults), which is why meperidine is now largely avoided for anything beyond brief, single-dose use and is contraindicated in renal impairment."
+        "notes": "Normeperidine has roughly half the analgesic potency of meperidine but 2-3x the neurotoxic/proconvulsant potential (Latta, Ginsberg & Barkin 2002 critical review) -- it is not an effective analgesic and its clinical significance is almost entirely toxicity (anxiety, tremor, myoclonus, seizures), not pain relief. Half-life extends to ~30-40h with renal impairment; accumulation risk rises sharply with prolonged use (>48h) or high cumulative dose (>600 mg/24h in adults), which is why meperidine is now largely avoided for anything beyond brief, single-dose use and is contraindicated in renal impairment.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "metabolite_potency_target": "clinical-effect",
+        "mechanism_note": "Normeperidine has roughly half meperidine's analgesic potency but 2-3x its neurotoxic/proconvulsant potential, so its clinical significance is almost entirely toxicity rather than pain relief."
       }
     ]
   },
@@ -756,7 +815,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1002/cpdd.326",
-        "notes": "EDDP is pharmacologically INACTIVE and is included here specifically to document that fact -- unlike every prodrug/active-metabolite case on this list, methadone's long and unpredictable duration of action, and its accumulation-driven overdose risk, come entirely from the PARENT molecule's own slow and genetically variable clearance (chiefly via CYP2B6), not from any active metabolite. Do not attribute methadone's danger profile to a metabolite."
+        "notes": "EDDP is pharmacologically INACTIVE and is included here specifically to document that fact -- unlike every prodrug/active-metabolite case on this list, methadone's long and unpredictable duration of action, and its accumulation-driven overdose risk, come entirely from the PARENT molecule's own slow and genetically variable clearance (chiefly via CYP2B6), not from any active metabolite. Do not attribute methadone's danger profile to a metabolite.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "EDDP is pharmacologically inactive and shares none of methadone's opioid receptor activity; methadone's danger profile comes entirely from the parent molecule's own slow, variable clearance."
       }
     ]
   },
@@ -777,7 +838,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1097/ADM.0000000000001185",
-        "notes": "Norfentanyl accounts for >99% of fentanyl's metabolic clearance and is pharmacologically INACTIVE with no evidence of toxicity of its own; included for completeness only. Fentanyl's entire danger profile (rapid onset, high potency, respiratory depression, illicitly-manufactured-fentanyl variability) is a property of the PARENT molecule, not a metabolite. Norfentanyl does have a longer detection window than fentanyl itself, which is relevant for toxicology/harm-reduction testing context but not for pharmacodynamic risk."
+        "notes": "Norfentanyl accounts for >99% of fentanyl's metabolic clearance and is pharmacologically INACTIVE with no evidence of toxicity of its own; included for completeness only. Fentanyl's entire danger profile (rapid onset, high potency, respiratory depression, illicitly-manufactured-fentanyl variability) is a property of the PARENT molecule, not a metabolite. Norfentanyl does have a longer detection window than fentanyl itself, which is relevant for toxicology/harm-reduction testing context but not for pharmacodynamic risk.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Norfentanyl is pharmacologically inactive and does not share fentanyl's opioid receptor activity or toxicity."
       }
     ]
   },
@@ -801,7 +864,9 @@
         "metabolite_potency_vs_parent_pct": 33,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:9311667",
-        "notes": "Non-competitive NMDA antagonist in its own right (Ebert et al. 1997, rat cortex/spinal cord + [3H]MK-801 binding); commonly cited as roughly one-third the NMDA-antagonist potency of ketamine. Accumulates with oral/repeated dosing and contributes to the dissociative tail, distinct from the (2R,6R)-HNK pathway below."
+        "notes": "Non-competitive NMDA antagonist in its own right (Ebert et al. 1997, rat cortex/spinal cord + [3H]MK-801 binding); commonly cited as roughly one-third the NMDA-antagonist potency of ketamine. Accumulates with oral/repeated dosing and contributes to the dissociative tail, distinct from the (2R,6R)-HNK pathway below.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "NMDA"
       },
       {
         "enzyme": "CYP-mediated hydroxylation of norketamine",
@@ -817,7 +882,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1002/cpt.3391",
-        "notes": "IMPORTANT: (2R,6R)-HNK does NOT meaningfully block NMDA receptors at antidepressant-relevant concentrations (Zanos et al. 2016, Nature, doi:10.1038/nature17998; PNAS 2019, doi:10.1073/pnas.1816071116) and is NOT responsible for ketamine's acute dissociation/anesthesia. Its putative antidepressant activity is AMPA-receptor-dependent and NMDAR-inhibition-independent — a mechanistically distinct role from norketamine. Human half-life from a Phase 1 IV pharmacokinetic study of HNK itself (Raja et al. 2024, Clin Pharmacol Ther)."
+        "notes": "IMPORTANT: (2R,6R)-HNK does NOT meaningfully block NMDA receptors at antidepressant-relevant concentrations (Zanos et al. 2016, Nature, doi:10.1038/nature17998; PNAS 2019, doi:10.1073/pnas.1816071116) and is NOT responsible for ketamine's acute dissociation/anesthesia. Its putative antidepressant activity is AMPA-receptor-dependent and NMDAR-inhibition-independent — a mechanistically distinct role from norketamine. Human half-life from a Phase 1 IV pharmacokinetic study of HNK itself (Raja et al. 2024, Clin Pharmacol Ther).",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "(2R,6R)-HNK does not meaningfully block NMDA receptors the way ketamine does; its putative antidepressant activity instead appears to be AMPA-receptor-dependent and NMDA-independent, a mechanistically distinct role."
       }
     ]
   },
@@ -838,7 +905,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1097/00004714-199508000-00005",
-        "notes": "Dextrorphan is the PCP/ketamine-like NMDA antagonist responsible for DXM's dissociative plateaus; formation is CYP2D6-dependent. In CYP2D6 poor metabolizers, plasma dextrorphan is only ~3% of the concentration seen in extensive metabolizers at the same DXM dose — PMs therefore get much higher, longer-lasting parent DXM exposure but far less dextrorphan-mediated dissociation, shifting the experience toward DXM's own serotonergic/sigma-1/reuptake-inhibitor activity instead. No reliable standalone dextrorphan half-life or dose-fraction figure was found; do not assume a value. CYP2D6 phenotype is unknowable to a user without genetic testing, and strong CYP2D6 inhibitors (e.g., quinidine, bupropion, paroxetine) pharmacologically convert an EM into a PM."
+        "notes": "Dextrorphan is the PCP/ketamine-like NMDA antagonist responsible for DXM's dissociative plateaus; formation is CYP2D6-dependent. In CYP2D6 poor metabolizers, plasma dextrorphan is only ~3% of the concentration seen in extensive metabolizers at the same DXM dose — PMs therefore get much higher, longer-lasting parent DXM exposure but far less dextrorphan-mediated dissociation, shifting the experience toward DXM's own serotonergic/sigma-1/reuptake-inhibitor activity instead. No reliable standalone dextrorphan half-life or dose-fraction figure was found; do not assume a value. CYP2D6 phenotype is unknowable to a user without genetic testing, and strong CYP2D6 inhibitors (e.g., quinidine, bupropion, paroxetine) pharmacologically convert an EM into a PM.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Dextrorphan is an NMDA receptor antagonist responsible for DXM's dissociative effects, whereas DXM itself acts mainly via serotonin reuptake inhibition and sigma-1 receptor activity -- distinct mechanisms rather than a scaled version of one another."
       }
     ]
   },
@@ -862,7 +931,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1002/cpt.2821",
-        "notes": "Psilocin IS essentially all of the drug's clinical effect; treat the psilocybin->psilocin step as complete conversion for practical purposes, not partial metabolism (exact conversion fraction not separately quantified in the cited human oral-dosing study, Holze et al. 2023). Psilocin is further conjugated (glucuronidation) or oxidized to inactive 4-hydroxyindole-3-acetic acid/4-hydroxytryptophol."
+        "notes": "Psilocin IS essentially all of the drug's clinical effect; treat the psilocybin->psilocin step as complete conversion for practical purposes, not partial metabolism (exact conversion fraction not separately quantified in the cited human oral-dosing study, Holze et al. 2023). Psilocin is further conjugated (glucuronidation) or oxidized to inactive 4-hydroxyindole-3-acetic acid/4-hydroxytryptophol.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -880,7 +951,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "clinical",
         "reference": "pmid:38264637",
-        "notes": "The 70% formation-fraction figure is from a MOUSE intraperitoneal study (relative peripheral psilocin exposure from psilacetin vs. equivalent psilocybin dose), not human data — flagged as animal-derived. Human liver microsome work (Zhai et al. 2022, Drug Test Anal, doi:10.1002/dta.3255) confirms hydrolysis to psilocin as a major pathway alongside 14 other phase I/II metabolites, but does not provide a human in vivo conversion fraction. Assume psilocin's own PK/effect profile once formed is the same active species as under psilocybin."
+        "notes": "The 70% formation-fraction figure is from a MOUSE intraperitoneal study (relative peripheral psilocin exposure from psilacetin vs. equivalent psilocybin dose), not human data — flagged as animal-derived. Human liver microsome work (Zhai et al. 2022, Drug Test Anal, doi:10.1002/dta.3255) confirms hydrolysis to psilocin as a major pathway alongside 14 other phase I/II metabolites, but does not provide a human in vivo conversion fraction. Assume psilocin's own PK/effect profile once formed is the same active species as under psilocybin.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -904,7 +977,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1002/jcph.404",
-        "notes": "Noribogaine reaches higher plasma levels than ibogaine and is detectable for days; mean half-life 28-49h across a 3-60mg single ascending oral dose study in healthy volunteers (Glue et al. 2015). Mechanistically distinct from ibogaine rather than simply 'weaker/stronger': noribogaine shows prominent mu-opioid-related and serotonergic activity linked to anti-withdrawal/anti-craving effects in animal models (Mash et al. 2016, doi:10.1177/0269881116641331), while ibogaine's acute hallucinogenic/oneirogenic effects are attributed more to the parent compound during its brief peak. No validated single potency ratio exists comparing the two on a common scale."
+        "notes": "Noribogaine reaches higher plasma levels than ibogaine and is detectable for days; mean half-life 28-49h across a 3-60mg single ascending oral dose study in healthy volunteers (Glue et al. 2015). Mechanistically distinct from ibogaine rather than simply 'weaker/stronger': noribogaine shows prominent mu-opioid-related and serotonergic activity linked to anti-withdrawal/anti-craving effects in animal models (Mash et al. 2016, doi:10.1177/0269881116641331), while ibogaine's acute hallucinogenic/oneirogenic effects are attributed more to the parent compound during its brief peak. No validated single potency ratio exists comparing the two on a common scale.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Noribogaine shows prominent mu-opioid and serotonergic activity linked to anti-withdrawal/anti-craving effects, while ibogaine's acute hallucinogenic/oneirogenic effects are attributed to the parent compound itself -- mechanistically distinct roles."
       }
     ]
   },
@@ -925,7 +1000,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.2174/138920010794233495",
-        "notes": "CONTESTED/route-dependent — report honestly rather than resolving it. In vitro human liver microsome work shows CYP2D6 O-demethylates 5-MeO-DMT to bufotenine, and animal/humanized-mouse data show CYP2D6 genotype and MAO-inhibitor co-exposure strongly affect bufotenine exposure (Shen et al. 2010). However, in the Phase 1 human vaporized-dosing study cited above, bufotenine was BELOW THE LIMIT OF DETECTION at all timepoints in all participants — i.e., no confirmed in vivo formation at clinically relevant levels via the inhaled route in humans. Oral/sublingual dosing (greater first-pass hepatic CYP2D6 exposure) may behave differently but this was not directly tested in the cited study. Do not assert a human half-life, formation fraction, or potency ratio for bufotenine as a 5-MeO-DMT metabolite — none is adequately supported."
+        "notes": "CONTESTED/route-dependent — report honestly rather than resolving it. In vitro human liver microsome work shows CYP2D6 O-demethylates 5-MeO-DMT to bufotenine, and animal/humanized-mouse data show CYP2D6 genotype and MAO-inhibitor co-exposure strongly affect bufotenine exposure (Shen et al. 2010). However, in the Phase 1 human vaporized-dosing study cited above, bufotenine was BELOW THE LIMIT OF DETECTION at all timepoints in all participants — i.e., no confirmed in vivo formation at clinically relevant levels via the inhaled route in humans. Oral/sublingual dosing (greater first-pass hepatic CYP2D6 exposure) may behave differently but this was not directly tested in the cited study. Do not assert a human half-life, formation fraction, or potency ratio for bufotenine as a 5-MeO-DMT metabolite — none is adequately supported.",
+        "metabolite_mechanism_vs_parent": "unknown"
       }
     ]
   },
@@ -946,7 +1022,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1373/clinchem.2008.122119",
-        "notes": "ROUTE DEPENDENCE IS THE KEY FACT: nearly 100% of orally ingested THC is converted to 11-OH-THC on first hepatic pass, versus only ~20% of inhaled THC (general cannabinoid metabolism reviews, e.g. Huestis 2005 review, pmid:16237477) — this is why edibles feel qualitatively different/stronger and slower-onset than smoking/vaping at the same THC dose. Potency is not resolvable to one clean number: a controlled mouse behavioral-pharmacology study found 11-OH-THC 153% as active as THC in an analgesia (tail-flick) assay but only 78% as active in a catalepsy assay (Zagzoog et al. 2024, doi:10.1124/jpet.123.001998); an early human IV study (Lemberger et al. 1972, doi:10.1126/science.177.4043.62) found equal-dose 11-OH-THC produced faster-onset, more intense psychoactive effects than THC. Left null rather than averaging assay-specific, cross-species numbers into a false single ratio."
+        "notes": "ROUTE DEPENDENCE IS THE KEY FACT: nearly 100% of orally ingested THC is converted to 11-OH-THC on first hepatic pass, versus only ~20% of inhaled THC (general cannabinoid metabolism reviews, e.g. Huestis 2005 review, pmid:16237477) — this is why edibles feel qualitatively different/stronger and slower-onset than smoking/vaping at the same THC dose. Potency is not resolvable to one clean number: a controlled mouse behavioral-pharmacology study found 11-OH-THC 153% as active as THC in an analgesia (tail-flick) assay but only 78% as active in a catalepsy assay (Zagzoog et al. 2024, doi:10.1124/jpet.123.001998); an early human IV study (Lemberger et al. 1972, doi:10.1126/science.177.4043.62) found equal-dose 11-OH-THC produced faster-onset, more intense psychoactive effects than THC. Left null rather than averaging assay-specific, cross-species numbers into a false single ratio.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -967,7 +1044,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1373/clinchem.2008.122119",
-        "notes": "Same metabolite/route-dependence as the THC entry: near-complete first-pass conversion of oral THC to 11-OH-THC vs. ~20% for inhaled THC (Huestis 2005 review, pmid:16237477), which is why edibles differ so much from smoked/vaped cannabis at equivalent THC content. See THC entry for the assay-specific potency figures (Zagzoog 2024, doi:10.1124/jpet.123.001998; Lemberger 1972, doi:10.1126/science.177.4043.62); left null here for the same reason."
+        "notes": "Same metabolite/route-dependence as the THC entry: near-complete first-pass conversion of oral THC to 11-OH-THC vs. ~20% for inhaled THC (Huestis 2005 review, pmid:16237477), which is why edibles differ so much from smoked/vaped cannabis at equivalent THC content. See THC entry for the assay-specific potency figures (Zagzoog 2024, doi:10.1124/jpet.123.001998; Lemberger 1972, doi:10.1126/science.177.4043.62); left null here for the same reason.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -988,7 +1066,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.3390/molecules29050984",
-        "notes": "This human oral kratom-leaf PK study (Tanna et al. 2024) directly confirms meaningful in vivo formation of 7-hydroxymitragynine after ordinary oral kratom leaf consumption (plasma 7-OH-mitragynine:mitragynine ratio 0.20-0.31 by AUC/Cmax, higher after single vs. repeated dosing) — this contradicts claims that in vivo formation from leaf material is negligible. 7-hydroxymitragynine is identified as a key mediator of mitragynine's analgesic/opioid-like effects with high mu-opioid-receptor affinity (Kruegel et al. 2019, ACS Cent Sci, doi:10.1021/acscentsci.9b00141), but no reliable quantitative human potency ratio vs. mitragynine was found — left null rather than guessed. Note this is distinct from the newer regulatory/product controversy over concentrated, isolated '7-OH' extract products, whose PK this leaf-based study does not characterize."
+        "notes": "This human oral kratom-leaf PK study (Tanna et al. 2024) directly confirms meaningful in vivo formation of 7-hydroxymitragynine after ordinary oral kratom leaf consumption (plasma 7-OH-mitragynine:mitragynine ratio 0.20-0.31 by AUC/Cmax, higher after single vs. repeated dosing) — this contradicts claims that in vivo formation from leaf material is negligible. 7-hydroxymitragynine is identified as a key mediator of mitragynine's analgesic/opioid-like effects with high mu-opioid-receptor affinity (Kruegel et al. 2019, ACS Cent Sci, doi:10.1021/acscentsci.9b00141), but no reliable quantitative human potency ratio vs. mitragynine was found — left null rather than guessed. Note this is distinct from the newer regulatory/product controversy over concentrated, isolated '7-OH' extract products, whose PK this leaf-based study does not characterize.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -1024,7 +1103,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "in_vitro",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf",
-        "notes": "FDA label: mean terminal t1/2 8.6 days (12384 min) after a single dose and 9.3 days (13392 min) after multiple dosing; secondary literature reports a broader 7-15 day range depending on study. Roughly equipotent to fluoxetine as a SERT inhibitor in vitro. This is THE motivating example for parent-vs-metabolite confusion: the commonly quoted '16-day half-life' for fluoxetine is actually the norfluoxetine-inclusive washout, not fluoxetine's own t1/2. Norfluoxetine's long persistence explains fluoxetine's ~5-week full washout and its comparatively low discontinuation-syndrome risk versus other SSRIs."
+        "notes": "FDA label: mean terminal t1/2 8.6 days (12384 min) after a single dose and 9.3 days (13392 min) after multiple dosing; secondary literature reports a broader 7-15 day range depending on study. Roughly equipotent to fluoxetine as a SERT inhibitor in vitro. This is THE motivating example for parent-vs-metabolite confusion: the commonly quoted '16-day half-life' for fluoxetine is actually the norfluoxetine-inclusive washout, not fluoxetine's own t1/2. Norfluoxetine's long persistence explains fluoxetine's ~5-week full washout and its comparatively low discontinuation-syndrome risk versus other SSRIs.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "SERT"
       }
     ]
   },
@@ -1045,7 +1126,9 @@
         "metabolite_potency_vs_parent_pct": 4,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "doi:10.1016/0024-3205(95)00209-o",
-        "notes": "Wong et al. 1995 (Life Sciences 57(5):411-441, PMID 7623609): SERT Ki ~76 nM vs sertraline's ~3 nM (~25-fold weaker, i.e. ~4% relative potency). In vivo confirmation: Sprouse et al. 1996 (Neuropsychopharmacology 14:225-231, doi:10.1016/0893-133X(95)00112-Q, PMID 8924190) found desmethylsertraline 10-20-fold less potent at blocking central 5-HT reuptake in vivo. Plasma levels can reach 1-3x the parent's due to its ~2.5x longer half-life, but it is not considered a meaningful contributor to sertraline's clinical SSRI effect. Shows more balanced serotonin/norepinephrine/dopamine reuptake inhibition than the serotonin-selective parent."
+        "notes": "Wong et al. 1995 (Life Sciences 57(5):411-441, PMID 7623609): SERT Ki ~76 nM vs sertraline's ~3 nM (~25-fold weaker, i.e. ~4% relative potency). In vivo confirmation: Sprouse et al. 1996 (Neuropsychopharmacology 14:225-231, doi:10.1016/0893-133X(95)00112-Q, PMID 8924190) found desmethylsertraline 10-20-fold less potent at blocking central 5-HT reuptake in vivo. Plasma levels can reach 1-3x the parent's due to its ~2.5x longer half-life, but it is not considered a meaningful contributor to sertraline's clinical SSRI effect. Shows more balanced serotonin/norepinephrine/dopamine reuptake inhibition than the serotonin-selective parent.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "SERT"
       }
     ]
   },
@@ -1066,7 +1149,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf",
-        "notes": "~59 hours. Weak SSRI activity relative to citalopram; secondary sources give inconsistent potency estimates (roughly one-eighth to one-third depending on assay/enantiomer per Hyttel et al. 1992 as cited in reviews), but no single well-validated Ki ratio with a verifiable citation could be confirmed in this research pass, so the percentage is left null rather than guessed."
+        "notes": "~59 hours. Weak SSRI activity relative to citalopram; secondary sources give inconsistent potency estimates (roughly one-eighth to one-third depending on assay/enantiomer per Hyttel et al. 1992 as cited in reviews), but no single well-validated Ki ratio with a verifiable citation could be confirmed in this research pass, so the percentage is left null rather than guessed.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2D6 (further N-demethylation of desmethylcitalopram)",
@@ -1079,7 +1163,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:2365786",
-        "notes": "Rop et al. 1990 (doi:10.1016/s0378-4347(00)82105-2). ~100 hours. A minor metabolite in normal metabolizers, but may become more significant in CYP2D6 ultrarapid metabolizers (~2% of the US population). SERT potency not well quantified in primary literature found; treat as weakly/minimally active."
+        "notes": "Rop et al. 1990 (doi:10.1016/s0378-4347(00)82105-2). ~100 hours. A minor metabolite in normal metabolizers, but may become more significant in CYP2D6 ultrarapid metabolizers (~2% of the US population). SERT potency not well quantified in primary literature found; treat as weakly/minimally active.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -1100,7 +1185,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "clinical",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/021323s055,021365s039lbl.pdf",
-        "notes": "FDA label states metabolites do not contribute significantly to escitalopram's antidepressant action. An enantiomer-specific half-life for S-desmethylcitalopram distinct from the racemic desmethylcitalopram value could not be confirmed from primary sources in this pass, so it is left null rather than borrowing the racemic figure."
+        "notes": "FDA label states metabolites do not contribute significantly to escitalopram's antidepressant action. An enantiomer-specific half-life for S-desmethylcitalopram distinct from the racemic desmethylcitalopram value could not be confirmed from primary sources in this pass, so it is left null rather than borrowing the racemic figure.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -1124,7 +1210,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "in_vitro",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf",
-        "notes": "~11 hours (IR); ~13-14h reported with XR formulation. Now marketed independently as desvenlafaxine (Pristiq). FDA labeling and pharmacology literature (e.g. Muth et al., Drug Dev Res 1991;23:191-199 — cited secondarily; a verifiable DOI/PMID for this specific paper could not be confirmed in this pass) describe venlafaxine and ODV as similarly potent serotonin/norepinephrine reuptake inhibitors and weak dopamine reuptake inhibitors. CYP2D6 poor metabolizers form little ODV and are more exposed to unconverted venlafaxine, which carries a somewhat higher cardiac-safety concern at high doses."
+        "notes": "~11 hours (IR); ~13-14h reported with XR formulation. Now marketed independently as desvenlafaxine (Pristiq). FDA labeling and pharmacology literature (e.g. Muth et al., Drug Dev Res 1991;23:191-199 — cited secondarily; a verifiable DOI/PMID for this specific paper could not be confirmed in this pass) describe venlafaxine and ODV as similarly potent serotonin/norepinephrine reuptake inhibitors and weak dopamine reuptake inhibitors. CYP2D6 poor metabolizers form little ODV and are more exposed to unconverted venlafaxine, which carries a somewhat higher cardiac-safety concern at high doses.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "SERT"
       }
     ]
   },
@@ -1154,7 +1242,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:9616194",
-        "notes": "Rotzinger et al. 1998 (J Pharmacol Exp Ther, 'Trazodone is metabolized to m-chlorophenylpiperazine by CYP3A4') establishes the CYP3A4 pathway and that mCPP is further inactivated by CYP2D6. mCPP half-life estimates vary considerably by study/route (an oral-dosing PK study found t1/2 ~4.3h with Tmax ~3.2h; other secondary sources cite ~14h) — reported here as a wide range rather than a single confident point estimate. Systemic mCPP levels are typically <10% of trazodone's. Critically, mCPP has a QUALITATIVELY DIFFERENT pharmacology from trazodone: whereas trazodone is primarily a 5-HT2A antagonist/weak SERT inhibitor, mCPP (Porter et al. 1999, Br J Pharmacol 128:13-20, PMID 10498829) is a 5-HT2C receptor agonist (65% relative efficacy) with additional 5-HT2B/5-HT2A/5-HT1B/5-HT3/5-HT1A affinity. This is implicated in trazodone-associated anxiety, dysphoria, and migraine-like headache. CYP2D6 poor metabolizers accumulate more mCPP and report more adverse effects. Because the mechanisms differ qualitatively, a single parent-relative potency percentage is not meaningful and is left null."
+        "notes": "Rotzinger et al. 1998 (J Pharmacol Exp Ther, 'Trazodone is metabolized to m-chlorophenylpiperazine by CYP3A4') establishes the CYP3A4 pathway and that mCPP is further inactivated by CYP2D6. mCPP half-life estimates vary considerably by study/route (an oral-dosing PK study found t1/2 ~4.3h with Tmax ~3.2h; other secondary sources cite ~14h) — reported here as a wide range rather than a single confident point estimate. Systemic mCPP levels are typically <10% of trazodone's. Critically, mCPP has a QUALITATIVELY DIFFERENT pharmacology from trazodone: whereas trazodone is primarily a 5-HT2A antagonist/weak SERT inhibitor, mCPP (Porter et al. 1999, Br J Pharmacol 128:13-20, PMID 10498829) is a 5-HT2C receptor agonist (65% relative efficacy) with additional 5-HT2B/5-HT2A/5-HT1B/5-HT3/5-HT1A affinity. This is implicated in trazodone-associated anxiety, dysphoria, and migraine-like headache. CYP2D6 poor metabolizers accumulate more mCPP and report more adverse effects. Because the mechanisms differ qualitatively, a single parent-relative potency percentage is not meaningful and is left null.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "mCPP is a 5-HT2C receptor agonist implicated in anxiety, dysphoria, and migraine-like headache, qualitatively different from trazodone's own 5-HT2A antagonist/weak SERT inhibitor profile."
       }
     ]
   },
@@ -1175,7 +1265,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf",
-        "notes": "Present at steady state at roughly one-third of the parent's plasma AUC. Retains some pharmacological activity but is generally considered substantially weaker than mirtazapine; a specific validated potency percentage and a metabolite-specific elimination half-life distinct from 'longer than parent' could not be confirmed from primary literature in this pass, so both are left null rather than estimated."
+        "notes": "Present at steady state at roughly one-third of the parent's plasma AUC. Retains some pharmacological activity but is generally considered substantially weaker than mirtazapine; a specific validated potency percentage and a metabolite-specific elimination half-life distinct from 'longer than parent' could not be confirmed from primary literature in this pass, so both are left null rather than estimated.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -1199,7 +1290,9 @@
         "metabolite_potency_vs_parent_pct": 50,
         "metabolite_potency_basis": "in_vitro",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
-        "notes": "FDA label: t1/2 20(±5)h; steady-state AUC ~17x that of bupropion, so despite ~half the per-molecule potency it is a major contributor to overall drug effect given its much higher plasma exposure. Damaj et al. 2004 (Mol Pharmacol 66:675-682, doi:10.1124/mol.104.001313, PMID 15322260) found racemic hydroxybupropion inhibits NE and DA uptake with potency comparable to bupropion overall, but that activity resides mostly in the (2S,3S) enantiomer (IC50 520 nM) rather than (2S,3R) (IC50 >10,000 nM) — so the 'half as potent' figure reflects the racemic mixture."
+        "notes": "FDA label: t1/2 20(±5)h; steady-state AUC ~17x that of bupropion, so despite ~half the per-molecule potency it is a major contributor to overall drug effect given its much higher plasma exposure. Damaj et al. 2004 (Mol Pharmacol 66:675-682, doi:10.1124/mol.104.001313, PMID 15322260) found racemic hydroxybupropion inhibits NE and DA uptake with potency comparable to bupropion overall, but that activity resides mostly in the (2S,3S) enantiomer (IC50 520 nM) rather than (2S,3R) (IC50 >10,000 nM) — so the 'half as potent' figure reflects the racemic mixture.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "NET"
       },
       {
         "enzyme": "11-beta-hydroxysteroid dehydrogenase / carbonyl reductase",
@@ -1215,7 +1308,9 @@
         "metabolite_potency_vs_parent_pct": 20,
         "metabolite_potency_basis": "in_vitro",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
-        "notes": "FDA label: t1/2 37(±13)h; steady-state AUC ~7x that of bupropion; ~5-fold less potent than bupropion per label. Potency/toxicity relative to bupropion 'not fully characterized' per the label's own language."
+        "notes": "FDA label: t1/2 37(±13)h; steady-state AUC ~7x that of bupropion; ~5-fold less potent than bupropion per label. Potency/toxicity relative to bupropion 'not fully characterized' per the label's own language.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "NET"
       },
       {
         "enzyme": "11-beta-hydroxysteroid dehydrogenase / carbonyl reductase",
@@ -1231,7 +1326,9 @@
         "metabolite_potency_vs_parent_pct": 20,
         "metabolite_potency_basis": "in_vitro",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
-        "notes": "FDA label: t1/2 33(±10)h; steady-state AUC ~1.5x that of bupropion; ~5-fold less potent than bupropion per label."
+        "notes": "FDA label: t1/2 33(±10)h; steady-state AUC ~1.5x that of bupropion; ~5-fold less potent than bupropion per label.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "NET"
       }
     ]
   },
@@ -1255,7 +1352,10 @@
         "metabolite_potency_vs_parent_pct": 10000,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "doi:10.1038/sj.npp.1301646",
-        "notes": "Jensen et al. 2008 (Neuropsychopharmacology 33(10):2303-2312, PMID 18059438): norquetiapine t1/2 ~9-12h. IMPORTANT — norquetiapine's pharmacology is QUALITATIVELY DIFFERENT from quetiapine, not just a weaker/stronger copy: it is a potent norepinephrine transporter (NET) inhibitor (Ki=12nM, ~100-fold MORE potent than quetiapine at NET, hence the >100 value above reflecting a metabolite more active than its parent at this one target) and a partial 5-HT1A agonist (~10-fold more potent/efficacious than quetiapine there too). This is believed to mediate much of quetiapine's antidepressant/anxiolytic activity, distinct from the D2/5-HT2A-driven antipsychotic effect of the parent compound itself. Also uniquely inhibits HCN1 channels (quetiapine does not). The metabolite_potency_vs_parent_pct value should be read narrowly as the NET-specific ratio, not an overall potency multiplier."
+        "notes": "Jensen et al. 2008 (Neuropsychopharmacology 33(10):2303-2312, PMID 18059438): norquetiapine t1/2 ~9-12h. IMPORTANT — norquetiapine's pharmacology is QUALITATIVELY DIFFERENT from quetiapine, not just a weaker/stronger copy: it is a potent norepinephrine transporter (NET) inhibitor (Ki=12nM, ~100-fold MORE potent than quetiapine at NET, hence the >100 value above reflecting a metabolite more active than its parent at this one target) and a partial 5-HT1A agonist (~10-fold more potent/efficacious than quetiapine there too). This is believed to mediate much of quetiapine's antidepressant/anxiolytic activity, distinct from the D2/5-HT2A-driven antipsychotic effect of the parent compound itself. Also uniquely inhibits HCN1 channels (quetiapine does not). The metabolite_potency_vs_parent_pct value should be read narrowly as the NET-specific ratio, not an overall potency multiplier.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "metabolite_potency_target": "NET",
+        "mechanism_note": "Norquetiapine is a potent norepinephrine transporter inhibitor and 5-HT1A partial agonist -- activity quetiapine itself largely lacks -- believed to drive much of the antidepressant/anxiolytic effect, distinct from quetiapine's own D2/5-HT2A-mediated antipsychotic action."
       }
     ]
   },
@@ -1276,7 +1376,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "pmid:25943458",
-        "notes": "~21 hours in extensive metabolizers (FDA label). Now marketed independently as paliperidone (Invega). Per the comparative pharmacology review (PMID 25943458), the two are essentially equipotent at D2 and 5-HT2A receptors, though their 5-HT2A/D2 binding ratios differ somewhat (paliperidone's is higher), and paliperidone has improved PK properties (renal elimination, minimal CYP involvement) and lower drug-interaction potential. The combined active-moiety elimination half-life (~20h, similar across extensive and poor CYP2D6 metabolizers) is the figure that governs clinical washout and accumulation, not either individual t1/2 alone."
+        "notes": "~21 hours in extensive metabolizers (FDA label). Now marketed independently as paliperidone (Invega). Per the comparative pharmacology review (PMID 25943458), the two are essentially equipotent at D2 and 5-HT2A receptors, though their 5-HT2A/D2 binding ratios differ somewhat (paliperidone's is higher), and paliperidone has improved PK properties (renal elimination, minimal CYP involvement) and lower drug-interaction potential. The combined active-moiety elimination half-life (~20h, similar across extensive and poor CYP2D6 metabolizers) is the figure that governs clinical washout and accumulation, not either individual t1/2 alone.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "D2"
       }
     ]
   },
@@ -1300,7 +1402,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "https://www.fda.gov/media/71096/download",
-        "notes": "Terminal t1/2 ~94h (one PK study reported ~97.8±16.6h). Represents roughly 29-40% of parent drug systemic exposure (AUC) across sources reviewed (reported here as ~34%, the approximate midpoint; exact figure varies by dosing regimen/study). D2 receptor binding affinity is similar to aripiprazole's, so this metabolite is a substantial, near-equipotent contributor to overall antipsychotic effect and is a major reason for the drug's very long washout period."
+        "notes": "Terminal t1/2 ~94h (one PK study reported ~97.8±16.6h). Represents roughly 29-40% of parent drug systemic exposure (AUC) across sources reviewed (reported here as ~34%, the approximate midpoint; exact figure varies by dosing regimen/study). D2 receptor binding affinity is similar to aripiprazole's, so this metabolite is a substantial, near-equipotent contributor to overall antipsychotic effect and is a major reason for the drug's very long washout period.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "D2"
       }
     ]
   },
@@ -1324,7 +1428,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:9400006",
-        "notes": "Marketed independently as its own antidepressant (Pamelor/Aventyl). Reported half-life ~31h but with a very wide range (18-93h) across sources. Per Owens et al. 1997 (J Pharmacol Exp Ther 283:1305-1322), nortriptyline is more NET-selective and less serotonergic than amitriptyline — a qualitative shift in the SERT:NET balance rather than simply a stronger or weaker copy. A precise, independently verifiable Ki-based potency percentage relative to amitriptyline could not be confirmed from accessible primary sources in this pass, so it is left null."
+        "notes": "Marketed independently as its own antidepressant (Pamelor/Aventyl). Reported half-life ~31h but with a very wide range (18-93h) across sources. Per Owens et al. 1997 (J Pharmacol Exp Ther 283:1305-1322), nortriptyline is more NET-selective and less serotonergic than amitriptyline — a qualitative shift in the SERT:NET balance rather than simply a stronger or weaker copy. A precise, independently verifiable Ki-based potency percentage relative to amitriptyline could not be confirmed from accessible primary sources in this pass, so it is left null.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Nortriptyline shifts the SERT:NET balance toward norepinephrine selectivity relative to amitriptyline's more balanced serotonin/norepinephrine profile, rather than being a simple stronger or weaker copy."
       }
     ]
   },
@@ -1348,7 +1454,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:9400006",
-        "notes": "Marketed independently as its own antidepressant (Norpramin). ~22-28 hours. Desipramine is a potent, highly selective norepinephrine reuptake inhibitor, a qualitatively different (more noradrenergic-selective) mechanism than imipramine's more balanced serotonin/norepinephrine profile — per Owens et al. 1997 (J Pharmacol Exp Ther 283:1305-1322). A precise comparative potency percentage was not confirmed from accessible primary sources in this pass, so it is left null rather than estimated. Further metabolized (2-hydroxylation) by CYP2D6; poor metabolizers accumulate higher desipramine levels."
+        "notes": "Marketed independently as its own antidepressant (Norpramin). ~22-28 hours. Desipramine is a potent, highly selective norepinephrine reuptake inhibitor, a qualitatively different (more noradrenergic-selective) mechanism than imipramine's more balanced serotonin/norepinephrine profile — per Owens et al. 1997 (J Pharmacol Exp Ther 283:1305-1322). A precise comparative potency percentage was not confirmed from accessible primary sources in this pass, so it is left null rather than estimated. Further metabolized (2-hydroxylation) by CYP2D6; poor metabolizers accumulate higher desipramine levels.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Desipramine is a highly selective norepinephrine reuptake inhibitor, a qualitatively more noradrenergic-selective mechanism than imipramine's balanced serotonin/norepinephrine reuptake inhibition."
       }
     ]
   },
@@ -1372,7 +1480,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.2165/00003088-199120060-00002",
-        "notes": "~54-77 hours (mean ~69h), roughly double the parent's — dominates steady-state exposure. Pharmacologically DIFFERENT from clomipramine: whereas clomipramine is a potent, fairly serotonin-selective reuptake inhibitor at clinical doses, N-desmethylclomipramine is predominantly noradrenergic (stronger NET inhibition, weaker SERT activity relative to its own NET effect) — not simply a weaker or stronger version of the parent, so no single potency percentage is reported. Clinically exploited in treatment-resistant OCD: co-administering fluvoxamine (a CYP1A2 inhibitor) suppresses this conversion, increasing the serotonergic (vs. noradrenergic) character of the combined treatment. Nonlinear/dose-dependent kinetics reported for both compounds at higher doses."
+        "notes": "~54-77 hours (mean ~69h), roughly double the parent's — dominates steady-state exposure. Pharmacologically DIFFERENT from clomipramine: whereas clomipramine is a potent, fairly serotonin-selective reuptake inhibitor at clinical doses, N-desmethylclomipramine is predominantly noradrenergic (stronger NET inhibition, weaker SERT activity relative to its own NET effect) — not simply a weaker or stronger version of the parent, so no single potency percentage is reported. Clinically exploited in treatment-resistant OCD: co-administering fluvoxamine (a CYP1A2 inhibitor) suppresses this conversion, increasing the serotonergic (vs. noradrenergic) character of the combined treatment. Nonlinear/dose-dependent kinetics reported for both compounds at higher doses.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "N-desmethylclomipramine is predominantly noradrenergic (strong NET inhibition, weaker SERT activity) whereas clomipramine itself is fairly serotonin-selective, a qualitative shift rather than a scaled potency difference."
       }
     ]
   },
@@ -1396,7 +1506,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:15570192",
-        "notes": "Amphetamine/methamphetamine urinary AUC ratio rose from ~13% to ~36% over the dosing interval (Kim et al. 2004, Ther Drug Monit). This is a urinary excretion ratio, not a validated plasma formation fraction of administered dose -- true systemic formation_fraction_pct is not well established in humans, hence null. Amphetamine is an active CNS stimulant in its own right and meaningfully extends/broadens the subjective tail of methamphetamine use. Urinary elimination half-life for amphetamine was 20.7 ± 7.3 h in the same study; plasma t1/2 is shorter (commonly cited ~10-13 h in single-dose amphetamine PK) -- range given spans both to reflect genuine uncertainty rather than false precision."
+        "notes": "Amphetamine/methamphetamine urinary AUC ratio rose from ~13% to ~36% over the dosing interval (Kim et al. 2004, Ther Drug Monit). This is a urinary excretion ratio, not a validated plasma formation fraction of administered dose -- true systemic formation_fraction_pct is not well established in humans, hence null. Amphetamine is an active CNS stimulant in its own right and meaningfully extends/broadens the subjective tail of methamphetamine use. Urinary elimination half-life for amphetamine was 20.7 ± 7.3 h in the same study; plasma t1/2 is shorter (commonly cited ~10-13 h in single-dose amphetamine PK) -- range given spans both to reflect genuine uncertainty rather than false precision.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -1418,7 +1529,8 @@
         "metabolite_potency_basis": "unknown",
         "reference": null,
         "reference_notes": "FDA label mass-balance data (Adderall/dextroamphetamine NDA labeling, accessdata.fda.gov) reports ~2% of an oral dose recovered in urine as p-hydroxyamphetamine, alongside ~42% unchanged amphetamine and ~25% hippuric acid. No DOI/PMID could be verified for a specific primary human PK paper isolating this metabolite's own half-life or potency, so those fields are null.",
-        "notes": "Minor pathway. Reported as pharmacologically active (weak) in preclinical literature but its human contribution to subjective effects is not established and is generally considered negligible compared to the parent."
+        "notes": "Minor pathway. Reported as pharmacologically active (weak) in preclinical literature but its human contribution to subjective effects is not established and is generally considered negligible compared to the parent.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "Dopamine beta-hydroxylase (side-chain oxidation)",
@@ -1431,7 +1543,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": null,
-        "notes": "Minor metabolite, weakly active as a peripheral alpha/beta agonist (similar pharmacology to the ephedrine-class drug of the same name). Not considered to meaningfully contribute to amphetamine's CNS stimulant/subjective profile. No verifiable human formation-fraction or half-life citation found; left null rather than guessed."
+        "notes": "Minor metabolite, weakly active as a peripheral alpha/beta agonist (similar pharmacology to the ephedrine-class drug of the same name). Not considered to meaningfully contribute to amphetamine's CNS stimulant/subjective profile. No verifiable human formation-fraction or half-life citation found; left null rather than guessed.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "Norephedrine acts as a peripheral alpha/beta-adrenergic receptor agonist (like the ephedrine-class drug of the same name) rather than sharing amphetamine's central monoamine-releasing stimulant mechanism."
       }
     ]
   },
@@ -1455,7 +1569,9 @@
         "metabolite_potency_vs_parent_pct": 100,
         "metabolite_potency_basis": "clinical",
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/208510lbl.pdf",
-        "notes": "Lisdexamfetamine is an inactive prodrug -- essentially all clinical/subjective effect derives from d-amphetamine after RBC peptidase hydrolysis (the rate-limiting step, not CYP-mediated, so DDI risk from CYP inhibitors is low). FDA label: d-amphetamine Tmax ~3.8h (fasted), terminal t1/2 ~9.7 ± 1.55h. Because conversion is essentially quantitative and dose-linear, formation_fraction_pct is modeled as ~100% and potency_vs_parent_pct as 100 (the 'parent' drug has no activity of its own, so the metabolite IS the drug)."
+        "notes": "Lisdexamfetamine is an inactive prodrug -- essentially all clinical/subjective effect derives from d-amphetamine after RBC peptidase hydrolysis (the rate-limiting step, not CYP-mediated, so DDI risk from CYP inhibitors is low). FDA label: d-amphetamine Tmax ~3.8h (fasted), terminal t1/2 ~9.7 ± 1.55h. Because conversion is essentially quantitative and dose-linear, formation_fraction_pct is modeled as ~100% and potency_vs_parent_pct as 100 (the 'parent' drug has no activity of its own, so the metabolite IS the drug).",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "clinical-effect"
       }
     ]
   },
@@ -1479,7 +1595,9 @@
         "metabolite_potency_vs_parent_pct": 0,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "doi:10.1097/FPC.0000000000000376",
-        "notes": "Dominant clearance route -- PharmGKB summary (Stevens et al. 2019) reports 60-80% of an oral dose recovered as ritalinic acid in human urine at 48h (other sources cite up to ~91%; the exact fraction varies across studies, treat 70 as a midpoint estimate not a precise value). PHARMACOLOGICALLY INACTIVE -- ritalinic acid has only weak/negligible DAT affinity and does not meaningfully contribute to CNS stimulant effects. Included per instructions as the dominant clearance route worth noting, not as an active metabolite."
+        "notes": "Dominant clearance route -- PharmGKB summary (Stevens et al. 2019) reports 60-80% of an oral dose recovered as ritalinic acid in human urine at 48h (other sources cite up to ~91%; the exact fraction varies across studies, treat 70 as a midpoint estimate not a precise value). PHARMACOLOGICALLY INACTIVE -- ritalinic acid has only weak/negligible DAT affinity and does not meaningfully contribute to CNS stimulant effects. Included per instructions as the dominant clearance route worth noting, not as an active metabolite.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "DAT"
       }
     ]
   },
@@ -1503,7 +1621,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "pmid:12485948",
-        "notes": "HARM-REDUCTION CRITICAL: cocaethylene ONLY forms when cocaine is used concurrently with ethanol (hepatic/plasma carboxylesterases transesterify cocaine with ethanol instead of hydrolyzing it with water). It is active at DAT/SERT/NET, has a longer half-life than cocaine itself (~2.5h vs ~1h), is associated with greater cardiotoxicity than either substance alone, and is a major reason concurrent cocaine+alcohol use carries added cardiac risk. Total body clearance from this reference: cocaine 0.91 ± 0.22 L/min, cocaethylene 0.79 ± 0.16 L/min in plasma; both clearances decreased ~20% with concurrent ethanol."
+        "notes": "HARM-REDUCTION CRITICAL: cocaethylene ONLY forms when cocaine is used concurrently with ethanol (hepatic/plasma carboxylesterases transesterify cocaine with ethanol instead of hydrolyzing it with water). It is active at DAT/SERT/NET, has a longer half-life than cocaine itself (~2.5h vs ~1h), is associated with greater cardiotoxicity than either substance alone, and is a major reason concurrent cocaine+alcohol use carries added cardiac risk. Total body clearance from this reference: cocaine 0.91 ± 0.22 L/min, cocaethylene 0.79 ± 0.16 L/min in plasma; both clearances decreased ~20% with concurrent ethanol.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4 (N-demethylation)",
@@ -1516,7 +1635,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": null,
-        "notes": "Minor oxidative (CYP-mediated) pathway, distinct from the dominant esterase hydrolysis route. Reported as pharmacologically active (DAT inhibition) and hepatotoxic in preclinical work, but no verifiable human half-life/formation-fraction citation was found in this pass, so those fields are null rather than guessed. Ethanol coadministration has been reported to increase norcocaine formation at the expense of benzoylecgonine."
+        "notes": "Minor oxidative (CYP-mediated) pathway, distinct from the dominant esterase hydrolysis route. Reported as pharmacologically active (DAT inhibition) and hepatotoxic in preclinical work, but no verifiable human half-life/formation-fraction citation was found in this pass, so those fields are null rather than guessed. Ethanol coadministration has been reported to increase norcocaine formation at the expense of benzoylecgonine.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "Plasma/hepatic cholinesterase (hydrolysis)",
@@ -1529,7 +1649,9 @@
         "metabolite_potency_vs_parent_pct": 0,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": null,
-        "notes": "Inactive (not a monoamine transporter ligand of significance) but the dominant clearance product and standard urine-toxicology marker for cocaine use, with a much longer detection window than the parent. Included per instructions as the dominant clearance route worth noting."
+        "notes": "Inactive (not a monoamine transporter ligand of significance) but the dominant clearance product and standard urine-toxicology marker for cocaine use, with a much longer detection window than the parent. Included per instructions as the dominant clearance route worth noting.",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "metabolite_potency_target": "DAT"
       }
     ]
   },
@@ -1553,7 +1675,9 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "clinical",
         "reference": "doi:10.1371/journal.pone.0150955",
-        "notes": "S-MDA t1/2 9.2 ± 2.3 h (extensive metabolizers) to 10.6 ± 3.3 h (poor metabolizers); R-MDA elimination phase not reliably calculable in this study. MDA is an independently active entactogen/stimulant with a distinct subjective character (more classically 'psychedelic'/stimulant-leaning per user reports) compared to MDMA's prosocial-empathogenic profile. Only a minor fraction of an MDMA dose is converted to MDA in humans (this is a minor pathway compared to the major CYP2D6 O-demethylenation route to HMMA), but no reliable formation_fraction_pct could be verified, hence null."
+        "notes": "S-MDA t1/2 9.2 ± 2.3 h (extensive metabolizers) to 10.6 ± 3.3 h (poor metabolizers); R-MDA elimination phase not reliably calculable in this study. MDA is an independently active entactogen/stimulant with a distinct subjective character (more classically 'psychedelic'/stimulant-leaning per user reports) compared to MDMA's prosocial-empathogenic profile. Only a minor fraction of an MDMA dose is converted to MDA in humans (this is a minor pathway compared to the major CYP2D6 O-demethylenation route to HMMA), but no reliable formation_fraction_pct could be verified, hence null.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "mechanism_note": "MDA produces a more classically psychedelic/stimulant subjective profile compared to MDMA's prosocial empathogenic effects, reflecting a differing balance of monoamine-release and 5-HT2A-related activity rather than a simple scaled version of MDMA."
       },
       {
         "enzyme": "CYP2D6 (O-demethylenation) + COMT (O-methylation)",
@@ -1566,7 +1690,9 @@
         "metabolite_potency_vs_parent_pct": 0,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1371/journal.pone.0150955",
-        "notes": "Major clearance metabolite (dominant CYP2D6 pathway) but not established as pharmacologically active at monoamine targets in the way MDA is; included because it dominates elimination and has a longer apparent half-life than MDMA itself in many reports, though this specific reference's phase-II conjugate ratios (not simple half-lives) were the only quantitative data recoverable here."
+        "notes": "Major clearance metabolite (dominant CYP2D6 pathway) but not established as pharmacologically active at monoamine targets in the way MDA is; included because it dominates elimination and has a longer apparent half-life than MDMA itself in many reports, though this specific reference's phase-II conjugate ratios (not simple half-lives) were the only quantitative data recoverable here.",
+        "metabolite_mechanism_vs_parent": "unknown",
+        "metabolite_potency_target": null
       }
     ]
   },
@@ -1584,7 +1710,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "in_vitro",
         "reference": "doi:10.1111/bph.13547",
-        "notes": "Confirmed active in vitro as a substrate-releaser at DAT/NET/SERT (comparable low-micromolar potency to parent at DAT/NET; SERT shows enantioselectivity, R- 18x less potent than S- per this reference). No human half-life or formation-fraction data verified -- left null."
+        "notes": "Confirmed active in vitro as a substrate-releaser at DAT/NET/SERT (comparable low-micromolar potency to parent at DAT/NET; SERT shows enantioselectivity, R- 18x less potent than S- per this reference). No human half-life or formation-fraction data verified -- left null.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "Aldo-keto reductase (keto reduction)",
@@ -1597,7 +1724,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "in_vitro",
         "reference": "doi:10.1111/bph.13547",
-        "notes": "Represented ~10% of mephedrone plasma amounts in the human controlled-dose study (Olesti et al. 2017, AAPS J). Weak monoamine transporter activity overall per Mayer et al. 2016 (Br J Pharmacol) -- active but substantially less potent than the parent or nor-mephedrone."
+        "notes": "Represented ~10% of mephedrone plasma amounts in the human controlled-dose study (Olesti et al. 2017, AAPS J). Weak monoamine transporter activity overall per Mayer et al. 2016 (Br J Pharmacol) -- active but substantially less potent than the parent or nor-mephedrone.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2D6 (ring hydroxylation)",
@@ -1610,7 +1738,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "in_vitro",
         "reference": "doi:10.1111/bph.13547",
-        "notes": "Confirmed active as a transportable substrate at monoamine transporters in vitro. No human PK half-life/formation-fraction data found."
+        "notes": "Confirmed active as a transportable substrate at monoamine transporters in vitro. No human PK half-life/formation-fraction data found.",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "Oxidation + succinyl conjugation (Phase I+II)",
@@ -1623,7 +1752,10 @@
         "metabolite_potency_vs_parent_pct": 0,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1208/s12248-017-0132-2",
-        "notes": "Not reported as pharmacologically active; noted here only because it is the longest-lived detectable metabolite (t1/2 8.2 h) and serves as the primary forensic/toxicology marker of mephedrone use given the parent's very rapid clearance."
+        "notes": "Not reported as pharmacologically active; noted here only because it is the longest-lived detectable metabolite (t1/2 8.2 h) and serves as the primary forensic/toxicology marker of mephedrone use given the parent's very rapid clearance.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "metabolite_potency_target": null,
+        "mechanism_note": "N-succinyl-nor-mephedrone is not reported to be pharmacologically active and does not share mephedrone's monoamine-releasing activity; it functions only as a forensic clearance marker."
       }
     ]
   },
@@ -1641,7 +1773,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": null,
-        "notes": "Identified in human poisoning-case urine samples and by analogy to animal/mephedrone metabolism, but NO pharmacological activity data, half-life, or formation fraction has been established for this metabolite in humans. Activity is unknown, not confirmed inactive -- do not treat as equivalent to nor-mephedrone's confirmed activity."
+        "notes": "Identified in human poisoning-case urine samples and by analogy to animal/mephedrone metabolism, but NO pharmacological activity data, half-life, or formation fraction has been established for this metabolite in humans. Activity is unknown, not confirmed inactive -- do not treat as equivalent to nor-mephedrone's confirmed activity.",
+        "metabolite_mechanism_vs_parent": "unknown"
       },
       {
         "enzyme": "Reduction (putative)",
@@ -1654,7 +1787,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": null,
-        "notes": "Detected in a single deceased individual's urine in a forensic case report -- not a controlled human PK study. No activity, half-life, or kinetic data available. Essentially all 3-MMC metabolite pharmacology is inferred from mephedrone by structural analogy, which the source literature itself flags as unverified; genuinely no usable human PK data exists for this drug."
+        "notes": "Detected in a single deceased individual's urine in a forensic case report -- not a controlled human PK study. No activity, half-life, or kinetic data available. Essentially all 3-MMC metabolite pharmacology is inferred from mephedrone by structural analogy, which the source literature itself flags as unverified; genuinely no usable human PK data exists for this drug.",
+        "metabolite_mechanism_vs_parent": "unknown"
       }
     ]
   },
@@ -1672,7 +1806,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1016/j.aca.2014.04.015",
-        "notes": "Identified and quantifiable in human plasma per this bioanalytical method paper, but no human formation-fraction, half-life, or potency data has been published. In rats this metabolite peaked much later than parent (~3-4h) and, unlike MDPV itself, did not correlate positively with locomotor stimulation -- suggesting the metabolite may be substantially less active or blood-brain-barrier limited, but this has not been confirmed as human-relevant."
+        "notes": "Identified and quantifiable in human plasma per this bioanalytical method paper, but no human formation-fraction, half-life, or potency data has been published. In rats this metabolite peaked much later than parent (~3-4h) and, unlike MDPV itself, did not correlate positively with locomotor stimulation -- suggesting the metabolite may be substantially less active or blood-brain-barrier limited, but this has not been confirmed as human-relevant.",
+        "metabolite_mechanism_vs_parent": "unknown"
       },
       {
         "enzyme": "COMT (O-methylation of catechol-PV)",
@@ -1685,7 +1820,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1016/j.aca.2014.04.015",
-        "notes": "Predominant metabolite by AUC in rat studies, quantifiable in human plasma, but no human PK parameters or activity data published. Genuinely no usable human PK data for MDPV or its metabolites exists in the literature as of this search."
+        "notes": "Predominant metabolite by AUC in rat studies, quantifiable in human plasma, but no human PK parameters or activity data published. Genuinely no usable human PK data for MDPV or its metabolites exists in the literature as of this search.",
+        "metabolite_mechanism_vs_parent": "unknown"
       }
     ]
   },
@@ -1709,7 +1845,10 @@
         "metabolite_potency_vs_parent_pct": 1,
         "metabolite_potency_basis": "receptor_affinity",
         "reference": "doi:10.3389/fphar.2022.668065",
-        "notes": "Cotinine is >100-fold (some receptor subtypes up to ~250-fold) less potent than nicotine as a direct nAChR agonist, but has a much longer half-life (15-19h vs 2-3h) and accumulates to plasma levels 5-10x higher than nicotine with regular use -- this is why it's used as the standard biomarker of nicotine exposure/smoking status. It also acts as a positive allosteric modulator at some nAChR subtypes (a qualitatively different mechanism from simple agonism), which may contribute a subtle, low-magnitude but persistent background effect between cigarettes/doses relevant to withdrawal/craving dynamics, distinct from acute nicotine reward. ~70-80% of an absorbed nicotine dose is converted to cotinine in humans (widely cited figure); potency_vs_parent_pct given as ~1% reflects the >100x-less-potent receptor data, using 'receptor_affinity' basis since no clinical equipotence dose-conversion exists."
+        "notes": "Cotinine is >100-fold (some receptor subtypes up to ~250-fold) less potent than nicotine as a direct nAChR agonist, but has a much longer half-life (15-19h vs 2-3h) and accumulates to plasma levels 5-10x higher than nicotine with regular use -- this is why it's used as the standard biomarker of nicotine exposure/smoking status. It also acts as a positive allosteric modulator at some nAChR subtypes (a qualitatively different mechanism from simple agonism), which may contribute a subtle, low-magnitude but persistent background effect between cigarettes/doses relevant to withdrawal/craving dynamics, distinct from acute nicotine reward. ~70-80% of an absorbed nicotine dose is converted to cotinine in humans (widely cited figure); potency_vs_parent_pct given as ~1% reflects the >100x-less-potent receptor data, using 'receptor_affinity' basis since no clinical equipotence dose-conversion exists.",
+        "metabolite_mechanism_vs_parent": "divergent",
+        "metabolite_potency_target": "nAChR",
+        "mechanism_note": "Cotinine is a far weaker direct nAChR agonist than nicotine but also acts as a positive allosteric modulator at some nAChR subtypes -- a qualitatively different mode of action from nicotine's straightforward agonism -- contributing a persistent low-magnitude background effect between doses."
       }
     ]
   },
@@ -1730,7 +1869,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "https://www.ncbi.nlm.nih.gov/books/NBK547661/",
-        "notes": "Less than 10% of an ephedrine dose is excreted as norephedrine (StatPearls, citing standard pharmacology references). Norephedrine (phenylpropanolamine) is an active peripheral alpha/beta sympathomimetic in its own right, but this is a minor pathway -- the large majority of ephedrine is renally excreted unchanged. No verified half-life or potency-ratio citation for the metabolite specifically found in this pass."
+        "notes": "Less than 10% of an ephedrine dose is excreted as norephedrine (StatPearls, citing standard pharmacology references). Norephedrine (phenylpropanolamine) is an active peripheral alpha/beta sympathomimetic in its own right, but this is a minor pathway -- the large majority of ephedrine is renally excreted unchanged. No verified half-life or potency-ratio citation for the metabolite specifically found in this pass.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   },
@@ -1751,7 +1891,8 @@
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": null,
-        "notes": "A small fraction of an oral pseudoephedrine dose is excreted as the active metabolite norpseudoephedrine (cathine -- the same compound found naturally in khat), a weaker sympathomimetic/mild stimulant. The majority of pseudoephedrine (55-75%) is excreted unchanged in urine; most of the metabolized remainder goes to an inactive N-demethylated product, not norpseudoephedrine. No verifiable formation-fraction, half-life, or potency citation found for norpseudoephedrine specifically in humans -- left null rather than guessed."
+        "notes": "A small fraction of an oral pseudoephedrine dose is excreted as the active metabolite norpseudoephedrine (cathine -- the same compound found naturally in khat), a weaker sympathomimetic/mild stimulant. The majority of pseudoephedrine (55-75%) is excreted unchanged in urine; most of the metabolized remainder goes to an inactive N-demethylated product, not norpseudoephedrine. No verifiable formation-fraction, half-life, or potency citation found for norpseudoephedrine specifically in humans -- left null rather than guessed.",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
   }

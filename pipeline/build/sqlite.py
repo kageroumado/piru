@@ -1035,6 +1035,20 @@ CREATE TABLE metabolism (
     -- before the metabolite columns existed.
     fraction_of_clearance_pct        REAL,
     metabolite_name                  TEXT,
+    -- The metabolite AS A SUBSTANCE, when we already carry it as one. Most of
+    -- the metabolites that matter are drugs in their own right — O-desmethyl-
+    -- tramadol (O-DSMT), oxymorphone, morphine, paliperidone, desvenlafaxine,
+    -- psilocin, norketamine, nortriptyline, MDA — each with its own sourced
+    -- half-life, dose ranges, durations and binding profile.
+    --
+    -- Linking beats copying. The metabolite's own record is the single source of
+    -- truth, it is far richer than anything the columns below can hold, and it
+    -- lets the app offer the metabolite as a destination ("made from tramadol"
+    -- ↔ "produces O-DSMT") instead of a dead string. It also defuses the
+    -- potency-ratio problem: two substances with their own absolute data need no
+    -- ratio between them. The scalar columns stay for metabolites we do NOT
+    -- carry (norfluoxetine, cotinine, dextrorphan), where a number is all we have.
+    metabolite_substance_id          INTEGER REFERENCES substances(id),
     metabolite_active                INTEGER,
     metabolite_potency_vs_parent_pct REAL,
     -- What metabolite_potency_vs_parent_pct MEANS: 'clinical' | 'receptor_affinity'
@@ -1044,6 +1058,29 @@ CREATE TABLE metabolism (
     -- clinical potency. Any model multiplying by this column must branch on the
     -- basis (or refuse anything that is not 'clinical').
     metabolite_potency_basis         TEXT,
+    -- WHICH TARGET the potency ratio was measured at ('MOR', 'NET', 'SERT',
+    -- 'GABA-A', ...). A basis alone is not enough to make the number
+    -- comparable: tramadol -> M1 is 20000% at MOR while quetiapine ->
+    -- norquetiapine is 10000% at NET, and those are unrelated claims about
+    -- unrelated receptors. NULL = the source did not scope it.
+    metabolite_potency_target        TEXT,
+    -- Whether the metabolite is pharmacologically the SAME drug at a different
+    -- strength ('scaled'), or a qualitatively different one ('divergent'), or
+    -- unestablished ('unknown').
+    --
+    -- This is the gate on any effect arithmetic, and it outranks the potency
+    -- number. A ratio only means something for 'scaled' metabolites: nordazepam
+    -- is diazepam-but-longer, so "100% of parent" converts cleanly. M1 is NOT
+    -- strong tramadol — tramadol is an SNRI plus a weak opioid, M1 is a strong
+    -- opioid with little monoaminergic action, so no scalar maps one onto the
+    -- other. That is *why* no clinical ratio for M1 exists to be found, and why
+    -- CYP2D6 status shifts the BALANCE of tramadol's two mechanisms rather than
+    -- scaling its total effect. Same shape: trazodone -> mCPP,
+    -- quetiapine -> norquetiapine, buprenorphine -> norbuprenorphine.
+    --
+    -- Only ('scaled' AND basis='clinical') may be folded into a parent's curve.
+    -- A 'divergent' metabolite gets disclosed as its own agent, never summed.
+    metabolite_mechanism_vs_parent   TEXT,
     -- The metabolite's OWN elimination half-life (minutes). The field that makes
     -- a two-compartment parent -> metabolite model possible at all; without it
     -- a long-lived active metabolite can only be disclosed, not simulated.
@@ -4571,6 +4608,13 @@ class Build:
     #: non-null basis is one it knows how to interpret.
     POTENCY_BASES = {"clinical", "receptor_affinity", "in_vitro", "unknown"}
 
+    #: Accepted values for ``metabolism.metabolite_mechanism_vs_parent``. See the
+    #: column comment: only ``scaled`` licenses treating a potency as a
+    #: multiplier. Anything unrecognized is stored as ``unknown``, never dropped
+    #: to NULL, because "we did not classify this" and "this is not a scaled
+    #: copy" must not look alike to a consumer.
+    MECHANISM_VS_PARENT = {"scaled", "divergent", "unknown"}
+
     def add_metabolism(self, sid: int, source_slug: str, m: dict) -> None:
         if not isinstance(m, dict) or not m.get("enzyme"):
             return
@@ -4584,8 +4628,17 @@ class Build:
         potency = to_float(m.get("metabolite_potency_vs_parent_pct"))
         if potency is not None and basis is None:
             basis = "unknown"
+        mechanism = m.get("metabolite_mechanism_vs_parent")
+        mechanism = mechanism if mechanism in self.MECHANISM_VS_PARENT else "unknown"
+        # A target only means something next to a number to scope.
+        target = m.get("metabolite_potency_target") if potency is not None else None
+        # The mechanism note belongs with the row's prose rather than in a column
+        # of its own — it exists to explain a 'divergent' call.
+        notes = m.get("notes")
+        if m.get("mechanism_note"):
+            notes = f"{notes} {m['mechanism_note']}".strip() if notes else m["mechanism_note"]
         self.cur.execute(
-            "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, metabolite_potency_basis, metabolite_half_life_min, metabolite_half_life_low_min, metabolite_half_life_high_min, formation_fraction_pct, metabolite_tmax_min, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, metabolite_potency_basis, metabolite_potency_target, metabolite_mechanism_vs_parent, metabolite_half_life_min, metabolite_half_life_low_min, metabolite_half_life_high_min, formation_fraction_pct, metabolite_tmax_min, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 src,
@@ -4597,13 +4650,15 @@ class Build:
                 else (0 if m.get("metabolite_active") is False else None),
                 potency,
                 basis,
+                target,
+                mechanism,
                 to_float(m.get("metabolite_half_life_min")),
                 low,
                 high,
                 to_float(m.get("formation_fraction_pct")),
                 to_float(m.get("metabolite_tmax_min")),
                 self.cite(m.get("reference")),
-                m.get("notes"),
+                notes,
             ),
         )
         self.stats["metabolism"] += 1
@@ -7776,6 +7831,67 @@ class Build:
             counts[cls] += 1
         return dict(counts)
 
+    def link_metabolite_substances(self) -> dict[str, int]:
+        """Resolve `metabolism.metabolite_name` onto the metabolite's own row.
+
+        Runs late, after every merge/dedup has settled, so the ids it stores are
+        final. Matching goes through the same surface a user's search would —
+        canonical name, normalized name, alias — plus the parenthetical forms
+        researchers write ("O-desmethyltramadol (M1)", "nordazepam
+        (desmethyldiazepam)"), trying both the outer name and the
+        parenthetical, since either half can be the one we carry.
+
+        A miss is expected and fine: norfluoxetine, cotinine and dextrorphan are
+        real metabolites we do not stock as substances, and they keep using the
+        scalar columns. Never self-links (a substance is not its own metabolite).
+        """
+        lookup: dict[str, int] = {}
+        for sid, canonical, normalized in self.cur.execute(
+            "SELECT id, canonical_name, normalized_name FROM substances"
+        ):
+            lookup.setdefault(canonical.lower(), sid)
+            lookup.setdefault(normalized.lower(), sid)
+        for sid, alias in self.cur.execute("SELECT substance_id, alias FROM aliases"):
+            lookup.setdefault(alias.lower(), sid)
+
+        # A parenthetical that is just a study code — "(M1)", "(M2)" — names no
+        # molecule, and matching on it links to whatever unrelated substance
+        # happens to carry that alias: "N-desmethyltramadol (M1)" resolved to
+        # 3,4-DMMC, and a MDMB-4en-PINACA metabolite to Methylone. Rejected by
+        # shape rather than by length, so genuine short names survive (mCPP,
+        # HNK, ODV, 6-MAM).
+        code_like = re.compile(r"^[A-Za-z]{0,2}\d{1,2}$")
+
+        def candidates(name: str) -> list[str]:
+            raw = (name or "").strip()
+            outer = re.sub(r"\s*\([^)]*\)\s*$", "", raw).strip()
+            inner = ""
+            match = re.search(r"\(([^)]*)\)\s*$", raw)
+            if match and not code_like.match(match.group(1).strip()):
+                inner = match.group(1).strip()
+            # Drop qualifier tails researchers append to a real name:
+            # "lorazepam (3-hydroxylation)" -> "lorazepam".
+            stripped = re.sub(r"\s*\(.*?\)", "", raw).strip()
+            return [c for c in (raw, outer, inner, stripped) if c]
+
+        linked = 0
+        updates: list[tuple[int, int]] = []
+        for row_id, substance_id, name in self.cur.execute(
+            "SELECT id, substance_id, metabolite_name FROM metabolism"
+            " WHERE metabolite_name IS NOT NULL AND metabolite_substance_id IS NULL"
+        ).fetchall():
+            for candidate in candidates(name):
+                target = lookup.get(candidate.lower())
+                if target is not None and target != substance_id:
+                    updates.append((target, row_id))
+                    linked += 1
+                    break
+        if updates:
+            self.cur.executemany(
+                "UPDATE metabolism SET metabolite_substance_id = ? WHERE id = ?", updates
+            )
+        return {"metabolite_links": linked}
+
     def dedupe_metabolism(self) -> dict[str, int]:
         """Drop metabolism rows that a better-specified row supersedes.
 
@@ -8454,6 +8570,9 @@ def main() -> int:
     # richer row supersedes (the research layer re-names metabolites the class
     # files already carried). See dedupe_metabolism.
     print(f"Metabolism dedupe: {build.dedupe_metabolism()}", file=sys.stderr)
+    # After dedup, so we only resolve rows that survive, and late enough that
+    # substance ids are final. See link_metabolite_substances.
+    print(f"Metabolite links: {build.link_metabolite_substances()}", file=sys.stderr)
 
     # Re-stamp curated displayName overrides onto the final survivors (after all
     # merges/folds settle) so a merge that demoted the curated name to an alias
