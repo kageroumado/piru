@@ -45,7 +45,12 @@ extension SubstanceStore {
         let notes: String?
 
         /// Whether this metabolite's potency may be used to scale the parent's
-        /// effect — the single gate any modelling must pass.
+        /// effect — the single gate any modelling must pass, and equally the
+        /// gate on **displaying a bare "N× parent"**. A reader assumes a
+        /// potency figure means clinical strength; only a row passing this
+        /// actually does. Everything else has to carry its basis and target
+        /// inline, or show nothing. See the UI-safety rules in
+        /// `Specs/active-metabolites.md`.
         ///
         /// Both conditions are load-bearing. ``MetaboliteMechanism/scaled``
         /// establishes that one number *can* relate the two molecules at all,
