@@ -172,48 +172,33 @@ extension ActiveSubstanceState {
         )
     }
 
-    /// Synthesize a state for a dose that has **no acute duration profile** but
-    /// a known half-life, so it still renders as a plausible effect curve.
-    ///
-    /// `TimelineGraphView` now draws a phase-based effect curve, so we fabricate
-    /// onset/come-up/peak/offset boundaries scaled around a realistic absorption
-    /// `peakCenter` (a few hours, never tied to the half-life — a long-acting drug
-    /// still absorbs quickly). `totalMinutes` is derived from the half-life
-    /// (`ln(20)/ke` past the peak) so a longer half-life stretches the offset.
-    init(synthesizedForName name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, halfLifeMinutes: Double, doseIntensity: Double, doseMagnitude: Double? = nil) {
-        let ke = log(2) / halfLifeMinutes
-        let peakCenter = min(max(halfLifeMinutes * 0.15, 20), 180)
-        let total = peakCenter + log(20) / ke
-        self.init(
-            substanceName: name,
-            colorHex: colorHex,
-            doseTimestamp: timestamp,
-            amount: amount,
-            unit: unit,
-            route: routeDisplayName,
-            onsetEndMinutes: peakCenter * 0.4,
-            comeupEndMinutes: peakCenter * 0.8,
-            peakEndMinutes: peakCenter * 1.2,
-            offsetEndMinutes: total * 0.92,
-            afterglowEndMinutes: nil,
-            totalMinutes: total,
-            doseIntensity: doseIntensity,
-            doseMagnitude: doseMagnitude,
-        )
-    }
-
     /// Build from a dose entry by looking up substance duration data.
     ///
-    /// Resolution order:
-    /// 1. **Acute subjective duration** → curve fit to the phase profile. This
-    ///    is the right source even when it disagrees with blood half-life
-    ///    (amphetamine's ~10 h t½ far outlasts its subjective effects).
-    /// 2. **No acute duration but a known half-life** → a synthesized
-    ///    half-life-driven curve, so long-acting / maintenance compounds
-    ///    (Memantine, Tadalafil, Bromantane) render as a real — if long —
-    ///    curve instead of a bare dot. The graph's tail-cutting frames the
-    ///    active part and leaves the slow tail one pan away.
-    /// 3. **Neither** → `nil`, so the dose falls through to a timestamp marker.
+    /// **The curve means acute psychoactive effect, and nothing else.** A dose
+    /// resolves one only from an ``Substance/timelineDuration(for:)`` — a real,
+    /// sourced phase profile. That is the right source even when it disagrees
+    /// with blood half-life (amphetamine's ~10 h t½ far outlasts its subjective
+    /// effects). With no such profile the answer is `nil`, and the dose falls
+    /// through to a timestamp marker.
+    ///
+    /// A half-life is deliberately **not** a fallback. It answers "how much is
+    /// still in you", which is the ``ActiveSubstanceCalculator/compute(from:colorMap:)``
+    /// body-load readout's question, not this one — and the two diverge hardest
+    /// exactly where a fabricated curve does the most damage. Chronic medication
+    /// is the whole population that reached the old synthesized tier: SSRIs,
+    /// antipsychotics, anticonvulsants, thyroid, therapeutic peptides. None has
+    /// an acute curve to draw, and deriving one from t½ drew a flat multi-week
+    /// plateau over every real curve on the graph (fluoxetine's 16-day t½ → a
+    /// 69-day "effect", `1,638h left`). The tier's stated beneficiaries
+    /// (Memantine, Tadalafil, Bromantane) have all since gained real duration
+    /// data and resolve above, so it had no honest users left.
+    ///
+    /// A substance that genuinely does have acute effects but renders as a bare
+    /// marker is a **data** gap — fix it by adding durations in the pipeline, not
+    /// by inferring a shape from elimination kinetics. Note the pharmacology-blind
+    /// counterpart: ``DoseEntry/isBackgroundMed`` lets the user mute a dose that
+    /// *does* have a curve (a daily-med amphetamine), filtered in
+    /// ``TimelineWindowModel``.
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
         // Timeline path: the lightweight batch row carries everything used below
         // (category, dose-ranges, durations, half-life, aliases) without the
@@ -246,34 +231,6 @@ extension ActiveSubstanceState {
                 doseMagnitude: magnitude,
                 tachyphylaxis: substance.category.acuteToleranceFactor,
                 weightKg: UserProfileStore.shared.effectiveWeightKg,
-            )
-        }
-        // Vitamins/supplements (Vitamin D3, magnesium, creatine…) have no
-        // perceptible acute effect, but their biological half-lives run to
-        // days-or-weeks — synthesizing a half-life curve for them draws a
-        // misleading multi-day arc (and a "2,446h left" entry-row rail). Deny them
-        // the synthesized fallback so they fall through to a plain timestamp
-        // marker. A supplement with a *real* acute profile (e.g. melatonin) still
-        // resolves above via `timelineDuration`, so this only suppresses the
-        // fabricated curve, not genuine ones.
-        //
-        // An unmodeled release form is denied this tier too, above — and has to be.
-        // `resolveHalfLifeMinutes` searches by name *and by every alias*, so a
-        // Concerta dose skipping only the duration tier would find methylphenidate's
-        // half-life here and synthesize a curve anyway: the same fabricated arc,
-        // wearing an XR label.
-        if substance.category != .supplement,
-           let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {
-            return ActiveSubstanceState(
-                synthesizedForName: substance.displayTitle,
-                colorHex: colorHex,
-                timestamp: entry.timestamp,
-                amount: entry.amount,
-                unit: entry.unit,
-                routeDisplayName: entry.route.displayName,
-                halfLifeMinutes: halfLife,
-                doseIntensity: intensity,
-                doseMagnitude: magnitude,
             )
         }
         return nil

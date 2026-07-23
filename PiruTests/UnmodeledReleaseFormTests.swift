@@ -5,9 +5,11 @@ import Testing
 /// D.4 — a dose that names a form we don't model draws a marker, not a curve.
 ///
 /// See `Specs/psid-identity-consumption.md` LB-5/LB-6. The rule is uniform: any
-/// release form other than the standard one is denied *both* resolution tiers in
-/// `ActiveSubstanceCalculator.from(entry:)`, because both would answer with the
-/// base form's kinetics.
+/// release form other than the standard one is denied curve resolution in
+/// `ActiveSubstanceCalculator.from(entry:)`, because it would answer with the
+/// base form's kinetics. (That resolution was two tiers when these tests were
+/// written; the half-life tier has since been removed outright, so several of
+/// the nets below now hold for two independent reasons.)
 @Suite("Unmodeled release forms")
 @MainActor
 struct UnmodeledReleaseFormTests {
@@ -67,17 +69,16 @@ struct UnmodeledReleaseFormTests {
         #expect(state != nil, "a bare brand is the standard form and keeps its curve")
     }
 
-    // MARK: - Tier 2: the half-life trap (LB-6 — the whole failure mode)
+    // MARK: - Half-life is never a curve (the old tier 2, now removed)
 
     @Test
     func `Depot aripiprazole does not synthesize a half-life curve`() {
-        // THE regression net. Aripiprazole has zero duration rows, so it never
-        // reaches tier 1 — it falls to half-life synthesis, and
-        // `resolveHalfLifeMinutes` searches by name and by every alias. Its ORAL
-        // half-life is 4,500 min (75 h), which would draw a ~15-day arc under a
-        // depot injection that actually lasts a month. Suppressing only the
-        // duration tier would leave this fabricated curve in place, wearing a DEP
-        // label — the exact bug the supplement carve-out was written to kill.
+        // Aripiprazole has zero duration rows, so it never reaches the duration
+        // tier. It used to fall through to half-life synthesis — and
+        // `resolveHalfLifeMinutes` searches by name and by every alias, so its
+        // ORAL half-life (4,500 min / 75 h) drew a ~15-day arc under a depot
+        // injection that actually lasts a month. Now nil for two independent
+        // reasons: the unmodeled form, and the absence of any half-life fallback.
         let state = ActiveSubstanceState.from(
             entry: entry("Aripiprazole", releaseForm: "DEP", productName: "Abilify Maintena", amount: 400),
             colorHex: "#FF0000",
@@ -86,11 +87,17 @@ struct UnmodeledReleaseFormTests {
     }
 
     @Test
-    func `Oral aripiprazole still synthesizes its curve`() {
-        // The control for the above: proves the suppression is the release form
-        // doing the work, not aripiprazole simply having no data.
+    func `Oral aripiprazole draws no curve either`() {
+        // The half-life fallback is gone, so a *plain* oral dose of a substance
+        // with no acute duration profile draws nothing either. An antipsychotic
+        // has no acute curve to draw; deriving one from elimination kinetics
+        // plotted a flat multi-week plateau over every real curve on the graph
+        // (fluoxetine's 16-day t½ → a 69-day "effect", `1,638h left`). The
+        // release-form guard's genuine control is
+        // `Bare methylphenidate still draws its curve` above — a substance that
+        // actually has durations, which is what makes it a control.
         let state = ActiveSubstanceState.from(entry: entry("Aripiprazole", amount: 10), colorHex: "#FF0000")
-        #expect(state != nil, "a plain oral dose keeps the synthesized fallback")
+        #expect(state == nil, "a half-life is not an effect profile")
     }
 
     @Test

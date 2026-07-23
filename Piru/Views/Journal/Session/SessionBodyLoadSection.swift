@@ -261,9 +261,21 @@ struct SessionBodyLoadModel {
     /// false precision that far out and because the full "Fri 6:54 AM" overflows
     /// the meta line next to the trailing "N mg left". Also used by the dose
     /// detail's "effects ended · cleared" receipt so milestones read alike.
+    ///
+    /// Past the coming week the weekday name stops identifying a date and starts
+    /// misnaming one: a long-acting drug clearing ~81 days out (fluoxetine's
+    /// 16-day t½) rendered "Sun 1 PM", which reads as *this* Sunday — an
+    /// eleven-week error stated with total confidence. Beyond that horizon the
+    /// calendar date is the only honest form, and the hour is dropped with it
+    /// (a to-the-hour claim months out is noise).
     static func milestoneText(_ date: Date) -> String {
-        if Calendar.current.isDateInToday(date) {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) {
             return date.formatted(date: .omitted, time: .shortened)
+        }
+        let daysAhead = calendar.dateComponents([.day], from: .now, to: date).day ?? 0
+        guard daysAhead < 6 else {
+            return date.formatted(.dateTime.month(.abbreviated).day())
         }
         return date.formatted(.dateTime.weekday(.abbreviated).hour())
     }

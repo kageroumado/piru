@@ -372,9 +372,9 @@ final class ActiveSessionManager {
     /// substance with no acute curve on any route (supplements like Omega-3), or
     /// a dose naming an unmodeled release form. Keeping it would open an "active
     /// session" counting down a curve the app has deliberately refused to draw.
-    /// The journal still renders those doses — via `ActiveSubstanceCalculator`'s
-    /// synthesized half-life tier, or as a timestamp marker — because the
-    /// timeline is a wider claim than the live session accessory this drives.
+    /// The journal still renders those doses — as a timestamp marker, and in the
+    /// body-load readout — because the timeline is a wider claim than the live
+    /// session accessory this drives.
     ///
     /// "Long-acting" alone does **not** mean durationless: memantine's winning
     /// source resolves a real ~18 h profile, inside

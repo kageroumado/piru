@@ -28809,6 +28809,22 @@
         }
       }
     },
+    "No effect timeline for this substance and route." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此物质和途径暂无效果时间轴。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此物質和途徑暫無效果時間軸。"
+          }
+        }
+      }
+    },
     "No Entries" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29051,6 +29067,7 @@
       }
     },
     "No pharmacokinetic data available for this substance and route." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

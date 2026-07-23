@@ -3321,6 +3321,10 @@ T = {
         "此物质和途径暂无药代动力学数据。",
         "此物質和途徑暫無藥動學資料。",
     ),
+    "No effect timeline for this substance and route.": (
+        "此物质和途径暂无效果时间轴。",
+        "此物質和途徑暫無效果時間軸。",
+    ),
     "Add per-phase timing so this substance gets a Live-Activity timeline like library substances.": (
         "添加分阶段计时,让此物质拥有与库中物质一样的实时活动时间轴。",
         "新增分階段計時,讓此物質擁有與庫中物質一樣的即時動態時間軸。",
@@ -5426,6 +5430,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "No effect timeline for this substance and route.",
         "The file is missing a required field: %@.",
         "The file has an empty value for a required field: %@.",
         "The file isn't valid JSON.",

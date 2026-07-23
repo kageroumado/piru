@@ -28,7 +28,14 @@ struct EntryReadContent: View {
             .listSectionSpacing(12)
         } else {
             Section {
-                Label("No pharmacokinetic data available for this substance and route.", systemImage: "info.circle")
+                // Not "no pharmacokinetic data" — the body-load section directly
+                // below often shows a half-life and an elimination curve, so that
+                // wording contradicted the next screenful. What's actually absent
+                // is an acute *effect* profile, the graph's only subject. Stated
+                // neutrally because the branch covers three unlike cases: chronic
+                // medication that has no acute curve to draw, a substance whose
+                // duration data we simply lack, and an unmodeled release form.
+                Label("No effect timeline for this substance and route.", systemImage: "info.circle")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .padding(.vertical, 4)
