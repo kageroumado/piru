@@ -188,9 +188,9 @@ struct FrequencyBar: View {
     }
 }
 
-/// The circular arc gauge: six colored bands forming a connected semicircle,
-/// with a raised Liquid Glass selector floating over the current band. Grab the
-/// selector and drag it around the arc — it slides with a spring, recolors to
+/// The circular arc gauge: one continuous faint spectrum line (green → red) with
+/// rounded ends, and a raised Liquid Glass selector floating on top of it. Grab
+/// the selector and drag it around the arc — it slides with a spring, recolors to
 /// the band beneath it, and lifts on grab so the interaction is discoverable.
 /// Selection state is owned by the parent.
 private struct IntensityGauge: View {
@@ -204,15 +204,7 @@ private struct IntensityGauge: View {
     // through the top to 30° (lower-right); the 120° gap sits at the bottom.
     private let startDeg = 150.0
     private let sweepDeg = 240.0
-    private let lineWidth = 17.0
-    /// Gap between the base band pills. Wide enough that the round caps clear
-    /// each other — at a narrow gap they overlapped into a darker lens at every
-    /// seam. The bands now read as discrete rounded pills, and the two outermost
-    /// caps round off the bottom ends of the semicircle.
-    private let bandGapDeg = 11.0
-    /// Clearance between the punched socket and the glass pill, so the pill reads
-    /// as sitting *in* a hole with a hairline of background around it.
-    private let socketClearance = 3.0
+    private let lineWidth = 16.0
     /// The tap target covering the whole arc band, so a tap on any band jumps
     /// the selector to it.
     private var hitBand: Double {
@@ -286,48 +278,42 @@ private struct IntensityGauge: View {
         }
     }
 
-    /// The base ring: every band as a discrete, rounded pill in a *faint* tint of
-    /// its own color. Faint-and-separated (rather than a solid fill up to the
-    /// selection) so the arc reads as a row of pickable levels, not a continuous
-    /// gauge, and the round caps give every band — the two ends of the arc
-    /// included — its rounded corners.
-    ///
-    /// A socket the size of the glass pill (plus clearance) is then punched out of
-    /// the track, so the raised selector nests into a hole rather than overlapping
-    /// its neighbors' rounded ends.
-    private func drawTrack(in context: GraphicsContext, center: CGPoint, radius: Double, seg: Double) {
-        var context = context
-        let faint = scheme == .dark ? 0.32 : 0.22
-        for i in 0 ..< bandCount {
-            var path = Path()
-            path.addArc(
-                center: center, radius: radius,
-                startAngle: .degrees(startDeg + Double(i) * seg + bandGapDeg / 2),
-                endAngle: .degrees(startDeg + Double(i + 1) * seg - bandGapDeg / 2),
-                clockwise: false,
-            )
-            context.stroke(
-                path,
+    /// The base track: one continuous line, faintly tinted with the band colors
+    /// as a smooth spectrum (green → red), round-capped so both ends of the
+    /// semicircle are cleanly rounded. The glass selector rides on top of it; the
+    /// line is not carved, so it reads as a single beautiful arc rather than a row
+    /// of segments.
+    private func drawTrack(in context: GraphicsContext, center: CGPoint, radius: Double, seg _: Double) {
+        let faint = scheme == .dark ? 0.5 : 0.42
+        var path = Path()
+        path.addArc(
+            center: center, radius: radius,
+            startAngle: .degrees(startDeg), endAngle: .degrees(startDeg + sweepDeg), clockwise: false,
+        )
+        let shading: GraphicsContext.Shading
+        if bandCount > 1 {
+            // Place each band color along the arc's fraction of the full circle
+            // (the conic gradient's angle spans 360°, the arc only `sweepDeg`).
+            let span = sweepDeg / 360
+            let stops = (0 ..< bandCount).map { i in
+                Gradient.Stop(color: color(i).opacity(faint), location: Double(i) / Double(bandCount - 1) * span)
+            }
+            shading = .conicGradient(Gradient(stops: stops), center: center, angle: .degrees(startDeg))
+        } else {
+            shading = .color(color(0).opacity(faint))
+        }
+        // Butt cap here, not round: a round cap would extend past the arc ends
+        // into angles where the conic gradient wraps (the start cap would sample
+        // the *last* color). The rounded tips are drawn as explicit dots below,
+        // each in its own end color.
+        context.stroke(path, with: shading, style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt))
+        for (deg, i) in [(startDeg, 0), (startDeg + sweepDeg, bandCount - 1)] {
+            let tip = point(center: center, radius: radius, degrees: deg)
+            context.fill(
+                Path(ellipseIn: CGRect(x: tip.x - lineWidth / 2, y: tip.y - lineWidth / 2, width: lineWidth, height: lineWidth)),
                 with: .color(color(i).opacity(faint)),
-                style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
             )
         }
-        // Socket for the glass pill. Sized to the pill's grabbed (largest) width
-        // plus clearance so the hole is constant and the pill lifts within it;
-        // `.destinationOut` clears the track (and any neighbor that reached in),
-        // leaving a clean concave notch the pill drops into.
-        let socketThickness = lineWidth + 15 + socketClearance * 2
-        var socketArc = Path()
-        socketArc.addArc(
-            center: center, radius: radius,
-            startAngle: .degrees(startDeg + Double(selected) * seg),
-            endAngle: .degrees(startDeg + Double(selected + 1) * seg),
-            clockwise: false,
-        )
-        let socket = socketArc.strokedPath(StrokeStyle(lineWidth: socketThickness, lineCap: .round))
-        context.blendMode = .destinationOut
-        context.fill(socket, with: .color(.black))
-        context.blendMode = .normal
     }
 
     /// The floating Liquid Glass indicator over the selected band: a rounded pill
@@ -360,7 +346,8 @@ private struct IntensityGauge: View {
                     .rotationEffect(.degrees(midDeg + 90))
                     .position(handle)
             }
-            .shadow(color: color(selected).opacity(isGrabbed ? 0.55 : 0.28), radius: isGrabbed ? 12 : 6, y: 2)
+            // Neutral lift, not a colored glow — a tinted shadow reads as a halo.
+            .shadow(color: .black.opacity(isGrabbed ? 0.22 : 0.14), radius: isGrabbed ? 9 : 5, y: 2)
             .animation(.spring(response: 0.34, dampingFraction: 0.74), value: selected)
             .animation(.spring(response: 0.28, dampingFraction: 0.6), value: isGrabbed)
     }
