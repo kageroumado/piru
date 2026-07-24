@@ -1,6 +1,7 @@
 import Foundation
 
-/// Mirrors the JSON written by `Exports/build-sqlite-database.py`.
+/// Mirrors the JSON written by the build pipeline (`pipeline/build/sqlite.py`,
+/// invoked via `pipeline/build.sh`).
 ///
 /// The build script emits a manifest alongside `piru-substances.sqlite`. The
 /// app uses the local copy as the baseline (what's currently installed) and

@@ -260,4 +260,21 @@ struct SubstanceDBUpdaterTests {
         if case .error = result { return }
         Issue.record("Expected .error for malformed JSON, got \(result)")
     }
+
+    /// Regression: the app must accept an update at its OWN bundled schema
+    /// version. `supportedSchemaVersion` was hardcoded to `1` while the bundled
+    /// manifest advanced to `6`, so every real "Check for Updates" returned
+    /// .error("requires a newer version"). The prior tests all used schema-1
+    /// fixtures and never exercised the shipped schema, so they missed it.
+    @Test
+    @MainActor
+    func `evaluateManifest: a newer build at the bundled schema is accepted`() throws {
+        let updater = SubstanceDBUpdater.shared
+        try? updater.revertToBundled()
+        let bundledSchema = try #require(updater.currentManifest?.schemaVersion)
+        let data = try remoteManifestData(version: "9999-12-31.0", schemaVersion: bundledSchema)
+        let result = updater.evaluateManifest(remoteData: data)
+        if case .updateAvailable = result { return }
+        Issue.record("A remote build at the bundled schema (\(bundledSchema)) must be offered, got \(result)")
+    }
 }

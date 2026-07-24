@@ -53,9 +53,27 @@ final class SubstanceDBUpdater {
         return URL(string: "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/manifest.json")!
     }()
 
-    /// Highest schema version this build understands. Bump when adding
-    /// breaking changes to the manifest model.
-    private static let supportedSchemaVersion = 1
+    /// Fallback for ``supportedSchemaVersion`` used only if the bundled
+    /// `manifest.json` cannot be read (a broken build). Keep it equal to the
+    /// current bundled schema; it never governs a healthy install.
+    private static let fallbackSupportedSchemaVersion = 6
+
+    /// Highest bundled-DB `schema_version` this build's reader understands.
+    ///
+    /// Derived from the shipped `manifest.json` rather than hardcoded: the app
+    /// ships its reader code and its bundled DB together, so the bundled
+    /// manifest's schema version *is* the schema this binary supports, and it
+    /// tracks the schema automatically on every rebuild. A hardcoded `1` here
+    /// previously rejected every OTA update once the schema advanced to 6
+    /// (`remote.schemaVersion <= 1` is false for a schema-6 manifest), so
+    /// "Check for Updates" always errored with "requires a newer version."
+    private static let supportedSchemaVersion: Int = {
+        guard let url = Bundle.main.url(forResource: "manifest", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let manifest = try? SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: data)
+        else { return fallbackSupportedSchemaVersion }
+        return manifest.schemaVersion
+    }()
 
     /// Coarse-grained state surface the Settings UI binds to.
     enum State: Equatable {

@@ -233,7 +233,7 @@ final class SubstanceStore {
     /// true invariant (and would surface immediately in development).
     static func bundledSubstancesDBURL() -> URL {
         guard let bundleURL = Bundle.main.url(forResource: "piru-substances", withExtension: "sqlite") else {
-            fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `python3 pipeline/build/sqlite.py` and add the result to the Piru target.")
+            fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `pipeline/build.sh` and add the result to the Piru target.")
         }
         return bundleURL
     }

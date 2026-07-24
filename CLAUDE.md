@@ -1,6 +1,6 @@
 # Piru
 
-Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1100+ substances from a bundled SQLite database (sourced from TripSit/PsychonautWiki/DailyMed and curated data), checks interactions, and provides pharmacokinetic insights.
+Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1,900+ substances from a bundled SQLite database (sourced from TripSit/PsychonautWiki/DailyMed and curated data), checks interactions, and provides pharmacokinetic insights.
 
 ## Working Style
 
@@ -57,7 +57,7 @@ Piru/
 ├── Utilities/       # ActiveSubstanceCalculator, RampDownScheduler, LiveActivityManager, etc.
 ├── Navigation/      # AppNavigator + route enums + deep link codec — single source of truth for tab/sheet/path state
 Shared/              # Code shared across all targets (widget + Live Activity):
-│   ├── Models/         # the 12 SwiftData @Model (DoseEntry, Session, DailyDoseItem, …)
+│   ├── Models/         # the 15 SwiftData @Model (DoseEntry, Session, DailyDoseItem, …)
 │   ├── Engines/        # PKModel, PDModel, EffectEngine, TimelineCurveModel, SessionClustering
 │   ├── Formatting/     # DoseFormatting, ColorHex, ConfidenceTier
 │   └── (root)          # value types: RouteOfAdministration, ByVolumeDosing, SessionVitals, TimelineGraphView, PiruActivityAttributes
@@ -81,8 +81,8 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 | `Data/SubstanceDB/SubstanceStore.swift` | `@Observable @MainActor` singleton — GRDB queries over the bundled SQLite DB with per-field source-priority resolution, ranked search, caches. Also hosts the `SubstanceLibrary` static façade (overlay-aware lookups) at the bottom of the file |
 | `Data/SubstanceDB/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
 | `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
-| `Data/Pharmacology/HalfLifeDatabase.swift` | 1100+ hardcoded half-life values (minutes) |
-| `Data/Services/Interactions.swift` | Drug class mapping + 59 interaction severity rules |
+| `Data/Pharmacology/HalfLifeDatabase.swift` | 530+ hardcoded half-life values (minutes) |
+| `Data/Services/Interactions.swift` | Drug class mapping + 76 interaction severity rules |
 | `Shared/Engines/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
 | `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
 | `Views/InteractionTimelineView.swift` | PK curve overlay with interaction danger window visualization |
@@ -98,7 +98,7 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 ## Data Layer
 
 - **Persistence**: SwiftData for user data (DoseEntry, DailyDoseItem, SubstanceColor, FavoriteSubstance, UserColor)
-- **Substance data**: Ships as a bundled SQLite DB (`Piru/Data/piru-substances.sqlite`) built by `python3 pipeline/build/sqlite.py` from TripSit/PsychonautWiki/DailyMed + curated data — editing pipeline JSON does nothing without a rebuild. `SubstanceStore` resolves each field by per-source priority (user-reorderable); `SubstanceDBUpdater` handles opt-in DB updates
+- **Substance data**: Ships as a bundled SQLite DB (`Piru/Data/piru-substances.sqlite`) built by `pipeline/build.sh` from TripSit/PsychonautWiki/DailyMed + curated data — editing pipeline JSON does nothing without a rebuild. `SubstanceStore` resolves each field by per-source priority (user-reorderable); `SubstanceDBUpdater` handles opt-in DB updates
 - **Queries**: Use `@Query` macro in views for SwiftData, `SubstanceLibrary.all` for substance lookups
 - **Substance lookups go through the `SubstanceLibrary` façade** (bottom of `SubstanceStore.swift`), never raw `SubstanceStore.shared.lookup*` — the façade overlays `CustomSubstanceStore` user edits (duration overrides, relabels); bypassing it silently drops those overrides
 - **Search**: Ranked cascade (exact → alias → prefix → contains → fuzzy via Levenshtein distance)
