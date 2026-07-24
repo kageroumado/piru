@@ -2,6 +2,19 @@
 
 Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1,900+ substances from a bundled SQLite database (sourced from TripSit/PsychonautWiki/DailyMed and curated data), checks interactions, and provides pharmacokinetic insights.
 
+## Voice (read before writing any user-facing copy)
+
+**Anti-guilt, assumes competence. Do NOT use the phrase "harm reduction" in app or marketing copy** — it implies the user is guilty of something needing reduction. The established house lines (already on the site and in the README — keep them, and write in this register):
+
+- "This is not harm reduction. Nobody here thinks you need *reducing*."
+- "a dose is not a confession."
+- "it's not a question of goodness — it's a question of dose."
+- "Most tracking apps are built to make you take less. Piru isn't."
+
+Piru presents as a **reference, a record, and a model** — what is known about a substance, what you logged, how the pharmacology behaves. Never advice to use, never a dosing recommendation. "Not medical advice" stays prominent.
+
+(The rule is about *consumer* voice, not scholarship: in a peer-reviewed paper "harm reduction" is a legitimate field name.)
+
 ## Working Style
 
 - **Use sub-agents** for research, exploration, and parallel tasks. Spawn agents for codebase searches, multi-file reads, and independent investigations rather than doing everything sequentially in the main context.
@@ -63,7 +76,7 @@ Shared/              # Code shared across all targets (widget + Live Activity):
 │   └── (root)          # value types: RouteOfAdministration, ByVolumeDosing, SessionVitals, TimelineGraphView, PiruActivityAttributes
 PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
-PiruTests/           # 50 test files, ~660 tests using Apple Testing framework (@Suite, @Test)
+PiruTests/           # 105 test files, ~1,300 tests using Apple Testing framework (@Suite, @Test)
 Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against APIs
 pipeline/            # Python data pipeline that builds the bundled substance SQLite DB
 ```
