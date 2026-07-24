@@ -129,12 +129,19 @@ struct SourceAttributionRow: View {
         }
     }
 
+    /// One seal for every row, and no trailing glyph. Two things used to be
+    /// wrong here: the seal was filled+accent when the source happened to carry
+    /// a per-substance deep link and outline+gray otherwise, which reads as a
+    /// *data-confidence tier* next to a row that has nothing to do with
+    /// confidence; and the `questionmark.circle` was a second affordance for the
+    /// action the whole row already performs — a question mark beside a
+    /// verification seal reading as "we're not sure about this." The accent
+    /// source name is the tappable cue, same as everywhere else in the app.
     private var rowContent: some View {
-        let linked = deepLink != nil
-        return HStack(spacing: 6) {
-            Image(systemName: linked ? "checkmark.seal.fill" : "checkmark.seal")
+        HStack(spacing: 6) {
+            Image(systemName: "checkmark.seal")
                 .font(.caption2)
-                .foregroundStyle(linked ? Theme.accent : Theme.secondaryLabel)
+                .foregroundStyle(Theme.secondaryLabel)
             Text(label)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -144,9 +151,6 @@ struct SourceAttributionRow: View {
             Text(displayName)
                 .font(.caption2)
                 .foregroundStyle(Theme.accent)
-            Image(systemName: "questionmark.circle")
-                .font(.system(size: 9, weight: .semibold))
-                .foregroundStyle(Theme.secondaryLabel)
             Spacer()
         }
         .padding(.vertical, 2)
