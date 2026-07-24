@@ -322,7 +322,23 @@ struct LockScreenView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .activityBackgroundTint(.black.opacity(0.5))
+        // Opaque black, not a translucent wash. A half-black tint lets the
+        // wallpaper through, so the card's actual lightness is whatever the user
+        // happens to have behind it — and this content is authored for a dark
+        // surface (hardcoded `.white` values, `.secondary` captions), so on a
+        // bright wallpaper it loses contrast. Black is also what the Dynamic
+        // Island always is and what survives the Always-On display's reduced
+        // luminance, so all three presentations read as one surface.
+        // (`containerBackground(.black, for: .widget)` was tried on top of this
+        // and is not worth carrying: the Lock Screen composites the card with
+        // vibrancy either way, so it rendered identically to the tint alone.
+        // A faint wallpaper seam across the card is the system's, not ours.)
+        .activityBackgroundTint(.black)
+        .activitySystemActionForegroundColor(.white)
+        // `.secondary` resolves to a *dark* gray in the light color scheme,
+        // which is invisible on black. The translucent tint used to hide this;
+        // an opaque one doesn't, so pin the scheme the content is drawn for.
+        .environment(\.colorScheme, .dark)
     }
 }
 
