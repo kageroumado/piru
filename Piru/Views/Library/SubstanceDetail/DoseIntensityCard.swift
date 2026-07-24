@@ -58,14 +58,26 @@ struct DoseIntensityCard: View {
                 .padding(.top, 2)
                 .padding(.bottom, 10)
 
-            Text(current.summary)
-                .font(.subheadline)
-                .foregroundStyle(.primary)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .multilineTextAlignment(.center)
-                .padding(.vertical, 8)
-                .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: selected)
+            // Reserve the height of the tallest band summary so the card doesn't
+            // grow and shrink as the selector moves between doses. Hidden copies
+            // of every summary size the ZStack (its frame is the union of its
+            // children, so the tallest wins); the visible summary sits on top.
+            ZStack {
+                ForEach(bands) { band in
+                    Text(band.summary)
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .hidden()
+                }
+                Text(current.summary)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.vertical, 8)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: selected)
 
             if !current.topEffects.isEmpty {
                 mostReported
@@ -197,6 +209,9 @@ private struct IntensityGauge: View {
     /// read as discrete rounded pills — not a continuous fill — and the two
     /// outermost caps round off the bottom ends of the semicircle.
     private let bandGapDeg = 5.0
+    /// Clearance between the punched socket and the glass pill, so the pill reads
+    /// as sitting *in* a hole with a hairline of background around it.
+    private let socketClearance = 3.0
     /// The tap target covering the whole arc band, so a tap on any band jumps
     /// the selector to it.
     private var hitBand: Double {
@@ -275,7 +290,12 @@ private struct IntensityGauge: View {
     /// selection) so the arc reads as a row of pickable levels, not a continuous
     /// gauge, and the round caps give every band — the two ends of the arc
     /// included — its rounded corners.
+    ///
+    /// A socket the size of the glass pill (plus clearance) is then punched out of
+    /// the track, so the raised selector nests into a hole rather than overlapping
+    /// its neighbors' rounded ends.
     private func drawTrack(in context: GraphicsContext, center: CGPoint, radius: Double, seg: Double) {
+        var context = context
         let faint = scheme == .dark ? 0.32 : 0.22
         for i in 0 ..< bandCount {
             var path = Path()
@@ -285,15 +305,28 @@ private struct IntensityGauge: View {
                 endAngle: .degrees(startDeg + Double(i + 1) * seg - bandGapDeg / 2),
                 clockwise: false,
             )
-            // The selected band drops nearly out — the glass pill sits on top of
-            // it, and a strong tint underneath would double up.
-            let opacity = i == selected ? 0.12 : faint
             context.stroke(
                 path,
-                with: .color(color(i).opacity(opacity)),
+                with: .color(color(i).opacity(faint)),
                 style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
             )
         }
+        // Socket for the glass pill. Sized to the pill's grabbed (largest) width
+        // plus clearance so the hole is constant and the pill lifts within it;
+        // `.destinationOut` clears the track (and any neighbor that reached in),
+        // leaving a clean concave notch the pill drops into.
+        let socketThickness = lineWidth + 15 + socketClearance * 2
+        var socketArc = Path()
+        socketArc.addArc(
+            center: center, radius: radius,
+            startAngle: .degrees(startDeg + Double(selected) * seg),
+            endAngle: .degrees(startDeg + Double(selected + 1) * seg),
+            clockwise: false,
+        )
+        let socket = socketArc.strokedPath(StrokeStyle(lineWidth: socketThickness, lineCap: .round))
+        context.blendMode = .destinationOut
+        context.fill(socket, with: .color(.black))
+        context.blendMode = .normal
     }
 
     /// The floating Liquid Glass indicator over the selected band: a rounded pill
