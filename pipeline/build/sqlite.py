@@ -535,7 +535,16 @@ CREATE TABLE substances (
     -- distinguished by the form facets. Assigned by assign_substance_uids() and
     -- pinned via data/curated/substance-ids.json (derive-once). NULL only if
     -- assignment was skipped. DoseEntry.substanceUID references this value.
-    substance_uid           TEXT
+    substance_uid           TEXT,
+    -- Curated editorial content (piru-curated only; JSON-blob TEXT, absent for
+    -- the long tail — popular substances only). `popular_aliases` is a JSON
+    -- array of ordered common names for the detail header (distinct from the
+    -- `aliases` search index). `misconceptions` is a JSON array of MythBust
+    -- (claim / correction / citations[{citation,role,note}] / pullQuote),
+    -- serialized to the iOS `[MythBust]` Codable shape by
+    -- build_misconceptions_json(). Decoded in SubstanceStore.decodeJSONBlob.
+    popular_aliases         TEXT,
+    misconceptions          TEXT
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -2819,7 +2828,13 @@ def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None
         return (None, None, None, None)
     low = s.lower()
     if low.startswith("doi:"):
-        return (s[4:].strip().lower(), None, None, None)
+        rest = s[4:].strip()
+        m = re.match(r"^(10\.\d{4,9}/\S+)", rest)
+        if m:
+            doi = m.group(1).rstrip(").,;]").lower()
+            title = rest[m.end() :].strip(" ;,-—:").strip("()").strip() or None
+            return (doi, None, None, title)
+        return (rest.lower(), None, None, None)
     if low.startswith("pmid:"):
         try:
             return (None, int(s[5:].strip()), None, None)
@@ -2837,8 +2852,11 @@ def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None
             except ValueError:
                 pass
         return (None, None, s, None)
-    if re.match(r"^10\.\d{4,9}/", s):
-        return (s.lower(), None, None, None)
+    m = re.match(r"^(10\.\d{4,9}/\S+)", s)
+    if m:
+        doi = m.group(1).rstrip(").,;]").lower()
+        title = s[m.end() :].strip(" ;,-—:").strip("()").strip() or None
+        return (doi, None, None, title)
     # "PubChem CID <n>" → canonical compound link.
     m = re.fullmatch(r"(?i)pubchem\s+cid[:\s]+(\d+)", s)
     if m:
@@ -2860,6 +2878,92 @@ def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None
         title = s[: m.start()].strip(" ;,-—:") or None
         return (m.group(1).rstrip(".,;").lower(), None, None, title)
     return (None, None, s, None)
+
+
+#: Valid ``MythCitation.role`` raw values (mirror the iOS enum). A curated role
+#: outside this set falls back to ``refutes`` at build.
+_MYTH_ROLES = {"refutes", "retractedSource", "dataset"}
+
+
+def _citation_dict(ref: str | None) -> dict | None:
+    """Parse a reference string into the iOS ``Citation`` Codable shape
+    (``{doi?, pmid?, url?, title?}``), dropping null keys so the Swift decoder's
+    ``decodeIfPresent`` sees only populated fields. Returns None for an empty /
+    unparseable ref (the caller drops citation-less myths; the validator errors
+    on them upstream)."""
+    doi, pmid, url, title = parse_reference(ref)
+    if doi is None and pmid is None and url is None and title is None:
+        return None
+    out: dict = {}
+    if doi is not None:
+        out["doi"] = doi
+    if pmid is not None:
+        out["pmid"] = pmid
+    if url is not None:
+        out["url"] = url
+    if title is not None:
+        out["title"] = title
+    return out
+
+
+def build_misconceptions_json(raw) -> str | None:
+    """Transform curated author-shape ``misconceptions`` into the iOS
+    ``[MythBust]`` Codable JSON stored in ``substances.misconceptions``.
+
+    Author shape (one list item)::
+
+        {"claim": str,
+         "correction": str,                       # may contain **markdown bold**
+         "citations": [{"ref": str,               # a parse_reference() string
+                        "role": "refutes"|"retractedSource"|"dataset",
+                        "note": str?}],
+         "pullQuote": {"text": str, "attribution": str}?}
+
+    Each citation ``ref`` is parsed into a ``Citation`` object. Malformed items
+    are skipped defensively (``validate_curated.py`` is the authoritative gate).
+    Returns a compact JSON string, or None when there is nothing to store."""
+    if not isinstance(raw, list) or not raw:
+        return None
+    out: list[dict] = []
+    for m in raw:
+        if not isinstance(m, dict):
+            continue
+        claim = (m.get("claim") or "").strip()
+        correction = (m.get("correction") or "").strip()
+        if not claim or not correction:
+            continue
+        cites: list[dict] = []
+        for c in m.get("citations") or []:
+            if not isinstance(c, dict):
+                continue
+            cd = _citation_dict(c.get("ref"))
+            if cd is None:
+                continue
+            role = c.get("role") if c.get("role") in _MYTH_ROLES else "refutes"
+            entry: dict = {"citation": cd, "role": role}
+            note = (c.get("note") or "").strip()
+            if note:
+                entry["note"] = note
+            cites.append(entry)
+        if not cites:
+            # A myth with no resolvable citation is just a counter-assertion;
+            # drop it (the validator also errors on it).
+            continue
+        item: dict = {"claim": claim, "correction": correction, "citations": cites}
+        pq = m.get("pullQuote")
+        if (
+            isinstance(pq, dict)
+            and (pq.get("text") or "").strip()
+            and (pq.get("attribution") or "").strip()
+        ):
+            item["pullQuote"] = {
+                "text": pq["text"].strip(),
+                "attribution": pq["attribution"].strip(),
+            }
+        out.append(item)
+    if not out:
+        return None
+    return json.dumps(out, ensure_ascii=False)
 
 
 # Citation URLs/labels that are chemical identifiers or database landing pages,
@@ -4822,6 +4926,25 @@ class Build:
                 self.cur.execute(
                     "UPDATE substances SET popularity = ? WHERE id = ?",
                     (to_float(s["popularity"]), sid),
+                )
+            # Curated editorial content (JSON-blob columns). Popular-substances
+            # only; absent (NULL) for everything else. Never auto-derived.
+            aka = s.get("popularAliases")
+            if isinstance(aka, list):
+                clean = [a.strip() for a in aka if isinstance(a, str) and a.strip()]
+                if clean:
+                    self.cur.execute(
+                        "UPDATE substances SET popular_aliases = ? WHERE id = ?",
+                        (json.dumps(clean, ensure_ascii=False), sid),
+                    )
+            myths = build_misconceptions_json(s.get("misconceptions"))
+            if myths:
+                self.cur.execute(
+                    "UPDATE substances SET misconceptions = ? WHERE id = ?",
+                    (myths, sid),
+                )
+                self.stats["curated_misconceptions"] = (
+                    self.stats.get("curated_misconceptions", 0) + 1
                 )
         if s.get("category"):
             self.add_category(sid, slug, s["category"])

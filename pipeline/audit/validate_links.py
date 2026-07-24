@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sqlite3
 import sys
 import urllib.error
@@ -104,15 +105,65 @@ def save_cache(cache: dict[str, dict]) -> None:
     CACHE.write_text(json.dumps(ordered, indent=2, ensure_ascii=False) + "\n")
 
 
-def db_urls() -> list[str]:
+#: A well-formed DOI: `10.` + registrant + `/` + suffix (DOI handbook §2.2).
+_DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
+
+
+def doi_url(doi: str) -> str:
+    return f"https://doi.org/{doi}"
+
+
+def pmid_url(pmid: int) -> str:
+    return f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
+
+
+def db_links() -> list[str]:
+    """Every distinct citation link Piru ships, as a resolvable URL — raw
+    `url` links **plus** DOIs (→ doi.org) and PMIDs (→ pubmed), so a dead DOI is
+    caught the same way a dead URL is. Malformed DOIs are dropped here and
+    reported separately by ``malformed_citations``."""
     db = sqlite3.connect(DB)
     try:
-        rows = db.execute(
-            "SELECT DISTINCT url FROM citations WHERE url LIKE 'http%' ORDER BY url"
-        ).fetchall()
+        urls = [
+            r[0]
+            for r in db.execute(
+                "SELECT DISTINCT url FROM citations WHERE url LIKE 'http%'"
+            ).fetchall()
+        ]
+        dois = [
+            doi_url(r[0])
+            for r in db.execute(
+                "SELECT DISTINCT doi FROM citations WHERE doi IS NOT NULL AND doi != ''"
+            ).fetchall()
+            if _DOI_RE.match(r[0])
+        ]
+        pmids = [
+            pmid_url(r[0])
+            for r in db.execute(
+                "SELECT DISTINCT pmid FROM citations WHERE pmid IS NOT NULL"
+            ).fetchall()
+        ]
     finally:
         db.close()
-    return [r[0] for r in rows]
+    return sorted(set(urls) | set(dois) | set(pmids))
+
+
+def malformed_citations() -> list[str]:
+    """Offline heuristic gate: citations whose identifier is present but
+    structurally invalid (a DOI that isn't `10.x/...`). These can never resolve,
+    so they're build errors regardless of network state."""
+    db = sqlite3.connect(DB)
+    try:
+        bad = [
+            f"DOI {r[0]!r}" + (f" ({r[1]})" if r[1] else "")
+            for r in db.execute(
+                "SELECT doi, title FROM citations WHERE doi IS NOT NULL AND doi != ''"
+            ).fetchall()
+            if not _DOI_RE.match(r[0])
+        ]
+    finally:
+        db.close()
+    return sorted(bad)
 
 
 def main() -> int:
@@ -122,11 +173,49 @@ def main() -> int:
     )
     ap.add_argument("--max", type=int, default=0, help="cap the number of live checks this run")
     ap.add_argument("--stale-days", type=int, default=STALE_DAYS)
+    ap.add_argument(
+        "--gate",
+        action="store_true",
+        help="offline build gate: never hit the network; exit non-zero if any shipped "
+        "citation is malformed or DEAD in the committed cache. Wired into pipeline/build.sh.",
+    )
     args = ap.parse_args()
 
+    # --- Offline heuristic: malformed identifiers can never resolve. ---
+    malformed = malformed_citations()
+    if malformed:
+        print(f"MALFORMED citation identifier(s) ({len(malformed)}):", file=sys.stderr)
+        for m in malformed:
+            print(f"    {m}", file=sys.stderr)
+
     today = datetime.now(UTC).date()
-    urls = db_urls()
+    urls = db_links()
     cache = load_cache()
+
+    # --- Build gate: verify against the committed cache, no network. ---
+    if args.gate:
+        shipped = set(urls)
+        dead = sorted(u for u, e in cache.items() if u in shipped and e.get("verdict") == "dead")
+        if dead:
+            print(f"\nDEAD shipped citation link(s) ({len(dead)}):", file=sys.stderr)
+            for u in dead:
+                print(f"    {u}", file=sys.stderr)
+        unchecked = sorted(u for u in shipped if u not in cache)
+        if unchecked:
+            print(
+                f"\n{len(unchecked)} shipped link(s) not yet in the cache — run "
+                f"`python3 pipeline/audit/validate_links.py` (network) to check them.",
+                file=sys.stderr,
+            )
+        if malformed or dead:
+            print(
+                f"\nGATE FAILED: {len(malformed)} malformed, {len(dead)} dead. "
+                f"Fix the citation(s) or replace the identifier.",
+                file=sys.stderr,
+            )
+            return 1
+        print(f"gate OK — {len(shipped)} shipped links, none malformed or dead in cache.")
+        return 0
 
     # Retain DEAD verdicts as an audit trail even after the build drops those
     # citations — they are the proof we found and removed a broken link. Prune

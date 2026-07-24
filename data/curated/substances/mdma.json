@@ -7,5 +7,41 @@
     "快乐丸",
     "快樂丸"
   ],
-  "category": "Empathogen"
+  "category": "Empathogen",
+  "popularAliases": [
+    "Ecstasy",
+    "Molly",
+    "E"
+  ],
+  "misconceptions": [
+    {
+      "claim": "You must wait 3 months between uses",
+      "correction": "An uncited community rule of thumb — no reliable data supports a fixed recovery clock. What **is** measured is same-session tolerance: a second dose the same night gives diminished returns and a worse comedown, not a better peak.",
+      "citations": [
+        {"ref": "pmid:26073279", "role": "refutes", "note": "Farré 2015 · repeated doses 4 h apart"},
+        {"ref": "pmid:23142957", "role": "refutes", "note": "Peiró 2013 · single vs. repeated dose PK/PD"}
+      ]
+    },
+    {
+      "claim": "MDMA plus an SSRI is dangerous",
+      "correction": "Mostly a myth. Serotonin reuptake inhibitors occupy SERT and **blunt** MDMA's effects — you feel *less*, not more. Serotonin syndrome from MDMA is real, but it overwhelmingly involves **MAOIs** or several serotonergic drugs together, not an SSRI on its own.",
+      "citations": [
+        {"ref": "pmid:10731626", "role": "refutes", "note": "Liechti 2000 · citalopram attenuates MDMA"},
+        {"ref": "pmid:22574166", "role": "refutes", "note": "Hysek 2012 · duloxetine blocks MDMA effects"}
+      ]
+    },
+    {
+      "claim": "It burns holes in your brain",
+      "correction": "No. Human imaging shows a reduced serotonin-transporter (SERT) binding **association** — a surrogate marker, not holes or lesions, and probably a reversible downregulation; long-abstinent users show no lasting deficit. The frightening picture came from primate studies dosing far higher and more often than people ever do — and the notorious 2002 paper claiming dopamine-neuron death was **retracted** after the animals turned out to have been given **methamphetamine, not MDMA**.",
+      "citations": [
+        {"ref": "pmid:26855234", "role": "refutes", "note": "Roberts 2016 · SERT-imaging meta-analysis"},
+        {"ref": "pmid:19336788", "role": "refutes", "note": "Selvaraj 2009 · no deficit in former users"},
+        {"ref": "pmid:12970544", "role": "retractedSource", "note": "the 2002 Science paper, retracted in 2003"}
+      ],
+      "pullQuote": {
+        "text": "It's an outrageous scandal… another example of a certain breed of scientist who appear to do research on illegal drugs mainly to show what the governments want them to show.",
+        "attribution": "Leslie Iversen, pharmacologist — to The Scientist, on the retraction"
+      }
+    }
+  ]
 }

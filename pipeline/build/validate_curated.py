@@ -103,6 +103,11 @@ BINDING_ACTIONS = {
     "channelBlocker",
     "modulator",
 }
+#: Valid ``misconceptions[].citations[].role`` values (mirror the iOS
+#: ``MythCitation.Role`` enum and sqlite.py's ``_MYTH_ROLES``).
+MYTH_ROLES = {"refutes", "retractedSource", "dataset"}
+#: Soft cap on curated ``popularAliases`` — the detail header shows ~4.
+POPULAR_ALIASES_MAX = 4
 
 _GREEK = {
     "α": "alpha",
@@ -257,6 +262,63 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
                 err.append(f"{tag}: bad binding action {b.get('action')!r}")
             if b.get("affinity") not in (1, 2, 3):
                 err.append(f"{tag}: binding affinity must be 1/2/3, got {b.get('affinity')!r}")
+    # Curated editorial content (detail-header aliases + cited misconceptions).
+    if "popularAliases" in e:
+        aka = e["popularAliases"]
+        if not isinstance(aka, list):
+            err.append(f"{tag}: popularAliases must be a list")
+        else:
+            for a in aka:
+                if not (isinstance(a, str) and a.strip()):
+                    err.append(f"{tag}: popularAliases entries must be non-empty strings")
+            if len(aka) > POPULAR_ALIASES_MAX:
+                warn.append(
+                    f"{tag}: {len(aka)} popularAliases — the header shows ~{POPULAR_ALIASES_MAX}; "
+                    f"trim to the best-known names"
+                )
+    if "misconceptions" in e:
+        myths = e["misconceptions"]
+        if not isinstance(myths, list):
+            err.append(f"{tag}: misconceptions must be a list")
+        else:
+            for i, m in enumerate(myths):
+                mtag = f"{tag}: misconceptions[{i}]"
+                if not isinstance(m, dict):
+                    err.append(f"{mtag} must be an object")
+                    continue
+                if not (isinstance(m.get("claim"), str) and m["claim"].strip()):
+                    err.append(f"{mtag} needs a non-empty 'claim'")
+                if not (isinstance(m.get("correction"), str) and m["correction"].strip()):
+                    err.append(f"{mtag} needs a non-empty 'correction'")
+                cites = m.get("citations")
+                # THE contract: an uncited myth-bust is just a counter-assertion.
+                if not (isinstance(cites, list) and cites):
+                    err.append(f"{mtag} must have at least one citation")
+                    cites = []
+                for j, c in enumerate(cites):
+                    ctag = f"{mtag}.citations[{j}]"
+                    if not isinstance(c, dict):
+                        err.append(f"{ctag} must be an object")
+                        continue
+                    if not (isinstance(c.get("ref"), str) and c["ref"].strip()):
+                        err.append(f"{ctag} needs a non-empty 'ref' reference string")
+                    if "role" in c and c["role"] not in MYTH_ROLES:
+                        err.append(
+                            f"{ctag} bad role {c.get('role')!r} (one of {sorted(MYTH_ROLES)})"
+                        )
+                    if "note" in c and not (isinstance(c["note"], str) and c["note"].strip()):
+                        err.append(f"{ctag} 'note' must be a non-empty string when present")
+                pq = m.get("pullQuote")
+                if pq is not None:
+                    if not isinstance(pq, dict):
+                        err.append(f"{mtag}.pullQuote must be an object")
+                    elif not (
+                        isinstance(pq.get("text"), str)
+                        and pq["text"].strip()
+                        and isinstance(pq.get("attribution"), str)
+                        and pq["attribution"].strip()
+                    ):
+                        err.append(f"{mtag}.pullQuote needs non-empty 'text' and 'attribution'")
     # Advisory provenance norm: a substantive quantitative claim (dose ladder,
     # protocol, or half-life) should cite at least one reference somewhere
     # (substance `sources`, mechanism `references`, or a per-fact `source`).

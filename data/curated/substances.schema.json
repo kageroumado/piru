@@ -26,7 +26,11 @@
     "pubchemCID": {"type": "integer"},
     "molarMass": {"type": "number"},
     "mechanismOfAction": {"$ref": "#/$defs/moa"},
-    "peptideProfile": {"$ref": "#/$defs/peptideProfile"}
+    "peptideProfile": {"$ref": "#/$defs/peptideProfile"},
+    "popularAliases": {"type": "array", "items": {"type": "string", "minLength": 1},
+      "description": "Ordered common street/brand names for the detail header (≤~4). Popular substances only; distinct from the `aliases` search index. Never auto-derived."},
+    "misconceptions": {"type": "array", "items": {"$ref": "#/$defs/mythBust"},
+      "description": "Cited corrections to common claims (the 'Common misconceptions' section). Popular substances only."}
   },
   "$defs": {
     "range": {"type": "object", "required": ["lower", "upper"], "properties": {
@@ -66,6 +70,29 @@
           "temperature": {"type": "string", "enum": ["room_temp", "refrigerate", "freeze"]},
           "lightSensitive": {"type": "boolean"},
           "reconstitutedStabilityDays": {"type": ["number", "null"]}}}
+      }
+    },
+    "mythBust": {
+      "type": "object",
+      "required": ["claim", "correction", "citations"],
+      "properties": {
+        "claim": {"type": "string", "minLength": 1, "description": "The claim as people state it."},
+        "correction": {"type": "string", "minLength": 1, "description": "Evidence-based correction; may contain **markdown bold**."},
+        "citations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/mythCitation"},
+          "description": "At least one — an uncited myth-bust is just a counter-assertion."},
+        "pullQuote": {"type": "object", "required": ["text", "attribution"],
+          "properties": {"text": {"type": "string", "minLength": 1}, "attribution": {"type": "string", "minLength": 1}},
+          "description": "Rare flagship-only attributed quotation."}
+      }
+    },
+    "mythCitation": {
+      "type": "object",
+      "required": ["ref"],
+      "properties": {
+        "ref": {"type": "string", "minLength": 1, "description": "A reference string (doi:/pmid:/URL/free-text label), parsed by parse_reference()."},
+        "role": {"type": "string", "enum": ["refutes", "retractedSource", "dataset"], "default": "refutes",
+          "description": "refutes = supporting evidence; retractedSource = the (retracted) origin of the myth, cited to discredit it; dataset = a registry/dataset."},
+        "note": {"type": "string", "minLength": 1, "description": "Optional one-line gloss shown beside the chip."}
       }
     },
     "moa": {

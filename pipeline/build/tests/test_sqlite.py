@@ -30,6 +30,7 @@ smart_title_case = _mod.smart_title_case
 chem_caps = _mod.chem_caps
 is_identifier_citation = _mod.is_identifier_citation
 parse_reference = _mod.parse_reference
+build_misconceptions_json = _mod.build_misconceptions_json
 dc_slugify = _mod.dc_slugify
 parse_formula = _mod.parse_formula
 is_clean_desalt = _mod.is_clean_desalt
@@ -1980,6 +1981,58 @@ class TestIsIdentifierCitation(unittest.TestCase):
         self.assertFalse(self._drop("https://www.nature.com/articles/s41586-020-0000-0"))
 
 
+class TestParseReferenceDOIExtraction(unittest.TestCase):
+    """parse_reference must extract only the DOI token, never leak a trailing
+    "(Author Year Journal)" label into the doi column — the bug that produced
+    citations 1275/1289/1291 in the shipped DB (doi field containing a space
+    and a parenthetical label)."""
+
+    def test_doi_prefix_with_trailing_label_splits_doi_and_title(self):
+        ref = (
+            "doi:10.1016/j.phrs.2009.05.008 (Jo SH et al. — Promethazine "
+            "directly blocks hERG K+ channel; Pharmacol Res 2009)"
+        )
+        doi, pmid, url, title = parse_reference(ref)
+        self.assertEqual(doi, "10.1016/j.phrs.2009.05.008")
+        self.assertIsNone(pmid)
+        self.assertIsNone(url)
+        self.assertEqual(
+            title,
+            "Jo SH et al. — Promethazine directly blocks hERG K+ channel; Pharmacol Res 2009",
+        )
+        self.assertNotIn(" ", doi)
+
+    def test_bare_doi_with_trailing_label_splits_doi_and_title(self):
+        ref = "10.1023/A:1015916423156 (Putcha L et al. — Pharm Res 1989)"
+        doi, pmid, url, title = parse_reference(ref)
+        self.assertEqual(doi, "10.1023/a:1015916423156")
+        self.assertEqual(title, "Putcha L et al. — Pharm Res 1989")
+        self.assertNotIn(" ", doi)
+        self.assertNotIn("(", doi)
+
+    def test_bare_doi_no_label(self):
+        self.assertEqual(
+            parse_reference("doi:10.1002/dta.1234"),
+            ("10.1002/dta.1234", None, None, None),
+        )
+
+    def test_bare_doi_without_prefix_no_label(self):
+        self.assertEqual(
+            parse_reference("10.1016/s0014-2999(97)01116-3"),
+            ("10.1016/s0014-2999(97)01116-3", None, None, None),
+        )
+
+    def test_doi_with_internal_parens_not_mistaken_for_a_label(self):
+        # Elsevier/Wiley DOIs often contain balanced parens with no
+        # whitespace before them — these must stay whole, not be truncated.
+        ref = "10.1002/(sici)1099-081x(1998110)19:8<541::aid-bdd138>3.0.co;2-8"
+        self.assertEqual(parse_reference(ref), (ref.lower(), None, None, None))
+
+    def test_pmid_still_parses(self):
+        self.assertEqual(parse_reference("PMID 12345678"), (None, 12345678, None, None))
+        self.assertEqual(parse_reference("pmid:12345678"), (None, 12345678, None, None))
+
+
 class TestDcSlugify(unittest.TestCase):
     """drug.community page-slug parity — must match the site's Kt() so deep
     links resolve."""
@@ -2184,6 +2237,186 @@ class TestAliasCasingDeterminism(unittest.TestCase):
     def test_capitalised_form_preferred(self):
         self.assertEqual(self._stored_aliases(["indian pipe", "Indian Pipe"]), ["Indian Pipe"])
         self.assertEqual(self._stored_aliases(["Indian Pipe", "indian pipe"]), ["Indian Pipe"])
+
+
+class TestBuildMisconceptionsJSON(unittest.TestCase):
+    """build_misconceptions_json transforms author-shape misconceptions into the
+    iOS [MythBust] Codable JSON, parsing citation ref-strings via parse_reference."""
+
+    def _one(self, raw):
+        out = build_misconceptions_json(raw)
+        return __import__("json").loads(out) if out else out
+
+    def test_none_and_empty(self):
+        self.assertIsNone(build_misconceptions_json(None))
+        self.assertIsNone(build_misconceptions_json([]))
+        self.assertIsNone(build_misconceptions_json("not a list"))
+
+    def test_parses_citation_identifiers(self):
+        raw = [
+            {
+                "claim": "C",
+                "correction": "K",
+                "citations": [
+                    {"ref": "pmid:26073279", "role": "refutes", "note": "n"},
+                    {"ref": "doi:10.1126/science.1074501", "role": "retractedSource"},
+                    {"ref": "A free-text label"},
+                ],
+            }
+        ]
+        out = self._one(raw)
+        cites = out[0]["citations"]
+        self.assertEqual(cites[0]["citation"], {"pmid": 26073279})
+        self.assertEqual(cites[0]["role"], "refutes")
+        self.assertEqual(cites[0]["note"], "n")
+        self.assertEqual(cites[1]["citation"], {"doi": "10.1126/science.1074501"})
+        self.assertEqual(cites[1]["role"], "retractedSource")
+        # A bare label with no id is kept in `url` (renders as non-tappable text).
+        self.assertEqual(cites[2]["citation"], {"url": "A free-text label"})
+        # Absent role defaults to refutes.
+        self.assertEqual(cites[2]["role"], "refutes")
+
+    def test_bad_role_falls_back_to_refutes(self):
+        raw = [{"claim": "C", "correction": "K", "citations": [{"ref": "pmid:1", "role": "bogus"}]}]
+        self.assertEqual(self._one(raw)[0]["citations"][0]["role"], "refutes")
+
+    def test_uncited_myth_is_dropped(self):
+        raw = [
+            {"claim": "kept", "correction": "K", "citations": [{"ref": "pmid:1"}]},
+            {"claim": "dropped", "correction": "K", "citations": []},
+            {"claim": "also dropped", "correction": "K"},
+        ]
+        claims = [m["claim"] for m in self._one(raw)]
+        self.assertEqual(claims, ["kept"])
+
+    def test_myth_without_claim_or_correction_dropped(self):
+        raw = [
+            {"claim": "", "correction": "K", "citations": [{"ref": "pmid:1"}]},
+            {"claim": "C", "correction": "  ", "citations": [{"ref": "pmid:1"}]},
+        ]
+        self.assertIsNone(build_misconceptions_json(raw))
+
+    def test_pullquote_requires_text_and_attribution(self):
+        good = [
+            {
+                "claim": "C",
+                "correction": "K",
+                "citations": [{"ref": "pmid:1"}],
+                "pullQuote": {"text": "t", "attribution": "a"},
+            }
+        ]
+        self.assertIn("pullQuote", self._one(good)[0])
+        partial = [
+            {
+                "claim": "C",
+                "correction": "K",
+                "citations": [{"ref": "pmid:1"}],
+                "pullQuote": {"text": "t", "attribution": ""},
+            }
+        ]
+        self.assertNotIn("pullQuote", self._one(partial)[0])
+
+
+class TestMisconceptionValidator(unittest.TestCase):
+    """The curated validator enforces the authoring contract: every myth cites
+    at least one source, roles are valid, and popularAliases are well-formed."""
+
+    def _check(self, entry, fname="foo.json"):
+        import json
+        import tempfile
+
+        d = Path(tempfile.mkdtemp())
+        (d / fname).write_text(json.dumps(entry))
+        return _vmod.validate_dir(d)[0]
+
+    _base = {"name": "Foo", "aliases": [], "category": "Stimulant"}
+
+    def test_uncited_myth_errors(self):
+        e = dict(self._base, misconceptions=[{"claim": "c", "correction": "k", "citations": []}])
+        self.assertTrue(any("at least one citation" in x for x in self._check(e)))
+
+    def test_missing_citations_key_errors(self):
+        e = dict(self._base, misconceptions=[{"claim": "c", "correction": "k"}])
+        self.assertTrue(any("at least one citation" in x for x in self._check(e)))
+
+    def test_bad_role_errors(self):
+        e = dict(
+            self._base,
+            misconceptions=[
+                {"claim": "c", "correction": "k", "citations": [{"ref": "pmid:1", "role": "nope"}]}
+            ],
+        )
+        self.assertTrue(any("bad role" in x for x in self._check(e)))
+
+    def test_empty_ref_errors(self):
+        e = dict(
+            self._base,
+            misconceptions=[{"claim": "c", "correction": "k", "citations": [{"ref": "  "}]}],
+        )
+        self.assertTrue(any("non-empty 'ref'" in x for x in self._check(e)))
+
+    def test_missing_claim_errors(self):
+        e = dict(
+            self._base,
+            misconceptions=[{"correction": "k", "citations": [{"ref": "pmid:1"}]}],
+        )
+        self.assertTrue(any("non-empty 'claim'" in x for x in self._check(e)))
+
+    def test_pullquote_needs_both_fields(self):
+        e = dict(
+            self._base,
+            misconceptions=[
+                {
+                    "claim": "c",
+                    "correction": "k",
+                    "citations": [{"ref": "pmid:1"}],
+                    "pullQuote": {"text": "t"},
+                }
+            ],
+        )
+        self.assertTrue(any("pullQuote needs" in x for x in self._check(e)))
+
+    def test_popular_aliases_must_be_strings(self):
+        e = dict(self._base, popularAliases=["ok", 42])
+        self.assertTrue(any("popularAliases entries must be" in x for x in self._check(e)))
+
+    def test_valid_misconception_passes(self):
+        e = dict(
+            self._base,
+            popularAliases=["Ecstasy", "Molly"],
+            misconceptions=[
+                {
+                    "claim": "c",
+                    "correction": "k",
+                    "citations": [{"ref": "pmid:1", "role": "refutes", "note": "n"}],
+                    "pullQuote": {"text": "t", "attribution": "a"},
+                }
+            ],
+        )
+        self.assertEqual(self._check(e), [])
+
+
+class TestMDMACuratedContent(unittest.TestCase):
+    """The shipped mdma.json is the reference author — guard its curated content."""
+
+    def test_mdma_has_valid_popular_aliases_and_cited_myths(self):
+        import json
+
+        mdma = json.loads((_REPO / "data/curated/substances/mdma.json").read_text())
+        self.assertEqual(mdma.get("popularAliases"), ["Ecstasy", "Molly", "E"])
+        myths = mdma.get("misconceptions") or []
+        self.assertGreaterEqual(len(myths), 3)
+        for m in myths:
+            self.assertTrue(m.get("claim") and m.get("correction"))
+            self.assertTrue(m.get("citations"), "every myth must cite")
+        # Exactly one retracted-source citation (the Ricaurte retraction story).
+        roles = [c.get("role") for m in myths for c in m["citations"]]
+        self.assertEqual(roles.count("retractedSource"), 1)
+        # It round-trips through the pipeline transform into a decodable blob.
+        out = build_misconceptions_json(myths)
+        self.assertIsNotNone(out)
+        decoded = json.loads(out)
+        self.assertEqual(len(decoded), len(myths))
 
 
 if __name__ == "__main__":
