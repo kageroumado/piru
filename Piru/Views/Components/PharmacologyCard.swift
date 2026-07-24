@@ -29,35 +29,62 @@ struct PharmacologyCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if !moa.summary.isEmpty {
-                Text(moa.summary)
-                    .font(summaryIsHeadline ? .subheadline.weight(.semibold) : .subheadline)
-                    .foregroundStyle(summaryIsHeadline ? accent : Color.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            if !moa.description.isEmpty {
-                Text(moa.description)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
             if let hero {
+                // Class-panel path (opioid/benzo/dissociative): headline, prose, hero.
+                summaryText
+                descriptionText
                 heroSection(hero)
+            } else if let monoamine {
+                // Monoamine path — **bar first** (design review §3.3): the S↔D lean
+                // is what makes the drug what it is, so it leads. The one-line
+                // headline follows, then the receptor targets as full-width pills,
+                // then the (demoted) prose last, then the harm-reduction flags.
+                monoamineHero(monoamine)
+                summaryText
+                receptorTargets
+                descriptionText
+                flags(monoamine)
             } else {
-                if let monoamine { monoamineHero(monoamine) }
-                if !moa.bindings.isEmpty {
-                    targetGrid
-                } else if !moa.primaryTargets.isEmpty {
-                    HStack(spacing: 0) {
-                        Text("Primary Targets: ").font(.caption.weight(.medium))
-                        Text(moa.primaryTargets.joined(separator: " · ")).font(.caption)
-                    }
-                    .foregroundStyle(Theme.secondaryLabel)
-                }
-                if let monoamine { flags(monoamine) }
+                // No monoamine profile, no class hero: headline, prose, targets.
+                summaryText
+                descriptionText
+                receptorTargets
             }
         }
         .padding(.vertical, 2)
+    }
+
+    @ViewBuilder private var summaryText: some View {
+        if !moa.summary.isEmpty {
+            Text(moa.summary)
+                .font(summaryIsHeadline ? .subheadline.weight(.semibold) : .subheadline)
+                .foregroundStyle(summaryIsHeadline ? accent : Color.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    @ViewBuilder private var descriptionText: some View {
+        if !moa.description.isEmpty {
+            Text(moa.description)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    /// The receptor targets — full-width pills (replacing the old left-clustered
+    /// ``AffinityDots`` grid that wasted ~55% of the row), or the plain
+    /// primary-targets line when there are no graded bindings.
+    @ViewBuilder private var receptorTargets: some View {
+        if !moa.bindings.isEmpty {
+            receptorPills
+        } else if !moa.primaryTargets.isEmpty {
+            HStack(spacing: 0) {
+                Text("Primary Targets: ").font(.caption.weight(.medium))
+                Text(moa.primaryTargets.joined(separator: " · ")).font(.caption)
+            }
+            .foregroundStyle(Theme.secondaryLabel)
+        }
     }
 
     // MARK: - Class-specific receptor-panel hero (opioid / benzo / dissociative)
@@ -97,29 +124,41 @@ struct PharmacologyCard: View {
         .padding(.top, 2)
     }
 
-    // MARK: - Target / strength grid (the "model" layer)
+    // MARK: - Receptor target pills (full-width)
 
-    private var targetGrid: some View {
-        Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
-            GridRow {
-                Text("Target")
-                Text("Action")
-                Text(verbatim: "")
-            }
-            .font(.caption2.weight(.semibold))
-            .foregroundStyle(Theme.secondaryLabel)
-            .accessibilityAddTraits(.isHeader)
+    /// Each target as a full-width pill — target · action on the left, the graded
+    /// ``StrengthMeter`` pinned right (the same segmented glyph the share card
+    /// uses) — so the row uses the whole screen instead of clustering the meter at
+    /// ~45% and leaving dead space. "Acts on" leads the group.
+    private var receptorPills: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Acts on")
+                .font(.caption2.weight(.semibold))
+                .textCase(.uppercase)
+                .tracking(0.4)
+                .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityAddTraits(.isHeader)
 
             ForEach(moa.bindings) { binding in
-                GridRow {
-                    Text(binding.target).fontWeight(.medium)
-                    Text(binding.action.displayName).foregroundStyle(.secondary)
-                    AffinityDots(filled: binding.affinity.rawValue, tint: accent)
+                HStack(spacing: 10) {
+                    Text(binding.target)
+                        .font(.subheadline.weight(.semibold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    Text(binding.action.displayName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                    Spacer(minLength: 8)
+                    StrengthMeter(filled: binding.affinity.rawValue, tint: accent)
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 9)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(accent.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
                 .accessibilityElement(children: .combine)
             }
         }
-        .font(.caption)
     }
 
     // MARK: - Monoamine slider hero
@@ -140,11 +179,37 @@ struct PharmacologyCard: View {
     }
 
     private func spectrum(_ profile: MonoamineProfile) -> some View {
+        // The bar already encodes the lean and the ratio line quantifies it, so the
+        // restated "Serotonin-leaning (entactogenic)" words are dropped to the a11y
+        // value (design review §3.3): show a clean "SERT : DAT release ≈ 13 : 1".
         DopamineSerotoninLeanBar(
             leanPosition: profile.leanPosition,
             leanLabel: profile.leanLabel,
-            ratioText: profile.datSertRatio.map { ratioText($0) },
+            ratioText: nil,
+            showsLeanLabel: false,
+            ratioLine: transporterRatioLine(profile),
         )
+    }
+
+    /// A clean transporter-selectivity line — "SERT : DAT release ≈ 13 : 1" —
+    /// stating the more-potent transporter first (potency is the inverse of the
+    /// half-max concentration, so a low SERT:DAT concentration ratio means SERT is
+    /// the more potent target). `nil` when the ratio is missing.
+    private func transporterRatioLine(_ profile: MonoamineProfile) -> String? {
+        guard let ratio = profile.datSertRatio, ratio > 0 else { return nil }
+        let basis = profile.basis == .release
+            ? String(localized: "release", comment: "Transporter ratio basis")
+            : String(localized: "reuptake", comment: "Transporter ratio basis")
+        // `datSertRatio` = SERT concentration ÷ DAT concentration. SERT is more
+        // potent when that ratio < 1.
+        let sertPotency = 1 / ratio
+        func clamp(_ v: Double) -> String {
+            v >= 100 ? ">100" : String(Int(v.rounded()))
+        }
+        if sertPotency >= 1 {
+            return "SERT : DAT \(basis) ≈ \(clamp(sertPotency)) : 1"
+        }
+        return "DAT : SERT \(basis) ≈ \(clamp(ratio)) : 1"
     }
 
     @ViewBuilder
@@ -174,15 +239,5 @@ struct PharmacologyCard: View {
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
-    }
-
-    /// A DAT:SERT ratio reads meaningfully only within a band; past ~100:1 the lean label carries the
-    /// signal and a raw "21797" is noise.
-    private func ratioText(_ r: Double) -> String {
-        if r >= 100 { return ">100" }
-        if r >= 10 { return String(format: "%.0f", r) }
-        if r >= 1 { return String(format: "%.1f", r) }
-        if r >= 0.01 { return String(format: "%.2f", r) }
-        return "<0.01"
     }
 }

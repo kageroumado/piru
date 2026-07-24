@@ -115,6 +115,11 @@ final class SubstanceDetailModel {
             // field — it names no new molecule. Mirrors `MetabolismRow`'s own
             // elimination detection.
             guard !name.lowercased().hasPrefix("unchanged") else { continue }
+            // Combination-only species (cocaethylene, ethylphenidate) form solely
+            // while a second drug is onboard, so they must not read as an
+            // unconditional metabolite of the parent — they surface through
+            // `CombinationMetabolite.formed(among:)`, gated on co-occurrence.
+            guard !CombinationMetabolite.isConditional(name) else { continue }
             let key = name.lowercased()
             if byName[key] == nil { order.append(key) }
             byName[key, default: []].append(row)

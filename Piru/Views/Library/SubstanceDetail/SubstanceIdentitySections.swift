@@ -127,9 +127,18 @@ struct ChemistrySection: View {
     let substance: Substance
     let showsMechanism: Bool
 
-    @State private var chemistryExpanded = false
+    @State private var chemistryExpanded: Bool
     @State private var moleculeStructure: MoleculeStructure?
     @Environment(\.openURL) private var openURL
+
+    /// `initiallyExpanded` seeds the disclosure open — the deep-data page passes
+    /// `true` so a "Show all / Chemistry" tap lands on the numbers, not on a
+    /// second collapsed row the user has to open again (the double-collapse void).
+    init(substance: Substance, showsMechanism: Bool, initiallyExpanded: Bool = false) {
+        self.substance = substance
+        self.showsMechanism = showsMechanism
+        _chemistryExpanded = State(initialValue: initiallyExpanded)
+    }
 
     var body: some View {
         let hasPubChem = substance.pubChemURL != nil

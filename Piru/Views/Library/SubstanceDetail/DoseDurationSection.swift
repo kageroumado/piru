@@ -125,7 +125,7 @@ struct DoseDurationSection: View {
                     .listRowSeparator(.hidden)
                 }
 
-                RouteDosingCard(
+                DoseDurationCard(
                     route: route.route,
                     unit: salt?.unit ?? route.unit,
                     doses: salt?.doses ?? route.doses,
@@ -134,7 +134,7 @@ struct DoseDurationSection: View {
                     elementalFraction: salt?.elementalFraction,
                     showsDoseLadder: routes.showsDoseLadder,
                     showsDuration: routes.durationVisible,
-                    showsTitle: false,
+                    accent: substance.category.color,
                 )
                 .listRowSeparator(.hidden)
 

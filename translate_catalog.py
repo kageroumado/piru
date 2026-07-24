@@ -9,6 +9,24 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Substance-detail redesign v2 (proto8/proto10) — header chips, dose card,
+    # bar-first pharmacology, tappable metabolites (2026-07-24).
+    "+ %lld chemical names": ("+ %lld 个化学名称", "+ %lld 個化學名稱"),
+    "Also known as %@.": ("又称 %@。", "又稱 %@。"),
+    "Also known as %@, and %lld other names.": (
+        "又称 %@，以及另外 %lld 个名称。",
+        "又稱 %@，以及另外 %lld 個名稱。",
+    ),
+    "Effect over time · %@": ("效果随时间变化 · %@", "效果隨時間變化 · %@"),
+    "Effect over time: rises over the come-up, plateaus at peak, then falls.": (
+        "效果随时间变化：在上升期逐渐增强，在峰值期保持平稳，随后减弱。",
+        "效果隨時間變化：在上升期逐漸增強，在峰值期保持平穩，隨後減弱。",
+    ),
+    "Duration of action": ("作用持续时间", "作用持續時間"),
+    "Acts on": ("作用靶点", "作用標靶"),
+    "reuptake": ("再摄取", "再攝取"),
+    "via %@": ("经 %@", "經 %@"),
+    "Opens %@": ("打开 %@", "打開 %@"),
     # Inventory manager: collapsible class sections + class arrangement (2026-07-21).
     "Arrange Classes": ("排列类别", "排列類別"),
     "Arrange Classes…": ("排列类别…", "排列類別…"),
@@ -3297,6 +3315,11 @@ T = {
     "Reported Subjective Effects": ("报告的主观效果", "報告的主觀效果"),
     "Primary Targets: ": ("主要作用位点: ", "主要作用位點: "),
     "Also known as": ("别名", "別名"),
+    # Substance detail — redesign (misconceptions + "for the curious" launcher)
+    "Common misconceptions": ("常见误解", "常見誤解"),
+    "For the curious": ("给好奇的你", "給好奇的你"),
+    "Myth: %@": ("误解：%@", "誤解：%@"),
+    "Retracted source: %@": ("已撤稿的来源：%@", "已撤稿的來源：%@"),
     # Calculator / PK
     "Concentration Curve": ("浓度曲线", "濃度曲線"),
     "Concentration Curves": ("浓度曲线", "濃度曲線"),
@@ -5397,6 +5420,9 @@ T = {
         "向后滚动浏览你的历史记录。触摸并按住可查看某一时刻。",
         "向後捲動瀏覽你的歷史記錄。觸摸並按住可查看某一時刻。",
     ),
+    # Substance-detail redesign, feedback round 3 (2026-07-24).
+    "Log Now": ("立即记录", "立即記錄"),
+    "All phases": ("全部阶段", "全部階段"),
 }
 
 # Widget translations

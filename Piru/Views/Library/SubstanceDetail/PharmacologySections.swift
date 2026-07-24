@@ -43,6 +43,22 @@ struct PharmacologySections: View {
         }
     }
 
+    /// Metabolites whose formation runs through a polymorphic enzyme
+    /// (CYP2D6/CYP2C19) *and* that carry real effect — the codeine → morphine,
+    /// tramadol → M1, oxycodone → oxymorphone, atomoxetine, aripiprazole set.
+    /// How much of a dose you convert is substantially genetic, which is the
+    /// single most actionable fact on those drugs. It belongs in Metabolism as a
+    /// calm line rather than as a headline (the review's editorial gate keeps
+    /// divergent/ratio facts out of "Also Active"). Suppressed for any metabolite
+    /// that already earns an "Also Active" card — its own card states it — so the
+    /// note never appears twice on one screen.
+    private var polymorphicConversionMetabolites: [ActiveMetabolite] {
+        let carded = Set(durationChangingMetabolites.map(\.id))
+        return model.activeMetabolites.filter {
+            $0.conversionVariesByGenetics && $0.isMateriallyActive && !carded.contains($0.id)
+        }
+    }
+
     var body: some View {
         let hero = model.pharmacologyHero(category: substance.category)
 
@@ -211,14 +227,65 @@ struct PharmacologySections: View {
     /// The CYP/enzyme clearance pathways and their metabolites — its own section
     /// now, sitting next to the grapefruit/smoking interaction banners (which act
     /// on these same enzymes).
+    /// The single row that should carry each curated divergent note. Several raw
+    /// rows can name one metabolite family (MDMA lists MDA, S-MDA and R-MDA, all
+    /// matching the MDA note), so the note is pinned to the first matching row —
+    /// which in practice is the canonical one that also resolves to the library.
+    private var divergentNoteRowIDs: Set<SubstanceStore.MetabolismHit.ID> {
+        var seenNotes = Set<String>()
+        var out = Set<SubstanceStore.MetabolismHit.ID>()
+        for hit in model.metabolismRows {
+            guard let metabolite = hit.metaboliteName,
+                  let note = MetaboliteEditorial.divergentNote(parent: substance.name, metabolite: metabolite)
+            else { continue }
+            if seenNotes.insert(String(localized: note)).inserted { out.insert(hit.id) }
+        }
+        return out
+    }
+
     private var metabolismBody: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        let noteRows = divergentNoteRowIDs
+        return VStack(alignment: .leading, spacing: 8) {
             ForEach(model.metabolismRows) { hit in
-                MetabolismRow(hit: hit, accent: substance.category.color)
+                // The metabolite row now folds its own curated "acts differently"
+                // one-liner in (parentName keys ``MetaboliteEditorial``), deduped to
+                // one row, so the separate divergent-notes block below is gone.
+                MetabolismRow(
+                    hit: hit,
+                    accent: substance.category.color,
+                    parentName: substance.name,
+                    showsDivergentNote: noteRows.contains(hit.id),
+                )
                 if hit.id != model.metabolismRows.last?.id { Divider() }
+            }
+            // The "conversion is partly genetic" line stays as a section note — it's
+            // a between-people fact, not tied to any single metabolite row.
+            if !polymorphicConversionMetabolites.isEmpty {
+                Divider()
+                metabolismNote(
+                    "How much of a dose becomes its active form is partly genetic — the same dose can produce noticeably more effect in some people than in others.",
+                    systemImage: "person.2",
+                )
             }
         }
         .padding(.vertical, 4)
+    }
+
+    /// A caption-weight note beneath the enzyme pathways — the divergent-metabolite
+    /// sentences and the genetic-conversion line. Caption weight keeps it a note,
+    /// not a headline; the leading glyph signals the axis (branch = different
+    /// pharmacology, person-pair = between-people variability).
+    private func metabolismNote(_ text: LocalizedStringResource, systemImage: String) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Image(systemName: systemImage)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+            Text(text)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+        }
     }
 
     /// A plain `Section` header (icon + title) with a trailing (i) that opens the card's help sheet —

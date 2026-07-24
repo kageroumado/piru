@@ -20,6 +20,8 @@ private let quickLogLogger = Logger(subsystem: "dev.yumeji.piru", category: "Qui
 /// tray; but a sheet is short-lived, so one capture at present is enough.)
 struct QuickLogSheet: View {
     var prestagedRoutine: String?
+    /// Canonical name of a substance to stage (with its editor open) on present.
+    var prefillSubstance: String?
 
     /// Days of dose history the quick-log surfaces treat as "recent". Must
     /// exceed the longest plausible "still-active PK badge" horizon: a dose
@@ -35,7 +37,7 @@ struct QuickLogSheet: View {
     @State private var cutoff = Date.now.addingTimeInterval(-recentWindowDays * 86_400)
 
     var body: some View {
-        QuickLogView(prestagedRoutine: prestagedRoutine, historyCutoff: cutoff)
+        QuickLogView(prestagedRoutine: prestagedRoutine, prefillSubstance: prefillSubstance, historyCutoff: cutoff)
     }
 }
 
@@ -43,6 +45,12 @@ struct QuickLogView: View {
     /// Stage this routine's items into the tray on open — the landing state
     /// for a routine-reminder notification tap (`piru://quicklog?routine=`).
     var prestagedRoutine: String?
+
+    /// Stage this substance (canonical name) as a draft on open, with its dose
+    /// editor expanded on the library's reference dose — the landing state for
+    /// the "Log" button on a substance's detail screen
+    /// (`piru://quicklog?substance=`).
+    var prefillSubstance: String?
 
     /// Lower bound for ``allEntries`` — see ``QuickLogSheet``. Stored so the
     /// explicit `init` can build the windowed `@Query` from it.
@@ -96,8 +104,9 @@ struct QuickLogView: View {
     /// reference-typed model drops the view's stored surface to a few flags.
     @State private var content = QuickLogContentModel()
 
-    init(prestagedRoutine: String? = nil, historyCutoff: Date) {
+    init(prestagedRoutine: String? = nil, prefillSubstance: String? = nil, historyCutoff: Date) {
         self.prestagedRoutine = prestagedRoutine
+        self.prefillSubstance = prefillSubstance
         self.historyCutoff = historyCutoff
         _allEntries = Query(
             FetchDescriptor(
@@ -215,6 +224,9 @@ struct QuickLogView: View {
                 if let prestagedRoutine {
                     stageRoutine(named: prestagedRoutine)
                 }
+                if let prefillSubstance {
+                    stagePrefill(named: prefillSubstance)
+                }
             }
             .task(id: quickLogDoses.count) {
                 try? await Task.sleep(for: .milliseconds(200))
@@ -304,6 +316,24 @@ struct QuickLogView: View {
             for item in items where stagedQuantity(item) == 0 {
                 stageDailyItem(item)
             }
+        }
+    }
+
+    /// Stage one library substance as a draft — the same path a search hit takes
+    /// ("Add & edit"): it seeds the reference dose for the substance's default
+    /// route and opens the editor, so the sheet lands on the dose the user came
+    /// to enter rather than on the card list. No-op for an unknown name.
+    private func stagePrefill(named name: String) {
+        guard let substance = SubstanceLibrary.lookup(name) else { return }
+        let route = substance.defaultRoute
+        withAnimation(.snappy) {
+            tray.stageDraft(
+                substance: substance.name,
+                route: route,
+                unit: substance.defaultUnit,
+                colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                librarySubstance: substance,
+            )
         }
     }
 

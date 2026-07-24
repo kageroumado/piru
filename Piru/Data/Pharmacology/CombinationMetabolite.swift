@@ -50,7 +50,36 @@ nonisolated enum CombinationMetabolite {
         cautionNote: "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it's worth avoiding the mix.)",
     )
 
-    static let catalog: [Definition] = [cocaethylene]
+    /// Ethylphenidate — methylphenidate + ethanol → a longer-lived, more DAT-selective active stimulant.
+    /// The exact structural analogue of cocaethylene: carboxylesterase (CES1) transesterifies the methyl
+    /// ester to an ethyl ester **only while ethanol is present**, so like cocaethylene it is a property of
+    /// the pair. Calmer confidence than cocaethylene — the human PK is thinner — but the formation chemistry
+    /// and the "outlasts the parent" shape are well attested.
+    static let ethylphenidate = Definition(
+        id: "ethylphenidate",
+        displayName: "Ethylphenidate",
+        precursors: [
+            ["methylphenidate", "ritalin", "concerta", "mph", "dexmethylphenidate", "focalin", "d-methylphenidate"],
+            ["ethanol", "alcohol", "ethyl alcohol"],
+        ],
+        confidence: .low,
+        formationNote: "Methylphenidate and alcohol together form ethylphenidate — an active stimulant your body makes only while both are present. It leans more on dopamine and lingers a little longer than methylphenidate, so the stimulant effect is drawn out.",
+        cautionNote: "The mix adds cardiovascular strain beyond either alone, and the ethylphenidate it forms outlasts the methylphenidate itself, so the load on your heart is stretched out rather than added up.",
+    )
+
+    static let catalog: [Definition] = [cocaethylene, ethylphenidate]
+
+    /// Metabolite names that form **only** when a second drug is co-present. They must never appear as an
+    /// unconditional "Also Active" metabolite on the parent's own page — that would claim a species the body
+    /// makes only in combination is always present. They are surfaced through ``formed(among:)`` instead,
+    /// gated on co-occurrence, where the caution can name the pair. Matched case-insensitively against a
+    /// metabolism row's `metabolite_name`.
+    static let conditionalMetaboliteNames: Set<String> = ["cocaethylene", "ethylphenidate"]
+
+    /// Whether a metabolite forms only in combination, so the per-substance active-metabolite fold must skip it.
+    static func isConditional(_ metaboliteName: String) -> Bool {
+        conditionalMetaboliteNames.contains(metaboliteName.lowercased().trimmingCharacters(in: .whitespaces))
+    }
 
     // MARK: - Detection
 

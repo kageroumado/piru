@@ -55,6 +55,25 @@ struct DeepLinkTests {
     }
 
     @Test
+    func `piru://quicklog?substance= carries the substance to prefill`() {
+        let outcome = decode("piru://quicklog?substance=MDMA")
+        #expect(outcome?.tab == nil)
+        #expect(outcome?.sheet == .quickLog(routine: nil, prefillSubstance: "MDMA"))
+    }
+
+    @Test
+    func `quickLog with a prefilled substance round-trips through encode`() {
+        let snap = NavigatorSnapshot(
+            selectedTab: .library,
+            sheetStack: [.quickLog(routine: nil, prefillSubstance: "Psilocybin mushrooms")],
+        )
+        let url = DeepLink.encode(snap)
+        #expect(url != nil)
+        let outcome = url.flatMap(DeepLink.decode)
+        #expect(outcome?.sheet == .quickLog(routine: nil, prefillSubstance: "Psilocybin mushrooms"))
+    }
+
+    @Test
     func `piru://settings preserves current tab`() {
         let outcome = decode("piru://settings")
         #expect(outcome?.tab == nil)
@@ -248,6 +267,45 @@ struct DeepLinkTests {
         let url = DeepLink.encode(snap)
         #expect(url?.absoluteString == "piru://substance/MDMA")
         #expect(url.flatMap(DeepLink.decode)?.path == [.substance(name: "MDMA")])
+    }
+
+    @Test(arguments: [
+        ("piru://substance/MDMA/data/chemistry", "MDMA", DataSection.chemistry),
+        ("piru://substance/MDMA/data/pharmacology", "MDMA", .pharmacology),
+        ("piru://substance/MDMA/data/sources", "MDMA", .sources),
+    ])
+    func `piru://substance/<name>/data/<section> pushes the deep-data page`(
+        url: String, name: String, section: DataSection,
+    ) {
+        let outcome = decode(url)
+        #expect(outcome?.tab == .library)
+        #expect(outcome?.path == [.substanceData(name: name, section: section)])
+    }
+
+    @Test
+    func `A deep-data section resolves the name even when it is multi-word`() {
+        let outcome = decode("piru://substance/Psilocybin%20mushrooms/data/chemistry")
+        #expect(outcome?.path == [.substanceData(name: "Psilocybin mushrooms", section: .chemistry)])
+    }
+
+    @Test
+    func `An unknown data section falls back to the plain substance detail`() {
+        // A bogus section shouldn't 404 the whole link — it opens the detail.
+        let outcome = decode("piru://substance/MDMA/data/nonsense")
+        #expect(outcome?.path == [.substance(name: "MDMA/data/nonsense")])
+    }
+
+    @Test
+    func `A deep-data snapshot round-trips through encode → decode`() {
+        let snap = NavigatorSnapshot(
+            selectedTab: .library,
+            paths: [.library: [.substanceData(name: "MDMA", section: .pharmacology)]],
+        )
+        let url = DeepLink.encode(snap)
+        #expect(url?.absoluteString == "piru://substance/MDMA/data/pharmacology")
+        #expect(
+            url.flatMap(DeepLink.decode)?.path == [.substanceData(name: "MDMA", section: .pharmacology)],
+        )
     }
 
     @MainActor

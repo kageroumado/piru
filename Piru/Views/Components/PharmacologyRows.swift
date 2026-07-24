@@ -225,6 +225,32 @@ struct AffinityDots: View {
     }
 }
 
+/// A three-segment pill meter for a binding-strength tier (1 weak … 3 primary).
+///
+/// The graded glyph the app reads strength with: segmented capsules carry the
+/// tier at a glance where three small dots blur together. Shared by the in-app
+/// receptor pills (accent-tinted) and the share card's binding table (white on
+/// the plate) so the two never drift.
+struct StrengthMeter: View {
+    let filled: Int
+    var tint: Color = Theme.accent
+    var filledOpacity: Double = 1
+    var emptyOpacity: Double = 0.18
+
+    var body: some View {
+        HStack(spacing: 4) {
+            ForEach(0 ..< 3, id: \.self) { i in
+                Capsule()
+                    .fill(tint.opacity(i < filled ? filledOpacity : emptyOpacity))
+                    .frame(width: 15, height: 7)
+            }
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Binding strength"))
+        .accessibilityValue(Text("\(filled) of 3"))
+    }
+}
+
 /// Human-readable name for a source slug ("peer-review-primary" → "PubMed"), preferring the clean
 /// ``AppSources`` names and falling back to the bundled `sources` table — so a wordy wire slug never
 /// out-shouts the metabolite/receptor name it's attributing.
@@ -353,11 +379,24 @@ struct PKMetricChip: View {
     }
 }
 
-/// One metabolism row: the enzyme/pathway, an optional metabolite (flagged
-/// active/inactive), and the source + citation.
+/// One metabolism row. When the row names a metabolite, that **metabolite is the
+/// headline** and a single tappable object: if it resolves in the library the
+/// whole row pushes its own detail (MDA → MDA, not a PubMed link); the enzyme
+/// drops to a "via …" caption, and the curated "acts differently" one-liner folds
+/// in beneath it. The citation demotes to a small trailing glyph. Elimination
+/// rows (unchanged-parent excretion) render a plain excretion line instead.
 struct MetabolismRow: View {
     let hit: SubstanceStore.MetabolismHit
     let accent: Color
+    /// Parent substance's canonical name — keys the curated ``MetaboliteEditorial``
+    /// divergent note folded into the row.
+    var parentName: String = ""
+    /// Whether this row is the one that shows the divergent note. The parent
+    /// dedupes it to a single row, since several raw rows can name the same
+    /// metabolite family (MDMA lists MDA, S-MDA and R-MDA, all matching one note).
+    var showsDivergentNote: Bool = true
+
+    @Environment(\.appNavigator) private var navigator
 
     /// An *elimination* row (renal/biliary excretion of the unchanged parent) is not metabolism — there's
     /// no enzyme turning the drug into something else, so a "→ unchanged parent [active]" arrow is wrong on
@@ -415,33 +454,56 @@ struct MetabolismRow: View {
         }
     }
 
+    // MARK: metabolite resolution
+
+    /// The metabolite as a library substance, if it resolves — matched on the base
+    /// name (before any parenthetical synonym) then the raw string. Non-nil means
+    /// the row can push the metabolite's own detail instead of a citation.
+    private var resolvedMetabolite: Substance? {
+        guard let raw = hit.metaboliteName, !raw.isEmpty else { return nil }
+        let base = raw.components(separatedBy: " (").first.map { $0.trimmingCharacters(in: .whitespaces) } ?? raw
+        return SubstanceLibrary.lookupByNameOrAlias(base) ?? SubstanceLibrary.lookupByNameOrAlias(raw)
+    }
+
+    /// The clean headline name for the metabolite — the library's own title when
+    /// it resolves (capitalized, synonym-free), else the raw string with any
+    /// trailing parenthetical synonym dropped.
+    private var metaboliteHeadline: String? {
+        guard let raw = hit.metaboliteName, !raw.isEmpty else { return nil }
+        if let resolved = resolvedMetabolite { return resolved.displayTitle }
+        return raw.components(separatedBy: " (").first.map { $0.trimmingCharacters(in: .whitespaces) } ?? raw
+    }
+
+    /// The curated "acts differently" one-liner for a divergent metabolite, folded
+    /// into this row (was a separate caption block in ``PharmacologySections``).
+    private var divergentNote: LocalizedStringResource? {
+        guard showsDivergentNote, let metabolite = hit.metaboliteName, !parentName.isEmpty else { return nil }
+        return MetaboliteEditorial.divergentNote(parent: parentName, metabolite: metabolite)
+    }
+
+    @ViewBuilder
     private var metabolismBody: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(hit.enzyme)
-                    .font(.subheadline.weight(.semibold))
-                Spacer()
-                if let frac = hit.fractionOfClearancePct {
-                    // A faint stat pill, not an accent-colored number — the percentage used to read
-                    // like a tappable source attribution sitting next to the DOI/PMID links.
-                    Text("\(SubstanceDetailView.chemNumber(frac))%")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
-                }
-            }
-            if let metabolite = hit.metaboliteName, !metabolite.isEmpty {
-                // The metabolite is the row's headline fact — give it body weight, not the caption it
-                // used to share with the source slug below. Baseline-align so the active/inactive chip
-                // sits on the metabolite's line instead of floating below it.
-                HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    Image(systemName: "arrow.turn.down.right")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                        .accessibilityHidden(true)
-                    Text(metabolite).font(.subheadline)
+        if let headline = metaboliteHeadline {
+            metaboliteHeadlineBody(headline)
+        } else {
+            enzymeOnlyBody
+        }
+    }
+
+    /// A metabolite-led row: the metabolite name is the headline and the tap
+    /// target, the enzyme becomes a "via …" caption, and the curated note folds in.
+    private func metaboliteHeadlineBody(_ headline: String) -> some View {
+        let resolved = resolvedMetabolite
+        return VStack(alignment: .leading, spacing: 4) {
+            Button {
+                if let resolved { navigator.push(.substance(name: resolved.name)) }
+            } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(headline)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
                     if let active = hit.metaboliteActive {
                         Text(active ? "active" : "inactive")
                             .font(.caption2.weight(.medium))
@@ -450,11 +512,72 @@ struct MetabolismRow: View {
                             .padding(.vertical, 1)
                             .background((active ? accent : Theme.secondaryLabel).opacity(0.12), in: Capsule())
                     }
+                    Spacer(minLength: 6)
+                    trailingAffordance(resolved: resolved)
                 }
-                .fixedSize(horizontal: false, vertical: true)
+                .contentShape(Rectangle())
             }
-            // No `detail`: the per-row prose notes belonged in the cited source, not crammed under the
-            // metabolite. The card's job is just "which enzymes, which metabolites" — tap the source to read on.
+            .buttonStyle(.plain)
+            .disabled(resolved == nil)
+
+            HStack(spacing: 6) {
+                Text("via \(hit.enzyme)")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                if let frac = hit.fractionOfClearancePct {
+                    Text("\(SubstanceDetailView.chemNumber(frac))%")
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 2)
+                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                }
+            }
+
+            if let divergentNote {
+                Text(divergentNote)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 1)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityHint(resolved == nil ? Text("") : Text("Opens \(headline)"))
+    }
+
+    /// The chevron (row pushes the metabolite's detail) or a demoted citation glyph
+    /// (no library entry, but there's a paper to read).
+    @ViewBuilder
+    private func trailingAffordance(resolved: Substance?) -> some View {
+        if resolved != nil {
+            Image(systemName: "chevron.right")
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
+        } else if let url = citationURL(doi: hit.doi, pmid: hit.pmid) {
+            CitationLink(url: url)
+        }
+    }
+
+    /// A row with an enzyme but no named metabolite — the enzyme keeps the headline.
+    private var enzymeOnlyBody: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(hit.enzyme)
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                if let frac = hit.fractionOfClearancePct {
+                    Text("\(SubstanceDetailView.chemNumber(frac))%")
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 2)
+                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                }
+            }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
         }
     }

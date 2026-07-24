@@ -638,19 +638,8 @@ struct SubstanceShareCard: View {
                         .foregroundStyle(.white.opacity(0.7))
                         .lineLimit(1)
                     Spacer(minLength: 6)
-                    strengthMeter(binding.affinity.rawValue)
+                    StrengthMeter(filled: binding.affinity.rawValue, tint: .white, filledOpacity: 0.95, emptyOpacity: 0.20)
                 }
-            }
-        }
-    }
-
-    /// A three-segment pill meter for a binding's affinity tier (1 weak … 3 primary).
-    private func strengthMeter(_ filled: Int) -> some View {
-        HStack(spacing: 4) {
-            ForEach(0 ..< 3, id: \.self) { i in
-                Capsule()
-                    .fill(.white.opacity(i < filled ? 0.95 : 0.20))
-                    .frame(width: 15, height: 7)
             }
         }
     }
@@ -890,51 +879,6 @@ private struct MonochromeDoseGraph: View {
             hour += 1
         }
         return out
-    }
-}
-
-/// A stylized effect-over-time curve derived from a duration profile's phase
-/// boundaries: an S-rise across come-up, a plateau across peak, a fall across
-/// offset. The x-axis stops at `offsetEnd` (the acute end). `strokeOnly` traces
-/// just the top line; otherwise it closes to the baseline for a fill.
-private struct EffectCurveShape: Shape {
-    let boundaries: PhaseBoundaries
-    var strokeOnly: Bool = false
-
-    func path(in rect: CGRect) -> Path {
-        let total = max(boundaries.offsetEnd, 1)
-        let steps = 96
-        var path = Path()
-        if !strokeOnly { path.move(to: CGPoint(x: rect.minX, y: rect.maxY)) }
-        for i in 0 ... steps {
-            let f = Double(i) / Double(steps)
-            let x = rect.minX + rect.width * CGFloat(f)
-            let y = rect.maxY - rect.height * CGFloat(intensity(at: f * total))
-            if i == 0, strokeOnly {
-                path.move(to: CGPoint(x: x, y: y))
-            } else {
-                path.addLine(to: CGPoint(x: x, y: y))
-            }
-        }
-        if !strokeOnly {
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-            path.closeSubpath()
-        }
-        return path
-    }
-
-    private func intensity(at t: Double) -> Double {
-        let comeupEnd = max(boundaries.comeupEnd, boundaries.onsetEnd + 1)
-        let peakEnd = max(boundaries.peakEnd, comeupEnd + 1)
-        let offsetEnd = max(boundaries.offsetEnd, peakEnd + 1)
-        func smooth(_ a: Double, _ b: Double, _ x: Double) -> Double {
-            guard b > a else { return x >= b ? 1 : 0 }
-            let u = min(max((x - a) / (b - a), 0), 1)
-            return u * u * (3 - 2 * u)
-        }
-        if t <= comeupEnd { return 0.06 + 0.94 * smooth(0, comeupEnd, t) }
-        if t <= peakEnd { return 1 }
-        return 0.06 + 0.94 * (1 - smooth(peakEnd, offsetEnd, t))
     }
 }
 

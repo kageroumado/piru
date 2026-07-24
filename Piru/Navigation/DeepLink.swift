@@ -14,8 +14,10 @@ import Foundation
 /// `piru://search`.
 ///
 /// **App-level sheets** (open over the current tab):
-/// - `piru://quicklog[?routine=<name>]` → present `.quickLog`, optionally
-///   pre-staging a routine's items (routine-reminder notification taps)
+/// - `piru://quicklog[?routine=<name>][?substance=<name>]` → present
+///   `.quickLog`, optionally pre-staging a routine's items (routine-reminder
+///   notification taps) or one substance with its dose editor open (the "Log"
+///   button on a substance's detail screen)
 /// - `piru://settings` → present `.settings`
 /// - `piru://help` → present `.help`
 ///
@@ -97,7 +99,10 @@ nonisolated enum DeepLink {
         switch host {
         case "quicklog":
             // App-level sheets preserve the current tab by default.
-            return DeepLinkOutcome(tab: overrideTab, sheet: .quickLog(routine: query["routine"]))
+            return DeepLinkOutcome(
+                tab: overrideTab,
+                sheet: .quickLog(routine: query["routine"], prefillSubstance: query["substance"]),
+            )
 
         case "settings":
             return DeepLinkOutcome(tab: overrideTab, sheet: .settings)
@@ -167,13 +172,25 @@ nonisolated enum DeepLink {
 
         case "substance":
             // `piru://substance/<name>` pushes a substance detail onto the Library tab.
-            // The name is the rest of the path (percent-decoded by URLComponents), so
-            // multi-word names like `piru://substance/Psilocybin%20mushrooms` resolve.
-            let name = pathSegments.joined(separator: "/")
+            // `piru://substance/<name>/data/<section>` pushes that substance's
+            // deep-data page (chemistry / receptor-literature / pharmacokinetics /
+            // sources). The name is the path up to an optional trailing
+            // `data/<section>`, so multi-word names like `.../Psilocybin%20mushrooms`
+            // still resolve.
+            var nameSegments = pathSegments
+            var dataSection: DataSection?
+            if nameSegments.count >= 3, nameSegments[nameSegments.count - 2] == "data",
+               let section = DataSection(rawValue: nameSegments[nameSegments.count - 1]) {
+                dataSection = section
+                nameSegments.removeLast(2)
+            }
+            let name = nameSegments.joined(separator: "/")
             guard !name.isEmpty else { return nil }
+            let route: PushRoute = dataSection.map { .substanceData(name: name, section: $0) }
+                ?? .substance(name: name)
             return DeepLinkOutcome(
                 tab: overrideTab ?? .library,
-                path: [.substance(name: name)],
+                path: [route],
             )
 
         default:
@@ -234,6 +251,12 @@ nonisolated enum DeepLink {
             if tab != .library {
                 components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
             }
+        case let .substanceData(name, section):
+            components.host = "substance"
+            components.path = "/\(name)/data/\(section.rawValue)"
+            if tab != .library {
+                components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
+            }
         default:
             return nil
         }
@@ -245,10 +268,17 @@ nonisolated enum DeepLink {
         components.scheme = scheme
 
         switch sheet {
-        case let .quickLog(routine):
+        case let .quickLog(routine, prefillSubstance):
             components.host = "quicklog"
+            var items: [URLQueryItem] = []
             if let routine {
-                components.queryItems = [URLQueryItem(name: "routine", value: routine)]
+                items.append(URLQueryItem(name: "routine", value: routine))
+            }
+            if let prefillSubstance {
+                items.append(URLQueryItem(name: "substance", value: prefillSubstance))
+            }
+            if !items.isEmpty {
+                components.queryItems = items
             }
 
         case .settings:

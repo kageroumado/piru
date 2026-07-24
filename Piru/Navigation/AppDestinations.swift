@@ -120,6 +120,9 @@ private struct PushRouteView: View {
             if let item = lookupMed(identityKey: identityKey, sortOrder: sortOrder) {
                 MedDetailView(item: item)
             }
+
+        case let .substanceData(name, section):
+            SubstanceDataPageView(name: name, section: section)
         }
     }
 

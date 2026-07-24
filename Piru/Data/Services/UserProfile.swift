@@ -114,3 +114,131 @@ struct DisclosurePolicy: Hashable {
         false
     }
 }
+
+// MARK: - Section placement matrix (redesigned detail view)
+
+/// Where a detail section lands for a given tier — the redesign's replacement
+/// for the show/expand booleans above. Consumed by the placement-driven
+/// coordinator (behind `-piruNewSubstanceDetail`); the legacy
+/// ``SubstanceDetailView`` still reads the booleans until it is retired.
+enum SectionPlacement: Hashable {
+    /// Render the full section view in the main scroll.
+    case inline
+    /// Render a compact summary inline with a "Show all ›" affordance that
+    /// pushes the deep-data page (the coordinator may fold several `showAll`
+    /// sections into one "For the curious" launcher at the Casual tier).
+    case showAll
+    /// Render inline as a **collapsed** `DisclosureGroup` (dense reference data
+    /// that shouldn't dominate the scroll, but a Pharma Nerd wants on-page).
+    case inlineCollapsed
+    /// Omit entirely at this tier.
+    case hidden
+
+    /// True when the section renders in the main scroll — either fully (`inline`)
+    /// or as a collapsed group (`inlineCollapsed`).
+    var isInline: Bool {
+        self == .inline || self == .inlineCollapsed
+    }
+    /// True when the section contributes nothing to the main scroll — used to
+    /// decide whether a page is legitimately short vs. hiding reachable depth.
+    var isHidden: Bool {
+        self == .hidden
+    }
+    /// True when the section's real content lives on a pushed deep-data page.
+    var leadsToDeepData: Bool {
+        self == .showAll
+    }
+}
+
+/// The two presentational spines the detail page chooses between up front. A
+/// recreational/dual-use/OTC compound gets the dose-gauge/effects/combinations
+/// spine; a prescription/non-recreational compound gets the medical spine
+/// (indications, boxed warning, contraindications) with no dose gauge, no
+/// effects-by-dose, no misconceptions.
+enum DetailSpine: Hashable {
+    case recreational
+    case medical
+}
+
+/// A placement-matrix row — one detail section. Identity/header are always
+/// present and are not matrix rows.
+enum DetailSection: Hashable, CaseIterable {
+    // Shared
+    case history
+    case mechanism
+    case receptorLiterature
+    case pharmacokinetics
+    case chemistry
+    case sources
+    // Recreational spine
+    case doseDuration
+    case effects
+    case combinations
+    case water
+    case misconceptions
+    // Medical spine
+    case medicalUses
+    case boxedWarning
+    case contraindications
+}
+
+extension DisclosurePolicy {
+    /// Which spine a compound's display class selects. Mirrors
+    /// ``CompoundDisplayClass/showsDoseLadder`` so the two never diverge:
+    /// recreational/dual-use/OTC → recreational spine; medical-Rx /
+    /// non-recreational → medical spine.
+    func spine(for displayClass: CompoundDisplayClass) -> DetailSpine {
+        displayClass.showsDoseLadder ? .recreational : .medical
+    }
+
+    /// Placement of `section` at this tier, for the compound's `spine`. Pure —
+    /// the single source of truth for the redesigned view's row set, and the
+    /// thing `DisclosurePolicyTests` pins.
+    /// The two spines differ *only* in the body rows — the pharmacology ladder
+    /// (mechanism/receptor/PK/chemistry/sources) and the always-inline
+    /// safety/medical lead are identical on both. One exhaustive switch keeps
+    /// them from drifting apart.
+    func placement(for section: DetailSection, spine: DetailSpine) -> SectionPlacement {
+        switch section {
+        // Curated mechanism + "in the body" (PK): hidden for Casual,
+        // summary+ShowAll for Curious, full inline for Nerd.
+        case .mechanism, .pharmacokinetics:
+            tiered(casual: .hidden, curious: .showAll, nerd: .inline)
+        // The full Kᵢ/EC₅₀ literature table: deep page for Curious, on-page
+        // collapsed group for Nerd (a huge table keeps its own deeper push).
+        case .receptorLiterature:
+            tiered(casual: .hidden, curious: .showAll, nerd: .inlineCollapsed)
+        // Chemistry / sources: reachable via the deep page (or the single "For
+        // the curious" launcher at Casual); collapsed on-page for Nerd.
+        case .chemistry, .sources:
+            tiered(casual: .showAll, curious: .showAll, nerd: .inlineCollapsed)
+        // The recreational body — shown on the recreational spine, never on the
+        // medical one (no dose gauge / effects / water / misconceptions on a statin).
+        case .doseDuration, .effects, .combinations, .water, .misconceptions:
+            spine == .recreational ? .inline : .hidden
+        // The user's own history + the safety/medical lead (indications, boxed
+        // warning, contraindications): always inline on both spines. Sections
+        // self-hide when empty, so a recreational compound with no boxed warning
+        // simply renders nothing here.
+        case .history, .medicalUses, .boxedWarning, .contraindications:
+            .inline
+        }
+    }
+
+    /// Convenience: resolve the spine from `displayClass` first.
+    func placement(for section: DetailSection, displayClass: CompoundDisplayClass) -> SectionPlacement {
+        placement(for: section, spine: spine(for: displayClass))
+    }
+
+    private func tiered(
+        casual: SectionPlacement,
+        curious: SectionPlacement,
+        nerd: SectionPlacement,
+    ) -> SectionPlacement {
+        switch profile {
+        case .casual: casual
+        case .harmReduction: curious
+        case .pharmaNerd: nerd
+        }
+    }
+}

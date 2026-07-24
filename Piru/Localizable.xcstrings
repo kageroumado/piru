@@ -39,6 +39,9 @@
     "—" : {
 
     },
+    "— %@" : {
+
+    },
     "·" : {
       "localizations" : {
         "zh-Hans" : {
@@ -152,6 +155,9 @@
           }
         }
       }
+    },
+    "“%@”" : {
+
     },
     "“%@” isn’t in the library anymore. It may have been renamed or merged." : {
       "localizations" : {
@@ -3054,6 +3060,23 @@
         }
       }
     },
+    "+ %lld chemical names" : {
+      "comment" : "Alias overflow count",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+ %lld 个化学名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+ %lld 個化學名稱"
+          }
+        }
+      }
+    },
     "+ %lld more" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5394,6 +5417,7 @@
       }
     },
     "Action" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5902,6 +5926,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作用方式與 %@ 不同——並非單純更強或更弱。"
+          }
+        }
+      }
+    },
+    "Acts on" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用靶点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用標靶"
           }
         }
       }
@@ -7375,6 +7415,22 @@
         }
       }
     },
+    "All phases" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部阶段"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部階段"
+          }
+        }
+      }
+    },
     "All recovery tips" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7563,6 +7619,44 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "別名"
+          }
+        }
+      }
+    },
+    "Also known as %@, and %lld other names." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Also known as %1$@, and %2$lld other names."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "又称 %@，以及另外 %lld 个名称。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "又稱 %@，以及另外 %lld 個名稱。"
+          }
+        }
+      }
+    },
+    "Also known as %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "又称 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "又稱 %@。"
           }
         }
       }
@@ -11260,6 +11354,9 @@
         }
       }
     },
+    "Cetirizine — a common non-drowsy antihistamine — is hydroxyzine's main metabolite. It's far less sedating, so hydroxyzine's calming effect gives way to a plainer antihistamine as it converts." : {
+
+    },
     "Change" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12601,6 +12698,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "常用 %1$@–%2$@ %3$@"
+          }
+        }
+      }
+    },
+    "Common misconceptions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常见误解"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常見誤解"
           }
         }
       }
@@ -14926,6 +15039,9 @@
         }
       }
     },
+    "Desipramine is a marketed antidepressant in its own right, and more noradrenergic than imipramine — so as it forms, the effect shifts toward the more activating end." : {
+
+    },
     "Desired Concentration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14973,6 +15089,9 @@
           }
         }
       }
+    },
+    "Dextrorphan blocks NMDA receptors more strongly than DXM itself does — it's the more dissociative species, and the main reason the character shifts at higher doses rather than simply lasting longer." : {
+
     },
     "Diazepam equivalent" : {
       "localizations" : {
@@ -16427,6 +16546,7 @@
     },
     "Drag to explore doses" : {
       "comment" : "Intensity dial interaction hint",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16891,6 +17011,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "持續時間資料"
+          }
+        }
+      }
+    },
+    "Duration of action" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用持续时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用持續時間"
           }
         }
       }
@@ -17656,6 +17792,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效應時程"
+          }
+        }
+      }
+    },
+    "Effect over time · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果随时间变化 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果隨時間變化 · %@"
+          }
+        }
+      }
+    },
+    "Effect over time: rises over the come-up, plateaus at peak, then falls." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果随时间变化：在上升期逐渐增强，在峰值期保持平稳，随后减弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果隨時間變化：在上升期逐漸增強，在峰值期保持平穩，隨後減弱。"
           }
         }
       }
@@ -18946,6 +19114,9 @@
           }
         }
       }
+    },
+    "Ethylphenidate" : {
+
     },
     "Eugeroic" : {
       "localizations" : {
@@ -20414,6 +20585,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "適用於補劑和其他低調用藥：它們會摺疊成一行「補劑」，在每個時段共用一條提醒，並且不出現在時間線圖表中。依從性仍會統計它們。"
+          }
+        }
+      }
+    },
+    "For the curious" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给好奇的你"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "給好奇的你"
           }
         }
       }
@@ -22588,6 +22775,9 @@
           }
         }
       }
+    },
+    "How much of a dose becomes its active form is partly genetic — the same dose can produce noticeably more effect in some people than in others." : {
+
     },
     "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others." : {
       "localizations" : {
@@ -25905,6 +26095,22 @@
         }
       }
     },
+    "Log Now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即記錄"
+          }
+        }
+      }
+    },
     "Log Prescriptions" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -26534,6 +26740,12 @@
         }
       }
     },
+    "mCPP acts on serotonin in a different way than trazodone — it tends to feel activating or anxious rather than sedating, which is part of why trazodone's later hours can feel unlike its calm onset." : {
+
+    },
+    "MDA is an active drug of its own — more amphetamine-like and more hallucinogenic than MDMA, and longer-lived — so the later hours can feel different in kind from the peak, not just fainter." : {
+
+    },
     "MDMA" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27035,6 +27247,9 @@
         }
       }
     },
+    "Meprobamate is a long-lived, barbiturate-like sedative in its own right — it acts more like a classic downer than carisoprodol, and much of the sedation and the dependence potential come from it rather than the parent." : {
+
+    },
     "Merge keeps your current entries and adds the backup's. Replace deletes your current data first (a recovery snapshot is taken automatically) and restores only the backup." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27162,6 +27377,9 @@
           }
         }
       }
+    },
+    "Methylphenidate and alcohol together form ethylphenidate — an active stimulant your body makes only while both are present. It leans more on dopamine and lingers a little longer than methylphenidate, so the stimulant effect is drawn out." : {
+
     },
     "mg" : {
       "localizations" : {
@@ -28628,6 +28846,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我的物質"
+          }
+        }
+      }
+    },
+    "Myth: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "误解：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "誤解：%@"
           }
         }
       }
@@ -30516,6 +30750,9 @@
         }
       }
     },
+    "Norbuprenorphine acts differently from buprenorphine — it behaves more like a full opioid agonist and contributes to respiratory effects, which buprenorphine's own ceiling doesn't fully predict." : {
+
+    },
     "norepinephrine transporter" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30548,6 +30785,18 @@
           }
         }
       }
+    },
+    "Noribogaine is long-lived and acts differently from ibogaine — it leans more on serotonin reuptake and κ-opioid signaling, and it is a large part of the extended after-effect rather than a continuation of the peak." : {
+
+    },
+    "Normeperidine isn't a painkiller — it's a stimulating metabolite that builds up with repeated or high doses and lowers the seizure threshold. It's why meperidine isn't used for long-term pain." : {
+
+    },
+    "Norquetiapine adds effects quetiapine largely lacks — noradrenaline reuptake inhibition and antidepressant-like activity — so it contributes a different character than the parent's sedation." : {
+
+    },
+    "Nortriptyline is a marketed antidepressant in its own right, and it leans more on noradrenaline than amitriptyline does — so the metabolite's character is more activating than the parent's." : {
+
     },
     "Not a simple conversion" : {
       "localizations" : {
@@ -31288,6 +31537,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開設定"
+          }
+        }
+      }
+    },
+    "Opens %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開 %@"
           }
         }
       }
@@ -35927,6 +36192,7 @@
       }
     },
     "release" : {
+      "comment" : "Transporter ratio basis",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37054,6 +37320,22 @@
         }
       }
     },
+    "Retracted source: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已撤稿的来源：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已撤稿的來源：%@"
+          }
+        }
+      }
+    },
     "Retry" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37066,6 +37348,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重試"
+          }
+        }
+      }
+    },
+    "reuptake" : {
+      "comment" : "Transporter ratio basis",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再摄取"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再攝取"
           }
         }
       }
@@ -43534,6 +43833,7 @@
       }
     },
     "Target" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43911,6 +44211,9 @@
         }
       }
     },
+    "The desmethyl metabolite shifts clomipramine's strongly serotonergic action toward noradrenaline, so the two don't act quite alike — the balance moves as the metabolite accumulates." : {
+
+    },
     "The discomfort peaks and then fades. Give it time." : {
       "localizations" : {
         "zh-Hans" : {
@@ -44200,6 +44503,9 @@
           }
         }
       }
+    },
+    "The mix adds cardiovascular strain beyond either alone, and the ethylphenidate it forms outlasts the methylphenidate itself, so the load on your heart is stretched out rather than added up." : {
+
     },
     "The model anchors on five stimulants — amphetamine, methylphenidate, mephedrone, 3-MMC, 2-MMC. Add one of those (or a brand of it) and the others will shape the curves around it." : {
       "extractionState" : "stale",
@@ -44949,6 +45255,9 @@
           }
         }
       }
+    },
+    "This metabolite (HNK) barely touches the NMDA receptor ketamine acts on — it's studied for a separate, non-dissociative antidepressant effect, so it isn't simply ketamine continuing." : {
+
     },
     "this month" : {
       "localizations" : {
@@ -46106,6 +46415,9 @@
           }
         }
       }
+    },
+    "Tramadol is itself a weak opioid that also raises serotonin and noradrenaline. Most of the opioid effect people feel comes from this metabolite — and how much you make of it depends on a CYP2D6 gene, so the same dose can be a real opioid for one person and almost none for another." : {
+
     },
     "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses." : {
       "localizations" : {
@@ -47312,6 +47624,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "耐受很高"
+          }
+        }
+      }
+    },
+    "via %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "经 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "經 %@"
           }
         }
       }

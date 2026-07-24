@@ -23,8 +23,8 @@ struct SheetRouteView: View {
 
     var body: some View {
         switch route {
-        case let .quickLog(routine):
-            QuickLogSheet(prestagedRoutine: routine)
+        case let .quickLog(routine, prefillSubstance):
+            QuickLogSheet(prestagedRoutine: routine, prefillSubstance: prefillSubstance)
 
         case .settings:
             // SettingsView owns its own xmark toolbar item.

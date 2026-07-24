@@ -46,6 +46,37 @@ nonisolated enum PushRoute: Hashable, Codable {
     /// `identityKey` plus `sortOrder` to disambiguate two schedules of the
     /// same substance (e.g. oral + injected MPH).
     case medDetail(identityKey: String, sortOrder: Int)
+    /// A deep-data page for a substance — the redesigned detail view's "Show
+    /// all" destination. One route parameterized by `section` so Mechanism's
+    /// "Show all", the per-section links, and the single "For the curious"
+    /// launcher all resolve to one place. The page renders the substance's
+    /// **full** data for that section regardless of the user's disclosure tier.
+    case substanceData(name: String, section: DataSection)
+}
+
+/// A deep-data section reachable from a substance's detail. Excludes Effects —
+/// that keeps its existing in-view "Show all" sheet (`showAllEffects`); only the
+/// reference sections push a page.
+///
+/// `pharmacology` is deliberately one section, not separate
+/// receptor-literature / pharmacokinetics pages: the deep page reuses the whole
+/// `PharmacologySections` cluster (mechanism · monoamine · receptor literature ·
+/// PK · metabolism), so a single honest title beats two identical pages
+/// promising a subset. The inline placement of those subsections still differs
+/// (see `DetailSection`); this enum is only the deep-page routing target.
+nonisolated enum DataSection: String, Hashable, Codable, CaseIterable {
+    case chemistry
+    case pharmacology
+    case sources
+
+    /// The pushed page's navigation title.
+    var pageTitle: LocalizedStringResource {
+        switch self {
+        case .chemistry: "Chemistry"
+        case .pharmacology: "Pharmacology"
+        case .sources: "Sources"
+        }
+    }
 }
 
 /// A detail screen reachable from the Insights overview.
@@ -80,7 +111,12 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     // App-level
     /// `routine` pre-stages that routine's items into the tray on open —
     /// the landing state for a routine-reminder notification tap.
-    case quickLog(routine: String?)
+    ///
+    /// `prefillSubstance` opens the sheet with one library substance already
+    /// staged and its dose editor expanded — the "Log" affordance on a
+    /// substance's detail screen. Carries the **canonical** substance name (the
+    /// lookup key), never a user-typed alias.
+    case quickLog(routine: String?, prefillSubstance: String? = nil)
     case settings
     case help
     case onboarding

@@ -221,6 +221,14 @@ struct DopamineSerotoninLeanBar: View {
     let leanPosition: Double?
     let leanLabel: LocalizedStringResource
     let ratioText: String?
+    /// When false, the word lean-label ("Serotonin-leaning…") is dropped from the
+    /// visible layout and folded into the a11y value instead — the unified
+    /// Pharmacology card uses this because the bar plus the ratio line already
+    /// convey the lean, so the restated words are noise (design review §3.3).
+    var showsLeanLabel: Bool = true
+    /// A ready-made ratio line ("SERT : DAT release ≈ 13 : 1") that replaces the
+    /// raw "DAT:SERT <n>" caption when provided.
+    var ratioLine: String?
 
     private var serotoninColor: Color {
         SubstanceCategory.empathogen.color
@@ -253,12 +261,19 @@ struct DopamineSerotoninLeanBar: View {
                 Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
             }
 
-            VStack(alignment: .leading, spacing: 1) {
-                Text(leanLabel).font(.caption.weight(.semibold))
-                if let ratioText {
-                    Text("DAT:SERT \(ratioText)")
-                        .font(.caption2.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
+            if showsLeanLabel || ratioLine != nil || ratioText != nil {
+                VStack(alignment: .leading, spacing: 1) {
+                    if showsLeanLabel {
+                        Text(leanLabel).font(.caption.weight(.semibold))
+                    }
+                    if let ratioLine {
+                        Text(verbatim: ratioLine)
+                            .font(.caption.weight(.semibold).monospacedDigit())
+                    } else if let ratioText {
+                        Text("DAT:SERT \(ratioText)")
+                            .font(.caption2.monospacedDigit())
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
             }
         }

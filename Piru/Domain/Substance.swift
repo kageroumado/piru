@@ -1159,6 +1159,69 @@ struct Citation: Codable, Hashable {
     }
 }
 
+/// A citation attached to a ``MythBust``, carrying the *role* it plays in the
+/// correction so the UI can style it and so the source of a myth is never shown
+/// as if it supported the myth. See ``MythCitation/Role``.
+struct MythCitation: Codable, Hashable {
+    /// How a reference relates to the misconception it accompanies.
+    enum Role: String, Codable, Hashable {
+        /// Evidence that refutes the claim — the default (accent-styled chip).
+        case refutes
+        /// The (usually retracted) source the myth originally came from, cited
+        /// only to discredit it. Must never be presented as supporting
+        /// evidence; the UI marks it "retracted" and may link the retraction
+        /// notice rather than the paper.
+        case retractedSource
+        /// A dataset / registry used as evidence (e.g. a pharmacovigilance
+        /// database showing zero sole-agent cases).
+        case dataset
+    }
+
+    let citation: Citation
+    let role: Role
+    /// Optional one-line gloss shown beside the chip ("null in abstinent users").
+    let note: String?
+
+    init(citation: Citation, role: Role = .refutes, note: String? = nil) {
+        self.citation = citation
+        self.role = role
+        self.note = note
+    }
+}
+
+/// A short attributed quotation surfaced beneath a ``MythBust``. Rare —
+/// reserved for flagship substances where a primary voice sharpens the
+/// correction (e.g. a pharmacologist on the MDMA retraction scandal).
+struct PullQuote: Codable, Hashable {
+    let text: String
+    let attribution: String
+}
+
+/// One evidence-checked correction to a common claim about a substance — the
+/// "cited misconceptions" surface. An uncited myth-bust is just a
+/// counter-assertion, so every ``MythBust`` **must** carry at least one
+/// ``citations`` entry (enforced in `validate_curated.py`). Curated and
+/// deliberately popular-substances-only; absent for the long tail, which is
+/// correct rather than a gap.
+struct MythBust: Codable, Hashable {
+    /// The claim as people actually state it — e.g. "It burns holes in your brain".
+    let claim: String
+    /// The evidence-based correction. May contain Markdown `**bold**` for the
+    /// load-bearing phrase; rendered with `AttributedString(markdown:)`.
+    let correction: String
+    /// Sources substantiating the correction. Non-empty by contract.
+    let citations: [MythCitation]
+    /// A rare flagship-only pull-quote; nil for the overwhelming majority.
+    let pullQuote: PullQuote?
+
+    init(claim: String, correction: String, citations: [MythCitation], pullQuote: PullQuote? = nil) {
+        self.claim = claim
+        self.correction = correction
+        self.citations = citations
+        self.pullQuote = pullQuote
+    }
+}
+
 struct Substance: Identifiable {
     let id: UUID
     let name: String
@@ -1280,6 +1343,16 @@ struct Substance: Identifiable {
     /// Detail-only; nil when no column is populated. **Not clinical** — see
     /// ``Physicochemical``.
     let physicochemical: Physicochemical?
+    /// Hand-curated, ordered common street/brand names shown in the detail
+    /// header (≤~4). Distinct from ``aliases`` (the full, unordered search
+    /// index): this is the short editorial "also known as" set for popular
+    /// substances only. Detail-only; empty when not curated — never
+    /// auto-derived from `aliases`.
+    let popularAliases: [String]
+    /// Curated evidence-checked corrections to common claims (the "Common
+    /// misconceptions" section). Popular-substances-only; empty for the long
+    /// tail. Detail-only. See ``MythBust``.
+    let misconceptions: [MythBust]
 
     nonisolated init(
         name: String,
@@ -1318,6 +1391,8 @@ struct Substance: Identifiable {
         smiles: String? = nil,
         iupacName: String? = nil,
         physicochemical: Physicochemical? = nil,
+        popularAliases: [String] = [],
+        misconceptions: [MythBust] = [],
     ) {
         self.id = Self.deterministicID(forName: name)
         self.name = name
@@ -1356,6 +1431,8 @@ struct Substance: Identifiable {
         self.smiles = smiles
         self.iupacName = iupacName
         self.physicochemical = physicochemical
+        self.popularAliases = popularAliases
+        self.misconceptions = misconceptions
     }
 
     /// Title shown in lists and the detail header — the region-appropriate
@@ -1851,6 +1928,8 @@ extension Substance: Codable {
         smiles = nil
         iupacName = nil
         physicochemical = nil
+        popularAliases = []
+        misconceptions = []
     }
 
     func encode(to encoder: Encoder) throws {

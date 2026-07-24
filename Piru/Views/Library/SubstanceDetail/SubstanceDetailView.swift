@@ -86,6 +86,15 @@ struct SubstanceDetailView: View {
         .init(profile: profile)
     }
 
+    /// A/B flag for the placement-driven redesign (`-piruNewSubstanceDetail`).
+    /// Accepts the bare launch flag or a `defaults`-style `… YES` value so it's
+    /// togglable from `xcrun simctl launch`. Temporary — retired once the new
+    /// layout ships and the legacy composition is removed.
+    private var usesNewLayout: Bool {
+        ProcessInfo.processInfo.arguments.contains("-piruNewSubstanceDetail")
+            || UserDefaults.standard.bool(forKey: "piruNewSubstanceDetail")
+    }
+
     /// First-hand Erowid reports show on the pushed "All effects" screen, gated
     /// to recreational / dual-use compounds where such reports exist.
     private var showsErowidReports: Bool {
@@ -181,69 +190,38 @@ struct SubstanceDetailView: View {
     var body: some View {
         List {
             Group {
-                if !historyEntries.isEmpty {
-                    HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
+                if usesNewLayout {
+                    NewSubstanceDetailLayout(
+                        substance: substance,
+                        model: model,
+                        policy: policy,
+                        profile: profile,
+                        routes: routes,
+                        routeSelection: routeSelection,
+                        saltSelection: saltSelection,
+                        isomerSelection: isomerSelection,
+                        historyEntries: historyEntries,
+                        inventoryItems: inventoryItems,
+                        selectedSaltForm: selectedSaltForm,
+                        personalNotes: personalOverride?.notes,
+                        showAllEffects: $showAllEffects,
+                        showAllInventory: $showAllInventory,
+                        cautionsExpanded: $cautionsExpanded,
+                        onGlossary: { glossaryTopic = $0 },
+                    )
+                } else {
+                    legacySections
                 }
-
-                DoseDurationSection(
-                    routes: routes,
-                    routeSelection: routeSelection,
-                    saltSelection: saltSelection,
-                    isomerSelection: isomerSelection,
-                    provenance: model.provenance,
-                )
-
-                InventoryStockSection(
-                    substanceName: baseSubstance.name,
-                    selectedSaltForm: selectedSaltForm,
-                    inventoryItems: inventoryItems,
-                    showAllInventory: $showAllInventory,
-                )
-
-                SubstancePeptideSection(substance: substance)
-
-                if let notes = personalOverride?.notes,
-                   !notes.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Section("Your Notes") {
-                        Text(notes)
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                }
-
-                StatusBanner(substance: substance)
-                JokeBanner(pictograph: substance.titlePictograph)
-
-                OverviewSection(substance: substance)
-
-                EffectsSection(substance: substance, policy: policy, showAllEffects: $showAllEffects)
-
-                PharmacologySections(
-                    substance: substance,
-                    model: model,
-                    policy: policy,
-                    profile: profile,
-                    onGlossary: { glossaryTopic = $0 },
-                )
-
-                // Medical context (indications / contraindications / boxed warnings).
-                MedicalInfoSection(substance: substance, cautionsExpanded: $cautionsExpanded)
-
-                // Identity (name / aliases / route) — collapsed by default.
-                InfoDisclosureSection(substance: substance, model: model)
-
-                // Chemistry numbers — folded into their own collapsed disclosure.
-                ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
-
-                SourcesSection(substance: substance, showsSources: policy.showsSources)
             }
             .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(substance.displayTitle)
-        .navigationBarTitleDisplayMode(.large)
+        // The new layout draws its own 40pt title inside the header byline, so
+        // the bar keeps only the compact title (a `.large` one would print the
+        // name twice); the legacy composition keeps the native big title.
+        .navigationBarTitleDisplayMode(usesNewLayout ? .inline : .large)
         .navigationDestination(isPresented: $showAllEffects) {
             EffectsAndIntensityView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
         }
@@ -256,67 +234,7 @@ struct SubstanceDetailView: View {
         .navigationDestination(isPresented: $showAllInventory) {
             InventoryListView()
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showShareSheet = true
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundStyle(Theme.accent)
-                }
-                .accessibilityLabel("Share drug info")
-            }
-            // Share and the overflow menu share one glass platter (no separator).
-            ToolbarItem(placement: .topBarTrailing) {
-                // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
-                // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
-                // (tier) switcher all fold in here; the tier choices render as an inline checkmark list.
-                Menu {
-                    Button {
-                        toggleFavorite()
-                    } label: {
-                        Label(
-                            isFavorite ? "Remove from Favorites" : "Add to Favorites",
-                            systemImage: isFavorite ? "star.slash" : "star",
-                        )
-                    }
-
-                    Section {
-                        Button {
-                            navigator.present(.personalizeSubstance(name: baseSubstance.name))
-                        } label: {
-                            Label(
-                                personalOverride != nil ? "Edit Personalization…" : "Personalize Substance…",
-                                systemImage: "slider.horizontal.3",
-                            )
-                        }
-                        if let override = personalOverride {
-                            Button(role: .destructive) {
-                                customStore.delete(override)
-                            } label: {
-                                Label("Reset Personalization", systemImage: "arrow.uturn.backward")
-                            }
-                        }
-                    }
-
-                    Section("Detail level") {
-                        Picker("Detail level", selection: Binding(
-                            get: { profile },
-                            set: { profileStore.setDisclosureTier($0) },
-                        )) {
-                            ForEach(UserProfile.allCases) { tier in
-                                Label(tier.displayName, systemImage: tier.icon).tag(tier)
-                            }
-                        }
-                        .pickerStyle(.inline)
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(Theme.accent)
-                }
-                .accessibilityLabel("More")
-            }
-        }
+        .toolbar { toolbarContent }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
             model.load(substanceName: substance.name, policy: policy)
         }
@@ -326,6 +244,129 @@ struct SubstanceDetailView: View {
         }
         .task(id: historySignature) {
             model.rebuildHistoryStats(from: historyEntries)
+        }
+    }
+
+    /// The original (pre-redesign) inline composition. Retained behind the
+    /// `usesNewLayout` A/B flag until the placement-driven layout ships.
+    @ViewBuilder private var legacySections: some View {
+        if !historyEntries.isEmpty {
+            HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
+        }
+
+        DoseDurationSection(
+            routes: routes,
+            routeSelection: routeSelection,
+            saltSelection: saltSelection,
+            isomerSelection: isomerSelection,
+            provenance: model.provenance,
+        )
+
+        InventoryStockSection(
+            substanceName: baseSubstance.name,
+            selectedSaltForm: selectedSaltForm,
+            inventoryItems: inventoryItems,
+            showAllInventory: $showAllInventory,
+        )
+
+        SubstancePeptideSection(substance: substance)
+
+        if let notes = personalOverride?.notes,
+           !notes.trimmingCharacters(in: .whitespaces).isEmpty {
+            Section("Your Notes") {
+                Text(notes)
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+
+        StatusBanner(substance: substance)
+        JokeBanner(pictograph: substance.titlePictograph)
+
+        OverviewSection(substance: substance)
+
+        EffectsSection(substance: substance, policy: policy, showAllEffects: $showAllEffects)
+
+        PharmacologySections(
+            substance: substance,
+            model: model,
+            policy: policy,
+            profile: profile,
+            onGlossary: { glossaryTopic = $0 },
+        )
+
+        // Medical context (indications / contraindications / boxed warnings).
+        MedicalInfoSection(substance: substance, cautionsExpanded: $cautionsExpanded)
+
+        // Identity (name / aliases / route) — collapsed by default.
+        InfoDisclosureSection(substance: substance, model: model)
+
+        // Chemistry numbers — folded into their own collapsed disclosure.
+        ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
+
+        SourcesSection(substance: substance, showsSources: policy.showsSources)
+    }
+
+    @ToolbarContentBuilder private var toolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                showShareSheet = true
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundStyle(Theme.accent)
+            }
+            .accessibilityLabel("Share drug info")
+        }
+        // Share and the overflow menu share one glass platter (no separator).
+        ToolbarItem(placement: .topBarTrailing) {
+            // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
+            // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
+            // (tier) switcher all fold in here; the tier choices render as an inline checkmark list.
+            Menu {
+                Button {
+                    toggleFavorite()
+                } label: {
+                    Label(
+                        isFavorite ? "Remove from Favorites" : "Add to Favorites",
+                        systemImage: isFavorite ? "star.slash" : "star",
+                    )
+                }
+
+                Section {
+                    Button {
+                        navigator.present(.personalizeSubstance(name: baseSubstance.name))
+                    } label: {
+                        Label(
+                            personalOverride != nil ? "Edit Personalization…" : "Personalize Substance…",
+                            systemImage: "slider.horizontal.3",
+                        )
+                    }
+                    if let override = personalOverride {
+                        Button(role: .destructive) {
+                            customStore.delete(override)
+                        } label: {
+                            Label("Reset Personalization", systemImage: "arrow.uturn.backward")
+                        }
+                    }
+                }
+
+                Section("Detail level") {
+                    Picker("Detail level", selection: Binding(
+                        get: { profile },
+                        set: { profileStore.setDisclosureTier($0) },
+                    )) {
+                        ForEach(UserProfile.allCases) { tier in
+                            Label(tier.displayName, systemImage: tier.icon).tag(tier)
+                        }
+                    }
+                    .pickerStyle(.inline)
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .foregroundStyle(Theme.accent)
+            }
+            .accessibilityLabel("More")
         }
     }
 

@@ -1457,6 +1457,39 @@ final class SubstanceStore {
     /// locale-first text resolution without changing the process locale.
     var languageOverride: ContentLanguage?
 
+    /// Decodes a curated JSON-blob TEXT column (e.g. `popular_aliases`,
+    /// `misconceptions`) into a Codable type. Returns nil for a NULL/empty
+    /// column or malformed JSON — a bad blob degrades the affected section to
+    /// absent rather than failing the whole substance resolve.
+    private static func decodeJSONBlob<T: Decodable>(_: T.Type, _ raw: String?) -> T? {
+        guard let raw, let data = raw.data(using: .utf8), !data.isEmpty else { return nil }
+        return try? JSONDecoder().decode(T.self, from: data)
+    }
+
+    /// Whether the opened `substances` table carries the curated editorial
+    /// columns (`popular_aliases`, `misconceptions`), probed once via
+    /// `PRAGMA table_info` and cached.
+    @ObservationIgnored private var editorialColumnsPresent: Bool?
+
+    /// Guards the resolve SELECT against an **older** substance DB that predates
+    /// these additive columns. Both the current bundled DB *and* an opt-in
+    /// OTA-applied copy in `Documents/` are read; a `b33`-era schema-6 DB
+    /// applied via OTA lacks these columns, and naming them unconditionally in
+    /// the SELECT would throw `no such column` on **every** row — blanking the
+    /// entire detail surface after an app update. Probing keeps the addition
+    /// genuinely additive: the fields degrade to empty on an older DB instead of
+    /// failing the resolve, so the shipped `schema_version` need not bump. (B1.)
+    private func hasEditorialColumns() -> Bool {
+        if let editorialColumnsPresent { return editorialColumnsPresent }
+        let present = (try? substancesDB.read { db in
+            let names = try Row.fetchAll(db, sql: "PRAGMA table_info(substances)")
+                .compactMap { $0["name"] as String? }
+            return Set(names).isSuperset(of: ["popular_aliases", "misconceptions"])
+        }) ?? false
+        editorialColumnsPresent = present
+        return present
+    }
+
     private func resolveSubstance(id: Int64, canonicalName _: String?) -> Substance? {
         _ = enabledSourceOrder // observation dependency; see `categorySummary()`
         let appLanguage = languageOverride ?? Self.contentLanguage
@@ -1465,9 +1498,13 @@ final class SubstanceStore {
         let cacheKey = "\(id)|\(appLanguage.rawValue)"
         if let cached = resolvedCache[cacheKey] { return cached }
 
+        // Include the curated editorial columns only when the opened DB actually
+        // has them (an older OTA-applied copy may not) — see `hasEditorialColumns`.
+        let editorialColumns = hasEditorialColumns() ? ", popular_aliases, misconceptions" : ""
+
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, logd, pka, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, logd, pka, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c\(editorialColumns) FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -1487,6 +1524,19 @@ final class SubstanceStore {
                 let freeodwikiSlug: String? = coreRow["freeodwiki_slug"]
                 let smiles: String? = coreRow["smiles"]
                 let iupacName: String? = coreRow["iupac_name"]
+                // Curated editorial JSON blobs (piru-curated, popular-substances
+                // only; empty for the long tail). Decoded defensively — a
+                // malformed blob degrades to absent, never a throw.
+                //
+                // NOTE (localization): these are stored English-only in a single
+                // column, unlike `overview`/effects/mechanism which resolve by
+                // `language:`. zh-Hans/zh-Hant users see English claim/correction
+                // prose until translated. When authoring scales past English, move
+                // to a language-keyed store (mirror `mechanisms_summary`'s
+                // language PK) — a pipeline + reader change + wholesale rebuild,
+                // not a user-data migration (the substance DB is a build artifact).
+                let popularAliases = Self.decodeJSONBlob([String].self, coreRow["popular_aliases"]) ?? []
+                let misconceptions = Self.decodeJSONBlob([MythBust].self, coreRow["misconceptions"]) ?? []
                 let physicochemical = Physicochemical(
                     logP: coreRow["logp"] as Double?,
                     logD: coreRow["logd"] as Double?,
@@ -1560,6 +1610,8 @@ final class SubstanceStore {
                     smiles: smiles,
                     iupacName: iupacName,
                     physicochemical: physicochemical.hasAnyValue ? physicochemical : nil,
+                    popularAliases: popularAliases,
+                    misconceptions: misconceptions,
                 )
             }
             if let resolved {
