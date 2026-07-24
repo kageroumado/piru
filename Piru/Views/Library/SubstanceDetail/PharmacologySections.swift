@@ -30,6 +30,19 @@ struct PharmacologySections: View {
     /// Pushes a metabolite's own detail from an "Also Active" card.
     @Environment(\.appNavigator) private var navigator
 
+    /// The metabolites worth a section — the ones that outlive the dose. See
+    /// ``ActiveMetabolite/earnsOwnSection(parentHalfLifeMinutes:parentDurationMinutes:)``;
+    /// the rest stay in the Metabolism disclosure below rather than being
+    /// promoted to a headline that implies news.
+    private var durationChangingMetabolites: [ActiveMetabolite] {
+        model.activeMetabolites.filter {
+            $0.earnsOwnSection(
+                parentHalfLifeMinutes: substance.halfLifeMinutes,
+                parentDurationMinutes: substance.longestRouteDurationMinutes,
+            )
+        }
+    }
+
     var body: some View {
         let hero = model.pharmacologyHero(category: substance.category)
 
@@ -77,14 +90,15 @@ struct PharmacologySections: View {
             // about the user's experience, not pharmacology reference data.
             // Deliberately not collapsible — usually one card, and folding it
             // re-buries the thing being surfaced.
-            if policy.showsMechanism, !model.activeMetabolites.isEmpty {
+            if !durationChangingMetabolites.isEmpty {
                 Section {
-                    ForEach(model.activeMetabolites) { metabolite in
+                    ForEach(durationChangingMetabolites) { metabolite in
                         ActiveMetaboliteCard(
                             metabolite: metabolite,
                             parentName: substance.displayTitle,
                             parentHalfLifeMinutes: substance.halfLifeMinutes,
                             accent: substance.category.color,
+                            parentDurationMinutes: substance.longestRouteDurationMinutes,
                             onOpenSubstance: { navigator.push(.substance(name: $0)) },
                         )
                         .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))

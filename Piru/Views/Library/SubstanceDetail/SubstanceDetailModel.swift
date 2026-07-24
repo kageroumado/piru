@@ -89,19 +89,17 @@ final class SubstanceDetailModel {
         // Grapefruit/smoking/self-edge education is harm-reduction-relevant, so
         // it loads for non-casual tiers from its own metabolism fetch (the full
         // PK table above stays pharma-nerd).
-        if policy.showsMechanism {
-            let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substanceName)
-            metabolicEducation = MetabolicModulation.educationalEffects(forSubstance: substanceName, metabolism: rows)
-            // "Also Active" reads the same rows at the same tier as the
-            // grapefruit/smoking education above — whether a metabolite is doing
-            // the work is a fact about what the user is experiencing, not
-            // reference data, so it does not belong behind the pharma-nerd gate
-            // that hides the enzyme table. No extra query on any tier.
-            activeMetabolites = Self.foldActiveMetabolites(from: rows)
-        } else {
-            metabolicEducation = []
-            activeMetabolites = []
-        }
+        // One fetch feeds both surfaces. "Also Active" is read on **every** tier,
+        // including casual: whether something other than what you took is
+        // producing the effect is a fact about your experience, not reference
+        // data, and the reader least likely to already know it is the one who
+        // never opens the pharmacology tier. The grapefruit/smoking education
+        // below stays harm-reduction-and-up, since that is genuinely advisory.
+        let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substanceName)
+        activeMetabolites = Self.foldActiveMetabolites(from: rows)
+        metabolicEducation = policy.showsMechanism
+            ? MetabolicModulation.educationalEffects(forSubstance: substanceName, metabolism: rows)
+            : []
     }
 
     /// Group the metabolism rows by metabolite and keep the ones with something

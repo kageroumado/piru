@@ -118,6 +118,51 @@ struct ActiveMetabolite: Identifiable {
         substanceName != nil || !potencies.isEmpty || halfLifeMinutes != nil
             || formationFractionPct != nil
     }
+
+    /// Whether the metabolite is doing enough to be worth a claim about the
+    /// user's *experience*, as opposed to merely existing.
+    ///
+    /// `metabolite_active` alone cannot answer this. The flag is set on trace
+    /// species whose own potency column contradicts it — cotinine at 1 % of
+    /// nicotine's receptor affinity, desmethylsertraline at 4 % — because
+    /// "detectable and not wholly inert" is a different question from "does
+    /// something you would notice". So a *measured* potency outranks the flag in
+    /// both directions, and where nothing was measured we accept only the strong
+    /// structural signal: carrying the metabolite as a drug in its own right,
+    /// with its own sourced doses and durations.
+    ///
+    /// The threshold sits in a wide empty band — measured potencies in the
+    /// catalog are 1 %, 4 %, then 20 % and up — so it is not a knife edge.
+    var isMateriallyActive: Bool {
+        if potencies.contains(where: { $0.pct >= Threshold.materialPotencyPct }) { return true }
+        // Measured, and measured small. The row already told us.
+        if !potencies.isEmpty { return false }
+        return substanceName != nil
+    }
+
+    /// Whether conversion runs through a polymorphic enzyme, i.e. how much
+    /// metabolite a given person makes is substantially genetic. Worth saying
+    /// whenever the metabolite carries the effect: it is the difference between
+    /// "tramadol did nothing for me" and "tramadol hit me hard", and it is the
+    /// single most useful thing on a card like codeine's or tramadol's.
+    var conversionVariesByGenetics: Bool {
+        enzymes.contains { enzyme in
+            Threshold.polymorphicEnzymes.contains { enzyme.uppercased().contains($0) }
+        }
+    }
+
+    enum Threshold {
+        /// Below this, a measured potency is evidence *against* the metabolite
+        /// mattering, not for it.
+        static let materialPotencyPct: Double = 10
+        /// A metabolite may only be described as outlasting the parent's stated
+        /// duration when this much of a dose is known to become it. Absent the
+        /// figure we do not claim dose equivalence at all.
+        static let doseEquivalentFormationPct: Double = 50
+        /// Enzymes whose activity varies enough between people to change what a
+        /// dose does. Matched as substrings so "CYP2D6 (O-demethylation)" hits.
+        static let polymorphicEnzymes = ["CYP2D6", "CYP2C19"]
+    }
 }
 
 private extension [String] {
@@ -141,13 +186,29 @@ private extension [String] {
 /// qualified case emits its claim and its hedge as one value, so a caller cannot
 /// render the number and drop the caveat.
 enum MetaboliteStatement {
-    /// The metabolite outlives the parent enough to change the felt duration —
-    /// derived from the half-life pair, so it needs no curation and cannot go
-    /// stale. This outranks a potency line: "it lasts much longer than the
-    /// duration table above" is the more useful fact when both are available.
-    case durationConsequence(metabolite: String, parent: String)
-    /// The only unqualified comparative in the app.
+    /// The metabolite is still going after the duration the reader just read.
+    /// Measured against **the number displayed above the card**, not against the
+    /// parent's half-life, because that is what the sentence actually claims.
+    case outlastsDuration(metabolite: String, parent: String)
+    /// The same fact where no duration profile exists to point at — the chronic
+    /// medications (SSRIs and friends) that carry a half-life and no acute
+    /// duration table. Worded to stand alone rather than referring upward at
+    /// something that isn't there.
+    case persistsBeyondParent(metabolite: String, parent: String)
+    /// The only unqualified comparative in the app, and only when the share of
+    /// the dose that converts is known to be high enough for "dose for dose" to
+    /// mean anything.
     case comparable(ratio: Double, parent: String)
+    /// A potency ratio between the two *molecules*, where too little of a dose
+    /// converts for it to be a claim about doses. Codeine → morphine is the case
+    /// that matters: 10× is right molecule-for-molecule and badly wrong
+    /// dose-for-dose, because only a small part of a codeine dose is ever
+    /// demethylated.
+    ///
+    /// `convertedPct` carries the share when we know it — oxycodone records that
+    /// 11 % becomes oxymorphone, and stating that is far more use than the ratio
+    /// alone. `nil` means unrecorded, which must be said rather than implied.
+    case strongerMolecule(ratio: Double, parent: String, metabolite: String, convertedPct: Double?)
     /// A comparative that must carry its basis and target.
     case qualified(ratio: Double, parent: String, basis: SubstanceStore.MetabolitePotencyBasis, target: String?)
     /// Different pharmacology, not a stronger parent. Better described than
@@ -160,18 +221,58 @@ enum MetaboliteStatement {
 }
 
 extension ActiveMetabolite {
-    /// Resolve the headline claim. Order is deliberate: duration consequence
-    /// first (most useful and most widely derivable), divergence next (a ratio
-    /// would mislead), then comparatives in descending trustworthiness.
-    func statement(parentName: String, parentHalfLifeMinutes: Double?) -> MetaboliteStatement {
-        if let mine = halfLifeMinutes, let parent = parentHalfLifeMinutes, parent > 0, mine >= parent * 2 {
-            return .durationConsequence(metabolite: displayName, parent: parentName)
-        }
+    /// Resolve the headline claim.
+    ///
+    /// **Divergence is tested first.** A metabolite with different pharmacology
+    /// is not the parent lasting longer, and describing it that way is wrong in
+    /// the way most likely to be believed — trazodone's mCPP is anxiogenic, so
+    /// "the same effects, drawn out" inverts what it does. The old ordering ran
+    /// the duration test first and produced exactly that sentence.
+    ///
+    /// The duration claim then needs positive evidence on **every** axis, and
+    /// degrades to the relationship alone when it cannot get it. It is an
+    /// assertion about what the reader will feel, so:
+    ///
+    /// - ``isMateriallyActive`` — a metabolite at 1 % of the parent's affinity
+    ///   changes nothing no matter how long it lingers. This is what a bare
+    ///   `metabolite_active` flag misses.
+    /// - Measured against `parentDurationMinutes`, the figure shown above the
+    ///   card, rather than against the parent's half-life. The half-life
+    ///   comparison selected *for* prodrugs — an inert parent has a short
+    ///   half-life by definition, so psilocybin → psilocin and
+    ///   lisdexamfetamine → d-amphetamine always cleared it, while the duration
+    ///   table the sentence points at was already describing the metabolite.
+    ///   Comparing against the displayed number makes the claim self-consistent:
+    ///   it can only fire when there is genuinely something past the end of it.
+    func statement(
+        parentName: String,
+        parentHalfLifeMinutes: Double?,
+        parentDurationMinutes: Double?,
+    ) -> MetaboliteStatement {
         if mechanism == .divergent {
             return .divergent(parent: parentName)
         }
+        if isMateriallyActive, let mine = halfLifeMinutes {
+            if let duration = parentDurationMinutes, duration > 0 {
+                if mine >= duration {
+                    return .outlastsDuration(metabolite: displayName, parent: parentName)
+                }
+            } else if let parent = parentHalfLifeMinutes, parent > 0, mine >= parent * 2 {
+                return .persistsBeyondParent(metabolite: displayName, parent: parentName)
+            }
+        }
         if let clinical = potencies.first(where: { $0.basis == .clinical }), mechanism == .scaled {
-            return .comparable(ratio: clinical.pct / 100, parent: parentName)
+            // "Dose for dose" is a claim about doses, and it is only true when
+            // most of a dose actually becomes the metabolite. Without that term
+            // the ratio still means something — it just means it about the
+            // molecules, which is a different sentence.
+            if let fraction = formationFractionPct, fraction >= Threshold.doseEquivalentFormationPct {
+                return .comparable(ratio: clinical.pct / 100, parent: parentName)
+            }
+            return .strongerMolecule(
+                ratio: clinical.pct / 100, parent: parentName, metabolite: displayName,
+                convertedPct: formationFractionPct,
+            )
         }
         if let measured = potencies.first {
             return .qualified(
@@ -182,16 +283,53 @@ extension ActiveMetabolite {
         return .relationshipOnly(parent: parentName, metabolite: displayName)
     }
 
+    /// Whether this metabolite has earned a section of its own.
+    ///
+    /// Only a **duration** consequence does. A metabolite is a normal, expected
+    /// part of how a drug works, and saying so at section volume overstates it:
+    /// oxymorphone is oxycodone's principal pathway and its 10 : 1 potency ratio
+    /// is textbook, so promoting it to a headline implies news where there is
+    /// none — and duplicates the Metabolism table sitting directly below.
+    ///
+    /// What the reader cannot get anywhere else on the screen is that the dose
+    /// keeps working after the duration says it stopped. That is the whole
+    /// warrant for this surface. Potency ratios, divergent pharmacology and bare
+    /// relationships stay in the Metabolism disclosure, which is where reference
+    /// data belongs.
+    ///
+    /// The resolver above deliberately still models every statement: it answers
+    /// "what can honestly be said", and this answers the separate, editorial
+    /// question of "what deserves a section". Keeping them apart means a future
+    /// inline surface can use the rest without relaxing this gate.
+    func earnsOwnSection(parentHalfLifeMinutes: Double?, parentDurationMinutes: Double?) -> Bool {
+        switch statement(
+            parentName: "", parentHalfLifeMinutes: parentHalfLifeMinutes,
+            parentDurationMinutes: parentDurationMinutes,
+        ) {
+        case .outlastsDuration, .persistsBeyondParent: true
+        case .comparable, .strongerMolecule, .qualified, .divergent, .relationshipOnly: false
+        }
+    }
+
     /// Any measurement that survives as a *secondary* line under the headline —
     /// the affinity figure beneath oxycodone's clinical one, or the lone
     /// measurement on a divergent card. Always rendered with basis and target.
     func secondaryPotency(for statement: MetaboliteStatement) -> Potency? {
         switch statement {
-        case .comparable:
+        case .comparable, .strongerMolecule:
             // The clinical claim is the headline; anything else is a different
             // question and follows it rather than replacing it.
             potencies.first { $0.basis != .clinical }
-        case .divergent, .durationConsequence:
+        case .divergent:
+            // A clinical ratio is withheld here, not merely demoted. Printing
+            // one under "acts differently" contradicts the headline in the same
+            // breath, and it quantifies the axis that *didn't* change:
+            // normeperidine's 50 % of pethidine's analgesia is true and beside
+            // the point, since what makes it matter is that it is a convulsant.
+            // Affinity and in-vitro figures survive — they carry their own
+            // hedges and cannot be read as clinical strength.
+            potencies.first { $0.basis != .clinical }
+        case .outlastsDuration, .persistsBeyondParent:
             potencies.first
         case .qualified, .relationshipOnly:
             nil
@@ -231,13 +369,21 @@ struct ActiveMetaboliteCard: View {
     let parentName: String
     let parentHalfLifeMinutes: Double?
     let accent: Color
+    /// The total duration displayed above this card, which the duration claim is
+    /// measured against. Nil for substances with no acute duration profile —
+    /// chronic medications, where there is no "duration above" to outlast.
+    let parentDurationMinutes: Double?
     /// Push the metabolite's own detail. Absent when it isn't in the library,
     /// which is the card's only degradation — every other band is identical, so
     /// a missing link never reads as missing information.
     var onOpenSubstance: ((String) -> Void)?
 
     private var statement: MetaboliteStatement {
-        metabolite.statement(parentName: parentName, parentHalfLifeMinutes: parentHalfLifeMinutes)
+        metabolite.statement(
+            parentName: parentName,
+            parentHalfLifeMinutes: parentHalfLifeMinutes,
+            parentDurationMinutes: parentDurationMinutes,
+        )
     }
 
     var body: some View {
@@ -302,6 +448,9 @@ struct ActiveMetaboliteCard: View {
         if let extra = metabolite.secondaryPotency(for: statement) {
             caption(measurementText(extra, prefix: hasHeadlineClaim))
         }
+        if metabolite.conversionVariesByGenetics {
+            caption(String(localized: "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others."))
+        }
         if metabolite.hasSuppressedMagnitude {
             caption(String(localized: "How strong it is compared to \(parentName) hasn't been established."))
         }
@@ -339,8 +488,10 @@ struct ActiveMetaboliteCard: View {
     // MARK: Copy
 
     private var hasHeadlineClaim: Bool {
-        if case .comparable = statement { return true }
-        return false
+        switch statement {
+        case .comparable, .strongerMolecule: true
+        case .outlastsDuration, .persistsBeyondParent, .qualified, .divergent, .relationshipOnly: false
+        }
     }
 
     /// Both half-lives, or neither — a lone number invites the reader to compare
@@ -352,12 +503,29 @@ struct ActiveMetaboliteCard: View {
 
     private var primaryText: String {
         switch statement {
-        case let .durationConsequence(metabolite, parent):
+        case let .outlastsDuration(metabolite, parent):
             String(localized: "Effects can outlast the duration above — \(metabolite) clears much more slowly than \(parent).")
+        case let .persistsBeyondParent(metabolite, parent):
+            String(localized: "\(metabolite) stays active in your body long after \(parent) itself is gone.")
         case let .comparable(ratio, parent):
             ratio == 1
                 ? String(localized: "About as strong as \(parent), dose for dose.")
                 : String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent), dose for dose.")
+        case let .strongerMolecule(ratio, parent, metabolite, convertedPct):
+            // A prodrug converting one-for-one lands here whenever its formation
+            // fraction was never recorded (psilocybin → psilocin). "About 1× as
+            // strong" is not a sentence, so parity gets its own wording.
+            if ratio == 1 {
+                String(localized: "Molecule for molecule, \(metabolite) is about as strong as \(parent).")
+            } else if let convertedPct {
+                // The useful sentence, and the one oxycodone can actually make:
+                // the ratio is only half the story, and the other half is on the
+                // row. Naming it is what stops "10× as strong" being read as a
+                // dose claim.
+                String(localized: "Molecule for molecule, \(metabolite) is about \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent) — but only about \(SubstanceDetailView.chemNumber(convertedPct))% of a dose becomes it.")
+            } else {
+                String(localized: "Molecule for molecule, \(metabolite) is about \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent) — but how much of a dose converts isn't recorded here.")
+            }
         case let .qualified(ratio, parent, _, target):
             if let target = metaboliteTargetName(target) {
                 ratio == 1
@@ -390,6 +558,14 @@ struct ActiveMetaboliteCard: View {
     private func measurementText(_ potency: ActiveMetabolite.Potency, prefix: Bool) -> String {
         let ratio = SubstanceDetailView.chemNumber(potency.pct / 100)
         if potency.basis == .clinical {
+            // Same rule as the headline: "dose for dose" needs the share of the
+            // dose that converts, or it is a molecule ratio wearing a dose
+            // ratio's clothes.
+            guard let fraction = metabolite.formationFractionPct,
+                  fraction >= ActiveMetabolite.Threshold.doseEquivalentFormationPct
+            else {
+                return String(localized: "Molecule for molecule, about \(ratio)× as strong as \(parentName).")
+            }
             return potency.pct == 100
                 ? String(localized: "About as strong as \(parentName), dose for dose.")
                 : String(localized: "About \(ratio)× as strong as \(parentName), dose for dose.")

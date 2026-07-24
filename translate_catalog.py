@@ -3326,6 +3326,74 @@ T = {
         "此物質和途徑暫無效果時間軸。",
     ),
     # "Also Active" — the metabolite surface.
+    # "Also Active" — Xcode extracts these with NON-positional %@ keys, so the
+    # positional %1$@ variants authored earlier went stale and their zh values
+    # never reached a user. Keys must match what the extractor emits; the
+    # translated VALUES still use %1$@/%2$@ to reorder, which is allowed.
+    "%@ stays active in your body long after %@ itself is gone.": (
+        "在 %2$@ 本身已排出后,%1$@ 仍在体内保持活性。",
+        "在 %2$@ 本身已排出後,%1$@ 仍在體內保持活性。",
+    ),
+    "About %@× %@'s activity at the %@.": (
+        "在%3$@上,活性约为 %2$@ 的 %1$@ 倍。",
+        "在%3$@上,活性約為 %2$@ 的 %1$@ 倍。",
+    ),
+    "About %@× %@'s activity, by one measurement.": (
+        "据一项测定,活性约为 %2$@ 的 %1$@ 倍。",
+        "據一項測定,活性約為 %2$@ 的 %1$@ 倍。",
+    ),
+    "About %@× as strong as %@, dose for dose.": (
+        "按相同剂量计,强度约为 %2$@ 的 %1$@ 倍。",
+        "按相同劑量計,強度約為 %2$@ 的 %1$@ 倍。",
+    ),
+    "About as strong as %@ at the %@.": (
+        "在%2$@上,强度与 %1$@ 相当。",
+        "在%2$@上,強度與 %1$@ 相當。",
+    ),
+    "Also measured at %@× %@'s %@ at the %@ — a lab measurement, not clinical potency.": (
+        "另在%4$@上测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。",
+        "另在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。",
+    ),
+    "Also measured at %@× %@'s %@ — a lab measurement, not clinical potency.": (
+        "另有测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。",
+        "另有測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。",
+    ),
+    "Effects can outlast the duration above — %@ clears much more slowly than %@.": (
+        "效果可能超出上方时长——%1$@ 的清除速度远慢于 %2$@。",
+        "效果可能超出上方時長——%1$@ 的清除速度遠慢於 %2$@。",
+    ),
+    "Measured at %@× %@'s %@ at the %@ — a lab measurement, not clinical potency.": (
+        "在%4$@上测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。",
+        "在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。",
+    ),
+    "Measured at %@× %@'s %@ — a lab measurement, not clinical potency.": (
+        "测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。",
+        "測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。",
+    ),
+    "Molecule for molecule, %@ is about %@× as strong as %@ — but how much of a dose converts isn't recorded here.": (
+        "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中有多少会转化,此处尚无记录。",
+        "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中有多少會轉化,此處尚無記錄。",
+    ),
+    "Molecule for molecule, %@ is about %@× as strong as %@ — but only about %@%% of a dose becomes it.": (
+        "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中只有约 %4$@%% 会转化为它。",
+        "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中只有約 %4$@%% 會轉化為它。",
+    ),
+    "Molecule for molecule, %@ is about as strong as %@.": (
+        "按分子计,%1$@ 的强度与 %2$@ 相当。",
+        "按分子計,%1$@ 的強度與 %2$@ 相當。",
+    ),
+    "Molecule for molecule, about %@× as strong as %@.": (
+        "按分子计,强度约为 %2$@ 的 %1$@ 倍。",
+        "按分子計,強度約為 %2$@ 的 %1$@ 倍。",
+    ),
+    "What your body makes from this dose. Not a measured level.": (
+        "身体从这次剂量中生成的物质。并非实测数值。",
+        "身體從這次劑量中生成的物質。並非實測數值。",
+    ),
+    "Your body turns %@ into %@, which is active too.": (
+        "身体会将 %1$@ 转化为 %2$@,后者同样具有活性。",
+        "身體會將 %1$@ 轉化為 %2$@,後者同樣具有活性。",
+    ),
     "Also Active": ("同时活跃", "同時活躍"),
     "Made by": ("生成酶", "生成酶"),
     "Share of dose": ("占剂量比例", "佔劑量比例"),
@@ -3340,6 +3408,30 @@ T = {
     "About %1$@× as strong as %2$@, dose for dose.": (
         "按相同剂量计,强度约为 %2$@ 的 %1$@ 倍。",
         "按相同劑量計,強度約為 %2$@ 的 %1$@ 倍。",
+    ),
+    "%1$@ stays active in your body long after %2$@ itself is gone.": (
+        "在 %2$@ 本身已排出后,%1$@ 仍在体内保持活性。",
+        "在 %2$@ 本身已排出後,%1$@ 仍在體內保持活性。",
+    ),
+    "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but how much of a dose converts isn't recorded here.": (
+        "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中有多少会转化,此处尚无记录。",
+        "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中有多少會轉化,此處尚無記錄。",
+    ),
+    "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but only about %4$@% of a dose becomes it.": (
+        "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中只有约 %4$@% 会转化为它。",
+        "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中只有約 %4$@% 會轉化為它。",
+    ),
+    "Molecule for molecule, %1$@ is about as strong as %2$@.": (
+        "按分子计,%1$@ 的强度与 %2$@ 相当。",
+        "按分子計,%1$@ 的強度與 %2$@ 相當。",
+    ),
+    "Molecule for molecule, about %1$@× as strong as %2$@.": (
+        "按分子计,强度约为 %2$@ 的 %1$@ 倍。",
+        "按分子計,強度約為 %2$@ 的 %1$@ 倍。",
+    ),
+    "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others.": (
+        "生成量部分取决于基因——同样的剂量,有些人生成的明显更多。",
+        "生成量部分取決於基因——同樣的劑量,有些人生成的明顯更多。",
     ),
     "About as strong as %1$@ at the %2$@.": (
         "在%2$@上,强度与 %1$@ 相当。",
@@ -5507,12 +5599,34 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
         "No effect timeline for this substance and route.",
+        "%@ stays active in your body long after %@ itself is gone.",
+        "About %@× %@'s activity at the %@.",
+        "About %@× %@'s activity, by one measurement.",
+        "About %@× as strong as %@, dose for dose.",
+        "About as strong as %@ at the %@.",
+        "Also measured at %@× %@'s %@ at the %@ — a lab measurement, not clinical potency.",
+        "Also measured at %@× %@'s %@ — a lab measurement, not clinical potency.",
+        "Effects can outlast the duration above — %@ clears much more slowly than %@.",
+        "Measured at %@× %@'s %@ at the %@ — a lab measurement, not clinical potency.",
+        "Measured at %@× %@'s %@ — a lab measurement, not clinical potency.",
+        "Molecule for molecule, %@ is about %@× as strong as %@ — but how much of a dose converts isn't recorded here.",
+        "Molecule for molecule, %@ is about %@× as strong as %@ — but only about %@%% of a dose becomes it.",
+        "Molecule for molecule, %@ is about as strong as %@.",
+        "Molecule for molecule, about %@× as strong as %@.",
+        "What your body makes from this dose. Not a measured level.",
+        "Your body turns %@ into %@, which is active too.",
         "Also Active",
         "Made by",
         "Share of dose",
         "Effects can outlast the duration above — %1$@ clears much more slowly than %2$@.",
         "About as strong as %@, dose for dose.",
         "About %1$@× as strong as %2$@, dose for dose.",
+        "%1$@ stays active in your body long after %2$@ itself is gone.",
+        "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but how much of a dose converts isn't recorded here.",
+        "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but only about %4$@% of a dose becomes it.",
+        "Molecule for molecule, %1$@ is about as strong as %2$@.",
+        "Molecule for molecule, about %1$@× as strong as %2$@.",
+        "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others.",
         "About as strong as %1$@ at the %2$@.",
         "About %1$@× %2$@'s activity at the %3$@.",
         "About %1$@× %2$@'s activity, by one measurement.",

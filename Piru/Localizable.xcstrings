@@ -1237,6 +1237,28 @@
         }
       }
     },
+    "%@ stays active in your body long after %@ itself is gone." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ stays active in your body long after %2$@ itself is gone."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %2$@ 本身已排出后,%1$@ 仍在体内保持活性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %2$@ 本身已排出後,%1$@ 仍在體內保持活性。"
+          }
+        }
+      }
+    },
     "%@ supplements (%lld)" : {
       "localizations" : {
         "en" : {
@@ -1686,6 +1708,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 小時前"
+          }
+        }
+      }
+    },
+    "%1$@ stays active in your body long after %2$@ itself is gone." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %2$@ 本身已排出后,%1$@ 仍在体内保持活性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %2$@ 本身已排出後,%1$@ 仍在體內保持活性。"
           }
         }
       }
@@ -5077,6 +5116,18 @@
             "state" : "new",
             "value" : "About %1$@× %2$@'s activity at the %3$@."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%3$@上,活性约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%3$@上,活性約為 %2$@ 的 %1$@ 倍。"
+          }
         }
       }
     },
@@ -5087,6 +5138,18 @@
             "state" : "new",
             "value" : "About %1$@× %2$@'s activity, by one measurement."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "据一项测定,活性约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "據一項測定,活性約為 %2$@ 的 %1$@ 倍。"
+          }
         }
       }
     },
@@ -5096,6 +5159,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "About %1$@× as strong as %2$@, dose for dose."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按相同剂量计,强度约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按相同劑量計,強度約為 %2$@ 的 %1$@ 倍。"
           }
         }
       }
@@ -5157,6 +5232,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "About as strong as %1$@ at the %2$@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%2$@上,强度与 %1$@ 相当。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%2$@上,強度與 %1$@ 相當。"
           }
         }
       }
@@ -7487,6 +7574,18 @@
             "state" : "new",
             "value" : "Also measured at %1$@× %2$@'s %3$@ — a lab measurement, not clinical potency."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
+          }
         }
       }
     },
@@ -7496,6 +7595,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Also measured at %1$@× %2$@'s %3$@ at the %4$@ — a lab measurement, not clinical potency."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另在%4$@上测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
           }
         }
       }
@@ -17589,6 +17700,18 @@
             "state" : "new",
             "value" : "Effects can outlast the duration above — %1$@ clears much more slowly than %2$@."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果可能超出上方时长——%1$@ 的清除速度远慢于 %2$@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果可能超出上方時長——%1$@ 的清除速度遠慢於 %2$@。"
+          }
         }
       }
     },
@@ -22466,6 +22589,22 @@
         }
       }
     },
+    "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成量部分取决于基因——同样的剂量,有些人生成的明显更多。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成量部分取決於基因——同樣的劑量,有些人生成的明顯更多。"
+          }
+        }
+      }
+    },
     "How strong it is compared to %@ hasn't been established." : {
       "localizations" : {
         "zh-Hans" : {
@@ -26434,6 +26573,18 @@
             "state" : "new",
             "value" : "Measured at %1$@× %2$@'s %3$@ — a lab measurement, not clinical potency."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
+          }
         }
       }
     },
@@ -26443,6 +26594,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Measured at %1$@× %2$@'s %3$@ at the %4$@ — a lab measurement, not clinical potency."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%4$@上测定值为 %2$@ %3$@的 %1$@ 倍——这是实验室测定值,并非临床效价。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
           }
         }
       }
@@ -27568,6 +27731,162 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分子結構"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, %@ is about %@× as strong as %@ — but how much of a dose converts isn't recorded here." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but how much of a dose converts isn't recorded here."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中有多少会转化,此处尚无记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中有多少會轉化,此處尚無記錄。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, %@ is about %@× as strong as %@ — but only about %@%% of a dose becomes it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but only about %4$@%% of a dose becomes it."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中只有约 %4$@%% 会转化为它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中只有約 %4$@%% 會轉化為它。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, %@ is about as strong as %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Molecule for molecule, %1$@ is about as strong as %2$@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,%1$@ 的强度与 %2$@ 相当。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,%1$@ 的強度與 %2$@ 相當。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but how much of a dose converts isn't recorded here." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中有多少会转化,此处尚无记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中有多少會轉化,此處尚無記錄。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, %1$@ is about %2$@× as strong as %3$@ — but only about %4$@% of a dose becomes it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,%1$@ 的强度约为 %3$@ 的 %2$@ 倍——但一次剂量中只有约 %4$@% 会转化为它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,%1$@ 的強度約為 %3$@ 的 %2$@ 倍——但一次劑量中只有約 %4$@% 會轉化為它。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, %1$@ is about as strong as %2$@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,%1$@ 的强度与 %2$@ 相当。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,%1$@ 的強度與 %2$@ 相當。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, about %@× as strong as %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Molecule for molecule, about %1$@× as strong as %2$@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,强度约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,強度約為 %2$@ 的 %1$@ 倍。"
+          }
+        }
+      }
+    },
+    "Molecule for molecule, about %1$@× as strong as %2$@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子计,强度约为 %2$@ 的 %1$@ 倍。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分子計,強度約為 %2$@ 的 %1$@ 倍。"
           }
         }
       }
@@ -47718,6 +48037,22 @@
         }
       }
     },
+    "What your body makes from this dose. Not a measured level." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体从这次剂量中生成的物质。并非实测数值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體從這次劑量中生成的物質。並非實測數值。"
+          }
+        }
+      }
+    },
     "What's happening" : {
       "localizations" : {
         "zh-Hans" : {
@@ -48529,6 +48864,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Your body turns %1$@ into %2$@, which is active too."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体会将 %1$@ 转化为 %2$@,后者同样具有活性。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身體會將 %1$@ 轉化為 %2$@,後者同樣具有活性。"
           }
         }
       }

@@ -11,6 +11,8 @@ struct EntryReadContent: View {
     let colorMap: [String: Color]
     let sessionInteraction: InteractionResult?
 
+    @State private var metaboliteModel = ActiveMetaboliteEntryModel()
+
     var body: some View {
         // Timeline graph — the session screen's bordered-chart treatment as a
         // headerless section of its own. List rows clip content to the section's
@@ -49,6 +51,12 @@ struct EntryReadContent: View {
             EntryReadHero(entry: entry, substance: substance, state: state, substanceColor: substanceColor)
                 .listRowInsets(EdgeInsets(top: 14, leading: 20, bottom: 16, trailing: 20))
         }
+        // Driven from the hero, which always renders. "Also Active" cannot load
+        // itself — it has no rows until the fetch lands, and a `.task` on a view
+        // producing no rows never runs.
+        .task(id: substance?.name) {
+            if let name = substance?.name { metaboliteModel.load(substanceName: name) }
+        }
 
         if isAlcoholEntry, UserProfileStore.shared.aldh2Deficient {
             AcetaldehydeCard(gramsEthanol: entryGramsEthanol)
@@ -67,6 +75,17 @@ struct EntryReadContent: View {
             header: "In Your Body",
             activeOnly: true,
         )
+
+        // Directly under In Your Body: that card says how much is left, this one
+        // says of what. Unlike the library's copy of this surface it is not
+        // tier-gated — see ``ActiveMetaboliteEntrySection``.
+        if let substance {
+            ActiveMetaboliteEntrySection(
+                metabolites: metaboliteModel.metabolites,
+                substance: substance,
+                accent: substanceColor,
+            )
+        }
 
         EntrySessionSection(entry: entry, sessionInteraction: sessionInteraction, colorMap: colorMap)
 

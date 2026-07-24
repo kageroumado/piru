@@ -1692,6 +1692,19 @@ struct Substance: Identifiable {
         return nil
     }
 
+    /// The longest total duration any route claims, or `nil` when no route
+    /// carries a duration profile at all (the chronic medications — SSRIs and
+    /// friends — which have a half-life and no acute table).
+    ///
+    /// This is the number a "lasts beyond the duration shown" claim must clear.
+    /// The **maximum** across routes rather than a resolved single route,
+    /// because the reader is looking at a table of every route and would compare
+    /// against the longest row in it; taking the max is also the conservative
+    /// choice, since it makes such a claim harder to make rather than easier.
+    var longestRouteDurationMinutes: Double? {
+        routes.compactMap { $0.duration?.estimatedTotalMinutes }.max()
+    }
+
     /// Longest total effect a dose can have and still be drawn as a timeline
     /// curve. Beyond this an "acute" onset→peak→offset shape is the wrong model:
     /// the effect outlasts any sane graph window, so the dose is a point-in-time
