@@ -205,10 +205,11 @@ private struct IntensityGauge: View {
     private let startDeg = 150.0
     private let sweepDeg = 240.0
     private let lineWidth = 17.0
-    /// Gap between the base band pills. With round caps and this gap the bands
-    /// read as discrete rounded pills — not a continuous fill — and the two
-    /// outermost caps round off the bottom ends of the semicircle.
-    private let bandGapDeg = 5.0
+    /// Gap between the base band pills. Wide enough that the round caps clear
+    /// each other — at a narrow gap they overlapped into a darker lens at every
+    /// seam. The bands now read as discrete rounded pills, and the two outermost
+    /// caps round off the bottom ends of the semicircle.
+    private let bandGapDeg = 11.0
     /// Clearance between the punched socket and the glass pill, so the pill reads
     /// as sitting *in* a hole with a hairline of background around it.
     private let socketClearance = 3.0
@@ -344,22 +345,24 @@ private struct IntensityGauge: View {
         let shape = ArcSegment(
             startDeg: startAngle, sweepDeg: seg, radius: radius, thickness: thickness, center: center,
         )
-        return GlassEffectContainer {
-            shape
-                .fill(color(selected).gradient)
-                .frame(width: size.width, height: size.height)
-                .glassEffect(.regular.tint(color(selected)).interactive(), in: shape)
-        }
-        .overlay {
-            GrabberGlyph(active: isGrabbed)
-                // The pill lies along the arc tangent (radial + 90°); align the
-                // grip ridges across it so they read as a grip at any position.
-                .rotationEffect(.degrees(midDeg + 90))
-                .position(handle)
-        }
-        .shadow(color: color(selected).opacity(isGrabbed ? 0.55 : 0.28), radius: isGrabbed ? 12 : 6, y: 2)
-        .animation(.spring(response: 0.34, dampingFraction: 0.74), value: selected)
-        .animation(.spring(response: 0.28, dampingFraction: 0.6), value: isGrabbed)
+        // No GlassEffectContainer and no `.interactive()`: together they render a
+        // soft glass *plate* around the pill (a lighter rounded halo). A bare
+        // tinted glass over the filled pill gives the material without the plate;
+        // the grab lift is driven manually below, so `.interactive()` isn't needed.
+        return shape
+            .fill(color(selected).gradient)
+            .frame(width: size.width, height: size.height)
+            .glassEffect(.regular.tint(color(selected)), in: shape)
+            .overlay {
+                GrabberGlyph(active: isGrabbed)
+                    // The pill lies along the arc tangent (radial + 90°); align the
+                    // grip ridges across it so they read as a grip at any position.
+                    .rotationEffect(.degrees(midDeg + 90))
+                    .position(handle)
+            }
+            .shadow(color: color(selected).opacity(isGrabbed ? 0.55 : 0.28), radius: isGrabbed ? 12 : 6, y: 2)
+            .animation(.spring(response: 0.34, dampingFraction: 0.74), value: selected)
+            .animation(.spring(response: 0.28, dampingFraction: 0.6), value: isGrabbed)
     }
 
     private func point(center: CGPoint, radius: Double, degrees: Double) -> CGPoint {
