@@ -1,4 +1,6 @@
 import SwiftUI
+import UIKit
+import UIKit.UIGestureRecognizerSubclass
 
 /// The drug.community intensity spectrum as a circular, draggable dose dial.
 ///
@@ -54,16 +56,7 @@ struct DoseIntensityCard: View {
                 .frame(height: 200)
                 .overlay(centerReadout)
                 .padding(.top, 2)
-
-            Label {
-                Text("Drag to explore doses", comment: "Intensity dial interaction hint")
-            } icon: {
-                Image(systemName: "arrow.left.and.right")
-            }
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
-            .frame(maxWidth: .infinity)
-            .padding(.bottom, 4)
+                .padding(.bottom, 10)
 
             Text(current.summary)
                 .font(.subheadline)
@@ -183,9 +176,11 @@ struct FrequencyBar: View {
     }
 }
 
-/// The circular arc gauge: six colored segments that fill up to the selected
-/// band, with a draggable thumb. Pure drawing + a drag gesture; selection state
-/// is owned by the parent.
+/// The circular arc gauge: six colored bands forming a connected semicircle,
+/// with a raised Liquid Glass selector floating over the current band. Grab the
+/// selector and drag it around the arc — it slides with a spring, recolors to
+/// the band beneath it, and lifts on grab so the interaction is discoverable.
+/// Selection state is owned by the parent.
 private struct IntensityGauge: View {
     let bandCount: Int
     let selected: Int
@@ -198,28 +193,70 @@ private struct IntensityGauge: View {
     private let startDeg = 150.0
     private let sweepDeg = 240.0
     private let lineWidth = 17.0
-    private let gapDeg = 4.0
+    /// Gap between the base band pills. With round caps and this gap the bands
+    /// read as discrete rounded pills — not a continuous fill — and the two
+    /// outermost caps round off the bottom ends of the semicircle.
+    private let bandGapDeg = 5.0
+    /// The tap target covering the whole arc band, so a tap on any band jumps
+    /// the selector to it.
+    private var hitBand: Double {
+        max(lineWidth + 6, 44)
+    }
+    private let coordSpace = "doseGauge"
 
+    @State private var isGrabbed = false
     @Environment(\.colorScheme) private var scheme
+
+    private func color(_ i: Int) -> Color {
+        colors[min(max(i, 0), colors.count - 1)]
+    }
 
     var body: some View {
         GeometryReader { proxy in
             let size = proxy.size
             let center = CGPoint(x: size.width / 2, y: size.height * 0.72)
             let radius = min(size.width / 2, size.height * 0.72) - lineWidth
-            Canvas { context, _ in
-                draw(in: context, center: center, radius: radius)
+            let seg = sweepDeg / Double(bandCount)
+            let selStart = startDeg + Double(selected) * seg
+            let handle = point(center: center, radius: radius, degrees: selStart + seg / 2)
+
+            ZStack {
+                Canvas { context, _ in
+                    drawTrack(in: context, center: center, radius: radius, seg: seg)
+                }
+
+                glassSelector(center: center, radius: radius, startAngle: selStart, seg: seg, size: size)
+                    .allowsHitTesting(false)
+
+                // The grab handle: a generous invisible circle riding the
+                // selected band. Only touches here start a drag, so the rest of
+                // the card scrolls; once a drag begins the recognizer tracks the
+                // finger anywhere on the arc, including the near-vertical ends.
+                Circle()
+                    .fill(.clear)
+                    .frame(width: 64, height: 64)
+                    .contentShape(Circle())
+                    .position(handle)
+                    .gesture(
+                        ArcPan(
+                            coordSpace: coordSpace,
+                            onGrab: { grabbed in
+                                withAnimation(.spring(response: 0.28, dampingFraction: 0.6)) {
+                                    isGrabbed = grabbed
+                                }
+                            },
+                            onMove: { onSelect(band(for: $0, center: center)) },
+                        ),
+                    )
             }
-            .contentShape(Rectangle())
-            // High priority so a touch starting on the dial drives selection
-            // instead of being stolen by the enclosing ScrollView's scroll.
-            .highPriorityGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        onSelect(band(for: value.location, center: center, radius: radius))
-                    },
+            .coordinateSpace(.named(coordSpace))
+            // Tapping any band jumps the selector to it.
+            .contentShape(
+                ArcRing(center: center, radius: radius, thickness: hitBand, startDeg: startDeg, sweepDeg: sweepDeg),
             )
+            .onTapGesture { onSelect(band(for: $0, center: center)) }
         }
+        .sensoryFeedback(.selection, trigger: selected)
         .accessibilityElement()
         .accessibilityLabel(Text("Dose intensity", comment: "Dial accessibility label"))
         .accessibilityValue(Text(valueLabel))
@@ -233,34 +270,63 @@ private struct IntensityGauge: View {
         }
     }
 
-    private func draw(in context: GraphicsContext, center: CGPoint, radius: Double) {
-        let seg = sweepDeg / Double(bandCount)
-        let track = Color.primary.opacity(scheme == .dark ? 0.14 : 0.08)
+    /// The base ring: every band as a discrete, rounded pill in a *faint* tint of
+    /// its own color. Faint-and-separated (rather than a solid fill up to the
+    /// selection) so the arc reads as a row of pickable levels, not a continuous
+    /// gauge, and the round caps give every band — the two ends of the arc
+    /// included — its rounded corners.
+    private func drawTrack(in context: GraphicsContext, center: CGPoint, radius: Double, seg: Double) {
+        let faint = scheme == .dark ? 0.32 : 0.22
         for i in 0 ..< bandCount {
-            let a0 = startDeg + Double(i) * seg + gapDeg / 2
-            let a1 = startDeg + Double(i + 1) * seg - gapDeg / 2
             var path = Path()
             path.addArc(
                 center: center, radius: radius,
-                startAngle: .degrees(a0), endAngle: .degrees(a1), clockwise: false,
+                startAngle: .degrees(startDeg + Double(i) * seg + bandGapDeg / 2),
+                endAngle: .degrees(startDeg + Double(i + 1) * seg - bandGapDeg / 2),
+                clockwise: false,
             )
+            // The selected band drops nearly out — the glass pill sits on top of
+            // it, and a strong tint underneath would double up.
+            let opacity = i == selected ? 0.12 : faint
             context.stroke(
                 path,
-                with: .color(i <= selected ? colors[i] : track),
-                style: StrokeStyle(lineWidth: i == selected ? lineWidth + 6 : lineWidth, lineCap: .round),
+                with: .color(color(i).opacity(opacity)),
+                style: StrokeStyle(lineWidth: lineWidth, lineCap: .round),
             )
         }
-        let midDeg = startDeg + (Double(selected) + 0.5) * seg
-        let thumb = point(center: center, radius: radius, degrees: midDeg)
-        context.fill(
-            Path(ellipseIn: CGRect(x: thumb.x - 15, y: thumb.y - 15, width: 30, height: 30)),
-            with: .color(scheme == .dark ? Color(hex: "1C1C1E") : .white),
+    }
+
+    /// The floating Liquid Glass indicator over the selected band: a rounded pill
+    /// (`ArcSegment` is a round-capped stroke) whose angle animates as `selected`
+    /// changes, so it slides around the arc rather than jumping. Tinted the band
+    /// color, raised (thicker + shadowed) more when grabbed, and carrying a
+    /// grabber glyph that rotates to stay upright on the curve — the affordance
+    /// that says "drag me," in place of the old text hint.
+    private func glassSelector(
+        center: CGPoint, radius: Double, startAngle: Double, seg: Double, size: CGSize,
+    ) -> some View {
+        let thickness = lineWidth + (isGrabbed ? 15 : 9)
+        let midDeg = startAngle + seg / 2
+        let handle = point(center: center, radius: radius, degrees: midDeg)
+        let shape = ArcSegment(
+            startDeg: startAngle, sweepDeg: seg, radius: radius, thickness: thickness, center: center,
         )
-        context.stroke(
-            Path(ellipseIn: CGRect(x: thumb.x - 12.5, y: thumb.y - 12.5, width: 25, height: 25)),
-            with: .color(colors[min(selected, colors.count - 1)]),
-            lineWidth: 4,
-        )
+        return GlassEffectContainer {
+            shape
+                .fill(color(selected).gradient)
+                .frame(width: size.width, height: size.height)
+                .glassEffect(.regular.tint(color(selected)).interactive(), in: shape)
+        }
+        .overlay {
+            GrabberGlyph(active: isGrabbed)
+                // The pill lies along the arc tangent (radial + 90°); align the
+                // grip ridges across it so they read as a grip at any position.
+                .rotationEffect(.degrees(midDeg + 90))
+                .position(handle)
+        }
+        .shadow(color: color(selected).opacity(isGrabbed ? 0.55 : 0.28), radius: isGrabbed ? 12 : 6, y: 2)
+        .animation(.spring(response: 0.34, dampingFraction: 0.74), value: selected)
+        .animation(.spring(response: 0.28, dampingFraction: 0.6), value: isGrabbed)
     }
 
     private func point(center: CGPoint, radius: Double, degrees: Double) -> CGPoint {
@@ -269,7 +335,7 @@ private struct IntensityGauge: View {
     }
 
     /// Map a touch location to a band index. The bottom gap clamps to the nearest end.
-    private func band(for location: CGPoint, center: CGPoint, radius _: Double) -> Int {
+    private func band(for location: CGPoint, center: CGPoint) -> Int {
         var deg = atan2(location.y - center.y, location.x - center.x) * 180 / .pi
         if deg < 0 { deg += 360 }
         var shifted = deg - startDeg
@@ -279,6 +345,151 @@ private struct IntensityGauge: View {
         }
         let seg = sweepDeg / Double(bandCount)
         return max(0, min(bandCount - 1, Int(shifted / seg)))
+    }
+}
+
+/// One band of the ring as a rounded pill: the band's centerline arc stroked
+/// with round caps, so its ends are fully rounded (a capsule bent along the
+/// arc). A filled shape — not a live stroke — so it can carry a glass effect.
+/// `startDeg` animates, which slides the selector between bands.
+private struct ArcSegment: Shape {
+    var startDeg: Double
+    var sweepDeg: Double
+    var radius: Double
+    var thickness: Double
+    var center: CGPoint
+
+    /// Slide (startDeg) and lift (thickness) both animate.
+    var animatableData: AnimatablePair<Double, Double> {
+        get { AnimatablePair(startDeg, thickness) }
+        set {
+            startDeg = newValue.first
+            thickness = newValue.second
+        }
+    }
+
+    func path(in _: CGRect) -> Path {
+        // The round caps reach thickness/2 past each end; pull the span in by
+        // that much so the pill spans the band rather than overhanging it.
+        let capDeg = (thickness / 2) / max(radius, 1) * 180 / .pi
+        var arc = Path()
+        arc.addArc(
+            center: center, radius: radius,
+            startAngle: .degrees(startDeg + capDeg),
+            endAngle: .degrees(startDeg + sweepDeg - capDeg),
+            clockwise: false,
+        )
+        return arc.strokedPath(StrokeStyle(lineWidth: thickness, lineCap: .round))
+    }
+}
+
+/// The grip on the floating pill — a few short ridges that say "drag me,"
+/// echoing the sheet grabber. Sits at the pill's center and is rotated by the
+/// caller to track the pill around the arc; brightens and spreads slightly when
+/// grabbed.
+private struct GrabberGlyph: View {
+    let active: Bool
+
+    var body: some View {
+        HStack(spacing: active ? 3.5 : 3) {
+            ForEach(0 ..< 3, id: \.self) { _ in
+                Capsule()
+                    .fill(.white.opacity(active ? 0.95 : 0.8))
+                    .frame(width: 2, height: 11)
+            }
+        }
+        .shadow(color: .black.opacity(0.15), radius: 0.5, y: 0.5)
+    }
+}
+
+/// The dial's tap target: the swept band of the arc, not the box around it, so a
+/// tap anywhere on the arc selects that band while the open bottom stays
+/// scrollable.
+private struct ArcRing: Shape {
+    let center: CGPoint
+    let radius: Double
+    let thickness: Double
+    let startDeg: Double
+    let sweepDeg: Double
+
+    func path(in _: CGRect) -> Path {
+        var path = Path()
+        path.addArc(
+            center: center, radius: radius,
+            startAngle: .degrees(startDeg), endAngle: .degrees(startDeg + sweepDeg),
+            clockwise: false,
+        )
+        return path.strokedPath(StrokeStyle(lineWidth: thickness, lineCap: .round))
+    }
+}
+
+/// The pan that drives the glass selector.
+///
+/// Attached to the small grab handle riding the selected band, so it only ever
+/// receives touches that land on the handle — the rest of the card scrolls. It
+/// fires `onGrab(true)` on touch-down for immediate lift feedback (a pan
+/// otherwise waits for movement, and the grab should read the instant the finger
+/// lands), and once dragging, the recognizer tracks the finger anywhere on the
+/// arc — including the near-vertical ends that broke direction-based schemes.
+private final class GrabPanRecognizer: UIPanGestureRecognizer {
+    var onGrabChange: (Bool) -> Void = { _ in }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesBegan(touches, with: event)
+        onGrabChange(true)
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesEnded(touches, with: event)
+        onGrabChange(false)
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesCancelled(touches, with: event)
+        onGrabChange(false)
+    }
+}
+
+private struct ArcPan: UIGestureRecognizerRepresentable {
+    var coordSpace: String
+    var onGrab: (Bool) -> Void
+    var onMove: (CGPoint) -> Void
+
+    func makeCoordinator(converter _: CoordinateSpaceConverter) -> Coordinator {
+        Coordinator()
+    }
+
+    func makeUIGestureRecognizer(context: Context) -> GrabPanRecognizer {
+        let recognizer = GrabPanRecognizer()
+        recognizer.onGrabChange = onGrab
+        recognizer.delegate = context.coordinator
+        return recognizer
+    }
+
+    func updateUIGestureRecognizer(_ recognizer: GrabPanRecognizer, context _: Context) {
+        recognizer.onGrabChange = onGrab
+    }
+
+    func handleUIGestureRecognizerAction(_ recognizer: GrabPanRecognizer, context: Context) {
+        // The handle is positioned away from the gauge origin, so read the touch
+        // in the gauge's named space rather than the handle's local space.
+        switch recognizer.state {
+        case .began, .changed: onMove(context.converter.location(in: .named(coordSpace)))
+        default: break
+        }
+    }
+
+    /// Makes the enclosing scroll view wait for this recognizer to fail before it
+    /// scrolls, so an on-handle drag wins even when it moves vertically (the arc's
+    /// ends). Touches off the handle never reach this recognizer, so the rest of
+    /// the card scrolls untouched.
+    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        func gestureRecognizer(
+            _: UIGestureRecognizer,
+            shouldBeRequiredToFailBy other: UIGestureRecognizer,
+        ) -> Bool {
+            other is UIPanGestureRecognizer && other.view is UIScrollView
+        }
     }
 }
 
@@ -294,5 +505,38 @@ extension SpectrumBand {
         case "Overdose": String(localized: "Overdose", comment: "Dose band")
         default: bandKey
         }
+    }
+}
+
+#Preview("Dose intensity dial") {
+    let names = ["Threshold", "Light", "Common", "Strong", "Heavy", "Overdose"]
+    let bands = names.indices.map { i in
+        SpectrumBand(
+            bandIndex: i,
+            bandKey: names[i],
+            summary: "What the experience is like at the \(names[i].lowercased()) dose.",
+            topEffects: [
+                BandEffect(name: "euphoria", frequency: 1_200),
+                BandEffect(name: "sociability", frequency: 800),
+                BandEffect(name: "sensory enhancement", frequency: 300),
+            ],
+            warnings: [],
+        )
+    }
+    // Wrapped in fillers so the segment seams and the scroll-past behavior are
+    // both visible in the canvas.
+    return ScrollView {
+        VStack(spacing: 16) {
+            Color.gray.opacity(0.12).frame(height: 200).overlay(Text("scroll above"))
+            DoseIntensityCard(
+                bands: bands,
+                bandDoseText: [0: "30 mg", 1: "40–75 mg", 2: "75–125 mg", 3: "125–175 mg", 4: "175+ mg"],
+                citationSlug: "drug.community",
+                citationDeepLink: nil,
+                routeName: "Oral",
+            )
+            Color.gray.opacity(0.12).frame(height: 400).overlay(Text("scroll below"))
+        }
+        .padding()
     }
 }
