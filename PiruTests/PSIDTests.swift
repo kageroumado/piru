@@ -96,11 +96,11 @@ struct PSIDTests {
     }
 
     @Test
-    func `A name-hash family is a sentinel digit + 13 uppercase letters`() throws {
+    func `A name-hash family is a sentinel digit + 13 uppercase letters`() {
         // A real name-hash sampled from the built DB (leading sentinel digit).
         let fam = "8YKFFRXMFUODYV"
         #expect(fam.count == 14)
-        #expect(try #require(fam.first?.isNumber))
+        #expect(fam.first?.isNumber == true)
         #expect(PSID.isNameHashFamily(fam))
         #expect(PSID.isWellformedFamily(fam))
         #expect(!PSID.isBlock1Family(fam))

@@ -571,9 +571,12 @@ struct RoutesCodableTests {
             paths: [
                 .journal: [
                     .session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000050"))),
+                    // `entry`'s id is already optional, so unwrapping it here
+                    // only re-wraps it — and `#require` binding to `UUID??` is
+                    // what made the compiler call itself redundant.
                     .entry(
                         timestamp: Date(timeIntervalSince1970: 2),
-                        id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000051")),
+                        id: UUID(uuidString: "00000000-0000-0000-0000-000000000051"),
                     ),
                 ],
                 .library: [.substance(name: "DMT")],

@@ -115,7 +115,7 @@ struct QuickLogSeedTests {
     @Test
     func `does not seed when there is no history`() throws {
         let ctx = try makeContext()
-        try QuickLogManager.seedIfNeeded(history: [], context: ctx)
+        QuickLogManager.seedIfNeeded(history: [], context: ctx)
         #expect(try ctx.fetchCount(FetchDescriptor<QuickLogDose>()) == 0)
     }
 }
