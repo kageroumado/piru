@@ -42,6 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — sh
 
 import collision_registry  # noqa: E402
 import psid  # noqa: E402
+from dedupe import dedupe_database  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
 )
@@ -8787,6 +8788,22 @@ def main() -> int:
     build.finalise(
         content_version, "build-sqlite-database.py 0.1.0", substance_count, sources_summary
     )
+    db.commit()
+
+    # Multi-source ingestion writes the same fact more than once — two sources
+    # publishing one caffeine onset, an importer echoing prose into both
+    # `summary` and `description`. Invisible here, but the app renders each copy,
+    # so it surfaces as a card printed twice. Strip the mechanically-identical
+    # ones before the file is sealed; value duplicates (same numbers, different
+    # notes) are only reported — see pipeline/build/dedupe.py.
+    dedupe = dedupe_database(db)
+    print(
+        f"Dedupe: removed {dedupe.total_removed} exact duplicate row(s), "
+        f"nulled {dedupe.total_nulled} echoed prose column(s), "
+        f"left {dedupe.total_value_duplicates} value duplicate(s) in place"
+    )
+    for line in dedupe.summary_lines():
+        print(line)
     db.commit()
 
     # Vacuum + analyze for deterministic, optimised output. The shipped file

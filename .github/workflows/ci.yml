@@ -40,6 +40,10 @@ jobs:
         run: python3 pipeline/build/tests/test_overlay_integrity.py
       - name: Link-validator tests (verdict + cache staleness)
         run: python3 pipeline/audit/tests/test_validate_links.py
+      - name: Dedupe tests (exact rows, prose echoes, value duplicates)
+        run: python3 pipeline/build/tests/test_dedupe.py
+      - name: No duplicated values in the shipped DB
+        run: python3 pipeline/audit/dedup_check.py --gate
 
   swift-lint:
     name: Swift (format + lint)
