@@ -1,5 +1,8 @@
 # Xcode
-build/
+# Anchored: a bare `build/` also matches `pipeline/build/`, which is source.
+# Its files were tracked from before the rule, so nothing broke visibly — new
+# ones there were just silently invisible to `git status` and `git add`.
+/build/
 DerivedData/
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
