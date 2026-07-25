@@ -87,9 +87,13 @@ struct ActiveMetabolite: Identifiable {
         }
 
         let mechanism: SubstanceStore.MetaboliteMechanism =
-            if rows.contains(where: { $0.metaboliteMechanismVsParent == .divergent }) { .divergent }
-            else if rows.contains(where: { $0.metaboliteMechanismVsParent == .scaled }) { .scaled }
-            else { .unknown }
+            if rows.contains(where: { $0.metaboliteMechanismVsParent == .divergent }) {
+                .divergent
+            } else if rows.contains(where: { $0.metaboliteMechanismVsParent == .scaled }) {
+                .scaled
+            } else {
+                .unknown
+            }
 
         return ActiveMetabolite(
             name: name,
@@ -508,9 +512,11 @@ struct ActiveMetaboliteCard: View {
         case let .persistsBeyondParent(metabolite, parent):
             String(localized: "\(metabolite) stays active in your body long after \(parent) itself is gone.")
         case let .comparable(ratio, parent):
-            ratio == 1
-                ? String(localized: "About as strong as \(parent), dose for dose.")
-                : String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent), dose for dose.")
+            if ratio == 1 {
+                String(localized: "About as strong as \(parent), dose for dose.")
+            } else {
+                String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent), dose for dose.")
+            }
         case let .strongerMolecule(ratio, parent, metabolite, convertedPct):
             // A prodrug converting one-for-one lands here whenever its formation
             // fraction was never recorded (psilocybin → psilocin). "About 1× as
@@ -527,10 +533,10 @@ struct ActiveMetaboliteCard: View {
                 String(localized: "Molecule for molecule, \(metabolite) is about \(SubstanceDetailView.chemNumber(ratio))× as strong as \(parent) — but how much of a dose converts isn't recorded here.")
             }
         case let .qualified(ratio, parent, _, target):
-            if let target = metaboliteTargetName(target) {
-                ratio == 1
-                    ? String(localized: "About as strong as \(parent) at the \(target).")
-                    : String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× \(parent)'s activity at the \(target).")
+            if let target = metaboliteTargetName(target), ratio == 1 {
+                String(localized: "About as strong as \(parent) at the \(target).")
+            } else if let target = metaboliteTargetName(target) {
+                String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× \(parent)'s activity at the \(target).")
             } else {
                 String(localized: "About \(SubstanceDetailView.chemNumber(ratio))× \(parent)'s activity, by one measurement.")
             }

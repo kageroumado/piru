@@ -192,7 +192,7 @@ private struct OnboardingVitalsSampleChart: View {
         var curve = Path()
         for i in 0 ..< count {
             let point = CGPoint(x: px(i), y: effectBottom - CGFloat(effect(frac(i))) * effectH)
-            i == 0 ? curve.move(to: point) : curve.addLine(to: point)
+            if i == 0 { curve.move(to: point) } else { curve.addLine(to: point) }
         }
         context.stroke(curve, with: .color(Theme.accent), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
 
@@ -225,7 +225,7 @@ private struct OnboardingVitalsSampleChart: View {
         var hrLine = Path()
         for i in 0 ..< count {
             let point = CGPoint(x: px(i), y: yHR(hr(frac(i))))
-            i == 0 ? hrLine.move(to: point) : hrLine.addLine(to: point)
+            if i == 0 { hrLine.move(to: point) } else { hrLine.addLine(to: point) }
         }
         context.stroke(hrLine, with: .color(VitalsPalette.heart), style: StrokeStyle(lineWidth: 1.8, lineCap: .round, lineJoin: .round))
         let now = CGPoint(x: px(count - 1), y: yHR(hr(frac(count - 1))))

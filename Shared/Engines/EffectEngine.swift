@@ -100,7 +100,6 @@ nonisolated struct EffectParams {
     var cReward = 1.0, cDrive = 0.6, cCrash = 1.0
     var gR = 1.0, gE = 0.6, gJ = 0.25
     var thetaW = 0.05, thetaC = 0.05
-    init() {}
 }
 
 // MARK: - Session input

@@ -2,9 +2,9 @@ import SwiftUI
 
 // MARK: - Shared card chrome
 
+// TODO(integrator): promote to Components/ if reused outside QuickLog.
 /// Inset-grouped card chrome shared by the results, suggestions, and staged
 /// surfaces — the dock's one visual container.
-// TODO(integrator): promote to Components/ if reused outside QuickLog.
 struct DockGroupedCard<Content: View>: View {
     @ViewBuilder var content: Content
 

@@ -178,10 +178,10 @@ nonisolated enum SubstanceModelDatabase {
         }
         // Pick the assay with the best coverage score, breaking ties toward the more potent (smaller
         // half-max) tightest site; scoring each assay once. Then read its DAT/NET/SERT triple.
-        let ranked = Dictionary(grouping: pool, by: \.assayKey).values.map {
-            group -> (group: [TransporterHit], score: Double, potency: Double) in
-            (group, score(group), group.map(\.halfMax).min() ?? .infinity)
-        }
+        let ranked = Dictionary(grouping: pool, by: \.assayKey).values
+            .map { group -> (group: [TransporterHit], score: Double, potency: Double) in
+                (group, score(group), group.map(\.halfMax).min() ?? .infinity)
+            }
         let best = ranked.max { $0.score != $1.score ? $0.score < $1.score : $0.potency > $1.potency }?.group
         func kd(_ symbol: String) -> Double? {
             best.flatMap { tightest($0, symbol) } ?? tightest(pool, symbol)

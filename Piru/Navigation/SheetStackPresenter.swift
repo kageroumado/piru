@@ -81,6 +81,11 @@ private struct SheetLayer: ViewModifier {
                     // only correct while covers present at depth 0. Nothing
                     // structurally prevents a deeper cover, so fail loudly in
                     // debug if one ever appears.
+                    //
+                    // `let _ =` is load-bearing: this is a `ViewBuilder`, where a
+                    // bare `_ =` is parsed as a view expression and fails to
+                    // conform to `View`. The lint rule doesn't know that.
+                    // swiftlint:disable:next redundant_discardable_let
                     let _ = assert(
                         depth == 0,
                         "fullScreenCover route at depth \(depth); hostsNestedNavigatorSheets hardcodes nested depth 1",

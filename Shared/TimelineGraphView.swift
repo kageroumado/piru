@@ -1203,7 +1203,7 @@ struct TimelineGraphView: View, Equatable {
                 )
             } else {
                 let yNorm = yNormalization
-                for (_, substance) in substances.enumerated() {
+                for substance in substances {
                     let color = Color(hex: substance.colorHex)
                     let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
                     let scale = TimelineCurveModel.compressedAmplitude(heightScale(for: substance) * yNorm)

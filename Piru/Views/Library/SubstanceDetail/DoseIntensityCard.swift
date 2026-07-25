@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
 /// The drug.community intensity spectrum as a circular, draggable dose dial.

@@ -59,8 +59,6 @@ struct TakeQuietMedsIntent: AppIntent {
     static let description = IntentDescription("Logs your remaining supplements for today.")
     static let isDiscoverable = false
 
-    init() {}
-
     func perform() async throws -> some IntentResult {
         MedIntentLogger.logRemainingDose { $0.isQuiet }
         return .result()
