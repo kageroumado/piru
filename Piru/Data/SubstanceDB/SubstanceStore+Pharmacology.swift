@@ -101,6 +101,84 @@ extension SubstanceStore {
         }
     }
 
+    /// One route's PK for display: the best-evidenced study row, plus how many
+    /// distinct studies the table holds for that route (1 when it's the only
+    /// one). Built by ``SubstanceStore/displayRows(_:)``. Declared here rather
+    /// than beside its sibling hits in `SubstanceStore.swift`, which is at its
+    /// 2500-line lint ceiling.
+    struct PKDisplayRow: Identifiable, Hashable {
+        let hit: PKRouteHit
+        let studyCount: Int
+
+        var id: Int64 {
+            hit.id
+        }
+    }
+
+    /// One PK row per route, for display.
+    ///
+    /// The raw table carries a row **per study**, so a well-researched route
+    /// stacks up several — cocaine had two identical inhalation rows differing
+    /// only in an unshown `notes` field, and amphetamine has five oral rows that
+    /// restate one review at 90 % vs 75 % bioavailability. The card only renders
+    /// the handful of metrics they mostly agree on, so they read as the same row
+    /// printed repeatedly. This picks the best-evidenced row per route and
+    /// reports how many *distinct* studies stood behind it, so the card can say
+    /// so rather than silently dropping the rest.
+    ///
+    /// "Best" is: human (or unspecified) before animal data, then the row that
+    /// fills in the most metrics, then the largest subject count, then the lowest
+    /// id so the choice is stable across builds. Deliberately display-only —
+    /// ``pharmacokineticsRows(substanceID:db:)`` keeps returning everything,
+    /// because the tolerance engine's PK derivation reads across all the rows.
+    nonisolated static func displayRows(_ rows: [PKRouteHit]) -> [PKDisplayRow] {
+        /// Everything the card can show, so two rows that differ only in prose
+        /// don't get counted as two studies.
+        func metrics(_ hit: PKRouteHit) -> [Double?] {
+            [
+                hit.bioavailabilityPct, hit.cmaxNgPerMl, hit.tmaxMin, hit.halfLifeMin,
+                hit.vdLPerKg, hit.clearanceMlPerMinPerKg, hit.proteinBindingPct,
+            ]
+        }
+        func signature(_ hit: PKRouteHit) -> String {
+            var parts: [String] = metrics(hit).map { value -> String in
+                guard let value else { return "-" }
+                return String(value)
+            }
+            parts.append(hit.doseInStudyMg.map { String($0) } ?? "-")
+            parts.append(hit.subjectN.map { String($0) } ?? "-")
+            parts.append(hit.demographics ?? "-")
+            parts.append(hit.species ?? "-")
+            return parts.joined(separator: "|")
+        }
+        func metricCount(_ hit: PKRouteHit) -> Int {
+            metrics(hit).count { $0 != nil }
+        }
+        func isAnimal(_ hit: PKRouteHit) -> Bool {
+            guard let species = hit.species else { return false }
+            return species != "human"
+        }
+
+        var order: [String] = []
+        var byRoute: [String: [PKRouteHit]] = [:]
+        for hit in rows {
+            if byRoute[hit.route] == nil { order.append(hit.route) }
+            byRoute[hit.route, default: []].append(hit)
+        }
+
+        return order.compactMap { route in
+            guard let candidates = byRoute[route], !candidates.isEmpty else { return nil }
+            let best = candidates.min { lhs, rhs in
+                if isAnimal(lhs) != isAnimal(rhs) { return !isAnimal(lhs) }
+                if metricCount(lhs) != metricCount(rhs) { return metricCount(lhs) > metricCount(rhs) }
+                if (lhs.subjectN ?? 0) != (rhs.subjectN ?? 0) { return (lhs.subjectN ?? 0) > (rhs.subjectN ?? 0) }
+                return lhs.id < rhs.id
+            }
+            guard let best else { return nil }
+            return PKDisplayRow(hit: best, studyCount: Set(candidates.map(signature)).count)
+        }
+    }
+
     /// Per-route pharmacokinetic rows for a substance, across all sources, with
     /// per-row citation. Drives the detail view's Pharmacokinetics disclosure.
     /// Ordered by route rank (oral first) then tightest study.

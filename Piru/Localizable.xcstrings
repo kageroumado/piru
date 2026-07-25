@@ -2528,6 +2528,23 @@
         }
       }
     },
+    "%lld studies" : {
+      "comment" : "Count of PK studies behind one route",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 项研究"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 項研究"
+          }
+        }
+      }
+    },
     "%lld substance%@" : {
       "extractionState" : "stale",
       "localizations" : {

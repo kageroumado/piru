@@ -20,8 +20,10 @@ final class SubstanceDetailModel {
     /// Literature" list and the unified Pharmacology card's class hero.
     var literatureBindings: [SubstanceStore.BindingHit] = []
 
-    /// Per-route pharmacokinetics (bioavailability / tmax / half-life).
-    var pkRoutes: [SubstanceStore.PKRouteHit] = []
+    /// Per-route pharmacokinetics (bioavailability / tmax / half-life), one row
+    /// per route: the table holds a row per *study*, which rendered as the same
+    /// card several times over. See ``SubstanceStore/displayRows(_:)``.
+    var pkRoutes: [SubstanceStore.PKDisplayRow] = []
 
     /// CYP/enzyme clearance pathways and their metabolites.
     var metabolismRows: [SubstanceStore.MetabolismHit] = []
@@ -79,7 +81,7 @@ final class SubstanceDetailModel {
         // Pharmacokinetics (per-route PK + CYP metabolism) is a pharma-nerd
         // surface — skip the two queries for other tiers.
         if policy.showsPharmacokinetics {
-            pkRoutes = store.pharmacokinetics(forSubstanceName: substanceName)
+            pkRoutes = SubstanceStore.displayRows(store.pharmacokinetics(forSubstanceName: substanceName))
             metabolismRows = store.metabolism(forSubstanceName: substanceName)
         } else {
             pkRoutes = []

@@ -216,9 +216,9 @@ struct PharmacologySections: View {
     /// Literature layout — dense, attributed, pharma-nerd-only.
     private var pharmacokineticsBody: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ForEach(model.pkRoutes) { hit in
-                PKRouteRow(hit: hit, accent: substance.category.color)
-                if hit.id != model.pkRoutes.last?.id { Divider() }
+            ForEach(model.pkRoutes) { row in
+                PKRouteRow(hit: row.hit, studyCount: row.studyCount, accent: substance.category.color)
+                if row.id != model.pkRoutes.last?.id { Divider() }
             }
         }
         .padding(.vertical, 4)

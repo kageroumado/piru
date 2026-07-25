@@ -306,12 +306,24 @@ func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> 
 /// metrics (bioavailability/tmax/half-life/…), and the source + citation.
 struct PKRouteRow: View {
     let hit: SubstanceStore.PKRouteHit
+    /// How many distinct studies the table holds for this route. Shown beside
+    /// the route name when it's more than one, so a route backed by four
+    /// separate studies says so instead of showing only the winner's numbers as
+    /// if they were the whole record.
+    var studyCount: Int = 1
     let accent: Color
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(RouteOfAdministration.from(string: hit.route).localizedName)
-                .font(.subheadline.weight(.semibold))
+            HStack(spacing: 6) {
+                Text(RouteOfAdministration.from(string: hit.route).localizedName)
+                    .font(.subheadline.weight(.semibold))
+                if studyCount > 1 {
+                    Text("\(studyCount) studies", comment: "Count of PK studies behind one route")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
             if !metrics.isEmpty {
                 FlowLayout(spacing: 6) {
                     ForEach(metrics) { metric in

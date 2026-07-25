@@ -5423,6 +5423,8 @@ T = {
     # Substance-detail redesign, feedback round 3 (2026-07-24).
     "Log Now": ("立即记录", "立即記錄"),
     "All phases": ("全部阶段", "全部階段"),
+    # PK card: how many distinct studies stand behind one route (2026-07-25).
+    "%lld studies": ("%lld 项研究", "%lld 項研究"),
 }
 
 # Widget translations
@@ -5624,6 +5626,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "%lld studies",
         "No effect timeline for this substance and route.",
         "%@ stays active in your body long after %@ itself is gone.",
         "About %@× %@'s activity at the %@.",
