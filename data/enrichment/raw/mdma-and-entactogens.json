@@ -204,7 +204,7 @@
         "metabolite_name": "HHMA (3,4-dihydroxymethamphetamine)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1124/dmd.104.001180",
         "notes": "Primary O-demethylenation pathway. CYP2D6 catalyses the demethylenation that generates the catechol HHMA, which then forms reactive ortho-quinones that covalently bind and inactivate CYP2D6 — this is the mechanism-based inhibition."
       },
       {
@@ -212,7 +212,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HHMA",
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1016/s0006-2952(00)00284-7",
         "notes": "Minor contribution to demethylenation."
       },
       {
@@ -221,7 +221,7 @@
         "metabolite_name": "MDA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1124/dmd.108.021543",
         "notes": "Primary N-demethylation enzyme — produces active metabolite MDA. CYP2B6 contributes more than CYP2D6 to this pathway."
       },
       {
@@ -229,7 +229,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HMMA (4-hydroxy-3-methoxymethamphetamine)",
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1097/00007691-200404000-00009",
         "notes": "Methylates HHMA. HMMA is the major urinary metabolite."
       },
       {
@@ -237,7 +237,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HMMA-glucuronide, HMMA-sulfate",
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1097/00007691-200404000-00009",
         "notes": "Phase II conjugation of HMMA."
       }
     ],
@@ -344,7 +344,7 @@
       "doi:10.1111/j.1476-5381.2012.02145.x",
       "doi:10.1097/FTD.0b013e3181a8b626",
       "doi:10.1046/j.1365-2125.2000.00121.x",
-      "doi:10.1124/dmd.31.4.388",
+      "doi:10.1016/s0006-2952(00)00284-7",
       "doi:10.1038/s41386-024-01972-6",
       "pmid:12649569",
       "doi:10.3389/fgene.2012.00235",
@@ -439,7 +439,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HHA (3,4-dihydroxyamphetamine)",
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1016/j.toxlet.2009.06.866",
         "notes": "O-demethylenation. MDA, like MDMA, is also a mechanism-based inhibitor of CYP2D6."
       },
       {
@@ -447,7 +447,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": null,
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1016/j.toxlet.2009.06.866",
         "notes": "Minor contribution."
       }
     ],
@@ -643,7 +643,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "MDA (N-deethylation gives MDA-like metabolite), HHEA",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1016/s0006-2952(00)00284-7",
         "notes": "N-deethylation yields MDA. O-demethylenation analogous to MDMA."
       }
     ],
@@ -693,7 +693,7 @@
     "notes": "N-ethyl substitution markedly reduces DA-releasing activity vs MDMA — explains the colder, less reinforcing, more 'pure empathogen' subjective profile users report. Was briefly used in early MDMA-assisted psychotherapy when MDMA was scheduled.",
     "references_consulted": [
       "doi:10.1111/j.1476-5381.2012.02145.x",
-      "doi:10.1124/dmd.31.4.388",
+      "doi:10.1016/s0006-2952(00)00284-7",
       "pmid:11071027"
     ]
   },
@@ -828,7 +828,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "S-MDA, S-HHMA",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1124/dmd.108.021543",
         "notes": "Stereoselectively faster metabolism than R-enantiomer."
       }
     ],
@@ -965,7 +965,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "R-MDA, R-HHMA",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.31.4.388",
+        "reference": "doi:10.1124/dmd.108.021543",
         "notes": "Slower than S-enantiomer."
       }
     ],
@@ -5203,7 +5203,7 @@
       "doi:10.1111/j.1476-5381.2012.02145.x",
       "doi:10.1097/FTD.0b013e3181a8b626",
       "doi:10.1046/j.1365-2125.2000.00121.x",
-      "doi:10.1124/dmd.31.4.388",
+      "doi:10.1016/s0006-2952(00)00284-7",
       "doi:10.1038/s41386-024-01972-6",
       "doi:10.1038/s41386-025-02248-3",
       "pmid:12649569",
