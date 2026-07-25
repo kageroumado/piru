@@ -84,7 +84,7 @@ struct IsomerFormTests {
     @Test
     func `Ketamine loads its enantiomers from the bundled DB`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let ketamine = try #require(store.lookup("Ketamine"))
         let isomers = Set(ketamine.availableIsomers)
@@ -99,7 +99,7 @@ struct IsomerFormTests {
     @Test
     func `Methylphenidate folds Dexmethylphenidate as its D form`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let mph = try #require(store.lookup("Methylphenidate"))
         #expect(mph.availableIsomers.contains("D"))
@@ -109,7 +109,7 @@ struct IsomerFormTests {
     @Test
     func `A single-isomer substance exposes no isomer axis`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let caffeine = try #require(store.lookup("Caffeine"))
         #expect(caffeine.availableIsomers.isEmpty)

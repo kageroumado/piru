@@ -12,8 +12,7 @@ import Testing
 /// The cache prewarm is disabled — a short-lived test instance shouldn't pay
 /// the detached full-library batch resolve it never reads.
 ///
-/// Callers own cleanup: remove the returned `tempDir` when done, e.g.
-/// `defer { try? FileManager.default.removeItem(at: tempDir) }`.
+/// Callers own cleanup: `defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }`.
 @MainActor
 func makeIsolatedSubstanceStore() throws -> (store: SubstanceStore, tempDir: URL) {
     let tempDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
@@ -29,4 +28,18 @@ func makeIsolatedSubstanceStore() throws -> (store: SubstanceStore, tempDir: URL
         prewarmsAllCache: false,
     )
     return (store, tempDir)
+}
+
+/// Tear down a store from ``makeIsolatedSubstanceStore()``: close its SQLite
+/// connection *first*, then delete the temp directory.
+///
+/// Order matters. Deleting the directory with the connection still open unlinks
+/// a file SQLite is holding, which it reports as `BUG IN CLIENT OF
+/// libsqlite3.dylib: vnode unlinked while in use` — roughly twenty times per
+/// full test run. Harmless in practice (the tests pass either way) but it is a
+/// genuine API violation, and it buried the real signal in the test log.
+@MainActor
+func tearDownIsolatedSubstanceStore(_ store: SubstanceStore, tempDir: URL) {
+    store.closeUserPrefsForTesting()
+    try? FileManager.default.removeItem(at: tempDir)
 }

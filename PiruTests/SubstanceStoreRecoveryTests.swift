@@ -89,7 +89,7 @@ struct SubstanceStoreRecoveryTests {
     @Test
     func `A warm categorySummary() read re-fires observation when source priority changes`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         // Warm the cache (it is @ObservationIgnored — the read of enabledSourceOrder
         // inside the getter is the only thing that should register a dependency).
@@ -113,7 +113,7 @@ struct SubstanceStoreRecoveryTests {
     @Test
     func `A warm lookup() (resolveSubstance path) re-fires observation when source priority changes`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let name = try #require(store.allNames.first)
         _ = store.lookup(name) // warm resolvedCache

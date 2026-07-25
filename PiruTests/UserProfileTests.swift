@@ -254,7 +254,7 @@ struct SourcePriorityTests {
     @MainActor
     func `Reordering changes enabledSourceOrder and clears resolved cache`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let originalOrder = store.enabledSourceOrder
         guard originalOrder.count >= 2 else { return }
@@ -267,7 +267,7 @@ struct SourcePriorityTests {
     @MainActor
     func `Disabling a source removes it from enabledSourceOrder`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let original = store.enabledSourceOrder
         guard let toDisable = original.last else { return }

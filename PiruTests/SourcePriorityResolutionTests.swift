@@ -15,7 +15,7 @@ struct SourcePriorityResolutionTests {
     @MainActor
     func `Reordering changes the resolved category source`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
         let original = store.enabledSourceOrder
 
         // Find a substance whose category disagrees across sources — that's
@@ -40,7 +40,7 @@ struct SourcePriorityResolutionTests {
     @MainActor
     func `Disabled source never appears in resolved provenance`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.setSource("tripsit", enabled: false)
         let prov = store.provenance(forSubstanceName: "Caffeine")
@@ -66,7 +66,7 @@ struct FreeODLocaleResolutionTests {
     @MainActor
     func `Chinese app shows native FreeOD overview`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.languageOverride = .zhHans
         let overview = try #require(store.lookup("MDMA")?.overview)
@@ -78,7 +78,7 @@ struct FreeODLocaleResolutionTests {
     @MainActor
     func `English app shows authentic English overview, never raw Chinese`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.languageOverride = .en
         // MDMA has authentic PsychonautWiki lead prose, so the English overview
@@ -95,7 +95,7 @@ struct FreeODLocaleResolutionTests {
     @MainActor
     func `English overview for a FreeOD-only substance is flagged machine-translated`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.languageOverride = .en
         // 3-Me-PCP is a research chemical PsychonautWiki doesn't cover, so its
@@ -111,7 +111,7 @@ struct FreeODLocaleResolutionTests {
     @MainActor
     func `Authentic PsychonautWiki overview is attributed to PW, not FreeOD`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.languageOverride = .en
         // Methamphetamine's FreeOD page is Chinese-titled, but the English text
@@ -126,7 +126,7 @@ struct FreeODLocaleResolutionTests {
     @MainActor
     func `Chinese subjective effects are native zh`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         store.languageOverride = .zhHans
         let effects = store.lookup("MDMA")?.subjectiveEffects ?? []
@@ -138,7 +138,7 @@ struct FreeODLocaleResolutionTests {
     @MainActor
     func `Flat effects are localized via the controlled vocabulary`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         // Caffeine's effects come from English-only sources, yet a zh user must
         // still see translated labels — the Stage 2 controlled-vocabulary payoff

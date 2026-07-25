@@ -97,6 +97,16 @@ final class SubstanceStore {
     let substancesBatchDB: DatabaseQueue
     private let userPrefsDB: DatabaseQueue
 
+    #if DEBUG
+        /// Close the user-prefs connection so a test can delete its temp directory
+        /// without unlinking a file SQLite still holds open (`BUG IN CLIENT OF
+        /// libsqlite3.dylib: vnode unlinked while in use`). Unusable afterwards —
+        /// teardown only, last.
+        func closeUserPrefsForTesting() {
+            try? userPrefsDB.close()
+        }
+    #endif
+
     /// Ordered list of enabled source slugs (highest priority first). Re-read
     /// on every priority change. Bundled defaults seed the user DB on first
     /// launch.

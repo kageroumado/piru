@@ -50,7 +50,7 @@ struct SubstanceProvenanceTests {
     @MainActor
     func `Provenance follows source-priority order`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
         let originalOrder = store.enabledSourceOrder
 
         // Push tripsit to the top; ask Caffeine; record the dose source.

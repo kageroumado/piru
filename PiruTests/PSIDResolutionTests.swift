@@ -12,7 +12,7 @@ struct PSIDResolutionTests {
     @Test
     func `Substances load a well-formed PSID FAMILY`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         let ketamine = try #require(store.lookup("Ketamine"))
         let uid = try #require(ketamine.substanceUID, "Ketamine should carry a substance_uid")
@@ -22,7 +22,7 @@ struct PSIDResolutionTests {
     @Test
     func `A folded family folds to one row exposing its isomers`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         // Stage A folds Ketamine / Esketamine / Arketamine into ONE row: the
         // enantiomer names resolve to Ketamine's FAMILY via alias, and Ketamine
@@ -40,7 +40,7 @@ struct PSIDResolutionTests {
     @Test
     func `Forward name→uid and reverse uid→members agree`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         // A folded family is one row: the enantiomer alias resolves to the
         // racemate's FAMILY, and the reverse uid→rows lookup returns just that row.
@@ -58,7 +58,7 @@ struct PSIDResolutionTests {
     @Test
     func `A release-form brand resolves to its parent plus a release facet`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         // Stage B: brands are aliases of their parent (there is no separate XR row),
         // so the facet is what carries "which form" — and only the names that
@@ -75,7 +75,7 @@ struct PSIDResolutionTests {
     @Test
     func `Form titles come composed from the build, across both axes`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         #expect(store.formTitle(forNameOrAlias: "Methylphenidate") == "Methylphenidate")
         #expect(store.formTitle(forNameOrAlias: "Concerta") == "Methylphenidate XR")
@@ -88,7 +88,7 @@ struct PSIDResolutionTests {
     @Test
     func `An unknown name or uid resolves to nothing`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
 
         #expect(store.substanceUID(forNameOrAlias: "not-a-real-substance-xyz") == nil)
         #expect(store.substances(uid: "ZZZZZZZZZZZZZZ").isEmpty)
