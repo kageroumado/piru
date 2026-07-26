@@ -7947,21 +7947,31 @@ class Build:
         — data that never ships cannot leak into ingest or the effect models.
         Runs AFTER classify_compounds so display_class is final.
         """
-        # Salt-tagged rows survive, for the same reason ``strip_medical_rx_doses``
-        # spares them: a family can be medical_rx at the parent while carrying an
-        # OTC or supplement salt with a legitimate ladder the salt picker needs
-        # (Lithium is medical_rx; lithium orotate is a supplement).
+        # Salt rows are NOT spared here, unlike in ``strip_medical_rx_doses``.
+        # That exemption exists so a supplement salt keeps its ladder under an Rx
+        # parent, but the only case it actually protects is lithium — and lithium
+        # has no recreational or supplemental use worth dosing: carbonate is the
+        # prescription form and orotate is the same ion at a lower dose. A
+        # narrow-therapeutic-index drug is the last thing that should carry a
+        # dose ladder here. Magnesium and the other salt families are OTC, so
+        # this pass never reaches them.
         rows = self.cur.execute(
             """DELETE FROM dose_ranges
-                WHERE dose_context = 'therapeutic' AND salt_form IS NULL
+                WHERE dose_context = 'therapeutic'
                   AND substance_id IN (SELECT id FROM substances
                                         WHERE display_class IN ('medical_rx','dual_use'))"""
         ).rowcount
+        # Titration schedules go by REGULATORY STATUS, not display_class. A
+        # prescriber's schedule for a scheduled medicine is the sharpest form of
+        # medical advice; a research peptide's self-administration protocol is
+        # not, and it is often the only dosing information that compound has.
+        # BPC-157 is display_class='medical_rx' with no regulatory status at all
+        # — using display_class here deleted its protocol and the feature with it.
         protocols = self.cur.execute(
             """DELETE FROM protocol_dosing
                 WHERE salt_form IS NULL
                   AND substance_id IN (SELECT id FROM substances
-                                        WHERE display_class IN ('medical_rx','dual_use'))"""
+                                        WHERE regulatory_status IN ('rx','rx_otc_dependent'))"""
         ).rowcount
         return {"dose_rows": rows, "protocol_rows": protocols}
 

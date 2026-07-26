@@ -61,14 +61,15 @@ struct SubstanceResolverTests {
     }
 
     @Test
-    func `Lithium resolves Carbonate and Orotate with curated ranges`() {
+    func `Lithium resolves with no dose ladder and no salt forms`() {
         guard let li = SubstanceStore.shared.lookup("Lithium") else {
             Issue.record("Lithium missing from bundled DB")
             return
         }
-        #expect(Set(li.availableSaltForms) == ["Carbonate", "Orotate"])
-        #expect(li.doseRange(for: .oral, saltForm: "Carbonate")?.common == 600 ... 900)
-        #expect(li.doseRange(for: .oral, saltForm: "Orotate")?.common == 125 ... 250)
+        // Prescription-only: the build strips the ladder, and salt forms derive
+        // from dose rows, so both go. See SaltFormTests for the full rationale.
+        #expect(li.availableSaltForms.isEmpty)
+        #expect(li.doseRange(for: .oral, saltForm: "Carbonate") == nil)
     }
 
     @Test

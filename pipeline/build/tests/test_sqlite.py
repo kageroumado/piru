@@ -1016,10 +1016,11 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
     def test_salt_families_folded_with_per_salt_ladders(self):
         """Salt folding (Part A) collapses variants into a shared parent whose
         dose ladders are tagged by `salt_form`, and leaves no orphan variant."""
-        for parent, salts in (
-            ("Magnesium", {"Citrate", "Glycinate", "L-Threonate"}),
-            ("Lithium", {"Carbonate", "Orotate"}),
-        ):
+        # Lithium is deliberately absent: it folds like any salt family, but as a
+        # prescription drug it ships no dose ladder at all, so there are no
+        # salt-tagged dose rows to find. Its folding is covered by
+        # ``test_salt_variant_orphans_absent``.
+        for parent, salts in (("Magnesium", {"Citrate", "Glycinate", "L-Threonate"}),):
             prow = self.db.execute(
                 "select id from substances where canonical_name=?", (parent,)
             ).fetchone()
@@ -1194,7 +1195,9 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         """salt_rank encodes the curated default (rank 0): Magnesium → Glycinate,
         Lithium → Carbonate. Loader reads this in WS-2b; the column is populated
         now so the intent ships with the DB."""
-        for parent, expected_default in (("Magnesium", "Glycinate"), ("Lithium", "Carbonate")):
+        # Lithium dropped: no dose rows survive for it to rank (see
+        # ``suppress_therapeutic_doses``).
+        for parent, expected_default in (("Magnesium", "Glycinate"),):
             row = self.db.execute(
                 "select d.salt_form from dose_ranges d "
                 "join substances s on s.id=d.substance_id "
@@ -1231,12 +1234,9 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "where s.canonical_name='Magnesium' and d.salt_form='Citrate'"
         ).fetchone()["f"]
         self.assertAlmostEqual(mg_citrate, 0.16, places=2)
-        li_carbonate = self.db.execute(
-            "select elemental_fraction f from dose_ranges d "
-            "join substances s on s.id=d.substance_id "
-            "where s.canonical_name='Lithium' and d.salt_form='Carbonate'"
-        ).fetchone()["f"]
-        self.assertAlmostEqual(li_carbonate, 0.188, places=3)
+        # Lithium carbonate used to be the second pinned value; it ships no dose
+        # row now (prescription-only), so the range invariant below carries the
+        # rest of the check.
         for r in self.db.execute(
             "select elemental_fraction f from dose_ranges where elemental_fraction is not null"
         ):
@@ -1252,6 +1252,16 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         ).fetchone()["c"]
         self.assertEqual(n, 0, "salt-tagged Mg/Li acute durations should have been removed")
 
+    def test_lithium_ships_no_dose_ladder(self):
+        """Lithium is prescription-only with a narrow therapeutic index; it must
+        carry no dose ladder, salt-tagged or otherwise. It is the one substance
+        the salt exemption used to protect, so this is the regression guard."""
+        n = self.db.execute(
+            "select count(*) from dose_ranges d join substances s on s.id=d.substance_id "
+            "where s.canonical_name='Lithium'"
+        ).fetchone()[0]
+        self.assertEqual(n, 0, "Lithium must ship no dose ladder")
+
     def test_salt_dose_values_unchanged(self):
         """The metadata/audit passes must not perturb any salt dose value the app
         tests pin (SaltFormTests). Lock the common ranges here too."""
@@ -1259,8 +1269,6 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ("Magnesium", "Citrate"): (400.0, 600.0),
             ("Magnesium", "Glycinate"): (200.0, 400.0),
             ("Magnesium", "L-Threonate"): (1500.0, 2000.0),
-            ("Lithium", "Carbonate"): (600.0, 900.0),
-            ("Lithium", "Orotate"): (125.0, 250.0),
         }
         for (parent, salt), (lo, hi) in expected.items():
             row = self.db.execute(

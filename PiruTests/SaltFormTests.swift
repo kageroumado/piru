@@ -116,15 +116,19 @@ struct SaltFormTests {
 
     @Test
     @MainActor
-    func `Lithium loads Carbonate and Orotate from the bundled DB`() {
+    func `Lithium ships no dose ladder, so it offers no salt forms`() {
         guard let li = SubstanceStore.shared.lookup("Lithium") else {
             Issue.record("Lithium missing from bundled DB")
             return
         }
-        #expect(Set(li.availableSaltForms) == ["Carbonate", "Orotate"])
-        #expect(li.defaultSaltForm == "Carbonate")
-        #expect(li.doseRange(for: .oral, saltForm: "Carbonate")?.common == 600 ... 900)
-        #expect(li.doseRange(for: .oral, saltForm: "Orotate")?.common == 125 ... 250)
+        // Lithium is prescription-only with a narrow therapeutic index, so the
+        // build strips its ladder (see `suppress_therapeutic_doses`). Salt forms
+        // are derived FROM dose rows, so the Carbonate/Orotate picker goes with
+        // them — a known consequence, not an accident. Magnesium carries the
+        // salt-picker coverage this test used to provide.
+        #expect(li.availableSaltForms.isEmpty)
+        #expect(li.doseRange(for: .oral, saltForm: "Carbonate") == nil)
+        #expect(li.doseRange(for: .oral, saltForm: "Orotate") == nil)
     }
 
     @Test

@@ -36013,6 +36013,22 @@
         }
       }
     },
+    "Recreational doses — not a prescribed amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "娱乐用剂量——并非处方用量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "娛樂用劑量——並非處方用量。"
+          }
+        }
+      }
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {

@@ -711,10 +711,24 @@ struct DoseVariant: Codable, Hashable {
     }
 }
 
+/// Which dosing regime a ladder describes. Several compounds have both, and the
+/// two differ by multiples — quetiapine's clinical range is 150–750 mg while its
+/// recreational one is 50–150 — so a number shown without its regime can be read
+/// as the wrong kind of dose entirely.
+enum DoseContext: String, Codable {
+    case therapeutic
+    case recreational
+    case unknown
+}
+
 struct SubstanceRoute: Codable {
     let route: RouteOfAdministration
     let unit: String
     let doses: DoseRange
+    /// The regime `doses` describes. Prescription and dual-use compounds ship
+    /// only their recreational ladder (the build strips therapeutic ones), and
+    /// the card labels it so it is never mistaken for a clinical dose.
+    let doseContext: DoseContext
     let duration: DurationProfile?
     /// Clinical-protocol dosing (peptides/Rx). When present the UI shows this
     /// instead of the `doses` trip-intensity ladder.
@@ -735,6 +749,7 @@ struct SubstanceRoute: Codable {
         route: RouteOfAdministration,
         unit: String,
         doses: DoseRange,
+        doseContext: DoseContext = .unknown,
         duration: DurationProfile? = nil,
         protocolDosing: ProtocolDosing? = nil,
         durationOfAction: DurationOfAction? = nil,
@@ -743,6 +758,7 @@ struct SubstanceRoute: Codable {
         self.route = route
         self.unit = unit
         self.doses = doses
+        self.doseContext = doseContext
         self.duration = duration
         self.protocolDosing = protocolDosing
         self.durationOfAction = durationOfAction

@@ -21,6 +21,10 @@ struct DoseDurationCard: View {
     var elementalFraction: Double?
     var showsDoseLadder = true
     var showsDuration = true
+    /// When `.recreational`, the ladder is badged as such. Set only for compounds
+    /// that also have a clinical dose (see the caller) — elsewhere every ladder is
+    /// recreational and saying so adds nothing.
+    var regimeLabel: DoseContext = .unknown
     var accent: Color = Theme.accent
 
     /// Tier the user tapped in the strip, overriding the model's reference tier.
@@ -79,6 +83,8 @@ struct DoseDurationCard: View {
                 withAnimation(.snappy(duration: 0.18)) { tappedTierID = id }
             }
 
+            if regimeLabel == .recreational { regimeBadge }
+
             if let elementalFraction {
                 Label {
                     Text("\(Int((elementalFraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")
@@ -91,6 +97,19 @@ struct DoseDurationCard: View {
 
             disclaimer(for: doses)
         }
+    }
+
+    /// Names the regime for a compound that has two of them, so a number is not
+    /// mistaken for the clinical dose someone was prescribed.
+    private var regimeBadge: some View {
+        Label {
+            Text("Recreational doses — not a prescribed amount")
+        } icon: {
+            Image(systemName: "person.fill.questionmark").imageScale(.small)
+        }
+        .font(.caption)
+        .foregroundStyle(Theme.secondaryLabel)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder

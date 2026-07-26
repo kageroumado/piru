@@ -3300,6 +3300,10 @@ T = {
         "由分子结构计算得出（PubChem、NPS-DataHub），非实验室实测值。",
         "由分子結構計算得出（PubChem、NPS-DataHub），非實驗室實測值。",
     ),
+    "Recreational doses — not a prescribed amount": (
+        "娱乐用剂量——并非处方用量。",
+        "娛樂用劑量——並非處方用量。",
+    ),
     "LD50 is rodent toxicity (order of magnitude) — not a human safe dose.": (
         "LD50 为啮齿动物毒性（数量级参考），并非人体安全剂量。",
         "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。",
@@ -5631,6 +5635,7 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
         "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",
+        "Recreational doses — not a prescribed amount",
         "%lld studies",
         "No effect timeline for this substance and route.",
         "%@ stays active in your body long after %@ itself is gone.",

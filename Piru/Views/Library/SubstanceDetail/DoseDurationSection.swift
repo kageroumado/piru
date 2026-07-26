@@ -134,6 +134,13 @@ struct DoseDurationSection: View {
                     elementalFraction: salt?.elementalFraction,
                     showsDoseLadder: routes.showsDoseLadder,
                     showsDuration: routes.durationVisible,
+                    // Only worth saying on a compound that ALSO has a clinical
+                    // dose — for a purely recreational substance every ladder is
+                    // recreational and the label is noise. Here it stops a
+                    // quetiapine or mirtazapine figure being read as the dose
+                    // someone was prescribed.
+                    regimeLabel: substance.displayClass == .dualUse || substance.displayClass == .medicalRx
+                        ? route.doseContext : .unknown,
                     accent: substance.category.color,
                 )
                 .listRowSeparator(.hidden)
