@@ -32,13 +32,13 @@
       "route": "intramuscular",
       "unit": "mg",
       "doses": {
-        "threshold": 400,
+        "threshold": 300,
         "light": {
           "lower": 300,
-          "upper": 400
+          "upper": 300
         },
         "common": {
-          "lower": 400,
+          "lower": 300,
           "upper": 400
         },
         "strong": {

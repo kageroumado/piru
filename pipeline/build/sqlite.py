@@ -3908,6 +3908,16 @@ class Build:
         if not route:
             return
 
+        # A dose row with no tier at all says nothing. It renders as an empty
+        # ladder that reads sub-threshold, and it blocks the legitimate curated
+        # shape of "this route has durations but no attributable dose". Every
+        # ingester produced these (24 shipped from drug.community alone, plus
+        # Epitalon's curated `"doses": {}`), so the guard belongs here at the
+        # single choke point rather than at each call site.
+        if all(v is None for v in (threshold, light, common, strong, heavy)):
+            self.stats["dropped_empty_dose"] = self.stats.get("dropped_empty_dose", 0) + 1
+            return
+
         # Reject ambiguous unit strings. Sources occasionally store dose-row
         # units as "mg (weighed) or µg (weighed)" or "mg (or mcg)" — the
         # numeric tier values then become unintelligible since they could be
@@ -4956,6 +4966,8 @@ class Build:
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
+            # An empty `doses` block is fine here — `add_dose` drops a row with
+            # no tiers, so a curated route can carry durations alone.
             self.add_dose(
                 sid,
                 slug,

@@ -5,28 +5,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 25,
-        "light": {
-          "lower": 35,
-          "upper": 75
-        },
-        "common": {
-          "lower": 75,
-          "upper": 125
-        },
-        "strong": {
-          "lower": 125,
-          "upper": 200
-        },
-        "heavy": 250
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Methcathinone homolog — longer alkyl chain",
     "Empathogenic stimulant effects",

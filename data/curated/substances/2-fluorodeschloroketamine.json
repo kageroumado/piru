@@ -13,20 +13,20 @@
       "route": "insufflation",
       "unit": "mg",
       "doses": {
-        "threshold": 20,
+        "threshold": 5,
         "light": {
-          "lower": 40,
-          "upper": 75
+          "lower": 10,
+          "upper": 45
         },
         "common": {
-          "lower": 75,
-          "upper": 150
+          "lower": 45,
+          "upper": 100
         },
         "strong": {
-          "lower": 150,
-          "upper": 200
+          "lower": 100,
+          "upper": 175
         },
-        "heavy": 250
+        "heavy": 175
       },
       "duration": {
         "onset": {

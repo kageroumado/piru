@@ -6,28 +6,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 30,
-        "light": {
-          "lower": 50,
-          "upper": 100
-        },
-        "common": {
-          "lower": 100,
-          "upper": 150
-        },
-        "strong": {
-          "lower": 150,
-          "upper": 250
-        },
-        "heavy": 300
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "MDMA-substitute cathinone — much less empathogenic, more stimulating",
     "Linked to fatalities when sold as MDMA",

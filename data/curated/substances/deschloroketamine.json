@@ -13,20 +13,20 @@
       "route": "insufflation",
       "unit": "mg",
       "doses": {
-        "threshold": 10,
+        "threshold": 5,
         "light": {
-          "lower": 20,
-          "upper": 40
+          "lower": 10,
+          "upper": 15
         },
         "common": {
-          "lower": 40,
-          "upper": 100
+          "lower": 15,
+          "upper": 25
         },
         "strong": {
-          "lower": 100,
-          "upper": 150
+          "lower": 25,
+          "upper": 40
         },
-        "heavy": 200
+        "heavy": 40
       },
       "duration": {
         "onset": {
@@ -51,20 +51,20 @@
       "route": "oral",
       "unit": "mg",
       "doses": {
-        "threshold": 25,
+        "threshold": 10,
         "light": {
-          "lower": 50,
-          "upper": 75
+          "lower": 10,
+          "upper": 20
         },
         "common": {
-          "lower": 75,
-          "upper": 200
+          "lower": 20,
+          "upper": 30
         },
         "strong": {
-          "lower": 200,
-          "upper": 300
+          "lower": 30,
+          "upper": 50
         },
-        "heavy": 350
+        "heavy": 50
       },
       "duration": {
         "onset": {

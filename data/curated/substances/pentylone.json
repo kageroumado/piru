@@ -5,28 +5,7 @@
   ],
   "category": "Stimulant",
   "defaultRoute": "insufflation",
-  "routes": [
-    {
-      "route": "insufflation",
-      "unit": "mg",
-      "doses": {
-        "threshold": 15,
-        "light": {
-          "lower": 25,
-          "upper": 50
-        },
-        "common": {
-          "lower": 50,
-          "upper": 100
-        },
-        "strong": {
-          "lower": 100,
-          "upper": 150
-        },
-        "heavy": 200
-      }
-    }
-  ],
+  "routes": [],
   "effects": [
     "Long-lasting MDPV-like stimulant",
     "Strong reuptake inhibition — compulsive redose risk",
