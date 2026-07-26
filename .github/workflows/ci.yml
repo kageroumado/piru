@@ -44,6 +44,8 @@ jobs:
         run: python3 pipeline/build/tests/test_dedupe.py
       - name: No duplicated values in the shipped DB
         run: python3 pipeline/audit/dedup_check.py --gate
+      - name: No fabricated or unverified citations
+        run: python3 pipeline/audit/verify_citations.py --offline --gate
 
   swift-lint:
     name: Swift (format + lint)

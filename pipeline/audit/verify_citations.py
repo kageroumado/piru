@@ -458,13 +458,25 @@ def main() -> int:
         args.json.write_text(json.dumps(records, indent=1) + "\n")
         print(f"\nfull result → {args.json}")
 
-    if args.gate and buckets.get("UNRESOLVED"):
-        print(
-            f"\nverify-citations: FAILED — {len(buckets['UNRESOLVED'])} citation(s) "
-            "resolve to nothing",
-            file=sys.stderr,
-        )
-        return 1
+    if args.gate:
+        failures = []
+        if buckets.get("UNRESOLVED"):
+            failures.append(f"{len(buckets['UNRESOLVED'])} citation(s) resolve to nothing")
+        # An identifier missing from the cache has never been checked by
+        # anyone. CI runs --offline, so without this a newly-added fabricated
+        # DOI passes simply by being new — which is the hole this whole audit
+        # came through. Re-run `verify_citations.py` (network) and commit the
+        # refreshed cache to clear it.
+        if buckets.get("UNCHECKED"):
+            failures.append(
+                f"{len(buckets['UNCHECKED'])} citation(s) never verified — run "
+                "`python3 pipeline/audit/verify_citations.py` and commit "
+                "data/sources/citation-verify-cache.json"
+            )
+        if failures:
+            for line in failures:
+                print(f"\nverify-citations: FAILED — {line}", file=sys.stderr)
+            return 1
     return 0
 
 
