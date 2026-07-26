@@ -97,6 +97,54 @@ LINK_CACHE = REPO / "data/sources/link-cache.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 
+#: Which dosing regime a source's dose ladders describe. Several substances have
+#: both a clinical and a recreational regime and they are different quantities —
+#: quetiapine 150-750 mg (schizophrenia label) vs 50-150 mg (recreational). Left
+#: unlabelled, the two read as sources contradicting each other.
+#:
+#: The split is by source because it is a property of what each source publishes:
+#: the curated layer and the drug databases transcribe labels; the community wikis
+#: document what people take. `drug.community` is genuinely mixed — its rows quote
+#: label dosing for medications and recreational figures for everything else — so
+#: it defaults to unknown rather than guessing in either direction.
+DOSE_CONTEXT_BY_SOURCE: dict[str, str] = {
+    "piru-curated": "therapeutic",
+    "dailymed": "therapeutic",
+    "pyrls": "therapeutic",
+    "medtap": "therapeutic",
+    "dea-orange-book": "therapeutic",
+    "psychonautwiki": "recreational",
+    "tripsit": "recreational",
+    "freeodwiki": "recreational",
+    "erowid-pihkal": "recreational",
+    "erowid-tihkal": "recreational",
+    "nps-datahub": "recreational",
+    "benzos-cited": "recreational",
+}
+
+#: Prose that betrays a label/clinical regime regardless of which source carried
+#: the row — drug.community's mirtazapine notes say "Label dosing for depression
+#: is typically 15-45 mg nightly", which is a therapeutic ladder no matter who
+#: published it.
+_THERAPEUTIC_NOTE_MARKERS = (
+    "label dosing",
+    "product labeling",
+    "prescriber",
+    "maximum daily dose",
+    "titrate",
+    "do not exceed",
+)
+
+
+def dose_context_for(source_slug: str, route: str, notes: str | None) -> str:
+    """Which regime this ladder describes. Notes win over the source default."""
+    if notes:
+        lowered = notes.lower()
+        if any(marker in lowered for marker in _THERAPEUTIC_NOTE_MARKERS):
+            return "therapeutic"
+    return DOSE_CONTEXT_BY_SOURCE.get(source_slug, "unknown")
+
+
 # External datasource extractions (Substance-shaped JSON with x_* extension
 # fields). Produced out-of-repo by pipeline/fetch/brushers/extract.py from the
 # raw files in ~/Developer/piru-datasources. Kept out of the repo by design —
@@ -701,6 +749,19 @@ CREATE TABLE dose_ranges (
     -- "Esketamine", "Armodafinil") — distinct from the bare code above, which is not
     -- presentable. NULL for racemate/unspecified rows. Sourced from isomer-families.json.
     isomer_display_name TEXT,
+    -- Which dosing regime this ladder describes: 'therapeutic' (a label/clinical
+    -- dose), 'recreational', or 'unknown'. Several substances have BOTH and they
+    -- are wildly different quantities — quetiapine's clinical range is 150-750 mg
+    -- while its recreational one is 50-150 — so without this the two look like
+    -- sources contradicting each other, and the audit flags honest data as an
+    -- outlier. Comparison (cross-source, cross-route) is only meaningful WITHIN
+    -- one context.
+    --
+    -- It also drives a shipping rule: therapeutic ladders are not shown for
+    -- prescription medications, because a dose range next to a user's logged dose
+    -- reads as medical advice. See `THERAPEUTIC_DOSE_POLICY` below.
+    dose_context  TEXT NOT NULL DEFAULT 'unknown'
+                  CHECK (dose_context IN ('therapeutic','recreational','unknown')),
     citation_id   INTEGER REFERENCES citations(id),
     UNIQUE (substance_id, route, source_id, salt_form, isomer)
 );
@@ -4001,7 +4062,7 @@ class Build:
 
         try:
             self.cur.execute(
-                "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, salt_form, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, salt_form, dose_context, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     sid,
                     route,
@@ -4017,6 +4078,7 @@ class Build:
                     h,
                     notes,
                     salt_form,
+                    dose_context_for(source_slug, route, notes),
                     self.cite(citation),
                 ),
             )
@@ -7806,6 +7868,44 @@ class Build:
     # dose; only display_class='medical_rx' rows are stripped.
     _RX_DOSELESS_CATEGORIES = frozenset({"Antihistamine", "Anticonvulsant", "Antidepressant"})
 
+    def suppress_therapeutic_doses(self) -> dict[str, int]:
+        """Delete therapeutic dose ladders and titration schedules from
+        prescription and dual-use substances.
+
+        A dose range shown beside a user's logged dose reads as an instruction,
+        and for a prescription medication that is medical advice — which this app
+        does not give, and which App Store review treats as a category of its own.
+        A titration schedule is the sharpest form of it, so `protocol_dosing`
+        goes wholesale rather than by context.
+
+        Dual-use compounds (quetiapine, mirtazapine, trazodone…) keep their
+        RECREATIONAL ladder, which is what a person tracking a non-prescribed dose
+        actually needs; the app labels it as such so the number is never mistaken
+        for a clinical one. Verified at the time of writing: all 12 dual-use
+        substances retain a community ladder after this runs.
+
+        Deletes rather than hides, for the same reason as ``strip_medical_rx_doses``
+        — data that never ships cannot leak into ingest or the effect models.
+        Runs AFTER classify_compounds so display_class is final.
+        """
+        # Salt-tagged rows survive, for the same reason ``strip_medical_rx_doses``
+        # spares them: a family can be medical_rx at the parent while carrying an
+        # OTC or supplement salt with a legitimate ladder the salt picker needs
+        # (Lithium is medical_rx; lithium orotate is a supplement).
+        rows = self.cur.execute(
+            """DELETE FROM dose_ranges
+                WHERE dose_context = 'therapeutic' AND salt_form IS NULL
+                  AND substance_id IN (SELECT id FROM substances
+                                        WHERE display_class IN ('medical_rx','dual_use'))"""
+        ).rowcount
+        protocols = self.cur.execute(
+            """DELETE FROM protocol_dosing
+                WHERE salt_form IS NULL
+                  AND substance_id IN (SELECT id FROM substances
+                                        WHERE display_class IN ('medical_rx','dual_use'))"""
+        ).rowcount
+        return {"dose_rows": rows, "protocol_rows": protocols}
+
     def strip_medical_rx_doses(self) -> dict[str, int]:
         """Delete dose/duration rows from prescription (medical_rx) substances in
         _RX_DOSELESS_CATEGORIES. Runs AFTER classify_compounds so display_class is
@@ -8709,6 +8809,12 @@ def main() -> int:
     # keeps clinical doses out of the DB/ingest). OTC members keep their dose.
     rx_stripped = build.strip_medical_rx_doses()
     print(f"Medical-Rx dose strip: {rx_stripped}", file=sys.stderr)
+
+    # Broader than the category strip above: NO prescription or dual-use substance
+    # ships a therapeutic ladder or a titration schedule, whatever its category.
+    # Dual-use compounds keep their recreational ladder. Must follow classify.
+    therapeutic_suppressed = build.suppress_therapeutic_doses()
+    print(f"Therapeutic-dose suppression: {therapeutic_suppressed}", file=sys.stderr)
 
     # Re-flag dose-less stubs: the strip above just removed the last dose/duration
     # from the plain medical_rx rows, so `is_stub` must be recomputed to stay
