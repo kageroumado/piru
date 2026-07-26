@@ -9,7 +9,6 @@
     "sar_summary": "Core SAR axes for cathinones: (1) β-KETONE is the defining feature — adds polarity, reduces CNS penetration ~10× versus matched amphetamine, eliminates TAAR1 agonism. β-keto is reduced in vivo to β-hydroxy (cathine-like), an active metabolite. (2) N-SUBSTITUENT controls functional mechanism: H, CH3, C2H5 → substrate/releaser; PYRROLIDINE → pure reuptake inhibitor (cannot be transported). (3) α-ALKYL CHAIN LENGTH: methyl (mephedrone/methcathinone) gives ~equipotent DA/NE/5-HT release; ethyl (buphedrone) shifts toward DA selectivity and increases potency; propyl (pentedrone), butyl (hexedrone) progressively boost DAT potency at the cost of SERT. (4) RING SUBSTITUENT controls SERT engagement: unsubstituted gives DA-selective; 3-methyl (3-MMC) is still DAT-preferring; 4-methyl (mephedrone) shifts toward balanced DA/5-HT release; 4-methylenedioxy (methylone, MDPV) further increases SERT engagement for the substrates while killing SERT activity for the pyrrolidinophenones. 4-halogen (4-CMC/4-FMC/4-BMC/4F-MABP) mimics the SERT-shift of para-halogenated amphetamines and raises a serotonergic-neurotoxicity flag by analogy to PCA/4-CA. (5) AROMATIC EXTENSION — naphthyl (naphyrone) re-introduces SERT activity to the pyrrolidinophenone scaffold via a larger aromatic surface. (6) For pyrrolidinophenones, increasing α-alkyl chain from propyl (MDPPP, α-PPP) → butyl (MDPBP, α-PBP) → pentyl (MDPV, α-PVP) → hexyl (α-PHP, α-PiHP) monotonically increases DAT potency and lipophilicity, with α-PVP and α-PHP being the most potent pure DAT blockers in the class (sub-30-nM IC50).",
     "key_references": [
       "pmid:22897747",
-      "pmid:24275046",
       "pmid:26791601",
       "pmid:25502630",
       "pmid:34361040",
@@ -1233,7 +1232,7 @@
           "route": "oral",
           "half_life_min": 90,
           "subject_demographics": "Healthy khat-naive adults",
-          "reference": "pmid:8612379",
+          "reference": "pmid:12848785",
           "notes": "Toennes 2002 — t1/2 ~90 min from khat consumption; rapid hepatic clearance"
         }
       ],
@@ -1244,8 +1243,8 @@
         "enzyme": "carbonyl reductase",
         "metabolite_name": "norephedrine (β-keto reduction)",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 20,
-        "reference": "pmid:8612379",
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:12848785",
         "notes": "Primary metabolite is norephedrine; major reduction pathway"
       }
     ],
@@ -1263,7 +1262,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["hTAAR1 data (predicted negligible)"],
     "notes": "S-(-)-cathinone is the natural eutomer found in khat. Despite the (+)/(-) confusion in nomenclature, the natural S-isomer is laevorotatory (-), and the unnatural R-isomer is dextrorotatory (+). Input list naming may be inconsistent with actual stereochemistry.",
-    "references_consulted": ["pmid:22897747", "pmid:8612379", "pmid:14976302"]
+    "references_consulted": ["pmid:22897747", "pmid:14976302"]
   },
   {
     "name": "(−)-cathinone",
@@ -1334,12 +1333,6 @@
     },
     "human_pk": {
       "routes": [
-        {
-          "route": "oral",
-          "half_life_min": 240,
-          "reference": "pmid:8612379",
-          "notes": "Estimated t1/2 ~4 h from forensic data"
-        }
       ],
       "concentration_effect": []
     },
@@ -1348,7 +1341,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "ephedrine (β-keto reduction); ring-hydroxylated metabolites",
         "metabolite_active": true,
-        "reference": "pmid:8612379"
+        "reference": "pmid:33298381"
       }
     ],
     "drug_interactions_pk": [],
@@ -1373,7 +1366,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["controlled human PK", "hTAAR1 (predicted negligible)"],
     "notes": "Methcathinone is the cathinone analogue of methamphetamine. Critical clinical caveat: Russian/Eastern European users of street 'jeff' present with manganese parkinsonism from KMnO4 synthesis contamination, NOT from methcathinone itself.",
-    "references_consulted": ["pmid:14523190", "pmid:8612379", "pmid:18266875"]
+    "references_consulted": ["pmid:14523190", "pmid:18266875"]
   },
   {
     "name": "(+)-methcathinone",
@@ -1919,7 +1912,7 @@
         {
           "target": "DAT (release)",
           "action": "releasingAgent",
-          "species": "rat",
+          "species": "human",
           "reference": "pmid:24275046",
           "notes": "Simmler 2014 — 3-FMC is a non-selective substrate-releaser, like methcathinone but with slightly increased SERT engagement from m-F substitution"
         }
@@ -1954,7 +1947,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["specific IC50/EC50", "human PK"],
     "notes": "3-fluoro vs 4-fluoro (flephedrone): meta-fluoro is rarer in cathinones and slightly perturbs DA/SERT balance. Often confused with 4-FMC in analytical reports.",
-    "references_consulted": ["pmid:24275046", "pmid:30248994", "pmid:22359337"]
+    "references_consulted": ["pmid:30248994", "pmid:22359337"]
   },
   {
     "name": "2-FMC",
@@ -2033,7 +2026,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["human PK"],
     "notes": "Pentedrone is the non-pyrrolidine analogue of α-PVP — same α-propyl chain, but secondary amine instead of pyrrolidine. Same DAT blocker mechanism; lower potency than α-PVP because of the loss of the rigid pyrrolidine.",
-    "references_consulted": ["pmid:24275046"]
+    "references_consulted": []
   },
   {
     "name": "Buphedrone",
@@ -2071,7 +2064,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["specific IC50/EC50", "human PK"],
     "notes": "Buphedrone is the α-ethyl analogue of methcathinone — pivotal SAR position where substrate behavior gradually transitions to blocker behavior.",
-    "references_consulted": ["pmid:24275046"]
+    "references_consulted": []
   },
   {
     "name": "Hexedrone",
@@ -2213,8 +2206,8 @@
       "primary_targets": ["DAT","NET"],
       "binding": [
         {
-          "target": "DAT (release)",
-          "ec50_nm": 1100,
+          "target": "NET (release)",
+          "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
           "reference": "pmid:24275046",
@@ -2244,7 +2237,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["human PK"],
     "notes": "N-Ethylcathinone is the active metabolite of the FDA-approved anorectic diethylpropion (amfepramone). Parent drug is a prodrug.",
-    "references_consulted": ["pmid:24275046"]
+    "references_consulted": []
   },
   {
     "name": "N-Ethylcathinone",
@@ -3855,7 +3848,7 @@
     "confidence": "medium",
     "data_gaps_remaining": [],
     "notes": "Duplicate of 3-FMC. Often confused with 4-FMC (flephedrone) in analytical literature.",
-    "references_consulted": ["pmid:24275046"]
+    "references_consulted": []
   },
   {
     "name": "3-MEC",

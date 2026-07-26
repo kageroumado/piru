@@ -93,7 +93,7 @@
       "receptor_oligomerisation": [],
       "downstream_signalling": "Same as citalopram (SERT blockade → synaptic 5-HT rise). Allosteric self-potentiation produces a steeper occupancy-dose curve than the racemate.",
       "neuroimaging": [
-        {"modality": "PET", "finding": "10 mg/day escitalopram produces ~80% SERT occupancy (similar to 40 mg citalopram).", "reference": "doi:10.1038/sj.npp.1300735"}
+        {"modality": "SPECT ([123I]ADAM)", "finding": "10 mg/day escitalopram for 10 days produces 81.5 +/- 5.4% midbrain SERT occupancy at 6 h post-dose, significantly higher than citalopram 20 mg/day (64.0 +/- 12.7%); occupancy declines more slowly than plasma S-enantiomer levels (63.3% vs 49.0% still present at 54 h).", "reference": "pmid:17235610"}
       ]
     },
     "human_pk": {
@@ -135,7 +135,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Therapeutic exploitation of citalopram's SERT allosteric site is the canonical example of allosteric self-potentiation in clinical psychopharmacology.",
-    "references_consulted": ["pmid:15955412", "doi:10.1038/sj.npp.1300735"]
+    "references_consulted": ["pmid:15955412"]
   },
   {
     "name": "Fluoxetine",
@@ -172,7 +172,7 @@
     ],
     "drug_interactions_pk": [
       {"with": "CYP2D6 substrates (e.g. metoprolol, codeine, tamoxifen)", "mechanism": "CYP2D6 mechanism-based inhibition", "ki_um": 0.068, "clinical_effect": "Strong CYP2D6 inhibition persists 4-6 weeks after stopping due to long t1/2. Reduces tamoxifen → endoxifen conversion; phenocopies CYP2D6 PM.", "reference": "doi:10.3390/pharmaceutics13020148"},
-      {"with": "CYP3A4 substrates", "mechanism": "CYP3A4 inhibition (via norfluoxetine)", "ki_um": null, "clinical_effect": "Moderate inhibitor; raises levels of midazolam, alprazolam.", "reference": "doi:10.1124/dmd.30.3.314"}
+      {"with": "CYP3A4 substrates", "mechanism": "in-vitro CYP3A4 inhibition by norfluoxetine, offset in vivo by concurrent CYP3A4 induction and inhibitor-inhibitor interactions", "ki_um": null, "clinical_effect": "Not a clinically significant CYP3A4 inhibitor in vivo: 11 days of fluoxetine left alprazolam pharmacokinetics and the erythromycin breath test unchanged, and 2 weeks of fluoxetine left midazolam and lovastatin AUC unaffected. In-vitro CYP3A4 inhibition by fluoxetine/norfluoxetine does not translate; fluoxetine's clinically important interactions are at CYP2D6 and CYP2C19.", "reference": "pmid:14709940"}
     ],
     "pharmacogenetics": {
       "relevant_genes": ["CYP2D6", "CYP2C9"],
@@ -343,7 +343,7 @@
         {"target": "SERT", "ki_nm": 0.29, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hSERT-expressing cells", "radioligand_or_probe": "[3H]-5-HT uptake", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
         {"target": "DAT", "ki_nm": 25, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hDAT-expressing cells", "radioligand_or_probe": "[3H]-WIN35,428", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Sertraline is the only SSRI with clinically meaningful DAT affinity (~50× lower than SERT but still 10× higher than other SSRIs). Likely contributes to its activating profile and abuse-deterrent characteristics."},
         {"target": "NET", "ki_nm": 420, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hNET-expressing cells", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "sigma-1", "ki_nm": 31.6, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "inverseAgonist", "species": "human", "tissue_or_cell": "Jurkat membranes / PC12 cells", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "doi:10.1016/j.ejphar.2019.04.011", "is_review": false, "notes": "Sertraline acts as a sigma-1 inverse agonist (unlike fluvoxamine which is an agonist). Inhibits NGF-induced neurite outgrowth via sigma-1, suppresses hippocampal LTP at low μM."}
+        {"target": "sigma-1", "ki_nm": 31.6, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "rat", "tissue_or_cell": "rat brain membranes (binding); PC12 cells (neurite outgrowth)", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": "Sertraline acts as a sigma-1 inverse agonist (unlike fluvoxamine which is an agonist). Inhibits NGF-induced neurite outgrowth via sigma-1, suppresses hippocampal LTP at low μM."}
       ],
       "functional": [],
       "biased_agonism": [],
@@ -393,7 +393,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": null,
-    "references_consulted": ["pmid:9400006", "doi:10.1097/FPC.0000000000000378", "doi:10.1016/j.ejphar.2019.04.011"]
+    "references_consulted": ["pmid:9400006", "doi:10.1097/FPC.0000000000000378"]
   },
   {
     "name": "Mirtazapine",
@@ -692,7 +692,7 @@
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "MAO (self-inactivating substrate)", "fraction_of_clearance_pct": null, "metabolite_name": "β-phenylethylidenehydrazine (PEH)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.1016/j.ejphar.2014.04.014"},
+      {"enzyme": "MAO (self-inactivating substrate)", "fraction_of_clearance_pct": null, "metabolite_name": "β-phenylethylidenehydrazine (PEH)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:33839994"},
       {"enzyme": "N-acetyltransferase 2 (NAT2)", "fraction_of_clearance_pct": null, "metabolite_name": "N-acetylphenelzine", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "pmid:7088016"}
     ],
     "drug_interactions_pk": [
@@ -724,7 +724,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["quantitative human PK Cmax/Vd/AUC due to rapid metabolism and self-inactivation"],
     "notes": "Unique among MAOIs in possessing GABAergic and aldehyde-scavenging activity via its active metabolite PEH. The 'no-human-data' tag in source is incorrect — phenelzine has 60+ years of human clinical use (Nardil).",
-    "references_consulted": ["pmid:7931216", "doi:10.1016/j.ejphar.2014.04.014"]
+    "references_consulted": ["pmid:7931216"]
   },
   {
     "name": "Lithium orotate",
@@ -760,10 +760,10 @@
       ]
     },
     "metabolism": [
-      {"enzyme": "none (lithium ion is renally excreted unchanged)", "fraction_of_clearance_pct": 95, "metabolite_name": null, "metabolite_active": null, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.2165/00003088-200948060-00002"}
+      {"enzyme": "none (lithium ion is renally excreted unchanged)", "fraction_of_clearance_pct": 95, "metabolite_name": null, "metabolite_active": null, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:19374461"}
     ],
     "drug_interactions_pk": [
-      {"with": "NSAIDs", "mechanism": "Renal — reduced afferent arteriolar prostaglandin signalling reduces lithium clearance", "ki_um": null, "clinical_effect": "Lithium plasma ↑ ~25-50%; toxicity risk.", "reference": "doi:10.1111/j.1365-2125.1989.tb05335.x"},
+      {"with": "NSAIDs", "mechanism": "Renal — reduced afferent arteriolar prostaglandin signalling reduces lithium clearance", "ki_um": null, "clinical_effect": "Lithium plasma ↑ ~25-50%; toxicity risk.", "reference": "pmid:2258452"},
       {"with": "thiazide diuretics", "mechanism": "Renal — increased proximal Na reabsorption increases Li retention", "ki_um": null, "clinical_effect": "Lithium ↑ ~25%.", "reference": null},
       {"with": "ACE inhibitors / ARBs", "mechanism": "Renal hemodynamic", "ki_um": null, "clinical_effect": "Lithium ↑ 25-40%.", "reference": null}
     ],
@@ -793,7 +793,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["rigorous human PK comparison of orotate vs carbonate salt", "evidence that lithium orotate at supplement doses (5-20 mg elemental) reaches clinically meaningful brain concentrations"],
     "notes": "Lithium orotate provides ~3.83 mg elemental Li per 100 mg salt vs 18.8 mg from lithium carbonate. Supplement doses (typically 5-20 mg elemental) yield serum lithium typically <0.05 mM — well below the 0.6-1.2 mM therapeutic range for bipolar disorder. Hahnemann's 1976 study found no PK difference between salts; recent Smith/Schrauzer claims of preferential brain uptake of orotate salt are unsubstantiated in controlled studies.",
-    "references_consulted": ["doi:10.1073/pnas.93.16.8455", "pmid:1260219", "doi:10.2165/00003088-200948060-00002", "doi:10.1111/bdi.12609"]
+    "references_consulted": ["doi:10.1073/pnas.93.16.8455", "pmid:1260219", "doi:10.1111/bdi.12609"]
   },
   {
     "name": "Lamotrigine",

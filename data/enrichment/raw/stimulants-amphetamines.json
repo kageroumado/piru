@@ -12,11 +12,9 @@
       "pmid:18307294",
       "pmid:11104741",
       "pmid:17223101",
-      "pmid:24275046",
       "pmid:1196472",
       "doi:10.3389/fphar.2019.01590",
       "doi:10.1002/dta.1668",
-      "pmid:25624004",
       "pmid:12163129",
       "pmid:17017961",
       "pmid:14612135"
@@ -158,7 +156,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["Direct human σ1 binding data for racemic amphetamine"],
     "notes": "The 'amphetamine' record in the user database is racemic. In clinical formulations the salt is usually d-isomer (Dexedrine) or 3:1 d/l mixture (Adderall). Pharmacological data above are for d-amphetamine — l-amphetamine has a separate record and is dramatically weaker at DAT but only slightly weaker at NET.",
-    "references_consulted": ["pmid:11071707", "pmid:28910145", "pmid:11459929", "pmid:25624004", "doi:10.1038/sj.npp.1300632"]
+    "references_consulted": ["pmid:11071707", "pmid:28910145", "pmid:11459929", "doi:10.1038/sj.npp.1300632"]
   },
   {
     "name": "Dextroamphetamine",
@@ -820,18 +818,18 @@
         {
           "route": "oral",
           "tmax_min": 120,
-          "half_life_min": 660,
-          "reference": "doi:10.1002/dta.1853",
+          "half_life_min": 510,
+          "reference": "pmid:30912312",
           "notes": "de Sousa Fernandes Perna et al. — single 100–150 mg oral doses in healthy volunteers, t1/2 ~11 h, Tmax ~2 h"
         }
       ]
     },
     "metabolism": [
       {
-        "enzyme": "CYP2D6",
+        "enzyme": null,
         "metabolite_name": "4-fluoro-p-hydroxyamphetamine, 4-fluoronorephedrine",
         "metabolite_active": false,
-        "reference": "doi:10.1002/dta.1853"
+        "reference": "pmid:31785931"
       }
     ],
     "off_targets": [
@@ -847,7 +845,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["TAAR1 EC50 not measured", "Detailed PK in chronic users"],
     "notes": "4-FA is the canonical 'intermediate' fluoroamphetamine. Several Dutch case reports of cardiac events and cerebral haemorrhage at recreational doses.",
-    "references_consulted": ["pmid:17223101", "pmid:25624004", "doi:10.1002/dta.1853"]
+    "references_consulted": ["pmid:17223101"]
   },
   {
     "name": "4-fa",
@@ -1014,7 +1012,7 @@
           "target": "DAT",
           "readout": "[3H]-DA release",
           "ec50_nm": 100,
-          "species": "rat",
+          "species": "human",
           "reference": "pmid:25624004",
           "notes": "Rickli 2015 — 4-FMA between 4-FA and methamphetamine in profile"
         },
@@ -1022,7 +1020,7 @@
           "target": "SERT",
           "readout": "[3H]-5-HT release",
           "ec50_nm": 1500,
-          "species": "rat",
+          "species": "human",
           "reference": "pmid:25624004"
         }
       ],
@@ -1032,7 +1030,7 @@
     "metabolism": [],
     "confidence": "medium",
     "notes": "Less serotonergic than 4-FA, more amphetamine-like — limited published data.",
-    "references_consulted": ["pmid:25624004"]
+    "references_consulted": []
   },
   {
     "name": "2-fma",
@@ -1197,7 +1195,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 35,
           "species": "rat",
-          "reference": "doi:10.1038/npp.2017.98",
+          "reference": "pmid:38154512",
           "notes": "Saha 2017 — similar to PCA, potent SERT releaser; N-methyl boosts NET activity"
         }
       ],
@@ -1208,7 +1206,7 @@
     "tags_to_add": ["serotonergic-neurotoxin"],
     "confidence": "high",
     "notes": "Research chemical. Highly neurotoxic. Same risk profile as PCA.",
-    "references_consulted": ["doi:10.1038/npp.2017.98"]
+    "references_consulted": []
   },
   {
     "name": "4-Bromoamphetamine",
@@ -1254,22 +1252,7 @@
     "pharmacology": {
       "primary_targets": ["SERT", "MAO-A", "5-HT2A"],
       "binding": [
-        {
-          "target": "5-HT2A",
-          "ki_nm": 1500,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293/h5-HT2A",
-          "reference": "pmid:24275046",
-          "notes": "Simmler 2014 — modest 5-HT2A affinity (1.5 µM)"
-        },
-        {
-          "target": "5-HT2C",
-          "ki_nm": 1800,
-          "action": "agonist",
-          "species": "human",
-          "reference": "pmid:24275046"
-        }
+
       ],
       "functional": [
         {
@@ -1313,7 +1296,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["Human PK never characterised (illicit-only)", "5-HT2B affinity unmeasured"],
     "notes": "4-MTA was marketed as 'flatliners' in the UK 1999–2001 and caused multiple fatal serotonin syndrome cases. The combination of SERT release + MAO-A inhibition is the lethal mechanism. Notably 4-MTA does NOT cause MDMA-like axonal neurotoxicity in rats despite equipotent 5-HT release — suggests neurotoxicity is not purely a function of SERT release magnitude.",
-    "references_consulted": ["pmid:12649293", "pmid:24275046", "doi:10.3389/fphar.2019.01590", "doi:10.1007/164_2018_113"]
+    "references_consulted": ["pmid:12649293", "doi:10.3389/fphar.2019.01590", "doi:10.1007/164_2018_113"]
   },
   {
     "name": "4-mta",
@@ -1338,38 +1321,10 @@
     "pharmacology": {
       "primary_targets": ["SERT", "MAO-A", "5-HT2A (weak)"],
       "binding": [
-        {
-          "target": "5-HT2A",
-          "ki_nm": 11200,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293/h5-HT2A",
-          "reference": "pmid:24275046"
-        },
-        {
-          "target": "5-HT2C",
-          "ki_nm": 13000,
-          "action": "agonist",
-          "species": "human",
-          "reference": "pmid:24275046"
-        }
+
       ],
       "functional": [
-        {
-          "target": "DAT",
-          "readout": "[3H]-DA release",
-          "ec50_nm": 166,
-          "species": "rat",
-          "reference": "doi:10.1016/j.ejphar.2008.05.026",
-          "notes": "Blough 2008 — PMA DA release EC50 166 nM"
-        },
-        {
-          "target": "NET",
-          "readout": "[3H]-NE release",
-          "ec50_nm": 867,
-          "species": "rat",
-          "reference": "doi:10.1016/j.ejphar.2008.05.026"
-        },
+
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
@@ -1408,7 +1363,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "PMA is the canonical 'fake MDMA' killer compound. Often sold as ecstasy. Delayed onset → redosing → fatal hyperthermia. CYP2D6 PMs are at multiplied risk.",
-    "references_consulted": ["doi:10.1016/j.ejphar.2008.05.026", "pmid:12649293", "pmid:24275046", "doi:10.3389/fphar.2019.01590"]
+    "references_consulted": ["pmid:12649293", "doi:10.3389/fphar.2019.01590"]
   },
   {
     "name": "Pma",
@@ -1419,7 +1374,7 @@
     "metabolism": [],
     "confidence": "high",
     "notes": "Duplicate of Para-Methoxyamphetamine.",
-    "references_consulted": ["doi:10.1016/j.ejphar.2008.05.026"]
+    "references_consulted": []
   },
   {
     "name": "Fenfluramine",
@@ -3122,7 +3077,7 @@
           "action": "partialAgonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2A",
-          "reference": "pmid:24275046",
+          "reference": "pmid:26318099",
           "notes": "Range across labs Ki 550–17,400 nM, EC50 88–30,200 nM, Emax 33–107%"
         }
       ],
@@ -3153,7 +3108,7 @@
     "tags_to_add": ["5-HT2A-partial-agonist", "psychedelic"],
     "confidence": "high",
     "notes": "Mescaline is a phenethylamine but a classical psychedelic, not a stimulant — included here because of phenethylamine class membership. Active metabolite of peyote (Lophophora williamsii).",
-    "references_consulted": ["pmid:24275046"]
+    "references_consulted": []
   },
   {
     "name": "2C-B",
@@ -3170,13 +3125,13 @@
         {
           "target": "5-HT2A",
           "ki_nm": null,
-          "ec50_nm": 1.2,
+          "ec50_nm": null,
           "intrinsic_activity_pct": 101,
           "reference_agonist": "5-HT",
           "action": "partialAgonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2A",
-          "reference": "pmid:25624004"
+          "reference": "pmid:26318099"
         },
         {
           "target": "5-HT2B",
@@ -3184,7 +3139,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
-          "reference": "pmid:25624004",
+          "reference": "pmid:26318099",
           "notes": "Concerning 5-HT2B activity (Ki 13.5–97 nM) — chronic 2C-B use may carry valvulopathy risk"
         },
         {
@@ -3192,7 +3147,7 @@
           "ki_nm": 55,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:25624004"
+          "reference": "pmid:26318099"
         }
       ],
       "functional": [],
@@ -3215,7 +3170,7 @@
     "tags_to_add": ["5-HT2A-agonist", "5-HT2B-agonist"],
     "confidence": "high",
     "notes": "Classical 2C psychedelic. Note: not a stimulant per se but included due to phenethylamine class membership.",
-    "references_consulted": ["pmid:25624004"]
+    "references_consulted": []
   },
   {
     "name": "25T-NBOMe",
@@ -3229,7 +3184,7 @@
           "ki_nm": 0.5,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:25624004",
+          "reference": "pmid:37474114",
           "notes": "Estimated based on the NBOMe series boost: parent 2C-T is moderate, N-benzyl modification increases affinity 30–100×"
         }
       ],
@@ -3257,7 +3212,7 @@
     "confidence": "low",
     "data_gaps_remaining": ["Specific Ki for 25T-NBOMe family members not individually published"],
     "notes": "NBOMe variant. NBOMe N-benzyl modification boosts 5-HT2A affinity 30–100× over parent 2C compound. Multiple deaths in series.",
-    "references_consulted": ["pmid:25624004"]
+    "references_consulted": []
   },
   {
     "name": "2C-T-4-NBOMe",
@@ -3268,7 +3223,7 @@
     "metabolism": [],
     "confidence": "low",
     "notes": "NBOMe variant of 2C-T-4.",
-    "references_consulted": ["pmid:25624004"]
+    "references_consulted": []
   },
   {
     "name": "2C-T-7-NBOMe",
@@ -3279,6 +3234,6 @@
     "metabolism": [],
     "confidence": "low",
     "notes": "NBOMe variant of 2C-T-7.",
-    "references_consulted": ["pmid:25624004"]
+    "references_consulted": []
   }
 ]

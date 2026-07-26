@@ -27,7 +27,7 @@
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "assay_buffer_notes": null,
-          "reference": "pmid:16107249",
+          "reference": "pmid:10083975",
           "is_review": false,
           "notes": "Sanna et al. 2005 — comparator value for etizolam study."
         },
@@ -45,7 +45,7 @@
           "tissue_or_cell": "Xenopus oocytes expressing human α1β2γ2S",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "pmid:16107249",
+          "reference": "pmid:10083975",
           "is_review": false,
           "notes": "Maximum potentiation 98% above GABA-EC20 baseline."
         }
@@ -59,7 +59,7 @@
           "reference_agonist": "GABA EC20",
           "species": "human",
           "cell_system": "Xenopus oocytes",
-          "reference": "pmid:16107249"
+          "reference": "pmid:10083975"
         }
       ],
       "biased_agonism": [],
@@ -169,8 +169,7 @@
     ],
     "notes": "Triazolo ring confers higher intrinsic efficacy and faster tolerance development than 1,4-benzodiazepines like diazepam. Withdrawal severity at moderate doses is clinically significant due to short t1/2.",
     "references_consulted": [
-      "pmid:16107249",
-      "pmid:8646822",
+"pmid:8646822",
       "pmc:PMC2408964",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf"
     ]
@@ -419,49 +418,13 @@
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "positiveAllostericModulator",
-          "species": "human",
+          "species": "rat",
           "tissue_or_cell": "Recombinant α1β2γ2 / α1β3γ2",
           "radioligand_or_probe": "[3H]flumazenil (Ro15-1788)",
           "assay_buffer_notes": null,
-          "reference": "pmid:1326622",
+          "reference": "pmid:2157817",
           "is_review": false,
           "notes": "Langer & Faure-Halley 1992; Pritchett & Seeburg 1990–1991."
-        },
-        {
-          "target": "GABA-A α2β1γ2",
-          "ki_nm": 400,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "human",
-          "tissue_or_cell": "Recombinant α2β1γ2",
-          "radioligand_or_probe": "[3H]flumazenil",
-          "assay_buffer_notes": null,
-          "reference": "pmid:1326622",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "GABA-A α3β1γ2",
-          "ki_nm": 400,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "human",
-          "tissue_or_cell": "Recombinant α3β1γ2",
-          "radioligand_or_probe": "[3H]flumazenil",
-          "assay_buffer_notes": null,
-          "reference": "pmid:1326622",
-          "is_review": false,
-          "notes": null
         },
         {
           "target": "GABA-A α5β3γ2",
@@ -497,7 +460,7 @@
         {
           "modality": "PET",
           "finding": "[11C]flumazenil displacement at therapeutic doses shows ~25–30% global receptor occupancy at 10 mg.",
-          "reference": "pmid:1326622"
+          "reference": "pmid:8925872"
         }
       ]
     },
@@ -601,8 +564,7 @@
     "data_gaps_remaining": [],
     "notes": "Prototype α1-selective Z-drug. Defining feature: no α5 affinity. Complex sleep-related behaviors (sleep-driving, sleep-eating) are FDA-recognized risk; female PK differences led to dose halving.",
     "references_consulted": [
-      "pmid:1326622",
-      "doi:10.1021/jm800889m",
+"doi:10.1021/jm800889m",
       "doi:10.1038/srep28674",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
     ]
@@ -3158,9 +3120,9 @@
           "tissue_or_cell": "Rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam displacement",
           "assay_buffer_notes": null,
-          "reference": "pmid:16107249",
+          "reference": "pmid:10083975",
           "is_review": false,
-          "notes": "Sanna et al. 2005. Higher affinity than alprazolam (7.9 nM)."
+          "notes": "Sanna et al. 1999. Higher affinity than alprazolam (7.9 nM) in the same assay."
         }
       ],
       "functional": [
@@ -3172,7 +3134,7 @@
           "reference_agonist": "GABA EC20",
           "species": "human",
           "cell_system": "Xenopus oocytes",
-          "reference": "pmid:16107249"
+          "reference": "pmid:10083975"
         }
       ],
       "biased_agonism": [],
@@ -3186,16 +3148,16 @@
           "route": "oral",
           "bioavailability_pct": 93,
           "cmax_ng_per_ml": 18,
-          "tmax_min": 180,
+          "tmax_min": 75,
           "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 210,
+          "half_life_min": 204,
           "vd_l_per_kg": 1.1,
           "clearance_ml_per_min_per_kg": null,
           "protein_binding_pct": 93,
-          "dose_in_study_mg": 1,
+          "dose_in_study_mg": 0.5,
           "subject_n": null,
           "subject_demographics": "Healthy adults — Sanna 2005",
-          "reference": "pmid:16107249",
+          "reference": "pmid:2065698",
           "notes": "Parent t1/2 ~3.4 h; α-hydroxyetizolam t1/2 ~8 h."
         }
       ],
@@ -3208,7 +3170,7 @@
         "metabolite_name": "α-hydroxyetizolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:16107249",
+        "reference": "pmid:15232663",
         "notes": "α-hydroxyetizolam is active and has longer t1/2 (~8 h) than parent. Major urinary forensic marker."
       },
       {
@@ -3217,22 +3179,22 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:16107249",
-        "notes": "Minor contribution."
+        "reference": "pmid:16261363",
+        "notes": "Clinically meaningful contribution: CYP2C19 poor metabolizers show ~60% higher etizolam AUC (287 vs 178 ng*h/mL) and longer t1/2 (14.8 vs 10.5 h) than extensive metabolizers, with measurably greater sedation."
       }
     ],
     "drug_interactions_pk": [
       {
         "with": "fluvoxamine",
-        "mechanism": "CYP3A4 inhibition",
+        "mechanism": "CYP inhibition (fluvoxamine inhibits CYP2C19 and CYP1A2; the specific enzyme was not identified in the interaction study)",
         "ki_um": null,
-        "clinical_effect": "Increased etizolam exposure",
-        "reference": "pmid:16107249"
+        "clinical_effect": "Dose-corrected etizolam plasma concentrations increased by a median 42.9% (range 0-235%); highly variable between patients, with a further ~2-fold rise at fluvoxamine 150-200 mg. No change in measured sleepiness.",
+        "reference": "pmid:15570188"
       }
     ],
     "pharmacogenetics": null,
     "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "Sanna 2005 reported lower tolerance liability in rats vs alprazolam (less receptor uncoupling); human data on chronic use show robust tolerance and dependence.",
+      "receptor_downregulation_half_time": "Sanna 2005 reported lower tolerance liability than lorazepam (not alprazolam): 5-day exposure of rat hippocampal neurons to etizolam reduced alpha5 and gamma2S subunit mRNAs but did not blunt acute modulation of GABA-evoked Cl- current, and chronically treated mice retained etizolam's anticonvulsant effect, whereas lorazepam produced both subunit-protein changes and anticonvulsant tolerance. Human data on chronic use nonetheless show robust tolerance and dependence.",
       "cross_tolerance": [
         "all benzodiazepine-site PAMs"
       ],
@@ -3257,7 +3219,6 @@
     "data_gaps_remaining": [],
     "notes": "Schedule IV in Japan/Italy/India (legitimate Rx); scheduled or controlled in most other Western countries. Bridge compound between classical benzos and designer benzos — was prescribed for decades before becoming a major NPS in 2010s.",
     "references_consulted": [
-      "pmid:16107249"
     ]
   },
   {
@@ -6032,8 +5993,6 @@
     "sar_summary": "Core 1,4-benzodiazepin-2-one scaffold: 7-substituent on the fused benzene determines potency (7-Cl in diazepam, 7-Br in phenazepam/flubromazepam → more potent than unsubstituted; 7-NO2 in clonazepam/flunitrazepam/nitrazepam → very high affinity); 5-aryl group is essential (phenyl = standard; 2'-Cl in lorazepam/clonazepam/diclazepam → potency boost; 2'-F in flunitrazepam/midazolam → metabolic stability + potency; 2-pyridyl in bromazepam/pyrazolam → different metabolic fate). N1-substitution: H = standard (nordazepam); methyl (diazepam) → modest change; 2,2,2-trifluoroethyl (halazepam, quazepam) → α1-selectivity hint; diethylaminoethyl (flurazepam) → prodrug-like, parent inactive, all activity from N-dealkylation. 3-position: 3-OH (oxazepam, lorazepam, temazepam, lormetazepam) → bypasses CYP, direct glucuronidation, no active metabolites, hepatic-safe; 3-methyl (meclonazepam) → adds stereochemistry. RING MODIFICATIONS: triazolo-annulation [1,2,4-triazolo[4,3-a]] (alprazolam, triazolam, estazolam, clonazolam, flubromazolam, flualprazolam, bromazolam, adinazolam) → markedly increases intrinsic activity at the benzodiazepine site → higher potency, faster tolerance, more severe withdrawal; thieno-replacement of the benzene (etizolam, brotizolam, clotiazepam, deschloroetizolam, metizolam) → thienodiazepine, faster onset, slightly different binding kinetics; 1,5-benzodiazepine ring rearrangement (clobazam) → mild α2-preference, less sedation. PRO-DRUGS exploit aminopeptidase cleavage (avizafone → diazepam; rilmazafone → triazolobenzodiazepine metabolite) or gastric chemical hydrolysis (clorazepate → nordazepam; ketazolam → diazepam; oxazolam → nordazepam) or CYP-mediated N-dealkylation (prazepam → nordazepam; flurazepam → norflurazepam; quazepam → 2-oxoquazepam; medazepam → diazepam). Z-DRUGS occupy the benzodiazepine site without sharing the benzo scaffold: imidazopyridine (zolpidem, α1-preferring), pyrazolopyrimidine (zaleplon, highly α1-preferring), cyclopyrrolone (zopiclone/eszopiclone, non-selective like classical benzos). The α1G201 residue (Pritchett & Seeburg 1991) is the structural determinant for zolpidem's α1 selectivity. TSPO ligands (Ro5-4864 = 4'-chlorodiazepam) share the benzodiazepine scaffold but bind a structurally unrelated mitochondrial protein and have no GABA-A activity.",
     "key_references": [
       "pmid:8391122",
-      "pmid:16107249",
-      "pmid:1326622",
       "doi:10.1021/jm800889m",
       "doi:10.2165/00003088-197803010-00005",
       "doi:10.2165/00003088-198106020-00001",

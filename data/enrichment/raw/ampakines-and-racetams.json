@@ -80,11 +80,11 @@
     "metabolism": [
       {
         "enzyme": "amidase (hepatic and extrahepatic)",
-        "fraction_of_clearance_pct": 60,
-        "metabolite_name": "BRV acid (hydroxy-acid metabolite from acetamide hydrolysis)",
+        "fraction_of_clearance_pct": 33,
+        "metabolite_name": "BRV-AC (acid metabolite from amide hydrolysis)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:29368127"
+        "reference": "pmid:27002062"
       },
       {
         "enzyme": "CYP2C19",
@@ -92,7 +92,7 @@
         "metabolite_name": "hydroxy-brivaracetam (propyl side-chain hydroxylation)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:29368127"
+        "reference": "pmid:27002062"
       }
     ],
     "drug_interactions_pk": [
@@ -105,10 +105,10 @@
       },
       {
         "with": "carbamazepine",
-        "mechanism": "CYP induction (CYP2C19 / CYP3A)",
+        "mechanism": "bidirectional: carbamazepine induces CYP2C19/CYP3A, lowering brivaracetam exposure; brivaracetam separately inhibits epoxide hydrolase (carbamazepine-epoxide hydrolysis IC50 8.2 uM), raising carbamazepine-epoxide",
         "ki_um": null,
-        "clinical_effect": "modest decrease in brivaracetam exposure; brivaracetam itself increases carbamazepine-epoxide AUC ~37%",
-        "reference": "pmid:29368127"
+        "clinical_effect": "carbamazepine decreases brivaracetam AUC by 29% (hydroxy-brivaracetam +17%); brivaracetam leaves carbamazepine AUC unchanged but raises carbamazepine-epoxide 2.6-fold",
+        "reference": "pmid:25986188"
       }
     ],
     "pharmacogenetics": {
@@ -116,19 +116,13 @@
       "phenotype_effects": "CYP2C19 poor metabolizers (PMs, ~2-4% of Europeans, ~13-23% of East Asians) show ~50% higher steady-state brivaracetam plasma concentrations; CYP2C19 ultrarapid metabolizers (UMs) show modestly lower exposure. FDA label notes that dose reduction may be considered in known PMs.",
       "reference": "NBK500036"
     },
-    "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "no SV2A downregulation reported in chronic dosing studies",
-      "cross_tolerance": ["levetiracetam", "seletracetam"],
-      "withdrawal_syndrome": "abrupt discontinuation can precipitate breakthrough seizures (rebound); taper recommended over weeks. No characterized somatic withdrawal syndrome distinct from levetiracetam.",
-      "reference": "pmid:29368127"
-    },
     "off_targets": [
       {
         "target": "voltage-gated Na+ channels",
-        "ki_or_ic50_nm": 50000,
+        "ki_or_ic50_nm": 41000,
         "concern_level": "low",
         "clinical_consequence": "secondary mechanism; not relevant at therapeutic free plasma concentrations (~2-10 µM)",
-        "reference": "pmid:29368127"
+        "reference": "pmid:19914041"
       }
     ],
     "demographic_differences": {
@@ -145,7 +139,6 @@
     "references_consulted": [
       "pmid:18341673",
       "pmid:18496489",
-      "pmid:29368127",
       "pmid:31040209",
       "doi:10.1111/epi.13433",
       "NBK500036"
@@ -497,7 +490,7 @@
           "reference_agonist": "fluorowillardiine",
           "species": "rat (recombinant)",
           "cell_system": "HEK293",
-          "reference": "pmid:19710328",
+          "reference": "pmid:19717789",
           "notes": "Modulation magnitude depends strongly on GluA subunit and TARP partner; effect varies by brain region — implies functional selectivity that has not been fully exploited pharmacologically."
         }
       ],
@@ -535,7 +528,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["No human PK", "No clinical safety signal"],
     "notes": "Cortex research tool; never advanced to clinic. Notable for being one of the first AMPAkines characterized to have GluA-subunit/TARP-dependent modulation magnitude, hinting at the possibility of brain-region selectivity that no compound has yet exploited successfully.",
-    "references_consulted": ["pmid:11640919", "pmid:19710328"]
+    "references_consulted": ["pmid:11640919"]
   },
 
   {
@@ -920,8 +913,8 @@
       "neuroimaging": [
         {
           "modality": "behavioral (delayed match-to-sample)",
-          "finding": "Improved delayed matching performance in aged rhesus monkeys at 1-5 mg/kg PO (Buccafusco et al., 2004).",
-          "reference": "pmid:15046870"
+          "finding": "Improved delayed matching-to-sample performance in young and aged rhesus monkeys over an oral dose range of 0.15-10 mg/kg (Buccafusco et al., 2004); at individualized best doses, accuracy rose 34% over vehicle on long-delay trials in young animals and up to 18% on medium-delay trials in aged animals, with effects persisting to 48 h after a single dose.",
+          "reference": "pmid:14654093"
         }
       ]
     },
@@ -947,7 +940,6 @@
     "notes": "The prototypical benzothiadiazine AMPAkine and progenitor of many later compounds. Popular as a research chemical for self-experimentation; absence of human PK or formal safety data makes any consumer use a leap. Activity is enantioselective — racemic material from grey-market vendors has half-strength.",
     "references_consulted": [
       "pmid:24900368",
-      "pmid:15046870",
       "pmid:15111017"
     ]
   },

@@ -270,12 +270,12 @@
         "notes": "N-desethyl metabolite is itself a MOR full agonist with Ki 1.53 nM (Vandeputte 2023) — found in post-mortem casework"
       },
       {
-        "enzyme": "CYP1A2",
+        "enzyme": "CYP2D6 (dominant; CYP2C8/CYP2E1/CYP2A6 minor \u2014 CYP1A2 contribution is negligible)",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "O-deisopropyl isotonitazene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1093/jat/bkaa092",
+        "reference": "pmid:39092223",
         "notes": "Cleavage of isopropyl ether by CYP1A2 yields des-alkyl phenol metabolite (etodesnitazene scaffold)"
       }
     ],
@@ -321,7 +321,6 @@
     "references_consulted": [
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939",
-      "doi:10.1093/jat/bkaa092",
       "doi:10.1007/s00204-021-03207-9"
     ]
   },
@@ -2140,17 +2139,8 @@
         "metabolite_name": "N-desmethyl-U-47700",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1093/jat/bkx028",
+        "reference": "pmid:36976985",
         "notes": "Krotulski 2017 — primary metabolite N-desmethyl-U-47700; secondary N,N-didesmethyl. CYP3A4/3A5/2B6/2C19 all contribute."
-      },
-      {
-        "enzyme": "CYP2B6",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "N-desmethyl-U-47700",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1093/jat/bkx028",
-        "notes": null
       },
       {
         "enzyme": "CYP2C19",
@@ -2158,7 +2148,7 @@
         "metabolite_name": "N-desmethyl-U-47700",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1093/jat/bkx028",
+        "reference": "pmid:36976985",
         "notes": null
       }
     ],
@@ -2202,8 +2192,7 @@
     "notes": "Original Upjohn 1978 compound. ~7.5× morphine in-vivo (rat). Was the #1 designer opioid by deaths 2015-2017 before scheduled.",
     "references_consulted": [
       "doi:10.1016/j.drugalcdep.2023.109939",
-      "doi:10.1007/s00204-020-02766-7",
-      "doi:10.1093/jat/bkx028"
+      "doi:10.1007/s00204-020-02766-7"
     ]
   },
   {
@@ -2397,7 +2386,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Bilateral sensorineural hearing loss reported in MT-45 users in Sweden 2014 cluster — distinctive of this compound, not shared with other opioids.",
-        "reference": "doi:10.1097/MJT.0000000000000275"
+        "reference": "pmid:25175898"
       }
     ],
     "demographic_differences": {
@@ -2604,11 +2593,6 @@
       "receptor_oligomerisation": [],
       "downstream_signalling": "Full MOR agonist. Activates Gαi/o → adenylyl cyclase inhibition, opens GIRK channels, closes voltage-gated Ca²⁺ channels. Also recruits β-arrestin2 and undergoes ~25% receptor internalisation at saturating concentrations.",
       "neuroimaging": [
-        {
-          "modality": "PET",
-          "finding": "[11C]carfentanil PET displacement quantifies MOR occupancy during fentanyl administration in humans; analgesia threshold ~50% MOR occupancy.",
-          "reference": "doi:10.1097/00000542-200512000-00018"
-        }
       ]
     },
     "human_pk": {
@@ -2635,21 +2619,21 @@
           "cmax_ng_per_ml": 1.2,
           "tmax_min": 1440,
           "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1080,
+          "half_life_min": 1020,
           "vd_l_per_kg": 4.0,
           "clearance_ml_per_min_per_kg": 13.0,
           "protein_binding_pct": 84,
           "dose_in_study_mg": 2.5,
-          "subject_n": 12,
+          "subject_n": 8,
           "subject_demographics": "Adults",
-          "reference": "doi:10.1097/00000542-199210000-00016",
+          "reference": "pmid:2729633",
           "notes": "Apparent elimination half-life is depot-controlled (18-22 h) — much longer than IV t½."
         },
         {
           "route": "insufflation",
-          "bioavailability_pct": 89,
+          "bioavailability_pct": 75,
           "cmax_ng_per_ml": null,
-          "tmax_min": 7,
+          "tmax_min": 13,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": null,
           "vd_l_per_kg": null,
@@ -2658,7 +2642,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults",
-          "reference": "doi:10.1213/00000539-199501000-00010",
+          "reference": "pmid:34880961",
           "notes": "Intranasal fentanyl bioavailability 71-89% across studies."
         }
       ],
@@ -3021,7 +3005,7 @@
         "metabolite_name": "N-dealkylated and O-demethylated metabolites",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": "doi:10.1124/dmd.106.014274",
+        "reference": "pmid:8712396",
         "notes": "Predominantly CYP3A4 N-dealkylation. Desmethyl-sufentanil retains ~10% potency."
       }
     ],
@@ -3077,8 +3061,7 @@
     "notes": "FDA-approved 1984. ~7-10× fentanyl. Approved sublingual form for acute pain (Dsuvia). High protein binding (92%) leads to ICU dose adjustments in hypoalbuminemia.",
     "references_consulted": [
       "doi:10.1016/j.yrtph.2010.12.007",
-      "doi:10.1097/00000542-198409000-00010",
-      "doi:10.1124/dmd.106.014274"
+      "doi:10.1097/00000542-198409000-00010"
     ]
   },
   {
@@ -3129,13 +3112,13 @@
           "tmax_min": 2,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": 94,
-          "vd_l_per_kg": 0.5,
+          "vd_l_per_kg": 0.86,
           "clearance_ml_per_min_per_kg": 6.4,
           "protein_binding_pct": 92,
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults",
-          "reference": "doi:10.1097/00000542-198209000-00008",
+          "reference": "pmid:6128948",
           "notes": "Smaller Vd than fentanyl; context-sensitive t½ 47 min after 3h infusion (vs remifentanil 3 min, fentanyl 250 min)."
         }
       ],
@@ -3158,7 +3141,7 @@
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "Reduced clearance, prolonged effect.",
-        "reference": "doi:10.1097/00000542-199601000-00018"
+        "reference": "pmid:2501060"
       }
     ],
     "pharmacogenetics": {
@@ -3196,8 +3179,7 @@
     "notes": "FDA-approved 1986. ~1/4 to 1/10 fentanyl potency but ~3× faster onset and shorter duration. Clinically the CYP3A4 phenotyping probe substrate (alfentanil ER) because >95% CL via 3A4.",
     "references_consulted": [
       "doi:10.3390/molecules24040740",
-      "doi:10.1016/j.yrtph.2010.12.007",
-      "doi:10.1097/00000542-198209000-00008"
+      "doi:10.1016/j.yrtph.2010.12.007"
     ]
   },
   {
@@ -3715,7 +3697,7 @@
         "metabolite_name": "hydroxybutyrfentanyl",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1093/jat/bkx004",
+        "reference": "pmid:30930421",
         "notes": "Steuer 2017 — CYP2D6 contribution makes PM/UM polymorphisms potentially relevant."
       }
     ],
@@ -4827,7 +4809,6 @@
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939",
       "doi:10.1007/s00204-021-03207-9",
-      "doi:10.1093/jat/bkaa092",
       "doi:10.1038/s41386-022-01396-0",
       "doi:10.3389/fpubh.2024.1346109"
     ]
@@ -4859,7 +4840,6 @@
     "key_references": [
       "doi:10.1016/j.drugalcdep.2023.109939",
       "doi:10.1007/s00204-020-02766-7",
-      "doi:10.1093/jat/bkx028",
       "doi:10.1002/prp2.511"
     ]
   },
@@ -4873,8 +4853,7 @@
     "sar_summary": "Class so small (MT-45 + 2F-MT-45 + a handful of analogues) that no broad SAR. The ortho-fluorine in 2F-MT-45 markedly increases potency (cAMP EC50 42 nM vs 1300 nM for MT-45) and restores β-arrestin recruitment to DAMGO-like potency.",
     "key_references": [
       "doi:10.1111/bph.15064",
-      "doi:10.1002/dta.2358",
-      "doi:10.1097/MJT.0000000000000275"
+      "doi:10.1002/dta.2358"
     ]
   },
   {

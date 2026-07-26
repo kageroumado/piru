@@ -1643,9 +1643,9 @@
       "downstream_signalling": "Dual mechanism: (1) NMDA channel blockade driving rapid-onset dissociation, euphoria, and (when sustained) Olney's lesions; (2) Endogenous opioid release in PAG driving analgesia via descending noradrenergic pathways. The opioid arm explains why N2O analgesia is reversed by naloxone and why it shows cross-tolerance with morphine. Antidepressant effects (Nagele et al. 2015, 2021) likely driven by NMDA antagonism analogous to ketamine. Recent literature also implicates two-pore K+ channels (TREK-1) and modest HCN1 inhibition in anaesthetic effects.",
       "neuroimaging": [
         {
-          "modality": "fMRI BOLD",
+          "modality": "PET (15O-water rCBF, with 18F-FDG metabolic control)",
           "finding": "N2O at sub-anesthetic concentrations produces increased BOLD in anterior cingulate cortex and posterior cingulate cortex with reduced default-mode network connectivity — pattern overlapping with ketamine.",
-          "reference": "doi:10.1016/j.neuroimage.2014.04.061"
+          "reference": "pmid:8694308"
         }
       ]
     },
@@ -1757,8 +1757,7 @@
       "pmid:34786239",
       "pmid:36499072",
       "https://www.bjaed.org/article/S2058-5349(17)30084-7/fulltext",
-      "https://pmc.ncbi.nlm.nih.gov/articles/PMC1821130/",
-      "doi:10.1016/j.neuroimage.2014.04.061"
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC1821130/"
     ]
   },
   {

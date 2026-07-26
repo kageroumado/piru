@@ -101,9 +101,9 @@
           "ki_nm": 42100,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "cloned human MOR",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1097/00000542-199702000-00019",
+          "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "reference": "pmid:9915326",
           "is_review": false,
           "notes": "Hirota et al. 1997; functional agonism debated. Williams 2018 naltrexone trial showed naltrexone blocks ketamine antidepressant effect but Yoon 2019 reanalysis questioned methodology"
         },
@@ -112,9 +112,9 @@
           "ki_nm": 28100,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "cloned human KOR",
-          "radioligand_or_probe": "[3H]U-69593",
-          "reference": "doi:10.1097/00000542-199702000-00019",
+          "tissue_or_cell": "recombinant kappa-opioid receptor expressed in CHO cells (CHO-kappa)",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "reference": "pmid:9915326",
           "is_review": false,
           "notes": null
         }
@@ -306,7 +306,7 @@
         "ki_or_ic50_nm": 90000,
         "concern_level": "low",
         "clinical_consequence": "Minor at clinical concentrations; indirect sympathomimetic effects dominate cardiovascular profile",
-        "reference": "doi:10.1097/00000542-198108000-00009"
+        "reference": "pmid:26456586"
       },
       {
         "target": "nAChR α3β4",
@@ -340,7 +340,6 @@
       "doi:10.1523/JNEUROSCI.3481-08.2009",
       "pmid:7097501",
       "doi:10.1124/dmd.30.7.853",
-      "doi:10.1097/00000542-199702000-00019",
       "doi:10.1016/j.euroneuro.2011.07.006",
       "doi:10.1176/appi.ajp.2018.18020138",
       "doi:10.1038/s41398-024-02744-y"
@@ -382,12 +381,12 @@
         },
         {
           "target": "μ-opioid",
-          "ki_nm": 11000,
+          "ki_nm": null,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "cloned human MOR",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1097/00000542-199702000-00019",
+          "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "reference": "pmid:9915326",
           "is_review": false,
           "notes": "Hirota 1997"
         }
@@ -499,7 +498,6 @@
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3",
       "doi:10.1007/s40262-016-0436-x",
-      "doi:10.1097/00000542-199702000-00019",
       "doi:10.1124/dmd.30.7.853"
     ]
   },
@@ -624,12 +622,12 @@
         },
         {
           "target": "μ-opioid",
-          "ki_nm": 28000,
+          "ki_nm": null,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "cloned human MOR",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1097/00000542-199702000-00019"
+          "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "reference": "pmid:9915326"
         }
       ],
       "functional": [],
@@ -999,9 +997,9 @@
       "downstream_signalling": "Strong NMDA channel block + indirect dopaminergic effects via σ-receptor-mediated DA release modulation in NAc (Nishikawa 1999, doi:10.1016/S0014-2999(99)00769-4).",
       "neuroimaging": [
         {
-          "modality": "fMRI (preclinical)",
-          "finding": "PCP produces robust prefrontal hyperactivation + thalamic disinhibition pattern used as model of schizophrenia",
-          "reference": "doi:10.1038/sj.npp.1301456"
+          "modality": "phMRI (relative cerebral blood volume), anesthetized rat",
+          "finding": "PCP (0.5 mg/kg i.v.) produces robust, sustained rCBV increases across cortico-limbo-thalamic regions, the circuit signature used as a model of NMDAR-hypofunction schizophrenia; clozapine abolishes the thalamic component while raclopride has no effect",
+          "reference": "pmid:17805312"
         }
       ]
     },
@@ -1040,16 +1038,16 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": 50,
-        "metabolite_name": "4-hydroxy-PCP",
+        "metabolite_name": "PCHP, c-PPC and t-PPC (piperidine-ring hydroxylation products)",
         "metabolite_active": false,
-        "reference": "pmid:11160603"
+        "reference": "pmid:9152594"
       },
       {
         "enzyme": "CYP2B6",
         "fraction_of_clearance_pct": 30,
-        "metabolite_name": "PCHP / PPC",
+        "metabolite_name": "p-hydroxy-PCP (4-hydroxy-PCP), which decomposes spontaneously to an electrophilic quinone methide",
         "metabolite_active": false,
-        "reference": "pmid:11160603"
+        "reference": "pmid:17892269"
       }
     ],
     "drug_interactions_pk": [],
@@ -1371,8 +1369,8 @@
           "ec50_nm": null,
           "species": "rat",
           "cell_system": "in vivo",
-          "reference": "doi:10.1016/j.bbr.2021.113380",
-          "notes": "Botanas 2021: MXE behavioral effects partially blocked by 5-HT2 antagonists; suggests indirect 5-HT2 activation via SERT block"
+          "reference": "pmid:34384790",
+          "notes": "Marti et al. 2021: MXE behavioral effects (motor facilitation, visual sensory inhibition, PPI disruption) attenuated by the 5-HT2 antagonists ketanserin and MDL 100907; in vivo microdialysis showed MXE alters 5-HT in medial prefrontal cortex and nucleus accumbens"
         }
       ],
       "biased_agonism": [],
@@ -1415,12 +1413,6 @@
     ],
     "drug_interactions_pk": [],
     "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["ketamine", "PCP", "3-MeO-PCP"],
-      "withdrawal_syndrome": "Cravings, anxiety, depression after heavy use; case reports of dependence syndrome",
-      "reference": "doi:10.1111/add.13059"
-    },
     "off_targets": [
       {
         "target": "bladder",
@@ -1635,8 +1627,8 @@
         {
           "route": "insufflation",
           "half_life_min": null,
-          "reference": "doi:10.1093/jat/bkae003",
-          "notes": "Theofel 2024; analytically confirmed in fatalities. Snorted recreational doses 87.5-330 mg vs 60-250 mg for ketamine."
+          "reference": "pmid:38619360",
+          "notes": "Analytically confirmed in fatal and non-fatal cases (blood 457-5885 ug/L; hair up to ~80 ng/mg), with nor-2-FDCK and dihydro metabolites; insufflation is the predominant reported route, but no published route-specific dose-response or PK data exist."
         }
       ],
       "concentration_effect": []
@@ -1672,8 +1664,7 @@
     "data_gaps_remaining": ["formal Ki measurements", "controlled human PK"],
     "notes": "F-for-Cl bioisostere of ketamine. Multiple fatalities documented (Theofel 2024 doi:10.1093/jat/bkae003, Pelletier 2024 doi:10.1016/j.forsciint.2024). WHO ECDD critical review 2023 recommended scheduling.",
     "references_consulted": [
-      "doi:10.1093/jat/bkae003",
-      "pmid:34515415",
+"pmid:34515415",
       "doi:10.1016/j.forsciint.2021.110815"
     ]
   },
@@ -3220,7 +3211,6 @@
       "doi:10.1038/nature17998",
       "doi:10.1523/JNEUROSCI.3481-08.2009",
       "doi:10.1016/j.euroneuro.2011.07.006",
-      "doi:10.1097/00000542-199702000-00019",
       "doi:10.1124/dmd.30.7.853",
       "doi:10.3390/ijms232415574",
       "doi:10.1038/s41398-024-02744-y",

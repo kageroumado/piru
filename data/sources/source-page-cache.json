@@ -1,0 +1,2396 @@
+{
+  "drug.community|1,4-BDO": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/1-4-bdo-1-4-butanediol",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|1S-LSD": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/1s-lsd",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2-Aminoindane": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2-aminoindane-2-ai",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2-DPMP": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2-dpmp-desoxypipradrol",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2-MeO-Ketamine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2-meo-ketamine-methoxyketamine",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2-Methylethcathinone": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2-methylethcathinone",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|25B-NBOH": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/25b-nboh",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|25I-NBOH": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/25i-nboh",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2C-B": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2c-b",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2C-D": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2c-d",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2C-EF": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2c-ef",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2C-P": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2c-p",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2C-T-21": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2c-t-21",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|2C-T-7-NBOMe": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/2c-t-7-nbome",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|3,4-Methylenedioxyamphetamine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/3-4-methylenedioxyamphetamine-mda",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|3-Fluoroamphetamine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/3-fluoroamphetamine-3-fa-pal-353",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|3-MeO-PCPR": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/3-meo-pcpr",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|4-AcO-DET": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/4-aco-det",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|4-EMC": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/4-emc",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|4-HO-MET": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/4-ho-met",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|4-Methylphenmetrazine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/4-methylphenmetrazine-4-mpm",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|4′-Chloro-4-methylaminorex": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/4-chloro-4-methylaminorex-4c-mar-4-cl-mar",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|5-MeO-DALT": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/5-meo-dalt",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|ADB-PINACA": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/adb-pinaca-isomer-1",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|AM-2201": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/am-2201",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Adinazolam": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/adinazolam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Aniracetam": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/aniracetam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Bezitramide": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/bezitramide-burgodin",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|CB-13": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/cb-13-sab-378",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Carfentanil": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/carfentanil",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Coluracetam": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/coluracetam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|DOC": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/doc-2-5-dimethoxy-4-chloroamphetamine",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Desmethylflunitrazepam": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/desmethylflunitrazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Dizocilpine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/dizocilpine-mk-801",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Fenethylline": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/fenethylline-captagon",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Fluminorex": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/fluminorex",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Gabapentin": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/gabapentin",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Ibogaine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/ibogaine",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Lofentanil": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/lofentanil",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Medazepam": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/medazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Methcathinone": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/methcathinone",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Mirtazapine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/mirtazapine",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|NM-2-AI": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/nm-2-ai",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|O-pce": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/o-pce",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Phenazepam": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/phenazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Pregabalin": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/pregabalin",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Salvinorin A": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/salvinorin-a",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "drug.community|Tilmetamine": {
+    "verdict": "OK",
+    "url": "https://drug.community/drug/tilmetamine",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (bootstrap lists 419 slugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "emcdda|1,4-BDO": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=1,4-BDO",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=1,4-BDO",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|25I-NBF": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=25I-NBF",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=25I-NBF",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|3-MMC": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=3-MMC",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=3-MMC",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|4-HO-MCPT": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=4-HO-MCPT",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=4-HO-MCPT",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|5-MeO-MET": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=5-MeO-MET",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=5-MeO-MET",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Acetorphine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Acetorphine",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Acetorphine",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Ayahuasca": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Ayahuasca",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Ayahuasca",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Budesonide": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Budesonide",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Budesonide",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Chlorothiazide": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Chlorothiazide",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Chlorothiazide",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|DL-Phenylalanine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=DL-Phenylalanine",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=DL-Phenylalanine",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Diclofensine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Diclofensine",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Diclofensine",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Epinephrine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Epinephrine",
+    "status": 403,
+    "final_url": "https://www.euda.europa.eu/publications/drug-profiles_en?search=Epinephrine",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Fluocinonide": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Fluocinonide",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Fluocinonide",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|HHCP": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=HHCP",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=HHCP",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Iodine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Iodine",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Iodine",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Liraglutide": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Liraglutide",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Liraglutide",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|MOTS-c": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=MOTS-c",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=MOTS-c",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Methylpropylketamine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Methylpropylketamine",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Methylpropylketamine",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Naratriptan": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Naratriptan",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Naratriptan",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|P21": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=P21",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=P21",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Phytonadione": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Phytonadione",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Phytonadione",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|RAD-140": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=RAD-140",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=RAD-140",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Sebelipase Alfa": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Sebelipase%20Alfa",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Sebelipase%20Alfa",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Terazosin": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Terazosin",
+    "status": 403,
+    "final_url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Terazosin",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "emcdda|Unifiram": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=Unifiram",
+    "status": 403,
+    "final_url": "https://www.euda.europa.eu/publications/drug-profiles_en?search=Unifiram",
+    "detail": "blocked or server-side (HTTP 403)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|1,4-BDO": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=1,4-BDO",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=1,4-BDO",
+    "detail": "search resolves (33121B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|25I-NBF": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=25I-NBF",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=25I-NBF",
+    "detail": "search resolves (14256B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|3-MMC": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=3-MMC",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=3-MMC",
+    "detail": "search resolves (163145B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|4-HO-MCPT": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=4-HO-MCPT",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=4-HO-MCPT",
+    "detail": "search resolves (210417B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|5-MeO-MET": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=5-MeO-MET",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=5-MeO-MET",
+    "detail": "search resolves (84978B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Acetorphine": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Acetorphine",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Acetorphine",
+    "detail": "search resolves (8585B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Ayahuasca": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Ayahuasca",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Ayahuasca",
+    "detail": "search resolves (29971B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Budesonide": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Budesonide",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Budesonide",
+    "detail": "search resolves (8582B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Chlorothiazide": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Chlorothiazide",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Chlorothiazide",
+    "detail": "search resolves (8594B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|DL-Phenylalanine": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=DL-Phenylalanine",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=DL-Phenylalanine",
+    "detail": "search resolves (19374B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Diclofensine": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Diclofensine",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Diclofensine",
+    "detail": "search resolves (8588B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Epinephrine": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Epinephrine",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Epinephrine",
+    "detail": "search resolves (9270B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Fluocinonide": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Fluocinonide",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Fluocinonide",
+    "detail": "search resolves (8588B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|HHCP": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=HHCP",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=HHCP",
+    "detail": "search resolves (8564B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Iodine": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Iodine",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Iodine",
+    "detail": "search resolves (12250B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Liraglutide": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Liraglutide",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Liraglutide",
+    "detail": "search resolves (8585B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|MOTS-c": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=MOTS-c",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=MOTS-c",
+    "detail": "search resolves (32450B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Methylpropylketamine": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Methylpropylketamine",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Methylpropylketamine",
+    "detail": "search resolves (8612B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Naratriptan": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Naratriptan",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Naratriptan",
+    "detail": "search resolves (8585B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|P21": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=P21",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=P21",
+    "detail": "search resolves (8561B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Phytonadione": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Phytonadione",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Phytonadione",
+    "detail": "search resolves (8588B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|RAD-140": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=RAD-140",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=RAD-140",
+    "detail": "search resolves (16311B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Sebelipase Alfa": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Sebelipase%20Alfa",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Sebelipase%20Alfa",
+    "detail": "search resolves (8597B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Terazosin": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Terazosin",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Terazosin",
+    "detail": "search resolves (8579B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "erowid|Unifiram": {
+    "verdict": "OK",
+    "url": "https://www.erowid.org/search.php?q=Unifiram",
+    "status": 200,
+    "final_url": "https://www.erowid.org/search.php?q=Unifiram",
+    "detail": "search resolves (8576B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|1,4-Butanediol": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/1,4-%E4%B8%81%E4%BA%8C%E9%86%87.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/1,4-%E4%B8%81%E4%BA%8C%E9%86%87.html",
+    "detail": "page names '1,4-Butanediol'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|1V-LSD": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/1V-LSD.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/1V-LSD.html",
+    "detail": "page names '1V-LSD'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|1cP-MiPLA": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/1cP-MiPLA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/1cP-MiPLA.html",
+    "detail": "page names '1cP-MiPLA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2-DPMP": {
+    "verdict": "MISSING_SLUG",
+    "url": null,
+    "status": null,
+    "final_url": null,
+    "detail": "freeodwiki contributed data but no per-substance slug was captured, so the app can build no link",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2-Fluoroethamphetamine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/2-FEA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/2-FEA.html",
+    "detail": "page names '2-FEA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2-MMC": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/2-MMC.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/2-MMC.html",
+    "detail": "page names '2-MMC'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|25D-NBOMe": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/25D-NBOMe.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/25D-NBOMe.html",
+    "detail": "page names '25D-NBOMe'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|25I-NBOH": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/25I-NBOH.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/25I-NBOH.html",
+    "detail": "page names '25I-NBOH'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2C-B-FLY": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/2C-B-FLY.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/2C-B-FLY.html",
+    "detail": "page names '2C-B-FLY'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2C-E": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/2C-E.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/2C-E.html",
+    "detail": "page names '2C-E'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2C-H": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/2C-H.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/2C-H.html",
+    "detail": "page names '2C-H'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|2C-T-21": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/2C-T-21.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/2C-T-21.html",
+    "detail": "page names '2C-T-21'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|3-FMA": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/3-FMA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/3-FMA.html",
+    "detail": "page names '3-FMA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|3-Fluoroamphetamine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/3-FA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/3-FA.html",
+    "detail": "page names '3-FA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|3-HO-PCP": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/3-HO-PCP.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/3-HO-PCP.html",
+    "detail": "page names '3-HO-PCP'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|3-MeO-PCE": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/3-MeO-PCE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/3-MeO-PCE.html",
+    "detail": "page names '3-MeO-PCE'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|4-AcO-DiPT": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/4-AcO-DiPT.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/4-AcO-DiPT.html",
+    "detail": "page names '4-AcO-DiPT'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|4-HO-DPT": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E8%B5%9B%E6%B4%9B%E8%BE%9B.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E8%B5%9B%E6%B4%9B%E8%BE%9B.html",
+    "detail": "page names '4-HO-DPT'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|4F-MPH": {
+    "verdict": "HOMEPAGE",
+    "url": "https://freeodwiki.org",
+    "status": null,
+    "final_url": null,
+    "detail": "URL builder fell back to the site root",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|5-MeO-DiPT": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/5-MeO-DiPT.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/5-MeO-DiPT.html",
+    "detail": "page names '5-MeO-DiPT'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|ALD-52": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/ALD-52.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/ALD-52.html",
+    "detail": "page names 'ALD-52'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Agmatine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E8%83%8D%E4%B8%81%E8%83%BA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E8%83%8D%E4%B8%81%E8%83%BA.html",
+    "detail": "page names 'Agmatine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Amphetamine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E8%8B%AF%E4%B8%99%E8%83%BA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E8%8B%AF%E4%B8%99%E8%83%BA.html",
+    "detail": "page names 'Amphetamine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Benzydamine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E8%8B%84%E8%BE%BE%E6%98%8E.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E8%8B%84%E8%BE%BE%E6%98%8E.html",
+    "detail": "page names 'Benzydamine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Bupropion": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E5%AE%89%E9%9D%9E%E4%BB%96%E9%85%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E5%AE%89%E9%9D%9E%E4%BB%96%E9%85%AE.html",
+    "detail": "page names 'Bupropion'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Carphedon": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E8%8B%AF%E5%9F%BA%E5%90%A1%E6%8B%89%E8%A5%BF%E5%9D%A6.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E8%8B%AF%E5%9F%BA%E5%90%A1%E6%8B%89%E8%A5%BF%E5%9D%A6.html",
+    "detail": "page names 'Carphedon'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Cocaine": {
+    "verdict": "HOMEPAGE",
+    "url": "https://freeodwiki.org",
+    "status": null,
+    "final_url": null,
+    "detail": "URL builder fell back to the site root",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|DMT": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/DMT.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/DMT.html",
+    "detail": "page names 'DMT'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Demerol": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E5%93%8C%E6%9B%BF%E5%95%B6.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E5%93%8C%E6%9B%BF%E5%95%B6.html",
+    "detail": "page names 'Meperidine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Dichloropane": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/RTI-111.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/RTI-111.html",
+    "detail": "page names 'Dichloropane'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Ephenidine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E4%BE%9D%E8%8A%AC%E5%B0%BC%E5%AE%9A.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E4%BE%9D%E8%8A%AC%E5%B0%BC%E5%AE%9A.html",
+    "detail": "page names 'Ephenidine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Etizolam": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E4%BE%9D%E6%9B%BF%E5%94%91%E4%BB%91.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E4%BE%9D%E6%9B%BF%E5%94%91%E4%BB%91.html",
+    "detail": "page names 'Etizolam'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Flunitrazepam": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E6%B0%9F%E7%A1%9D%E8%A5%BF%E6%B3%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E6%B0%9F%E7%A1%9D%E8%A5%BF%E6%B3%AE.html",
+    "detail": "page names 'Flunitrazepam'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|HXE": {
+    "verdict": "HOMEPAGE",
+    "url": "https://freeodwiki.org",
+    "status": null,
+    "final_url": null,
+    "detail": "URL builder fell back to the site root",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|IHCH-711": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/IHCH-7113.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/IHCH-7113.html",
+    "detail": "page names 'IHCH-711'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|JYI-73": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E6%B0%9F%E6%BA%B4%E5%94%91%E4%BB%91.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E6%B0%9F%E6%BA%B4%E5%94%91%E4%BB%91.html",
+    "detail": "page names 'JYI-73'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|LSD": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/LSD.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/LSD.html",
+    "detail": "page names 'LSD'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|MD-PHP": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/MDPHP.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/MDPHP.html",
+    "detail": "page names 'MD-PHP'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|MMDA": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/MMDA.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/MMDA.html",
+    "detail": "page names 'MMDA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Memantine": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E7%BE%8E%E9%87%91%E5%88%9A.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E7%BE%8E%E9%87%91%E5%88%9A.html",
+    "detail": "page names 'Memantine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Methaqualone": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E7%94%B2%E5%96%B9%E9%85%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E7%94%B2%E5%96%B9%E9%85%AE.html",
+    "detail": "page names 'Methaqualone'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Mexedrone": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/4-MMC-MeO.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/4-MMC-MeO.html",
+    "detail": "page names 'Mexedrone'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Mushrooms": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E5%8F%A4%E5%B7%B4%E8%A3%B8%E7%9B%96%E8%8F%87.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E5%8F%A4%E5%B7%B4%E8%A3%B8%E7%9B%96%E8%8F%87.html",
+    "detail": "page names 'Mushrooms'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|N-甲基环唑酮": {
+    "verdict": "NO_MENTION",
+    "url": "https://freeodwiki.org/药物/N-%E7%94%B2%E5%9F%BA%E7%8E%AF%E5%94%91%E9%85%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/N-%E7%94%B2%E5%9F%BA%E7%8E%AF%E5%94%91%E9%85%AE.html",
+    "detail": "664875B page never names the substance or any of 0 aliases",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Nitromethaqualone": {
+    "verdict": "NO_MENTION",
+    "url": "https://freeodwiki.org/药物/%E7%A1%9D%E5%9F%BA%E7%94%B2%E5%96%B9%E9%85%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E7%A1%9D%E5%9F%BA%E7%94%B2%E5%96%B9%E9%85%AE.html",
+    "detail": "646070B page never names the substance or any of 1 aliases",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Oxymorphone": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E7%BE%9F%E5%90%97%E5%95%A1%E9%85%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E7%BE%9F%E5%90%97%E5%95%A1%E9%85%AE.html",
+    "detail": "page names 'Oxymorphone'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Phenazepam": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E8%8A%AC%E7%BA%B3%E8%A5%BF%E6%B3%AE.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E8%8A%AC%E7%BA%B3%E8%A5%BF%E6%B3%AE.html",
+    "detail": "page names 'Phenazepam'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "freeodwiki|Prolintane": {
+    "verdict": "OK",
+    "url": "https://freeodwiki.org/药物/%E6%99%AE%E7%BD%97%E6%9E%97%E5%9D%A6.html",
+    "status": 200,
+    "final_url": "https://freeodwiki.org/%E8%8D%AF%E7%89%A9/%E6%99%AE%E7%BD%97%E6%9E%97%E5%9D%A6.html",
+    "detail": "page names 'Prolintane'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|1,4-Butanediol": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=1,4-Butanediol+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=1,4-Butanediol+pharmacology",
+    "detail": "search resolves (253935B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|25E-NBOMe": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=25E-NBOMe+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=25E-NBOMe+pharmacology",
+    "detail": "search resolves (228145B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|3-Chloromethcathinone": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=3-Chloromethcathinone+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=3-Chloromethcathinone+pharmacology",
+    "detail": "search resolves (243541B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|4-CEC": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=4-CEC+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=4-CEC+pharmacology",
+    "detail": "search resolves (228006B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|4F-MDMB-BINACA": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=4F-MDMB-BINACA+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=4F-MDMB-BINACA+pharmacology",
+    "detail": "search resolves (243462B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|5-MeO-MET": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=5-MeO-MET+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=5-MeO-MET+pharmacology",
+    "detail": "search resolves (260048B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|ADB-HEXINACA": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=ADB-HEXINACA+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=ADB-HEXINACA+pharmacology",
+    "detail": "search resolves (228778B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Alcohol": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Alcohol+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Alcohol+pharmacology",
+    "detail": "search resolves (256045B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Brivaracetam": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Brivaracetam+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Brivaracetam+pharmacology",
+    "detail": "search resolves (253922B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|CBG": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=CBG+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=CBG+pharmacology",
+    "detail": "search resolves (254696B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Clonidine": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Clonidine+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Clonidine+pharmacology",
+    "detail": "search resolves (254478B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|DPT": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=DPT+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=DPT+pharmacology",
+    "detail": "search resolves (254893B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Dipipanone": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Dipipanone+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Dipipanone+pharmacology",
+    "detail": "search resolves (249617B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Etizolam": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Etizolam+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Etizolam+pharmacology",
+    "detail": "search resolves (253089B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|GBL": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=GBL+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=GBL+pharmacology",
+    "detail": "search resolves (255407B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Hydroxyzine": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Hydroxyzine+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Hydroxyzine+pharmacology",
+    "detail": "search resolves (254731B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|LR-1111": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=LR-1111+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=LR-1111+pharmacology",
+    "detail": "search resolves (219998B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|MDPPP": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=MDPPP+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=MDPPP+pharmacology",
+    "detail": "search resolves (252506B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Methallylescaline": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Methallylescaline+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/37882810/",
+    "detail": "search resolves (170246B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Mitragynine": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Mitragynine+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Mitragynine+pharmacology",
+    "detail": "search resolves (253188B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Nordazepam": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Nordazepam+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Nordazepam+pharmacology",
+    "detail": "search resolves (252541B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Pentedrone": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Pentedrone+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Pentedrone+pharmacology",
+    "detail": "search resolves (252059B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Propoxyphene": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Propoxyphene+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Propoxyphene+pharmacology",
+    "detail": "search resolves (254081B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|Salvinicin A": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Salvinicin%20A+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Salvinicin%20A+pharmacology",
+    "detail": "search resolves (254849B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "peer-review-primary|TMA-2": {
+    "verdict": "OK",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/?term=TMA-2+pharmacology",
+    "status": 200,
+    "final_url": "https://pubmed.ncbi.nlm.nih.gov/?term=TMA-2+pharmacology",
+    "detail": "search resolves (251547B)",
+    "category": "search",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|1,4-Butanediol": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/1,4-Butanediol",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/1,4-Butanediol",
+    "detail": "page names '1,4-Butanediol'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|1P-LSD": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/1P-LSD",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/1P-LSD",
+    "detail": "page names '1P-LSD'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|1cP-AL-LAD": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/1cP-AL-LAD",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/1cP-AL-LAD",
+    "detail": "page names '1cP-AL-LAD'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|2,5-DMA": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/2,5-DMA",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/2,5-DMA",
+    "detail": "page names '2,5-DMA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|2-FMA": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/2-FMA",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/2-FMA",
+    "detail": "page names '2-FMA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|25C-NBOH": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/25C-NBOH",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/25C-NBOH",
+    "detail": "page names '25C-NBOH'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|25D-NBOMe": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/25D-NBOMe",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/25D-NBOMe",
+    "detail": "page names '25D-NBOMe'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|25I-NBOH": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/25I-NBOH",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/25I-NBOH",
+    "detail": "page names '25I-NBOH'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|2C-B-FLY": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/2C-B-FLY",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/2C-B-FLY",
+    "detail": "page names '2C-B-FLY'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|2C-I": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/2C-I",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/2C-I",
+    "detail": "page names '2C-I'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|2C-T": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/2C-T",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/2C-T",
+    "detail": "soft-404: 248198B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|2C-T-21": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/2C-T-21",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/2C-T-21",
+    "detail": "page names '2C-T-21'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|3,4-Methylenedioxyamphetamine": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/3,4-Methylenedioxyamphetamine",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/3,4-Methylenedioxyamphetamine",
+    "detail": "page names '3,4-Methylenedioxyamphetamine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|3-HO-PCP": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/3-HO-PCP",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/3-HO-PCP",
+    "detail": "page names '3-HO-PCP'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|3C-P": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/3C-P",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/3C-P",
+    "detail": "soft-404: 241580B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|4-FMA": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/4-FMA",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/4-FMA",
+    "detail": "page names '4-FMA'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|4-HO-MET": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/4-HO-MET",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/4-HO-MET",
+    "detail": "page names '4-HO-MET'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|5-APB": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/5-APB",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/5-APB",
+    "detail": "page names '5-APB'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|5-MeO-DiPT": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/5-MeO-DiPT",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/5-MeO-DiPT",
+    "detail": "page names '5-MeO-DiPT'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|A-PHP": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/A-PHP",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/A-PHP",
+    "detail": "page names 'A-PHP'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Acetylfentanyl": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Acetylfentanyl",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Acetylfentanyl",
+    "detail": "page names 'Acetylfentanyl'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Amphetamine": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Amphetamine",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Amphetamine",
+    "detail": "page names 'Amphetamine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Bromantane": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/Bromantane",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Bromantane",
+    "detail": "soft-404: 250552B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|CBD": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/CBD",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/CBD",
+    "detail": "page names 'CBD'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Choline bitartrate": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/Choline_bitartrate",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Choline_bitartrate",
+    "detail": "soft-404: 250796B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Coluracetam": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/Coluracetam",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Coluracetam",
+    "detail": "soft-404: 234564B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|DOB": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/DOB",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/DOB",
+    "detail": "page names 'DOB'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Demerol": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Demerol",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Demerol",
+    "detail": "page names 'Demerol'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Diazepam": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Diazepam",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Diazepam",
+    "detail": "page names 'Diazepam'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|ETH-CAT": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/ETH-CAT",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/ETH-CAT",
+    "detail": "page names 'ETH-CAT'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Escaline": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/Escaline",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Escaline",
+    "detail": "soft-404: 247298B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|F-Phenibut": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/F-Phenibut",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/F-Phenibut",
+    "detail": "soft-404: 243231B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Flunitrazepam": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Flunitrazepam",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Flunitrazepam",
+    "detail": "page names 'Flunitrazepam'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Galantamine": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/Galantamine",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Galantamine",
+    "detail": "soft-404: 236563B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Hydromorphone": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Hydromorphone",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Hydromorphone",
+    "detail": "page names 'Hydromorphone'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Kratom": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Kratom",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Kratom",
+    "detail": "page names 'Kratom'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Lisdexamfetamine": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Lisdexamfetamine",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Lisdexamfetamine",
+    "detail": "page names 'Lisdexamfetamine'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|MXiPr": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/MXiPr",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/MXiPr",
+    "detail": "page names 'MXiPr'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Mescaline": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Mescaline",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Mescaline",
+    "detail": "page names 'Mescaline'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Methcathinone": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/Methcathinone",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Methcathinone",
+    "detail": "soft-404: 224900B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Methylphenidate": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Methylphenidate",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Methylphenidate",
+    "detail": "page names 'Methylphenidate'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Modafinil": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Modafinil",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Modafinil",
+    "detail": "page names 'Modafinil'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|N-Methylbisfluoromodafinil": {
+    "verdict": "BROKEN",
+    "url": "https://psychonautwiki.org/wiki/N-Methylbisfluoromodafinil",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/N-Methylbisfluoromodafinil",
+    "detail": "soft-404: 237551B page matches the host's error baseline (189727B, similarity 0.99)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|O-desmethyltramadol": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/O-desmethyltramadol",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/O-desmethyltramadol",
+    "detail": "page names 'O-desmethyltramadol'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|PARGY-LAD": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/PARGY-LAD",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/PARGY-LAD",
+    "detail": "page names 'PARGY-LAD'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "psychonautwiki|Pentedrone": {
+    "verdict": "OK",
+    "url": "https://psychonautwiki.org/wiki/Pentedrone",
+    "status": 200,
+    "final_url": "https://psychonautwiki.org/wiki/Pentedrone",
+    "detail": "page names 'Pentedrone'",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|1,4-Butanediol": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/1,4-butanediol",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 1,4-Butanediol among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2-FMA": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/2-fma",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 2-FMA among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2-MMC": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/2-mmc",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2-Methyl-2-Butanol": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/2-methyl-2-butanol",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 2-Methyl-2-Butanol among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|25C-NBOMe": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/25c-nbome",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 25C-NBOMe among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|25E-NBOMe": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/25e-nbome",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|25I-NBOMe": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/25i-nbome",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 25I-NBOMe among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2C-B-AN": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/2c-b-an",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2C-B-FLY": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/2c-b-fly",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 2C-B-FLY among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2C-IP": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/2c-ip",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 2C-IP among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|2C-T-2": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/2c-t-2",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|3,4-CTMP": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/3,4-ctmp",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 3,4-CTMP among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|3-Fluoromethcathinone": {
+    "verdict": "BROKEN",
+    "url": "https://drugs.tripsit.me/3-fluoromethcathinone",
+    "status": null,
+    "final_url": null,
+    "detail": "page does not exist per the site's own data (Drug with that name not found, please try again.; TripSit files it under '3-FMC')",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|3-HO-PCE": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/3-ho-pce",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|3-MeO-PCPR": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/3-meo-pcpr",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit lists 3-MeO-PCPR among 551 drugs)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|4'-Chlorodiazepam": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/4'-chlorodiazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|4-EMC": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/4-emc",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|4-HO-MCPT": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/4-ho-mcpt",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|4F-NEB": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/4f-neb",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|5-MAPB": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/5-mapb",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|5-MeO-PYR-T": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/5-meo-pyr-t",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|A-pvt": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/a-pvt",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Acrylfentanyl": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/acrylfentanyl",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Amphetamine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/amphetamine",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Bk-ivp": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/bk-ivp",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Camazepam": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/camazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Clonazolam": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/clonazolam",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Cyclobenzaprine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/cyclobenzaprine",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|DON": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/don",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Diazepam": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/diazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Doip": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/doip",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Ethylphenidate": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/ethylphenidate",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Flunitrazepam": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/flunitrazepam",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Glutethimide": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/glutethimide",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Huperzine-a": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/huperzine-a",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Kanna": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/kanna",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Lisdexamfetamine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/lisdexamfetamine",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|MIPT": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/mipt",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Met": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/met",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Methylone": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/methylone",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|N-Ethylpentedrone": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/n-ethylpentedrone",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Nitrazolam": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/nitrazolam",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Oxymorphone": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/oxymorphone",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Pentazocine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/pentazocine",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|PiPT": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/pipt",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Propylhexedrine": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/propylhexedrine",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Ronlax": {
+    "verdict": "UNVERIFIABLE",
+    "url": "https://drugs.tripsit.me/ronlax",
+    "status": null,
+    "final_url": null,
+    "detail": "tripsit API status=429 error=None",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Tetrahydrofuran-fentanyl": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/tetrahydrofuran-fentanyl",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit API has Tetrahydrofuran-Fentanyl)",
+    "category": "page",
+    "checked": "2026-07-26"
+  },
+  "tripsit|Triazolam": {
+    "verdict": "OK",
+    "url": "https://drugs.tripsit.me/triazolam",
+    "status": null,
+    "final_url": null,
+    "detail": "verified via oracle (tripsit API has Triazolam)",
+    "category": "page",
+    "checked": "2026-07-26"
+  }
+}

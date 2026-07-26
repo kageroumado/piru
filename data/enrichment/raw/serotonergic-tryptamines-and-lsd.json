@@ -356,14 +356,7 @@
    "reference": "doi:10.1038/sj.npp.1300711"
   },
   "off_targets": [
-   {
-    "target": "hERG",
-    "ki_or_ic50_nm": 6500,
-    "concern_level": "low",
-    "clinical_consequence": "QT prolongation minimal at recreational doses; signal seen at very high mg/kg in animals",
-    "reference": "doi:10.1111/jcpt.13129"
-   },
-   {
+{
     "target": "\u03c31",
     "ki_or_ic50_nm": null,
     "concern_level": "low",
@@ -1344,8 +1337,7 @@
   ],
   "notes": "Sherwood et al 2020 / Klein 2023: rapid plasma deacetylation makes 4-AcO-DMT effectively a psilocin prodrug. Onset slightly slower vs oral psilocybin, comparable duration.",
   "references_consulted": [
-   "doi:10.1021/acsptsci.2c00222",
-   "doi:10.1021/acs.jmedchem.0c00257"
+   "doi:10.1021/acsptsci.2c00222"
   ]
  },
  {
@@ -2011,8 +2003,8 @@
     },
     {
      "modality": "PET",
-     "finding": "5-HT2A receptor occupancy ~43% at oral 25 mg psilocybin (=~Cmax psilocin 19 ng/mL)",
-     "reference": "doi:10.1038/s41386-019-0567-5"
+     "finding": "Dose-related cerebral 5-HT2A receptor occupancy up to 72% after single oral psilocybin 3-30 mg ([11C]Cimbi-36 PET, n=8); plasma psilocin and occupancy fit a single-site binding model, and both track subjective intensity",
+     "reference": "pmid:30685771"
     }
    ]
   },
@@ -2021,17 +2013,17 @@
     {
      "route": "oral (as psilocybin \u2192 psilocin)",
      "bioavailability_pct": 52.7,
-     "cmax_ng_per_ml": 19,
+     "cmax_ng_per_ml": 8.2,
      "tmax_min": 105,
-     "auc_0_inf_ng_h_per_ml": 105,
+     "auc_0_inf_ng_h_per_ml": null,
      "half_life_min": 165,
      "vd_l_per_kg": 2.8,
      "clearance_ml_per_min_per_kg": 14,
      "protein_binding_pct": 66,
-     "dose_in_study_mg": 25,
-     "subject_n": 19,
+     "dose_in_study_mg": 15,
+     "subject_n": 6,
      "subject_demographics": "Hasler 1997 / Brown 2017 healthy adults",
-     "reference": "doi:10.1007/s00213-017-4710-x"
+     "reference": "pmid:9204776"
     },
     {
      "route": "intravenous (as psilocybin)",
@@ -2047,11 +2039,11 @@
    ],
    "concentration_effect": [
     {
-     "effect": "subjective effects (5D-ASC)",
+     "effect": "subjective psychedelic intensity (VAS), correlated with plasma psilocin",
      "concentration_unit": "ng/mL psilocin",
      "threshold": 4,
      "peak_effect": 19,
-     "reference": "doi:10.1007/s00213-017-4710-x"
+     "reference": "pmid:30685771"
     }
    ]
   },
@@ -2151,7 +2143,6 @@
   "notes": "Psilocybin is the bioavailable prodrug \u2014 gastric dephosphorylation by alkaline phosphatase and intestinal phosphatases yields psilocin near-quantitatively. Wikipedia binding ranges reflect inter-laboratory variance.",
   "references_consulted": [
    "doi:10.1021/acschemneuro.8b00186",
-   "doi:10.1007/s00213-017-4710-x",
    "doi:10.1126/science.abl8615",
    "doi:10.1111/bph.70109"
   ]
@@ -2186,12 +2177,12 @@
      "route": "oral",
      "bioavailability_pct": 52.7,
      "cmax_ng_per_ml": null,
-     "tmax_min": 100,
+     "tmax_min": 105,
      "half_life_min": 165,
      "dose_in_study_mg": null,
      "subject_n": null,
      "subject_demographics": "varies by species; cubensis ~6\u201310 mg psilocybin/g dried",
-     "reference": "doi:10.1007/s00213-017-4710-x",
+     "reference": "pmid:9204776",
      "notes": "1 g dried cubensis \u2248 5\u201310 mg psilocybin \u2248 moderate dose"
     }
    ],
@@ -2254,7 +2245,6 @@
   ],
   "notes": "Effects are functionally psilocin (active metabolite). Variability in dried-weight potency is large (3-fold).",
   "references_consulted": [
-   "doi:10.1007/s00213-017-4710-x"
   ]
  },
  {
@@ -2455,7 +2445,7 @@
      "reference_agonist": "5-HT",
      "species": "human",
      "cell_system": "HEK293",
-     "reference": "doi:10.1021/acs.jmedchem.0c00257"
+     "reference": "pmid:33860183"
     }
    ],
    "biased_agonism": [],
@@ -2505,8 +2495,7 @@
   ],
   "notes": "Rickli 2016 and Klein 2020 datasets converge on similar potency to psilocin; less prone to nausea per user reports (possibly less 5-HT2B agonism).",
   "references_consulted": [
-   "pmid:27216487",
-   "doi:10.1021/acs.jmedchem.0c00257"
+   "pmid:27216487"
   ]
  },
  {
@@ -2548,7 +2537,7 @@
      "reference_agonist": "5-HT",
      "species": "human",
      "cell_system": "HEK293",
-     "reference": "doi:10.1021/acs.jmedchem.0c00257"
+     "reference": "pmid:33860183"
     }
    ],
    "biased_agonism": [],
@@ -2593,8 +2582,7 @@
   ],
   "notes": "Patent US11780808 (bis-miprocin fumarate) explores miprocin as clinical candidate.",
   "references_consulted": [
-   "pmid:27216487",
-   "doi:10.1021/acs.jmedchem.0c00257"
+   "pmid:27216487"
   ]
  },
  {
@@ -2711,8 +2699,8 @@
      "action": "partialAgonist",
      "species": "human",
      "tissue_or_cell": "HEK293",
-     "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.1021/acs.jmedchem.0c00257",
+     "radioligand_or_probe": null,
+     "reference": "pmid:33860183",
      "is_review": false,
      "notes": "Klein 2020: submicromolar; far less potent at 5-HT2C than other 4-HO-tryptamines"
     }
@@ -2726,7 +2714,7 @@
      "reference_agonist": "5-HT",
      "species": "human",
      "cell_system": "HEK293",
-     "reference": "doi:10.1021/acs.jmedchem.0c00257"
+     "reference": "pmid:33860183"
     }
    ],
    "biased_agonism": [],
@@ -2770,7 +2758,6 @@
   ],
   "notes": "Klein 2020 \u2014 distinctly low 5-HT2C activity vs related 4-HO compounds.",
   "references_consulted": [
-   "doi:10.1021/acs.jmedchem.0c00257"
   ]
  },
  {
@@ -2796,8 +2783,8 @@
      "action": "partialAgonist",
      "species": "human",
      "tissue_or_cell": "HEK293",
-     "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.1021/acs.jmedchem.0c00257",
+     "radioligand_or_probe": null,
+     "reference": "pmid:33860183",
      "is_review": false,
      "notes": "Klein 2020 \u2014 modest affinity, full agonist Emax"
     }
@@ -2843,7 +2830,6 @@
   ],
   "notes": null,
   "references_consulted": [
-   "doi:10.1021/acs.jmedchem.0c00257"
   ]
  },
  {
@@ -3078,12 +3064,12 @@
    "reference": null
   },
   "tolerance_and_dependence": {
-   "receptor_downregulation_half_time": "No significant tolerance observed with closely-spaced IV doses (Strassman); 5-HT2A internalisation kinetics may not catch the brief exposure",
+   "receptor_downregulation_half_time": "No tolerance to subjective psychedelic effects across four IV doses of 0.3 mg/kg given 30 min apart (Strassman 1996); neuroendocrine and heart-rate responses (ACTH, prolactin, cortisol) DID diminish across the same doses",
    "cross_tolerance": [
     "weak cross to LSD/psilocin"
    ],
    "withdrawal_syndrome": "None",
-   "reference": "pmid:8967767"
+   "reference": "pmid:8731519"
   },
   "off_targets": [
    {
@@ -6352,7 +6338,7 @@
      "species": "human",
      "tissue_or_cell": "HEK293 expressing hMT1",
      "radioligand_or_probe": "[125I]-iodomelatonin",
-     "reference": "doi:10.1124/mol.105.018622",
+     "reference": "pmid:12764576",
      "is_review": false,
      "notes": "Audinot 2003: subnanomolar"
     },
@@ -6364,7 +6350,7 @@
      "species": "human",
      "tissue_or_cell": "HEK293 expressing hMT2",
      "radioligand_or_probe": "[125I]-iodomelatonin",
-     "reference": "doi:10.1124/mol.105.018622",
+     "reference": "pmid:12764576",
      "is_review": false,
      "notes": null
     },
@@ -6385,12 +6371,12 @@
     {
      "target": "MT1",
      "readout": "G\u03b1i cAMP inhibition",
-     "ec50_nm": 0.05,
-     "emax_pct": 100,
+     "ec50_nm": 0.3,
+     "emax_pct": 83,
      "reference_agonist": null,
      "species": "human",
-     "cell_system": "HEK293",
-     "reference": "doi:10.1124/mol.105.018622"
+     "cell_system": "CHO",
+     "reference": "pmid:10696085"
     }
    ],
    "biased_agonism": [],
@@ -6398,8 +6384,8 @@
     {
      "complex": "MT1/MT2 heterodimer",
      "evidence": "BRET",
-     "functional_consequence": "Altered Gi efficacy",
-     "reference": "doi:10.1124/mol.105.018622"
+     "functional_consequence": "Heterodimer-specific ligand interaction profile; two functional binding sites retaining MT1- and MT2-selectivity, either of which triggers a conformational change",
+     "reference": "pmid:15266022"
     }
    ],
    "downstream_signalling": "MT1 sleep onset (G\u03b1i\u2192cAMP\u2193 + PLC activation); MT2 circadian phase shift; MT3 antioxidant. cAMP-PKA-CREB downstream. No serotonergic agonism at typical doses.",
@@ -6500,8 +6486,7 @@
   ],
   "notes": "Massive CYP1A2 substrate sensitivity drives most clinically meaningful DDIs. Fluvoxamine + melatonin essentially contraindicated.",
   "references_consulted": [
-   "doi:10.1124/mol.105.018622",
-   "doi:10.1124/dmd.117.075788"
+"doi:10.1124/dmd.117.075788"
   ]
  },
  {
@@ -25016,9 +25001,7 @@
    "doi:10.1021/acschemneuro.8b00186",
    "doi:10.1021/acsptsci.2c00177",
    "doi:10.1021/acsptsci.2c00222",
-   "doi:10.1021/acs.jmedchem.0c00257",
-   "pmid:27216487",
-   "doi:10.1007/s00213-017-4710-x"
+   "pmid:27216487"
   ]
  },
  {
@@ -25093,8 +25076,7 @@
   "shared_safety": "Generally safe in physiological/supplement doses. 5-HTP + MAOI/SSRI \u2192 serotonin syndrome. Melatonin in pregnancy and immune-suppressed populations cautious. Tryptophan EMS outbreak 1989 linked to Showa Denko contamination, not the amino acid itself.",
   "sar_summary": "Hydroxyl position determines receptor target: 5-OH (serotonin) \u2192 5-HT receptors; 5-methoxy + N-acetyl (melatonin) \u2192 MT1/MT2; phosphorylation at 4 (psilocybin) \u2192 4-HT prodrug system.",
   "key_references": [
-   "doi:10.1124/mol.105.018622",
-   "doi:10.1124/dmd.117.075788",
+"doi:10.1124/dmd.117.075788",
    "doi:10.1006/abbi.1998.0973",
    "pmid:11459929"
   ]

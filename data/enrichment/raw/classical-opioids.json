@@ -85,11 +85,6 @@
       ],
       "downstream_signalling": "G\u03b1i/o coupling \u2192 inhibition of adenylyl cyclase (decreased cAMP), activation of GIRK potassium channels (hyperpolarisation), inhibition of N/P/Q-type Cav channels (decreased neurotransmitter release). Repeated activation drives GRK-mediated phosphorylation, \u03b2-arrestin-2 recruitment, receptor desensitisation and internalisation (morphine internalises MOR poorly compared with DAMGO/etorphine \u2014 the 'RAVE' paradox).",
       "neuroimaging": [
-        {
-          "modality": "PET",
-          "finding": "Morphine displaces [11C]carfentanil from MOR in human striatum, thalamus, and cingulate cortex; displacement correlates with analgesic and euphoric ratings.",
-          "reference": "doi:10.1124/jpet.103.057091"
-        }
       ]
     },
     "human_pk": {
@@ -153,10 +148,10 @@
     "drug_interactions_pk": [
       {
         "with": "rifampicin",
-        "mechanism": "UGT2B7 / Pgp induction",
+        "mechanism": "rifampicin induction of morphine clearance/transport (P-gp); the source explicitly found NO evidence of UGT induction",
         "ki_um": null,
-        "clinical_effect": "decreased morphine AUC; rare loss of analgesia",
-        "reference": "doi:10.1111/j.1365-2125.2009.03398.x"
+        "clinical_effect": "morphine AUC reduced ~28% and Cmax ~41%; complete loss of analgesic effect in the crossover study",
+        "reference": "pmid:9272811"
       }
     ],
     "pharmacogenetics": {
@@ -583,11 +578,11 @@
       },
       {
         "enzyme": "UGT1A1, UGT2B7",
-        "fraction_of_clearance_pct": 30,
+        "fraction_of_clearance_pct": 51,
         "metabolite_name": "buprenorphine-3-glucuronide / norbuprenorphine-3-glucuronide",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.110.037523",
+        "reference": "pmid:19841060",
         "notes": "Brown 2011 \u2014 both glucuronides are biologically active at opioid receptors."
       }
     ],
@@ -656,8 +651,7 @@
     "references_consulted": [
 "doi:10.1523/JNEUROSCI.3723-08.2009",
       "doi:10.2165/00003088-200544070-00001",
-      "doi:10.1124/dmd.105.004135",
-      "doi:10.1124/dmd.110.037523"
+      "doi:10.1124/dmd.105.004135"
     ]
   },
   {
@@ -929,15 +923,15 @@
         "metabolite_name": "morphine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20000,
-        "reference": "pmid:28520367",
+        "reference": "pmid:32982255",
         "notes": "Rate-limiting bioactivation step; PMs get ~96% lower morphine AUC, UMs get supratherapeutic morphine from normal codeine doses."
       },
       {
         "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 80,
+        "fraction_of_clearance_pct": 10,
         "metabolite_name": "norcodeine",
         "metabolite_active": false,
-        "reference": "pmid:28520367"
+        "reference": "pmid:32982255"
       },
       {
         "enzyme": "UGT2B7",
@@ -945,7 +939,7 @@
         "metabolite_name": "codeine-6-glucuronide",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:28520367"
+        "reference": "pmid:32982255"
       }
     ],
     "drug_interactions_pk": [
@@ -953,7 +947,7 @@
         "with": "paroxetine / fluoxetine / bupropion",
         "mechanism": "CYP2D6 inhibition",
         "clinical_effect": "Phenoconverts EM to PM \u2192 loss of codeine analgesia",
-        "reference": "pmid:28520367"
+        "reference": "pmid:8845855"
       }
     ],
     "pharmacogenetics": {
@@ -992,7 +986,6 @@
     "notes": "Codeine is the textbook CYP2D6 pharmacogenetics example \u2014 PMs get no analgesia, UMs get respiratory depression. NEJMa041888 reports the seminal infant death case.",
     "references_consulted": [
       "pmid:1851921",
-      "pmid:28520367",
       "doi:10.1038/clpt.2011.287",
       "https://www.nejm.org/doi/full/10.1056/NEJMoa041888"
     ]
@@ -1366,7 +1359,7 @@
         "with": "itraconazole / ritonavir",
         "mechanism": "strong CYP3A4 inhibition",
         "clinical_effect": "\u2191 oxycodone AUC 2-3\u00d7",
-        "reference": "doi:10.1111/j.1365-2125.2010.03683.x"
+        "reference": "pmid:20697700"
       },
       {
         "with": "rifampicin",
@@ -2168,7 +2161,7 @@
         "with": "serotonergics, tramadol, fentanyl, alcohol, benzodiazepines",
         "mechanism": "pharmacodynamic \u2014 additive CNS depression / serotonergic",
         "clinical_effect": "Most kratom-related fatalities involve polypharmacy.",
-        "reference": "doi:10.1093/jat/bkz048"
+        "reference": "pmid:31429622"
       }
     ],
     "pharmacogenetics": {
@@ -2287,7 +2280,7 @@
           "half_life_min": 240,
           "vd_l_per_kg": 7.4,
           "protein_binding_pct": 20,
-          "reference": "doi:10.2165/11534400-000000000-00000"
+          "reference": "pmid:18062408"
         }
       ],
       "concentration_effect": []
@@ -2298,7 +2291,7 @@
         "fraction_of_clearance_pct": 70,
         "metabolite_name": "tapentadol-O-glucuronide",
         "metabolite_active": false,
-        "reference": "doi:10.2165/11534400-000000000-00000",
+        "reference": "pmid:18062408",
         "notes": "Glucuronidation dominates clearance \u2014 NOT CYP-dependent; minimal DDI footprint and minimal pharmacogenetic CYP impact."
       },
       {
@@ -2306,7 +2299,7 @@
         "fraction_of_clearance_pct": 15,
         "metabolite_name": "hydroxytapentadol",
         "metabolite_active": false,
-        "reference": "doi:10.2165/11534400-000000000-00000"
+        "reference": "pmid:37631302"
       }
     ],
     "drug_interactions_pk": [
@@ -2323,7 +2316,7 @@
         "OPRM1"
       ],
       "phenotype_effects": "Unlike tramadol/codeine, tapentadol does NOT depend on CYP2D6 bioactivation \u2014 no PM/UM dichotomy. UGT2B7 polymorphisms produce modest exposure differences.",
-      "reference": "doi:10.2165/11534400-000000000-00000"
+      "reference": "pmid:27580162"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
@@ -2362,8 +2355,7 @@
     "notes": "Mechanistically cleaner than tramadol: NRI dominates, SERT minimal, no CYP2D6 bioactivation. Safer pharmacogenetic and DDI profile.",
     "references_consulted": [
       "pmid:17656655",
-      "doi:10.1002/prp2.921",
-      "doi:10.2165/11534400-000000000-00000"
+      "doi:10.1002/prp2.921"
     ]
   },
   {
@@ -2397,12 +2389,12 @@
         },
         {
           "target": "\u03c31 (+)",
-          "ki_nm": null,
+          "ki_nm": 2.9,
           "action": "agonist",
           "species": "guinea pig",
           "tissue_or_cell": "brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "pmid:16125682",
+          "reference": "pmid:1359973",
           "is_review": false,
           "notes": "(+)-pentazocine is the canonical \u03c31 radioligand."
         },
@@ -2463,13 +2455,6 @@
       "reference": null
     },
     "off_targets": [
-      {
-        "target": "\u03c31",
-        "ki_or_ic50_nm": null,
-        "concern_level": "moderate",
-        "clinical_consequence": "Dysphoria, hallucinations, anxiety at higher doses \u2014 partly \u03c31-mediated.",
-        "reference": "pmid:16125682"
-      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -2490,8 +2475,7 @@
     ],
     "notes": "Classic mixed agonist-antagonist; will precipitate withdrawal in MOR-tolerant patients.",
     "references_consulted": [
-      "doi:10.1016/0024-3205(93)90152-S",
-      "pmid:16125682"
+      "doi:10.1016/0024-3205(93)90152-S"
     ]
   },
   {
@@ -2602,7 +2586,7 @@
         "ki_or_ic50_nm": 1000,
         "concern_level": "low",
         "clinical_consequence": "Weak \u03c3 binding (Ki > 1 \u03bcM); minimal contribution to clinical effects.",
-        "reference": "pmid:16125682"
+        "reference": "pmid:8093631"
       }
     ],
     "demographic_differences": {
@@ -2671,13 +2655,13 @@
           "half_life_min": 210,
           "vd_l_per_kg": 4,
           "protein_binding_pct": 65,
-          "reference": "doi:10.2165/00003088-198611030-00002"
+          "reference": "pmid:7297021"
         },
         {
           "route": "intramuscular",
-          "bioavailability_pct": 90,
-          "tmax_min": 30,
-          "reference": "doi:10.2165/00003088-198611030-00002"
+          "bioavailability_pct": 100,
+          "tmax_min": 10,
+          "reference": "pmid:7297021"
         }
       ],
       "concentration_effect": []
@@ -2759,8 +2743,7 @@
     "data_gaps_remaining": [],
     "notes": "Largely replaced in modern practice because of normeperidine toxicity. Multiple guidelines list it as 'avoid except brief use'.",
     "references_consulted": [
-      "doi:10.1016/j.yrtph.2010.12.007",
-      "doi:10.2165/00003088-198611030-00002"
+      "doi:10.1016/j.yrtph.2010.12.007"
     ]
   },
   {
@@ -3035,7 +3018,7 @@
           "tmax_min": 150,
           "half_life_min": 900,
           "protein_binding_pct": 80,
-          "reference": "doi:10.2165/00003088-198308040-00005",
+          "reference": "pmid:2590604",
           "notes": "Norpropoxyphene t\u00bd 30-36 h \u2014 long enough to accumulate to cardiotoxic concentrations."
         }
       ],
@@ -3110,8 +3093,7 @@
     "notes": "Withdrawn worldwide due to dose-related cardiotoxicity from norpropoxyphene accumulation.",
     "references_consulted": [
       "pmid:1851921",
-      "pmid:10690289",
-      "doi:10.2165/00003088-198308040-00005"
+      "pmid:10690289"
     ]
   },
   {
@@ -3154,7 +3136,7 @@
           "route": "oral",
           "bioavailability_pct": 40,
           "half_life_min": 900,
-          "reference": "doi:10.2165/00003088-198308040-00005"
+          "reference": "pmid:2590604"
         }
       ],
       "concentration_effect": []
@@ -3470,8 +3452,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1097/00007691-200502000-00006",
-          "is_review": true,
+          "reference": "pmid:1851921",
+          "is_review": false,
           "notes": "Like codeine, parent ethylmorphine has low MOR affinity; activity from CYP2D6\u2192morphine conversion."
         }
       ],
@@ -3499,7 +3481,7 @@
         "metabolite_name": "morphine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1097/00007691-200502000-00006"
+        "reference": "pmid:7756104"
       }
     ],
     "drug_interactions_pk": [],
@@ -3508,7 +3490,7 @@
         "CYP2D6"
       ],
       "phenotype_effects": "Same PM/UM caveats as codeine.",
-      "reference": "doi:10.1097/00007691-200502000-00006"
+      "reference": "pmid:7654478"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
@@ -3537,7 +3519,6 @@
     ],
     "notes": "Largely historical; used in some European countries as cough/antitussive.",
     "references_consulted": [
-      "doi:10.1097/00007691-200502000-00006"
     ]
   },
   {
@@ -3755,7 +3736,7 @@
         "morphine"
       ],
       "withdrawal_syndrome": "Morphine-type; can be severe with chronic use because daily morphine dose from PST can reach 100-500 mg.",
-      "reference": "doi:10.1111/dar.12882"
+      "reference": "pmid:34861895"
     },
     "off_targets": [],
     "demographic_differences": {
@@ -3886,16 +3867,16 @@
         {
           "route": "subcutaneous",
           "bioavailability_pct": 100,
-          "tmax_min": 10,
+          "tmax_min": 20,
           "half_life_min": 40,
           "vd_l_per_kg": 1.6,
           "protein_binding_pct": 90,
-          "reference": "doi:10.1002/cpdd.337"
+          "reference": "pmid:10511920"
         },
         {
           "route": "sublingual",
           "bioavailability_pct": 17,
-          "reference": "doi:10.1002/cpdd.337"
+          "reference": "pmid:33991326"
         }
       ],
       "concentration_effect": []
@@ -3906,7 +3887,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "apomorphine-sulfate / glucuronide",
         "metabolite_active": false,
-        "reference": "doi:10.1002/cpdd.337"
+        "reference": "pmid:15037665"
       }
     ],
     "drug_interactions_pk": [
@@ -3961,8 +3942,7 @@
     "data_gaps_remaining": [],
     "notes": "Despite morphinan name, apomorphine is a dopamine agonist with NO opioid activity \u2014 categorisation under 'classical opioids' is historical/structural, not pharmacological.",
     "references_consulted": [
-      "pmid:8787038",
-      "doi:10.1002/cpdd.337"
+      "pmid:8787038"
     ]
   },
   {
@@ -4485,11 +4465,11 @@
       "routes": [
         {
           "route": "oral",
-          "bioavailability_pct": 90,
-          "tmax_min": 30,
-          "half_life_min": 215,
-          "vd_l_per_kg": 0.58,
-          "reference": "doi:10.1111/j.1399-6576.1985.tb02329.x"
+          "bioavailability_pct": null,
+          "tmax_min": null,
+          "half_life_min": 71,
+          "vd_l_per_kg": null,
+          "reference": "pmid:9584342"
         }
       ],
       "concentration_effect": []
@@ -4539,7 +4519,6 @@
     ],
     "notes": "Short duration (1-3 h) + high oral F% drove high abuse potential \u2014 withdrawn from many markets.",
     "references_consulted": [
-      "doi:10.1111/j.1399-6576.1985.tb02329.x"
     ]
   },
   {
@@ -5307,7 +5286,7 @@
         "with": "alcohol / benzodiazepines / other CNS depressants",
         "mechanism": "pharmacodynamic \u2014 additive respiratory depression + QT prolongation (promethazine)",
         "clinical_effect": "Multiple celebrity deaths.",
-        "reference": "doi:10.1093/jat/bkz022"
+        "reference": "pmid:24648790"
       }
     ],
     "pharmacogenetics": {
@@ -5351,7 +5330,6 @@
     "data_gaps_remaining": [],
     "notes": "Cultural shorthand for prescription codeine/promethazine cough syrup. Mortality risk reflects high single-event codeine doses (often 50-200 mg) combined with promethazine's QT and CNS-depressant effects, often plus alcohol.",
     "references_consulted": [
-      "doi:10.1093/jat/bkz022"
     ]
   },
   {

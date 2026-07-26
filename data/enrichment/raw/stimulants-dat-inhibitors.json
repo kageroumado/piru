@@ -346,8 +346,8 @@
       "neuroimaging": [
         {
           "modality": "PET",
-          "finding": "Oral 0.5 mg/kg occupies ~60% of striatal DAT and ~70-80% of NET in thalamus",
-          "reference": "doi:10.1038/sj.npp.1300242"
+          "finding": "Oral methylphenidate at clinical maintenance doses (0.35-0.55 mg/kg) occupies 70-80% of thalamic NET (ED50 0.14 mg/kg); striatal DAT occupancy at the same doses exceeds 50% (ED50 0.25 mg/kg; 72% at a 40 mg oral dose)",
+          "reference": "pmid:20691429"
         }
       ]
     },
@@ -1964,23 +1964,13 @@
         {
           "target": "DAT",
           "ki_nm": null,
-          "ic50_nm": 22,
+          "ic50_nm": 25,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat striatal synaptosomes",
+          "species": "mouse",
+          "tissue_or_cell": "mouse striatal synaptosomes",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "reference": "doi:10.1016/0014-2999(80)90072-2",
+          "reference": "pmid:20504502",
           "notes": "Naphthyridine-class DRI; highly DAT-selective with no NET activity."
-        },
-        {
-          "target": "NET",
-          "ki_nm": null,
-          "ic50_nm": null,
-          "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat cortex",
-          "reference": "doi:10.1016/0014-2999(80)90072-2",
-          "notes": "Essentially inactive \u2014 marked DAT selectivity."
         }
       ],
       "functional": [],
@@ -2001,7 +1991,6 @@
     ],
     "notes": "Highly potent and DAT-selective; common research tool for selective DA enhancement. Discovered as serendipitous CNS stimulant in early antibiotic SAR.",
     "references_consulted": [
-      "doi:10.1016/0014-2999(80)90072-2"
     ]
   },
   {
@@ -2675,29 +2664,29 @@
       "binding": [
         {
           "target": "DAT",
-          "ki_nm": 8,
+          "ki_nm": 8.1,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat striatum",
+          "species": "human",
+          "tissue_or_cell": "cloned human dopamine transporter (transfected cell membranes)",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:8517722",
+          "reference": "pmid:9537821",
           "notes": "High DAT affinity, only modestly DAT-selective."
         },
         {
           "target": "NET",
-          "ki_nm": 3,
+          "ki_nm": 0.45,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat cortex",
+          "species": "human",
+          "tissue_or_cell": "cloned human norepinephrine transporter (transfected cell membranes)",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "pmid:8517722"
+          "reference": "pmid:9537821"
         },
         {
           "target": "SERT",
           "ki_nm": 5400,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "reference": "pmid:8517722"
+          "species": "human",
+          "reference": "pmid:9537821"
         },
         {
           "target": "OX2R (orexin-2)",
@@ -2739,8 +2728,7 @@
     ],
     "notes": "Mid-affinity NDRI with significant orexin-2 agonism \u2014 uniquely positioned for narcolepsy. Phase 2 trials in ADHD met endpoints (NLS Pharmaceutics).",
     "references_consulted": [
-      "pmid:8517722",
-      "pmid:525256"
+"pmid:525256"
     ]
   },
   {
@@ -2960,7 +2948,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]dopamine release",
-          "reference": "pmid:11907181",
+          "reference": "pmid:12106802",
           "notes": "Rothman et al. 2002 \u2014 phenmetrazine is a substrate-type releaser at DAT and NET."
         },
         {
@@ -2970,7 +2958,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "pmid:11907181"
+          "reference": "pmid:12106802"
         },
         {
           "target": "SERT",
@@ -2979,7 +2967,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "pmid:11907181",
+          "reference": "pmid:12106802",
           "notes": "Negligible serotonergic releasing activity."
         }
       ],
@@ -3015,8 +3003,7 @@
     "data_gaps_remaining": [],
     "notes": "Historical anorectic (Preludin); high abuse liability led to withdrawal. Prototype phenylmorpholine releaser scaffold.",
     "references_consulted": [
-      "pmid:11907181",
-      "pmid:23211394"
+"pmid:23211394"
     ]
   },
   {
@@ -3877,8 +3864,6 @@
       "pmid:15082749",
       "doi:10.1038/srep07111",
       "doi:10.1038/sj.npp.1300266",
-      "pmid:11907181",
-      "pmid:8517722",
       "pmc:4257105",
       "pmc:4876529"
     ]
@@ -3938,8 +3923,7 @@
     "shared_safety": "Releaser pharmacology produces stronger sympathomimetic load than uptake-blocker class \u2014 hypertension, tachycardia, vasoconstriction (3-FPM AKI + critical limb ischemia case reports). MDMA-like analogues (4-MPM) add serotonin syndrome risk and 5-HT2B-mediated valvulopathy concern with chronic use.",
     "sar_summary": "Halogen at C3 (F, Cl) maintains NE/DA selectivity and modestly potentiates DAT release. Halogen at C4 (4-F) similar. C4 methyl or 3,4-methylenedioxy adds substantial SERT releaser activity \u2192 MDMA-like profile. N-methylation (phendimetrazine) abolishes activity, generating slow-release prodrug of demethylated form (phenmetrazine).",
     "key_references": [
-      "pmid:11907181",
-      "doi:10.1016/j.neuropharm.2017.10.006",
+"doi:10.1016/j.neuropharm.2017.10.006",
       "doi:10.1016/j.bmcl.2015.04.083",
       "doi:10.1002/dta.2396",
       "doi:10.1038/srep31385",

@@ -116,7 +116,7 @@
           "dose_in_study_mg": 34,
           "subject_n": 6,
           "subject_demographics": "occasional cannabis users",
-          "reference": "doi:10.1097/00007691-200502000-00007",
+          "reference": "pmid:17712819",
           "notes": "Smoking bioavailability 18-50% depending on smoking topography; terminal half-life is long (1-3 days) due to deep adipose redistribution."
         },
         {
@@ -132,17 +132,17 @@
           "dose_in_study_mg": 20,
           "subject_n": 11,
           "subject_demographics": "healthy adult volunteers",
-          "reference": "doi:10.1097/00007691-200502000-00007",
+          "reference": "pmid:6250760",
           "notes": "First-pass metabolism produces ~equipotent 11-OH-THC, contributing to delayed/more intense effects of edibles."
         }
       ],
       "concentration_effect": [
         {
-          "effect": "subjective intensity (0-10) and tachycardia",
+          "effect": "psychomotor and cognitive impairment (critical tracking, stop signal, Tower of London)",
           "concentration_unit": "ng/mL",
           "threshold": 2,
-          "peak_effect": 100,
-          "reference": "doi:10.1097/00007691-200502000-00007"
+          "peak_effect": 30,
+          "reference": "pmid:16723194"
         }
       ]
     },
@@ -196,10 +196,10 @@
       "reference": "pmid:19005461"
     },
     "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "CB1 receptors downregulate within 4 weeks of daily heavy use (~20% reduction in cortical [18F]MK-9470 binding); recovery within 4 weeks of abstinence (D'Souza 2016).",
+      "receptor_downregulation_half_time": "Cortical CB1 receptors are downregulated in chronic daily cannabis smokers (~20% lower [18F]FMPEP-d2 binding, correlating with years of use) and return to normal levels after ~4 weeks of monitored abstinence (Hirvonen 2012).",
       "cross_tolerance": ["synthetic cannabinoids (JWH-018, AMB-FUBINACA)", "nabilone"],
       "withdrawal_syndrome": "Onset 24-48h, peak 2-6 days, resolves 1-2 weeks. Irritability, anxiety, sleep disturbance with vivid dreams, decreased appetite, sweating.",
-      "reference": "doi:10.1038/mp.2015.165"
+      "reference": "pmid:21747398"
     },
     "off_targets": [
       {
@@ -230,9 +230,7 @@
     "notes": "Δ9-THC's PARTIAL agonism at CB1 (~15-30% intrinsic activity vs CP55,940) is the single most important pharmacological fact distinguishing natural cannabis from synthetic cannabinoid full agonists. This ceiling effect is why THC has never produced confirmed lethal overdose: maximum CB1 activation is intrinsically limited regardless of dose.",
     "references_consulted": [
       "pmid:8632377",
-      "doi:10.1097/00007691-200502000-00007",
       "pmid:11444969",
-      "doi:10.1038/mp.2015.165",
       "doi:10.1124/jpet.114.214155"
     ]
   },
@@ -625,11 +623,11 @@
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "enzymeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membranes",
+          "species": "human",
+          "tissue_or_cell": "human recombinant DAGL-alpha (COS cell expression)",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/bph.12409",
+          "reference": "pmid:21175579",
           "is_review": false,
           "notes": null
         }
@@ -655,7 +653,7 @@
           "dose_in_study_mg": 800,
           "subject_n": 60,
           "subject_demographics": "GWP42006 Phase 1 healthy volunteers",
-          "reference": "doi:10.1111/j.1476-5381.2012.02058.x",
+          "reference": "pmid:35364618",
           "notes": "Generally well-tolerated; Phase 2 trial in drug-resistant focal epilepsy did NOT show efficacy (GW Pharma 2018)."
         }
       ],
@@ -678,9 +676,7 @@
     "data_gaps_remaining": ["definitive human PK parameters", "drug interaction data"],
     "notes": "Propyl analogue of CBD. Studied as anticonvulsant (GWP42006), but Phase 2 trial in focal epilepsy was negative. Continues to be studied for autism (Rett, Fragile X).",
     "references_consulted": [
-      "doi:10.1021/cn5000524",
-      "doi:10.1111/bph.12409",
-      "doi:10.1111/j.1476-5381.2012.02058.x"
+      "doi:10.1021/cn5000524"
     ]
   },
 
@@ -748,13 +744,13 @@
           "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": 1920,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
+          "vd_l_per_kg": 50,
+          "clearance_ml_per_min_per_kg": 19.1,
           "protein_binding_pct": null,
-          "dose_in_study_mg": null,
+          "dose_in_study_mg": 20,
           "subject_n": 6,
           "subject_demographics": "cannabis users",
-          "reference": "doi:10.1097/00007691-200502000-00007",
+          "reference": "pmid:2960395",
           "notes": "Highly variable t1/2 = 32±17 h."
         }
       ],
@@ -800,8 +796,7 @@
     "notes": "Marketed as 'sleep cannabinoid' but human evidence for sedative effect is weak — likely the 11-OH metabolite contributes more than parent. Forms via THC oxidation during aged/poorly-stored cannabis.",
     "references_consulted": [
       "pmid:25311884",
-      "pmid:17303175",
-      "doi:10.1097/00007691-200502000-00007"
+      "pmid:17303175"
     ]
   },
 
@@ -1193,7 +1188,7 @@
       "binding": [
         {
           "target": "CB1",
-          "ki_nm": 0.9,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": 1.8,
@@ -1202,16 +1197,16 @@
           "reference_agonist": "CP55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "CHO-hCB1",
-          "radioligand_or_probe": "[3H]-CP55,940",
+          "tissue_or_cell": "AtT20 cells expressing hCB1",
+          "radioligand_or_probe": "fluorometric membrane potential assay",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:26134475",
           "is_review": false,
           "notes": "Originally Pfizer (WO 2009/106980) as analgesic candidate."
         },
         {
           "target": "CB2",
-          "ki_nm": 23.2,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": 3.2,
@@ -1220,10 +1215,10 @@
           "reference_agonist": "CP55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "CHO-hCB2",
+          "tissue_or_cell": "AtT20 cells expressing hCB2",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:26134475",
           "is_review": false,
           "notes": null
         }
@@ -1261,8 +1256,7 @@
     "data_gaps_remaining": ["human PK"],
     "notes": "Schedule I. Distinct from AMB-FUBINACA (methyl ester) — AB has terminal carboxamide. Pfizer 2009 patent.",
     "references_consulted": [
-      "doi:10.1021/acschemneuro.5b00112",
-      "pmid:25755108"
+"pmid:25755108"
     ]
   },
 
@@ -1363,7 +1357,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["human PK"],
     "notes": "Associated with multiple mass intoxication and fatality clusters. The cyclohexylmethyl (CHM) variant of AB series.",
-    "references_consulted": ["pmid:26105953", "doi:10.1021/acschemneuro.5b00112"]
+    "references_consulted": ["pmid:26105953"]
   },
 
   {
@@ -1392,7 +1386,7 @@
           "tissue_or_cell": "AtT20 cells expressing hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:26134475",
           "is_review": false,
           "notes": "Banister 2015 ACS Chem Neurosci 6(9):1546-59. Sub-nM functional potency; full agonist."
         },
@@ -1410,7 +1404,7 @@
           "tissue_or_cell": "AtT20-hCB2",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:26134475",
           "is_review": false,
           "notes": null
         }
@@ -1447,7 +1441,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["human PK"],
     "notes": "Post-K2-ban second-generation synthetic cannabinoid. Associated with a 2013 outbreak in Colorado of severe intoxications/deaths.",
-    "references_consulted": ["doi:10.1021/acschemneuro.5b00112"]
+    "references_consulted": []
   },
 
   {
@@ -1701,7 +1695,7 @@
           "tissue_or_cell": "AtT20-hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:26134475",
           "is_review": false,
           "notes": "Banister 2015. Indole counterpart of ADB-PINACA."
         },
@@ -1719,7 +1713,7 @@
           "tissue_or_cell": "AtT20-hCB2",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:26134475",
           "is_review": false,
           "notes": null
         }
@@ -1742,7 +1736,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["human PK"],
     "notes": "Indole analogue of ADB-PINACA (indazole). Identified in Japan 2013.",
-    "references_consulted": ["doi:10.1021/acschemneuro.5b00112"]
+    "references_consulted": []
   },
 
   {
@@ -1789,8 +1783,8 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "methyl ester hydrolysis to free carboxylic acid (M7)",
         "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1007/s11419-019-00475-0",
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:33236189",
         "notes": "Carboxylic acid metabolite is inactive at CB1 — analogous to MDMB-CHMICA metabolism."
       }
     ],
@@ -1805,8 +1799,7 @@
     "data_gaps_remaining": ["controlled human PK"],
     "notes": "Dominant SCRA in 2019-2021 forensic casework worldwide. Methyl ester rapidly hydrolyses to inactive acid — short duration vs amide-headgroup analogues.",
     "references_consulted": [
-      "doi:10.1021/acschemneuro.0c00644",
-      "doi:10.1007/s11419-019-00475-0"
+      "doi:10.1021/acschemneuro.0c00644"
     ]
   },
 
@@ -2173,7 +2166,7 @@
         "metabolite_name": "8-OH-quinoline + 5F-pentyl-indole-3-carboxylic acid",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1002/dta.1771",
+        "reference": "pmid:24518903",
         "notes": "Ester hydrolysis to inactive carboxylic acid — likely contributes to relatively short duration but does NOT prevent acute toxicity."
       }
     ],
@@ -2187,7 +2180,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["human PK"],
     "notes": "Linked to multiple fatalities and seizures. Schedule I (US 2014).",
-    "references_consulted": ["doi:10.1021/acschemneuro.5b00107", "doi:10.1002/dta.1771"]
+    "references_consulted": ["doi:10.1021/acschemneuro.5b00107"]
   },
 
   {
@@ -2204,7 +2197,7 @@
       "binding": [
         {
           "target": "CB1",
-          "ki_nm": 11.9,
+          "ki_nm": 103.78,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
@@ -2212,11 +2205,11 @@
           "intrinsic_activity_pct": null,
           "reference_agonist": "CP55,940",
           "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membranes",
+          "species": "human",
+          "tissue_or_cell": "HEK-293 expressing human CB1R",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1016/j.bmc.2010.04.027",
+          "reference": "pmid:38844801",
           "is_review": false,
           "notes": "Makriyannis adamantoylindole series; the N-methylpiperidin-2-ylmethyl group retains CB1 affinity despite adamantoyl preferring CB2."
         },
@@ -2234,7 +2227,7 @@
           "tissue_or_cell": "rat spleen membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1016/j.bmc.2010.04.027",
+          "reference": "pmid:25220897",
           "is_review": false,
           "notes": null
         }
@@ -2257,7 +2250,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["human Ki", "human PK", "in vivo data"],
     "notes": "Less potent than indazole-carboxamides; lower clinical risk profile. Detected as designer drug in Hungary 2011 alongside other adamantoylindoles.",
-    "references_consulted": ["doi:10.1016/j.bmc.2010.04.027"]
+    "references_consulted": []
   },
 
   {
@@ -2277,7 +2270,7 @@
           "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
-          "ec50_nm": 0.14,
+          "ec50_nm": null,
           "ic50_nm": null,
           "intrinsic_activity_pct": 94,
           "reference_agonist": "CP55,940",
@@ -2286,7 +2279,7 @@
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin recruitment",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acschemneuro.5b00112",
+          "reference": "pmid:32296768",
           "is_review": false,
           "notes": "Banister 2015. Ultrapotent: EC50 0.14 nM, ~8× more potent than JWH-018."
         }
@@ -2305,7 +2298,7 @@
         "metabolite_name": "methyl ester hydrolysis → free acid (inactive)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1007/s11419-016-0345-6"
+        "reference": "pmid:35788413"
       }
     ],
     "drug_interactions_pk": [],
@@ -2318,7 +2311,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["human PK"],
     "notes": "Associated with 71 serious adverse events incl. 29 deaths across 9 European countries 2014-2016. EMCDDA risk assessment 2017.",
-    "references_consulted": ["doi:10.1021/acschemneuro.5b00112", "doi:10.1007/s11419-016-0345-6"]
+    "references_consulted": []
   },
 
   {
@@ -2538,8 +2531,7 @@
       "pmid:20002104",
       "doi:10.1111/bph.12827",
       "pmid:18556441",
-      "pmid:17828291",
-      "doi:10.1097/00007691-200502000-00007"
+      "pmid:17828291"
     ]
   },
 
@@ -2553,7 +2545,6 @@
     "sar_summary": "Aung 2000 SAR: minimum 3-carbon N-alkyl chain for CB1 affinity; pentyl (C5) optimal. ω-fluorination of pentyl (5F-) increases CB1 affinity AND metabolic stability vs parent. Substituting pentyl with cyclohexylmethyl (CHM) or 4-fluorobenzyl (FUB) maintains or enhances CB1 affinity. Head group SAR (Banister 2015-2021): tert-leucine (MDMB) > valine (AMB) > leucine (AB) > glycine for both potency and Emax. Indazole core often more potent than indole (PINACA > PICA). Ester linkages (PB-22, 5F-PB-22) give very high potency but rapid CES1 hydrolysis. Designer evasion 2019-: replacement of fluoropentyl with pent-4-enyl (MDMB-4en-PINACA), hexyl (ADB-HEXINACA), or 4-fluorobutyl (4F-MDMB-BINACA) to circumvent analogue laws.",
     "key_references": [
       "pmid:11020385",
-      "doi:10.1021/acschemneuro.5b00112",
       "doi:10.1021/acschemneuro.5b00107",
       "pmid:26105953",
       "doi:10.1056/NEJMoa1610300",

@@ -174,8 +174,8 @@
       "neuroimaging": [
         {
           "modality": "fMRI BOLD",
-          "finding": "MDMA (100 mg PO) decreases amygdala reactivity to angry faces and increases ventral striatum response to positive social stimuli",
-          "reference": "doi:10.1038/sj.npp.1301452"
+          "finding": "MDMA attenuates left amygdala response to angry faces at 1.5 mg/kg PO (no effect on fearful faces) and enhances ventral striatum response to happy faces at 0.75 mg/kg PO",
+          "reference": "pmid:19680634"
         },
         {
           "modality": "PET ([11C]-DASB)",
@@ -187,14 +187,6 @@
     "human_pk": {
       "routes": [],
       "concentration_effect": [
-        {
-          "effect": "subjective intensity (VAS) and systolic BP increase",
-          "concentration_unit": "ng/mL",
-          "threshold": 50,
-          "peak_effect": 200,
-          "reference": "doi:10.1124/jpet.110.166439",
-          "notes": "Hysteresis observed: peak subjective effects lag peak plasma concentration by ~30-60 min, consistent with active-metabolite contribution and receptor kinetics."
-        }
       ]
     },
     "metabolism": [
@@ -375,11 +367,11 @@
       "binding": [
         {
           "target": "SERT",
-          "ec50_nm": null,
+          "ec50_nm": 162,
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1016/j.euroneuro.2022.09.005",
+          "reference": "pmid:32875347",
           "is_review": false,
           "notes": "MDA induces release of 5-HT, DA, and NE. Slightly serotonin-selective vs DA but less so than MDMA (DAT:SERT ratio ≈ 0.36, less SERT-selective than MDMA)."
         },
@@ -507,8 +499,7 @@
     "notes": "MDA is both a recreational drug and the active N-demethyl metabolite of MDMA. Its longer half-life (~8 h) explains the persistent next-day stimulant tail after MDMA use. Schedule I.",
     "references_consulted": [
       "doi:10.1038/s41386-025-02248-3",
-      "pmid:12649569",
-      "doi:10.1016/j.euroneuro.2022.09.005"
+      "pmid:12649569"
     ]
   },
   {
@@ -1129,9 +1120,9 @@
           "target": "SERT",
           "ic50_nm": 512,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:1875344",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human SERT",
+          "reference": "pmid:1685125",
           "is_review": false,
           "notes": "Johnson, Frescas, Oberlender, Nichols 1991."
         },
@@ -1139,18 +1130,18 @@
           "target": "NET",
           "ic50_nm": 1426,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:1875344",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human NET",
+          "reference": "pmid:1685125",
           "is_review": false
         },
         {
           "target": "DAT",
           "ic50_nm": 5920,
           "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:1875344",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human DAT",
+          "reference": "pmid:1685125",
           "is_review": false,
           "notes": "~12× selective for SERT over DAT — most SERT-selective of the entactogen class."
         }
@@ -1216,8 +1207,7 @@
     ],
     "notes": "Originally developed by David Nichols (Purdue) as a tool to study selective serotonin release without neurotoxicity. Sold as 'sparkle'/'mindy' RC in 2010s. Marketing as 'safe MDMA alternative' is misleading — Corkery review documents fatalities and the Pálenicek 2016 rat LD50 study shows narrow safety margin.",
     "references_consulted": [
-      "pmid:1875344",
-      "doi:10.1002/hup.2298",
+"doi:10.1002/hup.2298",
       "doi:10.1016/j.etap.2016.03.013"
     ]
   },
@@ -1278,7 +1268,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1111/bph.15211",
+          "reference": "pmid:32875347",
           "is_review": false,
           "notes": "Brandt et al 2020 — extremely potent releaser (3-10× more potent than MDA)."
         },
@@ -1289,7 +1279,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1111/bph.15211",
+          "reference": "pmid:32875347",
           "is_review": false
         },
         {
@@ -1299,7 +1289,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1111/bph.15211",
+          "reference": "pmid:32875347",
           "is_review": false
         },
         {
@@ -1411,8 +1401,7 @@
     ],
     "notes": "Sold extensively as 'benzofury' 2010-2014; UK ban May 2014 followed multiple fatalities. The combination of low-nM SNDR release and potent 5-HT2B agonism makes it significantly more dangerous than MDMA at equivalent subjective doses.",
     "references_consulted": [
-      "doi:10.1002/dta.1389",
-      "doi:10.1111/bph.15211"
+      "doi:10.1002/dta.1389"
     ]
   },
   {
@@ -1466,7 +1455,7 @@
           "intrinsic_activity_pct": 101,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "doi:10.1111/bph.15211",
+          "reference": "pmid:32875347",
           "is_review": false,
           "notes": "Extremely potent DA releaser — single-digit nM. Drives stimulant character and abuse liability."
         },
@@ -1476,7 +1465,7 @@
           "intrinsic_activity_pct": 98,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "doi:10.1111/bph.15211",
+          "reference": "pmid:32875347",
           "is_review": false
         },
         {
@@ -1485,7 +1474,7 @@
           "intrinsic_activity_pct": 100,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "doi:10.1111/bph.15211",
+          "reference": "pmid:32875347",
           "is_review": false
         },
         {
@@ -1577,8 +1566,7 @@
     ],
     "notes": "6-APB has longer onset (~2 h) and longer duration (8-12 h) than MDMA. Multiple fatalities in UK/EU 2012-2014.",
     "references_consulted": [
-      "doi:10.1002/dta.1389",
-      "doi:10.1111/bph.15211"
+      "doi:10.1002/dta.1389"
     ]
   },
   {
@@ -2367,17 +2355,17 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "reference": "pmid:22271821",
           "is_review": false,
           "notes": "Wee/Negus dataset. Balanced SNDRA, low-nM."
         },
         {
           "target": "DAT",
-          "ec50_nm": 10,
+          "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "reference": "pmid:33811503",
           "is_review": false
         },
         {
@@ -2386,18 +2374,8 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "reference": "pmid:22271821",
           "is_review": false
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": null,
-          "action": "partialAgonist",
-          "intrinsic_activity_pct": null,
-          "species": "rat",
-          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
-          "is_review": false,
-          "notes": "Lower-potency partial agonist."
         }
       ],
       "functional": [],
@@ -2461,7 +2439,6 @@
     ],
     "notes": "Triple-monoamine releaser with research-pharmacology pedigree (PAL series). No published human controlled data; very limited recreational user-base data.",
     "references_consulted": [
-      "doi:10.1016/j.neuropharm.2014.04.019"
     ]
   },
   {
@@ -2560,9 +2537,9 @@
           "target": "SERT",
           "ic50_nm": null,
           "action": "releasingAgent",
-          "species": "rat",
-          "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:1875344",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human SERT",
+          "reference": "pmid:24486525",
           "is_review": false,
           "notes": "Halogenated aminoindane variant of MDAI — similar SERT-selective release profile. Iodo substituent is a classic 'safety' analogue used by Nichols to map non-neurotoxic releasers."
         }
@@ -2612,7 +2589,6 @@
     ],
     "notes": "Halogenated MDAI relative. Originally a Nichols/Purdue research probe.",
     "references_consulted": [
-      "pmid:1875344"
     ]
   },
   {
@@ -2700,11 +2676,11 @@
       "binding": [
         {
           "target": "MAO-A",
-          "ic50_nm": null,
+          "ic50_nm": 1600,
           "action": "enzymeInhibitor",
           "species": "human",
           "tissue_or_cell": "recombinant hMAO-A",
-          "reference": "doi:10.1016/j.taap.2017.02.004",
+          "reference": "pmid:24115740",
           "is_review": false,
           "notes": "Potent and selective MAO-A inhibitor — this is the dominant pharmacology and the source of its lethality. Not primarily a transporter substrate."
         },
@@ -2733,8 +2709,8 @@
       {
         "with": "any serotonergic agent or sympathomimetic",
         "mechanism": "self-MAOI plus releaser — fatal stack",
-        "clinical_effect": "Serotonin syndrome with fatal hyperthermia. >20 confirmed deaths in EU 2011-2013.",
-        "reference": "doi:10.1016/j.taap.2017.02.004"
+        "clinical_effect": "Fatal in combination: four UK deaths reported with 5-IT at 0.4-1.2 mg/L femoral blood, three of them alongside other serotonergic drugs (MDMA, methylone, 6-APB, MDA, BZP) and attributed to the combined 'cocktail effect'.",
+        "reference": "pmid:23861338"
       }
     ],
     "pharmacogenetics": {
@@ -2755,7 +2731,7 @@
         "target": "MAO-A",
         "concern_level": "high",
         "clinical_consequence": "Built-in MAO-A inhibition while releasing 5-HT — fatal interaction with own pharmacology and any other serotonergic input.",
-        "reference": "doi:10.1016/j.taap.2017.02.004"
+        "reference": "pmid:24115740"
       }
     ],
     "demographic_differences": {
@@ -2776,7 +2752,6 @@
     ],
     "notes": "One of the most dangerous compounds in this list. Entered EU market 2011 sold as legal MDMA replacement; clustered fatalities (Sweden 14, UK ≥6, others) led to rapid scheduling. Not an entactogen-class compound clinically — it is an MAOI+releaser. Mislabeled by retail.",
     "references_consulted": [
-      "doi:10.1016/j.taap.2017.02.004"
     ]
   },
   {
@@ -4162,7 +4137,7 @@
           "intrinsic_activity_pct": 89,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
-          "reference": "pmid:21073468",
+          "reference": "pmid:27216487",
           "is_review": false
         },
         {
@@ -4171,7 +4146,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2C",
-          "reference": "pmid:21073468",
+          "reference": "pmid:27216487",
           "is_review": false
         },
         {
@@ -4179,7 +4154,7 @@
           "ki_nm": 567,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:21073468",
+          "reference": "pmid:27216487",
           "is_review": false
         }
       ],
@@ -4230,7 +4205,6 @@
     "data_gaps_remaining": [],
     "notes": "MISCATEGORIZED: Psilocin is a classical psychedelic (5-HT2A agonist), not an entactogen. This is the bioactive form of psilocybin. Recategorize.",
     "references_consulted": [
-      "pmid:21073468"
     ]
   },
   {
@@ -5217,8 +5191,7 @@
     "shared_safety": "Acute: same serotonin syndrome risks as MDMA but multiplied by higher transporter potency. Multiple fatalities documented in UK 2012-2014 ('benzofury'), prompting UK ban. The potent 5-HT2B agonism makes chronic use highly likely to cause cardiac valvular fibrosis (fenfluramine-class concern, but more potent than fenfluramine on a molar basis). Furan ring metabolism may generate reactive epoxides — hepatotoxicity signal in case reports. Long duration combined with vasoconstriction makes hyperthermia/cardiotoxicity worse than equivalent MDMA dose.",
     "sar_summary": "Furan O position (5 vs 6) determines DAT:SERT ratio. Dihydro- (saturated) form weakens DAT. Same N-substitution effects as MDxx family: H = APB (SNDRA), methyl = MAPB, ethyl = EAPB. All retain potent 5-HT2B agonism — there is no published structural modification that decouples desirable release activity from this cardiotoxic off-target in this scaffold.",
     "key_references": [
-      "doi:10.1002/dta.1389",
-      "doi:10.1111/bph.15211"
+      "doi:10.1002/dta.1389"
     ]
   },
   {
@@ -5230,8 +5203,7 @@
     "shared_safety": "The 'non-neurotoxic' label has been misleading in practice — Corkery 2013 documented fatalities, and Pálenicek 2016 rat LD50 work demonstrated a narrow safety margin with severe hyperthermia. SERT-selective release still produces serotonin syndrome with MAOIs and SSRIs. 5-HT2B agonism — likely retained by class — adds cardiac concern.",
     "sar_summary": "Aminoindane core (2-aminopropyl built into a cyclopentane ring fused to benzene) gives rigidity. 5,6-methylenedioxy = MDAI; 5-iodo = 5-IAI (similar profile, halogenated); 5-amino (unsubstituted) = 5-APDI = IAP. Without ring substitution, the parent 2-aminoindane is itself a selective NRI used as a research reference. N-methylation reduces serotonergic potency.",
     "key_references": [
-      "pmid:1875344",
-      "doi:10.1002/hup.2298",
+"doi:10.1002/hup.2298",
       "doi:10.1016/j.etap.2016.03.013"
     ]
   },
@@ -5257,7 +5229,6 @@
     "shared_safety": "Built-in pharmacological foot-gun. The MAO-A inhibition guarantees fatal serotonin syndrome with any additional serotonergic input. Multiple fatality clusters: 5-MeO-AMT in US 2003-2004, 5-IT in EU 2011-2013 (>20 confirmed deaths). MISCATEGORIZED in this group: these are tryptamine psychedelics, not entactogens.",
     "sar_summary": "Adding 5-methoxy boosts 5-HT2A. Moving the 2-aminopropyl from indole-3 (true tryptamines) to indole-5 (5-IT/5-API) shifts activity from receptor agonism to MAO inhibition.",
     "key_references": [
-"doi:10.1016/j.taap.2017.02.004"
     ]
   },
   {
@@ -5282,7 +5253,6 @@
     "shared_safety": "Serotonin syndrome with MAOIs. No published fatalities cluster, but research-chemical exposure is low.",
     "sar_summary": "Naphthyl ring boosts potency at all transporters. N-methylation and N-ethylation shift the DAT:SERT ratio analogously to phenethylamine families.",
     "key_references": [
-      "doi:10.1016/j.neuropharm.2014.04.019"
     ]
   },
   {
@@ -5306,7 +5276,6 @@
     "shared_safety": "Class-typical psychedelic risks (HPPD, psychiatric exacerbation), with MAOI-specific risks for Ayahuasca.",
     "sar_summary": null,
     "key_references": [
-      "pmid:21073468"
     ]
   },
   {

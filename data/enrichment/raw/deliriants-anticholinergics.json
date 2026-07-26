@@ -896,8 +896,8 @@
         },
         {
           "modality": "fMRI",
-          "finding": "0.4 mg scopolamine reduces task-related activation in hippocampus, parahippocampal cortex, and medial prefrontal cortex during memory encoding; effect reversible with donepezil.",
-          "reference": "doi:10.1038/sj.npp.1301448"
+          "finding": "0.4 mg i.v. scopolamine reduces the extent and magnitude of task-related activation in hippocampal, fusiform and inferior prefrontal regions during face-name associative encoding, while leaving striate cortex activation intact; the reduction correlates with impaired post-scan memory performance.",
+          "reference": "pmid:11756667"
         }
       ]
     },
