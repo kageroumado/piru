@@ -107,8 +107,11 @@ ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 #: document what people take. `drug.community` is genuinely mixed — its rows quote
 #: label dosing for medications and recreational figures for everything else — so
 #: it defaults to unknown rather than guessing in either direction.
+#: `piru-curated` is deliberately absent: it is the one source that authors BOTH
+#: regimes (80% of its ladders are recreational), so a flat default is wrong for
+#: it whichever way it points. It is resolved per-substance in
+#: ``assign_dose_contexts``.
 DOSE_CONTEXT_BY_SOURCE: dict[str, str] = {
-    "piru-curated": "therapeutic",
     "dailymed": "therapeutic",
     "pyrls": "therapeutic",
     "medtap": "therapeutic",
@@ -116,6 +119,7 @@ DOSE_CONTEXT_BY_SOURCE: dict[str, str] = {
     "psychonautwiki": "recreational",
     "tripsit": "recreational",
     "freeodwiki": "recreational",
+    "drug.community": "recreational",
     "erowid-pihkal": "recreational",
     "erowid-tihkal": "recreational",
     "nps-datahub": "recreational",
@@ -131,8 +135,12 @@ _THERAPEUTIC_NOTE_MARKERS = (
     "product labeling",
     "prescriber",
     "maximum daily dose",
-    "titrate",
-    "do not exceed",
+    "therapeutic ranges based on labeling",
+    "therapeutic starting doses",
+    "medical dosing",
+    # Deliberately NOT "titrate" or "do not exceed": both are ordinary
+    # harm-reduction phrasing ("start low and titrate up"), and they tagged 80
+    # recreational rows — 1P-LSD, 2C-T-7, 3-MeO-PCP — as clinical ladders.
 )
 
 
@@ -7868,6 +7876,57 @@ class Build:
     # dose; only display_class='medical_rx' rows are stripped.
     _RX_DOSELESS_CATEGORIES = frozenset({"Antihistamine", "Anticonvulsant", "Antidepressant"})
 
+    def assign_dose_contexts(self) -> dict[str, int]:
+        """Label every dose ladder's regime. Runs as a post-pass because the
+        curated rule needs `regulatory_status` and `indications`, neither of
+        which is final while rows are still being ingested.
+
+        `piru-curated` is the only source that authors both regimes, so it gets a
+        rule rather than a default: a curated ladder is therapeutic when the
+        compound is a medicine (scheduled as Rx/OTC, or it has indications) and
+        recreational otherwise. `display_class` is the tempting signal here and
+        it is the wrong one — diphenhydramine, doxylamine, ramelteon, varenicline
+        and eleven others are classed `recreational` while carrying a curated
+        ladder that is plainly the product label. `regulatory_status`/`indications`
+        catches all fifteen.
+        """
+        out: dict[str, int] = {}
+        for slug, context in DOSE_CONTEXT_BY_SOURCE.items():
+            out[context] = (
+                out.get(context, 0)
+                + self.cur.execute(
+                    """UPDATE dose_ranges SET dose_context = ?
+                    WHERE source_id = (SELECT id FROM sources WHERE slug = ?)""",
+                    (context, slug),
+                ).rowcount
+            )
+        out["curated_rule"] = self.cur.execute(
+            """UPDATE dose_ranges
+                  SET dose_context = CASE
+                      WHEN EXISTS (SELECT 1 FROM substances s
+                                    WHERE s.id = dose_ranges.substance_id
+                                      AND (s.regulatory_status IN ('rx','otc','rx_otc_dependent')
+                                           OR EXISTS (SELECT 1 FROM indications i
+                                                       WHERE i.substance_id = s.id)))
+                      THEN 'therapeutic' ELSE 'recreational' END
+                WHERE source_id = (SELECT id FROM sources WHERE slug = 'piru-curated')"""
+        ).rowcount
+        # Row prose overrides the source, in the one direction that is unsafe to
+        # get wrong: a community row whose notes quote label dosing IS a clinical
+        # ladder ("Label dosing for depression is typically 15-45 mg nightly").
+        markers = " OR ".join(["LOWER(IFNULL(notes,'')) LIKE ?"] * len(_THERAPEUTIC_NOTE_MARKERS))
+        out["by_notes"] = self.cur.execute(
+            f"UPDATE dose_ranges SET dose_context = 'therapeutic' WHERE {markers}",
+            tuple(f"%{m}%" for m in _THERAPEUTIC_NOTE_MARKERS),
+        ).rowcount
+        # Every source that ships dose rows has a declared context, so `unknown`
+        # can now only mean a new ingester landed unclassified. That makes it a
+        # tripwire rather than a bucket.
+        out["unknown"] = self.cur.execute(
+            "SELECT COUNT(*) FROM dose_ranges WHERE dose_context = 'unknown'"
+        ).fetchone()[0]
+        return out
+
     def suppress_therapeutic_doses(self) -> dict[str, int]:
         """Delete therapeutic dose ladders and titration schedules from
         prescription and dual-use substances.
@@ -8809,6 +8868,17 @@ def main() -> int:
     # keeps clinical doses out of the DB/ingest). OTC members keep their dose.
     rx_stripped = build.strip_medical_rx_doses()
     print(f"Medical-Rx dose strip: {rx_stripped}", file=sys.stderr)
+
+    # Label each ladder's regime before anything acts on it. Post-pass because
+    # the curated rule reads regulatory_status/indications, final only by now.
+    contexts = build.assign_dose_contexts()
+    print(f"Dose contexts: {contexts}", file=sys.stderr)
+    if contexts.get("unknown"):
+        print(
+            f"WARNING: {contexts['unknown']} dose row(s) have no declared regime — "
+            "a source was added without an entry in DOSE_CONTEXT_BY_SOURCE",
+            file=sys.stderr,
+        )
 
     # Broader than the category strip above: NO prescription or dual-use substance
     # ships a therapeutic ladder or a titration schedule, whatever its category.
