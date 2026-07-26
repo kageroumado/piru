@@ -23,6 +23,11 @@ struct DoseDurationCard: View {
     var showsDuration = true
     var accent: Color = Theme.accent
 
+    /// Tier the user tapped in the strip, overriding the model's reference tier.
+    /// Card-local and deliberately not persisted — it answers "what does Strong
+    /// mean here?" in the moment, and should read as Common again next visit.
+    @State private var tappedTierID: Int?
+
     private var hasDosage: Bool {
         showsDoseLadder && (doses?.hasAnyValue ?? false)
     }
@@ -51,8 +56,11 @@ struct DoseDurationCard: View {
 
     private func doseBlock(_ doses: DoseRange) -> some View {
         let tiers = DoseTierStripModel(doses: doses, unit: unit)
+        // The strip's own reference tier (Common, or the nearest present one) is
+        // the starting point; tapping a disc overrides it for this card only.
+        let activeID = tappedTierID ?? tiers.selectedID
         return VStack(alignment: .leading, spacing: 14) {
-            if let selected = tiers.selected {
+            if let selected = tiers.tier(activeID) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(selected.name)
                         .font(.title3.weight(.bold))
@@ -61,9 +69,15 @@ struct DoseDurationCard: View {
                         .font(.system(.title2, design: .rounded).weight(.heavy).monospacedDigit())
                 }
                 .accessibilityElement(children: .combine)
+                // Without an identity the two Texts cross-fade into each other
+                // on tap, which reads as a glitch rather than a value change.
+                .id(activeID)
+                .transition(.opacity)
             }
 
-            DoseTierStrip(tiers: tiers, accent: accent)
+            DoseTierStrip(tiers: tiers, selectedID: activeID, accent: accent) { id in
+                withAnimation(.snappy(duration: 0.18)) { tappedTierID = id }
+            }
 
             if let elementalFraction {
                 Label {
@@ -245,7 +259,13 @@ struct DoseTierStripModel {
     }
 
     var selected: (name: LocalizedStringKey, fullValue: String)? {
-        guard let tier = tiers.first(where: { $0.id == selectedID }), let value = tier.fullValue else { return nil }
+        tier(selectedID)
+    }
+
+    /// The named tier, if it carries a value — a tier the source didn't supply
+    /// has nothing to headline, so the caller keeps whatever it was showing.
+    func tier(_ id: Int) -> (name: LocalizedStringKey, fullValue: String)? {
+        guard let tier = tiers.first(where: { $0.id == id }), let value = tier.fullValue else { return nil }
         return (tier.name, value)
     }
 
@@ -262,7 +282,13 @@ struct DoseTierStripModel {
 /// tinted with the accent so it reads as "this is the number above."
 struct DoseTierStrip: View {
     let tiers: DoseTierStripModel
+    /// Which column reads as "this is the number above" — owned by the parent so
+    /// tapping a disc can retarget the headline.
+    var selectedID: Int?
     var accent: Color = Theme.accent
+    /// Tapping a tier that has a value. Tiers the source left empty aren't
+    /// selectable: there is no number to promote.
+    var onSelect: ((Int) -> Void)?
 
     /// Disc diameters per tier — a single glyph family that grows threshold→heavy.
     private static let diameters: [CGFloat] = [7, 10, 13, 15, 18]
@@ -275,7 +301,7 @@ struct DoseTierStrip: View {
     var body: some View {
         HStack(spacing: 6) {
             ForEach(tiers.tiers) { tier in
-                let isSelected = tier.id == tiers.selectedID
+                let isSelected = tier.id == (selectedID ?? tiers.selectedID)
                 VStack(spacing: 6) {
                     ZStack {
                         Circle()
@@ -308,6 +334,16 @@ struct DoseTierStrip: View {
                 // the selected tier reads as selected via the trait.
                 .accessibilityElement(children: .combine)
                 .accessibilityAddTraits(isSelected ? .isSelected : [])
+                .accessibilityAddTraits(tier.fullValue != nil ? .isButton : [])
+                // `contentShape` so the whole column is the target, not just the
+                // glyphs — and so the tap is consumed here rather than falling
+                // through to the enclosing disclosure, which is what made tapping
+                // a dose tier expand "All phases" instead.
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+                .onTapGesture {
+                    guard tier.fullValue != nil else { return }
+                    onSelect?(tier.id)
+                }
             }
         }
     }

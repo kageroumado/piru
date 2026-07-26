@@ -103,11 +103,16 @@ enum AppSources {
 
     /// Deep link to a FreeOD Wiki substance page. The pages are titled in
     /// Chinese, so the per-substance `freeodwiki_slug` captured at build time is
-    /// required; without it we fall back to the site root.
+    /// required; without it there is no link.
+    ///
+    /// Returns `nil` rather than the site root deliberately. A row labelled with
+    /// a substance that silently opens a homepage reads as a broken link, and it
+    /// hides the real defect (a missing slug) behind something that looks like it
+    /// worked. No link is the honest outcome.
     static func freeodwikiURL(slug: String?) -> URL? {
         guard let slug, !slug.isEmpty,
               let encoded = slug.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
-        else { return URL(string: "https://freeodwiki.org") }
+        else { return nil }
         // MkDocs renders each page as `药物/<title>.html` (not a directory URL).
         return URL(string: "https://freeodwiki.org/药物/\(encoded).html")
     }
@@ -152,9 +157,13 @@ enum AppSources {
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
             return URL(string: "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=\(query)")
         default:
-            guard let sourceInfo = info(for: source),
-                  !sourceInfo.url.isEmpty else { return nil }
-            return URL(string: sourceInfo.url)
+            // No per-substance page for this source. Previously this returned
+            // the source's homepage, which turned every unhandled source into a
+            // link that looked substance-specific and wasn't — the FreeOD Wiki
+            // case. A source with no per-compound URL gets no link; callers that
+            // do know how to build one (see ``SubstanceSourceLinks.deepLink``)
+            // handle it before reaching here.
+            return nil
         }
     }
 }

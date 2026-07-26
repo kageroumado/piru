@@ -168,6 +168,7 @@ extension Substance {
             displayName: overriddenDisplayName,
             aliases: aliases,
             category: category,
+            extraBrowseCategories: extraBrowseCategories,
             defaultRoute: defaultRoute,
             routes: updatedRoutes,
             effects: effects,
@@ -189,6 +190,24 @@ extension Substance {
             formula: formula,
             pubchemCID: pubchemCID,
             popularity: popularity,
+            // Everything below is detail-screen metadata the override never
+            // touches. It has to be forwarded explicitly: this is a fresh
+            // `Substance`, not a mutation, so any field omitted here is silently
+            // lost the moment a user renames a compound or overrides one dose.
+            // That is how 2-FDCK's FreeOD Wiki link came to point at the site
+            // root — `freeodwikiSlug` went nil and the URL builder fell back.
+            isStub: isStub,
+            molarMass: molarMass,
+            peptideProfile: peptideProfile,
+            references: references,
+            drugCommunitySlug: drugCommunitySlug,
+            freeodwikiSlug: freeodwikiSlug,
+            overview: overview,
+            smiles: smiles,
+            iupacName: iupacName,
+            physicochemical: physicochemical,
+            popularAliases: popularAliases,
+            misconceptions: misconceptions,
         )
     }
 }

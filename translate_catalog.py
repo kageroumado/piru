@@ -3296,6 +3296,10 @@ T = {
         "理化数值为预测/计算值（PubChem、NPS-DataHub），并非针对此制剂实测。",
         "理化數值為預測/計算值（PubChem、NPS-DataHub），並非針對此製劑實測。",
     ),
+    "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.": (
+        "由分子结构计算得出（PubChem、NPS-DataHub），非实验室实测值。",
+        "由分子結構計算得出（PubChem、NPS-DataHub），非實驗室實測值。",
+    ),
     "LD50 is rodent toxicity (order of magnitude) — not a human safe dose.": (
         "LD50 为啮齿动物毒性（数量级参考），并非人体安全剂量。",
         "LD50 為齧齒動物毒性（數量級參考），並非人體安全劑量。",
@@ -5626,6 +5630,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",
         "%lld studies",
         "No effect timeline for this substance and route.",
         "%@ stays active in your body long after %@ itself is gone.",

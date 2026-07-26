@@ -192,14 +192,20 @@ struct ChemistrySection: View {
                 }
                 .padding(.vertical, 4)
                 if let phys, phys.hasAnyValue {
+                    // States where the numbers come from rather than warning the
+                    // reader off them. They are computed from the structure, which
+                    // is the best available data for most of these compounds — the
+                    // old "not measured for this preparation" line implied a defect
+                    // that isn't there, and "this preparation" named nothing the
+                    // reader could identify.
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation.")
+                        Text("Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.")
                         if phys.hasLD50 {
                             Text("LD50 is rodent toxicity (order of magnitude) — not a human safe dose.")
                         }
                     }
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 2)
                 }

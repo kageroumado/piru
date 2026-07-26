@@ -162,6 +162,11 @@ extension SubstanceStore {
         var order: [String] = []
         var byRoute: [String: [PKRouteHit]] = [:]
         for hit in rows {
+            // A row with no measured value has nothing to render: the card would
+            // show a bare route name and a citation link, which reads as a broken
+            // section rather than as "we have a study but no numbers". 2-FDCK's
+            // insufflation row was exactly this — prose and a DOI, no metrics.
+            guard metricCount(hit) > 0 else { continue }
             if byRoute[hit.route] == nil { order.append(hit.route) }
             byRoute[hit.route, default: []].append(hit)
         }

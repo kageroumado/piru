@@ -507,30 +507,27 @@ struct MetabolismRow: View {
     private func metaboliteHeadlineBody(_ headline: String) -> some View {
         let resolved = resolvedMetabolite
         return VStack(alignment: .leading, spacing: 4) {
-            Button {
-                if let resolved { navigator.push(.substance(name: resolved.name)) }
-            } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Text(headline)
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.primary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                    if let active = hit.metaboliteActive {
-                        Text(active ? "active" : "inactive")
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(active ? accent : .secondary)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 1)
-                            .background((active ? accent : Theme.secondaryLabel).opacity(0.12), in: Capsule())
+            // The trailing affordance is deliberately OUTSIDE the push button.
+            // It used to sit inside, and that button is disabled when the
+            // metabolite has no library entry — which is exactly when the
+            // affordance is a citation link. A disabled button disables
+            // everything nested in it, so the ↗ rendered but could never be
+            // tapped: the only rows whose citation you need were the rows whose
+            // citation you couldn't reach.
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Group {
+                    if let resolved {
+                        Button { navigator.push(.substance(name: resolved.name)) } label: {
+                            metaboliteLabel(headline)
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        metaboliteLabel(headline)
                     }
-                    Spacer(minLength: 6)
-                    trailingAffordance(resolved: resolved)
                 }
-                .contentShape(Rectangle())
+                Spacer(minLength: 6)
+                trailingAffordance(resolved: resolved)
             }
-            .buttonStyle(.plain)
-            .disabled(resolved == nil)
 
             HStack(spacing: 6) {
                 Text("via \(hit.enzyme)")
@@ -556,8 +553,33 @@ struct MetabolismRow: View {
                     .padding(.top, 1)
             }
         }
-        .accessibilityElement(children: .combine)
+        // Only collapse into one element when the row IS one thing to activate.
+        // With no library entry the row holds a separate citation link, and
+        // combining would make it unreachable to VoiceOver the same way the
+        // disabled button made it unreachable to touch.
+        .accessibilityElement(children: resolved == nil ? .contain : .combine)
         .accessibilityHint(resolved == nil ? Text("") : Text("Opens \(headline)"))
+    }
+
+    /// The metabolite name plus its active/inactive chip — shared by the tappable
+    /// and non-tappable forms of the row so they stay visually identical.
+    private func metaboliteLabel(_ headline: String) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(headline)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+            if let active = hit.metaboliteActive {
+                Text(active ? "active" : "inactive")
+                    .font(.caption2.weight(.medium))
+                    .foregroundStyle(active ? accent : .secondary)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 1)
+                    .background((active ? accent : Theme.secondaryLabel).opacity(0.12), in: Capsule())
+            }
+        }
+        .contentShape(Rectangle())
     }
 
     /// The chevron (row pushes the metabolite's detail) or a demoted citation glyph

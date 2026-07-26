@@ -13026,6 +13026,22 @@
         }
       }
     },
+    "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由分子结构计算得出（PubChem、NPS-DataHub），非实验室实测值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由分子結構計算得出（PubChem、NPS-DataHub），非實驗室實測值。"
+          }
+        }
+      }
+    },
     "Conc" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33200,6 +33216,7 @@
       }
     },
     "Physicochemical values are predicted/computed (PubChem, NPS-DataHub), not measured for this preparation." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
