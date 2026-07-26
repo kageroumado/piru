@@ -23,40 +23,40 @@
       "binding": [
         {
           "target": "DAT",
-          "ki_nm": null,
+          "ki_nm": 280,
           "kd_nm": null,
           "ec50_nm": null,
-          "ic50_nm": 280,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human DAT",
           "radioligand_or_probe": "[3H]dopamine uptake",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1124/jpet.105.099424",
+          "reference": "pmid:10215666",
           "is_review": false,
-          "notes": "Han & Gu 2006 \u2014 Ki range 0.2-0.7 \u00b5M across DAT/NET/SERT; rank order DAT>SERT>NET."
+          "notes": "Eshleman et al. 1999 - hDAT/hSERT/hNET stably expressed in HEK293, [3H]neurotransmitter uptake inhibition."
         },
         {
           "target": "SERT",
-          "ki_nm": null,
-          "ic50_nm": 304,
+          "ki_nm": 304,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human SERT",
           "radioligand_or_probe": "[3H]5-HT uptake",
-          "reference": "doi:10.1124/jpet.105.099424",
+          "reference": "pmid:10215666",
           "is_review": false,
           "notes": null
         },
         {
           "target": "NET",
-          "ki_nm": null,
-          "ic50_nm": 779,
+          "ki_nm": 779,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human NET",
           "radioligand_or_probe": "[3H]norepinephrine uptake",
-          "reference": "doi:10.1124/jpet.105.099424",
+          "reference": "pmid:10215666",
           "is_review": false,
           "notes": null
         },
@@ -214,8 +214,7 @@
     ],
     "notes": "Prototype fast-binding/fast-dissociation DAT inhibitor \u2014 the paradigmatic 'cocaine-like' kinetic profile against which atypical DAT inhibitors are contrasted.",
     "references_consulted": [
-      "doi:10.1124/jpet.105.099424",
-      "pmid:8245956",
+"pmid:8245956",
       "doi:10.1038/386827a0",
       "pmid:8926741",
       "pmid:11306689",
@@ -499,7 +498,7 @@
           "half_life_min": 135,
           "protein_binding_pct": 15,
           "dose_in_study_mg": 10,
-          "reference": "doi:10.2147/NDT.S24467",
+          "reference": "pmid:19412495",
           "notes": "d-MPH alone \u2014 same first-pass CES1 hydrolysis; PK linear 2.5-20 mg."
         }
       ]
@@ -523,7 +522,6 @@
     "notes": "Pure d-threo eutomer of methylphenidate; preferred when avoiding peripheral l-enantiomer NE-driven side effects.",
     "references_consulted": [
       "pmid:8786705",
-      "doi:10.2147/NDT.S24467",
       "pmid:15082749"
     ]
   },
@@ -1614,16 +1612,6 @@
         "DAT"
       ],
       "binding": [
-        {
-          "target": "DAT",
-          "ki_nm": 1.3,
-          "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat striatal membranes",
-          "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "doi:10.1016/S0014-2999(00)00538-4",
-          "notes": "Carroll et al.; potent DAT with cocaine-like behavioral profile."
-        }
       ],
       "functional": [],
       "downstream_signalling": "Fast-acting cocaine-like DAT inhibitor; supports full self-administration in monkeys (high abuse liability)."
@@ -1643,7 +1631,6 @@
     ],
     "notes": "4-methyl phenyltropane; archetypal 'cocaine-like' phenyltropane.",
     "references_consulted": [
-      "doi:10.1016/S0014-2999(00)00538-4"
     ]
   },
   {
@@ -2278,21 +2265,21 @@
         {
           "target": "\u03b14\u03b22 nAChR",
           "ki_nm": null,
-          "ic50_nm": 1800,
+          "ic50_nm": 12000,
           "action": "antagonist",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human \u03b14\u03b22",
-          "reference": "doi:10.1124/jpet.302.3.1326",
+          "reference": "pmid:20158204",
           "notes": "Non-competitive nicotinic antagonism \u2014 basis for Zyban smoking-cessation indication."
         },
         {
           "target": "\u03b13\u03b24 nAChR",
           "ki_nm": null,
-          "ic50_nm": 1400,
+          "ic50_nm": 1800,
           "action": "antagonist",
           "species": "human",
           "tissue_or_cell": "HEK293",
-          "reference": "doi:10.1124/jpet.302.3.1326"
+          "reference": "pmid:20158204"
         }
       ],
       "functional": [
@@ -2355,10 +2342,10 @@
     "drug_interactions_pk": [
       {
         "with": "CYP2D6 substrates (e.g. desipramine, dextromethorphan, metoprolol)",
-        "mechanism": "CYP2D6 inhibition via hydroxybupropion + stereoisomers",
+        "mechanism": "competitive CYP2D6 inhibition by the reductive metabolites erythrohydrobupropion (Ki 1.7 uM) and threohydrobupropion (Ki 5.4 uM), not by hydroxybupropion or bupropion itself",
         "ki_um": null,
         "clinical_effect": "5-fold increase in desipramine AUC; bupropion is clinically a strong CYP2D6 inhibitor",
-        "reference": "doi:10.1016/j.dmd.2025.09.079"
+        "reference": "pmid:18420781"
       }
     ],
     "pharmacogenetics": {
@@ -2408,7 +2395,6 @@
       "doi:10.1124/dmd.112.050591",
       "pmid:23804523",
       "pmid:28220701",
-      "doi:10.1124/jpet.302.3.1326",
       "pmc:3763712"
     ]
   },
@@ -2437,7 +2423,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "doi:10.1016/S0006-3223(02)01692-1",
+          "reference": "pmid:12431845",
           "notes": "Wong et al. \u2014 highly NET-selective."
         },
         {
@@ -2446,7 +2432,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
-          "reference": "doi:10.1016/S0006-3223(02)01692-1"
+          "reference": "pmid:12431845"
         },
         {
           "target": "DAT",
@@ -2454,7 +2440,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
-          "reference": "doi:10.1016/S0006-3223(02)01692-1",
+          "reference": "pmid:12431845",
           "notes": "~290-fold NET selectivity over DAT."
         }
       ],
@@ -2547,8 +2533,7 @@
     "data_gaps_remaining": [],
     "notes": "Highly NET-selective; benefits cognitive ADHD without reinforcement. Classic example of how NET inhibition alone raises PFC DA via co-transport, without striatal liability.",
     "references_consulted": [
-      "doi:10.1016/S0006-3223(02)01692-1",
-      "pmc:4876529"
+"pmc:4876529"
     ]
   },
   {
@@ -2720,7 +2705,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "cloned receptor",
-          "reference": "doi:10.1124/jpet.121.000753",
+          "reference": "pmid:41667893",
           "notes": "NLS Pharmaceutics 2021 \u2014 partial OX2R agonism is mechanism for narcolepsy efficacy."
         }
       ],
@@ -2755,8 +2740,7 @@
     "notes": "Mid-affinity NDRI with significant orexin-2 agonism \u2014 uniquely positioned for narcolepsy. Phase 2 trials in ADHD met endpoints (NLS Pharmaceutics).",
     "references_consulted": [
       "pmid:8517722",
-      "pmid:525256",
-      "doi:10.1124/jpet.121.000753"
+      "pmid:525256"
     ]
   },
   {
@@ -3882,8 +3866,7 @@
     "shared_safety": "hERG block + Nav1.5 block \u2192 arrhythmia, sudden cardiac death (cocaine prototype; cocaethylene 4x worse). Atypical DAT inhibitors with sigma binding (JHW-007) and modafinil analogs (JJC8-088 IC50 0.13 \u00b5M at hERG) carry intrinsic hERG risk. Bupropion lowers seizure threshold (dose-dependent; 0.4% at \u2264450 mg/day). All abused stimulants risk sympathomimetic crisis, hyperthermia, rhabdomyolysis at supratherapeutic doses. CES1 G143E and BChE deficiency are genetic risk factors for cocaine/MPH toxicity. CYP3A4 induction (modafinil/armodafinil) \u2192 oral contraceptive failure, reduced AUC of co-administered substrates (encorafenib, triazolam, ethinyl estradiol).",
     "sar_summary": "Cocaine scaffold: replacing C3 benzoyloxy with phenyl (phenyltropanes) \u2192 markedly higher DAT affinity (WIN-35,428 Kd 16 nM vs cocaine 300 nM) and slower dissociation; 4-iodo (RTI-55) adds SERT; 4-chloro phenyl ester (RTI-113) maximises DAT selectivity (1500x vs NET); N-substitution of benztropine scaffold from methyl\u2192butyl shifts from cocaine-like (benztropine) to atypical/non-reinforcing (JHW-007, AHN-1055). Methylphenidate scaffold: ester chain length (Me\u2192Et\u2192iPr\u2192Pr) shifts NET\u2192DAT selectivity (d-MPH NET Ki 38 nM vs d-EPH NET Ki 3700 nM); 3,4-dichloro on phenyl (3,4-CTMP) gives 7-fold potency boost + esterase resistance \u2192 long duration. Modafinil scaffold: bis-4-fluoro (flmodafinil) boosts DAT affinity ~4x and abolishes CYP induction; small N-substituent changes in JJC8-088 vs -091 series produce activity cliff between cocaine-like and atypical profile (DAT conformation determined by single methyl difference). Phenylmorpholine releasers (phenmetrazine): 3-fluoro, 3-chloro maintain NE/DA releaser profile; 4-methyl or 3,4-methylenedioxy add 5-HT release \u2192 MDMA-like entactogen profile.",
     "key_references": [
-      "doi:10.1124/jpet.105.099424",
-      "pmid:8245956",
+"pmid:8245956",
       "doi:10.1038/386827a0",
       "pmid:11306689",
       "doi:10.1001/jama.2009.351",
@@ -3913,8 +3896,7 @@
       "pmid:8245956",
       "pmid:1675639",
       "pmid:9704880",
-      "pmid:1411961",
-      "doi:10.1016/S0014-2999(00)00538-4"
+      "pmid:1411961"
     ]
   },
   {
@@ -3988,8 +3970,7 @@
     "shared_safety": "Atomoxetine: rare hepatic injury (boxed warning), modest QT prolongation in PMs, suicidality concern (FDA boxed warning, pediatric). Viloxazine: CYP1A2 interactions (caffeine, theophylline, melatonin, clozapine). Both: dry mouth, decreased appetite, insomnia common; no significant abuse liability.",
     "sar_summary": "Phenoxypropylamine (atomoxetine) and morpholine (viloxazine) scaffolds. CYP2D6 stereoselective metabolism (atomoxetine R-isomer hydroxylated faster than S). NET selectivity over DAT/SERT 290-fold (atomoxetine) to 100-fold (viloxazine) \u2014 high enough to avoid abuse.",
     "key_references": [
-      "doi:10.1016/S0006-3223(02)01692-1",
-      "pmc:4876529",
+"pmc:4876529",
       "doi:10.1007/s40268-026-00543-y",
       "doi:10.1007/s40261-024-01356-0"
     ]

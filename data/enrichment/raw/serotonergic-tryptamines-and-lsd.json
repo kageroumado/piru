@@ -48,19 +48,19 @@
     },
     {
      "target": "5-HT1A",
-     "ki_nm": 1.1,
+     "ki_nm": 1.5,
      "ki_ci_nm": [
       0.64,
       7.3
      ],
-     "ec50_nm": 6.4,
-     "intrinsic_activity_pct": 110,
-     "reference_agonist": "5-HT",
+     "ec50_nm": null,
+     "intrinsic_activity_pct": null,
+     "reference_agonist": null,
      "action": "agonist",
      "species": "human",
      "tissue_or_cell": "HEK293",
      "radioligand_or_probe": "[3H]-8-OH-DPAT",
-     "reference": "doi:10.1124/mol.106.030502",
+     "reference": "pmid:28720478",
      "is_review": false,
      "notes": null
     },
@@ -330,7 +330,7 @@
     "mechanism": "PD interaction \u2014 seizure risk reports in case series",
     "ki_um": null,
     "clinical_effect": "Markedly intensified and prolonged trip; seizure reports",
-    "reference": "doi:10.1080/02791072.1992.10472275"
+    "reference": "pmid:34348413"
    }
   ],
   "pharmacogenetics": {
@@ -340,7 +340,7 @@
     "HTR2A (His452Tyr)"
    ],
    "phenotype_effects": "HTR2A His452Tyr variant (allele freq ~9%) blunts subjective and arrestin-driven responses to 5-HT2A agonists. CYP2D6 PM status would extend half-life modestly given small CYP2D6 contribution.",
-   "reference": "doi:10.1126/scitranslmed.aam7747"
+   "reference": "pmid:35894503"
   },
   "tolerance_and_dependence": {
    "receptor_downregulation_half_time": "5-HT2A downregulation in rat cortex within 4 days of daily LSD; full tolerance to behavioural effects in humans after 3\u20134 daily doses, recovery in 4\u20137 days off-drug",
@@ -428,7 +428,7 @@
      "species": "rat",
      "tissue_or_cell": "rat cortex membrane",
      "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.1016/j.neuropharm.2019.107802",
+     "reference": "pmid:31756337",
      "is_review": false,
      "notes": "N1-acyl substitution reduces direct 5-HT2A affinity 20\u201330\u00d7 vs LSD"
     }
@@ -442,7 +442,7 @@
      "reference_agonist": null,
      "species": "mouse",
      "cell_system": "in vivo",
-     "reference": "doi:10.1016/j.neuropharm.2019.107802"
+     "reference": "pmid:31756337"
     }
    ],
    "biased_agonism": [],
@@ -516,8 +516,7 @@
   ],
   "notes": "Grumann 2020 IV/oral self-experiment confirmed prodrug; complete hydrolysis to LSD within ~4 h.",
   "references_consulted": [
-   "doi:10.1002/dta.2821",
-   "doi:10.1016/j.neuropharm.2019.107802"
+   "doi:10.1002/dta.2821"
   ]
  },
  {
@@ -640,7 +639,7 @@
      "species": "rat",
      "tissue_or_cell": "rat cortex",
      "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.1016/j.neuropharm.2019.107802",
+     "reference": "pmid:31756337",
      "is_review": false,
      "notes": "Same family as 1P-LSD/ALD-52; reduced direct affinity, head-twitch active via hydrolysis to LSD"
     }
@@ -661,7 +660,7 @@
     "fraction_of_clearance_pct": null,
     "metabolite_name": "LSD",
     "metabolite_active": true,
-    "reference": "doi:10.1016/j.neuropharm.2019.107802"
+    "reference": "pmid:30617391"
    }
   ],
   "drug_interactions_pk": [],
@@ -697,7 +696,6 @@
   ],
   "notes": "Limited published characterisation; pharmacology inferred from class.",
   "references_consulted": [
-   "doi:10.1016/j.neuropharm.2019.107802"
   ]
  },
  {
@@ -725,7 +723,7 @@
      "species": "rat",
      "tissue_or_cell": "rat cortex",
      "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.1016/j.neuropharm.2019.107802",
+     "reference": "pmid:31756337",
      "is_review": false,
      "notes": "Brandt 2020: N1-acetyl reduces 5-HT2A affinity 1\u20132 orders of magnitude vs LSD"
     }
@@ -739,7 +737,7 @@
      "reference_agonist": null,
      "species": "mouse",
      "cell_system": "in vivo s.c.",
-     "reference": "doi:10.1016/j.neuropharm.2019.107802"
+     "reference": "pmid:31756337"
     }
    ],
    "biased_agonism": [],
@@ -757,7 +755,7 @@
     "fraction_of_clearance_pct": null,
     "metabolite_name": "LSD",
     "metabolite_active": true,
-    "reference": "doi:10.1016/j.neuropharm.2019.107802"
+    "reference": "pmid:31756337"
    }
   ],
   "drug_interactions_pk": [],
@@ -793,7 +791,6 @@
   ],
   "notes": "Brandt 2020 confirmed prodrug pathway in rodents and human liver enzymes; controlled human study still absent.",
   "references_consulted": [
-   "doi:10.1016/j.neuropharm.2019.107802"
   ]
  },
  {
@@ -906,14 +903,14 @@
    "binding": [
     {
      "target": "5-HT2A",
-     "ki_nm": 3.0,
+     "ki_nm": 5.2,
      "action": "partialAgonist",
-     "species": "rat",
-     "tissue_or_cell": "rat cortex",
-     "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.1006/abbi.2002.2941",
-     "is_review": false,
-     "notes": "Higher 5-HT2A affinity than LSD reported in some preparations; ~3\u00d7 lower human dose suggests higher CNS exposure"
+     "species": null,
+     "tissue_or_cell": null,
+     "radioligand_or_probe": null,
+     "reference": "pmid:42257400",
+     "is_review": true,
+     "notes": "Comparable to slightly weaker 5-HT2A affinity than LSD (5.2 vs 3.5 nM in this dataset, from different sources); the ~3\u00d7 lower human dose suggests higher CNS exposure rather than higher receptor affinity"
     }
    ],
    "functional": [],
@@ -960,7 +957,6 @@
   ],
   "notes": "Anecdotally ~1.5\u20132\u00d7 more potent than LSD per gram; pharmacology essentially LSD-like with shorter duration",
   "references_consulted": [
-   "doi:10.1006/abbi.2002.2941"
   ]
  },
  {
@@ -1139,14 +1135,14 @@
    "binding": [
     {
      "target": "5-HT2A",
-     "ki_nm": 13,
+     "ki_nm": 27.5,
      "action": "partialAgonist",
-     "species": "rat",
-     "tissue_or_cell": "rat cortex",
-     "radioligand_or_probe": "[3H]-ketanserin",
-     "reference": "doi:10.3390/ph13040098",
-     "is_review": true,
-     "notes": "Cited via 2025 systematic review; original PDSP entry"
+     "species": null,
+     "tissue_or_cell": null,
+     "radioligand_or_probe": null,
+     "reference": "pmid:23665164",
+     "is_review": false,
+     "notes": "Paulke 2013 in vitro binding assay (pKi 7.56 at 5-HT2 = 27.5 nM); the same value is tabulated for LSA at 5-HT2A by the 2026 ACS Chem Neurosci review"
     }
    ],
    "functional": [],
@@ -1212,8 +1208,7 @@
   ],
   "notes": "Per Shulgin TiHKAL, debate continues whether ergine vs iso-ergine drives morning glory psychoactivity; isoergine reportedly more active.",
   "references_consulted": [
-   "doi:10.3390/ph13040098",
-   "doi:10.1007/s00216-008-2486-x"
+"doi:10.1007/s00216-008-2486-x"
   ]
  },
  {
@@ -2066,30 +2061,30 @@
     "fraction_of_clearance_pct": 80,
     "metabolite_name": "psilocin-O-glucuronide",
     "metabolite_active": false,
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:20007669"
    },
    {
     "enzyme": "MAO-A",
     "fraction_of_clearance_pct": 15,
     "metabolite_name": "4-hydroxyindole-3-acetaldehyde \u2192 4-hydroxyindole-3-acetic acid (4-HIAA)",
     "metabolite_active": false,
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:38741590"
    },
    {
     "enzyme": "CYP2D6 / CYP3A4 (minor)",
     "fraction_of_clearance_pct": 5,
     "metabolite_name": "various oxidised",
     "metabolite_active": null,
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:38741590"
    }
   ],
   "drug_interactions_pk": [
    {
     "with": "MAOI (phenelzine, harmine)",
-    "mechanism": "MAO-A inhibition reduces 15% pathway, increases AUC",
+    "mechanism": "MAO-A contributes only minimally to psilocin turnover in vitro; inhibiting it is unlikely to raise exposure substantially",
     "ki_um": null,
     "clinical_effect": "Modest increase in exposure and duration; pronounced effect for free psilocin clinically",
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:38741590"
    },
    {
     "with": "SSRI (chronic)",
@@ -2105,8 +2100,8 @@
     "CYP2D6",
     "HTR2A"
    ],
-   "phenotype_effects": "UGT1A10 polymorphism (T408G) affects glucuronidation but clinical impact on psilocin AUC modest; CYP2D6 PM unlikely to materially change exposure given minor contribution; HTR2A His452Tyr blunts response.",
-   "reference": "doi:10.1124/dmd.117.077107"
+   "phenotype_effects": "Recombinant CYP2D6 metabolized nearly all psilocin in vitro (CYP3A4 ~40%), but CYP2D6 genotype did not influence psilocin plasma concentrations in the study population; UGT1A10 did not extensively metabolize psilocin in vitro despite in vivo glucuronidation.",
+   "reference": "pmid:38741590"
   },
   "tolerance_and_dependence": {
    "receptor_downregulation_half_time": "Rapid tachyphylaxis: full tolerance to subjective effects within 3 daily doses, ~5\u20137 d recovery; 5-HT2A internalisation in vivo within hours",
@@ -2157,7 +2152,6 @@
   "references_consulted": [
    "doi:10.1021/acschemneuro.8b00186",
    "doi:10.1007/s00213-017-4710-x",
-   "doi:10.1124/dmd.117.077107",
    "doi:10.1126/science.abl8615",
    "doi:10.1111/bph.70109"
   ]
@@ -2209,21 +2203,21 @@
     "fraction_of_clearance_pct": null,
     "metabolite_name": "psilocin",
     "metabolite_active": true,
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:28074670"
    },
    {
     "enzyme": "UGT1A10/UGT1A9",
     "fraction_of_clearance_pct": null,
     "metabolite_name": "psilocin-O-glucuronide",
     "metabolite_active": false,
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:20007669"
    },
    {
     "enzyme": "MAO-A",
     "fraction_of_clearance_pct": null,
     "metabolite_name": "4-hydroxyindole-3-acetic acid (4-HIAA)",
     "metabolite_active": false,
-    "reference": "doi:10.1124/dmd.117.077107"
+    "reference": "pmid:38741590"
    }
   ],
   "drug_interactions_pk": [],
@@ -2260,8 +2254,7 @@
   ],
   "notes": "Effects are functionally psilocin (active metabolite). Variability in dried-weight potency is large (3-fold).",
   "references_consulted": [
-   "doi:10.1007/s00213-017-4710-x",
-   "doi:10.1124/dmd.117.077107"
+   "doi:10.1007/s00213-017-4710-x"
   ]
  },
  {
@@ -6378,12 +6371,12 @@
     {
      "target": "QR2 / NQO2 (MT3)",
      "ki_nm": null,
-     "kd_nm": 20,
+     "kd_nm": 7200,
      "action": "modulator",
      "species": "human",
      "tissue_or_cell": "purified enzyme",
      "radioligand_or_probe": "various",
-     "reference": "doi:10.1021/bi050680u",
+     "reference": "pmid:18254726",
      "is_review": false,
      "notes": "Quinone reductase 2 \u2014 antioxidant relevance"
     }
@@ -6508,8 +6501,7 @@
   "notes": "Massive CYP1A2 substrate sensitivity drives most clinically meaningful DDIs. Fluvoxamine + melatonin essentially contraindicated.",
   "references_consulted": [
    "doi:10.1124/mol.105.018622",
-   "doi:10.1124/dmd.117.075788",
-   "doi:10.1021/bi050680u"
+   "doi:10.1124/dmd.117.075788"
   ]
  },
  {
@@ -6985,9 +6977,9 @@
      "ki_nm": 5.0,
      "action": "agonist",
      "species": "human",
-     "tissue_or_cell": "HEK293",
+     "tissue_or_cell": "CHO-K1",
      "radioligand_or_probe": "[3H]-5-CT",
-     "reference": "doi:10.1016/S0028-3908(99)00075-2",
+     "reference": "pmid:9154322",
      "is_review": false,
      "notes": null
     },
@@ -6996,20 +6988,20 @@
      "ki_nm": 0.6,
      "action": "agonist",
      "species": "human",
-     "tissue_or_cell": "HEK293",
+     "tissue_or_cell": "CHO-K1",
      "radioligand_or_probe": "[3H]-5-CT",
-     "reference": "doi:10.1016/S0028-3908(99)00075-2",
+     "reference": "pmid:9154322",
      "is_review": false,
      "notes": null
     },
     {
      "target": "5-HT1F",
-     "ki_nm": 19,
+     "ki_nm": 60.3,
      "action": "agonist",
      "species": "human",
-     "tissue_or_cell": "HEK293",
+     "tissue_or_cell": "CHO-K1",
      "radioligand_or_probe": "[3H]-LSD",
-     "reference": "doi:10.1016/S0028-3908(99)00075-2",
+     "reference": "pmid:9154322",
      "is_review": false,
      "notes": null
     }
@@ -7056,8 +7048,8 @@
     "fraction_of_clearance_pct": 70,
     "metabolite_name": "N-desmethylzolmitriptan (active, 5-HT1B/D potent)",
     "metabolite_active": true,
-    "metabolite_potency_vs_parent_pct": 200,
-    "reference": "doi:10.1016/S0028-3908(99)00075-2"
+    "metabolite_potency_vs_parent_pct": null,
+    "reference": "pmid:10553725"
    },
    {
     "enzyme": "MAO-A",
@@ -7139,7 +7131,6 @@
   "data_gaps_remaining": [],
   "notes": "Active metabolite carries much of the effect; CYP1A2 status drives clinical variability.",
   "references_consulted": [
-   "doi:10.1016/S0028-3908(99)00075-2"
   ]
  },
  {
@@ -7159,17 +7150,6 @@
     "5-HT1D"
    ],
    "binding": [
-    {
-     "target": "5-HT1B",
-     "ki_nm": 2.5,
-     "action": "agonist",
-     "species": "human",
-     "tissue_or_cell": "HEK293",
-     "radioligand_or_probe": "[3H]-5-CT",
-     "reference": "doi:10.1016/S0028-3908(99)00075-2",
-     "is_review": false,
-     "notes": "~2\u00d7 higher 5-HT1B/D affinity than parent zolmitriptan"
-    }
    ],
    "functional": [],
    "biased_agonism": [],
@@ -7219,7 +7199,6 @@
   "data_gaps_remaining": [],
   "notes": "See zolmitriptan.",
   "references_consulted": [
-   "doi:10.1016/S0028-3908(99)00075-2"
   ]
  },
  {
@@ -25035,7 +25014,6 @@
   "sar_summary": "4-position modification: 4-OH (psilocin family, active) > 4-AcO (prodrug, equivalent in vivo) > 4-PrO (slower onset prodrug) > 4-PO (psilocybin itself, the natural prodrug). N-substituents: NMe2 (psilocin, full agonist), NMeEt (4-HO-MET, similar potency), NMeiPr (4-HO-MIPT, more 2A-selective), NEt2 (4-HO-DET, Hofmann's CZ-74), NPr2 (4-HO-DPT), NiPr2 (4-HO-DiPT, unusually weak 5-HT2C). Removing both N-methyls (norpsilocin, 4-HT) destroys CNS bioavailability despite higher intrinsic potency.",
   "key_references": [
    "doi:10.1021/acschemneuro.8b00186",
-   "doi:10.1124/dmd.117.077107",
    "doi:10.1021/acsptsci.2c00177",
    "doi:10.1021/acsptsci.2c00222",
    "doi:10.1021/acs.jmedchem.0c00257",
@@ -25130,7 +25108,6 @@
   "shared_safety": "FDA black-box serotonin syndrome warning with SSRIs/SNRIs/MAOIs (despite weak 5-HT2A activity \u2014 class-wide caution). Coronary vasospasm risk: contraindicated in CAD, uncontrolled HTN, recent MI. Medication-overuse headache with frequent use.",
   "sar_summary": "Indole or indazole core + ethylamine + sulfonamide/amide tail. Naratriptan, zolmitriptan, rizatriptan, frovatriptan, eletriptan, almotriptan, sumatriptan differ in CNS penetration, half-life, and CYP route.",
   "key_references": [
-   "doi:10.1016/S0028-3908(99)00075-2"
   ]
  },
  {

@@ -422,7 +422,7 @@
         {
           "modality": "fMRI BOLD",
           "finding": "Low-dose MB (0.5-4 mg/kg PO) in healthy humans increases task-related BOLD activity in cortex and hippocampus; correlates with improved short-term memory.",
-          "reference": "doi:10.1148/radiol.2016152034"
+          "reference": "pmid:27351678"
         }
       ]
     },
@@ -509,8 +509,7 @@
     "notes": "MB is a POTENT reversible MAO-A inhibitor (Ki 27 nM) and this is the clinically dominant pharmacology at the doses used for cognitive enhancement (0.5-4 mg/kg). Serotonergic-drug combinations have caused fatal serotonin syndrome. The mitochondrial electron-shunt mechanism is real but biphasic — efficacy peaks at low doses and reverses at high doses.",
     "references_consulted": [
       "doi:10.1038/sj.bjp.0707430",
-      "doi:10.3390/ijms17030312",
-      "doi:10.1148/radiol.2016152034"
+      "doi:10.3390/ijms17030312"
     ]
   },
   {
@@ -1264,7 +1263,7 @@
           "species": "rat",
           "tissue_or_cell": "striatal sections",
           "radioligand_or_probe": "[125I]-α-conotoxin MII",
-          "reference": "doi:10.1124/jpet.112.193177",
+          "reference": "pmid:22550286",
           "is_review": false,
           "notes": "Highly potent at α6β2; relevant for VTA dopamine modulation."
         }
@@ -1349,7 +1348,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "FDA-approved smoking cessation aid. Historic neuropsychiatric AE black-box was removed after the EAGLES trial (NCT01456936) found no increased risk vs placebo. The cardiovascular AE signal in patients with CV disease is real but small.",
-    "references_consulted": ["pmid:17157884", "pmid:17101743", "doi:10.1124/jpet.112.193177"]
+    "references_consulted": ["pmid:17157884", "pmid:17101743"]
   },
   {
     "name": "Cytisine",

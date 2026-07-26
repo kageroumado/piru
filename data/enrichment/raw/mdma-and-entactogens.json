@@ -179,8 +179,8 @@
         },
         {
           "modality": "PET ([11C]-DASB)",
-          "finding": "Chronic heavy MDMA users show reduced SERT availability in cortical and subcortical regions; partial recovery after abstinence",
-          "reference": "doi:10.1001/archpsyc.55.10.946"
+          "finding": "Chronic ecstasy users show reduced SERT availability throughout cerebral cortex (-19 to -46%) and hippocampus (-21%), with striking sparing of the SERT-rich striatum.",
+          "reference": "pmid:20483717"
         }
       ]
     },
@@ -258,9 +258,9 @@
       },
       {
         "with": "fluoxetine",
-        "mechanism": "CYP2D6 inhibition + SERT block",
+        "mechanism": "SERT block (5-HT reuptake blockade competing with MDMA at the transporter)",
         "clinical_effect": "Blunts MDMA subjective effects (SERT competition); risk of serotonin syndrome at high combined doses.",
-        "reference": "doi:10.1038/sj.npp.1395075"
+        "reference": "pmid:17047932"
       },
       {
         "with": "moclobemide / other MAOIs",
@@ -280,7 +280,7 @@
       "reference": "doi:10.3389/fgene.2012.00235"
     },
     "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "Acute pharmacodynamic tachyphylaxis within hours of redosing (5-HT pools depleted, SERT downregulated). Chronic SERT downregulation in heavy users shows partial recovery over months of abstinence (PET [11C]-DASB studies).",
+      "receptor_downregulation_half_time": "Acute pharmacodynamic tachyphylaxis within hours of redosing: in a controlled human trial (n=10), a second 100 mg dose 4 h later produced effects similar to a single dose despite doubling MDMA plasma concentrations.",
       "cross_tolerance": [
         "MDA",
         "MDE",
@@ -292,7 +292,7 @@
         "other SSRA entactogens"
       ],
       "withdrawal_syndrome": "No physical withdrawal syndrome. Post-acute 'comedown' (24-72 h) — dysphoria, fatigue, irritability, occasional depressive episodes — reflects depleted 5-HT stores rather than receptor adaptation. Resolves spontaneously; not pathognomonic of dependence.",
-      "reference": "doi:10.1001/archpsyc.55.10.946"
+      "reference": "pmid:26073279"
     },
     "off_targets": [
       {
@@ -313,8 +313,8 @@
         "target": "VMAT2",
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
-        "clinical_consequence": "MDMA disrupts vesicular storage of monoamines. Combined with cytosolic redox stress from MDMA quinone metabolites, this drives the well-characterised serotonergic axonal pruning seen in animal models at high repeated doses.",
-        "reference": "doi:10.1124/jpet.105.085639"
+        "clinical_consequence": "MDMA rapidly decreases vesicular monoamine (VMAT-2) transport in rat striatum after high-dose administration; unlike methamphetamine, the deficit partially recovers within 24 h.",
+        "reference": "pmid:11861820"
       }
     ],
     "demographic_differences": {
@@ -342,7 +342,6 @@
     "notes": "MDMA-assisted therapy for PTSD: MAPS/Lykos submitted NDA Dec 2023 based on MAPP1 (NCT03537014, n=90) and MAPP2 (n=104) Phase 3 trials, both meeting primary endpoint (CAPS-5 reduction vs placebo+therapy). FDA issued Complete Response Letter Aug 2024 citing functional unblinding, AE underreporting, and concerns about therapy delivery — not efficacy. Drug listed in DEA Schedule I; FDA breakthrough designation 2017. The Holze 2024 enantiomer trial (NCT05277636) showed S-MDMA 100 mg ≈ racemic 125 mg ≈ R-MDMA 300 mg for overall effect intensity.",
     "references_consulted": [
       "doi:10.1111/j.1476-5381.2012.02145.x",
-      "doi:10.1097/FTD.0b013e3181a8b626",
       "doi:10.1046/j.1365-2125.2000.00121.x",
       "doi:10.1016/s0006-2952(00)00284-7",
       "doi:10.1038/s41386-024-01972-6",
@@ -2817,7 +2816,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1124/jpet.300.3.971",
+          "reference": "pmid:17223101",
           "is_review": false
         },
         {
@@ -2825,7 +2824,7 @@
           "ec50_nm": 1500,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "doi:10.1124/jpet.300.3.971",
+          "reference": "pmid:17223101",
           "is_review": false
         },
         {
@@ -2833,7 +2832,7 @@
           "ec50_nm": 8900,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "doi:10.1124/jpet.300.3.971",
+          "reference": "pmid:17223101",
           "is_review": false
         },
         {
@@ -2841,7 +2840,7 @@
           "ic50_nm": 31000,
           "action": "enzymeInhibitor",
           "species": "human",
-          "reference": "doi:10.1124/jpet.300.3.971",
+          "reference": "pmid:28302559",
           "is_review": false,
           "notes": "Weak MAO-A inhibitor."
         }
@@ -2901,8 +2900,7 @@
     ],
     "notes": "MISCATEGORIZED: This is a serotonergic psychedelic (5-HT2A agonist), not an entactogen. Closely related to 5-MeO-DMT / AMT. Recategorize as Psychedelic. Schedule I in US.",
     "references_consulted": [
-      "doi:10.1124/jpet.300.3.971",
-      "doi:10.1016/j.neuropharm.2018.06.020"
+"doi:10.1016/j.neuropharm.2018.06.020"
     ]
   },
   {
@@ -5201,15 +5199,13 @@
     "sar_summary": "α-methyl: protects from MAO oxidation, doubles duration relative to phenethylamine. N-substituent: H = MDA (broad release + 5-HT2A agonist character); methyl = MDMA (canonical entactogen, balanced SERT/NET, weaker DA); ethyl = MDE (collapses DA, pure entactogen); larger N-alkyls progressively kill activity. Ring substitution: 3,4-methylenedioxy = entactogen signature (SERT-selective); halogenation (Br, I) on the ring increases 5-HT2A binding (psychedelic shift); methoxy substitution (e.g., MMDA) increases 5-HT2A agonism at the cost of release; benzofuran ring-replacement (5-APB/6-APB) gives single-digit-nM SNDRA potency with high 5-HT2B agonism (more dangerous); 2-aminoindane scaffold (MDAI) constrains geometry for SERT-selectivity (less neurotoxic per Nichols' design but still capable of fatal hyperthermia). β-keto (cathinone) ring shifts toward stimulant character with VMAT2 inactivity (methylone is 4-5× less potent at SERT release than MDMA). Lysine-amide prodrugs (Lys-MDA, Lys-MDMA) extend onset/duration with no intrinsic activity until peptidase cleavage.",
     "key_references": [
       "doi:10.1111/j.1476-5381.2012.02145.x",
-      "doi:10.1097/FTD.0b013e3181a8b626",
       "doi:10.1046/j.1365-2125.2000.00121.x",
       "doi:10.1016/s0006-2952(00)00284-7",
       "doi:10.1038/s41386-024-01972-6",
       "doi:10.1038/s41386-025-02248-3",
       "pmid:12649569",
       "doi:10.3389/fgene.2012.00235",
-      "doi:10.1177/0269881106065907",
-      "doi:10.1124/jpet.105.085639"
+      "doi:10.1177/0269881106065907"
     ]
   },
   {
@@ -5261,8 +5257,7 @@
     "shared_safety": "Built-in pharmacological foot-gun. The MAO-A inhibition guarantees fatal serotonin syndrome with any additional serotonergic input. Multiple fatality clusters: 5-MeO-AMT in US 2003-2004, 5-IT in EU 2011-2013 (>20 confirmed deaths). MISCATEGORIZED in this group: these are tryptamine psychedelics, not entactogens.",
     "sar_summary": "Adding 5-methoxy boosts 5-HT2A. Moving the 2-aminopropyl from indole-3 (true tryptamines) to indole-5 (5-IT/5-API) shifts activity from receptor agonism to MAO inhibition.",
     "key_references": [
-      "doi:10.1124/jpet.300.3.971",
-      "doi:10.1016/j.taap.2017.02.004"
+"doi:10.1016/j.taap.2017.02.004"
     ]
   },
   {

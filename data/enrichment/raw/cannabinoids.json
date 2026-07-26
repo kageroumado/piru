@@ -61,7 +61,7 @@
           "tissue_or_cell": "HEK293 expressing human GPR55",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/j.1476-5381.2007.00379.x",
+          "reference": "pmid:17876302",
           "is_review": false,
           "notes": "Ryberg 2007. CBD is GPR55 antagonist (opposite direction)."
         }
@@ -75,7 +75,7 @@
           "reference_agonist": "CP55,940",
           "species": "human",
           "cell_system": "CHO-hCB1",
-          "reference": "doi:10.1111/j.1476-5381.2007.00442.x"
+          "reference": "pmid:15489124"
         }
       ],
       "biased_agonism": [],
@@ -193,7 +193,7 @@
     "pharmacogenetics": {
       "relevant_genes": ["CYP2C9"],
       "phenotype_effects": "CYP2C9*3/*3 carriers show ~3× higher THC AUC than *1/*1; clinically relevant for medical cannabis dosing.",
-      "reference": "doi:10.1097/FPC.0b013e3283377cf2"
+      "reference": "pmid:19005461"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "CB1 receptors downregulate within 4 weeks of daily heavy use (~20% reduction in cortical [18F]MK-9470 binding); recovery within 4 weeks of abstinence (D'Souza 2016).",
@@ -207,7 +207,7 @@
         "ki_or_ic50_nm": 8,
         "concern_level": "low",
         "clinical_consequence": "Putative role in pain processing; clinical significance unclear",
-        "reference": "doi:10.1111/j.1476-5381.2007.00379.x"
+        "reference": "pmid:17876302"
       },
       {
         "target": "PPARγ",
@@ -230,7 +230,6 @@
     "notes": "Δ9-THC's PARTIAL agonism at CB1 (~15-30% intrinsic activity vs CP55,940) is the single most important pharmacological fact distinguishing natural cannabis from synthetic cannabinoid full agonists. This ceiling effect is why THC has never produced confirmed lethal overdose: maximum CB1 activation is intrinsically limited regardless of dose.",
     "references_consulted": [
       "pmid:8632377",
-      "doi:10.1111/j.1476-5381.2007.00442.x",
       "doi:10.1097/00007691-200502000-00007",
       "pmid:11444969",
       "doi:10.1038/mp.2015.165",
@@ -300,7 +299,7 @@
           "tissue_or_cell": "HEK293 expressing hTRPA1",
           "radioligand_or_probe": "calcium flux",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/j.1476-5381.2011.01166.x",
+          "reference": "pmid:21175579",
           "is_review": false,
           "notes": "Both enantiomers active at TRPA1 (stereo-non-selective)."
         }
@@ -343,7 +342,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Increases endogenous anandamide tone — may contribute to indirect endocannabinoid effects",
-        "reference": "doi:10.1111/j.1476-5381.2011.01166.x"
+        "reference": "pmid:21175579"
       }
     ],
     "demographic_differences": {
@@ -357,7 +356,6 @@
     "references_consulted": [
       "pmid:25311884",
       "doi:10.1089/can.2023.0212",
-      "doi:10.1111/j.1476-5381.2011.01166.x",
       "pmid:38630918"
     ]
   },
@@ -448,7 +446,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Antagonist; potential anti-inflammatory mechanism",
-        "reference": "doi:10.1111/j.1476-5381.2011.01166.x"
+        "reference": "pmid:21175579"
       }
     ],
     "demographic_differences": {
@@ -1120,7 +1118,7 @@
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/jm010532f",
+          "reference": "pmid:25921407",
           "is_review": false,
           "notes": "Deng/Makriyannis 2001. Fluorination at ω-position dramatically increases CB1 affinity and metabolic stability vs JWH-018."
         },
@@ -1138,7 +1136,7 @@
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/jm010532f",
+          "reference": "pmid:25921407",
           "is_review": false,
           "notes": null
         }
@@ -1177,8 +1175,7 @@
     "data_gaps_remaining": ["controlled human PK"],
     "notes": "ω-fluorinated analogue of JWH-018. Bioisosteric fluorine increases potency and prolongs half-life vs parent. Schedule I.",
     "references_consulted": [
-      "doi:10.1021/jm010532f",
-      "doi:10.1002/dta.1326"
+"doi:10.1002/dta.1326"
     ]
   },
 
@@ -2556,7 +2553,6 @@
     "sar_summary": "Aung 2000 SAR: minimum 3-carbon N-alkyl chain for CB1 affinity; pentyl (C5) optimal. ω-fluorination of pentyl (5F-) increases CB1 affinity AND metabolic stability vs parent. Substituting pentyl with cyclohexylmethyl (CHM) or 4-fluorobenzyl (FUB) maintains or enhances CB1 affinity. Head group SAR (Banister 2015-2021): tert-leucine (MDMB) > valine (AMB) > leucine (AB) > glycine for both potency and Emax. Indazole core often more potent than indole (PINACA > PICA). Ester linkages (PB-22, 5F-PB-22) give very high potency but rapid CES1 hydrolysis. Designer evasion 2019-: replacement of fluoropentyl with pent-4-enyl (MDMB-4en-PINACA), hexyl (ADB-HEXINACA), or 4-fluorobutyl (4F-MDMB-BINACA) to circumvent analogue laws.",
     "key_references": [
       "pmid:11020385",
-      "doi:10.1021/jm010532f",
       "doi:10.1021/acschemneuro.5b00112",
       "doi:10.1021/acschemneuro.5b00107",
       "pmid:26105953",

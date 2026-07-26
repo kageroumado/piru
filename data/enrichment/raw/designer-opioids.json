@@ -2698,7 +2698,7 @@
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "Reduced fentanyl clearance, increased AUC, risk of overdose; FDA black-box warning.",
-        "reference": "doi:10.1124/dmd.32.6.660"
+        "reference": "pmid:10485779"
       },
       {
         "with": "grapefruit juice",
@@ -2736,7 +2736,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Rapid IV bolus or high-dose smoked / IV illicit use causes 'wooden chest syndrome' — laryngeal closure + thoracic skeletal muscle hypertonia via central MOR-dopaminergic pathway. Sudden ventilatory failure within seconds-minutes of dose; reversible with naloxone OR neuromuscular blockade.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -2764,7 +2764,6 @@
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939",
       "doi:10.1111/bph.16084",
-      "doi:10.1097/MJT.0b013e3182691e8d",
       "pmid:8886601",
       "doi:10.1097/00000542-198304000-00010"
     ]
@@ -2908,7 +2907,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome more frequent and severe than with fentanyl due to extreme potency and rapid onset.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -2934,7 +2933,6 @@
     "references_consulted": [
       "doi:10.3390/molecules24040740",
       "doi:10.1111/bph.16084",
-      "doi:10.1097/MJT.0b013e3182691e8d",
       "doi:10.1093/jat/bky072"
     ]
   },
@@ -3000,17 +2998,17 @@
         {
           "route": "sublingual",
           "bioavailability_pct": 59,
-          "cmax_ng_per_ml": 0.21,
-          "tmax_min": 60,
+          "cmax_ng_per_ml": 0.035,
+          "tmax_min": 48,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": 150,
           "vd_l_per_kg": null,
           "clearance_ml_per_min_per_kg": null,
           "protein_binding_pct": 92,
-          "dose_in_study_mg": 0.03,
-          "subject_n": null,
+          "dose_in_study_mg": 0.015,
+          "subject_n": 38,
           "subject_demographics": "Adults",
-          "reference": "doi:10.1177/0091270014547019",
+          "reference": "pmid:25544247",
           "notes": "Sublingual sufentanil (Dsuvia) FDA-approved 2018 for acute pain."
         }
       ],
@@ -3033,7 +3031,7 @@
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "Reduced clearance, prolonged sedation.",
-        "reference": "doi:10.1124/dmd.32.6.660"
+        "reference": "pmid:8712396"
       }
     ],
     "pharmacogenetics": {
@@ -3059,7 +3057,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
         "clinical_consequence": "Less than fentanyl due to slower iv-titration in clinical use, but possible.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -3379,7 +3377,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -3445,13 +3443,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -3479,7 +3470,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -3546,13 +3537,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -3580,7 +3564,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -3741,7 +3725,7 @@
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
+        "reference": "pmid:27736030"
       }
     ],
     "pharmacogenetics": {
@@ -3770,7 +3754,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -3838,13 +3822,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -3872,7 +3849,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4001,13 +3978,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4035,7 +4005,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4130,13 +4100,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4164,7 +4127,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4230,13 +4193,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4264,7 +4220,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4330,13 +4286,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4364,7 +4313,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4430,13 +4379,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4464,7 +4406,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4530,13 +4472,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4564,7 +4499,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4632,13 +4567,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4666,7 +4594,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4713,21 +4641,21 @@
       "binding": [
         {
           "target": "MOR",
-          "ki_nm": 4.2,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": 4.2,
-          "ic50_nm": null,
+          "ic50_nm": 0.48,
           "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
           "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
-          "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
+          "species": "rat",
+          "tissue_or_cell": "rat brain homogenate membrane fraction",
+          "radioligand_or_probe": "[3H]DAMGO",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1124/jpet.121.000866",
+          "reference": "pmid:30791394",
           "is_review": false,
-          "notes": "Ki 4.2 nM at human MOR (~2.5× weaker than fentanyl Ki 1.6 nM). Changes selectivity from μ>κ>δ to μ>δ≥κ. EC50 4.2 nM (electrophysiology) or 79 nM (GTPγS). In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study."
+          "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study."
         }
       ],
       "functional": [],
@@ -4752,13 +4680,6 @@
       }
     ],
     "drug_interactions_pk": [
-      {
-        "with": "ritonavir / itraconazole / ketoconazole",
-        "mechanism": "CYP3A4 inhibition",
-        "ki_um": null,
-        "clinical_effect": "Increased AUC, overdose risk.",
-        "reference": "doi:10.1124/dmd.32.6.660"
-      }
     ],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4786,7 +4707,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4806,10 +4727,9 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Ki 4.2 nM at human MOR (~2.5× weaker than fentanyl Ki 1.6 nM). Changes selectivity from μ>κ>δ to μ>δ≥κ. EC50 4.2 nM (electrophysiology) or 79 nM (GTPγS). In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
+    "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
     "references_consulted": [
-      "doi:10.1124/jpet.121.000866",
-      "doi:10.3389/fphar.2019.00238",
+"doi:10.3389/fphar.2019.00238",
       "doi:10.1002/dta.2822"
     ]
   },
@@ -4870,7 +4790,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Wooden chest syndrome class risk.",
-        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+        "reference": "pmid:34240442"
       }
     ],
     "demographic_differences": {
@@ -4917,7 +4837,7 @@
     "class_context_id": "fentanyl-anilidopiperidines",
     "class_name": "Fentanyl-family anilidopiperidines",
     "shared_mechanism": "4-anilidopiperidine scaffold designed at Janssen (1960s) — full MOR agonists with sub- to low-nanomolar Ki at human MOR. β-arrestin recruitment is broadly proportional to G-protein activation (i.e., not biased) per Ramos-González 2023, except for carfentanil which is genuinely β-arrestin-biased. Activate Gαi/o → cAMP inhibition + GIRK opening + Ca²⁺ channel closure.",
-    "shared_pk_summary": "Extensive CYP3A4 N-dealkylation to inactive nor-metabolite + 4-ANPP marker (from amide hydrolysis). High lipophilicity → rapid BBB transfer, large Vd (3-5 L/kg), context-sensitive half-life that grows with infusion duration (except remifentanil — esterase-cleared). Protein binding 80-92% (albumin + α1-acid glycoprotein). CYP3A4 inhibitors (ritonavir, itraconazole) markedly increase exposure.",
+    "shared_pk_summary": "Extensive CYP3A4 N-dealkylation to inactive nor-metabolite + 4-ANPP marker (from amide hydrolysis). High lipophilicity → rapid BBB transfer, large Vd (3-5 L/kg), context-sensitive half-life that grows with infusion duration (except remifentanil — esterase-cleared). Protein binding 80-92% (albumin + α1-acid glycoprotein). CYP3A4 inhibitors (ritonavir, itraconazole) markedly increase fentanyl exposure; the analogs share the same CYP3A4 N-dealkylation route, but interaction data for individual fentalogs are sparse and the magnitude is not established per-analog.",
     "shared_safety": "Chest wall rigidity ('wooden chest syndrome') — class-specific complication driven by central MOR activation via dopaminergic pathway; risk highest with rapid-onset routes (IV bolus, smoked, IN). Reversible with naloxone OR neuromuscular blockade. Onset within seconds-to-minutes; can cause sudden ventilatory failure before classical respiratory depression manifests. Naloxone dose requirements rise with potency: fentanyl typically reverses with 0.4-2 mg cumulative; carfentanil-class exposures may need ≥4-8 mg and/or nalmefene/naltrexone given the unique receptor conformation stabilised by carfentanil (Faouzi 2024).",
     "sar_summary": "4-position substituent on piperidine: methoxymethyl (sufentanil) or methyl ester (carfentanil, remifentanil) markedly increase MOR affinity. N-aryl ring substitution: para-F preserves activity; para-Cl, para-OMe also active; para-thienyl (sufentanil) increases potency. Amide acyl chain: propionyl (fentanyl) > butyryl (butyrfentanyl) > acetyl (acetylfentanyl) > pentanoyl in MOR Ki. Furanyl carbonyl (furanylfentanyl) preserves high potency. 3-methyl piperidine substitution + 4-carbomethoxy (lofentanil) gives extreme affinity + slow off-rate.",
     "key_references": [
@@ -4925,8 +4845,7 @@
       "doi:10.3390/molecules24040740",
       "doi:10.3389/fphar.2019.00238",
       "doi:10.1111/bph.16084",
-      "doi:10.1016/j.yrtph.2010.12.007",
-      "doi:10.1097/MJT.0b013e3182691e8d"
+      "doi:10.1016/j.yrtph.2010.12.007"
     ]
   },
   {

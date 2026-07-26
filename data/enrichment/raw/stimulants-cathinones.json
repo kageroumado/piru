@@ -2840,7 +2840,7 @@
         "enzyme": "CYP-mediated",
         "metabolite_name": "N-demethyl-pentylone, β-OH metabolites, ring-hydroxylated metabolites",
         "metabolite_active": true,
-        "reference": "doi:10.1080/13880209.2023.2200613"
+        "reference": "pmid:37690187"
       }
     ],
     "drug_interactions_pk": [],

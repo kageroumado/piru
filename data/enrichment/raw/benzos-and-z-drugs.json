@@ -119,8 +119,8 @@
         "with": "carbamazepine",
         "mechanism": "CYP3A4 induction",
         "ki_um": null,
-        "clinical_effect": "AUC decreased ~50%; reduces clinical effect substantially",
-        "reference": "doi:10.1038/sj.npp.1395147"
+        "clinical_effect": "Apparent oral clearance increased 2.4-fold and elimination half-life fell from 17.1 to 7.7 h (implying roughly a 50% AUC reduction); peak concentration was unchanged and psychomotor measures did not differ significantly.",
+        "reference": "pmid:9536449"
       },
       {
         "with": "grapefruit juice",
@@ -172,8 +172,7 @@
       "pmid:16107249",
       "pmid:8646822",
       "pmc:PMC2408964",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf",
-      "doi:10.1038/sj.npp.1395147"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf"
     ]
   },
   {
@@ -1691,7 +1690,7 @@
         "metabolite_name": "S-temazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1016/j.dmd.2025.09.113",
+        "reference": "pmid:40543327",
         "notes": "Stereoselective: UGT2B7/1A9 dominant for R-temazepam; UGT2B15/1A6 for S-temazepam."
       },
       {
@@ -1700,17 +1699,10 @@
         "metabolite_name": "R-temazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1016/j.dmd.2025.09.113"
+        "reference": "pmid:40543327"
       }
     ],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {
-      "relevant_genes": [
-        "UGT2B15"
-      ],
-      "phenotype_effects": "UGT2B15 polymorphism alters S-temazepam clearance.",
-      "reference": "doi:10.1016/j.dmd.2025.09.113"
-    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
       "cross_tolerance": [
@@ -1738,8 +1730,7 @@
     ],
     "notes": "Active metabolite of diazepam; clinically used as standalone hypnotic. LOT rule applies.",
     "references_consulted": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf",
-      "doi:10.1016/j.dmd.2025.09.113"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
     ]
   },
   {
@@ -3750,7 +3741,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Estimated from rat PK + post-mortem cases (Rice/Hikin 2019)",
-          "reference": "doi:10.1016/j.taap.2023.116481",
+          "reference": "pmid:36907383",
           "notes": "Rat PK: Vd and CL ~2× alprazolam; t1/2 ~2× longer (extrapolation to human ~18 h)."
         }
       ],
@@ -3763,7 +3754,7 @@
         "metabolite_name": "α-hydroxyflualprazolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1016/j.taap.2023.116481"
+        "reference": "pmid:32104896"
       }
     ],
     "drug_interactions_pk": [],
@@ -3797,7 +3788,6 @@
     ],
     "notes": "Major designer benzo of late 2010s. Nine-case post-mortem series by Rice & Hikin 2019; deaths involved poly-drug intoxication, none attributed to flualprazolam alone.",
     "references_consulted": [
-      "doi:10.1016/j.taap.2023.116481"
     ]
   },
   {

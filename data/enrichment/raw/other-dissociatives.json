@@ -541,13 +541,13 @@
         {
           "target": "nicotinic alpha7 nAChR",
           "ki_nm": null,
-          "ic50_nm": 700,
+          "ic50_nm": 340,
           "action": "antagonist",
           "species": "rat",
-          "tissue_or_cell": "rat cortical/hippocampal cultures",
-          "radioligand_or_probe": "ACh-evoked currents",
+          "tissue_or_cell": "cultured rat hippocampal neurons",
+          "radioligand_or_probe": "choline (10 mM)-evoked whole-cell currents",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1016/j.neuropharm.2007.04.022",
+          "reference": "pmid:15522999",
           "is_review": false,
           "notes": "Aracava et al. 2005 — memantine has higher affinity for alpha7 nAChR than for NMDA at resting potentials, an under-appreciated off-target."
         },
@@ -635,22 +635,13 @@
       "phenotype_effects": "Polymorphisms in OCT2/MATE1 affect tubular secretion; clinically modest. CYP genotype is largely irrelevant given negligible hepatic metabolism.",
       "reference": "pmid:22863669"
     },
-    "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "No clinically meaningful tolerance to therapeutic effect over years in dementia trials; minimal recreational tolerance reported.",
-      "cross_tolerance": [
-        "amantadine (limited)",
-        "ketamine (partial)"
-      ],
-      "withdrawal_syndrome": "No physical withdrawal documented in therapeutic use. Abrupt discontinuation in dementia patients may produce cognitive rebound over weeks consistent with loss of NMDA blockade.",
-      "reference": "doi:10.1517/14740338.2014.991378"
-    },
     "off_targets": [
       {
         "target": "alpha7 nAChR",
-        "ki_or_ic50_nm": 700,
+        "ki_or_ic50_nm": 340,
         "concern_level": "low",
         "clinical_consequence": "May contribute to cognitive side-effects; under investigation.",
-        "reference": "doi:10.1016/j.neuropharm.2007.04.022"
+        "reference": "pmid:15522999"
       },
       {
         "target": "5-HT3",
@@ -692,7 +683,6 @@
       "pmid:20720132",
       "pmid:22863669",
       "pmid:18987635",
-      "doi:10.1016/j.neuropharm.2007.04.022",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
     ]
   },
@@ -1367,7 +1357,7 @@
           "tissue_or_cell": "rat brain homogenate",
           "radioligand_or_probe": "[3H](+)-MK-801",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1016/j.ejphar.2019.172403",
+          "reference": "pmid:31152702",
           "is_review": false,
           "notes": "Wallach et al. 2019 (Eur J Pharmacol). Ki 87.92 nM at NMDA PCP site; voltage-dependent fEPSP inhibition and LTP block in rat hippocampal slices confirmed."
         }
@@ -1419,7 +1409,6 @@
     ],
     "notes": "1,2-diarylethylamine with pyrrolidine (5-ring) rather than piperidine (6-ring) on the nitrogen, and 2-fluoro on one aryl. The pyrrolidine analogue (vs piperidine) generally raises monoamine transporter affinity (compare alpha-PVP vs alpha-PHP) — fluorolintane shows the same SAR shift, with DAT affinity exceeding NMDA affinity (a hallmark of the cathinone-pyrrolidines). Two isomeric series exist; the 2-fluoro isomer is the canonical street form.",
     "references_consulted": [
-      "doi:10.1016/j.ejphar.2019.172403"
     ]
   },
   {
@@ -1488,7 +1477,7 @@
         "metabolite_name": "various ring-hydroxylated metabolites",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1517/17425255.2010.499122",
+        "reference": "pmid:6132797",
         "notes": "Limited human metabolism data."
       }
     ],
@@ -1538,8 +1527,7 @@
     "notes": "Dizocilpine ((+)-MK-801) is the canonical high-affinity, slow-koff, trapping channel blocker of the NMDA receptor and the standard reference compound for NMDA-channel-blocker pharmacology. The contrast with memantine is paradigmatic: same binding site, ~3-orders-of-magnitude koff difference. Olney's lesions (vacuolisation in retrosplenial cortex layers III/IV) seen in rats given systemic MK-801 mapped the neurotoxicity risk of NMDA channel blockade and informed Merck's decision to halt development.",
     "references_consulted": [
       "pmid:8355251",
-      "doi:10.1007/BF01271549",
-      "doi:10.1517/17425255.2010.499122"
+      "doi:10.1007/BF01271549"
     ]
   },
   {
@@ -2085,7 +2073,6 @@
     "key_references": [
       "doi:10.1371/journal.pone.0157021",
       "pmid:27623219",
-      "doi:10.1016/j.ejphar.2019.172403",
       "doi:10.3109/15563650.2015.1033630",
       "pmid:25698777"
     ]

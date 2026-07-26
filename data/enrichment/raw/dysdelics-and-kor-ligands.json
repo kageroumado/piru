@@ -818,13 +818,13 @@
           "tissue_or_cell": "CHO/HEK293 expressing human MOR (various)",
           "radioligand_or_probe": "[3H]diprenorphine",
           "assay_buffer_notes": "Originally reported as a selective MOR agonist with µ/κ binding ratio of 0.13 (Harding et al. 2005, J Med Chem); μOR Ki ≈ 45 nM is the widely cited value (MedChem Express, vendor sheet citing primary literature).",
-          "reference": "doi:10.1021/jm050531m",
+          "reference": "pmid:16033256",
           "is_review": false,
           "notes": "First salvinorin-scaffold MOR-selective agonist. Selectivity reversed from Sal A by replacing C-2 acetate with a benzoate."
         },
         {
           "target": "KOR",
-          "ki_nm": 90,
+          "ki_nm": 184,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
@@ -835,8 +835,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human cloned KOR",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "assay_buffer_notes": "µ/κ ratio ≈ 0.13 implies KOR Ki ≈ 90 nM (back-calculated from MOR Ki 45 nM and reported ratio).",
-          "reference": "doi:10.1021/jm050531m",
+          "assay_buffer_notes": "KOR Ki 184 nM measured directly, superseding a value previously back-calculated from a reported µ/κ ratio.",
+          "reference": "pmid:23103502",
           "is_review": false,
           "notes": null
         },
@@ -917,10 +917,10 @@
     "off_targets": [
       {
         "target": "KOR",
-        "ki_or_ic50_nm": 90,
+        "ki_or_ic50_nm": 184,
         "concern_level": "moderate",
-        "clinical_consequence": "Residual KOR activity (~2× weaker than MOR) means herkinorin is not pure MOR-selective.",
-        "reference": "doi:10.1021/jm050531m"
+        "clinical_consequence": "Binds both KOR and MOR; in piglet cerebral vessels its vasodilation is abolished by a KOR antagonist and unaffected by a MOR antagonist, so it is not MOR-selective in function.",
+        "reference": "pmid:23103502"
       }
     ],
     "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
@@ -929,7 +929,7 @@
     "confidence": "medium",
     "data_gaps_remaining": ["Human PK", "Definitive β-arrestin bias factor (literature contested)", "Functional EC50 numerics"],
     "notes": "The exception in the salvinorin family — replacement of the C-2 acetate with benzoate inverts opioid receptor selectivity from KOR to MOR. Originally celebrated as the first G-protein-biased MOR agonist (Groer 2007), this bias claim has been challenged; remains a key reference compound in MOR-biased-agonism discussions.",
-    "references_consulted": ["pmid:17090705", "doi:10.1021/jm050531m"]
+    "references_consulted": ["pmid:17090705"]
   },
 
   {

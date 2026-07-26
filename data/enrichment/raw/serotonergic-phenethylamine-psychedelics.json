@@ -2622,20 +2622,17 @@
           "reference_agonist": null,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": "[3H]-ketanserin",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/jm980394k",
+          "reference": "pmid:24244317",
           "is_review": false,
           "notes": "Among the most potent 5-HT2A agonists known; Nichols 1998 original report"
         },
         {
           "target": "5-HT2B",
-          "ki_nm": 0.126,
-          "ki_ci_nm": [
-            0.126,
-            0.19
-          ],
+          "ki_nm": 0.19,
+          "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -2643,10 +2640,10 @@
           "reference_agonist": null,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": "[3H]-mesulergine",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/jm980394k",
+          "reference": "pmid:24244317",
           "is_review": false,
           "notes": "Subnanomolar at 2B — strong valvulopathy concern"
         },
@@ -2664,10 +2661,10 @@
           "reference_agonist": null,
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "HEK293",
+          "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1021/jm980394k",
+          "reference": "pmid:24244317",
           "is_review": false,
           "notes": null
         },
@@ -2757,10 +2754,10 @@
       },
       {
         "target": "5-HT2B",
-        "ki_or_ic50_nm": 0.13,
+        "ki_or_ic50_nm": 0.19,
         "concern_level": "high",
-        "clinical_consequence": "Picomolar 5-HT2B — valvulopathy with chronic use",
-        "reference": "doi:10.1021/jm980394k"
+        "clinical_consequence": "Sub-nanomolar 5-HT2B — valvulopathy with chronic use",
+        "reference": "pmid:24244317"
       }
     ],
     "demographic_differences": {
@@ -2784,8 +2781,7 @@
     ],
     "notes": "≥5 deaths documented (Scandinavia + US). Mislabelling as 2C-B-FLY (20× less potent) has caused mass overdoses. Resistant to MAO/CYP → very long duration.",
     "references_consulted": [
-      "doi:10.1021/jm980394k",
-      "https://en.wikipedia.org/wiki/Bromo-DragonFLY"
+"https://en.wikipedia.org/wiki/Bromo-DragonFLY"
     ]
   },
   {
@@ -3115,11 +3111,8 @@
         },
         {
           "target": "5-HT2B",
-          "ki_nm": 1.4,
-          "ki_ci_nm": [
-            1.4,
-            336
-          ],
+          "ki_nm": null,
+          "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": 1.4,
           "ic50_nm": null,
@@ -3127,10 +3120,10 @@
           "reference_agonist": "5-HT",
           "action": "partialAgonist",
           "species": "human",
-          "tissue_or_cell": "HEK293/CHO-K1",
-          "radioligand_or_probe": "[3H]-mesulergine",
+          "tissue_or_cell": "CHO-K1",
+          "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/j.1476-5381.1999.tb04985.x",
+          "reference": "pmid:10498829",
           "is_review": false,
           "notes": "Porter 1999 FLIPR Ca2+ assay"
         },
@@ -3195,8 +3188,8 @@
           ],
           "bias_factor_log": null,
           "bias_reference_compound": "5-HT",
-          "interpretation": "DOI is Gq-biased: head-twitch response (HTR, an in-vivo proxy of 5-HT2A psychedelic engagement) is abolished in Gαq-KO mice but preserved in β-arrestin-2-KO mice — strong evidence that the behavioural fingerprint depends on Gq not arrestin signalling",
-          "reference": "doi:10.1038/nn.2010"
+          "interpretation": "The head-twitch response (HTR, an in-vivo proxy of 5-HT2A engagement) is preserved in beta-arrestin-2-KO mice for DOI, unlike serotonin's HTR which is beta-arrestin-2-dependent, indicating DOI's behavioural fingerprint does not require arrestin signalling.",
+          "reference": "pmid:18195357"
         },
         {
           "target": "5-HT2C",
@@ -3270,9 +3263,7 @@
     "notes": "[3H]-DOI is the canonical 5-HT2A agonist-state radioligand. (R)-isomer ~4× more potent than (S). Mouse HTR ED50 ~1 mg/kg s.c.; potency in mouse HTR correlates r=0.94 with human hallucinogenic potency across compounds.",
     "references_consulted": [
       "doi:10.1021/acsptsci.4c00157",
-      "doi:10.1038/nn.2010",
-      "pmid:18297054",
-      "doi:10.1111/j.1476-5381.1999.tb04985.x"
+      "pmid:18297054"
     ]
   },
   {
@@ -3317,11 +3308,8 @@
         },
         {
           "target": "5-HT2B",
-          "ki_nm": 2.9,
-          "ki_ci_nm": [
-            2.9,
-            44
-          ],
+          "ki_nm": null,
+          "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": 2.82,
           "ic50_nm": null,
@@ -3330,9 +3318,9 @@
           "action": "partialAgonist",
           "species": "human",
           "tissue_or_cell": "CHO-K1",
-          "radioligand_or_probe": "[3H]-mesulergine",
+          "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/j.1476-5381.1999.tb04985.x",
+          "reference": "pmid:10498829",
           "is_review": false,
           "notes": null
         },
@@ -3447,8 +3435,7 @@
     "notes": "[3H]-DOB labels 5-HT2 high-affinity state (Nelson 1990). Long duration → frequent re-dosing toxicity. Several reported fatalities at supratherapeutic doses.",
     "references_consulted": [
       "doi:10.1007/PL00005315",
-      "pmid:2233697",
-      "doi:10.1111/j.1476-5381.1999.tb04985.x"
+      "pmid:2233697"
     ]
   },
   {

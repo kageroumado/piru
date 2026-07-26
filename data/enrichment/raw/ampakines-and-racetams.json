@@ -1083,7 +1083,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "partial inhibition at high concentrations; not clinically dominant",
-        "reference": "pmid:11522570"
+        "reference": "pmid:11879381"
       }
     ],
     "demographic_differences": {
@@ -1402,8 +1402,8 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo behavioral",
-          "reference": "doi:10.1097/FBP.0b013e3283323907",
-          "notes": "3 and 10 mg/kg enhanced spatial learning acquisition. Profile suggests low-impact AMPAkine; no convulsant signal in approved-dose ranges."
+          "reference": "pmid:19741506",
+          "notes": "3 and 10 mg/kg twice daily (i.p., 12 days) enhanced day-1 acquisition in the Morris water maze; all doses improved spatial memory retrieval, with no confound in the cued version of the task."
         }
       ],
       "biased_agonism": [],
@@ -1443,8 +1443,7 @@
     "data_gaps_remaining": ["Published binding/EC50 in standardized assay", "Phase 2 PK parameters"],
     "notes": "Merck inherited from Schering-Plough/Organon. Failed depression Phase 2; no further development. Detailed mechanism characterization in literature is thin compared to LY/CX series.",
     "references_consulted": [
-      "doi:10.1097/FBP.0b013e3283323907",
-      "NCT00610649",
+"NCT00610649",
       "NCT00262665"
     ]
   },

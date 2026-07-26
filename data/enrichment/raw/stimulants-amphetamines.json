@@ -530,11 +530,6 @@
           "modality": "PET [11C]WIN35,428",
           "finding": "Chronic high-dose meth users show 24% lower striatal DAT density that persists ≥3 years after cessation",
           "reference": "pmid:9504281"
-        },
-        {
-          "modality": "PET [11C]raclopride",
-          "finding": "0.25 mg/kg IV meth displaces striatal raclopride ~25%, ~5× greater than oral d-amphetamine on a molar basis",
-          "reference": "doi:10.1176/appi.ajp.158.4.617"
         }
       ]
     },
@@ -601,7 +596,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Listed entry is racemic; clinical/illicit material is overwhelmingly d-meth. d-meth is ~3× more DA-potent than d-amphetamine; this and the σ1 component drive its higher abuse potential and chronic neurotoxicity profile.",
-    "references_consulted": ["pmid:11071707", "pmid:11459929", "doi:10.1124/dmd.30.10.1059", "pmid:9504281", "doi:10.1124/pr.116.012799", "doi:10.1176/appi.ajp.158.4.617"]
+    "references_consulted": ["pmid:11071707", "pmid:11459929", "doi:10.1124/dmd.30.10.1059", "pmid:9504281", "doi:10.1124/pr.116.012799"]
   },
   {
     "name": "D-methamphetamine",

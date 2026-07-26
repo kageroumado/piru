@@ -128,7 +128,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Mixed populations; Vd ~0.55 L/kg males, ~0.50 L/kg females (less body water).",
-          "reference": "doi:10.1093/jat/40.7.567",
+          "reference": "pmid:26231237",
           "notes": "Zero-order elimination via ADH (Km ~0.1 g/L = ~2 mM; saturated above ~0.02 g/dL BAC). Elimination rate ~0.015 g/dL/h (range 0.010-0.025); 4-5x higher when CYP2E1 is induced in chronic heavy drinkers. F% reduced by first-pass gastric ADH (~10-25%). Tmax 30-90 min on empty stomach, 60-180 min with food."
         }
       ],
@@ -249,7 +249,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["Quantitative cross-talk between ethanol PAM and neurosteroid pathway in humans"],
     "notes": "The 'GABA-A potentiator' label is correct but misleading — ethanol's direct GABA-A effects require >>10 mM at synaptic receptors; the behaviourally relevant GABA enhancement is mostly via neurosteroid (allopregnanolone) induction. NMDA antagonism dominates at typical intoxicating BACs.",
-    "references_consulted": ["pmid:2467611", "pmid:14595397", "pmid:9311780", "pmid:1922378", "pmid:8244398", "pmid:18949596", "pmid:9105402", "pmid:25141246", "doi:10.1093/jat/40.7.567"]
+    "references_consulted": ["pmid:2467611", "pmid:14595397", "pmid:9311780", "pmid:1922378", "pmid:8244398", "pmid:18949596", "pmid:9105402", "pmid:25141246"]
   },
   {
     "name": "GHB",
@@ -407,7 +407,7 @@
       "receptor_downregulation_half_time": "Chronic GHB → GABA-B receptor desensitization and downregulation (rodent studies); contributes to severe withdrawal.",
       "cross_tolerance": ["GBL", "1,4-butanediol", "baclofen", "phenibut", "ethanol (partial)"],
       "withdrawal_syndrome": "Onset 1-6 h after last dose (very short — driven by short t1/2). Mild: tremor, anxiety, insomnia, tachycardia. Severe: delirium, psychosis, hallucinations, autonomic instability — closely resembles severe alcohol/benzo withdrawal; can be life-threatening. Treatment: high-dose benzodiazepines + baclofen + sometimes phenobarbital. The protracted course (psychiatric sequelae weeks-to-months) is attributed to GABA-B receptor downregulation.",
-      "reference": "pmid:16968519"
+      "reference": "pmid:11174231"
     },
     "off_targets": [
       {
@@ -429,7 +429,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["Molecular identity of the high-affinity GHB receptor in humans (GPR172A controversial)", "Quantitative human PK-PD model for narrow therapeutic window"],
     "notes": "The dual-receptor pharmacology (high-affinity GHB receptor at low doses; GABA-B at high doses) is the single most important and most-overlooked fact about this compound. Maitre's group (Strasbourg, 1980s-2000s) did the foundational work characterising the GHB-specific binding site; Couper & Logan provided forensic concentration-effect data.",
-    "references_consulted": ["pmid:15567424", "pmid:10591456", "pmid:22778411", "pmid:15538955", "pmid:18211851", "pmid:16968519", "pmid:11061418"]
+    "references_consulted": ["pmid:15567424", "pmid:10591456", "pmid:22778411", "pmid:15538955", "pmid:18211851", "pmid:11061418"]
   },
   {
     "name": "GBL",
@@ -518,7 +518,7 @@
       "receptor_downregulation_half_time": "Same as GHB.",
       "cross_tolerance": ["GHB", "1,4-butanediol", "baclofen", "phenibut"],
       "withdrawal_syndrome": "Identical to GHB withdrawal; often more severe because GBL users dose more frequently (faster onset / shorter perceived effect).",
-      "reference": "pmid:16968519"
+      "reference": "pmid:15298492"
     },
     "off_targets": [
       {
@@ -540,7 +540,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "GBL is operationally indistinguishable from GHB after the first minute, but the faster onset and higher F% make it disproportionately overdose-prone. Per-volume potency is ~1.6x GHB.",
-    "references_consulted": ["pmid:113586", "pmid:11071567", "pmid:16968519"]
+    "references_consulted": ["pmid:113586", "pmid:11071567"]
   },
   {
     "name": "1,4-butanediol",
@@ -636,7 +636,7 @@
       "receptor_downregulation_half_time": "Same as GHB.",
       "cross_tolerance": ["GHB", "GBL", "baclofen", "phenibut", "ethanol"],
       "withdrawal_syndrome": "Same as GHB.",
-      "reference": "pmid:16968519"
+      "reference": "pmid:15298492"
     },
     "off_targets": [
       {
@@ -658,7 +658,7 @@
     "confidence": "high",
     "data_gaps_remaining": ["Quantitative human PK study"],
     "notes": "Slowest-onset GHB prodrug due to two enzymatic conversion steps. Co-ingestion with ethanol is uniquely dangerous because the ADH bottleneck causes BD to accumulate then release as ethanol clears.",
-    "references_consulted": ["pmid:15351964", "pmid:16968519"]
+    "references_consulted": ["pmid:15351964"]
   },
   {
     "name": "Aceburic acid",
@@ -1943,11 +1943,11 @@
     "drug_interactions_pk": [],
     "pharmacogenetics": {"relevant_genes": ["CYP2B6", "UGT1A9"], "phenotype_effects": "CYP2B6*6 reduces propofol metabolism modestly; not routinely actioned.", "reference": null},
     "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["barbiturates", "BZs", "volatile anaesthetics"], "withdrawal_syndrome": "Withdrawal not described in normal use; abuse-related dependence reported in anaesthesia providers (occupational risk).", "reference": "pmid:18648257"},
-    "off_targets": [{"target": "PRIS — propofol infusion syndrome (mitochondrial fatty acid oxidation impairment)", "ki_or_ic50_nm": null, "concern_level": "high", "clinical_consequence": "Lactic acidosis, rhabdomyolysis, cardiac failure with prolonged high-dose (>4 mg/kg/h >48 h) infusion.", "reference": "pmid:16096446"}],
+    "off_targets": [{"target": "PRIS — propofol infusion syndrome (mitochondrial fatty acid oxidation impairment)", "ki_or_ic50_nm": null, "concern_level": "high", "clinical_consequence": "Lactic acidosis, rhabdomyolysis, cardiac failure with prolonged high-dose (>4 mg/kg/h >48 h) infusion.", "reference": "pmid:17567345"}],
     "demographic_differences": {"sex": "Women: ~30% faster recovery; pharmacokinetic differences modest.", "age": "Elderly: 30-50% dose reduction (slower CL + increased CNS sensitivity).", "weight": "Lean body mass for dosing in obesity.", "renal_or_hepatic": "Hepatic impairment has surprisingly little PK impact (extrahepatic CL); renal failure does not require dose adjustment."},
     "tags_to_add": ["GABA-A-PAM-beta-pocket", "IV-anaesthetic", "UGT1A9-substrate", "PRIS-risk"], "tags_to_remove": [],
     "confidence": "high", "data_gaps_remaining": [], "notes": "The β3-N265M knock-in mouse experiments (Jurd 2003) genetically prove β3-containing GABA-A as the anaesthetic target. Distinct β3 vs β2 selectivity from etomidate.",
-    "references_consulted": ["pmid:24316736", "pmid:3257315", "pmid:9756415", "pmid:16096446", "pmid:23297232"]
+    "references_consulted": ["pmid:24316736", "pmid:3257315", "pmid:9756415", "pmid:23297232"]
   },
   {
     "name": "Chloral Hydrate",
@@ -2263,8 +2263,7 @@
     "pharmacology": {
       "primary_targets": ["H1 (inverse agonist)", "5-HT2A (antagonist)", "D2 (weak)"],
       "binding": [
-        {"target": "H1 (human)", "ki_nm": 2, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "inverseAgonist", "species": "human", "tissue_or_cell": "HEK293", "radioligand_or_probe": "[3H]pyrilamine", "assay_buffer_notes": "Higher H1 affinity than diphenhydramine; metabolised to cetirizine.", "reference": "pmid:11854555", "is_review": false, "notes": null},
-        {"target": "5-HT2A", "ki_nm": 50, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": null, "radioligand_or_probe": "[3H]ketanserin", "assay_buffer_notes": null, "reference": null, "is_review": false, "notes": "5-HT2A contributes to anxiolysis."}
+{"target": "5-HT2A", "ki_nm": 50, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": null, "radioligand_or_probe": "[3H]ketanserin", "assay_buffer_notes": null, "reference": null, "is_review": false, "notes": "5-HT2A contributes to anxiolysis."}
       ],
       "functional": [], "biased_agonism": [], "receptor_oligomerisation": [],
       "downstream_signalling": "H1 dominant sedation + 5-HT2A anxiolysis. Less anticholinergic than DPH. Major active metabolite = cetirizine (CYP3A4-mediated oxidation) — non-sedating peripheral H1 antagonist responsible for most steady-state H1 effect at the systemic level but not in CNS (cetirizine is P-gp substrate, low BBB penetration).",
@@ -2278,7 +2277,7 @@
     "off_targets": [{"target": "hERG (modest)", "ki_or_ic50_nm": null, "concern_level": "moderate", "clinical_consequence": "QT prolongation at high doses; FDA warning 2015.", "reference": null}],
     "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
     "tags_to_add": ["H1-strong", "5-HT2A-antagonist", "cetirizine-prodrug"], "tags_to_remove": [],
-    "confidence": "high", "data_gaps_remaining": [], "notes": "Useful anxiolytic in BZ-sparing protocols.", "references_consulted": ["pmid:11854555"]
+    "confidence": "high", "data_gaps_remaining": [], "notes": "Useful anxiolytic in BZ-sparing protocols.", "references_consulted": []
   },
   {
     "name": "Cyclizine",
@@ -2934,7 +2933,7 @@
     "shared_pk_summary": "PK varies dramatically. Ethanol: zero-order elimination via ADH (Km ~2 mM = ~0.02 g/dL BAC), inducible CYP2E1 minor path. GHB: capacity-limited absorption AND elimination, dose-dependent t1/2 (~30-90 min), 95% metabolised to succinate via SSADH (Krebs cycle). Gabapentin: saturable LAT1 absorption (F% drops 60→25% across 300→3600 mg), 100% renal unchanged. Pregabalin: linear PK, 98% renal unchanged. Phenibut: ~65% renal unchanged, t1/2 ~5 h. Baclofen: 70-85% renal unchanged, t1/2 2-6 h PO. Barbiturates: extensive hepatic CYP oxidation, very long t1/2 (phenobarb ~100 h, pentobarb ~20 h), PXR/CAR pan-CYP inducers. Methaqualone: lipophilic, large Vd, hepatic clearance.",
     "shared_safety": "Universal feature: dose-dependent respiratory depression. Synergy with other GABA-A PAMs (BZs, Z-drugs), opioids, and ethanol → leading cause of accidental overdose death. Barbiturates lethal via direct GABA-A channel opening at supratherapeutic doses (no ceiling). Gabapentinoids implicated in opioid-overdose deaths (UK Schedule 3 reclassification 2019). Withdrawal mechanisms: GABA-A downregulation + NMDA upregulation (ethanol, BZs, barbiturates) → seizures, delirium tremens. GABA-B receptor downregulation (GHB, phenibut, chronic baclofen) → protracted withdrawal with psychiatric sequelae. GHB has a narrow therapeutic index (sedative dose ~250-500 μM brain conc; coma at 600-800 μM).",
     "sar_summary": "GABA-B: β-aryl GABA scaffold (phenibut → baclofen p-chloro → 4-F phenibut). para-chloro (baclofen) gives highest selectivity and potency; para-F (4-F phenibut) gives lipophilicity boost + duration. α2δ ligands: β-amino acid scaffold, cyclohexyl ring (gabapentin) vs isobutyl (pregabalin) vs bicyclic (mirogabalin). Pregabalin's stereochemistry and methyl branching give ~6x α2δ-1 affinity boost. Barbiturates: 5,5-disubstitution at the pyrimidinetrione ring; alkyl side chains (pentobarb) give anaesthesia (higher direct activation), aryl side chain (phenobarb) gives anticonvulsant efficacy with less direct activation. Quinazolinones (methaqualone, mecloqualone, etaqualone, mebroqualone, methylmethaqualone, SL-164): substitution on the 3-aryl group and the 2-methyl/ethyl modulates potency at the etomidate-site GABA-A pocket. GHB analogues: 4-OH on butyric acid is essential; GBL (lactone) is prodrug; 1,4-BD (diol) is two-step prodrug.",
-    "key_references": ["pmid:2467611", "pmid:15567424", "pmid:10591456", "pmid:22778411", "pmid:8395712", "pmid:15801823", "pmid:26101061", "pmid:6323949", "pmid:23026953", "pmid:26195733", "pmid:11061418", "pmid:30627427", "pmid:16968519"]
+    "key_references": ["pmid:2467611", "pmid:15567424", "pmid:10591456", "pmid:22778411", "pmid:8395712", "pmid:15801823", "pmid:26101061", "pmid:6323949", "pmid:23026953", "pmid:26195733", "pmid:11061418", "pmid:30627427"]
   },
   {
     "name": "Tizanidine",

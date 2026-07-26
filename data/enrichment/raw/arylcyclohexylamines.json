@@ -144,7 +144,7 @@
         {
           "modality": "EEG",
           "finding": "Acute ketamine increases gamma power (30-80 Hz), decreases alpha power; biomarker of dissociation and rapid antidepressant response",
-          "reference": "doi:10.1016/j.biopsych.2014.04.022"
+          "reference": "pmid:28486269"
         },
         {
           "modality": "PET",
@@ -222,7 +222,7 @@
           "concentration_unit": "ng/mL",
           "threshold": 70,
           "peak_effect": 200,
-          "reference": "doi:10.1097/ALN.0b013e3181a91a35",
+          "reference": "pmid:19741495",
           "notes": "Subanesthetic plasma ~100-200 ng/mL during 0.5 mg/kg IV infusion produces analgesia and antidepressant response"
         }
       ]
@@ -284,8 +284,8 @@
     ],
     "pharmacogenetics": {
       "relevant_genes": ["CYP2B6", "CYP3A4", "CYP3A5"],
-      "phenotype_effects": "CYP2B6*6/*6 carriers (~3-5% Caucasians) show ~50% lower oral ketamine clearance; norketamine exposure increased. Clinical relevance for oral/sublingual ketamine in TRD treatment.",
-      "reference": "doi:10.1124/dmd.115.064683"
+      "phenotype_effects": "CYP2B6 516 G>T carriers showed roughly 2.4-fold higher oral esketamine plasma levels than non-carriers (median 5.1 vs 2.1 ug/L, p=0.032) in a small treatment-resistant-depression sample (n=18); no significant effect was seen on metabolite levels, or for CYP3A4*22 or CYP3A5*3.",
+      "reference": "pmid:42031731"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Rapid tachyphylaxis with repeated dosing (hours to days); use-dependence of NMDA blockade reduces with sustained channel blockade",
@@ -313,7 +313,7 @@
         "ki_or_ic50_nm": 9500,
         "concern_level": "low",
         "clinical_consequence": "Inhibition at supratherapeutic doses; not clinically dominant",
-        "reference": "doi:10.1124/jpet.108.143818"
+        "reference": "pmid:10754635"
       },
       {
         "target": "Bladder urothelium",
@@ -761,11 +761,6 @@
       }
     ],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {
-      "relevant_genes": ["CYP2B6"],
-      "phenotype_effects": "CYP2B6 PMs show prolonged norketamine exposure",
-      "reference": "doi:10.1124/dmd.115.064683"
-    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
       "cross_tolerance": ["ketamine"],
@@ -1071,7 +1066,7 @@
         "ki_or_ic50_nm": 30000,
         "concern_level": "low",
         "clinical_consequence": "Contributes to atypical EEG/cardiovascular profile",
-        "reference": "doi:10.1124/jpet.110.176933"
+        "reference": "pmid:21886598"
       }
     ],
     "demographic_differences": {
@@ -1429,9 +1424,9 @@
     "off_targets": [
       {
         "target": "bladder",
-        "concern_level": "moderate",
-        "clinical_consequence": "Lower-reported cystitis incidence than ketamine but case reports exist",
-        "reference": "doi:10.1186/2050-7283-2-29"
+        "concern_level": "high",
+        "clinical_consequence": "Marketed as 'bladder friendly' but unsubstantiated: 3 months of dosing in mice produced bladder inflammation and fibrosis plus tubular and glomerular renal damage, similar to comparable chronic-ketamine models.",
+        "reference": "pmid:24580056"
       }
     ],
     "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
@@ -1876,10 +1871,10 @@
         },
         {
           "target": "NMDA (MK-801 site)",
-          "ki_nm": 10000,
+          "ki_nm": 6000,
           "action": "channelBlocker",
           "species": "rat",
-          "reference": "doi:10.1124/jpet.103.052282",
+          "reference": "pmid:3384005",
           "notes": "Essentially inactive at NMDA — BTCP is a 'PCP without NMDA activity'"
         }
       ],
