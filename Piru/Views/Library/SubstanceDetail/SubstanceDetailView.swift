@@ -86,13 +86,23 @@ struct SubstanceDetailView: View {
         .init(profile: profile)
     }
 
-    /// A/B flag for the placement-driven redesign (`-piruNewSubstanceDetail`).
-    /// Accepts the bare launch flag or a `defaults`-style `… YES` value so it's
-    /// togglable from `xcrun simctl launch`. Temporary — retired once the new
-    /// layout ships and the legacy composition is removed.
+    /// Which composition renders: the placement-driven redesign, or the legacy
+    /// one. The redesign is authored *against* the curated detail layer — its
+    /// header chips read `popularAliases` and its myth-bust section reads
+    /// `misconceptions` — so a substance without that curation renders the new
+    /// spine with two of its signature surfaces blank. The layout therefore
+    /// follows the data rather than a build-wide switch: carry the curation, get
+    /// the new spine. Today that is MDMA alone; every substance curated from here
+    /// on joins it with no code change.
+    ///
+    /// `-piruNewSubstanceDetail` still forces it on for A/B checks. Deliberately
+    /// **not** read from `UserDefaults`: a persisted key silently changed the
+    /// layout on installs that had once been launched with the flag, which read
+    /// as the dial "disappearing" after a plain rebuild.
     private var usesNewLayout: Bool {
-        ProcessInfo.processInfo.arguments.contains("-piruNewSubstanceDetail")
-            || UserDefaults.standard.bool(forKey: "piruNewSubstanceDetail")
+        !substance.popularAliases.isEmpty
+            || !substance.misconceptions.isEmpty
+            || ProcessInfo.processInfo.arguments.contains("-piruNewSubstanceDetail")
     }
 
     /// First-hand Erowid reports show on the pushed "All effects" screen, gated
