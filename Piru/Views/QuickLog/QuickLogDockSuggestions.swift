@@ -3,10 +3,17 @@ import SwiftUI
 // MARK: - Pre-typing suggestions
 
 /// The pre-typing search surface: effect-family pills, expanding into a
-/// selected family's most known substances. Recents deliberately do NOT
-/// repeat here — the main screen's Your Substances cards are the recents
-/// surface, and duplicating them one layer down was clutter, not help
-/// (Specs/meds-ux-review.md §5).
+/// selected family's most known substances, over a short list of recents.
+///
+/// Recents used to be omitted here on the grounds that the main screen's Your
+/// Substances cards already are the recents surface, and repeating them one
+/// layer down was clutter (Specs/meds-ux-review.md §5). That held while the
+/// dock was a partial-height sheet over a visible main screen. It stopped
+/// holding when focusing the field started jumping the dock to `.large`: the
+/// dock now covers the cards it was deferring to, so tapping search replaced
+/// every recent with an empty page — reported as "No recents are shown". They
+/// come back only in this state, and only until a family is picked or a query
+/// is typed, so the deferral still applies everywhere it was right.
 ///
 /// The browse selection (`selectedFamilyID`, `browseResults`) is owned by
 /// ``QuickLogDock`` — its handlers reset it when search exits — so it arrives
@@ -15,6 +22,8 @@ struct DockSuggestions: View {
     let families: [LibraryFamily]
     @Binding var selectedFamilyID: String?
     @Binding var browseResults: [Substance]
+    /// Recently-logged substances, already resolved by the caller.
+    let recents: [Substance]
     let onStage: (QuickLogStagePayload) -> Void
     let onStageDraft: (QuickLogStagePayload) -> Void
 
@@ -34,6 +43,15 @@ struct DockSuggestions: View {
                 )
             }
             .id(family.id)
+        } else if !recents.isEmpty {
+            DockGroupedCard {
+                QuickLogSearchResults(
+                    results: recents.map { .library(SubstanceMatch(substance: $0, matchedAlias: nil)) },
+                    onAdd: onStage,
+                    onAddDraft: onStageDraft,
+                    onCreateCustom: nil,
+                )
+            }
         }
     }
 

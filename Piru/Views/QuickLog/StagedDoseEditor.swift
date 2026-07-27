@@ -242,7 +242,7 @@ struct StagedDoseEditor: View {
                     HStack(spacing: 5) {
                         Text(item.displayTitle)
                             .font(.body.weight(.semibold))
-                            .trayMorph(id: "title-\(item.id)", in: namespace)
+                            .trayMorph(id: "title-\(item.id)", in: namespace, isSource: false)
                         // The "recognized" seal: the app says out loud it
                         // understood the brand, so a hit no longer looks like a miss.
                         if recognitionSubtitle != nil {
@@ -269,7 +269,7 @@ struct StagedDoseEditor: View {
                     .foregroundStyle(.tertiary)
                     .rotationEffect(.degrees(90))
                     .frame(width: 16)
-                    .trayMorph(id: "chevron-\(item.id)", in: namespace)
+                    .trayMorph(id: "chevron-\(item.id)", in: namespace, isSource: false)
                     .accessibilityHidden(true)
             }
             .contentShape(Rectangle())
@@ -656,7 +656,7 @@ struct StagedDoseEditor: View {
                 unitMenu
                     .padding(.trailing, 12)
             }
-            .trayMorph(id: "amount-\(item.id)", in: namespace)
+            .trayMorph(id: "amount-\(item.id)", in: namespace, isSource: false)
     }
 
     private var unitMenu: some View {
@@ -767,7 +767,7 @@ struct StagedDoseEditor: View {
             .foregroundStyle(.primary)
         }
         .buttonStyle(.plain)
-        .trayMorph(id: "route-\(item.id)", in: namespace)
+        .trayMorph(id: "route-\(item.id)", in: namespace, isSource: false)
         .accessibilityLabel("Route")
         .accessibilityValue(item.route.localizedName)
     }

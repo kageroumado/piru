@@ -2095,6 +2095,9 @@ struct TimelineGraphView: View, Equatable {
     /// Lane colors (shared with the entry-row chips via ``VitalsPalette``).
     private static let hrColor = VitalsPalette.heart
     private static let bpColor = VitalsPalette.bloodPressure
+    /// Clear space required between two blood-pressure labels before the second
+    /// one is allowed to draw. Below this they overprint into an unreadable mush.
+    private static let bpLabelGap: CGFloat = 6
 
     /// The faint framed strip the vitals trace sits in. Drawn before the now-line
     /// so both the rule and the HR trace layer on top of it.
@@ -2216,7 +2219,15 @@ struct TimelineGraphView: View, Equatable {
             func yBP(_ v: Double) -> CGFloat {
                 plotTop + (1 - CGFloat((min(bpHi, max(bpLo, v)) - bpLo) / (bpHi - bpLo))) * plotH
             }
-            for reading in bp {
+            // Every reading keeps its bar — the marks are the data. Only the
+            // *labels* thin out: five readings inside forty minutes land within
+            // a few points of each other on a multi-hour axis, and drawing all
+            // five printed "107/71 110/69 …472" on top of itself. A label is
+            // drawn only once the last drawn one is clear of it, so what remains
+            // is legible and still anchored to real readings. The last reading
+            // is always labeled — it's the one being asked about.
+            var lastLabelMaxX = -CGFloat.greatestFiniteMagnitude
+            for (index, reading) in bp.enumerated() {
                 let cx = x(reading.date.timeIntervalSince(earliest) / 60)
                 let ys = yBP(reading.systolic), yd = yBP(reading.diastolic)
                 var bar = Path()
@@ -2235,6 +2246,10 @@ struct TimelineGraphView: View, Equatable {
                 let resolved = context.resolve(text)
                 let labelWidth = resolved.measure(in: size).width
                 let rightSide = cx + labelWidth + 6 > graphInset + graphWidth
+                let originX = rightSide ? cx - 4 - labelWidth : cx + 4
+                let isLast = index == bp.count - 1
+                guard isLast || originX > lastLabelMaxX + Self.bpLabelGap else { continue }
+                lastLabelMaxX = originX + labelWidth
                 context.draw(
                     resolved,
                     at: CGPoint(x: rightSide ? cx - 4 : cx + 4, y: ys - 6),

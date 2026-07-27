@@ -85,13 +85,21 @@ struct ActiveNowWindowGraph: View {
     // MARK: - Window
 
     /// The drawn window: the earliest active dose (with a little lead-in)
-    /// through the end of the last active curve, always covering at least an
+    /// through the end of the last *visible* curve, always covering at least an
     /// hour each side of now. Bounds are **hour-aligned** so the window — and
     /// with it the plot's memo key — is stable across the minute ticks, moving
     /// only when the clock crosses an hour or the dose set changes.
+    ///
+    /// The end comes from ``TimelineWindowEvaluator/visibleInterval(of:among:)``
+    /// rather than the raw activity interval. Sizing on the raw one asks "when
+    /// does this curve reach its own baseline", which for a small or long-acting
+    /// dose beside a taller one is hours after it stopped being drawable — every
+    /// curve flat on the axis by 9 PM while the axis ran to 6 AM. Both are pure
+    /// functions of the dose set, so the hour-aligned bounds stay stable and the
+    /// plot memo still keys the same way.
     private var window: (start: Date, end: Date) {
         let earliest = states.map(\.doseTimestamp).min() ?? now
-        let latestEnd = states.map { TimelineWindowEvaluator.activityInterval(of: $0).end }.max() ?? now
+        let latestEnd = states.map { TimelineWindowEvaluator.visibleInterval(of: $0, among: states).end }.max() ?? now
         let rawStart = min(earliest.addingTimeInterval(-30 * 60), now.addingTimeInterval(-3_600))
         let rawEnd = max(latestEnd, now.addingTimeInterval(3_600))
         return (hourFloor(rawStart), hourCeil(rawEnd))

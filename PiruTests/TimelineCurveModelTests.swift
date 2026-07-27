@@ -156,11 +156,57 @@ struct TimelineCurveModelTests {
         #expect(comeup > 30)
         #expect(comeup < 130)
 
-        // A fast insufflated onset stays quick: floored at 8 min, capped at
-        // half the onset→peak gap.
+        // A slow, absorbed onset earns the synthesized climb: 60 % of the onset,
+        // floored at 8 min, capped at half the onset→peak gap.
+        let slow = dose(onsetEnd: 45, comeupEnd: 45, peakEnd: 145)
+        let slowComeup = TimelineCurveModel.effectiveComeupEnd(for: slow, onsetEnd: 45, peakEnd: 145)
+        #expect(slowComeup == 45 + 27)
+
+        // A fast insufflated onset stays quick — the floor never exceeds the
+        // onset itself. This used to assert `2 + 8`: a 2-minute onset was given
+        // a 10-minute climb, which drew an absorption shoulder on routes that
+        // have no absorption phase at all.
         let fast = dose(onsetEnd: 2, comeupEnd: 2, peakEnd: 32)
         let fastComeup = TimelineCurveModel.effectiveComeupEnd(for: fast, onsetEnd: 2, peakEnd: 32)
-        #expect(fastComeup == 2 + 8)
+        #expect(fastComeup == 2 + 2)
+        #expect(fastComeup < slowComeup)
+    }
+
+    @Test
+    func `Crest is a dome, not a flat lid, across a long peak band`() {
+        // Short come-up, long peak — the shape that drew a trapezoid: a
+        // near-vertical rise into an exactly flat top (methamphetamine IV).
+        let s = dose(onsetEnd: 0.5, comeupEnd: 2, peakEnd: 122, offsetEnd: 332)
+        let samples = stride(from: 0.0, through: 332, by: 0.1)
+            .map { TimelineCurveModel.effectShape(at: $0, for: s) }
+        let peak = samples.max() ?? 0
+
+        // The maximum is still 1, so nothing downstream has to renormalize.
+        #expect(abs(peak - 1) < 1e-3)
+        // The old shape returned a literal `1` across the whole peak band —
+        // ~900 of these samples were bit-identical maxima, which is what drew
+        // the flat lid. A dome touches its maximum essentially once.
+        let atMaximum = samples.filter { peak - $0 < 1e-6 }.count
+        #expect(atMaximum < 40)
+        // Still recognizably a plateau: mid-crest sits within the sag budget,
+        // not on a second bell.
+        #expect(TimelineCurveModel.effectShape(at: 60, for: s) > 1 - TimelineCurveModel.crestFall)
+    }
+
+    @Test
+    func `Visible extent trims a curve dwarfed by a taller peer`() {
+        let s = dose(onsetEnd: 30, comeupEnd: 45, peakEnd: 120, offsetEnd: 300)
+        let params = TimelineCurveModel.pkParams(for: s)
+        let full = TimelineCurveModel.curveExtent(for: s, params: params)
+
+        // Beside an equal peer the trim is a no-op-ish bound: never longer.
+        let alone = TimelineCurveModel.visibleExtent(for: s, params: params, peerMagnitude: s.doseMagnitude)
+        #expect(alone <= full)
+
+        // Beside a peer 50× taller it stops much earlier — the dead-axis case.
+        let dwarfed = TimelineCurveModel.visibleExtent(for: s, params: params, peerMagnitude: s.doseMagnitude * 50)
+        #expect(dwarfed < alone)
+        #expect(dwarfed >= 1)
     }
 
     // MARK: - Hill merge (dose stacking)

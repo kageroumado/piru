@@ -527,6 +527,7 @@ struct QuickLogCardList: View {
             onToggleFavorite: { withAnimation(.snappy) { toggleFavorite(card) } },
             onMoveChip: { group, chip, toFront in moveChip(group: group, chip: chip, toFront: toFront) },
             onRemoveChip: { group, chip in removeChip(group: group, chip: chip) },
+            onRemoveCard: { withAnimation(.snappy) { removeCard(card) } },
         )
         // Skip rebuilding this card (its chip buttons + context menus) when its
         // content and staged slice are unchanged — the staging-cascade fix.
@@ -607,6 +608,13 @@ struct QuickLogCardList: View {
             drinkName: chip.drinkName,
         )
         return quickLogDoses.first { $0.key == key }
+    }
+
+    /// Remove a whole substance from the quick-log list — every chip on every
+    /// route, in one action, and it stays removed across the history re-seed.
+    private func removeCard(_ card: SubstanceCard) {
+        QuickLogManager.removeFromRecents(identityKey: card.id, context: modelContext)
+        content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
     }
 
     private func removeChip(group: SubstanceGroup, chip: DoseChip) {

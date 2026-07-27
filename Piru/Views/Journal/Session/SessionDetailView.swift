@@ -6,6 +6,7 @@ import TipKit
 struct SessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.sessionEditingService) private var editing
+    @Environment(\.scenePhase) private var scenePhase
     let session: Session
     @Query private var substanceColors: [SubstanceColor]
 
@@ -300,9 +301,17 @@ struct SessionDetailView: View {
 
     // MARK: - Apple Health vitals
 
-    /// Re-runs the vitals fetch when the session changes or the setting is toggled.
+    /// Re-runs the vitals fetch when the session changes, the setting is toggled,
+    /// or the app comes back to the foreground.
+    ///
+    /// The scene phase is part of the key rather than a separate `onChange`
+    /// because a `.task(id:)` already owns this fetch: returning to the app is
+    /// just another reason the answer went stale. There is no HealthKit observer
+    /// query anywhere in the app, so a reading taken on the Watch while Piru was
+    /// backgrounded has no other way in — before this, the only cure was leaving
+    /// the screen and coming back.
     private var vitalsTaskKey: String {
-        "\(session.id.uuidString)-\(showSessionVitals)"
+        "\(session.id.uuidString)-\(showSessionVitals)-\(scenePhase == .active)"
     }
 
     /// End of the window to read vitals over: the latest effect end, extended to

@@ -95,9 +95,29 @@ struct DockMiddleContent: View {
             families: families,
             selectedFamilyID: $selectedFamilyID,
             browseResults: $browseResults,
+            recents: recentSubstances,
             onStage: stagePayload,
             onStageDraft: stageDraftPayload,
         )
+    }
+
+    /// How many recents the empty search state lists before it stops being a
+    /// shortcut and starts being a second library.
+    private static let recentSuggestionLimit = 8
+
+    /// The recents the dock covers when it goes full-height, resolved back to
+    /// library substances so they stage exactly like a search hit. Reads the
+    /// already-built card list, so this is a dictionary hit per row, not a query.
+    private var recentSubstances: [Substance] {
+        var seen: Set<String> = []
+        var out: [Substance] = []
+        for card in content.cachedCards {
+            guard out.count < Self.recentSuggestionLimit else { break }
+            guard let substance = SubstanceLibrary.lookupByNameOrAlias(card.substanceName) else { continue }
+            guard seen.insert(substance.name.lowercased()).inserted else { continue }
+            out.append(substance)
+        }
+        return out
     }
 
     // MARK: Staging from rows

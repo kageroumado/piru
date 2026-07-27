@@ -86,8 +86,16 @@ enum QuickLogManager {
             groupMeasures[groupKey] = measures
         }
 
+        let suppressed = suppressedRecents
         for (groupKey, measures) in groupMeasures {
             guard let meta = groupMeta[groupKey] else { continue }
+            // A substance the user removed from recents stays removed, even
+            // though this re-seed exists precisely to refill an empty table.
+            let identity = QuickLogDose.identityKey(
+                substanceUID: meta.substanceUID, substance: meta.substance,
+                isomer: meta.isomer, releaseForm: meta.releaseForm, saltForm: meta.saltForm,
+            )
+            guard !suppressed.contains(identity) else { continue }
             let ranked = measures.values
                 .sorted { $0.count != $1.count ? $0.count > $1.count : $0.last > $1.last }
                 .prefix(QuickLogDose.perGroupLimit)
@@ -136,6 +144,36 @@ enum QuickLogManager {
         var releaseForm: String?
         var saltForm: String?
         var productName: String?
+    }
+
+    // MARK: - Removing a substance from recents
+
+    /// Identity keys the user has explicitly removed from the quick-log list.
+    ///
+    /// Removal needs a memory of its own because ``seedIfNeeded`` re-seeds from
+    /// history whenever the table is empty — deliberately, so a restore can't
+    /// leave the list blank. Without this, removing your last card would hand it
+    /// straight back on the next open. Logging the substance again clears its
+    /// entry (see ``apply(_:fixedOrder:all:context:)``), so the suppression is a
+    /// statement about the list, not a ban.
+    static let suppressedRecentsDefaultsKey = "quickLogSuppressedRecents"
+
+    static var suppressedRecents: Set<String> {
+        get { Set(UserDefaults.standard.stringArray(forKey: suppressedRecentsDefaultsKey) ?? []) }
+        set { UserDefaults.standard.set(Array(newValue), forKey: suppressedRecentsDefaultsKey) }
+    }
+
+    /// Remove a whole substance from the quick-log list — every chip, every
+    /// route. Previously only single chips could be removed, so clearing one
+    /// substance meant a long-press → menu → Delete cycle per chip, up to
+    /// ``QuickLogDose/perGroupLimit`` times per route.
+    static func removeFromRecents(identityKey: String, context: ModelContext) {
+        let all = (try? context.fetch(FetchDescriptor<QuickLogDose>())) ?? []
+        for dose in all where dose.identityKey == identityKey {
+            context.delete(dose)
+        }
+        suppressedRecents.insert(identityKey)
+        try? context.save()
     }
 
     /// Record a freshly-logged dose. Convenience wrapper around the batch form.
@@ -187,6 +225,11 @@ enum QuickLogManager {
             substanceUID: dose.substanceUID, substance: dose.substance,
             isomer: dose.isomer, releaseForm: dose.releaseForm, saltForm: dose.saltForm,
         )
+        // Logging it again is the clearest possible statement that it belongs in
+        // the list, so an earlier "remove from recents" stops applying.
+        if suppressedRecents.contains(identity) {
+            suppressedRecents.remove(identity)
+        }
         var group = all.filter { $0.identityKey == identity && $0.route == dose.route }
         let key = QuickLogDose.makeKey(
             substance: dose.substance, route: dose.route, amount: dose.amount, unit: dose.unit,

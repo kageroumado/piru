@@ -9,6 +9,8 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # TestFlight feedback round, build 33 (2026-07-27) — card overflow menu.
+    "More actions": ("更多操作", "更多操作"),
     # Substance-detail redesign v2 (proto8/proto10) — header chips, dose card,
     # bar-first pharmacology, tappable metabolites (2026-07-24).
     "+ %lld chemical names": ("+ %lld 个化学名称", "+ %lld 個化學名稱"),
@@ -5634,6 +5636,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "More actions",
         "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",
         "Recreational doses — not a prescribed amount",
         "%lld studies",

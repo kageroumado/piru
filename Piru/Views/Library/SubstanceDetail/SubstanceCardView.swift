@@ -31,6 +31,8 @@ struct SubstanceCardView: View, Equatable {
     let onToggleFavorite: () -> Void
     let onMoveChip: (SubstanceGroup, DoseChip, Bool) -> Void
     let onRemoveChip: (SubstanceGroup, DoseChip) -> Void
+    /// Remove the whole substance from the quick-log list.
+    let onRemoveCard: () -> Void
 
     /// Compare only the rendered inputs — not the `tray` reference (a single
     /// shared instance) or the parent-supplied action closures (uncomparable, and
@@ -104,6 +106,24 @@ struct SubstanceCardView: View, Equatable {
                         .contentShape(Rectangle())
                 }
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
+                // The card's own menu. Removing a substance from the list used
+                // to mean long-pressing every chip it had — up to eight per
+                // route — because the only delete lived in the chip's context
+                // menu and nothing on screen said that menu existed. This is
+                // also where the per-chip actions become discoverable: a
+                // visible control that admits the card is editable.
+                Menu {
+                    Button(role: .destructive, action: onRemoveCard) {
+                        Label("Remove from Quick Log", systemImage: "trash")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.body)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.horizontal, 4)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityLabel("More actions")
             }
 
             if showsBadge, expandedPK, let badge {

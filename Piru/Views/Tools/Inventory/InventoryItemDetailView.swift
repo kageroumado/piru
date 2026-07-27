@@ -27,6 +27,7 @@ struct InventoryItemDetailView: View {
     var body: some View {
         List {
             headerSection
+            substanceInfoSection
             historySection
         }
         .listStyle(.insetGrouped)
@@ -50,6 +51,22 @@ struct InventoryItemDetailView: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text("Estimated from your average daily use over the last 7 days. Shown only when you've dosed on most days, so a one-off doesn't skew it.")
+        }
+    }
+
+    // MARK: - Substance info
+
+    /// The way out of the stockroom and into the reference. Inventory knew the
+    /// substance all along (`item.substance` resolves its display title), but
+    /// offered no way to read about it — the same dead end the dose screen had
+    /// until it grew this row, so it uses the same row.
+    @ViewBuilder private var substanceInfoSection: some View {
+        if let info = SubstanceLibrary.lookupByNameOrAlias(item.substance) {
+            Section {
+                NavigationLink(value: PushRoute.substance(name: info.name)) {
+                    Label("Substance Info", systemImage: "info.circle")
+                }
+            }
         }
     }
 

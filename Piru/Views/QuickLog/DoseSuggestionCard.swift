@@ -88,13 +88,24 @@ struct DosePKBadge: View {
     }
 
     var body: some View {
-        Text(label)
-            .font(.caption2.weight(.semibold))
-            .lineLimit(1)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .foregroundStyle(Theme.secondaryLabel)
+        // Dressed as something you can open, because you can. This capsule was
+        // the only interactive element in the card header wearing the app's
+        // *passive* vocabulary — `secondarySystemFill` behind `secondaryLabel`,
+        // the same combination as the inert "+N" chip fold — so nothing said it
+        // expanded. The accent tint and the chevron are the card's existing
+        // signals for "there is more behind this", borrowed rather than invented.
+        HStack(spacing: 3) {
+            Text(label)
+                .lineLimit(1)
+            Image(systemName: "chevron.down")
+                .font(.system(size: 8, weight: .bold))
+                .foregroundStyle(Theme.accent)
+        }
+        .font(.caption2.weight(.semibold))
+        .padding(.horizontal, 8)
+        .padding(.vertical, 3)
+        .background(Theme.accent.opacity(0.12), in: Capsule())
+        .foregroundStyle(Theme.accent)
     }
 
     private var label: String {

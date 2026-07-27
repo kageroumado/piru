@@ -72,6 +72,21 @@ nonisolated enum TimelineWindowEvaluator {
         return DateInterval(start: dose.doseTimestamp, duration: extentMinutes * 60)
     }
 
+    /// The interval a dose's curve is actually *visible* over when drawn beside
+    /// `peers` — ``activityInterval`` trimmed by
+    /// ``TimelineCurveModel/visibleExtent(for:params:peerMagnitude:threshold:)``.
+    ///
+    /// Use this to size a window; use ``activityInterval`` to decide which doses
+    /// a window must evaluate. They are deliberately different questions: culling
+    /// with the trimmed interval would drop a dose that still contributes a
+    /// sliver, whereas sizing with the untrimmed one leaves dead axis.
+    static func visibleInterval(of dose: ActiveSubstanceState, among peers: [ActiveSubstanceState]) -> DateInterval {
+        let params = TimelineCurveModel.pkParams(for: dose)
+        let peerMagnitude = peers.map(\.doseMagnitude).max() ?? dose.doseMagnitude
+        let minutes = TimelineCurveModel.visibleExtent(for: dose, params: params, peerMagnitude: peerMagnitude)
+        return DateInterval(start: dose.doseTimestamp, duration: minutes * 60)
+    }
+
     /// The subset of `doses` whose activity window intersects `[start, end]`.
     /// Doses outside contribute exactly zero (see the clipping note above), so
     /// dropping them changes nothing — this is the memoization key's content:

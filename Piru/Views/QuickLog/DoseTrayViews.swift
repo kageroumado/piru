@@ -21,17 +21,27 @@ struct TrayStagedListCard: View {
             ForEach($model.staged) { $item in
                 if !hiddenItemIDs.contains(item.id) {
                     TraySwipeRow(onDelete: { withAnimation(.snappy) { model.remove(item) } }) {
-                        if model.expandedItemIDs.contains(item.id) {
-                            StagedDoseEditor(item: $item, namespace: morphNamespace) {
-                                withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
-                            } onRemove: {
-                                withAnimation(.snappy) { model.remove(item) }
+                        // The horizontal inset is applied OUTSIDE the swap, not
+                        // inside each branch. Padding that changes across a
+                        // matched-geometry morph moves the container's edges on
+                        // a different curve from the frame-interpolated pairs
+                        // inside it, which is what made the expansion read as a
+                        // lurch. The editor's extra vertical breathing room is
+                        // its own business and stays on its branch — that one
+                        // doesn't fight the morph because no pair spans it.
+                        Group {
+                            if model.expandedItemIDs.contains(item.id) {
+                                StagedDoseEditor(item: $item, namespace: morphNamespace) {
+                                    withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
+                                } onRemove: {
+                                    withAnimation(.snappy) { model.remove(item) }
+                                }
+                                .padding(.vertical, 8)
+                            } else {
+                                TrayRow(dose: item, model: model, namespace: morphNamespace)
                             }
-                            .padding(8)
-                        } else {
-                            TrayRow(dose: item, model: model, namespace: morphNamespace)
-                                .padding(.horizontal, 8)
                         }
+                        .padding(.horizontal, 8)
                     }
                     if item.id != lastVisibleID {
                         Divider().padding(.leading, 42)

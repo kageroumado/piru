@@ -3160,6 +3160,7 @@
       }
     },
     "+%lld more" : {
+      "comment" : "Count of additional blood-pressure readings not listed",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28251,6 +28252,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更多"
+          }
+        }
+      }
+    },
+    "More actions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多操作"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多操作"
           }
         }
       }

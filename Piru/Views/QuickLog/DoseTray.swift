@@ -42,13 +42,15 @@ enum DoseTrayMetrics {
 private struct TrayMorphEffect: ViewModifier {
     let id: String
     let namespace: Namespace.ID
+    /// Whether this side of the pair defines the geometry the other adopts.
+    let isSource: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func body(content: Content) -> some View {
         if reduceMotion {
             content
         } else {
-            content.matchedGeometryEffect(id: id, in: namespace)
+            content.matchedGeometryEffect(id: id, in: namespace, isSource: isSource)
         }
     }
 }
@@ -56,8 +58,14 @@ private struct TrayMorphEffect: ViewModifier {
 extension View {
     /// `matchedGeometryEffect` for the tray's row⇄editor morph pairs,
     /// degrading to a plain crossfade under Reduce Motion.
-    func trayMorph(id: String, in namespace: Namespace.ID) -> some View {
-        modifier(TrayMorphEffect(id: id, namespace: namespace))
+    ///
+    /// Exactly one side of each pair must be the source. Both sides used to take
+    /// the default `isSource: true`, which is undefined behavior — two views
+    /// claiming one id in one namespace — and it read as the snap-then-settle
+    /// the expansion animation was reported for. The collapsed row is the source
+    /// because it is the state the tray sits in.
+    func trayMorph(id: String, in namespace: Namespace.ID, isSource: Bool = true) -> some View {
+        modifier(TrayMorphEffect(id: id, namespace: namespace, isSource: isSource))
     }
 }
 
