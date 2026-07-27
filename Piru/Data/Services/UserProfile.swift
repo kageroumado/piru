@@ -118,9 +118,9 @@ struct DisclosurePolicy: Hashable {
 // MARK: - Section placement matrix (redesigned detail view)
 
 /// Where a detail section lands for a given tier — the redesign's replacement
-/// for the show/expand booleans above. Consumed by the placement-driven
-/// coordinator (behind `-piruNewSubstanceDetail`); the legacy
-/// ``SubstanceDetailView`` still reads the booleans until it is retired.
+/// for the show/expand booleans above. Consumed by ``SubstanceDetailLayout``.
+/// The booleans survive because individual section views still read them for
+/// their own internal gating (``DisclosurePolicy/showsMechanism`` and friends).
 enum SectionPlacement: Hashable {
     /// Render the full section view in the main scroll.
     case inline

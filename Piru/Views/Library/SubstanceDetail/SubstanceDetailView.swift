@@ -86,25 +86,6 @@ struct SubstanceDetailView: View {
         .init(profile: profile)
     }
 
-    /// Which composition renders: the placement-driven redesign, or the legacy
-    /// one. The redesign is authored *against* the curated detail layer — its
-    /// header chips read `popularAliases` and its myth-bust section reads
-    /// `misconceptions` — so a substance without that curation renders the new
-    /// spine with two of its signature surfaces blank. The layout therefore
-    /// follows the data rather than a build-wide switch: carry the curation, get
-    /// the new spine. Today that is MDMA alone; every substance curated from here
-    /// on joins it with no code change.
-    ///
-    /// `-piruNewSubstanceDetail` still forces it on for A/B checks. Deliberately
-    /// **not** read from `UserDefaults`: a persisted key silently changed the
-    /// layout on installs that had once been launched with the flag, which read
-    /// as the dial "disappearing" after a plain rebuild.
-    private var usesNewLayout: Bool {
-        !substance.popularAliases.isEmpty
-            || !substance.misconceptions.isEmpty
-            || ProcessInfo.processInfo.arguments.contains("-piruNewSubstanceDetail")
-    }
-
     /// First-hand Erowid reports show on the pushed "All effects" screen, gated
     /// to recreational / dual-use compounds where such reports exist.
     private var showsErowidReports: Bool {
@@ -199,39 +180,32 @@ struct SubstanceDetailView: View {
 
     var body: some View {
         List {
-            Group {
-                if usesNewLayout {
-                    NewSubstanceDetailLayout(
-                        substance: substance,
-                        model: model,
-                        policy: policy,
-                        profile: profile,
-                        routes: routes,
-                        routeSelection: routeSelection,
-                        saltSelection: saltSelection,
-                        isomerSelection: isomerSelection,
-                        historyEntries: historyEntries,
-                        inventoryItems: inventoryItems,
-                        selectedSaltForm: selectedSaltForm,
-                        personalNotes: personalOverride?.notes,
-                        showAllEffects: $showAllEffects,
-                        showAllInventory: $showAllInventory,
-                        cautionsExpanded: $cautionsExpanded,
-                        onGlossary: { glossaryTopic = $0 },
-                    )
-                } else {
-                    legacySections
-                }
-            }
+            SubstanceDetailLayout(
+                substance: substance,
+                model: model,
+                policy: policy,
+                profile: profile,
+                routes: routes,
+                routeSelection: routeSelection,
+                saltSelection: saltSelection,
+                isomerSelection: isomerSelection,
+                historyEntries: historyEntries,
+                inventoryItems: inventoryItems,
+                selectedSaltForm: selectedSaltForm,
+                personalNotes: personalOverride?.notes,
+                showAllEffects: $showAllEffects,
+                showAllInventory: $showAllInventory,
+                cautionsExpanded: $cautionsExpanded,
+                onGlossary: { glossaryTopic = $0 },
+            )
             .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(substance.displayTitle)
-        // The new layout draws its own 40pt title inside the header byline, so
-        // the bar keeps only the compact title (a `.large` one would print the
-        // name twice); the legacy composition keeps the native big title.
-        .navigationBarTitleDisplayMode(usesNewLayout ? .inline : .large)
+        // The layout draws its own 40pt title inside the header byline, so the
+        // bar keeps only the compact title (a `.large` one would print it twice).
+        .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $showAllEffects) {
             EffectsAndIntensityView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
         }
@@ -255,67 +229,6 @@ struct SubstanceDetailView: View {
         .task(id: historySignature) {
             model.rebuildHistoryStats(from: historyEntries)
         }
-    }
-
-    /// The original (pre-redesign) inline composition. Retained behind the
-    /// `usesNewLayout` A/B flag until the placement-driven layout ships.
-    @ViewBuilder private var legacySections: some View {
-        if !historyEntries.isEmpty {
-            HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
-        }
-
-        DoseDurationSection(
-            routes: routes,
-            routeSelection: routeSelection,
-            saltSelection: saltSelection,
-            isomerSelection: isomerSelection,
-            provenance: model.provenance,
-        )
-
-        InventoryStockSection(
-            substanceName: baseSubstance.name,
-            selectedSaltForm: selectedSaltForm,
-            inventoryItems: inventoryItems,
-            showAllInventory: $showAllInventory,
-        )
-
-        SubstancePeptideSection(substance: substance)
-
-        if let notes = personalOverride?.notes,
-           !notes.trimmingCharacters(in: .whitespaces).isEmpty {
-            Section("Your Notes") {
-                Text(notes)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-
-        StatusBanner(substance: substance)
-        JokeBanner(pictograph: substance.titlePictograph)
-
-        OverviewSection(substance: substance)
-
-        EffectsSection(substance: substance, policy: policy, showAllEffects: $showAllEffects)
-
-        PharmacologySections(
-            substance: substance,
-            model: model,
-            policy: policy,
-            profile: profile,
-            onGlossary: { glossaryTopic = $0 },
-        )
-
-        // Medical context (indications / contraindications / boxed warnings).
-        MedicalInfoSection(substance: substance, cautionsExpanded: $cautionsExpanded)
-
-        // Identity (name / aliases / route) — collapsed by default.
-        InfoDisclosureSection(substance: substance, model: model)
-
-        // Chemistry numbers — folded into their own collapsed disclosure.
-        ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
-
-        SourcesSection(substance: substance, showsSources: policy.showsSources)
     }
 
     @ToolbarContentBuilder private var toolbarContent: some ToolbarContent {

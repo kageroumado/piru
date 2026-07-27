@@ -1,16 +1,16 @@
 import SwiftUI
 
-/// The placement-driven composition of the redesigned substance-detail screen
-/// (behind `-piruNewSubstanceDetail`). It reuses the existing section views as
-/// content but decides — per the user's disclosure tier and the compound's
-/// spine — which sections render inline, which fold into a collapsed group,
-/// which move behind a "Show all" deep page, and which are hidden. The single
-/// source of truth is ``DisclosurePolicy/placement(for:spine:)``.
+/// The placement-driven composition of the substance-detail screen. It reuses
+/// the existing section views as content but decides — per the user's
+/// disclosure tier and the compound's spine — which sections render inline,
+/// which fold into a collapsed group, which move behind a "Show all" deep page,
+/// and which are hidden. The single source of truth is
+/// ``DisclosurePolicy/placement(for:spine:)``.
 ///
 /// This is the thin coordinator the redesign calls for: no async data of its
 /// own (that lives in the shared ``SubstanceDetailModel``), no duplicated
 /// route/salt state (owned by ``SubstanceDetailView``) — just the arrangement.
-struct NewSubstanceDetailLayout: View {
+struct SubstanceDetailLayout: View {
     let substance: Substance
     let model: SubstanceDetailModel
     let policy: DisclosurePolicy
@@ -38,7 +38,16 @@ struct NewSubstanceDetailLayout: View {
         //    formula. Replaces the old full-width "Also known as" card.
         SubstanceDetailHeader(substance: substance)
 
-        // 2. Your history — the user's own data leads (only when entries exist).
+        // 2. What it is, in prose. The design review cut this from mid-flow when
+        //    the layout was MDMA-only — there the header, dose card and dial
+        //    already answer "what is this". Across the whole library they often
+        //    don't: 375 substances carry an overview and most of them carry
+        //    little else, so cutting it would leave their screen saying nothing.
+        //    Self-hides for the ~80% with no overview, which is why it can sit
+        //    here unconditionally rather than behind a sparseness heuristic.
+        OverviewSection(substance: substance)
+
+        // 3. Your history — the user's own data leads (only when entries exist).
         if !historyEntries.isEmpty {
             HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
         }
@@ -115,6 +124,14 @@ struct NewSubstanceDetailLayout: View {
     }
 
     @ViewBuilder private var referenceDepth: some View {
+        // Identity — category, default route, and the full alias list, collapsed.
+        // The header's alias chips only exist for a substance with curated
+        // `popularAliases` (1 of 1912 today), and the fallback deliberately
+        // refuses to dump the raw alias list up there. Without this row the
+        // other 1557 substances that have aliases would have no way to show
+        // them at all, so identity keeps a home at reference depth.
+        InfoDisclosureSection(substance: substance, model: model)
+
         // Inline (Pharma Nerd): render each reference section directly — each is
         // its own collapsed disclosure.
         if placement(.chemistry).isInline, hasChemistryData {
