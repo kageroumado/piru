@@ -1,3 +1,4 @@
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -66,8 +67,12 @@ final class DockSheetGeometry {
     func update(height: CGFloat) {
         if self.height != height { self.height = height }
         let bare = height < QuickLogDockMetrics.peekHeight + 40
-        if bare != isHeightBare { isHeightBare = bare }
+        guard bare != isHeightBare else { return }
+        isHeightBare = bare
+        Self.log.debug("isHeightBare=\(bare, privacy: .public) at height=\(height, privacy: .public)")
     }
+
+    private static let log = Logger(subsystem: "dev.yumeji.piru", category: "dock-geometry")
 }
 
 // MARK: - Dock Sheet
@@ -189,8 +194,19 @@ struct QuickLogDock: View {
             // accepts the proposal exactly, so this leaf tracks the sheet
             // itself; per-frame drag updates land in the `geometry` box and
             // invalidate only its readers, never this body.
+            //
+            // It ignores the **keyboard** region as well as the container, for
+            // the same reason the content below does: otherwise it measures the
+            // sheet minus whatever keyboard inset is in force. Measured with the
+            // search field focused, it read 539 on an 884pt sheet — a 345pt
+            // keyboard's worth of under-report — and ``isHeightBare`` is just a
+            // threshold on that number, so a keyboard (or a stale layout guide
+            // one left behind) can flip a dock that is not bare into its bare
+            // face. Both regions have to go in *one* call: chaining two
+            // `ignoresSafeArea` modifiers does not compose, and the keyboard
+            // inset survived it.
             Color.clear
-                .ignoresSafeArea(.container, edges: .bottom)
+                .ignoresSafeArea([.container, .keyboard], edges: .bottom)
                 .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
                     geometry.update(height: newValue)
                 }
@@ -247,6 +263,9 @@ struct QuickLogDock: View {
                 searchFocused: $searchFocused,
                 onCancel: cancelSearch,
             )
+            // Inside the padding on purpose: the probe's own frame is then the
+            // field's frame, which is the thing the shear report is about.
+            .background { DockGeometryProbe(host: bookkeeping.host) }
             .padding(.horizontal, 16)
             .padding(.top, 16)
             .padding(.bottom, 6)
@@ -308,16 +327,26 @@ struct QuickLogDock: View {
             // bar just overflows out of sight at the small detents.
             .frame(minHeight: 0, maxHeight: .infinity, alignment: .top)
         }
-        // Bare: intrinsic height (just the search bar), pinned to the sheet's
-        // top edge so the fixed ``bareFloat`` gap is what remains below.
-        // Full: fill the sheet. The system sheet's glass platter is the
-        // dock's surface in every state — we draw no chrome of our own.
-        .frame(maxWidth: .infinity, maxHeight: isBare ? nil : .infinity, alignment: .top)
-        .frame(maxHeight: .infinity, alignment: .top)
-        // At peek the sheet is shorter than the home-indicator inset would
-        // allow — position the pill manually instead. Full faces keep the
-        // regular safe-area behavior (only their *glass* bleeds below).
-        .ignoresSafeArea(.container, edges: isBare ? .bottom : [])
+        // Fill the sheet and pin to its top edge, in every face. The system
+        // sheet's glass platter is the dock's surface throughout — we draw no
+        // chrome of our own — and the search bar's position is then one
+        // constant (16pt) below the platter, which is the invariant
+        // ``DockGeometryProbe`` checks.
+        //
+        // This used to be two stacked frames, the inner one dropping to an
+        // intrinsic height while ``isBare``. That made a *measured* value
+        // decide the shape of the region the same measurement is taken from —
+        // height → flag → layout → height — and the two frames then top-aligned
+        // to the same place anyway, so the branch bought nothing but the loop.
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        // At the small detents the sheet is barely taller than the
+        // home-indicator inset, so the content claims it rather than being
+        // squeezed above it. Keyed on the tray being empty, not on ``isBare``:
+        // the inset only needs respecting when there is a bottom-pinned commit
+        // bar to keep clear of it, and that depends on the tray alone. Keying
+        // it on the measured flag put the second half of the layout feedback
+        // loop here.
+        .ignoresSafeArea(.container, edges: tray.isEmpty ? .bottom : [])
         // The dock does NOT keyboard-avoid: the chips + Log bar stay pinned
         // to the sheet's bottom and the keyboard slides over them. Avoidance
         // shoved the whole bottom half upward mid-transition — half the views
@@ -397,7 +426,16 @@ struct QuickLogDock: View {
     }
 
     private func handleTrayEmptinessChanged() {
+        // Only arm the suppression when the dock is genuinely *headed* for the
+        // bare pill. ``refreshDetents()`` keeps the current selection whenever
+        // it is already a valid empty-tray detent — and `.medium`/`.large` are
+        // — so deleting the last dose there moved nothing, `detentChanged`
+        // never ran, and the flag that unmounts the browse face never cleared:
+        // a blank half-height sheet with only a search bar, recoverable only by
+        // closing the cover. Reproduced on iOS 26.5 (stage from search, then
+        // delete the row) and it predates the layout simplification above.
         awaitingBareCollapse = tray.isEmpty && !searchActive
+            && !QuickLogDockMetrics.emptyDetents.contains(detent)
         if tray.isEmpty { unrevealedItemIDs.removeAll() }
         refreshDetents()
     }
