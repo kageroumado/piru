@@ -63,3 +63,6 @@ Exports/
 
 # Regenerable substance audit dump (script: PiruTests/SubstanceAuditExportTests.swift)
 Audits/
+
+# App Store marketing assets (screenshots + capture scaffolding), not app source
+Store/
