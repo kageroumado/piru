@@ -102,6 +102,7 @@ extension DockGeometryProbe {
             else { return }
             let bar = convert(bounds, to: window)
             let presentedFrame = presented.convert(presented.bounds, to: window)
+            let platter = platterFrame(in: window)
 
             // The number the bug is about: how far the field's top sits below
             // the top of the sheet it lives in. Healthy is the dock's 16pt top
@@ -109,8 +110,31 @@ extension DockGeometryProbe {
             // peek on a 17 Pro Max, 16.0 unscaled at large. Negative means the
             // field has climbed out of its platter, the reported defect.
             let overhang = bar.minY - presentedFrame.minY
+
+            // **Measured against the platter, which is the surface the report is
+            // actually about.** The presented view and the platter are not the
+            // same rect: with `presentationBackground(.clear)` the platter is a
+            // sibling `CALayer`, and UIKit compresses a too-tall sheet by putting
+            // a *scale transform* on it (see `QuickLogDock`'s own notes, and the
+            // lldb-verified residual-transform corruption). Both rects here are
+            // read post-transform, so if the platter and the presented view get
+            // different transforms the field visibly leaves the platter while
+            // `overhang` stays perfectly healthy. That is the blind spot that let
+            // three rounds of reports produce no log line: the platter frame was
+            // computed and printed but never compared.
+            let platterOverhang = platter.map { bar.minY - $0.minY }
+            let sheared = overhang < 0 || (platterOverhang.map { $0 < 0 } ?? false)
+
             let detent = detentLabel()
-            let key = "\(detent)|\(String(format: "%.1f", overhang))"
+            // The platter's own origin joins the key. Keyed on `detent|overhang`
+            // alone, a platter that moved while the overhang held constant — the
+            // exact signature of the transform mechanism above — emitted no line
+            // at all.
+            let key = """
+            \(detent)|\(String(format: "%.1f", overhang))\
+            |\(String(format: "%.1f", platterOverhang ?? .nan))\
+            |\(String(format: "%.1f", platter?.minY ?? .nan))
+            """
             guard key != lastKey else { return }
             lastKey = key
 
@@ -120,17 +144,18 @@ extension DockGeometryProbe {
             let insets = presented.safeAreaInsets
             let line = """
             detent=\(detent) bar=\(rect(bar)) presented=\(rect(presentedFrame)) \
-            platter=\(platterFrame(in: window).map(rect) ?? "?") \
+            platter=\(platter.map(rect) ?? "?") \
             safe=(t\(round(insets.top)) b\(round(insets.bottom))) \
             klg=\(round(window.keyboardLayoutGuide.layoutFrame.height)) \
-            overhang=\(String(format: "%.1f", overhang))
+            overhang=\(String(format: "%.1f", overhang)) \
+            platterOverhang=\(platterOverhang.map { String(format: "%.1f", $0) } ?? "?")
             """
 
             // A sheared dock is the defect itself, so it is logged at a level
             // that persists without a live Console attached — the only way to
             // read it back off a TestFlight device. Healthy transitions stay
             // debug-level chatter for a streaming session.
-            if overhang < 0 {
+            if sheared {
                 Self.log.error("SHEARED \(line, privacy: .public)")
             } else {
                 Self.log.debug("\(line, privacy: .public)")

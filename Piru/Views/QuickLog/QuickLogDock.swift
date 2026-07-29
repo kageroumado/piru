@@ -183,35 +183,32 @@ struct QuickLogDock: View {
     @State private var interactionsHeight: CGFloat = 0
 
     var body: some View {
-        ZStack(alignment: .top) {
-            // Proposal probe: measures the sheet's *proposed* height (the live
-            // detent size), not the content's laid-out height. The two differ
-            // when the always-mounted commit bar (see ``DockCommitBarArea``) puts a
-            // minimum height under the scroll view: post-delete, the content
-            // can't shrink to the bare zone, so a content-height read would
-            // never flip ``isBare`` back — a layout deadlock that left the
-            // dock stuck on its full face at the peek detent. `Color.clear`
-            // accepts the proposal exactly, so this leaf tracks the sheet
-            // itself; per-frame drag updates land in the `geometry` box and
-            // invalidate only its readers, never this body.
-            //
-            // It ignores the **keyboard** region as well as the container, for
-            // the same reason the content below does: otherwise it measures the
-            // sheet minus whatever keyboard inset is in force. Measured with the
-            // search field focused, it read 539 on an 884pt sheet — a 345pt
-            // keyboard's worth of under-report — and ``isHeightBare`` is just a
-            // threshold on that number, so a keyboard (or a stale layout guide
-            // one left behind) can flip a dock that is not bare into its bare
-            // face. Both regions have to go in *one* call: chaining two
-            // `ignoresSafeArea` modifiers does not compose, and the keyboard
-            // inset survived it.
-            Color.clear
-                .ignoresSafeArea([.container, .keyboard], edges: .bottom)
-                .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-                    geometry.update(height: newValue)
-                }
-            dockContent
-        }
+        // The probe hangs off `dockContent` as a **background**, not as a sibling
+        // in a `ZStack`.
+        //
+        // A `ZStack` takes the union of its children, and the probe deliberately
+        // ignores the bottom container *and* keyboard regions — so it reports a
+        // taller size than the sheet proposed, and the stack becomes oversize. An
+        // oversize view is not clipped to its container; SwiftUI *centers* it,
+        // which lifts its top edge by half the overflow. With a 34pt home
+        // indicator that is ~17pt; with a stale keyboard layout guide it is
+        // unbounded. That is the one mechanism in this file that moves the entire
+        // content column rather than just the field — matching the report that
+        // read "the search bar and the whole content shifted up again".
+        //
+        // A background is sized by its primary content and can never push the
+        // host around, while `ignoresSafeArea` inside it still lets the probe
+        // extend past the insets, so the measurement is unchanged.
+        dockContent
+            .background(alignment: .top) { proposalProbe }
+    }
+
+    private var proposalProbe: some View {
+        Color.clear
+            .ignoresSafeArea([.container, .keyboard], edges: .bottom)
+            .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+                geometry.update(height: newValue)
+            }
     }
 
     private var dockContent: some View {
