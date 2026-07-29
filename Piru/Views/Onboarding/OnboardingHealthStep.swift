@@ -72,6 +72,9 @@ struct OnboardingHealthStep: View {
         }
         .font(.footnote)
         .foregroundStyle(Theme.secondaryLabel)
+        // Without this the note truncated to "…Turn it off anytime in S…" when
+        // the step ran tall — same mechanism as the title above it.
+        .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 

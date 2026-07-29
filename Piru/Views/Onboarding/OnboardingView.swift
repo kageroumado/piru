@@ -189,24 +189,43 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: 8)
-            hero()
-                .padding(.bottom, 28)
-            VStack(spacing: 10) {
-                Text(title)
-                    .font(.largeTitle.weight(.bold))
-                    .multilineTextAlignment(.center)
-                    .accessibilityAddTraits(.isHeader)
-                if let subtitle {
-                    Text(subtitle)
-                        .font(.body)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .multilineTextAlignment(.center)
+            // The step's own content scrolls when it over-subscribes the screen;
+            // the footer buttons stay pinned. Before this, the chrome pinned the
+            // whole step to the screen height (`OnboardingStepChrome`, no
+            // `ScrollView`), so an over-tall step — the Health one, which carries
+            // the flow's biggest hero, longest subtitle, and a ~200pt chart — got
+            // a compressed height proposal, and the flexible `Text` children
+            // absorbed it by collapsing to one truncated line ("Connect Apple
+            // Hea…"). `minHeight` keeps short steps looking exactly as before:
+            // centered, not top-aligned, with no scrolling.
+            GeometryReader { proxy in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 8)
+                        hero()
+                            .padding(.bottom, 28)
+                        VStack(spacing: 10) {
+                            Text(title)
+                                .font(.largeTitle.weight(.bold))
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .accessibilityAddTraits(.isHeader)
+                            if let subtitle {
+                                Text(subtitle)
+                                    .font(.body)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .multilineTextAlignment(.center)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                        .padding(.horizontal, 28)
+                        mid()
+                        Spacer(minLength: 8)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: proxy.size.height)
                 }
+                .scrollBounceBehavior(.basedOnSize)
             }
-            .padding(.horizontal, 28)
-            mid()
-            Spacer(minLength: 8)
             VStack(spacing: 12) { footer() }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 12)
