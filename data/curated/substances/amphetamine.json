@@ -3,6 +3,53 @@
   "aliases": [
     "苯丙胺",
     "安非他命",
-    "安非他明"
+    "安非他明",
+    "Dextroamphetamine-Amphetamine",
+    "Mixed Amphetamine Salts"
+  ],
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "_comment": "Racemic (untagged) oral IR profile at priority 1, the same fix methylphenidate already carries. The resolved community profile spliced drug.community's onset/peak/offset — a source whose onset already absorbs the come-up, so it publishes no comeup row — with psychonautwiki's comeup 30-135, double-counting ~82 min. The cumulated boundaries came to 562 min (9 h 22 m) while the card's own trio printed the same profile's total as '4-8 h': one screen, two answers. That is the 'Adderall IR graph doesn't seem right' report. Phases below sum to ~325 min against a 240-420 min total, so the curve and the stated total agree. Doses are the recreational ladder the majority of upstream sources already publish for racemic oral amphetamine; they must be present because a route with no `doses` still emits an (empty) dose row that would classify every dose as sub-threshold.",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 45
+        },
+        "comeup": {
+          "min": 25,
+          "max": 50
+        },
+        "peak": {
+          "min": 90,
+          "max": 150
+        },
+        "offset": {
+          "min": 90,
+          "max": 180
+        },
+        "total": {
+          "min": 240,
+          "max": 420
+        }
+      }
+    }
   ]
 }

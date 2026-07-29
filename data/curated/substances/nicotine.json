@@ -5,5 +5,93 @@
     "烟碱",
     "菸鹼"
   ],
-  "category": "Stimulant"
+  "category": "Stimulant",
+  "routes": [
+    {
+      "route": "buccal",
+      "unit": "mg",
+      "_comment": "Pouches, snus, and lozenges are buccal, not oral — absorption is across the cheek mucosa and bypasses first pass, so the curve is far shorter than a swallowed dose. Community sources already carried a buccal row; it was unreachable because RouteOfAdministration had no buccal case (fixed 2026-07-28) and it is pinned here at priority 1 so the phase merge can't splice it with another source's semantics. Dose ladder is pouch nicotine content, which is what the label states and what a user logs; note that only a fraction is actually extracted during a ~30 min use.",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 14
+        },
+        "heavy": 14
+      },
+      "duration": {
+        "onset": {
+          "min": 2,
+          "max": 5
+        },
+        "comeup": {
+          "min": 3,
+          "max": 8
+        },
+        "peak": {
+          "min": 10,
+          "max": 25
+        },
+        "offset": {
+          "min": 15,
+          "max": 35
+        },
+        "total": {
+          "min": 40,
+          "max": 70
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "_comment": "Swallowed nicotine, which is heavily first-pass metabolised (bioavailability roughly a fifth to a third of a buccal dose). Curated because the resolved community profile ran onset 20-40 / peak 60-90 / offset 150-210 with a 300-420 min total — a six-hour acute curve against a 150 min elimination half-life, and it was the DEFAULT route, so every pouch logged as 'oral' inherited it. That is the 'oral nicotine duration seems wrong' report. Doses are higher than buccal for the same effect because of first pass.",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 4,
+          "upper": 8
+        },
+        "common": {
+          "lower": 8,
+          "upper": 16
+        },
+        "strong": {
+          "lower": 16,
+          "upper": 30
+        },
+        "heavy": 30
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "comeup": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 15,
+          "max": 30
+        },
+        "offset": {
+          "min": 30,
+          "max": 60
+        },
+        "total": {
+          "min": 60,
+          "max": 150
+        }
+      }
+    }
+  ]
 }
