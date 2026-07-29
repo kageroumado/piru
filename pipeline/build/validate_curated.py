@@ -73,6 +73,7 @@ CATEGORIES = {
 ROUTES = {
     "oral",
     "sublingual",
+    "buccal",
     "insufflation",
     "inhalation",
     "intravenous",

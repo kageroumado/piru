@@ -97,6 +97,9 @@ private extension RouteOfAdministration {
         switch self {
         case .oral: "ORAL"
         case .sublingual: "SUBLINGUAL"
+        // PsychonautWiki's journal `AdministrationRoute` has BUCCAL, so this
+        // round-trips rather than degrading to ORAL.
+        case .buccal: "BUCCAL"
         case .insufflation: "INSUFFLATED"
         case .inhalation: "INHALED"
         case .intravenous: "INTRAVENOUS"
@@ -112,6 +115,7 @@ private extension RouteOfAdministration {
         switch psylogName.uppercased() {
         case "ORAL": self = .oral
         case "SUBLINGUAL": self = .sublingual
+        case "BUCCAL": self = .buccal
         case "INSUFFLATED": self = .insufflation
         case "INHALED": self = .inhalation
         case "INTRAVENOUS": self = .intravenous

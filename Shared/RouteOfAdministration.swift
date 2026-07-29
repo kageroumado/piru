@@ -5,6 +5,12 @@ import UIKit
 enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
     case oral
     case sublingual
+    /// Absorbed across the cheek mucosa — nicotine pouches, snus, buccal films.
+    /// Distinct from `oral`: it bypasses first-pass metabolism, so it has its own
+    /// (much shorter) duration profile. The bundled DB has carried buccal rows all
+    /// along; without this case they parsed to `.other`, so a pouch showed an
+    /// "Other" pill sorted last and defaulted to oral's six-hour curve.
+    case buccal
     case insufflation
     case inhalation
     case intravenous
@@ -22,6 +28,7 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .oral: "Oral"
         case .sublingual: "Sublingual"
+        case .buccal: "Buccal"
         case .insufflation: "Insufflation"
         case .inhalation: "Inhalation"
         case .intravenous: "Intravenous"
@@ -37,6 +44,7 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .oral: "Oral"
         case .sublingual: "Sublingual"
+        case .buccal: "Buccal"
         case .insufflation: "Insufflation"
         case .inhalation: "Inhalation"
         case .intravenous: "Intravenous"
@@ -69,6 +77,7 @@ extension RouteOfAdministration {
         switch self {
         case .oral: ("0B5FC2", "0A84FF") // blue
         case .sublingual: ("0E7A8D", "30B0C7") // teal
+        case .buccal: ("0B7A6E", "00C7BE") // mint — mucosal, sibling to sublingual
         case .insufflation: ("8330AE", "AF52DE") // purple
         case .inhalation: ("A05A00", "FF9500") // orange
         case .intravenous: ("C22B22", "FF3B30") // red
@@ -85,6 +94,7 @@ extension RouteOfAdministration {
         switch string.lowercased().trimmingCharacters(in: .whitespaces) {
         case "oral", "oral_ir", "oral_er", "oral(benzedrex)", "oral(pure)": .oral
         case "sublingual": .sublingual
+        case "buccal", "buccally", "pouch", "snus": .buccal
         case "insufflated", "insufflation", "insufflated(pure)", "intranasal", "nasal": .insufflation
         case "inhaled", "inhalation", "smoked", "vapourized", "vaporized": .inhalation
         case "intravenous", "iv": .intravenous

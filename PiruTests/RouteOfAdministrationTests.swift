@@ -32,8 +32,9 @@ struct RouteOfAdministrationTests {
     // MARK: - CaseIterable
 
     @Test
-    func `Has exactly 10 cases`() {
-        #expect(RouteOfAdministration.allCases.count == 10)
+    func `Has exactly 11 cases`() {
+        #expect(RouteOfAdministration.allCases.count == 11)
+        #expect(RouteOfAdministration.allCases.contains(.buccal))
     }
 
     // MARK: - Codable

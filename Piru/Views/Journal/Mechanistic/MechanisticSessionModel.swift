@@ -80,6 +80,9 @@ nonisolated enum MechanisticSessionModel {
         switch route {
         case .oral: (1, 0)
         case .sublingual: (2, 1)
+        // Mucosal like sublingual — bypasses first pass — but absorption across
+        // the cheek is slower than under the tongue, so it sits between the two.
+        case .buccal: (1.8, 0.8)
         case .insufflation: (3.5, 2.5)
         case .inhalation: (10, 6)
         case .intravenous: (10, 6)

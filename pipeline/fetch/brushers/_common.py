@@ -182,7 +182,8 @@ def piru_category(raw_classes: Iterable[str]) -> str:
 _ROUTE_MAP: dict[str, str] = {
     "oral": "oral",
     "po": "oral",
-    "buccal": "oral",
+    "buccal": "buccal",
+    "buccally": "buccal",
     "sublingual": "sublingual",
     "sl": "sublingual",
     "insufflated": "insufflation",

@@ -74,7 +74,7 @@ ROUTE_RANK: dict[str, int] = {
 
 #: DB / upstream spellings → the canonical route names above. Mirrors
 #: `RouteOfAdministration.from(string:)` in Shared/RouteOfAdministration.swift,
-#: plus `buccal`, which that enum folds into `.other` but the DB stores whole.
+#: including `buccal`, which is a first-class case there as of 2026-07-28.
 ROUTE_ALIASES: dict[str, str] = {
     "oral_ir": "oral",
     "oral_er": "oral",
