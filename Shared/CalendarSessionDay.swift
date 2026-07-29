@@ -43,4 +43,20 @@ nonisolated extension Calendar {
     func sessionDayEnd(for date: Date) -> Date {
         sessionDayStart(for: date).addingTimeInterval(86_400)
     }
+
+    /// `shortWeekdaySymbols` rotated to start at `firstWeekday`.
+    ///
+    /// Foundation's `shortWeekdaySymbols` is **always** Sunday-first — index 0 is
+    /// Sunday no matter what `firstWeekday` says. A month grid whose leading
+    /// blanks are `(weekday - firstWeekday + 7) % 7` is therefore laid out
+    /// Monday-first in most of Europe while its header still reads "Sun" over
+    /// column 0, and every date appears one day early. That is the "calendar is
+    /// a day behind" report; it is invisible in the US because `firstWeekday`
+    /// is already 1 there.
+    var orderedShortWeekdaySymbols: [String] {
+        let symbols = shortWeekdaySymbols
+        guard symbols.count == 7 else { return symbols }
+        let offset = (firstWeekday - 1 + 7) % 7
+        return Array(symbols[offset...] + symbols[..<offset])
+    }
 }

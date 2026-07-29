@@ -83,4 +83,50 @@ struct CalendarSessionDayTests {
             #expect(end.timeIntervalSince(start) == 86_400)
         }
     }
+
+    /// A Sunday-first calendar is the identity case — this is why the header bug
+    /// never showed up in the US.
+    @Test
+    func `Sunday-first locale leaves the weekday header unrotated`() {
+        var cal = Calendar(identifier: .gregorian)
+        cal.locale = Locale(identifier: "en_US")
+        cal.firstWeekday = 1
+        #expect(cal.orderedShortWeekdaySymbols == cal.shortWeekdaySymbols)
+    }
+
+    /// The reported bug: a Monday-first grid under a Sunday-first header put
+    /// every date one column early.
+    @Test
+    func `Monday-first locale rotates the weekday header to match the grid`() throws {
+        var cal = Calendar(identifier: .gregorian)
+        cal.locale = Locale(identifier: "en_GB")
+        cal.firstWeekday = 2
+
+        let ordered = cal.orderedShortWeekdaySymbols
+        #expect(ordered.count == 7)
+        #expect(ordered.first == cal.shortWeekdaySymbols[1])
+        #expect(ordered.last == cal.shortWeekdaySymbols[0])
+
+        // The header column a given date lands in must be the column the grid's
+        // leading-blank math puts it in. 2026-07-01 is a Wednesday; under a
+        // Monday-first calendar that is column 2, which must read "Wed".
+        let july1 = try #require(cal.date(from: DateComponents(year: 2_026, month: 7, day: 1)))
+        let column = (cal.component(.weekday, from: july1) - cal.firstWeekday + 7) % 7
+        #expect(ordered[column] == cal.shortWeekdaySymbols[cal.component(.weekday, from: july1) - 1])
+    }
+
+    /// Every `firstWeekday` the API admits must produce a 7-symbol rotation whose
+    /// column mapping round-trips.
+    @Test(arguments: 1 ... 7)
+    func `Weekday header rotation round-trips for every first weekday`(first: Int) {
+        var cal = Calendar(identifier: .gregorian)
+        cal.firstWeekday = first
+        let ordered = cal.orderedShortWeekdaySymbols
+        #expect(ordered.count == 7)
+        #expect(Set(ordered) == Set(cal.shortWeekdaySymbols))
+        for weekday in 1 ... 7 {
+            let column = (weekday - first + 7) % 7
+            #expect(ordered[column] == cal.shortWeekdaySymbols[weekday - 1])
+        }
+    }
 }

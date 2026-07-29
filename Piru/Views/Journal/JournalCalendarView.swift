@@ -57,10 +57,11 @@ struct JournalCalendarView: View {
             }
             .padding(.horizontal)
 
-            // Day-of-week header
-            let weekdays = calendar.shortWeekdaySymbols
+            // Day-of-week header. Rotated to `firstWeekday` so it agrees with the
+            // leading-blank math below — see `orderedShortWeekdaySymbols`.
+            let weekdays = calendar.orderedShortWeekdaySymbols
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
-                ForEach(weekdays, id: \.self) { day in
+                ForEach(Array(weekdays.enumerated()), id: \.offset) { _, day in
                     Text(day)
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(Theme.secondaryLabel)

@@ -204,7 +204,9 @@ struct AdherenceView: View {
 
     private var weekdayHeader: some View {
         LazyVGrid(columns: columns, spacing: 4) {
-            ForEach(calendar.shortWeekdaySymbols, id: \.self) { symbol in
+            // Rotated to `firstWeekday` so it agrees with `daysInMonth()`'s
+            // leading blanks — see `orderedShortWeekdaySymbols`.
+            ForEach(Array(calendar.orderedShortWeekdaySymbols.enumerated()), id: \.offset) { _, symbol in
                 Text(symbol)
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
