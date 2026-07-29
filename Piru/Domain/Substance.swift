@@ -383,8 +383,13 @@ struct DurationProfile: Codable, Hashable {
     /// missing shapers using class-aware proportions
     /// (``SubstanceCategory/synthesizedPhaseShape``), so any genuine phase is
     /// preserved. Returns `self` for complete profiles and those with no `total`
-    /// (the latter keep the half-life synthesis fallback). Used only when
-    /// building a timeline curve — the detail card still shows the raw phases.
+    /// (the latter keep the half-life synthesis fallback).
+    ///
+    /// Applied wherever a **curve is drawn** — the journal timeline and the detail
+    /// card alike. (It used to be journal-only, which is why the same dose drew two
+    /// different shapes depending on the screen.) The detail card's numeric trio
+    /// and phase disclosure still read the *raw* profile: those are a reference
+    /// table and must stay verbatim source data.
     func fillingMissingPhases(for category: SubstanceCategory) -> DurationProfile {
         guard let total, total.midpoint > 0 else { return self }
         let shape = category.synthesizedPhaseShape
@@ -1777,6 +1782,18 @@ struct Substance: Identifiable {
     /// Best available duration: exact route → similar route → generic fallback.
     /// Only falls back when a single route has duration data (implying it's generic).
     /// When multiple routes have distinct durations, returns nil rather than guessing.
+    ///
+    /// The salt/isomer overload exists because the timeline used to ignore both:
+    /// the detail card picked the variant profile while the journal graph took the
+    /// route's top-level one, so a D-isomer dose was drawn with the racemic curve —
+    /// a visibly different length from the one the card had just shown for it.
+    func resolveDuration(
+        for route: RouteOfAdministration, saltForm: String?, isomer: String?,
+    ) -> DurationProfile? {
+        if let exact = duration(for: route, saltForm: saltForm, isomer: isomer) { return exact }
+        return resolveDuration(for: route)
+    }
+
     func resolveDuration(for route: RouteOfAdministration) -> DurationProfile? {
         if let exact = duration(for: route) { return exact }
         let routesWithDuration = routes.filter { $0.duration != nil }
@@ -1817,8 +1834,10 @@ struct Substance: Identifiable {
     /// drawn — so it's correct for custom substances and route-specific profiles
     /// that the precomputed `durationImplausible` flag can miss. Distinct from
     /// ``resolveDuration(for:)``, which returns the raw profile regardless.
-    func timelineDuration(for route: RouteOfAdministration) -> DurationProfile? {
-        if let profile = resolveDuration(for: route),
+    func timelineDuration(
+        for route: RouteOfAdministration, saltForm: String? = nil, isomer: String? = nil,
+    ) -> DurationProfile? {
+        if let profile = resolveDuration(for: route, saltForm: saltForm, isomer: isomer),
            profile.estimatedTotalMinutes > 0,
            profile.estimatedTotalMinutes <= Self.maxAcuteTimelineMinutes {
             return profile

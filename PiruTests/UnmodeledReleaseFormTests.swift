@@ -34,7 +34,12 @@ struct UnmodeledReleaseFormTests {
         #expect(entry("Methylphenidate", releaseForm: "").namesUnmodeledForm == false)
         #expect(entry("Methylphenidate", releaseForm: "XR").namesUnmodeledForm)
         #expect(entry("Aripiprazole", releaseForm: "DEP").namesUnmodeledForm)
-        #expect(entry("Amphetamine", releaseForm: "IR").namesUnmodeledForm)
+        // IR is immediate release — the base ladder every source publishes IS
+        // measured on it, so it draws a curve like the unspecified form. Treating
+        // it as unmodeled meant "Adderall IR" drew nothing while a bare
+        // "Adderall" drew a full curve, for the same dose of the same drug.
+        #expect(entry("Amphetamine", releaseForm: "IR").namesUnmodeledForm == false)
+        #expect(entry("Amphetamine", releaseForm: "ir").namesUnmodeledForm == false, "case-insensitive")
     }
 
     // MARK: - Tier 1: a substance that HAS durations

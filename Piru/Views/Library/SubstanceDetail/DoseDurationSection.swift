@@ -142,6 +142,9 @@ struct DoseDurationSection: View {
                     regimeLabel: substance.displayClass == .dualUse || substance.displayClass == .medicalRx
                         ? route.doseContext : .unknown,
                     accent: substance.category.color,
+                    // Lets the card shape its curve the same way the journal does.
+                    // Without it the two disagreed for ~a third of the library.
+                    curveCategory: substance.category,
                 )
                 .listRowSeparator(.hidden)
 

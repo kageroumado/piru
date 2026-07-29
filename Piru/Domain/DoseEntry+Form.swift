@@ -21,17 +21,25 @@ extension DoseEntry {
     /// answering with the base form's, which is what every fallback would
     /// otherwise do. See `Specs/psid-identity-consumption.md` LB-5.
     ///
-    /// `IR` counts, and costs nothing: only three aliases carry it DB-wide
-    /// ("Adderall IR", "MAS-IR"), tagged only where a brand explicitly contrasts
-    /// with an XR sibling. A bare "Adderall"/"Ritalin" is the unspecified form —
-    /// the PSID `0` sentinel — and keeps its curve.
+    /// **`IR` does not count.** Immediate release *is* the base form's kinetics —
+    /// that is what "immediate release" means, and the base ladder every source
+    /// publishes is measured on it. Treating it as unmodeled meant "Adderall IR"
+    /// drew no curve while a bare "Adderall" drew one, for the same dose of the
+    /// same drug; a tester reported exactly that. A bare "Adderall"/"Ritalin" is
+    /// the unspecified form — the PSID `0` sentinel — and likewise keeps its curve.
+    ///
     /// `nonisolated` so the off-main timeline derive can ask without hopping; it
     /// reads only the entry's own stored string.
     nonisolated var namesUnmodeledForm: Bool {
         guard let releaseForm, !releaseForm.isEmpty else { return false }
-        // The PSID `0` sentinel — the standard/unspecified form, which is exactly
-        // what the base ladder models. Compared literally rather than via
-        // `PSID.unspecifiedFacet`, which is main-actor isolated.
-        return releaseForm != "0"
+        return !Self.modeledReleaseForms.contains(releaseForm.uppercased())
     }
+
+    /// Release forms whose kinetics the base duration ladder already describes.
+    ///
+    /// `0` is the PSID unspecified sentinel (compared literally rather than via
+    /// `PSID.unspecifiedFacet`, which is main-actor isolated). `IR` is immediate
+    /// release. Everything else — `XR`, `DEP`, and any future extended/delayed
+    /// system — stays unmodeled and renders as a timestamp marker.
+    nonisolated static let modeledReleaseForms: Set<String> = ["0", "IR"]
 }

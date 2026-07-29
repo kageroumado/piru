@@ -26,6 +26,19 @@ struct DoseDurationCard: View {
     /// recreational and saying so adds nothing.
     var regimeLabel: DoseContext = .unknown
     var accent: Color = Theme.accent
+    /// Category used to shape the drawn curve, via
+    /// ``DurationProfile/fillingMissingPhases(for:)``. `nil` draws the raw phases.
+    ///
+    /// The curve and the numeric trio deliberately read from *different* profiles.
+    /// The trio is a reference table and must stay verbatim source data. The curve
+    /// is a shape, and a source that publishes only `onset` and `total` gives it no
+    /// shape at all — `phaseBoundaries` then sums the present phases and collapses
+    /// a 12 h profile into a ~1 h spike that contradicts the "12 h" printed
+    /// directly beneath it. The journal always filled those phases in; the card
+    /// did not, so the same dose drew two different curves depending on which
+    /// screen you were on. Measured against the bundled DB, 453 of 1397 resolved
+    /// route-profiles diverged. Now both fill, and only the trio stays raw.
+    var curveCategory: SubstanceCategory?
 
     /// Tier the user tapped in the strip, overriding the model's reference tier.
     /// Card-local and deliberately not persisted — it answers "what does Strong
@@ -129,7 +142,10 @@ struct DoseDurationCard: View {
 
     @ViewBuilder
     private func durationBlock(_ duration: DurationProfile) -> some View {
-        let boundaries = duration.phaseBoundaries
+        // Curve from the filled profile, trio and disclosure from the raw one —
+        // see `curveCategory`.
+        let curveProfile = curveCategory.map { duration.fillingMissingPhases(for: $0) } ?? duration
+        let boundaries = curveProfile.phaseBoundaries
         VStack(alignment: .leading, spacing: 12) {
             Text("Effect over time · \(route.localizedName)")
                 .font(.caption2.weight(.bold))
