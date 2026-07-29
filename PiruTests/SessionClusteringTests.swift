@@ -66,6 +66,42 @@ struct SessionClusteringTests {
         #expect(groups == [[0], [1]])
     }
 
+    /// The reported regression: an 8 h substance at 19:00 redosed at 01:30 was
+    /// starting a second session — its own curve was still on screen until 03:00.
+    /// The flat 6 h ceiling was the binding constraint, not the effect window.
+    @Test
+    func `A redose inside a long-acting dose's own window stays in the session`() {
+        let doses = [dose(0, effectHours: 8), dose(6.5, effectHours: 8)]
+        #expect(SessionClustering.cluster(doses) == [[0, 1]])
+    }
+
+    /// The duration-awareness is bounded on both sides: a short-acting substance
+    /// gets no more reach than the flat ceiling ever gave it.
+    @Test
+    func `A short-acting substance keeps the plain sleep ceiling`() {
+        // 2 h substance: 1.2 x 2 h = 2.4 h of tail, well under `ceilingMax`, so a
+        // 6.5 h gap must still split.
+        #expect(SessionClustering.cluster([dose(0, effectHours: 2), dose(6.5, effectHours: 2)]) == [[0], [1]])
+        // Clearing the ceiling is necessary but not sufficient — a 5 h gap is
+        // inside the 6 h ceiling yet still past both the always-join floor and
+        // this dose's own 2.4 h effect window, so it splits too.
+        #expect(SessionClustering.cluster([dose(0, effectHours: 2), dose(5, effectHours: 2)]) == [[0], [1]])
+        // Inside the floor, it joins as it always did.
+        #expect(SessionClustering.cluster([dose(0, effectHours: 2), dose(2.5, effectHours: 2)]) == [[0, 1]])
+    }
+
+    /// The widened ceiling is capped, so a very long-acting compound can't quietly
+    /// reintroduce the multi-day sessions the horizon exists to prevent.
+    @Test
+    func `The widened ceiling never exceeds its cap`() {
+        #expect(SessionClustering.Constants.freshCeiling(peakTail: 100 * 3_600)
+            == SessionClustering.Constants.ceilingDurationMax)
+        #expect(SessionClustering.Constants.freshCeiling(peakTail: 60)
+            == SessionClustering.Constants.ceilingMax)
+        #expect(SessionClustering.Constants.freshCeiling(peakTail: nil)
+            == SessionClustering.Constants.ceilingMax)
+    }
+
     // MARK: - Decaying ceiling / day cap
 
     @Test
@@ -98,16 +134,24 @@ struct SessionClusteringTests {
 
     @Test
     func `A long-acting tail is clamped so it cannot glue a later dose onto the session`() {
-        // A very long-acting dose (48 h modeled), a short one 3 h later, then a
-        // dose 5 h after that (8 h from the first). Without the effect-tail clamp
-        // the 48 h tail would keep the session "active" and absorb the last dose;
-        // clamped to 6 h, the last dose falls past the window and splits off.
+        // A very long-acting dose (48 h modeled), then two more. Without the
+        // effect-tail clamp the 48 h tail would keep the session "active"
+        // indefinitely and absorb every later dose; clamped to `effectTailCap`,
+        // a dose past that window splits off even though the gap itself is
+        // comfortably inside the sleep ceiling.
+        //
+        // The last dose sits at 11 h — past the 9 h clamp, but only 5 h after the
+        // previous one, so it is the *clamp* being tested here and not the
+        // ceiling. (This test previously placed it at 8 h, which was past the old
+        // 6 h clamp; the constant moved to 9 h when the flat ceiling was found to
+        // be splitting sessions mid-effect for anything longer-acting than ~5 h.)
         let doses = [
             dose(0, effectHours: 48),
             dose(3, effectHours: 1),
-            dose(8, effectHours: 1),
+            dose(6, effectHours: 1),
+            dose(11, effectHours: 1),
         ]
-        #expect(SessionClustering.cluster(doses) == [[0, 1], [2]])
+        #expect(SessionClustering.cluster(doses) == [[0, 1, 2], [3]])
     }
 
     // MARK: - Floor / fallback behavior

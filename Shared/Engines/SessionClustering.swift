@@ -33,8 +33,11 @@ import Foundation
 ///   Instead of a flat window, the ceiling *tightens as the session ages*, so a
 ///   fresh session tolerates a full night's gap but a day-old one splits on the
 ///   next real break:
-///     - ``ceilingMax`` (6 h) at `elapsed == 0` — a fresh session absorbs a
-///       short night's sleep.
+///     - ``Constants/freshCeiling(peakTail:)`` at `elapsed == 0` — a fresh
+///       session absorbs a short night's sleep. At least ``ceilingMax`` (6 h),
+///       widened toward ``ceilingDurationMax`` (9 h) by how long-acting the
+///       session's doses actually are, so an 8 h substance redosed 6.5 h later
+///       stays one session while a 12 h one redosed after 10 h does not.
 ///     - decays linearly to ``ceilingKnee`` (3 h) at ``knee`` (21 h), then
 ///     - decays linearly to ``ceilingEnd`` (~1 min) at ``horizon`` (24 h), so
 ///       the last few hours before the cap only absorb back-to-back doses.
@@ -50,7 +53,7 @@ import Foundation
 ///   merge if they really were one run.
 /// - ``k`` (1.2): how far past the modeled wear-off still counts as the same
 ///   session — people redose into the comedown and still call it one session.
-/// - ``effectTailCap`` (6 h): the per-dose effect tail is clamped to this for
+/// - ``effectTailCap`` (9 h): the per-dose effect tail is clamped to this for
 ///   *clustering* purposes, so a long-acting compound (memantine, a depot) can't
 ///   glue the next day's doses onto the session via a multi-day modeled tail.
 ///   (This only bounds session grouping; the timeline still draws the full
@@ -98,19 +101,48 @@ enum SessionClustering {
         static let k: Double = 1.2
         /// The per-dose effect tail used for clustering is clamped to this, so a
         /// long-acting compound can't hold a session open across a day.
-        static let effectTailCap: TimeInterval = 6 * 60 * 60
+        ///
+        /// Was 6 h, which silently disabled the duration-awareness ``k`` promises:
+        /// `6 h / 1.2 = 5 h`, so the "redosed into the comedown" clause could never
+        /// reach past five hours for *any* substance. Matched to
+        /// ``ceilingDurationMax`` so the two bounds agree — the 24 h ``horizon``
+        /// remains the guarantee that a session cannot chain days.
+        static let effectTailCap: TimeInterval = 9 * 60 * 60
         /// Effect duration assumed for a dose with no modeled curve, in minutes.
         static let fallbackEffectMinutes: Double = 240
 
+        /// Upper bound on a fresh session's ceiling once the substance's own
+        /// duration widens it. Keeps a very long-acting compound (LSD, a depot)
+        /// from tolerating an entire night's sleep as "still the same session";
+        /// past this, a quiescent gap really is a break.
+        static let ceilingDurationMax: TimeInterval = 9 * 60 * 60
+
+        /// The ceiling a *fresh* session tolerates, given the longest modeled
+        /// effect tail among its doses so far.
+        ///
+        /// A flat ``ceilingMax`` made the ceiling the binding constraint for every
+        /// substance past about five hours: an 8 h dose at 19:00 redosed at 01:30
+        /// had a 6.5 h gap against a 6 h ceiling and split, while the 19:00 curve
+        /// was still being drawn to 03:00 on screen. Scaling the fresh ceiling with
+        /// the modeled tail is what ``k`` always promised — "people redose into the
+        /// comedown and still call it one session" — and it is bounded on both
+        /// sides: never tighter than ``ceilingMax``, never wider than
+        /// ``ceilingDurationMax``. The age decay below is unchanged, so a session
+        /// that has already run long still splits on the next real break.
+        static func freshCeiling(peakTail: TimeInterval?) -> TimeInterval {
+            guard let peakTail else { return ceilingMax }
+            return min(max(ceilingMax, peakTail), ceilingDurationMax)
+        }
+
         /// The effective sleep ceiling for a hop, given how long the session has
-        /// already run. Two linear segments: ``ceilingMax`` → ``ceilingKnee`` over
+        /// already run. Two linear segments: `fresh` → ``ceilingKnee`` over
         /// `[0, knee]`, then ``ceilingKnee`` → ``ceilingEnd`` over `[knee, horizon]`.
         /// Clamped outside that range.
-        static func ceiling(elapsed: TimeInterval) -> TimeInterval {
+        static func ceiling(elapsed: TimeInterval, fresh: TimeInterval = ceilingMax) -> TimeInterval {
             let e = max(0, elapsed)
             if e >= horizon { return ceilingEnd }
             if e <= knee {
-                return ceilingMax - (ceilingMax - ceilingKnee) * (e / knee)
+                return fresh - (fresh - ceilingKnee) * (e / knee)
             }
             return ceilingKnee - (ceilingKnee - ceilingEnd) * ((e - knee) / (horizon - knee))
         }
@@ -135,9 +167,15 @@ enum SessionClustering {
         /// doses (background doses don't extend a session's bounds), but defined
         /// for all so the fallback lives here.
         var scaledEffectEnd: Date {
+            timestamp.addingTimeInterval(scaledTail)
+        }
+
+        /// How far past this dose its effect is still considered to run, for
+        /// clustering purposes — the modeled duration scaled by ``Constants/k``
+        /// and clamped to ``Constants/effectTailCap``.
+        var scaledTail: TimeInterval {
             let minutes = effectDurationMinutes ?? Constants.fallbackEffectMinutes
-            let tail = min(Constants.k * minutes * 60, Constants.effectTailCap)
-            return timestamp.addingTimeInterval(tail)
+            return min(Constants.k * minutes * 60, Constants.effectTailCap)
         }
     }
 
@@ -158,12 +196,24 @@ enum SessionClustering {
         /// `true` while every dose so far is a background medication.
         var isMaintenance: Bool
 
+        /// Longest scaled effect tail contributed by any non-background dose so
+        /// far — the session's own sense of "how long-acting is this". Drives
+        /// ``Constants/freshCeiling(peakTail:)``. `nil` for a maintenance session.
+        var peakTail: TimeInterval?
+
+        /// The ceiling this session tolerates while fresh, widened by whatever it
+        /// actually contains.
+        var freshCeiling: TimeInterval {
+            Constants.freshCeiling(peakTail: peakTail)
+        }
+
         /// Seed an open session from its first dose.
         init(firstDose dose: Dose) {
             startTime = dose.timestamp
             effectEnd = dose.isBackgroundMed ? nil : dose.scaledEffectEnd
             lastTime = dose.timestamp
             isMaintenance = dose.isBackgroundMed
+            peakTail = dose.isBackgroundMed ? nil : dose.scaledTail
         }
 
         /// Reconstruct the running state of an existing session from its doses,
@@ -185,6 +235,7 @@ enum SessionClustering {
                 isMaintenance = false
                 let end = dose.scaledEffectEnd
                 effectEnd = effectEnd.map { max($0, end) } ?? end
+                peakTail = peakTail.map { max($0, dose.scaledTail) } ?? dose.scaledTail
             }
         }
     }
@@ -220,7 +271,10 @@ enum SessionClustering {
         // fresh session tolerates a night's gap but a day-old one splits on the
         // next real break. (Negative gaps — an out-of-order insert — never trip
         // this; they fall through to the windows below.)
-        let ceiling = Constants.ceiling(elapsed: current.lastTime.timeIntervalSince(current.startTime))
+        let ceiling = Constants.ceiling(
+            elapsed: current.lastTime.timeIntervalSince(current.startTime),
+            fresh: current.freshCeiling,
+        )
         if gap > ceiling { return .newSession }
 
         if dose.isBackgroundMed {
