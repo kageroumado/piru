@@ -47,6 +47,10 @@ import SwiftData
             /// clusters across 90 days, the latest ~3 weeks ago. No scheduled
             /// meds, nothing active — the Journal is mostly empty space.
             case rareOpener
+            /// ``dailyMeds`` with the stimulant's tracked supply run down to
+            /// the low-stock threshold — the "refill me" state the store
+            /// screenshots need, which no adherence fixture reaches on its own.
+            case medsLowStock
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -66,7 +70,12 @@ import SwiftData
             case .dailyMeds: seedMedsPersona(context: context, sporadic: false)
             case .sporadicMeds: seedMedsPersona(context: context, sporadic: true)
             case .rareOpener: seedRareOpener(context: context)
+            case .medsLowStock: seedMedsPersona(context: context, sporadic: false, lowStock: true)
             }
+
+            // Inventory caches are a replay over doses, so they can only be
+            // filled once the doses above are in the context.
+            InventoryService.recomputeAll(in: context, notify: false)
 
             try? context.save()
             SessionService.assignUnassignedDoses(in: context)
@@ -140,7 +149,7 @@ import SwiftData
         /// The meds-user personas share one shape — a morning stimulant med
         /// and a quiet anytime supplement — and differ only in adherence.
         @MainActor
-        private static func seedMedsPersona(context: ModelContext, sporadic: Bool) {
+        private static func seedMedsPersona(context: ModelContext, sporadic: Bool, lowStock: Bool = false) {
             var rng = SeededRNG(seed: sporadic ? 20_260_722 : 20_260_721)
             let cal = Calendar.current
             let today = cal.startOfDay(for: .now)
@@ -162,6 +171,23 @@ import SwiftData
             // entries bypass that path).
             context.insert(QuickLogDose(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", sortOrder: 0))
             context.insert(QuickLogDose(substance: "Vitamin D", route: .oral, amount: 2_000, unit: "IU", sortOrder: 1))
+
+            // Tracked supply for the stimulant: one 250 mg fill, opened far
+            // enough back that the logged doses have eaten most of it. Stock is
+            // a replay over doses newer than `trackingStart`, so the fill date
+            // is the only dial — 14 days back leaves a comfortable ~2 weeks,
+            // 22 days back lands under the low-stock threshold.
+            let fillDaysAgo = lowStock ? 22 : 14
+            let fillDate = today.addingTimeInterval(-Double(fillDaysAgo) * 86_400 + 10 * 3_600)
+            context.insert(InventoryItem(
+                substance: "Methylphenidate",
+                unit: "mg",
+                trackingStart: fillDate,
+                lowStockThreshold: 50,
+                baselineQuantity: 250,
+                doseSize: 10,
+                manualEvents: [ManualEvent(kind: .initial, amount: 250, date: fillDate, note: "Pharmacy refill", setsBaseline: true)],
+            ))
 
             // Sporadic misses cluster (forgot for a few days, then a good
             // streak) — a Markov step, not per-day coin flips. The sporadic
