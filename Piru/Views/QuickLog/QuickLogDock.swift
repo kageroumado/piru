@@ -260,9 +260,6 @@ struct QuickLogDock: View {
                 searchFocused: $searchFocused,
                 onCancel: cancelSearch,
             )
-            // Inside the padding on purpose: the probe's own frame is then the
-            // field's frame, which is the thing the shear report is about.
-            .background { DockGeometryProbe(host: bookkeeping.host) }
             .padding(.horizontal, 16)
             .padding(.top, 16)
             .padding(.bottom, 6)
@@ -327,8 +324,11 @@ struct QuickLogDock: View {
         // Fill the sheet and pin to its top edge, in every face. The system
         // sheet's glass platter is the dock's surface throughout — we draw no
         // chrome of our own — and the search bar's position is then one
-        // constant (16pt) below the platter, which is the invariant
-        // ``DockGeometryProbe`` checks.
+        // constant (16pt) below the platter. That is the invariant the shear
+        // reports violate: measured on a 17 Pro Max / iOS 26.5, the bar's top
+        // sits 14.2pt below the sheet's at the bare pill (drawn scaled 0.888),
+        // 15.4 at medium (0.964) and 16.0 unscaled at large. Negative means the
+        // field has climbed out of its platter.
         //
         // This used to be two stacked frames, the inner one dropping to an
         // intrinsic height while ``isBare``. That made a *measured* value
