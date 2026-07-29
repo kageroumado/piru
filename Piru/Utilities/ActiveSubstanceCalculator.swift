@@ -11,8 +11,10 @@ struct ActiveSubstance: Identifiable {
     let totalRemaining: Double
     let doses: [DoseInfo]
 
+    /// Identity carries the unit: a substance logged in both mL and mg yields two
+    /// rows (they are not addable), and `ForEach` needs them to differ.
     var id: String {
-        name
+        "\(name)|\(unit)"
     }
     var eliminatedFraction: Double {
         1 - totalRemaining / totalDosed
@@ -59,6 +61,13 @@ enum ActiveSubstanceCalculator {
         }
 
         var grouped: [String: (name: String, unit: String, halfLife: Double, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
+        /// Group key must carry the unit family, not just the name. Two doses of
+        /// the same substance in µg/mg/g are one group (converted into whichever
+        /// unit arrived first); a dose in mL or IU is a *different* quantity and
+        /// gets its own group rather than being summed into a mass total.
+        func unitFamily(_ unit: String) -> String {
+            DoseUnit.convert(1, from: unit, to: "mg") == nil ? unit : "mass"
+        }
 
         for entry in entries {
             let substance = cachedLookup(entry.substance)
@@ -84,7 +93,9 @@ enum ActiveSubstanceCalculator {
             let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
             let ka: Double
             if let sub = substance,
-               let duration = sub.resolveDuration(for: entry.route) {
+               let duration = sub.resolveDuration(
+                   for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
+               ) {
                 let ttp = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
                 ka = ttp > 0 ? PKModel.estimateKa(timeToPeak: ttp, ke: ke) : PKModel.defaultKa(ke: ke)
             } else {
@@ -95,34 +106,46 @@ enum ActiveSubstanceCalculator {
 
             guard fraction > 0.03 else { continue }
 
-            let doseInfo = ActiveSubstance.DoseInfo(
-                amount: entry.amount,
-                remaining: remaining,
-                timestamp: entry.timestamp,
-            )
+            let name = substance?.name ?? entry.substance
+            let key = "\(name)|\(unitFamily(entry.unit))"
 
-            let key = substance?.name ?? entry.substance
             if var existing = grouped[key] {
-                existing.doses.append(doseInfo)
-                existing.totalDosed += entry.amount
-                existing.totalRemaining += remaining
+                // Express this dose in the group's established unit. Same family
+                // by construction, so the conversion cannot fail; the fallback
+                // keeps it honest rather than silently mixing scales.
+                let amount = DoseUnit.convert(entry.amount, from: entry.unit, to: existing.unit) ?? entry.amount
+                let converted = DoseUnit.convert(remaining, from: entry.unit, to: existing.unit) ?? remaining
+                existing.doses.append(ActiveSubstance.DoseInfo(
+                    amount: amount,
+                    remaining: converted,
+                    timestamp: entry.timestamp,
+                ))
+                existing.totalDosed += amount
+                existing.totalRemaining += converted
                 grouped[key] = existing
             } else {
                 grouped[key] = (
-                    name: key,
-                    unit: substance?.defaultUnit ?? "mg",
+                    name: name,
+                    // The unit the user actually logged. Taking it from the
+                    // library's `defaultUnit` instead printed "7.2 mg" under two
+                    // 3.6 g doses of gabapentin — right number, wrong suffix.
+                    unit: entry.unit,
                     halfLife: halfLife,
-                    doses: [doseInfo],
+                    doses: [ActiveSubstance.DoseInfo(
+                        amount: entry.amount,
+                        remaining: remaining,
+                        timestamp: entry.timestamp,
+                    )],
                     totalDosed: entry.amount,
                     totalRemaining: remaining,
                 )
             }
         }
 
-        return grouped.map { name, info in
-            let color = colorMap[name.lowercased()] ?? Theme.accent
+        return grouped.map { _, info in
+            let color = colorMap[info.name.lowercased()] ?? Theme.accent
             return ActiveSubstance(
-                name: name,
+                name: info.name,
                 unit: info.unit,
                 color: color,
                 halfLifeMinutes: info.halfLife,
@@ -215,7 +238,11 @@ extension ActiveSubstanceState {
         let doseRange = Self.resolveDoseRange(substance: substance, route: entry.route)
         let intensity = Self.computeDoseIntensity(amount: entry.amount, doseRange: doseRange)
         let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
-        if let duration = substance.timelineDuration(for: entry.route) {
+        // Narrowed to the form actually logged — a D-isomer dose must not be drawn
+        // with the racemic curve the detail card would never have shown it.
+        if let duration = substance.timelineDuration(
+            for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
+        ) {
             return ActiveSubstanceState(
                 // Canonical common name, so a dose logged under an alias (e.g. "Lysergic Acid
                 // Diethylamide") labels its curve "LSD" like the rest of the app.

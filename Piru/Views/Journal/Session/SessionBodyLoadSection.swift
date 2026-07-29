@@ -129,9 +129,18 @@ struct SessionBodyLoadModel {
         let count: Int
         /// The session's summed amount.
         let sessionTotal: Double
+        /// Unit `sessionTotal` and `remaining` are denominated in — the unit the
+        /// doses were *logged* in, not the library's default for the substance.
+        /// Mirrors `Cleared.unit`; without it this row printed grams with an "mg"
+        /// suffix.
+        let unit: String
+        /// Amount still circulating, converted into `unit`. Held here rather than
+        /// read off `active.totalRemaining` so the numerator and the denominator
+        /// of the readout can never be in different units.
+        let remaining: Double
 
         var id: String {
-            active.name
+            "\(active.name)|\(unit)"
         }
     }
 
@@ -170,7 +179,13 @@ struct SessionBodyLoadModel {
             let canonical = SubstanceLibrary.timelineLookup(entry.substance)?.name ?? entry.substance
             let key = canonical.lowercased()
             if var group = groups[key] {
-                group.total += entry.amount
+                // Convert into the unit this group already established rather
+                // than adding raw magnitudes — 500 mg + 1 g is 1500 mg, not 501
+                // of anything. An inconvertible unit (mL, IU) can't be summed at
+                // all, so it contributes its count but not its amount.
+                if let amount = DoseUnit.convert(entry.amount, from: entry.unit, to: group.unit) {
+                    group.total += amount
+                }
                 group.count += 1
                 groups[key] = group
             } else {
@@ -197,11 +212,20 @@ struct SessionBodyLoadModel {
                     count: group?.count ?? active.doses.count,
                 ))
             } else {
+                // `group` counts every dose in the session; `active` counts only
+                // those still circulating, so the two can settle on different
+                // units when the session's first dose was skipped. Convert into
+                // the displayed one.
+                let unit = group?.unit ?? active.unit
+                let remaining = DoseUnit.convert(active.totalRemaining, from: active.unit, to: unit)
+                    ?? active.totalRemaining
                 model.active.append(Active(
                     active: active,
                     displayName: CustomSubstanceStore.shared.displayName(for: active.name),
                     count: group?.count ?? active.doses.count,
                     sessionTotal: group?.total ?? active.totalDosed,
+                    unit: unit,
+                    remaining: remaining,
                 ))
             }
         }
@@ -355,11 +379,11 @@ struct SessionBodyLoadSection: View {
                 name: row.displayName,
                 count: row.count,
                 total: row.sessionTotal,
-                unit: row.active.unit,
+                unit: row.unit,
                 status: .eliminating(
                     percent: Int(row.active.eliminatedFraction * 100),
                     clear: SessionBodyLoadModel.clearText(for: row.active),
-                    remaining: row.active.totalRemaining,
+                    remaining: row.remaining,
                 ),
             )
         }

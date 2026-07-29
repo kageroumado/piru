@@ -127,11 +127,11 @@ struct SessionShareCard: View {
                 name: row.displayName,
                 count: row.count,
                 total: row.sessionTotal,
-                unit: row.active.unit,
+                unit: row.unit,
                 status: .eliminating(
                     percent: Int(row.active.eliminatedFraction * 100),
                     clear: SessionBodyLoadModel.clearText(for: row.active),
-                    remaining: row.active.totalRemaining,
+                    remaining: row.remaining,
                 ),
             )
         }
