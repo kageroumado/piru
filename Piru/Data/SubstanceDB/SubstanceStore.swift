@@ -187,6 +187,14 @@ final class SubstanceStore {
     /// full SQL scan tax.
     private(set) var nameIndex: [String: Int64] = [:]
     private(set) var aliasIndex: [String: Int64] = [:]
+    /// Row ids the build flagged `is_stub` — no dose ranges at all. They stay in
+    /// the library (their identifiers and aliases are still worth having) but
+    /// lose name-resolution ties to a substance that actually carries data.
+    private(set) var stubIDs: Set<Int64> = []
+    /// Every substance owning a given normalized alias, in table order. Only the
+    /// keys owned by more than one substance are kept — 123 of ~5.8k — so this is
+    /// a small side table consulted purely to skip a stub that won first-wins.
+    private(set) var aliasOwners: [String: [Int64]] = [:]
     /// Normalized alias → the alias in its display casing ("concerta" → "Concerta").
     /// `alias_normalized` is the *pipeline's* normalization — Greek-cap folding and
     /// all — which `lowercased()` does not reproduce, so a search hit recovers its
@@ -644,10 +652,16 @@ final class SubstanceStore {
 
     private func buildIndexes() {
         do {
-            let (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles):
-                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)]) = try substancesDB.read { db in
-                    let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE")
+            let (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles, stubs):
+                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)], Set<Int64>) = try substancesDB.read { db in
+                    let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid, is_stub FROM substances ORDER BY canonical_name COLLATE NOCASE")
                     let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
+                    // Rows the build flagged as carrying no dose data at all. Kept
+                    // so their identifiers/aliases stay reachable, but demoted in
+                    // name resolution (see `substanceID(forNameOrAlias:)`).
+                    let stubs = Set(nameRows.compactMap { row -> Int64? in
+                        (row["is_stub"] as Int64? ?? 0) != 0 ? row["id"] as Int64 : nil
+                    })
                     let uids = nameRows.compactMap { row -> (Int64, String)? in
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
@@ -676,8 +690,9 @@ final class SubstanceStore {
                             row["display_name"] as String,
                         )
                     }
-                    return (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles)
+                    return (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles, stubs)
                 }
+            self.stubIDs = stubs
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an
@@ -688,10 +703,15 @@ final class SubstanceStore {
                 logger.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
             }
             var ax: [String: Int64] = [:]
-            for (alias, sid) in aliases where ax[alias] == nil {
-                ax[alias] = sid
+            var owners: [String: [Int64]] = [:]
+            for (alias, sid) in aliases {
+                if ax[alias] == nil { ax[alias] = sid }
+                owners[alias, default: []].append(sid)
             }
             self.aliasIndex = ax
+            // Keep only the contested keys; a single-owner alias can never need
+            // the stub-skipping fallback.
+            self.aliasOwners = owners.filter { $0.value.count > 1 }
             // First-wins, matching `aliasIndex`: two aliases normalizing to the same
             // key ("Biphentin"/"biphentin") resolve to one substance, so they must
             // resolve to one display form too.
@@ -795,7 +815,34 @@ final class SubstanceStore {
     /// having *no* pharmacology at all and silently drop it.
     func substanceID(forNameOrAlias name: String) -> Int64? {
         let key = name.lowercased()
-        return nameIndex[key] ?? aliasIndex[key]
+        let byName = nameIndex[key]
+        let byAlias = aliasIndex[key]
+        // Canonical name wins — except when it names a data-less stub and the same
+        // string also resolves, via the alias index, to a substance that has data.
+        // `pyrls` ships "Dextroamphetamine-Amphetamine" as its own row with zero
+        // dose, duration, PK and half-life rows; because `nameIndex` is consulted
+        // first, logging that exact name resolved to the empty row and drew
+        // nothing, while the alias "Adderall" resolved to Amphetamine and drew a
+        // full curve.
+        //
+        // The preference runs both ways round: a *name* hit that is a stub yields
+        // to a non-stub alias hit, and when there is no name hit at all the alias
+        // index is asked for a non-stub owner before falling back to whichever
+        // substance happens to be first. 817 of the 1912 rows are stubs and 123
+        // alias keys are owned by more than one substance, so "first-wins landed
+        // on the empty one" is not a rare shape.
+        if let byName, !stubIDs.contains(byName) { return byName }
+        if let byAlias, !stubIDs.contains(byAlias) { return byAlias }
+        if let nonStub = nonStubAliasOwner(for: key) { return nonStub }
+        return byName ?? byAlias
+    }
+
+    /// A substance owning `key` as an alias that actually carries data, when the
+    /// first-wins ``aliasIndex`` entry is a stub. `nil` when every owner is a stub
+    /// (then the stub is the honest answer).
+    private func nonStubAliasOwner(for key: String) -> Int64? {
+        guard let owners = aliasOwners[key] else { return nil }
+        return owners.first { !stubIDs.contains($0) }
     }
 
     // MARK: - PSID resolution (see SubstanceStore+PSID.swift for the name→uid maps)
