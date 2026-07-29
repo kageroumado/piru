@@ -2745,6 +2745,7 @@ T = {
     # Routes of administration
     "Oral": ("口服", "口服"),
     "Sublingual": ("舌下", "舌下"),
+    "Buccal": ("颊黏膜", "頰黏膜"),
     "Insufflation": ("鼻吸", "鼻吸"),
     "Inhalation": ("吸入", "吸入"),
     "Intravenous": ("静脉注射", "靜脈注射"),
@@ -5636,6 +5637,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Buccal",
         "More actions",
         "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",
         "Recreational doses — not a prescribed amount",
