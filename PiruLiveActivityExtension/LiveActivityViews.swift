@@ -26,11 +26,18 @@ enum SessionTiming {
     }
 
     /// The next phase boundary any active substance will cross, evaluated at
-    /// `lastUpdated`. `phase` is the phase being *entered* at `date`, tinted
-    /// with that substance's color. `nil` once every substance has fully run
-    /// its course (the app ends the activity around then anyway).
-    static func nextTransition(_ state: PiruActivityAttributes.ContentState) -> PhaseTransition? {
-        let now = state.lastUpdated
+    /// `asOf` (defaulting to the real current time, **not** `state.lastUpdated`).
+    /// `phase` is the phase being *entered* at `date`, tinted with that
+    /// substance's color. `nil` once every substance has fully run its course
+    /// (the app ends the activity around then anyway).
+    ///
+    /// Evaluating at `lastUpdated` meant the phase label was frozen to whenever
+    /// the app last pushed. Every render this view gets — a content update, the
+    /// scheduled `staleDate` re-render, a system redraw — now reflects the moment
+    /// it is actually drawn, which is strictly more accurate and costs nothing.
+    static func nextTransition(
+        _ state: PiruActivityAttributes.ContentState, asOf now: Date = .now,
+    ) -> PhaseTransition? {
         var next: PhaseTransition?
         for sub in state.activeSubstances {
             var boundaries: [(SessionPhase, Double)] = [
@@ -53,6 +60,17 @@ enum SessionTiming {
         }
         return next
     }
+}
+
+/// Constants describing how far the Lock Screen's picture of "now" can lag.
+enum LiveActivityTiming {
+    /// Width of the "you are somewhere in here" band, in minutes.
+    ///
+    /// Matched to `LiveActivityManager.maximumTick` — the longest the app will go
+    /// between foreground pushes — so the band covers the realistic worst case
+    /// without overstating it. It is not a guess at the OS's delivery latency; it
+    /// is the interval we ourselves guarantee nothing within.
+    static let nowUncertaintyMinutes: Double = 15
 }
 
 /// An upcoming phase change: which phase begins, when, and the color of the
@@ -153,7 +171,7 @@ struct SessionRingsView: View {
         return newestFirst.enumerated().map { index, sub in
             let start = fraction(sub.doseTimestamp)
             let subEnd = fraction(sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60))
-            let now = fraction(state.lastUpdated)
+            let now = fraction(.now)
             let end = min(max(min(now, subEnd), start + Self.minimumSweep), 1)
             return Ring(id: index, color: Color(hex: sub.colorHex), startFraction: start, endFraction: end)
         }
@@ -298,9 +316,12 @@ struct LockScreenView: View {
             // Timeline graph — updates when Live Activity state is pushed.
             TimelineGraphView(
                 substances: state.activeSubstances,
-                currentTime: state.lastUpdated,
+                currentTime: .now,
                 compact: true,
                 stackRedoses: stackRedoses,
+                // ActivityKit won't let us repaint on demand, so the drawn instant
+                // is a lower bound on "now" — say that with a band.
+                nowUncertaintyMinutes: LiveActivityTiming.nowUncertaintyMinutes,
                 synchronous: true,
             )
             .frame(height: 80)
@@ -381,9 +402,10 @@ struct ExpandedBottomView: View {
     var body: some View {
         TimelineGraphView(
             substances: context.state.activeSubstances,
-            currentTime: context.state.lastUpdated,
+            currentTime: .now,
             compact: true,
             stackRedoses: stackRedoses,
+            nowUncertaintyMinutes: LiveActivityTiming.nowUncertaintyMinutes,
             synchronous: true,
         )
         .frame(height: 58)

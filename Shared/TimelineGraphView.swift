@@ -1,123 +1,5 @@
 import SwiftUI
 
-/// Shared spacing scale for the timeline graph and its host views. One source of
-/// truth so the canvas inset, card insets, and label bands stay in proportion
-/// instead of drifting across five unrelated magic numbers.
-enum GraphMetrics {
-    /// Inset between the card edge and the drawn curves on the full graph.
-    /// Sized so strokes and axis labels stay clear of the hosting card's
-    /// rounded-corner arc — content drawn into that zone gets sliced.
-    static let canvasInset: CGFloat = 14
-    /// Inset on compact thumbnails — kept tight so small cards aren't eaten by padding.
-    static let compactInset: CGFloat = 2
-    /// Vertical breathing for the bordered chart host — the curves run flush to the
-    /// side frame horizontally, but keep a small gap above/below so the peak and
-    /// baseline don't jam the top label band and the origin line.
-    static let chartFrameVInset: CGFloat = 8
-    /// Padding inside the hosting card / section.
-    static let cardInset: CGFloat = 12
-    /// Vertical rhythm between stacked graph elements.
-    static let section: CGFloat = 12
-    /// Height of the clock-time label band below the full graph.
-    static let axisLabels: CGFloat = 16
-    /// Height of the relative-hour label band above the full graph.
-    static let topLabels: CGFloat = 12
-    /// Resting height of the embedded full graph in day/entry detail.
-    static let embedded: CGFloat = 168
-    /// Enlarged (tapped-open) height for overlapping-curve days.
-    static let enlarged: CGFloat = 320
-    /// Height of the companion vitals (heart-rate) lane drawn below the effect
-    /// curves, plus the gap separating it from them. Added to the canvas height
-    /// only on the full graph when the session has heart-rate data, so the
-    /// effect region keeps its normal size and the lane sits in the extra space.
-    /// Grows with the enlarged graph so the trace gets more room too.
-    static func vitalsBand(enlarged: Bool) -> CGFloat {
-        enlarged ? 74 : 54
-    }
-    static let vitalsBandGap: CGFloat = 8
-    static func vitalsBandTotal(enlarged: Bool) -> CGFloat {
-        vitalsBand(enlarged: enlarged) + vitalsBandGap
-    }
-
-    /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
-    /// heights; lane-mode days grow with the lane count so each horizon strip
-    /// keeps a readable minimum. Single source of truth for the day-detail
-    /// section, the export image, and anywhere else that sizes the graph.
-    static func graphHeight(enlarged: Bool, laneCount: Int, laneModeEnabled: Bool, laneModeThreshold: Int) -> CGFloat {
-        let base = enlarged ? Self.enlarged : embedded
-        guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
-        let perLane: CGFloat = enlarged ? 46 : 32
-        let axisOverhead: CGFloat = 40
-        let ideal = CGFloat(laneCount) * perLane + axisOverhead
-        return max(base, min(ideal, enlarged ? 560 : 380))
-    }
-}
-
-/// UserDefaults keys, defaults, and bounds for the lane-mode ("small multiples")
-/// preference. One source of truth so the Settings UI, the host views that size
-/// the graph card, and the graph's own gate all agree. Stored in the app group
-/// suite so the widget/Live Activity honor the same choice as the main app.
-enum LaneModeDefaults {
-    static let suite = "group.dev.yumeji.piru"
-    static let enabledKey = "stackedLanesEnabled"
-    static let thresholdKey = "laneModeThreshold"
-    static let enabledDefault = true
-    static let thresholdDefault = 4
-    /// Allowed stepper range — needs ≥2 distinct substances before lanes mean
-    /// anything, and beyond ~8 the day is busy by any measure.
-    static let thresholdRange = 2 ... 8
-}
-
-/// UserDefaults key and default for the session-detail "Expand Graph" preference.
-/// Persisting it means a user who prefers the taller inline timeline keeps it
-/// across every session and launch, instead of it resetting each time the view
-/// appears. Both the session toolbar toggle and the Journal settings toggle read
-/// and write this one key.
-enum SessionGraphDefaults {
-    static let suite = "group.dev.yumeji.piru"
-    static let enlargedKey = "sessionGraphEnlarged"
-    static let enlargedDefault = false
-}
-
-/// A dose without duration data, shown as a timestamp marker on the graph.
-struct DoseMarker: Hashable {
-    let substanceName: String
-    let timestamp: Date
-    let colorHex: String
-    let amount: Double
-    let unit: String
-}
-
-/// Process-wide cache of computed timeline geometry, keyed by curve inputs.
-///
-/// The PK-curve geometry is expensive to derive but identical for the same
-/// doses, so we compute each once (off the main thread) and reuse it. This is
-/// what makes re-scrolling the journal and returning from a day detail instant:
-/// the value-typed ``TimelineGraphView/DerivedKey`` matches even though the
-/// `ActiveSubstanceState` instances were rebuilt, so the lookup hits. Bounded
-/// LRU so a long history doesn't grow it without limit.
-@MainActor
-final class TimelineModelCache {
-    static let shared = TimelineModelCache()
-
-    private var store: [TimelineGraphView.DerivedKey: TimelineCurveModel.Derived] = [:]
-    private var order: [TimelineGraphView.DerivedKey] = []
-    private let limit = 120
-
-    func cached(_ key: TimelineGraphView.DerivedKey) -> TimelineCurveModel.Derived? {
-        store[key]
-    }
-
-    func insert(_ value: TimelineCurveModel.Derived, for key: TimelineGraphView.DerivedKey) {
-        if store[key] == nil { order.append(key) }
-        store[key] = value
-        while order.count > limit {
-            let evicted = order.removeFirst()
-            store[evicted] = nil
-        }
-    }
-}
-
 struct TimelineGraphView: View, Equatable {
     let substances: [ActiveSubstanceState]
     let currentTime: Date
@@ -128,6 +10,18 @@ struct TimelineGraphView: View, Equatable {
     /// session accessory and the full detail graph; off for the historical
     /// journal thumbnails, where it's an axis-less artifact.
     var showNowIndicator: Bool = true
+    /// How far ahead of `currentTime` the real "now" may already have drifted, in
+    /// minutes. `0` draws the usual hairline rule.
+    ///
+    /// For the Live Activity this is non-zero and honest. The graph is a static
+    /// image between renders, and ActivityKit gives an app no way to schedule
+    /// arbitrary repaints — so by the time the Lock Screen is actually looked at,
+    /// true "now" is somewhere between the instant this was drawn and the next
+    /// repaint. A 2.5pt rule claims a precision the platform does not permit.
+    /// Instead the indicator becomes a translucent band running forward from the
+    /// drawn instant, with the crisp edge at the moment we do know: "you are
+    /// somewhere in here."
+    var nowUncertaintyMinutes: Double = 0
     /// When set (case-insensitive substance name), that curve renders at full
     /// strength and every other curve is dimmed — drives the fullscreen legend's
     /// tap-to-isolate. Nil means the normal active/worn-off emphasis applies.
@@ -225,8 +119,26 @@ struct TimelineGraphView: View, Equatable {
         rawActivityTail: 1,
     )
 
+    /// The model computed in `init` on the `synchronous:` path, held as a plain
+    /// stored property rather than `@State`.
+    ///
+    /// This is what unfroze the Live Activity graph. `State(initialValue:)` is
+    /// honored **only on the first construction of a given view identity**; on
+    /// every later evaluation of that same identity the stored value wins and the
+    /// seed is silently discarded. A Live Activity keeps its identity across
+    /// content-state updates, so the curves stayed pinned to whatever dose set
+    /// existed at the first render — and since ``DerivedKey`` deliberately excludes
+    /// `currentTime`, the frozen model also froze `earliestDose`, the graph's
+    /// entire x-axis anchor. Back-dating a dose therefore redrew every curve
+    /// against a stale origin. Restarting the activity was the only fix, because
+    /// `Activity.request` was the only thing that minted a new identity.
+    ///
+    /// A plain `let` is recomputed by `init` on every evaluation, so it always
+    /// reflects the state being rendered. The async path is untouched.
+    private let synchronousDerived: TimelineCurveModel.Derived?
+
     private var derived: TimelineCurveModel.Derived {
-        derivedBox ?? Self.emptyDerived
+        synchronousDerived ?? derivedBox ?? Self.emptyDerived
     }
 
     /// Equatable so call sites can wrap the graph in `.equatable()` and let
@@ -247,6 +159,7 @@ struct TimelineGraphView: View, Equatable {
               lhs.stackRedoses == rhs.stackRedoses,
               lhs.dayBounded == rhs.dayBounded,
               lhs.showNowIndicator == rhs.showNowIndicator,
+              lhs.nowUncertaintyMinutes == rhs.nowUncertaintyMinutes,
               lhs.highlighted == rhs.highlighted,
               lhs.presetSpanMinutes == rhs.presetSpanMinutes,
               lhs.markers == rhs.markers,
@@ -271,6 +184,7 @@ struct TimelineGraphView: View, Equatable {
         markers: [DoseMarker] = [],
         stackRedoses: Bool = false,
         showNowIndicator: Bool = true,
+        nowUncertaintyMinutes: Double = 0,
         highlighted: String? = nil,
         presetSpanMinutes: Double? = nil,
         dayBounded: Bool = false,
@@ -286,6 +200,7 @@ struct TimelineGraphView: View, Equatable {
         self.markers = markers
         self.stackRedoses = stackRedoses
         self.showNowIndicator = showNowIndicator
+        self.nowUncertaintyMinutes = nowUncertaintyMinutes
         self.highlighted = highlighted
         self.presetSpanMinutes = presetSpanMinutes
         self.dayBounded = dayBounded
@@ -298,18 +213,22 @@ struct TimelineGraphView: View, Equatable {
             // Live Activity / widget snapshots render in one synchronous pass —
             // `.task` never fires before the snapshot is taken — so compute (or
             // reuse) the model inline. The cost is fine off the scroll hot path.
+            let model: TimelineCurveModel.Derived
             if let cached = TimelineModelCache.shared.cached(key) {
-                _derivedBox = State(initialValue: cached)
+                model = cached
             } else {
-                let model = TimelineCurveModel.computeDerived(
+                model = TimelineCurveModel.computeDerived(
                     substances: substances, markers: markers,
                     stackRedoses: stackRedoses, dayBounded: dayBounded, currentTime: currentTime,
                 )
                 TimelineModelCache.shared.insert(model, for: key)
-                _derivedBox = State(initialValue: model)
             }
+            // Held in a plain `let`, not `@State` — see `synchronousDerived`.
+            synchronousDerived = model
+            _derivedBox = State(initialValue: model)
             _loadedKey = State(initialValue: key)
         } else {
+            synchronousDerived = nil
             // Synchronous cache read only — never compute here. A hit renders
             // immediately (no placeholder frame); a miss leaves `nil` and the
             // `.task` computes off-main, popping the curves in when ready.
@@ -1134,20 +1053,46 @@ struct TimelineGraphView: View, Equatable {
             // axis no longer stretches out to reach it (see `spanIncludingMarkers`).
             // Skipped on compact thumbnails, where a full-height line reads as a
             // glitch, not a "you are here" cue.
-            if !compact, hasActiveNow, scrubX == nil, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
-                var nowLine = Path()
-                nowLine.move(to: CGPoint(x: nowX, y: graphTop))
-                // Extend through the companion vitals lane so the "you are here"
-                // rule is one continuous line across both the curves and the HR band.
-                nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight + vitalsBandTotal))
-                context.stroke(nowLine, with: .color(.primary.opacity(0.7)), lineWidth: 2.5)
-                // A small dot centered on the baseline (the origin line), anchoring
-                // the rule to "now" on the time axis rather than floating at the top.
-                let capRadius: CGFloat = 3
-                context.fill(
-                    Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop + graphHeight - capRadius, width: capRadius * 2, height: capRadius * 2)),
-                    with: .color(.primary.opacity(0.7)),
-                )
+            // The uncertainty band is drawn even on a compact graph — that is the
+            // Live Activity's only honest "you are here", and unlike a full-height
+            // hairline it reads as a region rather than a glitch.
+            let drawsNowRule = !compact
+            let drawsNowBand = nowUncertaintyMinutes > 0
+            if drawsNowRule || drawsNowBand, hasActiveNow, scrubX == nil, nowMinutes >= 0,
+               nowX >= graphInset, nowX <= graphInset + graphWidth {
+                let indicatorBottom = graphTop + graphHeight + vitalsBandTotal
+                if drawsNowBand {
+                    let bandEnd = min(
+                        graphInset + CGFloat((nowMinutes + nowUncertaintyMinutes - vStart) / vSpan) * graphWidth,
+                        graphInset + graphWidth,
+                    )
+                    if bandEnd > nowX {
+                        context.fill(
+                            Path(CGRect(x: nowX, y: graphTop, width: bandEnd - nowX, height: indicatorBottom - graphTop)),
+                            with: .color(.primary.opacity(0.16)),
+                        )
+                        // The crisp leading edge is the one instant we do know.
+                        var edge = Path()
+                        edge.move(to: CGPoint(x: nowX, y: graphTop))
+                        edge.addLine(to: CGPoint(x: nowX, y: indicatorBottom))
+                        context.stroke(edge, with: .color(.primary.opacity(0.55)), lineWidth: 1.5)
+                    }
+                }
+                if drawsNowRule {
+                    var nowLine = Path()
+                    nowLine.move(to: CGPoint(x: nowX, y: graphTop))
+                    // Extend through the companion vitals lane so the "you are here"
+                    // rule is one continuous line across both curves and the HR band.
+                    nowLine.addLine(to: CGPoint(x: nowX, y: indicatorBottom))
+                    context.stroke(nowLine, with: .color(.primary.opacity(0.7)), lineWidth: 2.5)
+                    // A small dot centered on the baseline (the origin line), anchoring
+                    // the rule to "now" on the time axis rather than floating at the top.
+                    let capRadius: CGFloat = 3
+                    context.fill(
+                        Path(ellipseIn: CGRect(x: nowX - capRadius, y: graphTop + graphHeight - capRadius, width: capRadius * 2, height: capRadius * 2)),
+                        with: .color(.primary.opacity(0.7)),
+                    )
+                }
             }
 
             // Pan-extent indicator — a 2pt track at the very bottom showing the

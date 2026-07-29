@@ -302,13 +302,46 @@ final class LiveActivityManager {
 
     // MARK: - Private
 
+    /// Schedule the next foreground push for when the display will actually
+    /// change, instead of every 60 s regardless.
+    ///
+    /// A flat one-minute tick spent the (finite, undocumented) ActivityKit update
+    /// budget on repaints that mostly showed the same phase and a near-identical
+    /// curve — and it is the budget running out that produces the "sometimes it
+    /// just doesn't update" reports. Firing on the next phase boundary means an
+    /// hour-long quiet stretch costs one update instead of sixty, leaving budget
+    /// for the moments that matter. Clamped so a boundary seconds away doesn't
+    /// spin and a distant one still refreshes periodically.
     private func startUpdateTimer() {
         updateTimer?.invalidate()
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        let delay = min(max(nextChangeInterval(), Self.minimumTick), Self.maximumTick)
+        updateTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
             // Timer fires on the main run loop, so we're already on the main actor.
             MainActor.assumeIsolated { self?.periodicUpdate() }
         }
     }
+
+    /// Seconds until the next phase boundary across every active substance, or
+    /// ``maximumTick`` when nothing is pending.
+    private func nextChangeInterval() -> TimeInterval {
+        let now = Date.now
+        let next = ActiveSessionManager.shared.activeEntries.flatMap { item -> [Date] in
+            guard let duration = item.duration else { return [] }
+            let start = item.snapshot.timestamp
+            let bounds = duration.phaseBoundaries
+            return [
+                bounds.onsetEnd, bounds.comeupEnd, bounds.peakEnd,
+                bounds.offsetEnd, bounds.afterglowEnd,
+            ].map { start.addingTimeInterval($0 * 60) }
+        }
+        .filter { $0 > now }
+        .min()
+        guard let next else { return Self.maximumTick }
+        return next.timeIntervalSince(now)
+    }
+
+    private static let minimumTick: TimeInterval = 30
+    private static let maximumTick: TimeInterval = 15 * 60
 
     private func stopUpdateTimer() {
         updateTimer?.invalidate()
@@ -326,6 +359,8 @@ final class LiveActivityManager {
             let state = session.buildContentState(colorMap: session.cachedColorMap)
             pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
         }
+        // The tick is one-shot; re-arm it for the *next* boundary.
+        startUpdateTimer()
     }
 
     private func startActivity(state: PiruActivityAttributes.ContentState) {
@@ -349,14 +384,53 @@ final class LiveActivityManager {
         }
     }
 
+    /// When the pushed content should be treated as out of date.
+    ///
+    /// ActivityKit gives an app no way to schedule an arbitrary future re-render:
+    /// the view is redrawn on a content update, and once more when it goes stale.
+    /// That single stale re-render is the only scheduled repaint available, so it
+    /// is spent where the display actually changes — **the next phase boundary any
+    /// active substance crosses** — rather than on a flat five-minute tick that
+    /// usually lands mid-phase and repaints nothing new.
+    ///
+    /// Bounded on both sides: never sooner than ``minimumStale`` (so a dose logged
+    /// seconds before a boundary can't burn the budget on an instant repaint),
+    /// never later than ``maximumStale`` (so a long quiet stretch still refreshes
+    /// eventually), and never past the session's own end.
     private func staleDate() -> Date? {
-        let shortStale = Date.now.addingTimeInterval(5 * 60)
+        let now = Date.now
         let session = ActiveSessionManager.shared
-        let substanceEnd = session.activeEntries.compactMap { item -> Date? in
+
+        let sessionEnd = session.activeEntries.compactMap { item -> Date? in
             guard let duration = item.duration else { return nil }
             return item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
         }.max()
-        guard let end = substanceEnd else { return shortStale }
-        return min(shortStale, end)
+
+        // Every phase boundary still ahead of us, across every active substance.
+        let nextBoundary = session.activeEntries.flatMap { item -> [Date] in
+            guard let duration = item.duration else { return [] }
+            let start = item.snapshot.timestamp
+            let bounds = duration.phaseBoundaries
+            return [
+                bounds.onsetEnd, bounds.comeupEnd, bounds.peakEnd,
+                bounds.offsetEnd, bounds.afterglowEnd,
+            ].map { start.addingTimeInterval($0 * 60) }
+        }
+        .filter { $0 > now }
+        .min()
+
+        let target = nextBoundary ?? now.addingTimeInterval(Self.maximumStale)
+        let clamped = min(
+            max(target, now.addingTimeInterval(Self.minimumStale)),
+            now.addingTimeInterval(Self.maximumStale),
+        )
+        guard let sessionEnd else { return clamped }
+        return min(clamped, sessionEnd)
     }
+
+    /// Floor on ``staleDate`` — a boundary closer than this isn't worth a repaint.
+    private static let minimumStale: TimeInterval = 60
+    /// Ceiling on ``staleDate`` — the display should never claim freshness for
+    /// longer than this, however quiet the session.
+    private static let maximumStale: TimeInterval = 30 * 60
 }
