@@ -186,18 +186,18 @@
   },
   "phase/comeup/text": {
    "any": {
-    "srgb_hex": "0067C7"
+    "srgb_hex": "106AC8"
    },
    "dark": {
-    "srgb_hex": "4599FE"
+    "srgb_hex": "3B8DED"
    }
   },
   "phase/comeup/accent": {
    "any": {
-    "srgb_hex": "0085FE"
+    "srgb_hex": "3D8EEF"
    },
    "dark": {
-    "srgb_hex": "0085FE"
+    "srgb_hex": "0063BF"
    }
   },
   "phase/peak/text": {
@@ -205,20 +205,20 @@
     "srgb_hex": "007C2C"
    },
    "dark": {
-    "srgb_hex": "00FC63"
+    "srgb_hex": "20B64B"
    }
   },
   "phase/peak/accent": {
    "any": {
-    "srgb_hex": "009E3B"
+    "srgb_hex": "08A13E"
    },
    "dark": {
-    "srgb_hex": "00FC63"
+    "srgb_hex": "00AB40"
    }
   },
   "phase/offset/text": {
    "any": {
-    "srgb_hex": "945A00"
+    "srgb_hex": "975C06"
    },
    "dark": {
     "srgb_hex": "FA9B00"
@@ -226,7 +226,7 @@
   },
   "phase/offset/accent": {
    "any": {
-    "srgb_hex": "C27700"
+    "srgb_hex": "C57A0A"
    },
    "dark": {
     "srgb_hex": "FA9B00"
@@ -246,6 +246,182 @@
    },
    "dark": {
     "srgb_hex": "616167"
+   }
+  },
+  "route/oral/text": {
+   "any": {
+    "srgb_hex": "0569CD"
+   },
+   "dark": {
+    "srgb_hex": "4397FF"
+   }
+  },
+  "route/oral/accent": {
+   "any": {
+    "srgb_hex": "0C84FF"
+   },
+   "dark": {
+    "srgb_hex": "0080F9"
+   }
+  },
+  "route/sublingual/text": {
+   "any": {
+    "srgb_hex": "047687"
+   },
+   "dark": {
+    "srgb_hex": "26A8BF"
+   }
+  },
+  "route/sublingual/accent": {
+   "any": {
+    "srgb_hex": "019AB0"
+   },
+   "dark": {
+    "srgb_hex": "0098AE"
+   }
+  },
+  "route/buccal/text": {
+   "any": {
+    "srgb_hex": "007872"
+   },
+   "dark": {
+    "srgb_hex": "00BDB4"
+   }
+  },
+  "route/buccal/accent": {
+   "any": {
+    "srgb_hex": "189D96"
+   },
+   "dark": {
+    "srgb_hex": "00BDB4"
+   }
+  },
+  "route/insufflation/text": {
+   "any": {
+    "srgb_hex": "9A3DC7"
+   },
+   "dark": {
+    "srgb_hex": "BD62EC"
+   }
+  },
+  "route/insufflation/accent": {
+   "any": {
+    "srgb_hex": "BF64EE"
+   },
+   "dark": {
+    "srgb_hex": "9133BD"
+   }
+  },
+  "route/inhalation/text": {
+   "any": {
+    "srgb_hex": "9D5B07"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "route/inhalation/accent": {
+   "any": {
+    "srgb_hex": "CC780F"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "route/intravenous/text": {
+   "any": {
+    "srgb_hex": "D60107"
+   },
+   "dark": {
+    "srgb_hex": "FE5244"
+   }
+  },
+  "route/intravenous/accent": {
+   "any": {
+    "srgb_hex": "FE3D32"
+   },
+   "dark": {
+    "srgb_hex": "DB0007"
+   }
+  },
+  "route/intramuscular/text": {
+   "any": {
+    "srgb_hex": "D5073F"
+   },
+   "dark": {
+    "srgb_hex": "FF5066"
+   }
+  },
+  "route/intramuscular/accent": {
+   "any": {
+    "srgb_hex": "FE3156"
+   },
+   "dark": {
+    "srgb_hex": "E50043"
+   }
+  },
+  "route/subcutaneous/text": {
+   "any": {
+    "srgb_hex": "5A57DF"
+   },
+   "dark": {
+    "srgb_hex": "787DFF"
+   }
+  },
+  "route/subcutaneous/accent": {
+   "any": {
+    "srgb_hex": "7274FE"
+   },
+   "dark": {
+    "srgb_hex": "524ED4"
+   }
+  },
+  "route/transdermal/text": {
+   "any": {
+    "srgb_hex": "007C2C"
+   },
+   "dark": {
+    "srgb_hex": "20B64B"
+   }
+  },
+  "route/transdermal/accent": {
+   "any": {
+    "srgb_hex": "08A13E"
+   },
+   "dark": {
+    "srgb_hex": "00AB40"
+   }
+  },
+  "route/rectal/text": {
+   "any": {
+    "srgb_hex": "816644"
+   },
+   "dark": {
+    "srgb_hex": "A38763"
+   }
+  },
+  "route/rectal/accent": {
+   "any": {
+    "srgb_hex": "A48865"
+   },
+   "dark": {
+    "srgb_hex": "785E3C"
+   }
+  },
+  "route/other/text": {
+   "any": {
+    "srgb_hex": "6A6A6E"
+   },
+   "dark": {
+    "srgb_hex": "8A8A8F"
+   }
+  },
+  "route/other/accent": {
+   "any": {
+    "srgb_hex": "8B8B90"
+   },
+   "dark": {
+    "srgb_hex": "616166"
    }
   }
  }

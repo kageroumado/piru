@@ -58,41 +58,50 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
 }
 
 extension RouteOfAdministration {
-    /// A fixed tint per route — so a route reads the same everywhere (every "oral"
-    /// badge is the same color), independent of the substance's own color. Used
-    /// by the dose-row / detail ROA pills as both the badge text and its 0.16 fill.
+    /// A fixed tint per route — so a route reads the same everywhere (every
+    /// "oral" badge is the same colour), independent of the substance's own
+    /// colour. Used by the dose-row / detail ROA pills.
     ///
-    /// Adaptive like `Theme.legibleYellow`: the vivid hue works on dark, but as
-    /// ~11pt text on a near-white card several hues fail small-text contrast
-    /// (orange/green worst), so light mode darkens each toward ≥4.5:1 while
-    /// keeping the hue identity.
-    ///
-    /// **Verified, not assumed.** Every light value clears 4.5:1 against its own
-    /// 16% fill over the measured card (`#f5f5f5` — the `.ultraThinMaterial`
-    /// card is *not* white). Five originally missed that target — sublingual
-    /// 4.02, buccal 4.18, other 4.19, inhalation 4.25, transdermal 4.32 — and
-    /// were lowered in Oklab lightness with hue held exactly constant.
-    /// Re-check with `Specs/design-system/color-audit/colorimetry.py`.
+    /// Values live in the design system (`design-system/color/palette-L2.json`,
+    /// scale `route`) and resolve from the asset catalog. Hue is preserved from
+    /// the hand-tuned table this replaced; only lightness and chroma moved.
     var tintColor: Color {
-        let (light, dark) = tintHexPair
-        return Color(UIColor { traits in
-            UIColor(Color(hex: traits.userInterfaceStyle == .dark ? dark : light))
-        })
+        switch self {
+        case .oral: .Route.Oral.accent
+        case .sublingual: .Route.Sublingual.accent
+        case .buccal: .Route.Buccal.accent
+        case .insufflation: .Route.Insufflation.accent
+        case .inhalation: .Route.Inhalation.accent
+        case .intravenous: .Route.Intravenous.accent
+        case .intramuscular: .Route.Intramuscular.accent
+        case .subcutaneous: .Route.Subcutaneous.accent
+        case .transdermal: .Route.Transdermal.accent
+        case .rectal: .Route.Rectal.accent
+        case .other: .Route.Other.accent
+        }
     }
 
-    private var tintHexPair: (light: String, dark: String) {
+    /// Legible text variant for the ~11pt pill label.
+    ///
+    /// The hand-tuned hex pair this replaces was the app's only deliberately
+    /// contrast-corrected scale, and still missed its own documented ≥4.5:1 on
+    /// 5 of 11 routes in light mode and on **all 11** in dark. The dark failure
+    /// was not a tuning miss: at the 0.16 fill alpha the pill used, a colour on
+    /// a tint of itself asymptotes around 4.5:1 whatever its lightness. The fill
+    /// is now 0.10, which is what makes dark mode reachable at all.
+    var tintTextColor: Color {
         switch self {
-        case .oral: ("0B5FC2", "0A84FF") // blue
-        case .sublingual: ("007184", "30B0C7") // teal
-        case .buccal: ("007368", "00C7BE") // mint — mucosal, sibling to sublingual
-        case .insufflation: ("8330AE", "AF52DE") // purple
-        case .inhalation: ("995600", "FF9500") // orange
-        case .intravenous: ("C22B22", "FF3B30") // red
-        case .intramuscular: ("C21A3F", "FF2D55") // pink
-        case .subcutaneous: ("4644B8", "5E5CE6") // indigo
-        case .transdermal: ("127533", "34C759") // green
-        case .rectal: ("7A6244", "A2845E") // brown
-        case .other: ("656569", "8E8E93") // gray
+        case .oral: .Route.Oral.text
+        case .sublingual: .Route.Sublingual.text
+        case .buccal: .Route.Buccal.text
+        case .insufflation: .Route.Insufflation.text
+        case .inhalation: .Route.Inhalation.text
+        case .intravenous: .Route.Intravenous.text
+        case .intramuscular: .Route.Intramuscular.text
+        case .subcutaneous: .Route.Subcutaneous.text
+        case .transdermal: .Route.Transdermal.text
+        case .rectal: .Route.Rectal.text
+        case .other: .Route.Other.text
         }
     }
 

@@ -60,28 +60,70 @@ PHASE_SOURCE = {
 }
 
 
-def max_chroma(hue: float, gate, background) -> tuple[float, float, tuple]:
-    """Highest-chroma colour at `hue` satisfying `gate(colour)`.
+# Route tints. Hue comes from the *dark* value of each pair: it is the
+# unadapted, designer-chosen hue, where the light value had already been
+# hand-darkened for contrast and so carries a slightly drifted hue.
+#
+# These were the app's only deliberately contrast-tuned scale, and still missed
+# their own documented >=4.5:1 on 5 of 11 routes in light mode and on all 11 in
+# dark. The dark failure is not fixable by retuning hue: at the 0.16 fill alpha
+# the pill used, a colour on a tint of itself asymptotes around 4.5:1 whatever
+# its lightness. Regenerating at the standard 0.10 alpha is what makes dark mode
+# reachable at all.
+ROUTE_SOURCE = {
+    "oral": "0A84FF",
+    "sublingual": "30B0C7",
+    "buccal": "00C7BE",
+    "insufflation": "AF52DE",
+    "inhalation": "FF9500",
+    "intravenous": "FF3B30",
+    "intramuscular": "FF2D55",
+    "subcutaneous": "5E5CE6",
+    "transdermal": "34C759",
+    "rectal": "A2845E",
+    "other": "8E8E93",
+}
+
+
+def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[float, float, tuple]:
+    """Highest-chroma colour at `hue` satisfying `gate(colour)`, up to `ceiling`.
 
     Scans every lightness and keeps the best, rather than returning the first
     that passes -- see the module note on why that distinction matters.
+
+    `ceiling` exists because saturation carries meaning *within* a scale. Routes
+    include both a vivid orange (inhalation, from `#FF9500`) and a deliberately
+    muted brown (rectal, from `#A2845E`) only three degrees of hue apart. Letting
+    both run to the gamut edge collapses them from Oklab dE 0.069 to 0.026 --
+    indistinguishable on a small pill, and a regression the contrast suite
+    catches. Capping each token at its own source chroma keeps a muted step
+    muted and preserves the scale's internal relationships.
     """
-    best = None
-    for i in range(1, 200):
-        lightness = i / 200
-        for j in range(80, 0, -1):
-            chroma = j / 200
+    # Chroma outermost, descending: the first hit is therefore the most
+    # saturated value that passes. Lightness scans *toward* the surface, so among
+    # equal-chroma candidates the one nearest the background wins -- the smallest
+    # excursion that still clears the gate.
+    #
+    # Scanning lightness away from the surface instead returns the most extreme
+    # value that passes: `rectal` came out `#3A2300` at 12.31:1 against a 4.55
+    # gate, a near-black brown, because the first passing lightness from the dark
+    # end is as dark as the loop started.
+    dark_surface = wcag_ratio(background, (1.0, 1.0, 1.0)) > 2.0
+    lightness_steps = range(1, 200) if dark_surface else range(199, 0, -1)
+
+    for j in range(80, 0, -1):
+        chroma = j / 200
+        if chroma > ceiling:
+            continue
+        for i in lightness_steps:
+            lightness = i / 200
             lch = fit_chroma((lightness, chroma, hue), "srgb")
             if abs(lch[1] - chroma) > 1e-3:
-                continue  # gamut-clamped at this chroma, try lower
+                continue  # gamut-clamped at this lightness
             candidate = hex_to_rgb(rgb_to_hex(oklch_to_rgb(lch, "srgb")))  # quantise, then test
             if gate(candidate):
-                if best is None or chroma > best[0]:
-                    best = (chroma, lightness, candidate)
-                break
-    if best is None:
-        raise ValueError(f"no colour at hue {hue} satisfies the gate on {background}")
-    return best
+                return (chroma, lightness, candidate)
+    raise ValueError(f"no colour at hue {hue} satisfies the gate on {background}")
 
 
 # Below this chroma a colour is a neutral and its hue is meaningless noise --
@@ -139,7 +181,7 @@ def build_scale(source: dict[str, str]) -> dict[str, dict]:
             # variable: a late-bound closure would silently gate every mode
             # against whichever surface the loop happened to end on.
             _, _, accent = max_chroma(
-                hue, lambda c, bg=card: wcag_ratio(c, bg) >= ACCENT_GATE, card
+                hue, lambda c, bg=card: wcag_ratio(c, bg) >= ACCENT_GATE, card, source_chroma
             )
             fill = composite(accent, FILL_ALPHA, card)
             _, _, text = max_chroma(
@@ -148,6 +190,7 @@ def build_scale(source: dict[str, str]) -> dict[str, dict]:
                     wcag_ratio(c, f) >= TEXT_GATE and wcag_ratio(c, bg) >= TEXT_GATE
                 ),
                 card,
+                source_chroma,
             )
             entry[mode] = {
                 "text": rgb_to_hex(text),
@@ -164,7 +207,7 @@ def build_scale(source: dict[str, str]) -> dict[str, dict]:
 
 
 def main() -> None:
-    scales = {"phase": build_scale(PHASE_SOURCE)}
+    scales = {"phase": build_scale(PHASE_SOURCE), "route": build_scale(ROUTE_SOURCE)}
     out = {
         "_meta": {
             "fill_alpha": FILL_ALPHA,

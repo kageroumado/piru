@@ -40,25 +40,38 @@ struct ColorContrastTests {
     /// WCAG AA, normal-size text.
     static let textGate = 4.5
     /// The alpha `ROAPill` uses for its capsule fill behind the route label.
-    static let roaFillAlpha = 0.16
+    static let roaFillAlpha = 0.10
 
     // MARK: - Route tints (light) — FIXED, gated
 
+    /// Both appearances now — the dark-mode gap this used to pin is closed.
+    ///
+    /// It was never fixable by retuning hue: at the 0.16 fill alpha the pill
+    /// used, a colour on a tint of itself asymptotes around 4.5:1 whatever its
+    /// lightness, so all 11 routes failed in dark. The fill is now 0.10, and the
+    /// label takes a gated `text` variant separate from the `accent` fill.
     @Test
-    func `Every route tint is legible as ~11pt text on its own 16% fill`() {
+    func `Every route pill is legible as ~11pt text on its own fill`() {
         for route in RouteOfAdministration.allCases {
-            let tint = RGB(route.tintColor, style: .light)
-            let ratio = tint.contrastRatio(against: tint.composited(alpha: Self.roaFillAlpha, over: Self.cardLight))
-            #expect(
-                ratio >= Self.textGate,
-                """
-                Route \(route.rawValue) light tint \(tint.hex) is \(ratio.to2dp):1 on its own \
-                \(Int(Self.roaFillAlpha * 100))% fill — below \(Self.textGate). Lower its Oklab \
-                lightness in `RouteOfAdministration.tintHexPair`, holding hue constant, and leave \
-                headroom above 4.5 so 8-bit quantisation cannot drop it back under. \
-                See Specs/design-system/color-audit/colorimetry.py.
-                """,
-            )
+            for style in [UIUserInterfaceStyle.light, .dark] {
+                let surface = style == .light ? Self.cardLight : Self.cardDark
+                let text = RGB(route.tintTextColor, style: style)
+                let accent = RGB(route.tintColor, style: style)
+                let fill = accent.composited(alpha: Self.roaFillAlpha, over: surface)
+                #expect(
+                    text.contrastRatio(against: fill) >= Self.textGate,
+                    """
+                    Route \(route.rawValue) \(style == .light ? "light" : "dark") label \(text.hex) is \
+                    \(text.contrastRatio(against: fill).to2dp):1 on its own \
+                    \(Int(Self.roaFillAlpha * 100))% fill — below \(Self.textGate). Regenerate the \
+                    `route` scale with design-system/color/build_l2_scales.py rather than hand-tuning.
+                    """,
+                )
+                #expect(
+                    accent.contrastRatio(against: surface) >= 3.0,
+                    "Route \(route.rawValue) \(style == .light ? "light" : "dark") mark \(accent.hex) is below the 3:1 non-text floor",
+                )
+            }
         }
     }
 
@@ -192,33 +205,6 @@ struct ColorContrastTests {
     }
 
     // MARK: - Known gaps, pinned so they can only improve
-
-    /// Route pills fail in **dark** mode, and no hue retune fixes it.
-    ///
-    /// At 0.16 alpha over near-black, a colour on a tint of *itself* asymptotes
-    /// around 4.5:1 no matter its lightness — raising the text lightness raises
-    /// the fill proportionally. Every one of the 11 routes lands 2.60–3.93.
-    /// The fix is lowering the fill alpha (migration Phase 5), not retuning
-    /// hues, so this pins the floor rather than demanding a fix here.
-    @Test
-    func `Dark-mode route pills are a known self-tint gap that must not worsen`() {
-        for route in RouteOfAdministration.allCases {
-            let tint = RGB(route.tintColor, style: .dark)
-            let ratio = tint.contrastRatio(against: tint.composited(alpha: Self.roaFillAlpha, over: Self.cardDark))
-            #expect(ratio >= 2.55, "Route \(route.rawValue) dark pill regressed below its known floor")
-        }
-        // When Phase 5 lowers the fill alpha, this flips and the suite says so.
-        let worst = RouteOfAdministration.allCases
-            .map { route -> Double in
-                let tint = RGB(route.tintColor, style: .dark)
-                return tint.contrastRatio(against: tint.composited(alpha: Self.roaFillAlpha, over: Self.cardDark))
-            }
-            .min() ?? 0
-        #expect(
-            worst < Self.textGate,
-            "Dark route pills now all clear \(Self.textGate) — promote this to a real gate and delete the known-gap note",
-        )
-    }
 
     /// Severity and dose tiers *other* than caution/common still render raw
     /// system orange and red as text, which fail on the light card (2.04–3.27).
