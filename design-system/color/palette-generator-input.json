@@ -135,6 +135,38 @@
    "dark": {
     "srgb_hex": "BCBCC4"
    }
+  },
+  "surface/background": {
+   "any": {
+    "srgb_hex": "FFFFFF"
+   },
+   "dark": {
+    "srgb_hex": "000000"
+   }
+  },
+  "surface/card": {
+   "any": {
+    "srgb_hex": "F2F2F7"
+   },
+   "dark": {
+    "srgb_hex": "111111"
+   }
+  },
+  "surface/grouped": {
+   "any": {
+    "srgb_hex": "F2F2F7"
+   },
+   "dark": {
+    "srgb_hex": "0A0A0A"
+   }
+  },
+  "surface/input": {
+   "any": {
+    "srgb_hex": "F2F2F7"
+   },
+   "dark": {
+    "srgb_hex": "1C1C1F"
+   }
   }
  }
 }

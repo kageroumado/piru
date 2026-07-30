@@ -39,6 +39,20 @@ CHROME: dict[str, dict[str, str]] = {
         # 9.97), so this adopts what iOS ships: #EBEBF5 at 60% over #111111.
         "dark": "BCBCC4",
     },
+    # Surfaces. These existed as `UIColor { traits }` closures, which branch on
+    # userInterfaceStyle only and therefore cannot express high contrast at all.
+    # As colorsets they gain the Any+HC / Dark+HC slots.
+    #
+    # The light values are the system colours the closures already resolved to
+    # (`systemBackground` #FFFFFF, `systemGray6` #F2F2F7,
+    # `systemGroupedBackground` #F2F2F7) -- fixed published values, so pinning
+    # them loses nothing. The dark values are the app's deliberate OLED choice,
+    # which is *why* the closures existed: the system's own dark surfaces are
+    # around #1C1C1E, never true black.
+    "surface/background": {"light": "FFFFFF", "dark": "000000"},
+    "surface/card": {"light": "F2F2F7", "dark": "111111"},
+    "surface/grouped": {"light": "F2F2F7", "dark": "0A0A0A"},
+    "surface/input": {"light": "F2F2F7", "dark": "1C1C1F"},
 }
 
 

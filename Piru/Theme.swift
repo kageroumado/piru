@@ -28,35 +28,30 @@ enum Theme {
     /// (9.97:1). Gated by `ColorContrastTests`.
     static let secondaryLabel = Color.Text.secondary
 
-    // MARK: - OLED Dark Mode Backgrounds
+    // MARK: - Surfaces
 
-    /// Main background: pure black in dark mode, system white in light mode
-    static let background: Color = .init(UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-            : .systemBackground
-    })
+    // These were `UIColor { traits }` closures. A closure branches on
+    // `userInterfaceStyle` alone, so it cannot express high contrast at all —
+    // as colorsets they gain the Any+HC / Dark+HC slots the app has never had.
+    //
+    // Light values are the system colours the closures already resolved to
+    // (`systemBackground`, `systemGray6`, `systemGroupedBackground`), which are
+    // fixed published values, so pinning them loses nothing. The dark values
+    // are the app's deliberate OLED choice — which is *why* the closures
+    // existed, since the system's own dark surfaces sit around `#1C1C1E` and
+    // never reach true black.
 
-    /// Card/surface background: very dark gray in dark mode, subtle off-white in light mode
-    static let cardBackground: Color = .init(UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red: 0.067, green: 0.067, blue: 0.067, alpha: 1)
-            : .systemGray6
-    })
+    /// Page backdrop. True black in dark mode for OLED.
+    static let background = Color.Surface.background
 
-    /// Grouped background: slightly off-black in dark mode
-    static let groupedBackground: Color = .init(UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red: 0.039, green: 0.039, blue: 0.039, alpha: 1)
-            : .systemGroupedBackground
-    })
+    /// Card / raised surface fill.
+    static let cardBackground = Color.Surface.card
 
-    /// Input field background
-    static let inputBackground: Color = .init(UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1)
-            : .systemGray6
-    })
+    /// Grouped-list backdrop, a step below ``background`` in dark mode.
+    static let groupedBackground = Color.Surface.grouped
+
+    /// Text-field and other input fills.
+    static let inputBackground = Color.Surface.input
 }
 
 // MARK: - Theme View Modifiers
@@ -92,10 +87,28 @@ struct CardBackground: View {
 }
 
 extension View {
-    /// Default corner radius `22` matches the system grouped-list / Library card
-    /// rounding (the 16 the app shipped with read too boxy next to them).
+    /// The app's standard card.
+    ///
+    /// The corner is **system-derived**, not fixed: `ConcentricRectangle` with
+    /// `.concentric(minimum:)` inherits its radius from the enclosing container
+    /// shape and only falls back to `minimum` when there is nothing to inherit
+    /// from. Concentricity — nested shapes whose radii relate mathematically to
+    /// their container — is a core principle of the iOS 26 design language, and
+    /// a fixed radius breaks it the moment a card is nested or the container
+    /// rounding changes.
+    ///
+    /// `minimum: 22` matches the system grouped-list / Library card rounding
+    /// (the 16 the app shipped with read too boxy beside them).
+    ///
+    /// Note: this does not also call `containerShape`, which requires an
+    /// `InsettableShape` that `ConcentricRectangle` is not. Cards still derive
+    /// from whatever container the system provides (sheet, screen, grouped
+    /// list); they just don't yet re-publish themselves as a container for
+    /// their own children. Nested content still needs an explicit radius.
     func themeCard(cornerRadius: CGFloat = 22) -> some View {
-        modifier(ThemedBackground(shape: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)))
+        modifier(ThemedBackground(
+            shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(cornerRadius)), isUniform: true),
+        ))
     }
 
     /// Conditionally apply the card background — for rows that live inside a
