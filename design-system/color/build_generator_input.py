@@ -76,6 +76,17 @@ def main() -> None:
             "dark": {"srgb_hex": modes["dark"]},
         }
 
+    # L2 encoding scales, built by build_l2_scales.py with the same gates as L1.
+    l2_path = HERE / "palette-L2.json"
+    if l2_path.exists():
+        for scale, entries in json.loads(l2_path.read_text())["scales"].items():
+            for step, modes in entries.items():
+                for role in ("text", "accent"):
+                    tokens[f"{scale}/{step}/{role}"] = {
+                        "any": {"srgb_hex": modes["light"][role].lstrip("#")},
+                        "dark": {"srgb_hex": modes["dark"][role].lstrip("#")},
+                    }
+
     out = HERE / "palette-generator-input.json"
     out.write_text(json.dumps({"tokens": tokens}, indent=1) + "\n")
     print(f"wrote {len(tokens)} tokens to {out.name}")

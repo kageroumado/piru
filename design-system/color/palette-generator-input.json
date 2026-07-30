@@ -167,6 +167,86 @@
    "dark": {
     "srgb_hex": "1C1C1F"
    }
+  },
+  "phase/onset/text": {
+   "any": {
+    "srgb_hex": "6A6A6F"
+   },
+   "dark": {
+    "srgb_hex": "8A8A90"
+   }
+  },
+  "phase/onset/accent": {
+   "any": {
+    "srgb_hex": "8B8B91"
+   },
+   "dark": {
+    "srgb_hex": "616167"
+   }
+  },
+  "phase/comeup/text": {
+   "any": {
+    "srgb_hex": "0067C7"
+   },
+   "dark": {
+    "srgb_hex": "4599FE"
+   }
+  },
+  "phase/comeup/accent": {
+   "any": {
+    "srgb_hex": "0085FE"
+   },
+   "dark": {
+    "srgb_hex": "0085FE"
+   }
+  },
+  "phase/peak/text": {
+   "any": {
+    "srgb_hex": "007C2C"
+   },
+   "dark": {
+    "srgb_hex": "00FC63"
+   }
+  },
+  "phase/peak/accent": {
+   "any": {
+    "srgb_hex": "009E3B"
+   },
+   "dark": {
+    "srgb_hex": "00FC63"
+   }
+  },
+  "phase/offset/text": {
+   "any": {
+    "srgb_hex": "945A00"
+   },
+   "dark": {
+    "srgb_hex": "FA9B00"
+   }
+  },
+  "phase/offset/accent": {
+   "any": {
+    "srgb_hex": "C27700"
+   },
+   "dark": {
+    "srgb_hex": "FA9B00"
+   }
+  },
+  "phase/afterglow/text": {
+   "any": {
+    "srgb_hex": "6A6A6F"
+   },
+   "dark": {
+    "srgb_hex": "8A8A90"
+   }
+  },
+  "phase/afterglow/accent": {
+   "any": {
+    "srgb_hex": "8B8B91"
+   },
+   "dark": {
+    "srgb_hex": "616167"
+   }
   }
  }
 }

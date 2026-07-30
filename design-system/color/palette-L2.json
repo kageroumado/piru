@@ -1,0 +1,128 @@
+{
+ "_meta": {
+  "fill_alpha": 0.1,
+  "text_gate": 4.55,
+  "accent_gate": 3.05,
+  "card_light": "#f5f5f5",
+  "card_dark": "#111111",
+  "note": "hue held from the shipped ramp; lightness and chroma re-derived at the gates"
+ },
+ "scales": {
+  "phase": {
+   "onset": {
+    "light": {
+     "text": "#6A6A6F",
+     "accent": "#8B8B91",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 4.93,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": "#8A8A90",
+     "accent": "#616167",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
+     }
+    }
+   },
+   "comeup": {
+    "light": {
+     "text": "#0067C7",
+     "accent": "#0085FE",
+     "hue": 254.78,
+     "verified": {
+      "text_on_fill": 4.76,
+      "text_on_card": 5.12,
+      "accent_on_card": 3.33
+     }
+    },
+    "dark": {
+     "text": "#4599FE",
+     "accent": "#0085FE",
+     "hue": 254.78,
+     "verified": {
+      "text_on_fill": 4.58,
+      "text_on_card": 6.51,
+      "accent_on_card": 5.2
+     }
+    }
+   },
+   "peak": {
+    "light": {
+     "text": "#007C2C",
+     "accent": "#009E3B",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.24
+     }
+    },
+    "dark": {
+     "text": "#00FC63",
+     "accent": "#00FC63",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 6.01,
+      "text_on_card": 13.58,
+      "accent_on_card": 13.58
+     }
+    }
+   },
+   "offset": {
+    "light": {
+     "text": "#945A00",
+     "accent": "#C27700",
+     "hue": 67.23,
+     "verified": {
+      "text_on_fill": 4.82,
+      "text_on_card": 5.18,
+      "accent_on_card": 3.25
+     }
+    },
+    "dark": {
+     "text": "#FA9B00",
+     "accent": "#FA9B00",
+     "hue": 67.23,
+     "verified": {
+      "text_on_fill": 4.94,
+      "text_on_card": 8.77,
+      "accent_on_card": 8.77
+     }
+    }
+   },
+   "afterglow": {
+    "light": {
+     "text": "#6A6A6F",
+     "accent": "#8B8B91",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 4.93,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": "#8A8A90",
+     "accent": "#616167",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
+     }
+    }
+   }
+  }
+ }
+}

@@ -19,13 +19,29 @@ struct DosePhaseProgressBar: View {
         case offset
         case after
 
+        /// Mark colour — the bar fill and the dot. Gated at the 3:1 non-text
+        /// floor. Text uses ``labelColor``.
         var color: Color {
             switch self {
-            case .onset: Color(hex: "9B9BA1")
-            case .comeup: Color(hex: "3A8DEF")
-            case .peak: Color(hex: "34C759")
-            case .offset: Color(hex: "FF9F0A")
-            case .after: Color(hex: "9B9BA1")
+            case .onset: .Phase.Onset.accent
+            case .comeup: .Phase.Comeup.accent
+            case .peak: .Phase.Peak.accent
+            case .offset: .Phase.Offset.accent
+            case .after: .Phase.Afterglow.accent
+            }
+        }
+
+        /// Legible text variant. The phase label sits on a capsule filled with
+        /// this phase's own colour at 18% — the self-tint pattern — where the
+        /// old hex ramp measured 1.73–2.71:1 in light mode. This clears AA
+        /// against both that fill and the bare card.
+        var labelColor: Color {
+            switch self {
+            case .onset: .Phase.Onset.text
+            case .comeup: .Phase.Comeup.text
+            case .peak: .Phase.Peak.text
+            case .offset: .Phase.Offset.text
+            case .after: .Phase.Afterglow.text
             }
         }
 
@@ -69,7 +85,7 @@ struct DosePhaseProgressBar: View {
                         .frame(width: 6, height: 6)
                     Text(phase.name)
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(phase.color)
+                        .foregroundStyle(phase.labelColor)
                 }
                 Spacer(minLength: 8)
                 Text("\(now.timeIntervalSince(start).durationHM) in \u{00B7} \(end.timeIntervalSince(now).durationHM) left")

@@ -1938,11 +1938,15 @@ struct TimelineGraphView: View, Equatable {
         // band with no come-up band at all).
         let peakEndForBands = max(s.peakEndMinutes, s.onsetEndMinutes + 2)
         let comeupEndForBands = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
+        // Bands are non-text marks, so they take the phase scale's `accent`
+        // variant. These were inline hexes duplicated across three files; the
+        // hues are unchanged, only lightness and chroma moved to clear the
+        // contrast gates. See `design-system/color/`.
         let bands: [(start: Double, end: Double, color: Color)] = [
-            (0, s.onsetEndMinutes, Color(hex: "9B9BA1")),
-            (s.onsetEndMinutes, comeupEndForBands, Color(hex: "3A8DEF")),
-            (comeupEndForBands, s.peakEndMinutes, Color(hex: "34C759")),
-            (s.peakEndMinutes, s.offsetEndMinutes, Color(hex: "FF9F0A")),
+            (0, s.onsetEndMinutes, .Phase.Onset.accent),
+            (s.onsetEndMinutes, comeupEndForBands, .Phase.Comeup.accent),
+            (comeupEndForBands, s.peakEndMinutes, .Phase.Peak.accent),
+            (s.peakEndMinutes, s.offsetEndMinutes, .Phase.Offset.accent),
         ]
 
         let leftBound = graphInset

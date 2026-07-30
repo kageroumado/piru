@@ -149,6 +149,48 @@ struct ColorContrastTests {
         }
     }
 
+    // MARK: - L2 encoding scales
+
+    /// The experience-phase scale, gated like the semantic tokens.
+    ///
+    /// It renders its colour as `.caption` text on a capsule filled with that
+    /// same colour at 18% (`DosePhaseProgressBar`), which is the self-tint
+    /// pattern — the old hex ramp measured 1.73–2.71:1 in light mode.
+    ///
+    /// This scale also used to exist **twice** with unrelated values, so editing
+    /// a dose and then reading it flipped "peak" from orange to green. One ramp
+    /// now, hues preserved from the surviving one.
+    @Test
+    func `Experience-phase scale is legible as text and visible as a mark`() {
+        let phases: [(String, Color, Color)] = [
+            ("onset", .Phase.Onset.text, .Phase.Onset.accent),
+            ("comeup", .Phase.Comeup.text, .Phase.Comeup.accent),
+            ("peak", .Phase.Peak.text, .Phase.Peak.accent),
+            ("offset", .Phase.Offset.text, .Phase.Offset.accent),
+            ("afterglow", .Phase.Afterglow.text, .Phase.Afterglow.accent),
+        ]
+        for (name, textColor, accentColor) in phases {
+            for style in [UIUserInterfaceStyle.light, .dark] {
+                let surface = style == .light ? Self.cardLight : Self.cardDark
+                let text = RGB(textColor, style: style)
+                let accent = RGB(accentColor, style: style)
+                let fill = accent.composited(alpha: 0.10, over: surface)
+                #expect(
+                    text.contrastRatio(against: fill) >= Self.textGate,
+                    "phase/\(name)/text \(text.hex) is \(text.contrastRatio(against: fill).to2dp):1 on its own fill",
+                )
+                #expect(
+                    text.contrastRatio(against: surface) >= Self.textGate,
+                    "phase/\(name)/text \(text.hex) is \(text.contrastRatio(against: surface).to2dp):1 on the card",
+                )
+                #expect(
+                    accent.contrastRatio(against: surface) >= 3.0,
+                    "phase/\(name)/accent \(accent.hex) is \(accent.contrastRatio(against: surface).to2dp):1 on the card",
+                )
+            }
+        }
+    }
+
     // MARK: - Known gaps, pinned so they can only improve
 
     /// Route pills fail in **dark** mode, and no hue retune fixes it.

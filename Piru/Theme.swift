@@ -2,8 +2,12 @@ import SwiftUI
 import UIKit
 
 enum Theme {
-    /// Soft pink in light mode, hot pink in dark mode
-    static let accent = Color("AccentColor")
+    /// Soft pink in light mode, hot pink in dark mode.
+    ///
+    /// Xcode's generated symbol rather than `Color("AccentColor")` — a string
+    /// lookup resolves to a silent fallback if the asset is ever renamed, where
+    /// this is a compile error.
+    static let accent = Color.accent
 
     /// Yellow that stays legible as text/icon on a light surface — pure yellow
     /// is unreadable on white, so it darkens to amber in light mode while
