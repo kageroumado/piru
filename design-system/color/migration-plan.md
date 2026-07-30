@@ -118,8 +118,16 @@ Per token:
 3. Migrate all of them, verify the warning count reaches zero.
 4. Delete the old token. Build is clean again.
 
-**Order** (fewest call sites first, so the mechanism is proven on cheap tokens):
-`Theme.legibleYellow` (6) → `PDFReportGenerator.cautionYellow` (1) →
+**Corrected order.** The original list treated `Theme.legibleYellow` as one
+6-site token to migrate and delete. It is not: only **one** of its consumers is
+genuinely L1 status (`InteractionSeverity.caution`). The other three —
+`DoseLevel.common`, `ConfidenceBadge.medium`, `ProvenanceBadge.medium` — are L2
+*encoding scales* that happen to share the amber. Pointing them at
+`semantic/caution` would be exactly the L1/L2 merge the color spec forbids, so
+they stay on `Theme.legibleYellow` until phase 4 gives their scales real tokens,
+and the token cannot be deleted in phase 3.
+
+`Theme.legibleYellow` (1 of 6 sites migrated) → `PDFReportGenerator.cautionYellow` (1) →
 `LibraryTaxonomy` teal (1) → `Theme.secondaryLabel` (566) → `Theme.accent` (223).
 
 `Theme.secondaryLabel` carries a **corrected** action: measured against the real

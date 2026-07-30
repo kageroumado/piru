@@ -31,6 +31,16 @@ import SwiftUI
 /// `fill` is not a token: it is `accent` at 0.10 alpha over the card. Derive it,
 /// never author it.
 ///
+/// ## Isolation
+///
+/// These are `@MainActor` by default isolation, and cannot be `nonisolated`:
+/// Xcode's generated asset symbols are themselves main-actor-isolated under the
+/// project's `-default-isolation MainActor`, so forwarding to them from a
+/// `nonisolated` context does not compile. (Verified empirically — an earlier
+/// note in `design-system/color/asset-catalog-migration.md` claimed a catalog
+/// lookup was isolation-free; that is true of the *API*, not of the generated
+/// symbols as this project compiles them.)
+///
 /// Rationale, measurements, and the migration plan: `design-system/`.
 public extension ShapeStyle where Self == Color {
     /// Destructive or genuinely dangerous states. Small copy.

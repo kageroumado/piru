@@ -70,11 +70,18 @@ struct ColorContrastTests {
         // darkened amber for `.caution` / `.common`. Raw `.color` / `.swiftUIColor`
         // are *fill* values and measure 1.39:1 as text — reaching for those at a
         // text call site is the exact bug this catches.
-        let severity = RGB(InteractionSeverity.caution.labelColor, style: .light)
-        #expect(
-            severity.contrastRatio(against: Self.cardLight) >= Self.textGate,
-            "InteractionSeverity.caution labelColor \(severity.hex) regressed to a fill value",
-        )
+        // `.caution` and `.dangerous` now resolve to the design system's
+        // semantic tokens; both are gated in both appearances.
+        for severity in [InteractionSeverity.caution, .dangerous] {
+            for style in [UIUserInterfaceStyle.light, .dark] {
+                let surface = style == .light ? Self.cardLight : Self.cardDark
+                let resolved = RGB(severity.labelColor, style: style)
+                #expect(
+                    resolved.contrastRatio(against: surface) >= Self.textGate,
+                    "InteractionSeverity.\(severity) labelColor \(resolved.hex) regressed to a fill value",
+                )
+            }
+        }
 
         let level = RGB(DoseLevel.common.labelColor, style: .light)
         #expect(
@@ -178,9 +185,13 @@ struct ColorContrastTests {
     /// the `semantic/*` tokens in migration Phase 3.
     @Test
     func `Non-caution status tiers are a known gap that must not worsen`() {
+        // `.dangerous` graduated out of this list in migration phase 3 — it now
+        // resolves to `semantic/danger/text` and is gated above. `.unsafe` sits
+        // between caution and danger, and the four-level ladder has no middle
+        // tier, so it waits for the severity *scale* to be designed as an
+        // ordered L2 encoding rather than being flattened into danger.
         let subjects: [(String, Color)] = [
             ("InteractionSeverity.unsafe", InteractionSeverity.unsafe.labelColor),
-            ("InteractionSeverity.dangerous", InteractionSeverity.dangerous.labelColor),
             ("DoseLevel.strong", DoseLevel.strong.labelColor),
             ("DoseLevel.heavy", DoseLevel.heavy.labelColor),
         ]

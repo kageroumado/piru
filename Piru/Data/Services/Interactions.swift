@@ -34,11 +34,30 @@ nonisolated enum InteractionSeverity: Int, Comparable, Codable, CaseIterable {
         }
     }
 
-    /// Legible text/icon variant of ``color`` — yellow caution is unreadable on
-    /// a light surface, so it darkens to amber in light mode while staying
-    /// yellow in dark mode. MainActor because `Theme.legibleYellow` is.
+    /// Legible text/icon variant of ``color``.
+    ///
+    /// ``color`` is a *fill* value: as small text on the app's card it measures
+    /// 1.39:1 for `.caution` and 3.27:1 for `.dangerous`, both below WCAG AA.
+    /// These resolve to the design system's semantic tokens instead, which are
+    /// gated at 4.5:1 against the card and against their own tinted fill.
+    ///
+    /// `.unsafe` still returns the raw fill colour and still fails (2.12:1). It
+    /// sits between caution and danger, and the semantic ladder has four levels
+    /// with no middle warning tier — collapsing it into `.dangerText` would
+    /// erase a real distinction, so it waits for the severity *scale* to be
+    /// designed as an ordered L2 encoding. Pinned as a known gap in
+    /// `ColorContrastTests`. See `design-system/color/migration-plan.md` phase 4.
+    ///
+    /// Still `@MainActor`. The migration notes predicted this constraint would
+    /// drop once the value came from the asset catalog; it does not. Xcode's
+    /// generated asset symbols are main-actor-isolated under the project's
+    /// `-default-isolation MainActor`, so the isolation is inherited either way.
     @MainActor var labelColor: Color {
-        self == .caution ? Theme.legibleYellow : color
+        switch self {
+        case .caution: .cautionText
+        case .dangerous: .dangerText
+        case .unsafe: color
+        }
     }
 }
 
