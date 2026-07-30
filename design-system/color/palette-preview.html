@@ -1,0 +1,256 @@
+<meta charset="utf-8">
+<title>Piru semantic palette — Display P3</title>
+<style>
+  :root {
+    --ink:#1a1a1c; --dim:#6b6b70; --line:#e2e2e4; --bg:#fbfbfc; --panelbg:#fff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark) {
+    :root { --ink:#ececed; --dim:#9a9aa0; --line:#2c2c2f; --bg:#131315; --panelbg:#1a1a1c; }
+  }
+  :root[data-theme="dark"] { --ink:#ececed; --dim:#9a9aa0; --line:#2c2c2f; --bg:#131315; --panelbg:#1a1a1c; }
+  :root[data-theme="light"] { --ink:#1a1a1c; --dim:#6b6b70; --line:#e2e2e4; --bg:#fbfbfc; --panelbg:#fff; }
+  body { background:var(--bg); color:var(--ink); font:14px/1.5 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+         margin:0; padding:32px; }
+  h1 { font-size:20px; margin:0 0 4px; font-weight:600; }
+  h2 { font-size:15px; margin:0 0 2px; font-weight:600; text-transform:lowercase; }
+  .dim { color:var(--dim); font-size:12px; }
+  .wrap { max-width:1180px; margin:0 auto; }
+  .panel { background:var(--panelbg); border:1px solid var(--line); border-radius:14px;
+            padding:20px; margin:20px 0; overflow-x:auto; }
+  header { margin-bottom:14px; }
+  .accentline { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--dim); margin:6px 0 0; }
+  table { border-collapse:collapse; width:100%; font-size:13px; }
+  th,td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  thead th { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); font-weight:600; }
+  tbody th { font-weight:600; font-size:13px; }
+  .num { font-family:var(--mono); font-size:12px; text-align:right; }
+  .meta { font-family:var(--mono); font-size:11px; color:var(--dim); }
+  /* the sample cells sit on the measured card colour, not the page */
+  td:nth-child(2),td:nth-child(3),td:nth-child(4) { background:var(--card); }
+  .pill { display:inline-flex; align-items:center; gap:6px; padding:4px 11px; border-radius:999px;
+           font-size:12px; font-weight:600; white-space:nowrap; }
+  .dot { width:7px; height:7px; border-radius:50%; display:inline-block; }
+  .txt { font-size:11px; font-weight:500; }
+  .mark { width:12px; height:12px; border-radius:50%; display:inline-block; vertical-align:middle; }
+  .bar { display:inline-block; width:54px; height:7px; border-radius:4px; margin-left:8px; vertical-align:middle; }
+  .gamut { background:var(--panelbg); border:1px solid var(--line); border-radius:14px; padding:20px; margin:20px 0; }
+  .grow { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-top:14px; }
+  .gswatch { display:flex; height:56px; border-radius:9px; overflow:hidden; }
+  .gswatch div { flex:1; }
+  .glabel { font-size:12px; margin-top:6px; font-weight:600; }
+  .foot { color:var(--dim); font-size:12px; margin-top:24px; }
+</style>
+<div class="wrap">
+  <h1>Piru semantic palette — Display P3</h1>
+  <p class="dim">Generated from <span style="font-family:var(--mono)">palette-L1.json</span>.
+     Samples sit on the <em>measured</em> card colors, not on white.
+     Ratios are WCAG, computed in P3. <strong>View on a P3 display in Safari</strong> —
+     Chrome and non-P3 screens will show the sRGB-clamped approximation.</p>
+  
+  <section class="panel light" style="--card:color(display-p3 0.9608 0.9608 0.9608);
+                                       --page:color(display-p3 1.0000 1.0000 1.0000)">
+    <header>
+      <h2>light mode</h2>
+      <p class="dim">page #ffffff · card #f5f5f5 (measured)</p>
+      <p class="accentline">
+        <span class="mark" style="background:color(display-p3 0.8980 0.4970 0.5910)"></span>
+        app accent · Oklch L 0.72 C 0.155 h 6.3°
+      </p>
+    </header>
+    <table>
+      <thead><tr>
+        <th>role</th><th>filled pill</th><th>text on card</th><th>accent marks</th>
+        <th>t/fill</th><th>t/card</th><th>a/card</th><th>sRGB equiv</th>
+      </tr></thead>
+      <tbody>
+    <tr>
+      <th scope="row">danger</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.9629 0.9172 0.9172);color:color(display-p3 0.8118 0.0133 0.0047)">
+          <span class="dot" style="background:color(display-p3 0.8118 0.0133 0.0047)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 0.8118 0.0133 0.0047)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 0.9820 0.0071 0.0005)"></span>
+        <span class="bar" style="background:color(display-p3 0.9820 0.0071 0.0005)"></span>
+      </td>
+      <td class="num">4.62</td>
+      <td class="num">4.97</td>
+      <td class="num">3.57</td>
+      <td class="meta">#E20000<br><span class="dim">+13% C · out of sRGB</span></td>
+    </tr>
+    <tr>
+      <th scope="row">caution</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.9360 0.9288 0.9172);color:color(display-p3 0.5126 0.4081 0.0001)">
+          <span class="dot" style="background:color(display-p3 0.5126 0.4081 0.0001)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 0.5126 0.4081 0.0001)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 0.6565 0.5255 -0.0001)"></span>
+        <span class="bar" style="background:color(display-p3 0.6565 0.5255 -0.0001)"></span>
+      </td>
+      <td class="num">4.54</td>
+      <td class="num">4.87</td>
+      <td class="num">3.17</td>
+      <td class="meta">#886700<br><span class="dim">+19% C · out of sRGB</span></td>
+    </tr>
+    <tr>
+      <th scope="row">success</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.9172 0.9355 0.9182);color:color(display-p3 -0.0001 0.4941 0.1117)">
+          <span class="dot" style="background:color(display-p3 -0.0001 0.4941 0.1117)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 -0.0001 0.4941 0.1117)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 -0.0001 0.6475 0.1583)"></span>
+        <span class="bar" style="background:color(display-p3 -0.0001 0.6475 0.1583)"></span>
+      </td>
+      <td class="num">4.60</td>
+      <td class="num">4.93</td>
+      <td class="num">3.08</td>
+      <td class="meta">#008000<br><span class="dim">+37% C · out of sRGB</span></td>
+    </tr>
+    <tr>
+      <th scope="row">info</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.9172 0.9305 0.9620);color:color(display-p3 0.0011 0.4190 0.7380)">
+          <span class="dot" style="background:color(display-p3 0.0011 0.4190 0.7380)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 0.0011 0.4190 0.7380)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 -0.0001 0.5595 0.9733)"></span>
+        <span class="bar" style="background:color(display-p3 -0.0001 0.5595 0.9733)"></span>
+      </td>
+      <td class="num">4.69</td>
+      <td class="num">5.03</td>
+      <td class="num">3.07</td>
+      <td class="meta">#006DC2<br><span class="dim">+31% C · out of sRGB</span></td>
+    </tr></tbody>
+    </table>
+  </section>
+  
+  <section class="panel dark" style="--card:color(display-p3 0.0667 0.0667 0.0667);
+                                       --page:color(display-p3 0.0000 0.0000 0.0000)">
+    <header>
+      <h2>dark mode</h2>
+      <p class="dim">page #000000 · card #111111 (measured)</p>
+      <p class="accentline">
+        <span class="mark" style="background:color(display-p3 0.9200 0.2680 0.4410)"></span>
+        app accent · Oklch L 0.65 C 0.240 h 9.9°
+      </p>
+    </header>
+    <table>
+      <thead><tr>
+        <th>role</th><th>filled pill</th><th>text on card</th><th>accent marks</th>
+        <th>t/fill</th><th>t/card</th><th>a/card</th><th>sRGB equiv</th>
+      </tr></thead>
+      <tbody>
+    <tr>
+      <th scope="row">danger</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.3509 0.0620 0.0615);color:color(display-p3 0.9961 0.3537 0.2777)">
+          <span class="dot" style="background:color(display-p3 0.9961 0.3537 0.2777)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 0.9961 0.3537 0.2777)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 0.9820 0.0071 0.0005)"></span>
+        <span class="bar" style="background:color(display-p3 0.9820 0.0071 0.0005)"></span>
+      </td>
+      <td class="num">4.58</td>
+      <td class="num">6.35</td>
+      <td class="num">4.86</td>
+      <td class="meta">#FF4839<br><span class="dim">+20% C · out of sRGB</span></td>
+    </tr>
+    <tr>
+      <th scope="row">caution</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.3546 0.2834 0.0614);color:color(display-p3 0.9921 0.7993 -0.0001)">
+          <span class="dot" style="background:color(display-p3 0.9921 0.7993 -0.0001)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 0.9921 0.7993 -0.0001)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 0.9921 0.7993 -0.0001)"></span>
+        <span class="bar" style="background:color(display-p3 0.9921 0.7993 -0.0001)"></span>
+      </td>
+      <td class="num">5.80</td>
+      <td class="num">12.44</td>
+      <td class="num">12.44</td>
+      <td class="meta">#FFC900<br><span class="dim">+17% C · out of sRGB</span></td>
+    </tr>
+    <tr>
+      <th scope="row">success</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.0614 0.3567 0.1045);color:color(display-p3 -0.0001 0.9978 0.2647)">
+          <span class="dot" style="background:color(display-p3 -0.0001 0.9978 0.2647)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 -0.0001 0.9978 0.2647)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 -0.0001 0.9978 0.2647)"></span>
+        <span class="bar" style="background:color(display-p3 -0.0001 0.9978 0.2647)"></span>
+      </td>
+      <td class="num">5.97</td>
+      <td class="num">13.36</td>
+      <td class="num">13.36</td>
+      <td class="meta">#00FF00<br><span class="dim">+38% C · out of sRGB</span></td>
+    </tr>
+    <tr>
+      <th scope="row">info</th>
+      <td>
+        <span class="pill" style="background:color(display-p3 0.0614 0.1976 0.3476);color:color(display-p3 0.1976 0.6128 0.9986)">
+          <span class="dot" style="background:color(display-p3 0.1976 0.6128 0.9986)"></span>Caution label
+        </span>
+      </td>
+      <td><span class="txt" style="color:color(display-p3 0.1976 0.6128 0.9986)">11pt body copy</span></td>
+      <td>
+        <span class="mark" style="background:color(display-p3 -0.0001 0.5595 0.9733)"></span>
+        <span class="bar" style="background:color(display-p3 -0.0001 0.5595 0.9733)"></span>
+      </td>
+      <td class="num">4.51</td>
+      <td class="num">6.61</td>
+      <td class="num">5.64</td>
+      <td class="meta">#009FFF<br><span class="dim">+15% C · out of sRGB</span></td>
+    </tr></tbody>
+    </table>
+  </section>
+  
+  <section class="gamut">
+    <h2>sRGB ceiling vs P3, at identical contrast</h2>
+    <p class="dim">Left half of each swatch is the most saturated value sRGB allows at this
+       lightness; right half is what P3 allows. Same measured contrast, more color.
+       On a non-P3 display the two halves will look identical — that is expected.</p>
+    <div class="grow">
+      <div class="gcell">
+        <div class="gswatch"><div style="background:#FB0004"></div>
+                             <div style="background:color(display-p3 0.9820 0.0071 0.0005)"></div></div>
+        <div class="glabel">danger<br><span class="dim">sRGB → P3 · +16% chroma</span></div>
+      </div>
+      <div class="gcell">
+        <div class="gswatch"><div style="background:#A98600"></div>
+                             <div style="background:color(display-p3 0.6565 0.5255 -0.0001)"></div></div>
+        <div class="glabel">caution<br><span class="dim">sRGB → P3 · +15% chroma</span></div>
+      </div>
+      <div class="gcell">
+        <div class="gswatch"><div style="background:#00A240"></div>
+                             <div style="background:color(display-p3 -0.0001 0.6475 0.1583)"></div></div>
+        <div class="glabel">success<br><span class="dim">sRGB → P3 · +39% chroma</span></div>
+      </div>
+      <div class="gcell">
+        <div class="gswatch"><div style="background:#0091E4"></div>
+                             <div style="background:color(display-p3 -0.0001 0.5595 0.9733)"></div></div>
+        <div class="glabel">info<br><span class="dim">sRGB → P3 · +31% chroma</span></div>
+      </div></div>
+  </section>
+  <p class="foot">t/fill = text on its own filled pill · t/card = text on the bare card ·
+     a/card = accent mark on the card. Gates: text ≥ 4.5:1, accent ≥ 3:1.
+     Fill is accent at 0.10 alpha — never authored separately.
+     Icons inside a pill use <em>text</em>, never <em>accent</em>.</p>
+</div>

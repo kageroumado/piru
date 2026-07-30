@@ -1,0 +1,277 @@
+{
+ "_meta": {
+  "space": "display-p3",
+  "ladder": "4-level",
+  "fill_alpha": 0.1,
+  "hues": {
+   "danger": 29,
+   "caution": 90,
+   "success": 148,
+   "info": 245
+  },
+  "card_light_srgb": "#f5f5f5",
+  "card_dark_srgb": "#111111",
+  "worst_pairwise_dE": 0.176,
+  "worst_pair": "caution/success light",
+  "ladder_note": "`warning` was dropped. At the chroma the gamut allows in light mode it could not be told apart from `caution` (dE 0.064) without pushing caution to an olive 109deg. The audit also found system .orange already carried three unrelated meanings, so the tier was not cleanly held anyway. Remap: 'dangerous interaction' -> danger; 'informational' -> info; 'tap to edit' -> not a status at all, use the app accent as a control tint.",
+  "gates": {
+   "text": "WCAG AA 4.5:1 vs its fill AND the bare card, computed in P3",
+   "accent": "WCAG 1.4.11 non-text 3:1 vs card, computed in P3",
+   "fill": "derived: accent @ 0.10 alpha over surface/card - never authored",
+   "icon_in_pill": "use text, never accent - an accent icon on an accent fill recreates the self-tint failure"
+  },
+  "neutral": "achromatic states use text/secondary; not a chromatic token",
+  "chroma_note": "*_srgb are independently gated in sRGB, not derived from the P3 values",
+  "note": "*_srgb_preview are display equivalents for preview only; ship the *_p3 components"
+ },
+ "tokens": {
+  "semantic/danger": {
+   "light": {
+    "hue": 29,
+    "text_p3": [
+     0.8118,
+     0.0133,
+     0.0047
+    ],
+    "accent_p3": [
+     0.982,
+     0.0071,
+     0.0005
+    ],
+    "text_srgb_preview": "#E20000",
+    "accent_srgb_preview": "#FF0000",
+    "accent_srgb_gated": "#FB0004",
+    "text_srgb_gated": "#D60104",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.255,
+     "accent_p3": 0.295,
+     "text_srgb": 0.225,
+     "accent_srgb": 0.255
+    },
+    "verified_p3": {
+     "text_on_fill": 4.62,
+     "text_on_card": 4.97,
+     "accent_on_card": 3.57
+    }
+   },
+   "dark": {
+    "hue": 29,
+    "text_p3": [
+     0.9961,
+     0.3537,
+     0.2777
+    ],
+    "accent_p3": [
+     0.982,
+     0.0071,
+     0.0005
+    ],
+    "text_srgb_preview": "#FF4839",
+    "accent_srgb_preview": "#FF0000",
+    "accent_srgb_gated": "#FB0004",
+    "text_srgb_gated": "#FD5B4B",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.24,
+     "accent_p3": 0.295,
+     "text_srgb": 0.2,
+     "accent_srgb": 0.255
+    },
+    "verified_p3": {
+     "text_on_fill": 4.58,
+     "text_on_card": 6.35,
+     "accent_on_card": 4.86
+    }
+   }
+  },
+  "semantic/caution": {
+   "light": {
+    "hue": 90,
+    "text_p3": [
+     0.5126,
+     0.4081,
+     0.0001
+    ],
+    "accent_p3": [
+     0.6565,
+     0.5255,
+     -0.0001
+    ],
+    "text_srgb_preview": "#886700",
+    "accent_srgb_preview": "#AE8400",
+    "accent_srgb_gated": "#A98600",
+    "text_srgb_gated": "#7D6200",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.125,
+     "accent_p3": 0.15,
+     "text_srgb": 0.105,
+     "accent_srgb": 0.13
+    },
+    "verified_p3": {
+     "text_on_fill": 4.54,
+     "text_on_card": 4.87,
+     "accent_on_card": 3.17
+    }
+   },
+   "dark": {
+    "hue": 90,
+    "text_p3": [
+     0.9921,
+     0.7993,
+     -0.0001
+    ],
+    "accent_p3": [
+     0.9921,
+     0.7993,
+     -0.0001
+    ],
+    "text_srgb_preview": "#FFC900",
+    "accent_srgb_preview": "#FFC900",
+    "accent_srgb_gated": "#FCC800",
+    "text_srgb_gated": "#FCC800",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.205,
+     "accent_p3": 0.205,
+     "text_srgb": 0.175,
+     "accent_srgb": 0.175
+    },
+    "verified_p3": {
+     "text_on_fill": 5.8,
+     "text_on_card": 12.44,
+     "accent_on_card": 12.44
+    }
+   }
+  },
+  "semantic/success": {
+   "light": {
+    "hue": 148,
+    "text_p3": [
+     -0.0001,
+     0.4941,
+     0.1117
+    ],
+    "accent_p3": [
+     -0.0001,
+     0.6475,
+     0.1583
+    ],
+    "text_srgb_preview": "#008000",
+    "accent_srgb_preview": "#00A800",
+    "accent_srgb_gated": "#00A240",
+    "text_srgb_gated": "#007D30",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.205,
+     "accent_p3": 0.25,
+     "text_srgb": 0.15,
+     "accent_srgb": 0.18
+    },
+    "verified_p3": {
+     "text_on_fill": 4.6,
+     "text_on_card": 4.93,
+     "accent_on_card": 3.08
+    }
+   },
+   "dark": {
+    "hue": 148,
+    "text_p3": [
+     -0.0001,
+     0.9978,
+     0.2647
+    ],
+    "accent_p3": [
+     -0.0001,
+     0.9978,
+     0.2647
+    ],
+    "text_srgb_preview": "#00FF00",
+    "accent_srgb_preview": "#00FF00",
+    "accent_srgb_gated": "#00FA67",
+    "text_srgb_gated": "#00FA67",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.345,
+     "accent_p3": 0.345,
+     "text_srgb": 0.25,
+     "accent_srgb": 0.25
+    },
+    "verified_p3": {
+     "text_on_fill": 5.97,
+     "text_on_card": 13.36,
+     "accent_on_card": 13.36
+    }
+   }
+  },
+  "semantic/info": {
+   "light": {
+    "hue": 245,
+    "text_p3": [
+     0.0011,
+     0.419,
+     0.738
+    ],
+    "accent_p3": [
+     -0.0001,
+     0.5595,
+     0.9733
+    ],
+    "text_srgb_preview": "#006DC2",
+    "accent_srgb_preview": "#0091FF",
+    "accent_srgb_gated": "#0091E4",
+    "text_srgb_gated": "#006CAC",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.17,
+     "accent_p3": 0.21,
+     "text_srgb": 0.13,
+     "accent_srgb": 0.16
+    },
+    "verified_p3": {
+     "text_on_fill": 4.69,
+     "text_on_card": 5.03,
+     "accent_on_card": 3.07
+    }
+   },
+   "dark": {
+    "hue": 245,
+    "text_p3": [
+     0.1976,
+     0.6128,
+     0.9986
+    ],
+    "accent_p3": [
+     -0.0001,
+     0.5595,
+     0.9733
+    ],
+    "text_srgb_preview": "#009FFF",
+    "accent_srgb_preview": "#0091FF",
+    "accent_srgb_gated": "#009EF7",
+    "text_srgb_gated": "#16A4FE",
+    "text_out_of_srgb": true,
+    "accent_out_of_srgb": true,
+    "chroma": {
+     "text_p3": 0.195,
+     "accent_p3": 0.21,
+     "text_srgb": 0.17,
+     "accent_srgb": 0.17
+    },
+    "verified_p3": {
+     "text_on_fill": 4.51,
+     "text_on_card": 6.61,
+     "accent_on_card": 5.64
+    }
+   }
+  }
+ }
+}

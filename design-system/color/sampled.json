@@ -1,0 +1,2498 @@
+{
+  "color_profile_note": "All source PNGs (xcrun simctl io screenshot) carry an explicit sRGB chunk (verified: `sips -g profile` -> 'sRGB IEC61966-2.1'; PIL im.info contains an `srgb` key). These are RAW FILE VALUES reported as sRGB hex with no profile conversion applied \u2014 not converted from Display P3.",
+  "method_note": "'patch' surfaces: per-channel median over a manually chosen clean rect (rect in original-image pixel space, i.e. already 3x). 'pill'/chip surfaces: pixels in a generous bounding box are quantized (12-unit bins) and clustered by frequency; the dominant cluster is reported as '<surface>.fill', and the most frequent cluster whose Euclidean RGB distance from the fill exceeds 45 is reported as '<surface>.text' (paired in `pairs`). median_confidence 'low' flags a weak/ambiguous cluster (small fraction of the rect) worth a manual look.",
+  "samples": [
+    {
+      "id": "PX-001",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "bg.app",
+      "rect": [
+        860,
+        308,
+        1218,
+        351
+      ],
+      "rgb_srgb": "#000000",
+      "median_confidence": "high",
+      "note": "Journal home, blank area above My Meds card"
+    },
+    {
+      "id": "PX-002",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "card.fill",
+      "rect": [
+        932,
+        509,
+        1175,
+        559
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "My Meds card interior, dark"
+    },
+    {
+      "id": "PX-003",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "pill.route.oral.fill",
+      "rect": [
+        1104,
+        1094,
+        1235,
+        1175
+      ],
+      "rgb_srgb": "#102337",
+      "median_confidence": "high",
+      "note": "'oral' badge, Active Now card, dark [dominant cluster, 74% of pixels]"
+    },
+    {
+      "id": "PX-004",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "pill.route.oral.text",
+      "rect": [
+        1104,
+        1094,
+        1235,
+        1175
+      ],
+      "rgb_srgb": "#0a84ff",
+      "median_confidence": "low",
+      "note": "'oral' badge, Active Now card, dark [secondary cluster, 4% of pixels]"
+    },
+    {
+      "id": "PX-005",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "meter.peak.fill",
+      "rect": [
+        215,
+        1213,
+        788,
+        1233
+      ],
+      "rgb_srgb": "#17321e",
+      "median_confidence": "high",
+      "note": "green 'Peak' progress bar fill, dark"
+    },
+    {
+      "id": "PX-006",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "chrome.tabbar.over_black",
+      "rect": [
+        559,
+        2806,
+        1003,
+        2849
+      ],
+      "rgb_srgb": "#030303",
+      "median_confidence": "high",
+      "note": "tab bar glass, backdrop = black app bg"
+    },
+    {
+      "id": "PX-007",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "appearance": "dark",
+      "surface": "chrome.dock.fill",
+      "rect": [
+        79,
+        2487,
+        158,
+        2537
+      ],
+      "rgb_srgb": "#191919",
+      "median_confidence": "high",
+      "note": "'Log a dose' floating dock, dark, blank left edge"
+    },
+    {
+      "id": "PX-008",
+      "screenshot": "screenshots/SCR-library-home-dark.png",
+      "appearance": "dark",
+      "surface": "gradient.common",
+      "rect": [
+        616,
+        384,
+        745,
+        427
+      ],
+      "rgb_srgb": "#658cc9",
+      "median_confidence": "high",
+      "note": "Common card gradient (blue), dark"
+    },
+    {
+      "id": "PX-009",
+      "screenshot": "screenshots/SCR-library-home-dark.png",
+      "appearance": "dark",
+      "surface": "gradient.stimulants",
+      "rect": [
+        616,
+        929,
+        745,
+        972
+      ],
+      "rgb_srgb": "#ffa660",
+      "median_confidence": "high",
+      "note": "Stimulants card gradient (orange), dark"
+    },
+    {
+      "id": "PX-010",
+      "screenshot": "screenshots/SCR-library-home-dark.png",
+      "appearance": "dark",
+      "surface": "gradient.empathogens",
+      "rect": [
+        616,
+        1473,
+        745,
+        1516
+      ],
+      "rgb_srgb": "#ff697b",
+      "median_confidence": "high",
+      "note": "Empathogens card gradient (pink/red), dark"
+    },
+    {
+      "id": "PX-011",
+      "screenshot": "screenshots/SCR-library-home-dark.png",
+      "appearance": "dark",
+      "surface": "gradient.hallucinogens",
+      "rect": [
+        616,
+        2018,
+        745,
+        2061
+      ],
+      "rgb_srgb": "#a36bd6",
+      "median_confidence": "high",
+      "note": "Hallucinogens card gradient (purple), dark"
+    },
+    {
+      "id": "PX-012",
+      "screenshot": "screenshots/SCR-library-home-dark.png",
+      "appearance": "dark",
+      "surface": "gradient.cannabinoids",
+      "rect": [
+        616,
+        2563,
+        745,
+        2606
+      ],
+      "rgb_srgb": "#31793d",
+      "median_confidence": "high",
+      "note": "Cannabinoids card gradient (green), dark"
+    },
+    {
+      "id": "PX-013",
+      "screenshot": "screenshots/SCR-library-home-dark.png",
+      "appearance": "dark",
+      "surface": "chrome.tabbar.over_green",
+      "rect": [
+        559,
+        2806,
+        1003,
+        2849
+      ],
+      "rgb_srgb": "#602a29",
+      "median_confidence": "high",
+      "note": "tab bar glass, backdrop = green Cannabinoids gradient"
+    },
+    {
+      "id": "PX-014",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "card.fill.insights",
+      "rect": [
+        1003,
+        602,
+        1147,
+        659
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "Usage card interior, blank right side, dark"
+    },
+    {
+      "id": "PX-015",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "chart.bar.usage",
+      "rect": [
+        208,
+        688,
+        236,
+        795
+      ],
+      "rgb_srgb": "#1092ff",
+      "median_confidence": "high",
+      "note": "usage bar chart column, blue, dark"
+    },
+    {
+      "id": "PX-016",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "adherence.square.green",
+      "rect": [
+        97,
+        1696,
+        247,
+        1730
+      ],
+      "rgb_srgb": "#2bb44d",
+      "median_confidence": "high",
+      "note": "adherence heatmap green square, dark"
+    },
+    {
+      "id": "PX-017",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "adherence.square.red",
+      "rect": [
+        269,
+        1696,
+        419,
+        1730
+      ],
+      "rgb_srgb": "#cf383b",
+      "median_confidence": "high",
+      "note": "adherence heatmap red square, dark"
+    },
+    {
+      "id": "PX-018",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "adherence.square.orange",
+      "rect": [
+        770,
+        1628,
+        875,
+        1656
+      ],
+      "rgb_srgb": "#db7f2b",
+      "median_confidence": "high",
+      "note": "adherence heatmap orange square, dark (bbox located via color-cluster detection)"
+    },
+    {
+      "id": "PX-019",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "adherence.square.empty",
+      "rect": [
+        953,
+        1846,
+        1061,
+        1870
+      ],
+      "rgb_srgb": "#29292c",
+      "median_confidence": "high",
+      "note": "adherence heatmap empty/future square, dark"
+    },
+    {
+      "id": "PX-020",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "tolerance.track",
+      "rect": [
+        971,
+        2141,
+        1219,
+        2149
+      ],
+      "rgb_srgb": "#352416",
+      "median_confidence": "high",
+      "note": "tolerance progress track (unfilled), dark (bar located via column color-scan)"
+    },
+    {
+      "id": "PX-021",
+      "screenshot": "screenshots/SCR-insights-home-dark.png",
+      "appearance": "dark",
+      "surface": "tolerance.fill",
+      "rect": [
+        939,
+        2141,
+        967,
+        2149
+      ],
+      "rgb_srgb": "#ff9230",
+      "median_confidence": "high",
+      "note": "tolerance progress fill (orange), dark (bar located via column color-scan)"
+    },
+    {
+      "id": "PX-022",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "appearance": "dark",
+      "surface": "chip.freq.methylphenidate.fill",
+      "rect": [
+        50,
+        838,
+        451,
+        917
+      ],
+      "rgb_srgb": "#071825",
+      "median_confidence": "high",
+      "note": "'Methylphenidate' frequently-used chip, dark [dominant cluster, 85% of pixels]"
+    },
+    {
+      "id": "PX-023",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "appearance": "dark",
+      "surface": "chip.freq.methylphenidate.text",
+      "rect": [
+        50,
+        838,
+        451,
+        917
+      ],
+      "rgb_srgb": "#2ca2f5",
+      "median_confidence": "high",
+      "note": "'Methylphenidate' frequently-used chip, dark [secondary cluster, 9% of pixels]"
+    },
+    {
+      "id": "PX-024",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "appearance": "dark",
+      "surface": "chip.freq.vitamind.fill",
+      "rect": [
+        473,
+        838,
+        745,
+        917
+      ],
+      "rgb_srgb": "#25221a",
+      "median_confidence": "high",
+      "note": "'Vitamin D' frequently-used chip, dark [dominant cluster, 86% of pixels]"
+    },
+    {
+      "id": "PX-025",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "appearance": "dark",
+      "surface": "chip.freq.vitamind.text",
+      "rect": [
+        473,
+        838,
+        745,
+        917
+      ],
+      "rgb_srgb": "#f9e2af",
+      "median_confidence": "high",
+      "note": "'Vitamin D' frequently-used chip, dark [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-026",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "appearance": "dark",
+      "surface": "input.search.fill",
+      "rect": [
+        717,
+        380,
+        1147,
+        444
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "search field fill, dark"
+    },
+    {
+      "id": "PX-027",
+      "screenshot": "screenshots/SCR-settings-dark.png",
+      "appearance": "dark",
+      "surface": "card.fill.grouped",
+      "rect": [
+        573,
+        724,
+        860,
+        781
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "grouped list row card interior, dark"
+    },
+    {
+      "id": "PX-028",
+      "screenshot": "screenshots/SCR-settings-dark.png",
+      "appearance": "dark",
+      "surface": "swatch.substancecolor.blue",
+      "rect": [
+        1072,
+        1039,
+        1096,
+        1063
+      ],
+      "rgb_srgb": "#2ca2c4",
+      "median_confidence": "high",
+      "note": "Substance Colors preview swatch, blue, dark"
+    },
+    {
+      "id": "PX-029",
+      "screenshot": "screenshots/SCR-settings-dark.png",
+      "appearance": "dark",
+      "surface": "swatch.substancecolor.tan",
+      "rect": [
+        1116,
+        1039,
+        1141,
+        1063
+      ],
+      "rgb_srgb": "#1c1c1e",
+      "median_confidence": "high",
+      "note": "Substance Colors preview swatch, tan, dark"
+    },
+    {
+      "id": "PX-030",
+      "screenshot": "screenshots/SCR-tools-home-dark.png",
+      "appearance": "dark",
+      "surface": "card.fill.tools",
+      "rect": [
+        860,
+        717,
+        1075,
+        774
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "Interactions card interior, blank, dark"
+    },
+    {
+      "id": "PX-031",
+      "screenshot": "screenshots/SCR-tools-home-dark.png",
+      "appearance": "dark",
+      "surface": "chrome.dock.over_content",
+      "rect": [
+        79,
+        2487,
+        158,
+        2537
+      ],
+      "rgb_srgb": "#1c1c1c",
+      "median_confidence": "high",
+      "note": "mini-player dock, blank left edge, dark, over Tools list"
+    },
+    {
+      "id": "PX-032",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "pill.route.oral.session.fill",
+      "rect": [
+        566,
+        1792,
+        688,
+        1863
+      ],
+      "rgb_srgb": "#102337",
+      "median_confidence": "high",
+      "note": "'oral' pill next to Methylphenidate, session detail, dark [dominant cluster, 66% of pixels]"
+    },
+    {
+      "id": "PX-033",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "pill.route.oral.session.text",
+      "rect": [
+        566,
+        1792,
+        688,
+        1863
+      ],
+      "rgb_srgb": "#0a84ff",
+      "median_confidence": "low",
+      "note": "'oral' pill next to Methylphenidate, session detail, dark [secondary cluster, 5% of pixels]"
+    },
+    {
+      "id": "PX-034",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "pill.tier.common.fill",
+      "rect": [
+        1051,
+        1867,
+        1180,
+        1928
+      ],
+      "rgb_srgb": "#37310e",
+      "median_confidence": "high",
+      "note": "'common' dose-tier pill, session detail, dark [dominant cluster, 68% of pixels]"
+    },
+    {
+      "id": "PX-035",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "pill.tier.common.text",
+      "rect": [
+        1051,
+        1867,
+        1180,
+        1928
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "'common' dose-tier pill, session detail, dark [secondary cluster, 14% of pixels]"
+    },
+    {
+      "id": "PX-036",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chip.tag.meds.fill",
+      "rect": [
+        107,
+        2007,
+        247,
+        2071
+      ],
+      "rgb_srgb": "#111111",
+      "median_confidence": "high",
+      "note": "'meds' outline tag chip, session detail, dark [dominant cluster, 77% of pixels]"
+    },
+    {
+      "id": "PX-037",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chip.tag.meds.text",
+      "rect": [
+        107,
+        2007,
+        247,
+        2071
+      ],
+      "rgb_srgb": "#38383a",
+      "median_confidence": "high",
+      "note": "'meds' outline tag chip, session detail, dark [secondary cluster, 9% of pixels]"
+    },
+    {
+      "id": "PX-038",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chart.band.pre_onset",
+      "rect": [
+        129,
+        602,
+        215,
+        688
+      ],
+      "rgb_srgb": "#131313",
+      "median_confidence": "high",
+      "note": "danger-window band, pre-onset segment, dark"
+    },
+    {
+      "id": "PX-039",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chart.band.peak",
+      "rect": [
+        502,
+        659,
+        588,
+        717
+      ],
+      "rgb_srgb": "#0c2d2e",
+      "median_confidence": "high",
+      "note": "danger-window band, peak plateau segment, dark"
+    },
+    {
+      "id": "PX-040",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chart.band.decline",
+      "rect": [
+        932,
+        702,
+        1075,
+        760
+      ],
+      "rgb_srgb": "#1f1301",
+      "median_confidence": "high",
+      "note": "danger-window band, decline segment, dark"
+    },
+    {
+      "id": "PX-041",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chart.line.pk.fill",
+      "rect": [
+        420,
+        558,
+        466,
+        596
+      ],
+      "rgb_srgb": "#06180b",
+      "median_confidence": "high",
+      "note": "PK curve line (.fill = band underneath, .text = the stroke itself), blue, dark. The stroke's dominant cluster across the WHOLE curve (checked separately over a large region) was a consistent (44,162,245) = #2ca2f5 \u2014 NOT raw systemBlue #0a84ff, matching the app's blue substance-color preset. [dominant cluster, 47% of pixels]"
+    },
+    {
+      "id": "PX-042",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "chart.line.pk.text",
+      "rect": [
+        420,
+        558,
+        466,
+        596
+      ],
+      "rgb_srgb": "#2ca2f5",
+      "median_confidence": "high",
+      "note": "PK curve line (.fill = band underneath, .text = the stroke itself), blue, dark. The stroke's dominant cluster across the WHOLE curve (checked separately over a large region) was a consistent (44,162,245) = #2ca2f5 \u2014 NOT raw systemBlue #0a84ff, matching the app's blue substance-color preset. [secondary cluster, 17% of pixels]"
+    },
+    {
+      "id": "PX-043",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "appearance": "dark",
+      "surface": "button.apple_health.fill",
+      "rect": [
+        229,
+        1569,
+        487,
+        1612
+      ],
+      "rgb_srgb": "#ff296d",
+      "median_confidence": "high",
+      "note": "'Turn On Apple Health' filled button, dark"
+    },
+    {
+      "id": "PX-044",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "badge.category.stimulant.fill",
+      "rect": [
+        122,
+        652,
+        387,
+        702
+      ],
+      "rgb_srgb": "#241407",
+      "median_confidence": "high",
+      "note": "'STIMULANT' category badge, dark [dominant cluster, 81% of pixels]"
+    },
+    {
+      "id": "PX-045",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "badge.category.stimulant.text",
+      "rect": [
+        122,
+        652,
+        387,
+        702
+      ],
+      "rgb_srgb": "#ff9230",
+      "median_confidence": "high",
+      "note": "'STIMULANT' category badge, dark [secondary cluster, 12% of pixels]"
+    },
+    {
+      "id": "PX-046",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "pill.route.oral.selected.fill",
+      "rect": [
+        122,
+        1870,
+        282,
+        1949
+      ],
+      "rgb_srgb": "#ff2d6f",
+      "median_confidence": "high",
+      "note": "'Oral' route pill, selected, dark [dominant cluster, 90% of pixels]"
+    },
+    {
+      "id": "PX-047",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "pill.route.oral.selected.text",
+      "rect": [
+        122,
+        1870,
+        282,
+        1949
+      ],
+      "rgb_srgb": "#ffffff",
+      "median_confidence": "high",
+      "note": "'Oral' route pill, selected, dark [secondary cluster, 6% of pixels]"
+    },
+    {
+      "id": "PX-048",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "pill.route.unselected.fill",
+      "rect": [
+        308,
+        1870,
+        616,
+        1949
+      ],
+      "rgb_srgb": "#29292c",
+      "median_confidence": "high",
+      "note": "'Insufflation' route pill, unselected, dark [dominant cluster, 87% of pixels]"
+    },
+    {
+      "id": "PX-049",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "pill.route.unselected.text",
+      "rect": [
+        308,
+        1870,
+        616,
+        1949
+      ],
+      "rgb_srgb": "#ffffff",
+      "median_confidence": "high",
+      "note": "'Insufflation' route pill, unselected, dark [secondary cluster, 8% of pixels]"
+    },
+    {
+      "id": "PX-050",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.threshold.card.fill",
+      "rect": [
+        122,
+        2200,
+        318,
+        2365
+      ],
+      "rgb_srgb": "#29292c",
+      "median_confidence": "high",
+      "note": "THRESHOLD tier disc + card, unselected, dark [dominant cluster, 92% of pixels]"
+    },
+    {
+      "id": "PX-051",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.threshold.card.text",
+      "rect": [
+        122,
+        2200,
+        318,
+        2365
+      ],
+      "rgb_srgb": "#a3a3aa",
+      "median_confidence": "low",
+      "note": "THRESHOLD tier disc + card, unselected, dark [secondary cluster, 3% of pixels]"
+    },
+    {
+      "id": "PX-052",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.light.card.fill",
+      "rect": [
+        344,
+        2200,
+        533,
+        2365
+      ],
+      "rgb_srgb": "#29292c",
+      "median_confidence": "high",
+      "note": "LIGHT tier disc + card, unselected, dark [dominant cluster, 89% of pixels]"
+    },
+    {
+      "id": "PX-053",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.light.card.text",
+      "rect": [
+        344,
+        2200,
+        533,
+        2365
+      ],
+      "rgb_srgb": "#ffffff",
+      "median_confidence": "low",
+      "note": "LIGHT tier disc + card, unselected, dark [secondary cluster, 3% of pixels]"
+    },
+    {
+      "id": "PX-054",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.common.card.selected.fill",
+      "rect": [
+        563,
+        2200,
+        752,
+        2365
+      ],
+      "rgb_srgb": "#2e2015",
+      "median_confidence": "high",
+      "note": "COMMON tier disc + card, SELECTED (highlighted bg), dark [dominant cluster, 83% of pixels]"
+    },
+    {
+      "id": "PX-055",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.common.card.selected.text",
+      "rect": [
+        563,
+        2200,
+        752,
+        2365
+      ],
+      "rgb_srgb": "#ffffff",
+      "median_confidence": "low",
+      "note": "COMMON tier disc + card, SELECTED (highlighted bg), dark [secondary cluster, 5% of pixels]"
+    },
+    {
+      "id": "PX-056",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.strong.card.fill",
+      "rect": [
+        784,
+        2200,
+        973,
+        2365
+      ],
+      "rgb_srgb": "#29292c",
+      "median_confidence": "high",
+      "note": "STRONG tier disc + card, unselected, dark [dominant cluster, 82% of pixels]"
+    },
+    {
+      "id": "PX-057",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.strong.card.text",
+      "rect": [
+        784,
+        2200,
+        973,
+        2365
+      ],
+      "rgb_srgb": "#f0803a",
+      "median_confidence": "high",
+      "note": "STRONG tier disc + card, unselected, dark [secondary cluster, 6% of pixels]"
+    },
+    {
+      "id": "PX-058",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.heavy.card.fill",
+      "rect": [
+        1003,
+        2200,
+        1192,
+        2365
+      ],
+      "rgb_srgb": "#29292c",
+      "median_confidence": "high",
+      "note": "HEAVY tier disc + card, unselected, dark [dominant cluster, 84% of pixels]"
+    },
+    {
+      "id": "PX-059",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "appearance": "dark",
+      "surface": "tier.heavy.card.text",
+      "rect": [
+        1003,
+        2200,
+        1192,
+        2365
+      ],
+      "rgb_srgb": "#e8503a",
+      "median_confidence": "high",
+      "note": "HEAVY tier disc + card, unselected, dark [secondary cluster, 8% of pixels]"
+    },
+    {
+      "id": "PX-060",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "badge.category.stimulant.fill",
+      "rect": [
+        122,
+        652,
+        387,
+        702
+      ],
+      "rgb_srgb": "#ffefe1",
+      "median_confidence": "high",
+      "note": "'STIMULANT' category badge, light [dominant cluster, 81% of pixels]"
+    },
+    {
+      "id": "PX-061",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "badge.category.stimulant.text",
+      "rect": [
+        122,
+        652,
+        387,
+        702
+      ],
+      "rgb_srgb": "#ff8d28",
+      "median_confidence": "high",
+      "note": "'STIMULANT' category badge, light [secondary cluster, 12% of pixels]"
+    },
+    {
+      "id": "PX-062",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "pill.route.oral.selected.fill",
+      "rect": [
+        122,
+        1870,
+        282,
+        1949
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "'Oral' route pill, selected, light [dominant cluster, 80% of pixels]"
+    },
+    {
+      "id": "PX-063",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "pill.route.oral.selected.text",
+      "rect": [
+        122,
+        1870,
+        282,
+        1949
+      ],
+      "rgb_srgb": "#000000",
+      "median_confidence": "high",
+      "note": "'Oral' route pill, selected, light [secondary cluster, 6% of pixels]"
+    },
+    {
+      "id": "PX-064",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "pill.route.unselected.fill",
+      "rect": [
+        308,
+        1870,
+        616,
+        1949
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "'Insufflation' route pill, unselected, light [dominant cluster, 94% of pixels]"
+    },
+    {
+      "id": "PX-065",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "pill.route.unselected.text",
+      "rect": [
+        308,
+        1870,
+        616,
+        1949
+      ],
+      "rgb_srgb": "#7a7a80",
+      "median_confidence": "low",
+      "note": "'Insufflation' route pill, unselected, light [secondary cluster, 2% of pixels]"
+    },
+    {
+      "id": "PX-066",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "appearance": "light",
+      "surface": "card.fill.overview",
+      "rect": [
+        932,
+        1290,
+        1147,
+        1362
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "Overview card interior (.ultraThinMaterial), light"
+    },
+    {
+      "id": "PX-067",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.med.morning.selected.fill",
+      "rect": [
+        50,
+        817,
+        351,
+        910
+      ],
+      "rgb_srgb": "#06190b",
+      "median_confidence": "high",
+      "note": "'Morning' med-time pill, selected (checked), dark [dominant cluster, 90% of pixels]"
+    },
+    {
+      "id": "PX-068",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.med.morning.selected.text",
+      "rect": [
+        50,
+        817,
+        351,
+        910
+      ],
+      "rgb_srgb": "#30d158",
+      "median_confidence": "high",
+      "note": "'Morning' med-time pill, selected (checked), dark [secondary cluster, 6% of pixels]"
+    },
+    {
+      "id": "PX-069",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.med.anytime.selected.fill",
+      "rect": [
+        380,
+        817,
+        702,
+        910
+      ],
+      "rgb_srgb": "#1f050d",
+      "median_confidence": "high",
+      "note": "'Anytime' med-time pill, selected, dark [dominant cluster, 89% of pixels]"
+    },
+    {
+      "id": "PX-070",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.med.anytime.selected.text",
+      "rect": [
+        380,
+        817,
+        702,
+        910
+      ],
+      "rgb_srgb": "#ff2d6f",
+      "median_confidence": "high",
+      "note": "'Anytime' med-time pill, selected, dark [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-071",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.med.add.fill",
+      "rect": [
+        731,
+        817,
+        1075,
+        910
+      ],
+      "rgb_srgb": "#262629",
+      "median_confidence": "high",
+      "note": "'Add a Med' pill, dark [dominant cluster, 89% of pixels]"
+    },
+    {
+      "id": "PX-072",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.med.add.text",
+      "rect": [
+        731,
+        817,
+        1075,
+        910
+      ],
+      "rgb_srgb": "#a6a6ad",
+      "median_confidence": "high",
+      "note": "'Add a Med' pill, dark [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-073",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.active_amount.fill",
+      "rect": [
+        423,
+        1089,
+        939,
+        1154
+      ],
+      "rgb_srgb": "#2e141c",
+      "median_confidence": "high",
+      "note": "'~1985 IU active' pill, dark [dominant cluster, 58% of pixels]"
+    },
+    {
+      "id": "PX-074",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.active_amount.text",
+      "rect": [
+        423,
+        1089,
+        939,
+        1154
+      ],
+      "rgb_srgb": "#ff2d6f",
+      "median_confidence": "high",
+      "note": "'~1985 IU active' pill, dark [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-075",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.dose.tan.fill",
+      "rect": [
+        122,
+        1276,
+        287,
+        1340
+      ],
+      "rgb_srgb": "#343029",
+      "median_confidence": "high",
+      "note": "'2000 IU' dose pill (Vitamin D3), dark [dominant cluster, 79% of pixels]"
+    },
+    {
+      "id": "PX-076",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.dose.tan.text",
+      "rect": [
+        122,
+        1276,
+        287,
+        1340
+      ],
+      "rgb_srgb": "#f9e2af",
+      "median_confidence": "high",
+      "note": "'2000 IU' dose pill (Vitamin D3), dark [secondary cluster, 14% of pixels]"
+    },
+    {
+      "id": "PX-077",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.dose.blue.fill",
+      "rect": [
+        122,
+        1734,
+        251,
+        1799
+      ],
+      "rgb_srgb": "#152733",
+      "median_confidence": "high",
+      "note": "'10 mg' dose pill (Methylphenidate), dark [dominant cluster, 81% of pixels]"
+    },
+    {
+      "id": "PX-078",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "pill.dose.blue.text",
+      "rect": [
+        122,
+        1734,
+        251,
+        1799
+      ],
+      "rgb_srgb": "#2ca2f5",
+      "median_confidence": "high",
+      "note": "'10 mg' dose pill (Methylphenidate), dark [secondary cluster, 11% of pixels]"
+    },
+    {
+      "id": "PX-079",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "appearance": "dark",
+      "surface": "chrome.sheet.search",
+      "rect": [
+        573,
+        2680,
+        1003,
+        2752
+      ],
+      "rgb_srgb": "#3b3b3d",
+      "median_confidence": "high",
+      "note": "bottom search field fill, QuickLog sheet, dark"
+    },
+    {
+      "id": "PX-080",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.med.morning.selected.fill",
+      "rect": [
+        50,
+        817,
+        351,
+        910
+      ],
+      "rgb_srgb": "#e7f8eb",
+      "median_confidence": "high",
+      "note": "'Morning' med-time pill, selected, light [dominant cluster, 90% of pixels]"
+    },
+    {
+      "id": "PX-081",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.med.morning.selected.text",
+      "rect": [
+        50,
+        817,
+        351,
+        910
+      ],
+      "rgb_srgb": "#34c759",
+      "median_confidence": "high",
+      "note": "'Morning' med-time pill, selected, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-082",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.med.anytime.selected.fill",
+      "rect": [
+        380,
+        817,
+        702,
+        910
+      ],
+      "rgb_srgb": "#feeff2",
+      "median_confidence": "high",
+      "note": "'Anytime' med-time pill, selected, light [dominant cluster, 88% of pixels]"
+    },
+    {
+      "id": "PX-083",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.med.anytime.selected.text",
+      "rect": [
+        380,
+        817,
+        702,
+        910
+      ],
+      "rgb_srgb": "#f57896",
+      "median_confidence": "high",
+      "note": "'Anytime' med-time pill, selected, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-084",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.med.add.fill",
+      "rect": [
+        731,
+        817,
+        1075,
+        910
+      ],
+      "rgb_srgb": "#e9e9eb",
+      "median_confidence": "high",
+      "note": "'Add a Med' pill, light [dominant cluster, 89% of pixels]"
+    },
+    {
+      "id": "PX-085",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.med.add.text",
+      "rect": [
+        731,
+        817,
+        1075,
+        910
+      ],
+      "rgb_srgb": "#7a7a80",
+      "median_confidence": "high",
+      "note": "'Add a Med' pill, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-086",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.active_amount.fill",
+      "rect": [
+        423,
+        1089,
+        939,
+        1154
+      ],
+      "rgb_srgb": "#f5e6ea",
+      "median_confidence": "high",
+      "note": "'~1985 IU active' pill, light [dominant cluster, 58% of pixels]"
+    },
+    {
+      "id": "PX-087",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.active_amount.text",
+      "rect": [
+        423,
+        1089,
+        939,
+        1154
+      ],
+      "rgb_srgb": "#f57896",
+      "median_confidence": "high",
+      "note": "'~1985 IU active' pill, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-088",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.dose.tan.fill",
+      "rect": [
+        122,
+        1276,
+        287,
+        1340
+      ],
+      "rgb_srgb": "#f6f2eb",
+      "median_confidence": "high",
+      "note": "'2000 IU' dose pill (Vitamin D3), light [dominant cluster, 79% of pixels]"
+    },
+    {
+      "id": "PX-089",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.dose.tan.text",
+      "rect": [
+        122,
+        1276,
+        287,
+        1340
+      ],
+      "rgb_srgb": "#f9e2af",
+      "median_confidence": "high",
+      "note": "'2000 IU' dose pill (Vitamin D3), light [secondary cluster, 14% of pixels]"
+    },
+    {
+      "id": "PX-090",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.dose.blue.fill",
+      "rect": [
+        122,
+        1734,
+        251,
+        1799
+      ],
+      "rgb_srgb": "#d7e9f5",
+      "median_confidence": "high",
+      "note": "'10 mg' dose pill (Methylphenidate), light [dominant cluster, 70% of pixels]"
+    },
+    {
+      "id": "PX-091",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "pill.dose.blue.text",
+      "rect": [
+        122,
+        1734,
+        251,
+        1799
+      ],
+      "rgb_srgb": "#2ca2f5",
+      "median_confidence": "high",
+      "note": "'10 mg' dose pill (Methylphenidate), light [secondary cluster, 11% of pixels]"
+    },
+    {
+      "id": "PX-092",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "appearance": "light",
+      "surface": "chrome.sheet.search",
+      "rect": [
+        573,
+        2680,
+        1003,
+        2752
+      ],
+      "rgb_srgb": "#e7e7e8",
+      "median_confidence": "high",
+      "note": "bottom search field fill, QuickLog sheet, light"
+    },
+    {
+      "id": "PX-093",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "pill.route.oral.session.fill",
+      "rect": [
+        379,
+        1487,
+        489,
+        1544
+      ],
+      "rgb_srgb": "#cbd8e8",
+      "median_confidence": "low",
+      "note": "'oral' pill next to Caffeine, session detail, light (bbox located via color-cluster detection) [dominant cluster, 30% of pixels]"
+    },
+    {
+      "id": "PX-094",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "pill.route.oral.session.text",
+      "rect": [
+        379,
+        1487,
+        489,
+        1544
+      ],
+      "rgb_srgb": "#0a5cbc",
+      "median_confidence": "high",
+      "note": "'oral' pill next to Caffeine, session detail, light (bbox located via color-cluster detection) [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-095",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "pill.tier.common.fill",
+      "rect": [
+        1020,
+        1562,
+        1221,
+        1627
+      ],
+      "rgb_srgb": "#e1dccc",
+      "median_confidence": "high",
+      "note": "'common' dose-tier pill, session detail, light [dominant cluster, 58% of pixels]"
+    },
+    {
+      "id": "PX-096",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "pill.tier.common.text",
+      "rect": [
+        1020,
+        1562,
+        1221,
+        1627
+      ],
+      "rgb_srgb": "#f4f4f4",
+      "median_confidence": "high",
+      "note": "'common' dose-tier pill, session detail, light [secondary cluster, 14% of pixels]"
+    },
+    {
+      "id": "PX-097",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "pill.tier.subthreshold.fill",
+      "rect": [
+        932,
+        1878,
+        1211,
+        1928
+      ],
+      "rgb_srgb": "#e5e5e5",
+      "median_confidence": "high",
+      "note": "'sub-threshold' dose-tier pill, Alcohol row, light [dominant cluster, 81% of pixels]"
+    },
+    {
+      "id": "PX-098",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "pill.tier.subthreshold.text",
+      "rect": [
+        932,
+        1878,
+        1211,
+        1928
+      ],
+      "rgb_srgb": "#8e8e93",
+      "median_confidence": "high",
+      "note": "'sub-threshold' dose-tier pill, Alcohol row, light [secondary cluster, 10% of pixels]"
+    },
+    {
+      "id": "PX-099",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chip.tag.coffee.fill",
+      "rect": [
+        107,
+        1641,
+        258,
+        1691
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "'coffee' outline tag chip, light [dominant cluster, 81% of pixels]"
+    },
+    {
+      "id": "PX-100",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chip.tag.coffee.text",
+      "rect": [
+        107,
+        1641,
+        258,
+        1691
+      ],
+      "rgb_srgb": "#7a7a80",
+      "median_confidence": "high",
+      "note": "'coffee' outline tag chip, light [secondary cluster, 8% of pixels]"
+    },
+    {
+      "id": "PX-101",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chip.tag.drinks_social.fill",
+      "rect": [
+        107,
+        1949,
+        430,
+        2007
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "'drinks' + 'social' outline tag chips, light [dominant cluster, 76% of pixels]"
+    },
+    {
+      "id": "PX-102",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chip.tag.drinks_social.text",
+      "rect": [
+        107,
+        1949,
+        430,
+        2007
+      ],
+      "rgb_srgb": "#d4d4d5",
+      "median_confidence": "high",
+      "note": "'drinks' + 'social' outline tag chips, light [secondary cluster, 10% of pixels]"
+    },
+    {
+      "id": "PX-103",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "card.fill.session",
+      "rect": [
+        1003,
+        1476,
+        1147,
+        1519
+      ],
+      "rgb_srgb": "#efefef",
+      "median_confidence": "high",
+      "note": "dose row card interior, blank, light"
+    },
+    {
+      "id": "PX-104",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chart.band.caffeine",
+      "rect": [
+        493,
+        621,
+        513,
+        631
+      ],
+      "rgb_srgb": "#fdf1dd",
+      "median_confidence": "high",
+      "note": "fill-under-curve, Caffeine-only region (orange, no Alcohol underneath), light"
+    },
+    {
+      "id": "PX-105",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chart.band.overlap",
+      "rect": [
+        493,
+        831,
+        513,
+        841
+      ],
+      "rgb_srgb": "#eadbd5",
+      "median_confidence": "high",
+      "note": "fill-under-curve, OVERLAP of Caffeine+Alcohol translucent fills stacked (not pure Alcohol \u2014 Caffeine's curve stays above Alcohol's for the whole session), light"
+    },
+    {
+      "id": "PX-106",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chart.line.caffeine.fill",
+      "rect": [
+        620,
+        518,
+        670,
+        560
+      ],
+      "rgb_srgb": "#fef2de",
+      "median_confidence": "high",
+      "note": "PK curve line (.fill = band underneath, .text = the stroke itself), orange (Caffeine), light [dominant cluster, 41% of pixels]"
+    },
+    {
+      "id": "PX-107",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chart.line.caffeine.text",
+      "rect": [
+        620,
+        518,
+        670,
+        560
+      ],
+      "rgb_srgb": "#f5a623",
+      "median_confidence": "high",
+      "note": "PK curve line (.fill = band underneath, .text = the stroke itself), orange (Caffeine), light [secondary cluster, 15% of pixels]"
+    },
+    {
+      "id": "PX-108",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chart.line.alcohol.fill",
+      "rect": [
+        770,
+        669,
+        816,
+        711
+      ],
+      "rgb_srgb": "#f3e3de",
+      "median_confidence": "low",
+      "note": "PK curve line (.fill = band underneath, .text = the stroke itself), purple (Alcohol), light [dominant cluster, 33% of pixels]"
+    },
+    {
+      "id": "PX-109",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "appearance": "light",
+      "surface": "chart.line.alcohol.text",
+      "rect": [
+        770,
+        669,
+        816,
+        711
+      ],
+      "rgb_srgb": "#c8a3f3",
+      "median_confidence": "high",
+      "note": "PK curve line (.fill = band underneath, .text = the stroke itself), purple (Alcohol), light [secondary cluster, 16% of pixels]"
+    },
+    {
+      "id": "PX-110",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "bg.app",
+      "rect": [
+        143,
+        308,
+        573,
+        358
+      ],
+      "rgb_srgb": "#ffffff",
+      "median_confidence": "high",
+      "note": "Journal home, blank area above My Meds card, light"
+    },
+    {
+      "id": "PX-111",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "card.fill",
+      "rect": [
+        932,
+        509,
+        1175,
+        559
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "My Meds card interior, light (.ultraThinMaterial)"
+    },
+    {
+      "id": "PX-112",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "chrome.tabbar.over_white",
+      "rect": [
+        559,
+        2806,
+        1003,
+        2849
+      ],
+      "rgb_srgb": "#f3f3f3",
+      "median_confidence": "high",
+      "note": "tab bar glass, backdrop = white app bg, light"
+    },
+    {
+      "id": "PX-113",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "chrome.dock.fill",
+      "rect": [
+        79,
+        2487,
+        158,
+        2537
+      ],
+      "rgb_srgb": "#fdfdfd",
+      "median_confidence": "high",
+      "note": "'Log a dose' floating dock, light, blank left edge"
+    },
+    {
+      "id": "PX-114",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "chart.line.cannabis.fill",
+      "rect": [
+        905,
+        1470,
+        951,
+        1512
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "session mini-curve line (.fill = band underneath, .text = the stroke itself), green (Cannabis), light [dominant cluster, 45% of pixels]"
+    },
+    {
+      "id": "PX-115",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "chart.line.cannabis.text",
+      "rect": [
+        905,
+        1470,
+        951,
+        1512
+      ],
+      "rgb_srgb": "#8fae5c",
+      "median_confidence": "high",
+      "note": "session mini-curve line (.fill = band underneath, .text = the stroke itself), green (Cannabis), light [secondary cluster, 10% of pixels]"
+    },
+    {
+      "id": "PX-116",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "chart.line.ibuprofen.fill",
+      "rect": [
+        949,
+        1748,
+        995,
+        1790
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "session mini-curve line (.fill = band underneath, .text = the stroke itself), pink (Ibuprofen), light [dominant cluster, 46% of pixels]"
+    },
+    {
+      "id": "PX-117",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "appearance": "light",
+      "surface": "chart.line.ibuprofen.text",
+      "rect": [
+        949,
+        1748,
+        995,
+        1790
+      ],
+      "rgb_srgb": "#f17395",
+      "median_confidence": "high",
+      "note": "session mini-curve line (.fill = band underneath, .text = the stroke itself), pink (Ibuprofen), light [secondary cluster, 11% of pixels]"
+    },
+    {
+      "id": "PX-118",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.caffeine.fill",
+      "rect": [
+        50,
+        838,
+        287,
+        917
+      ],
+      "rgb_srgb": "#fef2de",
+      "median_confidence": "high",
+      "note": "'Caffeine' frequently-used chip, light [dominant cluster, 87% of pixels]"
+    },
+    {
+      "id": "PX-119",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.caffeine.text",
+      "rect": [
+        50,
+        838,
+        287,
+        917
+      ],
+      "rgb_srgb": "#f5a623",
+      "median_confidence": "high",
+      "note": "'Caffeine' frequently-used chip, light [secondary cluster, 8% of pixels]"
+    },
+    {
+      "id": "PX-120",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.vitamind3.fill",
+      "rect": [
+        308,
+        838,
+        602,
+        917
+      ],
+      "rgb_srgb": "#fefbf3",
+      "median_confidence": "high",
+      "note": "'Vitamin D3' frequently-used chip, light [dominant cluster, 87% of pixels]"
+    },
+    {
+      "id": "PX-121",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.vitamind3.text",
+      "rect": [
+        308,
+        838,
+        602,
+        917
+      ],
+      "rgb_srgb": "#f9e2af",
+      "median_confidence": "high",
+      "note": "'Vitamin D3' frequently-used chip, light [secondary cluster, 8% of pixels]"
+    },
+    {
+      "id": "PX-122",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.magnesium.fill",
+      "rect": [
+        623,
+        838,
+        932,
+        917
+      ],
+      "rgb_srgb": "#f2fbf1",
+      "median_confidence": "high",
+      "note": "'Magnesium' frequently-used chip, light [dominant cluster, 85% of pixels]"
+    },
+    {
+      "id": "PX-123",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.magnesium.text",
+      "rect": [
+        623,
+        838,
+        932,
+        917
+      ],
+      "rgb_srgb": "#a6e3a1",
+      "median_confidence": "high",
+      "note": "'Magnesium' frequently-used chip, light [secondary cluster, 8% of pixels]"
+    },
+    {
+      "id": "PX-124",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.alcohol.fill",
+      "rect": [
+        953,
+        838,
+        1172,
+        917
+      ],
+      "rgb_srgb": "#f7f2fe",
+      "median_confidence": "high",
+      "note": "'Alcohol' frequently-used chip, light [dominant cluster, 88% of pixels]"
+    },
+    {
+      "id": "PX-125",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.alcohol.text",
+      "rect": [
+        953,
+        838,
+        1172,
+        917
+      ],
+      "rgb_srgb": "#cba6f7",
+      "median_confidence": "high",
+      "note": "'Alcohol' frequently-used chip, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-126",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.ltheanine.fill",
+      "rect": [
+        50,
+        939,
+        341,
+        1018
+      ],
+      "rgb_srgb": "#d9f4f1",
+      "median_confidence": "high",
+      "note": "'L-Theanine' frequently-used chip, light [dominant cluster, 72% of pixels]"
+    },
+    {
+      "id": "PX-127",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.ltheanine.text",
+      "rect": [
+        50,
+        939,
+        341,
+        1018
+      ],
+      "rgb_srgb": "#00b3a2",
+      "median_confidence": "high",
+      "note": "'L-Theanine' frequently-used chip, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-128",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.creatine.fill",
+      "rect": [
+        365,
+        939,
+        602,
+        1018
+      ],
+      "rgb_srgb": "#dff1fe",
+      "median_confidence": "high",
+      "note": "'Creatine' frequently-used chip, light [dominant cluster, 71% of pixels]"
+    },
+    {
+      "id": "PX-129",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "appearance": "light",
+      "surface": "chip.freq.creatine.text",
+      "rect": [
+        365,
+        939,
+        602,
+        1018
+      ],
+      "rgb_srgb": "#2ca2f5",
+      "median_confidence": "high",
+      "note": "'Creatine' frequently-used chip, light [secondary cluster, 7% of pixels]"
+    },
+    {
+      "id": "PX-130",
+      "screenshot": "screenshots/SCR-tools-home.png",
+      "appearance": "light",
+      "surface": "card.fill.tools",
+      "rect": [
+        860,
+        717,
+        1075,
+        774
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "Interactions card interior, blank, light"
+    },
+    {
+      "id": "PX-131",
+      "screenshot": "screenshots/SCR-tools-home.png",
+      "appearance": "light",
+      "surface": "chrome.dock.over_content",
+      "rect": [
+        79,
+        2487,
+        158,
+        2537
+      ],
+      "rgb_srgb": "#fafafb",
+      "median_confidence": "high",
+      "note": "dock, blank left edge, light, over Tools list"
+    },
+    {
+      "id": "PX-132",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "card.fill.insights",
+      "rect": [
+        1003,
+        602,
+        1147,
+        659
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "Usage card interior, blank right side, light"
+    },
+    {
+      "id": "PX-133",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "chart.bar.usage",
+      "rect": [
+        208,
+        688,
+        236,
+        795
+      ],
+      "rgb_srgb": "#27a3ff",
+      "median_confidence": "high",
+      "note": "usage bar chart column, blue, light"
+    },
+    {
+      "id": "PX-134",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "adherence.square.green",
+      "rect": [
+        97,
+        1696,
+        247,
+        1730
+      ],
+      "rgb_srgb": "#fe9d47",
+      "median_confidence": "high",
+      "note": "adherence heatmap green square, light"
+    },
+    {
+      "id": "PX-135",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "adherence.square.red",
+      "rect": [
+        97,
+        1846,
+        247,
+        1870
+      ],
+      "rgb_srgb": "#fd5e61",
+      "median_confidence": "high",
+      "note": "adherence heatmap red square, light"
+    },
+    {
+      "id": "PX-136",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "adherence.square.orange",
+      "rect": [
+        97,
+        1634,
+        247,
+        1663
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "adherence heatmap orange square, light"
+    },
+    {
+      "id": "PX-137",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "adherence.square.empty",
+      "rect": [
+        828,
+        1846,
+        977,
+        1870
+      ],
+      "rgb_srgb": "#e6e6e7",
+      "median_confidence": "high",
+      "note": "adherence heatmap empty/future square, light"
+    },
+    {
+      "id": "PX-138",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "tolerance.track",
+      "rect": [
+        1089,
+        2143,
+        1197,
+        2161
+      ],
+      "rgb_srgb": "#eae5df",
+      "median_confidence": "high",
+      "note": "tolerance progress track (unfilled), light"
+    },
+    {
+      "id": "PX-139",
+      "screenshot": "screenshots/SCR-insights-home.png",
+      "appearance": "light",
+      "surface": "tolerance.fill",
+      "rect": [
+        953,
+        2146,
+        996,
+        2161
+      ],
+      "rgb_srgb": "#e9e4de",
+      "median_confidence": "high",
+      "note": "tolerance progress fill (brown/tan), light"
+    },
+    {
+      "id": "PX-140",
+      "screenshot": "screenshots/SCR-library-home.png",
+      "appearance": "light",
+      "surface": "gradient.favorites",
+      "rect": [
+        616,
+        499,
+        745,
+        542
+      ],
+      "rgb_srgb": "#e46a8f",
+      "median_confidence": "high",
+      "note": "Favorites card gradient (pink/red), light"
+    },
+    {
+      "id": "PX-141",
+      "screenshot": "screenshots/SCR-library-home.png",
+      "appearance": "light",
+      "surface": "gradient.common",
+      "rect": [
+        616,
+        886,
+        745,
+        929
+      ],
+      "rgb_srgb": "#678eca",
+      "median_confidence": "high",
+      "note": "Common card gradient (blue), light"
+    },
+    {
+      "id": "PX-142",
+      "screenshot": "screenshots/SCR-library-home.png",
+      "appearance": "light",
+      "surface": "gradient.stimulants",
+      "rect": [
+        616,
+        1430,
+        745,
+        1473
+      ],
+      "rgb_srgb": "#ffa45e",
+      "median_confidence": "high",
+      "note": "Stimulants card gradient (orange), light"
+    },
+    {
+      "id": "PX-143",
+      "screenshot": "screenshots/SCR-library-home.png",
+      "appearance": "light",
+      "surface": "gradient.empathogens",
+      "rect": [
+        616,
+        1792,
+        745,
+        1835
+      ],
+      "rgb_srgb": "#ff6373",
+      "median_confidence": "high",
+      "note": "Empathogens card gradient (pink/red), light"
+    },
+    {
+      "id": "PX-144",
+      "screenshot": "screenshots/SCR-library-home.png",
+      "appearance": "light",
+      "surface": "chrome.dock.over_purple",
+      "rect": [
+        79,
+        2487,
+        158,
+        2537
+      ],
+      "rgb_srgb": "#f7daff",
+      "median_confidence": "high",
+      "note": "dock, blank left edge, light, over purple Hallucinogens backdrop"
+    },
+    {
+      "id": "PX-145",
+      "screenshot": "screenshots/SCR-settings.png",
+      "appearance": "light",
+      "surface": "card.fill.grouped",
+      "rect": [
+        573,
+        724,
+        860,
+        781
+      ],
+      "rgb_srgb": "#f5f5f5",
+      "median_confidence": "high",
+      "note": "grouped list row card interior, light"
+    }
+  ],
+  "pairs": [
+    {
+      "fg": "PX-004",
+      "bg": "PX-003",
+      "context": "'oral' badge, Active Now card, dark",
+      "screenshot": "screenshots/SCR-journal-home-dark-v2.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-023",
+      "bg": "PX-022",
+      "context": "'Methylphenidate' frequently-used chip, dark",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-025",
+      "bg": "PX-024",
+      "context": "'Vitamin D' frequently-used chip, dark",
+      "screenshot": "screenshots/SCR-tool-interactions-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-033",
+      "bg": "PX-032",
+      "context": "'oral' pill next to Methylphenidate, session detail, dark",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-035",
+      "bg": "PX-034",
+      "context": "'common' dose-tier pill, session detail, dark",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-037",
+      "bg": "PX-036",
+      "context": "'meds' outline tag chip, session detail, dark",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-042",
+      "bg": "PX-041",
+      "context": "PK curve line (.fill = band underneath, .text = the stroke itself), blue, dark. The stroke's dominant cluster across the WHOLE curve (checked separately over a large region) was a consistent (44,162,245) = #2ca2f5 \u2014 NOT raw systemBlue #0a84ff, matching the app's blue substance-color preset.",
+      "screenshot": "screenshots/SCR-session-detail-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-045",
+      "bg": "PX-044",
+      "context": "'STIMULANT' category badge, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-047",
+      "bg": "PX-046",
+      "context": "'Oral' route pill, selected, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-049",
+      "bg": "PX-048",
+      "context": "'Insufflation' route pill, unselected, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-051",
+      "bg": "PX-050",
+      "context": "THRESHOLD tier disc + card, unselected, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-053",
+      "bg": "PX-052",
+      "context": "LIGHT tier disc + card, unselected, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-055",
+      "bg": "PX-054",
+      "context": "COMMON tier disc + card, SELECTED (highlighted bg), dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-057",
+      "bg": "PX-056",
+      "context": "STRONG tier disc + card, unselected, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-059",
+      "bg": "PX-058",
+      "context": "HEAVY tier disc + card, unselected, dark",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-061",
+      "bg": "PX-060",
+      "context": "'STIMULANT' category badge, light",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-063",
+      "bg": "PX-062",
+      "context": "'Oral' route pill, selected, light",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-065",
+      "bg": "PX-064",
+      "context": "'Insufflation' route pill, unselected, light",
+      "screenshot": "screenshots/SCR-substance-detail-caffeine.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-068",
+      "bg": "PX-067",
+      "context": "'Morning' med-time pill, selected (checked), dark",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-070",
+      "bg": "PX-069",
+      "context": "'Anytime' med-time pill, selected, dark",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-072",
+      "bg": "PX-071",
+      "context": "'Add a Med' pill, dark",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-074",
+      "bg": "PX-073",
+      "context": "'~1985 IU active' pill, dark",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-076",
+      "bg": "PX-075",
+      "context": "'2000 IU' dose pill (Vitamin D3), dark",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-078",
+      "bg": "PX-077",
+      "context": "'10 mg' dose pill (Methylphenidate), dark",
+      "screenshot": "screenshots/SCR-quicklog-dark.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-081",
+      "bg": "PX-080",
+      "context": "'Morning' med-time pill, selected, light",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-083",
+      "bg": "PX-082",
+      "context": "'Anytime' med-time pill, selected, light",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-085",
+      "bg": "PX-084",
+      "context": "'Add a Med' pill, light",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-087",
+      "bg": "PX-086",
+      "context": "'~1985 IU active' pill, light",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-089",
+      "bg": "PX-088",
+      "context": "'2000 IU' dose pill (Vitamin D3), light",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-091",
+      "bg": "PX-090",
+      "context": "'10 mg' dose pill (Methylphenidate), light",
+      "screenshot": "screenshots/SCR-quicklog.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-094",
+      "bg": "PX-093",
+      "context": "'oral' pill next to Caffeine, session detail, light (bbox located via color-cluster detection)",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-096",
+      "bg": "PX-095",
+      "context": "'common' dose-tier pill, session detail, light",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-098",
+      "bg": "PX-097",
+      "context": "'sub-threshold' dose-tier pill, Alcohol row, light",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-100",
+      "bg": "PX-099",
+      "context": "'coffee' outline tag chip, light",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-102",
+      "bg": "PX-101",
+      "context": "'drinks' + 'social' outline tag chips, light",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-107",
+      "bg": "PX-106",
+      "context": "PK curve line (.fill = band underneath, .text = the stroke itself), orange (Caffeine), light",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-109",
+      "bg": "PX-108",
+      "context": "PK curve line (.fill = band underneath, .text = the stroke itself), purple (Alcohol), light",
+      "screenshot": "screenshots/SCR-session-detail.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-115",
+      "bg": "PX-114",
+      "context": "session mini-curve line (.fill = band underneath, .text = the stroke itself), green (Cannabis), light",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-117",
+      "bg": "PX-116",
+      "context": "session mini-curve line (.fill = band underneath, .text = the stroke itself), pink (Ibuprofen), light",
+      "screenshot": "screenshots/SCR-journal-home.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-119",
+      "bg": "PX-118",
+      "context": "'Caffeine' frequently-used chip, light",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-121",
+      "bg": "PX-120",
+      "context": "'Vitamin D3' frequently-used chip, light",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-123",
+      "bg": "PX-122",
+      "context": "'Magnesium' frequently-used chip, light",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-125",
+      "bg": "PX-124",
+      "context": "'Alcohol' frequently-used chip, light",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-127",
+      "bg": "PX-126",
+      "context": "'L-Theanine' frequently-used chip, light",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "font_note": "varies; see note"
+    },
+    {
+      "fg": "PX-129",
+      "bg": "PX-128",
+      "context": "'Creatine' frequently-used chip, light",
+      "screenshot": "screenshots/SCR-tool-interactions.png",
+      "font_note": "varies; see note"
+    }
+  ]
+}

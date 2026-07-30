@@ -1,0 +1,350 @@
+{
+  "_meta": {
+    "generated": "2026-07-30",
+    "scope": "L2 encoding scales — every ordered/nominal color scale found in Piru/Shared/PiruWidget/PiruLiveActivityExtension. Values are extracted verbatim from source, not computed. Oklch/contrast math is intentionally NOT performed here.",
+    "value_encoding": "each step's light/dark value is one of: {\"hex\": \"RRGGBB\"} (from Color(hex:)), {\"rgb\": [r,g,b]} (0..1 floats from Color(red:green:blue:) or UIColor(red:...), sRGB per ColorHex.swift/native init), {\"system\": \"name\"} (a bare SwiftUI/UIKit dynamic system color, e.g. \".orange\" — its actual light/dark pixel values are Apple's, not captured here), or {\"opacity_of\": \"<ref>\", \"alpha\": N} for a tint applied to another scale's value."
+  },
+  "scales": [
+    {
+      "id": "route_tint",
+      "name": "Route of administration tint",
+      "cardinality": "nominal",
+      "count": 11,
+      "source": "Shared/RouteOfAdministration.swift:76-89 (tintHexPair), consumed via :69-74 (tintColor)",
+      "role": "text + 16% fill (ROAPill capsule)",
+      "font": {"file": "Piru/Views/Components/ROAPill.swift:25-27", "compact": ".caption2.weight(.semibold)", "regular": ".caption.weight(.semibold)"},
+      "note": "The one scale in the app with explicit, separately-tuned light/dark hex pairs per step, documented rationale (Route:69-68): 'as ~11pt text on a near-white card several hues fail small-text contrast (orange/green worst), so light mode darkens each toward >=4.5:1'. Reference case for what every other scale below should look like.",
+      "steps": [
+        {"pos": 0, "case": "oral", "light": {"hex": "0B5FC2"}, "dark": {"hex": "0A84FF"}, "hue_word": "blue"},
+        {"pos": 1, "case": "sublingual", "light": {"hex": "0E7A8D"}, "dark": {"hex": "30B0C7"}, "hue_word": "teal"},
+        {"pos": 2, "case": "buccal", "light": {"hex": "0B7A6E"}, "dark": {"hex": "00C7BE"}, "hue_word": "mint"},
+        {"pos": 3, "case": "insufflation", "light": {"hex": "8330AE"}, "dark": {"hex": "AF52DE"}, "hue_word": "purple"},
+        {"pos": 4, "case": "inhalation", "light": {"hex": "A05A00"}, "dark": {"hex": "FF9500"}, "hue_word": "orange"},
+        {"pos": 5, "case": "intravenous", "light": {"hex": "C22B22"}, "dark": {"hex": "FF3B30"}, "hue_word": "red"},
+        {"pos": 6, "case": "intramuscular", "light": {"hex": "C21A3F"}, "dark": {"hex": "FF2D55"}, "hue_word": "pink"},
+        {"pos": 7, "case": "subcutaneous", "light": {"hex": "4644B8"}, "dark": {"hex": "5E5CE6"}, "hue_word": "indigo"},
+        {"pos": 8, "case": "transdermal", "light": {"hex": "1B7A38"}, "dark": {"hex": "34C759"}, "hue_word": "green"},
+        {"pos": 9, "case": "rectal", "light": {"hex": "7A6244"}, "dark": {"hex": "A2845E"}, "hue_word": "brown"},
+        {"pos": 10, "case": "other", "light": {"hex": "6C6C70"}, "dark": {"hex": "8E8E93"}, "hue_word": "gray"}
+      ]
+    },
+    {
+      "id": "dose_level",
+      "name": "Dose level (Sub-threshold -> Heavy)",
+      "cardinality": "ordered",
+      "count": 6,
+      "source": "Piru/Domain/Substance.swift:171-188 (DoseLevel enum + STRING color field, likely dead); Piru/Views/Components/DoseLevelIndicator.swift:167-186 (swiftUIColor + labelColor)",
+      "note": "THREE independent encodings of the same 6-step scale coexist. (1) Substance.swift:179 DoseLevel.color returns a raw STRING (\"gray\"/\"blue\"/.../\"red\") -- grep found ZERO consumers anywhere in Piru/Shared outside its own declaration; likely dead code, flagging rather than asserting. (2) DoseLevelIndicator.swift:167-177 swiftUIColor -- the fill/dot color, bare SwiftUI system colors, single value for both appearances (relies on system dynamism, no custom light/dark tuning). (3) DoseLevelIndicator.swift:183-186 labelColor -- 'legible text variant': identical to swiftUIColor for 5 of 6 steps, but .common swaps to Theme.legibleYellow (a real light/dark-tuned pair, Theme.swift:12-16) instead of bare system .yellow.",
+      "steps": [
+        {"pos": 0, "case": "sub", "displayName": "Sub-threshold", "swiftUIColor": {"system": ".gray"}, "labelColor": {"system": ".gray"}, "string_field": "gray"},
+        {"pos": 1, "case": "threshold", "displayName": "Threshold", "swiftUIColor": {"system": ".blue"}, "labelColor": {"system": ".blue"}, "string_field": "blue"},
+        {"pos": 2, "case": "light", "displayName": "Light", "swiftUIColor": {"system": ".green"}, "labelColor": {"system": ".green"}, "string_field": "green"},
+        {"pos": 3, "case": "common", "displayName": "Common", "swiftUIColor": {"system": ".yellow"}, "labelColor": {"ref": "Theme.legibleYellow", "light": {"rgb": [0.52, 0.39, 0.0]}, "dark": {"system": ".systemYellow"}}, "string_field": "yellow", "note": "the ONLY step where swiftUIColor != labelColor"},
+        {"pos": 4, "case": "strong", "displayName": "Strong", "swiftUIColor": {"system": ".orange"}, "labelColor": {"system": ".orange"}, "string_field": "orange"},
+        {"pos": 5, "case": "heavy", "displayName": "Heavy", "swiftUIColor": {"system": ".red"}, "labelColor": {"system": ".red"}, "string_field": "red"}
+      ],
+      "consumers": [
+        {"role": "dot + text (BUG: uses swiftUIColor, not labelColor)", "file": "Piru/Views/Components/DoseLevelIndicator.swift", "line": "18-23", "font": ".subheadline.weight(.semibold)", "text": "Text(level.displayName)"},
+        {"role": "segment tier label text", "file": "Piru/Views/Components/DoseLevelIndicator.swift", "line": 38, "font": ".system(size: 9)", "note": "not colored by the scale (Theme.secondaryLabel) but <13pt text sitting directly on scale-colored segments"},
+        {"role": "inline badge text, uses labelColor (correct)", "file": "Piru/Views/Components/DoseLevelIndicator.swift", "line": "111-114", "font": ".caption.weight(.semibold)"},
+        {"role": "capsule chip fill+text, uses labelColor (correct)", "file": "Piru/Views/Journal/EntryRowView.swift", "line": 225, "font": ".caption2.weight(.semibold) (via capsuleChip)"},
+        {"role": "hero chip, uses labelColor (correct)", "file": "Piru/Views/Journal/EntryReadContent.swift", "line": 256, "font": ".caption.weight(.semibold) (via heroChip)"},
+        {"role": "text, uses labelColor (correct)", "file": "Piru/Views/QuickLog/StagedDoseEditor.swift", "line": "364,488,496,911"},
+        {"role": "text, uses labelColor (correct)", "file": "Piru/Views/QuickLog/DoseTrayViews.swift", "line": 567},
+        {"role": "dial-mark fill, uses labelColor (correct)", "file": "Piru/Views/Tools/EffectSandboxView.swift", "line": "927,958"}
+      ],
+      "flag": "CONTRAST BUG CANDIDATE: DoseLevelIndicator.swift:21-23's own level-name text uses swiftUIColor (bare system .yellow for 'Common'), not labelColor -- every OTHER one of the 10 consumers listed above correctly uses labelColor's legible amber-in-light swap. This is the ladder header on the Edit-dose screens (via DoseInfoView, EntryFormView.swift:264 / EntryEditContent.swift:136) -- 'Common' would render pure system yellow subheadline-semibold text on a near-white card in light mode, the exact failure Theme.legibleYellow's doc comment says it exists to prevent."
+    },
+    {
+      "id": "experience_phase_hex_ramp",
+      "name": "Experience phase -- hex-ramp definition",
+      "cardinality": "ordered (temporal/narrative arc, NOT a magnitude ramp)",
+      "count": 5,
+      "source": "Piru/Utilities/SessionReportPDF.swift:10-14; Piru/Views/Components/DosePhaseProgressBar.swift:24-28; Shared/TimelineGraphView.swift:1942-1945 (only 4 of 5 phases wired here -- see note)",
+      "note": "SessionReportPDF.swift:8 comment: 'matches DosePhaseProgressBar so the export reads like the app' -- these two are a CONFIRMED-INTENTIONAL shared ramp, not drift. TimelineGraphView.swift:1942-1945 wires the same 4 hex literals (onset/comeup/peak/offset) as background bands (:1975, band.color.opacity(0.12)) but its excerpt did not show a 5th 'after' band being constructed at those lines -- worth the colorimetry pass double-checking TimelineGraphView for an afterglow band elsewhere before assuming it's missing. Values are a single hex per step, no separate dark-mode tuning (relies on Color(hex:) being scheme-agnostic sRGB -- see asset-catalog-migration.md).",
+      "screens": ["Journal home 'Active Now' card (ActiveNowCard.swift:119)", "Dose detail read view (EntryReadContent.swift:273)", "Exported session PDF (SessionReportPDF.swift)", "Main timeline/graph (TimelineGraphView.swift)"],
+      "steps": [
+        {"pos": 0, "case": "onset", "value": {"hex": "9B9BA1"}, "hue_word": "gray"},
+        {"pos": 1, "case": "comeup", "value": {"hex": "3A8DEF"}, "hue_word": "blue"},
+        {"pos": 2, "case": "peak", "value": {"hex": "34C759"}, "hue_word": "green"},
+        {"pos": 3, "case": "offset", "value": {"hex": "FF9F0A"}, "hue_word": "orange"},
+        {"pos": 4, "case": "after", "value": {"hex": "9B9BA1"}, "hue_word": "gray", "note": "identical to onset -- deliberate: an arc that returns to its starting gray, not a 5-distinct-hue ramp"}
+      ]
+    },
+    {
+      "id": "experience_phase_system_ramp",
+      "name": "Experience phase -- DoseLevelIndicator.ExperiencePhase definition (CONFLICTS with experience_phase_hex_ramp)",
+      "cardinality": "ordered (temporal/narrative arc, NOT a magnitude ramp)",
+      "count": 5,
+      "source": "Piru/Views/Components/DoseLevelIndicator.swift:127-163",
+      "screens": ["Substance detail 'Duration' card (DoseInfoView.swift:261-277, via DoseInfoView call sites EntryFormView.swift:264 / EntryEditContent.swift:136)", "DurationTimelineBar / DurationPhaseRows (Piru/Views/Components/DurationViews.swift), consumed by the same Edit-flow files"],
+      "note": "CONFIRMED CONFLICT with experience_phase_hex_ramp: same 5 phase names, completely different hue assignment (peak is green in one, orange in the other; comeup is blue in one, teal in the other). Both scales' consumers trace back to the SAME dose entry going through Edit (this scale) vs Read (the hex ramp) -- a user editing a dose then viewing it sees 'peak' flip from orange to green. Not literally simultaneous on one screen, but back-to-back in one user flow, which is arguably more noticeable than a static duplicate.",
+      "steps": [
+        {"pos": 0, "case": "onset", "value": {"system": ".blue"}},
+        {"pos": 1, "case": "comeup", "value": {"system": ".teal"}},
+        {"pos": 2, "case": "peak", "value": {"system": ".orange"}},
+        {"pos": 3, "case": "offset", "value": {"system": ".purple"}},
+        {"pos": 4, "case": "afterglow", "value": {"system": ".systemGray3"}}
+      ],
+      "consumers": [
+        {"role": "duration timeline bar segment fill", "file": "Piru/Views/Components/DurationViews.swift", "line": 28},
+        {"role": "duration phase row: dot + text", "file": "Piru/Views/Components/DurationViews.swift", "line": "69-75", "font": "not captured -- row helper, re-check at implementation time"},
+        {"role": "duration block row label (uncolored text, color used elsewhere in row)", "file": "Piru/Views/Components/DoseInfoView.swift", "line": "261-277"}
+      ]
+    },
+    {
+      "id": "interaction_severity",
+      "name": "Interaction severity",
+      "cardinality": "ordered",
+      "count": 3,
+      "source": "Piru/Data/Services/Interactions.swift:9-38",
+      "note": "color and labelColor are IDENTICAL for 2 of 3 steps (unsafe, dangerous); only caution swaps bare .yellow for Theme.legibleYellow via labelColor. Confirmed 3 real call sites STILL use the unswapped raw .color for text at <13-15pt sizes -- see flags below.",
+      "steps": [
+        {"pos": 0, "case": "caution", "label": "Caution", "color": {"system": ".yellow"}, "labelColor": {"ref": "Theme.legibleYellow", "light": {"rgb": [0.52, 0.39, 0.0]}, "dark": {"system": ".systemYellow"}}},
+        {"pos": 1, "case": "unsafe", "label": "Unsafe", "color": {"system": ".orange"}, "labelColor": {"system": ".orange"}},
+        {"pos": 2, "case": "dangerous", "label": "Dangerous", "color": {"system": ".red"}, "labelColor": {"system": ".red"}}
+      ],
+      "consumers_correct_labelColor": [
+        "Piru/Views/Journal/EntrySessionSection.swift:149,156",
+        "Piru/Views/Journal/EntryFormView.swift:606,614,621",
+        "Piru/Views/Journal/Session/SessionSafetySection.swift:44,57",
+        "Piru/Views/Library/SubstanceDetail/InteractionsSummaryCard.swift:55",
+        "Piru/Views/Tools/Interactions/InteractionTimelineView.swift:551 (depressionCard band, via CombinedDepression.band)",
+        "Piru/Views/Components/CombinedDepressionBanner.swift:11"
+      ],
+      "flags_raw_color_used_for_text": [
+        {
+          "file": "Piru/Views/Tools/Interactions/InteractionCheckerView.swift",
+          "line": 166,
+          "text": "\"N Interaction(s) Found\" header",
+          "font": ".caption.weight(.semibold)",
+          "extra": ".textCase(.uppercase)",
+          "severity": "HIGH -- caption (smallest common text size) + bold + uppercase + raw system yellow on a themeCard() surface when top result is .caution"
+        },
+        {
+          "file": "Piru/Views/Tools/Interactions/InteractionTimelineView.swift",
+          "line": "693-695",
+          "text": "\"{severity.label}: {substanceA} + {substanceB}\"",
+          "font": ".subheadline.weight(.semibold)",
+          "severity": "MEDIUM -- subheadline is larger than caption but still raw yellow-on-card for .caution"
+        },
+        {
+          "file": "Piru/Views/Tools/Interactions/InteractionTimelineView.swift",
+          "line": 512,
+          "text": "not yet confirmed as text vs. icon-only -- flagged for re-check, lower confidence than the two above",
+          "font": "unknown",
+          "severity": "LOW-CONFIDENCE, re-verify"
+        }
+      ]
+    },
+    {
+      "id": "adherence_status",
+      "name": "Adherence status",
+      "cardinality": "nominal (complete/partial/missed are a quality order; noData is out-of-band)",
+      "count": 4,
+      "source": "Piru/Views/Insights/AdherenceView.swift -- hand-declared 3 independent times in one file",
+      "note": "Same finding as component-sameness.md#F6, restated here as raw color values. All three declarations agree on hue-per-case but differ on exact icon glyph AND none share one enum extension.",
+      "steps": [
+        {"pos": 0, "case": "complete", "label": "All taken", "color": {"system": ".green"}},
+        {"pos": 1, "case": "partial", "label": "Partially taken", "color": {"system": ".orange"}},
+        {"pos": 2, "case": "missed", "label": "All missed", "color": {"system": ".red"}},
+        {"pos": 3, "case": "noData", "label": "Nothing due", "color": {"system": ".secondary"}}
+      ],
+      "declarations": [
+        {
+          "site": "AdherenceCalendarCell.statusIcon + .backgroundColor",
+          "file": "Piru/Views/Insights/AdherenceView.swift",
+          "line": "419-445",
+          "role": "calendar-cell dot fill (0.1 opacity) + bare glyph (checkmark/circle.lefthalf.filled/xmark/blank), size 8",
+          "font": ".system(size: 8, weight: .bold) for checkmark/xmark; .system(size: 8) for the half-circle"
+        },
+        {
+          "site": "AdherenceDayDetailSheet.statusIcon/.statusColor/.statusLabel",
+          "file": "Piru/Views/Insights/AdherenceView.swift",
+          "line": "503-527",
+          "role": "icon + text, NO capsule/fill background at all (plain HStack)",
+          "font": ".headline",
+          "icons": "checkmark.circle.fill / circle.lefthalf.filled / xmark.circle.fill / minus.circle (circle-composited, differs from the calendar cell's bare glyphs)"
+        },
+        {
+          "site": "monthly adherence-rate percentage (NOT keyed off the AdherenceStatus enum at all -- a separately invented threshold)",
+          "file": "Piru/Views/Insights/AdherenceView.swift",
+          "line": "152-155",
+          "role": "text",
+          "font": ".system(.title2, design: .rounded, weight: .semibold)",
+          "thresholds": "rate >= 0.8 -> green, rate >= 0.5 -> orange, else red"
+        }
+      ]
+    },
+    {
+      "id": "dose_tier_strip",
+      "name": "Dose tier strip (in-app ladder disclosure)",
+      "cardinality": "ordered",
+      "count": 5,
+      "source": "Piru/Views/Library/SubstanceDetail/DoseDurationCard.swift:328-334",
+      "role": "growing filled Circle, diameters [7,10,13,15,18]; text below each disc is Theme.secondaryLabel/primary, NOT scale-colored",
+      "note": "One of (at least) 3 distinct dose-intensity color scales in the app -- see dose_level and dose_intensity_dial. 5 steps here (no 'Sub-threshold', no 'Overdose'), vs. dose_level's 6 and dose_intensity_dial's 6. Compare hues at each position: this scale's position 1 (Light) = pure green 34C759 while dose_level's position 2 (Light) = system .green and dose_intensity_dial's position 1 (Light) = 8ED04A (yellow-green) -- three different greens for 'Light' dose.",
+      "steps": [
+        {"pos": 0, "case": "threshold", "value": {"hex": "B7BCC4"}, "hue_word": "gray"},
+        {"pos": 1, "case": "light", "value": {"hex": "34C759"}, "hue_word": "green"},
+        {"pos": 2, "case": "common", "value": {"hex": "E0A021"}, "hue_word": "gold"},
+        {"pos": 3, "case": "strong", "value": {"hex": "F0803A"}, "hue_word": "orange"},
+        {"pos": 4, "case": "heavy", "value": {"hex": "E8503A"}, "hue_word": "red"}
+      ]
+    },
+    {
+      "id": "dose_intensity_dial",
+      "name": "Dose intensity dial (drug.community spectrum, Effects & Intensity screen)",
+      "cardinality": "ordered",
+      "count": 6,
+      "source": "Piru/Views/Library/SubstanceDetail/DoseIntensityCard.swift:26-29 (bandColors); labels Piru/Views/Library/SubstanceDetail/DoseIntensityCard.swift:521-528, band model Piru/Domain/DoseIntensity.swift:9-33",
+      "role": "circular arc gauge fill (see IntensityGauge, :195+) + band-name readout text",
+      "font": {
+        "big_number": {"file": "Piru/Views/Library/SubstanceDetail/DoseIntensityCard.swift", "line": 131, "font": ".system(size: 27, weight: .heavy, design: .rounded)", "colored_only_for": "Overdose band, else .primary"},
+        "band_name": {"file": "Piru/Views/Library/SubstanceDetail/DoseIntensityCard.swift", "line": "135-137", "font": ".subheadline.weight(.semibold)", "colored": "always, via color(current.bandIndex)"}
+      },
+      "note": "Third distinct dose-intensity scale (see dose_level, dose_tier_strip). 6 steps, labels Threshold/Light/Common/Strong/Heavy/Overdose -- the only one of the three with an explicit top-end 'Overdose' label, and the only one with 6 smoothly-interpolated stops rather than named system colors.",
+      "steps": [
+        {"pos": 0, "case": "Threshold", "value": {"hex": "34C759"}, "hue_word": "green"},
+        {"pos": 1, "case": "Light", "value": {"hex": "8ED04A"}, "hue_word": "yellow-green"},
+        {"pos": 2, "case": "Common", "value": {"hex": "E0B93A"}, "hue_word": "gold"},
+        {"pos": 3, "case": "Strong", "value": {"hex": "E8940C"}, "hue_word": "amber/orange"},
+        {"pos": 4, "case": "Heavy", "value": {"hex": "E5613D"}, "hue_word": "red-orange"},
+        {"pos": 5, "case": "Overdose", "value": {"hex": "E5484D"}, "hue_word": "red"}
+      ]
+    },
+    {
+      "id": "stock_status",
+      "name": "Inventory stock status",
+      "cardinality": "ordered (ok < low < out in attention priority, per sortIndex)",
+      "count": 3,
+      "source": "Piru/Views/Tools/Inventory/InventorySupport.swift:8-64",
+      "note": "Deliberately NOT a green/red ramp -- code comment (:5-7) states the house rule explicitly: 'color carries meaning only for Low/Out; a healthy supply reads neutral.' numberColor and barTint are identical across both roles here (unusual among these scales -- most have a text/fill split).",
+      "steps": [
+        {"pos": 0, "case": "ok", "label": "In Stock", "numberColor": {"system": ".primary"}, "barTint": {"opacity_of": "system:.primary", "alpha": 0.35}},
+        {"pos": 1, "case": "low", "label": "Low", "numberColor": {"system": ".orange"}, "barTint": {"system": ".orange"}},
+        {"pos": 2, "case": "out", "label": "Out", "numberColor": {"system": ".red"}, "barTint": {"system": ".red"}}
+      ],
+      "related_but_distinct": {
+        "id": "inventory_supply_bar_identity_tint",
+        "note": "A SEPARATE bar-tint path exists for the same InventoryItem: InventoryItem.supplyBarTint (InventorySupport.swift:74-80) uses the substance's OWN identity color (L3, opacity 0.5) instead of StockStatus.barTint -- this is DIV-031 in divergences.md, restated here as a scale-vs-identity-color collision: two different color systems (L2 status vs L3 identity) both claim the same 'inventory bar fill' role at different call sites (SubstanceCardView.swift:175 and InventoryStockSection.swift:81 use barTint; InventorySupport.swift:74-80's supplyBarTint is the substance-color path)."
+      }
+    },
+    {
+      "id": "tolerance_bands",
+      "name": "Tolerance bar bands (tachyphylaxis/tolerance/deep)",
+      "cardinality": "NOT a semantic color scale -- alpha-ordered steps of ONE identity color",
+      "count": 3,
+      "source": "Piru/Views/Tools/Tolerance/ToleranceRow.swift:44-59 (bands), :32-34 (familyColor)",
+      "note": "IMPORTANT CORRECTION to the brief's expectation: this is not a 5th green-red severity ramp. Each band is the SAME receptor-family identity color (familyColor, an L3-style per-mechanism hue) at three fixed alphas: 0.5 (Tachyphylaxis, fastest/shallowest), 0.82 (Tolerance), 1.0/opaque (Deep, slowest/deepest). Ordered fast-to-slow, encoded as light-to-dark of one hue rather than a hue ramp. ToleranceBucket (ToleranceRow.swift:257-285, 5 cases rested/mild/moderate/high/veryHigh) supplies WORDS only (no .color property found) -- the gauge's visible color always comes from familyColor, not from the bucket.",
+      "steps": [
+        {"pos": 0, "case": "tachyphylaxis", "alpha": 0.5, "value": {"ref": "familyColor (per-receptor-class identity, L3, not enumerated here)"}},
+        {"pos": 1, "case": "tolerance", "alpha": 0.82, "value": {"ref": "familyColor"}},
+        {"pos": 2, "case": "deep", "alpha": 1.0, "value": {"ref": "familyColor"}}
+      ]
+    },
+    {
+      "id": "substance_category",
+      "name": "Substance category (Library taxonomy)",
+      "cardinality": "nominal",
+      "count": 29,
+      "source": "Piru/Domain/Substance.swift:774-803 (enum cases), :2069-2101 (color)",
+      "note": "29 cases, no ordering. IMPORTANT: 9 of 29 use a plain Color(red:green:blue:) literal with ZERO light/dark tuning (same pixel both appearances) -- dysdelic, deliriant, ampakine, eugeroic, depressant, orexinAntagonist, antihistamine, peptide, anticonvulsant. The other 20 use bare system color names (.orange, .purple, .cyan, etc., some with .opacity()) which DO get free system-level light/dark adaptation from UIKit, but that adaptation is Apple's default curve, not anything Piru tuned -- unlike route_tint's deliberately hand-tuned pairs.",
+      "steps": [
+        {"pos": 0, "case": "stimulant", "value": {"system": ".orange"}},
+        {"pos": 1, "case": "psychedelic", "value": {"system": ".purple"}},
+        {"pos": 2, "case": "dissociative", "value": {"system": ".cyan"}},
+        {"pos": 3, "case": "dysdelic", "value": {"rgb": [0.55, 0.25, 0.55]}, "tuned_per_appearance": false},
+        {"pos": 4, "case": "deliriant", "value": {"rgb": [0.52, 0.48, 0.32]}, "tuned_per_appearance": false},
+        {"pos": 5, "case": "opioid", "value": {"system": ".red"}},
+        {"pos": 6, "case": "benzodiazepine", "value": {"system": ".blue"}},
+        {"pos": 7, "case": "gabapentinoid", "value": {"system": ".indigo"}},
+        {"pos": 8, "case": "empathogen", "value": {"system": ".pink"}},
+        {"pos": 9, "case": "cannabinoid", "value": {"system": ".green"}},
+        {"pos": 10, "case": "nootropic", "value": {"system": ".teal"}},
+        {"pos": 11, "case": "ampakine", "value": {"rgb": [0.55, 0.85, 0.45]}, "tuned_per_appearance": false},
+        {"pos": 12, "case": "eugeroic", "value": {"rgb": [0.95, 0.70, 0.30]}, "tuned_per_appearance": false},
+        {"pos": 13, "case": "depressant", "value": {"rgb": [0.45, 0.55, 0.72]}, "tuned_per_appearance": false},
+        {"pos": 14, "case": "orexinAntagonist", "value": {"rgb": [0.42, 0.38, 0.68]}, "tuned_per_appearance": false},
+        {"pos": 15, "case": "antidepressant", "value": {"system": ".yellow"}},
+        {"pos": 16, "case": "antipsychotic", "value": {"system": ".mint"}},
+        {"pos": 17, "case": "analgesic", "value": {"system": ".brown"}},
+        {"pos": 18, "case": "antihistamine", "value": {"rgb": [0.72, 0.45, 0.55]}, "tuned_per_appearance": false},
+        {"pos": 19, "case": "cardiovascular", "value": {"opacity_of": "system:.red", "alpha": 0.7}},
+        {"pos": 20, "case": "antimicrobial", "value": {"opacity_of": "system:.teal", "alpha": 0.7}},
+        {"pos": 21, "case": "gastrointestinal", "value": {"opacity_of": "system:.orange", "alpha": 0.7}},
+        {"pos": 22, "case": "respiratory", "value": {"opacity_of": "system:.cyan", "alpha": 0.7}},
+        {"pos": 23, "case": "endocrine", "value": {"opacity_of": "system:.purple", "alpha": 0.7}},
+        {"pos": 24, "case": "immunological", "value": {"opacity_of": "system:.blue", "alpha": 0.7}},
+        {"pos": 25, "case": "supplement", "value": {"opacity_of": "system:.green", "alpha": 0.7}},
+        {"pos": 26, "case": "peptide", "value": {"rgb": [0.40, 0.65, 0.85]}, "tuned_per_appearance": false},
+        {"pos": 27, "case": "anticonvulsant", "value": {"rgb": [0.65, 0.55, 0.85]}, "tuned_per_appearance": false},
+        {"pos": 28, "case": "other", "value": {"ref": "Theme.secondaryLabel", "light": {"rgb": [0.48, 0.48, 0.50]}, "dark": {"rgb": [0.65, 0.65, 0.68]}}}
+      ]
+    },
+    {
+      "id": "chart_structural",
+      "name": "Chart structural chrome (gridlines, axis text, fill-under-curve, now-line) -- NOT per-substance identity, which is L3 and out of scope here",
+      "cardinality": "n/a -- a fixed alpha vocabulary layered under whichever L3 identity color a curve uses",
+      "source": "Shared/TimelineGraphView.swift (single-file, ~2400 lines)",
+      "entries": [
+        {"role": "fill under a dose curve", "value": {"opacity_of": "curve identity color", "alpha": 0.16}, "line": "1415, 1540"},
+        {"role": "curve stroke", "value": {"opacity_of": "curve identity color", "alpha": 0.9}, "line": "1427, 1544"},
+        {"role": "emphasis-fade stroke gradient", "value": {"gradient_of": "curve identity color", "stops": [0.2, 0.85]}, "line": 1610},
+        {"role": "de-emphasized stroke", "value": {"opacity_of": "curve identity color", "alpha": "0.75 (full emphasis) / 0.3 (de-emphasized)"}, "line": 1882},
+        {"role": "phase background band (reuses experience_phase_hex_ramp)", "value": {"opacity_of": "experience_phase_hex_ramp step", "alpha": 0.12}, "line": 1975},
+        {"role": "vertical gridlines", "value": {"opacity_of": "system:.primary", "alpha": 0.20}, "line": 1042},
+        {"role": "origin/zero line", "value": {"opacity_of": "system:.primary", "alpha": 0.28}, "line": 1046},
+        {"role": "lane separator", "value": {"opacity_of": "system:.primary", "alpha": 0.16}, "line": 1072},
+        {"role": "lane edge", "value": {"opacity_of": "system:.primary", "alpha": 0.55}, "line": 1078},
+        {"role": "now-line", "value": {"opacity_of": "system:.primary", "alpha": 0.7}, "line": "1087, 1093, 1238"},
+        {"role": "faint separator (stacked/lane view)", "value": {"opacity_of": "system:.secondary", "alpha": 0.12}, "line": "1360, 1476"},
+        {"role": "subtle full-height gridline", "value": {"opacity_of": "system:.primary", "alpha": 0.08}, "line": 2016},
+        {"role": "bottom tick", "value": {"opacity_of": "system:.primary", "alpha": 0.25}, "line": 2022},
+        {"role": "top tick", "value": {"opacity_of": "system:.primary", "alpha": 0.20}, "line": 2031},
+        {"role": "axis label text", "value": {"opacity_of": "system:.primary", "alpha": 0.6}, "font": ".system(size: 10, weight: .medium, design: .rounded)", "line": "2323, 2387", "flag": "TEXT-BEARING AT 10pt -- smallest text-bearing scale entry found in the whole audit"},
+        {"role": "HR (heart-rate) lane", "value": {"ref": "VitalsPalette.heart", "rgb": [0.898, 0.290, 0.310]}, "line": 2041, "fill_alpha": 0.16, "line_fill": 2143, "stroke": {"line": 2149}},
+        {"role": "BP (blood-pressure) lane", "value": {"ref": "VitalsPalette.bloodPressure", "rgb": [0.231, 0.490, 0.847]}, "line": 2042, "stroke": {"line": "2181, 2186"}}
+      ]
+    }
+  ],
+  "cross_scale_flags": {
+    "l1_overlap_candidates": [
+      "dose_level.common and interaction_severity.caution both terminate on the SAME two-value pair (system .yellow / Theme.legibleYellow) -- confirmed shared reference, not just coincidental hue match.",
+      "adherence_status.missed, interaction_severity.dangerous, stock_status.out, and substance_category.opioid all use bare system .red -- likely fine (red-for-danger is a defensible universal), but confirm none of these collide with a would-be semantic/danger asset-catalog token in a way that changes look intent."
+    ],
+    "non_monotonic_lightness_candidates_eyeballed_not_computed": [
+      "dose_level.swiftUIColor (gray/blue/green/yellow/orange/red): yellow at position 3 of 6 reads as the single brightest step sandwiched between darker neighbors -- classic non-monotonic shape, needs your Oklab L pass to confirm.",
+      "experience_phase_hex_ramp and experience_phase_system_ramp are BOTH deliberately non-monotonic by design (narrative arc returning toward a neutral start/end, not a magnitude ramp) -- do not flag these as broken; the 'defect' would be treating them as ordinal-intensity scales.",
+      "dose_tier_strip and dose_intensity_dial both read as plausible monotonic decreasing-L ramps on eyeball, but the 'Light' step differs in exact green across all three dose-intensity scales (pure #34C759 vs #8ED04A vs system .green) -- worth checking whether they're at least monotonically consistent with each other, not just internally."
+    ],
+    "light_dark_mismatch": [
+      "substance_category: 9 of 29 cases (dysdelic, deliriant, ampakine, eugeroic, depressant, orexinAntagonist, antihistamine, peptide, anticonvulsant) are plain Color(red:) literals with NO dark-mode variant at all -- same pixel both appearances, unlike route_tint's fully-tuned pairs.",
+      "dose_level.swiftUIColor: every step is a bare system color name (single declaration, relies on iOS's own light/dark dynamism) EXCEPT .common's labelColor variant, which is the only step with an explicit, Piru-authored light/dark pair (Theme.legibleYellow) -- an inconsistent one-off inside an otherwise-uniform scale.",
+      "experience_phase_hex_ramp and dose_tier_strip / dose_intensity_dial: all Color(hex:) literals, meaning (per asset-catalog-migration.md) they are unambiguously sRGB with zero appearance-based variation today -- every step in these three scales is a single fixed value for both light and dark."
+    ],
+    "contrast_bugs_found_during_extraction": [
+      {
+        "description": "DoseLevelIndicator's own level-name text uses swiftUIColor (raw) instead of labelColor (legible), the only one of 11 known consumers to do so.",
+        "file": "Piru/Views/Components/DoseLevelIndicator.swift",
+        "line": "18-23",
+        "font": ".subheadline.weight(.semibold)",
+        "screens": "Edit-dose flow, via DoseInfoView -> EntryFormView.swift:264 / EntryEditContent.swift:136"
+      },
+      {
+        "description": "'N Interaction(s) Found' header uses severity.color (raw) instead of severity.labelColor.",
+        "file": "Piru/Views/Tools/Interactions/InteractionCheckerView.swift",
+        "line": 166,
+        "font": ".caption.weight(.semibold), .textCase(.uppercase)",
+        "screens": "Interaction Checker results header"
+      },
+      {
+        "description": "Interaction-pair warning title uses severity.color (raw) instead of severity.labelColor.",
+        "file": "Piru/Views/Tools/Interactions/InteractionTimelineView.swift",
+        "line": "693-695",
+        "font": ".subheadline.weight(.semibold)",
+        "screens": "Interaction Timeline warning card"
+      }
+    ]
+  }
+}

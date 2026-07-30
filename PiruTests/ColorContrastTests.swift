@@ -98,11 +98,14 @@ struct ColorContrastTests {
     /// `RGB.linear` is sign-preserving — see its note.
     @Test
     func `Generated semantic tokens resolve from the catalog and clear their gates`() {
+        // Xcode's own asset-symbol extensions, not a hand-written accessor file:
+        // these are compile-time checked, so a renamed or missing colorset is a
+        // build error rather than a silent runtime fallback.
         let tokens: [(String, Color, Color)] = [
-            ("danger", GeneratedTheme.semanticDangerText, GeneratedTheme.semanticDangerAccent),
-            ("caution", GeneratedTheme.semanticCautionText, GeneratedTheme.semanticCautionAccent),
-            ("success", GeneratedTheme.semanticSuccessText, GeneratedTheme.semanticSuccessAccent),
-            ("info", GeneratedTheme.semanticInfoText, GeneratedTheme.semanticInfoAccent),
+            ("danger", .Semantic.Danger.text, .Semantic.Danger.accent),
+            ("caution", .Semantic.Caution.text, .Semantic.Caution.accent),
+            ("success", .Semantic.Success.text, .Semantic.Success.accent),
+            ("info", .Semantic.Info.text, .Semantic.Info.accent),
         ]
         for (name, textColor, accentColor) in tokens {
             // Proof the *appearance-aware* lookup works: a failed lookup yields
