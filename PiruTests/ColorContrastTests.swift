@@ -83,9 +83,10 @@ struct ColorContrastTests {
         // darkened amber for `.caution` / `.common`. Raw `.color` / `.swiftUIColor`
         // are *fill* values and measure 1.39:1 as text — reaching for those at a
         // text call site is the exact bug this catches.
-        // `.caution` and `.dangerous` now resolve to the design system's
-        // semantic tokens; both are gated in both appearances.
-        for severity in [InteractionSeverity.caution, .dangerous] {
+        // All three severities now — `.unsafe` graduated once the ladder got
+        // its own L2 scale rather than being squeezed into the four-level
+        // semantic set.
+        for severity in InteractionSeverity.allCases {
             for style in [UIUserInterfaceStyle.light, .dark] {
                 let surface = style == .light ? Self.cardLight : Self.cardDark
                 let resolved = RGB(severity.labelColor, style: style)

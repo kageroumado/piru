@@ -583,6 +583,54 @@
    "dark": {
     "srgb_hex": "616166"
    }
+  },
+  "severity/caution/text": {
+   "any": {
+    "srgb_hex": "826707"
+   },
+   "dark": {
+    "srgb_hex": "FBC900"
+   }
+  },
+  "severity/caution/accent": {
+   "any": {
+    "srgb_hex": "AA8803"
+   },
+   "dark": {
+    "srgb_hex": "FBC900"
+   }
+  },
+  "severity/unsafe/text": {
+   "any": {
+    "srgb_hex": "9D5B07"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "severity/unsafe/accent": {
+   "any": {
+    "srgb_hex": "CC780F"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "severity/dangerous/text": {
+   "any": {
+    "srgb_hex": "D60107"
+   },
+   "dark": {
+    "srgb_hex": "FE5244"
+   }
+  },
+  "severity/dangerous/accent": {
+   "any": {
+    "srgb_hex": "FE3D32"
+   },
+   "dark": {
+    "srgb_hex": "DB0007"
+   }
   }
  }
 }

@@ -120,6 +120,17 @@ CONFIDENCE_SOURCE = {
 }
 
 
+# Interaction severity. An ordered three-step trust-in-danger ladder, which is
+# why it is a scale and not three `semantic/*` lookups: `.unsafe` sits between
+# caution and danger, and the four-level semantic ladder has no middle tier.
+# Collapsing it into `danger` would erase a real distinction the app makes.
+SEVERITY_SOURCE = {
+    "caution": "FFCC00",
+    "unsafe": "FF9500",
+    "dangerous": "FF3B30",
+}
+
+
 def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[float, float, tuple]:
     """Highest-chroma colour at `hue` satisfying `gate(colour)`, up to `ceiling`.
 
@@ -247,6 +258,7 @@ def main() -> None:
         "route": build_scale(ROUTE_SOURCE),
         "dose": build_scale(DOSE_SOURCE),
         "confidence": build_scale(CONFIDENCE_SOURCE),
+        "severity": build_scale(SEVERITY_SOURCE),
     }
     out = {
         "_meta": {

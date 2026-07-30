@@ -26,37 +26,36 @@ nonisolated enum InteractionSeverity: Int, Comparable, Codable, CaseIterable {
         }
     }
 
-    var color: Color {
+    /// Mark colour — fills, bands, dots. Text uses ``labelColor``.
+    ///
+    /// `@MainActor` because Xcode's generated asset symbols are, under the
+    /// project's `-default-isolation MainActor`. The raw system hues this
+    /// replaced were nonisolated, so this is a real (small) constraint added in
+    /// exchange for the values being gated and centrally defined.
+    @MainActor var color: Color {
         switch self {
-        case .dangerous: .red
-        case .unsafe: .orange
-        case .caution: .yellow
+        case .caution: .Severity.Caution.accent
+        case .unsafe: .Severity.Unsafe.accent
+        case .dangerous: .Severity.Dangerous.accent
         }
     }
 
-    /// Legible text/icon variant of ``color``.
+    /// Legible text variant, gated at WCAG AA against the card *and* against
+    /// this severity's own tinted fill.
     ///
-    /// ``color`` is a *fill* value: as small text on the app's card it measures
-    /// 1.39:1 for `.caution` and 3.27:1 for `.dangerous`, both below WCAG AA.
-    /// These resolve to the design system's semantic tokens instead, which are
-    /// gated at 4.5:1 against the card and against their own tinted fill.
+    /// ``color`` is a fill value: as small text it measured 1.39:1 for
+    /// `.caution` and 3.27:1 for `.dangerous`.
     ///
-    /// `.unsafe` still returns the raw fill colour and still fails (2.12:1). It
-    /// sits between caution and danger, and the semantic ladder has four levels
-    /// with no middle warning tier — collapsing it into `.dangerText` would
-    /// erase a real distinction, so it waits for the severity *scale* to be
-    /// designed as an ordered L2 encoding. Pinned as a known gap in
-    /// `ColorContrastTests`. See `design-system/color/migration-plan.md` phase 4.
-    ///
-    /// Still `@MainActor`. The migration notes predicted this constraint would
-    /// drop once the value came from the asset catalog; it does not. Xcode's
-    /// generated asset symbols are main-actor-isolated under the project's
-    /// `-default-isolation MainActor`, so the isolation is inherited either way.
+    /// This is a three-step *scale*, not three `semantic/*` lookups. `.unsafe`
+    /// sits between caution and danger, and the four-level semantic ladder has
+    /// no middle tier — folding it into `danger` would erase a distinction the
+    /// app deliberately makes. It kept failing at 2.12:1 until the ladder got
+    /// its own scale.
     @MainActor var labelColor: Color {
         switch self {
-        case .caution: .cautionText
-        case .dangerous: .dangerText
-        case .unsafe: color
+        case .caution: .Severity.Caution.text
+        case .unsafe: .Severity.Unsafe.text
+        case .dangerous: .Severity.Dangerous.text
         }
     }
 }

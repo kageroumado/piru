@@ -599,6 +599,74 @@
      }
     }
    }
+  },
+  "severity": {
+   "caution": {
+    "light": {
+     "text": "#826707",
+     "accent": "#AA8803",
+     "hue": 90.39,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.09
+     }
+    },
+    "dark": {
+     "text": "#FBC900",
+     "accent": "#FBC900",
+     "hue": 90.39,
+     "verified": {
+      "text_on_fill": 5.73,
+      "text_on_card": 12.1,
+      "accent_on_card": 12.1
+     }
+    }
+   },
+   "unsafe": {
+    "light": {
+     "text": "#9D5B07",
+     "accent": "#CC780F",
+     "hue": 62.57,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.08
+     }
+    },
+    "dark": {
+     "text": "#FF9500",
+     "accent": "#FF9500",
+     "hue": 62.57,
+     "verified": {
+      "text_on_fill": 4.88,
+      "text_on_card": 8.59,
+      "accent_on_card": 8.59
+     }
+    }
+   },
+   "dangerous": {
+    "light": {
+     "text": "#D60107",
+     "accent": "#FE3D32",
+     "hue": 28.65,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.25
+     }
+    },
+    "dark": {
+     "text": "#FE5244",
+     "accent": "#DB0007",
+     "hue": 28.65,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 5.85,
+      "accent_on_card": 3.61
+     }
+    }
+   }
   }
  }
 }
