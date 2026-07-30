@@ -83,6 +83,62 @@ struct ColorContrastTests {
         )
     }
 
+    // MARK: - Generated P3 catalog tokens
+
+    /// The `semantic/*` colorsets resolve **and** clear their gates at the
+    /// precision they actually ship at.
+    ///
+    /// Resolution is the load-bearing half: `Color("some/missing/name")` does
+    /// not throw — it silently yields a fallback — so a typo in a namespace
+    /// path or a missing `provides-namespace` marker would go unnoticed until
+    /// someone saw the wrong colour on screen. Asserting a real, non-fallback
+    /// value catches that at build time.
+    ///
+    /// Values are Display-P3 and mostly outside the sRGB gamut, which is why
+    /// `RGB.linear` is sign-preserving — see its note.
+    @Test
+    func `Generated semantic tokens resolve from the catalog and clear their gates`() {
+        let tokens: [(String, Color, Color)] = [
+            ("danger", GeneratedTheme.semanticDangerText, GeneratedTheme.semanticDangerAccent),
+            ("caution", GeneratedTheme.semanticCautionText, GeneratedTheme.semanticCautionAccent),
+            ("success", GeneratedTheme.semanticSuccessText, GeneratedTheme.semanticSuccessAccent),
+            ("info", GeneratedTheme.semanticInfoText, GeneratedTheme.semanticInfoAccent),
+        ]
+        for (name, textColor, accentColor) in tokens {
+            // Proof the *appearance-aware* lookup works: a failed lookup yields
+            // one flat fallback for every appearance, so light and dark would be
+            // identical. Every token's text value genuinely differs across modes.
+            //
+            // Deliberately not comparing text against accent — in dark mode
+            // `caution` and `success` legitimately resolve to the *same* value,
+            // because against near-black the max-chroma colour clearing the 3:1
+            // accent gate also clears the 4.5:1 text gate, so both converge.
+            #expect(
+                RGB(textColor, style: .light).oklabDistance(to: RGB(textColor, style: .dark)) > 0.01,
+                "semantic/\(name)/text resolved identically in light and dark — the catalog lookup probably failed",
+            )
+
+            for style in [UIUserInterfaceStyle.light, .dark] {
+                let surface = style == .light ? Self.cardLight : Self.cardDark
+                let text = RGB(textColor, style: style)
+                let accent = RGB(accentColor, style: style)
+                let fill = accent.composited(alpha: 0.10, over: surface)
+                #expect(
+                    text.contrastRatio(against: fill) >= Self.textGate,
+                    "semantic/\(name)/text \(text.hex) is \(text.contrastRatio(against: fill).to2dp):1 on its own fill (\(style == .light ? "light" : "dark"))",
+                )
+                #expect(
+                    text.contrastRatio(against: surface) >= Self.textGate,
+                    "semantic/\(name)/text \(text.hex) is \(text.contrastRatio(against: surface).to2dp):1 on the card",
+                )
+                #expect(
+                    accent.contrastRatio(against: surface) >= 3.0,
+                    "semantic/\(name)/accent \(accent.hex) is \(accent.contrastRatio(against: surface).to2dp):1 on the card",
+                )
+            }
+        }
+    }
+
     // MARK: - Known gaps, pinned so they can only improve
 
     /// Route pills fail in **dark** mode, and no hue retune fixes it.
@@ -216,12 +272,25 @@ struct RGB {
         return String(format: "#%02X%02X%02X", clamp(r), clamp(g), clamp(b))
     }
 
+    /// Encoded -> linear light, **sign-preserving**.
+    ///
+    /// `UIColor.getRed` reports *extended* sRGB for a Display-P3 asset: same
+    /// primaries, but components outside `[0, 1]` to reach the wider gamut. A
+    /// naive `pow` on a negative component returns NaN and silently poisons
+    /// every ratio downstream. Mirroring the magnitude and restoring the sign
+    /// keeps luminance correct for both plain and wide-gamut colours, because
+    /// extended sRGB shares sRGB's primaries — the luminance coefficients still
+    /// apply.
     private static func linear(_ channel: Double) -> Double {
-        channel <= 0.04045 ? channel / 12.92 : pow((channel + 0.055) / 1.055, 2.4)
+        let sign: Double = channel < 0 ? -1 : 1
+        let magnitude = abs(channel)
+        return sign * (magnitude <= 0.04045 ? magnitude / 12.92 : pow((magnitude + 0.055) / 1.055, 2.4))
     }
 
     private static func encode(_ channel: Double) -> Double {
-        channel <= 0.0031308 ? channel * 12.92 : 1.055 * pow(channel, 1 / 2.4) - 0.055
+        let sign: Double = channel < 0 ? -1 : 1
+        let magnitude = abs(channel)
+        return sign * (magnitude <= 0.0031308 ? magnitude * 12.92 : 1.055 * pow(magnitude, 1 / 2.4) - 0.055)
     }
 
     var relativeLuminance: Double {
