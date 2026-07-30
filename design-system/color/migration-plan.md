@@ -127,6 +127,41 @@ genuinely L1 status (`InteractionSeverity.caution`). The other three —
 they stay on `Theme.legibleYellow` until phase 4 gives their scales real tokens,
 and the token cannot be deleted in phase 3.
 
+**The PDF palette is out of scope — it is being redesigned wholesale.** Its
+findings are recorded here so the redesign inherits them rather than
+rediscovering them:
+
+- Every value in `PDFReportGenerator.Colors` fails as text on the page it is
+  printed on: `dangerousRed` 4.15:1 on its own tint, `unsafeOrange` 2.35:1,
+  `cautionYellow` 3.13:1, the adherence green 2.74:1 on white. This is the
+  document users hand to a clinician.
+- A PDF page is **white paper** and has no trait collection, so tokens must be
+  pinned to their light value —
+  `UIColor(resource:).resolvedColor(with: UITraitCollection(userInterfaceStyle: .light))`.
+  A dynamic colour would resolve against whatever environment is current.
+- Surfaces differ from the app: white and pale tints rather than `#f5f5f5`.
+  Tokens tuned for the app card pass on paper, since white is lighter.
+- `unsafeOrange` carries **two** meanings — the `.unsafe` severity tier and the
+  adherence "warn" band. They are different concepts and need different tokens.
+- The three tinted severity backgrounds are Oklab dE 0.021–0.055 apart, i.e.
+  barely distinguishable. Each row already prints its tier as a word and a
+  coloured dot, so hue is redundant encoding there — lean on that rather than
+  trying to make three pale tints readable apart.
+
+**LibraryTaxonomy's teal is not phase 3 either.** It is a `LibraryFamily`
+colour feeding a `FamilyGradientCard` background — an L2 *nominal family scale*,
+not a status. Same category error as `legibleYellow`. It moves with the category
+scales in phase 4.
+
+**Done in phase 3 so far:**
+
+| Token | Result |
+|---|---|
+| `InteractionSeverity.labelColor` | `.caution` and `.dangerous` → semantic tokens. `.unsafe` deferred to phase 4 (no middle tier). |
+| `Theme.secondaryLabel` (566 sites) | `#7A7A80` → `#6E6E73` light (**3.89 → 4.65**, was failing AA), system `#BCBCC4` dark (7.79 → 9.97). One-line change: the accessor stays, only its value moved to `text/secondary` in the catalog. Verified pixel-exact on device. |
+
+Remaining: `Theme.accent` (223) —
+
 `Theme.legibleYellow` (1 of 6 sites migrated) → `PDFReportGenerator.cautionYellow` (1) →
 `LibraryTaxonomy` teal (1) → `Theme.secondaryLabel` (566) → `Theme.accent` (223).
 

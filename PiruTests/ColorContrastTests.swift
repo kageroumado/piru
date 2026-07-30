@@ -205,20 +205,27 @@ struct ColorContrastTests {
         }
     }
 
-    /// `Theme.secondaryLabel` measures **3.89:1** on the real card in light mode.
+    /// `Theme.secondaryLabel` — graduated from known gap to real gate in
+    /// migration phase 3.
     ///
-    /// The original audit reported 4.25 because it computed against pure white —
-    /// the exact mistake this suite's surface constants exist to prevent. It is
-    /// still better than the system colour (2.17), so it is not a blind fix; it
-    /// is last in the migration burndown because it has 566 call sites.
+    /// It measured **3.89:1** on the real card in light mode, a WCAG AA failure
+    /// across ~566 call sites. The original audit reported 4.25 and thought it
+    /// passed, because it computed against pure white — the exact mistake this
+    /// suite's surface constants exist to prevent.
+    ///
+    /// Now `#6E6E73` light (4.65:1) and the system's `#BCBCC4` dark (9.97:1),
+    /// resolved from `text/secondary` in the catalog.
     @Test
-    func `Theme.secondaryLabel light is a known gap that must not worsen`() {
-        let ratio = RGB(Theme.secondaryLabel, style: .light).contrastRatio(against: Self.cardLight)
-        #expect(ratio >= 3.85, "Theme.secondaryLabel light regressed below its known 3.89:1")
-        #expect(
-            ratio < Self.textGate,
-            "Theme.secondaryLabel light now clears \(Self.textGate) — tighten this to the gate and delete the note",
-        )
+    func `Theme.secondaryLabel is legible in both appearances`() {
+        for style in [UIUserInterfaceStyle.light, .dark] {
+            let surface = style == .light ? Self.cardLight : Self.cardDark
+            let resolved = RGB(Theme.secondaryLabel, style: style)
+            let ratio = resolved.contrastRatio(against: surface)
+            #expect(
+                ratio >= Self.textGate,
+                "Theme.secondaryLabel \(resolved.hex) is \(ratio.to2dp):1 on the \(style == .light ? "light" : "dark") card",
+            )
+        }
     }
 
     /// Route tints must stay as mutually distinct as they are today.

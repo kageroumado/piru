@@ -15,14 +15,18 @@ enum Theme {
             : UIColor(red: 0.52, green: 0.39, blue: 0.0, alpha: 1)
     })
 
-    /// Darker secondary label for improved readability
-    static let secondaryLabel: Color = .init(UIColor { traits in
-        if traits.userInterfaceStyle == .dark {
-            UIColor(red: 0.65, green: 0.65, blue: 0.68, alpha: 1)
-        } else {
-            UIColor(red: 0.48, green: 0.48, blue: 0.50, alpha: 1)
-        }
-    })
+    /// De-emphasized body text. ~566 call sites, so this accessor stays even
+    /// though the value now comes from the asset catalog.
+    ///
+    /// The old hand-rolled pair (`#7A7A80` / `#A6A6AD`) was half right. Its
+    /// light value genuinely beat the system colour — 3.89:1 against system's
+    /// 2.17:1 — but **still failed WCAG AA**, which the original audit missed by
+    /// computing against pure white instead of the measured `#f5f5f5` card. Its
+    /// dark value was simply worse than the system's (7.79 vs 9.97).
+    ///
+    /// Now `#6E6E73` light (4.65:1) and the system's own `#BCBCC4` dark
+    /// (9.97:1). Gated by `ColorContrastTests`.
+    static let secondaryLabel = Color.Text.secondary
 
     // MARK: - OLED Dark Mode Backgrounds
 

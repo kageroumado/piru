@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""palette-L1.json (+ chrome tokens) -> palette-generator-input.json
+
+`palette-L1.json` stores tokens as P3 *components*, which is what the contrast
+verification works in. `generate_colorsets.py` wants one of `oklch` / `p3_hex` /
+`srgb_hex` per appearance. This converts between them.
+
+**Oklch, not hex, is deliberate.** Hex round-trips through 8 bits, and that has
+already cost us: two route tints passed contrast in floating point and failed
+after quantisation (4.4988 and 4.5046 against a 4.5 gate). Oklch keeps the
+precision until Xcode's own 3-decimal component format truncates it, which the
+contrast test then re-verifies at shipped precision.
+
+Run after editing `palette-L1.json`:
+
+    python3 build_generator_input.py
+    python3 generate_colorsets.py palette-generator-input.json --out ../../Shared/Assets.xcassets
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from colorimetry import oklch
+
+HERE = Path(__file__).parent
+
+# Chrome tokens: neutral, no semantic meaning, so they live outside the L1
+# ladder. Values are sRGB hex; see the note on each for why it is what it is.
+CHROME: dict[str, dict[str, str]] = {
+    "text/secondary": {
+        # Was #7A7A80 / #A6A6AD. The light value measured 3.89:1 on the real
+        # #f5f5f5 card -- a WCAG AA failure across ~566 call sites, and the
+        # original audit missed it by computing against pure white. Darkened to
+        # clear 4.5:1 with headroom past 8-bit rounding.
+        "light": "6E6E73",
+        # The old dark override was *worse* than the system colour (7.79 vs
+        # 9.97), so this adopts what iOS ships: #EBEBF5 at 60% over #111111.
+        "dark": "BCBCC4",
+    },
+}
+
+
+def main() -> None:
+    palette = json.loads((HERE / "palette-L1.json").read_text())
+    tokens: dict[str, dict] = {}
+
+    for key, value in palette["tokens"].items():
+        name = key.split("/")[1]
+        for role in ("text", "accent"):
+            tokens[f"semantic/{name}/{role}"] = {
+                appearance_slot: {
+                    "oklch": [round(x, 5) for x in oklch(tuple(value[mode][f"{role}_p3"]), "p3")]
+                }
+                for mode, appearance_slot in (("light", "any"), ("dark", "dark"))
+            }
+
+    for name, modes in CHROME.items():
+        tokens[name] = {
+            "any": {"srgb_hex": modes["light"]},
+            "dark": {"srgb_hex": modes["dark"]},
+        }
+
+    out = HERE / "palette-generator-input.json"
+    out.write_text(json.dumps({"tokens": tokens}, indent=1) + "\n")
+    print(f"wrote {len(tokens)} tokens to {out.name}")
+    for name in tokens:
+        print(f"  {name}")
+
+
+if __name__ == "__main__":
+    main()
