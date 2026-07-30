@@ -327,10 +327,13 @@ struct DoseTierStrip: View {
 
     /// Disc diameters per tier — a single glyph family that grows threshold→heavy.
     private static let diameters: [CGFloat] = [7, 10, 13, 15, 18]
-    /// The gauge's green→gold→red ramp (threshold gray → heavy red).
+    /// The gauge's ramp, threshold gray → heavy red. One of three encodings of
+    /// dose intensity that have been folded into the shared `dose` scale; this
+    /// one's hues were the ones kept, since it was the most deliberately
+    /// designed of the three.
     private static let colors: [Color] = [
-        Color(hex: "B7BCC4"), Color(hex: "34C759"), Color(hex: "E0A021"),
-        Color(hex: "F0803A"), Color(hex: "E8503A"),
+        .Dose.Threshold.accent, .Dose.Light.accent, .Dose.Common.accent,
+        .Dose.Strong.accent, .Dose.Heavy.accent,
     ]
 
     var body: some View {

@@ -423,6 +423,166 @@
    "dark": {
     "srgb_hex": "616166"
    }
+  },
+  "dose/sub/text": {
+   "any": {
+    "srgb_hex": "6A6A6E"
+   },
+   "dark": {
+    "srgb_hex": "8A8A8F"
+   }
+  },
+  "dose/sub/accent": {
+   "any": {
+    "srgb_hex": "8B8B90"
+   },
+   "dark": {
+    "srgb_hex": "616166"
+   }
+  },
+  "dose/threshold/text": {
+   "any": {
+    "srgb_hex": "666B72"
+   },
+   "dark": {
+    "srgb_hex": "868B92"
+   }
+  },
+  "dose/threshold/accent": {
+   "any": {
+    "srgb_hex": "888C94"
+   },
+   "dark": {
+    "srgb_hex": "5E6269"
+   }
+  },
+  "dose/light/text": {
+   "any": {
+    "srgb_hex": "007C2C"
+   },
+   "dark": {
+    "srgb_hex": "20B64B"
+   }
+  },
+  "dose/light/accent": {
+   "any": {
+    "srgb_hex": "08A13E"
+   },
+   "dark": {
+    "srgb_hex": "00AB40"
+   }
+  },
+  "dose/common/text": {
+   "any": {
+    "srgb_hex": "8E6201"
+   },
+   "dark": {
+    "srgb_hex": "D49614"
+   }
+  },
+  "dose/common/accent": {
+   "any": {
+    "srgb_hex": "BA8200"
+   },
+   "dark": {
+    "srgb_hex": "CD9000"
+   }
+  },
+  "dose/strong/text": {
+   "any": {
+    "srgb_hex": "AD500A"
+   },
+   "dark": {
+    "srgb_hex": "DF742F"
+   }
+  },
+  "dose/strong/accent": {
+   "any": {
+    "srgb_hex": "DA6F29"
+   },
+   "dark": {
+    "srgb_hex": "C05800"
+   }
+  },
+  "dose/heavy/text": {
+   "any": {
+    "srgb_hex": "C8321E"
+   },
+   "dark": {
+    "srgb_hex": "F05942"
+   }
+  },
+  "dose/heavy/accent": {
+   "any": {
+    "srgb_hex": "F05942"
+   },
+   "dark": {
+    "srgb_hex": "BC240F"
+   }
+  },
+  "confidence/high/text": {
+   "any": {
+    "srgb_hex": "007C2C"
+   },
+   "dark": {
+    "srgb_hex": "20B64B"
+   }
+  },
+  "confidence/high/accent": {
+   "any": {
+    "srgb_hex": "08A13E"
+   },
+   "dark": {
+    "srgb_hex": "00AB40"
+   }
+  },
+  "confidence/medium/text": {
+   "any": {
+    "srgb_hex": "826707"
+   },
+   "dark": {
+    "srgb_hex": "FBC900"
+   }
+  },
+  "confidence/medium/accent": {
+   "any": {
+    "srgb_hex": "AA8803"
+   },
+   "dark": {
+    "srgb_hex": "FBC900"
+   }
+  },
+  "confidence/low/text": {
+   "any": {
+    "srgb_hex": "9D5B07"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "confidence/low/accent": {
+   "any": {
+    "srgb_hex": "CC780F"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "confidence/unverified/text": {
+   "any": {
+    "srgb_hex": "6A6A6E"
+   },
+   "dark": {
+    "srgb_hex": "8A8A8F"
+   }
+  },
+  "confidence/unverified/accent": {
+   "any": {
+    "srgb_hex": "8B8B90"
+   },
+   "dark": {
+    "srgb_hex": "616166"
+   }
   }
  }
 }

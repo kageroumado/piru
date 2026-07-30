@@ -23,9 +23,12 @@ struct DoseIntensityCard: View {
     @State private var selected: Int = 0
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    /// Six bands over the shared `dose` scale. The sixth ("Overdose") reuses
+    /// `heavy` rather than inventing a seventh step — the band's *label* carries
+    /// that distinction, and a redder red would collide with heavy anyway.
     private static let bandColors: [Color] = [
-        Color(hex: "34C759"), Color(hex: "8ED04A"), Color(hex: "E0B93A"),
-        Color(hex: "E8940C"), Color(hex: "E5613D"), Color(hex: "E5484D"),
+        .Dose.Threshold.accent, .Dose.Light.accent, .Dose.Common.accent,
+        .Dose.Strong.accent, .Dose.Heavy.accent, .Dose.Heavy.accent,
     ]
 
     private var current: SpectrumBand {

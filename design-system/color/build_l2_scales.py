@@ -85,6 +85,41 @@ ROUTE_SOURCE = {
 }
 
 
+# Dose intensity. Three scales encoded this one concept: `DoseLevel.swiftUIColor`
+# (6 steps, gray/blue/green/yellow/orange/red), `DoseDurationCard` (5, no `sub`),
+# and `DoseIntensityCard` (6, ending in Overdose) -- with three different greens
+# for "light" alone.
+#
+# The tier-strip ramp wins: it is the most deliberately designed of the three and
+# reads as a single gray -> green -> gold -> orange -> red progression, where
+# DoseLevel's blue `threshold` sits oddly outside the ramp. A `sub` step is added
+# below it, which the strip lacked.
+#
+# Order is carried by **hue**, the conventional traffic-light encoding users have
+# already learned -- not by lightness. So unlike a magnitude ramp this scale is
+# deliberately not monotonic in Oklab L, the same exemption the phase arc takes.
+DOSE_SOURCE = {
+    "sub": "8E8E93",
+    "threshold": "B7BCC4",
+    "light": "34C759",
+    "common": "E0A021",
+    "strong": "F0803A",
+    "heavy": "E8503A",
+}
+
+
+# Evidence quality. `ConfidenceBadge` and `ProvenanceBadge` render the identical
+# green -> yellow -> orange -> gray ramp; ProvenanceBadge's own doc comment says
+# so. It is an ordered trust grade, not a status, which is why it does not fold
+# into `semantic/*` -- "medium confidence" is not a caution.
+CONFIDENCE_SOURCE = {
+    "high": "34C759",
+    "medium": "FFCC00",
+    "low": "FF9500",
+    "unverified": "8E8E93",
+}
+
+
 def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[float, float, tuple]:
     """Highest-chroma colour at `hue` satisfying `gate(colour)`, up to `ceiling`.
 
@@ -207,7 +242,12 @@ def build_scale(source: dict[str, str]) -> dict[str, dict]:
 
 
 def main() -> None:
-    scales = {"phase": build_scale(PHASE_SOURCE), "route": build_scale(ROUTE_SOURCE)}
+    scales = {
+        "phase": build_scale(PHASE_SOURCE),
+        "route": build_scale(ROUTE_SOURCE),
+        "dose": build_scale(DOSE_SOURCE),
+        "confidence": build_scale(CONFIDENCE_SOURCE),
+    }
     out = {
         "_meta": {
             "fill_alpha": FILL_ALPHA,

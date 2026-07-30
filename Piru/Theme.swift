@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 enum Theme {
     /// Soft pink in light mode, hot pink in dark mode.
@@ -9,15 +8,16 @@ enum Theme {
     /// this is a compile error.
     static let accent = Color.accent
 
-    /// Yellow that stays legible as text/icon on a light surface — pure yellow
-    /// is unreadable on white, so it darkens to amber in light mode while
-    /// keeping its yellow identity in dark mode. Used for the "Common" dose
-    /// level and "Caution" interaction severity labels.
-    static let legibleYellow: Color = .init(UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? .systemYellow
-            : UIColor(red: 0.52, green: 0.39, blue: 0.0, alpha: 1)
-    })
+    // `legibleYellow` lived here. It was a hue pretending to be a role, and the
+    // whole design system exists because of what that cost: the same "darken it
+    // for light mode" fix was independently rediscovered four times, in four
+    // files, none of which could share the others' work.
+    //
+    // Its four consumers each turned out to be a different *kind* of thing —
+    // one L1 status (interaction caution) and three L2 encoding scales (dose
+    // tier, and two evidence grades). Naming by appearance is what let them all
+    // collapse onto one value; naming by role is what pulled them apart.
+    // See `design-system/color/color-system.md`.
 
     /// De-emphasized body text. ~566 call sites, so this accessor stays even
     /// though the value now comes from the asset catalog.

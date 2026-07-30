@@ -204,34 +204,32 @@ struct ColorContrastTests {
         }
     }
 
-    // MARK: - Known gaps, pinned so they can only improve
-
-    /// Severity and dose tiers *other* than caution/common still render raw
-    /// system orange and red as text, which fail on the light card (2.04–3.27).
+    /// Dose tiers and evidence grades, gated across every step.
     ///
-    /// Unlike caution, these have no darkened variant yet — that arrives with
-    /// the `semantic/*` tokens in migration Phase 3.
+    /// `DoseLevel.labelColor` used to be `self == .common ? legibleYellow :
+    /// swiftUIColor` — a one-tier patch over a fill value, leaving `strong` and
+    /// `heavy` failing as text at 2.04:1 and 3.23:1. Every step has a real text
+    /// variant now, which is what made the patch unnecessary.
     @Test
-    func `Non-caution status tiers are a known gap that must not worsen`() {
-        // `.dangerous` graduated out of this list in migration phase 3 — it now
-        // resolves to `semantic/danger/text` and is gated above. `.unsafe` sits
-        // between caution and danger, and the four-level ladder has no middle
-        // tier, so it waits for the severity *scale* to be designed as an
-        // ordered L2 encoding rather than being flattened into danger.
-        let subjects: [(String, Color)] = [
-            ("InteractionSeverity.unsafe", InteractionSeverity.unsafe.labelColor),
-            ("DoseLevel.strong", DoseLevel.strong.labelColor),
-            ("DoseLevel.heavy", DoseLevel.heavy.labelColor),
-        ]
-        for (name, color) in subjects {
-            let ratio = RGB(color, style: .light).contrastRatio(against: Self.cardLight)
-            #expect(ratio >= 2.00, "\(name) regressed below its known floor")
-            #expect(
-                ratio < Self.textGate,
-                "\(name) now clears \(Self.textGate) — promote it into the darkened-text-variant test",
-            )
+    func `Dose and confidence scales are legible at every step`() {
+        for style in [UIUserInterfaceStyle.light, .dark] {
+            let surface = style == .light ? Self.cardLight : Self.cardDark
+            for level in DoseLevel.allCases {
+                let text = RGB(level.labelColor, style: style)
+                let accent = RGB(level.swiftUIColor, style: style)
+                #expect(
+                    text.contrastRatio(against: accent.composited(alpha: 0.10, over: surface)) >= Self.textGate,
+                    "DoseLevel.\(level) label \(text.hex) is below the gate on its own fill",
+                )
+                #expect(
+                    accent.contrastRatio(against: surface) >= 3.0,
+                    "DoseLevel.\(level) mark \(accent.hex) is below the 3:1 non-text floor",
+                )
+            }
         }
     }
+
+    // MARK: - Known gaps, pinned so they can only improve
 
     /// `Theme.secondaryLabel` — graduated from known gap to real gate in
     /// migration phase 3.

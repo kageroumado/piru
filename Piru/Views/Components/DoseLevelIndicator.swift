@@ -187,14 +187,19 @@ enum ExperiencePhase: CaseIterable {
 // MARK: - Duration Timeline Bar
 
 extension DoseLevel {
+    /// Mark colour — dots, discs, bar fills. Text uses ``labelColor``.
+    ///
+    /// One scale now. This concept had three encodings with three different
+    /// greens for "light" alone, and `threshold` was a blue sitting outside what
+    /// is otherwise a gray → green → gold → orange → red progression.
     var swiftUIColor: Color {
         switch self {
-        case .sub: .gray
-        case .threshold: .blue
-        case .light: .green
-        case .common: .yellow
-        case .strong: .orange
-        case .heavy: .red
+        case .sub: .Dose.Sub.accent
+        case .threshold: .Dose.Threshold.accent
+        case .light: .Dose.Light.accent
+        case .common: .Dose.Common.accent
+        case .strong: .Dose.Strong.accent
+        case .heavy: .Dose.Heavy.accent
         }
     }
 
@@ -202,7 +207,21 @@ extension DoseLevel {
     /// text on a light surface, so `.common` darkens to amber in light mode
     /// while keeping its yellow identity in dark mode; the other hues read
     /// fine in both schemes.
+    /// Legible text variant, gated at WCAG AA against the card *and* against
+    /// this tier's own tinted fill.
+    ///
+    /// Was `self == .common ? Theme.legibleYellow : swiftUIColor` — a one-tier
+    /// patch over a fill value, which left `strong` and `heavy` failing as text
+    /// (2.04:1 and 3.23:1). Every tier now has a real text variant, which is
+    /// what makes the patch unnecessary.
     var labelColor: Color {
-        self == .common ? Theme.legibleYellow : swiftUIColor
+        switch self {
+        case .sub: .Dose.Sub.text
+        case .threshold: .Dose.Threshold.text
+        case .light: .Dose.Light.text
+        case .common: .Dose.Common.text
+        case .strong: .Dose.Strong.text
+        case .heavy: .Dose.Heavy.text
+        }
     }
 }

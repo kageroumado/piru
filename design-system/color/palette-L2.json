@@ -369,6 +369,236 @@
      }
     }
    }
+  },
+  "dose": {
+   "sub": {
+    "light": {
+     "text": "#6A6A6E",
+     "accent": "#8B8B90",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": "#8A8A8F",
+     "accent": "#616166",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
+     }
+    }
+   },
+   "threshold": {
+    "light": {
+     "text": "#666B72",
+     "accent": "#888C94",
+     "hue": 259.83,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.59,
+      "text_on_card": 4.93,
+      "accent_on_card": 3.09
+     }
+    },
+    "dark": {
+     "text": "#868B92",
+     "accent": "#5E6269",
+     "hue": 259.83,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.08
+     }
+    }
+   },
+   "light": {
+    "light": {
+     "text": "#007C2C",
+     "accent": "#08A13E",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.12
+     }
+    },
+    "dark": {
+     "text": "#20B64B",
+     "accent": "#00AB40",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.65,
+      "text_on_card": 7.06,
+      "accent_on_card": 6.2
+     }
+    }
+   },
+   "common": {
+    "light": {
+     "text": "#8E6201",
+     "accent": "#BA8200",
+     "hue": 78.15,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.07
+     }
+    },
+    "dark": {
+     "text": "#D49614",
+     "accent": "#CD9000",
+     "hue": 78.15,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 7.35,
+      "accent_on_card": 6.82
+     }
+    }
+   },
+   "strong": {
+    "light": {
+     "text": "#AD500A",
+     "accent": "#DA6F29",
+     "hue": 49.45,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.06
+     }
+    },
+    "dark": {
+     "text": "#DF742F",
+     "accent": "#C05800",
+     "hue": 49.45,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 6.0,
+      "accent_on_card": 4.17
+     }
+    }
+   },
+   "heavy": {
+    "light": {
+     "text": "#C8321E",
+     "accent": "#F05942",
+     "hue": 31.06,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.1
+     }
+    },
+    "dark": {
+     "text": "#F05942",
+     "accent": "#BC240F",
+     "hue": 31.06,
+     "verified": {
+      "text_on_fill": 4.63,
+      "text_on_card": 5.59,
+      "accent_on_card": 3.06
+     }
+    }
+   }
+  },
+  "confidence": {
+   "high": {
+    "light": {
+     "text": "#007C2C",
+     "accent": "#08A13E",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.12
+     }
+    },
+    "dark": {
+     "text": "#20B64B",
+     "accent": "#00AB40",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.65,
+      "text_on_card": 7.06,
+      "accent_on_card": 6.2
+     }
+    }
+   },
+   "medium": {
+    "light": {
+     "text": "#826707",
+     "accent": "#AA8803",
+     "hue": 90.39,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.09
+     }
+    },
+    "dark": {
+     "text": "#FBC900",
+     "accent": "#FBC900",
+     "hue": 90.39,
+     "verified": {
+      "text_on_fill": 5.73,
+      "text_on_card": 12.1,
+      "accent_on_card": 12.1
+     }
+    }
+   },
+   "low": {
+    "light": {
+     "text": "#9D5B07",
+     "accent": "#CC780F",
+     "hue": 62.57,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.08
+     }
+    },
+    "dark": {
+     "text": "#FF9500",
+     "accent": "#FF9500",
+     "hue": 62.57,
+     "verified": {
+      "text_on_fill": 4.88,
+      "text_on_card": 8.59,
+      "accent_on_card": 8.59
+     }
+    }
+   },
+   "unverified": {
+    "light": {
+     "text": "#6A6A6E",
+     "accent": "#8B8B90",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": "#8A8A8F",
+     "accent": "#616166",
+     "hue": 285.92,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
+     }
+    }
+   }
   }
  }
 }

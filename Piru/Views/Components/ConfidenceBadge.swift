@@ -26,10 +26,10 @@ struct ConfidenceBadge: View {
 
     private var color: Color {
         switch tier {
-        case .high: .green
-        case .medium: Theme.legibleYellow
-        case .low: .orange
-        case .unverified: Theme.secondaryLabel
+        case .high: .Confidence.High.text
+        case .medium: .Confidence.Medium.text
+        case .low: .Confidence.Low.text
+        case .unverified: .Confidence.Unverified.text
         }
     }
 
