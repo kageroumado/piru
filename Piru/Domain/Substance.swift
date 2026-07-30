@@ -176,17 +176,6 @@ enum DoseLevel: String, CaseIterable {
     case strong = "Strong"
     case heavy = "Heavy"
 
-    var color: String {
-        switch self {
-        case .sub: "gray"
-        case .threshold: "blue"
-        case .light: "green"
-        case .common: "yellow"
-        case .strong: "orange"
-        case .heavy: "red"
-        }
-    }
-
     var displayName: LocalizedStringResource {
         switch self {
         case .sub: "Sub-threshold"

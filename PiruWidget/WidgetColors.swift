@@ -1,16 +1,16 @@
 import SwiftUI
-import UIKit
 
 enum WidgetColors {
-    /// Mirrors the app's asset-catalog `AccentColor` — soft pink (#F57896) in
-    /// light mode, hot pink (#FF2D6F) in dark. The widget target doesn't
-    /// include the app's `Assets.xcassets`, so the variants are built in code
-    /// via a dynamic provider.
-    static let accent = Color(uiColor: UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red: 1.00, green: 0.176, blue: 0.435, alpha: 1.0)
-            : UIColor(red: 0.96, green: 0.470, blue: 0.590, alpha: 1.0)
-    })
+    /// The app's asset-catalog `AccentColor`, resolved from the real colorset.
+    ///
+    /// This used to be a hand-transcribed `UIColor { traits }` copy, because the
+    /// widget target could not see `Assets.xcassets` while it lived under
+    /// `Piru/`. The catalog now lives in `Shared/`, which is a synchronized
+    /// group of all three targets, so the duplicate is gone. The transcription
+    /// was colorimetrically correct — this removes the drift risk, not a bug —
+    /// and reading the colorset also picks up its Display-P3 components, which
+    /// the sRGB literals could not represent.
+    static let accent = Color("AccentColor")
 
     static let backgroundGradientTop = Color(red: 0.06, green: 0.04, blue: 0.08)
     static let backgroundGradientBottom = Color(red: 0.10, green: 0.05, blue: 0.10)

@@ -66,6 +66,13 @@ extension RouteOfAdministration {
     /// ~11pt text on a near-white card several hues fail small-text contrast
     /// (orange/green worst), so light mode darkens each toward ≥4.5:1 while
     /// keeping the hue identity.
+    ///
+    /// **Verified, not assumed.** Every light value clears 4.5:1 against its own
+    /// 16% fill over the measured card (`#f5f5f5` — the `.ultraThinMaterial`
+    /// card is *not* white). Five originally missed that target — sublingual
+    /// 4.02, buccal 4.18, other 4.19, inhalation 4.25, transdermal 4.32 — and
+    /// were lowered in Oklab lightness with hue held exactly constant.
+    /// Re-check with `Specs/design-system/color-audit/colorimetry.py`.
     var tintColor: Color {
         let (light, dark) = tintHexPair
         return Color(UIColor { traits in
@@ -76,16 +83,16 @@ extension RouteOfAdministration {
     private var tintHexPair: (light: String, dark: String) {
         switch self {
         case .oral: ("0B5FC2", "0A84FF") // blue
-        case .sublingual: ("0E7A8D", "30B0C7") // teal
-        case .buccal: ("0B7A6E", "00C7BE") // mint — mucosal, sibling to sublingual
+        case .sublingual: ("007184", "30B0C7") // teal
+        case .buccal: ("007368", "00C7BE") // mint — mucosal, sibling to sublingual
         case .insufflation: ("8330AE", "AF52DE") // purple
-        case .inhalation: ("A05A00", "FF9500") // orange
+        case .inhalation: ("995600", "FF9500") // orange
         case .intravenous: ("C22B22", "FF3B30") // red
         case .intramuscular: ("C21A3F", "FF2D55") // pink
         case .subcutaneous: ("4644B8", "5E5CE6") // indigo
-        case .transdermal: ("1B7A38", "34C759") // green
+        case .transdermal: ("127533", "34C759") // green
         case .rectal: ("7A6244", "A2845E") // brown
-        case .other: ("6C6C70", "8E8E93") // gray
+        case .other: ("656569", "8E8E93") // gray
         }
     }
 

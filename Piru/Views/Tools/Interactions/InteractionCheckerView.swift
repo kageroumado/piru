@@ -163,7 +163,7 @@ struct InteractionCheckerView: View {
                         }
                     }
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle((results.first?.severity ?? .caution).color)
+                    .foregroundStyle((results.first?.severity ?? .caution).labelColor)
                     .textCase(.uppercase)
                     .accessibilityAddTraits(.isHeader)
                     .padding(.horizontal, 16)

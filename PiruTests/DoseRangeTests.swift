@@ -118,22 +118,11 @@ struct DoseRangeTests {
 
 @Suite("DoseLevel")
 struct DoseLevelTests {
-    @Test
-    func `All dose levels have colors`() {
-        for level in DoseLevel.allCases {
-            #expect(!level.color.isEmpty)
-        }
-    }
-
-    @Test
-    func `Color mapping is correct`() {
-        #expect(DoseLevel.sub.color == "gray")
-        #expect(DoseLevel.threshold.color == "blue")
-        #expect(DoseLevel.light.color == "green")
-        #expect(DoseLevel.common.color == "yellow")
-        #expect(DoseLevel.strong.color == "orange")
-        #expect(DoseLevel.heavy.color == "red")
-    }
+    // `DoseLevel.color` (a `String` of colour *words*) was removed: it had no
+    // production consumer — rendering goes through `DoseLevelIndicator`'s
+    // `swiftUIColor` / `labelColor`. The two tests here only asserted that dead
+    // accessor's own strings, so they were removed with it rather than kept
+    // pinning behaviour nothing depends on.
 
     @Test
     func `Raw values are display strings`() {

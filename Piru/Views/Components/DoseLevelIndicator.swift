@@ -20,7 +20,7 @@ struct DoseLevelIndicator: View {
                         .frame(width: 10, height: 10)
                     Text(level.displayName)
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(level.swiftUIColor)
+                        .foregroundStyle(level.labelColor)
                 }
             }
 

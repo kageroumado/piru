@@ -509,7 +509,7 @@ struct InteractionTimelineView: View {
                 HStack(spacing: 10) {
                     Image(systemName: "clock.arrow.2.circlepath")
                         .font(.title3)
-                        .foregroundStyle(severity.color)
+                        .foregroundStyle(severity.labelColor)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Both substances active")
@@ -686,13 +686,13 @@ struct InteractionTimelineView: View {
     private var warningCard: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                .foregroundStyle(severity.color)
+                .foregroundStyle(severity.labelColor)
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("\(severity.label): \(substanceA) + \(substanceB)")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(severity.color)
+                    .foregroundStyle(severity.labelColor)
                 Text(warningDescription)
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
