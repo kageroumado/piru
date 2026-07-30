@@ -6,7 +6,10 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 
 // MARK: - Interaction Severity
 
-nonisolated enum InteractionSeverity: Int, Comparable, Codable {
+/// `CaseIterable` so the contrast gate in `ColorContrastTests` covers every
+/// severity automatically — a new case must clear its legibility floor rather
+/// than silently escaping a hardcoded list.
+nonisolated enum InteractionSeverity: Int, Comparable, Codable, CaseIterable {
     case caution = 0
     case unsafe = 1
     case dangerous = 2
