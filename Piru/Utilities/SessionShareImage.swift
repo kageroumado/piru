@@ -191,9 +191,18 @@ struct SessionShareCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// Distinct substances drawn — the lane count, matching the graph's own gate.
-    private var laneCount: Int {
+    /// Distinct substances drawn, split the way the renderer splits them. This
+    /// used to count curve substances only while the graph also draws a lane per
+    /// duration-less one, so any session with a pin-only substance was sized for
+    /// fewer lanes than it drew and the strips came out squeezed.
+    private var curveLaneCount: Int {
         Set(states.map { $0.substanceName.lowercased() }).count
+    }
+
+    private var markerLaneCount: Int {
+        Set(markers.map { $0.substanceName.lowercased() })
+            .subtracting(states.map { $0.substanceName.lowercased() })
+            .count
     }
 
     @ViewBuilder private var timeline: some View {
@@ -204,10 +213,11 @@ struct SessionShareCard: View {
             // Busy (lane-mode) sessions render as the app's *enlarged* small
             // multiples so each substance's strip stays readable; simple
             // overlapping-curve days keep the compact embedded height.
-            let laneMode = laneEnabled && laneCount >= threshold
+            let laneMode = laneEnabled && curveLaneCount >= threshold
             let height = GraphMetrics.graphHeight(
                 enlarged: laneMode,
-                laneCount: laneCount,
+                curveLaneCount: curveLaneCount,
+                markerLaneCount: markerLaneCount,
                 laneModeEnabled: laneEnabled,
                 laneModeThreshold: threshold,
             )

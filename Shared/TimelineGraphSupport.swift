@@ -48,14 +48,30 @@ enum GraphMetrics {
     /// heights; lane-mode days grow with the lane count so each horizon strip
     /// keeps a readable minimum. Single source of truth for the day-detail
     /// section, the export image, and anywhere else that sizes the graph.
-    static func graphHeight(enlarged: Bool, laneCount: Int, laneModeEnabled: Bool, laneModeThreshold: Int) -> CGFloat {
+    static func graphHeight(
+        enlarged: Bool, curveLaneCount: Int, markerLaneCount: Int,
+        laneModeEnabled: Bool, laneModeThreshold: Int,
+    ) -> CGFloat {
         let base = enlarged ? Self.enlarged : embedded
+        let laneCount = curveLaneCount + markerLaneCount
         guard laneModeEnabled, laneCount >= laneModeThreshold else { return base }
-        let perLane: CGFloat = enlarged ? 46 : 32
         let axisOverhead: CGFloat = 40
-        let ideal = CGFloat(laneCount) * perLane + axisOverhead
+        let ideal = CGFloat(curveLaneCount) * curveLaneHeight(enlarged: enlarged)
+            + CGFloat(markerLaneCount) * markerLaneHeight + axisOverhead
         return max(base, min(ideal, enlarged ? 560 : 380))
     }
+
+    /// Room a curve lane wants: enough for a Bateman hump to have a shape.
+    static func curveLaneHeight(enlarged: Bool) -> CGFloat {
+        enlarged ? 46 : 32
+    }
+
+    /// Room a pin-only lane wants — a name and a row of lollipops, neither of
+    /// which needs vertical space to be read. Duration-less substances get their
+    /// own labeled lane (better than an unlabelled cluster of dots at the graph's
+    /// foot), but at a curve's share of the height a session with four of them
+    /// spent most of the canvas on rows carrying two dots each.
+    static let markerLaneHeight: CGFloat = 22
 }
 
 /// UserDefaults keys, defaults, and bounds for the lane-mode ("small multiples")

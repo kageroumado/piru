@@ -1338,17 +1338,30 @@ struct TimelineGraphView: View, Equatable {
         let markerLanes = TimelineCurveModel.markerOnlyLanes(excluding: curveLanes, markers: markers)
         let rowCount = curveLanes.count + markerLanes.count
         guard rowCount > 0 else { return }
-        let laneHeight = graphHeight / CGFloat(rowCount)
+        // Pin lanes take a fixed strip; the curves divide what's left. Splitting
+        // the canvas evenly gave a two-dot row the same height as a full Bateman
+        // hump, so a session with several duration-less substances squeezed
+        // every curve flat to pay for them. Capped at half the canvas so a
+        // pin-heavy day can't starve the curves either.
+        let markerBlock = min(
+            CGFloat(markerLanes.count) * GraphMetrics.markerLaneHeight,
+            curveLanes.isEmpty ? graphHeight : graphHeight * 0.5,
+        )
+        let markerLaneHeight = markerLanes.isEmpty ? 0 : markerBlock / CGFloat(markerLanes.count)
+        let curveLaneHeight = curveLanes.isEmpty
+            ? 0
+            : (graphHeight - markerBlock) / CGFloat(curveLanes.count)
+        let curveBlock = CGFloat(curveLanes.count) * curveLaneHeight
         // Headroom above each curve and a gap above the baseline keep adjacent
         // lanes from touching; floored so very tight lanes still draw.
-        let topHeadroom: CGFloat = min(10, laneHeight * 0.28)
+        let topHeadroom: CGFloat = min(10, curveLaneHeight * 0.28)
         let bottomGap: CGFloat = 2
         let labelInset: CGFloat = 4
 
         for (i, lane) in curveLanes.enumerated() {
-            let laneTop = graphTop + CGFloat(i) * laneHeight
-            let baseline = laneTop + laneHeight - bottomGap
-            let amplitude = max(laneHeight - topHeadroom - bottomGap, 6)
+            let laneTop = graphTop + CGFloat(i) * curveLaneHeight
+            let baseline = laneTop + curveLaneHeight - bottomGap
+            let amplitude = max(curveLaneHeight - topHeadroom - bottomGap, 6)
             let laneGraphTop = baseline - amplitude
             let color = Color(hex: lane.colorHex)
 
@@ -1465,8 +1478,8 @@ struct TimelineGraphView: View, Equatable {
         // Each duration-less substance as its own labeled lane below the curves.
         for (j, lane) in markerLanes.enumerated() {
             let i = curveLanes.count + j
-            let laneTop = graphTop + CGFloat(i) * laneHeight
-            let baseline = laneTop + laneHeight - bottomGap
+            let laneTop = graphTop + curveBlock + CGFloat(j) * markerLaneHeight
+            let baseline = laneTop + markerLaneHeight - bottomGap
             let color = Color(hex: lane.colorHex)
 
             if i > 0 {
@@ -1481,7 +1494,7 @@ struct TimelineGraphView: View, Equatable {
             // Heads ride high in the lane so a real stem drops to the baseline;
             // only markers that actually fall under the name label (near the left
             // edge) are held down to clear it — the rest get the full lane.
-            let amplitude = max(laneHeight - topHeadroom - bottomGap, 6)
+            let amplitude = max(markerLaneHeight - bottomGap - 2, 6)
             let r = min(5.5, max(3.5, amplitude * 0.34))
             let labelWidth = labelInset + 10 + CGFloat(lane.name.count) * 5.5
             for marker in lane.markers {

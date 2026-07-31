@@ -9,7 +9,8 @@ import TipKit
 struct SessionTimelineSection: View {
     let states: [ActiveSubstanceState]
     let markers: [DoseMarker]
-    let laneCount: Int
+    let curveLaneCount: Int
+    let markerLaneCount: Int
     @Binding var timelineEnlarged: Bool
     let hasOngoingDose: Bool
     let vitals: SessionVitals?
@@ -21,7 +22,12 @@ struct SessionTimelineSection: View {
     var body: some View {
         Section {
             let bandExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
-            AnimatableHeight(height: GraphMetrics.graphHeight(enlarged: timelineEnlarged, laneCount: laneCount, laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold) + bandExtra) {
+            let height = GraphMetrics.graphHeight(
+                enlarged: timelineEnlarged,
+                curveLaneCount: curveLaneCount, markerLaneCount: markerLaneCount,
+                laneModeEnabled: laneModeEnabled, laneModeThreshold: laneModeThreshold,
+            )
+            AnimatableHeight(height: height + bandExtra) {
                 TimelineGraphView(
                     substances: states,
                     currentTime: .now,

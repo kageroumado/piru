@@ -64,11 +64,17 @@ struct SessionDetailView: View {
         return hasher.finalize()
     }
 
-    /// Distinct substances drawn on the timeline — the lane count once the graph
-    /// switches to small multiples. Precomputed in ``resolvedDay``; passed to
-    /// ``SessionTimelineSection`` for its height calc.
-    private var laneCount: Int {
-        resolvedDay.laneCount
+    /// Distinct substances drawn on the timeline once the graph switches to
+    /// small multiples, split by lane kind: curve lanes need room for a hump,
+    /// pin-only lanes need a strip. Precomputed in ``resolvedDay``; passed to
+    /// ``SessionTimelineSection`` for its height calc, which must reach the same
+    /// answer the renderer does.
+    private var curveLaneCount: Int {
+        resolvedDay.curveLaneCount
+    }
+
+    private var markerLaneCount: Int {
+        resolvedDay.markerLaneCount
     }
 
     /// The day's resolved timeline + interaction warnings, derived **synchronously
@@ -84,15 +90,19 @@ struct SessionDetailView: View {
             let t = ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors))
             let names = Array(Set(entries.map(\.substance)))
             let interactions = names.count >= 2 ? InteractionChecker.checkBatch(names, against: []) : []
-            let laneNames = Set(t.states.map { $0.substanceName.lowercased() })
-                .union(t.markers.map { $0.substanceName.lowercased() })
+            // Mirrors the renderer's own split: a marker lane exists only for a
+            // substance with no curve lane (``markerOnlyLanes(excluding:)``).
+            let curveNames = Set(t.states.map { $0.substanceName.lowercased() })
+            let markerNames = Set(t.markers.map { $0.substanceName.lowercased() })
+                .subtracting(curveNames)
             let mechanisticDoses = Self.computeMechanisticDoses(entries, startDate: session.startDate)
             let mechanisticPharmacology = Self.resolveMechanisticPharmacology(mechanisticDoses)
             return ResolvedDay(
                 states: t.states,
                 markers: t.markers,
                 interactions: interactions,
-                laneCount: laneNames.count,
+                curveLaneCount: curveNames.count,
+                markerLaneCount: markerNames.count,
                 entryCores: Self.computeEntryCores(entries),
                 mechanisticDoses: mechanisticDoses,
                 mechanisticSupported: MechanisticSessionModel.supportsMechanisticView(mechanisticDoses, pharmacology: mechanisticPharmacology),
@@ -367,7 +377,8 @@ struct SessionDetailView: View {
                         SessionTimelineSection(
                             states: substanceStates,
                             markers: doseMarkers,
-                            laneCount: laneCount,
+                            curveLaneCount: curveLaneCount,
+                            markerLaneCount: markerLaneCount,
                             timelineEnlarged: $timelineEnlarged,
                             hasOngoingDose: hasOngoingDose,
                             vitals: model.sessionVitals,
@@ -633,9 +644,10 @@ private struct ResolvedDay {
     var states: [ActiveSubstanceState] = []
     var markers: [DoseMarker] = []
     var interactions: [InteractionResult] = []
-    /// Distinct timeline lanes, precomputed so `graphHeight` doesn't rebuild two
-    /// name Sets on every height-animation frame.
-    var laneCount: Int = 0
+    /// Distinct timeline lanes by kind, precomputed so `graphHeight` doesn't
+    /// rebuild two name Sets on every height-animation frame.
+    var curveLaneCount: Int = 0
+    var markerLaneCount: Int = 0
     /// Render-ready, substance-resolved facts for each dose row, in `entries`
     /// order. Built here (once per content change) so the heavy per-row resolve
     /// — `SubstanceLibrary` lookup + dose-level classification + display-name
