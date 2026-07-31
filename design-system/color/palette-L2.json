@@ -1519,235 +1519,859 @@
   "family": {
    "common": {
     "light": {
-     "text": "#575AC2",
-     "accent": "#575AC2",
-     "text_hc": "#575AC2",
-     "accent_hc": "#575AC2",
+     "text": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
      "hue": 278.08,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#575AC2",
-     "accent": "#575AC2",
-     "text_hc": "#575AC2",
-     "accent_hc": "#575AC2",
+     "text": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.3433,
+       0.3526,
+       0.7355
+      ]
+     },
      "hue": 278.08,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "stimulant": {
     "light": {
-     "text": "#FF9500",
-     "accent": "#FF9500",
-     "text_hc": "#FF9500",
-     "accent_hc": "#FF9500",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "hue": 62.56,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#FF9500",
-     "accent": "#FF9500",
-     "text_hc": "#FF9500",
-     "accent_hc": "#FF9500",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.9433,
+       0.6044,
+       0.2176
+      ]
+     },
+     "hue": 62.56,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "empathogen": {
     "light": {
-     "text": "#FF2D55",
-     "accent": "#FF2D55",
-     "text_hc": "#FF2D55",
-     "accent_hc": "#FF2D55",
+     "text": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
      "hue": 17.89,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#FF2D55",
-     "accent": "#FF2D55",
-     "text_hc": "#FF2D55",
-     "accent_hc": "#FF2D55",
+     "text": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.9198,
+       0.2684,
+       0.352
+      ]
+     },
      "hue": 17.89,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "hallucinogen": {
     "light": {
-     "text": "#8F45C9",
-     "accent": "#8F45C9",
-     "text_hc": "#8F45C9",
-     "accent_hc": "#8F45C9",
-     "hue": 306.67,
+     "text": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "hue": 307.05,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#8F45C9",
-     "accent": "#8F45C9",
-     "text_hc": "#8F45C9",
-     "accent_hc": "#8F45C9",
-     "hue": 306.67,
+     "text": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.4812,
+       0.1903,
+       0.7333
+      ]
+     },
+     "hue": 307.05,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "cannabinoid": {
     "light": {
-     "text": "#34C759",
-     "accent": "#34C759",
-     "text_hc": "#34C759",
-     "accent_hc": "#34C759",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "hue": 147.06,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#34C759",
-     "accent": "#34C759",
-     "text_hc": "#34C759",
-     "accent_hc": "#34C759",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.3076,
+       0.6798,
+       0.3097
+      ]
+     },
+     "hue": 147.06,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "opioid": {
     "light": {
-     "text": "#FF3B30",
-     "accent": "#FF3B30",
-     "text_hc": "#FF3B30",
-     "accent_hc": "#FF3B30",
+     "text": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
      "hue": 28.65,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#FF3B30",
-     "accent": "#FF3B30",
-     "text_hc": "#FF3B30",
-     "accent_hc": "#FF3B30",
+     "text": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.9213,
+       0.3045,
+       0.2405
+      ]
+     },
      "hue": 28.65,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "sedative": {
     "light": {
-     "text": "#007AFF",
-     "accent": "#007AFF",
-     "text_hc": "#007AFF",
-     "accent_hc": "#007AFF",
+     "text": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
      "hue": 257.43,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#007AFF",
-     "accent": "#007AFF",
-     "text_hc": "#007AFF",
-     "accent_hc": "#007AFF",
+     "text": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2046,
+       0.471,
+       0.9661
+      ]
+     },
      "hue": 257.43,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "peptide": {
     "light": {
-     "text": "#66A6D9",
-     "accent": "#66A6D9",
-     "text_hc": "#66A6D9",
-     "accent_hc": "#66A6D9",
-     "hue": 243.96,
+     "text": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "hue": 335.0,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#66A6D9",
-     "accent": "#66A6D9",
-     "text_hc": "#66A6D9",
-     "accent_hc": "#66A6D9",
-     "hue": 243.96,
+     "text": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.8062,
+       0.3476,
+       0.7568
+      ]
+     },
+     "hue": 335.0,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "mind": {
     "light": {
-     "text": "#1C7885",
-     "accent": "#1C7885",
-     "text_hc": "#1C7885",
-     "accent_hc": "#1C7885",
+     "text": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
      "hue": 209.25,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#1C7885",
-     "accent": "#1C7885",
-     "text_hc": "#1C7885",
-     "accent_hc": "#1C7885",
+     "text": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2291,
+       0.4637,
+       0.5141
+      ]
+     },
      "hue": 209.25,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "pharmaceutical": {
     "light": {
-     "text": "#5C84AD",
-     "accent": "#5C84AD",
-     "text_hc": "#5C84AD",
-     "accent_hc": "#5C84AD",
-     "hue": 249.83,
+     "text": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "hue": 330.69,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#5C84AD",
-     "accent": "#5C84AD",
-     "text_hc": "#5C84AD",
-     "accent_hc": "#5C84AD",
-     "hue": 249.83,
+     "text": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.5206,
+       0.3873,
+       0.517
+      ]
+     },
+     "hue": 330.69,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "supplement": {
     "light": {
-     "text": "#00AB89",
-     "accent": "#00AB89",
-     "text_hc": "#00AB89",
-     "accent_hc": "#00AB89",
+     "text": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
      "hue": 171.91,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#00AB89",
-     "accent": "#00AB89",
-     "text_hc": "#00AB89",
-     "accent_hc": "#00AB89",
+     "text": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2981,
+       0.6605,
+       0.5442
+      ]
+     },
      "hue": 171.91,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "research": {
     "light": {
-     "text": "#A592B8",
-     "accent": "#A592B8",
-     "text_hc": "#A592B8",
-     "accent_hc": "#A592B8",
-     "hue": 307.45,
+     "text": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "hue": 39.99,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#A592B8",
-     "accent": "#A592B8",
-     "text_hc": "#A592B8",
-     "accent_hc": "#A592B8",
-     "hue": 307.45,
+     "text": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.8774,
+       0.4905,
+       0.3351
+      ]
+     },
+     "hue": 39.99,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "other": {
     "light": {
-     "text": "#63666C",
-     "accent": "#63666C",
-     "text_hc": "#63666C",
-     "accent_hc": "#63666C",
-     "hue": 264.46,
+     "text": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "hue": 264.59,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#63666C",
-     "accent": "#63666C",
-     "text_hc": "#63666C",
-     "accent_hc": "#63666C",
-     "hue": 264.46,
+     "text": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.3904,
+       0.3996,
+       0.4213
+      ]
+     },
+     "hue": 264.59,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    }

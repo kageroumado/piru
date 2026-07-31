@@ -1,70 +1,99 @@
-<meta charset="utf-8"><title>Library family colors — tuning round 2</title>
+<meta charset="utf-8"><title>Library family colors — tuning round 5</title>
 <style>
-body{font:14px/1.4 -apple-system,system-ui,sans-serif;background:#fbfbfc;color:#1a1a1c;padding:28px;max-width:1200px;margin:0 auto}
+body{font:14px/1.4 -apple-system,system-ui,sans-serif;background:#fbfbfc;color:#1a1a1c;padding:28px;max-width:1240px;margin:0 auto}
 @media(prefers-color-scheme:dark){body{background:#131315;color:#ececed}}
-h1{font-size:19px;margin:0 0 4px} h2{font-size:15px;margin:28px 0 8px}
-p{color:#6b6b70;font-size:13px;max-width:78ch}
-.row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
-.card{border-radius:18px;padding:16px;min-height:88px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
-.card b{font-size:18px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.32)}
-.card span{font-size:11px;opacity:.92;font-family:ui-monospace,Menlo,monospace;text-shadow:0 1px 3px rgba(0,0,0,.32)}
-.hdr{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:6px;font-size:12px;font-weight:600;color:#6b6b70}
-.note{font-size:12px;color:#6b6b70;margin:-6px 0 14px}
+h1{font-size:19px;margin:0 0 4px} h2{font-size:15px;margin:30px 0 8px}
+p{color:#6b6b70;font-size:13px;max-width:80ch}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.col{display:flex;flex-direction:column;gap:9px}
+.colhdr{font-size:12px;font-weight:600;color:#6b6b70;margin-bottom:2px}
+.card{border-radius:16px;padding:12px 14px;min-height:58px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+.card b{font-size:15px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.32)}
+.card span{font-size:10.5px;opacity:.92;font-family:ui-monospace,Menlo,monospace;text-shadow:0 1px 3px rgba(0,0,0,.32)}
+.card.sm{min-height:46px;padding:9px 12px} .card.sm b{font-size:13px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.warm{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.strip{display:flex;flex-direction:column;gap:7px}
+.lbl{font-size:12px;font-weight:600;color:#6b6b70;margin:0 0 5px}
+.note{font-size:12px;color:#6b6b70;margin:8px 0 0}
 </style>
-<h1>Library family cards — tuning round 2</h1>
-<p>Every card is the real treatment: gradient <code>color → 35% toward white</code>, white text, the shipped
-text shadow. Five values change; the other eight families are untouched. Measurements are Oklab dE —
-your distinct family pairs run 0.10–0.27, the three grays were at 0.02–0.07.</p>
-
-<h2>The three grays — now split by hue: clinical blue / violet slate / graphite</h2>
-<div class="hdr"><div>pharmaceutical (now)</div><div>→ steel blue</div><div>research (now)</div><div>→ violet slate</div></div>
-<div class="row">
-<div class="card" style="background:linear-gradient(135deg,#6E7A8F,color-mix(in srgb,#6E7A8F 65%,white))"><b>Pharmaceuticals</b><span>#6E7A8F · dE to "other" 0.023</span></div>
-<div class="card" style="background:linear-gradient(135deg,#5C84AD,color-mix(in srgb,#5C84AD 65%,white))"><b>Pharmaceuticals</b><span>#5C84AD · clinical steel</span></div>
-<div class="card" style="background:linear-gradient(135deg,#878C99,color-mix(in srgb,#878C99 65%,white))"><b>Research chemicals</b><span>#878C99</span></div>
-<div class="card" style="background:linear-gradient(135deg,#A592B8,color-mix(in srgb,#A592B8 65%,white))"><b>Research chemicals</b><span>#A592B8 · violet slate</span></div>
-</div>
-<div class="hdr"><div>other (now)</div><div>→ graphite</div><div></div><div></div></div>
-<div class="row">
-<div class="card" style="background:linear-gradient(135deg,#737880,color-mix(in srgb,#737880 65%,white))"><b>Other</b><span>#737880</span></div>
-<div class="card" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other</b><span>#63666C · neutral graphite</span></div>
-<div></div><div></div>
-</div>
-<p class="note">New pairwise separation: pharm↔research 0.112, pharm↔other 0.105, research↔other 0.147 — all in the range of your existing distinct pairs.</p>
-
-<h2>Supplements — jade, so cannabinoid keeps apple-green to itself</h2>
-<div class="hdr"><div>supplement (now)</div><div>→ jade</div><div>cannabinoid (unchanged)</div><div></div></div>
-<div class="row">
-<div class="card" style="background:linear-gradient(135deg,#52BD75,color-mix(in srgb,#52BD75 65%,white))"><b>Supplements</b><span>#52BD75 · dE to cannabinoid 0.053</span></div>
-<div class="card" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89 · dE 0.117</span></div>
-<div class="card" style="background:linear-gradient(135deg,#34C759,color-mix(in srgb,#34C759 65%,white))"><b>Cannabinoids</b><span>#34C759 · reference</span></div>
-<div></div>
-</div>
-
-<h2>Common — deeper indigo, away from sedative's blue</h2>
-<div class="hdr"><div>common (now)</div><div>→ indigo</div><div>sedative (unchanged)</div><div></div></div>
-<div class="row">
-<div class="card" style="background:linear-gradient(135deg,#4775BD,color-mix(in srgb,#4775BD 65%,white))"><b>Common</b><span>#4775BD · same hue as sedative, half the chroma</span></div>
-<div class="card" style="background:linear-gradient(135deg,#575AC2,color-mix(in srgb,#575AC2 65%,white))"><b>Common</b><span>#575AC2 · deeper, dE to sedative 0.121</span></div>
-<div class="card" style="background:linear-gradient(135deg,#007AFF,color-mix(in srgb,#007AFF 65%,white))"><b>Sedatives</b><span>#007AFF · reference</span></div>
-<div></div>
-</div>
-
-<h2>All thirteen, proposed</h2>
-<div class="grid">
-<div class="card" style="background:linear-gradient(135deg,#575AC2,color-mix(in srgb,#575AC2 65%,white))"><b>Common</b><span>#575AC2 ★</span></div>
+<h1>Library family cards — tuning round 5</h1>
+<p>Locked: plum pharmaceuticals <b>#8B6186</b>, hallucinogens <b>#852AC2</b>, cannabinoids
+<b>#00B040</b>, peptides <b>P3 orchid</b>. This round: research chemicals, currently violet slate.
+Coral variants were swept — deeper drifts into opioid, softer into stimulant, salmon into opioid;
+the H40 coral shown is the optimum, balanced dE 0.094 from both. Those cards are never adjacent
+to it in scroll, but judge the warm register row at the bottom.</p>
+<div class="cols">
+<div class="col"><div class="colhdr">on the branch now (e97a580)</div>
+<div class="card" style="background:linear-gradient(135deg,#575AC2,color-mix(in srgb,#575AC2 65%,white))"><b>Common</b><span>#575AC2</span></div>
 <div class="card" style="background:linear-gradient(135deg,#FF9500,color-mix(in srgb,#FF9500 65%,white))"><b>Stimulants</b><span>#FF9500</span></div>
 <div class="card" style="background:linear-gradient(135deg,#FF2D55,color-mix(in srgb,#FF2D55 65%,white))"><b>Empathogens</b><span>#FF2D55</span></div>
 <div class="card" style="background:linear-gradient(135deg,#8F45C9,color-mix(in srgb,#8F45C9 65%,white))"><b>Hallucinogens</b><span>#8F45C9</span></div>
 <div class="card" style="background:linear-gradient(135deg,#34C759,color-mix(in srgb,#34C759 65%,white))"><b>Cannabinoids</b><span>#34C759</span></div>
 <div class="card" style="background:linear-gradient(135deg,#FF3B30,color-mix(in srgb,#FF3B30 65%,white))"><b>Opioids</b><span>#FF3B30</span></div>
-<div class="card" style="background:linear-gradient(135deg,#007AFF,color-mix(in srgb,#007AFF 65%,white))"><b>Sedatives</b><span>#007AFF</span></div>
+<div class="card" style="background:linear-gradient(135deg,#007AFF,color-mix(in srgb,#007AFF 65%,white))"><b>Sedatives & Depressants</b><span>#007AFF</span></div>
 <div class="card" style="background:linear-gradient(135deg,#66A6D9,color-mix(in srgb,#66A6D9 65%,white))"><b>Peptides</b><span>#66A6D9</span></div>
-<div class="card" style="background:linear-gradient(135deg,#1C7885,color-mix(in srgb,#1C7885 65%,white))"><b>Mind</b><span>#1C7885</span></div>
-<div class="card" style="background:linear-gradient(135deg,#5C84AD,color-mix(in srgb,#5C84AD 65%,white))"><b>Pharmaceuticals</b><span>#5C84AD ★</span></div>
-<div class="card" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89 ★</span></div>
-<div class="card" style="background:linear-gradient(135deg,#A592B8,color-mix(in srgb,#A592B8 65%,white))"><b>Research chemicals</b><span>#A592B8 ★</span></div>
-<div class="card" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other</b><span>#63666C ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#1C7885,color-mix(in srgb,#1C7885 65%,white))"><b>Mind & Cognition</b><span>#1C7885</span></div>
+<div class="card" style="background:linear-gradient(135deg,#5C84AD,color-mix(in srgb,#5C84AD 65%,white))"><b>Pharmaceuticals</b><span>#5C84AD</span></div>
+<div class="card" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89</span></div>
+<div class="card" style="background:linear-gradient(135deg,#A592B8,color-mix(in srgb,#A592B8 65%,white))"><b>Research Chemicals</b><span>#A592B8</span></div>
+<div class="card" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other / Misc</b><span>#63666C</span></div>
 </div>
-<p class="note">★ = changed this round. Hallucinogen left at your original #8F45C9 pending your call.</p>
+<div class="col"><div class="colhdr">locked picks · research unchanged</div>
+<div class="card" style="background:linear-gradient(135deg,#575AC2,color-mix(in srgb,#575AC2 65%,white))"><b>Common</b><span>#575AC2</span></div>
+<div class="card" style="background:linear-gradient(135deg,#FF9500,color-mix(in srgb,#FF9500 65%,white))"><b>Stimulants</b><span>#FF9500</span></div>
+<div class="card" style="background:linear-gradient(135deg,#FF2D55,color-mix(in srgb,#FF2D55 65%,white))"><b>Empathogens</b><span>#FF2D55</span></div>
+<div class="card" style="background:linear-gradient(135deg,#852AC2,color-mix(in srgb,#852AC2 65%,white))"><b>Hallucinogens</b><span>#852AC2 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#00B040,color-mix(in srgb,#00B040 65%,white))"><b>Cannabinoids</b><span>#00B040 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#FF3B30,color-mix(in srgb,#FF3B30 65%,white))"><b>Opioids</b><span>#FF3B30</span></div>
+<div class="card" style="background:linear-gradient(135deg,#007AFF,color-mix(in srgb,#007AFF 65%,white))"><b>Sedatives & Depressants</b><span>#007AFF</span></div>
+<div class="card" style="background:linear-gradient(135deg,#DE4FC6,color-mix(in srgb,#DE4FC6 65%,white));background:linear-gradient(135deg,color(display-p3 0.8062 0.3476 0.7568),color-mix(in srgb,color(display-p3 0.8062 0.3476 0.7568) 65%,white))"><b>Peptides</b><span>#DE4FC6 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#1C7885,color-mix(in srgb,#1C7885 65%,white))"><b>Mind & Cognition</b><span>#1C7885</span></div>
+<div class="card" style="background:linear-gradient(135deg,#8B6186,color-mix(in srgb,#8B6186 65%,white))"><b>Pharmaceuticals</b><span>#8B6186 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89</span></div>
+<div class="card" style="background:linear-gradient(135deg,#A592B8,color-mix(in srgb,#A592B8 65%,white))"><b>Research Chemicals</b><span>#A592B8</span></div>
+<div class="card" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other / Misc</b><span>#63666C</span></div>
+</div>
+<div class="col"><div class="colhdr">locked picks · research → P3 coral</div>
+<div class="card" style="background:linear-gradient(135deg,#575AC2,color-mix(in srgb,#575AC2 65%,white))"><b>Common</b><span>#575AC2</span></div>
+<div class="card" style="background:linear-gradient(135deg,#FF9500,color-mix(in srgb,#FF9500 65%,white))"><b>Stimulants</b><span>#FF9500</span></div>
+<div class="card" style="background:linear-gradient(135deg,#FF2D55,color-mix(in srgb,#FF2D55 65%,white))"><b>Empathogens</b><span>#FF2D55</span></div>
+<div class="card" style="background:linear-gradient(135deg,#852AC2,color-mix(in srgb,#852AC2 65%,white))"><b>Hallucinogens</b><span>#852AC2 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#00B040,color-mix(in srgb,#00B040 65%,white))"><b>Cannabinoids</b><span>#00B040 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#FF3B30,color-mix(in srgb,#FF3B30 65%,white))"><b>Opioids</b><span>#FF3B30</span></div>
+<div class="card" style="background:linear-gradient(135deg,#007AFF,color-mix(in srgb,#007AFF 65%,white))"><b>Sedatives & Depressants</b><span>#007AFF</span></div>
+<div class="card" style="background:linear-gradient(135deg,#DE4FC6,color-mix(in srgb,#DE4FC6 65%,white));background:linear-gradient(135deg,color(display-p3 0.8062 0.3476 0.7568),color-mix(in srgb,color(display-p3 0.8062 0.3476 0.7568) 65%,white))"><b>Peptides</b><span>#DE4FC6 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#1C7885,color-mix(in srgb,#1C7885 65%,white))"><b>Mind & Cognition</b><span>#1C7885</span></div>
+<div class="card" style="background:linear-gradient(135deg,#8B6186,color-mix(in srgb,#8B6186 65%,white))"><b>Pharmaceuticals</b><span>#8B6186 ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89</span></div>
+<div class="card" style="background:linear-gradient(135deg,#EF764B,color-mix(in srgb,#EF764B 65%,white));background:linear-gradient(135deg,color(display-p3 0.8774 0.4905 0.3351),color-mix(in srgb,color(display-p3 0.8774 0.4905 0.3351) 65%,white))"><b>Research Chemicals</b><span>#EF764B ★</span></div>
+<div class="card" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other / Misc</b><span>#63666C</span></div>
+</div>
+</div>
+
+<h2>Research Chemicals, between its real neighbors</h2>
+<p>Supplements above, Other below.</p>
+<div class="opts">
+<div><div class="lbl">current violet slate</div><div class="strip"><div class="card sm" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#A592B8,color-mix(in srgb,#A592B8 65%,white))"><b>Research Chemicals</b><span>#A592B8</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other / Misc</b><span>#63666C</span></div></div></div>
+<div><div class="lbl">P3 coral</div><div class="strip"><div class="card sm" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#EF764B,color-mix(in srgb,#EF764B 65%,white));background:linear-gradient(135deg,color(display-p3 0.8774 0.4905 0.3351),color-mix(in srgb,color(display-p3 0.8774 0.4905 0.3351) 65%,white))"><b>Research Chemicals</b><span>#EF764B</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other / Misc</b><span>#63666C</span></div></div></div>
+<div><div class="lbl">P3 aqua</div><div class="strip"><div class="card sm" style="background:linear-gradient(135deg,#00AB89,color-mix(in srgb,#00AB89 65%,white))"><b>Supplements</b><span>#00AB89</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#00C5D4,color-mix(in srgb,#00C5D4 65%,white));background:linear-gradient(135deg,color(display-p3 0.2953 0.7652 0.8344),color-mix(in srgb,color(display-p3 0.2953 0.7652 0.8344) 65%,white))"><b>Research Chemicals</b><span>#00C5D4</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#63666C,color-mix(in srgb,#63666C 65%,white))"><b>Other / Misc</b><span>#63666C</span></div></div></div>
+</div>
+<p class="note">Aqua is the cool alternative — it freed up when peptides went orchid, and the
+lab-glassware semantic arguably fits research chemicals best of all. Its one tension: dE 0.118
+from supplement's jade, which IS its scroll neighbor. Coral's tensions (stimulant, opioid) are
+six cards away.</p>
+
+<h2>The warm register together</h2>
+<p>Every warm-vivid card in the palette side by side — the family-resemblance check for coral.</p>
+<div class="warm">
+<div class="card sm" style="background:linear-gradient(135deg,#FF9500,color-mix(in srgb,#FF9500 65%,white))"><b>Stimulants</b><span>#FF9500</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#FF3B30,color-mix(in srgb,#FF3B30 65%,white))"><b>Opioids</b><span>#FF3B30</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#FF2D55,color-mix(in srgb,#FF2D55 65%,white))"><b>Empathogens</b><span>#FF2D55</span></div>
+<div class="card sm" style="background:linear-gradient(135deg,#EF764B,color-mix(in srgb,#EF764B 65%,white));background:linear-gradient(135deg,color(display-p3 0.8774 0.4905 0.3351),color-mix(in srgb,color(display-p3 0.8774 0.4905 0.3351) 65%,white))"><b>Research Chemicals</b><span>#EF764B</span></div>
+</div>

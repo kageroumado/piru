@@ -77,14 +77,22 @@ def main() -> None:
         }
 
     # L2 encoding scales, built by build_l2_scales.py with the same gates as L1.
+    # A value is an sRGB hex string, or a {"p3": [r, g, b]} dict for the
+    # hand-chosen family colours that live outside the sRGB gamut — those pass
+    # through as oklch so no sRGB clamp ever touches them.
+    def l2_spec(value: str | dict) -> dict:
+        if isinstance(value, dict):
+            return {"oklch": [round(x, 5) for x in oklch(tuple(value["p3"]), "p3")]}
+        return {"srgb_hex": value.lstrip("#")}
+
     l2_path = HERE / "palette-L2.json"
     if l2_path.exists():
         for scale, entries in json.loads(l2_path.read_text())["scales"].items():
             for step, modes in entries.items():
                 for role in ("text", "accent"):
                     token = {
-                        "any": {"srgb_hex": modes["light"][role].lstrip("#")},
-                        "dark": {"srgb_hex": modes["dark"][role].lstrip("#")},
+                        "any": l2_spec(modes["light"][role]),
+                        "dark": l2_spec(modes["dark"][role]),
                     }
                     # Increase Contrast. The app had no response to this setting
                     # at all before the catalog migration, and could not have —
@@ -92,8 +100,8 @@ def main() -> None:
                     # userInterfaceStyle alone and cannot express a contrast
                     # axis. These slots are the point of the whole migration.
                     if f"{role}_hc" in modes["light"]:
-                        token["any_hc"] = {"srgb_hex": modes["light"][f"{role}_hc"].lstrip("#")}
-                        token["dark_hc"] = {"srgb_hex": modes["dark"][f"{role}_hc"].lstrip("#")}
+                        token["any_hc"] = l2_spec(modes["light"][f"{role}_hc"])
+                        token["dark_hc"] = l2_spec(modes["dark"][f"{role}_hc"])
                     tokens[f"{scale}/{step}/{role}"] = token
 
     out = HERE / "palette-generator-input.json"

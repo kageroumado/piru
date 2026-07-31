@@ -1722,366 +1722,782 @@
   },
   "family/common/text": {
    "any": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    },
    "dark": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    },
    "any_hc": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    }
   },
   "family/common/accent": {
    "any": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    },
    "dark": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    },
    "any_hc": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "575AC2"
+    "oklch": [
+     0.52095,
+     0.15924,
+     278.07818
+    ]
    }
   },
   "family/stimulant/text": {
    "any": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    },
    "any_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    }
   },
   "family/stimulant/accent": {
    "any": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    },
    "any_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.76522,
+     0.17513,
+     62.5641
+    ]
    }
   },
   "family/empathogen/text": {
    "any": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    },
    "dark": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    },
    "any_hc": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    }
   },
   "family/empathogen/accent": {
    "any": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    },
    "dark": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    },
    "any_hc": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF2D55"
+    "oklch": [
+     0.64965,
+     0.2383,
+     17.88762
+    ]
    }
   },
   "family/hallucinogen/text": {
    "any": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    },
    "dark": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    },
    "any_hc": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    }
   },
   "family/hallucinogen/accent": {
    "any": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    },
    "dark": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    },
    "any_hc": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "8F45C9"
+    "oklch": [
+     0.50065,
+     0.22059,
+     307.04807
+    ]
    }
   },
   "family/cannabinoid/text": {
    "any": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    },
    "dark": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    },
    "any_hc": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    }
   },
   "family/cannabinoid/accent": {
    "any": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    },
    "dark": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    },
    "any_hc": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "34C759"
+    "oklch": [
+     0.65966,
+     0.19586,
+     147.05719
+    ]
    }
   },
   "family/opioid/text": {
    "any": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    },
    "dark": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    },
    "any_hc": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    }
   },
   "family/opioid/accent": {
    "any": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    },
    "dark": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    },
    "any_hc": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF3B30"
+    "oklch": [
+     0.65422,
+     0.23207,
+     28.65221
+    ]
    }
   },
   "family/sedative/text": {
    "any": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    },
    "dark": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    },
    "any_hc": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    }
   },
   "family/sedative/accent": {
    "any": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    },
    "dark": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    },
    "any_hc": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "007AFF"
+    "oklch": [
+     0.60277,
+     0.21781,
+     257.43215
+    ]
    }
   },
   "family/peptide/text": {
    "any": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    },
    "dark": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    },
    "any_hc": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    }
   },
   "family/peptide/accent": {
    "any": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    },
    "dark": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    },
    "any_hc": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "66A6D9"
+    "oklch": [
+     0.66,
+     0.22,
+     334.99513
+    ]
    }
   },
   "family/mind/text": {
    "any": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    },
    "dark": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    },
    "any_hc": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    }
   },
   "family/mind/accent": {
    "any": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    },
    "dark": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    },
    "any_hc": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "1C7885"
+    "oklch": [
+     0.52748,
+     0.08328,
+     209.24757
+    ]
    }
   },
   "family/pharmaceutical/text": {
    "any": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    },
    "dark": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    }
   },
   "family/pharmaceutical/accent": {
    "any": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    },
    "dark": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "5C84AD"
+    "oklch": [
+     0.54939,
+     0.07563,
+     330.68676
+    ]
    }
   },
   "family/supplement/text": {
    "any": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    }
   },
   "family/supplement/accent": {
    "any": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB89"
+    "oklch": [
+     0.66024,
+     0.12819,
+     171.90734
+    ]
    }
   },
   "family/research/text": {
    "any": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    },
    "dark": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    }
   },
   "family/research/accent": {
    "any": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    },
    "dark": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "A592B8"
+    "oklch": [
+     0.69999,
+     0.16002,
+     39.99347
+    ]
    }
   },
   "family/other/text": {
    "any": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    },
    "dark": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    },
    "any_hc": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    }
   },
   "family/other/accent": {
    "any": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    },
    "dark": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    },
    "any_hc": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "63666C"
+    "oklch": [
+     0.50968,
+     0.01022,
+     264.59439
+    ]
    }
   }
  }

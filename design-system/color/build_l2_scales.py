@@ -202,25 +202,34 @@ CATEGORY_SOURCE = {
 # Eight of the thirteen were `Color(red:green:blue:)` literals with no dark
 # variant.
 #
-# Tuned 2026-07: the three muted families sat at Oklab dE 0.02-0.07 of each
-# other (indistinguishable), supplement was dE 0.053 from cannabinoid, and
-# common shared sedative's hue at half the chroma. The grays now split by hue
-# (steel blue / violet slate / graphite), supplement went jade, common went
-# indigo. Every pair now clears dE 0.08; comparison sheet: family-tuning.html.
-FAMILY_SOURCE = {
-    "common": "575AC2",
-    "stimulant": "FF9500",
-    "empathogen": "FF2D55",
-    "hallucinogen": "8F45C9",
-    "cannabinoid": "34C759",
-    "opioid": "FF3B30",
-    "sedative": "007AFF",
-    "peptide": "66A6D9",
-    "mind": "1C7885",
-    "pharmaceutical": "5C84AD",
-    "supplement": "00AB89",
-    "research": "A592B8",
-    "other": "63666C",
+# Tuned 2026-07 over five feedback rounds (comparison sheet:
+# family-tuning.html). Round 2: the three muted families sat at Oklab
+# dE 0.02-0.07 of each other, supplement was dE 0.053 from cannabinoid, and
+# common shared sedative's hue at half the chroma — grays split by hue,
+# supplement went jade, common went indigo. Rounds 3-5: pharmaceutical left
+# the sedative→peptide→mind→pharmaceutical blue run for plum, hallucinogens
+# and cannabinoids darkened one step, and peptides/research took orchid and
+# coral, whose chroma lives outside the sRGB gamut. Every pair clears dE 0.08
+# in Oklab.
+#
+# Values are Display P3 components. The catalog is P3 throughout and every
+# consuming device has a P3 panel, so sRGB is not a boundary this scale
+# respects or notates — entries that predate the migration were converted
+# once via srgb_to_p3_same_appearance() and are canonical in P3 now.
+FAMILY_SOURCE: dict[str, tuple[float, float, float]] = {
+    "common": (0.3433, 0.3526, 0.7355),
+    "stimulant": (0.9433, 0.6044, 0.2176),
+    "empathogen": (0.9198, 0.2684, 0.3520),
+    "hallucinogen": (0.4812, 0.1903, 0.7333),
+    "cannabinoid": (0.3076, 0.6798, 0.3097),
+    "opioid": (0.9213, 0.3045, 0.2405),
+    "sedative": (0.2046, 0.4710, 0.9661),
+    "peptide": (0.8062, 0.3476, 0.7568),
+    "mind": (0.2291, 0.4637, 0.5141),
+    "pharmaceutical": (0.5206, 0.3873, 0.5170),
+    "supplement": (0.2981, 0.6605, 0.5442),
+    "research": (0.8774, 0.4905, 0.3351),
+    "other": (0.3904, 0.3996, 0.4213),
 }
 
 
@@ -306,7 +315,7 @@ def build_neutral(hue: float, chroma: float) -> dict[str, dict]:
     return entry
 
 
-def build_family(source: dict[str, str]) -> dict[str, dict]:
+def build_family(source: dict[str, tuple[float, float, float]]) -> dict[str, dict]:
     """Library family colours — passed through **unchanged**, by design.
 
     These fill large decorative gradient cards
@@ -327,11 +336,15 @@ def build_family(source: dict[str, str]) -> dict[str, dict]:
 
     Recorded as a deliberate exemption rather than an oversight: this is the one
     scale in the system whose values are hand-chosen and ungated.
+
+    Source entries are Display P3 component tuples (see FAMILY_SOURCE's note);
+    they serialise as {"p3": [r, g, b]} and reach the catalog without ever
+    passing through an sRGB representation.
     """
     scale: dict[str, dict] = {}
-    for name, source_hex in source.items():
-        _, _, hue = oklch(hex_to_rgb(source_hex))
-        value = f"#{source_hex.upper()}"
+    for name, src in source.items():
+        _, _, hue = oklch(src, "p3")
+        value = {"p3": [round(component, 4) for component in src]}
         scale[name] = {
             mode: {
                 "text": value,
@@ -434,7 +447,10 @@ def main() -> None:
             light, dark = modes["light"], modes["dark"]
             v = light.get("verified")
             if v is None:
-                print(f"  {name:16} {light['accent']}   ungated — {light['ungated']}")
+                accent = light["accent"]
+                if isinstance(accent, dict):
+                    accent = "display-p3 " + " ".join(f"{c:.4f}" for c in accent["p3"])
+                print(f"  {name:16} {accent}   ungated — {light['ungated']}")
                 continue
             if "white_on_gradient_end" in v:
                 print(
