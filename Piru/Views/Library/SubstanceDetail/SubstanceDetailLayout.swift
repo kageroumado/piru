@@ -120,7 +120,7 @@ struct SubstanceDetailLayout: View {
     /// (Pharma Nerd). At Curious it becomes a "Show all" target; at Casual it's
     /// hidden. Keyed on `.mechanism` as the cluster's representative row.
     @ViewBuilder private var pharmacologyInline: some View {
-        if placement(.mechanism).isInline {
+        if placement(.mechanism) != .hidden {
             PharmacologySections(
                 substance: substance,
                 model: model,
@@ -142,45 +142,14 @@ struct SubstanceDetailLayout: View {
 
         // Inline (Pharma Nerd): render each reference section directly — each is
         // its own collapsed disclosure.
-        if placement(.chemistry).isInline, hasChemistryData {
+        // Chemistry and Sources are collapsed cards on the page now, not a
+        // launcher pushing a screen that holds one collapsed card.
+        if placement(.chemistry) != .hidden, hasChemistryData {
             ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
         }
-        if placement(.sources).isInline {
+        if placement(.sources) != .hidden, hasSourcesData {
             SourcesSection(substance: substance, showsSources: true)
         }
-
-        // Deep-page targets — pharmacology (Curious), chemistry, sources — grouped
-        // under one quiet "For the curious" launcher at Casual, individual rows otherwise.
-        let targets = showAllTargets
-        if !targets.isEmpty {
-            if profile == .casual {
-                Section("For the curious") { showAllRows(targets) }
-            } else {
-                Section { showAllRows(targets) }
-            }
-        }
-    }
-
-    private func showAllRows(_ targets: [ShowAllTarget]) -> some View {
-        ForEach(targets) { target in
-            ShowAllRow(target: target, substanceName: substance.name)
-        }
-    }
-
-    /// Reference sections whose content lives on a deep page at this tier. Gated
-    /// on content presence so a "Show all" never links to a blank page (S3).
-    private var showAllTargets: [ShowAllTarget] {
-        var out: [ShowAllTarget] = []
-        if placement(.mechanism) == .showAll, hasPharmacologyData {
-            out.append(.pharmacology)
-        }
-        if placement(.chemistry) == .showAll, hasChemistryData {
-            out.append(.chemistry)
-        }
-        if placement(.sources) == .showAll, hasSourcesData {
-            out.append(.sources)
-        }
-        return out
     }
 
     /// Light presence check mirroring ``ChemistrySection``'s own gate, so a
@@ -205,44 +174,6 @@ struct SubstanceDetailLayout: View {
 
     private var hasSourcesData: Bool {
         !SubstanceSourceLinks.mergedLinks(for: substance).isEmpty
-    }
-}
-
-// MARK: - Show-all target
-
-/// A reference section reachable via a deep page. Backed by ``DataSection`` for
-/// routing; carries its own label + icon for the launcher row.
-private enum ShowAllTarget: Identifiable {
-    case pharmacology
-    case chemistry
-    case sources
-
-    var id: Self {
-        self
-    }
-
-    var dataSection: DataSection {
-        switch self {
-        case .pharmacology: .pharmacology
-        case .chemistry: .chemistry
-        case .sources: .sources
-        }
-    }
-
-    var title: LocalizedStringResource {
-        switch self {
-        case .pharmacology: "Pharmacology"
-        case .chemistry: "Chemistry"
-        case .sources: "Sources"
-        }
-    }
-
-    var systemImage: String {
-        switch self {
-        case .pharmacology: "atom"
-        case .chemistry: "flask"
-        case .sources: "book"
-        }
     }
 }
 
@@ -283,31 +214,6 @@ private struct LogThisSection: View {
     }
 }
 
-/// A row that pushes a substance's deep-data page.
-private struct ShowAllRow: View {
-    let target: ShowAllTarget
-    let substanceName: String
-
-    @Environment(\.appNavigator) private var navigator
-
-    var body: some View {
-        Button {
-            navigator.push(.substanceData(name: substanceName, section: target.dataSection))
-        } label: {
-            HStack {
-                Label(target.title, systemImage: target.systemImage)
-                    .font(.subheadline.weight(.semibold))
-                Spacer(minLength: 8)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-    }
-}
-
 /// The detail header — identity above the fold, as a **title block rather than a
 /// card**: the name at display size, a byline that says *what kind of thing* this
 /// is (category chip · formula), and the curated "also known as" chips with an
@@ -319,12 +225,6 @@ private struct ShowAllRow: View {
 /// one (see ``SubstanceDetailView``).
 private struct SubstanceDetailHeader: View {
     let substance: Substance
-
-    /// The substance's own skeleton, drawn faint behind the title. Loaded off
-    /// the store because `molecule_shapes` is per-substance (1046 rows) — the
-    /// Library card's bundled JSON is keyed by *family*, not by compound.
-    @State private var structure: MoleculeStructure?
-    @Environment(\.colorScheme) private var scheme
 
     /// Popular aliases shown as chips before the overflow count.
     private var shownAliases: [String] {
@@ -344,7 +244,7 @@ private struct SubstanceDetailHeader: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 11) {
+            VStack(alignment: .leading, spacing: 7) {
                 Text(substance.displayTitle)
                     .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .lineLimit(2)
@@ -383,29 +283,12 @@ private struct SubstanceDetailHeader: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 2)
-            // The skeleton sits behind the type, bleeding off the trailing edge —
-            // a detail you notice second, never one you have to read past.
-            .background(alignment: .topTrailing) {
-                if let structure {
-                    MoleculeWatermark(structure: structure)
-                        .frame(width: 240, height: 240)
-                        .opacity(scheme == .dark ? 0.12 : 0.07)
-                        // Pushed off the trailing edge and up behind the title:
-                        // a molecule floating fully inside the header reads as a
-                        // (badly cropped) illustration; one that runs off the
-                        // edge reads as a watermark.
-                        .offset(x: 96, y: -52)
-                }
-            }
-            .task(id: substance.name) {
-                structure = SubstanceStore.shared.moleculeStructure(forSubstanceName: substance.name)
-            }
             // A title block, not a card: clear the shared `CardBackground()` the
             // list applies to every other row (innermost wins) and pull the
             // insets in so the name sits on the screen's left margin.
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 6, trailing: 20))
+            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 4, trailing: 20))
         }
     }
 

@@ -44,6 +44,9 @@ final class SubstanceDetailModel {
     /// DA↔5-HT character / releaser-blocker card, derived from the bindings.
     var monoamineProfile: MonoamineProfile?
 
+    /// The substance's 2D skeleton, drawn faint behind the whole screen.
+    var moleculeStructure: MoleculeStructure?
+
     /// drug.community intensity bands. Loaded here rather than in the Effects
     /// section because the **dose card** now owns the dial: dose and effect are
     /// one control, so they must read one copy of the data.
@@ -69,6 +72,7 @@ final class SubstanceDetailModel {
         // The dial is the dose control, so its bands load for every tier that
         // sees a dose ladder — not just the ones that see the pharmacology.
         spectrumBands = store.spectrumBands(forSubstanceName: substanceName)
+        moleculeStructure = store.moleculeStructure(forSubstanceName: substanceName)
 
         // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil,
         // rifampicin…) can lower hormonal-contraception levels. Ungated like a

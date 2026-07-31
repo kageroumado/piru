@@ -12825,6 +12825,7 @@
     },
     "Compare %lld other sources" : {
       "comment" : "Opens the dose-source comparison",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12836,6 +12837,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "對比其他 %lld 個來源"
+          }
+        }
+      }
+    },
+    "Compare all %lld sources" : {
+      "comment" : "Opens the dose-source comparison",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对比全部 %lld 个来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對比全部 %lld 個來源"
           }
         }
       }
@@ -20761,6 +20779,7 @@
       }
     },
     "For the curious" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

@@ -200,18 +200,26 @@ extension DisclosurePolicy {
     /// them from drifting apart.
     func placement(for section: DetailSection, spine: DetailSpine) -> SectionPlacement {
         switch section {
-        // Curated mechanism + "in the body" (PK): hidden for Casual,
-        // summary+ShowAll for Curious, full inline for Nerd.
+        // Mechanism + "in the body" (PK): hidden for Casual, on-page from there.
+        //
+        // `.showAll` — a row that pushed a whole screen holding one card — is
+        // gone from this matrix. The cards already fold; wrapping a fold in a
+        // navigation push meant two taps and a screen transition to reach a
+        // disclosure triangle, and it split one substance's pharmacology across
+        // two backgrounds. Depth on this screen is a fold, not a destination.
         case .mechanism, .pharmacokinetics:
-            tiered(casual: .hidden, curious: .showAll, nerd: .inline)
-        // The full Kᵢ/EC₅₀ literature table: deep page for Curious, on-page
-        // collapsed group for Nerd (a huge table keeps its own deeper push).
+            tiered(casual: .hidden, curious: .inlineCollapsed, nerd: .inline)
+        // The full Kᵢ/EC₅₀ literature table: Pharma Nerd only, and collapsed even
+        // there — it is long, and nobody scrolls past it by accident. Kept at
+        // `.hidden` for Curious so this matrix agrees with `showsReceptorLiterature`,
+        // which `PharmacologySections` still gates on; a matrix that promised the
+        // table at Curious while the boolean withheld it would just be a lie in
+        // the one place that documents the tiers.
         case .receptorLiterature:
-            tiered(casual: .hidden, curious: .showAll, nerd: .inlineCollapsed)
-        // Chemistry / sources: reachable via the deep page (or the single "For
-        // the curious" launcher at Casual); collapsed on-page for Nerd.
+            tiered(casual: .hidden, curious: .hidden, nerd: .inlineCollapsed)
+        // Chemistry / sources: collapsed on-page at every tier.
         case .chemistry, .sources:
-            tiered(casual: .showAll, curious: .showAll, nerd: .inlineCollapsed)
+            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inlineCollapsed)
         // The recreational body — shown on the recreational spine, never on the
         // medical one (no dose gauge / effects / water / misconceptions on a statin).
         case .doseDuration, .effects, .combinations, .water, .misconceptions:

@@ -198,19 +198,21 @@ struct DoseDurationSection: View {
         // 10–20 mg to one source and 15–30 to another. The card has to pick one;
         // this says so and shows the spread rather than letting the chosen
         // number read as the only number.
-        if doseSlug != nil, otherSourceCount(for: route.route) > 0 {
+        let sourceCount = ladderSourceCount(for: route.route)
+        if doseSlug != nil, sourceCount > 1 {
             CompareSourcesRow(
                 substanceName: substance.name,
                 route: route.route,
-                otherCount: otherSourceCount(for: route.route),
+                sourceCount: sourceCount,
             )
         }
     }
 
-    /// How many *other* sources carry a ladder for this route — the row is
-    /// pointless when the answer is zero, which is the common case.
-    private func otherSourceCount(for route: RouteOfAdministration) -> Int {
-        max(0, SubstanceStore.shared.doseLadders(forSubstanceName: substance.name, route: route).count - 1)
+    /// How many sources carry a ladder for this route. The row is pointless at
+    /// one — and counting the total rather than the *others* keeps the string
+    /// plural in every case it can appear, so it needs no plural rule.
+    private func ladderSourceCount(for route: RouteOfAdministration) -> Int {
+        SubstanceStore.shared.doseLadders(forSubstanceName: substance.name, route: route).count
     }
 }
 
@@ -218,7 +220,7 @@ struct DoseDurationSection: View {
 private struct CompareSourcesRow: View {
     let substanceName: String
     let route: RouteOfAdministration
-    let otherCount: Int
+    let sourceCount: Int
 
     @Environment(\.appNavigator) private var navigator
 
@@ -227,13 +229,18 @@ private struct CompareSourcesRow: View {
             navigator.present(.doseSources(substance: substanceName, route: route))
         } label: {
             HStack(spacing: 4) {
-                Text("Compare \(otherCount) other sources", comment: "Opens the dose-source comparison")
+                Text("Compare all \(sourceCount) sources", comment: "Opens the dose-source comparison")
                 Image(systemName: "chevron.right")
                     .font(.caption2.weight(.semibold))
                     .accessibilityHidden(true)
             }
             .font(.caption.weight(.semibold))
             .foregroundStyle(Theme.accent)
+            // Matches SourceAttributionRow's own leading inset — the checkmark
+            // glyph's width plus its gap — so this line starts where the source
+            // names above it start instead of hanging off to their left.
+            .padding(.leading, 22)
+            .padding(.top, 2)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }

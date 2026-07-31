@@ -20,7 +20,7 @@ T = {
     "Dose sources": ("剂量来源", "劑量來源"),
     "In use": ("使用中", "使用中"),
     "About metabolites": ("关于代谢物", "關於代謝物"),
-    "Compare %lld other sources": ("对比其他 %lld 个来源", "對比其他 %lld 個來源"),
+    "Compare all %lld sources": ("对比全部 %lld 个来源", "對比全部 %lld 個來源"),
     "%@ · %lld sources": ("%1$@ · %2$lld 个来源", "%1$@ · %2$lld 個來源"),
     "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority.": (
         "各来源测量的人群和用途不同，因此范围有差异。Piru 显示你排序最高的那个来源——可在“设置 › 来源优先级”中更改。",
@@ -5662,7 +5662,7 @@ if __name__ == "__main__":
         "Dose sources",
         "In use",
         "About metabolites",
-        "Compare %lld other sources",
+        "Compare all %lld sources",
         "%@ · %lld sources",
         "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority.",
         "Buccal",

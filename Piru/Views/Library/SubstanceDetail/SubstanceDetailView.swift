@@ -14,6 +14,7 @@ struct SubstanceDetailView: View {
     @State private var baseSubstance: Substance
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.colorScheme) private var colorScheme
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
     @Query private var inventoryItems: [InventoryItem]
@@ -223,7 +224,22 @@ struct SubstanceDetailView: View {
             headerTitleVisible = !scrolledPastTitle
         }
         .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        // The skeleton belongs to the *screen*, not to the header row. Drawn
+        // inside the row it was clipped by the row's bounds — a molecule sliced
+        // off mid-bond reads as a rendering bug rather than a watermark. Here it
+        // sits behind the whole list and simply runs off the trailing edge.
+        .background(alignment: .topTrailing) {
+            ZStack(alignment: .topTrailing) {
+                Theme.background
+                if let structure = model.moleculeStructure {
+                    MoleculeWatermark(structure: structure)
+                        .frame(width: 260, height: 260)
+                        .opacity(colorScheme == .dark ? 0.12 : 0.07)
+                        .offset(x: 78, y: 4)
+                }
+            }
+            .ignoresSafeArea()
+        }
         // Still set, so a screen pushed from here gets the right back-button
         // label; the bar's *rendered* title is the principal item below, which
         // is the only way to gate it on scroll position.

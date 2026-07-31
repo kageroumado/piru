@@ -77,23 +77,45 @@ struct DisclosurePolicyTests {
     }
 
     @Test
-    func `Casual hides pharmacology and keeps only chemistry and sources behind Show all`() {
+    func `Casual hides pharmacology and keeps chemistry and sources folded on the page`() {
         let p = DisclosurePolicy(profile: .casual)
         #expect(p.placement(for: .mechanism, spine: .recreational) == .hidden)
         #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .hidden)
         #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .hidden)
-        // The only depth a Casual user can reach — via the launcher.
-        #expect(p.placement(for: .chemistry, spine: .recreational) == .showAll)
-        #expect(p.placement(for: .sources, spine: .recreational) == .showAll)
+        // The only depth a Casual user can reach — and it is a fold, not a push.
+        #expect(p.placement(for: .chemistry, spine: .recreational) == .inlineCollapsed)
+        #expect(p.placement(for: .sources, spine: .recreational) == .inlineCollapsed)
     }
 
     @Test
-    func `Curious surfaces pharmacology as summary plus Show all`() {
+    func `Curious gets pharmacology on the page, folded`() {
         let p = DisclosurePolicy(profile: .harmReduction)
-        #expect(p.placement(for: .mechanism, spine: .recreational) == .showAll)
-        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .showAll)
-        #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .showAll)
-        #expect(p.placement(for: .chemistry, spine: .recreational) == .showAll)
+        #expect(p.placement(for: .mechanism, spine: .recreational) == .inlineCollapsed)
+        #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .inlineCollapsed)
+        #expect(p.placement(for: .chemistry, spine: .recreational) == .inlineCollapsed)
+        // Matches `showsReceptorLiterature`, which PharmacologySections still gates
+        // on: the Kᵢ table is Pharma Nerd only, and the matrix must not promise
+        // what the boolean withholds.
+        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .hidden)
+    }
+
+    @Test
+    func `No section is ever a deep-page push`() {
+        // `.showAll` is gone from the matrix: the cards already fold, so wrapping a
+        // fold in a navigation push cost two taps and a screen transition to reach
+        // a disclosure triangle — and split one substance's pharmacology across two
+        // backgrounds. This test is what stops it coming back.
+        for profile in [UserProfile.casual, .harmReduction, .pharmaNerd] {
+            let p = DisclosurePolicy(profile: profile)
+            for section in DetailSection.allCases {
+                for spine in [DetailSpine.recreational, .medical] {
+                    #expect(
+                        p.placement(for: section, spine: spine) != .showAll,
+                        "\(section) at \(profile) on the \(spine) spine still pushes a deep page",
+                    )
+                }
+            }
+        }
     }
 
     @Test
