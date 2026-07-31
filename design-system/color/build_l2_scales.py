@@ -201,8 +201,14 @@ CATEGORY_SOURCE = {
 # a fourth independent rediscovery of the same darken-for-light-mode fix.
 # Eight of the thirteen were `Color(red:green:blue:)` literals with no dark
 # variant.
+#
+# Tuned 2026-07: the three muted families sat at Oklab dE 0.02-0.07 of each
+# other (indistinguishable), supplement was dE 0.053 from cannabinoid, and
+# common shared sedative's hue at half the chroma. The grays now split by hue
+# (steel blue / violet slate / graphite), supplement went jade, common went
+# indigo. Every pair now clears dE 0.08; comparison sheet: family-tuning.html.
 FAMILY_SOURCE = {
-    "common": "4775BD",
+    "common": "575AC2",
     "stimulant": "FF9500",
     "empathogen": "FF2D55",
     "hallucinogen": "8F45C9",
@@ -211,10 +217,10 @@ FAMILY_SOURCE = {
     "sedative": "007AFF",
     "peptide": "66A6D9",
     "mind": "1C7885",
-    "pharmaceutical": "6E7A8F",
-    "supplement": "52BD75",
-    "research": "878C99",
-    "other": "737880",
+    "pharmaceutical": "5C84AD",
+    "supplement": "00AB89",
+    "research": "A592B8",
+    "other": "63666C",
 }
 
 

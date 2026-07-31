@@ -1722,30 +1722,30 @@
   },
   "family/common/text": {
    "any": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    },
    "dark": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    },
    "any_hc": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    },
    "dark_hc": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    }
   },
   "family/common/accent": {
    "any": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    },
    "dark": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    },
    "any_hc": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    },
    "dark_hc": {
-    "srgb_hex": "4775BD"
+    "srgb_hex": "575AC2"
    }
   },
   "family/stimulant/text": {
@@ -1974,114 +1974,114 @@
   },
   "family/pharmaceutical/text": {
    "any": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    },
    "dark": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    },
    "any_hc": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    },
    "dark_hc": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    }
   },
   "family/pharmaceutical/accent": {
    "any": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    },
    "dark": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    },
    "any_hc": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    },
    "dark_hc": {
-    "srgb_hex": "6E7A8F"
+    "srgb_hex": "5C84AD"
    }
   },
   "family/supplement/text": {
    "any": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    },
    "dark": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    },
    "any_hc": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    },
    "dark_hc": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    }
   },
   "family/supplement/accent": {
    "any": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    },
    "dark": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    },
    "any_hc": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    },
    "dark_hc": {
-    "srgb_hex": "52BD75"
+    "srgb_hex": "00AB89"
    }
   },
   "family/research/text": {
    "any": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    },
    "dark": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    },
    "any_hc": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    },
    "dark_hc": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    }
   },
   "family/research/accent": {
    "any": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    },
    "dark": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    },
    "any_hc": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    },
    "dark_hc": {
-    "srgb_hex": "878C99"
+    "srgb_hex": "A592B8"
    }
   },
   "family/other/text": {
    "any": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    },
    "dark": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    },
    "any_hc": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    },
    "dark_hc": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    }
   },
   "family/other/accent": {
    "any": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    },
    "dark": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    },
    "any_hc": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    },
    "dark_hc": {
-    "srgb_hex": "737880"
+    "srgb_hex": "63666C"
    }
   }
  }

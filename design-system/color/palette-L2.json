@@ -1519,19 +1519,19 @@
   "family": {
    "common": {
     "light": {
-     "text": "#4775BD",
-     "accent": "#4775BD",
-     "text_hc": "#4775BD",
-     "accent_hc": "#4775BD",
-     "hue": 259.05,
+     "text": "#575AC2",
+     "accent": "#575AC2",
+     "text_hc": "#575AC2",
+     "accent_hc": "#575AC2",
+     "hue": 278.08,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#4775BD",
-     "accent": "#4775BD",
-     "text_hc": "#4775BD",
-     "accent_hc": "#4775BD",
-     "hue": 259.05,
+     "text": "#575AC2",
+     "accent": "#575AC2",
+     "text_hc": "#575AC2",
+     "accent_hc": "#575AC2",
+     "hue": 278.08,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
@@ -1681,73 +1681,73 @@
    },
    "pharmaceutical": {
     "light": {
-     "text": "#6E7A8F",
-     "accent": "#6E7A8F",
-     "text_hc": "#6E7A8F",
-     "accent_hc": "#6E7A8F",
-     "hue": 261.66,
+     "text": "#5C84AD",
+     "accent": "#5C84AD",
+     "text_hc": "#5C84AD",
+     "accent_hc": "#5C84AD",
+     "hue": 249.83,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#6E7A8F",
-     "accent": "#6E7A8F",
-     "text_hc": "#6E7A8F",
-     "accent_hc": "#6E7A8F",
-     "hue": 261.66,
+     "text": "#5C84AD",
+     "accent": "#5C84AD",
+     "text_hc": "#5C84AD",
+     "accent_hc": "#5C84AD",
+     "hue": 249.83,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "supplement": {
     "light": {
-     "text": "#52BD75",
-     "accent": "#52BD75",
-     "text_hc": "#52BD75",
-     "accent_hc": "#52BD75",
-     "hue": 151.79,
+     "text": "#00AB89",
+     "accent": "#00AB89",
+     "text_hc": "#00AB89",
+     "accent_hc": "#00AB89",
+     "hue": 171.91,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#52BD75",
-     "accent": "#52BD75",
-     "text_hc": "#52BD75",
-     "accent_hc": "#52BD75",
-     "hue": 151.79,
+     "text": "#00AB89",
+     "accent": "#00AB89",
+     "text_hc": "#00AB89",
+     "accent_hc": "#00AB89",
+     "hue": 171.91,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "research": {
     "light": {
-     "text": "#878C99",
-     "accent": "#878C99",
-     "text_hc": "#878C99",
-     "accent_hc": "#878C99",
-     "hue": 268.95,
+     "text": "#A592B8",
+     "accent": "#A592B8",
+     "text_hc": "#A592B8",
+     "accent_hc": "#A592B8",
+     "hue": 307.45,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#878C99",
-     "accent": "#878C99",
-     "text_hc": "#878C99",
-     "accent_hc": "#878C99",
-     "hue": 268.95,
+     "text": "#A592B8",
+     "accent": "#A592B8",
+     "text_hc": "#A592B8",
+     "accent_hc": "#A592B8",
+     "hue": 307.45,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    },
    "other": {
     "light": {
-     "text": "#737880",
-     "accent": "#737880",
-     "text_hc": "#737880",
-     "accent_hc": "#737880",
-     "hue": 259.83,
+     "text": "#63666C",
+     "accent": "#63666C",
+     "text_hc": "#63666C",
+     "accent_hc": "#63666C",
+     "hue": 264.46,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     },
     "dark": {
-     "text": "#737880",
-     "accent": "#737880",
-     "text_hc": "#737880",
-     "accent_hc": "#737880",
-     "hue": 259.83,
+     "text": "#63666C",
+     "accent": "#63666C",
+     "text_hc": "#63666C",
+     "accent_hc": "#63666C",
+     "hue": 264.46,
      "ungated": "decorative gradient card; legibility comes from the text shadow"
     }
    }
