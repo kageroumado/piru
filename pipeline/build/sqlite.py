@@ -600,6 +600,16 @@ CREATE TABLE substances (
     -- (claim / correction / citations[{citation,role,note}] / pullQuote),
     -- serialized to the iOS `[MythBust]` Codable shape by
     -- build_misconceptions_json(). Decoded in SubstanceStore.decodeJSONBlob.
+    -- Normalized therapeutic subclass (SSRI / SNRI / SARI / NDRI / TCA / MAOI / …),
+    -- from data/curated/drug-classes.json. The free `tags` carry the same idea in
+    -- four spellings and two granularities ("SSRI" and "ssri", "TCA" and
+    -- "tricyclic antidepressant"), which no card can key off; this is the field
+    -- that can. NULL for everything not yet classified — today, antidepressants
+    -- only. `drug_class_ambiguous` marks the assignments the classifier itself
+    -- called contestable (bupropion, mirtazapine, tianeptine, ketamine …), so a
+    -- UI can hedge rather than assert.
+    drug_class              TEXT,
+    drug_class_ambiguous    INTEGER NOT NULL DEFAULT 0,
     popular_aliases         TEXT,
     misconceptions          TEXT
 );
@@ -613,6 +623,12 @@ CREATE TABLE aliases (
     substance_id     INTEGER NOT NULL REFERENCES substances(id),
     alias            TEXT NOT NULL,
     alias_normalized TEXT NOT NULL,
+    -- BCP-47 tag for a name that only applies in one language/region: street
+    -- names and locale-specific generics (paracetamol vs acetaminophen). NULL for
+    -- language-neutral kinds (brand, chemical, code). Locale filters what the
+    -- header *displays*; it never filters search — recall matches every name in
+    -- every script regardless of app language.
+    locale           TEXT,
     source_id        INTEGER REFERENCES sources(id),
     -- Form-facet annotation (Stage A+): the structured form an alias *names*, so a
     -- resolver (and the once-only DoseEntry backfill) can recover it from a logged
@@ -7225,6 +7241,133 @@ class Build:
         now-trailing salt)."""
         return normalise(self._release_alias_re.sub(" ", alias))
 
+    def apply_alias_kinds(self) -> dict[str, int]:
+        """Fill `aliases.kind` (and `locale`) from data/curated/alias-kinds.json.
+
+        The column already existed with only `brand` seeded on 58 of 5,782 rows, so
+        the header had nothing to rank by and printed "+46 alternative names" —
+        chemical synonyms, product names, junk and, in 37 sampled cases, the names
+        of *different molecules*, all counted as if they were names of this drug.
+        """
+        path = CURATED_DIR.parent / "alias-kinds.json"
+        stats = {"kinds_set": 0, "locales_set": 0, "unmatched_substance": 0, "unmatched_alias": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        for name, entries in payload.get("substances", {}).items():
+            sid = self.substance_ids.get(normalise(name))
+            if sid is None:
+                stats["unmatched_substance"] += 1
+                continue
+            for entry in entries:
+                row = self.cur.execute(
+                    "SELECT rowid FROM aliases WHERE substance_id = ? AND alias_normalized = ?",
+                    (sid, normalise(entry["alias"])),
+                ).fetchone()
+                if row is None:
+                    # Expected for the wrong-molecule aliases the blocklist now drops
+                    # before insert — the classification and the blocklist agree.
+                    stats["unmatched_alias"] += 1
+                    continue
+                self.cur.execute(
+                    "UPDATE aliases SET kind = ?, locale = ? WHERE rowid = ?",
+                    (entry["kind"], entry.get("locale"), row[0]),
+                )
+                stats["kinds_set"] += 1
+                if entry.get("locale"):
+                    stats["locales_set"] += 1
+        return stats
+
+    def apply_drug_classes(self) -> dict[str, int]:
+        """Write the normalized therapeutic subclass onto `substances`.
+
+        Reads `data/curated/drug-classes.json`: a controlled vocabulary plus one
+        assignment per substance. EXCLUDE means "sits in the Antidepressant
+        category but is not an antidepressant" — mostly PIHKAL phenethylamines
+        whose `SNDRI` tag describes a transporter-affinity guess rather than a
+        therapeutic class — and is written as NULL, not as a class.
+        """
+        path = CURATED_DIR.parent / "drug-classes.json"
+        stats = {"assigned": 0, "ambiguous": 0, "excluded": 0, "unmatched": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        valid = {v["code"] for v in payload.get("vocabulary", [])}
+        for entry in payload.get("assignments", []):
+            code = entry.get("class")
+            if code not in valid:
+                stats["unmatched"] += 1
+                continue
+            sid = self.substance_ids.get(normalise(entry["substance"]))
+            if sid is None:
+                row = self.cur.execute(
+                    "SELECT substance_id FROM aliases WHERE alias_normalized = ?",
+                    (normalise(entry["substance"]),),
+                ).fetchone()
+                sid = row[0] if row else None
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            if code == "EXCLUDE":
+                stats["excluded"] += 1
+                continue
+            ambiguous = 1 if entry.get("ambiguous") else 0
+            self.cur.execute(
+                "UPDATE substances SET drug_class = ?, drug_class_ambiguous = ? WHERE id = ?",
+                (code, ambiguous, sid),
+            )
+            stats["assigned"] += 1
+            stats["ambiguous"] += ambiguous
+        return stats
+
+    def derive_half_lives_from_pk(self) -> dict[str, int]:
+        """Give a substance a `half_lives` row when its only half-life is sitting in
+        `pk_routes`.
+
+        The app resolves `Substance.halfLifeMinutes` from `half_lives` alone — it is
+        what the duration card, the Also Active comparison and the benzodiazepine
+        duration ladder all read. But the enrichment layer files its half-lives under
+        per-route pharmacokinetics, so **130 substances** had a perfectly good measured
+        value in `pk_routes` and returned nil to every one of those surfaces. Lorazepam,
+        temazepam, oxazepam, zopiclone, eszopiclone and nordazepam are all in that set:
+        the benzodiazepine class, whose *whole* comparative axis is duration.
+
+        Preference order is oral, then the substance's own most-common route, then
+        whatever exists — a half-life is a property of the molecule, not the route, but
+        routes differ in how well it was measured and oral is the best-studied. Rows are
+        attributed to the source that supplied the PK row, not invented as curated.
+        """
+        stats = {"derived": 0, "skipped_have_row": 0, "no_source": 0}
+        rows = self.cur.execute(
+            """
+            SELECT p.substance_id, p.route, p.half_life_min, p.source_id, p.citation_id
+              FROM pk_routes p
+             WHERE p.half_life_min IS NOT NULL
+               AND p.substance_id NOT IN (SELECT substance_id FROM half_lives)
+            """
+        ).fetchall()
+        best: dict[int, tuple[float, int, int | None]] = {}
+        for sid, route, minutes, source_id, citation_id in rows:
+            rank = 0 if (route or "").lower() == "oral" else 1
+            current = best.get(sid)
+            if current is None or rank < current[0]:
+                best[sid] = (rank, minutes, source_id, citation_id)  # type: ignore[assignment]
+        for sid, packed in best.items():
+            _rank, minutes, source_id, citation_id = packed  # type: ignore[misc]
+            if source_id is None:
+                stats["no_source"] += 1
+                continue
+            try:
+                self.cur.execute(
+                    "INSERT INTO half_lives(substance_id, source_id, half_life_minutes, citation_id)"
+                    " VALUES (?, ?, ?, ?)",
+                    (sid, source_id, minutes, citation_id),
+                )
+                stats["derived"] += 1
+            except sqlite3.IntegrityError:
+                stats["skipped_have_row"] += 1
+        return stats
+
     def annotate_alias_facets(self) -> dict[str, int]:
         """Stamp the isomer + release form facets onto the alias rows that name a
         resolved enantiomer/brand, so a resolver — and the once-only DoseEntry
@@ -8964,6 +9107,15 @@ def main() -> int:
     # per-form PSID table, and surface cross-substance alias collisions (Stage A).
     # Order matters: facets first (the resolver map), then substance_forms (which
     # reads those facets), then the collision audit.
+    alias_kinds = build.apply_alias_kinds()
+    print(f"Alias kinds: {alias_kinds}", file=sys.stderr)
+
+    drug_classes = build.apply_drug_classes()
+    print(f"Drug classes: {drug_classes}", file=sys.stderr)
+
+    derived_half_lives = build.derive_half_lives_from_pk()
+    print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
+
     alias_facets = build.annotate_alias_facets()
     print(f"Alias facet annotation: {alias_facets}", file=sys.stderr)
     forms = build.build_substance_forms()

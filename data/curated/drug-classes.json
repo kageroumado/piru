@@ -1,0 +1,419 @@
+{
+  "_comment": "Normalized antidepressant subclass. The free `tags` carry SSRI/ssri/SNRI/snri/SNDRI/SRI/TCA/'tricyclic antidepressant'/MAOI/irreversible-MAOI in inconsistent case and granularity, which no card can key off. This file is the controlled vocabulary and the per-substance assignment; the tags stay as they are. EXCLUDE means 'in the Antidepressant category but not an antidepressant' — research phenethylamines whose SNDRI tag describes a transporter guess, not a therapeutic class.",
+  "_source": "Specs/pharmacology-evidence/class-axes/antidepressant-classes.json (2026-08-01)",
+  "vocabulary": [
+    {
+      "code": "SSRI",
+      "label": "Selective serotonin reuptake inhibitor",
+      "explainer": "Blocks the serotonin transporter so serotonin lingers in the synapse; almost everything else it touches, it touches incidentally. Mood effects build over weeks while the side effects — nausea, sexual changes, early restlessness — usually arrive within days, and stopping abruptly can produce a distinct stretch of dizziness and electrical 'zaps' that is not the same thing as relapse.",
+      "mechanism": "High-affinity SERT (SLC6A4) inhibition with ≥100-fold selectivity over NET/DAT. Individual members carry secondary actions (fluoxetine 5-HT2C antagonism, sertraline sigma-1, paroxetine muscarinic, fluvoxamine sigma-1) that shape their character without changing the class."
+    },
+    {
+      "code": "SNRI",
+      "label": "Serotonin–norepinephrine reuptake inhibitor",
+      "explainer": "Serotonin reuptake blocked as in an SSRI, with norepinephrine reuptake on top — and for most members the noradrenergic half only counts at the higher end of the dose range. That second transporter is why blood pressure, sweating and heart rate appear in the side-effect column, and why the discontinuation window tends to be sharper than an SSRI's.",
+      "mechanism": "Dual SERT + NET inhibition. SERT:NET affinity ratio varies enormously across the class — venlafaxine is strongly SERT-biased at low dose, milnacipran is roughly balanced or NET-biased — so 'SNRI' describes a range, not a fixed ratio."
+    },
+    {
+      "code": "NRI",
+      "label": "Selective norepinephrine reuptake inhibitor",
+      "explainer": "Blocks norepinephrine reuptake and leaves serotonin largely alone. In practice that reads as more activation and focus, little of the serotonergic sexual and gastrointestinal character, and — because norepinephrine sets peripheral tone — dry mouth, a faster pulse and a blood-pressure profile instead.",
+      "mechanism": "Selective NET (SLC6A2) inhibition. In prefrontal cortex NET also clears dopamine, so a selective NRI raises cortical dopamine without touching striatal DAT."
+    },
+    {
+      "code": "NDRI",
+      "label": "Norepinephrine–dopamine reuptake inhibitor",
+      "explainer": "Blocks norepinephrine and dopamine reuptake with no meaningful serotonin action, and that absence is the point: the sexual and emotional-flattening effects characteristic of serotonergic drugs are largely missing. What replaces them is activation, insomnia, appetite suppression and a seizure threshold that falls as the dose rises.",
+      "mechanism": "NET + DAT inhibition, plus non-competitive nicotinic acetylcholine receptor antagonism. Measured human striatal DAT occupancy at therapeutic dosing is low (~26%), and no rise in extracellular striatal dopamine is detectable at clinical doses — so how much of the effect is actually dopaminergic is unresolved."
+    },
+    {
+      "code": "SMS",
+      "label": "Serotonin modulator and stimulator",
+      "explainer": "Blocks the serotonin transporter as an SSRI does, but also binds serotonin receptors directly — partial agonism at 5-HT1A, blockade at others — rather than only changing how much serotonin is around. The receptor half is intended to soften the SSRI side-effect signature, sexual effects in particular, though how much of the clinical difference it actually accounts for is still argued.",
+      "mechanism": "SERT inhibition + direct receptor pharmacology. Vortioxetine: 5-HT1A agonist, 5-HT1B partial agonist, 5-HT1D/5-HT3/5-HT7 antagonist. Vilazodone: 5-HT1A partial agonist only (the 'SPARI' subtype). At the low end of the dose range both behave largely as SERT inhibitors."
+    },
+    {
+      "code": "SARI",
+      "label": "Serotonin antagonist and reuptake inhibitor",
+      "explainer": "Blocks 5-HT2A receptors strongly and the serotonin transporter only weakly, so what the drug does depends heavily on how much of it there is — low doses are effectively sedating antihistamine-like agents, and the reuptake half only arrives at antidepressant doses. That split is why the same molecule shows up as a sleep aid and as an antidepressant at very different milligram counts.",
+      "mechanism": "Potent 5-HT2A (and 5-HT2C) antagonism, H1 and α1-adrenergic antagonism, weaker SERT inhibition; the active metabolite mCPP is itself a 5-HT2C agonist. In vivo SERT inhibition is demonstrable but substantially weaker than an SSRI's at comparable exposure."
+    },
+    {
+      "code": "TCA",
+      "label": "Tricyclic antidepressant",
+      "explainer": "The oldest family here: blocks serotonin and norepinephrine reuptake, but also histamine, acetylcholine and α1-adrenergic receptors, which is where the dry mouth, constipation, sedation and standing-up dizziness come from. They work, and the margin is narrower than the newer classes — effects on cardiac conduction mean the gap between a therapeutic amount and a dangerous one is smaller.",
+      "mechanism": "Mixed SERT/NET inhibition with the ratio set by amine order: tertiary amines (amitriptyline, imipramine, clomipramine, doxepin, trimipramine) are more serotonergic and more anticholinergic; secondary amines (nortriptyline, desipramine, protriptyline) are more noradrenergic and cleaner. All carry H1, muscarinic, α1 and cardiac sodium-channel activity."
+    },
+    {
+      "code": "MAOI",
+      "label": "Irreversible monoamine oxidase inhibitor",
+      "explainer": "Permanently disables monoamine oxidase, so serotonin, norepinephrine and dopamine all accumulate until the body has built new enzyme — roughly two weeks. That irreversibility is exactly what puts aged cheese, cured meat, and a long list of other drugs out of scope: tyramine and sympathomimetics lose the pathway that would otherwise clear them.",
+      "mechanism": "Covalent, irreversible inhibition of MAO-A and/or MAO-B. Recovery requires enzyme resynthesis (~14 days), which is why washout periods, not half-lives, govern the interaction window."
+    },
+    {
+      "code": "RIMA",
+      "label": "Reversible inhibitor of monoamine oxidase A",
+      "explainer": "Inhibits MAO-A reversibly, so a tyramine load can displace the drug from the enzyme rather than piling up behind it. Same monoamine-raising idea as an irreversible MAOI without the dietary lockout, at the cost of a lighter effect and a shorter reach.",
+      "mechanism": "Competitive, reversible MAO-A inhibition. Substrate competition means dietary amines restore enzyme access rather than triggering an uncontrolled pressor response."
+    },
+    {
+      "code": "NaSSA",
+      "label": "Noradrenergic and specific serotonergic antidepressant",
+      "explainer": "Blocks α2-adrenergic autoreceptors — the brakes on norepinephrine and serotonin release — instead of blocking reuptake, then blocks 5-HT2 and 5-HT3 so the released serotonin lands narrowly. Strong H1 antagonism means sedation and appetite dominate at low doses and ease off as the dose climbs, which inverts the usual dose-effect intuition.",
+      "mechanism": "α2-autoreceptor and α2-heteroreceptor antagonism (increasing NE and 5-HT release), 5-HT2A/2C and 5-HT3 antagonism, potent H1 antagonism. Effectively no reuptake inhibition, hence little sexual dysfunction and no SSRI-type discontinuation signature."
+    },
+    {
+      "code": "MELATONERGIC",
+      "label": "Melatonin receptor agonist antidepressant",
+      "explainer": "An agonist at MT1/MT2 melatonin receptors with 5-HT2C blockade, so it acts on circadian timing rather than on how much monoamine sits in the synapse. That buys an absence of serotonergic sexual effects and of a discontinuation syndrome; the tradeoff is liver enzymes, which is why bloodwork is part of the picture.",
+      "mechanism": "MT1/MT2 agonism resynchronizing circadian rhythm, combined with 5-HT2C antagonism that disinhibits frontocortical dopamine and norepinephrine release. Extensive CYP1A2 first-pass metabolism; dose-independent hepatotoxicity risk."
+    },
+    {
+      "code": "GLUTAMATERGIC",
+      "label": "Glutamatergic (NMDA-acting) antidepressant",
+      "explainer": "Blocks NMDA glutamate receptors rather than touching monoamine transporters at all, and the response arrives in hours rather than weeks. It is given as discrete sessions rather than as a daily blood level, and the dissociative experience during administration is part of the drug rather than a side effect that got loose.",
+      "mechanism": "Non-competitive NMDA receptor antagonism producing a downstream AMPA-throughput and synaptogenesis cascade; HCN1 inhibition and sigma-1 agonism also contribute. Hydroxynorketamine metabolites are independently active."
+    },
+    {
+      "code": "NEUROSTEROID",
+      "label": "Neurosteroid GABA-A modulator",
+      "explainer": "A positive allosteric modulator at GABA-A — the same receptor benzodiazepines use, at a different site — given as a defined course rather than as an ongoing medication. Effects appear within days, sedation is the dominant acute effect, and the course ends rather than tapers.",
+      "mechanism": "Positive allosteric modulation at both synaptic and extrasynaptic GABA-A receptors, including δ-subunit-containing extrasynaptic receptors that benzodiazepines do not reach. Administered as a fixed-duration course (60-hour IV infusion for brexanolone)."
+    },
+    {
+      "code": "OPIOIDERGIC",
+      "label": "Opioid-receptor antidepressant",
+      "explainer": "Sold and prescribed as an antidepressant, but the molecular target turned out to be the mu-opioid receptor. Everything that follows from that follows here — tolerance, dose escalation, and an opioid withdrawal on stopping — which is behavior nothing else on this list has.",
+      "mechanism": "Full mu-opioid receptor agonist (Ki ≈ 383 nM, EC50 ≈ 194 nM at human MOR) with weak delta-opioid agonism and no kappa activity. The historical 'selective serotonin reuptake enhancer' description is obsolete."
+    },
+    {
+      "code": "ATYPICAL",
+      "label": "Atypical / unclassified antidepressant",
+      "explainer": "Doesn't sort into a mechanism family — either the pharmacology is genuinely mixed, or the compound was never characterized well enough to place. The individual drug's own profile is the reference here; the class name carries no information.",
+      "mechanism": "Residual bucket. Members are mostly withdrawn, discontinued, or never-marketed compounds with sparse or contradictory receptor data."
+    },
+    {
+      "code": "EXCLUDE",
+      "label": "Not an antidepressant (category error)",
+      "explainer": null,
+      "mechanism": "Sentinel. Row carries the Antidepressant category through a data error and should be removed from the category rather than classified."
+    }
+  ],
+  "assignments": [
+    {
+      "substance": "2-BR-4,5-MDA",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "PIHKAL phenethylamine with no human data and no antidepressant use; the `SNDRI` tag describes a transporter-affinity guess, not a therapeutic class."
+    },
+    {
+      "substance": "2T-MMDA-3a",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "PIHKAL phenethylamine, no human data, no antidepressant use."
+    },
+    {
+      "substance": "4T-MMDA-2",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "PIHKAL phenethylamine, no human data, no antidepressant use."
+    },
+    {
+      "substance": "Agomelatine",
+      "class": "MELATONERGIC",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Amitriptyline",
+      "class": "TCA",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Amoxapine",
+      "class": "TCA",
+      "secondary": "ATYPICAL",
+      "ambiguous": true,
+      "reason": "Structurally a dibenzoxazepine derived from an antipsychotic; its 7-hydroxy metabolite is a dopamine D2 antagonist, so it carries extrapyramidal and tardive-dyskinesia risk no other TCA has."
+    },
+    {
+      "substance": "Atomoxetine",
+      "class": "NRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "Not ambiguous pharmacologically — the DB tag is simply wrong. ChEMBL/FDA list norepinephrine transporter inhibition as the sole mechanism; there is no serotonergic component."
+    },
+    {
+      "substance": "Befuraline",
+      "class": "ATYPICAL",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Discontinued benzylpiperazine-derived agent; the mechanism tags (`phosphodiesterase-inhibitor`, `BZP-metabolite`) do not converge on any monoamine class and the human pharmacology was never characterized in modern terms."
+    },
+    {
+      "substance": "Brexanolone",
+      "class": "NEUROSTEROID",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Bupropion",
+      "class": "NDRI",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Named for a mechanism that human imaging only partly supports — striatal DAT occupancy at therapeutic dosing is ~26% and no rise in extracellular striatal dopamine is measurable, so nicotinic antagonism and the hydroxybupropion metabolite may carry more of the effect than the class name implies."
+    },
+    {
+      "substance": "Citalopram",
+      "class": "SSRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Clomipramine",
+      "class": "TCA",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "The most serotonergic member of the class — SERT-dominant enough to be used like an SSRI in OCD — but the anticholinergic, cardiac and overdose profile is fully tricyclic, so TCA is the class that predicts the experience."
+    },
+    {
+      "substance": "Desipramine",
+      "class": "TCA",
+      "secondary": "NRI",
+      "ambiguous": false,
+      "reason": "Secondary amine, the most NET-selective TCA; the NRI secondary records that its serotonergic character is minimal."
+    },
+    {
+      "substance": "Desvenlafaxine",
+      "class": "SNRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "DMMDA",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "PIHKAL phenethylamine, no human data, no antidepressant use."
+    },
+    {
+      "substance": "DMMDA-2",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "PIHKAL phenethylamine, no human data, no antidepressant use."
+    },
+    {
+      "substance": "Doxepin",
+      "class": "TCA",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "Like trazodone it splits by dose — at 3–6 mg it is a near-pure H1 antagonist marketed for insomnia, at 75–300 mg a full tricyclic. Class stays TCA; the dose split belongs on the dose axis, not the class axis."
+    },
+    {
+      "substance": "Duloxetine",
+      "class": "SNRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Fluoxetine",
+      "class": "SSRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Fluvoxamine",
+      "class": "SSRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Imipramine",
+      "class": "TCA",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Isocarboxazid",
+      "class": "MAOI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Levomethorphan",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "An opioid morphinan (the levorotatory enantiomer of racemethorphan, a mu-agonist prodrug). It has monoamine reuptake activity the way dextromethorphan does, but it has never been an antidepressant."
+    },
+    {
+      "substance": "Lys-MDA",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "Lysine-conjugated MDA prodrug in phase 1 as an empathogen; not an antidepressant."
+    },
+    {
+      "substance": "Maprotiline",
+      "class": "NRI",
+      "secondary": "TCA",
+      "ambiguous": true,
+      "reason": "Pharmacologically a selective NET inhibitor, structurally a tetracyclic (not a tricyclic as tagged), and clinically it behaves like a TCA — anticholinergic load, overdose danger, and the highest seizure risk in the family. Primary follows mechanism, secondary preserves the toxicity signature."
+    },
+    {
+      "substance": "MDMA",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "A monoamine releaser under investigation as a psychotherapy adjunct for PTSD, not for depression, and not an antidepressant drug class under any nomenclature."
+    },
+    {
+      "substance": "Medifoxamine",
+      "class": "ATYPICAL",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Withdrawn for hepatotoxicity; described as a dopamine reuptake inhibitor with 5-HT2 antagonism, but the data are thin enough that neither NDRI nor SARI is defensible."
+    },
+    {
+      "substance": "Milnacipran",
+      "class": "SNRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "The most NET-biased member of the class — closer to balanced-to-noradrenergic than the SERT-dominant venlafaxine — which is why it reads more activating."
+    },
+    {
+      "substance": "Mirtazapine",
+      "class": "NaSSA",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "The NaSSA mechanism (α2-autoreceptor blockade) is real and confirmed at clinically achievable concentrations, but H1 antagonism dominates the felt effect at low doses, so the class name does not predict the experience at the bottom of the range."
+    },
+    {
+      "substance": "MMDA-3b",
+      "class": "EXCLUDE",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "PIHKAL phenethylamine, no human data, no antidepressant use."
+    },
+    {
+      "substance": "Nefazodone",
+      "class": "SARI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Nortriptyline",
+      "class": "TCA",
+      "secondary": "NRI",
+      "ambiguous": false,
+      "reason": "Secondary amine, NET-biased; the amitriptyline metabolite with a cleaner anticholinergic profile than its parent."
+    },
+    {
+      "substance": "Paroxetine",
+      "class": "SSRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": "Class is unambiguous; the short half-life with no active metabolite plus muscarinic antagonism is what makes its discontinuation profile the harshest in the class."
+    },
+    {
+      "substance": "Phenelzine",
+      "class": "MAOI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Pridefine",
+      "class": "ATYPICAL",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Never-marketed research compound; the `SNDRI` tag rests on a noncompetitive-inhibitor characterization with no human exposure data behind it."
+    },
+    {
+      "substance": "Protriptyline",
+      "class": "TCA",
+      "secondary": "NRI",
+      "ambiguous": false,
+      "reason": "Secondary amine, NET-biased and the most activating of the tricyclics."
+    },
+    {
+      "substance": "Selegiline",
+      "class": "MAOI",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "MAO-B-selective at the 10 mg oral doses used in Parkinson's, but human PET shows the formulations used for depression — transdermal patch and orally-disintegrating tablet — also inhibit brain MAO-A. The DB's `MAO-B-selective` tag is true of the Parkinson's dose and misleading for the antidepressant one."
+    },
+    {
+      "substance": "Sertraline",
+      "class": "SSRI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Tianeptine",
+      "class": "OPIOIDERGIC",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Genuinely ambiguous by provenance rather than by data: prescribed as an antidepressant in Europe for decades under a 'serotonin reuptake enhancer' story that receptor work overturned — the molecular target is the mu-opioid receptor, which is what governs its tolerance and withdrawal behavior."
+    },
+    {
+      "substance": "Tranylcypromine",
+      "class": "MAOI",
+      "secondary": null,
+      "ambiguous": false,
+      "reason": null
+    },
+    {
+      "substance": "Trazodone",
+      "class": "SARI",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Ambiguous because the class is dose-gated, not because the pharmacology is unclear: at the 25–100 mg doses it is most often taken at, it is essentially a 5-HT2A/H1/α1 antagonist, and the reuptake-inhibitor half of 'SARI' only becomes substantial at 150–400 mg."
+    },
+    {
+      "substance": "Trimipramine",
+      "class": "TCA",
+      "secondary": "ATYPICAL",
+      "ambiguous": true,
+      "reason": "The odd tricyclic: it is nearly devoid of monoamine reuptake inhibition, so its effect rests on H1, 5-HT2 and D2 antagonism. Structurally and clinically a TCA, mechanistically not one."
+    },
+    {
+      "substance": "Venlafaxine",
+      "class": "SNRI",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "Class membership is dose-dependent: below roughly 150 mg/day it is functionally an SSRI, and the noradrenergic half — with the blood-pressure effects that come with it — only arrives at higher doses."
+    },
+    {
+      "substance": "Vilazodone",
+      "class": "SMS",
+      "secondary": "SSRI",
+      "ambiguous": false,
+      "reason": "SPARI subtype — SERT inhibition plus 5-HT1A partial agonism, per FDA label and ChEMBL. The SSRI secondary is retained because the SERT half is genuinely the dominant action."
+    },
+    {
+      "substance": "Vortioxetine",
+      "class": "SMS",
+      "secondary": null,
+      "ambiguous": true,
+      "reason": "The six receptor actions are established in binding and animal work, but their contribution to the human clinical effect is inferred from side-effect and sleep-architecture differences rather than demonstrated directly — and at the low end of the dose range the drug is mostly a SERT inhibitor."
+    }
+  ]
+}

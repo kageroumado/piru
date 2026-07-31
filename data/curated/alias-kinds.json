@@ -1,0 +1,2756 @@
+{
+  "_comment": "Alias kinds for the 20 highest-alias substances (614 aliases, 0 unclassifiable). `kind` already existed on the aliases table with only 'brand' seeded on 58 of 5,782 rows; this fills it properly for the worst offenders and adds `locale`. The four not-a-name kinds have different remedies: `product` belongs in a product table, `combination` in a composition table, `malformed` should be split into two rows, `junk` deleted. `distinct_substance` is the safety-bearing one — those must not resolve to this substance from search.",
+  "_source": "Specs/pharmacology-evidence/class-axes/display-names.json (2026-08-01)",
+  "vocabulary": [
+    "abbreviation",
+    "brand",
+    "chemical",
+    "code",
+    "combination",
+    "distinct_substance",
+    "expansion",
+    "generic",
+    "junk",
+    "malformed",
+    "misspelling",
+    "product",
+    "street"
+  ],
+  "substances": {
+    "Amphetamine": [
+      {
+        "alias": "(AlphaS)-alpha-methylbenzeneethanamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "adderal",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "Adderall",
+        "kind": "brand"
+      },
+      {
+        "alias": "Adderall IR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Adderall XR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Addys",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "aderal",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "aderall",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "Adzenys ER",
+        "kind": "brand"
+      },
+      {
+        "alias": "Adzenys XR-ODT",
+        "kind": "brand"
+      },
+      {
+        "alias": "alpha-Methylbenzeneethaneamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "alpha-methylphenethylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "alpha-methylphenylethylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "amfetamine",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "amfetaminum",
+        "kind": "generic",
+        "locale": "la"
+      },
+      {
+        "alias": "amph",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "amphetamin",
+        "kind": "generic",
+        "locale": "de"
+      },
+      {
+        "alias": "amphetamines",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "Amphetamine（安非他命）",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Attentin",
+        "kind": "brand"
+      },
+      {
+        "alias": "base",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "bennies",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Benzedrine",
+        "kind": "brand"
+      },
+      {
+        "alias": "beta-Aminopropylbenzene",
+        "kind": "chemical"
+      },
+      {
+        "alias": "beta-phenylisopropylamin",
+        "kind": "chemical"
+      },
+      {
+        "alias": "beta-Phenylisopropylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "black beauties",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "d-amph",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "desoxynorephedrine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Dex",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Dex/Levo-amphetamine",
+        "kind": "combination"
+      },
+      {
+        "alias": "Dexamfetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Dexedrine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Dexedrine Spansule",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "dexies",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Dextroamphetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Dextroamphetamine-Amphetamine",
+        "kind": "combination"
+      },
+      {
+        "alias": "dextroamphetamine/amphetamine",
+        "kind": "combination"
+      },
+      {
+        "alias": "dextroamphetamine/dextroamphetamine/amphetamine/amphetamine",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Dextrostat",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "DL-amphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Dyanavel XR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Evekeo",
+        "kind": "brand"
+      },
+      {
+        "alias": "Evekeo ODT",
+        "kind": "brand"
+      },
+      {
+        "alias": "goey",
+        "kind": "street",
+        "locale": "en-AU"
+      },
+      {
+        "alias": "hearts",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "louee",
+        "kind": "street",
+        "locale": "en-AU"
+      },
+      {
+        "alias": "MAS",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "MAS-IR",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "MAS-XR",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "Mixed Amphetamine Salts",
+        "kind": "combination"
+      },
+      {
+        "alias": "mixed amphetamine salts; MAS",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Mydayis",
+        "kind": "brand"
+      },
+      {
+        "alias": "Pep",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "pep pills",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "pepp",
+        "kind": "street",
+        "locale": "sv"
+      },
+      {
+        "alias": "ProCentra",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "racemic amphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "S-(+)-amphetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Speed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "uppers",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "whiz",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "whizz",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "Xelstrym",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Zenzedi",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "α-methylbenzeneethaneamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "α-methylphenethylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "α-甲基苯乙胺",
+        "kind": "chemical",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "β-aminopropylbenzene",
+        "kind": "chemical"
+      },
+      {
+        "alias": "β-phenylisopropylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "安非他命",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "安非他明",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "苯丙胺",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Bromazepam": [
+      {
+        "alias": "Brazepam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Bromaze",
+        "kind": "brand"
+      },
+      {
+        "alias": "Bromazepamum",
+        "kind": "generic",
+        "locale": "la"
+      },
+      {
+        "alias": "Brozam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Calmepam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Creosedin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lectopam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lekotam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lexatin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lexaurin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lexilium",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lexomil",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lexotan",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lexotanil",
+        "kind": "brand"
+      },
+      {
+        "alias": "Normoc",
+        "kind": "brand"
+      },
+      {
+        "alias": "Rekotnil",
+        "kind": "brand"
+      },
+      {
+        "alias": "RO 5-3350",
+        "kind": "code"
+      },
+      {
+        "alias": "RO-5-3350",
+        "kind": "code"
+      },
+      {
+        "alias": "Somalium",
+        "kind": "brand"
+      },
+      {
+        "alias": "Ultramidol",
+        "kind": "brand"
+      },
+      {
+        "alias": "Zepam",
+        "kind": "brand"
+      },
+      {
+        "alias": "溴西泮",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Cocaine": [
+      {
+        "alias": "base",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "benzoylmethylecgonine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Benzoylmethylecgonine（苯甲酰甲基芽子碱）",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Blow",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Chari",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "charlie",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "Coca",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "cocaine base",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Coke",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Crack",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "flake",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "freebase cocaine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Gear",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "Girl",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "hard",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "methyl benzoylecgonine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Nose Candy",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Perico",
+        "kind": "street",
+        "locale": "es"
+      },
+      {
+        "alias": "rock",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "rocks",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Roxanne",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Snow",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "supercoke",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "White",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Yayo",
+        "kind": "street",
+        "locale": "en-US"
+      },
+      {
+        "alias": "yeyo",
+        "kind": "street",
+        "locale": "es"
+      },
+      {
+        "alias": "古柯碱",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "古柯鹼",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "可卡因",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Dextromethorphan": [
+      {
+        "alias": "Abatuss Dmx",
+        "kind": "product"
+      },
+      {
+        "alias": "brompheniramine/dextromethorphan/pseudoephedrine",
+        "kind": "combination"
+      },
+      {
+        "alias": "brompheniramine/pseudoephedrine/dextromethorphan",
+        "kind": "combination"
+      },
+      {
+        "alias": "CCC / Triple C",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Coricidin/CCC",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Cough Control",
+        "kind": "product"
+      },
+      {
+        "alias": "Cough Dm",
+        "kind": "product"
+      },
+      {
+        "alias": "Delsym",
+        "kind": "brand"
+      },
+      {
+        "alias": "Dex",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "DexAlone",
+        "kind": "brand"
+      },
+      {
+        "alias": "dexchlorpheniramine/dextromethorphan/pseudoephedrine",
+        "kind": "combination"
+      },
+      {
+        "alias": "Dextromethorphan polistirex",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Dextromethorphan Polistirex Extended Release",
+        "kind": "product"
+      },
+      {
+        "alias": "dextromethorphan/doxylamine",
+        "kind": "combination"
+      },
+      {
+        "alias": "dextromethorphan/promethazine",
+        "kind": "combination"
+      },
+      {
+        "alias": "DM",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "DMO",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "DXM",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "Healthy Accents Night Time Cough",
+        "kind": "product"
+      },
+      {
+        "alias": "Leader Childrens Cough Dm",
+        "kind": "product"
+      },
+      {
+        "alias": "Non-drowsy Formula Wal-tussin",
+        "kind": "product"
+      },
+      {
+        "alias": "Q Tapp Cold And Cough",
+        "kind": "product"
+      },
+      {
+        "alias": "Robitussin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Robo",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Robotripping",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "robotussin",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "Scot-tussin Diabetes Cough Formula With Dm",
+        "kind": "product"
+      },
+      {
+        "alias": "Silphen Dm Cough",
+        "kind": "product"
+      },
+      {
+        "alias": "syrup",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Topcare Cough Dm",
+        "kind": "product"
+      },
+      {
+        "alias": "Tussin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Tussin 12 Hr",
+        "kind": "product"
+      },
+      {
+        "alias": "Tussin Dm Cough",
+        "kind": "product"
+      },
+      {
+        "alias": "右美沙芬",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Diphenhydramine": [
+      {
+        "alias": "Aller-g-time",
+        "kind": "product"
+      },
+      {
+        "alias": "Allergy",
+        "kind": "junk"
+      },
+      {
+        "alias": "Aphenap",
+        "kind": "brand"
+      },
+      {
+        "alias": "Aurodryl Childrens Allergy",
+        "kind": "product"
+      },
+      {
+        "alias": "Bactimicina Childrens Allergy",
+        "kind": "product"
+      },
+      {
+        "alias": "Benadryl",
+        "kind": "brand"
+      },
+      {
+        "alias": "Childrens Benadryl Dye-free Allergy",
+        "kind": "product"
+      },
+      {
+        "alias": "Childrens Wal-dryl Allergy",
+        "kind": "product"
+      },
+      {
+        "alias": "diphenhydramine/ibuprofen",
+        "kind": "combination"
+      },
+      {
+        "alias": "DPH",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "First Aid Shot Therapy Sleep Aid",
+        "kind": "product"
+      },
+      {
+        "alias": "Good Sense Allergy Relief",
+        "kind": "product"
+      },
+      {
+        "alias": "Good Sense Nighttime Sleep Aid",
+        "kind": "product"
+      },
+      {
+        "alias": "Healthy Accents Ibuprofen Pm",
+        "kind": "product"
+      },
+      {
+        "alias": "Jet-asleep Double Strength Night Time Sleep Aid",
+        "kind": "product"
+      },
+      {
+        "alias": "Motion Sickness Relief",
+        "kind": "junk"
+      },
+      {
+        "alias": "Nighttime Sleep Easy",
+        "kind": "product"
+      },
+      {
+        "alias": "Nighttime Sleep-aid",
+        "kind": "junk"
+      },
+      {
+        "alias": "Nite Time Sleep Aid Liquidgels",
+        "kind": "product"
+      },
+      {
+        "alias": "Nytol",
+        "kind": "brand"
+      },
+      {
+        "alias": "Original Formula Motion Sickness Relief",
+        "kind": "junk"
+      },
+      {
+        "alias": "Rx Act Ibuprofen Pm",
+        "kind": "product"
+      },
+      {
+        "alias": "Shoprite Sleep Aid",
+        "kind": "product"
+      },
+      {
+        "alias": "Smart Sense Allergy",
+        "kind": "product"
+      },
+      {
+        "alias": "Smart Sense Allergy Relief",
+        "kind": "product"
+      },
+      {
+        "alias": "Sominex",
+        "kind": "brand"
+      },
+      {
+        "alias": "Sominex Max",
+        "kind": "brand"
+      },
+      {
+        "alias": "Somnitabs",
+        "kind": "brand"
+      },
+      {
+        "alias": "Unisom SleepMelts",
+        "kind": "brand"
+      },
+      {
+        "alias": "Unisom SleepTabs",
+        "kind": "brand"
+      },
+      {
+        "alias": "Wal-sleep Z",
+        "kind": "product"
+      },
+      {
+        "alias": "ZzzQuil",
+        "kind": "brand"
+      },
+      {
+        "alias": "苯海拉明",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Flunitrazepam": [
+      {
+        "alias": "Circles",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Forget Me Pill",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Forget Pill",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Forget-me pill",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Hipnosedon",
+        "kind": "brand"
+      },
+      {
+        "alias": "Hypnodorm",
+        "kind": "brand"
+      },
+      {
+        "alias": "La Rocha",
+        "kind": "street",
+        "locale": "es"
+      },
+      {
+        "alias": "Mexican Valium",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Narcozep",
+        "kind": "brand"
+      },
+      {
+        "alias": "R2",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "RO 5-4200",
+        "kind": "code"
+      },
+      {
+        "alias": "RO-5-4200",
+        "kind": "code"
+      },
+      {
+        "alias": "Roach 2",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Roche",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Roches",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Rohypnol",
+        "kind": "brand"
+      },
+      {
+        "alias": "Roofies",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Rophies",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Ruffies",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Wolfies",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "氟硝西泮",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "GHB": [
+      {
+        "alias": "1,4-BD",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "4-hydroxybutanoic acid",
+        "kind": "chemical"
+      },
+      {
+        "alias": "4-hydroxybutyric acid",
+        "kind": "chemical"
+      },
+      {
+        "alias": "4-丁内酯",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "4-内酯",
+        "kind": "malformed"
+      },
+      {
+        "alias": "4-羟基丁酸内酯",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "G",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Gamma-Hydroxybutyric Acid",
+        "kind": "expansion"
+      },
+      {
+        "alias": "GBL",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Liquid Ecstasy",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Liquid X",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "NaGHB",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Scoop",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Sodium oxybate",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Xyrem",
+        "kind": "brand"
+      },
+      {
+        "alias": "Xywav",
+        "kind": "product"
+      },
+      {
+        "alias": "γ-hydroxybutyrate",
+        "kind": "chemical"
+      },
+      {
+        "alias": "γ-丁内酯",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "γ-羟基丁酸",
+        "kind": "chemical",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "γ-羟基丁酸内酯",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "γ-羥基丁酸",
+        "kind": "chemical",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "氧杂环戊烷-2-酮",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "羟基丁酸钠",
+        "kind": "chemical",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Ketamine": [
+      {
+        "alias": "Arketamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "arketamine / R-ketamine",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Cat Tranquilizer",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Esketamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "esketamine / S-ketamine",
+        "kind": "malformed"
+      },
+      {
+        "alias": "horse tranquilizer",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Jet",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "JNJ-54135419",
+        "kind": "code"
+      },
+      {
+        "alias": "K",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Ket",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Ketalar",
+        "kind": "brand"
+      },
+      {
+        "alias": "Ketanest",
+        "kind": "brand"
+      },
+      {
+        "alias": "Ketanest S",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Ketaset",
+        "kind": "brand"
+      },
+      {
+        "alias": "kittens",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Kitty",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "K他命",
+        "kind": "street",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "K粉",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "PCN-101",
+        "kind": "code"
+      },
+      {
+        "alias": "Purple",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "racemic ketamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "S-(−)-ketamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Special K",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Spravato",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Vitamin K",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "wonk",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "克他命",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "喵喵",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "嗨药",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "氯胺酮",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "维生素K",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "茄",
+        "kind": "street",
+        "locale": "zh-Hans"
+      }
+    ],
+    "LSD": [
+      {
+        "alias": "Acid",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Blotter",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "blotter acid",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Cid",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "D-LSD-25",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "D-lysergic acid dethylamide",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "D-lysergic acid diethylamide",
+        "kind": "expansion"
+      },
+      {
+        "alias": "D-lysergic acid N,N-diethylamide",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Delysid",
+        "kind": "brand"
+      },
+      {
+        "alias": "dextrolysergic acid diethylamide",
+        "kind": "chemical"
+      },
+      {
+        "alias": "dots",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "hits",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "L",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "LSD 25",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "LSD-25",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "Lucy",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "lysergamide",
+        "kind": "chemical"
+      },
+      {
+        "alias": "lysergic acid amide",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "lysergic acid diethylamide",
+        "kind": "expansion"
+      },
+      {
+        "alias": "lysergic acid diethylamide-25",
+        "kind": "expansion"
+      },
+      {
+        "alias": "lysergide",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "mellow yellow",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "microdot",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "N,N-diethyllysergamide",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Tabs",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "window pane",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "麥角酸二乙醯胺",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "麦角酸二乙酰胺",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "MDMA": [
+      {
+        "alias": "3,4-MDMA",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "3,4-methylenedioxymethamphetamine",
+        "kind": "expansion"
+      },
+      {
+        "alias": "4-亚甲二氧基-N-甲基苯丙胺",
+        "kind": "chemical",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "Adam",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Beans",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "california sunrise",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "clarity",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "E",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Ecstasy",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Emma",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "essence",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "happy pills",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "hug drug",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Love Drug",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "lover’s speed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "M&M",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Mandy",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "MD",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "methylenedioxymethamphetamine",
+        "kind": "expansion"
+      },
+      {
+        "alias": "midomafetamine",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Molly",
+        "kind": "street",
+        "locale": "en-US"
+      },
+      {
+        "alias": "Pingers",
+        "kind": "street",
+        "locale": "en-AU"
+      },
+      {
+        "alias": "R-(-)-MDMA",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Rolls",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "S-(+)-MDMA",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "stacy",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "tenamfetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "The Love Drug",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "X",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "XTC",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "快乐丸",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "快樂丸",
+        "kind": "street",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "搖頭丸",
+        "kind": "street",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "摇头丸",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "莫莉",
+        "kind": "street",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Methamphetamine": [
+      {
+        "alias": "(alphaS)-N,alpha-dimethylbenzeneethanamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "(αS)-N,α-dimethylbenzeneethanamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "base",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "chalk",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Crank",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "crypto",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Crystal",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "crystal meth",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "d-deoxyephedrine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "d-desoxyephedrine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "d-meth",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "D-methamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "d-N-methylamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "d-phenylisopropylmethylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "desoxyephedrine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Desoxyn",
+        "kind": "brand"
+      },
+      {
+        "alias": "DL-metamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "DL-methamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "fast",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Glass",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Ice",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "l-desoxyephedrine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "L-metamphetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "L-methamphetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Levmetamfetamine",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Ma",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "metamfetamine",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Meth",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "methyl-beta-phenylisopropylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "methyl-β-phenylisopropylamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "methylamphetamine",
+        "kind": "generic",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "N-methylamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "N-methylamphetamine pito-1342",
+        "kind": "malformed"
+      },
+      {
+        "alias": "N-甲基苯丙胺",
+        "kind": "chemical",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "pure",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "racemic methamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "S-(+)-methamphetamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Shabu",
+        "kind": "street",
+        "locale": "ja"
+      },
+      {
+        "alias": "Shard",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "shards",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Speed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "T",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "tik",
+        "kind": "street",
+        "locale": "en-ZA"
+      },
+      {
+        "alias": "Tina",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Tweak",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "wax",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "whiz",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "Yaba",
+        "kind": "street",
+        "locale": "th"
+      },
+      {
+        "alias": "冰毒",
+        "kind": "street",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "甲基安非他命",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      },
+      {
+        "alias": "甲基苯丙胺",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Methcathinone": [
+      {
+        "alias": "AL-422",
+        "kind": "code"
+      },
+      {
+        "alias": "AL-463",
+        "kind": "code"
+      },
+      {
+        "alias": "AL-464",
+        "kind": "code"
+      },
+      {
+        "alias": "Bathtub Speed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Cadillac Express",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Cat",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Cosmos",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Ephedrone",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Gagers",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Gaggers",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Goog",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Jeff",
+        "kind": "street",
+        "locale": "ru"
+      },
+      {
+        "alias": "MC",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "Methcat",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "monomethylpropion",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Mulka",
+        "kind": "street",
+        "locale": "ru"
+      },
+      {
+        "alias": "N-methylcathinone",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Speed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "The C",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "UR-1431 (UR(W)1431)",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Wild Cat",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Wonder Star",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "α-methylamino-propiophenone",
+        "kind": "chemical"
+      },
+      {
+        "alias": "α-methylaminopropiophenone",
+        "kind": "chemical"
+      },
+      {
+        "alias": "甲卡西酮",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Methylphenidate": [
+      {
+        "alias": "Adhansia XR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Aptensio XR",
+        "kind": "brand"
+      },
+      {
+        "alias": "biphentin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Biphentin/Equasym XL/Medikinet XL",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Concerta",
+        "kind": "brand"
+      },
+      {
+        "alias": "Cotempla XR-ODT",
+        "kind": "brand"
+      },
+      {
+        "alias": "d,l-threo-methylphenidate",
+        "kind": "chemical"
+      },
+      {
+        "alias": "d-threo-methylphenidate",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Daytrana",
+        "kind": "brand"
+      },
+      {
+        "alias": "Dexmethylphenidate",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Dexmethylphenidate Hydrochloride Extended-release",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Equasym XL",
+        "kind": "brand"
+      },
+      {
+        "alias": "Focalin",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Focalin XR",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Jornay PM",
+        "kind": "brand"
+      },
+      {
+        "alias": "Metadate",
+        "kind": "brand"
+      },
+      {
+        "alias": "Metadate CD",
+        "kind": "brand"
+      },
+      {
+        "alias": "Metadate ER",
+        "kind": "brand"
+      },
+      {
+        "alias": "Methylin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Methylphenidate Hcl Oral Solution",
+        "kind": "product"
+      },
+      {
+        "alias": "Methylphenidate-transdermal",
+        "kind": "product"
+      },
+      {
+        "alias": "MPH",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "Quillichew ER",
+        "kind": "brand"
+      },
+      {
+        "alias": "Quillivant XR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Quillivant/QuilliChew",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Relexxii",
+        "kind": "brand"
+      },
+      {
+        "alias": "Relexxii Ritalin",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Riphenidate",
+        "kind": "brand"
+      },
+      {
+        "alias": "Ritalin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Ritalin LA",
+        "kind": "brand"
+      },
+      {
+        "alias": "Ritalin SR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Rubifen SR",
+        "kind": "brand"
+      },
+      {
+        "alias": "利他林",
+        "kind": "brand",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "哌甲酯",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "哌甲酯（Methylphenidate）",
+        "kind": "malformed"
+      }
+    ],
+    "Morphine": [
+      {
+        "alias": "Arymo ER",
+        "kind": "brand"
+      },
+      {
+        "alias": "Avinza",
+        "kind": "brand"
+      },
+      {
+        "alias": "Duramorph",
+        "kind": "brand"
+      },
+      {
+        "alias": "Embeda",
+        "kind": "product"
+      },
+      {
+        "alias": "God’s Drug",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Infumorph",
+        "kind": "brand"
+      },
+      {
+        "alias": "Kadian",
+        "kind": "brand"
+      },
+      {
+        "alias": "M",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "M.S.",
+        "kind": "abbreviation"
+      },
+      {
+        "alias": "Miss Emma",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Mister Blue",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Morf",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Morphabond",
+        "kind": "brand"
+      },
+      {
+        "alias": "Morphia",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Morphine Sulfate Extended-release",
+        "kind": "product"
+      },
+      {
+        "alias": "Morphium",
+        "kind": "generic",
+        "locale": "de"
+      },
+      {
+        "alias": "Morpho",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "MS Contin",
+        "kind": "brand"
+      },
+      {
+        "alias": "MS-Contin",
+        "kind": "brand"
+      },
+      {
+        "alias": "MSIR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oramorph",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oramorph SR / Oramorph",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Roxanol",
+        "kind": "brand"
+      },
+      {
+        "alias": "Sevredol",
+        "kind": "brand"
+      },
+      {
+        "alias": "Statex",
+        "kind": "brand"
+      },
+      {
+        "alias": "Unkie",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Zomorph",
+        "kind": "brand"
+      },
+      {
+        "alias": "吗啡",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "嗎啡",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      }
+    ],
+    "Nitrazepam": [
+      {
+        "alias": "baronite",
+        "kind": "brand"
+      },
+      {
+        "alias": "dormin",
+        "kind": "brand"
+      },
+      {
+        "alias": "dreem",
+        "kind": "brand"
+      },
+      {
+        "alias": "enzed",
+        "kind": "brand"
+      },
+      {
+        "alias": "gentravit",
+        "kind": "brand"
+      },
+      {
+        "alias": "hypnonex",
+        "kind": "brand"
+      },
+      {
+        "alias": "hypnoril",
+        "kind": "brand"
+      },
+      {
+        "alias": "hypnotex",
+        "kind": "brand"
+      },
+      {
+        "alias": "konit",
+        "kind": "brand"
+      },
+      {
+        "alias": "Mogadon",
+        "kind": "brand"
+      },
+      {
+        "alias": "N05CD02",
+        "kind": "code"
+      },
+      {
+        "alias": "nicare",
+        "kind": "brand"
+      },
+      {
+        "alias": "nigap",
+        "kind": "brand"
+      },
+      {
+        "alias": "nipam",
+        "kind": "brand"
+      },
+      {
+        "alias": "nirosun",
+        "kind": "brand"
+      },
+      {
+        "alias": "nitavan",
+        "kind": "brand"
+      },
+      {
+        "alias": "nithra",
+        "kind": "brand"
+      },
+      {
+        "alias": "Nitrazepamum",
+        "kind": "generic",
+        "locale": "la"
+      },
+      {
+        "alias": "Nitrazépam",
+        "kind": "generic",
+        "locale": "fr"
+      },
+      {
+        "alias": "RO 4-5360",
+        "kind": "code"
+      },
+      {
+        "alias": "RO 5-3059",
+        "kind": "code"
+      }
+    ],
+    "Norepinephrine": [
+      {
+        "alias": "Adrenor",
+        "kind": "brand"
+      },
+      {
+        "alias": "Aktamin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Arterenol",
+        "kind": "generic",
+        "locale": "de"
+      },
+      {
+        "alias": "L-3,4-Dihydroxyphenylethanolamine",
+        "kind": "chemical"
+      },
+      {
+        "alias": "L-Arterenol",
+        "kind": "chemical"
+      },
+      {
+        "alias": "L-noradrenaline",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Levarterenol",
+        "kind": "generic",
+        "locale": "en-US"
+      },
+      {
+        "alias": "Levarterenol®",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Levoarterenol",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Levonor",
+        "kind": "brand"
+      },
+      {
+        "alias": "Levonoradrenaline",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Levophed",
+        "kind": "brand"
+      },
+      {
+        "alias": "Nor-adrenaline",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "Nor-Epirenan",
+        "kind": "brand"
+      },
+      {
+        "alias": "Noradrenalin",
+        "kind": "generic",
+        "locale": "de"
+      },
+      {
+        "alias": "Noradrenaline",
+        "kind": "generic",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "Norartrinal",
+        "kind": "brand"
+      },
+      {
+        "alias": "Norepinefrina",
+        "kind": "generic",
+        "locale": "es"
+      },
+      {
+        "alias": "Norepinephrinum",
+        "kind": "generic",
+        "locale": "la"
+      },
+      {
+        "alias": "Norepirenamine",
+        "kind": "generic",
+        "locale": "en"
+      },
+      {
+        "alias": "Sympathin E",
+        "kind": "generic",
+        "locale": "en"
+      }
+    ],
+    "Oxycodone": [
+      {
+        "alias": "Codilek",
+        "kind": "brand"
+      },
+      {
+        "alias": "Dihydrohydroxycodeinone",
+        "kind": "chemical"
+      },
+      {
+        "alias": "Endone",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oxaydo",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oxecta",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oxy",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Oxycodonum",
+        "kind": "generic",
+        "locale": "la"
+      },
+      {
+        "alias": "OxyContin",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oxydor",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oxygesic",
+        "kind": "brand"
+      },
+      {
+        "alias": "OxyIR",
+        "kind": "brand"
+      },
+      {
+        "alias": "Oxynor",
+        "kind": "brand"
+      },
+      {
+        "alias": "oxynorm",
+        "kind": "brand"
+      },
+      {
+        "alias": "Percocet",
+        "kind": "product"
+      },
+      {
+        "alias": "Percodan",
+        "kind": "product"
+      },
+      {
+        "alias": "Percs",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Redocam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Roxicodone",
+        "kind": "brand"
+      },
+      {
+        "alias": "Xtampza ER",
+        "kind": "brand"
+      },
+      {
+        "alias": "羟考酮",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      },
+      {
+        "alias": "羥考酮",
+        "kind": "generic",
+        "locale": "zh-Hant"
+      }
+    ],
+    "PCP": [
+      {
+        "alias": "angel",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Angel Dust",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "angel_dust",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "angeldust",
+        "kind": "misspelling"
+      },
+      {
+        "alias": "Boat",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Crystal",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Dust",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Embalming Fluid",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Fry",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Goon",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Hog",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Killer Weed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "KW",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Love Boat",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Mintweed",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Monkey Dust",
+        "kind": "street",
+        "locale": "en-GB"
+      },
+      {
+        "alias": "Peace Pill",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Phencyclidine",
+        "kind": "expansion"
+      },
+      {
+        "alias": "Rocket Fuel",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Sernyl",
+        "kind": "brand"
+      },
+      {
+        "alias": "Sherm",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Sherman",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Supergrass",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Tic",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Tic Tac",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Wet",
+        "kind": "street",
+        "locale": "en"
+      },
+      {
+        "alias": "Zoom",
+        "kind": "street",
+        "locale": "en"
+      }
+    ],
+    "Piracetam": [
+      {
+        "alias": "Avigilen",
+        "kind": "brand"
+      },
+      {
+        "alias": "biotropil",
+        "kind": "brand"
+      },
+      {
+        "alias": "breinox",
+        "kind": "brand"
+      },
+      {
+        "alias": "Cerebroforte",
+        "kind": "brand"
+      },
+      {
+        "alias": "Cerebrospan",
+        "kind": "brand"
+      },
+      {
+        "alias": "Cetam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Dinagen",
+        "kind": "brand"
+      },
+      {
+        "alias": "Encefalux",
+        "kind": "brand"
+      },
+      {
+        "alias": "Encetrop",
+        "kind": "brand"
+      },
+      {
+        "alias": "Euvifor",
+        "kind": "brand"
+      },
+      {
+        "alias": "Gabacet",
+        "kind": "brand"
+      },
+      {
+        "alias": "Genogris",
+        "kind": "brand"
+      },
+      {
+        "alias": "geratam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Lucetam",
+        "kind": "brand"
+      },
+      {
+        "alias": "Memo-Puren",
+        "kind": "brand"
+      },
+      {
+        "alias": "Memotopil",
+        "kind": "brand"
+      },
+      {
+        "alias": "noostan",
+        "kind": "brand"
+      },
+      {
+        "alias": "Nootron",
+        "kind": "brand"
+      },
+      {
+        "alias": "Nootropil",
+        "kind": "brand"
+      },
+      {
+        "alias": "Nootropyl",
+        "kind": "brand"
+      },
+      {
+        "alias": "Normabrain",
+        "kind": "brand"
+      },
+      {
+        "alias": "Norzetam",
+        "kind": "brand"
+      },
+      {
+        "alias": "oikamid",
+        "kind": "brand"
+      },
+      {
+        "alias": "Pirroxil",
+        "kind": "brand"
+      },
+      {
+        "alias": "Psycotron",
+        "kind": "brand"
+      },
+      {
+        "alias": "Stimucortex",
+        "kind": "brand"
+      },
+      {
+        "alias": "UCB-6215",
+        "kind": "code"
+      },
+      {
+        "alias": "吡拉西坦",
+        "kind": "generic",
+        "locale": "zh-Hans"
+      }
+    ],
+    "Sodium": [
+      {
+        "alias": "Anti Cavity Fluoride",
+        "kind": "junk"
+      },
+      {
+        "alias": "Anticavity Rinse",
+        "kind": "junk"
+      },
+      {
+        "alias": "Anticavity Rinse Fluoride Rinse",
+        "kind": "junk"
+      },
+      {
+        "alias": "Discount Drug Mart",
+        "kind": "junk"
+      },
+      {
+        "alias": "Dr. Sheffield Fluoride Anticavity",
+        "kind": "product"
+      },
+      {
+        "alias": "eucalyptol/menthol/methyl salicylate/thymol",
+        "kind": "combination"
+      },
+      {
+        "alias": "Ferrlecit",
+        "kind": "product"
+      },
+      {
+        "alias": "Goodsense Sensitive Extra Whitening",
+        "kind": "product"
+      },
+      {
+        "alias": "Kids Anticavity",
+        "kind": "junk"
+      },
+      {
+        "alias": "Listerine Healthy White Anticavity Fluoride Gentle Clean Mint",
+        "kind": "product"
+      },
+      {
+        "alias": "Meropenem And Sodium Chloride",
+        "kind": "combination"
+      },
+      {
+        "alias": "meropenem/sodium",
+        "kind": "combination"
+      },
+      {
+        "alias": "Oral Saline Laxative Lemon Ginger",
+        "kind": "product"
+      },
+      {
+        "alias": "Pine Salt 170g",
+        "kind": "junk"
+      },
+      {
+        "alias": "Plus White Super White Tooth With Peroxide",
+        "kind": "product"
+      },
+      {
+        "alias": "Pororo Toothpas Te Mixed Fruits",
+        "kind": "junk"
+      },
+      {
+        "alias": "potassium/sodium",
+        "kind": "combination"
+      },
+      {
+        "alias": "Premier Value Sodium Bicarbonate",
+        "kind": "product"
+      },
+      {
+        "alias": "Sensitive Anti-cavity",
+        "kind": "junk"
+      },
+      {
+        "alias": "Sodium Chloride",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Sodium Chloride For Irrigation",
+        "kind": "product"
+      },
+      {
+        "alias": "Sodium Ferric Gluconate Complex In Sucrose",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "Sodium Polystyrene Sulfonate",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "sodium/sodium",
+        "kind": "malformed"
+      },
+      {
+        "alias": "Truly Radiant",
+        "kind": "junk"
+      },
+      {
+        "alias": "Up And Up Sensitive Maximum Strength Mint",
+        "kind": "product"
+      }
+    ]
+  }
+}
