@@ -153,6 +153,45 @@
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
           "is_review": false,
           "notes": null
+        },
+        {
+          "target": "SERT",
+          "ki_nm": null,
+          "ec50_nm": 49.6,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1038/npp.2011.304",
+          "is_review": false,
+          "notes": "Baumann 2012 Table 1 — rat brain synaptosomes, [3H]5-HT release, 1 µM reserpine, selective blockers isolating one transporter per arm. Same-table companion to the DAT and NET values."
+        },
+        {
+          "target": "DAT",
+          "ki_nm": null,
+          "ec50_nm": 51.2,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1038/npp.2011.304",
+          "is_review": false,
+          "notes": "Baumann 2012 Table 1 — [3H]MPP+ release. The paper's own DAT/SERT ratio (0.97) is arithmetically consistent with these cells."
+        },
+        {
+          "target": "NET",
+          "ki_nm": null,
+          "ec50_nm": 54.1,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1038/npp.2011.304",
+          "is_review": false,
+          "notes": "Baumann 2012 Table 1 — [3H]MPP+ release. On this assay MDMA is non-selective across all three transporters; three human studies on other bases put DAT well behind, so basis and species must be shown wherever this is plotted."
         }
       ],
       "functional": [
@@ -186,8 +225,7 @@
     },
     "human_pk": {
       "routes": [],
-      "concentration_effect": [
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -307,6 +345,13 @@
         "concern_level": "moderate",
         "clinical_consequence": "MDMA rapidly decreases vesicular monoamine (VMAT-2) transport in rat striatum after high-dose administration; unlike methamphetamine, the deficit partially recovers within 24 h.",
         "reference": "pmid:11861820"
+      },
+      {
+        "target": "TPH2 (tryptophan hydroxylase)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Inactivates the enzyme that makes serotonin — by oxidising its sulfhydryl groups, not by binding it, and partly driven by the dopamine MDMA itself releases. Rodent activity falls 30–60% within 1–3 h; a low dose recovers within 24 h without new protein synthesis, while past ~3 days after a high dose the enzyme no longer reactivates. This is the mechanism behind the days-after flatness. Human evidence is a single autopsied heavy polydrug user with no dose history, so the magnitude in people is unestablished.",
+        "reference": "pmid:2571797"
       }
     ],
     "demographic_differences": {
@@ -1207,7 +1252,7 @@
     ],
     "notes": "Originally developed by David Nichols (Purdue) as a tool to study selective serotonin release without neurotoxicity. Sold as 'sparkle'/'mindy' RC in 2010s. Marketing as 'safe MDMA alternative' is misleading — Corkery review documents fatalities and the Pálenicek 2016 rat LD50 study shows narrow safety margin.",
     "references_consulted": [
-"doi:10.1002/hup.2298",
+      "doi:10.1002/hup.2298",
       "doi:10.1016/j.etap.2016.03.013"
     ]
   },
@@ -2438,8 +2483,7 @@
       "Human PK"
     ],
     "notes": "Triple-monoamine releaser with research-pharmacology pedigree (PAL series). No published human controlled data; very limited recreational user-base data.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "Mexedrone",
@@ -2588,8 +2632,7 @@
       "Human PK"
     ],
     "notes": "Halogenated MDAI relative. Originally a Nichols/Purdue research probe.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "5-apdi",
@@ -2751,8 +2794,7 @@
       "Specific human PK"
     ],
     "notes": "One of the most dangerous compounds in this list. Entered EU market 2011 sold as legal MDMA replacement; clustered fatalities (Sweden 14, UK ≥6, others) led to rapid scheduling. Not an entactogen-class compound clinically — it is an MAOI+releaser. Mislabeled by retail.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "5-meo-amt",
@@ -2875,7 +2917,7 @@
     ],
     "notes": "MISCATEGORIZED: This is a serotonergic psychedelic (5-HT2A agonist), not an entactogen. Closely related to 5-MeO-DMT / AMT. Recategorize as Psychedelic. Schedule I in US.",
     "references_consulted": [
-"doi:10.1016/j.neuropharm.2018.06.020"
+      "doi:10.1016/j.neuropharm.2018.06.020"
     ]
   },
   {
@@ -4156,6 +4198,50 @@
           "species": "human",
           "reference": "pmid:27216487",
           "is_review": false
+        },
+        {
+          "target": "5-HT1A",
+          "ki_nm": 62.6,
+          "ec50_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "human cloned receptor",
+          "reference": "doi:10.1371/journal.pone.0009019",
+          "is_review": false,
+          "notes": "Ray 2010 NIMH-PDSP receptorome panel (35 drugs x 67 sites, one lab, one protocol), supplementary Table S2. This panel puts psilocin 5.4x TIGHTER at 5-HT1A than 5-HT2A — the opposite lean from the acschemneuro and 27216487 values also carried here. Direction is contested; do not plot psilocin as a settled point on a 1A/2A axis."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 339.6,
+          "ec50_nm": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "human cloned receptor",
+          "reference": "doi:10.1371/journal.pone.0009019",
+          "is_review": false,
+          "notes": "Ray 2010 PDSP panel, Table S2 — companion to the 62.6 nM 5-HT1A value from the same panel."
+        },
+        {
+          "target": "5-HT1A",
+          "ki_nm": 164.0,
+          "ec50_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "human cloned receptor",
+          "reference": "doi:10.1021/acsptsci.2c00177",
+          "is_review": false,
+          "notes": "Glatfelter 2022, human cloned receptors, [3H]WAY100635 / [3H]ketanserin. A third reading: essentially BALANCED (164 vs 180 nM), between the 2A-leaning and 1A-leaning panels."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 180.0,
+          "ec50_nm": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "human cloned receptor",
+          "reference": "doi:10.1021/acsptsci.2c00177",
+          "is_review": false,
+          "notes": "Glatfelter 2022 — companion to the 164 nM 5-HT1A value from the same paper."
         }
       ],
       "functional": [],
@@ -4204,8 +4290,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "MISCATEGORIZED: Psilocin is a classical psychedelic (5-HT2A agonist), not an entactogen. This is the bioactive form of psilocybin. Recategorize.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "Ayahuasca",
@@ -5203,7 +5288,7 @@
     "shared_safety": "The 'non-neurotoxic' label has been misleading in practice — Corkery 2013 documented fatalities, and Pálenicek 2016 rat LD50 work demonstrated a narrow safety margin with severe hyperthermia. SERT-selective release still produces serotonin syndrome with MAOIs and SSRIs. 5-HT2B agonism — likely retained by class — adds cardiac concern.",
     "sar_summary": "Aminoindane core (2-aminopropyl built into a cyclopentane ring fused to benzene) gives rigidity. 5,6-methylenedioxy = MDAI; 5-iodo = 5-IAI (similar profile, halogenated); 5-amino (unsubstituted) = 5-APDI = IAP. Without ring substitution, the parent 2-aminoindane is itself a selective NRI used as a research reference. N-methylation reduces serotonergic potency.",
     "key_references": [
-"doi:10.1002/hup.2298",
+      "doi:10.1002/hup.2298",
       "doi:10.1016/j.etap.2016.03.013"
     ]
   },
@@ -5228,8 +5313,7 @@
     "shared_pk_summary": "Very long duration (12-18 h for 5-MeO-AMT) reflecting MAO inhibition prolonging the compound's own half-life.",
     "shared_safety": "Built-in pharmacological foot-gun. The MAO-A inhibition guarantees fatal serotonin syndrome with any additional serotonergic input. Multiple fatality clusters: 5-MeO-AMT in US 2003-2004, 5-IT in EU 2011-2013 (>20 confirmed deaths). MISCATEGORIZED in this group: these are tryptamine psychedelics, not entactogens.",
     "sar_summary": "Adding 5-methoxy boosts 5-HT2A. Moving the 2-aminopropyl from indole-3 (true tryptamines) to indole-5 (5-IT/5-API) shifts activity from receptor agonism to MAO inhibition.",
-    "key_references": [
-    ]
+    "key_references": []
   },
   {
     "is_class_context": true,
@@ -5252,8 +5336,7 @@
     "shared_pk_summary": "Limited human PK.",
     "shared_safety": "Serotonin syndrome with MAOIs. No published fatalities cluster, but research-chemical exposure is low.",
     "sar_summary": "Naphthyl ring boosts potency at all transporters. N-methylation and N-ethylation shift the DAT:SERT ratio analogously to phenethylamine families.",
-    "key_references": [
-    ]
+    "key_references": []
   },
   {
     "is_class_context": true,
@@ -5275,8 +5358,7 @@
     "shared_pk_summary": null,
     "shared_safety": "Class-typical psychedelic risks (HPPD, psychiatric exacerbation), with MAOI-specific risks for Ayahuasca.",
     "sar_summary": null,
-    "key_references": [
-    ]
+    "key_references": []
   },
   {
     "is_class_context": true,
