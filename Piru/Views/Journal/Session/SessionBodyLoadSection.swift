@@ -48,7 +48,7 @@ struct BodyLoadRowLabel: View {
             if count > 1 {
                 Text(verbatim: "\(count)×")
                     .monospacedDigit()
-                    .capsuleChip(tint: Theme.secondaryLabel)
+                    .capsuleChip(text: Theme.secondaryLabel, fill: Theme.secondaryLabel)
             }
         }
     }

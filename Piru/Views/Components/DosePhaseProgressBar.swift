@@ -70,7 +70,7 @@ struct DosePhaseProgressBar: View {
         VStack(alignment: .leading, spacing: 7) {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(phase.color.opacity(0.18))
+                    Capsule().fill(phase.color.opacity(0.10))
                     Capsule()
                         .fill(phase.color)
                         .frame(width: max(0, geo.size.width * fraction))

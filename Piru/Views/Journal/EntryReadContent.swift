@@ -180,7 +180,7 @@ struct EntryReadHero: View {
                             if let saltForm = entry.saltForm {
                                 // Chemical proper noun — not localized.
                                 Text(saltForm)
-                                    .heroChip(tint: substanceColor)
+                                    .capsuleOutlineChip(stroke: substanceColor)
                             }
                             ROAPill(route: entry.route, size: .regular)
                             EntryStrengthChip(level: committedDoseLevel)
@@ -253,7 +253,7 @@ struct EntryStrengthChip: View {
     var body: some View {
         if let level {
             Text(String(localized: level.displayName).lowercased())
-                .heroChip(tint: level.labelColor)
+                .heroChip(text: level.labelColor, fill: level.swiftUIColor)
         }
     }
 }

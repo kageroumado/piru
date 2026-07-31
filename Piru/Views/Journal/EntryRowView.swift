@@ -222,7 +222,7 @@ struct EntryRowView: View {
     private var strengthChip: some View {
         if let level = display.core.doseLevel {
             Text(String(localized: level.displayName).lowercased())
-                .capsuleChip(tint: level.labelColor)
+                .capsuleChip(text: level.labelColor, fill: level.swiftUIColor)
                 // VoiceOver already gets the level through the dose's label.
                 .accessibilityHidden(true)
         }
@@ -280,7 +280,7 @@ struct EntryRowView: View {
             GeometryReader { geo in
                 let fraction = min(1, max(0, elapsed / total))
                 ZStack(alignment: .leading) {
-                    Capsule().fill(display.color.opacity(0.14))
+                    Capsule().fill(display.color.opacity(0.10))
                     Capsule()
                         .fill(display.color.opacity(0.6))
                         .frame(width: max(0, geo.size.width * fraction))

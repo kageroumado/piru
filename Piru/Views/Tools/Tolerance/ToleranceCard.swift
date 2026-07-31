@@ -78,7 +78,7 @@ struct ToleranceContributorChips: View {
                         .font(.caption2.weight(.medium))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(color.opacity(0.14), in: Capsule())
+                        .background(color.opacity(0.10), in: Capsule())
                         .foregroundStyle(color)
                 }
             }

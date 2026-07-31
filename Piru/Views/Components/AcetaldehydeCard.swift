@@ -68,7 +68,7 @@ struct AcetaldehydeCard: View {
                                 .foregroundStyle(load.tint)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
-                                .background(load.tint.opacity(0.15), in: Capsule())
+                                .background(load.tint.opacity(0.10), in: Capsule())
                         }
                     }
 

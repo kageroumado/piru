@@ -27,7 +27,7 @@ struct ProvenanceBadge: View {
         .foregroundStyle(color)
         .padding(.horizontal, 7)
         .padding(.vertical, 2)
-        .background(color.opacity(0.15), in: Capsule())
+        .background(color.opacity(0.10), in: Capsule())
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Evidence source: \(String(localized: kind.accessibleName)), \(String(localized: confidence.label))")
     }

@@ -54,7 +54,7 @@ struct SessionSafetySection: View {
                             if index == 0 {
                                 Spacer(minLength: 8)
                                 Text(String(localized: group.severity.label).lowercased())
-                                    .capsuleChip(tint: group.severity.labelColor)
+                                    .capsuleChip(text: group.severity.labelColor, fill: group.severity.color)
                             }
                         }
                     }

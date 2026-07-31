@@ -617,7 +617,7 @@ struct InteractionWarningRow: View {
                             .font(.caption2.weight(.medium))
                             .padding(.horizontal, 5)
                             .padding(.vertical, 1)
-                            .background(warning.severity.color.opacity(0.15), in: Capsule())
+                            .background(warning.severity.color.opacity(0.10), in: Capsule())
                             .foregroundStyle(warning.severity.labelColor)
                     }
                 }

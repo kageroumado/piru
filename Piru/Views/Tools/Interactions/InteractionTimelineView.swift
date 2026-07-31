@@ -461,7 +461,7 @@ struct InteractionTimelineView: View {
                         .font(.caption2.weight(.medium))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(color.opacity(0.15), in: Capsule())
+                        .background(color.opacity(0.10), in: Capsule())
                         .foregroundStyle(color)
                 }
             }

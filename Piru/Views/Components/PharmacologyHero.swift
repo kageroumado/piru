@@ -288,7 +288,7 @@ struct ReceptorPanel: View {
             .font(.caption2.weight(.semibold))
             .foregroundStyle(color)
             .padding(.horizontal, 7).padding(.vertical, 1)
-            .background(color.opacity(0.14), in: Capsule())
+            .background(color.opacity(0.10), in: Capsule())
     }
 }
 

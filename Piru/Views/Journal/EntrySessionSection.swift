@@ -153,7 +153,7 @@ struct EntryInteractionEchoRow: View {
                     .lineLimit(1)
                 Spacer(minLength: 8)
                 Text(String(localized: warning.severity.label).lowercased())
-                    .capsuleChip(tint: warning.severity.labelColor)
+                    .capsuleChip(text: warning.severity.labelColor, fill: warning.severity.color)
             }
             Text(warning.description)
                 .font(.subheadline)
