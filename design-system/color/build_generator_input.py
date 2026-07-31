@@ -82,10 +82,19 @@ def main() -> None:
         for scale, entries in json.loads(l2_path.read_text())["scales"].items():
             for step, modes in entries.items():
                 for role in ("text", "accent"):
-                    tokens[f"{scale}/{step}/{role}"] = {
+                    token = {
                         "any": {"srgb_hex": modes["light"][role].lstrip("#")},
                         "dark": {"srgb_hex": modes["dark"][role].lstrip("#")},
                     }
+                    # Increase Contrast. The app had no response to this setting
+                    # at all before the catalog migration, and could not have —
+                    # a `UIColor { traits }` closure branches on
+                    # userInterfaceStyle alone and cannot express a contrast
+                    # axis. These slots are the point of the whole migration.
+                    if f"{role}_hc" in modes["light"]:
+                        token["any_hc"] = {"srgb_hex": modes["light"][f"{role}_hc"].lstrip("#")}
+                        token["dark_hc"] = {"srgb_hex": modes["dark"][f"{role}_hc"].lstrip("#")}
+                    tokens[f"{scale}/{step}/{role}"] = token
 
     out = HERE / "palette-generator-input.json"
     out.write_text(json.dumps({"tokens": tokens}, indent=1) + "\n")

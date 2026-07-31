@@ -190,6 +190,12 @@
    },
    "dark": {
     "srgb_hex": "3B8DED"
+   },
+   "any_hc": {
+    "srgb_hex": "054D96"
+   },
+   "dark_hc": {
+    "srgb_hex": "88BCFE"
    }
   },
   "phase/comeup/accent": {
@@ -198,6 +204,12 @@
    },
    "dark": {
     "srgb_hex": "0063BF"
+   },
+   "any_hc": {
+    "srgb_hex": "186FCD"
+   },
+   "dark_hc": {
+    "srgb_hex": "2A7DDC"
    }
   },
   "phase/peak/text": {
@@ -206,6 +218,12 @@
    },
    "dark": {
     "srgb_hex": "20B64B"
+   },
+   "any_hc": {
+    "srgb_hex": "015B1F"
+   },
+   "dark_hc": {
+    "srgb_hex": "56DD71"
    }
   },
   "phase/peak/accent": {
@@ -213,6 +231,12 @@
     "srgb_hex": "08A13E"
    },
    "dark": {
+    "srgb_hex": "00AB40"
+   },
+   "any_hc": {
+    "srgb_hex": "00812F"
+   },
+   "dark_hc": {
     "srgb_hex": "00AB40"
    }
   },
@@ -222,6 +246,12 @@
    },
    "dark": {
     "srgb_hex": "FA9B00"
+   },
+   "any_hc": {
+    "srgb_hex": "6F4307"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFC990"
    }
   },
   "phase/offset/accent": {
@@ -229,6 +259,12 @@
     "srgb_hex": "C57A0A"
    },
    "dark": {
+    "srgb_hex": "FA9B00"
+   },
+   "any_hc": {
+    "srgb_hex": "9F6104"
+   },
+   "dark_hc": {
     "srgb_hex": "FA9B00"
    }
   },
@@ -254,6 +290,12 @@
    },
    "dark": {
     "srgb_hex": "4397FF"
+   },
+   "any_hc": {
+    "srgb_hex": "034C98"
+   },
+   "dark_hc": {
+    "srgb_hex": "8DBEFD"
    }
   },
   "route/oral/accent": {
@@ -261,6 +303,12 @@
     "srgb_hex": "0C84FF"
    },
    "dark": {
+    "srgb_hex": "0080F9"
+   },
+   "any_hc": {
+    "srgb_hex": "006ED9"
+   },
+   "dark_hc": {
     "srgb_hex": "0080F9"
    }
   },
@@ -270,6 +318,12 @@
    },
    "dark": {
     "srgb_hex": "26A8BF"
+   },
+   "any_hc": {
+    "srgb_hex": "085562"
+   },
+   "dark_hc": {
+    "srgb_hex": "58CFE6"
    }
   },
   "route/sublingual/accent": {
@@ -277,6 +331,12 @@
     "srgb_hex": "019AB0"
    },
    "dark": {
+    "srgb_hex": "0098AE"
+   },
+   "any_hc": {
+    "srgb_hex": "107A8C"
+   },
+   "dark_hc": {
     "srgb_hex": "0098AE"
    }
   },
@@ -286,6 +346,12 @@
    },
    "dark": {
     "srgb_hex": "00BDB4"
+   },
+   "any_hc": {
+    "srgb_hex": "035652"
+   },
+   "dark_hc": {
+    "srgb_hex": "50E4DB"
    }
   },
   "route/buccal/accent": {
@@ -293,6 +359,12 @@
     "srgb_hex": "189D96"
    },
    "dark": {
+    "srgb_hex": "00BDB4"
+   },
+   "any_hc": {
+    "srgb_hex": "097C76"
+   },
+   "dark_hc": {
     "srgb_hex": "00BDB4"
    }
   },
@@ -302,6 +374,12 @@
    },
    "dark": {
     "srgb_hex": "BD62EC"
+   },
+   "any_hc": {
+    "srgb_hex": "7B15A6"
+   },
+   "dark_hc": {
+    "srgb_hex": "DCA2FE"
    }
   },
   "route/insufflation/accent": {
@@ -310,6 +388,12 @@
    },
    "dark": {
     "srgb_hex": "9133BD"
+   },
+   "any_hc": {
+    "srgb_hex": "A044CE"
+   },
+   "dark_hc": {
+    "srgb_hex": "AE53DD"
    }
   },
   "route/inhalation/text": {
@@ -318,6 +402,12 @@
    },
    "dark": {
     "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "724104"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFC897"
    }
   },
   "route/inhalation/accent": {
@@ -325,6 +415,12 @@
     "srgb_hex": "CC780F"
    },
    "dark": {
+    "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "A45E03"
+   },
+   "dark_hc": {
     "srgb_hex": "FF9500"
    }
   },
@@ -334,6 +430,12 @@
    },
    "dark": {
     "srgb_hex": "FE5244"
+   },
+   "any_hc": {
+    "srgb_hex": "A00406"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFA193"
    }
   },
   "route/intravenous/accent": {
@@ -342,6 +444,12 @@
    },
    "dark": {
     "srgb_hex": "DB0007"
+   },
+   "any_hc": {
+    "srgb_hex": "DF0B0D"
+   },
+   "dark_hc": {
+    "srgb_hex": "F02B23"
    }
   },
   "route/intramuscular/text": {
@@ -350,6 +458,12 @@
    },
    "dark": {
     "srgb_hex": "FF5066"
+   },
+   "any_hc": {
+    "srgb_hex": "9E062D"
+   },
+   "dark_hc": {
+    "srgb_hex": "FF9FA2"
    }
   },
   "route/intramuscular/accent": {
@@ -358,6 +472,12 @@
    },
    "dark": {
     "srgb_hex": "E50043"
+   },
+   "any_hc": {
+    "srgb_hex": "DC0A42"
+   },
+   "dark_hc": {
+    "srgb_hex": "F3204D"
    }
   },
   "route/subcutaneous/text": {
@@ -366,6 +486,12 @@
    },
    "dark": {
     "srgb_hex": "787DFF"
+   },
+   "any_hc": {
+    "srgb_hex": "4236BC"
+   },
+   "dark_hc": {
+    "srgb_hex": "ABB4FD"
    }
   },
   "route/subcutaneous/accent": {
@@ -374,6 +500,12 @@
    },
    "dark": {
     "srgb_hex": "524ED4"
+   },
+   "any_hc": {
+    "srgb_hex": "5F5EE5"
+   },
+   "dark_hc": {
+    "srgb_hex": "6B6CF5"
    }
   },
   "route/transdermal/text": {
@@ -382,6 +514,12 @@
    },
    "dark": {
     "srgb_hex": "20B64B"
+   },
+   "any_hc": {
+    "srgb_hex": "015B1F"
+   },
+   "dark_hc": {
+    "srgb_hex": "56DD71"
    }
   },
   "route/transdermal/accent": {
@@ -389,6 +527,12 @@
     "srgb_hex": "08A13E"
    },
    "dark": {
+    "srgb_hex": "00AB40"
+   },
+   "any_hc": {
+    "srgb_hex": "00812F"
+   },
+   "dark_hc": {
     "srgb_hex": "00AB40"
    }
   },
@@ -398,6 +542,12 @@
    },
    "dark": {
     "srgb_hex": "A38763"
+   },
+   "any_hc": {
+    "srgb_hex": "634927"
+   },
+   "dark_hc": {
+    "srgb_hex": "D3B590"
    }
   },
   "route/rectal/accent": {
@@ -406,6 +556,12 @@
    },
    "dark": {
     "srgb_hex": "785E3C"
+   },
+   "any_hc": {
+    "srgb_hex": "866B48"
+   },
+   "dark_hc": {
+    "srgb_hex": "957956"
    }
   },
   "route/other/text": {
@@ -462,6 +618,12 @@
    },
    "dark": {
     "srgb_hex": "20B64B"
+   },
+   "any_hc": {
+    "srgb_hex": "015B1F"
+   },
+   "dark_hc": {
+    "srgb_hex": "56DD71"
    }
   },
   "dose/light/accent": {
@@ -469,6 +631,12 @@
     "srgb_hex": "08A13E"
    },
    "dark": {
+    "srgb_hex": "00AB40"
+   },
+   "any_hc": {
+    "srgb_hex": "00812F"
+   },
+   "dark_hc": {
     "srgb_hex": "00AB40"
    }
   },
@@ -478,6 +646,12 @@
    },
    "dark": {
     "srgb_hex": "D49614"
+   },
+   "any_hc": {
+    "srgb_hex": "664605"
+   },
+   "dark_hc": {
+    "srgb_hex": "FCBC4C"
    }
   },
   "dose/common/accent": {
@@ -485,6 +659,12 @@
     "srgb_hex": "BA8200"
    },
    "dark": {
+    "srgb_hex": "CD9000"
+   },
+   "any_hc": {
+    "srgb_hex": "93670C"
+   },
+   "dark_hc": {
     "srgb_hex": "CD9000"
    }
   },
@@ -494,6 +674,12 @@
    },
    "dark": {
     "srgb_hex": "DF742F"
+   },
+   "any_hc": {
+    "srgb_hex": "7F3800"
+   },
+   "dark_hc": {
+    "srgb_hex": "FDA371"
    }
   },
   "dose/strong/accent": {
@@ -502,6 +688,12 @@
    },
    "dark": {
     "srgb_hex": "C05800"
+   },
+   "any_hc": {
+    "srgb_hex": "B45307"
+   },
+   "dark_hc": {
+    "srgb_hex": "C85F12"
    }
   },
   "dose/heavy/text": {
@@ -510,6 +702,12 @@
    },
    "dark": {
     "srgb_hex": "F05942"
+   },
+   "any_hc": {
+    "srgb_hex": "9B1301"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFA190"
    }
   },
   "dose/heavy/accent": {
@@ -518,6 +716,12 @@
    },
    "dark": {
     "srgb_hex": "BC240F"
+   },
+   "any_hc": {
+    "srgb_hex": "CE3823"
+   },
+   "dark_hc": {
+    "srgb_hex": "DE4833"
    }
   },
   "confidence/high/text": {
@@ -526,6 +730,12 @@
    },
    "dark": {
     "srgb_hex": "20B64B"
+   },
+   "any_hc": {
+    "srgb_hex": "015B1F"
+   },
+   "dark_hc": {
+    "srgb_hex": "56DD71"
    }
   },
   "confidence/high/accent": {
@@ -533,6 +743,12 @@
     "srgb_hex": "08A13E"
    },
    "dark": {
+    "srgb_hex": "00AB40"
+   },
+   "any_hc": {
+    "srgb_hex": "00812F"
+   },
+   "dark_hc": {
     "srgb_hex": "00AB40"
    }
   },
@@ -542,6 +758,12 @@
    },
    "dark": {
     "srgb_hex": "FBC900"
+   },
+   "any_hc": {
+    "srgb_hex": "5F4A02"
+   },
+   "dark_hc": {
+    "srgb_hex": "FDE39A"
    }
   },
   "confidence/medium/accent": {
@@ -549,6 +771,12 @@
     "srgb_hex": "AA8803"
    },
    "dark": {
+    "srgb_hex": "FBC900"
+   },
+   "any_hc": {
+    "srgb_hex": "896C05"
+   },
+   "dark_hc": {
     "srgb_hex": "FBC900"
    }
   },
@@ -558,6 +786,12 @@
    },
    "dark": {
     "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "724104"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFC897"
    }
   },
   "confidence/low/accent": {
@@ -565,6 +799,12 @@
     "srgb_hex": "CC780F"
    },
    "dark": {
+    "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "A45E03"
+   },
+   "dark_hc": {
     "srgb_hex": "FF9500"
    }
   },
@@ -590,6 +830,12 @@
    },
    "dark": {
     "srgb_hex": "FBC900"
+   },
+   "any_hc": {
+    "srgb_hex": "5F4A02"
+   },
+   "dark_hc": {
+    "srgb_hex": "FDE39A"
    }
   },
   "severity/caution/accent": {
@@ -597,6 +843,12 @@
     "srgb_hex": "AA8803"
    },
    "dark": {
+    "srgb_hex": "FBC900"
+   },
+   "any_hc": {
+    "srgb_hex": "896C05"
+   },
+   "dark_hc": {
     "srgb_hex": "FBC900"
    }
   },
@@ -606,6 +858,12 @@
    },
    "dark": {
     "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "724104"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFC897"
    }
   },
   "severity/unsafe/accent": {
@@ -613,6 +871,12 @@
     "srgb_hex": "CC780F"
    },
    "dark": {
+    "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "A45E03"
+   },
+   "dark_hc": {
     "srgb_hex": "FF9500"
    }
   },
@@ -622,6 +886,12 @@
    },
    "dark": {
     "srgb_hex": "FE5244"
+   },
+   "any_hc": {
+    "srgb_hex": "A00406"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFA193"
    }
   },
   "severity/dangerous/accent": {
@@ -630,6 +900,12 @@
    },
    "dark": {
     "srgb_hex": "DB0007"
+   },
+   "any_hc": {
+    "srgb_hex": "DF0B0D"
+   },
+   "dark_hc": {
+    "srgb_hex": "F02B23"
    }
   },
   "category/stimulant/text": {
@@ -638,6 +914,12 @@
    },
    "dark": {
     "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "724104"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFC897"
    }
   },
   "category/stimulant/accent": {
@@ -645,6 +927,12 @@
     "srgb_hex": "CC780F"
    },
    "dark": {
+    "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "A45E03"
+   },
+   "dark_hc": {
     "srgb_hex": "FF9500"
    }
   },
@@ -654,6 +942,12 @@
    },
    "dark": {
     "srgb_hex": "BD62EC"
+   },
+   "any_hc": {
+    "srgb_hex": "7B15A6"
+   },
+   "dark_hc": {
+    "srgb_hex": "DCA2FE"
    }
   },
   "category/psychedelic/accent": {
@@ -662,6 +956,12 @@
    },
    "dark": {
     "srgb_hex": "9133BD"
+   },
+   "any_hc": {
+    "srgb_hex": "A044CE"
+   },
+   "dark_hc": {
+    "srgb_hex": "AE53DD"
    }
   },
   "category/dissociative/text": {
@@ -670,6 +970,12 @@
    },
    "dark": {
     "srgb_hex": "28A3DA"
+   },
+   "any_hc": {
+    "srgb_hex": "045273"
+   },
+   "dark_hc": {
+    "srgb_hex": "64C9FD"
    }
   },
   "category/dissociative/accent": {
@@ -677,6 +983,12 @@
     "srgb_hex": "0F96CD"
    },
    "dark": {
+    "srgb_hex": "0091C8"
+   },
+   "any_hc": {
+    "srgb_hex": "0777A3"
+   },
+   "dark_hc": {
     "srgb_hex": "0091C8"
    }
   },
@@ -686,6 +998,12 @@
    },
    "dark": {
     "srgb_hex": "C070B2"
+   },
+   "any_hc": {
+    "srgb_hex": "7B3170"
+   },
+   "dark_hc": {
+    "srgb_hex": "F29FE2"
    }
   },
   "category/dysdelic/accent": {
@@ -694,6 +1012,12 @@
    },
    "dark": {
     "srgb_hex": "914685"
+   },
+   "any_hc": {
+    "srgb_hex": "A15494"
+   },
+   "dark_hc": {
+    "srgb_hex": "B163A3"
    }
   },
   "category/deliriant/text": {
@@ -702,6 +1026,12 @@
    },
    "dark": {
     "srgb_hex": "958B64"
+   },
+   "any_hc": {
+    "srgb_hex": "574D28"
+   },
+   "dark_hc": {
+    "srgb_hex": "C4B991"
    }
   },
   "category/deliriant/accent": {
@@ -710,6 +1040,12 @@
    },
    "dark": {
     "srgb_hex": "6C623D"
+   },
+   "any_hc": {
+    "srgb_hex": "796F49"
+   },
+   "dark_hc": {
+    "srgb_hex": "887D57"
    }
   },
   "category/opioid/text": {
@@ -718,6 +1054,12 @@
    },
    "dark": {
     "srgb_hex": "FE5244"
+   },
+   "any_hc": {
+    "srgb_hex": "A00406"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFA193"
    }
   },
   "category/opioid/accent": {
@@ -726,6 +1068,12 @@
    },
    "dark": {
     "srgb_hex": "DB0007"
+   },
+   "any_hc": {
+    "srgb_hex": "DF0B0D"
+   },
+   "dark_hc": {
+    "srgb_hex": "F02B23"
    }
   },
   "category/benzodiazepine/text": {
@@ -734,6 +1082,12 @@
    },
    "dark": {
     "srgb_hex": "4894FE"
+   },
+   "any_hc": {
+    "srgb_hex": "044A9E"
+   },
+   "dark_hc": {
+    "srgb_hex": "8CBBFF"
    }
   },
   "category/benzodiazepine/accent": {
@@ -741,6 +1095,12 @@
     "srgb_hex": "087BFE"
    },
    "dark": {
+    "srgb_hex": "0078FB"
+   },
+   "any_hc": {
+    "srgb_hex": "076CE0"
+   },
+   "dark_hc": {
     "srgb_hex": "0078FB"
    }
   },
@@ -750,6 +1110,12 @@
    },
    "dark": {
     "srgb_hex": "787DFF"
+   },
+   "any_hc": {
+    "srgb_hex": "4239B7"
+   },
+   "dark_hc": {
+    "srgb_hex": "ABB4FD"
    }
   },
   "category/gabapentinoid/accent": {
@@ -758,6 +1124,12 @@
    },
    "dark": {
     "srgb_hex": "5350CF"
+   },
+   "any_hc": {
+    "srgb_hex": "5F5EDE"
+   },
+   "dark_hc": {
+    "srgb_hex": "6C6EF0"
    }
   },
   "category/empathogen/text": {
@@ -766,6 +1138,12 @@
    },
    "dark": {
     "srgb_hex": "FF5066"
+   },
+   "any_hc": {
+    "srgb_hex": "9E062D"
+   },
+   "dark_hc": {
+    "srgb_hex": "FF9FA2"
    }
   },
   "category/empathogen/accent": {
@@ -774,6 +1152,12 @@
    },
    "dark": {
     "srgb_hex": "E50043"
+   },
+   "any_hc": {
+    "srgb_hex": "DC0A42"
+   },
+   "dark_hc": {
+    "srgb_hex": "F3204D"
    }
   },
   "category/cannabinoid/text": {
@@ -782,6 +1166,12 @@
    },
    "dark": {
     "srgb_hex": "20B64B"
+   },
+   "any_hc": {
+    "srgb_hex": "015B1F"
+   },
+   "dark_hc": {
+    "srgb_hex": "56DD71"
    }
   },
   "category/cannabinoid/accent": {
@@ -789,6 +1179,12 @@
     "srgb_hex": "08A13E"
    },
    "dark": {
+    "srgb_hex": "00AB40"
+   },
+   "any_hc": {
+    "srgb_hex": "00812F"
+   },
+   "dark_hc": {
     "srgb_hex": "00AB40"
    }
   },
@@ -798,6 +1194,12 @@
    },
    "dark": {
     "srgb_hex": "26A8BF"
+   },
+   "any_hc": {
+    "srgb_hex": "085562"
+   },
+   "dark_hc": {
+    "srgb_hex": "58CFE6"
    }
   },
   "category/nootropic/accent": {
@@ -805,6 +1207,12 @@
     "srgb_hex": "019AB0"
    },
    "dark": {
+    "srgb_hex": "0098AE"
+   },
+   "any_hc": {
+    "srgb_hex": "107A8C"
+   },
+   "dark_hc": {
     "srgb_hex": "0098AE"
    }
   },
@@ -814,6 +1222,12 @@
    },
    "dark": {
     "srgb_hex": "539D38"
+   },
+   "any_hc": {
+    "srgb_hex": "205904"
+   },
+   "dark_hc": {
+    "srgb_hex": "7FCB66"
    }
   },
   "category/ampakine/accent": {
@@ -822,6 +1236,12 @@
    },
    "dark": {
     "srgb_hex": "2B7500"
+   },
+   "any_hc": {
+    "srgb_hex": "357F14"
+   },
+   "dark_hc": {
+    "srgb_hex": "438D27"
    }
   },
   "category/eugeroic/text": {
@@ -830,6 +1250,12 @@
    },
    "dark": {
     "srgb_hex": "CA8E22"
+   },
+   "any_hc": {
+    "srgb_hex": "6A4700"
+   },
+   "dark_hc": {
+    "srgb_hex": "F2B451"
    }
   },
   "category/eugeroic/accent": {
@@ -837,6 +1263,12 @@
     "srgb_hex": "BB8001"
    },
    "dark": {
+    "srgb_hex": "BA7F00"
+   },
+   "any_hc": {
+    "srgb_hex": "956500"
+   },
+   "dark_hc": {
     "srgb_hex": "BA7F00"
    }
   },
@@ -846,6 +1278,12 @@
    },
    "dark": {
     "srgb_hex": "758DB7"
+   },
+   "any_hc": {
+    "srgb_hex": "374D73"
+   },
+   "dark_hc": {
+    "srgb_hex": "A0BAE7"
    }
   },
   "category/depressant/accent": {
@@ -854,6 +1292,12 @@
    },
    "dark": {
     "srgb_hex": "4B628A"
+   },
+   "any_hc": {
+    "srgb_hex": "597099"
+   },
+   "dark_hc": {
+    "srgb_hex": "667EA7"
    }
   },
   "category/orexinAntagonist/text": {
@@ -862,6 +1306,12 @@
    },
    "dark": {
     "srgb_hex": "8A82D0"
+   },
+   "any_hc": {
+    "srgb_hex": "4E438A"
+   },
+   "dark_hc": {
+    "srgb_hex": "B8B1FF"
    }
   },
   "category/orexinAntagonist/accent": {
@@ -870,6 +1320,12 @@
    },
    "dark": {
     "srgb_hex": "6258A2"
+   },
+   "any_hc": {
+    "srgb_hex": "6F65B0"
+   },
+   "dark_hc": {
+    "srgb_hex": "7C73BF"
    }
   },
   "category/antidepressant/text": {
@@ -878,6 +1334,12 @@
    },
    "dark": {
     "srgb_hex": "FBC900"
+   },
+   "any_hc": {
+    "srgb_hex": "5F4A02"
+   },
+   "dark_hc": {
+    "srgb_hex": "FDE39A"
    }
   },
   "category/antidepressant/accent": {
@@ -885,6 +1347,12 @@
     "srgb_hex": "AA8803"
    },
    "dark": {
+    "srgb_hex": "FBC900"
+   },
+   "any_hc": {
+    "srgb_hex": "896C05"
+   },
+   "dark_hc": {
     "srgb_hex": "FBC900"
    }
   },
@@ -894,6 +1362,12 @@
    },
    "dark": {
     "srgb_hex": "00BDB4"
+   },
+   "any_hc": {
+    "srgb_hex": "035652"
+   },
+   "dark_hc": {
+    "srgb_hex": "50E4DB"
    }
   },
   "category/antipsychotic/accent": {
@@ -901,6 +1375,12 @@
     "srgb_hex": "189D96"
    },
    "dark": {
+    "srgb_hex": "00BDB4"
+   },
+   "any_hc": {
+    "srgb_hex": "097C76"
+   },
+   "dark_hc": {
     "srgb_hex": "00BDB4"
    }
   },
@@ -910,6 +1390,12 @@
    },
    "dark": {
     "srgb_hex": "A38763"
+   },
+   "any_hc": {
+    "srgb_hex": "634927"
+   },
+   "dark_hc": {
+    "srgb_hex": "D3B590"
    }
   },
   "category/analgesic/accent": {
@@ -918,6 +1404,12 @@
    },
    "dark": {
     "srgb_hex": "785E3C"
+   },
+   "any_hc": {
+    "srgb_hex": "866B48"
+   },
+   "dark_hc": {
+    "srgb_hex": "957956"
    }
   },
   "category/antihistamine/text": {
@@ -926,6 +1418,12 @@
    },
    "dark": {
     "srgb_hex": "BC7890"
+   },
+   "any_hc": {
+    "srgb_hex": "773A52"
+   },
+   "dark_hc": {
+    "srgb_hex": "EEA6BF"
    }
   },
   "category/antihistamine/accent": {
@@ -934,6 +1432,12 @@
    },
    "dark": {
     "srgb_hex": "8D4E66"
+   },
+   "any_hc": {
+    "srgb_hex": "9D5C74"
+   },
+   "dark_hc": {
+    "srgb_hex": "AB6981"
    }
   },
   "category/cardiovascular/text": {
@@ -942,6 +1446,12 @@
    },
    "dark": {
     "srgb_hex": "F0574F"
+   },
+   "any_hc": {
+    "srgb_hex": "A00211"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFA096"
    }
   },
   "category/cardiovascular/accent": {
@@ -950,6 +1460,12 @@
    },
    "dark": {
     "srgb_hex": "BE2325"
+   },
+   "any_hc": {
+    "srgb_hex": "CE3533"
+   },
+   "dark_hc": {
+    "srgb_hex": "E04742"
    }
   },
   "category/antimicrobial/text": {
@@ -958,6 +1474,12 @@
    },
    "dark": {
     "srgb_hex": "3A9AA7"
+   },
+   "any_hc": {
+    "srgb_hex": "04565F"
+   },
+   "dark_hc": {
+    "srgb_hex": "6BC8D5"
    }
   },
   "category/antimicrobial/accent": {
@@ -966,6 +1488,12 @@
    },
    "dark": {
     "srgb_hex": "007783"
+   },
+   "any_hc": {
+    "srgb_hex": "0A7B88"
+   },
+   "dark_hc": {
+    "srgb_hex": "248996"
    }
   },
   "category/gastrointestinal/text": {
@@ -974,6 +1502,12 @@
    },
    "dark": {
     "srgb_hex": "DC8E11"
+   },
+   "any_hc": {
+    "srgb_hex": "6D4404"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFB964"
    }
   },
   "category/gastrointestinal/accent": {
@@ -981,6 +1515,12 @@
     "srgb_hex": "C47D02"
    },
    "dark": {
+    "srgb_hex": "D58800"
+   },
+   "any_hc": {
+    "srgb_hex": "9B640D"
+   },
+   "dark_hc": {
     "srgb_hex": "D58800"
    }
   },
@@ -990,6 +1530,12 @@
    },
    "dark": {
     "srgb_hex": "3B97C0"
+   },
+   "any_hc": {
+    "srgb_hex": "0B5470"
+   },
+   "dark_hc": {
+    "srgb_hex": "6AC4EE"
    }
   },
   "category/respiratory/accent": {
@@ -998,6 +1544,12 @@
    },
    "dark": {
     "srgb_hex": "007399"
+   },
+   "any_hc": {
+    "srgb_hex": "09779E"
+   },
+   "dark_hc": {
+    "srgb_hex": "2586AE"
    }
   },
   "category/endocrine/text": {
@@ -1006,6 +1558,12 @@
    },
    "dark": {
     "srgb_hex": "B36FD5"
+   },
+   "any_hc": {
+    "srgb_hex": "712E8F"
+   },
+   "dark_hc": {
+    "srgb_hex": "DFA3FF"
    }
   },
   "category/endocrine/accent": {
@@ -1014,6 +1572,12 @@
    },
    "dark": {
     "srgb_hex": "8745A7"
+   },
+   "any_hc": {
+    "srgb_hex": "9552B5"
+   },
+   "dark_hc": {
+    "srgb_hex": "A562C6"
    }
   },
   "category/immunological/text": {
@@ -1022,6 +1586,12 @@
    },
    "dark": {
     "srgb_hex": "398DF5"
+   },
+   "any_hc": {
+    "srgb_hex": "044C98"
+   },
+   "dark_hc": {
+    "srgb_hex": "89BCFF"
    }
   },
   "category/immunological/accent": {
@@ -1030,6 +1600,12 @@
    },
    "dark": {
     "srgb_hex": "0166CA"
+   },
+   "any_hc": {
+    "srgb_hex": "116ED3"
+   },
+   "dark_hc": {
+    "srgb_hex": "277DE4"
    }
   },
   "category/supplement/text": {
@@ -1038,6 +1614,12 @@
    },
    "dark": {
     "srgb_hex": "2FAB59"
+   },
+   "any_hc": {
+    "srgb_hex": "045A28"
+   },
+   "dark_hc": {
+    "srgb_hex": "5DD27E"
    }
   },
   "category/supplement/accent": {
@@ -1045,6 +1627,12 @@
     "srgb_hex": "21A150"
    },
    "dark": {
+    "srgb_hex": "019544"
+   },
+   "any_hc": {
+    "srgb_hex": "10813D"
+   },
+   "dark_hc": {
     "srgb_hex": "019544"
    }
   },
@@ -1054,6 +1642,12 @@
    },
    "dark": {
     "srgb_hex": "5191C3"
+   },
+   "any_hc": {
+    "srgb_hex": "07517F"
+   },
+   "dark_hc": {
+    "srgb_hex": "80C0F5"
    }
   },
   "category/peptide/accent": {
@@ -1062,6 +1656,12 @@
    },
    "dark": {
     "srgb_hex": "266796"
+   },
+   "any_hc": {
+    "srgb_hex": "3474A4"
+   },
+   "dark_hc": {
+    "srgb_hex": "4282B3"
    }
   },
   "category/anticonvulsant/text": {
@@ -1070,6 +1670,12 @@
    },
    "dark": {
     "srgb_hex": "977EC7"
+   },
+   "any_hc": {
+    "srgb_hex": "594083"
+   },
+   "dark_hc": {
+    "srgb_hex": "C7AEFB"
    }
   },
   "category/anticonvulsant/accent": {
@@ -1078,6 +1684,12 @@
    },
    "dark": {
     "srgb_hex": "6E559A"
+   },
+   "any_hc": {
+    "srgb_hex": "7C63AA"
+   },
+   "dark_hc": {
+    "srgb_hex": "8971B9"
    }
   },
   "category/other/text": {
@@ -1102,6 +1714,12 @@
    },
    "dark": {
     "srgb_hex": "5E8CD4"
+   },
+   "any_hc": {
+    "srgb_hex": "214C8F"
+   },
+   "dark_hc": {
+    "srgb_hex": "92BCFE"
    }
   },
   "family/common/accent": {
@@ -1110,6 +1728,12 @@
    },
    "dark": {
     "srgb_hex": "3561A5"
+   },
+   "any_hc": {
+    "srgb_hex": "4370B5"
+   },
+   "dark_hc": {
+    "srgb_hex": "507DC4"
    }
   },
   "family/stimulant/text": {
@@ -1118,6 +1742,12 @@
    },
    "dark": {
     "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "724104"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFC897"
    }
   },
   "family/stimulant/accent": {
@@ -1125,6 +1755,12 @@
     "srgb_hex": "CC780F"
    },
    "dark": {
+    "srgb_hex": "FF9500"
+   },
+   "any_hc": {
+    "srgb_hex": "A45E03"
+   },
+   "dark_hc": {
     "srgb_hex": "FF9500"
    }
   },
@@ -1134,6 +1770,12 @@
    },
    "dark": {
     "srgb_hex": "FF5066"
+   },
+   "any_hc": {
+    "srgb_hex": "9E062D"
+   },
+   "dark_hc": {
+    "srgb_hex": "FF9FA2"
    }
   },
   "family/empathogen/accent": {
@@ -1142,6 +1784,12 @@
    },
    "dark": {
     "srgb_hex": "E50043"
+   },
+   "any_hc": {
+    "srgb_hex": "DC0A42"
+   },
+   "dark_hc": {
+    "srgb_hex": "F3204D"
    }
   },
   "family/hallucinogen/text": {
@@ -1150,6 +1798,12 @@
    },
    "dark": {
     "srgb_hex": "B16BEE"
+   },
+   "any_hc": {
+    "srgb_hex": "7023A6"
+   },
+   "dark_hc": {
+    "srgb_hex": "D3A7FF"
    }
   },
   "family/hallucinogen/accent": {
@@ -1158,6 +1812,12 @@
    },
    "dark": {
     "srgb_hex": "863EBE"
+   },
+   "any_hc": {
+    "srgb_hex": "944CCD"
+   },
+   "dark_hc": {
+    "srgb_hex": "A25BDD"
    }
   },
   "family/cannabinoid/text": {
@@ -1166,6 +1826,12 @@
    },
    "dark": {
     "srgb_hex": "20B64B"
+   },
+   "any_hc": {
+    "srgb_hex": "015B1F"
+   },
+   "dark_hc": {
+    "srgb_hex": "56DD71"
    }
   },
   "family/cannabinoid/accent": {
@@ -1173,6 +1839,12 @@
     "srgb_hex": "08A13E"
    },
    "dark": {
+    "srgb_hex": "00AB40"
+   },
+   "any_hc": {
+    "srgb_hex": "00812F"
+   },
+   "dark_hc": {
     "srgb_hex": "00AB40"
    }
   },
@@ -1182,6 +1854,12 @@
    },
    "dark": {
     "srgb_hex": "FE5244"
+   },
+   "any_hc": {
+    "srgb_hex": "A00406"
+   },
+   "dark_hc": {
+    "srgb_hex": "FFA193"
    }
   },
   "family/opioid/accent": {
@@ -1190,6 +1868,12 @@
    },
    "dark": {
     "srgb_hex": "DB0007"
+   },
+   "any_hc": {
+    "srgb_hex": "DF0B0D"
+   },
+   "dark_hc": {
+    "srgb_hex": "F02B23"
    }
   },
   "family/sedative/text": {
@@ -1198,6 +1882,12 @@
    },
    "dark": {
     "srgb_hex": "4894FE"
+   },
+   "any_hc": {
+    "srgb_hex": "044A9E"
+   },
+   "dark_hc": {
+    "srgb_hex": "8CBBFF"
    }
   },
   "family/sedative/accent": {
@@ -1205,6 +1895,12 @@
     "srgb_hex": "087BFE"
    },
    "dark": {
+    "srgb_hex": "0078FB"
+   },
+   "any_hc": {
+    "srgb_hex": "076CE0"
+   },
+   "dark_hc": {
     "srgb_hex": "0078FB"
    }
   },
@@ -1214,6 +1910,12 @@
    },
    "dark": {
     "srgb_hex": "5191C3"
+   },
+   "any_hc": {
+    "srgb_hex": "07517F"
+   },
+   "dark_hc": {
+    "srgb_hex": "80C0F5"
    }
   },
   "family/peptide/accent": {
@@ -1222,6 +1924,12 @@
    },
    "dark": {
     "srgb_hex": "266796"
+   },
+   "any_hc": {
+    "srgb_hex": "3474A4"
+   },
+   "dark_hc": {
+    "srgb_hex": "4282B3"
    }
   },
   "family/mind/text": {
@@ -1230,6 +1938,12 @@
    },
    "dark": {
     "srgb_hex": "4797A3"
+   },
+   "any_hc": {
+    "srgb_hex": "055660"
+   },
+   "dark_hc": {
+    "srgb_hex": "77C6D3"
    }
   },
   "family/mind/accent": {
@@ -1238,6 +1952,12 @@
    },
    "dark": {
     "srgb_hex": "126D79"
+   },
+   "any_hc": {
+    "srgb_hex": "267A86"
+   },
+   "dark_hc": {
+    "srgb_hex": "388995"
    }
   },
   "family/pharmaceutical/text": {
@@ -1246,6 +1966,12 @@
    },
    "dark": {
     "srgb_hex": "818DA2"
+   },
+   "any_hc": {
+    "srgb_hex": "434D61"
+   },
+   "dark_hc": {
+    "srgb_hex": "ADBAD0"
    }
   },
   "family/pharmaceutical/accent": {
@@ -1254,6 +1980,12 @@
    },
    "dark": {
     "srgb_hex": "576276"
+   },
+   "any_hc": {
+    "srgb_hex": "646F84"
+   },
+   "dark_hc": {
+    "srgb_hex": "727E93"
    }
   },
   "family/supplement/text": {
@@ -1262,6 +1994,12 @@
    },
    "dark": {
     "srgb_hex": "39A25E"
+   },
+   "any_hc": {
+    "srgb_hex": "075A2C"
+   },
+   "dark_hc": {
+    "srgb_hex": "67CD87"
    }
   },
   "family/supplement/accent": {
@@ -1270,6 +2008,12 @@
    },
    "dark": {
     "srgb_hex": "008240"
+   },
+   "any_hc": {
+    "srgb_hex": "0C7F40"
+   },
+   "dark_hc": {
+    "srgb_hex": "208F4D"
    }
   },
   "family/research/text": {
@@ -1278,6 +2022,12 @@
    },
    "dark": {
     "srgb_hex": "878C99"
+   },
+   "any_hc": {
+    "srgb_hex": "484D58"
+   },
+   "dark_hc": {
+    "srgb_hex": "B4B9C6"
    }
   },
   "family/research/accent": {
@@ -1286,6 +2036,12 @@
    },
    "dark": {
     "srgb_hex": "5D626E"
+   },
+   "any_hc": {
+    "srgb_hex": "6A6E7B"
+   },
+   "dark_hc": {
+    "srgb_hex": "787D8A"
    }
   },
   "family/other/text": {

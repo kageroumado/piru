@@ -62,9 +62,9 @@ violating it produced a measured failure.
 
    This is not just our conclusion — Apple's own guidance says the same thing:
    *"When color carries meaning, respect `.accessibilityDifferentiateWithoutColor`
-   by adding a non-color signal — icons, patterns, strokes."* The app currently
-   reads that setting in **zero** places, so rule 4 has an API to hook into and
-   currently isn't. Tracked as an open gap below.
+   by adding a non-color signal — icons, patterns, strokes."* That setting is now
+   wired into the inventory supply bar, where color was the only thing separating
+   healthy from low or empty. Other color-only signals remain — see open gaps.
 
 ---
 
@@ -79,7 +79,7 @@ cannot be derived from source at all.
 | Genuine text pairs failing WCAG AA | **21 of 33** |
 | Chart lines below the 3:1 non-text floor | **4 of 5** |
 | Distinct color-decision sites | ~1300 (211 hardcoded literals) |
-| Accessibility-contrast handling anywhere | **zero** — no `isDarkerSystemColorsEnabled`, no `accessibilityContrast` |
+| Accessibility-contrast handling *at audit time* | **zero** — now closed; every scale token ships Any+HC / Dark+HC slots |
 
 **The 21 failures are one bug, 21 times:** an identity color rendered as text on
 a tint of *itself*. It is unfixable at that color's own lightness — clearing
@@ -233,15 +233,13 @@ Beyond the three contrast gaps the test pins, three conventions in Apple's
 SwiftUI guidance are currently unmet app-wide. None is in scope for the color
 migration; all are worth their own pass.
 
-| Gap | Measured | Guidance |
-|---|---|---|
-| `.accessibilityDifferentiateWithoutColor` never read | **0** call sites | Colour that carries meaning needs a non-colour signal. This is the enforcement hook for rule 4. |
-| Increase Contrast / Reduce Transparency never read | **0** call sites | Only the asset-catalog migration makes high-contrast variants expressible at all — the slots exist and are unfilled. |
-| `.caption2` used heavily | **207** sites | Apple's guidance: `.caption2` is *extremely* small, avoid; `.caption` is small, use carefully. Small type is also where the contrast gates bite hardest. |
-
-One more, already fixed by Phase 3's direction: *"Avoid UIKit colors (`UIColor`)
-in SwiftUI; use `Color` or asset-catalog colors."* — which is exactly what
-retiring `Theme`'s `UIColor { traits }` closures accomplishes.
+| Gap | Status |
+|---|---|
+| Increase Contrast | **Closed.** Every scale token now ships Any+HC / Dark+HC slots at AAA, verified on device — the badge resolves `#9E062D` with the setting on versus `#D5073F` without. This was impossible before the catalog migration: a `UIColor { traits }` closure branches on `userInterfaceStyle` alone and cannot express a contrast axis. |
+| `.accessibilityDifferentiateWithoutColor` | **Partly closed.** Wired into the inventory supply bar, where colour was the only thing separating healthy from low or empty. Other colour-only signals remain — an audit of the rest is worth its own pass. |
+| Avoid `UIColor` in SwiftUI | **Closed** by retiring `Theme`'s closures. |
+| `.caption2` used heavily | **Open — 207 sites.** Apple's guidance: `.caption2` is *extremely* small, avoid; `.caption` is small, use carefully. This is also where the contrast gates bite hardest. |
+| Reduce Transparency | **Open — 0 call sites.** The card fill is `.ultraThinMaterial` everywhere. |
 
 ---
 

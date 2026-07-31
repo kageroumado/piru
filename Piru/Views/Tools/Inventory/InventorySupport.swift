@@ -148,6 +148,16 @@ struct InventorySupplyBar: View {
     let fraction: Double
     let tint: Color
     var thickness: CGFloat = 6
+    /// The status the tint encodes, so the bar can carry that meaning without
+    /// colour when asked to. Optional because some callers only have a fraction.
+    var status: StockStatus?
+
+    /// Colour is the *only* thing distinguishing a healthy bar from a low or
+    /// empty one, which fails for anyone who cannot separate those hues. Apple's
+    /// guidance is to add a non-colour signal when colour carries meaning; this
+    /// is that signal, gated on the setting so it costs nothing for everyone
+    /// else.
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     var body: some View {
         GeometryReader { geo in
@@ -157,6 +167,13 @@ struct InventorySupplyBar: View {
                 Capsule()
                     .fill(tint)
                     .frame(width: max(3, geo.size.width * fraction))
+                if differentiateWithoutColor, let status, status != .ok {
+                    // A hatched overlay on the filled portion: same information,
+                    // carried by texture instead of hue.
+                    Capsule()
+                        .strokeBorder(Color.primary.opacity(0.55), lineWidth: 1)
+                        .frame(width: max(3, geo.size.width * fraction))
+                }
             }
         }
         .frame(height: thickness)

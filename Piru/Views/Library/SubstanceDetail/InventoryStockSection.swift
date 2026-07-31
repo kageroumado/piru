@@ -78,7 +78,7 @@ struct InventoryStockSection: View {
                 }
             }
             if let fraction = item.fillFraction {
-                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
+                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint, status: item.stockStatus)
             }
             if hasUnitMismatch(item) {
                 Label("Doses in other units aren't counted.", systemImage: "info.circle")

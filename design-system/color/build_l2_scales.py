@@ -44,6 +44,16 @@ FILL_ALPHA = 0.10
 TEXT_GATE = 4.55  # headroom over 4.5 so 8-bit quantisation cannot drop under
 ACCENT_GATE = 3.05
 
+# High-contrast variants, emitted into the catalog's Any+HC / Dark+HC slots.
+# WCAG AAA for text (7:1) and AA-for-text for marks (4.5:1) -- one full step up
+# from the default gates, which is what "Increase Contrast" should mean.
+#
+# The app had *no* response to that setting before the catalog migration, and
+# could not have: the `UIColor { traits }` closures it used branch on
+# userInterfaceStyle alone and cannot express a contrast axis at all.
+TEXT_GATE_HC = 7.05
+ACCENT_GATE_HC = 4.55
+
 # Source hues, taken from the ramp already shared by TimelineGraphView,
 # SessionReportPDF and DosePhaseProgressBar. The competing ramp in
 # DoseLevelIndicator (.blue/.teal/.orange/.purple) is dropped: it is used in one
@@ -302,9 +312,23 @@ def build_scale(source: dict[str, str]) -> dict[str, dict]:
                 card,
                 source_chroma,
             )
+            _, _, accent_hc = max_chroma(
+                hue, lambda c, bg=card: wcag_ratio(c, bg) >= ACCENT_GATE_HC, card, source_chroma
+            )
+            fill_hc = composite(accent_hc, FILL_ALPHA, card)
+            _, _, text_hc = max_chroma(
+                hue,
+                lambda c, f=fill_hc, bg=card: (
+                    wcag_ratio(c, f) >= TEXT_GATE_HC and wcag_ratio(c, bg) >= TEXT_GATE_HC
+                ),
+                card,
+                source_chroma,
+            )
             entry[mode] = {
                 "text": rgb_to_hex(text),
                 "accent": rgb_to_hex(accent),
+                "text_hc": rgb_to_hex(text_hc),
+                "accent_hc": rgb_to_hex(accent_hc),
                 "hue": round(hue, 2),
                 "verified": {
                     "text_on_fill": round(wcag_ratio(text, fill), 2),

@@ -172,7 +172,7 @@ struct SubstanceCardView: View, Equatable {
         if let item = inventoryItem {
             VStack(alignment: .leading, spacing: 4) {
                 if let fraction = item.fillFraction {
-                    InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
+                    InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint, status: item.stockStatus)
                 }
                 Text(stockHintText(item))
                     .font(.caption)

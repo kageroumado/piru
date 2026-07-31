@@ -230,6 +230,47 @@ struct ColorContrastTests {
         }
     }
 
+    // MARK: - Increase Contrast
+
+    /// The Any+HC / Dark+HC slots actually resolve and are actually stronger.
+    ///
+    /// The app had **no** response to Increase Contrast before the catalog
+    /// migration, and could not have had one: `UIColor { traits }` closures
+    /// branch on `userInterfaceStyle` alone and cannot express a contrast axis.
+    /// These slots are the point of the whole migration, so this asserts both
+    /// that they exist (a missing slot silently falls back to its non-HC
+    /// sibling, which would look like success) and that they clear AAA.
+    @Test
+    func `High-contrast variants resolve and exceed the normal gates`() {
+        let tokens: [(String, Color, Color)] = [
+            ("severity/dangerous", .Severity.Dangerous.text, .Severity.Dangerous.accent),
+            ("severity/caution", .Severity.Caution.text, .Severity.Caution.accent),
+            ("dose/heavy", .Dose.Heavy.text, .Dose.Heavy.accent),
+            ("phase/peak", .Phase.Peak.text, .Phase.Peak.accent),
+            ("route/oral", .Route.Oral.text, .Route.Oral.accent),
+        ]
+        for (name, textColor, accentColor) in tokens {
+            for style in [UIUserInterfaceStyle.light, .dark] {
+                let surface = style == .light ? Self.cardLight : Self.cardDark
+                let normal = RGB(textColor, style: style)
+                let boosted = RGB(textColor, style: style, contrast: .high)
+                #expect(
+                    boosted.hex != normal.hex,
+                    "\(name)/text has no high-contrast variant — it fell back to its normal value",
+                )
+                #expect(
+                    boosted.contrastRatio(against: surface) >= 7.0,
+                    "\(name)/text high-contrast \(boosted.hex) is \(boosted.contrastRatio(against: surface).to2dp):1, below AAA",
+                )
+                let boostedAccent = RGB(accentColor, style: style, contrast: .high)
+                #expect(
+                    boostedAccent.contrastRatio(against: surface) >= 4.5,
+                    "\(name)/accent high-contrast \(boostedAccent.hex) is below the boosted mark floor",
+                )
+            }
+        }
+    }
+
     // MARK: - Known gaps, pinned so they can only improve
 
     /// `Theme.secondaryLabel` — graduated from known gap to real gate in
@@ -308,8 +349,12 @@ struct RGB {
     }
 
     /// Resolves a (possibly dynamic) SwiftUI colour for one interface style.
-    init(_ color: Color, style: UIUserInterfaceStyle) {
-        let resolved = UIColor(color).resolvedColor(with: UITraitCollection(userInterfaceStyle: style))
+    init(_ color: Color, style: UIUserInterfaceStyle, contrast: UIAccessibilityContrast = .normal) {
+        let traits = UITraitCollection { mutable in
+            mutable.userInterfaceStyle = style
+            mutable.accessibilityContrast = contrast
+        }
+        let resolved = UIColor(color).resolvedColor(with: traits)
         var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
         resolved.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         r = Double(red); g = Double(green); b = Double(blue)
