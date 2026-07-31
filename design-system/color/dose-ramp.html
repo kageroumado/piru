@@ -1,0 +1,24 @@
+<meta charset="utf-8"><title>Dose ramp — cold to hot</title>
+<style>
+body{font:14px/1.4 -apple-system,system-ui,sans-serif;background:#fbfbfc;color:#1a1a1c;padding:28px;max-width:900px;margin:0 auto}
+@media(prefers-color-scheme:dark){body{background:#131315;color:#ececed}}
+h1{font-size:19px;margin:0 0 4px} p{color:#6b6b70;font-size:13px;max-width:80ch}
+.row{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:18px}
+.opt{display:flex;flex-direction:column;gap:10px;align-items:center}
+.lbl{font-size:12px;font-weight:600;color:#6b6b70}
+.gauge{width:210px;height:105px;border-radius:210px 210px 0 0;
+ -webkit-mask:radial-gradient(circle at 50% 100%, transparent 61px, #000 62px);
+ mask:radial-gradient(circle at 50% 100%, transparent 61px, #000 62px)}
+.chips{display:flex;gap:6px;padding:10px;border-radius:12px;width:100%;justify-content:center;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px}
+</style>
+<h1>Dose ramp — the shipped cold→hot ladder</h1>
+<p>Intensity encoded as temperature: icy blue → slate → periwinkle → purple → magenta → red.
+Hue strictly monotonic, chroma rising with the tier; no yellow, no green, no teal, so nothing
+can go brown and "light ≠ safe" isn't implied. Seeds are Oklch in
+<code>build_l2_scales.py · DOSE_SOURCE</code>; every swatch below is the gated Display P3 output
+shipping in the catalog.</p>
+<div class="row">
+<div class="opt"><div class="lbl">light-mode accents</div><div class="gauge" style="background:conic-gradient(from 270deg at 50% 100%, color(display-p3 0.478 0.559 0.655) 0deg, color(display-p3 0.444 0.542 0.781) 36deg, color(display-p3 0.565 0.486 0.887) 72deg, color(display-p3 0.724 0.419 0.833) 108deg, color(display-p3 0.87 0.348 0.634) 144deg, color(display-p3 0.872 0.389 0.298) 180deg, transparent 180deg 360deg)"></div><div class="chips" style="background:#F2F2F7"><span class="chip" style="color:color(display-p3 0.348 0.426 0.517);background:color-mix(in srgb,color(display-p3 0.478 0.559 0.655) 10%,#F2F2F7)">Sub</span><span class="chip" style="color:color(display-p3 0.321 0.413 0.642);background:color-mix(in srgb,color(display-p3 0.444 0.542 0.781) 10%,#F2F2F7)">Threshold</span><span class="chip" style="color:color(display-p3 0.434 0.348 0.737);background:color-mix(in srgb,color(display-p3 0.565 0.486 0.887) 10%,#F2F2F7)">Light</span><span class="chip" style="color:color(display-p3 0.582 0.278 0.686);background:color-mix(in srgb,color(display-p3 0.724 0.419 0.833) 10%,#F2F2F7)">Common</span><span class="chip" style="color:color(display-p3 0.716 0.193 0.497);background:color-mix(in srgb,color(display-p3 0.87 0.348 0.634) 10%,#F2F2F7)">Strong</span><span class="chip" style="color:color(display-p3 0.724 0.248 0.167);background:color-mix(in srgb,color(display-p3 0.872 0.389 0.298) 10%,#F2F2F7)">Heavy</span></div></div>
+<div class="opt"><div class="lbl">dark-mode accents</div><div class="gauge" style="background:conic-gradient(from 270deg at 50% 100%, color(display-p3 0.315 0.392 0.482) 0deg, color(display-p3 0.289 0.378 0.605) 36deg, color(display-p3 0.401 0.313 0.699) 72deg, color(display-p3 0.545 0.241 0.648) 108deg, color(display-p3 0.676 0.146 0.462) 144deg, color(display-p3 0.684 0.208 0.13) 180deg, transparent 180deg 360deg)"></div><div class="chips" style="background:#111111"><span class="chip" style="color:color(display-p3 0.472 0.553 0.649);background:color-mix(in srgb,color(display-p3 0.315 0.392 0.482) 10%,#111111)">Sub</span><span class="chip" style="color:color(display-p3 0.444 0.542 0.781);background:color-mix(in srgb,color(display-p3 0.289 0.378 0.605) 10%,#111111)">Threshold</span><span class="chip" style="color:color(display-p3 0.559 0.48 0.88);background:color-mix(in srgb,color(display-p3 0.401 0.313 0.699) 10%,#111111)">Light</span><span class="chip" style="color:color(display-p3 0.718 0.413 0.826);background:color-mix(in srgb,color(display-p3 0.545 0.241 0.648) 10%,#111111)">Common</span><span class="chip" style="color:color(display-p3 0.863 0.341 0.627);background:color-mix(in srgb,color(display-p3 0.676 0.146 0.462) 10%,#111111)">Strong</span><span class="chip" style="color:color(display-p3 0.872 0.389 0.298);background:color-mix(in srgb,color(display-p3 0.684 0.208 0.13) 10%,#111111)">Heavy</span></div></div>
+</div>

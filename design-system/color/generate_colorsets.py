@@ -19,15 +19,13 @@ section 4-5 for the full rationale):
     the app has zero P3 usage today (grep-verified) and 100% sRGB literals.
 
   * The single biggest P3-migration bug is silently unrepresentable: every
-    appearance value MUST declare its source color space (`oklch`, `p3_hex`,
-    or `srgb_hex`). An `srgb_hex` input is ALWAYS routed through
-    `colorimetry.srgb_to_p3_same_appearance()` before being written. There is
-    no code path in this script that copies raw sRGB numbers into a
-    `display-p3` slot unconverted — that reinterpretation (same numbers, a
-    different, more saturated color) is exactly the accident
-    `colorimetry.py`'s module docstring calls "the single biggest trap in a
-    P3 migration," and it is why this generator exists rather than a
-    five-line JSON template.
+    appearance value MUST declare its representation (`oklch` or `p3_hex`,
+    both already in P3 terms). sRGB input support was removed once the last
+    sRGB notation left the palette sources — there is deliberately no code
+    path that could copy raw sRGB numbers into a `display-p3` slot
+    unconverted, the reinterpretation (same numbers, a different, more
+    saturated color) that `colorimetry.py`'s module docstring calls "the
+    single biggest trap in a P3 migration."
 
   * Four appearance slots per token: Any, Dark, Any+High-Contrast,
     Dark+High-Contrast. High-contrast slots are optional per token — Xcode
@@ -59,7 +57,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from colorimetry import hex_to_rgb, oklch_to_rgb, srgb_to_p3_same_appearance  # noqa: E402
+from colorimetry import hex_to_rgb, oklch_to_rgb  # noqa: E402
 
 APPEARANCE_SLOTS = ["any", "dark", "any_hc", "dark_hc"]
 
@@ -89,24 +87,23 @@ def resolve_p3_components(spec: dict) -> tuple[float, float, float, float]:
         outside [0,1] after conversion are clipped with a loud warning,
         not silently wrapped).
       - {"p3_hex": "RRGGBB"}   -- already display-p3 components, hex-packed.
-      - {"srgb_hex": "RRGGBB"} -- an existing sRGB literal from the Swift
-        source. ALWAYS colorimetrically converted (same appearance, new
-        numbers) -- never reinterpreted.
+
+    There is intentionally no sRGB input: the palette sources are Oklch/P3
+    throughout, and an sRGB path would be one accident away from copying
+    unconverted numbers into a display-p3 slot.
     """
-    keys = {"oklch", "p3_hex", "srgb_hex"} & spec.keys()
+    keys = {"oklch", "p3_hex"} & spec.keys()
     if len(keys) != 1:
         raise PaletteError(
-            f"appearance spec must have exactly one of oklch/p3_hex/srgb_hex, got {spec!r}",
+            f"appearance spec must have exactly one of oklch/p3_hex, got {spec!r}",
         )
     alpha = float(spec.get("alpha", 1.0))
 
     if "oklch" in spec:
         lightness, chroma, hue = spec["oklch"]
         rgb = oklch_to_rgb((lightness, chroma, hue), space="p3")
-    elif "p3_hex" in spec:
-        rgb = hex_to_rgb(spec["p3_hex"])
     else:
-        rgb = srgb_to_p3_same_appearance(hex_to_rgb(spec["srgb_hex"]))
+        rgb = hex_to_rgb(spec["p3_hex"])
 
     clipped = []
     for c in rgb:

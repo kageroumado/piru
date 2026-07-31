@@ -3,135 +3,335 @@
   "fill_alpha": 0.1,
   "text_gate": 4.55,
   "accent_gate": 3.05,
-  "card_light": "#f5f5f5",
-  "card_dark": "#111111",
-  "note": "hue held from the shipped ramp; lightness and chroma re-derived at the gates"
+  "card_light": [
+   0.97015,
+   0.00012,
+   260.0
+  ],
+  "card_dark": [
+   0.17764,
+   2e-05,
+   260.0
+  ],
+  "note": "Oklch seeds, gamut-fit and gated in Display P3; hue held, lightness and chroma re-derived at the gates"
  },
  "scales": {
   "phase": {
    "onset": {
     "light": {
-     "text": "#6A6A6F",
-     "accent": "#8B8B91",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.414,
+       0.414,
+       0.435
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.547,
+       0.547,
+       0.568
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 4.93,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.63,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#8A8A90",
-     "accent": "#616167",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.541,
+       0.541,
+       0.562
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.381,
+       0.381,
+       0.401
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.56,
+      "text_on_fill": 4.55,
       "text_on_card": 5.5,
-      "accent_on_card": 3.07
+      "accent_on_card": 3.08
      }
     }
    },
    "comeup": {
     "light": {
-     "text": "#106AC8",
-     "accent": "#3D8EEF",
-     "text_hc": "#054D96",
-     "accent_hc": "#186FCD",
-     "hue": 254.78,
+     "text": {
+      "p3": [
+       0.19,
+       0.41,
+       0.758
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.32,
+       0.544,
+       0.902
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.052,
+       0.285,
+       0.624
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.208,
+       0.428,
+       0.778
+      ]
+     },
+     "hue": 254.8,
      "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 4.92,
-      "accent_on_card": 3.05
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#3B8DED",
-     "accent": "#0063BF",
-     "text_hc": "#88BCFE",
-     "accent_hc": "#2A7DDC",
-     "hue": 254.78,
+     "text": {
+      "p3": [
+       0.32,
+       0.544,
+       0.902
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.154,
+       0.374,
+       0.719
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.575,
+       0.738,
+       0.994
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.267,
+       0.489,
+       0.843
+      ]
+     },
+     "hue": 254.8,
      "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 5.59,
-      "accent_on_card": 3.18
+      "text_on_fill": 4.6,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.1
      }
     }
    },
    "peak": {
     "light": {
-     "text": "#007C2C",
-     "accent": "#08A13E",
-     "text_hc": "#015B1F",
-     "accent_hc": "#00812F",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.1,
+       0.488,
+       0.139
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.264,
+       0.628,
+       0.277
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.007,
+       0.362,
+       0.064
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.133,
+       0.512,
+       0.163
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.91,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.63,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#20B64B",
-     "accent": "#00AB40",
-     "text_hc": "#56DD71",
-     "accent_hc": "#00AB40",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.257,
+       0.622,
+       0.271
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.034,
+       0.452,
+       0.099
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.446,
+       0.812,
+       0.449
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.198,
+       0.567,
+       0.218
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 7.06,
-      "accent_on_card": 6.2
+      "text_on_fill": 4.55,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
      }
     }
    },
    "offset": {
     "light": {
-     "text": "#975C06",
-     "accent": "#C57A0A",
-     "text_hc": "#6F4307",
-     "accent_hc": "#9F6104",
-     "hue": 67.23,
+     "text": {
+      "p3": [
+       0.588,
+       0.366,
+       0.003
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.766,
+       0.482,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.425,
+       0.262,
+       0.015
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.611,
+       0.381,
+       -0.0
+      ]
+     },
+     "hue": 67.2,
      "verified": {
-      "text_on_fill": 4.66,
-      "text_on_card": 5.0,
-      "accent_on_card": 3.13
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#FA9B00",
-     "accent": "#FA9B00",
-     "text_hc": "#FFC990",
-     "accent_hc": "#FA9B00",
-     "hue": 67.23,
+     "text": {
+      "p3": [
+       0.844,
+       0.545,
+       0.105
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.797,
+       0.503,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.997,
+       0.699,
+       0.321
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.797,
+       0.503,
+       -0.0
+      ]
+     },
+     "hue": 67.2,
      "verified": {
-      "text_on_fill": 4.94,
-      "text_on_card": 8.77,
-      "accent_on_card": 8.77
+      "text_on_fill": 4.6,
+      "text_on_card": 6.93,
+      "accent_on_card": 6.06
      }
     }
    },
    "afterglow": {
     "light": {
-     "text": "#6A6A6F",
-     "accent": "#8B8B91",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.414,
+       0.414,
+       0.435
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.547,
+       0.547,
+       0.568
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 4.93,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.63,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#8A8A90",
-     "accent": "#616167",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.541,
+       0.541,
+       0.562
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.381,
+       0.381,
+       0.401
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.56,
+      "text_on_fill": 4.55,
       "text_on_card": 5.5,
-      "accent_on_card": 3.07
+      "accent_on_card": 3.08
      }
     }
    }
@@ -139,284 +339,788 @@
   "route": {
    "oral": {
     "light": {
-     "text": "#0569CD",
-     "accent": "#0C84FF",
-     "text_hc": "#034C98",
-     "accent_hc": "#006ED9",
+     "text": {
+      "p3": [
+       0.104,
+       0.391,
+       0.839
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.258,
+       0.536,
+       0.994
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       -0.0,
+       0.279,
+       0.668
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.134,
+       0.417,
+       0.866
+      ]
+     },
      "hue": 255.5,
      "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.93,
-      "accent_on_card": 3.34
+      "text_on_fill": 4.65,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#4397FF",
-     "accent": "#0080F9",
-     "text_hc": "#8DBEFD",
-     "accent_hc": "#0080F9",
+     "text": {
+      "p3": [
+       0.252,
+       0.53,
+       0.987
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.049,
+       0.354,
+       0.799
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.565,
+       0.731,
+       0.999
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.195,
+       0.473,
+       0.926
+      ]
+     },
      "hue": 255.5,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 6.39,
-      "accent_on_card": 4.91
+      "text_on_fill": 4.58,
+      "text_on_card": 5.52,
+      "accent_on_card": 3.05
      }
     }
    },
    "sublingual": {
     "light": {
-     "text": "#047687",
-     "accent": "#019AB0",
-     "text_hc": "#085562",
-     "accent_hc": "#107A8C",
-     "hue": 212.76,
+     "text": {
+      "p3": [
+       0.101,
+       0.457,
+       0.541
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.266,
+       0.594,
+       0.68
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.014,
+       0.338,
+       0.407
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.126,
+       0.475,
+       0.559
+      ]
+     },
+     "hue": 212.8,
      "verified": {
-      "text_on_fill": 4.55,
-      "text_on_card": 4.88,
-      "accent_on_card": 3.08
+      "text_on_fill": 4.62,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#26A8BF",
-     "accent": "#0098AE",
-     "text_hc": "#58CFE6",
-     "accent_hc": "#0098AE",
-     "hue": 212.76,
+     "text": {
+      "p3": [
+       0.26,
+       0.588,
+       0.674
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.034,
+       0.423,
+       0.506
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.449,
+       0.775,
+       0.863
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2,
+       0.534,
+       0.619
+      ]
+     },
+     "hue": 212.8,
      "verified": {
-      "text_on_fill": 4.62,
-      "text_on_card": 6.69,
-      "accent_on_card": 5.49
+      "text_on_fill": 4.55,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.08
      }
     }
    },
    "buccal": {
     "light": {
-     "text": "#007872",
-     "accent": "#189D96",
-     "text_hc": "#035652",
-     "accent_hc": "#097C76",
-     "hue": 189.07,
+     "text": {
+      "p3": [
+       -0.0,
+       0.472,
+       0.452
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.171,
+       0.615,
+       0.592
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.007,
+       0.345,
+       0.331
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.053,
+       0.495,
+       0.476
+      ]
+     },
+     "hue": 189.1,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.06
+      "text_on_fill": 4.62,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#00BDB4",
-     "accent": "#00BDB4",
-     "text_hc": "#50E4DB",
-     "accent_hc": "#00BDB4",
-     "hue": 189.07,
+     "text": {
+      "p3": [
+       0.203,
+       0.64,
+       0.616
+      ]
+     },
+     "accent": {
+      "p3": [
+       -0.0,
+       0.53,
+       0.509
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.379,
+       0.797,
+       0.77
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.067,
+       0.554,
+       0.532
+      ]
+     },
+     "hue": 189.1,
      "verified": {
-      "text_on_fill": 4.72,
-      "text_on_card": 8.04,
-      "accent_on_card": 8.04
+      "text_on_fill": 4.6,
+      "text_on_card": 6.09,
+      "accent_on_card": 4.24
      }
     }
    },
    "insufflation": {
     "light": {
-     "text": "#9A3DC7",
-     "accent": "#BF64EE",
-     "text_hc": "#7B15A6",
-     "accent_hc": "#A044CE",
-     "hue": 312.39,
+     "text": {
+      "p3": [
+       0.56,
+       0.263,
+       0.754
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.7,
+       0.409,
+       0.904
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.443,
+       0.122,
+       0.626
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.584,
+       0.289,
+       0.78
+      ]
+     },
+     "hue": 312.4,
      "verified": {
-      "text_on_fill": 4.65,
+      "text_on_fill": 4.64,
       "text_on_card": 4.98,
-      "accent_on_card": 3.07
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#BD62EC",
-     "accent": "#9133BD",
-     "text_hc": "#DCA2FE",
-     "accent_hc": "#AE53DD",
-     "hue": 312.39,
+     "text": {
+      "p3": [
+       0.694,
+       0.403,
+       0.898
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.525,
+       0.224,
+       0.715
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.842,
+       0.643,
+       0.997
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.639,
+       0.346,
+       0.838
+      ]
+     },
+     "hue": 312.4,
      "verified": {
-      "text_on_fill": 4.56,
+      "text_on_fill": 4.57,
       "text_on_card": 5.51,
-      "accent_on_card": 3.07
+      "accent_on_card": 3.06
      }
     }
    },
    "inhalation": {
     "light": {
-     "text": "#9D5B07",
-     "accent": "#CC780F",
-     "text_hc": "#724104",
-     "accent_hc": "#A45E03",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.603,
+       0.354,
+       0.001
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.791,
+       0.472,
+       0.02
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.443,
+       0.258,
+       0.015
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.627,
+       0.368,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.08
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.05
      }
     },
     "dark": {
-     "text": "#FF9500",
-     "accent": "#FF9500",
-     "text_hc": "#FFC897",
-     "accent_hc": "#FF9500",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.863,
+       0.53,
+       0.113
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.997,
+       0.695,
+       0.377
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
      "verified": {
-      "text_on_fill": 4.88,
-      "text_on_card": 8.59,
-      "accent_on_card": 8.59
+      "text_on_fill": 4.62,
+      "text_on_card": 6.89,
+      "accent_on_card": 5.9
      }
     }
    },
    "intravenous": {
     "light": {
-     "text": "#D60107",
-     "accent": "#FE3D32",
-     "text_hc": "#A00406",
-     "accent_hc": "#DF0B0D",
-     "hue": 28.65,
+     "text": {
+      "p3": [
+       0.781,
+       0.155,
+       0.114
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.934,
+       0.324,
+       0.257
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.603,
+       0.002,
+       0.007
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.802,
+       0.181,
+       0.136
+      ]
+     },
+     "hue": 28.7,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 4.98,
-      "accent_on_card": 3.25
+      "text_on_fill": 4.57,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#FE5244",
-     "accent": "#DB0007",
-     "text_hc": "#FFA193",
-     "accent_hc": "#F02B23",
-     "hue": 28.65,
+     "text": {
+      "p3": [
+       0.934,
+       0.324,
+       0.257
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.74,
+       0.092,
+       0.065
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.995,
+       0.628,
+       0.563
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.871,
+       0.26,
+       0.201
+      ]
+     },
+     "hue": 28.7,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 5.85,
-      "accent_on_card": 3.61
+      "text_on_fill": 4.6,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.1
      }
     }
    },
    "intramuscular": {
     "light": {
-     "text": "#D5073F",
-     "accent": "#FE3156",
-     "text_hc": "#9E062D",
-     "accent_hc": "#DC0A42",
-     "hue": 17.89,
+     "text": {
+      "p3": [
+       0.784,
+       0.115,
+       0.249
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.944,
+       0.305,
+       0.378
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.595,
+       0.007,
+       0.164
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.805,
+       0.146,
+       0.265
+      ]
+     },
+     "hue": 17.9,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.33
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#FF5066",
-     "accent": "#E50043",
-     "text_hc": "#FF9FA2",
-     "accent_hc": "#F3204D",
-     "hue": 17.89,
+     "text": {
+      "p3": [
+       0.937,
+       0.298,
+       0.373
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.743,
+       0.02,
+       0.216
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       1.0,
+       0.614,
+       0.622
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.874,
+       0.231,
+       0.321
+      ]
+     },
+     "hue": 17.9,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 5.93,
-      "accent_on_card": 3.97
+      "text_on_fill": 4.56,
+      "text_on_card": 5.51,
+      "accent_on_card": 3.08
      }
     }
    },
    "subcutaneous": {
     "light": {
-     "text": "#5A57DF",
-     "accent": "#7274FE",
-     "text_hc": "#4236BC",
-     "accent_hc": "#5F5EE5",
-     "hue": 278.15,
+     "text": {
+      "p3": [
+       0.351,
+       0.343,
+       0.842
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.476,
+       0.488,
+       0.997
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.25,
+       0.214,
+       0.71
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.372,
+       0.369,
+       0.869
+      ]
+     },
+     "hue": 278.1,
      "verified": {
-      "text_on_fill": 4.63,
-      "text_on_card": 4.99,
-      "accent_on_card": 3.41
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#787DFF",
-     "accent": "#524ED4",
-     "text_hc": "#ABB4FD",
-     "accent_hc": "#6B6CF5",
-     "hue": 278.15,
+     "text": {
+      "p3": [
+       0.47,
+       0.481,
+       0.99
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.32,
+       0.305,
+       0.802
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.677,
+       0.708,
+       1.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.42,
+       0.425,
+       0.929
+      ]
+     },
+     "hue": 278.1,
      "verified": {
-      "text_on_fill": 4.61,
-      "text_on_card": 5.55,
-      "accent_on_card": 3.06
+      "text_on_fill": 4.57,
+      "text_on_card": 5.51,
+      "accent_on_card": 3.05
      }
     }
    },
    "transdermal": {
     "light": {
-     "text": "#007C2C",
-     "accent": "#08A13E",
-     "text_hc": "#015B1F",
-     "accent_hc": "#00812F",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.1,
+       0.488,
+       0.139
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.264,
+       0.628,
+       0.277
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.007,
+       0.362,
+       0.064
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.133,
+       0.512,
+       0.163
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.91,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.63,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#20B64B",
-     "accent": "#00AB40",
-     "text_hc": "#56DD71",
-     "accent_hc": "#00AB40",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.257,
+       0.622,
+       0.271
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.034,
+       0.452,
+       0.099
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.446,
+       0.812,
+       0.449
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.198,
+       0.567,
+       0.218
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 7.06,
-      "accent_on_card": 6.2
+      "text_on_fill": 4.55,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
      }
     }
    },
    "rectal": {
     "light": {
-     "text": "#816644",
-     "accent": "#A48865",
-     "text_hc": "#634927",
-     "accent_hc": "#866B48",
-     "hue": 72.82,
+     "text": {
+      "p3": [
+       0.49,
+       0.406,
+       0.285
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.621,
+       0.533,
+       0.408
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.371,
+       0.29,
+       0.174
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.508,
+       0.423,
+       0.302
+      ]
+     },
+     "hue": 72.8,
      "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 4.92,
-      "accent_on_card": 3.06
+      "text_on_fill": 4.56,
+      "text_on_card": 4.89,
+      "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#A38763",
-     "accent": "#785E3C",
-     "text_hc": "#D3B590",
-     "accent_hc": "#957956",
-     "hue": 72.82,
+     "text": {
+      "p3": [
+       0.621,
+       0.533,
+       0.408
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.45,
+       0.367,
+       0.248
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.807,
+       0.715,
+       0.584
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.567,
+       0.48,
+       0.357
+      ]
+     },
+     "hue": 72.8,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 5.58,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.62,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.05
      }
     }
    },
    "other": {
     "light": {
-     "text": "#6A6A6E",
-     "accent": "#8B8B90",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.415,
+       0.415,
+       0.431
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.547,
+       0.547,
+       0.564
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 4.94,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.61,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#8A8A8F",
-     "accent": "#616166",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.547,
+       0.547,
+       0.564
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.381,
+       0.381,
+       0.397
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 5.5,
+      "text_on_fill": 4.64,
+      "text_on_card": 5.6,
       "accent_on_card": 3.07
      }
     }
@@ -425,155 +1129,445 @@
   "dose": {
    "sub": {
     "light": {
-     "text": "#6A6A6E",
-     "accent": "#8B8B90",
-     "hue": 285.92,
-     "neutral": true,
+     "text": {
+      "p3": [
+       0.348,
+       0.426,
+       0.517
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.478,
+       0.559,
+       0.655
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.236,
+       0.309,
+       0.397
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.364,
+       0.443,
+       0.535
+      ]
+     },
+     "hue": 248.0,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 4.94,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#8A8A8F",
-     "accent": "#616166",
-     "hue": 285.92,
-     "neutral": true,
+     "text": {
+      "p3": [
+       0.472,
+       0.553,
+       0.649
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.315,
+       0.392,
+       0.482
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.65,
+       0.736,
+       0.837
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.42,
+       0.5,
+       0.595
+      ]
+     },
+     "hue": 248.0,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 5.5,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.57,
+      "text_on_card": 5.53,
+      "accent_on_card": 3.1
      }
     }
    },
    "threshold": {
     "light": {
-     "text": "#586A8D",
-     "accent": "#798CB1",
-     "text_hc": "#3C4D6E",
-     "accent_hc": "#5E7094",
-     "hue": 263.09,
+     "text": {
+      "p3": [
+       0.321,
+       0.413,
+       0.642
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.444,
+       0.542,
+       0.781
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.21,
+       0.294,
+       0.514
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.338,
+       0.43,
+       0.661
+      ]
+     },
+     "hue": 263.4,
      "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 4.99,
+      "text_on_fill": 4.56,
+      "text_on_card": 4.89,
       "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#788BB0",
-     "accent": "#506284",
-     "text_hc": "#A7BBE2",
-     "accent_hc": "#6B7DA2",
-     "hue": 263.09,
+     "text": {
+      "p3": [
+       0.444,
+       0.542,
+       0.781
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.289,
+       0.378,
+       0.605
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.621,
+       0.726,
+       0.976
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.388,
+       0.483,
+       0.717
+      ]
+     },
+     "hue": 263.4,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 5.5,
-      "accent_on_card": 3.08
+      "text_on_fill": 4.6,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.11
      }
     }
    },
    "light": {
     "light": {
-     "text": "#007C2C",
-     "accent": "#08A13E",
-     "text_hc": "#015B1F",
-     "accent_hc": "#00812F",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.434,
+       0.348,
+       0.737
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.565,
+       0.486,
+       0.887
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.321,
+       0.224,
+       0.604
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.451,
+       0.366,
+       0.756
+      ]
+     },
+     "hue": 291.9,
      "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.91,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.61,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#20B64B",
-     "accent": "#00AB40",
-     "text_hc": "#56DD71",
-     "accent_hc": "#00AB40",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.559,
+       0.48,
+       0.88
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.401,
+       0.313,
+       0.699
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.733,
+       0.684,
+       0.992
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.507,
+       0.426,
+       0.821
+      ]
+     },
+     "hue": 291.9,
      "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 7.06,
-      "accent_on_card": 6.2
+      "text_on_fill": 4.58,
+      "text_on_card": 5.53,
+      "accent_on_card": 3.08
      }
     }
    },
    "common": {
     "light": {
-     "text": "#0D767C",
-     "accent": "#0F9BA4",
-     "text_hc": "#00555B",
-     "accent_hc": "#057C84",
-     "hue": 202.13,
+     "text": {
+      "p3": [
+       0.582,
+       0.278,
+       0.686
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.724,
+       0.419,
+       0.833
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.456,
+       0.143,
+       0.556
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.6,
+       0.296,
+       0.705
+      ]
+     },
+     "hue": 320.0,
      "verified": {
-      "text_on_fill": 4.61,
-      "text_on_card": 4.94,
-      "accent_on_card": 3.08
+      "text_on_fill": 4.59,
+      "text_on_card": 4.92,
+      "accent_on_card": 3.06
      }
     },
     "dark": {
-     "text": "#29A8B1",
-     "accent": "#0097A0",
-     "text_hc": "#5ACFD7",
-     "accent_hc": "#0097A0",
-     "hue": 202.13,
+     "text": {
+      "p3": [
+       0.718,
+       0.413,
+       0.826
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.545,
+       0.241,
+       0.648
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.896,
+       0.619,
+       0.997
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.662,
+       0.358,
+       0.768
+      ]
+     },
+     "hue": 320.0,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 6.59,
-      "accent_on_card": 5.34
+      "text_on_fill": 4.59,
+      "text_on_card": 5.54,
+      "accent_on_card": 3.09
      }
     }
    },
    "strong": {
     "light": {
-     "text": "#AD500A",
-     "accent": "#DA6F29",
-     "text_hc": "#7F3800",
-     "accent_hc": "#B45307",
-     "hue": 49.45,
+     "text": {
+      "p3": [
+       0.716,
+       0.193,
+       0.497
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.87,
+       0.348,
+       0.634
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.573,
+       -0.0,
+       0.376
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.736,
+       0.214,
+       0.514
+      ]
+     },
+     "hue": 351.4,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.06
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#DF742F",
-     "accent": "#C05800",
-     "text_hc": "#FDA371",
-     "accent_hc": "#C85F12",
-     "hue": 49.45,
+     "text": {
+      "p3": [
+       0.863,
+       0.341,
+       0.627
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.676,
+       0.146,
+       0.462
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.999,
+       0.593,
+       0.796
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.803,
+       0.282,
+       0.573
+      ]
+     },
+     "hue": 351.4,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 6.0,
-      "accent_on_card": 4.17
+      "text_on_fill": 4.57,
+      "text_on_card": 5.53,
+      "accent_on_card": 3.1
      }
     }
    },
    "heavy": {
     "light": {
-     "text": "#C8321E",
-     "accent": "#F05942",
-     "text_hc": "#9B1301",
-     "accent_hc": "#CE3823",
-     "hue": 31.06,
+     "text": {
+      "p3": [
+       0.724,
+       0.248,
+       0.167
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.872,
+       0.389,
+       0.298
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.586,
+       0.091,
+       0.013
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.744,
+       0.268,
+       0.186
+      ]
+     },
+     "hue": 31.1,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
+      "text_on_fill": 4.56,
+      "text_on_card": 4.89,
       "accent_on_card": 3.1
      }
     },
     "dark": {
-     "text": "#F05942",
-     "accent": "#BC240F",
-     "text_hc": "#FFA190",
-     "accent_hc": "#DE4833",
-     "hue": 31.06,
+     "text": {
+      "p3": [
+       0.872,
+       0.389,
+       0.298
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.684,
+       0.208,
+       0.13
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.996,
+       0.619,
+       0.536
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.804,
+       0.325,
+       0.239
+      ]
+     },
+     "hue": 31.1,
      "verified": {
-      "text_on_fill": 4.63,
-      "text_on_card": 5.59,
-      "accent_on_card": 3.06
+      "text_on_fill": 4.6,
+      "text_on_card": 5.58,
+      "accent_on_card": 3.12
      }
     }
    }
@@ -581,37 +1575,244 @@
   "confidence": {
    "high": {
     "light": {
-     "text": "#007C2C",
-     "accent": "#08A13E",
-     "text_hc": "#015B1F",
-     "accent_hc": "#00812F",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.1,
+       0.488,
+       0.139
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.264,
+       0.628,
+       0.277
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.007,
+       0.362,
+       0.064
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.133,
+       0.512,
+       0.163
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.91,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.63,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#20B64B",
-     "accent": "#00AB40",
-     "text_hc": "#56DD71",
-     "accent_hc": "#00AB40",
-     "hue": 147.47,
+     "text": {
+      "p3": [
+       0.257,
+       0.622,
+       0.271
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.034,
+       0.452,
+       0.099
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.446,
+       0.812,
+       0.449
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.198,
+       0.567,
+       0.218
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 7.06,
-      "accent_on_card": 6.2
+      "text_on_fill": 4.55,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
      }
     }
    },
    "medium": {
     "light": {
-     "text": "#826707",
-     "accent": "#AA8803",
-     "text_hc": "#5F4A02",
-     "accent_hc": "#896C05",
-     "hue": 90.39,
+     "text": {
+      "p3": [
+       0.502,
+       0.404,
+       0.039
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.661,
+       0.532,
+       0.015
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.368,
+       0.292,
+       -0.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.529,
+       0.426,
+       0.039
+      ]
+     },
+     "hue": 90.4,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.954,
+       0.795,
+       0.267
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "hue": 90.4,
+     "verified": {
+      "text_on_fill": 4.75,
+      "text_on_card": 8.13,
+      "accent_on_card": 8.13
+     }
+    }
+   },
+   "low": {
+    "light": {
+     "text": {
+      "p3": [
+       0.603,
+       0.354,
+       0.001
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.791,
+       0.472,
+       0.02
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.443,
+       0.258,
+       0.015
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.627,
+       0.368,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.05
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.863,
+       0.53,
+       0.113
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.997,
+       0.695,
+       0.377
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
+     "verified": {
+      "text_on_fill": 4.62,
+      "text_on_card": 6.89,
+      "accent_on_card": 5.9
+     }
+    }
+   },
+   "unverified": {
+    "light": {
+     "text": {
+      "p3": [
+       0.415,
+       0.415,
+       0.431
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.547,
+       0.547,
+       0.564
+      ]
+     },
+     "hue": 285.9,
+     "neutral": true,
      "verified": {
       "text_on_fill": 4.61,
       "text_on_card": 4.95,
@@ -619,64 +1820,25 @@
      }
     },
     "dark": {
-     "text": "#FBC900",
-     "accent": "#FBC900",
-     "text_hc": "#FDE39A",
-     "accent_hc": "#FBC900",
-     "hue": 90.39,
-     "verified": {
-      "text_on_fill": 5.73,
-      "text_on_card": 12.1,
-      "accent_on_card": 12.1
-     }
-    }
-   },
-   "low": {
-    "light": {
-     "text": "#9D5B07",
-     "accent": "#CC780F",
-     "text_hc": "#724104",
-     "accent_hc": "#A45E03",
-     "hue": 62.57,
-     "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.08
-     }
-    },
-    "dark": {
-     "text": "#FF9500",
-     "accent": "#FF9500",
-     "text_hc": "#FFC897",
-     "accent_hc": "#FF9500",
-     "hue": 62.57,
-     "verified": {
-      "text_on_fill": 4.88,
-      "text_on_card": 8.59,
-      "accent_on_card": 8.59
-     }
-    }
-   },
-   "unverified": {
-    "light": {
-     "text": "#6A6A6E",
-     "accent": "#8B8B90",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.547,
+       0.547,
+       0.564
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.381,
+       0.381,
+       0.397
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 4.94,
-      "accent_on_card": 3.11
-     }
-    },
-    "dark": {
-     "text": "#8A8A8F",
-     "accent": "#616166",
-     "hue": 285.92,
-     "neutral": true,
-     "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 5.5,
+      "text_on_fill": 4.64,
+      "text_on_card": 5.6,
       "accent_on_card": 3.07
      }
     }
@@ -685,79 +1847,223 @@
   "severity": {
    "caution": {
     "light": {
-     "text": "#826707",
-     "accent": "#AA8803",
-     "text_hc": "#5F4A02",
-     "accent_hc": "#896C05",
-     "hue": 90.39,
+     "text": {
+      "p3": [
+       0.502,
+       0.404,
+       0.039
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.661,
+       0.532,
+       0.015
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.368,
+       0.292,
+       -0.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.529,
+       0.426,
+       0.039
+      ]
+     },
+     "hue": 90.4,
      "verified": {
-      "text_on_fill": 4.61,
-      "text_on_card": 4.95,
-      "accent_on_card": 3.09
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#FBC900",
-     "accent": "#FBC900",
-     "text_hc": "#FDE39A",
-     "accent_hc": "#FBC900",
-     "hue": 90.39,
+     "text": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.954,
+       0.795,
+       0.267
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "hue": 90.4,
      "verified": {
-      "text_on_fill": 5.73,
-      "text_on_card": 12.1,
-      "accent_on_card": 12.1
+      "text_on_fill": 4.75,
+      "text_on_card": 8.13,
+      "accent_on_card": 8.13
      }
     }
    },
    "unsafe": {
     "light": {
-     "text": "#9D5B07",
-     "accent": "#CC780F",
-     "text_hc": "#724104",
-     "accent_hc": "#A45E03",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.603,
+       0.354,
+       0.001
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.791,
+       0.472,
+       0.02
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.443,
+       0.258,
+       0.015
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.627,
+       0.368,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.08
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.05
      }
     },
     "dark": {
-     "text": "#FF9500",
-     "accent": "#FF9500",
-     "text_hc": "#FFC897",
-     "accent_hc": "#FF9500",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.863,
+       0.53,
+       0.113
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.997,
+       0.695,
+       0.377
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
      "verified": {
-      "text_on_fill": 4.88,
-      "text_on_card": 8.59,
-      "accent_on_card": 8.59
+      "text_on_fill": 4.62,
+      "text_on_card": 6.89,
+      "accent_on_card": 5.9
      }
     }
    },
    "dangerous": {
     "light": {
-     "text": "#D60107",
-     "accent": "#FE3D32",
-     "text_hc": "#A00406",
-     "accent_hc": "#DF0B0D",
-     "hue": 28.65,
+     "text": {
+      "p3": [
+       0.781,
+       0.155,
+       0.114
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.934,
+       0.324,
+       0.257
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.603,
+       0.002,
+       0.007
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.802,
+       0.181,
+       0.136
+      ]
+     },
+     "hue": 28.7,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 4.98,
-      "accent_on_card": 3.25
+      "text_on_fill": 4.57,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#FE5244",
-     "accent": "#DB0007",
-     "text_hc": "#FFA193",
-     "accent_hc": "#F02B23",
-     "hue": 28.65,
+     "text": {
+      "p3": [
+       0.934,
+       0.324,
+       0.257
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.74,
+       0.092,
+       0.065
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.995,
+       0.628,
+       0.563
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.871,
+       0.26,
+       0.201
+      ]
+     },
+     "hue": 28.7,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 5.85,
-      "accent_on_card": 3.61
+      "text_on_fill": 4.6,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.1
      }
     }
    }
@@ -765,491 +2071,1033 @@
   "category": {
    "stimulant": {
     "light": {
-     "text": "#9D5B07",
-     "accent": "#CC780F",
-     "text_hc": "#724104",
-     "accent_hc": "#A45E03",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.603,
+       0.354,
+       0.001
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.791,
+       0.472,
+       0.02
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.443,
+       0.258,
+       0.015
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.627,
+       0.368,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.08
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.05
      }
     },
     "dark": {
-     "text": "#FF9500",
-     "accent": "#FF9500",
-     "text_hc": "#FFC897",
-     "accent_hc": "#FF9500",
-     "hue": 62.57,
+     "text": {
+      "p3": [
+       0.863,
+       0.53,
+       0.113
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.997,
+       0.695,
+       0.377
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.809,
+       0.481,
+       -0.0
+      ]
+     },
+     "hue": 62.6,
      "verified": {
-      "text_on_fill": 4.88,
-      "text_on_card": 8.59,
-      "accent_on_card": 8.59
+      "text_on_fill": 4.62,
+      "text_on_card": 6.89,
+      "accent_on_card": 5.9
      }
     }
    },
    "psychedelic": {
     "light": {
-     "text": "#9A3DC7",
-     "accent": "#BF64EE",
-     "text_hc": "#7B15A6",
-     "accent_hc": "#A044CE",
-     "hue": 312.39,
+     "text": {
+      "p3": [
+       0.56,
+       0.263,
+       0.754
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.7,
+       0.409,
+       0.904
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.443,
+       0.122,
+       0.626
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.584,
+       0.289,
+       0.78
+      ]
+     },
+     "hue": 312.4,
      "verified": {
-      "text_on_fill": 4.65,
+      "text_on_fill": 4.64,
       "text_on_card": 4.98,
-      "accent_on_card": 3.07
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#BD62EC",
-     "accent": "#9133BD",
-     "text_hc": "#DCA2FE",
-     "accent_hc": "#AE53DD",
-     "hue": 312.39,
+     "text": {
+      "p3": [
+       0.694,
+       0.403,
+       0.898
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.525,
+       0.224,
+       0.715
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.842,
+       0.643,
+       0.997
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.639,
+       0.346,
+       0.838
+      ]
+     },
+     "hue": 312.4,
      "verified": {
-      "text_on_fill": 4.56,
+      "text_on_fill": 4.57,
       "text_on_card": 5.51,
-      "accent_on_card": 3.07
+      "accent_on_card": 3.06
      }
     }
    },
    "dissociative": {
     "light": {
-     "text": "#0E729C",
-     "accent": "#0F96CD",
-     "text_hc": "#045273",
-     "accent_hc": "#0777A3",
-     "hue": 233.91,
+     "text": {
+      "p3": [
+       0.106,
+       0.442,
+       0.639
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.267,
+       0.58,
+       0.783
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.027,
+       0.32,
+       0.478
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.13,
+       0.46,
+       0.657
+      ]
+     },
+     "hue": 233.9,
      "verified": {
       "text_on_fill": 4.6,
-      "text_on_card": 4.93,
+      "text_on_card": 4.94,
       "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#28A3DA",
-     "accent": "#0091C8",
-     "text_hc": "#64C9FD",
-     "accent_hc": "#0091C8",
-     "hue": 233.91,
+     "text": {
+      "p3": [
+       0.261,
+       0.574,
+       0.777
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.044,
+       0.407,
+       0.602
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.449,
+       0.761,
+       0.973
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.202,
+       0.519,
+       0.72
+      ]
+     },
+     "hue": 233.9,
      "verified": {
-      "text_on_fill": 4.62,
-      "text_on_card": 6.6,
-      "accent_on_card": 5.29
+      "text_on_fill": 4.58,
+      "text_on_card": 5.53,
+      "accent_on_card": 3.09
      }
     }
    },
    "dysdelic": {
     "light": {
-     "text": "#9A4E8E",
-     "accent": "#C070B2",
-     "text_hc": "#7B3170",
-     "accent_hc": "#A15494",
-     "hue": 333.72,
+     "text": {
+      "p3": [
+       0.566,
+       0.323,
+       0.544
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.709,
+       0.456,
+       0.683
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.447,
+       0.21,
+       0.427
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.591,
+       0.346,
+       0.567
+      ]
+     },
+     "hue": 333.7,
      "verified": {
-      "text_on_fill": 4.66,
-      "text_on_card": 5.0,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.1
      }
     },
     "dark": {
-     "text": "#C070B2",
-     "accent": "#914685",
-     "text_hc": "#F29FE2",
-     "accent_hc": "#B163A3",
-     "hue": 333.72,
+     "text": {
+      "p3": [
+       0.709,
+       0.456,
+       0.683
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.53,
+       0.289,
+       0.508
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.902,
+       0.637,
+       0.873
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.646,
+       0.397,
+       0.622
+      ]
+     },
+     "hue": 333.7,
      "verified": {
-      "text_on_fill": 4.62,
-      "text_on_card": 5.58,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.63,
+      "text_on_card": 5.59,
+      "accent_on_card": 3.06
      }
     }
    },
    "deliriant": {
     "light": {
-     "text": "#746A45",
-     "accent": "#978C66",
-     "text_hc": "#574D28",
-     "accent_hc": "#796F49",
-     "hue": 94.59,
+     "text": {
+      "p3": [
+       0.45,
+       0.418,
+       0.289
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.584,
+       0.551,
+       0.417
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.333,
+       0.302,
+       0.178
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.467,
+       0.435,
+       0.305
+      ]
+     },
+     "hue": 94.6,
      "verified": {
-      "text_on_fill": 4.62,
-      "text_on_card": 4.95,
+      "text_on_fill": 4.6,
+      "text_on_card": 4.93,
       "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#958B64",
-     "accent": "#6C623D",
-     "text_hc": "#C4B991",
-     "accent_hc": "#887D57",
-     "hue": 94.59,
+     "text": {
+      "p3": [
+       0.578,
+       0.545,
+       0.411
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.416,
+       0.384,
+       0.257
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.761,
+       0.727,
+       0.587
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.525,
+       0.492,
+       0.36
+      ]
+     },
+     "hue": 94.6,
      "verified": {
       "text_on_fill": 4.57,
-      "text_on_card": 5.53,
-      "accent_on_card": 3.1
+      "text_on_card": 5.52,
+      "accent_on_card": 3.09
      }
     }
    },
    "opioid": {
     "light": {
-     "text": "#D60107",
-     "accent": "#FE3D32",
-     "text_hc": "#A00406",
-     "accent_hc": "#DF0B0D",
-     "hue": 28.65,
+     "text": {
+      "p3": [
+       0.781,
+       0.155,
+       0.114
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.934,
+       0.324,
+       0.257
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.603,
+       0.002,
+       0.007
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.802,
+       0.181,
+       0.136
+      ]
+     },
+     "hue": 28.7,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 4.98,
-      "accent_on_card": 3.25
+      "text_on_fill": 4.57,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.11
      }
     },
     "dark": {
-     "text": "#FE5244",
-     "accent": "#DB0007",
-     "text_hc": "#FFA193",
-     "accent_hc": "#F02B23",
-     "hue": 28.65,
+     "text": {
+      "p3": [
+       0.934,
+       0.324,
+       0.257
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.74,
+       0.092,
+       0.065
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.995,
+       0.628,
+       0.563
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.871,
+       0.26,
+       0.201
+      ]
+     },
+     "hue": 28.7,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 5.85,
-      "accent_on_card": 3.61
+      "text_on_fill": 4.6,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.1
      }
     }
    },
    "benzodiazepine": {
     "light": {
-     "text": "#0366D6",
-     "accent": "#087BFE",
-     "text_hc": "#044A9E",
-     "accent_hc": "#076CE0",
-     "hue": 257.43,
+     "text": {
+      "p3": [
+       0.12,
+       0.386,
+       0.869
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.244,
+       0.507,
+       0.997
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.008,
+       0.266,
+       0.691
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.141,
+       0.405,
+       0.889
+      ]
+     },
+     "hue": 257.4,
      "verified": {
-      "text_on_fill": 4.61,
-      "text_on_card": 4.97,
-      "accent_on_card": 3.65
+      "text_on_fill": 4.57,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.29
      }
     },
     "dark": {
-     "text": "#4894FE",
-     "accent": "#0078FB",
-     "text_hc": "#8CBBFF",
-     "accent_hc": "#0078FB",
-     "hue": 257.43,
+     "text": {
+      "p3": [
+       0.28,
+       0.531,
+       0.997
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.074,
+       0.348,
+       0.828
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.573,
+       0.728,
+       1.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2,
+       0.463,
+       0.95
+      ]
+     },
+     "hue": 257.4,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 6.24,
-      "accent_on_card": 4.57
+      "text_on_fill": 4.64,
+      "text_on_card": 5.61,
+      "accent_on_card": 3.09
      }
     }
    },
    "gabapentinoid": {
     "light": {
-     "text": "#5B5AD9",
-     "accent": "#787DFF",
-     "text_hc": "#4239B7",
-     "accent_hc": "#5F5EDE",
-     "hue": 278.33,
+     "text": {
+      "p3": [
+       0.355,
+       0.352,
+       0.822
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.481,
+       0.494,
+       0.976
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.254,
+       0.226,
+       0.691
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.371,
+       0.37,
+       0.841
+      ]
+     },
+     "hue": 278.3,
      "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 4.93,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.06
      }
     },
     "dark": {
-     "text": "#787DFF",
-     "accent": "#5350CF",
-     "text_hc": "#ABB4FD",
-     "accent_hc": "#6C6EF0",
-     "hue": 278.33,
+     "text": {
+      "p3": [
+       0.475,
+       0.488,
+       0.969
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.324,
+       0.314,
+       0.782
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.678,
+       0.707,
+       1.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.425,
+       0.432,
+       0.908
+      ]
+     },
+     "hue": 278.3,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 5.55,
+      "text_on_fill": 4.59,
+      "text_on_card": 5.54,
       "accent_on_card": 3.07
      }
     }
    },
    "empathogen": {
     "light": {
-     "text": "#D5073F",
-     "accent": "#FE3156",
-     "text_hc": "#9E062D",
-     "accent_hc": "#DC0A42",
-     "hue": 17.89,
+     "text": {
+      "p3": [
+       0.784,
+       0.115,
+       0.249
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.944,
+       0.305,
+       0.378
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.595,
+       0.007,
+       0.164
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.805,
+       0.146,
+       0.265
+      ]
+     },
+     "hue": 17.9,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.33
-     }
-    },
-    "dark": {
-     "text": "#FF5066",
-     "accent": "#E50043",
-     "text_hc": "#FF9FA2",
-     "accent_hc": "#F3204D",
-     "hue": 17.89,
-     "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 5.93,
-      "accent_on_card": 3.97
-     }
-    }
-   },
-   "cannabinoid": {
-    "light": {
-     "text": "#007C2C",
-     "accent": "#08A13E",
-     "text_hc": "#015B1F",
-     "accent_hc": "#00812F",
-     "hue": 147.47,
-     "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.91,
-      "accent_on_card": 3.12
-     }
-    },
-    "dark": {
-     "text": "#20B64B",
-     "accent": "#00AB40",
-     "text_hc": "#56DD71",
-     "accent_hc": "#00AB40",
-     "hue": 147.47,
-     "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 7.06,
-      "accent_on_card": 6.2
-     }
-    }
-   },
-   "nootropic": {
-    "light": {
-     "text": "#047687",
-     "accent": "#019AB0",
-     "text_hc": "#085562",
-     "accent_hc": "#107A8C",
-     "hue": 212.76,
-     "verified": {
-      "text_on_fill": 4.55,
-      "text_on_card": 4.88,
-      "accent_on_card": 3.08
-     }
-    },
-    "dark": {
-     "text": "#26A8BF",
-     "accent": "#0098AE",
-     "text_hc": "#58CFE6",
-     "accent_hc": "#0098AE",
-     "hue": 212.76,
-     "verified": {
-      "text_on_fill": 4.62,
-      "text_on_card": 6.69,
-      "accent_on_card": 5.49
-     }
-    }
-   },
-   "ampakine": {
-    "light": {
-     "text": "#2F7908",
-     "accent": "#539D38",
-     "text_hc": "#205904",
-     "accent_hc": "#357F14",
-     "hue": 138.47,
-     "verified": {
-      "text_on_fill": 4.65,
-      "text_on_card": 4.99,
-      "accent_on_card": 3.08
-     }
-    },
-    "dark": {
-     "text": "#539D38",
-     "accent": "#2B7500",
-     "text_hc": "#7FCB66",
-     "accent_hc": "#438D27",
-     "hue": 138.47,
-     "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 5.62,
-      "accent_on_card": 3.28
-     }
-    }
-   },
-   "eugeroic": {
-    "light": {
-     "text": "#8F6203",
-     "accent": "#BB8001",
-     "text_hc": "#6A4700",
-     "accent_hc": "#956500",
-     "hue": 76.42,
-     "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 4.92,
-      "accent_on_card": 3.11
-     }
-    },
-    "dark": {
-     "text": "#CA8E22",
-     "accent": "#BA7F00",
-     "text_hc": "#F2B451",
-     "accent_hc": "#BA7F00",
-     "hue": 76.42,
-     "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 6.66,
-      "accent_on_card": 5.51
-     }
-    }
-   },
-   "depressant": {
-    "light": {
-     "text": "#546B93",
-     "accent": "#758DB7",
-     "text_hc": "#374D73",
-     "accent_hc": "#597099",
-     "hue": 261.52,
-     "verified": {
-      "text_on_fill": 4.6,
+      "text_on_fill": 4.61,
       "text_on_card": 4.94,
       "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#758DB7",
-     "accent": "#4B628A",
-     "text_hc": "#A0BAE7",
-     "accent_hc": "#667EA7",
-     "hue": 261.52,
+     "text": {
+      "p3": [
+       0.937,
+       0.298,
+       0.373
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.743,
+       0.02,
+       0.216
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       1.0,
+       0.614,
+       0.622
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.874,
+       0.231,
+       0.321
+      ]
+     },
+     "hue": 17.9,
      "verified": {
-      "text_on_fill": 4.66,
-      "text_on_card": 5.62,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.56,
+      "text_on_card": 5.51,
+      "accent_on_card": 3.08
      }
     }
    },
-   "orexinAntagonist": {
+   "cannabinoid": {
     "light": {
-     "text": "#6B61AC",
-     "accent": "#8C83D1",
-     "text_hc": "#4E438A",
-     "accent_hc": "#6F65B0",
-     "hue": 287.83,
+     "text": {
+      "p3": [
+       0.1,
+       0.488,
+       0.139
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.264,
+       0.628,
+       0.277
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.007,
+       0.362,
+       0.064
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.133,
+       0.512,
+       0.163
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.63,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#8A82D0",
-     "accent": "#6258A2",
-     "text_hc": "#B8B1FF",
-     "accent_hc": "#7C73BF",
-     "hue": 287.83,
+     "text": {
+      "p3": [
+       0.257,
+       0.622,
+       0.271
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.034,
+       0.452,
+       0.099
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.446,
+       0.812,
+       0.449
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.198,
+       0.567,
+       0.218
+      ]
+     },
+     "hue": 147.5,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 5.56,
-      "accent_on_card": 3.09
+      "text_on_fill": 4.55,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.07
      }
     }
    },
-   "antidepressant": {
+   "nootropic": {
     "light": {
-     "text": "#826707",
-     "accent": "#AA8803",
-     "text_hc": "#5F4A02",
-     "accent_hc": "#896C05",
-     "hue": 90.39,
+     "text": {
+      "p3": [
+       0.101,
+       0.457,
+       0.541
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.266,
+       0.594,
+       0.68
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.014,
+       0.338,
+       0.407
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.126,
+       0.475,
+       0.559
+      ]
+     },
+     "hue": 212.8,
      "verified": {
-      "text_on_fill": 4.61,
+      "text_on_fill": 4.62,
       "text_on_card": 4.95,
       "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#FBC900",
-     "accent": "#FBC900",
-     "text_hc": "#FDE39A",
-     "accent_hc": "#FBC900",
-     "hue": 90.39,
+     "text": {
+      "p3": [
+       0.26,
+       0.588,
+       0.674
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.034,
+       0.423,
+       0.506
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.449,
+       0.775,
+       0.863
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.2,
+       0.534,
+       0.619
+      ]
+     },
+     "hue": 212.8,
      "verified": {
-      "text_on_fill": 5.73,
-      "text_on_card": 12.1,
-      "accent_on_card": 12.1
+      "text_on_fill": 4.55,
+      "text_on_card": 5.5,
+      "accent_on_card": 3.08
      }
     }
    },
-   "antipsychotic": {
+   "ampakine": {
     "light": {
-     "text": "#007872",
-     "accent": "#189D96",
-     "text_hc": "#035652",
-     "accent_hc": "#097C76",
-     "hue": 189.07,
+     "text": {
+      "p3": [
+       0.266,
+       0.469,
+       0.137
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.396,
+       0.608,
+       0.276
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.162,
+       0.352,
+       0.001
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.288,
+       0.493,
+       0.162
+      ]
+     },
+     "hue": 138.5,
      "verified": {
-      "text_on_fill": 4.57,
-      "text_on_card": 4.9,
-      "accent_on_card": 3.06
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#00BDB4",
-     "accent": "#00BDB4",
-     "text_hc": "#50E4DB",
-     "accent_hc": "#00BDB4",
-     "hue": 189.07,
+     "text": {
+      "p3": [
+       0.396,
+       0.608,
+       0.276
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.233,
+       0.434,
+       0.097
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.567,
+       0.789,
+       0.448
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.338,
+       0.547,
+       0.216
+      ]
+     },
+     "hue": 138.5,
      "verified": {
-      "text_on_fill": 4.72,
-      "text_on_card": 8.04,
-      "accent_on_card": 8.04
+      "text_on_fill": 4.65,
+      "text_on_card": 5.6,
+      "accent_on_card": 3.06
      }
     }
    },
-   "analgesic": {
+   "eugeroic": {
     "light": {
-     "text": "#816644",
-     "accent": "#A48865",
-     "text_hc": "#634927",
-     "accent_hc": "#866B48",
-     "hue": 72.82,
+     "text": {
+      "p3": [
+       0.55,
+       0.383,
+       0.027
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.701,
+       0.514,
+       0.17
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.404,
+       0.278,
+       0.016
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.579,
+       0.404,
+       0.027
+      ]
+     },
+     "hue": 76.4,
+     "verified": {
+      "text_on_fill": 4.62,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.09
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.72,
+       0.532,
+       0.191
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.596,
+       0.413,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.886,
+       0.691,
+       0.361
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.639,
+       0.454,
+       0.088
+      ]
+     },
+     "hue": 76.4,
      "verified": {
       "text_on_fill": 4.59,
-      "text_on_card": 4.92,
-      "accent_on_card": 3.06
-     }
-    },
-    "dark": {
-     "text": "#A38763",
-     "accent": "#785E3C",
-     "text_hc": "#D3B590",
-     "accent_hc": "#957956",
-     "hue": 72.82,
-     "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 5.58,
-      "accent_on_card": 3.12
+      "text_on_card": 5.95,
+      "accent_on_card": 3.96
      }
     }
    },
-   "antihistamine": {
+   "depressant": {
     "light": {
-     "text": "#96566E",
-     "accent": "#BD7992",
-     "text_hc": "#773A52",
-     "accent_hc": "#9D5C74",
-     "hue": 356.71,
+     "text": {
+      "p3": [
+       0.346,
+       0.415,
+       0.564
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.476,
+       0.549,
+       0.705
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.235,
+       0.299,
+       0.44
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.368,
+       0.438,
+       0.588
+      ]
+     },
+     "hue": 261.5,
      "verified": {
-      "text_on_fill": 4.66,
-      "text_on_card": 5.0,
-      "accent_on_card": 3.05
+      "text_on_fill": 4.63,
+      "text_on_card": 4.97,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#BC7890",
-     "accent": "#8D4E66",
-     "text_hc": "#EEA6BF",
-     "accent_hc": "#AB6981",
-     "hue": 356.71,
+     "text": {
+      "p3": [
+       0.476,
+       0.549,
+       0.705
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.314,
+       0.382,
+       0.528
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.648,
+       0.726,
+       0.889
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.419,
+       0.49,
+       0.643
+      ]
+     },
+     "hue": 261.5,
      "verified": {
       "text_on_fill": 4.64,
       "text_on_card": 5.6,
@@ -1257,39 +3105,259 @@
      }
     }
    },
-   "cardiovascular": {
+   "orexinAntagonist": {
     "light": {
-     "text": "#C72E2C",
-     "accent": "#F0574F",
-     "text_hc": "#A00211",
-     "accent_hc": "#CE3533",
-     "hue": 26.55,
+     "text": {
+      "p3": [
+       0.411,
+       0.381,
+       0.654
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.542,
+       0.515,
+       0.799
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.298,
+       0.263,
+       0.525
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.428,
+       0.398,
+       0.672
+      ]
+     },
+     "hue": 287.8,
      "verified": {
-      "text_on_fill": 4.66,
-      "text_on_card": 5.0,
-      "accent_on_card": 3.12
+      "text_on_fill": 4.59,
+      "text_on_card": 4.92,
+      "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#F0574F",
-     "accent": "#BE2325",
-     "text_hc": "#FFA096",
-     "accent_hc": "#E04742",
-     "hue": 26.55,
+     "text": {
+      "p3": [
+       0.536,
+       0.509,
+       0.793
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.378,
+       0.347,
+       0.617
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.717,
+       0.692,
+       0.989
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.484,
+       0.456,
+       0.735
+      ]
+     },
+     "hue": 287.8,
      "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 5.56,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.58,
+      "text_on_card": 5.54,
+      "accent_on_card": 3.1
      }
     }
    },
-   "antimicrobial": {
+   "antidepressant": {
     "light": {
-     "text": "#137682",
-     "accent": "#3898A5",
-     "text_hc": "#04565F",
-     "accent_hc": "#0A7B88",
-     "hue": 207.78,
+     "text": {
+      "p3": [
+       0.502,
+       0.404,
+       0.039
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.661,
+       0.532,
+       0.015
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.368,
+       0.292,
+       -0.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.529,
+       0.426,
+       0.039
+      ]
+     },
+     "hue": 90.4,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.954,
+       0.795,
+       0.267
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.805,
+       0.649,
+       -0.0
+      ]
+     },
+     "hue": 90.4,
+     "verified": {
+      "text_on_fill": 4.75,
+      "text_on_card": 8.13,
+      "accent_on_card": 8.13
+     }
+    }
+   },
+   "antipsychotic": {
+    "light": {
+     "text": {
+      "p3": [
+       -0.0,
+       0.472,
+       0.452
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.171,
+       0.615,
+       0.592
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.007,
+       0.345,
+       0.331
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.053,
+       0.495,
+       0.476
+      ]
+     },
+     "hue": 189.1,
+     "verified": {
+      "text_on_fill": 4.62,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.08
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.203,
+       0.64,
+       0.616
+      ]
+     },
+     "accent": {
+      "p3": [
+       -0.0,
+       0.53,
+       0.509
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.379,
+       0.797,
+       0.77
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.067,
+       0.554,
+       0.532
+      ]
+     },
+     "hue": 189.1,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 6.09,
+      "accent_on_card": 4.24
+     }
+    }
+   },
+   "analgesic": {
+    "light": {
+     "text": {
+      "p3": [
+       0.49,
+       0.406,
+       0.285
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.621,
+       0.533,
+       0.408
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.371,
+       0.29,
+       0.174
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.508,
+       0.423,
+       0.302
+      ]
+     },
+     "hue": 72.8,
      "verified": {
       "text_on_fill": 4.56,
       "text_on_card": 4.89,
@@ -1297,89 +3365,405 @@
      }
     },
     "dark": {
-     "text": "#3A9AA7",
-     "accent": "#007783",
-     "text_hc": "#6BC8D5",
-     "accent_hc": "#248996",
-     "hue": 207.78,
+     "text": {
+      "p3": [
+       0.621,
+       0.533,
+       0.408
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.45,
+       0.367,
+       0.248
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.807,
+       0.715,
+       0.584
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.567,
+       0.48,
+       0.357
+      ]
+     },
+     "hue": 72.8,
      "verified": {
-      "text_on_fill": 4.55,
-      "text_on_card": 5.72,
-      "accent_on_card": 3.57
+      "text_on_fill": 4.62,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.05
+     }
+    }
+   },
+   "antihistamine": {
+    "light": {
+     "text": {
+      "p3": [
+       0.556,
+       0.35,
+       0.429
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.698,
+       0.481,
+       0.562
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.431,
+       0.235,
+       0.314
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.58,
+       0.372,
+       0.452
+      ]
+     },
+     "hue": 356.7,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.698,
+       0.481,
+       0.562
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.52,
+       0.317,
+       0.396
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.89,
+       0.662,
+       0.745
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.635,
+       0.423,
+       0.504
+      ]
+     },
+     "hue": 356.7,
+     "verified": {
+      "text_on_fill": 4.62,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.06
+     }
+    }
+   },
+   "cardiovascular": {
+    "light": {
+     "text": {
+      "p3": [
+       0.725,
+       0.241,
+       0.211
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.88,
+       0.389,
+       0.343
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.586,
+       0.08,
+       0.088
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.745,
+       0.261,
+       0.228
+      ]
+     },
+     "hue": 26.6,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.05
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.873,
+       0.383,
+       0.337
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.685,
+       0.201,
+       0.177
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.996,
+       0.626,
+       0.575
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.812,
+       0.326,
+       0.285
+      ]
+     },
+     "hue": 26.6,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 5.57,
+      "accent_on_card": 3.11
+     }
+    }
+   },
+   "antimicrobial": {
+    "light": {
+     "text": {
+      "p3": [
+       0.19,
+       0.453,
+       0.503
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.329,
+       0.589,
+       0.64
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.035,
+       0.334,
+       0.383
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.215,
+       0.476,
+       0.526
+      ]
+     },
+     "hue": 207.8,
+     "verified": {
+      "text_on_fill": 4.63,
+      "text_on_card": 4.97,
+      "accent_on_card": 3.1
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.329,
+       0.589,
+       0.64
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.152,
+       0.419,
+       0.468
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.511,
+       0.775,
+       0.827
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.269,
+       0.529,
+       0.58
+      ]
+     },
+     "hue": 207.8,
+     "verified": {
+      "text_on_fill": 4.63,
+      "text_on_card": 5.59,
+      "accent_on_card": 3.07
      }
     }
    },
    "gastrointestinal": {
     "light": {
-     "text": "#955E00",
-     "accent": "#C47D02",
-     "text_hc": "#6D4404",
-     "accent_hc": "#9B640D",
-     "hue": 70.24,
+     "text": {
+      "p3": [
+       0.576,
+       0.375,
+       0.027
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.741,
+       0.498,
+       0.118
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.42,
+       0.266,
+       0.003
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.6,
+       0.389,
+       0.015
+      ]
+     },
+     "hue": 70.2,
      "verified": {
-      "text_on_fill": 4.63,
-      "text_on_card": 4.97,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.56,
+      "text_on_card": 4.89,
+      "accent_on_card": 3.06
      }
     },
     "dark": {
-     "text": "#DC8E11",
-     "accent": "#D58800",
-     "text_hc": "#FFB964",
-     "accent_hc": "#D58800",
-     "hue": 70.24,
+     "text": {
+      "p3": [
+       0.773,
+       0.529,
+       0.16
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.684,
+       0.444,
+       0.002
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.929,
+       0.677,
+       0.327
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.684,
+       0.444,
+       0.002
+      ]
+     },
+     "hue": 70.2,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 7.12,
-      "accent_on_card": 6.61
+      "text_on_fill": 4.55,
+      "text_on_card": 6.24,
+      "accent_on_card": 4.71
      }
     }
    },
    "respiratory": {
     "light": {
-     "text": "#007399",
-     "accent": "#3996BE",
-     "text_hc": "#0B5470",
-     "accent_hc": "#09779E",
-     "hue": 230.41,
+     "text": {
+      "p3": [
+       0.188,
+       0.443,
+       0.588
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.327,
+       0.58,
+       0.73
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.032,
+       0.324,
+       0.463
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.207,
+       0.461,
+       0.606
+      ]
+     },
+     "hue": 230.4,
      "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 4.92,
+      "text_on_fill": 4.6,
+      "text_on_card": 4.94,
       "accent_on_card": 3.07
      }
     },
     "dark": {
-     "text": "#3B97C0",
-     "accent": "#007399",
-     "text_hc": "#6AC4EE",
-     "accent_hc": "#2586AE",
-     "hue": 230.41,
-     "verified": {
-      "text_on_fill": 4.58,
-      "text_on_card": 5.73,
-      "accent_on_card": 3.52
-     }
-    }
-   },
-   "endocrine": {
-    "light": {
-     "text": "#904EB1",
-     "accent": "#B471D6",
-     "text_hc": "#712E8F",
-     "accent_hc": "#9552B5",
-     "hue": 313.4,
-     "verified": {
-      "text_on_fill": 4.59,
-      "text_on_card": 4.93,
-      "accent_on_card": 3.07
-     }
-    },
-    "dark": {
-     "text": "#B36FD5",
-     "accent": "#8745A7",
-     "text_hc": "#DFA3FF",
-     "accent_hc": "#A562C6",
-     "hue": 313.4,
+     "text": {
+      "p3": [
+       0.321,
+       0.574,
+       0.724
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.15,
+       0.409,
+       0.552
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.502,
+       0.759,
+       0.916
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.267,
+       0.52,
+       0.668
+      ]
+     },
+     "hue": 230.4,
      "verified": {
       "text_on_fill": 4.57,
       "text_on_card": 5.53,
@@ -1387,13 +3771,37 @@
      }
     }
    },
-   "immunological": {
+   "endocrine": {
     "light": {
-     "text": "#0869CD",
-     "accent": "#398DF5",
-     "text_hc": "#044C98",
-     "accent_hc": "#116ED3",
-     "hue": 255.68,
+     "text": {
+      "p3": [
+       0.531,
+       0.319,
+       0.672
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.67,
+       0.455,
+       0.818
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.41,
+       0.195,
+       0.542
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.549,
+       0.336,
+       0.69
+      ]
+     },
+     "hue": 313.4,
      "verified": {
       "text_on_fill": 4.59,
       "text_on_card": 4.92,
@@ -1401,63 +3809,257 @@
      }
     },
     "dark": {
-     "text": "#398DF5",
-     "accent": "#0166CA",
-     "text_hc": "#89BCFF",
-     "accent_hc": "#277DE4",
-     "hue": 255.68,
+     "text": {
+      "p3": [
+       0.664,
+       0.449,
+       0.811
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.496,
+       0.284,
+       0.634
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.849,
+       0.637,
+       1.0
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.609,
+       0.395,
+       0.754
+      ]
+     },
+     "hue": 313.4,
      "verified": {
       "text_on_fill": 4.58,
-      "text_on_card": 5.67,
-      "accent_on_card": 3.38
+      "text_on_card": 5.54,
+      "accent_on_card": 3.09
+     }
+    }
+   },
+   "immunological": {
+    "light": {
+     "text": {
+      "p3": [
+       0.179,
+       0.405,
+       0.779
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.315,
+       0.546,
+       0.931
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.032,
+       0.278,
+       0.644
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.197,
+       0.423,
+       0.799
+      ]
+     },
+     "hue": 255.7,
+     "verified": {
+      "text_on_fill": 4.59,
+      "text_on_card": 4.92,
+      "accent_on_card": 3.06
+     }
+    },
+    "dark": {
+     "text": {
+      "p3": [
+       0.309,
+       0.54,
+       0.925
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.142,
+       0.368,
+       0.74
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.573,
+       0.731,
+       0.988
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.256,
+       0.484,
+       0.865
+      ]
+     },
+     "hue": 255.7,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 5.56,
+      "accent_on_card": 3.08
      }
     }
    },
    "supplement": {
     "light": {
-     "text": "#007B37",
-     "accent": "#21A150",
-     "text_hc": "#045A28",
-     "accent_hc": "#10813D",
-     "hue": 150.25,
+     "text": {
+      "p3": [
+       0.161,
+       0.484,
+       0.219
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.306,
+       0.623,
+       0.348
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       -0.0,
+       0.36,
+       0.11
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.181,
+       0.502,
+       0.236
+      ]
+     },
+     "hue": 150.2,
      "verified": {
-      "text_on_fill": 4.62,
-      "text_on_card": 4.95,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.06
      }
     },
     "dark": {
-     "text": "#2FAB59",
-     "accent": "#019544",
-     "text_hc": "#5DD27E",
-     "accent_hc": "#019544",
-     "hue": 150.25,
+     "text": {
+      "p3": [
+       0.3,
+       0.617,
+       0.342
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.119,
+       0.449,
+       0.186
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.483,
+       0.806,
+       0.518
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.244,
+       0.562,
+       0.292
+      ]
+     },
+     "hue": 150.2,
      "verified": {
-      "text_on_fill": 4.61,
-      "text_on_card": 6.38,
-      "accent_on_card": 4.84
+      "text_on_fill": 4.59,
+      "text_on_card": 5.55,
+      "accent_on_card": 3.11
      }
     }
    },
    "peptide": {
     "light": {
-     "text": "#2F70A0",
-     "accent": "#5191C3",
-     "text_hc": "#07517F",
-     "accent_hc": "#3474A4",
-     "hue": 243.96,
+     "text": {
+      "p3": [
+       0.254,
+       0.433,
+       0.61
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.385,
+       0.568,
+       0.753
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.136,
+       0.314,
+       0.484
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.271,
+       0.45,
+       0.628
+      ]
+     },
+     "hue": 244.0,
      "verified": {
-      "text_on_fill": 4.55,
-      "text_on_card": 4.88,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.56,
+      "text_on_card": 4.89,
+      "accent_on_card": 3.05
      }
     },
     "dark": {
-     "text": "#5191C3",
-     "accent": "#266796",
-     "text_hc": "#80C0F5",
-     "accent_hc": "#4282B3",
-     "hue": 243.96,
+     "text": {
+      "p3": [
+       0.379,
+       0.562,
+       0.747
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.22,
+       0.398,
+       0.574
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.557,
+       0.747,
+       0.941
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.322,
+       0.503,
+       0.684
+      ]
+     },
+     "hue": 244.0,
      "verified": {
       "text_on_fill": 4.59,
       "text_on_card": 5.56,
@@ -1467,50 +4069,122 @@
    },
    "anticonvulsant": {
     "light": {
-     "text": "#765DA4",
-     "accent": "#9880C9",
-     "text_hc": "#594083",
-     "accent_hc": "#7C63AA",
-     "hue": 298.92,
+     "text": {
+      "p3": [
+       0.448,
+       0.37,
+       0.625
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.582,
+       0.504,
+       0.769
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.333,
+       0.253,
+       0.498
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.465,
+       0.387,
+       0.643
+      ]
+     },
+     "hue": 298.9,
      "verified": {
-      "text_on_fill": 4.64,
-      "text_on_card": 4.97,
-      "accent_on_card": 3.07
+      "text_on_fill": 4.62,
+      "text_on_card": 4.96,
+      "accent_on_card": 3.08
      }
     },
     "dark": {
-     "text": "#977EC7",
-     "accent": "#6E559A",
-     "text_hc": "#C7AEFB",
-     "accent_hc": "#8971B9",
-     "hue": 298.92,
+     "text": {
+      "p3": [
+       0.576,
+       0.498,
+       0.762
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.415,
+       0.336,
+       0.588
+      ]
+     },
+     "text_hc": {
+      "p3": [
+       0.759,
+       0.68,
+       0.957
+      ]
+     },
+     "accent_hc": {
+      "p3": [
+       0.523,
+       0.445,
+       0.705
+      ]
+     },
+     "hue": 298.9,
      "verified": {
       "text_on_fill": 4.56,
       "text_on_card": 5.51,
-      "accent_on_card": 3.08
+      "accent_on_card": 3.07
      }
     }
    },
    "other": {
     "light": {
-     "text": "#6A6A6E",
-     "accent": "#8B8B90",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.415,
+       0.415,
+       0.431
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.547,
+       0.547,
+       0.564
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.6,
-      "text_on_card": 4.94,
-      "accent_on_card": 3.11
+      "text_on_fill": 4.61,
+      "text_on_card": 4.95,
+      "accent_on_card": 3.09
      }
     },
     "dark": {
-     "text": "#8A8A8F",
-     "accent": "#616166",
-     "hue": 285.92,
+     "text": {
+      "p3": [
+       0.547,
+       0.547,
+       0.564
+      ]
+     },
+     "accent": {
+      "p3": [
+       0.381,
+       0.381,
+       0.397
+      ]
+     },
+     "hue": 285.9,
      "neutral": true,
      "verified": {
-      "text_on_fill": 4.56,
-      "text_on_card": 5.5,
+      "text_on_fill": 4.64,
+      "text_on_card": 5.6,
       "accent_on_card": 3.07
      }
     }

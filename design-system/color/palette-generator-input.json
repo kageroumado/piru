@@ -130,1594 +130,3422 @@
   },
   "text/secondary": {
    "any": {
-    "srgb_hex": "6E6E73"
+    "oklch": [
+     0.5399,
+     0.00776,
+     285.9
+    ]
    },
    "dark": {
-    "srgb_hex": "BCBCC4"
+    "oklch": [
+     0.79764,
+     0.01126,
+     285.9
+    ]
    }
   },
   "surface/background": {
    "any": {
-    "srgb_hex": "FFFFFF"
+    "oklch": [
+     1.0,
+     0.0,
+     260.0
+    ]
    },
    "dark": {
-    "srgb_hex": "000000"
+    "oklch": [
+     0.0,
+     0.0,
+     0.0
+    ]
    }
   },
   "surface/card": {
    "any": {
-    "srgb_hex": "F2F2F7"
+    "oklch": [
+     0.96257,
+     0.00676,
+     285.8
+    ]
    },
    "dark": {
-    "srgb_hex": "111111"
+    "oklch": [
+     0.17764,
+     2e-05,
+     260.0
+    ]
    }
   },
   "surface/grouped": {
    "any": {
-    "srgb_hex": "F2F2F7"
+    "oklch": [
+     0.96257,
+     0.00676,
+     285.8
+    ]
    },
    "dark": {
-    "srgb_hex": "0A0A0A"
+    "oklch": [
+     0.14479,
+     2e-05,
+     260.0
+    ]
    }
   },
   "surface/input": {
    "any": {
-    "srgb_hex": "F2F2F7"
+    "oklch": [
+     0.96257,
+     0.00676,
+     285.8
+    ]
    },
    "dark": {
-    "srgb_hex": "1C1C1F"
+    "oklch": [
+     0.22771,
+     0.00577,
+     285.8
+    ]
    }
   },
   "phase/onset/text": {
    "any": {
-    "srgb_hex": "6A6A6F"
+    "oklch": [
+     0.52478,
+     0.00916,
+     285.90411
+    ]
    },
    "dark": {
-    "srgb_hex": "8A8A90"
+    "oklch": [
+     0.63515,
+     0.00874,
+     285.92333
+    ]
    }
   },
   "phase/onset/accent": {
    "any": {
-    "srgb_hex": "8B8B91"
+    "oklch": [
+     0.64024,
+     0.00873,
+     285.92353
+    ]
    },
    "dark": {
-    "srgb_hex": "616167"
+    "oklch": [
+     0.49507,
+     0.00885,
+     285.90059
+    ]
    }
   },
   "phase/comeup/text": {
    "any": {
-    "srgb_hex": "106AC8"
+    "oklch": [
+     0.52977,
+     0.16511,
+     254.82653
+    ]
    },
    "dark": {
-    "srgb_hex": "3B8DED"
+    "oklch": [
+     0.6398,
+     0.16491,
+     254.8658
+    ]
    },
    "any_hc": {
-    "srgb_hex": "054D96"
+    "oklch": [
+     0.42502,
+     0.16503,
+     254.82156
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "88BCFE"
+    "oklch": [
+     0.78971,
+     0.11524,
+     254.8529
+    ]
    }
   },
   "phase/comeup/accent": {
    "any": {
-    "srgb_hex": "3D8EEF"
+    "oklch": [
+     0.6398,
+     0.16491,
+     254.8658
+    ]
    },
    "dark": {
-    "srgb_hex": "0063BF"
+    "oklch": [
+     0.49972,
+     0.16499,
+     254.82377
+    ]
    },
    "any_hc": {
-    "srgb_hex": "186FCD"
+    "oklch": [
+     0.54485,
+     0.1653,
+     254.87875
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "2A7DDC"
+    "oklch": [
+     0.59497,
+     0.16505,
+     254.83948
+    ]
    }
   },
   "phase/peak/text": {
    "any": {
-    "srgb_hex": "007C2C"
+    "oklch": [
+     0.5051,
+     0.18995,
+     147.52238
+    ]
    },
    "dark": {
-    "srgb_hex": "20B64B"
+    "oklch": [
+     0.61497,
+     0.19006,
+     147.53013
+    ]
    },
    "any_hc": {
-    "srgb_hex": "015B1F"
+    "oklch": [
+     0.40534,
+     0.16509,
+     147.51187
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "56DD71"
+    "oklch": [
+     0.76499,
+     0.18996,
+     147.53503
+    ]
    }
   },
   "phase/peak/accent": {
    "any": {
-    "srgb_hex": "08A13E"
+    "oklch": [
+     0.6199,
+     0.18984,
+     147.51309
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.47491,
+     0.18992,
+     147.51096
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00812F"
+    "oklch": [
+     0.52504,
+     0.19017,
+     147.48228
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.57031,
+     0.19013,
+     147.51425
+    ]
    }
   },
   "phase/offset/text": {
    "any": {
-    "srgb_hex": "975C06"
+    "oklch": [
+     0.53492,
+     0.13494,
+     67.19837
+    ]
    },
    "dark": {
-    "srgb_hex": "FA9B00"
+    "oklch": [
+     0.70502,
+     0.17004,
+     67.15527
+    ]
    },
    "any_hc": {
-    "srgb_hex": "6F4307"
+    "oklch": [
+     0.42489,
+     0.105,
+     67.14224
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFC990"
+    "oklch": [
+     0.82516,
+     0.16498,
+     67.24335
+    ]
    }
   },
   "phase/offset/accent": {
    "any": {
-    "srgb_hex": "C57A0A"
+    "oklch": [
+     0.65015,
+     0.16439,
+     67.20104
+    ]
    },
    "dark": {
-    "srgb_hex": "FA9B00"
+    "oklch": [
+     0.67003,
+     0.16928,
+     67.31935
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9F6104"
+    "oklch": [
+     0.55012,
+     0.13902,
+     67.28103
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FA9B00"
+    "oklch": [
+     0.67003,
+     0.16928,
+     67.31935
+    ]
    }
   },
   "phase/afterglow/text": {
    "any": {
-    "srgb_hex": "6A6A6F"
+    "oklch": [
+     0.52478,
+     0.00916,
+     285.90411
+    ]
    },
    "dark": {
-    "srgb_hex": "8A8A90"
+    "oklch": [
+     0.63515,
+     0.00874,
+     285.92333
+    ]
    }
   },
   "phase/afterglow/accent": {
    "any": {
-    "srgb_hex": "8B8B91"
+    "oklch": [
+     0.64024,
+     0.00873,
+     285.92353
+    ]
    },
    "dark": {
-    "srgb_hex": "616167"
+    "oklch": [
+     0.49507,
+     0.00885,
+     285.90059
+    ]
    }
   },
   "route/oral/text": {
    "any": {
-    "srgb_hex": "0569CD"
+    "oklch": [
+     0.52978,
+     0.20504,
+     255.54543
+    ]
    },
    "dark": {
-    "srgb_hex": "4397FF"
+    "oklch": [
+     0.63998,
+     0.20486,
+     255.48937
+    ]
    },
    "any_hc": {
-    "srgb_hex": "034C98"
+    "oklch": [
+     0.43014,
+     0.18429,
+     255.51128
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "8DBEFD"
+    "oklch": [
+     0.78516,
+     0.11996,
+     255.4308
+    ]
    }
   },
   "route/oral/accent": {
    "any": {
-    "srgb_hex": "0C84FF"
+    "oklch": [
+     0.64482,
+     0.20504,
+     255.51423
+    ]
    },
    "dark": {
-    "srgb_hex": "0080F9"
+    "oklch": [
+     0.50006,
+     0.20481,
+     255.47388
+    ]
    },
    "any_hc": {
-    "srgb_hex": "006ED9"
+    "oklch": [
+     0.55029,
+     0.20491,
+     255.48309
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "0080F9"
+    "oklch": [
+     0.59491,
+     0.2049,
+     255.51599
+    ]
    }
   },
   "route/sublingual/text": {
    "any": {
-    "srgb_hex": "047687"
+    "oklch": [
+     0.5148,
+     0.10998,
+     212.89205
+    ]
    },
    "dark": {
-    "srgb_hex": "26A8BF"
+    "oklch": [
+     0.62487,
+     0.10988,
+     212.8383
+    ]
    },
    "any_hc": {
-    "srgb_hex": "085562"
+    "oklch": [
+     0.41478,
+     0.09492,
+     212.81525
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "58CFE6"
+    "oklch": [
+     0.77516,
+     0.11007,
+     212.59591
+    ]
    }
   },
   "route/sublingual/accent": {
    "any": {
-    "srgb_hex": "019AB0"
+    "oklch": [
+     0.62976,
+     0.10996,
+     212.80094
+    ]
    },
    "dark": {
-    "srgb_hex": "0098AE"
+    "oklch": [
+     0.48537,
+     0.11008,
+     212.78288
+    ]
    },
    "any_hc": {
-    "srgb_hex": "107A8C"
+    "oklch": [
+     0.53007,
+     0.1101,
+     212.78966
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "0098AE"
+    "oklch": [
+     0.57997,
+     0.10996,
+     212.80582
+    ]
    }
   },
   "route/buccal/text": {
    "any": {
-    "srgb_hex": "007872"
+    "oklch": [
+     0.51029,
+     0.11927,
+     188.92718
+    ]
    },
    "dark": {
-    "srgb_hex": "00BDB4"
+    "oklch": [
+     0.64513,
+     0.1301,
+     189.09601
+    ]
    },
    "any_hc": {
-    "srgb_hex": "035652"
+    "oklch": [
+     0.40973,
+     0.09482,
+     189.24411
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "50E4DB"
+    "oklch": [
+     0.77007,
+     0.13012,
+     189.11576
+    ]
    }
   },
   "route/buccal/accent": {
    "any": {
-    "srgb_hex": "189D96"
+    "oklch": [
+     0.62491,
+     0.12991,
+     189.17372
+    ]
    },
    "dark": {
-    "srgb_hex": "00BDB4"
+    "oklch": [
+     0.55487,
+     0.12957,
+     189.15449
+    ]
    },
    "any_hc": {
-    "srgb_hex": "097C76"
+    "oklch": [
+     0.52971,
+     0.11983,
+     189.26834
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00BDB4"
+    "oklch": [
+     0.57469,
+     0.1299,
+     189.08635
+    ]
    }
   },
   "route/insufflation/text": {
    "any": {
-    "srgb_hex": "9A3DC7"
+    "oklch": [
+     0.54991,
+     0.21018,
+     312.36042
+    ]
    },
    "dark": {
-    "srgb_hex": "BD62EC"
+    "oklch": [
+     0.66013,
+     0.20992,
+     312.34096
+    ]
    },
    "any_hc": {
-    "srgb_hex": "7B15A6"
+    "oklch": [
+     0.44989,
+     0.21008,
+     312.42884
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "DCA2FE"
+    "oklch": [
+     0.80494,
+     0.14995,
+     312.40893
+    ]
    }
   },
   "route/insufflation/accent": {
    "any": {
-    "srgb_hex": "BF64EE"
+    "oklch": [
+     0.66488,
+     0.20983,
+     312.37065
+    ]
    },
    "dark": {
-    "srgb_hex": "9133BD"
+    "oklch": [
+     0.52018,
+     0.21,
+     312.45255
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A044CE"
+    "oklch": [
+     0.57001,
+     0.21011,
+     312.34701
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "AE53DD"
+    "oklch": [
+     0.615,
+     0.21,
+     312.44571
+    ]
    }
   },
   "route/inhalation/text": {
    "any": {
-    "srgb_hex": "9D5B07"
+    "oklch": [
+     0.53507,
+     0.13982,
+     62.73032
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.70522,
+     0.17494,
+     62.63906
+    ]
    },
    "any_hc": {
-    "srgb_hex": "724104"
+    "oklch": [
+     0.42999,
+     0.10993,
+     62.74595
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFC897"
+    "oklch": [
+     0.82511,
+     0.15484,
+     62.66725
+    ]
    }
   },
   "route/inhalation/accent": {
    "any": {
-    "srgb_hex": "CC780F"
+    "oklch": [
+     0.65482,
+     0.17,
+     62.58475
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A45E03"
+    "oklch": [
+     0.55022,
+     0.14407,
+     62.58373
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    }
   },
   "route/intravenous/text": {
    "any": {
-    "srgb_hex": "D60107"
+    "oklch": [
+     0.55484,
+     0.22993,
+     28.70304
+    ]
    },
    "dark": {
-    "srgb_hex": "FE5244"
+    "oklch": [
+     0.6652,
+     0.23009,
+     28.70891
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A00406"
+    "oklch": [
+     0.44483,
+     0.20491,
+     28.69424
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFA193"
+    "oklch": [
+     0.80506,
+     0.13975,
+     28.75331
+    ]
    }
   },
   "route/intravenous/accent": {
    "any": {
-    "srgb_hex": "FE3D32"
+    "oklch": [
+     0.6652,
+     0.23009,
+     28.70891
+    ]
    },
    "dark": {
-    "srgb_hex": "DB0007"
+    "oklch": [
+     0.52491,
+     0.22991,
+     28.70879
+    ]
    },
    "any_hc": {
-    "srgb_hex": "DF0B0D"
+    "oklch": [
+     0.56996,
+     0.23011,
+     28.65185
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F02B23"
+    "oklch": [
+     0.62007,
+     0.22995,
+     28.73038
+    ]
    }
   },
   "route/intramuscular/text": {
    "any": {
-    "srgb_hex": "D5073F"
+    "oklch": [
+     0.55498,
+     0.23489,
+     17.8965
+    ]
    },
    "dark": {
-    "srgb_hex": "FF5066"
+    "oklch": [
+     0.66494,
+     0.23508,
+     17.8488
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9E062D"
+    "oklch": [
+     0.44505,
+     0.20003,
+     17.94963
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9FA2"
+    "oklch": [
+     0.80484,
+     0.14413,
+     17.85626
+    ]
    }
   },
   "route/intramuscular/accent": {
    "any": {
-    "srgb_hex": "FE3156"
+    "oklch": [
+     0.66986,
+     0.23512,
+     17.90559
+    ]
    },
    "dark": {
-    "srgb_hex": "E50043"
+    "oklch": [
+     0.52503,
+     0.23504,
+     17.88013
+    ]
    },
    "any_hc": {
-    "srgb_hex": "DC0A42"
+    "oklch": [
+     0.57006,
+     0.23502,
+     17.94977
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F3204D"
+    "oklch": [
+     0.61981,
+     0.23507,
+     17.91622
+    ]
    }
   },
   "route/subcutaneous/text": {
    "any": {
-    "srgb_hex": "5A57DF"
+    "oklch": [
+     0.53993,
+     0.20012,
+     278.17359
+    ]
    },
    "dark": {
-    "srgb_hex": "787DFF"
+    "oklch": [
+     0.64978,
+     0.2001,
+     278.15023
+    ]
    },
    "any_hc": {
-    "srgb_hex": "4236BC"
+    "oklch": [
+     0.43974,
+     0.20003,
+     278.09671
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "ABB4FD"
+    "oklch": [
+     0.7951,
+     0.11427,
+     277.95033
+    ]
    }
   },
   "route/subcutaneous/accent": {
    "any": {
-    "srgb_hex": "7274FE"
+    "oklch": [
+     0.65519,
+     0.19991,
+     278.13087
+    ]
    },
    "dark": {
-    "srgb_hex": "524ED4"
+    "oklch": [
+     0.50988,
+     0.20007,
+     278.1834
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5F5EE5"
+    "oklch": [
+     0.56032,
+     0.19995,
+     278.09644
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "6B6CF5"
+    "oklch": [
+     0.60496,
+     0.19996,
+     278.08666
+    ]
    }
   },
   "route/transdermal/text": {
    "any": {
-    "srgb_hex": "007C2C"
+    "oklch": [
+     0.5051,
+     0.18995,
+     147.52238
+    ]
    },
    "dark": {
-    "srgb_hex": "20B64B"
+    "oklch": [
+     0.61497,
+     0.19006,
+     147.53013
+    ]
    },
    "any_hc": {
-    "srgb_hex": "015B1F"
+    "oklch": [
+     0.40534,
+     0.16509,
+     147.51187
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "56DD71"
+    "oklch": [
+     0.76499,
+     0.18996,
+     147.53503
+    ]
    }
   },
   "route/transdermal/accent": {
    "any": {
-    "srgb_hex": "08A13E"
+    "oklch": [
+     0.6199,
+     0.18984,
+     147.51309
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.47491,
+     0.18992,
+     147.51096
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00812F"
+    "oklch": [
+     0.52504,
+     0.19017,
+     147.48228
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.57031,
+     0.19013,
+     147.51425
+    ]
    }
   },
   "route/rectal/text": {
    "any": {
-    "srgb_hex": "816644"
+    "oklch": [
+     0.52995,
+     0.06007,
+     73.14133
+    ]
    },
    "dark": {
-    "srgb_hex": "A38763"
+    "oklch": [
+     0.64013,
+     0.05997,
+     72.92429
+    ]
    },
    "any_hc": {
-    "srgb_hex": "634927"
+    "oklch": [
+     0.42472,
+     0.06001,
+     72.57638
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "D3B590"
+    "oklch": [
+     0.79016,
+     0.05993,
+     73.08409
+    ]
    }
   },
   "route/rectal/accent": {
    "any": {
-    "srgb_hex": "A48865"
+    "oklch": [
+     0.64013,
+     0.05997,
+     72.92429
+    ]
    },
    "dark": {
-    "srgb_hex": "785E3C"
+    "oklch": [
+     0.49518,
+     0.05995,
+     72.92246
+    ]
    },
    "any_hc": {
-    "srgb_hex": "866B48"
+    "oklch": [
+     0.54516,
+     0.05998,
+     72.849
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "957956"
+    "oklch": [
+     0.59496,
+     0.06003,
+     72.74142
+    ]
    }
   },
   "route/other/text": {
    "any": {
-    "srgb_hex": "6A6A6E"
+    "oklch": [
+     0.52519,
+     0.00699,
+     285.9238
+    ]
    },
    "dark": {
-    "srgb_hex": "8A8A8F"
+    "oklch": [
+     0.63988,
+     0.00708,
+     285.91647
+    ]
    }
   },
   "route/other/accent": {
    "any": {
-    "srgb_hex": "8B8B90"
+    "oklch": [
+     0.63988,
+     0.00708,
+     285.91647
+    ]
    },
    "dark": {
-    "srgb_hex": "616166"
+    "oklch": [
+     0.49468,
+     0.00709,
+     285.92204
+    ]
    }
   },
   "dose/sub/text": {
    "any": {
-    "srgb_hex": "6A6A6E"
+    "oklch": [
+     0.52526,
+     0.0498,
+     247.6418
+    ]
    },
    "dark": {
-    "srgb_hex": "8A8A8F"
+    "oklch": [
+     0.63493,
+     0.04996,
+     248.06581
+    ]
+   },
+   "any_hc": {
+    "oklch": [
+     0.41983,
+     0.05013,
+     248.50676
+    ]
+   },
+   "dark_hc": {
+    "oklch": [
+     0.78506,
+     0.05012,
+     247.83099
+    ]
    }
   },
   "dose/sub/accent": {
    "any": {
-    "srgb_hex": "8B8B90"
+    "oklch": [
+     0.63999,
+     0.04987,
+     248.06631
+    ]
    },
    "dark": {
-    "srgb_hex": "616166"
+    "oklch": [
+     0.49507,
+     0.0499,
+     247.69274
+    ]
+   },
+   "any_hc": {
+    "oklch": [
+     0.54015,
+     0.05005,
+     247.59324
+    ]
+   },
+   "dark_hc": {
+    "oklch": [
+     0.58983,
+     0.05028,
+     248.11425
+    ]
    }
   },
   "dose/threshold/text": {
    "any": {
-    "srgb_hex": "586A8D"
+    "oklch": [
+     0.53005,
+     0.10485,
+     263.26785
+    ]
    },
    "dark": {
-    "srgb_hex": "788BB0"
+    "oklch": [
+     0.63998,
+     0.10512,
+     263.40105
+    ]
    },
    "any_hc": {
-    "srgb_hex": "3C4D6E"
+    "oklch": [
+     0.4248,
+     0.10496,
+     263.34557
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "A7BBE2"
+    "oklch": [
+     0.7898,
+     0.10497,
+     263.41195
+    ]
    }
   },
   "dose/threshold/accent": {
    "any": {
-    "srgb_hex": "798CB1"
+    "oklch": [
+     0.63998,
+     0.10512,
+     263.40105
+    ]
    },
    "dark": {
-    "srgb_hex": "506284"
+    "oklch": [
+     0.49979,
+     0.10498,
+     263.48252
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5E7094"
+    "oklch": [
+     0.54505,
+     0.10501,
+     263.48345
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "6B7DA2"
+    "oklch": [
+     0.59024,
+     0.10473,
+     263.3841
+    ]
    }
   },
   "dose/light/text": {
    "any": {
-    "srgb_hex": "007C2C"
+    "oklch": [
+     0.54003,
+     0.16007,
+     291.93106
+    ]
    },
    "dark": {
-    "srgb_hex": "20B64B"
+    "oklch": [
+     0.65003,
+     0.15987,
+     291.86842
+    ]
    },
    "any_hc": {
-    "srgb_hex": "015B1F"
+    "oklch": [
+     0.43512,
+     0.15996,
+     291.89617
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "56DD71"
+    "oklch": [
+     0.79521,
+     0.1198,
+     291.89729
+    ]
    }
   },
   "dose/light/accent": {
    "any": {
-    "srgb_hex": "08A13E"
+    "oklch": [
+     0.65511,
+     0.16004,
+     291.88055
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.5103,
+     0.16001,
+     291.86679
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00812F"
+    "oklch": [
+     0.55514,
+     0.15989,
+     291.97221
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.60516,
+     0.15979,
+     291.84936
+    ]
    }
   },
   "dose/common/text": {
    "any": {
-    "srgb_hex": "0D767C"
+    "oklch": [
+     0.55015,
+     0.1901,
+     320.00081
+    ]
    },
    "dark": {
-    "srgb_hex": "29A8B1"
+    "oklch": [
+     0.66011,
+     0.18971,
+     320.00581
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00555B"
+    "oklch": [
+     0.44507,
+     0.19003,
+     319.93537
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "5ACFD7"
+    "oklch": [
+     0.81011,
+     0.17018,
+     320.04314
+    ]
    }
   },
   "dose/common/accent": {
    "any": {
-    "srgb_hex": "0F9BA4"
+    "oklch": [
+     0.66505,
+     0.18985,
+     319.93332
+    ]
    },
    "dark": {
-    "srgb_hex": "0097A0"
+    "oklch": [
+     0.51992,
+     0.18981,
+     319.95623
+    ]
    },
    "any_hc": {
-    "srgb_hex": "057C84"
+    "oklch": [
+     0.56492,
+     0.19025,
+     319.96843
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "0097A0"
+    "oklch": [
+     0.61521,
+     0.18977,
+     320.0406
+    ]
    }
   },
   "dose/strong/text": {
    "any": {
-    "srgb_hex": "AD500A"
+    "oklch": [
+     0.55518,
+     0.21493,
+     351.40218
+    ]
    },
    "dark": {
-    "srgb_hex": "DF742F"
+    "oklch": [
+     0.6647,
+     0.21496,
+     351.40904
+    ]
    },
    "any_hc": {
-    "srgb_hex": "7F3800"
+    "oklch": [
+     0.45015,
+     0.20951,
+     351.48414
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FDA371"
+    "oklch": [
+     0.81016,
+     0.16511,
+     351.37269
+    ]
    }
   },
   "dose/strong/accent": {
    "any": {
-    "srgb_hex": "DA6F29"
+    "oklch": [
+     0.67002,
+     0.21492,
+     351.34342
+    ]
    },
    "dark": {
-    "srgb_hex": "C05800"
+    "oklch": [
+     0.52486,
+     0.21505,
+     351.40234
+    ]
    },
    "any_hc": {
-    "srgb_hex": "B45307"
+    "oklch": [
+     0.57003,
+     0.21507,
+     351.44465
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "C85F12"
+    "oklch": [
+     0.61999,
+     0.2152,
+     351.44726
+    ]
    }
   },
   "dose/heavy/text": {
    "any": {
-    "srgb_hex": "C8321E"
+    "oklch": [
+     0.55004,
+     0.19006,
+     31.1237
+    ]
    },
    "dark": {
-    "srgb_hex": "F05942"
+    "oklch": [
+     0.66016,
+     0.18999,
+     31.09985
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9B1301"
+    "oklch": [
+     0.44518,
+     0.19015,
+     31.08198
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFA190"
+    "oklch": [
+     0.8003,
+     0.14494,
+     31.12114
+    ]
    }
   },
   "dose/heavy/accent": {
    "any": {
-    "srgb_hex": "F05942"
+    "oklch": [
+     0.66016,
+     0.18999,
+     31.09985
+    ]
    },
    "dark": {
-    "srgb_hex": "BC240F"
+    "oklch": [
+     0.52004,
+     0.1899,
+     31.10973
+    ]
    },
    "any_hc": {
-    "srgb_hex": "CE3823"
+    "oklch": [
+     0.56517,
+     0.18992,
+     31.08684
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "DE4833"
+    "oklch": [
+     0.60977,
+     0.19009,
+     31.05537
+    ]
    }
   },
   "confidence/high/text": {
    "any": {
-    "srgb_hex": "007C2C"
+    "oklch": [
+     0.5051,
+     0.18995,
+     147.52238
+    ]
    },
    "dark": {
-    "srgb_hex": "20B64B"
+    "oklch": [
+     0.61497,
+     0.19006,
+     147.53013
+    ]
    },
    "any_hc": {
-    "srgb_hex": "015B1F"
+    "oklch": [
+     0.40534,
+     0.16509,
+     147.51187
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "56DD71"
+    "oklch": [
+     0.76499,
+     0.18996,
+     147.53503
+    ]
    }
   },
   "confidence/high/accent": {
    "any": {
-    "srgb_hex": "08A13E"
+    "oklch": [
+     0.6199,
+     0.18984,
+     147.51309
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.47491,
+     0.18992,
+     147.51096
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00812F"
+    "oklch": [
+     0.52504,
+     0.19017,
+     147.48228
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.57031,
+     0.19013,
+     147.51425
+    ]
    }
   },
   "confidence/medium/text": {
    "any": {
-    "srgb_hex": "826707"
+    "oklch": [
+     0.52485,
+     0.11995,
+     90.33673
+    ]
    },
    "dark": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5F4A02"
+    "oklch": [
+     0.41995,
+     0.09908,
+     90.5851
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FDE39A"
+    "oklch": [
+     0.85514,
+     0.17502,
+     90.3565
+    ]
    }
   },
   "confidence/medium/accent": {
    "any": {
-    "srgb_hex": "AA8803"
+    "oklch": [
+     0.63973,
+     0.1499,
+     90.36042
+    ]
    },
    "dark": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "896C05"
+    "oklch": [
+     0.54493,
+     0.12496,
+     90.35873
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    }
   },
   "confidence/low/text": {
    "any": {
-    "srgb_hex": "9D5B07"
+    "oklch": [
+     0.53507,
+     0.13982,
+     62.73032
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.70522,
+     0.17494,
+     62.63906
+    ]
    },
    "any_hc": {
-    "srgb_hex": "724104"
+    "oklch": [
+     0.42999,
+     0.10993,
+     62.74595
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFC897"
+    "oklch": [
+     0.82511,
+     0.15484,
+     62.66725
+    ]
    }
   },
   "confidence/low/accent": {
    "any": {
-    "srgb_hex": "CC780F"
+    "oklch": [
+     0.65482,
+     0.17,
+     62.58475
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A45E03"
+    "oklch": [
+     0.55022,
+     0.14407,
+     62.58373
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    }
   },
   "confidence/unverified/text": {
    "any": {
-    "srgb_hex": "6A6A6E"
+    "oklch": [
+     0.52519,
+     0.00699,
+     285.9238
+    ]
    },
    "dark": {
-    "srgb_hex": "8A8A8F"
+    "oklch": [
+     0.63988,
+     0.00708,
+     285.91647
+    ]
    }
   },
   "confidence/unverified/accent": {
    "any": {
-    "srgb_hex": "8B8B90"
+    "oklch": [
+     0.63988,
+     0.00708,
+     285.91647
+    ]
    },
    "dark": {
-    "srgb_hex": "616166"
+    "oklch": [
+     0.49468,
+     0.00709,
+     285.92204
+    ]
    }
   },
   "severity/caution/text": {
    "any": {
-    "srgb_hex": "826707"
+    "oklch": [
+     0.52485,
+     0.11995,
+     90.33673
+    ]
    },
    "dark": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5F4A02"
+    "oklch": [
+     0.41995,
+     0.09908,
+     90.5851
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FDE39A"
+    "oklch": [
+     0.85514,
+     0.17502,
+     90.3565
+    ]
    }
   },
   "severity/caution/accent": {
    "any": {
-    "srgb_hex": "AA8803"
+    "oklch": [
+     0.63973,
+     0.1499,
+     90.36042
+    ]
    },
    "dark": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "896C05"
+    "oklch": [
+     0.54493,
+     0.12496,
+     90.35873
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    }
   },
   "severity/unsafe/text": {
    "any": {
-    "srgb_hex": "9D5B07"
+    "oklch": [
+     0.53507,
+     0.13982,
+     62.73032
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.70522,
+     0.17494,
+     62.63906
+    ]
    },
    "any_hc": {
-    "srgb_hex": "724104"
+    "oklch": [
+     0.42999,
+     0.10993,
+     62.74595
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFC897"
+    "oklch": [
+     0.82511,
+     0.15484,
+     62.66725
+    ]
    }
   },
   "severity/unsafe/accent": {
    "any": {
-    "srgb_hex": "CC780F"
+    "oklch": [
+     0.65482,
+     0.17,
+     62.58475
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A45E03"
+    "oklch": [
+     0.55022,
+     0.14407,
+     62.58373
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    }
   },
   "severity/dangerous/text": {
    "any": {
-    "srgb_hex": "D60107"
+    "oklch": [
+     0.55484,
+     0.22993,
+     28.70304
+    ]
    },
    "dark": {
-    "srgb_hex": "FE5244"
+    "oklch": [
+     0.6652,
+     0.23009,
+     28.70891
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A00406"
+    "oklch": [
+     0.44483,
+     0.20491,
+     28.69424
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFA193"
+    "oklch": [
+     0.80506,
+     0.13975,
+     28.75331
+    ]
    }
   },
   "severity/dangerous/accent": {
    "any": {
-    "srgb_hex": "FE3D32"
+    "oklch": [
+     0.6652,
+     0.23009,
+     28.70891
+    ]
    },
    "dark": {
-    "srgb_hex": "DB0007"
+    "oklch": [
+     0.52491,
+     0.22991,
+     28.70879
+    ]
    },
    "any_hc": {
-    "srgb_hex": "DF0B0D"
+    "oklch": [
+     0.56996,
+     0.23011,
+     28.65185
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F02B23"
+    "oklch": [
+     0.62007,
+     0.22995,
+     28.73038
+    ]
    }
   },
   "category/stimulant/text": {
    "any": {
-    "srgb_hex": "9D5B07"
+    "oklch": [
+     0.53507,
+     0.13982,
+     62.73032
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.70522,
+     0.17494,
+     62.63906
+    ]
    },
    "any_hc": {
-    "srgb_hex": "724104"
+    "oklch": [
+     0.42999,
+     0.10993,
+     62.74595
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFC897"
+    "oklch": [
+     0.82511,
+     0.15484,
+     62.66725
+    ]
    }
   },
   "category/stimulant/accent": {
    "any": {
-    "srgb_hex": "CC780F"
+    "oklch": [
+     0.65482,
+     0.17,
+     62.58475
+    ]
    },
    "dark": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A45E03"
+    "oklch": [
+     0.55022,
+     0.14407,
+     62.58373
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9500"
+    "oklch": [
+     0.66489,
+     0.17407,
+     62.60182
+    ]
    }
   },
   "category/psychedelic/text": {
    "any": {
-    "srgb_hex": "9A3DC7"
+    "oklch": [
+     0.54991,
+     0.21018,
+     312.36042
+    ]
    },
    "dark": {
-    "srgb_hex": "BD62EC"
+    "oklch": [
+     0.66013,
+     0.20992,
+     312.34096
+    ]
    },
    "any_hc": {
-    "srgb_hex": "7B15A6"
+    "oklch": [
+     0.44989,
+     0.21008,
+     312.42884
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "DCA2FE"
+    "oklch": [
+     0.80494,
+     0.14995,
+     312.40893
+    ]
    }
   },
   "category/psychedelic/accent": {
    "any": {
-    "srgb_hex": "BF64EE"
+    "oklch": [
+     0.66488,
+     0.20983,
+     312.37065
+    ]
    },
    "dark": {
-    "srgb_hex": "9133BD"
+    "oklch": [
+     0.52018,
+     0.21,
+     312.45255
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A044CE"
+    "oklch": [
+     0.57001,
+     0.21011,
+     312.34701
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "AE53DD"
+    "oklch": [
+     0.615,
+     0.21,
+     312.44571
+    ]
    }
   },
   "category/dissociative/text": {
    "any": {
-    "srgb_hex": "0E729C"
+    "oklch": [
+     0.52001,
+     0.13007,
+     233.99028
+    ]
    },
    "dark": {
-    "srgb_hex": "28A3DA"
+    "oklch": [
+     0.6301,
+     0.12996,
+     233.85625
+    ]
    },
    "any_hc": {
-    "srgb_hex": "045273"
+    "oklch": [
+     0.41467,
+     0.10999,
+     233.92001
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "64C9FD"
+    "oklch": [
+     0.78012,
+     0.13017,
+     233.88318
+    ]
    }
   },
   "category/dissociative/accent": {
    "any": {
-    "srgb_hex": "0F96CD"
+    "oklch": [
+     0.63494,
+     0.12994,
+     233.79665
+    ]
    },
    "dark": {
-    "srgb_hex": "0091C8"
+    "oklch": [
+     0.49004,
+     0.13008,
+     233.95847
+    ]
    },
    "any_hc": {
-    "srgb_hex": "0777A3"
+    "oklch": [
+     0.53507,
+     0.12992,
+     233.81836
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "0091C8"
+    "oklch": [
+     0.58481,
+     0.13004,
+     233.99592
+    ]
    }
   },
   "category/dysdelic/text": {
    "any": {
-    "srgb_hex": "9A4E8E"
+    "oklch": [
+     0.54002,
+     0.12987,
+     333.59322
+    ]
    },
    "dark": {
-    "srgb_hex": "C070B2"
+    "oklch": [
+     0.65511,
+     0.13001,
+     333.7267
+    ]
    },
    "any_hc": {
-    "srgb_hex": "7B3170"
+    "oklch": [
+     0.43992,
+     0.13026,
+     333.76746
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F29FE2"
+    "oklch": [
+     0.80509,
+     0.13027,
+     333.67704
+    ]
    }
   },
   "category/dysdelic/accent": {
    "any": {
-    "srgb_hex": "C070B2"
+    "oklch": [
+     0.65511,
+     0.13001,
+     333.7267
+    ]
    },
    "dark": {
-    "srgb_hex": "914685"
+    "oklch": [
+     0.51004,
+     0.12984,
+     333.72577
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A15494"
+    "oklch": [
+     0.56019,
+     0.12972,
+     333.80374
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "B163A3"
+    "oklch": [
+     0.60479,
+     0.13022,
+     333.62173
+    ]
    }
   },
   "category/deliriant/text": {
    "any": {
-    "srgb_hex": "746A45"
+    "oklch": [
+     0.52515,
+     0.05497,
+     94.50782
+    ]
    },
    "dark": {
-    "srgb_hex": "958B64"
+    "oklch": [
+     0.63497,
+     0.05499,
+     94.48448
+    ]
    },
    "any_hc": {
-    "srgb_hex": "574D28"
+    "oklch": [
+     0.41979,
+     0.05484,
+     94.49492
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "C4B991"
+    "oklch": [
+     0.78477,
+     0.05487,
+     94.52464
+    ]
    }
   },
   "category/deliriant/accent": {
    "any": {
-    "srgb_hex": "978C66"
+    "oklch": [
+     0.64004,
+     0.05491,
+     94.47816
+    ]
    },
    "dark": {
-    "srgb_hex": "6C623D"
+    "oklch": [
+     0.49495,
+     0.05476,
+     94.32543
+    ]
    },
    "any_hc": {
-    "srgb_hex": "796F49"
+    "oklch": [
+     0.5401,
+     0.05508,
+     94.59582
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "887D57"
+    "oklch": [
+     0.58985,
+     0.05503,
+     94.33266
+    ]
    }
   },
   "category/opioid/text": {
    "any": {
-    "srgb_hex": "D60107"
+    "oklch": [
+     0.55484,
+     0.22993,
+     28.70304
+    ]
    },
    "dark": {
-    "srgb_hex": "FE5244"
+    "oklch": [
+     0.6652,
+     0.23009,
+     28.70891
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A00406"
+    "oklch": [
+     0.44483,
+     0.20491,
+     28.69424
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFA193"
+    "oklch": [
+     0.80506,
+     0.13975,
+     28.75331
+    ]
    }
   },
   "category/opioid/accent": {
    "any": {
-    "srgb_hex": "FE3D32"
+    "oklch": [
+     0.6652,
+     0.23009,
+     28.70891
+    ]
    },
    "dark": {
-    "srgb_hex": "DB0007"
+    "oklch": [
+     0.52491,
+     0.22991,
+     28.70879
+    ]
    },
    "any_hc": {
-    "srgb_hex": "DF0B0D"
+    "oklch": [
+     0.56996,
+     0.23011,
+     28.65185
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F02B23"
+    "oklch": [
+     0.62007,
+     0.22995,
+     28.73038
+    ]
    }
   },
   "category/benzodiazepine/text": {
    "any": {
-    "srgb_hex": "0366D6"
+    "oklch": [
+     0.53495,
+     0.21524,
+     257.42181
+    ]
    },
    "dark": {
-    "srgb_hex": "4894FE"
+    "oklch": [
+     0.6452,
+     0.205,
+     257.38668
+    ]
    },
    "any_hc": {
-    "srgb_hex": "044A9E"
+    "oklch": [
+     0.42992,
+     0.19527,
+     257.4491
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "8CBBFF"
+    "oklch": [
+     0.78515,
+     0.1197,
+     257.23676
+    ]
    }
   },
   "category/benzodiazepine/accent": {
    "any": {
-    "srgb_hex": "087BFE"
+    "oklch": [
+     0.62986,
+     0.2149,
+     257.42963
+    ]
    },
    "dark": {
-    "srgb_hex": "0078FB"
+    "oklch": [
+     0.50495,
+     0.21483,
+     257.39992
+    ]
    },
    "any_hc": {
-    "srgb_hex": "076CE0"
+    "oklch": [
+     0.54986,
+     0.21521,
+     257.42678
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "0078FB"
+    "oklch": [
+     0.59526,
+     0.21503,
+     257.38322
+    ]
    }
   },
   "category/gabapentinoid/text": {
    "any": {
-    "srgb_hex": "5B5AD9"
+    "oklch": [
+     0.54025,
+     0.19003,
+     278.27788
+    ]
    },
    "dark": {
-    "srgb_hex": "787DFF"
+    "oklch": [
+     0.65,
+     0.19009,
+     278.31336
+    ]
    },
    "any_hc": {
-    "srgb_hex": "4239B7"
+    "oklch": [
+     0.44013,
+     0.19002,
+     278.34532
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "ABB4FD"
+    "oklch": [
+     0.79484,
+     0.11457,
+     278.30857
+    ]
    }
   },
   "category/gabapentinoid/accent": {
    "any": {
-    "srgb_hex": "787DFF"
+    "oklch": [
+     0.65501,
+     0.19023,
+     278.37298
+    ]
    },
    "dark": {
-    "srgb_hex": "5350CF"
+    "oklch": [
+     0.5099,
+     0.1901,
+     278.3799
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5F5EDE"
+    "oklch": [
+     0.55485,
+     0.1899,
+     278.35211
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "6C6EF0"
+    "oklch": [
+     0.60492,
+     0.18998,
+     278.32857
+    ]
    }
   },
   "category/empathogen/text": {
    "any": {
-    "srgb_hex": "D5073F"
+    "oklch": [
+     0.55498,
+     0.23489,
+     17.8965
+    ]
    },
    "dark": {
-    "srgb_hex": "FF5066"
+    "oklch": [
+     0.66494,
+     0.23508,
+     17.8488
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9E062D"
+    "oklch": [
+     0.44505,
+     0.20003,
+     17.94963
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FF9FA2"
+    "oklch": [
+     0.80484,
+     0.14413,
+     17.85626
+    ]
    }
   },
   "category/empathogen/accent": {
    "any": {
-    "srgb_hex": "FE3156"
+    "oklch": [
+     0.66986,
+     0.23512,
+     17.90559
+    ]
    },
    "dark": {
-    "srgb_hex": "E50043"
+    "oklch": [
+     0.52503,
+     0.23504,
+     17.88013
+    ]
    },
    "any_hc": {
-    "srgb_hex": "DC0A42"
+    "oklch": [
+     0.57006,
+     0.23502,
+     17.94977
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F3204D"
+    "oklch": [
+     0.61981,
+     0.23507,
+     17.91622
+    ]
    }
   },
   "category/cannabinoid/text": {
    "any": {
-    "srgb_hex": "007C2C"
+    "oklch": [
+     0.5051,
+     0.18995,
+     147.52238
+    ]
    },
    "dark": {
-    "srgb_hex": "20B64B"
+    "oklch": [
+     0.61497,
+     0.19006,
+     147.53013
+    ]
    },
    "any_hc": {
-    "srgb_hex": "015B1F"
+    "oklch": [
+     0.40534,
+     0.16509,
+     147.51187
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "56DD71"
+    "oklch": [
+     0.76499,
+     0.18996,
+     147.53503
+    ]
    }
   },
   "category/cannabinoid/accent": {
    "any": {
-    "srgb_hex": "08A13E"
+    "oklch": [
+     0.6199,
+     0.18984,
+     147.51309
+    ]
    },
    "dark": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.47491,
+     0.18992,
+     147.51096
+    ]
    },
    "any_hc": {
-    "srgb_hex": "00812F"
+    "oklch": [
+     0.52504,
+     0.19017,
+     147.48228
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00AB40"
+    "oklch": [
+     0.57031,
+     0.19013,
+     147.51425
+    ]
    }
   },
   "category/nootropic/text": {
    "any": {
-    "srgb_hex": "047687"
+    "oklch": [
+     0.5148,
+     0.10998,
+     212.89205
+    ]
    },
    "dark": {
-    "srgb_hex": "26A8BF"
+    "oklch": [
+     0.62487,
+     0.10988,
+     212.8383
+    ]
    },
    "any_hc": {
-    "srgb_hex": "085562"
+    "oklch": [
+     0.41478,
+     0.09492,
+     212.81525
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "58CFE6"
+    "oklch": [
+     0.77516,
+     0.11007,
+     212.59591
+    ]
    }
   },
   "category/nootropic/accent": {
    "any": {
-    "srgb_hex": "019AB0"
+    "oklch": [
+     0.62976,
+     0.10996,
+     212.80094
+    ]
    },
    "dark": {
-    "srgb_hex": "0098AE"
+    "oklch": [
+     0.48537,
+     0.11008,
+     212.78288
+    ]
    },
    "any_hc": {
-    "srgb_hex": "107A8C"
+    "oklch": [
+     0.53007,
+     0.1101,
+     212.78966
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "0098AE"
+    "oklch": [
+     0.57997,
+     0.10996,
+     212.80582
+    ]
    }
   },
   "category/ampakine/text": {
    "any": {
-    "srgb_hex": "2F7908"
+    "oklch": [
+     0.50976,
+     0.15473,
+     138.46783
+    ]
    },
    "dark": {
-    "srgb_hex": "539D38"
+    "oklch": [
+     0.62536,
+     0.15499,
+     138.49391
+    ]
    },
    "any_hc": {
-    "srgb_hex": "205904"
+    "oklch": [
+     0.40969,
+     0.14989,
+     138.47863
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "7FCB66"
+    "oklch": [
+     0.76999,
+     0.15482,
+     138.49272
+    ]
    }
   },
   "category/ampakine/accent": {
    "any": {
-    "srgb_hex": "539D38"
+    "oklch": [
+     0.62536,
+     0.15499,
+     138.49391
+    ]
    },
    "dark": {
-    "srgb_hex": "2B7500"
+    "oklch": [
+     0.47985,
+     0.15475,
+     138.46965
+    ]
    },
    "any_hc": {
-    "srgb_hex": "357F14"
+    "oklch": [
+     0.52998,
+     0.15497,
+     138.49531
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "438D27"
+    "oklch": [
+     0.57502,
+     0.1553,
+     138.52776
+    ]
    }
   },
   "category/eugeroic/text": {
    "any": {
-    "srgb_hex": "8F6203"
+    "oklch": [
+     0.52975,
+     0.12497,
+     76.39709
+    ]
    },
    "dark": {
-    "srgb_hex": "CA8E22"
+    "oklch": [
+     0.66018,
+     0.13508,
+     76.54377
+    ]
    },
    "any_hc": {
-    "srgb_hex": "6A4700"
+    "oklch": [
+     0.42512,
+     0.09993,
+     76.50764
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "F2B451"
+    "oklch": [
+     0.78971,
+     0.13482,
+     76.36933
+    ]
    }
   },
   "category/eugeroic/accent": {
    "any": {
-    "srgb_hex": "BB8001"
+    "oklch": [
+     0.64514,
+     0.13498,
+     76.55812
+    ]
    },
    "dark": {
-    "srgb_hex": "BA7F00"
+    "oklch": [
+     0.55986,
+     0.13493,
+     76.42764
+    ]
    },
    "any_hc": {
-    "srgb_hex": "956500"
+    "oklch": [
+     0.54994,
+     0.12999,
+     76.47943
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "BA7F00"
+    "oklch": [
+     0.59489,
+     0.135,
+     76.42724
+    ]
    }
   },
   "category/depressant/text": {
    "any": {
-    "srgb_hex": "546B93"
+    "oklch": [
+     0.52472,
+     0.0702,
+     261.59967
+    ]
    },
    "dark": {
-    "srgb_hex": "758DB7"
+    "oklch": [
+     0.64005,
+     0.07017,
+     261.68155
+    ]
    },
    "any_hc": {
-    "srgb_hex": "374D73"
+    "oklch": [
+     0.41998,
+     0.06978,
+     261.58147
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "A0BAE7"
+    "oklch": [
+     0.78506,
+     0.06999,
+     261.46787
+    ]
    }
   },
   "category/depressant/accent": {
    "any": {
-    "srgb_hex": "758DB7"
+    "oklch": [
+     0.64005,
+     0.07017,
+     261.68155
+    ]
    },
    "dark": {
-    "srgb_hex": "4B628A"
+    "oklch": [
+     0.49527,
+     0.06979,
+     261.40571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "597099"
+    "oklch": [
+     0.54482,
+     0.07012,
+     261.51246
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "667EA7"
+    "oklch": [
+     0.58999,
+     0.07011,
+     261.73683
+    ]
    }
   },
   "category/orexinAntagonist/text": {
    "any": {
-    "srgb_hex": "6B61AC"
+    "oklch": [
+     0.53501,
+     0.11507,
+     287.73575
+    ]
    },
    "dark": {
-    "srgb_hex": "8A82D0"
+    "oklch": [
+     0.64472,
+     0.11526,
+     287.78964
+    ]
    },
    "any_hc": {
-    "srgb_hex": "4E438A"
+    "oklch": [
+     0.42997,
+     0.11484,
+     287.72046
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "B8B1FF"
+    "oklch": [
+     0.79489,
+     0.11516,
+     287.9634
+    ]
    }
   },
   "category/orexinAntagonist/accent": {
    "any": {
-    "srgb_hex": "8C83D1"
+    "oklch": [
+     0.64972,
+     0.11508,
+     287.82781
+    ]
    },
    "dark": {
-    "srgb_hex": "6258A2"
+    "oklch": [
+     0.50512,
+     0.11505,
+     287.69287
+    ]
    },
    "any_hc": {
-    "srgb_hex": "6F65B0"
+    "oklch": [
+     0.54987,
+     0.11489,
+     287.86326
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "7C73BF"
+    "oklch": [
+     0.59971,
+     0.11496,
+     287.77587
+    ]
    }
   },
   "category/antidepressant/text": {
    "any": {
-    "srgb_hex": "826707"
+    "oklch": [
+     0.52485,
+     0.11995,
+     90.33673
+    ]
    },
    "dark": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "5F4A02"
+    "oklch": [
+     0.41995,
+     0.09908,
+     90.5851
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FDE39A"
+    "oklch": [
+     0.85514,
+     0.17502,
+     90.3565
+    ]
    }
   },
   "category/antidepressant/accent": {
    "any": {
-    "srgb_hex": "AA8803"
+    "oklch": [
+     0.63973,
+     0.1499,
+     90.36042
+    ]
    },
    "dark": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    },
    "any_hc": {
-    "srgb_hex": "896C05"
+    "oklch": [
+     0.54493,
+     0.12496,
+     90.35873
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FBC900"
+    "oklch": [
+     0.74011,
+     0.1746,
+     90.3571
+    ]
    }
   },
   "category/antipsychotic/text": {
    "any": {
-    "srgb_hex": "007872"
+    "oklch": [
+     0.51029,
+     0.11927,
+     188.92718
+    ]
    },
    "dark": {
-    "srgb_hex": "00BDB4"
+    "oklch": [
+     0.64513,
+     0.1301,
+     189.09601
+    ]
    },
    "any_hc": {
-    "srgb_hex": "035652"
+    "oklch": [
+     0.40973,
+     0.09482,
+     189.24411
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "50E4DB"
+    "oklch": [
+     0.77007,
+     0.13012,
+     189.11576
+    ]
    }
   },
   "category/antipsychotic/accent": {
    "any": {
-    "srgb_hex": "189D96"
+    "oklch": [
+     0.62491,
+     0.12991,
+     189.17372
+    ]
    },
    "dark": {
-    "srgb_hex": "00BDB4"
+    "oklch": [
+     0.55487,
+     0.12957,
+     189.15449
+    ]
    },
    "any_hc": {
-    "srgb_hex": "097C76"
+    "oklch": [
+     0.52971,
+     0.11983,
+     189.26834
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "00BDB4"
+    "oklch": [
+     0.57469,
+     0.1299,
+     189.08635
+    ]
    }
   },
   "category/analgesic/text": {
    "any": {
-    "srgb_hex": "816644"
+    "oklch": [
+     0.52995,
+     0.06007,
+     73.14133
+    ]
    },
    "dark": {
-    "srgb_hex": "A38763"
+    "oklch": [
+     0.64013,
+     0.05997,
+     72.92429
+    ]
    },
    "any_hc": {
-    "srgb_hex": "634927"
+    "oklch": [
+     0.42472,
+     0.06001,
+     72.57638
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "D3B590"
+    "oklch": [
+     0.79016,
+     0.05993,
+     73.08409
+    ]
    }
   },
   "category/analgesic/accent": {
    "any": {
-    "srgb_hex": "A48865"
+    "oklch": [
+     0.64013,
+     0.05997,
+     72.92429
+    ]
    },
    "dark": {
-    "srgb_hex": "785E3C"
+    "oklch": [
+     0.49518,
+     0.05995,
+     72.92246
+    ]
    },
    "any_hc": {
-    "srgb_hex": "866B48"
+    "oklch": [
+     0.54516,
+     0.05998,
+     72.849
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "957956"
+    "oklch": [
+     0.59496,
+     0.06003,
+     72.74142
+    ]
    }
   },
   "category/antihistamine/text": {
    "any": {
-    "srgb_hex": "96566E"
+    "oklch": [
+     0.53514,
+     0.09002,
+     356.83929
+    ]
    },
    "dark": {
-    "srgb_hex": "BC7890"
+    "oklch": [
+     0.64992,
+     0.09035,
+     356.78752
+    ]
    },
    "any_hc": {
-    "srgb_hex": "773A52"
+    "oklch": [
+     0.43003,
+     0.09023,
+     356.66812
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "EEA6BF"
+    "oklch": [
+     0.80017,
+     0.08998,
+     356.74372
+    ]
    }
   },
   "category/antihistamine/accent": {
    "any": {
-    "srgb_hex": "BD7992"
+    "oklch": [
+     0.64992,
+     0.09035,
+     356.78752
+    ]
    },
    "dark": {
-    "srgb_hex": "8D4E66"
+    "oklch": [
+     0.50539,
+     0.08999,
+     356.73914
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9D5C74"
+    "oklch": [
+     0.55488,
+     0.09018,
+     356.65889
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "AB6981"
+    "oklch": [
+     0.59973,
+     0.09021,
+     356.54522
+    ]
    }
   },
   "category/cardiovascular/text": {
    "any": {
-    "srgb_hex": "C72E2C"
+    "oklch": [
+     0.55008,
+     0.19023,
+     26.61305
+    ]
    },
    "dark": {
-    "srgb_hex": "F0574F"
+    "oklch": [
+     0.66028,
+     0.18994,
+     26.62961
+    ]
    },
    "any_hc": {
-    "srgb_hex": "A00211"
+    "oklch": [
+     0.44487,
+     0.19004,
+     26.5689
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFA096"
+    "oklch": [
+     0.80529,
+     0.13999,
+     26.64237
+    ]
    }
   },
   "category/cardiovascular/accent": {
    "any": {
-    "srgb_hex": "F0574F"
+    "oklch": [
+     0.66527,
+     0.19009,
+     26.57519
+    ]
    },
    "dark": {
-    "srgb_hex": "BE2325"
+    "oklch": [
+     0.5202,
+     0.18999,
+     26.64344
+    ]
    },
    "any_hc": {
-    "srgb_hex": "CE3533"
+    "oklch": [
+     0.56513,
+     0.19016,
+     26.63465
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "E04742"
+    "oklch": [
+     0.61525,
+     0.18995,
+     26.672
+    ]
    }
   },
   "category/antimicrobial/text": {
    "any": {
-    "srgb_hex": "137682"
+    "oklch": [
+     0.51491,
+     0.08998,
+     207.86214
+    ]
    },
    "dark": {
-    "srgb_hex": "3A9AA7"
+    "oklch": [
+     0.6299,
+     0.08999,
+     207.78956
+    ]
    },
    "any_hc": {
-    "srgb_hex": "04565F"
+    "oklch": [
+     0.40972,
+     0.08991,
+     207.92433
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "6BC8D5"
+    "oklch": [
+     0.78019,
+     0.08994,
+     207.65658
+    ]
    }
   },
   "category/antimicrobial/accent": {
    "any": {
-    "srgb_hex": "3898A5"
+    "oklch": [
+     0.6299,
+     0.08999,
+     207.78956
+    ]
    },
    "dark": {
-    "srgb_hex": "007783"
+    "oklch": [
+     0.4852,
+     0.09002,
+     207.65923
+    ]
    },
    "any_hc": {
-    "srgb_hex": "0A7B88"
+    "oklch": [
+     0.53476,
+     0.08983,
+     207.82683
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "248996"
+    "oklch": [
+     0.57983,
+     0.09001,
+     207.93694
+    ]
    }
   },
   "category/gastrointestinal/text": {
    "any": {
-    "srgb_hex": "955E00"
+    "oklch": [
+     0.53499,
+     0.12998,
+     70.24072
+    ]
    },
    "dark": {
-    "srgb_hex": "DC8E11"
+    "oklch": [
+     0.67514,
+     0.14996,
+     70.29762
+    ]
    },
    "any_hc": {
-    "srgb_hex": "6D4404"
+    "oklch": [
+     0.42477,
+     0.105,
+     70.07131
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "FFB964"
+    "oklch": [
+     0.79493,
+     0.15001,
+     70.28986
+    ]
    }
   },
   "category/gastrointestinal/accent": {
    "any": {
-    "srgb_hex": "C47D02"
+    "oklch": [
+     0.64979,
+     0.14992,
+     70.13815
+    ]
    },
    "dark": {
-    "srgb_hex": "D58800"
+    "oklch": [
+     0.60471,
+     0.14996,
+     70.13378
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9B640D"
+    "oklch": [
+     0.54998,
+     0.13509,
+     70.1279
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "D58800"
+    "oklch": [
+     0.60471,
+     0.14996,
+     70.13378
+    ]
    }
   },
   "category/respiratory/text": {
    "any": {
-    "srgb_hex": "007399"
+    "oklch": [
+     0.51968,
+     0.10501,
+     230.50208
+    ]
    },
    "dark": {
-    "srgb_hex": "3B97C0"
+    "oklch": [
+     0.63009,
+     0.10505,
+     230.3752
+    ]
    },
    "any_hc": {
-    "srgb_hex": "0B5470"
+    "oklch": [
+     0.41492,
+     0.10499,
+     230.36508
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "6AC4EE"
+    "oklch": [
+     0.77968,
+     0.10506,
+     230.47473
+    ]
    }
   },
   "category/respiratory/accent": {
    "any": {
-    "srgb_hex": "3996BE"
+    "oklch": [
+     0.63503,
+     0.10498,
+     230.33945
+    ]
    },
    "dark": {
-    "srgb_hex": "007399"
+    "oklch": [
+     0.4901,
+     0.105,
+     230.36475
+    ]
    },
    "any_hc": {
-    "srgb_hex": "09779E"
+    "oklch": [
+     0.53502,
+     0.10483,
+     230.35207
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "2586AE"
+    "oklch": [
+     0.58506,
+     0.10509,
+     230.39745
+    ]
    }
   },
   "category/endocrine/text": {
    "any": {
-    "srgb_hex": "904EB1"
+    "oklch": [
+     0.54508,
+     0.15994,
+     313.28327
+    ]
    },
    "dark": {
-    "srgb_hex": "B36FD5"
+    "oklch": [
+     0.65493,
+     0.1599,
+     313.43529
+    ]
    },
    "any_hc": {
-    "srgb_hex": "712E8F"
+    "oklch": [
+     0.43994,
+     0.16011,
+     313.43589
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "DFA3FF"
+    "oklch": [
+     0.80474,
+     0.15475,
+     313.40401
+    ]
    }
   },
   "category/endocrine/accent": {
    "any": {
-    "srgb_hex": "B471D6"
+    "oklch": [
+     0.65996,
+     0.16005,
+     313.3697
+    ]
    },
    "dark": {
-    "srgb_hex": "8745A7"
+    "oklch": [
+     0.51511,
+     0.15973,
+     313.3666
+    ]
    },
    "any_hc": {
-    "srgb_hex": "9552B5"
+    "oklch": [
+     0.55979,
+     0.16002,
+     313.42012
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "A562C6"
+    "oklch": [
+     0.60988,
+     0.16025,
+     313.36836
+    ]
    }
   },
   "category/immunological/text": {
    "any": {
-    "srgb_hex": "0869CD"
+    "oklch": [
+     0.53015,
+     0.17486,
+     255.64269
+    ]
    },
    "dark": {
-    "srgb_hex": "398DF5"
+    "oklch": [
+     0.64024,
+     0.17511,
+     255.63169
+    ]
    },
    "any_hc": {
-    "srgb_hex": "044C98"
+    "oklch": [
+     0.42518,
+     0.17493,
+     255.6754
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "89BCFF"
+    "oklch": [
+     0.78514,
+     0.11496,
+     255.634
+    ]
    }
   },
   "category/immunological/accent": {
    "any": {
-    "srgb_hex": "398DF5"
+    "oklch": [
+     0.64502,
+     0.17492,
+     255.63317
+    ]
    },
    "dark": {
-    "srgb_hex": "0166CA"
+    "oklch": [
+     0.49981,
+     0.17504,
+     255.70897
+    ]
    },
    "any_hc": {
-    "srgb_hex": "116ED3"
+    "oklch": [
+     0.5451,
+     0.17506,
+     255.68274
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "277DE4"
+    "oklch": [
+     0.59501,
+     0.17518,
+     255.68383
+    ]
    }
   },
   "category/supplement/text": {
    "any": {
-    "srgb_hex": "007B37"
+    "oklch": [
+     0.50976,
+     0.15985,
+     150.18785
+    ]
    },
    "dark": {
-    "srgb_hex": "2FAB59"
+    "oklch": [
+     0.61985,
+     0.15992,
+     150.15105
+    ]
    },
    "any_hc": {
-    "srgb_hex": "045A28"
+    "oklch": [
+     0.40476,
+     0.15485,
+     150.18167
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "5DD27E"
+    "oklch": [
+     0.77001,
+     0.15993,
+     150.24966
+    ]
    }
   },
   "category/supplement/accent": {
    "any": {
-    "srgb_hex": "21A150"
+    "oklch": [
+     0.62475,
+     0.15978,
+     150.18473
+    ]
    },
    "dark": {
-    "srgb_hex": "019544"
+    "oklch": [
+     0.48005,
+     0.15995,
+     150.18518
+    ]
    },
    "any_hc": {
-    "srgb_hex": "10813D"
+    "oklch": [
+     0.52491,
+     0.15979,
+     150.20841
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "019544"
+    "oklch": [
+     0.57479,
+     0.15976,
+     150.25433
+    ]
    }
   },
   "category/peptide/text": {
    "any": {
-    "srgb_hex": "2F70A0"
+    "oklch": [
+     0.52525,
+     0.09986,
+     243.90021
+    ]
    },
    "dark": {
-    "srgb_hex": "5191C3"
+    "oklch": [
+     0.63478,
+     0.10009,
+     244.11405
+    ]
    },
    "any_hc": {
-    "srgb_hex": "07517F"
+    "oklch": [
+     0.42019,
+     0.09993,
+     243.95337
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "80C0F5"
+    "oklch": [
+     0.7849,
+     0.10016,
+     244.17444
+    ]
    }
   },
   "category/peptide/accent": {
    "any": {
-    "srgb_hex": "5191C3"
+    "oklch": [
+     0.63976,
+     0.09995,
+     244.10215
+    ]
    },
    "dark": {
-    "srgb_hex": "266796"
+    "oklch": [
+     0.49497,
+     0.10018,
+     244.07268
+    ]
    },
    "any_hc": {
-    "srgb_hex": "3474A4"
+    "oklch": [
+     0.53998,
+     0.09977,
+     243.97186
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "4282B3"
+    "oklch": [
+     0.58516,
+     0.09984,
+     243.95484
+    ]
    }
   },
   "category/anticonvulsant/text": {
    "any": {
-    "srgb_hex": "765DA4"
+    "oklch": [
+     0.53484,
+     0.11019,
+     298.80438
+    ]
    },
    "dark": {
-    "srgb_hex": "977EC7"
+    "oklch": [
+     0.6451,
+     0.10982,
+     298.90735
+    ]
    },
    "any_hc": {
-    "srgb_hex": "594083"
+    "oklch": [
+     0.43,
+     0.11022,
+     298.94929
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "C7AEFB"
+    "oklch": [
+     0.79524,
+     0.11003,
+     298.92851
+    ]
    }
   },
   "category/anticonvulsant/accent": {
    "any": {
-    "srgb_hex": "9880C9"
+    "oklch": [
+     0.65023,
+     0.11002,
+     298.86602
+    ]
    },
    "dark": {
-    "srgb_hex": "6E559A"
+    "oklch": [
+     0.50493,
+     0.11018,
+     298.98773
+    ]
    },
    "any_hc": {
-    "srgb_hex": "7C63AA"
+    "oklch": [
+     0.54972,
+     0.11005,
+     298.85063
+    ]
    },
    "dark_hc": {
-    "srgb_hex": "8971B9"
+    "oklch": [
+     0.59995,
+     0.10983,
+     298.91718
+    ]
    }
   },
   "category/other/text": {
    "any": {
-    "srgb_hex": "6A6A6E"
+    "oklch": [
+     0.52519,
+     0.00699,
+     285.9238
+    ]
    },
    "dark": {
-    "srgb_hex": "8A8A8F"
+    "oklch": [
+     0.63988,
+     0.00708,
+     285.91647
+    ]
    }
   },
   "category/other/accent": {
    "any": {
-    "srgb_hex": "8B8B90"
+    "oklch": [
+     0.63988,
+     0.00708,
+     285.91647
+    ]
    },
    "dark": {
-    "srgb_hex": "616166"
+    "oklch": [
+     0.49468,
+     0.00709,
+     285.92204
+    ]
    }
   },
   "family/common/text": {
