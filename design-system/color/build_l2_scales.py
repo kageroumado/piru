@@ -110,9 +110,22 @@ ROUTE_SOURCE = {
 # deliberately not monotonic in Oklab L, the same exemption the phase arc takes.
 DOSE_SOURCE = {
     "sub": "8E8E93",
-    "threshold": "B7BCC4",
+    # A cool slate rather than another neutral. `sub` and `threshold` were both
+    # near-achromatic greys, so once gated they converged to Oklab dE 0.007 --
+    # two adjacent tiers rendering as the same colour. Giving threshold real
+    # chroma separates them and starts the ramp cool, which suits a scale whose
+    # top end is warm.
+    "threshold": "7B90B8",
     "light": "34C759",
-    "common": "E0A021",
+    # Teal, not the conventional gold. Yellow at the lightness a mid-ramp step
+    # needs is gamut-capped to a low chroma, so it reads muddy or brown -- the
+    # least-liked outcome in the whole palette. Teal holds its chroma at that
+    # lightness, and reading "common" as neutral rather than cautionary is
+    # arguably truer: a common dose is the normal one, not a warning.
+    #
+    # It does break the traffic-light ramp, which is fine -- that metaphor is
+    # overused, and the tier *labels* carry the order regardless.
+    "common": "009BA4",
     "strong": "F0803A",
     "heavy": "E8503A",
 }
@@ -287,6 +300,52 @@ def build_neutral(hue: float, chroma: float) -> dict[str, dict]:
     return entry
 
 
+def build_family(source: dict[str, str]) -> dict[str, dict]:
+    """Library family colours — passed through **unchanged**, by design.
+
+    These fill large decorative gradient cards
+    (`color -> color.mix(with: .white, by: 0.35)`) with white text over them, so
+    the surface is not the app card and the usual gates do not apply.
+
+    Two generated attempts were rejected on sight, and both failed the same way:
+    gating at 3:1 against the app card settles on the palest value that passes
+    (washed out), and gating for white-on-the-gradient forces orange and green
+    almost to black -- because those hues *cannot* be both vivid and dark. Orange
+    sits at Oklab L ~0.78; dropping it to where white text works lands it in
+    brown, definitionally, whatever the chroma.
+
+    The fix is not in the colour. `FamilyGradientCard` lifts its white text off
+    the gradient with a shadow -- the same treatment its count and chevron
+    already used -- which buys legibility without touching hue. So these stay
+    exactly as designed.
+
+    Recorded as a deliberate exemption rather than an oversight: this is the one
+    scale in the system whose values are hand-chosen and ungated.
+    """
+    scale: dict[str, dict] = {}
+    for name, source_hex in source.items():
+        _, _, hue = oklch(hex_to_rgb(source_hex))
+        value = f"#{source_hex.upper()}"
+        scale[name] = {
+            mode: {
+                "text": value,
+                "accent": value,
+                "text_hc": value,
+                "accent_hc": value,
+                "hue": round(hue, 2),
+                "ungated": "decorative gradient card; legibility comes from the text shadow",
+            }
+            for mode in CARD
+        }
+    return scale
+
+
+def mix_toward_white(rgb: tuple, amount: float) -> tuple:
+    """SwiftUI's `Color.mix(with: .white, by:)` — a plain per-channel lerp in the
+    encoded space, which is what SwiftUI does."""
+    return tuple(c + (1.0 - c) * amount for c in rgb)
+
+
 def build_scale(source: dict[str, str]) -> dict[str, dict]:
     scale: dict[str, dict] = {}
     for name, source_hex in source.items():
@@ -348,7 +407,7 @@ def main() -> None:
         "confidence": build_scale(CONFIDENCE_SOURCE),
         "severity": build_scale(SEVERITY_SOURCE),
         "category": build_scale(CATEGORY_SOURCE),
-        "family": build_scale(FAMILY_SOURCE),
+        "family": build_family(FAMILY_SOURCE),
     }
     out = {
         "_meta": {
@@ -367,11 +426,21 @@ def main() -> None:
         print(f"{scale_name}:")
         for name, modes in entries.items():
             light, dark = modes["light"], modes["dark"]
-            print(
-                f"  {name:10} text {light['text']}/{dark['text']}  accent {light['accent']}/{dark['accent']}"
-                f"   t/fill {light['verified']['text_on_fill']:.2f}/{dark['verified']['text_on_fill']:.2f}"
-                f"  a/card {light['verified']['accent_on_card']:.2f}/{dark['verified']['accent_on_card']:.2f}",
-            )
+            v = light.get("verified")
+            if v is None:
+                print(f"  {name:16} {light['accent']}   ungated — {light['ungated']}")
+                continue
+            if "white_on_gradient_end" in v:
+                print(
+                    f"  {name:16} {light['accent']}   white on gradient end "
+                    f"{v['white_on_gradient_end']:.2f}  on base {v['white_on_base']:.2f}",
+                )
+            else:
+                print(
+                    f"  {name:10} text {light['text']}/{dark['text']}  accent {light['accent']}/{dark['accent']}"
+                    f"   t/fill {v['text_on_fill']:.2f}/{dark['verified']['text_on_fill']:.2f}"
+                    f"  a/card {v['accent_on_card']:.2f}/{dark['verified']['accent_on_card']:.2f}",
+                )
 
 
 if __name__ == "__main__":

@@ -109,6 +109,13 @@ struct FamilyGradientCard<Hero: View, Content: View>: View {
 
     var body: some View {
         content()
+            // White text on a light gradient. The colours are deliberately vivid
+            // and ungated (see `design-system/color/build_l2_scales.py`), so
+            // legibility comes from lifting the text off the fill rather than
+            // from darkening the fill — which for orange and green means brown.
+            // Same treatment the count and chevron already used, a touch
+            // stronger since this carries the title and blurb.
+            .shadow(color: .black.opacity(0.32), radius: 3, x: 0, y: 1)
             .padding(padding)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(alignment: .topTrailing) { hero() }

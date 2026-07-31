@@ -598,18 +598,30 @@
   },
   "dose/threshold/text": {
    "any": {
-    "srgb_hex": "666B72"
+    "srgb_hex": "586A8D"
    },
    "dark": {
-    "srgb_hex": "868B92"
+    "srgb_hex": "788BB0"
+   },
+   "any_hc": {
+    "srgb_hex": "3C4D6E"
+   },
+   "dark_hc": {
+    "srgb_hex": "A7BBE2"
    }
   },
   "dose/threshold/accent": {
    "any": {
-    "srgb_hex": "888C94"
+    "srgb_hex": "798CB1"
    },
    "dark": {
-    "srgb_hex": "5E6269"
+    "srgb_hex": "506284"
+   },
+   "any_hc": {
+    "srgb_hex": "5E7094"
+   },
+   "dark_hc": {
+    "srgb_hex": "6B7DA2"
    }
   },
   "dose/light/text": {
@@ -642,30 +654,30 @@
   },
   "dose/common/text": {
    "any": {
-    "srgb_hex": "8E6201"
+    "srgb_hex": "0D767C"
    },
    "dark": {
-    "srgb_hex": "D49614"
+    "srgb_hex": "29A8B1"
    },
    "any_hc": {
-    "srgb_hex": "664605"
+    "srgb_hex": "00555B"
    },
    "dark_hc": {
-    "srgb_hex": "FCBC4C"
+    "srgb_hex": "5ACFD7"
    }
   },
   "dose/common/accent": {
    "any": {
-    "srgb_hex": "BA8200"
+    "srgb_hex": "0F9BA4"
    },
    "dark": {
-    "srgb_hex": "CD9000"
+    "srgb_hex": "0097A0"
    },
    "any_hc": {
-    "srgb_hex": "93670C"
+    "srgb_hex": "057C84"
    },
    "dark_hc": {
-    "srgb_hex": "CD9000"
+    "srgb_hex": "0097A0"
    }
   },
   "dose/strong/text": {
@@ -1710,55 +1722,55 @@
   },
   "family/common/text": {
    "any": {
-    "srgb_hex": "3F6BB0"
+    "srgb_hex": "4775BD"
    },
    "dark": {
-    "srgb_hex": "5E8CD4"
+    "srgb_hex": "4775BD"
    },
    "any_hc": {
-    "srgb_hex": "214C8F"
+    "srgb_hex": "4775BD"
    },
    "dark_hc": {
-    "srgb_hex": "92BCFE"
+    "srgb_hex": "4775BD"
    }
   },
   "family/common/accent": {
    "any": {
-    "srgb_hex": "5E8CD4"
+    "srgb_hex": "4775BD"
    },
    "dark": {
-    "srgb_hex": "3561A5"
+    "srgb_hex": "4775BD"
    },
    "any_hc": {
-    "srgb_hex": "4370B5"
+    "srgb_hex": "4775BD"
    },
    "dark_hc": {
-    "srgb_hex": "507DC4"
+    "srgb_hex": "4775BD"
    }
   },
   "family/stimulant/text": {
    "any": {
-    "srgb_hex": "9D5B07"
+    "srgb_hex": "FF9500"
    },
    "dark": {
     "srgb_hex": "FF9500"
    },
    "any_hc": {
-    "srgb_hex": "724104"
+    "srgb_hex": "FF9500"
    },
    "dark_hc": {
-    "srgb_hex": "FFC897"
+    "srgb_hex": "FF9500"
    }
   },
   "family/stimulant/accent": {
    "any": {
-    "srgb_hex": "CC780F"
+    "srgb_hex": "FF9500"
    },
    "dark": {
     "srgb_hex": "FF9500"
    },
    "any_hc": {
-    "srgb_hex": "A45E03"
+    "srgb_hex": "FF9500"
    },
    "dark_hc": {
     "srgb_hex": "FF9500"
@@ -1766,268 +1778,268 @@
   },
   "family/empathogen/text": {
    "any": {
-    "srgb_hex": "D5073F"
+    "srgb_hex": "FF2D55"
    },
    "dark": {
-    "srgb_hex": "FF5066"
+    "srgb_hex": "FF2D55"
    },
    "any_hc": {
-    "srgb_hex": "9E062D"
+    "srgb_hex": "FF2D55"
    },
    "dark_hc": {
-    "srgb_hex": "FF9FA2"
+    "srgb_hex": "FF2D55"
    }
   },
   "family/empathogen/accent": {
    "any": {
-    "srgb_hex": "FE3156"
+    "srgb_hex": "FF2D55"
    },
    "dark": {
-    "srgb_hex": "E50043"
+    "srgb_hex": "FF2D55"
    },
    "any_hc": {
-    "srgb_hex": "DC0A42"
+    "srgb_hex": "FF2D55"
    },
    "dark_hc": {
-    "srgb_hex": "F3204D"
+    "srgb_hex": "FF2D55"
    }
   },
   "family/hallucinogen/text": {
    "any": {
-    "srgb_hex": "8F48C8"
+    "srgb_hex": "8F45C9"
    },
    "dark": {
-    "srgb_hex": "B16BEE"
+    "srgb_hex": "8F45C9"
    },
    "any_hc": {
-    "srgb_hex": "7023A6"
+    "srgb_hex": "8F45C9"
    },
    "dark_hc": {
-    "srgb_hex": "D3A7FF"
+    "srgb_hex": "8F45C9"
    }
   },
   "family/hallucinogen/accent": {
    "any": {
-    "srgb_hex": "B36CEF"
+    "srgb_hex": "8F45C9"
    },
    "dark": {
-    "srgb_hex": "863EBE"
+    "srgb_hex": "8F45C9"
    },
    "any_hc": {
-    "srgb_hex": "944CCD"
+    "srgb_hex": "8F45C9"
    },
    "dark_hc": {
-    "srgb_hex": "A25BDD"
+    "srgb_hex": "8F45C9"
    }
   },
   "family/cannabinoid/text": {
    "any": {
-    "srgb_hex": "007C2C"
+    "srgb_hex": "34C759"
    },
    "dark": {
-    "srgb_hex": "20B64B"
+    "srgb_hex": "34C759"
    },
    "any_hc": {
-    "srgb_hex": "015B1F"
+    "srgb_hex": "34C759"
    },
    "dark_hc": {
-    "srgb_hex": "56DD71"
+    "srgb_hex": "34C759"
    }
   },
   "family/cannabinoid/accent": {
    "any": {
-    "srgb_hex": "08A13E"
+    "srgb_hex": "34C759"
    },
    "dark": {
-    "srgb_hex": "00AB40"
+    "srgb_hex": "34C759"
    },
    "any_hc": {
-    "srgb_hex": "00812F"
+    "srgb_hex": "34C759"
    },
    "dark_hc": {
-    "srgb_hex": "00AB40"
+    "srgb_hex": "34C759"
    }
   },
   "family/opioid/text": {
    "any": {
-    "srgb_hex": "D60107"
+    "srgb_hex": "FF3B30"
    },
    "dark": {
-    "srgb_hex": "FE5244"
+    "srgb_hex": "FF3B30"
    },
    "any_hc": {
-    "srgb_hex": "A00406"
+    "srgb_hex": "FF3B30"
    },
    "dark_hc": {
-    "srgb_hex": "FFA193"
+    "srgb_hex": "FF3B30"
    }
   },
   "family/opioid/accent": {
    "any": {
-    "srgb_hex": "FE3D32"
+    "srgb_hex": "FF3B30"
    },
    "dark": {
-    "srgb_hex": "DB0007"
+    "srgb_hex": "FF3B30"
    },
    "any_hc": {
-    "srgb_hex": "DF0B0D"
+    "srgb_hex": "FF3B30"
    },
    "dark_hc": {
-    "srgb_hex": "F02B23"
+    "srgb_hex": "FF3B30"
    }
   },
   "family/sedative/text": {
    "any": {
-    "srgb_hex": "0366D6"
+    "srgb_hex": "007AFF"
    },
    "dark": {
-    "srgb_hex": "4894FE"
+    "srgb_hex": "007AFF"
    },
    "any_hc": {
-    "srgb_hex": "044A9E"
+    "srgb_hex": "007AFF"
    },
    "dark_hc": {
-    "srgb_hex": "8CBBFF"
+    "srgb_hex": "007AFF"
    }
   },
   "family/sedative/accent": {
    "any": {
-    "srgb_hex": "087BFE"
+    "srgb_hex": "007AFF"
    },
    "dark": {
-    "srgb_hex": "0078FB"
+    "srgb_hex": "007AFF"
    },
    "any_hc": {
-    "srgb_hex": "076CE0"
+    "srgb_hex": "007AFF"
    },
    "dark_hc": {
-    "srgb_hex": "0078FB"
+    "srgb_hex": "007AFF"
    }
   },
   "family/peptide/text": {
    "any": {
-    "srgb_hex": "2F70A0"
+    "srgb_hex": "66A6D9"
    },
    "dark": {
-    "srgb_hex": "5191C3"
+    "srgb_hex": "66A6D9"
    },
    "any_hc": {
-    "srgb_hex": "07517F"
+    "srgb_hex": "66A6D9"
    },
    "dark_hc": {
-    "srgb_hex": "80C0F5"
+    "srgb_hex": "66A6D9"
    }
   },
   "family/peptide/accent": {
    "any": {
-    "srgb_hex": "5191C3"
+    "srgb_hex": "66A6D9"
    },
    "dark": {
-    "srgb_hex": "266796"
+    "srgb_hex": "66A6D9"
    },
    "any_hc": {
-    "srgb_hex": "3474A4"
+    "srgb_hex": "66A6D9"
    },
    "dark_hc": {
-    "srgb_hex": "4282B3"
+    "srgb_hex": "66A6D9"
    }
   },
   "family/mind/text": {
    "any": {
-    "srgb_hex": "207582"
+    "srgb_hex": "1C7885"
    },
    "dark": {
-    "srgb_hex": "4797A3"
+    "srgb_hex": "1C7885"
    },
    "any_hc": {
-    "srgb_hex": "055660"
+    "srgb_hex": "1C7885"
    },
    "dark_hc": {
-    "srgb_hex": "77C6D3"
+    "srgb_hex": "1C7885"
    }
   },
   "family/mind/accent": {
    "any": {
-    "srgb_hex": "4898A5"
+    "srgb_hex": "1C7885"
    },
    "dark": {
-    "srgb_hex": "126D79"
+    "srgb_hex": "1C7885"
    },
    "any_hc": {
-    "srgb_hex": "267A86"
+    "srgb_hex": "1C7885"
    },
    "dark_hc": {
-    "srgb_hex": "388995"
+    "srgb_hex": "1C7885"
    }
   },
   "family/pharmaceutical/text": {
    "any": {
-    "srgb_hex": "5F6B7F"
+    "srgb_hex": "6E7A8F"
    },
    "dark": {
-    "srgb_hex": "818DA2"
+    "srgb_hex": "6E7A8F"
    },
    "any_hc": {
-    "srgb_hex": "434D61"
+    "srgb_hex": "6E7A8F"
    },
    "dark_hc": {
-    "srgb_hex": "ADBAD0"
+    "srgb_hex": "6E7A8F"
    }
   },
   "family/pharmaceutical/accent": {
    "any": {
-    "srgb_hex": "818DA2"
+    "srgb_hex": "6E7A8F"
    },
    "dark": {
-    "srgb_hex": "576276"
+    "srgb_hex": "6E7A8F"
    },
    "any_hc": {
-    "srgb_hex": "646F84"
+    "srgb_hex": "6E7A8F"
    },
    "dark_hc": {
-    "srgb_hex": "727E93"
+    "srgb_hex": "6E7A8F"
    }
   },
   "family/supplement/text": {
    "any": {
-    "srgb_hex": "007B3C"
+    "srgb_hex": "52BD75"
    },
    "dark": {
-    "srgb_hex": "39A25E"
+    "srgb_hex": "52BD75"
    },
    "any_hc": {
-    "srgb_hex": "075A2C"
+    "srgb_hex": "52BD75"
    },
    "dark_hc": {
-    "srgb_hex": "67CD87"
+    "srgb_hex": "52BD75"
    }
   },
   "family/supplement/accent": {
    "any": {
-    "srgb_hex": "359F5B"
+    "srgb_hex": "52BD75"
    },
    "dark": {
-    "srgb_hex": "008240"
+    "srgb_hex": "52BD75"
    },
    "any_hc": {
-    "srgb_hex": "0C7F40"
+    "srgb_hex": "52BD75"
    },
    "dark_hc": {
-    "srgb_hex": "208F4D"
+    "srgb_hex": "52BD75"
    }
   },
   "family/research/text": {
    "any": {
-    "srgb_hex": "656A76"
+    "srgb_hex": "878C99"
    },
    "dark": {
     "srgb_hex": "878C99"
    },
    "any_hc": {
-    "srgb_hex": "484D58"
+    "srgb_hex": "878C99"
    },
    "dark_hc": {
-    "srgb_hex": "B4B9C6"
+    "srgb_hex": "878C99"
    }
   },
   "family/research/accent": {
@@ -2035,29 +2047,41 @@
     "srgb_hex": "878C99"
    },
    "dark": {
-    "srgb_hex": "5D626E"
+    "srgb_hex": "878C99"
    },
    "any_hc": {
-    "srgb_hex": "6A6E7B"
+    "srgb_hex": "878C99"
    },
    "dark_hc": {
-    "srgb_hex": "787D8A"
+    "srgb_hex": "878C99"
    }
   },
   "family/other/text": {
    "any": {
-    "srgb_hex": "666B72"
+    "srgb_hex": "737880"
    },
    "dark": {
-    "srgb_hex": "868B93"
+    "srgb_hex": "737880"
+   },
+   "any_hc": {
+    "srgb_hex": "737880"
+   },
+   "dark_hc": {
+    "srgb_hex": "737880"
    }
   },
   "family/other/accent": {
    "any": {
-    "srgb_hex": "878C95"
+    "srgb_hex": "737880"
    },
    "dark": {
-    "srgb_hex": "5D626A"
+    "srgb_hex": "737880"
+   },
+   "any_hc": {
+    "srgb_hex": "737880"
+   },
+   "dark_hc": {
+    "srgb_hex": "737880"
    }
   }
  }
