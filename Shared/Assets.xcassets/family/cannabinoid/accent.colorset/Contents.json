@@ -1,0 +1,38 @@
+{
+  "colors": [
+    {
+      "color": {
+        "color-space": "display-p3",
+        "components": {
+          "red": "0.283",
+          "green": "0.622",
+          "blue": "0.293",
+          "alpha": "1.000"
+        }
+      },
+      "idiom": "universal"
+    },
+    {
+      "color": {
+        "color-space": "display-p3",
+        "components": {
+          "red": "0.298",
+          "green": "0.660",
+          "blue": "0.306",
+          "alpha": "1.000"
+        }
+      },
+      "idiom": "universal",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    }
+  ],
+  "info": {
+    "author": "generate_colorsets.py",
+    "version": 1
+  }
+}

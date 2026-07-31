@@ -1095,6 +1095,214 @@
    "dark": {
     "srgb_hex": "616166"
    }
+  },
+  "family/common/text": {
+   "any": {
+    "srgb_hex": "3F6BB0"
+   },
+   "dark": {
+    "srgb_hex": "5E8CD4"
+   }
+  },
+  "family/common/accent": {
+   "any": {
+    "srgb_hex": "5E8CD4"
+   },
+   "dark": {
+    "srgb_hex": "3561A5"
+   }
+  },
+  "family/stimulant/text": {
+   "any": {
+    "srgb_hex": "9D5B07"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "family/stimulant/accent": {
+   "any": {
+    "srgb_hex": "CC780F"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "family/empathogen/text": {
+   "any": {
+    "srgb_hex": "D5073F"
+   },
+   "dark": {
+    "srgb_hex": "FF5066"
+   }
+  },
+  "family/empathogen/accent": {
+   "any": {
+    "srgb_hex": "FE3156"
+   },
+   "dark": {
+    "srgb_hex": "E50043"
+   }
+  },
+  "family/hallucinogen/text": {
+   "any": {
+    "srgb_hex": "8F48C8"
+   },
+   "dark": {
+    "srgb_hex": "B16BEE"
+   }
+  },
+  "family/hallucinogen/accent": {
+   "any": {
+    "srgb_hex": "B36CEF"
+   },
+   "dark": {
+    "srgb_hex": "863EBE"
+   }
+  },
+  "family/cannabinoid/text": {
+   "any": {
+    "srgb_hex": "007C2C"
+   },
+   "dark": {
+    "srgb_hex": "20B64B"
+   }
+  },
+  "family/cannabinoid/accent": {
+   "any": {
+    "srgb_hex": "08A13E"
+   },
+   "dark": {
+    "srgb_hex": "00AB40"
+   }
+  },
+  "family/opioid/text": {
+   "any": {
+    "srgb_hex": "D60107"
+   },
+   "dark": {
+    "srgb_hex": "FE5244"
+   }
+  },
+  "family/opioid/accent": {
+   "any": {
+    "srgb_hex": "FE3D32"
+   },
+   "dark": {
+    "srgb_hex": "DB0007"
+   }
+  },
+  "family/sedative/text": {
+   "any": {
+    "srgb_hex": "0366D6"
+   },
+   "dark": {
+    "srgb_hex": "4894FE"
+   }
+  },
+  "family/sedative/accent": {
+   "any": {
+    "srgb_hex": "087BFE"
+   },
+   "dark": {
+    "srgb_hex": "0078FB"
+   }
+  },
+  "family/peptide/text": {
+   "any": {
+    "srgb_hex": "2F70A0"
+   },
+   "dark": {
+    "srgb_hex": "5191C3"
+   }
+  },
+  "family/peptide/accent": {
+   "any": {
+    "srgb_hex": "5191C3"
+   },
+   "dark": {
+    "srgb_hex": "266796"
+   }
+  },
+  "family/mind/text": {
+   "any": {
+    "srgb_hex": "207582"
+   },
+   "dark": {
+    "srgb_hex": "4797A3"
+   }
+  },
+  "family/mind/accent": {
+   "any": {
+    "srgb_hex": "4898A5"
+   },
+   "dark": {
+    "srgb_hex": "126D79"
+   }
+  },
+  "family/pharmaceutical/text": {
+   "any": {
+    "srgb_hex": "5F6B7F"
+   },
+   "dark": {
+    "srgb_hex": "818DA2"
+   }
+  },
+  "family/pharmaceutical/accent": {
+   "any": {
+    "srgb_hex": "818DA2"
+   },
+   "dark": {
+    "srgb_hex": "576276"
+   }
+  },
+  "family/supplement/text": {
+   "any": {
+    "srgb_hex": "007B3C"
+   },
+   "dark": {
+    "srgb_hex": "39A25E"
+   }
+  },
+  "family/supplement/accent": {
+   "any": {
+    "srgb_hex": "359F5B"
+   },
+   "dark": {
+    "srgb_hex": "008240"
+   }
+  },
+  "family/research/text": {
+   "any": {
+    "srgb_hex": "656A76"
+   },
+   "dark": {
+    "srgb_hex": "878C99"
+   }
+  },
+  "family/research/accent": {
+   "any": {
+    "srgb_hex": "878C99"
+   },
+   "dark": {
+    "srgb_hex": "5D626E"
+   }
+  },
+  "family/other/text": {
+   "any": {
+    "srgb_hex": "666B72"
+   },
+   "dark": {
+    "srgb_hex": "868B93"
+   }
+  },
+  "family/other/accent": {
+   "any": {
+    "srgb_hex": "878C95"
+   },
+   "dark": {
+    "srgb_hex": "5D626A"
+   }
   }
  }
 }

@@ -60,7 +60,7 @@ private struct InventorySummaryRow: View {
                 StockAmountText(item: item, style: .subheadline)
             }
             if let fraction = item.fillFraction {
-                InventorySupplyBar(fraction: fraction, tint: item.supplyBarTint(colorMap: colorMap))
+                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
                     .padding(.leading, 19)
             }
         }
@@ -330,7 +330,7 @@ private struct InventoryRow: View {
                 StockAmountText(item: item, style: .body)
             }
             if let fraction = item.fillFraction {
-                InventorySupplyBar(fraction: fraction, tint: item.supplyBarTint(colorMap: colorMap))
+                InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint)
                     .padding(.leading, 17)
             }
         }

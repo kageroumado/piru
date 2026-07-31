@@ -1309,6 +1309,296 @@
      }
     }
    }
+  },
+  "family": {
+   "common": {
+    "light": {
+     "text": "#3F6BB0",
+     "accent": "#5E8CD4",
+     "hue": 259.05,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 4.89,
+      "accent_on_card": 3.12
+     }
+    },
+    "dark": {
+     "text": "#5E8CD4",
+     "accent": "#3561A5",
+     "hue": 259.05,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 5.55,
+      "accent_on_card": 3.06
+     }
+    }
+   },
+   "stimulant": {
+    "light": {
+     "text": "#9D5B07",
+     "accent": "#CC780F",
+     "hue": 62.57,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.08
+     }
+    },
+    "dark": {
+     "text": "#FF9500",
+     "accent": "#FF9500",
+     "hue": 62.57,
+     "verified": {
+      "text_on_fill": 4.88,
+      "text_on_card": 8.59,
+      "accent_on_card": 8.59
+     }
+    }
+   },
+   "empathogen": {
+    "light": {
+     "text": "#D5073F",
+     "accent": "#FE3156",
+     "hue": 17.89,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.33
+     }
+    },
+    "dark": {
+     "text": "#FF5066",
+     "accent": "#E50043",
+     "hue": 17.89,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 5.93,
+      "accent_on_card": 3.97
+     }
+    }
+   },
+   "hallucinogen": {
+    "light": {
+     "text": "#8F48C8",
+     "accent": "#B36CEF",
+     "hue": 306.67,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.05
+     }
+    },
+    "dark": {
+     "text": "#B16BEE",
+     "accent": "#863EBE",
+     "hue": 306.67,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 5.58,
+      "accent_on_card": 3.1
+     }
+    }
+   },
+   "cannabinoid": {
+    "light": {
+     "text": "#007C2C",
+     "accent": "#08A13E",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.58,
+      "text_on_card": 4.91,
+      "accent_on_card": 3.12
+     }
+    },
+    "dark": {
+     "text": "#20B64B",
+     "accent": "#00AB40",
+     "hue": 147.47,
+     "verified": {
+      "text_on_fill": 4.65,
+      "text_on_card": 7.06,
+      "accent_on_card": 6.2
+     }
+    }
+   },
+   "opioid": {
+    "light": {
+     "text": "#D60107",
+     "accent": "#FE3D32",
+     "hue": 28.65,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 4.98,
+      "accent_on_card": 3.25
+     }
+    },
+    "dark": {
+     "text": "#FE5244",
+     "accent": "#DB0007",
+     "hue": 28.65,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 5.85,
+      "accent_on_card": 3.61
+     }
+    }
+   },
+   "sedative": {
+    "light": {
+     "text": "#0366D6",
+     "accent": "#087BFE",
+     "hue": 257.43,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.97,
+      "accent_on_card": 3.65
+     }
+    },
+    "dark": {
+     "text": "#4894FE",
+     "accent": "#0078FB",
+     "hue": 257.43,
+     "verified": {
+      "text_on_fill": 4.6,
+      "text_on_card": 6.24,
+      "accent_on_card": 4.57
+     }
+    }
+   },
+   "peptide": {
+    "light": {
+     "text": "#2F70A0",
+     "accent": "#5191C3",
+     "hue": 243.96,
+     "verified": {
+      "text_on_fill": 4.55,
+      "text_on_card": 4.88,
+      "accent_on_card": 3.11
+     }
+    },
+    "dark": {
+     "text": "#5191C3",
+     "accent": "#266796",
+     "hue": 243.96,
+     "verified": {
+      "text_on_fill": 4.59,
+      "text_on_card": 5.56,
+      "accent_on_card": 3.11
+     }
+    }
+   },
+   "mind": {
+    "light": {
+     "text": "#207582",
+     "accent": "#4898A5",
+     "hue": 209.25,
+     "verified": {
+      "text_on_fill": 4.57,
+      "text_on_card": 4.9,
+      "accent_on_card": 3.05
+     }
+    },
+    "dark": {
+     "text": "#4797A3",
+     "accent": "#126D79",
+     "hue": 209.25,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 5.6,
+      "accent_on_card": 3.14
+     }
+    }
+   },
+   "pharmaceutical": {
+    "light": {
+     "text": "#5F6B7F",
+     "accent": "#818DA2",
+     "hue": 261.66,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.07
+     }
+    },
+    "dark": {
+     "text": "#818DA2",
+     "accent": "#576276",
+     "hue": 261.66,
+     "verified": {
+      "text_on_fill": 4.67,
+      "text_on_card": 5.63,
+      "accent_on_card": 3.07
+     }
+    }
+   },
+   "supplement": {
+    "light": {
+     "text": "#007B3C",
+     "accent": "#359F5B",
+     "hue": 151.79,
+     "verified": {
+      "text_on_fill": 4.61,
+      "text_on_card": 4.94,
+      "accent_on_card": 3.08
+     }
+    },
+    "dark": {
+     "text": "#39A25E",
+     "accent": "#008240",
+     "hue": 151.79,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.85,
+      "accent_on_card": 3.84
+     }
+    }
+   },
+   "research": {
+    "light": {
+     "text": "#656A76",
+     "accent": "#878C99",
+     "hue": 268.95,
+     "verified": {
+      "text_on_fill": 4.63,
+      "text_on_card": 4.97,
+      "accent_on_card": 3.09
+     }
+    },
+    "dark": {
+     "text": "#878C99",
+     "accent": "#5D626E",
+     "hue": 268.95,
+     "verified": {
+      "text_on_fill": 4.64,
+      "text_on_card": 5.61,
+      "accent_on_card": 3.09
+     }
+    }
+   },
+   "other": {
+    "light": {
+     "text": "#666B72",
+     "accent": "#878C95",
+     "hue": 259.83,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.59,
+      "text_on_card": 4.93,
+      "accent_on_card": 3.1
+     }
+    },
+    "dark": {
+     "text": "#868B93",
+     "accent": "#5D626A",
+     "hue": 259.83,
+     "neutral": true,
+     "verified": {
+      "text_on_fill": 4.56,
+      "text_on_card": 5.51,
+      "accent_on_card": 3.08
+     }
+    }
+   }
   }
  }
 }

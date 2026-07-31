@@ -172,6 +172,29 @@ CATEGORY_SOURCE = {
 }
 
 
+# Library families. These fill `FamilyGradientCard` backgrounds with white text
+# over them, which is why one of them carries the comment "`.teal` is too light
+# for white text on the gradient's near-white end (failed the contrast check)" --
+# a fourth independent rediscovery of the same darken-for-light-mode fix.
+# Eight of the thirteen were `Color(red:green:blue:)` literals with no dark
+# variant.
+FAMILY_SOURCE = {
+    "common": "4775BD",
+    "stimulant": "FF9500",
+    "empathogen": "FF2D55",
+    "hallucinogen": "8F45C9",
+    "cannabinoid": "34C759",
+    "opioid": "FF3B30",
+    "sedative": "007AFF",
+    "peptide": "66A6D9",
+    "mind": "1C7885",
+    "pharmaceutical": "6E7A8F",
+    "supplement": "52BD75",
+    "research": "878C99",
+    "other": "737880",
+}
+
+
 def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[float, float, tuple]:
     """Highest-chroma colour at `hue` satisfying `gate(colour)`, up to `ceiling`.
 
@@ -301,6 +324,7 @@ def main() -> None:
         "confidence": build_scale(CONFIDENCE_SOURCE),
         "severity": build_scale(SEVERITY_SOURCE),
         "category": build_scale(CATEGORY_SOURCE),
+        "family": build_scale(FAMILY_SOURCE),
     }
     out = {
         "_meta": {

@@ -157,7 +157,7 @@ extension LibraryFamily {
             icon: "flame.fill",
             // Cool cornflower blue — keeps the meta-cards clear of the warm
             // Stimulants orange they used to blur into.
-            color: Color(red: 0.28, green: 0.46, blue: 0.74),
+            color: .Family.Common.accent,
             molecule: "caffeine",
             source: .tag("common"),
         ),
@@ -166,7 +166,7 @@ extension LibraryFamily {
             title: "Stimulants",
             blurb: "Energy, focus, and wakefulness.",
             icon: "bolt.fill",
-            color: .orange,
+            color: .Family.Stimulant.accent,
             molecule: "amphetamine",
             source: .category(.stimulant),
         ),
@@ -175,7 +175,7 @@ extension LibraryFamily {
             title: "Empathogens",
             blurb: "Warmth, empathy, and emotional openness.",
             icon: "heart.fill",
-            color: .pink,
+            color: .Family.Empathogen.accent,
             molecule: "mdma",
             source: .category(.empathogen),
         ),
@@ -184,7 +184,7 @@ extension LibraryFamily {
             title: "Hallucinogens",
             blurb: "Alter perception, thought, and sense of reality.",
             icon: "eye.fill",
-            color: Color(red: 0.56, green: 0.27, blue: 0.79),
+            color: .Family.Hallucinogen.accent,
             molecule: "mescaline",
             source: nil,
             subclasses: [
@@ -199,7 +199,7 @@ extension LibraryFamily {
             title: "Cannabinoids",
             blurb: "Relaxation, euphoria, and altered senses.",
             icon: "leaf.fill",
-            color: .green,
+            color: .Family.Cannabinoid.accent,
             molecule: "thc",
             source: .category(.cannabinoid),
         ),
@@ -208,7 +208,7 @@ extension LibraryFamily {
             title: "Opioids",
             blurb: "Pain relief, euphoria, and sedation.",
             icon: "cross.fill",
-            color: .red,
+            color: .Family.Opioid.accent,
             molecule: "morphine",
             source: .category(.opioid),
             highlightsRisk: true,
@@ -218,7 +218,7 @@ extension LibraryFamily {
             title: "Sedatives & Depressants",
             blurb: "Calm and slow the central nervous system.",
             icon: "moon.fill",
-            color: .blue,
+            color: .Family.Sedative.accent,
             molecule: "diazepam",
             source: nil,
             subclasses: [
@@ -232,7 +232,7 @@ extension LibraryFamily {
             title: "Peptides",
             blurb: "GLP-1, healing, and research peptides.",
             icon: "link.circle.fill",
-            color: Color(red: 0.40, green: 0.65, blue: 0.85),
+            color: .Family.Peptide.accent,
             molecule: "peptide",
             source: .category(.peptide),
         ),
@@ -241,9 +241,7 @@ extension LibraryFamily {
             title: "Mind & Cognition",
             blurb: "Mood, psychiatric, and cognitive medications.",
             icon: "brain.fill",
-            // Deeper teal than the system color — `.teal` is too light for white
-            // text on the gradient's near-white end (failed the contrast check).
-            color: Color(red: 0.11, green: 0.47, blue: 0.52),
+            color: .Family.Mind.accent,
             molecule: "fluoxetine",
             source: nil,
             subclasses: [
@@ -259,7 +257,7 @@ extension LibraryFamily {
             title: "Pharmaceuticals",
             blurb: "Clinical medications, by therapeutic class.",
             icon: "cross.case.fill",
-            color: Color(red: 0.43, green: 0.48, blue: 0.56),
+            color: .Family.Pharmaceutical.accent,
             molecule: "aspirin",
             source: nil,
             subclasses: [
@@ -279,7 +277,7 @@ extension LibraryFamily {
             title: "Supplements",
             blurb: "Vitamins, minerals, and nutrients.",
             icon: "drop.fill",
-            color: Color(red: 0.32, green: 0.74, blue: 0.46),
+            color: .Family.Supplement.accent,
             molecule: "ascorbic",
             source: .category(.supplement),
         ),
@@ -288,7 +286,7 @@ extension LibraryFamily {
             title: "Research Chemicals",
             blurb: "Novel and lesser-characterized compounds.",
             icon: "flask.fill",
-            color: Color(red: 0.53, green: 0.55, blue: 0.60),
+            color: .Family.Research.accent,
             molecule: "twocb",
             // Tag-driven, not the catch-all category: only compounds actually
             // flagged `research-chemical` surface here, so medical odd-ones
@@ -300,7 +298,7 @@ extension LibraryFamily {
             title: "Other / Miscellaneous",
             blurb: "Everything that doesn't fit a class above.",
             icon: "ellipsis.circle.fill",
-            color: Color(red: 0.45, green: 0.47, blue: 0.50),
+            color: .Family.Other.accent,
             molecule: "twocb",
             source: .category(.other),
         ),

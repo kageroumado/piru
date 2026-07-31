@@ -45,20 +45,28 @@ enum StockStatus: String, CaseIterable, Identifiable {
 
     /// Number / label color. Neutral (`primary`) when healthy so color is
     /// reserved for the states that need attention.
-    var numberColor: Color {
+    @MainActor var numberColor: Color {
         switch self {
         case .ok: .primary
-        case .low: .orange
-        case .out: .red
+        case .low: .cautionText
+        case .out: .dangerText
         }
     }
 
-    /// Supply-bar fill color. Healthy is a neutral fill, not green.
-    var barTint: Color {
+    /// Supply-bar fill. Healthy stays neutral so colour is reserved for the
+    /// states that need attention.
+    ///
+    /// **This is the only tint the supply bar takes.** It used to compete with
+    /// `InventoryItem.supplyBarTint`, which filled the same bar with the
+    /// *substance's own colour* — so the identical component meant "how much is
+    /// left" on two screens and "which substance this is" on two others. The
+    /// bar's job is remaining supply; identity already has the row's colour dot,
+    /// which is where an L3 colour belongs.
+    @MainActor var barTint: Color {
         switch self {
         case .ok: Color.primary.opacity(0.35)
-        case .low: .orange
-        case .out: .red
+        case .low: .cautionAccent
+        case .out: .dangerAccent
         }
     }
 }
@@ -69,14 +77,6 @@ extension InventoryItem {
         if currentQuantity <= 0 { return .out }
         if let threshold = lowStockThreshold, threshold > 0, currentQuantity <= threshold { return .low }
         return .ok
-    }
-
-    /// Supply-bar fill color: the substance's own color, semi-transparent, so
-    /// each bar reads as belonging to its row instead of an ambiguous gray.
-    /// Low/Out still draw attention through the amount-text color.
-    @MainActor
-    func supplyBarTint(colorMap: [String: Color]) -> Color {
-        SubstancePalette.color(for: substance, colorMap: colorMap).opacity(0.5)
     }
 
     /// A baseline is "set" only when it's a positive number; `nil` or `0` mean
