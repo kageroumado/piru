@@ -404,8 +404,11 @@ struct ActiveMetaboliteCard: View {
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .themeCard()
+        // No `.padding(14).themeCard()`. Both call sites are List rows that
+        // already carry the screen's card background, so drawing another one
+        // here nested a 22pt-radius card inside the row's card at a different
+        // inset — the one card on the screen that didn't match its siblings.
+        .padding(.vertical, 2)
     }
 
     // MARK: Bands

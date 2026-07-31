@@ -9,6 +9,23 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Substance-detail round 5 (2026-08-01) — dose/effects split, the dose-source
+    # comparison sheet, the folded Prescribing card, and the Log CTA under the
+    # dose card.
+    "Log this": ("记录这次", "記錄這次"),
+    "Prescribing": ("处方信息", "處方資訊"),
+    "Approved uses": ("已批准用途", "已批准用途"),
+    "Boxed warning": ("黑框警告", "黑框警告"),
+    "Fewer": ("收起", "收起"),
+    "Dose sources": ("剂量来源", "劑量來源"),
+    "In use": ("使用中", "使用中"),
+    "About metabolites": ("关于代谢物", "關於代謝物"),
+    "Compare %lld other sources": ("对比其他 %lld 个来源", "對比其他 %lld 個來源"),
+    "%@ · %lld sources": ("%1$@ · %2$lld 个来源", "%1$@ · %2$lld 個來源"),
+    "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority.": (
+        "各来源测量的人群和用途不同，因此范围有差异。Piru 显示你排序最高的那个来源——可在“设置 › 来源优先级”中更改。",
+        "各來源測量的族群與用途不同，因此範圍有差異。Piru 顯示你排序最高的那個來源——可在「設定 › 來源優先順序」中更改。",
+    ),
     # TestFlight feedback round, build 33 (2026-07-27) — card overflow menu.
     "More actions": ("更多操作", "更多操作"),
     # Substance-detail redesign v2 (proto8/proto10) — header chips, dose card,
@@ -5637,6 +5654,17 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Log this",
+        "Prescribing",
+        "Approved uses",
+        "Boxed warning",
+        "Fewer",
+        "Dose sources",
+        "In use",
+        "About metabolites",
+        "Compare %lld other sources",
+        "%@ · %lld sources",
+        "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority.",
         "Buccal",
         "More actions",
         "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",

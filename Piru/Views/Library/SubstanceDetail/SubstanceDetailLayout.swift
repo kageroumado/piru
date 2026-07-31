@@ -38,15 +38,6 @@ struct SubstanceDetailLayout: View {
         //    formula. Replaces the old full-width "Also known as" card.
         SubstanceDetailHeader(substance: substance)
 
-        // 2. What it is, in prose. The design review cut this from mid-flow when
-        //    the layout was MDMA-only — there the header, dose card and dial
-        //    already answer "what is this". Across the whole library they often
-        //    don't: 375 substances carry an overview and most of them carry
-        //    little else, so cutting it would leave their screen saying nothing.
-        //    Self-hides for the ~80% with no overview, which is why it can sit
-        //    here unconditionally rather than behind a sparseness heuristic.
-        OverviewSection(substance: substance)
-
         // 3. Your history — the user's own data leads (only when entries exist).
         if !historyEntries.isEmpty {
             HistorySection(entries: historyEntries, model: model, defaultUnit: substance.defaultUnit)
@@ -62,9 +53,16 @@ struct SubstanceDetailLayout: View {
                 isomerSelection: isomerSelection,
                 provenance: model.provenance,
             )
+
+            // The flow is *what it is → how much → log*, so the primary action
+            // sits under the dose card carrying the dialed dose, not in the
+            // header. (It's also in the ⋯ menu — see `SubstanceDetailView`.)
+            LogThisSection(substanceName: substance.name)
         }
 
-        // 4. Effects — the intensity gauge: "what will I feel, by dose."
+        // 4. Effects — the dose dial and what's reported at each band. The dose
+        //    card above carries the same five tiers as a *grid*: same scale,
+        //    different instrument for a different question.
         if placement(.effects) == .inline {
             EffectsSection(substance: substance, policy: policy, showAllEffects: showAllEffects)
         }
@@ -72,6 +70,16 @@ struct SubstanceDetailLayout: View {
         // 5–6. What makes it different / In the body — mechanism · receptor · PK ·
         //      metabolism, one inline block or one deep-page target.
         pharmacologyInline
+
+        // Metabolites doing some of the work — on the main screen at every tier.
+        AlsoActiveSection(substance: substance, model: model, onGlossary: onGlossary)
+
+        // What it is, in prose — below the dose card and the mechanism, not
+        // above them. It is the least surprising thing on the screen: by the
+        // time you have read how much and how it works, the encyclopedia
+        // paragraph is reference, not headline. Self-hides for the ~80% of the
+        // library with no overview.
+        OverviewSection(substance: substance)
 
         // Medical lead — self-hides when the compound carries no medical data (so
         // it drops out for the recreational spine, leads for the medical one).
@@ -242,28 +250,36 @@ private enum ShowAllTarget: Identifiable {
 /// staged and its dose editor expanded, so "I'm taking this" is one tap from
 /// reading about it rather than a trip back through search.
 ///
-/// Deliberately a **content-sized** capsule in the header block rather than the
-/// app's full-width `GlassPillButton`: this screen is dense reference material
-/// and already sits under the global "Log a dose" dock, so a full-bleed banner
-/// would both out-shout the dose card and re-spend the vertical space the
-/// header byline just saved.
-private struct LogNowButton: View {
+/// It sits **after** the dose card, because that is where the question it
+/// answers arrives: you read what the substance is, you read how much, and only
+/// then is "log it" a sentence that means anything. In the header it was a
+/// prompt to act before there was anything to act on — and it spent a row of
+/// vertical space at the most expensive point on the screen.
+private struct LogThisSection: View {
     let substanceName: String
 
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
-        Button {
-            navigator.present(.quickLog(routine: nil, prefillSubstance: substanceName))
-        } label: {
-            // Text-only: with `.glassProminent` the symbol picks up the same
-            // tint as the capsule and disappears into it.
-            Text("Log Now")
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 4)
+        Section {
+            Button {
+                navigator.present(.quickLog(routine: nil, prefillSubstance: substanceName))
+            } label: {
+                Text("Log this")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 4)
+            }
+            .buttonStyle(.glassProminent)
+            .tint(Theme.accent)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 2, leading: 20, bottom: 6, trailing: 20))
         }
-        .buttonStyle(.glassProminent)
-        .tint(Theme.accent)
+        // On the Section, not on the button: the list applies `CardBackground()`
+        // to every row of this layout, and a button-level override didn't reach
+        // the row — so the CTA sat on a card of its own, which is not what a
+        // primary action is.
+        .listRowBackground(Color.clear)
     }
 }
 
@@ -303,6 +319,12 @@ private struct ShowAllRow: View {
 /// one (see ``SubstanceDetailView``).
 private struct SubstanceDetailHeader: View {
     let substance: Substance
+
+    /// The substance's own skeleton, drawn faint behind the title. Loaded off
+    /// the store because `molecule_shapes` is per-substance (1046 rows) — the
+    /// Library card's bundled JSON is keyed by *family*, not by compound.
+    @State private var structure: MoleculeStructure?
+    @Environment(\.colorScheme) private var scheme
 
     /// Popular aliases shown as chips before the overflow count.
     private var shownAliases: [String] {
@@ -358,12 +380,26 @@ private struct SubstanceDetailHeader: View {
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(aliasAccessibilityLabel)
                 }
-
-                LogNowButton(substanceName: substance.name)
-                    .padding(.top, 3)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 2)
+            // The skeleton sits behind the type, bleeding off the trailing edge —
+            // a detail you notice second, never one you have to read past.
+            .background(alignment: .topTrailing) {
+                if let structure {
+                    MoleculeWatermark(structure: structure)
+                        .frame(width: 240, height: 240)
+                        .opacity(scheme == .dark ? 0.12 : 0.07)
+                        // Pushed off the trailing edge and up behind the title:
+                        // a molecule floating fully inside the header reads as a
+                        // (badly cropped) illustration; one that runs off the
+                        // edge reads as a watermark.
+                        .offset(x: 96, y: -52)
+                }
+            }
+            .task(id: substance.name) {
+                structure = SubstanceStore.shared.moleculeStructure(forSubstanceName: substance.name)
+            }
             // A title block, not a card: clear the shared `CardBackground()` the
             // list applies to every other row (innermost wins) and pull the
             // insets in so the name sits on the screen's left margin.

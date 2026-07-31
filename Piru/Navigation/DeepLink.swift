@@ -314,6 +314,7 @@ nonisolated enum DeepLink {
              .timeAdjust,
              .dayShare,
              .sourcePriority,
+             .doseSources,
              .advancedSearch,
              .inventoryItemForm,
              .inventoryItemEdit:

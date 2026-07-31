@@ -282,6 +282,16 @@ struct SubstanceDetailView: View {
             // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
             // (tier) switcher all fold in here; the tier choices render as an inline checkmark list.
             Menu {
+                // Logging is also a button under the dose card — this is the
+                // "I already know what I want" path, reachable without scrolling
+                // back up. Two bar buttons is the ceiling, so it lives here
+                // rather than becoming a third.
+                Button {
+                    navigator.present(.quickLog(routine: nil, prefillSubstance: substance.name))
+                } label: {
+                    Label("Log a Dose", systemImage: "plus.circle")
+                }
+
                 Button {
                     toggleFavorite()
                 } label: {

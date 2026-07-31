@@ -105,7 +105,12 @@ struct DoseDurationSection: View {
                         activeRoute: route.route,
                         onSelect: { routeSelection = $0 },
                     )
-                    .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 8, trailing: 20))
+                    // Edge to edge: the chips are a scrolling rail, and inset
+                    // from the card's margins they read as a row that has
+                    // stopped short rather than one that continues off-screen.
+                    // The lead-in padding lives inside the scroll content, so
+                    // the first chip still lines up with the card's text.
+                    .listRowInsets(EdgeInsets(top: 20, leading: 0, bottom: 8, trailing: 0))
                     .listRowSeparator(.hidden)
                 }
                 if routes.activeSaltLabels.count > 1 {
@@ -131,7 +136,7 @@ struct DoseDurationSection: View {
                 // it lands mid-pixel and the page background shows through as a
                 // hairline white line under the card.
                 VStack(alignment: .leading, spacing: 0) {
-                    DoseDurationCard(
+                    DoseEffectsCard(
                         route: route.route,
                         unit: salt?.unit ?? route.unit,
                         doses: salt?.doses ?? route.doses,
@@ -189,6 +194,50 @@ struct DoseDurationSection: View {
                 )
             }
         }
+        // The sources disagree, often materially — meth's oral "Common" runs
+        // 10–20 mg to one source and 15–30 to another. The card has to pick one;
+        // this says so and shows the spread rather than letting the chosen
+        // number read as the only number.
+        if doseSlug != nil, otherSourceCount(for: route.route) > 0 {
+            CompareSourcesRow(
+                substanceName: substance.name,
+                route: route.route,
+                otherCount: otherSourceCount(for: route.route),
+            )
+        }
+    }
+
+    /// How many *other* sources carry a ladder for this route — the row is
+    /// pointless when the answer is zero, which is the common case.
+    private func otherSourceCount(for route: RouteOfAdministration) -> Int {
+        max(0, SubstanceStore.shared.doseLadders(forSubstanceName: substance.name, route: route).count - 1)
+    }
+}
+
+/// "Compare N other sources ›" — the entry point to ``DoseSourceComparisonView``.
+private struct CompareSourcesRow: View {
+    let substanceName: String
+    let route: RouteOfAdministration
+    let otherCount: Int
+
+    @Environment(\.appNavigator) private var navigator
+
+    var body: some View {
+        Button {
+            navigator.present(.doseSources(substance: substanceName, route: route))
+        } label: {
+            HStack(spacing: 4) {
+                Text("Compare \(otherCount) other sources", comment: "Opens the dose-source comparison")
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.semibold))
+                    .accessibilityHidden(true)
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(Theme.accent)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -220,6 +269,8 @@ struct RouteChips: View {
                     .buttonStyle(.plain)
                 }
             }
+            .padding(.horizontal, 20)
         }
+        .scrollClipDisabled()
     }
 }

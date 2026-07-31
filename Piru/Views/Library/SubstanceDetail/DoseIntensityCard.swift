@@ -195,7 +195,7 @@ struct FrequencyBar: View {
 /// the selector and drag it around the arc — it slides with a spring, recolors to
 /// the band beneath it, and lifts on grab so the interaction is discoverable.
 /// Selection state is owned by the parent.
-private struct IntensityGauge: View {
+struct IntensityGauge: View {
     let bandCount: Int
     let selected: Int
     let colors: [Color]

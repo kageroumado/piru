@@ -480,6 +480,28 @@
         }
       }
     },
+    "%@ · %lld sources" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$lld sources"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld 个来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld 個來源"
+          }
+        }
+      }
+    },
     "%@ · predicted (model, %@)." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5322,6 +5344,23 @@
         }
       }
     },
+    "About metabolites" : {
+      "comment" : "Glossary button",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于代谢物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於代謝物"
+          }
+        }
+      }
+    },
     "About this section" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8468,6 +8507,22 @@
         }
       }
     },
+    "Approved uses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已批准用途"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已批准用途"
+          }
+        }
+      }
+    },
     "Approximate — equivalence tables disagree. Treat this as a ballpark, not a precise dose." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10358,6 +10413,22 @@
         }
       }
     },
+    "Boxed warning" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑框警告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑框警告"
+          }
+        }
+      }
+    },
     "Boxed Warning" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10498,6 +10569,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "瀏覽每種物質的藥物動力學"
+          }
+        }
+      }
+    },
+    "Buccal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颊黏膜"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "頰黏膜"
           }
         }
       }
@@ -12732,6 +12819,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "常見誤解"
+          }
+        }
+      }
+    },
+    "Compare %lld other sources" : {
+      "comment" : "Opens the dose-source comparison",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对比其他 %lld 个来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對比其他 %lld 個來源"
           }
         }
       }
@@ -16235,6 +16339,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此時間段內的劑量提醒和使用期間提醒將保持靜默。累積劑量警告以及你設定了確切時間的提醒仍會送達。"
+          }
+        }
+      }
+    },
+    "Dose sources" : {
+      "comment" : "Screen title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量來源"
           }
         }
       }
@@ -20242,6 +20363,22 @@
         }
       }
     },
+    "Fewer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起"
+          }
+        }
+      }
+    },
     "Fewer pills" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23869,6 +24006,23 @@
         }
       }
     },
+    "In use" : {
+      "comment" : "Badge on the source currently supplying the dose ladder",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中"
+          }
+        }
+      }
+    },
     "In Your Body" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26130,6 +26284,7 @@
       }
     },
     "Log Now" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26174,6 +26329,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄一些條目以查看使用統計。"
+          }
+        }
+      }
+    },
+    "Log this" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录这次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄這次"
           }
         }
       }
@@ -34181,6 +34352,22 @@
         }
       }
     },
+    "Prescribing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "处方信息"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "處方資訊"
+          }
+        }
+      }
+    },
     "Prescription medication" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35178,6 +35365,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩和期"
+          }
+        }
+      }
+    },
+    "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority." : {
+      "comment" : "Dose source comparison explanation",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各来源测量的人群和用途不同，因此范围有差异。Piru 显示你排序最高的那个来源——可在“设置 › 来源优先级”中更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各來源測量的族群與用途不同，因此範圍有差異。Piru 顯示你排序最高的那個來源——可在「設定 › 來源優先順序」中更改。"
           }
         }
       }
@@ -50017,22 +50221,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Buccal" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "颊黏膜"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "頰黏膜"
           }
         }
       }

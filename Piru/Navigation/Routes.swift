@@ -145,8 +145,13 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// resolves the library substance + any existing override.
     case personalizeSubstance(name: String)
 
-    // Substance database settings
+    /// Substance database settings
     case sourcePriority
+
+    /// Every source's dose ladder for one route of one substance, on one scale —
+    /// opened from the source line under the dose card. Read-only: it explains
+    /// the spread, it doesn't change which source wins (that's `.sourcePriority`).
+    case doseSources(substance: String, route: RouteOfAdministration)
     case advancedSearch
 
     /// Pickers / mini-flows

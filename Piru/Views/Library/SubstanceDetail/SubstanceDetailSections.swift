@@ -12,7 +12,60 @@ struct MedicalInfoSection: View {
     /// How many cautions to list before falling back to a "+N more" row.
     private let cautionDisplayLimit = 6
 
+    /// Whether the label material *leads* the screen or is folded away.
+    ///
+    /// On the medical spine it is the point of the page — someone opening
+    /// sertraline wants the indications. On the recreational spine it is
+    /// secondary: a bare "Medical Uses" card sitting between the dose dial and
+    /// the pharmacology says "this drug also treats ADHD" to a reader who came
+    /// to find out what 30 mg does, and it broke the card rhythm to say it (two
+    /// title-only sections wrapping one line of text each).
+    private var labelLeads: Bool {
+        switch substance.displayClass {
+        case .medicalRx, .otc, .nonRecreational: true
+        default: false
+        }
+    }
+
+    /// Prescribing state, folded into one card. Kept `@State` rather than
+    /// threaded from the parent: it's a reading affordance, not screen state.
+    @State private var prescribingExpanded = false
+
     var body: some View {
+        let boxed = substance.contraindications.filter(\.isBoxedWarning)
+        let cautions = substance.contraindications.filter { !$0.isBoxedWarning }
+
+        if labelLeads {
+            leadingLabel(boxed: boxed, cautions: cautions)
+        } else if !substance.indications.isEmpty || !boxed.isEmpty {
+            // One folded card instead of two title-only sections. Boxed warnings
+            // still surface in the collapsed header's count, so nothing safety-
+            // bearing is hidden behind a fold with no sign it exists.
+            CollapsibleSection(
+                "Prescribing",
+                systemImage: "cross.case",
+                count: substance.indications.count + boxed.count,
+                isExpanded: $prescribingExpanded,
+            ) {
+                if !substance.indications.isEmpty {
+                    clinicalGroupTitle("Approved uses")
+                    ForEach(substance.indications, id: \.self) { clinicalRow($0) }
+                }
+                if !boxed.isEmpty {
+                    clinicalGroupTitle("Boxed warning")
+                    ForEach(boxed, id: \.text) { clinicalRow($0.text) }
+                }
+            }
+            cautionsSection(cautions)
+        } else {
+            cautionsSection(cautions)
+        }
+    }
+
+    /// The medical spine's layout — indications and boxed warnings inline, as
+    /// their own sections, because they are what the reader came for.
+    @ViewBuilder
+    private func leadingLabel(boxed: [Contraindication], cautions: [Contraindication]) -> some View {
         if !substance.indications.isEmpty {
             Section("Medical Uses") {
                 ForEach(substance.indications, id: \.self) { ind in
@@ -20,8 +73,6 @@ struct MedicalInfoSection: View {
                 }
             }
         }
-        let boxed = substance.contraindications.filter(\.isBoxedWarning)
-        let cautions = substance.contraindications.filter { !$0.isBoxedWarning }
         if !boxed.isEmpty {
             // Plain rows. A red octagon per row restated what the section title
             // already says, and a saturated system red reads far heavier here
@@ -33,6 +84,13 @@ struct MedicalInfoSection: View {
                 }
             }
         }
+        cautionsSection(cautions)
+    }
+
+    /// Contraindications keep their own collapsible on both spines: they are the
+    /// one part of the label that is a safety fact rather than a clinical one.
+    @ViewBuilder
+    private func cautionsSection(_ cautions: [Contraindication]) -> some View {
         if !cautions.isEmpty {
             // Verbose DailyMed contraindication prose, capped at
             // `cautionDisplayLimit` rows and collapsed by default. Rows are *not*
@@ -59,6 +117,16 @@ struct MedicalInfoSection: View {
                 }
             }
         }
+    }
+
+    /// The group label inside the folded Prescribing card — the two kinds of
+    /// label text still have to be told apart once they share a card.
+    private func clinicalGroupTitle(_ text: LocalizedStringKey) -> some View {
+        Text(text)
+            .font(.caption2.weight(.bold))
+            .textCase(.uppercase)
+            .tracking(0.5)
+            .foregroundStyle(Theme.secondaryLabel)
     }
 
     /// One clinical list row: wrapping text, in full.
@@ -116,7 +184,11 @@ struct EffectsSection: View {
 
         if displayClass != .nonRecreational {
             if !bands.isEmpty {
-                // Dial-first: the interactive spectrum is the section body.
+                // Dial-first: the interactive spectrum is the section body. It
+                // was briefly merged into the dose card; that left this section
+                // holding a bare source row and stranded the per-band "most
+                // reported at this dose" frequencies, which have nowhere else to
+                // go. The dose card keeps the grid; the dial keeps the effects.
                 Section {
                     DoseIntensityCard(
                         bands: bands,

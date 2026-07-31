@@ -103,36 +103,12 @@ struct PharmacologySections: View {
                 }
             }
 
-            // "Also Active" — the metabolites doing some of the work. Sits above
-            // the reference sections because it answers a different question
-            // than they do ("is something other than what I took producing the
-            // effect?"), and at a lower tier for the same reason: it is a fact
-            // about the user's experience, not pharmacology reference data.
-            // Deliberately not collapsible — usually one card, and folding it
-            // re-buries the thing being surfaced.
-            if !durationChangingMetabolites.isEmpty {
-                Section {
-                    ForEach(durationChangingMetabolites) { metabolite in
-                        ActiveMetaboliteCard(
-                            metabolite: metabolite,
-                            parentName: substance.displayTitle,
-                            parentHalfLifeMinutes: substance.halfLifeMinutes,
-                            accent: substance.category.color,
-                            parentDurationMinutes: substance.longestRouteDurationMinutes,
-                            onOpenSubstance: { navigator.push(.substance(name: $0)) },
-                        )
-                        .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                    }
-                } header: {
-                    sectionHeaderWithInfo(
-                        "Also Active",
-                        systemImage: "arrow.trianglehead.branch",
-                        topic: .metabolism,
-                    )
-                }
-            }
+            // "Also Active" moved OUT of this cluster and onto the main screen
+            // (``AlsoActiveSection``): it answers "is something other than what
+            // I took producing this effect?", which is a fact about the user's
+            // experience rather than pharmacology reference data — and this
+            // cluster is hidden entirely below the Pharma Nerd tier, so living
+            // here meant most readers never saw it.
 
             if policy.showsPharmacokinetics, !model.pkRoutes.isEmpty {
                 CollapsibleSection(

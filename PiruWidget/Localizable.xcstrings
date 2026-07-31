@@ -413,7 +413,20 @@
       }
     },
     "Buccal" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颊黏膜"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "頰黏膜"
+          }
+        }
+      }
     },
     "Come-up" : {
       "localizations" : {
