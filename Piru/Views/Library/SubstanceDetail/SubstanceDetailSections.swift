@@ -16,31 +16,41 @@ struct MedicalInfoSection: View {
         if !substance.indications.isEmpty {
             Section("Medical Uses") {
                 ForEach(substance.indications, id: \.self) { ind in
-                    clinicalRow(ind, icon: "stethoscope", tint: Theme.accent)
+                    clinicalRow(ind)
                 }
             }
         }
         let boxed = substance.contraindications.filter(\.isBoxedWarning)
         let cautions = substance.contraindications.filter { !$0.isBoxedWarning }
         if !boxed.isEmpty {
+            // Plain rows. A red octagon per row restated what the section title
+            // already says, and a saturated system red reads far heavier here
+            // than it does as a glyph on a control — especially on macOS, where
+            // the same symbol renders larger against a lighter window chrome.
             Section("Boxed Warning") {
                 ForEach(boxed, id: \.text) { c in
-                    clinicalRow(c.text, icon: "exclamationmark.octagon.fill", tint: .red, lineLimit: nil)
+                    clinicalRow(c.text)
                 }
             }
         }
         if !cautions.isEmpty {
-            // Verbose DailyMed contraindication prose — collapsed by default,
-            // each row clamped to a few lines, and capped to keep the screen
-            // from turning into a drug monograph. Full text lives at the source.
+            // Verbose DailyMed contraindication prose, capped at
+            // `cautionDisplayLimit` rows and collapsed by default. Rows are *not*
+            // line-clamped: this is a disclosure someone opened on purpose, and a
+            // contraindication cut mid-clause ("risk of hypertensive cri…") is
+            // worse than a long one. The fold and the row cap already keep the
+            // screen from turning into a drug monograph.
             CollapsibleSection(
                 "Contraindications & Cautions",
                 systemImage: "exclamationmark.triangle",
                 count: cautions.count,
                 isExpanded: $cautionsExpanded,
             ) {
+                // No per-row triangle: the section header carries one, and
+                // repeating it down the list marks every row as exceptional
+                // when they're all the same kind of thing.
                 ForEach(cautions.prefix(cautionDisplayLimit), id: \.text) { c in
-                    clinicalRow(c.text, icon: "exclamationmark.triangle", tint: .orange, lineLimit: 4)
+                    clinicalRow(c.text)
                 }
                 if cautions.count > cautionDisplayLimit {
                     Text("+\(cautions.count - cautionDisplayLimit) more")
@@ -51,19 +61,19 @@ struct MedicalInfoSection: View {
         }
     }
 
-    /// One clinical list row — a readable leading symbol (the old style forced a
-    /// 5pt icon that vanished) plus wrapping text clamped to `lineLimit`.
-    private func clinicalRow(_ text: String, icon: String, tint: Color, lineLimit: Int? = 2) -> some View {
-        Label {
-            Text(text)
-                .font(.subheadline)
-                .lineLimit(lineLimit)
-                .fixedSize(horizontal: false, vertical: true)
-        } icon: {
-            Image(systemName: icon)
-                .font(.caption)
-                .foregroundStyle(tint)
-        }
+    /// One clinical list row: wrapping text, in full.
+    ///
+    /// These used to carry a leading symbol — a stethoscope, a red octagon, an
+    /// orange triangle — repeated on every row of their section. A symbol that
+    /// appears on all of a list's rows says nothing about any one of them; it
+    /// just restates the section heading once per row, and the two warning
+    /// glyphs additionally read as severity that isn't being claimed. The
+    /// heading carries the meaning, so the rows carry the text.
+    private func clinicalRow(_ text: String) -> some View {
+        Text(text)
+            .font(.subheadline)
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -115,8 +125,6 @@ struct EffectsSection: View {
                         citationDeepLink: dcDeepLink,
                         routeName: doseRouteName,
                     )
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 } header: {
                     effectsHeader(showsShowAll: hasAllEffects)
                 }

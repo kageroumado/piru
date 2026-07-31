@@ -45,12 +45,14 @@ struct OverviewSection: View {
                             .font(.caption2)
                             .foregroundStyle(.tertiary)
                     }
+                    // Card and footer share one row — see ``DoseDurationSection``
+                    // for why a peer row grows a hairline at some card heights.
+                    SourceAttributionRow(
+                        slug: overview.sourceSlug,
+                        label: "Overview",
+                        deepLink: SubstanceSourceLinks.deepLink(overview.sourceSlug, substance: substance),
+                    )
                 }
-                SourceAttributionRow(
-                    slug: overview.sourceSlug,
-                    label: "Overview",
-                    deepLink: SubstanceSourceLinks.deepLink(overview.sourceSlug, substance: substance),
-                )
             }
         }
     }

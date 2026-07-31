@@ -95,6 +95,22 @@ struct CollapsibleSection<Content: View>: View {
     }
 }
 
+/// A card's source footer — "Mechanism · FreeOD Wiki".
+///
+/// **Always nest this inside its card's own `VStack`; never make it a peer list
+/// row.** Every call site does, and the uniformity is the point:
+///
+/// - As a peer row the gap above it was the card row's bottom inset *plus* its
+///   own top inset — 39pt in Additional Info against the 20pt below it, while a
+///   nested one was cramped at 13pt. Same component, three different rhythms.
+/// - A row boundary under a card also sits at a position that depends on the
+///   card's height, and at some heights it lands mid-pixel and the page
+///   background shows through as a hairline white line. Expanding "All phases"
+///   in Dose & Duration reproduced this every time.
+///
+/// Nesting removes both: one gap, stated once below, and no boundary to fall
+/// through. Neither `listRowInsets` nor negative padding fixes the peer case —
+/// they move the space below the row rather than removing it.
 struct SourceAttributionRow: View {
     let slug: String
     let label: LocalizedStringResource
@@ -108,6 +124,11 @@ struct SourceAttributionRow: View {
 
     @State private var showExplainer = false
 
+    /// Set here rather than by each card, so the footer sits the same distance
+    /// below its content everywhere. Pairs with the ~20pt the enclosing section
+    /// already leaves beneath it.
+    private static let topGap: CGFloat = 12
+
     private var displayName: String {
         SubstanceStore.shared.sourceDisplayName(forSlug: slug)
     }
@@ -119,6 +140,11 @@ struct SourceAttributionRow: View {
             rowContent
         }
         .buttonStyle(.plain)
+        .padding(.top, Self.topGap)
+        // A no-op while every call site nests this inside a card, and kept as
+        // the backstop for the day one doesn't: as a peer row it used to grow a
+        // separator that no other card had.
+        .listRowSeparator(.hidden, edges: .top)
         .accessibilityHint(Text("Explains why this source was used and lets you reorder sources"))
         .sheet(isPresented: $showExplainer) {
             SourceAttributionExplainer(

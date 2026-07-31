@@ -125,30 +125,36 @@ struct DoseDurationSection: View {
                     .listRowSeparator(.hidden)
                 }
 
-                DoseDurationCard(
-                    route: route.route,
-                    unit: salt?.unit ?? route.unit,
-                    doses: salt?.doses ?? route.doses,
-                    duration: routes.durationVisible ? (salt?.duration ?? route.duration) : nil,
-                    releaseWindow: route.durationOfAction?.formattedWindow,
-                    elementalFraction: salt?.elementalFraction,
-                    showsDoseLadder: routes.showsDoseLadder,
-                    showsDuration: routes.durationVisible,
-                    // Only worth saying on a compound that ALSO has a clinical
-                    // dose — for a purely recreational substance every ladder is
-                    // recreational and the label is noise. Here it stops a
-                    // quetiapine or mirtazapine figure being read as the dose
-                    // someone was prescribed.
-                    regimeLabel: substance.displayClass == .dualUse || substance.displayClass == .medicalRx
-                        ? route.doseContext : .unknown,
-                    accent: substance.category.color,
-                    // Lets the card shape its curve the same way the journal does.
-                    // Without it the two disagreed for ~a third of the library.
-                    curveCategory: substance.category,
-                )
+                // Card and footer share one row. As peers they sat across a row
+                // boundary whose position depends on the card's height, and at
+                // some heights — expanding "All phases" was the reliable one —
+                // it lands mid-pixel and the page background shows through as a
+                // hairline white line under the card.
+                VStack(alignment: .leading, spacing: 0) {
+                    DoseDurationCard(
+                        route: route.route,
+                        unit: salt?.unit ?? route.unit,
+                        doses: salt?.doses ?? route.doses,
+                        duration: routes.durationVisible ? (salt?.duration ?? route.duration) : nil,
+                        releaseWindow: route.durationOfAction?.formattedWindow,
+                        elementalFraction: salt?.elementalFraction,
+                        showsDoseLadder: routes.showsDoseLadder,
+                        showsDuration: routes.durationVisible,
+                        // Only worth saying on a compound that ALSO has a clinical
+                        // dose — for a purely recreational substance every ladder is
+                        // recreational and the label is noise. Here it stops a
+                        // quetiapine or mirtazapine figure being read as the dose
+                        // someone was prescribed.
+                        regimeLabel: substance.displayClass == .dualUse || substance.displayClass == .medicalRx
+                            ? route.doseContext : .unknown,
+                        accent: substance.category.color,
+                        // Lets the card shape its curve the same way the journal does.
+                        // Without it the two disagreed for ~a third of the library.
+                        curveCategory: substance.category,
+                    )
+                    sourceRows(for: route)
+                }
                 .listRowSeparator(.hidden)
-
-                sourceRows(for: route)
             } header: {
                 Text("Dose & Duration")
             }

@@ -90,11 +90,11 @@ struct DoseIntensityCard: View {
                 label: "Intensity spectrum",
                 deepLink: citationDeepLink,
             )
-            .padding(.top, 6)
         }
-        .padding(16)
-        .themeCard()
-        .sensoryFeedback(.selection, trigger: selected)
+        // No `.padding(16).themeCard()`: this card takes the same list-row
+        // background and insets as every other card on the screen. Drawing its
+        // own card inside a row that already has one put its content 32pt from
+        // the section edge while its siblings sat at the system default.
         .onAppear { selected = defaultBand }
     }
 
@@ -216,6 +216,14 @@ private struct IntensityGauge: View {
 
     @State private var isGrabbed = false
     @Environment(\.colorScheme) private var scheme
+    /// The parent card honors Reduce Motion; the dial used to spring regardless.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// Drops an animation when Reduce Motion is on, so the selector cuts to its
+    /// new band instead of sliding.
+    private func motion(_ animation: Animation) -> Animation? {
+        reduceMotion ? nil : animation
+    }
 
     private func color(_ i: Int) -> Color {
         colors[min(max(i, 0), colors.count - 1)]
@@ -228,7 +236,6 @@ private struct IntensityGauge: View {
             let radius = min(size.width / 2, size.height * 0.72) - lineWidth
             let seg = sweepDeg / Double(bandCount)
             let selStart = startDeg + Double(selected) * seg
-            let handle = point(center: center, radius: radius, degrees: selStart + seg / 2)
 
             ZStack {
                 Canvas { context, _ in
@@ -246,15 +253,22 @@ private struct IntensityGauge: View {
                     .fill(.clear)
                     .frame(width: 64, height: 64)
                     .contentShape(Circle())
-                    .position(handle)
+                    // Follows the same arc as the pill, so the target stays
+                    // under the thumb during the slide instead of cutting inside.
+                    .modifier(
+                        ArcPlacement(
+                            degrees: selStart + seg / 2, center: center,
+                            radius: radius, tracksTangent: false,
+                        ),
+                    )
+                    .animation(motion(.spring(response: 0.34, dampingFraction: 0.74)), value: selected)
                     .gesture(
                         ArcPan(
                             coordSpace: coordSpace,
-                            onGrab: { grabbed in
-                                withAnimation(.spring(response: 0.28, dampingFraction: 0.6)) {
-                                    isGrabbed = grabbed
-                                }
-                            },
+                            // The lift is animated once, on the selector itself
+                            // (`.animation(_:value: isGrabbed)`); wrapping the
+                            // mutation in a second transaction here raced it.
+                            onGrab: { isGrabbed = $0 },
                             onMove: { onSelect(band(for: $0, center: center)) },
                         ),
                     )
@@ -329,7 +343,6 @@ private struct IntensityGauge: View {
     ) -> some View {
         let thickness = lineWidth + (isGrabbed ? 15 : 9)
         let midDeg = startAngle + seg / 2
-        let handle = point(center: center, radius: radius, degrees: midDeg)
         let shape = ArcSegment(
             startDeg: startAngle, sweepDeg: seg, radius: radius, thickness: thickness, center: center,
         )
@@ -342,16 +355,15 @@ private struct IntensityGauge: View {
             .frame(width: size.width, height: size.height)
             .glassEffect(.regular.tint(color(selected)), in: shape)
             .overlay {
+                // Rides the arc on the same interpolated angle as the pill's own
+                // path, so the two never separate mid-slide.
                 GrabberGlyph(active: isGrabbed)
-                    // The pill lies along the arc tangent (radial + 90°); align the
-                    // grip ridges across it so they read as a grip at any position.
-                    .rotationEffect(.degrees(midDeg + 90))
-                    .position(handle)
+                    .modifier(ArcPlacement(degrees: midDeg, center: center, radius: radius))
             }
             // Neutral lift, not a colored glow — a tinted shadow reads as a halo.
             .shadow(color: .black.opacity(isGrabbed ? 0.22 : 0.14), radius: isGrabbed ? 9 : 5, y: 2)
-            .animation(.spring(response: 0.34, dampingFraction: 0.74), value: selected)
-            .animation(.spring(response: 0.28, dampingFraction: 0.6), value: isGrabbed)
+            .animation(motion(.spring(response: 0.34, dampingFraction: 0.74)), value: selected)
+            .animation(motion(.spring(response: 0.28, dampingFraction: 0.6)), value: isGrabbed)
     }
 
     private func point(center: CGPoint, radius: Double, degrees: Double) -> CGPoint {
@@ -408,6 +420,41 @@ private struct ArcSegment: Shape {
     }
 }
 
+/// Places a view on the arc at `degrees`, interpolating the **angle** rather
+/// than the resulting point.
+///
+/// This is the difference between riding the curve and cutting across it.
+/// `.position(_:)` animates a `CGPoint` as an `AnimatablePair` of x and y, so a
+/// view moved between two points on a circle travels the straight chord between
+/// them — invisible for a one-band step (40°), obvious from Threshold to Heavy
+/// (~160°), where the glyph visibly cuts through the middle of the dial while
+/// the pill arcs around it. Interpolating the single `Double` and recomputing
+/// the point each frame is the same trick ``ArcSegment`` already uses for the
+/// pill, which is what puts the two back in lockstep.
+private struct ArcPlacement: ViewModifier, Animatable {
+    var degrees: Double
+    let center: CGPoint
+    let radius: Double
+    /// Keeps the grip ridges square to the arc's tangent. Off for radially
+    /// symmetric content (the invisible hit target), where it buys nothing.
+    var tracksTangent: Bool = true
+
+    var animatableData: Double {
+        get { degrees }
+        set { degrees = newValue }
+    }
+
+    func body(content: Content) -> some View {
+        let radians = degrees * .pi / 180
+        content
+            .rotationEffect(.degrees(tracksTangent ? degrees + 90 : 0))
+            .position(
+                x: center.x + radius * cos(radians),
+                y: center.y + radius * sin(radians),
+            )
+    }
+}
+
 /// The grip on the floating pill — a few short ridges that say "drag me,"
 /// echoing the sheet grabber. Sits at the pill's center and is rotated by the
 /// caller to track the pill around the arc; brightens and spreads slightly when
@@ -416,7 +463,12 @@ private struct GrabberGlyph: View {
     let active: Bool
 
     var body: some View {
-        HStack(spacing: active ? 3.5 : 3) {
+        // Spacing is fixed. Animating it made the grab a *layout* change while
+        // the pill's matching lift was a path interpolation — same nominal
+        // spring, different settling curves, which read as the ridges buzzing
+        // independently of the pill they sit on. Opacity composites, so it
+        // settles with the pill.
+        HStack(spacing: 3) {
             ForEach(0 ..< 3, id: \.self) { _ in
                 Capsule()
                     .fill(.white.opacity(active ? 0.95 : 0.8))

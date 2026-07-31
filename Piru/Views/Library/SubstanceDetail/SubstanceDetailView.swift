@@ -53,6 +53,16 @@ struct SubstanceDetailView: View {
     @State private var showAllInventory = false
     /// Presents the "Share Substance" sheet (colorful specimen card + detail picker).
     @State private var showShareSheet = false
+    /// Whether the header's 40pt display title is still on screen. The bar title
+    /// cross-fades in as it leaves, so the name is never printed twice at rest —
+    /// `.inline` alone draws the bar title at every offset, including zero.
+    @State private var headerTitleVisible = true
+
+    /// Scroll distance at which the bar takes over the title: the header's 4pt
+    /// top inset plus the 40pt display line. A name that wraps to two lines
+    /// hands over while its second line is still passing under the bar, which
+    /// reads as slightly eager rather than wrong.
+    private static let titleHandoffOffset: CGFloat = 44
 
     init(substance: Substance) {
         _baseSubstance = State(initialValue: substance)
@@ -200,11 +210,24 @@ struct SubstanceDetailView: View {
             )
             .listRowBackground(CardBackground())
         }
+        // Deriving a `Bool` (not the raw offset) means the action fires only on
+        // the handoff itself, not on every scroll frame.
+        //
+        // Tracks the scroll offset rather than the title row's own visibility:
+        // the List builds rows lazily, so once the header is recycled it stops
+        // reporting anything at all and an `onScrollVisibilityChange` on it
+        // never delivers the `false` that would reveal the bar title.
+        .onScrollGeometryChange(for: Bool.self) { geometry in
+            geometry.contentOffset.y + geometry.contentInsets.top > Self.titleHandoffOffset
+        } action: { _, scrolledPastTitle in
+            headerTitleVisible = !scrolledPastTitle
+        }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        // Still set, so a screen pushed from here gets the right back-button
+        // label; the bar's *rendered* title is the principal item below, which
+        // is the only way to gate it on scroll position.
         .navigationTitle(substance.displayTitle)
-        // The layout draws its own 40pt title inside the header byline, so the
-        // bar keeps only the compact title (a `.large` one would print it twice).
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $showAllEffects) {
             EffectsAndIntensityView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
@@ -232,6 +255,18 @@ struct SubstanceDetailView: View {
     }
 
     @ToolbarContentBuilder private var toolbarContent: some ToolbarContent {
+        // Hidden while the header's display title is on screen, so the name
+        // isn't printed twice; fades in once that title scrolls away. Kept in
+        // the accessibility tree throughout — VoiceOver users navigate by the
+        // bar title and shouldn't lose it to a scroll position.
+        ToolbarItem(placement: .principal) {
+            Text(substance.displayTitle)
+                .font(.headline)
+                .lineLimit(1)
+                .opacity(headerTitleVisible ? 0 : 1)
+                .animation(.easeInOut(duration: 0.18), value: headerTitleVisible)
+                .accessibilityHidden(false)
+        }
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 showShareSheet = true

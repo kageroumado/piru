@@ -73,14 +73,18 @@ struct PharmacologySections: View {
                     onInfo: { onGlossary(.mechanism) },
                     isExpanded: binding(.mechanism, default: policy.mechanismDefaultExpanded),
                 ) {
-                    PharmacologyCard(moa: moa, monoamine: model.monoamineProfile, category: substance.category, hero: hero)
-                    if let slug = model.provenance?.mechanismSource {
-                        SourceAttributionRow(
-                            slug: slug,
-                            label: "Mechanism",
-                            deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
-                            substanceName: substance.name, field: .mechanism,
-                        )
+                    // Card and footer share one row — see ``DoseDurationSection``
+                    // for why a peer row grows a hairline at some card heights.
+                    VStack(alignment: .leading, spacing: 0) {
+                        PharmacologyCard(moa: moa, monoamine: model.monoamineProfile, category: substance.category, hero: hero)
+                        if let slug = model.provenance?.mechanismSource {
+                            SourceAttributionRow(
+                                slug: slug,
+                                label: "Mechanism",
+                                deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
+                                substanceName: substance.name, field: .mechanism,
+                            )
+                        }
                     }
                 }
             }

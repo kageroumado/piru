@@ -72,7 +72,6 @@ struct EffectsAndIntensityView: View {
                 label: "Effects",
                 deepLink: model.drugCommunityDeepLink,
             )
-            .padding(.top, 12)
             .padding(.horizontal, 2)
         }
     }

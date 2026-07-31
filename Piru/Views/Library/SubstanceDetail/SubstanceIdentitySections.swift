@@ -30,25 +30,31 @@ struct InfoDisclosureSection: View {
             if !substance.displayAliases.isEmpty {
                 aliasChips
             }
-            if !substance.tags.isEmpty {
-                SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
-                    .padding(.vertical, 4)
-            }
-            if let slug = model.provenance?.categorySource {
-                SourceAttributionRow(
-                    slug: slug,
-                    label: "Category",
-                    deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
-                    substanceName: substance.name, field: .category,
-                )
-            }
-            if let slug = model.provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
-                SourceAttributionRow(
-                    slug: slug,
-                    label: "Half-life",
-                    deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
-                    substanceName: substance.name, field: .halfLife,
-                )
+            // Tags and the source footers share one row. As separate rows the
+            // footer sat 39pt below the tags — the tag row's bottom inset and
+            // the footer's own top inset, stacked — against the 20pt it has
+            // below it. Nesting them lets the gap be stated once.
+            VStack(alignment: .leading, spacing: 0) {
+                if !substance.tags.isEmpty {
+                    SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
+                        .padding(.top, 4)
+                }
+                if let slug = model.provenance?.categorySource {
+                    SourceAttributionRow(
+                        slug: slug,
+                        label: "Category",
+                        deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
+                        substanceName: substance.name, field: .category,
+                    )
+                }
+                if let slug = model.provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
+                    SourceAttributionRow(
+                        slug: slug,
+                        label: "Half-life",
+                        deepLink: SubstanceSourceLinks.deepLink(slug, substance: substance),
+                        substanceName: substance.name, field: .halfLife,
+                    )
+                }
             }
         }
     }
