@@ -3449,6 +3449,29 @@ _INERT_TAGS: set[str] = {
 # Keys are normalised canonical names (lowercase). Values are sets of
 # normalised alias strings to drop on insert.
 _ALIAS_BLOCKLIST: dict[str, set[str]] = {
+    # GHB carries the names of its two PRODRUGS. They are separate substances in
+    # this DB with their own ladders — and, critically, dosed in **millilitres**
+    # where GHB is dosed in **grams**, so a reader who searched "GBL" and landed
+    # on GHB's ladder got both the wrong compound and the wrong unit.
+    #
+    # The Chinese names were the same error, unnoticed because nobody reading the
+    # English screen sees them: 内酯 is *lactone*, so every 内酯 name here is GBL,
+    # not GHB. They move to gbl.json so zh recall improves rather than vanishing.
+    # GHB keeps 羟基丁酸 (hydroxybutyric acid) and the Xyrem/oxybate names.
+    #
+    # NOT blocked, deliberately: G, Liquid Ecstasy, Liquid X, Scoop. Those street
+    # names really are used for both compounds — that ambiguity is the world's,
+    # not the data's, and dropping them would break real searches.
+    "ghb": {
+        "gbl",
+        "1,4-bd",
+        "γ-丁内酯",
+        "4-丁内酯",
+        "γ-羟基丁酸内酯",
+        "4-羟基丁酸内酯",
+        "氧杂环戊烷-2-酮",
+        "4-内酯",  # scrape fragment, not a name of anything
+    },
     "cannabis": {
         # Δ⁹-THC and synonyms — distinct molecule, has its own entry
         "thc",
@@ -3499,7 +3522,11 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "mushrooms": {"psilocybin", "psilocin"},
     "caffeine": {"coffee"},
     # Distinct compounds wrongly cross-aliased (dangerous in a HR tracker).
-    "mdma": {"ma"},  # MA = methamphetamine abbrev
+    # "ma" = methamphetamine abbrev. "tenamfetamine" is the INN of **MDA**, not
+    # MDMA (PubChem CID 1614, C10H13NO2, vs midomafetamine CID 1615, C11H15NO2) —
+    # it is already correctly attached to the MDA record; here it pointed one
+    # methyl group away.
+    "mdma": {"ma", "tenamfetamine"},
     "methylone": {"molly", "bath salt", "bath salts"},  # Molly = MDMA slang
     "5-htp": {"l-tryptophan", "tryptophan"},  # distinct precursor
     "melatonin": {"5-mt", "5-methoxytryptamine", "ramelteon"},

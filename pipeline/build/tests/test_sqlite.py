@@ -2427,5 +2427,43 @@ class TestMDMACuratedContent(unittest.TestCase):
         self.assertEqual(len(decoded), len(myths))
 
 
+class TestAliasBlocklistIntegrity(unittest.TestCase):
+    """The blocklist is a dict *literal*, so a repeated key is silently dropped —
+    Python keeps the last one and says nothing.
+
+    That is exactly what happened to the `tenamfetamine` entry when it was added:
+    it was written, it parsed, it ran, and it did nothing, because an
+    `"mdma": {"ma"}` key fifty lines below overrode it. The rebuilt DB still
+    shipped the wrong-molecule alias and the only symptom was its absence.
+    Parse the source and refuse duplicates.
+    """
+
+    def test_no_duplicate_keys(self):
+        import ast
+
+        src = (Path(__file__).resolve().parent.parent / "sqlite.py").read_text()
+        literals = [
+            node.value
+            for node in ast.walk(ast.parse(src))
+            if isinstance(node, ast.AnnAssign)
+            and isinstance(node.target, ast.Name)
+            and node.target.id == "_ALIAS_BLOCKLIST"
+        ]
+        self.assertEqual(len(literals), 1, "expected exactly one _ALIAS_BLOCKLIST assignment")
+        keys = [k.value for k in literals[0].keys if isinstance(k, ast.Constant)]
+        dupes = sorted({k for k in keys if keys.count(k) > 1})
+        self.assertEqual(dupes, [], f"duplicate _ALIAS_BLOCKLIST keys silently override: {dupes}")
+
+    def test_confirmed_wrong_molecule_aliases_stay_blocked(self):
+        """GBL/1,4-BD are GHB's prodrugs — separate substances, dosed in mL where
+        GHB is dosed in grams. Tenamfetamine is MDA's INN, not MDMA's."""
+        blocklist = _mod._ALIAS_BLOCKLIST
+        self.assertIn("tenamfetamine", blocklist["mdma"])
+        self.assertIn("gbl", blocklist["ghb"])
+        self.assertIn("1,4-bd", blocklist["ghb"])
+        # 内酯 = lactone: every 内酯 name is GBL, not GHB.
+        self.assertIn("γ-丁内酯", blocklist["ghb"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
