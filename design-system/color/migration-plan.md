@@ -11,6 +11,11 @@ edges:
 
 # Progressive migration to the color system
 
+> **STATUS: phases 0–6 complete.** Fifteen commits on
+> `fix/color-contrast-phase-1`, 1360 tests green, every phase verified on the
+> simulator with sampled pixels rather than asserted. What remains is listed
+> under "Not done" at the end — deliberately, not by omission.
+
 **Contingency note.** Phases 0, 1, 3, and the mechanics of 4–6 are independent
 of the final palette *values*. Only Phase 2 consumes `palette-L1.json`, which is
 under adversarial review (`review.md`). If the review changes the values, only
@@ -235,3 +240,33 @@ should land on its own, with the diff reviewed by a human.
 | Phase 5 visibly changes the app's character | Isolated to its own phase, gated on a human-reviewed screenshot diff. |
 | Contrast test becomes a nuisance that gets disabled | Keep it pure-computation and fast. It asserts on the token *table*, not on rendered views, so it cannot flake. |
 | Widget/Live Activity drift again | Phase 1.3 deletes the duplicate outright rather than syncing it. |
+
+
+---
+
+## Not done
+
+Recorded so the next reader knows these were decided, not missed.
+
+- **The PDF report palette.** Every value fails as text on the page it prints
+  on (2.35–4.15:1), in the document users hand to a clinician. Out of scope
+  because the PDF is being redesigned wholesale; the findings and the
+  pinned-to-light token pattern it will need are in the phase-4 notes above.
+- **`.caption2` at 207 sites.** Apple's guidance is to avoid it; it is also
+  where the contrast gates bite hardest. A type-scale pass, not a colour pass.
+- **Reduce Transparency**, zero call sites. The card fill is
+  `.ultraThinMaterial` everywhere, so this needs a real design answer rather
+  than a token.
+- **`.accessibilityDifferentiateWithoutColor` beyond the supply bar.** Wired
+  where colour was the *only* signal; a sweep for other colour-only encodings
+  is worth its own pass.
+- **Wrapper types** (`StatusColor` / `RouteColor` / `IdentityColor`) to make
+  layer misuse a compile error rather than a convention. Cheap now that the
+  tokens exist, but it touches every call site.
+- **The 19 mergeable component instances** in `component-sameness.md`,
+  including deleting `SubstanceEntryRow` so the Journal list stops showing
+  strictly less about a dose than Session detail does. Structural, not colour.
+- **`themeCard` does not re-publish itself as a container**, so nested content
+  still needs an explicit radius — `containerShape` requires an
+  `InsettableShape` and `ConcentricRectangle` is not one. The 11 call sites
+  still passing an explicit radius are the ones that would benefit.
