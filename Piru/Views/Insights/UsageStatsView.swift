@@ -802,7 +802,7 @@ private struct CategoryBreakdownContent: View {
                         innerRadius: .ratio(0.618),
                         angularInset: 1.5,
                     )
-                    .foregroundStyle(item.category.color)
+                    .foregroundStyle(item.category.labelColor)
                     .cornerRadius(4)
                 }
                 .frame(height: 200)
@@ -873,7 +873,7 @@ private struct CategoryBreakdownContent: View {
                     innerRadius: .ratio(0.618),
                     angularInset: 1.5,
                 )
-                .foregroundStyle(colorMap[item.substance.lowercased()] ?? category.color)
+                .foregroundStyle(colorMap[item.substance.lowercased()] ?? category.labelColor)
                 .cornerRadius(4)
             }
             .frame(height: 200)
@@ -890,7 +890,7 @@ private struct CategoryBreakdownContent: View {
                 ForEach(counts, id: \.substance) { item in
                     HStack(spacing: 4) {
                         Circle()
-                            .fill(colorMap[item.substance.lowercased()] ?? category.color)
+                            .fill(colorMap[item.substance.lowercased()] ?? category.labelColor)
                             .frame(width: 8, height: 8)
                         Text(CustomSubstanceStore.shared.displayName(for: item.substance))
                             .font(.caption2)

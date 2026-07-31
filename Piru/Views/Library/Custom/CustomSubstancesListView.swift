@@ -22,7 +22,7 @@ struct CustomSubstancesListView: View {
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: substance.category.icon)
-                                .foregroundStyle(substance.category.color)
+                                .foregroundStyle(substance.category.labelColor)
                                 .frame(width: 24)
                                 .accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 2) {

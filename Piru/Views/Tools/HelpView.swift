@@ -163,7 +163,7 @@ struct HelpView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
                         Image(systemName: category.icon)
-                            .foregroundStyle(category.color)
+                            .foregroundStyle(category.labelColor)
                             .frame(width: 20)
                         Text(category.displayName)
                             .font(.subheadline.weight(.semibold))

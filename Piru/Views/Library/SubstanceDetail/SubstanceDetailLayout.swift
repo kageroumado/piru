@@ -392,10 +392,13 @@ struct CategoryChip: View {
             .font(.caption2.weight(.bold))
             .textCase(.uppercase)
             .tracking(0.6)
-            .foregroundStyle(category.color)
+            .foregroundStyle(category.labelColor)
             .padding(.horizontal, 9)
             .padding(.vertical, 4)
-            .background(category.color.opacity(0.14), in: Capsule())
+            // 0.10 is the alpha every scale's `text` variant is gated against. At
+            // 0.14 this measured 4.40:1 on device — a fill a few percent darker
+            // than the one a token was derived for is enough to fail its gate.
+            .background(category.color.opacity(0.10), in: Capsule())
             .accessibilityLabel(Text(category.displayName))
     }
 }

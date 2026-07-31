@@ -487,10 +487,14 @@ struct SubstanceRowView: View {
             } else if showsCategoryBadge {
                 Text(substance.category.displayName)
                     .font(.caption2.weight(.medium))
-                    .foregroundStyle(substance.category.color)
+                    .foregroundStyle(substance.category.labelColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
-                    .background(substance.category.color.opacity(0.12), in: Capsule())
+                    // 0.10 — the alpha every scale's `text` variant is gated against.
+                    // At 0.12 the badge measured 4.40:1 on device, just under the
+                    // 4.5 gate: a fill 2% darker than the one the token was
+                    // derived for is enough to fail it.
+                    .background(substance.category.color.opacity(0.10), in: Capsule())
             }
         }
         .padding(.vertical, 3)

@@ -631,6 +631,470 @@
    "dark": {
     "srgb_hex": "DB0007"
    }
+  },
+  "category/stimulant/text": {
+   "any": {
+    "srgb_hex": "9D5B07"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "category/stimulant/accent": {
+   "any": {
+    "srgb_hex": "CC780F"
+   },
+   "dark": {
+    "srgb_hex": "FF9500"
+   }
+  },
+  "category/psychedelic/text": {
+   "any": {
+    "srgb_hex": "9A3DC7"
+   },
+   "dark": {
+    "srgb_hex": "BD62EC"
+   }
+  },
+  "category/psychedelic/accent": {
+   "any": {
+    "srgb_hex": "BF64EE"
+   },
+   "dark": {
+    "srgb_hex": "9133BD"
+   }
+  },
+  "category/dissociative/text": {
+   "any": {
+    "srgb_hex": "0E729C"
+   },
+   "dark": {
+    "srgb_hex": "28A3DA"
+   }
+  },
+  "category/dissociative/accent": {
+   "any": {
+    "srgb_hex": "0F96CD"
+   },
+   "dark": {
+    "srgb_hex": "0091C8"
+   }
+  },
+  "category/dysdelic/text": {
+   "any": {
+    "srgb_hex": "9A4E8E"
+   },
+   "dark": {
+    "srgb_hex": "C070B2"
+   }
+  },
+  "category/dysdelic/accent": {
+   "any": {
+    "srgb_hex": "C070B2"
+   },
+   "dark": {
+    "srgb_hex": "914685"
+   }
+  },
+  "category/deliriant/text": {
+   "any": {
+    "srgb_hex": "746A45"
+   },
+   "dark": {
+    "srgb_hex": "958B64"
+   }
+  },
+  "category/deliriant/accent": {
+   "any": {
+    "srgb_hex": "978C66"
+   },
+   "dark": {
+    "srgb_hex": "6C623D"
+   }
+  },
+  "category/opioid/text": {
+   "any": {
+    "srgb_hex": "D60107"
+   },
+   "dark": {
+    "srgb_hex": "FE5244"
+   }
+  },
+  "category/opioid/accent": {
+   "any": {
+    "srgb_hex": "FE3D32"
+   },
+   "dark": {
+    "srgb_hex": "DB0007"
+   }
+  },
+  "category/benzodiazepine/text": {
+   "any": {
+    "srgb_hex": "0366D6"
+   },
+   "dark": {
+    "srgb_hex": "4894FE"
+   }
+  },
+  "category/benzodiazepine/accent": {
+   "any": {
+    "srgb_hex": "087BFE"
+   },
+   "dark": {
+    "srgb_hex": "0078FB"
+   }
+  },
+  "category/gabapentinoid/text": {
+   "any": {
+    "srgb_hex": "5B5AD9"
+   },
+   "dark": {
+    "srgb_hex": "787DFF"
+   }
+  },
+  "category/gabapentinoid/accent": {
+   "any": {
+    "srgb_hex": "787DFF"
+   },
+   "dark": {
+    "srgb_hex": "5350CF"
+   }
+  },
+  "category/empathogen/text": {
+   "any": {
+    "srgb_hex": "D5073F"
+   },
+   "dark": {
+    "srgb_hex": "FF5066"
+   }
+  },
+  "category/empathogen/accent": {
+   "any": {
+    "srgb_hex": "FE3156"
+   },
+   "dark": {
+    "srgb_hex": "E50043"
+   }
+  },
+  "category/cannabinoid/text": {
+   "any": {
+    "srgb_hex": "007C2C"
+   },
+   "dark": {
+    "srgb_hex": "20B64B"
+   }
+  },
+  "category/cannabinoid/accent": {
+   "any": {
+    "srgb_hex": "08A13E"
+   },
+   "dark": {
+    "srgb_hex": "00AB40"
+   }
+  },
+  "category/nootropic/text": {
+   "any": {
+    "srgb_hex": "047687"
+   },
+   "dark": {
+    "srgb_hex": "26A8BF"
+   }
+  },
+  "category/nootropic/accent": {
+   "any": {
+    "srgb_hex": "019AB0"
+   },
+   "dark": {
+    "srgb_hex": "0098AE"
+   }
+  },
+  "category/ampakine/text": {
+   "any": {
+    "srgb_hex": "2F7908"
+   },
+   "dark": {
+    "srgb_hex": "539D38"
+   }
+  },
+  "category/ampakine/accent": {
+   "any": {
+    "srgb_hex": "539D38"
+   },
+   "dark": {
+    "srgb_hex": "2B7500"
+   }
+  },
+  "category/eugeroic/text": {
+   "any": {
+    "srgb_hex": "8F6203"
+   },
+   "dark": {
+    "srgb_hex": "CA8E22"
+   }
+  },
+  "category/eugeroic/accent": {
+   "any": {
+    "srgb_hex": "BB8001"
+   },
+   "dark": {
+    "srgb_hex": "BA7F00"
+   }
+  },
+  "category/depressant/text": {
+   "any": {
+    "srgb_hex": "546B93"
+   },
+   "dark": {
+    "srgb_hex": "758DB7"
+   }
+  },
+  "category/depressant/accent": {
+   "any": {
+    "srgb_hex": "758DB7"
+   },
+   "dark": {
+    "srgb_hex": "4B628A"
+   }
+  },
+  "category/orexinAntagonist/text": {
+   "any": {
+    "srgb_hex": "6B61AC"
+   },
+   "dark": {
+    "srgb_hex": "8A82D0"
+   }
+  },
+  "category/orexinAntagonist/accent": {
+   "any": {
+    "srgb_hex": "8C83D1"
+   },
+   "dark": {
+    "srgb_hex": "6258A2"
+   }
+  },
+  "category/antidepressant/text": {
+   "any": {
+    "srgb_hex": "826707"
+   },
+   "dark": {
+    "srgb_hex": "FBC900"
+   }
+  },
+  "category/antidepressant/accent": {
+   "any": {
+    "srgb_hex": "AA8803"
+   },
+   "dark": {
+    "srgb_hex": "FBC900"
+   }
+  },
+  "category/antipsychotic/text": {
+   "any": {
+    "srgb_hex": "007872"
+   },
+   "dark": {
+    "srgb_hex": "00BDB4"
+   }
+  },
+  "category/antipsychotic/accent": {
+   "any": {
+    "srgb_hex": "189D96"
+   },
+   "dark": {
+    "srgb_hex": "00BDB4"
+   }
+  },
+  "category/analgesic/text": {
+   "any": {
+    "srgb_hex": "816644"
+   },
+   "dark": {
+    "srgb_hex": "A38763"
+   }
+  },
+  "category/analgesic/accent": {
+   "any": {
+    "srgb_hex": "A48865"
+   },
+   "dark": {
+    "srgb_hex": "785E3C"
+   }
+  },
+  "category/antihistamine/text": {
+   "any": {
+    "srgb_hex": "96566E"
+   },
+   "dark": {
+    "srgb_hex": "BC7890"
+   }
+  },
+  "category/antihistamine/accent": {
+   "any": {
+    "srgb_hex": "BD7992"
+   },
+   "dark": {
+    "srgb_hex": "8D4E66"
+   }
+  },
+  "category/cardiovascular/text": {
+   "any": {
+    "srgb_hex": "C72E2C"
+   },
+   "dark": {
+    "srgb_hex": "F0574F"
+   }
+  },
+  "category/cardiovascular/accent": {
+   "any": {
+    "srgb_hex": "F0574F"
+   },
+   "dark": {
+    "srgb_hex": "BE2325"
+   }
+  },
+  "category/antimicrobial/text": {
+   "any": {
+    "srgb_hex": "137682"
+   },
+   "dark": {
+    "srgb_hex": "3A9AA7"
+   }
+  },
+  "category/antimicrobial/accent": {
+   "any": {
+    "srgb_hex": "3898A5"
+   },
+   "dark": {
+    "srgb_hex": "007783"
+   }
+  },
+  "category/gastrointestinal/text": {
+   "any": {
+    "srgb_hex": "955E00"
+   },
+   "dark": {
+    "srgb_hex": "DC8E11"
+   }
+  },
+  "category/gastrointestinal/accent": {
+   "any": {
+    "srgb_hex": "C47D02"
+   },
+   "dark": {
+    "srgb_hex": "D58800"
+   }
+  },
+  "category/respiratory/text": {
+   "any": {
+    "srgb_hex": "007399"
+   },
+   "dark": {
+    "srgb_hex": "3B97C0"
+   }
+  },
+  "category/respiratory/accent": {
+   "any": {
+    "srgb_hex": "3996BE"
+   },
+   "dark": {
+    "srgb_hex": "007399"
+   }
+  },
+  "category/endocrine/text": {
+   "any": {
+    "srgb_hex": "904EB1"
+   },
+   "dark": {
+    "srgb_hex": "B36FD5"
+   }
+  },
+  "category/endocrine/accent": {
+   "any": {
+    "srgb_hex": "B471D6"
+   },
+   "dark": {
+    "srgb_hex": "8745A7"
+   }
+  },
+  "category/immunological/text": {
+   "any": {
+    "srgb_hex": "0869CD"
+   },
+   "dark": {
+    "srgb_hex": "398DF5"
+   }
+  },
+  "category/immunological/accent": {
+   "any": {
+    "srgb_hex": "398DF5"
+   },
+   "dark": {
+    "srgb_hex": "0166CA"
+   }
+  },
+  "category/supplement/text": {
+   "any": {
+    "srgb_hex": "007B37"
+   },
+   "dark": {
+    "srgb_hex": "2FAB59"
+   }
+  },
+  "category/supplement/accent": {
+   "any": {
+    "srgb_hex": "21A150"
+   },
+   "dark": {
+    "srgb_hex": "019544"
+   }
+  },
+  "category/peptide/text": {
+   "any": {
+    "srgb_hex": "2F70A0"
+   },
+   "dark": {
+    "srgb_hex": "5191C3"
+   }
+  },
+  "category/peptide/accent": {
+   "any": {
+    "srgb_hex": "5191C3"
+   },
+   "dark": {
+    "srgb_hex": "266796"
+   }
+  },
+  "category/anticonvulsant/text": {
+   "any": {
+    "srgb_hex": "765DA4"
+   },
+   "dark": {
+    "srgb_hex": "977EC7"
+   }
+  },
+  "category/anticonvulsant/accent": {
+   "any": {
+    "srgb_hex": "9880C9"
+   },
+   "dark": {
+    "srgb_hex": "6E559A"
+   }
+  },
+  "category/other/text": {
+   "any": {
+    "srgb_hex": "6A6A6E"
+   },
+   "dark": {
+    "srgb_hex": "8A8A8F"
+   }
+  },
+  "category/other/accent": {
+   "any": {
+    "srgb_hex": "8B8B90"
+   },
+   "dark": {
+    "srgb_hex": "616166"
+   }
   }
  }
 }

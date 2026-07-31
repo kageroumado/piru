@@ -631,7 +631,7 @@ struct EntryListView: View {
                             Text("\(String(localized: group.category.displayName)) (\(group.entries.count))")
                         } icon: {
                             Image(systemName: group.category.icon)
-                                .foregroundStyle(group.category.color)
+                                .foregroundStyle(group.category.labelColor)
                         }
                         .font(.subheadline.weight(.semibold))
                         Spacer()

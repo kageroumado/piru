@@ -131,6 +131,47 @@ SEVERITY_SOURCE = {
 }
 
 
+# Substance categories: a 29-step nominal scale. Sources are the values already
+# shipping -- system hues written as their published hex, and the nine hand-mixed
+# `Color(red:green:blue:)` literals that had **no dark variant at all** and so
+# rendered the same pixel in both appearances.
+#
+# 29 steps cannot all be mutually distinguishable on one hue wheel, and they do
+# not need to be: a category badge always carries its name. This scale is
+# therefore exempt from the distinctness floor the smaller scales hold to.
+CATEGORY_SOURCE = {
+    "stimulant": "FF9500",
+    "psychedelic": "AF52DE",
+    "dissociative": "32ADE6",
+    "dysdelic": "8C4080",
+    "deliriant": "857A52",
+    "opioid": "FF3B30",
+    "benzodiazepine": "007AFF",
+    "gabapentinoid": "5856D6",
+    "empathogen": "FF2D55",
+    "cannabinoid": "34C759",
+    "nootropic": "30B0C7",
+    "ampakine": "8CD973",
+    "eugeroic": "F2B34D",
+    "depressant": "738CB8",
+    "orexinAntagonist": "6B61AD",
+    "antidepressant": "FFCC00",
+    "antipsychotic": "00C7BE",
+    "analgesic": "A2845E",
+    "antihistamine": "B8738C",
+    "cardiovascular": "FF6259",
+    "antimicrobial": "62C4D2",
+    "gastrointestinal": "FFAE40",
+    "respiratory": "63C0EB",
+    "endocrine": "C27DE5",
+    "immunological": "4095FF",
+    "supplement": "5DD37E",
+    "peptide": "66A6D9",
+    "anticonvulsant": "A68CD9",
+    "other": "8E8E93",
+}
+
+
 def max_chroma(hue: float, gate, background, ceiling: float = 1.0) -> tuple[float, float, tuple]:
     """Highest-chroma colour at `hue` satisfying `gate(colour)`, up to `ceiling`.
 
@@ -259,6 +300,7 @@ def main() -> None:
         "dose": build_scale(DOSE_SOURCE),
         "confidence": build_scale(CONFIDENCE_SOURCE),
         "severity": build_scale(SEVERITY_SOURCE),
+        "category": build_scale(CATEGORY_SOURCE),
     }
     out = {
         "_meta": {

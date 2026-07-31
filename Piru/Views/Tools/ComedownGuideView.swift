@@ -354,7 +354,7 @@ struct ComedownCategoryDisclosure: View {
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: category.icon)
-                    .foregroundStyle(category.color)
+                    .foregroundStyle(category.labelColor)
                     .frame(width: 24)
                 Text(category.displayName)
                     .font(.body)
