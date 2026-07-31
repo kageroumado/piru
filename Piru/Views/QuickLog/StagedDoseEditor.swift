@@ -239,19 +239,17 @@ struct StagedDoseEditor: View {
             // (it used to read "trash … Collapses the editor").
             HStack(spacing: 8) {
                 VStack(alignment: .leading, spacing: 1) {
-                    HStack(spacing: 5) {
-                        Text(item.displayTitle)
-                            .font(.body.weight(.semibold))
-                            .trayMorph(id: "title-\(item.id)", in: namespace, isSource: false)
-                        // The "recognized" seal: the app says out loud it
-                        // understood the brand, so a hit no longer looks like a miss.
-                        if recognitionSubtitle != nil {
-                            Image(systemName: "checkmark.seal.fill")
-                                .font(.caption2)
-                                .foregroundStyle(.green)
-                                .accessibilityHidden(true)
-                        }
-                    }
+                    // No "recognized" seal beside the name. It fired only when
+                    // the typed alias resolved to a different canonical entry —
+                    // exactly what the subtitle underneath already says in
+                    // words — and `checkmark.seal.fill` is the app's
+                    // *data-confidence* glyph (see ``ConfidenceBadge``), so a
+                    // green seal against a substance name read as a claim about
+                    // how much to trust it. A custom substance got no seal at
+                    // all, which is the opposite of how testers read it.
+                    Text(item.displayTitle)
+                        .font(.body.weight(.semibold))
+                        .trayMorph(id: "title-\(item.id)", in: namespace, isSource: false)
                     if let subtitle = recognitionSubtitle {
                         Text(subtitle)
                             .font(.caption)

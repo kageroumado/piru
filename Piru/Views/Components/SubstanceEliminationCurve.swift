@@ -6,6 +6,10 @@ import SwiftUI
 /// section renders the identical curve.
 struct SubstanceEliminationCurve: View {
     let active: ActiveSubstance
+    /// What the surrounding row calls this substance. `ActiveSubstance.name` is
+    /// always the canonical English name, so without this VoiceOver announces
+    /// "Memantine" under a row the user sees as 美金刚.
+    var displayName: String?
 
     var body: some View {
         let halfLife = active.halfLifeMinutes
@@ -142,7 +146,7 @@ struct SubstanceEliminationCurve: View {
                 .padding(10)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("Elimination curve for \(active.name)"))
+        .accessibilityLabel(Text("Elimination curve for \(displayName ?? active.name)"))
         .accessibilityValue(Text("\(active.totalRemaining.doseFormatted) \(active.unit) remaining, \(Int(active.eliminatedFraction * 100))% eliminated, half-life \(Self.formatDuration(halfLife))"))
     }
 

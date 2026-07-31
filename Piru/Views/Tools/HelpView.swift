@@ -693,7 +693,18 @@ struct HelpView: View {
         if !entries.isEmpty {
             lines.append("RECENT DOSES (LAST 24 HOURS):")
             for entry in entries {
-                var line = "- \(entry.substance) \(entry.amount.doseFormatted) \(entry.unit) \(String(localized: entry.route.localizedName).lowercased()) — \(formatter.string(from: entry.timestamp))"
+                // Lead with the canonical name — this is read by someone
+                // treating the person, and a brand or a non-English alias isn't
+                // always actionable. The user's own word follows when it
+                // differs, so they can still recognize their own log. Raw
+                // `entry.substance` was neither: it's whatever string was typed,
+                // which may be an alias the catalog has since renamed.
+                let canonical = SubstanceLibrary.timelineLookup(entry.substance)?.displayTitle ?? entry.substance
+                let logged = DoseTitle.resolve(for: entry)
+                let name = logged.caseInsensitiveCompare(canonical) == .orderedSame
+                    ? canonical
+                    : "\(canonical) (logged as \(logged))"
+                var line = "- \(name) \(entry.amount.doseFormatted) \(entry.unit) \(String(localized: entry.route.localizedName).lowercased()) — \(formatter.string(from: entry.timestamp))"
                 if let notes = entry.notes, !notes.isEmpty {
                     line += " (\(notes))"
                 }

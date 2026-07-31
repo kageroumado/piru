@@ -173,11 +173,17 @@ struct SessionBodyLoadModel {
             var total = 0.0
             var unit: String
             var count = 0
+            /// Every `productName` the group's doses were logged under — the
+            /// user's own word for the substance (a brand, or a Chinese alias
+            /// like 美金刚). Empty string stands for "logged under the canonical
+            /// name", so a mixed group can't be titled by one product.
+            var products: Set<String> = []
         }
         var groups: [String: Group] = [:]
         for entry in entries {
             let canonical = SubstanceLibrary.timelineLookup(entry.substance)?.name ?? entry.substance
             let key = canonical.lowercased()
+            let product = entry.productName?.trimmingCharacters(in: .whitespaces) ?? ""
             if var group = groups[key] {
                 // Convert into the unit this group already established rather
                 // than adding raw magnitudes — 500 mg + 1 g is 1500 mg, not 501
@@ -187,10 +193,29 @@ struct SessionBodyLoadModel {
                     group.total += amount
                 }
                 group.count += 1
+                group.products.insert(product)
                 groups[key] = group
             } else {
-                groups[key] = Group(name: canonical, total: entry.amount, unit: entry.unit, count: 1)
+                groups[key] = Group(
+                    name: canonical, total: entry.amount, unit: entry.unit,
+                    count: 1, products: [product],
+                )
             }
+        }
+
+        /// Title a group the way the dose rows above it do. Those resolve through
+        /// ``DoseTitle``, which honors the user's own word for the substance;
+        /// this section used to re-derive from the canonical name alone, so a
+        /// dose logged as 美金刚 (or Concerta) reappeared here as "Memantine".
+        ///
+        /// A group mixing products (Concerta + Ritalin) keeps the canonical
+        /// name — one brand can't title a total that isn't all that brand. A
+        /// personal relabel still outranks both, via `displayName`'s own
+        /// precedence.
+        func title(canonical: String, products: Set<String>?) -> String {
+            let shared = products.flatMap { $0.count == 1 ? $0.first : nil }
+            let product = (shared?.isEmpty == false) ? shared : nil
+            return CustomSubstanceStore.shared.displayName(for: canonical, fallback: product)
         }
 
         var model = SessionBodyLoadModel()
@@ -205,7 +230,7 @@ struct SessionBodyLoadModel {
             // ActiveSubstanceCalculator is untouched.
             if active.eliminatedFraction >= clearedThreshold {
                 model.cleared.append(Cleared(
-                    displayName: CustomSubstanceStore.shared.displayName(for: active.name),
+                    displayName: title(canonical: active.name, products: group?.products),
                     color: active.color,
                     total: group?.total ?? active.totalDosed,
                     unit: group?.unit ?? active.unit,
@@ -221,7 +246,7 @@ struct SessionBodyLoadModel {
                     ?? active.totalRemaining
                 model.active.append(Active(
                     active: active,
-                    displayName: CustomSubstanceStore.shared.displayName(for: active.name),
+                    displayName: title(canonical: active.name, products: group?.products),
                     count: group?.count ?? active.doses.count,
                     sessionTotal: group?.total ?? active.totalDosed,
                     unit: unit,
@@ -235,7 +260,7 @@ struct SessionBodyLoadModel {
             .filter { key, group in group.count > 1 && !covered.contains(key) }
             .map { _, group in
                 Cleared(
-                    displayName: CustomSubstanceStore.shared.displayName(for: group.name),
+                    displayName: title(canonical: group.name, products: group.products),
                     color: colorMap[group.name.lowercased()] ?? Theme.accent,
                     total: group.total,
                     unit: group.unit,
@@ -371,7 +396,7 @@ struct SessionBodyLoadSection: View {
     /// reveals the substance's elimination curve.
     private func activeRow(_ row: SessionBodyLoadModel.Active) -> some View {
         DisclosureGroup(isExpanded: expansion(row.id)) {
-            SubstanceEliminationCurve(active: row.active)
+            SubstanceEliminationCurve(active: row.active, displayName: row.displayName)
                 .padding(.top, 4)
         } label: {
             BodyLoadRowLabel(
