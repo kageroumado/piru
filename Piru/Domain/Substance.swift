@@ -191,15 +191,47 @@ enum DoseLevel: String, CaseIterable {
 // MARK: - Unit Conversion
 
 enum DoseUnit {
-    /// Conversion factor from each mass unit to milligrams.
+    /// Conversion factor from each canonical mass unit to milligrams.
     private nonisolated static let toMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1_000]
+
+    /// Every spelling of a bare mass unit that resolves to a canonical key.
+    ///
+    /// "µg" and "μg" are different codepoints — MICRO SIGN (U+00B5) and GREEK
+    /// SMALL LETTER MU (U+03BC) — and the catalog contains both, because
+    /// different upstreams type them differently. Keying only on the first meant
+    /// `convert` returned nil for LSD's oral ladder, all three fentanyl routes
+    /// and sufentanil IV: no scale-precision warning on microgram-dosed drugs,
+    /// no tolerance contribution, no combined-depression term. Silent, and worst
+    /// exactly where the margin is thinnest.
+    ///
+    /// Deliberately bare spellings only. A qualified unit ("mg (freebase)",
+    /// "mg (salt)") states a basis, and folding it onto plain mg would let a
+    /// freebase amount be compared against a salt amount as though the
+    /// qualifier were decoration. Rate and per-mass units ("µg/kg", "mcg/hr")
+    /// are not masses at all and must keep failing.
+    private nonisolated static let canonicalUnit: [String: String] = [
+        "µg": "µg", "μg": "µg", "mcg": "µg", "ug": "µg",
+        "microgram": "µg", "micrograms": "µg", "mcgs": "µg", "ugs": "µg",
+        "mg": "mg", "mgs": "mg", "milligram": "mg", "milligrams": "mg",
+        "g": "g", "gs": "g", "gram": "g", "grams": "g", "gm": "g",
+    ]
+
+    /// Fold a written mass unit onto its canonical key, or nil if it is not a
+    /// bare mass unit.
+    nonisolated static func canonical(_ unit: String) -> String? {
+        canonicalUnit[unit.trimmingCharacters(in: .whitespaces).lowercased()]
+    }
 
     /// Convert a dose amount between compatible mass units (µg, mg, g).
     /// Returns `nil` if either unit is not a convertible mass unit (e.g. mL, IU).
     /// `nonisolated` (pure) so the off-main inventory replay can call it.
     nonisolated static func convert(_ amount: Double, from: String, to: String) -> Double? {
+        // Identity first, and for ANY unit: converting mL to mL is the amount
+        // itself, and the inventory replay depends on that for non-mass units.
         guard from != to else { return amount }
-        guard let fromFactor = toMg[from], let toFactor = toMg[to] else { return nil }
+        guard let fromUnit = canonical(from), let toUnit = canonical(to) else { return nil }
+        guard fromUnit != toUnit else { return amount }
+        guard let fromFactor = toMg[fromUnit], let toFactor = toMg[toUnit] else { return nil }
         return amount * fromFactor / toFactor
     }
 }

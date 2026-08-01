@@ -3175,7 +3175,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Glatfelter 2022 measures DOI at 5 nM (5-HT2A) with 5-HT1A below the screening threshold — same DIRECTION (strongly 2A-leaning) but ~33x tighter at 2A. DOI is a research-standard agonist, not a consumer substance; included as an axis anchor."
+          "notes": "Glatfelter 2022 measures DOI at 5 nM (5-HT2A) with 5-HT1A below the screening threshold — same DIRECTION (strongly 2A-leaning) but ~33x tighter at 2A. DOI is a research-standard agonist, not a consumer substance; included as an axis anchor.",
+          "action": "modulator"
         },
         {
           "target": "5-HT2A",
@@ -3187,7 +3188,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Glatfelter 2022 measures DOI at 5 nM (5-HT2A) with 5-HT1A below the screening threshold — same DIRECTION (strongly 2A-leaning) but ~33x tighter at 2A. DOI is a research-standard agonist, not a consumer substance; included as an axis anchor."
+          "notes": "Glatfelter 2022 measures DOI at 5 nM (5-HT2A) with 5-HT1A below the screening threshold — same DIRECTION (strongly 2A-leaning) but ~33x tighter at 2A. DOI is a research-standard agonist, not a consumer substance; included as an axis anchor.",
+          "action": "partialAgonist"
         }
       ],
       "functional": [
@@ -3396,7 +3398,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Not on the requested list but retrieved from the same panel at zero marginal cost; it is the 2A-selective mirror image of 5-MeO-DMT and makes a clean opposite anchor for the axis. Source flags ND/PH=0/0 (fully determined row)."
+          "notes": "Not on the requested list but retrieved from the same panel at zero marginal cost; it is the 2A-selective mirror image of 5-MeO-DMT and makes a clean opposite anchor for the axis. Source flags ND/PH=0/0 (fully determined row).",
+          "action": "modulator"
         },
         {
           "target": "5-HT2A",
@@ -3408,7 +3411,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Not on the requested list but retrieved from the same panel at zero marginal cost; it is the 2A-selective mirror image of 5-MeO-DMT and makes a clean opposite anchor for the axis. Source flags ND/PH=0/0 (fully determined row)."
+          "notes": "Not on the requested list but retrieved from the same panel at zero marginal cost; it is the 2A-selective mirror image of 5-MeO-DMT and makes a clean opposite anchor for the axis. Source flags ND/PH=0/0 (fully determined row).",
+          "action": "partialAgonist"
         }
       ],
       "functional": [
@@ -3717,7 +3721,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Source flags ND/PH=3/0."
+          "notes": "Source flags ND/PH=3/0.",
+          "action": "modulator"
         },
         {
           "target": "5-HT2A",
@@ -3729,7 +3734,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Source flags ND/PH=3/0."
+          "notes": "Source flags ND/PH=3/0.",
+          "action": "agonist"
         }
       ],
       "functional": [],
@@ -8033,7 +8039,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "5-HT2A recorded as '>10,000' (censored). Ray explicitly names mescaline as one of seven drugs whose receptor profile is TRUNCATED by the PDSP's 10 uM ceiling — its best hit exceeds 100 nM, so the measurable range is narrower than the perceptible range. Mescaline is a genuinely low-affinity, high-dose drug; do not infer 1A-selectivity from this row."
+          "notes": "5-HT2A recorded as '>10,000' (censored). Ray explicitly names mescaline as one of seven drugs whose receptor profile is TRUNCATED by the PDSP's 10 uM ceiling — its best hit exceeds 100 nM, so the measurable range is narrower than the perceptible range. Mescaline is a genuinely low-affinity, high-dose drug; do not infer 1A-selectivity from this row.",
+          "action": "modulator"
         }
       ]
     }
@@ -8052,7 +8059,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Source flags ND/PH=1/2 for 2C-B, i.e. two cells in its 67-site row are non-human substitutions; whether either is 1A or 2A is not resolvable from the file."
+          "notes": "Source flags ND/PH=1/2 for 2C-B, i.e. two cells in its 67-site row are non-human substitutions; whether either is 1A or 2A is not resolvable from the file.",
+          "action": "modulator"
         },
         {
           "target": "5-HT2A",
@@ -8064,7 +8072,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Source flags ND/PH=1/2 for 2C-B, i.e. two cells in its 67-site row are non-human substitutions; whether either is 1A or 2A is not resolvable from the file."
+          "notes": "Source flags ND/PH=1/2 for 2C-B, i.e. two cells in its 67-site row are non-human substitutions; whether either is 1A or 2A is not resolvable from the file.",
+          "action": "partialAgonist"
         }
       ]
     }
@@ -8083,7 +8092,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Source flags ND/PH=0/2 for 2C-E (two non-human substitutions somewhere in the row)."
+          "notes": "Source flags ND/PH=0/2 for 2C-E (two non-human substitutions somewhere in the row).",
+          "action": "modulator"
         },
         {
           "target": "5-HT2A",
@@ -8095,7 +8105,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Source flags ND/PH=0/2 for 2C-E (two non-human substitutions somewhere in the row)."
+          "notes": "Source flags ND/PH=0/2 for 2C-E (two non-human substitutions somewhere in the row).",
+          "action": "modulator"
         }
       ]
     }

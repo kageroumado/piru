@@ -2531,6 +2531,67 @@ class TestIsomerSynonymCoverage(unittest.TestCase):
             self.assertEqual(row[0], "L", f"{alias} should be the L enantiomer")
 
 
+class TestCanonicalMassUnit(unittest.TestCase):
+    """One spelling per mass unit, or the app's exact-match conversion fails."""
+
+    def test_micro_spellings_fold_onto_one(self):
+        for spelled in ("µg", "μg", "ug", "mcg", "micrograms", "MCG", " ug "):
+            self.assertEqual(_mod.canonical_mass_unit(spelled), "µg", repr(spelled))
+        # The canonical micro sign is U+00B5, not U+03BC.
+        self.assertEqual(ord(_mod.canonical_mass_unit("μg")[0]), 0x00B5)
+
+    def test_milli_and_gram_spellings(self):
+        for spelled in ("mg", "mgs", "milligrams"):
+            self.assertEqual(_mod.canonical_mass_unit(spelled), "mg")
+        for spelled in ("g", "grams", "gm"):
+            self.assertEqual(_mod.canonical_mass_unit(spelled), "g")
+
+    def test_qualified_and_rate_units_pass_through_untouched(self):
+        """A qualifier states a basis and a rate is not a mass. Folding either
+        onto plain mg would let a freebase amount be compared with a salt one,
+        or a 100 µg/hr patch read as a 100 µg dose."""
+        for untouched in (
+            "mg (freebase)",
+            "mg (salt)",
+            "mg THC",
+            "µg/kg",
+            "ug/hr",
+            "mcg/hr (patch)",
+            "mg/day",
+            "mg/kg",
+            "mL",
+            "IU",
+            "seeds",
+            "%",
+        ):
+            self.assertEqual(_mod.canonical_mass_unit(untouched), untouched)
+        self.assertIsNone(_mod.canonical_mass_unit(None))
+
+
+class TestShippedDoseUnitsAreCanonical(unittest.TestCase):
+    """The Swift side converts on an exact string match against 'µg'/'mg'/'g',
+    so a stray spelling in the shipped DB is a silently unconvertible dose —
+    no precision warning, no tolerance contribution, no depression term."""
+
+    @classmethod
+    def setUpClass(cls):
+        p = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_no_uncanonical_bare_mass_units_ship(self):
+        rows = self.db.execute(
+            "SELECT DISTINCT unit FROM dose_ranges WHERE unit IS NOT NULL"
+        ).fetchall()
+        offenders = [unit for (unit,) in rows if _mod.canonical_mass_unit(unit) != unit]
+        self.assertEqual(offenders, [], f"dose units the app cannot convert: {offenders}")
+
+
 class TestLocusPrefixNormalisation(unittest.TestCase):
     """One molecule, one spelling, one card."""
 

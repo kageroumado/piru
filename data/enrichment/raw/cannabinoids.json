@@ -851,7 +851,8 @@
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number."
+          "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB2",
@@ -862,7 +863,8 @@
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number."
+          "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number.",
+          "action": "partialAgonist"
         }
       ],
       "functional": [],
@@ -1087,7 +1089,8 @@
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Printed as EC50 22.5 nM (95% CI 19.9-25.6) and efficacy 103% (102-105). Signal was normalized to JWH-018 at 60 uM = 100%, so the 103% is the fitted curve maximum against that anchor. CB1 Ki NOT retrieved — JWH-018 is not resolvable in ChEMBL by that synonym. The paper states only qualitatively that JWH-018 has about 4x higher binding affinity than Delta-9-THC and an in vivo ED50 about 2x lower in mouse."
+          "notes": "Printed as EC50 22.5 nM (95% CI 19.9-25.6) and efficacy 103% (102-105). Signal was normalized to JWH-018 at 60 uM = 100%, so the 103% is the fitted curve maximum against that anchor. CB1 Ki NOT retrieved — JWH-018 is not resolvable in ChEMBL by that synonym. The paper states only qualitatively that JWH-018 has about 4x higher binding affinity than Delta-9-THC and an in vivo ED50 about 2x lower in mouse.",
+          "action": "agonist"
         }
       ],
       "functional": [
@@ -3513,7 +3516,8 @@
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Same-document pair with the Delta-8-THC row below — these two are directly comparable. Efficacy null: no CP55,940-referenced Emax for Delta-9-THC was retrieved. THC's partial agonism is the premise of this axis but the NUMBER is not yet in hand."
+          "notes": "Same-document pair with the Delta-8-THC row below — these two are directly comparable. Efficacy null: no CP55,940-referenced Emax for Delta-9-THC was retrieved. THC's partial agonism is the premise of this axis but the NUMBER is not yet in hand.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB2",
@@ -3524,7 +3528,8 @@
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Same-document pair with the Delta-8-THC row below — these two are directly comparable. Efficacy null: no CP55,940-referenced Emax for Delta-9-THC was retrieved. THC's partial agonism is the premise of this axis but the NUMBER is not yet in hand."
+          "notes": "Same-document pair with the Delta-8-THC row below — these two are directly comparable. Efficacy null: no CP55,940-referenced Emax for Delta-9-THC was retrieved. THC's partial agonism is the premise of this axis but the NUMBER is not yet in hand.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB1",
@@ -3535,7 +3540,8 @@
           "reference": "doi:10.1016/j.ejmech.2024.116164",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Second document, retrieved via ChEMBL (CHEMBL6083178). Included because the SAME document also measures Delta-8-THC, CBN and CBG at CB1, giving a second internally-consistent comparison set."
+          "notes": "Second document, retrieved via ChEMBL (CHEMBL6083178). Included because the SAME document also measures Delta-8-THC, CBN and CBG at CB1, giving a second internally-consistent comparison set.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB1",
@@ -3546,7 +3552,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Third independent Delta-9-THC CB1 figure, from the same Ray 2010 paper that anchors the psychedelic axis, so it shares a provenance frame with axis 1. That table lists three CB1 measurements — 13.7 nM (human cortical membranes), 15.3 nM (human cloned), 5.05 nM (human cloned, [3H]CP-55940) — and reports an average of 10.19 nM; CB2 average 16.85 nM. The 5.05 value is the single tightest human-cloned CP-55940-based measurement in that table."
+          "notes": "Third independent Delta-9-THC CB1 figure, from the same Ray 2010 paper that anchors the psychedelic axis, so it shares a provenance frame with axis 1. That table lists three CB1 measurements — 13.7 nM (human cortical membranes), 15.3 nM (human cloned), 5.05 nM (human cloned, [3H]CP-55940) — and reports an average of 10.19 nM; CB2 average 16.85 nM. The 5.05 value is the single tightest human-cloned CP-55940-based measurement in that table.",
+          "action": "partialAgonist"
         }
       ]
     }
@@ -3564,7 +3571,8 @@
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Same document as Delta-9 above, so the ~4.3x weaker CB1 binding of Delta-8 vs Delta-9 is an apples-to-apples statement. BUT other retrieved documents disagree on the size of that gap: 10.1016/j.ejmech.2024.116164 gives Delta-9 CB1 39 nM and Delta-8 CB1 40 nM (essentially IDENTICAL), and ChEMBL holds Delta-8 CB1 values spanning 28.5-78 nM across 8 documents. Consensus direction: Delta-8 is equal-to-somewhat-weaker at CB1. Do NOT ship a precise Delta-8/Delta-9 potency ratio."
+          "notes": "Same document as Delta-9 above, so the ~4.3x weaker CB1 binding of Delta-8 vs Delta-9 is an apples-to-apples statement. BUT other retrieved documents disagree on the size of that gap: 10.1016/j.ejmech.2024.116164 gives Delta-9 CB1 39 nM and Delta-8 CB1 40 nM (essentially IDENTICAL), and ChEMBL holds Delta-8 CB1 values spanning 28.5-78 nM across 8 documents. Consensus direction: Delta-8 is equal-to-somewhat-weaker at CB1. Do NOT ship a precise Delta-8/Delta-9 potency ratio.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB2",
@@ -3575,7 +3583,8 @@
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Same document as Delta-9 above, so the ~4.3x weaker CB1 binding of Delta-8 vs Delta-9 is an apples-to-apples statement. BUT other retrieved documents disagree on the size of that gap: 10.1016/j.ejmech.2024.116164 gives Delta-9 CB1 39 nM and Delta-8 CB1 40 nM (essentially IDENTICAL), and ChEMBL holds Delta-8 CB1 values spanning 28.5-78 nM across 8 documents. Consensus direction: Delta-8 is equal-to-somewhat-weaker at CB1. Do NOT ship a precise Delta-8/Delta-9 potency ratio."
+          "notes": "Same document as Delta-9 above, so the ~4.3x weaker CB1 binding of Delta-8 vs Delta-9 is an apples-to-apples statement. BUT other retrieved documents disagree on the size of that gap: 10.1016/j.ejmech.2024.116164 gives Delta-9 CB1 39 nM and Delta-8 CB1 40 nM (essentially IDENTICAL), and ChEMBL holds Delta-8 CB1 values spanning 28.5-78 nM across 8 documents. Consensus direction: Delta-8 is equal-to-somewhat-weaker at CB1. Do NOT ship a precise Delta-8/Delta-9 potency ratio.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB1",
@@ -3586,7 +3595,8 @@
           "reference": "doi:10.1016/j.ejmech.2024.116164",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "In this document Delta-8 (40 nM) and Delta-9 (39 nM) are indistinguishable at CB1 — the direct counterweight to the 78-vs-18 split in the 2015 J Nat Prod document."
+          "notes": "In this document Delta-8 (40 nM) and Delta-9 (39 nM) are indistinguishable at CB1 — the direct counterweight to the 78-vs-18 split in the 2015 J Nat Prod document.",
+          "action": "partialAgonist"
         }
       ]
     }
@@ -3605,7 +3615,8 @@
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9R epimer. Printed as EC50 101 nM (95% CI 81.9-125) and efficacy 64% (95% CI 62-66) relative to JWH-018. REFERENCE AGONIST IS JWH-018, NOT CP55,940 — this value cannot be dropped onto a CP55,940-normalized scale without a conversion the retrieved literature does not provide. Partial agonist."
+          "notes": "9R epimer. Printed as EC50 101 nM (95% CI 81.9-125) and efficacy 64% (95% CI 62-66) relative to JWH-018. REFERENCE AGONIST IS JWH-018, NOT CP55,940 — this value cannot be dropped onto a CP55,940-normalized scale without a conversion the retrieved literature does not provide. Partial agonist.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB1",
@@ -3617,7 +3628,8 @@
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9S epimer. Printed as EC50 1190 nM (95% CI 951-1490) and efficacy 68% (95% CI 65-71). THE KEY HHC FINDING: the epimers differ ~11.8x in POTENCY (101 vs 1190 nM) but are statistically INDISTINGUISHABLE in EFFICACY (64% vs 68%). So on an efficacy axis the two epimers sit on top of each other; the 9R/9S distinction belongs on a potency axis, not this one. Products contain variable mixtures — reported 9R:9S ratios range 0.2:1 to 2.4:1 in US retail product and 0.27-0.89 in Belgian seizures — so a given package's potency is genuinely unpredictable."
+          "notes": "9S epimer. Printed as EC50 1190 nM (95% CI 951-1490) and efficacy 68% (95% CI 65-71). THE KEY HHC FINDING: the epimers differ ~11.8x in POTENCY (101 vs 1190 nM) but are statistically INDISTINGUISHABLE in EFFICACY (64% vs 68%). So on an efficacy axis the two epimers sit on top of each other; the 9R/9S distinction belongs on a potency axis, not this one. Products contain variable mixtures — reported 9R:9S ratios range 0.2:1 to 2.4:1 in US retail product and 0.27-0.89 in Belgian seizures — so a given package's potency is genuinely unpredictable.",
+          "action": "partialAgonist"
         }
       ]
     }
@@ -3636,7 +3648,8 @@
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9R epimer. Printed as EC50 44.4 nM (95% CI 33.6-58.7), efficacy 61% (58-64). The most POTENT of the semi-synthetics tested, within ~2x of JWH-018, yet still only partial in efficacy."
+          "notes": "9R epimer. Printed as EC50 44.4 nM (95% CI 33.6-58.7), efficacy 61% (58-64). The most POTENT of the semi-synthetics tested, within ~2x of JWH-018, yet still only partial in efficacy.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB1",
@@ -3648,7 +3661,8 @@
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9S epimer. Printed as EC50 134 nM (95% CI 109-164), efficacy 66% (63-68). Same pattern as HHC: 9S is ~3x less potent, equal efficacy."
+          "notes": "9S epimer. Printed as EC50 134 nM (95% CI 109-164), efficacy 66% (63-68). Same pattern as HHC: 9S is ~3x less potent, equal efficacy.",
+          "action": "partialAgonist"
         }
       ]
     }
@@ -3667,7 +3681,8 @@
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "9R epimer. Printed as EC50 '>33,000' nM with no clear plateau and efficacy '>27%' — both are BOUNDS, not values; emax recorded here as the stated lower bound. The 9S epimer showed NO activation at all (n.d.). Authors conclude the acetates are prodrugs converted to HHC in vivo, so intrinsic CB1 numbers understate their real-world effect."
+          "notes": "9R epimer. Printed as EC50 '>33,000' nM with no clear plateau and efficacy '>27%' — both are BOUNDS, not values; emax recorded here as the stated lower bound. The 9S epimer showed NO activation at all (n.d.). Authors conclude the acetates are prodrugs converted to HHC in vivo, so intrinsic CB1 numbers understate their real-world effect.",
+          "action": "partialAgonist"
         }
       ]
     }
@@ -3685,7 +3700,8 @@
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBN/CBG. Retrieved CBD CB1 values scatter 151-4350 nM across five documents. The robust, source-independent statement is only the ORDER: CBD binds CB1 roughly two orders of magnitude more weakly than THC and is not meaningfully an orthosteric CB1 agonist. Efficacy null — no CB1 Emax retrieved, which is appropriate since CBD's pharmacology is not orthosteric CB1 agonism."
+          "notes": "Same document as CBN/CBG. Retrieved CBD CB1 values scatter 151-4350 nM across five documents. The robust, source-independent statement is only the ORDER: CBD binds CB1 roughly two orders of magnitude more weakly than THC and is not meaningfully an orthosteric CB1 agonist. Efficacy null — no CB1 Emax retrieved, which is appropriate since CBD's pharmacology is not orthosteric CB1 agonism.",
+          "action": "negativeAllostericModulator"
         },
         {
           "target": "CB2",
@@ -3696,7 +3712,8 @@
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBN/CBG. Retrieved CBD CB1 values scatter 151-4350 nM across five documents. The robust, source-independent statement is only the ORDER: CBD binds CB1 roughly two orders of magnitude more weakly than THC and is not meaningfully an orthosteric CB1 agonist. Efficacy null — no CB1 Emax retrieved, which is appropriate since CBD's pharmacology is not orthosteric CB1 agonism."
+          "notes": "Same document as CBN/CBG. Retrieved CBD CB1 values scatter 151-4350 nM across five documents. The robust, source-independent statement is only the ORDER: CBD binds CB1 roughly two orders of magnitude more weakly than THC and is not meaningfully an orthosteric CB1 agonist. Efficacy null — no CB1 Emax retrieved, which is appropriate since CBD's pharmacology is not orthosteric CB1 agonism.",
+          "action": "modulator"
         }
       ]
     }
@@ -3714,7 +3731,8 @@
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist."
+          "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist.",
+          "action": "partialAgonist"
         },
         {
           "target": "CB2",
@@ -3725,7 +3743,8 @@
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist."
+          "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist.",
+          "action": "modulator"
         }
       ]
     }

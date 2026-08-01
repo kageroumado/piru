@@ -3653,6 +3653,28 @@ _CLASS_DOSE_CEILING_MG: dict[str, float] = {
 # for non-mass units (mg/kg, per-day, seeds, IU, sprays, ml, %, etc.)
 # — those rows can't be magnitude-checked against the class ceiling
 # and pass through the invariant gate unchanged.
+# One spelling per mass unit. Upstreams type the micro prefix at least four
+# ways and the app converts on an exact string match, so "μg" (GREEK SMALL
+# LETTER MU, U+03BC) and "µg" (MICRO SIGN, U+00B5) were two different units:
+# LSD's oral ladder, all three fentanyl routes and sufentanil IV converted to
+# nothing, which silently suppressed the sub-milligram precision warning on
+# exactly the drugs that need it. Bare spellings only — a qualified unit
+# ("mg (freebase)") states a basis and a rate ("µg/hr") is not a mass, and
+# folding either onto plain mg would erase the distinction that makes it true.
+_CANONICAL_MASS_UNIT = {
+    **dict.fromkeys(("µg", "μg", "ug", "mcg", "microgram", "micrograms", "mcgs", "ugs"), "µg"),
+    **dict.fromkeys(("mg", "mgs", "milligram", "milligrams"), "mg"),
+    **dict.fromkeys(("g", "gs", "gram", "grams", "gm"), "g"),
+}
+
+
+def canonical_mass_unit(unit: str | None) -> str | None:
+    """Fold a bare mass unit onto one spelling; anything else passes through."""
+    if unit is None:
+        return None
+    return _CANONICAL_MASS_UNIT.get(unit.strip().lower(), unit)
+
+
 def _unit_to_mg_factor(unit: str | None) -> float | None:
     if unit is None:
         return 1.0
@@ -4081,6 +4103,8 @@ class Build:
             self.stats.setdefault("dropped_ambiguous_unit", 0)
             self.stats["dropped_ambiguous_unit"] += 1
             return
+
+        unit = canonical_mass_unit(unit)
 
         src = self.source_ids[source_slug]
         ll, lu = (

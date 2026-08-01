@@ -1275,7 +1275,8 @@
           "reference": "doi:10.1021/acsptsci.2c00177",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Only retrievable both-receptor measurement for 4-AcO-DMT. Roughly equipotent, and about 2x weaker than psilocin at both receptors in the same assay. Source concludes psilacetin is largely a psilocin prodrug that also carries substantial receptor activity of its own."
+          "notes": "Only retrievable both-receptor measurement for 4-AcO-DMT. Roughly equipotent, and about 2x weaker than psilocin at both receptors in the same assay. Source concludes psilacetin is largely a psilocin prodrug that also carries substantial receptor activity of its own.",
+          "action": "agonist"
         },
         {
           "target": "5-HT2A",
@@ -1287,7 +1288,8 @@
           "reference": "doi:10.1021/acsptsci.2c00177",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Only retrievable both-receptor measurement for 4-AcO-DMT. Roughly equipotent, and about 2x weaker than psilocin at both receptors in the same assay. Source concludes psilacetin is largely a psilocin prodrug that also carries substantial receptor activity of its own."
+          "notes": "Only retrievable both-receptor measurement for 4-AcO-DMT. Roughly equipotent, and about 2x weaker than psilocin at both receptors in the same assay. Source concludes psilacetin is largely a psilocin prodrug that also carries substantial receptor activity of its own.",
+          "action": "partialAgonist"
         }
       ],
       "functional": [
@@ -2953,7 +2955,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "5-HT1A recorded as '>10,000' (censored, not a number) \u2014 the PDSP does not measure above 10 uM. So DMT is 2A-leaning by at least 4.3x, but the true ratio is a lower bound only. Source flags ND/PH=4/0 for DMT."
+          "notes": "5-HT1A recorded as '>10,000' (censored, not a number) \u2014 the PDSP does not measure above 10 uM. So DMT is 2A-leaning by at least 4.3x, but the true ratio is a lower bound only. Source flags ND/PH=4/0 for DMT.",
+          "action": "agonist"
         }
       ],
       "functional": [
@@ -3845,7 +3848,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) \u2014 both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0."
+          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) \u2014 both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0.",
+          "action": "agonist"
         },
         {
           "target": "5-HT2A",
@@ -3857,7 +3861,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) \u2014 both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0."
+          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) \u2014 both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0.",
+          "action": "agonist"
         },
         {
           "target": "5-HT1A",
@@ -3869,7 +3874,8 @@
           "reference": "doi:10.1038/s41380-024-02506-8",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm \u2014 direct mechanistic support for plotting this axis at all."
+          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm \u2014 direct mechanistic support for plotting this axis at all.",
+          "action": "agonist"
         },
         {
           "target": "5-HT2A",
@@ -3881,7 +3887,8 @@
           "reference": "doi:10.1038/s41380-024-02506-8",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm \u2014 direct mechanistic support for plotting this axis at all."
+          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm \u2014 direct mechanistic support for plotting this axis at all.",
+          "action": "agonist"
         }
       ],
       "functional": [
@@ -25220,7 +25227,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Roughly balanced, slight 2A lean. Source flags ND/PH=14/0 for LSD (14 not-determined cells across the 67-site panel); the 5-HT1A and 5-HT2A cells themselves are populated."
+          "notes": "Roughly balanced, slight 2A lean. Source flags ND/PH=14/0 for LSD (14 not-determined cells across the 67-site panel); the 5-HT1A and 5-HT2A cells themselves are populated.",
+          "action": "agonist"
         },
         {
           "target": "5-HT2A",
@@ -25232,7 +25240,8 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Roughly balanced, slight 2A lean. Source flags ND/PH=14/0 for LSD (14 not-determined cells across the 67-site panel); the 5-HT1A and 5-HT2A cells themselves are populated."
+          "notes": "Roughly balanced, slight 2A lean. Source flags ND/PH=14/0 for LSD (14 not-determined cells across the 67-site panel); the 5-HT1A and 5-HT2A cells themselves are populated.",
+          "action": "partialAgonist"
         }
       ]
     }
