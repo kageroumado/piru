@@ -145,8 +145,18 @@ struct ErowidSource {
         for t in breakTags {
             s = s.replacingOccurrences(of: t, with: "\n", options: .caseInsensitive)
         }
-        // Strip remaining tags.
-        if let re = try? NSRegularExpression(pattern: "<[^>]+>") {
+        // Strip remaining tags. `[^<>]` rather than `[^>]` is load-bearing: the
+        // book text contains bare `<` characters (mass-spec intensities like
+        // "parent ion 218 (<1%)"), and with `[^>]+` such a `<` opens a false tag
+        // whose greedy match runs on to the NEXT `>` — swallowing the newlines
+        // and the `<b>` that follow it. That put `DOSAGE :` in the middle of a
+        // line instead of at the start, so `extractSection`'s `^DOSAGE\s*:`
+        // never matched and the entry shipped with no dose at all. It hit 26 of
+        // 234 PIHKAL/TIHKAL entries — exactly those with a `<` shortly before
+        // their DOSAGE line — including 5-MeO-DiPT, DiPT and 2C-T-21, and it
+        // cost a,N,O-TMS a wrongful deletion in the 2026-08-01 cleanup.
+        // Refusing to cross a `<` confines the damage to the stray character.
+        if let re = try? NSRegularExpression(pattern: "<[^<>]+>") {
             let r = NSRange(s.startIndex ..< s.endIndex, in: s)
             s = re.stringByReplacingMatches(in: s, range: r, withTemplate: " ")
         }
@@ -197,8 +207,14 @@ struct ErowidSource {
         let upperLabel = label.uppercased()
         // Match `LABEL` then any amount of whitespace then `:`. Anchor at the
         // start so we don't match `EFFECTIVE DOSAGE:` or similar.
+        // The colon is optional because the books are not consistent: most
+        // entries write `DOSAGE : 10 - 20 mg`, some put the colon inside the
+        // bold (`<b>DOSAGE:</b> uncertain`), and a few omit it entirely
+        // (2C-T-21 is `DOSAGE 8 - 12 mg.`). Requiring it silently dropped the
+        // last form. A trailing `\s` still separates the label from prose, so
+        // this cannot match a sentence merely beginning with the word.
         let headerPattern = try! NSRegularExpression(
-            pattern: "^" + NSRegularExpression.escapedPattern(for: upperLabel) + #"\s*:"#,
+            pattern: "^" + NSRegularExpression.escapedPattern(for: upperLabel) + #"\s*:?\s"#,
         )
         var collecting = false
         var captured: [String] = []

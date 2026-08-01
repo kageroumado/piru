@@ -27,7 +27,11 @@ if [ "$MODE" = "full" ]; then
   # TripSit + Wikidata + PubChem + Erowid + DEA. The collector also reads the
   # curated dir, but sqlite.py ingests curated directly (step 6), so its
   # piru-curated rows in sourced-substances.json are ignored downstream.
-  ( cd Tools/SubstanceCollector && swift run SubstanceCollector )
+  # `build` is explicit on purpose: a bare `swift run SubstanceCollector`
+  # prints usage and exits 0, so this step silently did nothing while the
+  # build reported success (sourced-substances.json went stale from May 31).
+  # The CLI now also declares a defaultSubcommand, so both spellings work.
+  ( cd Tools/SubstanceCollector && swift run SubstanceCollector build )
 
   step "3/8  Extract out-of-repo datasets (Pyrls/MedTAP/NPS/benzos) → /tmp/piru-extract/*.json"
   # Needs ~/Developer/piru-data present (export PIRU_DATASOURCES if it moved).

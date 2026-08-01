@@ -7,6 +7,14 @@ struct SubstanceCollector: AsyncParsableCommand {
         commandName: "SubstanceCollector",
         abstract: "Assemble a comprehensive substance JSON database for the Piru app's bundled resource.",
         subcommands: [Build.self],
+        // Without this a bare `swift run SubstanceCollector` prints usage and
+        // exits 0 — which is exactly what `pipeline/build.sh full` did, so its
+        // "re-scrape the web sources" step was a silent no-op for months while
+        // the build reported success. `sourced-substances.json` sat unchanged
+        // from May 31 and everyone (including the audit that read it) took it
+        // for current upstream data. A no-op that exits 0 is worse than a
+        // failure; there is only one subcommand, so make it the default.
+        defaultSubcommand: Build.self,
     )
 }
 
