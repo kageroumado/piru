@@ -1284,7 +1284,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hNET",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Iversen et al 2013."
         },
@@ -1294,7 +1294,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1303,7 +1303,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1343,7 +1343,7 @@
           "action": null,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1353,7 +1353,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2B",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Full nM agonist at 5-HT2B — major cardiotoxicity concern. Same fenfluramine-class red flag."
         },
@@ -1362,7 +1362,7 @@
           "ki_nm": 880,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1370,7 +1370,7 @@
           "ki_nm": 2900,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1378,7 +1378,7 @@
           "ki_nm": 40,
           "action": "agonist",
           "species": "rat",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         }
       ],
@@ -1423,7 +1423,7 @@
         "ki_or_ic50_nm": 280,
         "concern_level": "high",
         "clinical_consequence": "Potent full agonist at nM concentrations — substantial cardiac valvulopathy risk. Fenfluramine-class flag.",
-        "reference": "doi:10.1002/dta.1389"
+        "reference": "doi:10.1111/bph.13128"
       }
     ],
     "demographic_differences": {
@@ -1475,7 +1475,7 @@
           "ic50_nm": 190,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1483,7 +1483,7 @@
           "ic50_nm": 3300,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1491,7 +1491,7 @@
           "ic50_nm": 930,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1528,7 +1528,7 @@
           "intrinsic_activity_pct": 70,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Even more potent at 5-HT2B than 5-APB. Significant cardiac valvulopathy risk."
         },
@@ -1537,7 +1537,7 @@
           "ki_nm": 380,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Higher α2A affinity than 5-APB."
         },
@@ -1546,7 +1546,7 @@
           "ki_nm": 50,
           "action": "agonist",
           "species": "rat",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         }
       ],
@@ -1589,7 +1589,7 @@
         "ki_or_ic50_nm": 140,
         "concern_level": "high",
         "clinical_consequence": "Even more potent 5-HT2B agonism than 5-APB.",
-        "reference": "doi:10.1002/dta.1389"
+        "reference": "doi:10.1111/bph.13128"
       }
     ],
     "demographic_differences": {
@@ -1677,7 +1677,8 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Inherits 5-HT2B agonism of 5-APB scaffold.",
-        "reference": "doi:10.1002/dta.1389"
+        "reference": null,
+        "notes": "Class inference, not a measurement: benzofurans as a class are 5-HT2B agonists (Rickli 2015), but this compound was not in that panel and no measured value for it was retrieved. Previously mis-cited to a 2012 editorial."
       }
     ],
     "demographic_differences": {
@@ -1931,7 +1932,7 @@
           "ic50_nm": 290,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1939,7 +1940,7 @@
           "ic50_nm": 580,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -1947,7 +1948,7 @@
           "ic50_nm": 49000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Very weak DAT — near-pure NE/5-HT releaser-inhibitor."
         },
@@ -1957,7 +1958,7 @@
           "intrinsic_activity_pct": 50,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Lower potency at 5-HT2B than 5-APB but still partial agonism — lower but not zero cardiac risk."
         },
@@ -1966,7 +1967,7 @@
           "ki_nm": 60,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Notably high 5-HT2C affinity — may contribute to subjective effects."
         }
@@ -2003,7 +2004,7 @@
         "ki_or_ic50_nm": 1200,
         "concern_level": "moderate",
         "clinical_consequence": "5-HT2B partial agonist — moderate cardiac concern.",
-        "reference": "doi:10.1002/dta.1389"
+        "reference": "doi:10.1111/bph.13128"
       }
     ],
     "demographic_differences": {
@@ -2052,7 +2053,7 @@
           "ic50_nm": 560,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -2060,7 +2061,7 @@
           "ic50_nm": 2300,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -2068,7 +2069,7 @@
           "ic50_nm": 33000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -2077,7 +2078,7 @@
           "intrinsic_activity_pct": 66,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false,
           "notes": "Potent 5-HT2B agonist (similar to 6-APB scaffold)."
         },
@@ -2086,7 +2087,7 @@
           "ki_nm": 60,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         }
       ],
@@ -2122,7 +2123,7 @@
         "ki_or_ic50_nm": 120,
         "concern_level": "high",
         "clinical_consequence": "Potent 5-HT2B agonist.",
-        "reference": "doi:10.1002/dta.1389"
+        "reference": "doi:10.1111/bph.13128"
       }
     ],
     "demographic_differences": {
@@ -2168,7 +2169,7 @@
           "ic50_nm": 960,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -2176,7 +2177,7 @@
           "ic50_nm": 1200,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -2184,7 +2185,7 @@
           "ic50_nm": 77000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         },
         {
@@ -2192,7 +2193,7 @@
           "ki_nm": 100,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1002/dta.1389",
+          "reference": "doi:10.1111/bph.13128",
           "is_review": false
         }
       ],

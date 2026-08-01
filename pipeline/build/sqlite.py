@@ -8514,6 +8514,55 @@ class Build:
             )
         return {"metabolite_links": linked}
 
+    def backfill_citation_metadata(self) -> dict[str, int]:
+        """Fill `citations.title` / `.year` from the verify cache.
+
+        The catalog shipped 1,994 citations of which **13 had a title and none
+        had a year**. That is why a real, resolvable DOI cited for the wrong
+        paper survived every check: nothing downstream could see that
+        `10.1002/dta.1389` is a two-page editorial and not the benzofuran assay
+        paper its 28 binding rows claimed. `verify_citations.py` proves an
+        identifier resolves; `citation_topicality.py` asks whether the paper is
+        about the right molecule — and both read the cache directly, so the
+        *app* still had nothing to render and no reviewer reading the DB could
+        spot it.
+
+        Reads the committed snapshot (`data/sources/citation-verify-cache.json`,
+        written by verify_citations.py --fetch), so this stays offline and
+        reproducible. Only fills NULLs: a title parsed from the reference string
+        itself is more specific than the registry's and wins.
+        """
+        path = REPO / "data/sources/citation-verify-cache.json"
+        stats = {"citation_titles": 0, "citation_years": 0, "citation_unresolved": 0}
+        if not path.exists():
+            return stats
+        cache = json.loads(path.read_text())
+        rows = self.cur.execute(
+            "SELECT id, doi, pmid FROM citations WHERE title IS NULL OR year IS NULL"
+        ).fetchall()
+        for cid, doi, pmid in rows:
+            meta = None
+            for key in (f"doi:{doi}" if doi else None, f"pmid:{pmid}" if pmid else None):
+                if key and cache.get(key):
+                    meta = cache[key]
+                    break
+            if not meta:
+                stats["citation_unresolved"] += 1
+                continue
+            if meta.get("title"):
+                cur = self.cur.execute(
+                    "UPDATE citations SET title = ? WHERE id = ? AND title IS NULL",
+                    (meta["title"], cid),
+                )
+                stats["citation_titles"] += cur.rowcount
+            if meta.get("year"):
+                cur = self.cur.execute(
+                    "UPDATE citations SET year = ? WHERE id = ? AND year IS NULL",
+                    (to_int(meta["year"]), cid),
+                )
+                stats["citation_years"] += cur.rowcount
+        return stats
+
     def dedupe_metabolism(self) -> dict[str, int]:
         """Drop metabolism rows that a better-specified row supersedes.
 
@@ -9237,6 +9286,7 @@ def main() -> int:
     # richer row supersedes (the research layer re-names metabolites the class
     # files already carried). See dedupe_metabolism.
     print(f"Metabolism dedupe: {build.dedupe_metabolism()}", file=sys.stderr)
+    print(f"Citation metadata: {build.backfill_citation_metadata()}", file=sys.stderr)
     # After dedup, so we only resolve rows that survive, and late enough that
     # substance ids are final. See link_metabolite_substances.
     print(f"Metabolite links: {build.link_metabolite_substances()}", file=sys.stderr)
