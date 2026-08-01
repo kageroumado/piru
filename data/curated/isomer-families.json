@@ -1,19 +1,19 @@
 {
-  "_comment": "Curated stereoisomer fold map — the fold data the build consumes (Specs/stereoisomer-and-release-form-axes.md Stage A). Each variant folds into its `parent` as one substance with an isomer selector (e.g. Ketamine is one entry; Esketamine is its S-isomer, not a separate row). Auto-derived by pipeline/audit/overlay_lib.py isomer_families() from InChIKey connectivity-block clusters, then hand-vetted. `isomer` = stored stereo code (drives dedup); `displayName` = the recognized name shown in the picker title. Read at build time by Build.fold_isomer_families() (via collision_registry.fold_families()): it folds each variant under the parent, tags the moved dose/duration rows with the isomer code, and keeps variant names + brands as aliases.",
+  "_comment": "Curated stereoisomer fold map — the fold data the build consumes (Specs/stereoisomer-and-release-form-axes.md Stage A). Each variant folds into its `parent` as one substance with an isomer selector (e.g. Ketamine is one entry; Esketamine is its S-isomer, not a separate row). Auto-derived by pipeline/audit/overlay_lib.py isomer_families() from InChIKey connectivity-block clusters, then hand-vetted. `isomer` = stored stereo code (drives dedup); `displayName` = the recognized name shown in the picker title. Read at build time by Build.fold_isomer_families() (via collision_registry.fold_families()): it folds each variant under the parent, tags the moved dose/duration rows with the isomer code, and keeps variant names + brands as aliases. `synonyms` = non-brand spellings of the SAME enantiomer (INN, chemical or historical names — 'Levmetamfetamine', 'S-(+)-amphetamine', 'l-desoxyephedrine'); they get the isomer facet exactly like the variant name, but are excluded from brand-kind seeding so display never leads with a name nobody markets. Only the `name` field drives the substance fold, so brands/synonyms can never mint a row.",
   "families": [
     { "parent": "Ketamine",       "variants": [
-      { "name": "Esketamine", "isomer": "S", "displayName": "Esketamine", "brands": ["Spravato"] },
+      { "name": "Esketamine", "isomer": "S", "displayName": "Esketamine", "brands": ["Spravato", "Ketanest S"], "synonyms": ["S-(−)-ketamine"] },
       { "name": "Arketamine", "isomer": "R", "displayName": "Arketamine" } ] },
     { "parent": "MDMA",           "variants": [
       { "name": "S-(+)-MDMA", "isomer": "S", "displayName": "S(+)-MDMA" },
       { "name": "R-(-)-MDMA", "isomer": "R", "displayName": "R(−)-MDMA" } ] },
     { "parent": "Methamphetamine", "variants": [
       { "name": "D-methamphetamine", "isomer": "D", "displayName": "Dextromethamphetamine" },
-      { "name": "L-methamphetamine", "isomer": "L", "displayName": "Levomethamphetamine" } ] },
+      { "name": "L-methamphetamine", "isomer": "L", "displayName": "Levomethamphetamine", "synonyms": ["Levmetamfetamine", "L-metamphetamine", "l-desoxyephedrine"] } ] },
     { "parent": "Amphetamine",    "variants": [
-      { "name": "Dextroamphetamine", "isomer": "D", "displayName": "Dextroamphetamine", "brands": ["Dexedrine"] } ] },
+      { "name": "Dextroamphetamine", "isomer": "D", "displayName": "Dextroamphetamine", "brands": ["Dexedrine", "Dexedrine Spansule", "Dextrostat", "ProCentra", "Xelstrym", "Zenzedi"], "synonyms": ["Dexamfetamine", "S-(+)-amphetamine"] } ] },
     { "parent": "Methylphenidate", "variants": [
-      { "name": "Dexmethylphenidate", "isomer": "D", "displayName": "Dexmethylphenidate", "brands": ["Focalin"] } ] },
+      { "name": "Dexmethylphenidate", "isomer": "D", "displayName": "Dexmethylphenidate", "brands": ["Focalin"], "synonyms": ["d-threo-methylphenidate"] } ] },
     { "parent": "Modafinil",      "variants": [
       { "name": "Armodafinil", "isomer": "R", "displayName": "Armodafinil", "brands": ["Nuvigil"] } ] },
     { "parent": "Citalopram",     "variants": [

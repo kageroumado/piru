@@ -10,6 +10,7 @@ Run from the repo root:
 """
 
 import importlib.util
+import json
 import sqlite3
 import unittest
 from pathlib import Path
@@ -2463,6 +2464,71 @@ class TestAliasBlocklistIntegrity(unittest.TestCase):
         self.assertIn("1,4-bd", blocklist["ghb"])
         # 内酯 = lactone: every 内酯 name is GBL, not GHB.
         self.assertIn("γ-丁内酯", blocklist["ghb"])
+
+
+class TestIsomerSynonymCoverage(unittest.TestCase):
+    """Every `synonyms`/`brands` entry in isomer-families.json must land on an
+    alias of its parent in the built DB.
+
+    These names exist for one reason: to lift an enantiomer spelling out of the
+    wrong-molecule sweep's `kept_unresolvable` bucket by giving it the isomer
+    facet. A typo, or an upstream rename of the alias, silently un-lifts it —
+    the entry parses, the build runs, and Levmetamfetamine quietly goes back to
+    claiming it is racemic methamphetamine. Unlike the brand registry there is no
+    build-time report for synonyms, so the gate lives here.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        p = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_every_synonym_and_brand_annotates_its_parent(self):
+        families = json.loads(
+            (Path(__file__).resolve().parents[3] / "data/curated/isomer-families.json").read_text()
+        )["families"]
+        unmatched, unfaceted = [], []
+        for fam in families:
+            # A family in the fold-skip list is never merged (Levetiracetam stays a
+            # substance of its own rather than being buried under racemic
+            # Etiracetam), so its brands stay on the *variant* and there is no fold
+            # to hang an isomer facet from. Check coverage against the variant.
+            skipped = fam["parent"] in _mod.Build._ISOMER_FOLD_SKIP
+            for variant in fam["variants"]:
+                holder = variant["name"] if skipped else fam["parent"]
+                names = [*(variant.get("synonyms") or []), *(variant.get("brands") or [])]
+                for name in names:
+                    row = self.db.execute(
+                        "SELECT a.isomer FROM aliases a JOIN substances s ON s.id = a.substance_id"
+                        " WHERE a.alias_normalized = ? AND s.canonical_name = ?",
+                        (_mod.normalise(name), holder),
+                    ).fetchone()
+                    if row is None:
+                        unmatched.append(f"{name} ({holder})")
+                    elif not skipped and row[0] != variant["isomer"].strip().upper():
+                        unfaceted.append(f"{name} ({holder}): isomer={row[0]!r}")
+        self.assertEqual(unmatched, [], f"isomer synonym/brand matched no alias: {unmatched}")
+        self.assertEqual(unfaceted, [], f"alias carries the wrong isomer: {unfaceted}")
+
+    def test_levmetamfetamine_is_the_l_enantiomer(self):
+        """PubChem resolves Levmetamfetamine and l-desoxyephedrine to one CID
+        (36604, the 2R/levo isomer) — the Vicks inhaler decongestant, not the
+        stimulant. Without the facet a search for either lands on racemic
+        Methamphetamine and inherits its dose ladder."""
+        for alias in ("levmetamfetamine", "l-desoxyephedrine", "l-metamphetamine"):
+            row = self.db.execute(
+                "SELECT a.isomer FROM aliases a JOIN substances s ON s.id = a.substance_id"
+                " WHERE a.alias_normalized = ? AND s.canonical_name = 'Methamphetamine'",
+                (alias,),
+            ).fetchone()
+            self.assertIsNotNone(row, f"{alias} is not an alias of Methamphetamine")
+            self.assertEqual(row[0], "L", f"{alias} should be the L enantiomer")
 
 
 if __name__ == "__main__":

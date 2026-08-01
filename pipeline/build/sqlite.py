@@ -7473,7 +7473,14 @@ class Build:
                 continue
             for v in fam["variants"]:
                 code = self._isomer_code(v["isomer"])
-                for nm in (v["name"], *(v.get("brands") or [])):
+                # `synonyms` carries the non-brand spellings of the same enantiomer —
+                # the INN ("Levmetamfetamine"), the chemical name ("S-(+)-amphetamine",
+                # "d-threo-methylphenidate") and the odd historical one
+                # ("l-desoxyephedrine"). They are annotated exactly like the variant
+                # name but deliberately excluded from the brand-kind seeding below:
+                # an INN is not a brand, and ranking it as one would let the subtitle
+                # lead with a name nobody markets.
+                for nm in (v["name"], *(v.get("synonyms") or []), *(v.get("brands") or [])):
                     iso_by_alias[(prow[0], normalise(nm))] = code
                     cur = self.cur.execute(
                         "UPDATE aliases SET isomer=? WHERE substance_id=? AND alias_normalized=?",
