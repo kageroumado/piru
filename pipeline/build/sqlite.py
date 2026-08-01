@@ -3137,6 +3137,33 @@ def normalise_confidence(v) -> str | None:
     return None
 
 
+# Locus prefixes spelled out in Latin, which the catalog otherwise writes as the
+# Greek letter (27 names to 4 at last count). Only matched with the hyphen, so
+# alphaprodine — an actual opioid — is never touched.
+_SPELLED_GREEK = re.compile(r"\b(alpha|beta|gamma|delta|omega)-", re.IGNORECASE)
+_SPELLED_GREEK_TO_LETTER = {
+    "alpha": "α",
+    "beta": "β",
+    "gamma": "γ",
+    "delta": "δ",
+    "omega": "ω",
+}
+
+
+def normalise_locus_prefix(name: str | None) -> str | None:
+    """Fold a spelled-out Greek locus prefix onto its letter.
+
+    The app groups metabolite rows by ``metaboliteName.lowercased()``, so
+    "alpha-hydroxyalprazolam" and "α-hydroxyalprazolam" are two different
+    metabolites as far as it is concerned — and alprazolam, etizolam and
+    triazolam each shipped two cards for one molecule, differing only in how the
+    same letter was typed. One spelling, one card.
+    """
+    if not name:
+        return name
+    return _SPELLED_GREEK.sub(lambda m: f"{_SPELLED_GREEK_TO_LETTER[m.group(1).lower()]}-", name)
+
+
 # "Oral 80-90%", "Oral: 84%.", "Oral 70% +/- 24%.", and pipe-joined multi-route
 # strings ("Oral 85-90% | Insufflated 76-80%"). Pull (route, pct) per segment:
 # pct is the first %-value or a range midpoint; segments with no % (e.g. "Oral
@@ -4888,7 +4915,7 @@ class Build:
                 src,
                 m.get("enzyme"),
                 to_float(m.get("fraction_of_clearance_pct")),
-                m.get("metabolite_name"),
+                normalise_locus_prefix(m.get("metabolite_name")),
                 1
                 if m.get("metabolite_active")
                 else (0 if m.get("metabolite_active") is False else None),
@@ -8484,7 +8511,8 @@ class Build:
         """
         rows = self.cur.execute(
             "SELECT id, substance_id, metabolite_name, metabolite_half_life_min,"
-            " metabolite_potency_basis FROM metabolism WHERE metabolite_name IS NOT NULL"
+            " metabolite_potency_basis, fraction_of_clearance_pct FROM metabolism"
+            " WHERE metabolite_name IS NOT NULL"
         ).fetchall()
 
         def key(substance_id: int, name: str) -> tuple[int, str]:
@@ -8496,7 +8524,13 @@ class Build:
             groups.setdefault(key(row[1], row[2]), []).append(row)
 
         def is_rich(row: tuple) -> bool:
-            return row[3] is not None or (row[4] not in (None, "unknown"))
+            # A clearance fraction counts. Triazolam's two α-hydroxytriazolam rows
+            # are the case: one carries the half-life and potency, the other the
+            # 90% of clearance that runs through this pathway, and neither is
+            # "strictly less informative" than the other. Dropping the second lost
+            # the 90% outright — and there is no need to drop it, because the card
+            # groups rows by metabolite and merges them into one statement.
+            return row[3] is not None or (row[4] not in (None, "unknown")) or row[5] is not None
 
         doomed: list[int] = []
         for members in groups.values():

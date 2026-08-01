@@ -2531,6 +2531,64 @@ class TestIsomerSynonymCoverage(unittest.TestCase):
             self.assertEqual(row[0], "L", f"{alias} should be the L enantiomer")
 
 
+class TestLocusPrefixNormalisation(unittest.TestCase):
+    """One molecule, one spelling, one card."""
+
+    def test_spelled_prefixes_fold_onto_the_letter(self):
+        for spelled, expected in (
+            ("alpha-hydroxyalprazolam", "α-hydroxyalprazolam"),
+            ("alpha-hydroxyetizolam", "α-hydroxyetizolam"),
+            ("beta-OH-THC", "β-OH-THC"),
+            ("omega-OH-JWH-018", "ω-OH-JWH-018"),
+            (
+                "1-hydroxymidazolam (alpha-hydroxymidazolam)",
+                "1-hydroxymidazolam (α-hydroxymidazolam)",
+            ),
+        ):
+            self.assertEqual(_mod.normalise_locus_prefix(spelled), expected)
+
+    def test_alphaprodine_is_not_a_locus_prefix(self):
+        """The hyphen is the whole guard: alphaprodine is an opioid, not an
+        alpha-substituted anything, and mangling it to 'αprodine' would make the
+        name unfindable."""
+        for untouched in ("alphaprodine", "Alphaprodine", "betaine", "gammabutyrolactone"):
+            self.assertEqual(_mod.normalise_locus_prefix(untouched), untouched)
+
+    def test_none_and_empty_pass_through(self):
+        self.assertIsNone(_mod.normalise_locus_prefix(None))
+        self.assertEqual(_mod.normalise_locus_prefix(""), "")
+
+
+class TestMetaboliteNameCollisions(unittest.TestCase):
+    """The app groups metabolite rows by `metaboliteName.lowercased()`, so two
+    spellings of one name are two metabolites to it — alprazolam, etizolam and
+    triazolam each rendered two cards for one molecule."""
+
+    @classmethod
+    def setUpClass(cls):
+        p = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_no_substance_names_one_metabolite_two_ways(self):
+        rows = self.db.execute(
+            "SELECT s.canonical_name, m.metabolite_name FROM metabolism m"
+            "  JOIN substances s ON s.id = m.substance_id"
+            " WHERE m.metabolite_name IS NOT NULL"
+        ).fetchall()
+        seen: dict[tuple[str, str], set[str]] = {}
+        for substance, metabolite in rows:
+            key = (substance, _mod.normalise_locus_prefix(metabolite).lower())
+            seen.setdefault(key, set()).add(metabolite.lower())
+        clashes = {k: sorted(v) for k, v in seen.items() if len(v) > 1}
+        self.assertEqual(clashes, {}, f"one metabolite spelled two ways: {clashes}")
+
+
 class TestComparableSetIntegrity(unittest.TestCase):
     """A pharmacology number means nothing without the basis it was measured on.
 
