@@ -1,7 +1,12 @@
 [
   {
     "name": "Chlorpheniramine",
-    "aliases_added": ["Dexchlorpheniramine", "Chlorprophenpyridamine", "(S)-(+)-chlorpheniramine", "(R)-(-)-chlorpheniramine"],
+    "aliases_added": [
+      "Dexchlorpheniramine",
+      "Chlorprophenpyridamine",
+      "(S)-(+)-chlorpheniramine",
+      "(R)-(-)-chlorpheniramine"
+    ],
     "iupac_name": "3-(4-Chlorophenyl)-N,N-dimethyl-3-(pyridin-2-yl)propan-1-amine",
     "smiles": "Clc1ccc(cc1)C(c2ncccc2)CCN(C)C",
     "inchikey": "SOYKEARSMXGVTM-UHFFFAOYSA-N",
@@ -9,12 +14,21 @@
     "pubchem_cid": 2725,
     "class_context_id": "anticholinergic_deliriants_h1_blockers",
     "pharmacology": {
-      "primary_targets": ["H1", "SERT", "mACh (M1-M5)", "hERG (Kv11.1)", "Nav1.5 (cardiac sodium channel)"],
+      "primary_targets": [
+        "H1",
+        "SERT",
+        "mACh (M1-M5)",
+        "hERG (Kv11.1)",
+        "Nav1.5 (cardiac sodium channel)"
+      ],
       "binding": [
         {
           "target": "H1",
           "ki_nm": 2.67,
-          "ki_ci_nm": [2.67, 4.81],
+          "ki_ci_nm": [
+            2.67,
+            4.81
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -277,13 +291,20 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs and patients on CYP2D6 inhibitors (fluoxetine, paroxetine, quinidine, bupropion) show ~50–60% increased AUC and prolonged sedation duration. The (S)-(+) (active) enantiomer is preferentially metabolised by CYP2D6 and accumulates relative to the inactive (R)-(-) form in PMs.",
       "reference": "pmid:11994058"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "H1 sedation tolerance develops within ~3-7 days of regular dosing; receptor-level mechanism not formally measured for chlorpheniramine specifically but presumed analogous to other H1 inverse agonists (no robust H1 internalisation in heterologous systems; tolerance likely reflects compensatory glutamatergic/noradrenergic adaptation rather than receptor downregulation).",
-      "cross_tolerance": ["diphenhydramine", "doxylamine", "promethazine", "hydroxyzine"],
+      "cross_tolerance": [
+        "diphenhydramine",
+        "doxylamine",
+        "promethazine",
+        "hydroxyzine"
+      ],
       "withdrawal_syndrome": "No formal withdrawal syndrome. Chronic users (e.g. for sleep) may report rebound insomnia and anxiety on cessation, lasting 2-7 days.",
       "reference": null
     },
@@ -309,7 +330,13 @@
       "weight": null,
       "renal_or_hepatic": "Renal failure modestly prolongs t1/2 due to reduced metabolite clearance; severe hepatic impairment substantially reduces clearance (CYP2D6 hepatic)."
     },
-    "tags_to_add": ["H1-inverse-agonist", "SERT-inhibitor-clinically-relevant", "CYP2D6-substrate", "hERG-moderate-overdose-only", "stereoselective-pharmacology"],
+    "tags_to_add": [
+      "H1-inverse-agonist",
+      "SERT-inhibitor-clinically-relevant",
+      "CYP2D6-substrate",
+      "hERG-moderate-overdose-only",
+      "stereoselective-pharmacology"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [
@@ -331,7 +358,13 @@
   },
   {
     "name": "Promethazine",
-    "aliases_added": ["Phenergan", "Promethegan", "Pipolphen", "Romergan", "promethazine HCl"],
+    "aliases_added": [
+      "Phenergan",
+      "Promethegan",
+      "Pipolphen",
+      "Romergan",
+      "promethazine HCl"
+    ],
     "iupac_name": "N,N-dimethyl-1-(10H-phenothiazin-10-yl)propan-2-amine",
     "smiles": "CC(CN1C2=CC=CC=C2SC2=CC=CC=C12)N(C)C",
     "inchikey": "PWWVAXIEGOYWEE-UHFFFAOYSA-N",
@@ -339,12 +372,23 @@
     "pubchem_cid": 4927,
     "class_context_id": "anticholinergic_deliriants_h1_blockers",
     "pharmacology": {
-      "primary_targets": ["H1", "mACh (M1-M5)", "D2", "5-HT2A", "5-HT2C", "α1-adrenergic", "hERG (Kv11.1)"],
+      "primary_targets": [
+        "H1",
+        "mACh (M1-M5)",
+        "D2",
+        "5-HT2A",
+        "5-HT2C",
+        "α1-adrenergic",
+        "hERG (Kv11.1)"
+      ],
       "binding": [
         {
           "target": "H1",
           "ki_nm": 1.4,
-          "ki_ci_nm": [0.33, 1.4],
+          "ki_ci_nm": [
+            0.33,
+            1.4
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -705,13 +749,21 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 poor metabolisers have markedly reduced clearance of ring-hydroxylation and N-demethylation pathways; expected to have 2-3× higher AUC and steady-state concentrations than EMs. UMs may have subtherapeutic plasma concentrations but are rarely characterised because promethazine is not titrated to a target.",
       "reference": "pmid:8946477"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Sedation tolerance develops over 1-2 weeks of chronic use; no formal receptor occupancy/downregulation studies for promethazine specifically.",
-      "cross_tolerance": ["chlorpheniramine", "diphenhydramine", "doxylamine", "hydroxyzine", "low-potency phenothiazine antipsychotics"],
+      "cross_tolerance": [
+        "chlorpheniramine",
+        "diphenhydramine",
+        "doxylamine",
+        "hydroxyzine",
+        "low-potency phenothiazine antipsychotics"
+      ],
       "withdrawal_syndrome": "Not formally characterised. Chronic high-dose recreational users (e.g. 'lean' culture) may report rebound insomnia, anxiety, and dystonia/restless legs (D2 receptor upregulation) on cessation.",
       "reference": null
     },
@@ -744,7 +796,15 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment substantially prolongs clearance; renal impairment has modest effect (renal excretion is minor pathway)."
     },
-    "tags_to_add": ["H1-inverse-agonist", "potent-anticholinergic", "D2-antagonist", "hERG-strong", "Beers-criteria-avoid-elderly", "FDA-black-box-pediatric-respiratory-depression", "FDA-black-box-IV-tissue-injury"],
+    "tags_to_add": [
+      "H1-inverse-agonist",
+      "potent-anticholinergic",
+      "D2-antagonist",
+      "hERG-strong",
+      "Beers-criteria-avoid-elderly",
+      "FDA-black-box-pediatric-respiratory-depression",
+      "FDA-black-box-IV-tissue-injury"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [
@@ -765,7 +825,14 @@
   },
   {
     "name": "Scopolamine",
-    "aliases_added": ["Hyoscine", "Hyoscine hydrobromide", "Hyoscine butylbromide (peripheral analogue)", "L-scopolamine", "(-)-scopolamine", "Transderm Scōp"],
+    "aliases_added": [
+      "Hyoscine",
+      "Hyoscine hydrobromide",
+      "Hyoscine butylbromide (peripheral analogue)",
+      "L-scopolamine",
+      "(-)-scopolamine",
+      "Transderm Scōp"
+    ],
     "iupac_name": "[(1S,2R,4R,5S,7s)-9-methyl-3-oxa-9-azatricyclo[3.3.1.02,4]nonan-7-yl] (2S)-3-hydroxy-2-phenylpropanoate",
     "smiles": "CN1[C@@H]2CC(C[C@H]1[C@H]3[C@@H]2O3)OC(=O)[C@H](CO)C4=CC=CC=C4",
     "inchikey": "STECJAGHUSJQJN-USLFZFAMSA-N",
@@ -773,12 +840,22 @@
     "pubchem_cid": 3000322,
     "class_context_id": "anticholinergic_deliriants_tropane_alkaloids",
     "pharmacology": {
-      "primary_targets": ["M1", "M2", "M3", "M4", "M5", "5-HT3 (weak)"],
+      "primary_targets": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "5-HT3 (weak)"
+      ],
       "binding": [
         {
           "target": "M1",
           "ki_nm": 0.55,
-          "ki_ci_nm": [0.4, 0.8],
+          "ki_ci_nm": [
+            0.4,
+            0.8
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -796,7 +873,10 @@
         {
           "target": "M2",
           "ki_nm": 0.42,
-          "ki_ci_nm": [0.3, 0.6],
+          "ki_ci_nm": [
+            0.3,
+            0.6
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -814,7 +894,10 @@
         {
           "target": "M3",
           "ki_nm": 0.55,
-          "ki_ci_nm": [0.4, 0.8],
+          "ki_ci_nm": [
+            0.4,
+            0.8
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -832,7 +915,10 @@
         {
           "target": "M4",
           "ki_nm": 0.4,
-          "ki_ci_nm": [0.3, 0.6],
+          "ki_ci_nm": [
+            0.3,
+            0.6
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -850,7 +936,10 @@
         {
           "target": "M5",
           "ki_nm": 0.55,
-          "ki_ci_nm": [0.4, 0.9],
+          "ki_ci_nm": [
+            0.4,
+            0.9
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -1027,13 +1116,22 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP3A4", "CYP3A5"],
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5"
+      ],
       "phenotype_effects": "CYP3A5*1 carriers (expressers) may have somewhat faster clearance; no formal large-cohort PK study published. CYP3A4 induction (rifampin, phenytoin) will reduce scopolamine exposure; inhibition (azoles, macrolides, grapefruit) increases it.",
       "reference": "pmid:16175141"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Chronic scopolamine in animal models produces muscarinic receptor upregulation (compensatory) within ~5-7 days. In humans, tolerance to the sedating and anti-motion-sickness effects develops over days; tolerance to memory-impairment effects is incomplete.",
-      "cross_tolerance": ["atropine", "hyoscyamine", "benztropine", "diphenhydramine (partial)", "promethazine (partial)"],
+      "cross_tolerance": [
+        "atropine",
+        "hyoscyamine",
+        "benztropine",
+        "diphenhydramine (partial)",
+        "promethazine (partial)"
+      ],
       "withdrawal_syndrome": "Discontinuation after sustained transdermal use (>72 h) can produce a rebound syndrome with dizziness, nausea, headache, sweating, abdominal cramps, and bradycardia (cholinergic rebound) lasting 1-3 days. Most pronounced when patches are abruptly stopped after multi-week scuba-diving or post-surgical use.",
       "reference": "pmid:16175141"
     },
@@ -1059,8 +1157,18 @@
       "weight": null,
       "renal_or_hepatic": "Renal impairment has minor effect (only 2.6% excreted unchanged); hepatic impairment (CYP3A4) substantially prolongs clearance."
     },
-    "tags_to_add": ["tropane-alkaloid", "M1-pan-muscarinic-antagonist", "CYP3A4-substrate", "BBB-penetrant-high", "antidepressant-rapid-investigational", "Beers-criteria-avoid-elderly", "physostigmine-reversible"],
-    "tags_to_remove": ["tentative"],
+    "tags_to_add": [
+      "tropane-alkaloid",
+      "M1-pan-muscarinic-antagonist",
+      "CYP3A4-substrate",
+      "BBB-penetrant-high",
+      "antidepressant-rapid-investigational",
+      "Beers-criteria-avoid-elderly",
+      "physostigmine-reversible"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [
       "Specific PDSP Ki values for scopolamine at human M1-M5 — primary Buckley 1989 paper not directly accessed (PDSP compilation values used)",
@@ -1131,8 +1239,14 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["hoax-or-urban-legend", "no-known-active-pharmacology", "not-recommended-classification-as-anticholinergic-deliriant"],
-    "tags_to_remove": ["tentative"],
+    "tags_to_add": [
+      "hoax-or-urban-legend",
+      "no-known-active-pharmacology",
+      "not-recommended-classification-as-anticholinergic-deliriant"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
     "confidence": "low",
     "data_gaps_remaining": [
       "No peer-reviewed pharmacology",

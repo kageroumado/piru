@@ -214,7 +214,7 @@
     ],
     "notes": "Prototype fast-binding/fast-dissociation DAT inhibitor \u2014 the paradigmatic 'cocaine-like' kinetic profile against which atypical DAT inhibitors are contrasted.",
     "references_consulted": [
-"pmid:8245956",
+      "pmid:8245956",
       "doi:10.1038/386827a0",
       "pmid:8926741",
       "pmid:11306689",
@@ -1611,8 +1611,7 @@
       "primary_targets": [
         "DAT"
       ],
-      "binding": [
-      ],
+      "binding": [],
       "functional": [],
       "downstream_signalling": "Fast-acting cocaine-like DAT inhibitor; supports full self-administration in monkeys (high abuse liability)."
     },
@@ -1630,8 +1629,7 @@
       "No human data."
     ],
     "notes": "4-methyl phenyltropane; archetypal 'cocaine-like' phenyltropane.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "RTI-133",
@@ -1990,8 +1988,7 @@
       "No human PK or modern receptor-panel data."
     ],
     "notes": "Highly potent and DAT-selective; common research tool for selective DA enhancement. Discovered as serendipitous CNS stimulant in early antibiotic SAR.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "CE-123",
@@ -2522,7 +2519,7 @@
     "data_gaps_remaining": [],
     "notes": "Highly NET-selective; benefits cognitive ADHD without reinforcement. Classic example of how NET inhibition alone raises PFC DA via co-transport, without striatal liability.",
     "references_consulted": [
-"pmc:4876529"
+      "pmc:4876529"
     ]
   },
   {
@@ -2728,7 +2725,7 @@
     ],
     "notes": "Mid-affinity NDRI with significant orexin-2 agonism \u2014 uniquely positioned for narcolepsy. Phase 2 trials in ADHD met endpoints (NLS Pharmaceutics).",
     "references_consulted": [
-"pmid:525256"
+      "pmid:525256"
     ]
   },
   {
@@ -3003,7 +3000,7 @@
     "data_gaps_remaining": [],
     "notes": "Historical anorectic (Preludin); high abuse liability led to withdrawal. Prototype phenylmorpholine releaser scaffold.",
     "references_consulted": [
-"pmid:23211394"
+      "pmid:23211394"
     ]
   },
   {
@@ -3853,7 +3850,7 @@
     "shared_safety": "hERG block + Nav1.5 block \u2192 arrhythmia, sudden cardiac death (cocaine prototype; cocaethylene 4x worse). Atypical DAT inhibitors with sigma binding (JHW-007) and modafinil analogs (JJC8-088 IC50 0.13 \u00b5M at hERG) carry intrinsic hERG risk. Bupropion lowers seizure threshold (dose-dependent; 0.4% at \u2264450 mg/day). All abused stimulants risk sympathomimetic crisis, hyperthermia, rhabdomyolysis at supratherapeutic doses. CES1 G143E and BChE deficiency are genetic risk factors for cocaine/MPH toxicity. CYP3A4 induction (modafinil/armodafinil) \u2192 oral contraceptive failure, reduced AUC of co-administered substrates (encorafenib, triazolam, ethinyl estradiol).",
     "sar_summary": "Cocaine scaffold: replacing C3 benzoyloxy with phenyl (phenyltropanes) \u2192 markedly higher DAT affinity (WIN-35,428 Kd 16 nM vs cocaine 300 nM) and slower dissociation; 4-iodo (RTI-55) adds SERT; 4-chloro phenyl ester (RTI-113) maximises DAT selectivity (1500x vs NET); N-substitution of benztropine scaffold from methyl\u2192butyl shifts from cocaine-like (benztropine) to atypical/non-reinforcing (JHW-007, AHN-1055). Methylphenidate scaffold: ester chain length (Me\u2192Et\u2192iPr\u2192Pr) shifts NET\u2192DAT selectivity (d-MPH NET Ki 38 nM vs d-EPH NET Ki 3700 nM); 3,4-dichloro on phenyl (3,4-CTMP) gives 7-fold potency boost + esterase resistance \u2192 long duration. Modafinil scaffold: bis-4-fluoro (flmodafinil) boosts DAT affinity ~4x and abolishes CYP induction; small N-substituent changes in JJC8-088 vs -091 series produce activity cliff between cocaine-like and atypical profile (DAT conformation determined by single methyl difference). Phenylmorpholine releasers (phenmetrazine): 3-fluoro, 3-chloro maintain NE/DA releaser profile; 4-methyl or 3,4-methylenedioxy add 5-HT release \u2192 MDMA-like entactogen profile.",
     "key_references": [
-"pmid:8245956",
+      "pmid:8245956",
       "doi:10.1038/386827a0",
       "pmid:11306689",
       "doi:10.1001/jama.2009.351",
@@ -3923,7 +3920,7 @@
     "shared_safety": "Releaser pharmacology produces stronger sympathomimetic load than uptake-blocker class \u2014 hypertension, tachycardia, vasoconstriction (3-FPM AKI + critical limb ischemia case reports). MDMA-like analogues (4-MPM) add serotonin syndrome risk and 5-HT2B-mediated valvulopathy concern with chronic use.",
     "sar_summary": "Halogen at C3 (F, Cl) maintains NE/DA selectivity and modestly potentiates DAT release. Halogen at C4 (4-F) similar. C4 methyl or 3,4-methylenedioxy adds substantial SERT releaser activity \u2192 MDMA-like profile. N-methylation (phendimetrazine) abolishes activity, generating slow-release prodrug of demethylated form (phenmetrazine).",
     "key_references": [
-"doi:10.1016/j.neuropharm.2017.10.006",
+      "doi:10.1016/j.neuropharm.2017.10.006",
       "doi:10.1016/j.bmcl.2015.04.083",
       "doi:10.1002/dta.2396",
       "doi:10.1038/srep31385",
@@ -3954,7 +3951,7 @@
     "shared_safety": "Atomoxetine: rare hepatic injury (boxed warning), modest QT prolongation in PMs, suicidality concern (FDA boxed warning, pediatric). Viloxazine: CYP1A2 interactions (caffeine, theophylline, melatonin, clozapine). Both: dry mouth, decreased appetite, insomnia common; no significant abuse liability.",
     "sar_summary": "Phenoxypropylamine (atomoxetine) and morpholine (viloxazine) scaffolds. CYP2D6 stereoselective metabolism (atomoxetine R-isomer hydroxylated faster than S). NET selectivity over DAT/SERT 290-fold (atomoxetine) to 100-fold (viloxazine) \u2014 high enough to avoid abuse.",
     "key_references": [
-"pmc:4876529",
+      "pmc:4876529",
       "doi:10.1007/s40268-026-00543-y",
       "doi:10.1007/s40261-024-01356-0"
     ]

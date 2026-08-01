@@ -169,7 +169,7 @@
     ],
     "notes": "Triazolo ring confers higher intrinsic efficacy and faster tolerance development than 1,4-benzodiazepines like diazepam. Withdrawal severity at moderate doses is clinically significant due to short t1/2.",
     "references_consulted": [
-"pmid:8646822",
+      "pmid:8646822",
       "pmc:PMC2408964",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf"
     ]
@@ -564,7 +564,7 @@
     "data_gaps_remaining": [],
     "notes": "Prototype α1-selective Z-drug. Defining feature: no α5 affinity. Complex sleep-related behaviors (sleep-driving, sleep-eating) are FDA-recognized risk; female PK differences led to dose halving.",
     "references_consulted": [
-"doi:10.1021/jm800889m",
+      "doi:10.1021/jm800889m",
       "doi:10.1038/srep28674",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
     ]
@@ -3218,8 +3218,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Schedule IV in Japan/Italy/India (legitimate Rx); scheduled or controlled in most other Western countries. Bridge compound between classical benzos and designer benzos — was prescribed for decades before becoming a major NPS in 2010s.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "Phenazepam",
@@ -3748,8 +3747,7 @@
       "Human PK (only rat + post-mortem)"
     ],
     "notes": "Major designer benzo of late 2010s. Nine-case post-mortem series by Rice & Hikin 2019; deaths involved poly-drug intoxication, none attributed to flualprazolam alone.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "Bromazolam",

@@ -1,7 +1,10 @@
 [
   {
     "name": "Citalopram",
-    "aliases_added": ["Cipram", "Talohexal"],
+    "aliases_added": [
+      "Cipram",
+      "Talohexal"
+    ],
     "iupac_name": "(RS)-1-[3-(dimethylamino)propyl]-1-(4-fluorophenyl)-1,3-dihydro-2-benzofuran-5-carbonitrile",
     "smiles": "N#CC1=CC2=C(C=C1)C(CCCN(C)C)(C1=CC=C(F)C=C1)OC2",
     "inchikey": "WSEQXVZVJXJVFP-UHFFFAOYSA-N",
@@ -9,51 +12,191 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT", "H1", "hERG"],
+      "primary_targets": [
+        "SERT",
+        "H1",
+        "hERG"
+      ],
       "binding": [
-        {"target": "SERT", "ki_nm": 1.16, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "HEK-293 stably expressing human SERT", "radioligand_or_probe": "[3H]-5-HT uptake", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Racemate; S-enantiomer carries activity. Hyttel JCP 1994 reports Ki ~1-4 nM for citalopram across multiple preparations."},
-        {"target": "H1", "ki_nm": 257, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human H1", "radioligand_or_probe": "[3H]-pyrilamine", "assay_buffer_notes": null, "reference": "doi:10.1007/BF02246453", "is_review": false, "notes": "Highest off-target among citalopram receptors; underlies sedation."},
-        {"target": "M1", "ki_nm": 1430, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human M1", "radioligand_or_probe": "[3H]-NMS", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "sigma-1", "ki_nm": 403.8, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "modulator", "species": "human", "tissue_or_cell": "Jurkat cell membranes", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": "Weakest sigma-1 affinity among SSRIs aside from paroxetine."}
+        {
+          "target": "SERT",
+          "ki_nm": 1.16,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK-293 stably expressing human SERT",
+          "radioligand_or_probe": "[3H]-5-HT uptake",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": "Racemate; S-enantiomer carries activity. Hyttel JCP 1994 reports Ki ~1-4 nM for citalopram across multiple preparations."
+        },
+        {
+          "target": "H1",
+          "ki_nm": 257,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H1",
+          "radioligand_or_probe": "[3H]-pyrilamine",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/BF02246453",
+          "is_review": false,
+          "notes": "Highest off-target among citalopram receptors; underlies sedation."
+        },
+        {
+          "target": "M1",
+          "ki_nm": 1430,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 403.8,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "modulator",
+          "species": "human",
+          "tissue_or_cell": "Jurkat cell membranes",
+          "radioligand_or_probe": "[3H]-(+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24508523",
+          "is_review": false,
+          "notes": "Weakest sigma-1 affinity among SSRIs aside from paroxetine."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "Acute SERT blockade raises synaptic 5-HT; chronic dosing produces somatodendritic 5-HT1A autoreceptor desensitisation (delayed onset of antidepressant effect).",
       "neuroimaging": [
-        {"modality": "PET", "finding": "20 mg/day citalopram produces ~80% striatal SERT occupancy measured by [11C]-DASB; occupancy plateaus above 40 mg/day.", "reference": "doi:10.1176/appi.ajp.161.5.826"}
+        {
+          "modality": "PET",
+          "finding": "20 mg/day citalopram produces ~80% striatal SERT occupancy measured by [11C]-DASB; occupancy plateaus above 40 mg/day.",
+          "reference": "doi:10.1176/appi.ajp.161.5.826"
+        }
       ]
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 80, "cmax_ng_per_ml": 50, "tmax_min": 240, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 2160, "vd_l_per_kg": 12, "clearance_ml_per_min_per_kg": 4.5, "protein_binding_pct": 80, "dose_in_study_mg": 40, "subject_n": 12, "subject_demographics": "Healthy adults", "reference": "doi:10.2165/00003088-200039040-00003"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 80,
+          "cmax_ng_per_ml": 50,
+          "tmax_min": 240,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 2160,
+          "vd_l_per_kg": 12,
+          "clearance_ml_per_min_per_kg": 4.5,
+          "protein_binding_pct": 80,
+          "dose_in_study_mg": 40,
+          "subject_n": 12,
+          "subject_demographics": "Healthy adults",
+          "reference": "doi:10.2165/00003088-200039040-00003"
+        }
       ],
       "concentration_effect": [
-        {"effect": "QTc prolongation (ΔmsEC)", "concentration_unit": "ng/mL", "threshold": 50, "peak_effect": 18.5, "reference": "pmid:25168784"}
+        {
+          "effect": "QTc prolongation (ΔmsEC)",
+          "concentration_unit": "ng/mL",
+          "threshold": 50,
+          "peak_effect": 18.5,
+          "reference": "pmid:25168784"
+        }
       ]
     },
     "metabolism": [
-      {"enzyme": "CYP2C19", "fraction_of_clearance_pct": 38, "metabolite_name": "demethylcitalopram (DCT)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": 50, "reference": "doi:10.1097/00004714-200110000-00007"},
-      {"enzyme": "CYP3A4", "fraction_of_clearance_pct": 35, "metabolite_name": "demethylcitalopram", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.1097/00004714-200110000-00007"},
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": 27, "metabolite_name": "didemethylcitalopram", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.1097/00004714-200110000-00007"}
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": 38,
+        "metabolite_name": "demethylcitalopram (DCT)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 50,
+        "reference": "doi:10.1097/00004714-200110000-00007"
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 35,
+        "metabolite_name": "demethylcitalopram",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1097/00004714-200110000-00007"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 27,
+        "metabolite_name": "didemethylcitalopram",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1097/00004714-200110000-00007"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "omeprazole", "mechanism": "CYP2C19 inhibition", "ki_um": null, "clinical_effect": "Citalopram AUC ↑ ~40%; pushes plasma into QTc-risk range at >20mg.", "reference": "doi:10.1007/s00228-008-0531-5"}
+      {
+        "with": "omeprazole",
+        "mechanism": "CYP2C19 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Citalopram AUC ↑ ~40%; pushes plasma into QTc-risk range at >20mg.",
+        "reference": "doi:10.1007/s00228-008-0531-5"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2C19", "CYP2D6"],
+      "relevant_genes": [
+        "CYP2C19",
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2C19 PMs show 2-3× citalopram AUC and elevated QTc; CPIC recommends max 20 mg/day for PMs. UMs may have subtherapeutic exposure. 5-HTTLPR S-allele homozygotes show worse response.",
       "reference": "doi:10.1002/cpt.147"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "5-HT1A autoreceptor desensitisation 2-3 weeks in humans (PET evidence)",
-      "cross_tolerance": ["escitalopram"],
+      "cross_tolerance": [
+        "escitalopram"
+      ],
       "withdrawal_syndrome": "SSRI discontinuation syndrome — flu-like symptoms, dizziness, paresthesias ('brain zaps'), anxiety; onset 2-3 days, peak 5-7 days, duration 1-3 weeks. Less severe than paroxetine due to longer t1/2.",
       "reference": "pmid:25721705"
     },
     "off_targets": [
-      {"target": "hERG", "ki_or_ic50_nm": 3970, "concern_level": "high", "clinical_consequence": "QTc prolongation, torsade de pointes; FDA black-box restriction limits dose to 40 mg (20 mg in elderly/CYP2C19 PMs).", "reference": "pmid:11852052"},
-      {"target": "hERG (DCT metabolite)", "ki_or_ic50_nm": 680, "concern_level": "high", "clinical_consequence": "DDCT/DCT metabolite shows greater hERG potency than parent; contributes to QTc effect.", "reference": "pmid:29181593"}
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": 3970,
+        "concern_level": "high",
+        "clinical_consequence": "QTc prolongation, torsade de pointes; FDA black-box restriction limits dose to 40 mg (20 mg in elderly/CYP2C19 PMs).",
+        "reference": "pmid:11852052"
+      },
+      {
+        "target": "hERG (DCT metabolite)",
+        "ki_or_ic50_nm": 680,
+        "concern_level": "high",
+        "clinical_consequence": "DDCT/DCT metabolite shows greater hERG potency than parent; contributes to QTc effect.",
+        "reference": "pmid:29181593"
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -61,16 +204,27 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: clearance ↓ ~37%, t1/2 doubles. Dose limit 20 mg/day."
     },
-    "tags_to_add": ["hERG-strong", "CYP2C19-substrate", "QTc-risk"],
+    "tags_to_add": [
+      "hERG-strong",
+      "CYP2C19-substrate",
+      "QTc-risk"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Racemate; R-enantiomer is pharmacologically inactive at SERT but contributes to hERG affinity and antagonises the active S-enantiomer via allosteric site (basis for escitalopram development).",
-    "references_consulted": ["pmid:9400006", "doi:10.1007/BF02246453", "doi:10.1002/cpt.147"]
+    "references_consulted": [
+      "pmid:9400006",
+      "doi:10.1007/BF02246453",
+      "doi:10.1002/cpt.147"
+    ]
   },
   {
     "name": "Escitalopram",
-    "aliases_added": ["S-citalopram", "Seroplex"],
+    "aliases_added": [
+      "S-citalopram",
+      "Seroplex"
+    ],
     "iupac_name": "(S)-1-[3-(dimethylamino)propyl]-1-(4-fluorophenyl)-1,3-dihydro-2-benzofuran-5-carbonitrile",
     "smiles": "N#CC1=CC2=C(C=C1)[C@](CCCN(C)C)(C1=CC=C(F)C=C1)OC2",
     "inchikey": "WSEQXVZVJXJVFP-FQEVSTJZSA-N",
@@ -78,51 +232,231 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT"],
+      "primary_targets": [
+        "SERT"
+      ],
       "binding": [
-        {"target": "SERT (orthosteric)", "ki_nm": 1.1, "ki_ci_nm": [0.89, 2.2], "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "HEK-293 hSERT", "radioligand_or_probe": "[3H]-citalopram", "assay_buffer_notes": null, "reference": "pmid:15955412", "is_review": false, "notes": "S-enantiomer carries SERT activity; ~30-fold more potent than R-citalopram."},
-        {"target": "SERT (allosteric)", "ki_nm": 1300, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "positiveAllostericModulator", "species": "human", "tissue_or_cell": "HEK-293 hSERT", "radioligand_or_probe": "[3H]-escitalopram dissociation kinetics", "assay_buffer_notes": null, "reference": "pmid:15955412", "is_review": false, "notes": "Allosteric site in TM10-12 (residues A505/L506/I507/S574/I575); binding here slows escitalopram dissociation from orthosteric site, enhancing inhibition. Mechanism unique to citalopram series."},
-        {"target": "H1", "ki_nm": 1500, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human H1", "radioligand_or_probe": "[3H]-pyrilamine", "assay_buffer_notes": null, "reference": "doi:10.1007/BF02246453", "is_review": false, "notes": "6× lower H1 affinity than racemic citalopram (the R-enantiomer contributes the H1 binding)."},
-        {"target": "M1", "ki_nm": 1240, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human M1", "radioligand_or_probe": "[3H]-NMS", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "NET", "ki_nm": 10500, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "rat", "tissue_or_cell": "rat frontal cortex", "radioligand_or_probe": "[3H]nisoxetine", "assay_buffer_notes": null, "reference": "pmid:20672825", "is_review": false, "notes": null},
-        {"target": "DAT", "ki_nm": 8150, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "rat", "tissue_or_cell": "rat caudate-putamen", "radioligand_or_probe": "[3H]WIN 35,428", "assay_buffer_notes": null, "reference": "pmid:20672825", "is_review": false, "notes": null},
-        {"target": "sigma-1", "ki_nm": 288.3, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "modulator", "species": "human", "tissue_or_cell": "Jurkat cell membranes", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": null}
+        {
+          "target": "SERT (orthosteric)",
+          "ki_nm": 1.1,
+          "ki_ci_nm": [
+            0.89,
+            2.2
+          ],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK-293 hSERT",
+          "radioligand_or_probe": "[3H]-citalopram",
+          "assay_buffer_notes": null,
+          "reference": "pmid:15955412",
+          "is_review": false,
+          "notes": "S-enantiomer carries SERT activity; ~30-fold more potent than R-citalopram."
+        },
+        {
+          "target": "SERT (allosteric)",
+          "ki_nm": 1300,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "human",
+          "tissue_or_cell": "HEK-293 hSERT",
+          "radioligand_or_probe": "[3H]-escitalopram dissociation kinetics",
+          "assay_buffer_notes": null,
+          "reference": "pmid:15955412",
+          "is_review": false,
+          "notes": "Allosteric site in TM10-12 (residues A505/L506/I507/S574/I575); binding here slows escitalopram dissociation from orthosteric site, enhancing inhibition. Mechanism unique to citalopram series."
+        },
+        {
+          "target": "H1",
+          "ki_nm": 1500,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H1",
+          "radioligand_or_probe": "[3H]-pyrilamine",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/BF02246453",
+          "is_review": false,
+          "notes": "6× lower H1 affinity than racemic citalopram (the R-enantiomer contributes the H1 binding)."
+        },
+        {
+          "target": "M1",
+          "ki_nm": 1240,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "NET",
+          "ki_nm": 10500,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat frontal cortex",
+          "radioligand_or_probe": "[3H]nisoxetine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:20672825",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "DAT",
+          "ki_nm": 8150,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate-putamen",
+          "radioligand_or_probe": "[3H]WIN 35,428",
+          "assay_buffer_notes": null,
+          "reference": "pmid:20672825",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 288.3,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "modulator",
+          "species": "human",
+          "tissue_or_cell": "Jurkat cell membranes",
+          "radioligand_or_probe": "[3H]-(+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24508523",
+          "is_review": false,
+          "notes": null
+        }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "Same as citalopram (SERT blockade → synaptic 5-HT rise). Allosteric self-potentiation produces a steeper occupancy-dose curve than the racemate.",
       "neuroimaging": [
-        {"modality": "SPECT ([123I]ADAM)", "finding": "10 mg/day escitalopram for 10 days produces 81.5 +/- 5.4% midbrain SERT occupancy at 6 h post-dose, significantly higher than citalopram 20 mg/day (64.0 +/- 12.7%); occupancy declines more slowly than plasma S-enantiomer levels (63.3% vs 49.0% still present at 54 h).", "reference": "pmid:17235610"}
+        {
+          "modality": "SPECT ([123I]ADAM)",
+          "finding": "10 mg/day escitalopram for 10 days produces 81.5 +/- 5.4% midbrain SERT occupancy at 6 h post-dose, significantly higher than citalopram 20 mg/day (64.0 +/- 12.7%); occupancy declines more slowly than plasma S-enantiomer levels (63.3% vs 49.0% still present at 54 h).",
+          "reference": "pmid:17235610"
+        }
       ]
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 80, "cmax_ng_per_ml": 21, "tmax_min": 240, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1800, "vd_l_per_kg": 12, "clearance_ml_per_min_per_kg": 6, "protein_binding_pct": 56, "dose_in_study_mg": 20, "subject_n": 18, "subject_demographics": "Healthy adults", "reference": "pmid:17375980"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 80,
+          "cmax_ng_per_ml": 21,
+          "tmax_min": 240,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1800,
+          "vd_l_per_kg": 12,
+          "clearance_ml_per_min_per_kg": 6,
+          "protein_binding_pct": 56,
+          "dose_in_study_mg": 20,
+          "subject_n": 18,
+          "subject_demographics": "Healthy adults",
+          "reference": "pmid:17375980"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "CYP2C19", "fraction_of_clearance_pct": 37, "metabolite_name": "S-demethylescitalopram (S-DCT)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": 33, "reference": "pmid:11454728"},
-      {"enzyme": "CYP3A4", "fraction_of_clearance_pct": 35, "metabolite_name": "S-DCT", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:11454728"},
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": 28, "metabolite_name": "S-demethylescitalopram (S-DCT)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:11454728"}
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": 37,
+        "metabolite_name": "S-demethylescitalopram (S-DCT)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 33,
+        "reference": "pmid:11454728"
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 35,
+        "metabolite_name": "S-DCT",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:11454728"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 28,
+        "metabolite_name": "S-demethylescitalopram (S-DCT)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:11454728"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "omeprazole", "mechanism": "CYP2C19 inhibition", "ki_um": null, "clinical_effect": "Escitalopram AUC ↑ ~50%; clinically modest QTc effect compared to racemic citalopram.", "reference": "doi:10.1007/s00228-008-0531-5"}
+      {
+        "with": "omeprazole",
+        "mechanism": "CYP2C19 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Escitalopram AUC ↑ ~50%; clinically modest QTc effect compared to racemic citalopram.",
+        "reference": "doi:10.1007/s00228-008-0531-5"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2C19"],
+      "relevant_genes": [
+        "CYP2C19"
+      ],
       "phenotype_effects": "CYP2C19 PMs show ~2× AUC; CPIC recommends 50% dose reduction. UMs show ~40% lower AUC. Less QTc concern than racemic citalopram because R-enantiomer (which contributes to hERG block) is absent.",
       "reference": "doi:10.1002/cpt.147"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Same as citalopram",
-      "cross_tolerance": ["citalopram", "other SSRIs"],
+      "cross_tolerance": [
+        "citalopram",
+        "other SSRIs"
+      ],
       "withdrawal_syndrome": "SSRI discontinuation syndrome — generally milder than paroxetine, similar to citalopram.",
       "reference": "pmid:25721705"
     },
     "off_targets": [
-      {"target": "hERG", "ki_or_ic50_nm": 2600, "concern_level": "moderate", "clinical_consequence": "Blocks hERG at supratherapeutic concentrations (IC50 2.6 uM, comparable to racemic citalopram at 3.2 uM) and reduces hERG channel trafficking.", "reference": "pmid:24045971"}
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": 2600,
+        "concern_level": "moderate",
+        "clinical_consequence": "Blocks hERG at supratherapeutic concentrations (IC50 2.6 uM, comparable to racemic citalopram at 3.2 uM) and reduces hERG channel trafficking.",
+        "reference": "pmid:24045971"
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -130,16 +464,23 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: half clearance, double t1/2."
     },
-    "tags_to_add": ["CYP2C19-substrate", "allosteric-self-potentiation"],
+    "tags_to_add": [
+      "CYP2C19-substrate",
+      "allosteric-self-potentiation"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Therapeutic exploitation of citalopram's SERT allosteric site is the canonical example of allosteric self-potentiation in clinical psychopharmacology.",
-    "references_consulted": ["pmid:15955412"]
+    "references_consulted": [
+      "pmid:15955412"
+    ]
   },
   {
     "name": "Fluoxetine",
-    "aliases_added": ["Fontex"],
+    "aliases_added": [
+      "Fontex"
+    ],
     "iupac_name": "(RS)-N-methyl-3-phenyl-3-[4-(trifluoromethyl)phenoxy]propan-1-amine",
     "smiles": "CNCCC(c1ccccc1)Oc1ccc(C(F)(F)F)cc1",
     "inchikey": "RTHCYVBBDHJXIQ-UHFFFAOYSA-N",
@@ -147,12 +488,86 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT", "5-HT2C"],
+      "primary_targets": [
+        "SERT",
+        "5-HT2C"
+      ],
       "binding": [
-        {"target": "SERT", "ki_nm": 0.81, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hSERT-expressing cells", "radioligand_or_probe": "[3H]-5-HT uptake", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Tatsumi et al. 1997 — definitive monoamine transporter Ki table for antidepressants."},
-        {"target": "NET", "ki_nm": 240, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hNET-expressing cells", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "5-HT2C", "ki_nm": 55.4, "ki_ci_nm": [55, 97], "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "rat", "tissue_or_cell": "choroid plexus / HeLa cells expressing 5-HT2C", "radioligand_or_probe": "[3H]-mesulergine / [3H]-5-HT", "assay_buffer_notes": null, "reference": "doi:10.1007/BF02246453", "is_review": false, "notes": "Competitive reversible 5-HT2C antagonism is functionally relevant — disinhibits prefrontal DA/NE release."},
-        {"target": "sigma-1", "ki_nm": 191.2, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "agonist", "species": "human", "tissue_or_cell": "Jurkat cell membranes", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": null}
+        {
+          "target": "SERT",
+          "ki_nm": 0.81,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hSERT-expressing cells",
+          "radioligand_or_probe": "[3H]-5-HT uptake",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": "Tatsumi et al. 1997 — definitive monoamine transporter Ki table for antidepressants."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 240,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hNET-expressing cells",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 55.4,
+          "ki_ci_nm": [
+            55,
+            97
+          ],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "choroid plexus / HeLa cells expressing 5-HT2C",
+          "radioligand_or_probe": "[3H]-mesulergine / [3H]-5-HT",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/BF02246453",
+          "is_review": false,
+          "notes": "Competitive reversible 5-HT2C antagonism is functionally relevant — disinhibits prefrontal DA/NE release."
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 191.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "Jurkat cell membranes",
+          "radioligand_or_probe": "[3H]-(+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24508523",
+          "is_review": false,
+          "notes": null
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -162,31 +577,83 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": null, "cmax_ng_per_ml": 15, "tmax_min": 360, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 5760, "vd_l_per_kg": 35, "clearance_ml_per_min_per_kg": 9.6, "protein_binding_pct": 94, "dose_in_study_mg": 40, "subject_n": 20, "subject_demographics": "Healthy adults", "reference": "pmid:8194283", "notes": "Parent t1/2 1-3 days acute; 4-6 days chronic. Norfluoxetine t1/2 ~7-15 days (essentially eliminates need for tapering)."}
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 15,
+          "tmax_min": 360,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 5760,
+          "vd_l_per_kg": 35,
+          "clearance_ml_per_min_per_kg": 9.6,
+          "protein_binding_pct": 94,
+          "dose_in_study_mg": 40,
+          "subject_n": 20,
+          "subject_demographics": "Healthy adults",
+          "reference": "pmid:8194283",
+          "notes": "Parent t1/2 1-3 days acute; 4-6 days chronic. Norfluoxetine t1/2 ~7-15 days (essentially eliminates need for tapering)."
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": 50, "metabolite_name": "norfluoxetine", "metabolite_active": true, "metabolite_potency_vs_parent_pct": 100, "reference": "doi:10.3390/pharmaceutics13020148"},
-      {"enzyme": "CYP2C9", "fraction_of_clearance_pct": null, "metabolite_name": "norfluoxetine", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.3390/pharmaceutics13020148"}
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 50,
+        "metabolite_name": "norfluoxetine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "doi:10.3390/pharmaceutics13020148"
+      },
+      {
+        "enzyme": "CYP2C9",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "norfluoxetine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.3390/pharmaceutics13020148"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "CYP2D6 substrates (e.g. metoprolol, codeine, tamoxifen)", "mechanism": "CYP2D6 mechanism-based inhibition", "ki_um": 0.068, "clinical_effect": "Strong CYP2D6 inhibition persists 4-6 weeks after stopping due to long t1/2. Reduces tamoxifen → endoxifen conversion; phenocopies CYP2D6 PM.", "reference": "doi:10.3390/pharmaceutics13020148"},
-      {"with": "CYP3A4 substrates", "mechanism": "in-vitro CYP3A4 inhibition by norfluoxetine, offset in vivo by concurrent CYP3A4 induction and inhibitor-inhibitor interactions", "ki_um": null, "clinical_effect": "Not a clinically significant CYP3A4 inhibitor in vivo: 11 days of fluoxetine left alprazolam pharmacokinetics and the erythromycin breath test unchanged, and 2 weeks of fluoxetine left midazolam and lovastatin AUC unaffected. In-vitro CYP3A4 inhibition by fluoxetine/norfluoxetine does not translate; fluoxetine's clinically important interactions are at CYP2D6 and CYP2C19.", "reference": "pmid:14709940"}
+      {
+        "with": "CYP2D6 substrates (e.g. metoprolol, codeine, tamoxifen)",
+        "mechanism": "CYP2D6 mechanism-based inhibition",
+        "ki_um": 0.068,
+        "clinical_effect": "Strong CYP2D6 inhibition persists 4-6 weeks after stopping due to long t1/2. Reduces tamoxifen → endoxifen conversion; phenocopies CYP2D6 PM.",
+        "reference": "doi:10.3390/pharmaceutics13020148"
+      },
+      {
+        "with": "CYP3A4 substrates",
+        "mechanism": "in-vitro CYP3A4 inhibition by norfluoxetine, offset in vivo by concurrent CYP3A4 induction and inhibitor-inhibitor interactions",
+        "ki_um": null,
+        "clinical_effect": "Not a clinically significant CYP3A4 inhibitor in vivo: 11 days of fluoxetine left alprazolam pharmacokinetics and the erythromycin breath test unchanged, and 2 weeks of fluoxetine left midazolam and lovastatin AUC unaffected. In-vitro CYP3A4 inhibition by fluoxetine/norfluoxetine does not translate; fluoxetine's clinically important interactions are at CYP2D6 and CYP2C19.",
+        "reference": "pmid:14709940"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6", "CYP2C9"],
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP2C9"
+      ],
       "phenotype_effects": "CYP2D6 PMs: fluoxetine AUC ↑, norfluoxetine AUC ↓. Because norfluoxetine has comparable SERT potency to parent and longer t1/2, total active drug exposure is similar across phenotypes — fluoxetine is unusually robust to CYP2D6 polymorphism.",
       "reference": "doi:10.1038/clpt.2014.137"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "5-HT1A autoreceptor desensitisation 2-3 weeks",
-      "cross_tolerance": ["other SSRIs"],
+      "cross_tolerance": [
+        "other SSRIs"
+      ],
       "withdrawal_syndrome": "Mildest discontinuation among SSRIs because norfluoxetine self-tapers over weeks. Rarely requires dose taper.",
       "reference": "pmid:25721705"
     },
     "off_targets": [
-      {"target": "hERG", "ki_or_ic50_nm": null, "concern_level": "low", "clinical_consequence": "Minimal QTc effect at therapeutic doses.", "reference": null}
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Minimal QTc effect at therapeutic doses.",
+        "reference": null
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -194,16 +661,27 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: t1/2 doubles; halve dose."
     },
-    "tags_to_add": ["CYP2D6-inhibitor-strong", "CYP3A4-inhibitor-moderate", "5-HT2C-antagonist", "activating-SSRI"],
+    "tags_to_add": [
+      "CYP2D6-inhibitor-strong",
+      "CYP3A4-inhibitor-moderate",
+      "5-HT2C-antagonist",
+      "activating-SSRI"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "The long half-life of norfluoxetine (~7-15 days) makes fluoxetine the SSRI most likely to cause serotonin syndrome when switching to MAOIs (requires 5-week washout) and most robust to occasional missed doses.",
-    "references_consulted": ["pmid:9400006", "doi:10.3390/pharmaceutics13020148"]
+    "references_consulted": [
+      "pmid:9400006",
+      "doi:10.3390/pharmaceutics13020148"
+    ]
   },
   {
     "name": "Fluvoxamine",
-    "aliases_added": ["Dumirox", "Floxyfral"],
+    "aliases_added": [
+      "Dumirox",
+      "Floxyfral"
+    ],
     "iupac_name": "(E)-5-methoxy-1-[4-(trifluoromethyl)phenyl]pentan-1-one O-(2-aminoethyl)oxime",
     "smiles": "COCCCC/C(=N\\OCCN)/c1ccc(C(F)(F)F)cc1",
     "inchikey": "CJOFXWAVKWHTFT-XSFVSMFZSA-N",
@@ -211,10 +689,47 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT", "sigma-1"],
+      "primary_targets": [
+        "SERT",
+        "sigma-1"
+      ],
       "binding": [
-        {"target": "SERT", "ki_nm": 2.2, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hSERT-expressing cells", "radioligand_or_probe": "[3H]-5-HT uptake", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "sigma-1", "ki_nm": 17, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "agonist", "species": "human", "tissue_or_cell": "Jurkat membranes / NG-108 cells", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": "Highest sigma-1 affinity in the SSRI class; fluvoxamine is the prototypical sigma-1 agonist among prescribed antidepressants. Sigma-1 agonism implicated in pro-cognitive and ER-stress-attenuating effects."}
+        {
+          "target": "SERT",
+          "ki_nm": 2.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hSERT-expressing cells",
+          "radioligand_or_probe": "[3H]-5-HT uptake",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 17,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "Jurkat membranes / NG-108 cells",
+          "radioligand_or_probe": "[3H]-(+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24508523",
+          "is_review": false,
+          "notes": "Highest sigma-1 affinity in the SSRI class; fluvoxamine is the prototypical sigma-1 agonist among prescribed antidepressants. Sigma-1 agonism implicated in pro-cognitive and ER-stress-attenuating effects."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -224,33 +739,95 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 53, "cmax_ng_per_ml": 17, "tmax_min": 300, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 900, "vd_l_per_kg": 25, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": 77, "dose_in_study_mg": 100, "subject_n": 15, "subject_demographics": "Healthy adults", "reference": "doi:10.2165/00003088-199427030-00002"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 53,
+          "cmax_ng_per_ml": 17,
+          "tmax_min": 300,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 900,
+          "vd_l_per_kg": 25,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 77,
+          "dose_in_study_mg": 100,
+          "subject_n": 15,
+          "subject_demographics": "Healthy adults",
+          "reference": "doi:10.2165/00003088-199427030-00002"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": null, "metabolite_name": "various oxidative", "metabolite_active": false, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.2165/00003088-199427030-00002"},
-      {"enzyme": "CYP1A2", "fraction_of_clearance_pct": null, "metabolite_name": "various", "metabolite_active": false, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.2165/00003088-199427030-00002"}
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various oxidative",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.2165/00003088-199427030-00002"
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.2165/00003088-199427030-00002"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "clozapine", "mechanism": "CYP1A2 inhibition", "ki_um": 0.24, "clinical_effect": "Clozapine AUC ↑ 5-10×; can produce severe sedation/agranulocytosis risk. Sometimes used deliberately to lower clozapine dose requirements.", "reference": "pmid:8395823"},
-      {"with": "theophylline", "mechanism": "CYP1A2 inhibition", "ki_um": 0.12, "clinical_effect": "Theophylline clearance ↓ 60-70%; can cause toxicity at standard theophylline doses.", "reference": "pmid:8395823"},
-      {"with": "tizanidine", "mechanism": "CYP1A2 inhibition", "ki_um": null, "clinical_effect": "Tizanidine AUC ↑ 33×, Cmax ↑ 12×; severe hypotension/sedation. Contraindicated combination.", "reference": "pmid:15060511"},
-      {"with": "caffeine", "mechanism": "CYP1A2 inhibition", "ki_um": null, "clinical_effect": "Caffeine half-life roughly 5×; clinically meaningful insomnia/anxiety.", "reference": "pmid:8395823"}
+      {
+        "with": "clozapine",
+        "mechanism": "CYP1A2 inhibition",
+        "ki_um": 0.24,
+        "clinical_effect": "Clozapine AUC ↑ 5-10×; can produce severe sedation/agranulocytosis risk. Sometimes used deliberately to lower clozapine dose requirements.",
+        "reference": "pmid:8395823"
+      },
+      {
+        "with": "theophylline",
+        "mechanism": "CYP1A2 inhibition",
+        "ki_um": 0.12,
+        "clinical_effect": "Theophylline clearance ↓ 60-70%; can cause toxicity at standard theophylline doses.",
+        "reference": "pmid:8395823"
+      },
+      {
+        "with": "tizanidine",
+        "mechanism": "CYP1A2 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Tizanidine AUC ↑ 33×, Cmax ↑ 12×; severe hypotension/sedation. Contraindicated combination.",
+        "reference": "pmid:15060511"
+      },
+      {
+        "with": "caffeine",
+        "mechanism": "CYP1A2 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Caffeine half-life roughly 5×; clinically meaningful insomnia/anxiety.",
+        "reference": "pmid:8395823"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs show higher fluvoxamine exposure but clinical impact is less than for fluoxetine/paroxetine.",
       "reference": "doi:10.2165/00003088-199427030-00002"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Similar to other SSRIs",
-      "cross_tolerance": ["other SSRIs"],
+      "cross_tolerance": [
+        "other SSRIs"
+      ],
       "withdrawal_syndrome": "Shortest t1/2 SSRI besides paroxetine → discontinuation syndrome onset within 1-3 days, can be severe.",
       "reference": "pmid:25721705"
     },
     "off_targets": [
-      {"target": "melatonin (CYP1A2-mediated)", "ki_or_ic50_nm": null, "concern_level": "moderate", "clinical_consequence": "Plasma melatonin levels ↑ 17× due to CYP1A2 inhibition of melatonin metabolism.", "reference": "pmid:10668847"}
+      {
+        "target": "melatonin (CYP1A2-mediated)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Plasma melatonin levels ↑ 17× due to CYP1A2 inhibition of melatonin metabolism.",
+        "reference": "pmid:10668847"
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -258,16 +835,25 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: dose reduction recommended."
     },
-    "tags_to_add": ["CYP1A2-inhibitor-strong", "sigma-1-agonist"],
+    "tags_to_add": [
+      "CYP1A2-inhibitor-strong",
+      "sigma-1-agonist"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Strongest CYP1A2 inhibitor among SSRIs — clinically defining interaction profile.",
-    "references_consulted": ["pmid:9400006", "doi:10.2165/00003088-199427030-00002"]
+    "references_consulted": [
+      "pmid:9400006",
+      "doi:10.2165/00003088-199427030-00002"
+    ]
   },
   {
     "name": "Paroxetine",
-    "aliases_added": ["Aropax", "Paxil CR"],
+    "aliases_added": [
+      "Aropax",
+      "Paxil CR"
+    ],
     "iupac_name": "(3S,4R)-3-[(1,3-benzodioxol-5-yloxy)methyl]-4-(4-fluorophenyl)piperidine",
     "smiles": "Fc1ccc(cc1)[C@@H]2CCN[C@@H](COc3ccc4OCOc4c3)C2",
     "inchikey": "YFNOLKVYMNARLW-GDBMZVCRSA-N",
@@ -275,13 +861,105 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT", "NOS", "M1"],
+      "primary_targets": [
+        "SERT",
+        "NOS",
+        "M1"
+      ],
       "binding": [
-        {"target": "SERT", "ki_nm": 0.13, "ki_ci_nm": [0.05, 0.5], "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "human brain / cloned hSERT", "radioligand_or_probe": "[3H]-paroxetine", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Highest SERT affinity of any approved SSRI. Crystal structure of paroxetine-hSERT complex resolved (Coleman et al. 2020)."},
-        {"target": "NET", "ki_nm": 40, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hNET-expressing cells", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Highest NET affinity of any SSRI — paroxetine functions as a weak SNRI at higher doses."},
-        {"target": "M1", "ki_nm": 108, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human M1", "radioligand_or_probe": "[3H]-NMS", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Most anticholinergic SSRI — accounts for dry mouth, constipation, cognitive blunting."},
-        {"target": "sigma-1", "ki_nm": 2041, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "modulator", "species": "human", "tissue_or_cell": "Jurkat membranes", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": "Lowest sigma-1 affinity of any SSRI."},
-        {"target": "nNOS", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 3500, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "rat", "tissue_or_cell": "rat brain", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:8993087", "is_review": false, "notes": "Novel NOS inhibition (Finkel et al. 1996) — paroxetine is unique among SSRIs in this property; implicated in sexual dysfunction profile."}
+        {
+          "target": "SERT",
+          "ki_nm": 0.13,
+          "ki_ci_nm": [
+            0.05,
+            0.5
+          ],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "human brain / cloned hSERT",
+          "radioligand_or_probe": "[3H]-paroxetine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": "Highest SERT affinity of any approved SSRI. Crystal structure of paroxetine-hSERT complex resolved (Coleman et al. 2020)."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 40,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hNET-expressing cells",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": "Highest NET affinity of any SSRI — paroxetine functions as a weak SNRI at higher doses."
+        },
+        {
+          "target": "M1",
+          "ki_nm": 108,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": "Most anticholinergic SSRI — accounts for dry mouth, constipation, cognitive blunting."
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 2041,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "modulator",
+          "species": "human",
+          "tissue_or_cell": "Jurkat membranes",
+          "radioligand_or_probe": "[3H]-(+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24508523",
+          "is_review": false,
+          "notes": "Lowest sigma-1 affinity of any SSRI."
+        },
+        {
+          "target": "nNOS",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 3500,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:8993087",
+          "is_review": false,
+          "notes": "Novel NOS inhibition (Finkel et al. 1996) — paroxetine is unique among SSRIs in this property; implicated in sexual dysfunction profile."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -291,29 +969,66 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 50, "cmax_ng_per_ml": 62, "tmax_min": 300, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1260, "vd_l_per_kg": 13, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": 95, "dose_in_study_mg": 30, "subject_n": 23, "subject_demographics": "Healthy adults; pharmacokinetics dose-dependent (nonlinear).", "reference": "pmid:2530793"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 50,
+          "cmax_ng_per_ml": 62,
+          "tmax_min": 300,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1260,
+          "vd_l_per_kg": 13,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 95,
+          "dose_in_study_mg": 30,
+          "subject_n": 23,
+          "subject_demographics": "Healthy adults; pharmacokinetics dose-dependent (nonlinear).",
+          "reference": "pmid:2530793"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": 80, "metabolite_name": "catechol intermediates → glucuronides/sulfates (all inactive)", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "pmid:12584155"}
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "catechol intermediates → glucuronides/sulfates (all inactive)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:12584155"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "CYP2D6 substrates (metoprolol, codeine, tamoxifen, atomoxetine)", "mechanism": "CYP2D6 mechanism-based inactivation", "ki_um": 4.85, "clinical_effect": "Strongest clinical CYP2D6 inhibitor. Phenocopies CYP2D6 PM. Tamoxifen→endoxifen reduced; codeine→morphine analgesia abolished.", "reference": "pmid:12584155"}
+      {
+        "with": "CYP2D6 substrates (metoprolol, codeine, tamoxifen, atomoxetine)",
+        "mechanism": "CYP2D6 mechanism-based inactivation",
+        "ki_um": 4.85,
+        "clinical_effect": "Strongest clinical CYP2D6 inhibitor. Phenocopies CYP2D6 PM. Tamoxifen→endoxifen reduced; codeine→morphine analgesia abolished.",
+        "reference": "pmid:12584155"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs show ~3-7× higher plasma paroxetine. Paradoxically, autoinhibition of CYP2D6 makes EMs behave like PMs at steady state — major source of nonlinear PK.",
       "reference": "pmid:23357843"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["other SSRIs"],
+      "cross_tolerance": [
+        "other SSRIs"
+      ],
       "withdrawal_syndrome": "Worst SSRI discontinuation syndrome — short t1/2 plus muscarinic rebound. Onset within 24 h, peak day 3-5, may persist 2-4 weeks. 'Brain zaps,' dizziness, vivid dreams, irritability classic.",
       "reference": "pmid:25721705"
     },
     "off_targets": [
-      {"target": "nNOS", "ki_or_ic50_nm": 3500, "concern_level": "moderate", "clinical_consequence": "Sexual dysfunction (impaired NO-mediated arousal/erection).", "reference": "pmid:8993087"}
+      {
+        "target": "nNOS",
+        "ki_or_ic50_nm": 3500,
+        "concern_level": "moderate",
+        "clinical_consequence": "Sexual dysfunction (impaired NO-mediated arousal/erection).",
+        "reference": "pmid:8993087"
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -321,12 +1036,23 @@
       "weight": null,
       "renal_or_hepatic": "Severe renal/hepatic impairment: Cmax ↑ 2-7×; start at 10 mg/day."
     },
-    "tags_to_add": ["CYP2D6-inhibitor-strong", "anticholinergic-SSRI", "NOS-inhibitor", "high-discontinuation-risk"],
+    "tags_to_add": [
+      "CYP2D6-inhibitor-strong",
+      "anticholinergic-SSRI",
+      "NOS-inhibitor",
+      "high-discontinuation-risk"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Pregnancy category D for first-trimester cardiac malformation risk — only SSRI with this designation.",
-    "references_consulted": ["pmid:9400006", "pmid:8993087", "pmid:12584155", "pmid:23357843", "pmid:2530793"]
+    "references_consulted": [
+      "pmid:9400006",
+      "pmid:8993087",
+      "pmid:12584155",
+      "pmid:23357843",
+      "pmid:2530793"
+    ]
   },
   {
     "name": "Sertraline",
@@ -338,49 +1064,184 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT", "DAT", "sigma-1"],
+      "primary_targets": [
+        "SERT",
+        "DAT",
+        "sigma-1"
+      ],
       "binding": [
-        {"target": "SERT", "ki_nm": 0.29, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hSERT-expressing cells", "radioligand_or_probe": "[3H]-5-HT uptake", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "DAT", "ki_nm": 25, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hDAT-expressing cells", "radioligand_or_probe": "[3H]-WIN35,428", "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": "Sertraline is the only SSRI with clinically meaningful DAT affinity (~50× lower than SERT but still 10× higher than other SSRIs). Likely contributes to its activating profile and abuse-deterrent characteristics."},
-        {"target": "NET", "ki_nm": 420, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "human", "tissue_or_cell": "hNET-expressing cells", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:9400006", "is_review": false, "notes": null},
-        {"target": "sigma-1", "ki_nm": 31.6, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "rat", "tissue_or_cell": "rat brain membranes (binding); PC12 cells (neurite outgrowth)", "radioligand_or_probe": "[3H]-(+)-pentazocine", "assay_buffer_notes": null, "reference": "pmid:24508523", "is_review": false, "notes": "Sertraline acts as a sigma-1 inverse agonist (unlike fluvoxamine which is an agonist). Inhibits NGF-induced neurite outgrowth via sigma-1, suppresses hippocampal LTP at low μM."}
+        {
+          "target": "SERT",
+          "ki_nm": 0.29,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hSERT-expressing cells",
+          "radioligand_or_probe": "[3H]-5-HT uptake",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "DAT",
+          "ki_nm": 25,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hDAT-expressing cells",
+          "radioligand_or_probe": "[3H]-WIN35,428",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": "Sertraline is the only SSRI with clinically meaningful DAT affinity (~50× lower than SERT but still 10× higher than other SSRIs). Likely contributes to its activating profile and abuse-deterrent characteristics."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 420,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "hNET-expressing cells",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:9400006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 31.6,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membranes (binding); PC12 cells (neurite outgrowth)",
+          "radioligand_or_probe": "[3H]-(+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24508523",
+          "is_review": false,
+          "notes": "Sertraline acts as a sigma-1 inverse agonist (unlike fluvoxamine which is an agonist). Inhibits NGF-induced neurite outgrowth via sigma-1, suppresses hippocampal LTP at low μM."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "SERT + DAT + sigma-1 inverse agonism. The DAT component may give sertraline a mild stimulant edge over other SSRIs but is not high enough for abuse liability.",
       "neuroimaging": [
-        {"modality": "PET", "finding": "50 mg/day produces ~80% striatal SERT occupancy ([11C]-DASB).", "reference": "doi:10.1176/appi.ajp.161.5.826"}
+        {
+          "modality": "PET",
+          "finding": "50 mg/day produces ~80% striatal SERT occupancy ([11C]-DASB).",
+          "reference": "doi:10.1176/appi.ajp.161.5.826"
+        }
       ]
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 44, "cmax_ng_per_ml": 35, "tmax_min": 360, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1560, "vd_l_per_kg": 20, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": 98, "dose_in_study_mg": 100, "subject_n": 16, "subject_demographics": "Healthy adults; linear PK 50-200 mg.", "reference": "pmid:12452737"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 44,
+          "cmax_ng_per_ml": 35,
+          "tmax_min": 360,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1560,
+          "vd_l_per_kg": 20,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 98,
+          "dose_in_study_mg": 100,
+          "subject_n": 16,
+          "subject_demographics": "Healthy adults; linear PK 50-200 mg.",
+          "reference": "pmid:12452737"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "CYP2B6", "fraction_of_clearance_pct": 45, "metabolite_name": "desmethylsertraline", "metabolite_active": true, "metabolite_potency_vs_parent_pct": 2, "reference": "doi:10.1097/FPC.0000000000000378"},
-      {"enzyme": "CYP2C19", "fraction_of_clearance_pct": 21, "metabolite_name": "desmethylsertraline", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.1097/FPC.0000000000000378"},
-      {"enzyme": "CYP2C9", "fraction_of_clearance_pct": 13, "metabolite_name": "desmethylsertraline", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.1097/FPC.0000000000000378"},
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": 4, "metabolite_name": "desmethylsertraline", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.1097/FPC.0000000000000378"}
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": 45,
+        "metabolite_name": "desmethylsertraline",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 2,
+        "reference": "doi:10.1097/FPC.0000000000000378"
+      },
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": 21,
+        "metabolite_name": "desmethylsertraline",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1097/FPC.0000000000000378"
+      },
+      {
+        "enzyme": "CYP2C9",
+        "fraction_of_clearance_pct": 13,
+        "metabolite_name": "desmethylsertraline",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1097/FPC.0000000000000378"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 4,
+        "metabolite_name": "desmethylsertraline",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1097/FPC.0000000000000378"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "CYP2D6 substrates", "mechanism": "CYP2D6 inhibition", "ki_um": 0.7, "clinical_effect": "Weak-moderate CYP2D6 inhibitor; clinically less significant than paroxetine or fluoxetine.", "reference": "pmid:10631623"}
+      {
+        "with": "CYP2D6 substrates",
+        "mechanism": "CYP2D6 inhibition",
+        "ki_um": 0.7,
+        "clinical_effect": "Weak-moderate CYP2D6 inhibitor; clinically less significant than paroxetine or fluoxetine.",
+        "reference": "pmid:10631623"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2B6", "CYP2C19"],
+      "relevant_genes": [
+        "CYP2B6",
+        "CYP2C19"
+      ],
       "phenotype_effects": "CYP2C19 PMs and CYP2B6 *6/*6 carriers show ~50% higher AUC. CPIC recommends 50% dose reduction in CYP2C19 PMs.",
       "reference": "doi:10.1002/cpt.147"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["other SSRIs"],
+      "cross_tolerance": [
+        "other SSRIs"
+      ],
       "withdrawal_syndrome": "Moderate — between fluoxetine (mild) and paroxetine (severe). Onset 1-3 days; peak 3-5 days.",
       "reference": "pmid:25721705"
     },
     "off_targets": [
-      {"target": "DAT", "ki_or_ic50_nm": 25, "concern_level": "low", "clinical_consequence": "Mild activating effect; suggested but not proven to confer modest weight benefit vs other SSRIs.", "reference": "pmid:9400006"}
+      {
+        "target": "DAT",
+        "ki_or_ic50_nm": 25,
+        "concern_level": "low",
+        "clinical_consequence": "Mild activating effect; suggested but not proven to confer modest weight benefit vs other SSRIs.",
+        "reference": "pmid:9400006"
+      }
     ],
     "demographic_differences": {
       "sex": "Women have ~30% higher AUC at fixed dose.",
@@ -388,12 +1249,19 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: t1/2 doubles."
     },
-    "tags_to_add": ["DAT-affinity", "sigma-1-inverse-agonist", "CYP2B6-substrate"],
+    "tags_to_add": [
+      "DAT-affinity",
+      "sigma-1-inverse-agonist",
+      "CYP2B6-substrate"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": null,
-    "references_consulted": ["pmid:9400006", "doi:10.1097/FPC.0000000000000378"]
+    "references_consulted": [
+      "pmid:9400006",
+      "doi:10.1097/FPC.0000000000000378"
+    ]
   },
   {
     "name": "Mirtazapine",
@@ -405,16 +1273,158 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["H1", "α2-adrenergic", "5-HT2A", "5-HT2C", "5-HT3"],
+      "primary_targets": [
+        "H1",
+        "α2-adrenergic",
+        "5-HT2A",
+        "5-HT2C",
+        "5-HT3"
+      ],
       "binding": [
-        {"target": "H1", "ki_nm": 0.14, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human H1", "radioligand_or_probe": "[3H]-pyrilamine", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": "Among the most potent H1 antagonists in clinical use — accounts for sedation, weight gain, appetite stimulation."},
-        {"target": "5-HT2A", "ki_nm": 6.3, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human 5-HT2A", "radioligand_or_probe": "[3H]-ketanserin", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": null},
-        {"target": "5-HT2C", "ki_nm": 39, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human 5-HT2C", "radioligand_or_probe": "[3H]-mesulergine", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": null},
-        {"target": "5-HT3", "ki_nm": 8.1, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human 5-HT3", "radioligand_or_probe": "[3H]-LY278584", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": "5-HT3 antagonism gives anti-nausea property and avoids GI side-effects typical of SSRIs."},
-        {"target": "α2-adrenergic", "ki_nm": 20, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human α2", "radioligand_or_probe": "[3H]-rauwolscine", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": "Central α2 autoreceptor antagonism on noradrenergic neurons disinhibits NE release; heteroreceptor blockade on serotonergic terminals enhances 5-HT release. Core 'NaSSA' mechanism."},
-        {"target": "α1-adrenergic", "ki_nm": 500, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human α1", "radioligand_or_probe": "[3H]-prazosin", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": null},
-        {"target": "M1", "ki_nm": 670, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human M1", "radioligand_or_probe": "[3H]-NMS", "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": "Weak muscarinic affinity → minimal anticholinergic effects."},
-        {"target": "SERT", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": null, "species": "human", "tissue_or_cell": null, "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:10333982", "is_review": false, "notes": "Mirtazapine has negligible SERT/NET binding — does not directly inhibit reuptake."}
+        {
+          "target": "H1",
+          "ki_nm": 0.14,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H1",
+          "radioligand_or_probe": "[3H]-pyrilamine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": "Among the most potent H1 antagonists in clinical use — accounts for sedation, weight gain, appetite stimulation."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 6.3,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT2A",
+          "radioligand_or_probe": "[3H]-ketanserin",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 39,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT2C",
+          "radioligand_or_probe": "[3H]-mesulergine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT3",
+          "ki_nm": 8.1,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT3",
+          "radioligand_or_probe": "[3H]-LY278584",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": "5-HT3 antagonism gives anti-nausea property and avoids GI side-effects typical of SSRIs."
+        },
+        {
+          "target": "α2-adrenergic",
+          "ki_nm": 20,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human α2",
+          "radioligand_or_probe": "[3H]-rauwolscine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": "Central α2 autoreceptor antagonism on noradrenergic neurons disinhibits NE release; heteroreceptor blockade on serotonergic terminals enhances 5-HT release. Core 'NaSSA' mechanism."
+        },
+        {
+          "target": "α1-adrenergic",
+          "ki_nm": 500,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human α1",
+          "radioligand_or_probe": "[3H]-prazosin",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M1",
+          "ki_nm": 670,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": "Weak muscarinic affinity → minimal anticholinergic effects."
+        },
+        {
+          "target": "SERT",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:10333982",
+          "is_review": false,
+          "notes": "Mirtazapine has negligible SERT/NET binding — does not directly inhibit reuptake."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -424,22 +1434,71 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 50, "cmax_ng_per_ml": 38, "tmax_min": 120, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1800, "vd_l_per_kg": 4.5, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": 85, "dose_in_study_mg": 30, "subject_n": 12, "subject_demographics": "Healthy adults", "reference": "doi:10.2165/00003088-200038060-00001"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 50,
+          "cmax_ng_per_ml": 38,
+          "tmax_min": 120,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1800,
+          "vd_l_per_kg": 4.5,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 85,
+          "dose_in_study_mg": 30,
+          "subject_n": 12,
+          "subject_demographics": "Healthy adults",
+          "reference": "doi:10.2165/00003088-200038060-00001"
+        }
       ],
       "concentration_effect": [
-        {"effect": "sedation (decreases at higher doses)", "concentration_unit": "ng/mL", "threshold": null, "peak_effect": null, "reference": "doi:10.2165/00003088-200038060-00001"}
+        {
+          "effect": "sedation (decreases at higher doses)",
+          "concentration_unit": "ng/mL",
+          "threshold": null,
+          "peak_effect": null,
+          "reference": "doi:10.2165/00003088-200038060-00001"
+        }
       ]
     },
     "metabolism": [
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": 25, "metabolite_name": "8-hydroxymirtazapine", "metabolite_active": true, "metabolite_potency_vs_parent_pct": 10, "reference": "doi:10.2165/00003088-200038060-00001"},
-      {"enzyme": "CYP1A2", "fraction_of_clearance_pct": 30, "metabolite_name": "8-hydroxymirtazapine", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "doi:10.2165/00003088-200038060-00001"},
-      {"enzyme": "CYP3A4", "fraction_of_clearance_pct": 45, "metabolite_name": "demethylmirtazapine and N-oxide", "metabolite_active": true, "metabolite_potency_vs_parent_pct": 10, "reference": "doi:10.2165/00003088-200038060-00001"}
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 25,
+        "metabolite_name": "8-hydroxymirtazapine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 10,
+        "reference": "doi:10.2165/00003088-200038060-00001"
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": 30,
+        "metabolite_name": "8-hydroxymirtazapine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.2165/00003088-200038060-00001"
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 45,
+        "metabolite_name": "demethylmirtazapine and N-oxide",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 10,
+        "reference": "doi:10.2165/00003088-200038060-00001"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "ketoconazole", "mechanism": "CYP3A4 inhibition", "ki_um": null, "clinical_effect": "Mirtazapine AUC ↑ 50%, Cmax ↑ 40%.", "reference": "doi:10.2165/00003088-200038060-00001"}
+      {
+        "with": "ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Mirtazapine AUC ↑ 50%, Cmax ↑ 40%.",
+        "reference": "doi:10.2165/00003088-200038060-00001"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs show modestly higher mirtazapine exposure; clinically minor.",
       "reference": "doi:10.2165/00003088-200038060-00001"
     },
@@ -456,12 +1515,20 @@
       "weight": null,
       "renal_or_hepatic": "Severe renal impairment: clearance ↓ ~50%."
     },
-    "tags_to_add": ["NaSSA", "H1-strong-antagonist", "5-HT3-antagonist", "minimal-sexual-dysfunction"],
+    "tags_to_add": [
+      "NaSSA",
+      "H1-strong-antagonist",
+      "5-HT3-antagonist",
+      "minimal-sexual-dysfunction"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Dose-dependent sedation paradox: 15 mg is more sedating than 30 mg because at higher doses α2-mediated noradrenergic alerting offsets H1-mediated sedation. Frequent off-label use as a sleep aid uses the low end.",
-    "references_consulted": ["pmid:10333982", "doi:10.2165/00003088-200038060-00001"]
+    "references_consulted": [
+      "pmid:10333982",
+      "doi:10.2165/00003088-200038060-00001"
+    ]
   },
   {
     "name": "Olanzapine",
@@ -473,58 +1540,321 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["D2", "5-HT2A", "H1", "M1-M5", "α1-adrenergic"],
+      "primary_targets": [
+        "D2",
+        "5-HT2A",
+        "H1",
+        "M1-M5",
+        "α1-adrenergic"
+      ],
       "binding": [
-        {"target": "D2", "ki_nm": 11, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human D2", "radioligand_or_probe": "[3H]-spiperone", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "Bymaster et al. 1996 — definitive olanzapine receptor profile."},
-        {"target": "D1", "ki_nm": 31, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human D1", "radioligand_or_probe": "[3H]-SCH23390", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": null},
-        {"target": "D3", "ki_nm": 49, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human D3", "radioligand_or_probe": "[3H]-spiperone", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": null},
-        {"target": "D4", "ki_nm": 27, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human D4", "radioligand_or_probe": "[3H]-spiperone", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": null},
-        {"target": "5-HT2A", "ki_nm": 4, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human 5-HT2A", "radioligand_or_probe": "[3H]-ketanserin", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "5-HT2A:D2 ratio of ~3:1 is the canonical 'atypical' fingerprint."},
-        {"target": "5-HT2C", "ki_nm": 11, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human 5-HT2C", "radioligand_or_probe": "[3H]-mesulergine", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "5-HT2C antagonism is a key driver of olanzapine-induced weight gain and metabolic syndrome."},
-        {"target": "H1", "ki_nm": 7, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human H1", "radioligand_or_probe": "[3H]-pyrilamine", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "Major contributor to sedation and weight gain."},
-        {"target": "M1", "ki_nm": 1.9, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human M1", "radioligand_or_probe": "[3H]-NMS", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "Strong M1 antagonism. Anticholinergic effects, but also protects against EPS."},
-        {"target": "M3", "ki_nm": 13, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human M3", "radioligand_or_probe": "[3H]-NMS", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "M3 antagonism on pancreatic β-cells implicated in insulin secretion impairment and type 2 diabetes risk."},
-        {"target": "α1-adrenergic", "ki_nm": 19, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "human", "tissue_or_cell": "cloned human α1", "radioligand_or_probe": "[3H]-prazosin", "assay_buffer_notes": null, "reference": "pmid:8822531", "is_review": false, "notes": "Orthostatic hypotension."}
+        {
+          "target": "D2",
+          "ki_nm": 11,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human D2",
+          "radioligand_or_probe": "[3H]-spiperone",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "Bymaster et al. 1996 — definitive olanzapine receptor profile."
+        },
+        {
+          "target": "D1",
+          "ki_nm": 31,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human D1",
+          "radioligand_or_probe": "[3H]-SCH23390",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "D3",
+          "ki_nm": 49,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human D3",
+          "radioligand_or_probe": "[3H]-spiperone",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "D4",
+          "ki_nm": 27,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human D4",
+          "radioligand_or_probe": "[3H]-spiperone",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 4,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT2A",
+          "radioligand_or_probe": "[3H]-ketanserin",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "5-HT2A:D2 ratio of ~3:1 is the canonical 'atypical' fingerprint."
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 11,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT2C",
+          "radioligand_or_probe": "[3H]-mesulergine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "5-HT2C antagonism is a key driver of olanzapine-induced weight gain and metabolic syndrome."
+        },
+        {
+          "target": "H1",
+          "ki_nm": 7,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H1",
+          "radioligand_or_probe": "[3H]-pyrilamine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "Major contributor to sedation and weight gain."
+        },
+        {
+          "target": "M1",
+          "ki_nm": 1.9,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "Strong M1 antagonism. Anticholinergic effects, but also protects against EPS."
+        },
+        {
+          "target": "M3",
+          "ki_nm": 13,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M3",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "M3 antagonism on pancreatic β-cells implicated in insulin secretion impairment and type 2 diabetes risk."
+        },
+        {
+          "target": "α1-adrenergic",
+          "ki_nm": 19,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human α1",
+          "radioligand_or_probe": "[3H]-prazosin",
+          "assay_buffer_notes": null,
+          "reference": "pmid:8822531",
+          "is_review": false,
+          "notes": "Orthostatic hypotension."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "5-HT2A antagonism enhances frontal-cortex DA release while D2 blockade reduces mesolimbic DA — the classic 'atypical' separation of antipsychotic from EPS effect.",
       "neuroimaging": [
-        {"modality": "PET", "finding": "10 mg/day olanzapine produces ~63% striatal D2 occupancy ([11C]-raclopride) and >85% 5-HT2A occupancy ([18F]-setoperone). 20 mg/day pushes D2 to ~80%, above which EPS risk rises sharply.", "reference": "pmid:8981383"},
-        {"modality": "PET", "finding": "M2 muscarinic occupancy in patients on therapeutic doses ~40-60% ([123I]-IQNB).", "reference": "pmid:10617464"}
+        {
+          "modality": "PET",
+          "finding": "10 mg/day olanzapine produces ~63% striatal D2 occupancy ([11C]-raclopride) and >85% 5-HT2A occupancy ([18F]-setoperone). 20 mg/day pushes D2 to ~80%, above which EPS risk rises sharply.",
+          "reference": "pmid:8981383"
+        },
+        {
+          "modality": "PET",
+          "finding": "M2 muscarinic occupancy in patients on therapeutic doses ~40-60% ([123I]-IQNB).",
+          "reference": "pmid:10617464"
+        }
       ]
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 60, "cmax_ng_per_ml": 18, "tmax_min": 360, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1980, "vd_l_per_kg": 16.4, "clearance_ml_per_min_per_kg": 0.4, "protein_binding_pct": 93, "dose_in_study_mg": 10, "subject_n": null, "subject_demographics": "Healthy adults", "reference": "doi:10.2165/00003088-199937030-00001"},
-        {"route": "intramuscular", "bioavailability_pct": null, "cmax_ng_per_ml": 60, "tmax_min": 30, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1980, "vd_l_per_kg": null, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": null, "dose_in_study_mg": 10, "subject_n": null, "subject_demographics": "Used for acute agitation", "reference": "doi:10.2165/00003088-199937030-00001"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 60,
+          "cmax_ng_per_ml": 18,
+          "tmax_min": 360,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1980,
+          "vd_l_per_kg": 16.4,
+          "clearance_ml_per_min_per_kg": 0.4,
+          "protein_binding_pct": 93,
+          "dose_in_study_mg": 10,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults",
+          "reference": "doi:10.2165/00003088-199937030-00001"
+        },
+        {
+          "route": "intramuscular",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 60,
+          "tmax_min": 30,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1980,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 10,
+          "subject_n": null,
+          "subject_demographics": "Used for acute agitation",
+          "reference": "doi:10.2165/00003088-199937030-00001"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "UGT1A4", "fraction_of_clearance_pct": 45, "metabolite_name": "olanzapine-10-N-glucuronide", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "doi:10.2165/00003088-199937030-00001"},
-      {"enzyme": "CYP1A2", "fraction_of_clearance_pct": 15, "metabolite_name": "4'-N-desmethylolanzapine", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "doi:10.2165/00003088-199937030-00001"},
-      {"enzyme": "FMO3", "fraction_of_clearance_pct": 10, "metabolite_name": "olanzapine N-oxide", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "doi:10.2165/00003088-199937030-00001"}
+      {
+        "enzyme": "UGT1A4",
+        "fraction_of_clearance_pct": 45,
+        "metabolite_name": "olanzapine-10-N-glucuronide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.2165/00003088-199937030-00001"
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": 15,
+        "metabolite_name": "4'-N-desmethylolanzapine",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.2165/00003088-199937030-00001"
+      },
+      {
+        "enzyme": "FMO3",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "olanzapine N-oxide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.2165/00003088-199937030-00001"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "fluvoxamine", "mechanism": "CYP1A2 inhibition", "ki_um": null, "clinical_effect": "Olanzapine AUC ↑ ~2×; dose reduction recommended.", "reference": "doi:10.2165/00003088-199937030-00001"},
-      {"with": "tobacco smoke", "mechanism": "CYP1A2 induction", "ki_um": null, "clinical_effect": "Smokers require ~30-40% higher dose; abrupt smoking cessation → toxicity risk.", "reference": "doi:10.2165/00003088-199937030-00001"},
-      {"with": "carbamazepine", "mechanism": "CYP1A2 induction", "ki_um": null, "clinical_effect": "Olanzapine AUC ↓ ~50%.", "reference": "doi:10.2165/00003088-199937030-00001"}
+      {
+        "with": "fluvoxamine",
+        "mechanism": "CYP1A2 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Olanzapine AUC ↑ ~2×; dose reduction recommended.",
+        "reference": "doi:10.2165/00003088-199937030-00001"
+      },
+      {
+        "with": "tobacco smoke",
+        "mechanism": "CYP1A2 induction",
+        "ki_um": null,
+        "clinical_effect": "Smokers require ~30-40% higher dose; abrupt smoking cessation → toxicity risk.",
+        "reference": "doi:10.2165/00003088-199937030-00001"
+      },
+      {
+        "with": "carbamazepine",
+        "mechanism": "CYP1A2 induction",
+        "ki_um": null,
+        "clinical_effect": "Olanzapine AUC ↓ ~50%.",
+        "reference": "doi:10.2165/00003088-199937030-00001"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP1A2", "UGT1A4"],
+      "relevant_genes": [
+        "CYP1A2",
+        "UGT1A4"
+      ],
       "phenotype_effects": "An added effect of the CYP1A2*1F (rs762551) allele on systemic olanzapine exposure could not be verified; CYP1A1/CYP1A2 rs2472297 and AHR rs4410790 track CYP1A2-mediated metabolism but are of minor quantitative importance for systemic exposure.",
       "reference": "pmid:23492908"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "D2 supersensitivity may develop with chronic use → tardive dyskinesia risk (cumulative >1 year).",
-      "cross_tolerance": ["clozapine", "quetiapine"],
+      "cross_tolerance": [
+        "clozapine",
+        "quetiapine"
+      ],
       "withdrawal_syndrome": "Cholinergic rebound (nausea, vomiting, diarrhea, insomnia) due to abrupt unmasking of muscarinic activity. Dyskinesia possible.",
       "reference": "doi:10.1093/schbul/sbi034"
     },
     "off_targets": [
-      {"target": "M3 (pancreatic)", "ki_or_ic50_nm": 13, "concern_level": "high", "clinical_consequence": "Insulin secretion impairment → type 2 diabetes (independent of weight gain).", "reference": "pmid:8822531"}
+      {
+        "target": "M3 (pancreatic)",
+        "ki_or_ic50_nm": 13,
+        "concern_level": "high",
+        "clinical_consequence": "Insulin secretion impairment → type 2 diabetes (independent of weight gain).",
+        "reference": "pmid:8822531"
+      }
     ],
     "demographic_differences": {
       "sex": "Women have ~30% lower clearance than men.",
@@ -532,16 +1862,29 @@
       "weight": null,
       "renal_or_hepatic": "Minor changes."
     },
-    "tags_to_add": ["atypical-antipsychotic", "high-weight-gain", "diabetogenic", "anticholinergic", "5-HT2A:D2-ratio-3:1"],
+    "tags_to_add": [
+      "atypical-antipsychotic",
+      "high-weight-gain",
+      "diabetogenic",
+      "anticholinergic",
+      "5-HT2A:D2-ratio-3:1"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Combines highest weight-gain liability among atypicals (H1 + 5-HT2C + M3) with potent antipsychotic efficacy approaching clozapine — the classic efficacy/metabolic trade-off.",
-    "references_consulted": ["pmid:8822531", "doi:10.2165/00003088-199937030-00001", "pmid:8981383"]
+    "references_consulted": [
+      "pmid:8822531",
+      "doi:10.2165/00003088-199937030-00001",
+      "pmid:8981383"
+    ]
   },
   {
     "name": "Moclobemide",
-    "aliases_added": ["Aurorix", "Manerix"],
+    "aliases_added": [
+      "Aurorix",
+      "Manerix"
+    ],
     "iupac_name": "4-chloro-N-[2-(morpholin-4-yl)ethyl]benzamide",
     "smiles": "O=C(NCCN1CCOCC1)c1ccc(Cl)cc1",
     "inchikey": "YHXISWVBGDMDLQ-UHFFFAOYSA-N",
@@ -549,9 +1892,28 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["MAO-A"],
+      "primary_targets": [
+        "MAO-A"
+      ],
       "binding": [
-        {"target": "MAO-A", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 6000, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "human brain mitochondria", "radioligand_or_probe": "5-HT deamination", "assay_buffer_notes": null, "reference": "doi:10.2165/00003088-199529050-00002", "is_review": false, "notes": "Reversible competitive MAO-A inhibitor (RIMA). Selectivity ratio MAO-A:MAO-B ~10:1 in vitro, higher in vivo because the reversibility means MAO-B remains available."}
+        {
+          "target": "MAO-A",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 6000,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "human brain mitochondria",
+          "radioligand_or_probe": "5-HT deamination",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.2165/00003088-199529050-00002",
+          "is_review": false,
+          "notes": "Reversible competitive MAO-A inhibitor (RIMA). Selectivity ratio MAO-A:MAO-B ~10:1 in vitro, higher in vivo because the reversibility means MAO-B remains available."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -561,21 +1923,69 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 55, "cmax_ng_per_ml": 1600, "tmax_min": 60, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 90, "vd_l_per_kg": 1.2, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": 50, "dose_in_study_mg": 200, "subject_n": null, "subject_demographics": "Healthy adults; bioavailability increases to ~90% after multiple doses due to autoinhibition", "reference": "doi:10.2165/00003088-199529050-00002"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 55,
+          "cmax_ng_per_ml": 1600,
+          "tmax_min": 60,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 90,
+          "vd_l_per_kg": 1.2,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 50,
+          "dose_in_study_mg": 200,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults; bioavailability increases to ~90% after multiple doses due to autoinhibition",
+          "reference": "doi:10.2165/00003088-199529050-00002"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "CYP2C19", "fraction_of_clearance_pct": null, "metabolite_name": "various morpholinone metabolites", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "pmid:11309556"},
-      {"enzyme": "CYP2D6", "fraction_of_clearance_pct": null, "metabolite_name": "various", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "pmid:11309556"}
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various morpholinone metabolites",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:11309556"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:11309556"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "omeprazole", "mechanism": "CYP2C19 inhibition", "ki_um": null, "clinical_effect": "Moclobemide AUC ↑ ~80% in CYP2C19 EMs; little effect in PMs (already saturated).", "reference": "pmid:11309556"},
-      {"with": "cimetidine", "mechanism": "CYP enzyme inhibition", "ki_um": null, "clinical_effect": "Moclobemide AUC ↑ ~2×.", "reference": "doi:10.2165/00003088-199529050-00002"},
-      {"with": "SSRIs / triptans / meperidine", "mechanism": "Pharmacodynamic — 5-HT excess", "ki_um": null, "clinical_effect": "Serotonin syndrome risk — combinations contraindicated despite reversibility.", "reference": "pmid:7781267"}
+      {
+        "with": "omeprazole",
+        "mechanism": "CYP2C19 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Moclobemide AUC ↑ ~80% in CYP2C19 EMs; little effect in PMs (already saturated).",
+        "reference": "pmid:11309556"
+      },
+      {
+        "with": "cimetidine",
+        "mechanism": "CYP enzyme inhibition",
+        "ki_um": null,
+        "clinical_effect": "Moclobemide AUC ↑ ~2×.",
+        "reference": "doi:10.2165/00003088-199529050-00002"
+      },
+      {
+        "with": "SSRIs / triptans / meperidine",
+        "mechanism": "Pharmacodynamic — 5-HT excess",
+        "ki_um": null,
+        "clinical_effect": "Serotonin syndrome risk — combinations contraindicated despite reversibility.",
+        "reference": "pmid:7781267"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2C19"],
+      "relevant_genes": [
+        "CYP2C19"
+      ],
       "phenotype_effects": "CYP2C19 PMs show ~2× higher AUC at single doses; converges after multiple dosing due to autoinhibition.",
       "reference": "pmid:11309556"
     },
@@ -592,12 +2002,23 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: clearance ↓ ~50%; halve dose."
     },
-    "tags_to_add": ["RIMA", "MAO-A-selective", "tyramine-safe", "CYP2C19-substrate"],
+    "tags_to_add": [
+      "RIMA",
+      "MAO-A-selective",
+      "tyramine-safe",
+      "CYP2C19-substrate"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["precise human MAO-A Ki under physiological conditions"],
+    "data_gaps_remaining": [
+      "precise human MAO-A Ki under physiological conditions"
+    ],
     "notes": "Reversibility is the defining feature — recommended washout to SSRI/MAOI switch is only 24-48 h vs 2 weeks for irreversible MAOIs.",
-    "references_consulted": ["doi:10.2165/00003088-199529050-00002", "pmid:11309556", "pmid:7781267"]
+    "references_consulted": [
+      "doi:10.2165/00003088-199529050-00002",
+      "pmid:11309556",
+      "pmid:7781267"
+    ]
   },
   {
     "name": "Tranylcypromine",
@@ -609,11 +2030,65 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["MAO-A", "MAO-B"],
+      "primary_targets": [
+        "MAO-A",
+        "MAO-B"
+      ],
       "binding": [
-        {"target": "MAO-A", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 200, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "human brain mitochondria", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:28655495", "is_review": true, "notes": "Irreversible covalent inhibitor — forms adduct with FAD cofactor via cyclopropyl ring opening. At low doses (20 mg/d) selective for MAO-A; at higher doses also inhibits MAO-B and gains weak DAT/NET inhibition."},
-        {"target": "MAO-B", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 800, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "human brain mitochondria", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:28655495", "is_review": true, "notes": null},
-        {"target": "LSD1 (KDM1A)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 21000, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "purified LSD1", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:18093142", "is_review": false, "notes": "Off-target epigenetic effect: lysine-specific demethylase 1 inhibition. Scaffold has been re-purposed for LSD1-inhibitor cancer drugs (e.g. iadademstat)."}
+        {
+          "target": "MAO-A",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 200,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "human brain mitochondria",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:28655495",
+          "is_review": true,
+          "notes": "Irreversible covalent inhibitor — forms adduct with FAD cofactor via cyclopropyl ring opening. At low doses (20 mg/d) selective for MAO-A; at higher doses also inhibits MAO-B and gains weak DAT/NET inhibition."
+        },
+        {
+          "target": "MAO-B",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 800,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "human brain mitochondria",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:28655495",
+          "is_review": true,
+          "notes": null
+        },
+        {
+          "target": "LSD1 (KDM1A)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 21000,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "purified LSD1",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:18093142",
+          "is_review": false,
+          "notes": "Off-target epigenetic effect: lysine-specific demethylase 1 inhibition. Scaffold has been re-purposed for LSD1-inhibitor cancer drugs (e.g. iadademstat)."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -623,17 +2098,56 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 50, "cmax_ng_per_ml": 50, "tmax_min": 90, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 120, "vd_l_per_kg": 1.1, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": null, "dose_in_study_mg": 20, "subject_n": null, "subject_demographics": "Healthy adults", "reference": "pmid:28655495"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 50,
+          "cmax_ng_per_ml": 50,
+          "tmax_min": 90,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 120,
+          "vd_l_per_kg": 1.1,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 20,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults",
+          "reference": "pmid:28655495"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "Hepatic (non-CYP)", "fraction_of_clearance_pct": null, "metabolite_name": "4-hydroxytranylcypromine, N-acetyltranylcypromine", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "pmid:11099737"}
+      {
+        "enzyme": "Hepatic (non-CYP)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "4-hydroxytranylcypromine, N-acetyltranylcypromine",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:11099737"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "Tyramine (cheese, wine, fermented foods)", "mechanism": "Pharmacodynamic — inability to deaminate dietary tyramine", "ki_um": null, "clinical_effect": "Hypertensive crisis. 'Cheese reaction' — defining safety issue.", "reference": "pmid:28655495"},
-      {"with": "SSRIs / SNRIs / tramadol / meperidine / dextromethorphan", "mechanism": "Pharmacodynamic — 5-HT excess", "ki_um": null, "clinical_effect": "Serotonin syndrome; contraindicated. 5-week washout from fluoxetine, 2 weeks from other SSRIs required.", "reference": "pmid:28655495"},
-      {"with": "Sympathomimetics (pseudoephedrine, amphetamines, cocaine)", "mechanism": "Pharmacodynamic — unopposed NE/DA release", "ki_um": null, "clinical_effect": "Severe hypertension. Contraindicated.", "reference": "pmid:28655495"}
+      {
+        "with": "Tyramine (cheese, wine, fermented foods)",
+        "mechanism": "Pharmacodynamic — inability to deaminate dietary tyramine",
+        "ki_um": null,
+        "clinical_effect": "Hypertensive crisis. 'Cheese reaction' — defining safety issue.",
+        "reference": "pmid:28655495"
+      },
+      {
+        "with": "SSRIs / SNRIs / tramadol / meperidine / dextromethorphan",
+        "mechanism": "Pharmacodynamic — 5-HT excess",
+        "ki_um": null,
+        "clinical_effect": "Serotonin syndrome; contraindicated. 5-week washout from fluoxetine, 2 weeks from other SSRIs required.",
+        "reference": "pmid:28655495"
+      },
+      {
+        "with": "Sympathomimetics (pseudoephedrine, amphetamines, cocaine)",
+        "mechanism": "Pharmacodynamic — unopposed NE/DA release",
+        "ki_um": null,
+        "clinical_effect": "Severe hypertension. Contraindicated.",
+        "reference": "pmid:28655495"
+      }
     ],
     "pharmacogenetics": {
       "relevant_genes": null,
@@ -642,12 +2156,21 @@
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "MAO enzyme resynthesis ~2 weeks — pharmacodynamic effect outlasts plasma clearance by weeks",
-      "cross_tolerance": ["phenelzine", "selegiline (B-selective)"],
+      "cross_tolerance": [
+        "phenelzine",
+        "selegiline (B-selective)"
+      ],
       "withdrawal_syndrome": "Possible flu-like syndrome, mood crash; rebound monoamine deficits.",
       "reference": "pmid:28655495"
     },
     "off_targets": [
-      {"target": "LSD1 (KDM1A)", "ki_or_ic50_nm": 21000, "concern_level": "low", "clinical_consequence": "Epigenetic effect on H3K4 methylation; not directly therapeutic at antidepressant doses, but the scaffold inspired anti-cancer LSD1 inhibitor program.", "reference": "pmid:18093142"}
+      {
+        "target": "LSD1 (KDM1A)",
+        "ki_or_ic50_nm": 21000,
+        "concern_level": "low",
+        "clinical_consequence": "Epigenetic effect on H3K4 methylation; not directly therapeutic at antidepressant doses, but the scaffold inspired anti-cancer LSD1 inhibitor program.",
+        "reference": "pmid:18093142"
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -655,12 +2178,23 @@
       "weight": null,
       "renal_or_hepatic": "Hepatic impairment: avoid."
     },
-    "tags_to_add": ["irreversible-MAOI", "tyramine-restricted", "LSD1-inhibitor", "amphetamine-scaffold"],
+    "tags_to_add": [
+      "irreversible-MAOI",
+      "tyramine-restricted",
+      "LSD1-inhibitor",
+      "amphetamine-scaffold"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["precise in vivo Ki/Kinact for human MAO-A vs MAO-B"],
+    "data_gaps_remaining": [
+      "precise in vivo Ki/Kinact for human MAO-A vs MAO-B"
+    ],
     "notes": "Structurally amphetamine-like (cyclopropyl-locked phenethylamine), but amphetamine is NOT a metabolite (Baker et al. confirmed via mass spec). Has mild releasing activity in vitro.",
-    "references_consulted": ["pmid:28655495", "pmid:11099737", "pmid:18093142"]
+    "references_consulted": [
+      "pmid:28655495",
+      "pmid:11099737",
+      "pmid:18093142"
+    ]
   },
   {
     "name": "phenelzine",
@@ -672,12 +2206,84 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["MAO-A", "MAO-B", "GABA-T"],
+      "primary_targets": [
+        "MAO-A",
+        "MAO-B",
+        "GABA-T"
+      ],
       "binding": [
-        {"target": "MAO-A", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "human brain", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:26316187", "is_review": false, "notes": "Irreversible non-selective hydrazine MAO inhibitor; phenelzine is both substrate AND inhibitor — unusual."},
-        {"target": "MAO-B", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "human brain", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:33839994", "is_review": true, "notes": null},
-        {"target": "GABA-transaminase (GABA-T)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "rat", "tissue_or_cell": "rat brain", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:7931216", "is_review": false, "notes": "Inhibition via the active metabolite β-phenylethylidenehydrazine (PEH). Raises brain GABA levels — contributes to anxiolytic effect distinct from monoamine actions."},
-        {"target": "alanine transaminase (ALA-T)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "rat", "tissue_or_cell": "rat brain", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "pmid:7931216", "is_review": false, "notes": "Active metabolite raises brain alanine."}
+        {
+          "target": "MAO-A",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "human brain",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:26316187",
+          "is_review": false,
+          "notes": "Irreversible non-selective hydrazine MAO inhibitor; phenelzine is both substrate AND inhibitor — unusual."
+        },
+        {
+          "target": "MAO-B",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "human brain",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:33839994",
+          "is_review": true,
+          "notes": null
+        },
+        {
+          "target": "GABA-transaminase (GABA-T)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:7931216",
+          "is_review": false,
+          "notes": "Inhibition via the active metabolite β-phenylethylidenehydrazine (PEH). Raises brain GABA levels — contributes to anxiolytic effect distinct from monoamine actions."
+        },
+        {
+          "target": "alanine transaminase (ALA-T)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:7931216",
+          "is_review": false,
+          "notes": "Active metabolite raises brain alanine."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -687,31 +2293,81 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": null, "cmax_ng_per_ml": null, "tmax_min": 60, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 90, "vd_l_per_kg": null, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": null, "dose_in_study_mg": 45, "subject_n": null, "subject_demographics": "Healthy adults; phenelzine PK poorly characterised in humans because of its rapid clearance and the dominance of the irreversible PD effect.", "reference": "pmid:1813896"}
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 60,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 90,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 45,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults; phenelzine PK poorly characterised in humans because of its rapid clearance and the dominance of the irreversible PD effect.",
+          "reference": "pmid:1813896"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "MAO (self-inactivating substrate)", "fraction_of_clearance_pct": null, "metabolite_name": "β-phenylethylidenehydrazine (PEH)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:33839994"},
-      {"enzyme": "N-acetyltransferase 2 (NAT2)", "fraction_of_clearance_pct": null, "metabolite_name": "N-acetylphenelzine", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "pmid:7088016"}
+      {
+        "enzyme": "MAO (self-inactivating substrate)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "β-phenylethylidenehydrazine (PEH)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:33839994"
+      },
+      {
+        "enzyme": "N-acetyltransferase 2 (NAT2)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-acetylphenelzine",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:7088016"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "Tyramine", "mechanism": "Pharmacodynamic", "ki_um": null, "clinical_effect": "Hypertensive crisis — classic 'cheese reaction'.", "reference": null},
-      {"with": "SSRIs, SNRIs, tramadol, meperidine, dextromethorphan", "mechanism": "Pharmacodynamic — serotonin syndrome", "ki_um": null, "clinical_effect": "Contraindicated; 2-5 week washout required.", "reference": null}
+      {
+        "with": "Tyramine",
+        "mechanism": "Pharmacodynamic",
+        "ki_um": null,
+        "clinical_effect": "Hypertensive crisis — classic 'cheese reaction'.",
+        "reference": null
+      },
+      {
+        "with": "SSRIs, SNRIs, tramadol, meperidine, dextromethorphan",
+        "mechanism": "Pharmacodynamic — serotonin syndrome",
+        "ki_um": null,
+        "clinical_effect": "Contraindicated; 2-5 week washout required.",
+        "reference": null
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["NAT2"],
+      "relevant_genes": [
+        "NAT2"
+      ],
       "phenotype_effects": "Slow N-acetylators (NAT2 PMs) may show altered phenelzine disposition; clinical significance uncertain.",
       "reference": "pmid:7088016"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "MAO resynthesis ~2-3 weeks",
-      "cross_tolerance": ["tranylcypromine"],
+      "cross_tolerance": [
+        "tranylcypromine"
+      ],
       "withdrawal_syndrome": "Possible delirium, psychosis, rebound depression on abrupt discontinuation.",
       "reference": null
     },
     "off_targets": [
-      {"target": "Vitamin B6 (pyridoxal phosphate)", "ki_or_ic50_nm": null, "concern_level": "moderate", "clinical_consequence": "Hydrazine moiety chelates pyridoxal phosphate; peripheral neuropathy if B6 depleted. Supplementation often recommended.", "reference": null}
+      {
+        "target": "Vitamin B6 (pyridoxal phosphate)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Hydrazine moiety chelates pyridoxal phosphate; peripheral neuropathy if B6 depleted. Supplementation often recommended.",
+        "reference": null
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -719,12 +2375,23 @@
       "weight": null,
       "renal_or_hepatic": "Hepatotoxicity reported (hydrazine compounds historically liver-toxic); contraindicated in liver impairment."
     },
-    "tags_to_add": ["irreversible-MAOI", "GABA-T-inhibitor", "hydrazine-hepatotoxic-risk", "aldehyde-scavenger"],
-    "tags_to_remove": ["no-human-data"],
+    "tags_to_add": [
+      "irreversible-MAOI",
+      "GABA-T-inhibitor",
+      "hydrazine-hepatotoxic-risk",
+      "aldehyde-scavenger"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
     "confidence": "medium",
-    "data_gaps_remaining": ["quantitative human PK Cmax/Vd/AUC due to rapid metabolism and self-inactivation"],
+    "data_gaps_remaining": [
+      "quantitative human PK Cmax/Vd/AUC due to rapid metabolism and self-inactivation"
+    ],
     "notes": "Unique among MAOIs in possessing GABAergic and aldehyde-scavenging activity via its active metabolite PEH. The 'no-human-data' tag in source is incorrect — phenelzine has 60+ years of human clinical use (Nardil).",
-    "references_consulted": ["pmid:7931216"]
+    "references_consulted": [
+      "pmid:7931216"
+    ]
   },
   {
     "name": "Lithium orotate",
@@ -736,39 +2403,152 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["GSK-3β", "inositol monophosphatase (IMPase)", "inositol polyphosphate 1-phosphatase (IPPase)"],
+      "primary_targets": [
+        "GSK-3β",
+        "inositol monophosphatase (IMPase)",
+        "inositol polyphosphate 1-phosphatase (IPPase)"
+      ],
       "binding": [
-        {"target": "GSK-3β", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 2000000, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "purified recombinant GSK-3β", "radioligand_or_probe": null, "assay_buffer_notes": "Mg2+ uncompetitive — Li+ binds the catalytic Mg2+ pocket", "reference": "doi:10.1073/pnas.93.16.8455", "is_review": false, "notes": "Direct Ki ~2 mM is above therapeutic serum lithium (0.6-1.2 mM) — but uncompetitive Mg-binding produces meaningful enzyme inhibition at clinical concentrations through enhanced Akt-mediated Ser9 phosphorylation."},
-        {"target": "GSK-3α", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 3500000, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "purified GSK-3α", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "doi:10.1073/pnas.93.16.8455", "is_review": false, "notes": null},
-        {"target": "Inositol monophosphatase (IMPase)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 800000, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "enzymeInhibitor", "species": "human", "tissue_or_cell": "purified IMPase", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "doi:10.1042/bj2660697", "is_review": false, "notes": "Inositol depletion hypothesis: blocks PIP2 resynthesis → dampens 5-HT2/M1/α1 signalling."}
+        {
+          "target": "GSK-3β",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 2000000,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "purified recombinant GSK-3β",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": "Mg2+ uncompetitive — Li+ binds the catalytic Mg2+ pocket",
+          "reference": "doi:10.1073/pnas.93.16.8455",
+          "is_review": false,
+          "notes": "Direct Ki ~2 mM is above therapeutic serum lithium (0.6-1.2 mM) — but uncompetitive Mg-binding produces meaningful enzyme inhibition at clinical concentrations through enhanced Akt-mediated Ser9 phosphorylation."
+        },
+        {
+          "target": "GSK-3α",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 3500000,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "purified GSK-3α",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1073/pnas.93.16.8455",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "Inositol monophosphatase (IMPase)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 800000,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "purified IMPase",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1042/bj2660697",
+          "is_review": false,
+          "notes": "Inositol depletion hypothesis: blocks PIP2 resynthesis → dampens 5-HT2/M1/α1 signalling."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "GSK-3β inhibition stabilises β-catenin, raises Bcl-2/Mcl-1 (anti-apoptotic), inhibits Tau hyperphosphorylation. Inositol depletion modulates protein kinase C, suppresses cyclic 5-HT2/M1 signalling.",
       "neuroimaging": [
-        {"modality": "MRS", "finding": "Four weeks of lithium increases brain N-acetylaspartate (a marker of neuronal viability) across frontal, temporal, parietal and occipital lobes.", "reference": "pmid:10913502"}
+        {
+          "modality": "MRS",
+          "finding": "Four weeks of lithium increases brain N-acetylaspartate (a marker of neuronal viability) across frontal, temporal, parietal and occipital lobes.",
+          "reference": "pmid:10913502"
+        }
       ]
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 100, "cmax_ng_per_ml": null, "tmax_min": 90, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1260, "vd_l_per_kg": 0.8, "clearance_ml_per_min_per_kg": 0.4, "protein_binding_pct": 0, "dose_in_study_mg": 5, "subject_n": null, "subject_demographics": "Lithium ion PK identical regardless of salt (orotate vs carbonate) per Smith 1976 in rats; human comparison not rigorously established. Orotate salt provides ~3.83 mg elemental Li per 100 mg.", "reference": "pmid:1260219"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 90,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1260,
+          "vd_l_per_kg": 0.8,
+          "clearance_ml_per_min_per_kg": 0.4,
+          "protein_binding_pct": 0,
+          "dose_in_study_mg": 5,
+          "subject_n": null,
+          "subject_demographics": "Lithium ion PK identical regardless of salt (orotate vs carbonate) per Smith 1976 in rats; human comparison not rigorously established. Orotate salt provides ~3.83 mg elemental Li per 100 mg.",
+          "reference": "pmid:1260219"
+        }
       ],
       "concentration_effect": [
-        {"effect": "therapeutic range (bipolar maintenance)", "concentration_unit": "mM (serum)", "threshold": 0.6, "peak_effect": 1.2, "reference": "doi:10.1111/bdi.12609"},
-        {"effect": "toxicity threshold", "concentration_unit": "mM (serum)", "threshold": 1.5, "peak_effect": null, "reference": "doi:10.1111/bdi.12609"}
+        {
+          "effect": "therapeutic range (bipolar maintenance)",
+          "concentration_unit": "mM (serum)",
+          "threshold": 0.6,
+          "peak_effect": 1.2,
+          "reference": "doi:10.1111/bdi.12609"
+        },
+        {
+          "effect": "toxicity threshold",
+          "concentration_unit": "mM (serum)",
+          "threshold": 1.5,
+          "peak_effect": null,
+          "reference": "doi:10.1111/bdi.12609"
+        }
       ]
     },
     "metabolism": [
-      {"enzyme": "none (lithium ion is renally excreted unchanged)", "fraction_of_clearance_pct": 95, "metabolite_name": null, "metabolite_active": null, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:19374461"}
+      {
+        "enzyme": "none (lithium ion is renally excreted unchanged)",
+        "fraction_of_clearance_pct": 95,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:19374461"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "NSAIDs", "mechanism": "Renal — reduced afferent arteriolar prostaglandin signalling reduces lithium clearance", "ki_um": null, "clinical_effect": "Lithium plasma ↑ ~25-50%; toxicity risk.", "reference": "pmid:2258452"},
-      {"with": "thiazide diuretics", "mechanism": "Renal — increased proximal Na reabsorption increases Li retention", "ki_um": null, "clinical_effect": "Lithium ↑ ~25%.", "reference": null},
-      {"with": "ACE inhibitors / ARBs", "mechanism": "Renal hemodynamic", "ki_um": null, "clinical_effect": "Lithium ↑ 25-40%.", "reference": null}
+      {
+        "with": "NSAIDs",
+        "mechanism": "Renal — reduced afferent arteriolar prostaglandin signalling reduces lithium clearance",
+        "ki_um": null,
+        "clinical_effect": "Lithium plasma ↑ ~25-50%; toxicity risk.",
+        "reference": "pmid:2258452"
+      },
+      {
+        "with": "thiazide diuretics",
+        "mechanism": "Renal — increased proximal Na reabsorption increases Li retention",
+        "ki_um": null,
+        "clinical_effect": "Lithium ↑ ~25%.",
+        "reference": null
+      },
+      {
+        "with": "ACE inhibitors / ARBs",
+        "mechanism": "Renal hemodynamic",
+        "ki_um": null,
+        "clinical_effect": "Lithium ↑ 25-40%.",
+        "reference": null
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["GADL1", "GSK3B"],
+      "relevant_genes": [
+        "GADL1",
+        "GSK3B"
+      ],
       "phenotype_effects": "Intronic GADL1 variants (rs17026688/rs17026651) were strongly associated with lithium response in Han Chinese bipolar I patients (Chen 2014, NEJM).",
       "reference": "pmid:24369049"
     },
@@ -779,8 +2559,20 @@
       "reference": "pmid:8498879"
     },
     "off_targets": [
-      {"target": "Thyroid (TSH)", "ki_or_ic50_nm": null, "concern_level": "high", "clinical_consequence": "Hypothyroidism in 5-35% of chronic users; goiter possible.", "reference": null},
-      {"target": "Renal (collecting duct AQP2)", "ki_or_ic50_nm": null, "concern_level": "high", "clinical_consequence": "Nephrogenic diabetes insipidus (impairs vasopressin signalling); chronic kidney disease with long-term use.", "reference": null}
+      {
+        "target": "Thyroid (TSH)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Hypothyroidism in 5-35% of chronic users; goiter possible.",
+        "reference": null
+      },
+      {
+        "target": "Renal (collecting duct AQP2)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Nephrogenic diabetes insipidus (impairs vasopressin signalling); chronic kidney disease with long-term use.",
+        "reference": null
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -788,12 +2580,23 @@
       "weight": null,
       "renal_or_hepatic": "Renal impairment: avoid or significantly reduce. Hepatic impairment: no effect (no hepatic metabolism)."
     },
-    "tags_to_add": ["narrow-therapeutic-index", "renal-excretion", "GSK-3-inhibitor"],
+    "tags_to_add": [
+      "narrow-therapeutic-index",
+      "renal-excretion",
+      "GSK-3-inhibitor"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["rigorous human PK comparison of orotate vs carbonate salt", "evidence that lithium orotate at supplement doses (5-20 mg elemental) reaches clinically meaningful brain concentrations"],
+    "data_gaps_remaining": [
+      "rigorous human PK comparison of orotate vs carbonate salt",
+      "evidence that lithium orotate at supplement doses (5-20 mg elemental) reaches clinically meaningful brain concentrations"
+    ],
     "notes": "Lithium orotate provides ~3.83 mg elemental Li per 100 mg salt vs 18.8 mg from lithium carbonate. Supplement doses (typically 5-20 mg elemental) yield serum lithium typically <0.05 mM — well below the 0.6-1.2 mM therapeutic range for bipolar disorder. Hahnemann's 1976 study found no PK difference between salts; recent Smith/Schrauzer claims of preferential brain uptake of orotate salt are unsubstantiated in controlled studies.",
-    "references_consulted": ["doi:10.1073/pnas.93.16.8455", "pmid:1260219", "doi:10.1111/bdi.12609"]
+    "references_consulted": [
+      "doi:10.1073/pnas.93.16.8455",
+      "pmid:1260219",
+      "doi:10.1111/bdi.12609"
+    ]
   },
   {
     "name": "Lamotrigine",
@@ -805,10 +2608,46 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["Nav1.x (voltage-gated sodium channels)"],
+      "primary_targets": [
+        "Nav1.x (voltage-gated sodium channels)"
+      ],
       "binding": [
-        {"target": "Nav1.2 (voltage-gated Na channel)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 28800, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "channelBlocker", "species": "rat", "tissue_or_cell": "rat brain Nav1.2 in oocytes", "radioligand_or_probe": "patch clamp", "assay_buffer_notes": "IC50 strongly voltage-dependent: 280 μM at -120 mV holding potential, 28.8 μM at -95 mV — use-dependent block of inactivated channels", "reference": "doi:10.1007/BF00373920", "is_review": false, "notes": "Use-dependent / state-dependent — preferentially binds inactivated state. Stabilises Na channel inactivation, reduces glutamate/aspartate release."},
-        {"target": "Nav1.5 (late Na current, cardiac)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 12200, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "channelBlocker", "species": "human", "tissue_or_cell": "HEK293 hNav1.5", "radioligand_or_probe": "patch clamp", "assay_buffer_notes": null, "reference": "doi:10.1016/j.hrthm.2022.07.005", "is_review": false, "notes": "Cardiac Na channel block underlies FDA warning for ventricular arrhythmia in patients with structural heart disease (2020)."}
+        {
+          "target": "Nav1.2 (voltage-gated Na channel)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 28800,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat brain Nav1.2 in oocytes",
+          "radioligand_or_probe": "patch clamp",
+          "assay_buffer_notes": "IC50 strongly voltage-dependent: 280 μM at -120 mV holding potential, 28.8 μM at -95 mV — use-dependent block of inactivated channels",
+          "reference": "doi:10.1007/BF00373920",
+          "is_review": false,
+          "notes": "Use-dependent / state-dependent — preferentially binds inactivated state. Stabilises Na channel inactivation, reduces glutamate/aspartate release."
+        },
+        {
+          "target": "Nav1.5 (late Na current, cardiac)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 12200,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hNav1.5",
+          "radioligand_or_probe": "patch clamp",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.hrthm.2022.07.005",
+          "is_review": false,
+          "notes": "Cardiac Na channel block underlies FDA warning for ventricular arrhythmia in patients with structural heart disease (2020)."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -818,21 +2657,71 @@
     },
     "human_pk": {
       "routes": [
-        {"route": "oral", "bioavailability_pct": 98, "cmax_ng_per_ml": 2000, "tmax_min": 90, "auc_0_inf_ng_h_per_ml": null, "half_life_min": 1740, "vd_l_per_kg": 1.36, "clearance_ml_per_min_per_kg": null, "protein_binding_pct": 55, "dose_in_study_mg": 100, "subject_n": null, "subject_demographics": "Healthy adults; t1/2 29 h monotherapy", "reference": "doi:10.1111/bcp.12984"}
+        {
+          "route": "oral",
+          "bioavailability_pct": 98,
+          "cmax_ng_per_ml": 2000,
+          "tmax_min": 90,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1740,
+          "vd_l_per_kg": 1.36,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 55,
+          "dose_in_study_mg": 100,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults; t1/2 29 h monotherapy",
+          "reference": "doi:10.1111/bcp.12984"
+        }
       ],
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "UGT1A4", "fraction_of_clearance_pct": 75, "metabolite_name": "lamotrigine-2-N-glucuronide", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "doi:10.1111/bcp.12984"},
-      {"enzyme": "UGT2B7", "fraction_of_clearance_pct": 10, "metabolite_name": "minor glucuronide", "metabolite_active": false, "metabolite_potency_vs_parent_pct": 0, "reference": "doi:10.1111/bcp.12984"}
+      {
+        "enzyme": "UGT1A4",
+        "fraction_of_clearance_pct": 75,
+        "metabolite_name": "lamotrigine-2-N-glucuronide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1111/bcp.12984"
+      },
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "minor glucuronide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1111/bcp.12984"
+      }
     ],
     "drug_interactions_pk": [
-      {"with": "valproate", "mechanism": "UGT1A4 inhibition", "ki_um": null, "clinical_effect": "Lamotrigine t1/2 ↑ to ~70 h; AUC ↑ 2× — major SJS risk factor; half all doses when combined.", "reference": "doi:10.1111/bcp.12984"},
-      {"with": "carbamazepine / phenytoin / phenobarbital / rifampicin", "mechanism": "UGT1A4 induction", "ki_um": null, "clinical_effect": "Lamotrigine t1/2 ↓ to ~14 h; AUC ↓ 50% — double dose typically needed.", "reference": "doi:10.1111/bcp.12984"},
-      {"with": "ethinyl estradiol (combined oral contraceptive)", "mechanism": "UGT1A4 induction", "ki_um": null, "clinical_effect": "Lamotrigine clearance ↑ ~50% during active pill weeks; spikes during pill-free week.", "reference": "doi:10.1111/bcp.12984"}
+      {
+        "with": "valproate",
+        "mechanism": "UGT1A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Lamotrigine t1/2 ↑ to ~70 h; AUC ↑ 2× — major SJS risk factor; half all doses when combined.",
+        "reference": "doi:10.1111/bcp.12984"
+      },
+      {
+        "with": "carbamazepine / phenytoin / phenobarbital / rifampicin",
+        "mechanism": "UGT1A4 induction",
+        "ki_um": null,
+        "clinical_effect": "Lamotrigine t1/2 ↓ to ~14 h; AUC ↓ 50% — double dose typically needed.",
+        "reference": "doi:10.1111/bcp.12984"
+      },
+      {
+        "with": "ethinyl estradiol (combined oral contraceptive)",
+        "mechanism": "UGT1A4 induction",
+        "ki_um": null,
+        "clinical_effect": "Lamotrigine clearance ↑ ~50% during active pill weeks; spikes during pill-free week.",
+        "reference": "doi:10.1111/bcp.12984"
+      }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["UGT1A4", "HLA-B*15:02", "HLA-A*31:01"],
+      "relevant_genes": [
+        "UGT1A4",
+        "HLA-B*15:02",
+        "HLA-A*31:01"
+      ],
       "phenotype_effects": "HLA-B*15:02 carriers (predominantly Han Chinese, SE Asian) have ~1000× higher SJS/TEN risk — pre-prescription testing recommended in these populations. HLA-A*31:01 also confers risk in European populations. UGT1A4*2/*3 alleles affect clearance.",
       "reference": "doi:10.1038/nature11147"
     },
@@ -843,8 +2732,20 @@
       "reference": null
     },
     "off_targets": [
-      {"target": "skin (immune-mediated)", "ki_or_ic50_nm": null, "concern_level": "high", "clinical_consequence": "Stevens-Johnson syndrome / toxic epidermal necrolysis in ~1/1000 (epilepsy) to ~1/2500 (bipolar). Slow titration (25 mg×2 wk, 50 mg×2 wk, then up to 100-200 mg) reduces risk roughly 10-fold. Risk amplified by valproate co-administration.", "reference": "doi:10.1056/NEJM199501193320304"},
-      {"target": "cardiac Nav1.5", "ki_or_ic50_nm": 12200, "concern_level": "moderate", "clinical_consequence": "FDA 2020 warning: arrhythmia risk in patients with structural heart disease (Brugada-pattern ECG, conduction disease).", "reference": "doi:10.1016/j.hrthm.2022.07.005"}
+      {
+        "target": "skin (immune-mediated)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Stevens-Johnson syndrome / toxic epidermal necrolysis in ~1/1000 (epilepsy) to ~1/2500 (bipolar). Slow titration (25 mg×2 wk, 50 mg×2 wk, then up to 100-200 mg) reduces risk roughly 10-fold. Risk amplified by valproate co-administration.",
+        "reference": "doi:10.1056/NEJM199501193320304"
+      },
+      {
+        "target": "cardiac Nav1.5",
+        "ki_or_ic50_nm": 12200,
+        "concern_level": "moderate",
+        "clinical_consequence": "FDA 2020 warning: arrhythmia risk in patients with structural heart disease (Brugada-pattern ECG, conduction disease).",
+        "reference": "doi:10.1016/j.hrthm.2022.07.005"
+      }
     ],
     "demographic_differences": {
       "sex": "Women on combined oral contraceptives need ~50% higher doses during active pill weeks.",
@@ -852,12 +2753,22 @@
       "weight": null,
       "renal_or_hepatic": "Severe hepatic impairment: clearance ↓ 50%; severe renal impairment: caution with metabolite accumulation."
     },
-    "tags_to_add": ["sodium-channel-blocker", "use-dependent-block", "UGT1A4-substrate", "SJS-TEN-risk", "HLA-B*15:02-test-required"],
+    "tags_to_add": [
+      "sodium-channel-blocker",
+      "use-dependent-block",
+      "UGT1A4-substrate",
+      "SJS-TEN-risk",
+      "HLA-B*15:02-test-required"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "The slow 6-week titration schedule is non-negotiable for safety, not gradual dose-finding — rapid titration is the dominant SJS/TEN risk factor independent of total dose.",
-    "references_consulted": ["doi:10.1111/bcp.12984", "doi:10.1007/BF00373920", "doi:10.1016/j.hrthm.2022.07.005"]
+    "references_consulted": [
+      "doi:10.1111/bcp.12984",
+      "doi:10.1007/BF00373920",
+      "doi:10.1016/j.hrthm.2022.07.005"
+    ]
   },
   {
     "name": "Rimcazole",
@@ -869,11 +2780,66 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["sigma-1", "sigma-2", "DAT"],
+      "primary_targets": [
+        "sigma-1",
+        "sigma-2",
+        "DAT"
+      ],
       "binding": [
-        {"target": "sigma (combined)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 500, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "antagonist", "species": "rat", "tissue_or_cell": "rat and guinea pig brain membranes", "radioligand_or_probe": "[3H]-(+)-SKF-10047", "assay_buffer_notes": null, "reference": "pmid:2873494", "is_review": false, "notes": "Ferris et al. 1986 — original characterisation. Selective sigma antagonist; ~100× weaker at PCP/NMDA site (IC50 43 μM). No significant μ/δ/κ opioid activity at 10 μM."},
-        {"target": "DAT", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": 600, "intrinsic_activity_pct": null, "reference_agonist": null, "action": "reuptakeInhibitor", "species": "rat", "tissue_or_cell": "rat striatum", "radioligand_or_probe": "[3H]-WIN-35,428", "assay_buffer_notes": null, "reference": "doi:10.1124/jpet.106.105163", "is_review": false, "notes": "Rimcazole is unusual: blocks DAT without producing cocaine-like behavioural effects, possibly due to dual sigma antagonism. Inspired SAR programs for cocaine-abuse treatment."},
-        {"target": "D2 (postsynaptic)", "ki_nm": null, "ki_ci_nm": null, "kd_nm": null, "ec50_nm": null, "ic50_nm": null, "intrinsic_activity_pct": null, "reference_agonist": null, "action": null, "species": "rat", "tissue_or_cell": "rat brain", "radioligand_or_probe": null, "assay_buffer_notes": null, "reference": "doi:10.1002/ddr.430090302", "is_review": false, "notes": "Original antipsychotic mechanism could not be explained by direct D2 blockade (Ferris 1986); negligible postsynaptic dopaminergic effects in vivo."}
+        {
+          "target": "sigma (combined)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 500,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "rat and guinea pig brain membranes",
+          "radioligand_or_probe": "[3H]-(+)-SKF-10047",
+          "assay_buffer_notes": null,
+          "reference": "pmid:2873494",
+          "is_review": false,
+          "notes": "Ferris et al. 1986 — original characterisation. Selective sigma antagonist; ~100× weaker at PCP/NMDA site (IC50 43 μM). No significant μ/δ/κ opioid activity at 10 μM."
+        },
+        {
+          "target": "DAT",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 600,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat striatum",
+          "radioligand_or_probe": "[3H]-WIN-35,428",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.106.105163",
+          "is_review": false,
+          "notes": "Rimcazole is unusual: blocks DAT without producing cocaine-like behavioural effects, possibly due to dual sigma antagonism. Inspired SAR programs for cocaine-abuse treatment."
+        },
+        {
+          "target": "D2 (postsynaptic)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1002/ddr.430090302",
+          "is_review": false,
+          "notes": "Original antipsychotic mechanism could not be explained by direct D2 blockade (Ferris 1986); negligible postsynaptic dopaminergic effects in vivo."
+        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -905,12 +2871,24 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["sigma-antagonist", "DAT-inhibitor", "atypical-mechanism"],
+    "tags_to_add": [
+      "sigma-antagonist",
+      "DAT-inhibitor",
+      "atypical-mechanism"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["human PK data (no published clinical pharmacokinetic studies)", "precise Ki for human sigma-1 vs sigma-2 subtypes", "human metabolism pathway"],
+    "data_gaps_remaining": [
+      "human PK data (no published clinical pharmacokinetic studies)",
+      "precise Ki for human sigma-1 vs sigma-2 subtypes",
+      "human metabolism pathway"
+    ],
     "notes": "Investigational atypical antipsychotic from Burroughs Wellcome that failed Phase III. Of historical interest because it was the first selective sigma antagonist trialed as an antipsychotic, ultimately disproving the sigma-receptor hypothesis of schizophrenia.",
-    "references_consulted": ["pmid:2873494", "doi:10.1002/ddr.430090302", "doi:10.1124/jpet.106.105163"]
+    "references_consulted": [
+      "pmid:2873494",
+      "doi:10.1002/ddr.430090302",
+      "doi:10.1124/jpet.106.105163"
+    ]
   },
   {
     "name": "Befuraline",
@@ -922,7 +2900,11 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["NET", "SERT", "phosphodiesterase"],
+      "primary_targets": [
+        "NET",
+        "SERT",
+        "phosphodiesterase"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -935,7 +2917,14 @@
       "concentration_effect": []
     },
     "metabolism": [
-      {"enzyme": "Hepatic (unspecified)", "fraction_of_clearance_pct": null, "metabolite_name": "benzylpiperazine (BZP)", "metabolite_active": true, "metabolite_potency_vs_parent_pct": null, "reference": "pmid:582130"}
+      {
+        "enzyme": "Hepatic (unspecified)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "benzylpiperazine (BZP)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:582130"
+      }
     ],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
@@ -956,16 +2945,29 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["BZP-metabolite", "non-tricyclic", "phosphodiesterase-inhibitor"],
+    "tags_to_add": [
+      "BZP-metabolite",
+      "non-tricyclic",
+      "phosphodiesterase-inhibitor"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["receptor binding Ki values (not characterised at modern targets)", "human PK", "structural confirmation of mechanism"],
+    "data_gaps_remaining": [
+      "receptor binding Ki values (not characterised at modern targets)",
+      "human PK",
+      "structural confirmation of mechanism"
+    ],
     "notes": "Discontinued German antidepressant (1970s development) at oral 100-300 mg/d. Its major active metabolite benzylpiperazine (BZP) is now better known as a recreational stimulant and Schedule I drug in many jurisdictions — befuraline is essentially a BZP prodrug masked by the benzofuroyl carrier.",
-    "references_consulted": ["pmid:582130", "pmid:4089015"]
+    "references_consulted": [
+      "pmid:582130",
+      "pmid:4089015"
+    ]
   },
   {
     "name": "Medifoxamine",
-    "aliases_added": ["Gerdaxyl"],
+    "aliases_added": [
+      "Gerdaxyl"
+    ],
     "iupac_name": "N,N-dimethyl-2,2-diphenoxyethanamine",
     "smiles": "CN(C)CC(Oc1ccccc1)Oc1ccccc1",
     "inchikey": null,
@@ -973,7 +2975,12 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["DAT", "SERT", "5-HT2A", "5-HT2C"],
+      "primary_targets": [
+        "DAT",
+        "SERT",
+        "5-HT2A",
+        "5-HT2C"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -985,9 +2992,7 @@
       "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": null,
@@ -1001,7 +3006,13 @@
       "reference": null
     },
     "off_targets": [
-      {"target": "Hepatic (idiosyncratic)", "ki_or_ic50_nm": null, "concern_level": "high", "clinical_consequence": "Fulminant hepatitis cases led to withdrawal (Morocco 1999, France 2000). Mechanism likely reactive metabolite via diphenoxy moiety.", "reference": "pmid:1752382"}
+      {
+        "target": "Hepatic (idiosyncratic)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Fulminant hepatitis cases led to withdrawal (Morocco 1999, France 2000). Mechanism likely reactive metabolite via diphenoxy moiety.",
+        "reference": "pmid:1752382"
+      }
     ],
     "demographic_differences": {
       "sex": null,
@@ -1009,16 +3020,28 @@
       "weight": null,
       "renal_or_hepatic": "Withdrawn — do not use."
     },
-    "tags_to_add": ["hepatotoxic", "withdrawn", "diphenoxy-scaffold"],
+    "tags_to_add": [
+      "hepatotoxic",
+      "withdrawn",
+      "diphenoxy-scaffold"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["receptor binding Ki at modern targets", "human PK parameters", "mechanism of hepatotoxicity"],
+    "data_gaps_remaining": [
+      "receptor binding Ki at modern targets",
+      "human PK parameters",
+      "mechanism of hepatotoxicity"
+    ],
     "notes": "Withdrawn 1999-2000 due to hepatotoxicity. No longer clinically available.",
-    "references_consulted": ["pmid:1752382"]
+    "references_consulted": [
+      "pmid:1752382"
+    ]
   },
   {
     "name": "EXP-561",
-    "aliases_added": ["1-amino-4-phenylbicyclo[2.2.2]octane"],
+    "aliases_added": [
+      "1-amino-4-phenylbicyclo[2.2.2]octane"
+    ],
     "iupac_name": "1-amino-4-phenylbicyclo[2.2.2]octane",
     "smiles": "NC12CCC(c3ccccc3)(CC1)CC2",
     "inchikey": null,
@@ -1026,10 +3049,23 @@
     "pubchem_cid": null,
     "class_context_id": "prescription-psychiatrics",
     "pharmacology": {
-      "primary_targets": ["SERT", "NET", "DAT"],
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT"
+      ],
       "binding": [],
       "functional": [
-        {"target": "monoamine uptake (general)", "readout": "synaptosomal uptake inhibition", "ec50_nm": null, "emax_pct": null, "reference_agonist": null, "species": "rat", "cell_system": "rat brain synaptosomes", "reference": "doi:10.1007/BF01252511"}
+        {
+          "target": "monoamine uptake (general)",
+          "readout": "synaptosomal uptake inhibition",
+          "ec50_nm": null,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "rat",
+          "cell_system": "rat brain synaptosomes",
+          "reference": "doi:10.1007/BF01252511"
+        }
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -1060,12 +3096,24 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["triple-reuptake-inhibitor", "bicyclic-amine", "research-chemical", "failed-clinical"],
+    "tags_to_add": [
+      "triple-reuptake-inhibitor",
+      "bicyclic-amine",
+      "research-chemical",
+      "failed-clinical"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Ki at human SERT/NET/DAT", "human PK", "metabolism", "any data more recent than 1970s preclinical work"],
+    "data_gaps_remaining": [
+      "Ki at human SERT/NET/DAT",
+      "human PK",
+      "metabolism",
+      "any data more recent than 1970s preclinical work"
+    ],
     "notes": "DuPont investigational SNDRI from 1960s-70s that failed clinical trials and was never marketed. Structurally a rigid bicyclic phenethylamine analog. Notable for being one of the earliest reported triple-reuptake inhibitors.",
-    "references_consulted": ["doi:10.1007/BF01252511"]
+    "references_consulted": [
+      "doi:10.1007/BF01252511"
+    ]
   },
   {
     "is_class_context": true,

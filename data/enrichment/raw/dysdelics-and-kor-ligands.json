@@ -1,7 +1,9 @@
 [
   {
     "name": "Salvinorin A",
-    "aliases_added": ["Divinorin A"],
+    "aliases_added": [
+      "Divinorin A"
+    ],
     "iupac_name": "methyl (2S,4aR,6aR,7R,9S,10aS,10bR)-9-(acetyloxy)-2-(furan-3-yl)-6a,10b-dimethyl-4,10-dioxododecahydro-2H-benzo[f]isochromene-7-carboxylate",
     "smiles": "CC(=O)O[C@@H]1CC(=O)O[C@@H]2[C@@]1([C@H]3CC[C@@]([C@@H]([C@@]3(C(=O)C2)C)C(=O)OC)C4=COC=C4)C",
     "inchikey": "IGQUDQRTTFBHKS-DXZFCEOZSA-N",
@@ -9,7 +11,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR"],
+      "primary_targets": [
+        "KOR"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -119,7 +123,10 @@
       "biased_agonism": [
         {
           "target": "KOR",
-          "pathways_compared": ["Gαi (cAMP)", "β-arrestin-2"],
+          "pathways_compared": [
+            "Gαi (cAMP)",
+            "β-arrestin-2"
+          ],
           "bias_factor_log": 0,
           "bias_reference_compound": "Salvinorin A is used as the unbiased reference (bias factor = 1) in White/Roth 2015",
           "interpretation": "Salvinorin A recruits both G-protein and β-arrestin pathways with roughly balanced potency; β-arrestin recruitment is implicated in the dysphoric/aversive component shared by all unbiased KOR agonists.",
@@ -259,13 +266,20 @@
     ],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 contributes ~15% of in-vitro metabolism — theoretically PMs could see slightly higher exposure but the dominant clearance pathway is plasma esterase hydrolysis (independent of CYP), so PM/UM status is unlikely to change clinical PK meaningfully.",
       "reference": "pmid:19462483"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Acute desensitisation of KOR within minutes of salvinorin A exposure in HEK293 (β-arrestin-dependent); rapid tachyphylaxis to subjective effects when redosing within tens of minutes is reported anecdotally but not formally quantified in humans.",
-      "cross_tolerance": ["U50488", "U69593", "ketazocine", "other KOR agonists"],
+      "cross_tolerance": [
+        "U50488",
+        "U69593",
+        "ketazocine",
+        "other KOR agonists"
+      ],
       "withdrawal_syndrome": "No physical withdrawal syndrome described; KOR agonists produce dysphoria/anhedonia acutely rather than dependence on cessation.",
       "reference": "pmid:25320048"
     },
@@ -291,10 +305,23 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["KOR-selective", "neoclerodane-diterpene", "non-nitrogenous-opioid", "balanced-agonist-KOR", "rapid-onset", "ultra-short-duration", "dysdelic", "DMN-attenuating"],
+    "tags_to_add": [
+      "KOR-selective",
+      "neoclerodane-diterpene",
+      "non-nitrogenous-opioid",
+      "balanced-agonist-KOR",
+      "rapid-onset",
+      "ultra-short-duration",
+      "dysdelic",
+      "DMN-attenuating"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["Human Vd, CL, AUC, protein binding", "Formal CYP fractional clearance %", "6-hydroxynorsalvinorin metabolite — could not confirm primary literature; salvinorin B is the dominant documented metabolite"],
+    "data_gaps_remaining": [
+      "Human Vd, CL, AUC, protein binding",
+      "Formal CYP fractional clearance %",
+      "6-hydroxynorsalvinorin metabolite — could not confirm primary literature; salvinorin B is the dominant documented metabolite"
+    ],
     "notes": "The only non-nitrogenous opioid agonist known. Smoked: onset <30 s, peak 1–2 min, gone by 15–20 min. Brain Cmax 40 s after IV in baboons, brain t½ ~8 min — explains the short duration despite ~75-min plasma half-life in rodents. Sublingual/buccal needs vehicle (DMSO/PEG); oral inactive (esterase hydrolysis). Phenomenology is mechanistically third-kind: no 5-HT2A, no NMDA — pure KOR agonism with β-arrestin-driven dissociation/dysphoria.",
     "references_consulted": [
       "doi:10.1073/pnas.182234399",
@@ -311,7 +338,6 @@
       "pmid:19053825"
     ]
   },
-
   {
     "name": "Salvinorin B",
     "aliases_added": [],
@@ -322,7 +348,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR (very weak)"],
+      "primary_targets": [
+        "KOR (very weak)"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -367,18 +395,32 @@
       "reference": null
     },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["inactive-metabolite", "synthetic-precursor"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "inactive-metabolite",
+      "synthetic-precursor"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["Precise Ki value at human KOR — most papers simply report >1 µM"],
+    "data_gaps_remaining": [
+      "Precise Ki value at human KOR — most papers simply report >1 µM"
+    ],
     "notes": "C-2 hydroxyl (rather than acetoxy) — confirms the C-2 acyl group as critical for KOR pharmacophore. Useful only as a synthetic scaffold for C-2 modified analogues.",
-    "references_consulted": ["doi:10.1021/jm049438q", "pmid:19462483"]
+    "references_consulted": [
+      "doi:10.1021/jm049438q",
+      "pmid:19462483"
+    ]
   },
-
   {
     "name": "Salvinorin C",
-    "aliases_added": ["2-acetoxysalvinorin A (sometimes used incorrectly)"],
+    "aliases_added": [
+      "2-acetoxysalvinorin A (sometimes used incorrectly)"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -386,12 +428,17 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR (weak)"],
+      "primary_targets": [
+        "KOR (weak)"
+      ],
       "binding": [
         {
           "target": "KOR",
           "ki_nm": 1022,
-          "ki_ci_nm": [760, 1284],
+          "ki_ci_nm": [
+            760,
+            1284
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -413,21 +460,46 @@
       "downstream_signalling": "Minimal in vivo activity reported.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["weak-KOR-agonist"],
-    "tags_to_remove": ["kappa-opioid-agonist"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "weak-KOR-agonist"
+    ],
+    "tags_to_remove": [
+      "kappa-opioid-agonist"
+    ],
     "confidence": "medium",
-    "data_gaps_remaining": ["Human KOR Ki", "Any human in vivo data"],
+    "data_gaps_remaining": [
+      "Human KOR Ki",
+      "Any human in vivo data"
+    ],
     "notes": "Natural minor constituent of S. divinorum. ~250× weaker at KOR than Sal A. No reported human psychoactivity.",
-    "references_consulted": ["doi:10.1021/jm049438q"]
+    "references_consulted": [
+      "doi:10.1021/jm049438q"
+    ]
   },
-
   {
     "name": "Salvinorin D",
     "aliases_added": [],
@@ -438,7 +510,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR (very weak)"],
+      "primary_targets": [
+        "KOR (very weak)"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -465,21 +539,45 @@
       "downstream_signalling": null,
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["inactive-or-near-inactive"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "inactive-or-near-inactive"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Direct human KOR Ki", "Functional data"],
+    "data_gaps_remaining": [
+      "Direct human KOR Ki",
+      "Functional data"
+    ],
     "notes": "Minor diterpene from S. divinorum; original isolation Munro et al. 2003 (J Nat Prod, doi:10.1021/np0205699).",
-    "references_consulted": ["doi:10.1021/jm049438q", "doi:10.1021/np0205699"]
+    "references_consulted": [
+      "doi:10.1021/jm049438q",
+      "doi:10.1021/np0205699"
+    ]
   },
-
   {
     "name": "Salvinorin E",
     "aliases_added": [],
@@ -490,7 +588,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR (very weak)"],
+      "primary_targets": [
+        "KOR (very weak)"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -517,21 +617,44 @@
       "downstream_signalling": null,
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["weak-KOR-agonist"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "weak-KOR-agonist"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Definitive Ki value — literature reports a range from 65 nM to >10 µM depending on assay/source"],
+    "data_gaps_remaining": [
+      "Definitive Ki value — literature reports a range from 65 nM to >10 µM depending on assay/source"
+    ],
     "notes": "Minor S. divinorum diterpene; isolated by Bigham/Munro 2005 (doi:10.1016/j.bmc.2005.05.063 / pmid:16084728).",
-    "references_consulted": ["pmid:16084728", "doi:10.1021/jm049438q"]
+    "references_consulted": [
+      "pmid:16084728",
+      "doi:10.1021/jm049438q"
+    ]
   },
-
   {
     "name": "Salvinorin F",
     "aliases_added": [],
@@ -542,7 +665,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR (weak/none)"],
+      "primary_targets": [
+        "KOR (weak/none)"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -569,21 +694,45 @@
       "downstream_signalling": null,
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["weak-KOR-agonist-or-inactive"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "weak-KOR-agonist-or-inactive"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Quantitative Ki not extracted from primary paper", "Functional data", "All in vivo data"],
+    "data_gaps_remaining": [
+      "Quantitative Ki not extracted from primary paper",
+      "Functional data",
+      "All in vivo data"
+    ],
     "notes": "Minor S. divinorum diterpene. Sal F differs from Sal A in the C-1 keto/C-2 acetoxy region; consistent with the SAR conclusion that Sal A is unusually well-fit to the KOR pharmacophore.",
-    "references_consulted": ["doi:10.1021/np0205699"]
+    "references_consulted": [
+      "doi:10.1021/np0205699"
+    ]
   },
-
   {
     "name": "Divinatorin A",
     "aliases_added": [],
@@ -621,21 +770,46 @@
       "downstream_signalling": null,
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["KOR-inactive-or-near-inactive"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "KOR-inactive-or-near-inactive"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Definitive Ki", "Any functional data", "Human exposure data"],
+    "data_gaps_remaining": [
+      "Definitive Ki",
+      "Any functional data",
+      "Human exposure data"
+    ],
     "notes": "Minor neoclerodane from S. divinorum (Bigham/Munro/Rizzacasa, 2003, pmid:14510607). Pharmacological interest mostly comparative — confirms that the Sal A scaffold is uniquely active.",
-    "references_consulted": ["pmid:14510607", "doi:10.1021/np030313i"]
+    "references_consulted": [
+      "pmid:14510607",
+      "doi:10.1021/np030313i"
+    ]
   },
-
   {
     "name": "Divinatorin B",
     "aliases_added": [],
@@ -673,21 +847,44 @@
       "downstream_signalling": null,
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["KOR-inactive-or-near-inactive"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "KOR-inactive-or-near-inactive"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Definitive Ki", "Functional data"],
+    "data_gaps_remaining": [
+      "Definitive Ki",
+      "Functional data"
+    ],
     "notes": "Minor neoclerodane from S. divinorum. Pharmacology not meaningfully different from divinatorin A — both lack the active Sal A pharmacophore.",
-    "references_consulted": ["pmid:14510607"]
+    "references_consulted": [
+      "pmid:14510607"
+    ]
   },
-
   {
     "name": "Salvinicin A",
     "aliases_added": [],
@@ -698,7 +895,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR (partial agonist)"],
+      "primary_targets": [
+        "KOR (partial agonist)"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -725,21 +924,44 @@
       "downstream_signalling": "Reported as KOR partial agonist (Harding/Tidgewell/Prisinzano).",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["KOR-partial-agonist"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "KOR-partial-agonist"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Numeric Ki and EC50/efficacy %", "Any in vivo data"],
+    "data_gaps_remaining": [
+      "Numeric Ki and EC50/efficacy %",
+      "Any in vivo data"
+    ],
     "notes": "Naturally occurring 12,17-cyclised salvinorin derivative. Pharmacological interest is that the cyclisation reduces full-agonist efficacy → partial agonism at KOR.",
-    "references_consulted": ["pmid:15987194"]
+    "references_consulted": [
+      "pmid:15987194"
+    ]
   },
-
   {
     "name": "Salvinicin B",
     "aliases_added": [],
@@ -750,7 +972,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["MOR (weak antagonist)"],
+      "primary_targets": [
+        "MOR (weak antagonist)"
+      ],
       "binding": [
         {
           "target": "MOR",
@@ -777,24 +1001,50 @@
       "downstream_signalling": "MOR antagonist activity reported. Salvinicin B is notable because it inverts the opioid receptor selectivity of the salvinorin scaffold from KOR-agonist to MOR-antagonist, showing how plastic the scaffold is.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["MOR-antagonist"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-antagonist"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Numeric Ki", "Functional EC50", "Any in vivo"],
+    "data_gaps_remaining": [
+      "Numeric Ki",
+      "Functional EC50",
+      "Any in vivo"
+    ],
     "notes": "Naturally occurring cyclised salvinorin derivative. First non-nitrogenous diterpene to demonstrate MOR antagonism on the salvinorin scaffold.",
-    "references_consulted": ["pmid:15987194"]
+    "references_consulted": [
+      "pmid:15987194"
+    ]
   },
-
   {
     "name": "Herkinorin",
-    "aliases_added": ["Salvinorin B benzoate"],
+    "aliases_added": [
+      "Salvinorin B benzoate"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -802,7 +1052,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["MOR"],
+      "primary_targets": [
+        "MOR"
+      ],
       "binding": [
         {
           "target": "MOR",
@@ -884,7 +1136,10 @@
       "biased_agonism": [
         {
           "target": "MOR",
-          "pathways_compared": ["G-protein (cAMP/MAPK)", "β-arrestin-2 recruitment / receptor internalisation"],
+          "pathways_compared": [
+            "G-protein (cAMP/MAPK)",
+            "β-arrestin-2 recruitment / receptor internalisation"
+          ],
           "bias_factor_log": null,
           "bias_reference_compound": "DAMGO",
           "interpretation": "Originally reported as a strongly G-protein-biased MOR agonist (Groer et al. 2007 — induces MAPK signalling but does not recruit β-arrestin-2 or internalise MOR even with GRK2 overexpression). Later studies (Manglik/Shoichet group) reported similar β-arrestin recruitment to DAMGO depending on assay/cell-system — bias is contested. The original observation made herkinorin a landmark tool compound for MOR-biased agonism research.",
@@ -895,7 +1150,10 @@
       "downstream_signalling": "MOR Gαi/o coupling; G-protein-mediated MAPK activation; minimal β-arrestin-2 recruitment / internalisation in HEK293 + GRK2 assay (Groer 2007); contested by later studies.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [
       {
         "enzyme": "Carboxylesterase (plasma)",
@@ -907,10 +1165,18 @@
       }
     ],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Hypothesised to be slower than morphine — minimal internalisation should mean reduced tolerance development. Not formally measured in humans.",
-      "cross_tolerance": ["morphine", "DAMGO", "other MOR agonists"],
+      "cross_tolerance": [
+        "morphine",
+        "DAMGO",
+        "other MOR agonists"
+      ],
       "withdrawal_syndrome": "Not characterised — no human data.",
       "reference": "pmid:17090705"
     },
@@ -923,18 +1189,35 @@
         "reference": "pmid:23103502"
       }
     ],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["MOR-selective-on-salvinorin-scaffold", "biased-agonist-G-protein-contested", "research-tool-compound"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-selective-on-salvinorin-scaffold",
+      "biased-agonist-G-protein-contested",
+      "research-tool-compound"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Human PK", "Definitive β-arrestin bias factor (literature contested)", "Functional EC50 numerics"],
+    "data_gaps_remaining": [
+      "Human PK",
+      "Definitive β-arrestin bias factor (literature contested)",
+      "Functional EC50 numerics"
+    ],
     "notes": "The exception in the salvinorin family — replacement of the C-2 acetate with benzoate inverts opioid receptor selectivity from KOR to MOR. Originally celebrated as the first G-protein-biased MOR agonist (Groer 2007), this bias claim has been challenged; remains a key reference compound in MOR-biased-agonism discussions.",
-    "references_consulted": ["pmid:17090705"]
+    "references_consulted": [
+      "pmid:17090705"
+    ]
   },
-
   {
     "name": "Mesyl Sal B",
-    "aliases_added": ["22-Methylsulfonyloxy-salvinorin B", "RB-64"],
+    "aliases_added": [
+      "22-Methylsulfonyloxy-salvinorin B",
+      "RB-64"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -942,12 +1225,17 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR"],
+      "primary_targets": [
+        "KOR"
+      ],
       "binding": [
         {
           "target": "KOR",
           "ki_nm": 0.59,
-          "ki_ci_nm": [0.38, 0.80],
+          "ki_ci_nm": [
+            0.38,
+            0.8
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -1006,7 +1294,10 @@
       "biased_agonism": [
         {
           "target": "KOR",
-          "pathways_compared": ["G-protein (cAMP)", "β-arrestin-2 recruitment"],
+          "pathways_compared": [
+            "G-protein (cAMP)",
+            "β-arrestin-2 recruitment"
+          ],
           "bias_factor_log": 1.98,
           "bias_reference_compound": "Salvinorin A (bias factor 1)",
           "interpretation": "Bias factor 96 toward G-protein over β-arrestin-2 (relative to Sal A as the unbiased reference). One of the most strongly G-protein-biased KOR agonists ever reported — the prototype for the 'Gi-biased KOR agonist = non-dysphoric analgesic' hypothesis. In vivo: analgesic without the locomotor incoordination seen with unbiased KOR agonists; retains aversion (so Gi bias does not fully eliminate dysphoria).",
@@ -1017,29 +1308,57 @@
       "downstream_signalling": "Strong Gαi/o-mediated cAMP inhibition and GIRK activation with markedly reduced β-arrestin-2 recruitment and receptor internalisation. Irreversible (covalent) tethering to KOR via the C-22 reactive group → very long-duration KOR activation.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Reduced KOR internalisation compared to unbiased agonists — predicted to develop tolerance more slowly, though formal time-course not in literature.",
-      "cross_tolerance": ["salvinorin A", "U50488", "U69593"],
+      "cross_tolerance": [
+        "salvinorin A",
+        "U50488",
+        "U69593"
+      ],
       "withdrawal_syndrome": null,
       "reference": "doi:10.1124/jpet.114.216820"
     },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biased-agonist-Gi", "irreversible-agonist", "covalent-probe", "longer-acting-than-Sal-A"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biased-agonist-Gi",
+      "irreversible-agonist",
+      "covalent-probe",
+      "longer-acting-than-Sal-A"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["Human exposure data (research compound)", "Numeric in-vivo durations in human"],
+    "data_gaps_remaining": [
+      "Human exposure data (research compound)",
+      "Numeric in-vivo durations in human"
+    ],
     "notes": "Roth-lab covalent KOR probe (Yan et al. 2009). Reactive C-22 (thiocyanate/methanesulfonate) group tethers irreversibly to KOR → very high apparent potency and dramatically extended duration. Landmark proof-of-concept that strongly G-protein-biased KOR agonists can be analgesic with reduced motor side-effects, but still aversive in animals — so KOR-mediated dysphoria is not fully explained by β-arrestin-2 alone.",
-    "references_consulted": ["pmid:19053825", "doi:10.1124/jpet.114.216820"]
+    "references_consulted": [
+      "pmid:19053825",
+      "doi:10.1124/jpet.114.216820"
+    ]
   },
-
   {
     "name": "22-Thiocyanatosalvinorin A",
-    "aliases_added": ["RB-64"],
+    "aliases_added": [
+      "RB-64"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -1047,12 +1366,17 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR"],
+      "primary_targets": [
+        "KOR"
+      ],
       "binding": [
         {
           "target": "KOR",
           "ki_nm": 0.59,
-          "ki_ci_nm": [0.38, 0.80],
+          "ki_ci_nm": [
+            0.38,
+            0.8
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -1093,7 +1417,10 @@
       "biased_agonism": [
         {
           "target": "KOR",
-          "pathways_compared": ["G-protein (cAMP)", "β-arrestin-2"],
+          "pathways_compared": [
+            "G-protein (cAMP)",
+            "β-arrestin-2"
+          ],
           "bias_factor_log": 1.98,
           "bias_reference_compound": "Salvinorin A (set as 1)",
           "interpretation": "Bias factor 96. Sustained G-protein analgesia with markedly reduced β-arrestin-2 recruitment and reduced motor incoordination.",
@@ -1104,24 +1431,56 @@
       "downstream_signalling": "Same as Mesyl Sal B entry — covalent irreversible KOR agonism; very long apparent duration.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["salvinorin A", "U50488"], "withdrawal_syndrome": null, "reference": "doi:10.1124/jpet.114.216820"},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "salvinorin A",
+        "U50488"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": "doi:10.1124/jpet.114.216820"
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biased-agonist-Gi", "irreversible-covalent-agonist", "research-probe"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biased-agonist-Gi",
+      "irreversible-covalent-agonist",
+      "research-probe"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["Human exposure data — research compound only"],
+    "data_gaps_remaining": [
+      "Human exposure data — research compound only"
+    ],
     "notes": "Almost certainly the same compound as the 'Mesyl Sal B / RB-64' input entry; the input list contains both names as separate entries. Treated identically here.",
-    "references_consulted": ["pmid:19053825", "doi:10.1124/jpet.114.216820"]
+    "references_consulted": [
+      "pmid:19053825",
+      "doi:10.1124/jpet.114.216820"
+    ]
   },
-
   {
     "name": "Salvinorin B ethoxymethyl ether",
-    "aliases_added": ["EOM-Sal B", "EOM-SalB", "Salvinorin B ethyl glycol ether"],
+    "aliases_added": [
+      "EOM-Sal B",
+      "EOM-SalB",
+      "Salvinorin B ethyl glycol ether"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -1129,12 +1488,17 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR"],
+      "primary_targets": [
+        "KOR"
+      ],
       "binding": [
         {
           "target": "KOR",
           "ki_nm": 3.1,
-          "ki_ci_nm": [2.7, 3.5],
+          "ki_ci_nm": [
+            2.7,
+            3.5
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -1165,7 +1529,10 @@
       "biased_agonism": [
         {
           "target": "KOR",
-          "pathways_compared": ["G-protein", "β-arrestin / JNK"],
+          "pathways_compared": [
+            "G-protein",
+            "β-arrestin / JNK"
+          ],
           "bias_factor_log": null,
           "bias_reference_compound": "U50488 / Sal A",
           "interpretation": "G-protein-biased in cellular assays. Substitution of C-2 ethoxymethyl ether for the C-2 acetyl group of Sal A reduces JNK stimulation, prevents desensitisation, and gives a monotonic antinociceptive dose-response. Associated with anti-cocaine efficacy with fewer KOR side effects (less anxiogenic/anhedonic).",
@@ -1176,29 +1543,59 @@
       "downstream_signalling": "KOR Gαi/o (cAMP↓, GIRK↑) with reduced β-arrestin-2 recruitment and reduced JNK activation. In MS preclinical models (EAE) shows KOR-dependent disease modification — possibly via myelin-OL-progenitor effects.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Reduced acute desensitisation vs Sal A (Bruchas group — C-2 ether prevents the rapid JNK-mediated KOR desensitisation seen with Sal A).",
-      "cross_tolerance": ["salvinorin A", "MOM Sal B (SymBMS)", "U50488"],
+      "cross_tolerance": [
+        "salvinorin A",
+        "MOM Sal B (SymBMS)",
+        "U50488"
+      ],
       "withdrawal_syndrome": null,
       "reference": "doi:10.1007/s00213-017-4637-2"
     },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biased-agonist-G-protein", "long-duration", "anti-cocaine-preclinical", "EAE-active"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biased-agonist-G-protein",
+      "long-duration",
+      "anti-cocaine-preclinical",
+      "EAE-active"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["Human PK", "Numeric β-arrestin bias factor"],
+    "data_gaps_remaining": [
+      "Human PK",
+      "Numeric β-arrestin bias factor"
+    ],
     "notes": "C-2 ethoxymethyl ether of Sal B — the SAR archetype for trading metabolic lability for longer duration. Increased KOR affinity AND functionally G-protein-biased; among the more interesting therapeutic-candidate Sal analogues, with preclinical activity in cocaine seeking and EAE/MS remyelination.",
-    "references_consulted": ["doi:10.1007/s00213-017-4637-2", "doi:10.3389/fneur.2021.782190"]
+    "references_consulted": [
+      "doi:10.1007/s00213-017-4637-2",
+      "doi:10.3389/fneur.2021.782190"
+    ]
   },
-
   {
     "name": "2-Methoxymethyl-salvinorin B",
-    "aliases_added": ["MOM-Sal B", "SymBMS", "MOM-SalB"],
+    "aliases_added": [
+      "MOM-Sal B",
+      "SymBMS",
+      "MOM-SalB"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -1206,7 +1603,9 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR"],
+      "primary_targets": [
+        "KOR"
+      ],
       "binding": [
         {
           "target": "KOR",
@@ -1244,7 +1643,10 @@
       "downstream_signalling": "Full-agonist KOR activation, ~5–7× more potent than U50488 / Sal A in GTPγS. Internalises and downregulates KOR similarly to Sal A and U50488 — so unlike EOM Sal B or RB-64, MOM Sal B is not biased; it's a balanced KOR full agonist with extended duration.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [
       {
         "enzyme": "Resistant to plasma esterase hydrolysis (vs Sal A acetate)",
@@ -1256,26 +1658,52 @@
       }
     ],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Similar internalisation/downregulation to Sal A and U50488 in vitro.",
-      "cross_tolerance": ["salvinorin A", "U50488", "EOM Sal B"],
+      "cross_tolerance": [
+        "salvinorin A",
+        "U50488",
+        "EOM Sal B"
+      ],
       "withdrawal_syndrome": null,
       "reference": "pmid:18089845"
     },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["balanced-KOR-full-agonist", "long-duration-3h", "designer-drug-encountered-2020"],
-    "tags_to_remove": ["biased-agonist"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "balanced-KOR-full-agonist",
+      "long-duration-3h",
+      "designer-drug-encountered-2020"
+    ],
+    "tags_to_remove": [
+      "biased-agonist"
+    ],
     "confidence": "high",
-    "data_gaps_remaining": ["Human PK/exposure data"],
+    "data_gaps_remaining": [
+      "Human PK/exposure data"
+    ],
     "notes": "Wang/Béguin/Ma 2008 — first widely-cited C-2 ether Sal B analogue. Duration ~2-3 hours in rodents vs <30 min for Sal A. Note this is a balanced (not biased) KOR full agonist, in contrast to the closely related EOM Sal B and RB-64. Encountered as a recreational designer drug from 2020 onwards.",
-    "references_consulted": ["pmid:18089845"]
+    "references_consulted": [
+      "pmid:18089845"
+    ]
   },
-
   {
     "name": "16-Bromo-salvinorin A",
-    "aliases_added": ["16-Br-SalA", "16-Br-Sal A", "16-bromosalvinorin A"],
+    "aliases_added": [
+      "16-Br-SalA",
+      "16-Br-Sal A",
+      "16-bromosalvinorin A"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -1283,12 +1711,17 @@
     "pubchem_cid": null,
     "class_context_id": "neoclerodane-kor-ligands",
     "pharmacology": {
-      "primary_targets": ["KOR"],
+      "primary_targets": [
+        "KOR"
+      ],
       "binding": [
         {
           "target": "KOR",
           "ki_nm": 2.9,
-          "ki_ci_nm": [2.6, 3.2],
+          "ki_ci_nm": [
+            2.6,
+            3.2
+          ],
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
@@ -1329,7 +1762,10 @@
       "biased_agonism": [
         {
           "target": "KOR",
-          "pathways_compared": ["G-protein (cAMP)", "β-arrestin-2"],
+          "pathways_compared": [
+            "G-protein (cAMP)",
+            "β-arrestin-2"
+          ],
           "bias_factor_log": null,
           "bias_reference_compound": "Sal A / 16-ethynyl Sal A",
           "interpretation": "Reported as G-protein-biased KOR agonist, contrasting with the more balanced 16-ethynyl Sal A. Anti-cocaine efficacy without significant effects on locomotion, food reward, learning/memory, anxiety, or depression — supports the hypothesis that KOR G-bias drives the desirable effects.",
@@ -1340,29 +1776,57 @@
       "downstream_signalling": "G-protein-biased KOR agonism with reduced KOR-mediated DAT internalisation effects on dopamine signalling compared to Sal A.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["salvinorin A", "EOM Sal B", "U50488"],
+      "cross_tolerance": [
+        "salvinorin A",
+        "EOM Sal B",
+        "U50488"
+      ],
       "withdrawal_syndrome": null,
       "reference": null
     },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biased-agonist-G-protein", "longer-duration-than-Sal-A", "anti-cocaine-preclinical"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biased-agonist-G-protein",
+      "longer-duration-than-Sal-A",
+      "anti-cocaine-preclinical"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["Human exposure data — research compound only", "Numeric bias factor"],
+    "data_gaps_remaining": [
+      "Human exposure data — research compound only",
+      "Numeric bias factor"
+    ],
     "notes": "C-16 halogenation extends duration (>90 min antinociception in tail-withdrawal vs ~15 min for Sal A) and confers G-protein bias. Preclinical anti-cocaine effects without anxiogenic/anhedonic side effects — one of the most therapeutically interesting Sal A analogues currently.",
-    "references_consulted": ["pmid:37354128", "doi:10.3390/molecules26154526"]
+    "references_consulted": [
+      "pmid:37354128",
+      "doi:10.3390/molecules26154526"
+    ]
   },
-
   {
     "name": "IBOGAINE",
-    "aliases_added": ["iboga", "ibogaine"],
+    "aliases_added": [
+      "iboga",
+      "ibogaine"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -1378,21 +1842,43 @@
       "downstream_signalling": "MISCLASSIFIED FOR THIS GROUP. Ibogaine is an iboga-alkaloid tabernanthe constituent (indole alkaloid, complex polypharmacology at NMDA / κ-opioid / 5-HT2A / 5-HT-transporter / sigma-2 / nAChR α3β4) — it is not a salvinorin neoclerodane diterpene and does not belong in the 'dysdelics and KOR ligands (salvinorin family)' group as a salvinorin sibling. Ibogaine does have weak KOR agonism, but its primary mechanism of action is debated and most studied as a polypharmacological agent. Recommend reassigning to an iboga / atypical-psychedelic group for proper enrichment.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["iboga-alkaloid", "polypharmacological", "should-be-regrouped"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "iboga-alkaloid",
+      "polypharmacological",
+      "should-be-regrouped"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Ibogaine should be enriched by an iboga-alkaloid-focused agent — out of scope for this salvinorin-focused pass."],
+    "data_gaps_remaining": [
+      "Ibogaine should be enriched by an iboga-alkaloid-focused agent — out of scope for this salvinorin-focused pass."
+    ],
     "notes": "MISCLASSIFIED. Ibogaine is included in the input list but is mechanistically and structurally unrelated to the salvinorin neoclerodanes. Not enriching it here; it belongs in an iboga / atypical-psychedelic group.",
     "references_consulted": []
   },
-
   {
     "is_class_context": true,
     "class_context_id": "neoclerodane-kor-ligands",

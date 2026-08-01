@@ -1,7 +1,9 @@
 [
   {
     "name": "Brivaracetam",
-    "aliases_added": ["ucb 34714"],
+    "aliases_added": [
+      "ucb 34714"
+    ],
     "iupac_name": "(2S)-2-[(4R)-2-oxo-4-propylpyrrolidin-1-yl]butanamide",
     "smiles": "CCC[C@H]1CN(C(=O)C1)[C@@H](CC)C(=O)N",
     "inchikey": "MSYKRHVOOPPJKU-BDAKNGLRSA-N",
@@ -9,7 +11,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["SV2A"],
+      "primary_targets": [
+        "SV2A"
+      ],
       "binding": [
         {
           "target": "SV2A",
@@ -112,7 +116,9 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2C19"],
+      "relevant_genes": [
+        "CYP2C19"
+      ],
       "phenotype_effects": "CYP2C19 poor metabolizers (PMs, ~2-4% of Europeans, ~13-23% of East Asians) show ~50% higher steady-state brivaracetam plasma concentrations; CYP2C19 ultrarapid metabolizers (UMs) show modestly lower exposure. FDA label notes that dose reduction may be considered in known PMs.",
       "reference": "NBK500036"
     },
@@ -131,10 +137,17 @@
       "weight": "weight-based dosing in children <50 kg",
       "renal_or_hepatic": "hepatic impairment: ~50-60% AUC increase; reduce dose. Mild-moderate renal impairment: no adjustment. Severe renal impairment without dialysis: limited data."
     },
-    "tags_to_add": ["SV2A-high-affinity", "CYP2C19-substrate", "amidase-hydrolysis", "PET-confirmed-target-engagement"],
+    "tags_to_add": [
+      "SV2A-high-affinity",
+      "CYP2C19-substrate",
+      "amidase-hydrolysis",
+      "PET-confirmed-target-engagement"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["No direct AMPA receptor binding data — confirmed absent rather than missing"],
+    "data_gaps_remaining": [
+      "No direct AMPA receptor binding data — confirmed absent rather than missing"
+    ],
     "notes": "Despite the 'racetam' name, brivaracetam has no AMPA activity; it is an SV2A ligand and structurally a 4-propyl derivative of levetiracetam. Higher SV2A affinity and better brain penetration than levetiracetam translate to faster onset of seizure protection. The behavioral/psychiatric adverse-event profile (irritability, depression) is qualitatively similar to but milder than levetiracetam.",
     "references_consulted": [
       "pmid:18341673",
@@ -144,7 +157,6 @@
       "NBK500036"
     ]
   },
-
   {
     "name": "Coluracetam",
     "aliases_added": [],
@@ -155,7 +167,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["high-affinity choline uptake transporter (CHT1 / SLC5A7)"],
+      "primary_targets": [
+        "high-affinity choline uptake transporter (CHT1 / SLC5A7)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -198,7 +212,11 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["HACU-enhancer", "CHT1-modulator-proposed", "preclinical-only"],
+    "tags_to_add": [
+      "HACU-enhancer",
+      "CHT1-modulator-proposed",
+      "preclinical-only"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [
@@ -208,9 +226,11 @@
       "No human EEG or fMRI signature"
     ],
     "notes": "Originally MKC-231 (Mitsubishi Tanabe); licensed to BrainCells as BCI-540. Failed in MDD Phase 2a (2008-2009). Mechanism (HACU enhancement) is genuinely unusual but rests on a small number of rat papers; the entire human evidence base is essentially absent. Treat all anecdotal human dose ranges with skepticism.",
-    "references_consulted": ["pmid:10543440", "pmid:14617342"]
+    "references_consulted": [
+      "pmid:10543440",
+      "pmid:14617342"
+    ]
   },
-
   {
     "name": "CX-1739",
     "aliases_added": [],
@@ -221,7 +241,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -277,7 +299,9 @@
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["other AMPAkines"],
+      "cross_tolerance": [
+        "other AMPAkines"
+      ],
       "withdrawal_syndrome": null,
       "reference": null
     },
@@ -288,7 +312,10 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["low-impact-AMPAkine", "respiratory-depression-rescue"],
+    "tags_to_add": [
+      "low-impact-AMPAkine",
+      "respiratory-depression-rescue"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [
@@ -302,7 +329,6 @@
       "NCT02735629"
     ]
   },
-
   {
     "name": "CX-1942",
     "aliases_added": [],
@@ -313,7 +339,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (presumed)"],
+      "primary_targets": [
+        "AMPA receptor (presumed)"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -345,14 +373,20 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["preclinical-only", "no-published-binding-data"],
+    "tags_to_add": [
+      "preclinical-only",
+      "no-published-binding-data"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Everything — structure, Ki, EC50, PK, all unpublished"],
+    "data_gaps_remaining": [
+      "Everything — structure, Ki, EC50, PK, all unpublished"
+    ],
     "notes": "Listed in RespireRx pipeline materials as an injectable, water-soluble companion to CX-1739. No peer-reviewed primary literature exists; treat as an effectively unverified compound.",
-    "references_consulted": ["https://respirerx.com/cx1942/"]
+    "references_consulted": [
+      "https://respirerx.com/cx1942/"
+    ]
   },
-
   {
     "name": "CX-516",
     "aliases_added": [],
@@ -363,7 +397,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -423,7 +459,9 @@
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["other AMPAkines"],
+      "cross_tolerance": [
+        "other AMPAkines"
+      ],
       "withdrawal_syndrome": null,
       "reference": null
     },
@@ -442,7 +480,11 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["high-impact-AMPAkine", "deactivation-slower", "abandoned-clinical-development"],
+    "tags_to_add": [
+      "high-impact-AMPAkine",
+      "deactivation-slower",
+      "abandoned-clinical-development"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [
@@ -457,7 +499,6 @@
       "doi:10.1002/syn.22310"
     ]
   },
-
   {
     "name": "CX-546",
     "aliases_added": [],
@@ -468,7 +509,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -512,7 +555,9 @@
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["other AMPAkines"],
+      "cross_tolerance": [
+        "other AMPAkines"
+      ],
       "withdrawal_syndrome": null,
       "reference": null
     },
@@ -523,14 +568,22 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["desensitization-blocker", "TARP-dependent-modulation", "preclinical-only"],
+    "tags_to_add": [
+      "desensitization-blocker",
+      "TARP-dependent-modulation",
+      "preclinical-only"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["No human PK", "No clinical safety signal"],
+    "data_gaps_remaining": [
+      "No human PK",
+      "No clinical safety signal"
+    ],
     "notes": "Cortex research tool; never advanced to clinic. Notable for being one of the first AMPAkines characterized to have GluA-subunit/TARP-dependent modulation magnitude, hinting at the possibility of brain-region selectivity that no compound has yet exploited successfully.",
-    "references_consulted": ["pmid:11640919"]
+    "references_consulted": [
+      "pmid:11640919"
+    ]
   },
-
   {
     "name": "CX-614",
     "aliases_added": [],
@@ -541,7 +594,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -593,17 +648,23 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["high-impact-AMPAkine", "desensitization-blocker", "Gq-coupled", "convulsant-liability"],
+    "tags_to_add": [
+      "high-impact-AMPAkine",
+      "desensitization-blocker",
+      "Gq-coupled",
+      "convulsant-liability"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
-    "data_gaps_remaining": ["No human PK or clinical exposure"],
+    "data_gaps_remaining": [
+      "No human PK or clinical exposure"
+    ],
     "notes": "The high-impact AMPAkine reference compound for the desensitization-block axis. Frequently mislabeled in popular sources — note that 'high impact' refers to the magnitude of receptor modulation and Gq coupling, NOT to the mechanism (which is desensitization block rather than deactivation slowing). Both deactivation-slowers (CX-516) and strong desensitization-blockers (CX-614, cyclothiazide) can be high-impact; the unifying biomarker is Gq/ER-Ca2+ recruitment.",
     "references_consulted": [
       "pmid:10999951",
       "doi:10.1002/syn.22310"
     ]
   },
-
   {
     "name": "CX-691",
     "aliases_added": [],
@@ -614,7 +675,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -677,7 +740,10 @@
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["IDRA-21", "other benzothiadiazine AMPAkines"],
+      "cross_tolerance": [
+        "IDRA-21",
+        "other benzothiadiazine AMPAkines"
+      ],
       "withdrawal_syndrome": null,
       "reference": null
     },
@@ -696,17 +762,24 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["high-impact-AMPAkine", "benzothiadiazine", "schizophrenia-failed", "cardiotoxicity-signal"],
+    "tags_to_add": [
+      "high-impact-AMPAkine",
+      "benzothiadiazine",
+      "schizophrenia-failed",
+      "cardiotoxicity-signal"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Specific cardiac toxicity findings", "Direct AMPA EC50 in recombinant system"],
+    "data_gaps_remaining": [
+      "Specific cardiac toxicity findings",
+      "Direct AMPA EC50 in recombinant system"
+    ],
     "notes": "Co-developed by Cortex and Organon (Schering-Plough, then Merck). Multiple Phase 2 trials in schizophrenia (NCT00425815 — terminated), depression, and elderly cognition. The Wezenberg 2007 paper is striking for showing dissociable memory effects — short-term memory enhanced, episodic memory impaired — within a single dose, hinting at the complex dose-response of AMPA potentiation.",
     "references_consulted": [
       "pmid:17712521",
       "NCT00425815"
     ]
   },
-
   {
     "name": "CX-717",
     "aliases_added": [],
@@ -717,7 +790,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -783,10 +858,17 @@
       "weight": null,
       "renal_or_hepatic": null
     },
-    "tags_to_add": ["low-impact-AMPAkine", "sleep-deprivation-reversal", "ADHD-investigational"],
+    "tags_to_add": [
+      "low-impact-AMPAkine",
+      "sleep-deprivation-reversal",
+      "ADHD-investigational"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Published binding/functional EC50 in standardized assay", "Detailed human PK parameters"],
+    "data_gaps_remaining": [
+      "Published binding/functional EC50 in standardized assay",
+      "Detailed human PK parameters"
+    ],
     "notes": "The most-characterized low-impact AMPAkine; DARPA funded both rodent and human work as a sleep-deprivation countermeasure. 2025 Phase 2A in adult ADHD reported a 'promising therapeutic profile' — RespireRx is the current sponsor.",
     "references_consulted": [
       "pmid:16835355",
@@ -794,7 +876,6 @@
       "pmid:40783159"
     ]
   },
-
   {
     "name": "Dimiracetam",
     "aliases_added": [],
@@ -805,7 +886,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["unknown — proposed glutamatergic modulation"],
+      "primary_targets": [
+        "unknown — proposed glutamatergic modulation"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -819,18 +902,40 @@
     },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["mechanism-unknown", "neuropathic-pain-investigational"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mechanism-unknown",
+      "neuropathic-pain-investigational"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Receptor binding data", "Human PK", "Mechanism validation"],
+    "data_gaps_remaining": [
+      "Receptor binding data",
+      "Human PK",
+      "Mechanism validation"
+    ],
     "notes": "Investigational, mostly characterized in patent literature. Phase 2 work in HIV-associated and chemotherapy-induced peripheral neuropathy. Almost no peer-reviewed primary pharmacology.",
-    "references_consulted": ["DB13018"]
+    "references_consulted": [
+      "DB13018"
+    ]
   },
-
   {
     "name": "Etiracetam",
     "aliases_added": [],
@@ -841,7 +946,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["SV2A (the (S)-enantiomer; levetiracetam)"],
+      "primary_targets": [
+        "SV2A (the (S)-enantiomer; levetiracetam)"
+      ],
       "binding": [
         {
           "target": "SV2A",
@@ -867,21 +974,47 @@
       "downstream_signalling": "See levetiracetam — only the (S)-enantiomer carries SV2A activity. As racemate, half-doses are inactive ballast.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["levetiracetam", "brivaracetam", "seletracetam"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "levetiracetam",
+        "brivaracetam",
+        "seletracetam"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["SV2A-racemate", "(S)-enantiomer-active", "superseded-by-levetiracetam"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SV2A-racemate",
+      "(S)-enantiomer-active",
+      "superseded-by-levetiracetam"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Historical UCB compound (UCB-6474); never marketed as such — supplanted by the (S)-enantiomer (levetiracetam) once chiral resolution showed the (R)-half was inactive.",
-    "references_consulted": ["pmid:15210974"]
+    "references_consulted": [
+      "pmid:15210974"
+    ]
   },
-
   {
     "name": "IDRA-21",
     "aliases_added": [],
@@ -892,7 +1025,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -918,11 +1053,26 @@
         }
       ]
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["CX-691", "other benzothiadiazine AMPAkines"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "CX-691",
+        "other benzothiadiazine AMPAkines"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [
       {
         "target": "extrasynaptic NMDA receptor (indirect)",
@@ -932,18 +1082,31 @@
         "reference": "pmid:15111017"
       }
     ],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["benzothiadiazine", "AMPA-PAM-prototype", "no-human-PK", "research-chemical-popular"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "benzothiadiazine",
+      "AMPA-PAM-prototype",
+      "no-human-PK",
+      "research-chemical-popular"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Human PK", "Clinical safety signal", "CSF concentrations after oral dosing"],
+    "data_gaps_remaining": [
+      "Human PK",
+      "Clinical safety signal",
+      "CSF concentrations after oral dosing"
+    ],
     "notes": "The prototypical benzothiadiazine AMPAkine and progenitor of many later compounds. Popular as a research chemical for self-experimentation; absence of human PK or formal safety data makes any consumer use a leap. Activity is enantioselective — racemic material from grey-market vendors has half-strength.",
     "references_consulted": [
       "pmid:24900368",
       "pmid:15111017"
     ]
   },
-
   {
     "name": "Imuracetam",
     "aliases_added": [],
@@ -954,7 +1117,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["unknown"],
+      "primary_targets": [
+        "unknown"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -962,21 +1127,42 @@
       "downstream_signalling": "Succinimide-acetamide analog of piracetam. Essentially no primary pharmacology literature.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["mechanism-unknown", "preclinical-only"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mechanism-unknown",
+      "preclinical-only"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Everything — no peer-reviewed pharmacology"],
+    "data_gaps_remaining": [
+      "Everything — no peer-reviewed pharmacology"
+    ],
     "notes": "Listed in older racetam-series catalogues. No clinical or preclinical efficacy data of substance in the indexed literature.",
     "references_consulted": []
   },
-
   {
     "name": "Levetiracetam",
     "aliases_added": [],
@@ -987,7 +1173,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["SV2A"],
+      "primary_targets": [
+        "SV2A"
+      ],
       "binding": [
         {
           "target": "SV2A",
@@ -1065,7 +1253,10 @@
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "no SV2A downregulation reported with chronic dosing",
-      "cross_tolerance": ["brivaracetam", "seletracetam"],
+      "cross_tolerance": [
+        "brivaracetam",
+        "seletracetam"
+      ],
       "withdrawal_syndrome": "abrupt withdrawal can precipitate rebound seizures; taper recommended. Behavioral side effects (irritability, aggression, depression) can persist for days after discontinuation in susceptible patients.",
       "reference": "NBK499890"
     },
@@ -1084,7 +1275,12 @@
       "weight": "dose by weight in pediatrics",
       "renal_or_hepatic": "Renal: dose-reduce per CrCl; hemodialysis removes ~50% in 4 h. Hepatic: no adjustment needed except severe (Child-Pugh C: 50% dose reduction)."
     },
-    "tags_to_add": ["SV2A-prototype", "renal-eliminated", "no-CYP-metabolism", "behavioral-AEs"],
+    "tags_to_add": [
+      "SV2A-prototype",
+      "renal-eliminated",
+      "no-CYP-metabolism",
+      "behavioral-AEs"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
@@ -1097,7 +1293,6 @@
       "NBK499890"
     ]
   },
-
   {
     "name": "LY-404187",
     "aliases_added": [],
@@ -1108,7 +1303,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (preferentially GluA flip isoforms)"],
+      "primary_targets": [
+        "AMPA receptor (preferentially GluA flip isoforms)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1128,11 +1325,25 @@
       "downstream_signalling": "High-impact AMPA PAM; binds at the dimer interface of GluA ligand-binding domains. Strong preference for the flip splice variant gives some intrinsic regional/subunit selectivity.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["other biarylpropylsulfonamides"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other biarylpropylsulfonamides"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [
       {
         "target": "Gq / IP3R (class-shared high-impact metabotropic AMPA coupling)",
@@ -1142,18 +1353,34 @@
         "reference": "doi:10.1002/syn.22310"
       }
     ],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biarylpropylsulfonamide", "high-impact-AMPAkine", "flip-selective", "research-tool"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biarylpropylsulfonamide",
+      "high-impact-AMPAkine",
+      "flip-selective",
+      "research-tool"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Quantitative EC50 in standardized recombinant assay", "Any human exposure"],
+    "data_gaps_remaining": [
+      "Quantitative EC50 in standardized recombinant assay",
+      "Any human exposure"
+    ],
     "notes": "Eli Lilly research compound; pure research tool, never entered humans. Often used as the reference high-potency AMPAkine in mechanistic studies.",
-    "references_consulted": ["pmid:23103715"]
+    "references_consulted": [
+      "pmid:23103715"
+    ]
   },
-
   {
     "name": "LY-451646",
-    "aliases_added": ["Pesampator (alternative compound name in series)"],
+    "aliases_added": [
+      "Pesampator (alternative compound name in series)"
+    ],
     "iupac_name": "(2R)-N-[(1R)-1-[4-[4-(2H-tetrazol-5-yl)phenyl]phenyl]propyl]propane-2-sulfonamide",
     "smiles": null,
     "inchikey": null,
@@ -1161,7 +1388,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor"],
+      "primary_targets": [
+        "AMPA receptor"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1181,21 +1410,50 @@
       "downstream_signalling": "Biarylpropylsulfonamide AMPA PAM; high-impact subgroup. Note: LY-451646 (the (R,R) diastereomer) and mibampator (LY-451395, also (R)-enantiomer) are closely related — sources sometimes conflate them.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["LY-404187", "LY-503430", "mibampator"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "LY-404187",
+        "LY-503430",
+        "mibampator"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biarylpropylsulfonamide", "high-impact-AMPAkine", "preclinical"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biarylpropylsulfonamide",
+      "high-impact-AMPAkine",
+      "preclinical"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Human PK", "Direct EC50"],
+    "data_gaps_remaining": [
+      "Human PK",
+      "Direct EC50"
+    ],
     "notes": "Eli Lilly tool compound. Mibampator (LY-451395) — the same enantiomer in a slightly different context — was advanced into Phase 2 for agitation in Alzheimer's but failed efficacy and was discontinued.",
-    "references_consulted": ["pmid:12763094"]
+    "references_consulted": [
+      "pmid:12763094"
+    ]
   },
-
   {
     "name": "LY-503430",
     "aliases_added": [],
@@ -1206,7 +1464,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor"],
+      "primary_targets": [
+        "AMPA receptor"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1226,21 +1486,49 @@
       "downstream_signalling": "Sustained AMPA potentiation → BDNF upregulation → neurotrophic / neurogenic effects in rodents. Class-shared high-impact mechanism with attendant Gq/Ca2+ liability at higher exposures.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["other biarylpropylsulfonamides"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other biarylpropylsulfonamides"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["biarylpropylsulfonamide", "high-impact-AMPAkine", "BDNF-inducer", "preclinical"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "biarylpropylsulfonamide",
+      "high-impact-AMPAkine",
+      "BDNF-inducer",
+      "preclinical"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Human exposure", "Standardized EC50"],
+    "data_gaps_remaining": [
+      "Human exposure",
+      "Standardized EC50"
+    ],
     "notes": "Lilly research tool used heavily in Parkinson's neuroprotection literature. Never advanced past preclinical.",
-    "references_consulted": ["pmid:15084601"]
+    "references_consulted": [
+      "pmid:15084601"
+    ]
   },
-
   {
     "name": "Nebracetam",
     "aliases_added": [],
@@ -1251,7 +1539,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["M1 muscarinic acetylcholine receptor (functional agonist)"],
+      "primary_targets": [
+        "M1 muscarinic acetylcholine receptor (functional agonist)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1271,21 +1561,46 @@
       "downstream_signalling": "Functional M1 agonism + acetylcholine release enhancement in rat cortex/hippocampus. Pursued in Japan in the 1990s for dementia.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["M1-muscarinic-agonist", "cholinergic", "discontinued-development"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "M1-muscarinic-agonist",
+      "cholinergic",
+      "discontinued-development"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Human PK", "Numerical Ki / EC50 at M1"],
+    "data_gaps_remaining": [
+      "Human PK",
+      "Numerical Ki / EC50 at M1"
+    ],
     "notes": "Developed by Boehringer Ingelheim (WEB-1881). Phase 2 dementia trials in Japan in the early 1990s did not lead to approval; abandoned.",
-    "references_consulted": ["pmid:1976437"]
+    "references_consulted": [
+      "pmid:1976437"
+    ]
   },
-
   {
     "name": "Nefiracetam",
     "aliases_added": [],
@@ -1296,7 +1611,11 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["L/N-type voltage-gated Ca2+ channels", "GABA-A receptor (modulator)", "nicotinic ACh receptor (potentiator)"],
+      "primary_targets": [
+        "L/N-type voltage-gated Ca2+ channels",
+        "GABA-A receptor (modulator)",
+        "nicotinic ACh receptor (potentiator)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1349,8 +1668,17 @@
     },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [
       {
         "target": "hepatic enzymes (rat)",
@@ -1360,11 +1688,24 @@
         "reference": "doi:10.1111/j.1527-3458.1996.tb00305.x"
       }
     ],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["Ca-channel-modulator", "nAChR-potentiator", "PKA-dependent", "Japan-only"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "Ca-channel-modulator",
+      "nAChR-potentiator",
+      "PKA-dependent",
+      "Japan-only"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Full human PK parameters (Vd, CL)", "Direct Ki at GABA-A site"],
+    "data_gaps_remaining": [
+      "Full human PK parameters (Vd, CL)",
+      "Direct Ki at GABA-A site"
+    ],
     "notes": "Daiichi compound; reached Japanese approval for post-stroke apathy. Western development stopped due to dog-specific hepatotoxicity. The pleiotropic mechanism makes 'racetam' nearly a misnomer — most racetams don't touch nAChR or Ca channels directly.",
     "references_consulted": [
       "pmid:1611056",
@@ -1372,10 +1713,11 @@
       "doi:10.1111/j.1527-3458.1996.tb00305.x"
     ]
   },
-
   {
     "name": "Org 26576",
-    "aliases_added": ["MK-8777"],
+    "aliases_added": [
+      "MK-8777"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -1383,7 +1725,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (GluA1-4)"],
+      "primary_targets": [
+        "AMPA receptor (GluA1-4)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1425,21 +1769,41 @@
     },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["low-impact-AMPAkine", "failed-MDD-Phase2", "Merck-abandoned"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "low-impact-AMPAkine",
+      "failed-MDD-Phase2",
+      "Merck-abandoned"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Published binding/EC50 in standardized assay", "Phase 2 PK parameters"],
+    "data_gaps_remaining": [
+      "Published binding/EC50 in standardized assay",
+      "Phase 2 PK parameters"
+    ],
     "notes": "Merck inherited from Schering-Plough/Organon. Failed depression Phase 2; no further development. Detailed mechanism characterization in literature is thin compared to LY/CX series.",
     "references_consulted": [
-"NCT00610649",
+      "NCT00610649",
       "NCT00262665"
     ]
   },
-
   {
     "name": "Oxiracetam",
     "aliases_added": [],
@@ -1450,7 +1814,10 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["high-affinity choline uptake (HACU)", "AMPA receptor (very weak)"],
+      "primary_targets": [
+        "high-affinity choline uptake (HACU)",
+        "AMPA receptor (very weak)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1501,8 +1868,20 @@
       }
     ],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": "Effectively none — non-metabolized renally cleared", "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["piracetam", "aniracetam"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": "Effectively none — non-metabolized renally cleared",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "piracetam",
+        "aniracetam"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
     "demographic_differences": {
       "sex": null,
@@ -1510,14 +1889,22 @@
       "weight": null,
       "renal_or_hepatic": "renal impairment dramatically prolongs t½ (8 h → 10-68 h); dose reduction required"
     },
-    "tags_to_add": ["HACU-upregulator", "renal-eliminated", "italy-approved"],
+    "tags_to_add": [
+      "HACU-upregulator",
+      "renal-eliminated",
+      "italy-approved"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Direct receptor binding constants (essentially none exist because target is ill-defined)"],
+    "data_gaps_remaining": [
+      "Direct receptor binding constants (essentially none exist because target is ill-defined)"
+    ],
     "notes": "Approved as cognitive enhancer in Italy and parts of Asia; never in US/UK. Bioavailability 56-82% depending on study. Like piracetam, the molecular target is essentially unknown — the consensus 'mechanism' is downstream cholinergic activation.",
-    "references_consulted": ["pmid:2694231", "doi:10.1007/BF03189650"]
+    "references_consulted": [
+      "pmid:2694231",
+      "doi:10.1007/BF03189650"
+    ]
   },
-
   {
     "name": "PEPA",
     "aliases_added": [],
@@ -1528,7 +1915,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (preferentially GluA flop isoforms)"],
+      "primary_targets": [
+        "AMPA receptor (preferentially GluA flop isoforms)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1548,21 +1937,47 @@
       "downstream_signalling": "Sulfonamide-class AMPAkine; suppresses desensitization. Flop-selectivity is mechanistically important — flop is enriched in adult forebrain, flip in developing brain and cerebellum.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["sulfonamide-AMPAkine", "flop-selective", "desensitization-blocker", "preclinical-only"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "sulfonamide-AMPAkine",
+      "flop-selective",
+      "desensitization-blocker",
+      "preclinical-only"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Direct binding affinity", "Any human exposure"],
+    "data_gaps_remaining": [
+      "Direct binding affinity",
+      "Any human exposure"
+    ],
     "notes": "Sekiguchi/Wada 1997 — third major chemical line of AMPA PAMs (after benzothiadiazines and benzamides). Research tool; never advanced clinically. The flop selectivity is a distinguishing feature exploited in some pharmacological dissection studies.",
-    "references_consulted": ["pmid:9221774"]
+    "references_consulted": [
+      "pmid:9221774"
+    ]
   },
-
   {
     "name": "Phenylpiracetam hydrazide",
     "aliases_added": [],
@@ -1573,7 +1988,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["unknown — proposed dopamine/AMPA modulation"],
+      "primary_targets": [
+        "unknown — proposed dopamine/AMPA modulation"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -1581,14 +1998,35 @@
       "downstream_signalling": "Hydrazide analog of phenylpiracetam, first reported by a Russian group in 1980 as part of an anticonvulsant series. Crosses BBB well per radiolabeled biodistribution in mice. Mechanism is largely speculative; original characterization framed it as an anticonvulsant rather than a stimulant.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["mechanism-unknown", "anticonvulsant-original-purpose", "BBB-penetrant"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mechanism-unknown",
+      "anticonvulsant-original-purpose",
+      "BBB-penetrant"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [
@@ -1599,7 +2037,6 @@
     "notes": "Almost entirely a grey-market research chemical — vendor literature claims a 'longer-acting phenylpiracetam' but no peer-reviewed PK or pharmacology supports that. Original Russian work characterizes it as anticonvulsant, not stimulant. Be skeptical of any claimed potency advantage over phenylpiracetam.",
     "references_consulted": []
   },
-
   {
     "name": "Piracetam",
     "aliases_added": [],
@@ -1610,7 +2047,10 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (very weak allosteric modulator)", "membrane phospholipid interactions"],
+      "primary_targets": [
+        "AMPA receptor (very weak allosteric modulator)",
+        "membrane phospholipid interactions"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1667,10 +2107,17 @@
       }
     ],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": "None — excreted unchanged renally", "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": "None — excreted unchanged renally",
+      "reference": null
+    },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
-      "cross_tolerance": ["aniracetam", "oxiracetam"],
+      "cross_tolerance": [
+        "aniracetam",
+        "oxiracetam"
+      ],
       "withdrawal_syndrome": "no characterized somatic withdrawal; rare reports of psychological rebound",
       "reference": null
     },
@@ -1681,7 +2128,11 @@
       "weight": null,
       "renal_or_hepatic": "renal impairment: dose-adjust (per CrCl)"
     },
-    "tags_to_add": ["membrane-fluidity-modulator-proposed", "renal-eliminated", "century-old-mechanism-unknown"],
+    "tags_to_add": [
+      "membrane-fluidity-modulator-proposed",
+      "renal-eliminated",
+      "century-old-mechanism-unknown"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [
@@ -1693,7 +2144,6 @@
       "pmid:15994140"
     ]
   },
-
   {
     "name": "Pramiracetam",
     "aliases_added": [],
@@ -1704,7 +2154,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["high-affinity choline uptake (HACU)"],
+      "primary_targets": [
+        "high-affinity choline uptake (HACU)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1746,18 +2198,44 @@
     },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["piracetam", "aniracetam", "oxiracetam"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "piracetam",
+        "aniracetam",
+        "oxiracetam"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["HACU-enhancer", "lipophilic-racetam", "brain-penetrant"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "HACU-enhancer",
+      "lipophilic-racetam",
+      "brain-penetrant"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Published human PK with Cmax/Vd/CL", "Mechanism resolution"],
+    "data_gaps_remaining": [
+      "Published human PK with Cmax/Vd/CL",
+      "Mechanism resolution"
+    ],
     "notes": "Originally Parke-Davis (CI-879); marketed in Italy (Pramistar) for cognitive disorders. ~15x more potent than piracetam in animal cognition models — attributed to better brain penetration rather than higher intrinsic activity at any specific target.",
-    "references_consulted": ["pmid:2694231"]
+    "references_consulted": [
+      "pmid:2694231"
+    ]
   },
-
   {
     "name": "Rolziracetam",
     "aliases_added": [],
@@ -1768,7 +2246,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["unknown"],
+      "primary_targets": [
+        "unknown"
+      ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
@@ -1776,21 +2256,42 @@
       "downstream_signalling": "Cyclic pyrrolizine-dione racetam analog. Showed mild cognitive effects in early Parke-Davis animal screens but never characterized mechanistically. Discontinued before meaningful clinical work.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["mechanism-unknown", "discontinued"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mechanism-unknown",
+      "discontinued"
+    ],
     "tags_to_remove": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Essentially everything"],
+    "data_gaps_remaining": [
+      "Essentially everything"
+    ],
     "notes": "Parke-Davis CI-911; older racetam analog with no usable pharmacology data. Should be treated as effectively unstudied.",
     "references_consulted": []
   },
-
   {
     "name": "S-18986",
     "aliases_added": [],
@@ -1801,7 +2302,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor"],
+      "primary_targets": [
+        "AMPA receptor"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1821,11 +2324,26 @@
       "downstream_signalling": "Benzothiadiazine class — likely high-impact mechanistic profile. Servier development program included anti-aging cognitive enhancement angle.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["IDRA-21", "CX-691"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "IDRA-21",
+        "CX-691"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [
       {
         "target": "oxidative stress markers (downstream)",
@@ -1835,15 +2353,30 @@
         "reference": "pmid:18762915"
       }
     ],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["benzothiadiazine", "Servier-tool", "anti-aging-cognitive", "preclinical-only"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "benzothiadiazine",
+      "Servier-tool",
+      "anti-aging-cognitive",
+      "preclinical-only"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Human exposure", "Standardized EC50"],
+    "data_gaps_remaining": [
+      "Human exposure",
+      "Standardized EC50"
+    ],
     "notes": "Servier research tool studied extensively in aged-rat cognitive models. Never reached published human trials. Reference compound for the 'reversal of age-related cognitive decline' AMPAkine paradigm.",
-    "references_consulted": ["pmid:14625032", "pmid:18762915"]
+    "references_consulted": [
+      "pmid:14625032",
+      "pmid:18762915"
+    ]
   },
-
   {
     "name": "Seletracetam",
     "aliases_added": [],
@@ -1854,7 +2387,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["SV2A"],
+      "primary_targets": [
+        "SV2A"
+      ],
       "binding": [
         {
           "target": "SV2A",
@@ -1880,21 +2415,47 @@
       "downstream_signalling": "SV2A modulator — pyrrolidone with difluorovinyl substituent. Discontinued by UCB in favor of brivaracetam despite higher SV2A affinity; reasons not fully disclosed but likely PK/tolerability.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["levetiracetam", "brivaracetam"], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "levetiracetam",
+        "brivaracetam"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["SV2A-high-affinity", "discontinued-development"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SV2A-high-affinity",
+      "discontinued-development"
+    ],
     "tags_to_remove": [],
     "confidence": "medium",
-    "data_gaps_remaining": ["Human Phase 2 efficacy/safety data (limited public disclosure)"],
+    "data_gaps_remaining": [
+      "Human Phase 2 efficacy/safety data (limited public disclosure)"
+    ],
     "notes": "UCB-44212; entered Phase 2 for refractory partial seizures but development halted (~2010) in favor of brivaracetam. Higher SV2A affinity than either levetiracetam or brivaracetam suggests the limiting factor was something other than target engagement.",
-    "references_consulted": ["pmid:17199025"]
+    "references_consulted": [
+      "pmid:17199025"
+    ]
   },
-
   {
     "name": "Sunifiram",
     "aliases_added": [],
@@ -1905,7 +2466,10 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (proposed — indirect evidence only)", "glycine site of NMDA receptor (proposed)"],
+      "primary_targets": [
+        "AMPA receptor (proposed — indirect evidence only)",
+        "glycine site of NMDA receptor (proposed)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1925,15 +2489,38 @@
       "downstream_signalling": "Mechanism of action genuinely uncertain. Authors of the original characterization suggest indirect AMPA potentiation, possibly via glycine-site facilitation of NMDA receptors leading to AMPA insertion. No primary receptor target has ever been identified by direct binding assay.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["mechanism-uncertain", "no-direct-AMPA-binding-shown", "research-chemical-popular"],
-    "tags_to_remove": ["AMPA-PAM"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mechanism-uncertain",
+      "no-direct-AMPA-binding-shown",
+      "research-chemical-popular"
+    ],
+    "tags_to_remove": [
+      "AMPA-PAM"
+    ],
     "confidence": "low",
     "data_gaps_remaining": [
       "Direct binding constant at any receptor",
@@ -1941,9 +2528,11 @@
       "Independent replication of antiamnesic activity outside the original Italian group"
     ],
     "notes": "EXTREMELY IMPORTANT: sunifiram is popularly described as an AMPAkine, but the entire evidence base is from a handful of papers by Romanelli/Galeotti/Pellegrini-Giampietro (DM-235), all using indirect pharmacological inference. No direct AMPA receptor binding has ever been demonstrated. Vendor and grey-market literature dramatically overstates the mechanistic confidence. Treat as a poorly-characterized cognition-enhancement candidate, not as a validated AMPA PAM. The 'AMPA-PAM' tag should be removed from any consumer-facing data presentation.",
-    "references_consulted": ["pmid:14600801", "PMC6741768"]
+    "references_consulted": [
+      "pmid:14600801",
+      "PMC6741768"
+    ]
   },
-
   {
     "name": "Unifiram",
     "aliases_added": [],
@@ -1954,7 +2543,9 @@
     "pubchem_cid": null,
     "class_context_id": "racetams-and-ampakines",
     "pharmacology": {
-      "primary_targets": ["AMPA receptor (proposed — indirect evidence only)"],
+      "primary_targets": [
+        "AMPA receptor (proposed — indirect evidence only)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1974,15 +2565,38 @@
       "downstream_signalling": "Mechanism uncertain — same caveats as sunifiram. Reported 1000x more potent than piracetam in scopolamine-amnesia reversal, but this potency advantage relies on a single research-group's behavioral series.",
       "neuroimaging": []
     },
-    "human_pk": {"routes": [], "concentration_effect": []},
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
     "metabolism": [],
     "drug_interactions_pk": [],
-    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
-    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
     "off_targets": [],
-    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
-    "tags_to_add": ["mechanism-uncertain", "no-direct-AMPA-binding-shown", "preclinical-only"],
-    "tags_to_remove": ["AMPA-PAM"],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mechanism-uncertain",
+      "no-direct-AMPA-binding-shown",
+      "preclinical-only"
+    ],
+    "tags_to_remove": [
+      "AMPA-PAM"
+    ],
     "confidence": "low",
     "data_gaps_remaining": [
       "Direct receptor binding at any target",
@@ -1990,9 +2604,11 @@
       "Independent confirmation of preclinical efficacy outside the original group"
     ],
     "notes": "Same caveats as sunifiram (the two were characterized together by the Romanelli/Galeotti group). Despite frequent vendor classification as 'AMPA PAM,' there is no direct binding evidence. The compound's name and reputation drastically outrun its evidence base.",
-    "references_consulted": ["pmid:14600801", "PMC6741768"]
+    "references_consulted": [
+      "pmid:14600801",
+      "PMC6741768"
+    ]
   },
-
   {
     "is_class_context": true,
     "class_context_id": "racetams-and-ampakines",

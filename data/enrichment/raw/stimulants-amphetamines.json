@@ -22,7 +22,12 @@
   },
   {
     "name": "Amphetamine",
-    "aliases_added": ["α-methylphenethylamine", "Benzedrine", "(±)-amphetamine", "racemic amphetamine"],
+    "aliases_added": [
+      "α-methylphenethylamine",
+      "Benzedrine",
+      "(±)-amphetamine",
+      "racemic amphetamine"
+    ],
     "iupac_name": "(RS)-1-phenylpropan-2-amine",
     "smiles": "CC(N)Cc1ccccc1",
     "inchikey": "KWTSXDURSIMDCE-UHFFFAOYSA-N",
@@ -30,7 +35,13 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "SERT", "TAAR1", "VMAT2"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT",
+        "TAAR1",
+        "VMAT2"
+      ],
       "binding": [
         {
           "target": "TAAR1",
@@ -138,7 +149,10 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6", "FMO3"],
+      "relevant_genes": [
+        "CYP2D6",
+        "FMO3"
+      ],
       "phenotype_effects": "CYP2D6 poor metabolisers show modestly reduced 4-hydroxylation but main clearance is renal — clinical impact is small. CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) prolong amphetamine effects.",
       "reference": "pmid:28910145"
     },
@@ -151,16 +165,34 @@
         "reference": "pmid:25624004"
       }
     ],
-    "tags_to_add": ["TAAR1-agonist", "DA-NE-releaser", "SERT-weak"],
-    "tags_to_remove": ["no-human-data"],
+    "tags_to_add": [
+      "TAAR1-agonist",
+      "DA-NE-releaser",
+      "SERT-weak"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
     "confidence": "high",
-    "data_gaps_remaining": ["Direct human σ1 binding data for racemic amphetamine"],
+    "data_gaps_remaining": [
+      "Direct human σ1 binding data for racemic amphetamine"
+    ],
     "notes": "The 'amphetamine' record in the user database is racemic. In clinical formulations the salt is usually d-isomer (Dexedrine) or 3:1 d/l mixture (Adderall). Pharmacological data above are for d-amphetamine — l-amphetamine has a separate record and is dramatically weaker at DAT but only slightly weaker at NET.",
-    "references_consulted": ["pmid:11071707", "pmid:28910145", "pmid:11459929", "doi:10.1038/sj.npp.1300632"]
+    "references_consulted": [
+      "pmid:11071707",
+      "pmid:28910145",
+      "pmid:11459929",
+      "doi:10.1038/sj.npp.1300632"
+    ]
   },
   {
     "name": "Dextroamphetamine",
-    "aliases_added": ["d-amphetamine", "S-(+)-amphetamine", "Dexedrine", "Zenzedi"],
+    "aliases_added": [
+      "d-amphetamine",
+      "S-(+)-amphetamine",
+      "Dexedrine",
+      "Zenzedi"
+    ],
     "iupac_name": "(2S)-1-phenylpropan-2-amine",
     "smiles": "C[C@H](N)Cc1ccccc1",
     "inchikey": "KWTSXDURSIMDCE-QMMMGPOBSA-N",
@@ -168,7 +200,12 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "TAAR1", "VMAT2"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "TAAR1",
+        "VMAT2"
+      ],
       "binding": [],
       "functional": [
         {
@@ -260,19 +297,30 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "Minor; clearance is renal-dominant. Co-administered CYP2D6 inhibitors prolong effects more than genetic PM status alone.",
       "reference": "pmid:28910145"
     },
-    "tags_to_add": ["TAAR1-agonist", "DA-NE-releaser"],
+    "tags_to_add": [
+      "TAAR1-agonist",
+      "DA-NE-releaser"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Dextroamphetamine is the more clinically used enantiomer; ~3–4× more potent than l-amphetamine on a per-mg basis at DAT, ~1.3× at NET. Adderall is a 3:1 d:l salt mixture intended to provide longer duration (l-amph t1/2 longer).",
-    "references_consulted": ["pmid:11071707", "pmid:28910145", "doi:10.1038/sj.npp.1300632"]
+    "references_consulted": [
+      "pmid:11071707",
+      "pmid:28910145",
+      "doi:10.1038/sj.npp.1300632"
+    ]
   },
   {
     "name": "Dexedrine",
-    "aliases_added": ["d-amphetamine sulfate"],
+    "aliases_added": [
+      "d-amphetamine sulfate"
+    ],
     "iupac_name": "(2S)-1-phenylpropan-2-amine sulfate",
     "smiles": null,
     "inchikey": null,
@@ -280,7 +328,12 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "TAAR1", "VMAT2"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "TAAR1",
+        "VMAT2"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Identical to dextroamphetamine — Dexedrine is the sulfate salt brand."
@@ -297,15 +350,23 @@
       ]
     },
     "metabolism": [],
-    "tags_to_add": ["brand-of-dextroamphetamine"],
+    "tags_to_add": [
+      "brand-of-dextroamphetamine"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Dexedrine is a brand name for d-amphetamine sulfate; pharmacology identical to Dextroamphetamine record.",
-    "references_consulted": ["pmid:28910145"]
+    "references_consulted": [
+      "pmid:28910145"
+    ]
   },
   {
     "name": "(R)-amphetamine",
-    "aliases_added": ["levoamphetamine", "l-amphetamine", "R-(-)-amphetamine"],
+    "aliases_added": [
+      "levoamphetamine",
+      "l-amphetamine",
+      "R-(-)-amphetamine"
+    ],
     "iupac_name": "(2R)-1-phenylpropan-2-amine",
     "smiles": "C[C@@H](N)Cc1ccccc1",
     "inchikey": "KWTSXDURSIMDCE-MRVPVSSYSA-N",
@@ -313,7 +374,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "DAT", "TAAR1"],
+      "primary_targets": [
+        "NET",
+        "DAT",
+        "TAAR1"
+      ],
       "binding": [],
       "functional": [
         {
@@ -361,16 +426,30 @@
         "reference": "pmid:28910145"
       }
     ],
-    "tags_to_add": ["NE-selective-releaser"],
-    "tags_to_remove": ["no-human-data"],
+    "tags_to_add": [
+      "NE-selective-releaser"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "The R-(-)-enantiomer. Has the longest half-life of the amphetamine enantiomers. Selectively releases NE > DA >> 5-HT.",
-    "references_consulted": ["pmid:11071707", "doi:10.1002/syn.20444", "pmid:28910145"]
+    "references_consulted": [
+      "pmid:11071707",
+      "doi:10.1002/syn.20444",
+      "pmid:28910145"
+    ]
   },
   {
     "name": "Adderall",
-    "aliases_added": ["mixed amphetamine salts", "MAS", "MAS-IR", "MAS-XR", "Mydayis"],
+    "aliases_added": [
+      "mixed amphetamine salts",
+      "MAS",
+      "MAS-IR",
+      "MAS-XR",
+      "Mydayis"
+    ],
     "iupac_name": null,
     "smiles": null,
     "inchikey": null,
@@ -378,7 +457,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "TAAR1"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "TAAR1"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Adderall is a 3:1 (d):(l) amphetamine mixture of four salts: amph aspartate monohydrate (25%), amph sulfate (25%, both racemic), d-amph saccharate (25%), d-amph sulfate (25%) — yielding 75% d-amph / 25% l-amph by free base."
@@ -418,19 +501,30 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "Same as parent amphetamine — minor effect from CYP2D6 PM status",
       "reference": "pmid:28910145"
     },
-    "tags_to_add": ["mixed-enantiomer", "ADHD-treatment"],
+    "tags_to_add": [
+      "mixed-enantiomer",
+      "ADHD-treatment"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Brand-name 3:1 d:l amphetamine. Pharmacology is the weighted combination of d- and l-amphetamine records.",
-    "references_consulted": ["pmid:28910145"]
+    "references_consulted": [
+      "pmid:28910145"
+    ]
   },
   {
     "name": "Methamphetamine",
-    "aliases_added": ["N-methylamphetamine", "(±)-methamphetamine", "desoxyephedrine"],
+    "aliases_added": [
+      "N-methylamphetamine",
+      "(±)-methamphetamine",
+      "desoxyephedrine"
+    ],
     "iupac_name": "(RS)-N-methyl-1-phenylpropan-2-amine",
     "smiles": "CNC(C)Cc1ccccc1",
     "inchikey": "MYWUZJCMWCOHBA-UHFFFAOYSA-N",
@@ -438,7 +532,14 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "TAAR1", "σ1", "σ2", "VMAT2"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "TAAR1",
+        "σ1",
+        "σ2",
+        "VMAT2"
+      ],
       "binding": [
         {
           "target": "σ1 (sigma-1)",
@@ -577,7 +678,9 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs show slightly higher meth plasma exposure and lower amphetamine metabolite; small clinical effect.",
       "reference": "doi:10.1124/dmd.30.10.1059"
     },
@@ -590,15 +693,30 @@
         "reference": "pmid:9504281"
       }
     ],
-    "tags_to_add": ["σ1-agonist", "TAAR1-agonist", "neurotoxic-chronic", "DA-NE-releaser"],
+    "tags_to_add": [
+      "σ1-agonist",
+      "TAAR1-agonist",
+      "neurotoxic-chronic",
+      "DA-NE-releaser"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Listed entry is racemic; clinical/illicit material is overwhelmingly d-meth. d-meth is ~3× more DA-potent than d-amphetamine; this and the σ1 component drive its higher abuse potential and chronic neurotoxicity profile.",
-    "references_consulted": ["pmid:11071707", "pmid:11459929", "doi:10.1124/dmd.30.10.1059", "pmid:9504281", "doi:10.1124/pr.116.012799"]
+    "references_consulted": [
+      "pmid:11071707",
+      "pmid:11459929",
+      "doi:10.1124/dmd.30.10.1059",
+      "pmid:9504281",
+      "doi:10.1124/pr.116.012799"
+    ]
   },
   {
     "name": "D-methamphetamine",
-    "aliases_added": ["S-(+)-methamphetamine", "Desoxyn", "methylamphetamine"],
+    "aliases_added": [
+      "S-(+)-methamphetamine",
+      "Desoxyn",
+      "methylamphetamine"
+    ],
     "iupac_name": "(2S)-N-methyl-1-phenylpropan-2-amine",
     "smiles": "CN[C@@H](C)Cc1ccccc1",
     "inchikey": "MYWUZJCMWCOHBA-VIFPVBQESA-N",
@@ -606,7 +724,14 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "SERT", "TAAR1", "σ1", "VMAT2"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT",
+        "TAAR1",
+        "σ1",
+        "VMAT2"
+      ],
       "binding": [],
       "functional": [
         {
@@ -653,14 +778,24 @@
         "reference": "doi:10.1124/dmd.30.10.1059"
       }
     ],
-    "tags_to_add": ["σ1-agonist", "TAAR1-agonist"],
+    "tags_to_add": [
+      "σ1-agonist",
+      "TAAR1-agonist"
+    ],
     "confidence": "high",
     "notes": "The clinical and illicit form. See Methamphetamine record for full data.",
-    "references_consulted": ["pmid:11071707", "doi:10.1124/dmd.30.10.1059"]
+    "references_consulted": [
+      "pmid:11071707",
+      "doi:10.1124/dmd.30.10.1059"
+    ]
   },
   {
     "name": "L-methamphetamine",
-    "aliases_added": ["R-(-)-methamphetamine", "levomethamphetamine", "l-desoxyephedrine"],
+    "aliases_added": [
+      "R-(-)-methamphetamine",
+      "levomethamphetamine",
+      "l-desoxyephedrine"
+    ],
     "iupac_name": "(2R)-N-methyl-1-phenylpropan-2-amine",
     "smiles": "CN[C@H](C)Cc1ccccc1",
     "inchikey": "MYWUZJCMWCOHBA-SECBINFHSA-N",
@@ -668,7 +803,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "α1-adrenergic (indirect)", "DAT (weak)"],
+      "primary_targets": [
+        "NET",
+        "α1-adrenergic (indirect)",
+        "DAT (weak)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -718,15 +857,23 @@
         "reference": "doi:10.1124/dmd.30.10.1059"
       }
     ],
-    "tags_to_add": ["NE-selective", "peripheral-sympathomimetic"],
+    "tags_to_add": [
+      "NE-selective",
+      "peripheral-sympathomimetic"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "notes": "Also a metabolite of selegiline (deprenyl) at therapeutic doses — explains some of selegiline's amphetamine-like effects.",
-    "references_consulted": ["pmid:11071707", "doi:10.1124/dmd.30.10.1059"]
+    "references_consulted": [
+      "pmid:11071707",
+      "doi:10.1124/dmd.30.10.1059"
+    ]
   },
   {
     "name": "DL-methamphetamine",
-    "aliases_added": ["racemic methamphetamine"],
+    "aliases_added": [
+      "racemic methamphetamine"
+    ],
     "iupac_name": "(RS)-N-methyl-1-phenylpropan-2-amine",
     "smiles": "CNC(C)Cc1ccccc1",
     "inchikey": "MYWUZJCMWCOHBA-UHFFFAOYSA-N",
@@ -734,20 +881,34 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "TAAR1"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "TAAR1"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Racemic mixture — pharmacology is the weighted average of d- and l-meth records."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Racemic form. See D-methamphetamine and L-methamphetamine records.",
-    "references_consulted": ["pmid:11071707"]
+    "references_consulted": [
+      "pmid:11071707"
+    ]
   },
   {
     "name": "4-Fluoroamphetamine",
-    "aliases_added": ["4-FA", "para-fluoroamphetamine", "PAL-303", "4-FMP", "Flux"],
+    "aliases_added": [
+      "4-FA",
+      "para-fluoroamphetamine",
+      "PAL-303",
+      "4-FMP",
+      "Flux"
+    ],
     "iupac_name": "(RS)-1-(4-fluorophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1ccc(F)cc1",
     "inchikey": "DGXWNDGLEOIEGT-UHFFFAOYSA-N",
@@ -755,7 +916,12 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "DAT", "SERT", "5-HT2B (weak)"],
+      "primary_targets": [
+        "NET",
+        "DAT",
+        "SERT",
+        "5-HT2B (weak)"
+      ],
       "binding": [
         {
           "target": "5-HT2A",
@@ -841,15 +1007,27 @@
         "reference": "pmid:25624004"
       }
     ],
-    "tags_to_add": ["empathogen-stimulant-hybrid", "5-HT2B-weak"],
+    "tags_to_add": [
+      "empathogen-stimulant-hybrid",
+      "5-HT2B-weak"
+    ],
     "confidence": "high",
-    "data_gaps_remaining": ["TAAR1 EC50 not measured", "Detailed PK in chronic users"],
+    "data_gaps_remaining": [
+      "TAAR1 EC50 not measured",
+      "Detailed PK in chronic users"
+    ],
     "notes": "4-FA is the canonical 'intermediate' fluoroamphetamine. Several Dutch case reports of cardiac events and cerebral haemorrhage at recreational doses.",
-    "references_consulted": ["pmid:17223101"]
+    "references_consulted": [
+      "pmid:17223101"
+    ]
   },
   {
     "name": "4-fa",
-    "aliases_added": ["4-Fluoroamphetamine", "4-FA", "para-fluoroamphetamine"],
+    "aliases_added": [
+      "4-Fluoroamphetamine",
+      "4-FA",
+      "para-fluoroamphetamine"
+    ],
     "iupac_name": "(RS)-1-(4-fluorophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1ccc(F)cc1",
     "inchikey": "DGXWNDGLEOIEGT-UHFFFAOYSA-N",
@@ -857,20 +1035,31 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "DAT", "SERT"],
+      "primary_targets": [
+        "NET",
+        "DAT",
+        "SERT"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "See 4-Fluoroamphetamine record (duplicate entry in source DB)."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Duplicate of 4-Fluoroamphetamine entry. See that record for full data.",
-    "references_consulted": ["pmid:17223101"]
+    "references_consulted": [
+      "pmid:17223101"
+    ]
   },
   {
     "name": "2-Fluoroamphetamine",
-    "aliases_added": ["2-FA", "ortho-fluoroamphetamine"],
+    "aliases_added": [
+      "2-FA",
+      "ortho-fluoroamphetamine"
+    ],
     "iupac_name": "(RS)-1-(2-fluorophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1ccccc1F",
     "inchikey": "GDSXNLDTQFFIEU-UHFFFAOYSA-N",
@@ -878,7 +1067,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET"],
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
       "binding": [],
       "functional": [
         {
@@ -900,17 +1092,27 @@
       ],
       "downstream_signalling": "Pure amphetamine-like DA-NE release — the 2-fluoro substitution does NOT shift toward SERT (unlike 4-fluoro)."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
-    "tags_to_add": ["DA-selective-releaser"],
+    "tags_to_add": [
+      "DA-selective-releaser"
+    ],
     "confidence": "medium",
-    "data_gaps_remaining": ["No human PK studies published"],
+    "data_gaps_remaining": [
+      "No human PK studies published"
+    ],
     "notes": "Ortho-fluoro is the 'safest' fluoroamphetamine regiochemically — DA-selective like amphetamine, without the 4-halogen shift toward serotonergic neurotoxicity.",
-    "references_consulted": ["pmid:15914673"]
+    "references_consulted": [
+      "pmid:15914673"
+    ]
   },
   {
     "name": "2-fa",
-    "aliases_added": ["2-Fluoroamphetamine"],
+    "aliases_added": [
+      "2-Fluoroamphetamine"
+    ],
     "iupac_name": "(RS)-1-(2-fluorophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1ccccc1F",
     "inchikey": "GDSXNLDTQFFIEU-UHFFFAOYSA-N",
@@ -918,20 +1120,31 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET"],
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "See 2-Fluoroamphetamine record."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Duplicate of 2-Fluoroamphetamine. See that record.",
-    "references_consulted": ["pmid:15914673"]
+    "references_consulted": [
+      "pmid:15914673"
+    ]
   },
   {
     "name": "3-Fluoroamphetamine",
-    "aliases_added": ["3-FA", "meta-fluoroamphetamine", "PAL-353"],
+    "aliases_added": [
+      "3-FA",
+      "meta-fluoroamphetamine",
+      "PAL-353"
+    ],
     "iupac_name": "(RS)-1-(3-fluorophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1cccc(F)c1",
     "inchikey": "PIOCLGPCMNPZFT-UHFFFAOYSA-N",
@@ -939,7 +1152,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET"],
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
       "binding": [],
       "functional": [
         {
@@ -979,25 +1195,46 @@
       ]
     },
     "metabolism": [],
-    "tags_to_add": ["DA-NE-releaser"],
+    "tags_to_add": [
+      "DA-NE-releaser"
+    ],
     "confidence": "medium",
     "notes": "3-FA has stronger half-life-shortening effect (similar to amphetamine) than 4-FA — users report shorter duration.",
-    "references_consulted": ["pmid:15914673", "pmid:31642004"]
+    "references_consulted": [
+      "pmid:15914673",
+      "pmid:31642004"
+    ]
   },
   {
     "name": "3-fa",
-    "aliases_added": ["3-Fluoroamphetamine"],
+    "aliases_added": [
+      "3-Fluoroamphetamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "See 3-Fluoroamphetamine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See 3-Fluoroamphetamine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Duplicate of 3-Fluoroamphetamine.",
-    "references_consulted": ["pmid:15914673"]
+    "references_consulted": [
+      "pmid:15914673"
+    ]
   },
   {
     "name": "4-fma",
-    "aliases_added": ["4-fluoromethamphetamine"],
+    "aliases_added": [
+      "4-fluoromethamphetamine"
+    ],
     "iupac_name": "(RS)-1-(4-fluorophenyl)-N-methylpropan-2-amine",
     "smiles": "CNC(C)Cc1ccc(F)cc1",
     "inchikey": null,
@@ -1005,7 +1242,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "SERT"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1026,7 +1267,9 @@
       ],
       "downstream_signalling": "N-methyl + para-fluoro pattern; SERT-shift weaker than 4-FA due to N-methyl reducing 5-HT efficacy."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Less serotonergic than 4-FA, more amphetamine-like — limited published data.",
@@ -1034,7 +1277,9 @@
   },
   {
     "name": "2-fma",
-    "aliases_added": ["2-fluoromethamphetamine"],
+    "aliases_added": [
+      "2-fluoromethamphetamine"
+    ],
     "iupac_name": "(RS)-1-(2-fluorophenyl)-N-methylpropan-2-amine",
     "smiles": "CNC(C)Cc1ccccc1F",
     "inchikey": null,
@@ -1042,50 +1287,100 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET"],
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "2-FMA is methamphetamine analogue with ortho-fluoro — predicted DA-selective, similar to 2-FA but with N-methyl boost; no published EC50 values."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published binding/release EC50", "No human PK"],
+    "data_gaps_remaining": [
+      "No published binding/release EC50",
+      "No human PK"
+    ],
     "notes": "Popular UK research chemical, very limited literature.",
     "references_consulted": []
   },
   {
     "name": "3-fma",
-    "aliases_added": ["3-fluoromethamphetamine"],
+    "aliases_added": [
+      "3-fluoromethamphetamine"
+    ],
     "iupac_name": "(RS)-1-(3-fluorophenyl)-N-methylpropan-2-amine",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "Predicted intermediate; no published data."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted intermediate; no published data."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published binding/release data"],
+    "data_gaps_remaining": [
+      "No published binding/release data"
+    ],
     "notes": "Research chemical; no published literature.",
     "references_consulted": []
   },
   {
     "name": "2-fea",
-    "aliases_added": ["2-fluoroethamphetamine", "2-Fluoroethamphetamine"],
+    "aliases_added": [
+      "2-fluoroethamphetamine",
+      "2-Fluoroethamphetamine"
+    ],
     "iupac_name": "(RS)-N-ethyl-1-(2-fluorophenyl)propan-2-amine",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "N-ethyl shifts toward entactogen profile; ortho-fluoro keeps DA component intact. No published EC50 values."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "N-ethyl shifts toward entactogen profile; ortho-fluoro keeps DA component intact. No published EC50 values."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published binding/release data"],
+    "data_gaps_remaining": [
+      "No published binding/release data"
+    ],
     "notes": "Research chemical, very limited data.",
     "references_consulted": []
   },
   {
     "name": "2-Fluoroethamphetamine",
-    "aliases_added": ["2-FEA"],
+    "aliases_added": [
+      "2-FEA"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of 2-fea entry."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Duplicate of 2-fea entry."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "See 2-fea record.",
@@ -1093,35 +1388,79 @@
   },
   {
     "name": "3-Fluoroethamphetamine",
-    "aliases_added": ["3-FEA"],
+    "aliases_added": [
+      "3-FEA"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "N-ethyl + meta-fluoro — predicted DA-SERT releaser similar to MDA in profile; no published EC50."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "N-ethyl + meta-fluoro — predicted DA-SERT releaser similar to MDA in profile; no published EC50."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published binding/release data"],
+    "data_gaps_remaining": [
+      "No published binding/release data"
+    ],
     "notes": "Research chemical; very limited data.",
     "references_consulted": []
   },
   {
     "name": "4-fea",
-    "aliases_added": ["4-fluoroethylamphetamine"],
+    "aliases_added": [
+      "4-fluoroethylamphetamine"
+    ],
     "iupac_name": "(RS)-N-ethyl-1-(4-fluorophenyl)propan-2-amine",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "Predicted SERT-shifted (para-halogen + N-ethyl gives MDMA-like profile); no published EC50."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted SERT-shifted (para-halogen + N-ethyl gives MDMA-like profile); no published EC50."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published binding/release data"],
+    "data_gaps_remaining": [
+      "No published binding/release data"
+    ],
     "notes": "Research chemical; no published literature.",
     "references_consulted": []
   },
   {
     "name": "4-Fluoroethamphetamine",
-    "aliases_added": ["4-FEA", "para-fluoroethamphetamine"],
+    "aliases_added": [
+      "4-FEA",
+      "para-fluoroethamphetamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of 4-fea record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Duplicate of 4-fea record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "See 4-fea record.",
@@ -1129,7 +1468,12 @@
   },
   {
     "name": "4-Chloroamphetamine",
-    "aliases_added": ["PCA", "p-chloroamphetamine", "para-chloroamphetamine", "4-CA"],
+    "aliases_added": [
+      "PCA",
+      "p-chloroamphetamine",
+      "para-chloroamphetamine",
+      "4-CA"
+    ],
     "iupac_name": "(RS)-1-(4-chlorophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1ccc(Cl)cc1",
     "inchikey": "WWPITPSIWMXDPE-UHFFFAOYSA-N",
@@ -1137,7 +1481,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "MAO-A"],
+      "primary_targets": [
+        "SERT",
+        "MAO-A"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1152,7 +1499,9 @@
       ],
       "downstream_signalling": "Massive 5-HT release → MAO-A inhibition (IC50 1.9–4 µM) → serotonin syndrome → selective serotonergic axonal degeneration via cytosolic 5-HT auto-oxidation. Mechanism of long-term neurotoxicity still debated (toxic metabolite vs ROS)."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "MAO-A",
@@ -1171,15 +1520,29 @@
         "reference": "doi:10.3389/fphar.2019.01590"
       }
     ],
-    "tags_to_add": ["serotonergic-neurotoxin", "MAO-A-inhibitor"],
+    "tags_to_add": [
+      "serotonergic-neurotoxin",
+      "MAO-A-inhibitor"
+    ],
     "confidence": "high",
-    "data_gaps_remaining": ["No human clinical PK — research-only compound used in preclinical neurotoxicity models"],
+    "data_gaps_remaining": [
+      "No human clinical PK — research-only compound used in preclinical neurotoxicity models"
+    ],
     "notes": "PCA is the prototype serotonergic neurotoxin amphetamine. Standard tool for inducing selective 5-HT axonal lesions in animals. NOT for human use.",
-    "references_consulted": ["pmid:1495370", "doi:10.3389/fphar.2019.01590", "pmid:1196472"]
+    "references_consulted": [
+      "pmid:1495370",
+      "doi:10.3389/fphar.2019.01590",
+      "pmid:1196472"
+    ]
   },
   {
     "name": "4-Chloromethamphetamine",
-    "aliases_added": ["PCMA", "p-chloromethamphetamine", "4-CMA", "Ro 4-6861"],
+    "aliases_added": [
+      "PCMA",
+      "p-chloromethamphetamine",
+      "4-CMA",
+      "Ro 4-6861"
+    ],
     "iupac_name": "(RS)-1-(4-chlorophenyl)-N-methylpropan-2-amine",
     "smiles": "CNC(C)Cc1ccc(Cl)cc1",
     "inchikey": null,
@@ -1187,7 +1550,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "NET", "MAO-A"],
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "MAO-A"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1201,16 +1568,25 @@
       ],
       "downstream_signalling": "Like PCA but with NET component from N-methyl. Equally neurotoxic to 5-HT terminals."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
-    "tags_to_add": ["serotonergic-neurotoxin"],
+    "tags_to_add": [
+      "serotonergic-neurotoxin"
+    ],
     "confidence": "high",
     "notes": "Research chemical. Highly neurotoxic. Same risk profile as PCA.",
     "references_consulted": []
   },
   {
     "name": "4-Bromoamphetamine",
-    "aliases_added": ["PBA", "p-bromoamphetamine", "4-BA", "para-bromoamphetamine"],
+    "aliases_added": [
+      "PBA",
+      "p-bromoamphetamine",
+      "4-BA",
+      "para-bromoamphetamine"
+    ],
     "iupac_name": "(RS)-1-(4-bromophenyl)propan-2-amine",
     "smiles": "CC(N)Cc1ccc(Br)cc1",
     "inchikey": null,
@@ -1218,12 +1594,17 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "MAO-A"],
+      "primary_targets": [
+        "SERT",
+        "MAO-A"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Like PCA — para-bromo shifts to SERT-dominant releaser with serotonergic axonal neurotoxicity demonstrated in rats; depletes brain 5-HT ≥1 week (Fuller 1975 PMID 1196472)."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "off_targets": [
       {
@@ -1234,15 +1615,28 @@
         "reference": "doi:10.3389/fphar.2019.01590"
       }
     ],
-    "tags_to_add": ["serotonergic-neurotoxin", "MAO-A-inhibitor"],
+    "tags_to_add": [
+      "serotonergic-neurotoxin",
+      "MAO-A-inhibitor"
+    ],
     "confidence": "medium",
-    "data_gaps_remaining": ["No published EC50 release values; profile inferred from PCA homology and rat neurotoxicity data"],
+    "data_gaps_remaining": [
+      "No published EC50 release values; profile inferred from PCA homology and rat neurotoxicity data"
+    ],
     "notes": "Same SERT-dominant + neurotoxic + MAOI profile as PCA. Not for human use.",
-    "references_consulted": ["pmid:1196472", "doi:10.3389/fphar.2019.01590"]
+    "references_consulted": [
+      "pmid:1196472",
+      "doi:10.3389/fphar.2019.01590"
+    ]
   },
   {
     "name": "4-Methylthioamphetamine",
-    "aliases_added": ["4-MTA", "para-methylthioamphetamine", "MTA", "Flatliners"],
+    "aliases_added": [
+      "4-MTA",
+      "para-methylthioamphetamine",
+      "MTA",
+      "Flatliners"
+    ],
     "iupac_name": "(RS)-1-[4-(methylsulfanyl)phenyl]propan-2-amine",
     "smiles": "CSc1ccc(CC(C)N)cc1",
     "inchikey": "OLEWMKVPSUCNLG-UHFFFAOYSA-N",
@@ -1250,10 +1644,12 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "MAO-A", "5-HT2A"],
-      "binding": [
-
+      "primary_targets": [
+        "SERT",
+        "MAO-A",
+        "5-HT2A"
       ],
+      "binding": [],
       "functional": [
         {
           "target": "SERT",
@@ -1274,7 +1670,9 @@
       ],
       "downstream_signalling": "SERT-dominant release + MAO-A inhibition (IC50 250 nM) is the classic 'PMA-like' lethal combination. Hyperthermic serotonin syndrome with delayed onset. 4-MTA additionally has 5-HT2A agonism."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "FMO / CYP",
@@ -1292,26 +1690,57 @@
         "reference": "doi:10.3389/fphar.2019.01590"
       }
     ],
-    "tags_to_add": ["MAO-A-inhibitor", "SERT-dominant", "serotonergic-toxin"],
+    "tags_to_add": [
+      "MAO-A-inhibitor",
+      "SERT-dominant",
+      "serotonergic-toxin"
+    ],
     "confidence": "high",
-    "data_gaps_remaining": ["Human PK never characterised (illicit-only)", "5-HT2B affinity unmeasured"],
+    "data_gaps_remaining": [
+      "Human PK never characterised (illicit-only)",
+      "5-HT2B affinity unmeasured"
+    ],
     "notes": "4-MTA was marketed as 'flatliners' in the UK 1999–2001 and caused multiple fatal serotonin syndrome cases. The combination of SERT release + MAO-A inhibition is the lethal mechanism. Notably 4-MTA does NOT cause MDMA-like axonal neurotoxicity in rats despite equipotent 5-HT release — suggests neurotoxicity is not purely a function of SERT release magnitude.",
-    "references_consulted": ["pmid:12649293", "doi:10.3389/fphar.2019.01590", "doi:10.1007/164_2018_113"]
+    "references_consulted": [
+      "pmid:12649293",
+      "doi:10.3389/fphar.2019.01590",
+      "doi:10.1007/164_2018_113"
+    ]
   },
   {
     "name": "4-mta",
-    "aliases_added": ["4-methylthioamphetamine"],
+    "aliases_added": [
+      "4-methylthioamphetamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["SERT", "MAO-A"], "binding": [], "functional": [], "downstream_signalling": "See 4-Methylthioamphetamine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "MAO-A"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See 4-Methylthioamphetamine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Duplicate of 4-Methylthioamphetamine.",
-    "references_consulted": ["pmid:12649293"]
+    "references_consulted": [
+      "pmid:12649293"
+    ]
   },
   {
     "name": "Para-Methoxyamphetamine",
-    "aliases_added": ["PMA", "4-MA", "4-methoxyamphetamine", "Dr. Death", "death"],
+    "aliases_added": [
+      "PMA",
+      "4-MA",
+      "4-methoxyamphetamine",
+      "Dr. Death",
+      "death"
+    ],
     "iupac_name": "(RS)-1-(4-methoxyphenyl)propan-2-amine",
     "smiles": "COc1ccc(CC(C)N)cc1",
     "inchikey": "NEGYEDYHPHMHGK-UHFFFAOYSA-N",
@@ -1319,12 +1748,13 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "MAO-A", "5-HT2A (weak)"],
-      "binding": [
-
+      "primary_targets": [
+        "SERT",
+        "MAO-A",
+        "5-HT2A (weak)"
       ],
+      "binding": [],
       "functional": [
-
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
@@ -1336,7 +1766,9 @@
       ],
       "downstream_signalling": "SERT release + MAO-A inhibition (IC50 300–600 nM) → massive cytosolic 5-HT accumulation → serotonin syndrome with malignant hyperthermia. Onset is delayed (4–6 h) compared to MDMA (~1 h), causing users to redose thinking they got bad ecstasy."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "CYP2D6",
@@ -1355,22 +1787,46 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs have markedly impaired O-demethylation and clear PMA more slowly → higher risk of fatal toxicity. Multiple PMA deaths linked to PM genotype.",
       "reference": "doi:10.3389/fphar.2019.01590"
     },
-    "tags_to_add": ["MAO-A-inhibitor", "SERT-dominant", "delayed-onset", "deadly", "CYP2D6-substrate"],
+    "tags_to_add": [
+      "MAO-A-inhibitor",
+      "SERT-dominant",
+      "delayed-onset",
+      "deadly",
+      "CYP2D6-substrate"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "PMA is the canonical 'fake MDMA' killer compound. Often sold as ecstasy. Delayed onset → redosing → fatal hyperthermia. CYP2D6 PMs are at multiplied risk.",
-    "references_consulted": ["pmid:12649293", "doi:10.3389/fphar.2019.01590"]
+    "references_consulted": [
+      "pmid:12649293",
+      "doi:10.3389/fphar.2019.01590"
+    ]
   },
   {
     "name": "Pma",
-    "aliases_added": ["PMA", "Para-Methoxyamphetamine"],
+    "aliases_added": [
+      "PMA",
+      "Para-Methoxyamphetamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["SERT", "MAO-A"], "binding": [], "functional": [], "downstream_signalling": "See Para-Methoxyamphetamine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "MAO-A"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See Para-Methoxyamphetamine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Duplicate of Para-Methoxyamphetamine.",
@@ -1378,7 +1834,11 @@
   },
   {
     "name": "Fenfluramine",
-    "aliases_added": ["Pondimin", "Fintepla (paediatric Dravet brand)", "(±)-fenfluramine"],
+    "aliases_added": [
+      "Pondimin",
+      "Fintepla (paediatric Dravet brand)",
+      "(±)-fenfluramine"
+    ],
     "iupac_name": "(RS)-N-ethyl-1-[3-(trifluoromethyl)phenyl]propan-2-amine",
     "smiles": "CCNC(C)Cc1cccc(C(F)(F)F)c1",
     "inchikey": "DBGIVFWFUFKIQN-UHFFFAOYSA-N",
@@ -1386,7 +1846,12 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "5-HT2B (parent: low; metabolite: high)", "5-HT2C", "σ1 (anticonvulsant)"],
+      "primary_targets": [
+        "SERT",
+        "5-HT2B (parent: low; metabolite: high)",
+        "5-HT2C",
+        "σ1 (anticonvulsant)"
+      ],
       "binding": [
         {
           "target": "5-HT2B",
@@ -1493,7 +1958,9 @@
       }
     ],
     "pharmacogenetics": {
-      "relevant_genes": ["CYP2D6"],
+      "relevant_genes": [
+        "CYP2D6"
+      ],
       "phenotype_effects": "CYP2D6 PMs may have less norfenfluramine formation → potentially less valvulopathy risk but variable. UMs make norfen faster.",
       "reference": "doi:10.2165/00003088-198611030-00003"
     },
@@ -1506,16 +1973,31 @@
         "reference": "pmid:11104741"
       }
     ],
-    "tags_to_add": ["SERT-releaser", "5-HT2B-via-metabolite", "valvulopathic", "anticonvulsant-Dravet"],
-    "tags_to_remove": ["no-human-data"],
+    "tags_to_add": [
+      "SERT-releaser",
+      "5-HT2B-via-metabolite",
+      "valvulopathic",
+      "anticonvulsant-Dravet"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Fenfluramine itself is a relatively safe SERT releaser; the danger is its metabolite norfenfluramine, which is a potent 5-HT2B agonist (Ki 52 nM, EC50 ~18 nM, Emax ~73%). After 24+ months chronic dosing ~30% of patients develop echocardiographic valvulopathy. Reformulated as Fintepla for Dravet syndrome 2020 at sub-anorectic doses with REMS.",
-    "references_consulted": ["pmid:11104741", "doi:10.2165/00003088-198611030-00003", "doi:10.1111/epi.13691"]
+    "references_consulted": [
+      "pmid:11104741",
+      "doi:10.2165/00003088-198611030-00003",
+      "doi:10.1111/epi.13691"
+    ]
   },
   {
     "name": "Fenethylline",
-    "aliases_added": ["Captagon", "fenetylline", "amphetaminoethyltheophylline"],
+    "aliases_added": [
+      "Captagon",
+      "fenetylline",
+      "amphetaminoethyltheophylline"
+    ],
     "iupac_name": "7-(2-{[(2RS)-1-phenylpropan-2-yl](methyl)amino}ethyl)-1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
     "smiles": "CN(CCn1cnc2c1c(=O)n(C)c(=O)n2C)C(C)Cc1ccccc1",
     "inchikey": null,
@@ -1523,7 +2005,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT (via amphetamine metabolite)", "Adenosine A1/A2A (via theophylline metabolite)"],
+      "primary_targets": [
+        "DAT (via amphetamine metabolite)",
+        "Adenosine A1/A2A (via theophylline metabolite)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Codrug: hepatic metabolism cleaves the ethyltheophylline linker to yield ~24.5% amphetamine + ~13.7% theophylline (oral dose). The amphetamine produces classic DA/NE release; theophylline blocks adenosine A1/A2A receptors, adding alertness without the typical sympathomimetic anxiety. The combination is reported subjectively as 'smoother' than amphetamine alone."
@@ -1556,14 +2041,22 @@
         "reference": "doi:10.1111/bcpt.12584"
       }
     ],
-    "tags_to_add": ["prodrug", "amphetamine-theophylline-codrug"],
+    "tags_to_add": [
+      "prodrug",
+      "amphetamine-theophylline-codrug"
+    ],
     "confidence": "medium",
     "notes": "The famous 'Captagon' drug widely used in Middle East. Functionally an amphetamine + theophylline prodrug.",
-    "references_consulted": ["doi:10.1111/bcpt.12584"]
+    "references_consulted": [
+      "doi:10.1111/bcpt.12584"
+    ]
   },
   {
     "name": "Benzphetamine",
-    "aliases_added": ["Didrex", "N-benzyl-N-methyl-amphetamine"],
+    "aliases_added": [
+      "Didrex",
+      "N-benzyl-N-methyl-amphetamine"
+    ],
     "iupac_name": "(2S)-N-benzyl-N-methyl-1-phenylpropan-2-amine",
     "smiles": "CC(Cc1ccccc1)N(C)Cc1ccccc1",
     "inchikey": "YXKTVDFXDRQTKV-UHFFFAOYSA-N",
@@ -1571,7 +2064,9 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT (via meth/amph metabolites)"],
+      "primary_targets": [
+        "DAT (via meth/amph metabolites)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Prodrug — undergoes N-debenzylation by CYP2B6 and CYP3A4 to dextromethamphetamine (and onward to d-amphetamine via N-demethylation). The intact benzphetamine is minimally pharmacologically active."
@@ -1603,14 +2098,22 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["prodrug", "Schedule-III-US"],
+    "tags_to_add": [
+      "prodrug",
+      "Schedule-III-US"
+    ],
     "confidence": "medium",
     "notes": "FDA-approved Schedule III anorectic. Prodrug of d-methamphetamine and d-amphetamine. Triggers positive amphetamine UDS.",
     "references_consulted": []
   },
   {
     "name": "Phentermine",
-    "aliases_added": ["Adipex-P", "Ionamin", "α-methylamphetamine", "α,α-dimethylphenethylamine"],
+    "aliases_added": [
+      "Adipex-P",
+      "Ionamin",
+      "α-methylamphetamine",
+      "α,α-dimethylphenethylamine"
+    ],
     "iupac_name": "2-methyl-1-phenylpropan-2-amine",
     "smiles": "CC(C)(N)Cc1ccccc1",
     "inchikey": "DHHVAGZRUROJKS-UHFFFAOYSA-N",
@@ -1618,7 +2121,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "DAT", "TAAR1"],
+      "primary_targets": [
+        "NET",
+        "DAT",
+        "TAAR1"
+      ],
       "binding": [
         {
           "target": "5-HT2B",
@@ -1687,24 +2194,40 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["FDA-approved-anorectic", "NE-selective", "no-5-HT2B-activity"],
+    "tags_to_add": [
+      "FDA-approved-anorectic",
+      "NE-selective",
+      "no-5-HT2B-activity"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Currently FDA-approved as Adipex-P (15/37.5 mg) and Qsymia (phentermine + topiramate). The α,α-dimethyl gives long t1/2 and pure NE-DA release without 5-HT2B activity → no valvulopathy.",
-    "references_consulted": ["pmid:14612135", "pmid:17017961"]
+    "references_consulted": [
+      "pmid:14612135",
+      "pmid:17017961"
+    ]
   },
   {
     "name": "Phentermine+Fenfluramine",
-    "aliases_added": ["phen-fen", "fen-phen"],
+    "aliases_added": [
+      "phen-fen",
+      "fen-phen"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET (phen)", "SERT (fen)", "5-HT2B (norfen)"],
+      "primary_targets": [
+        "NET (phen)",
+        "SERT (fen)",
+        "5-HT2B (norfen)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Combination: phentermine provides NE/DA stimulation + anorexia; fenfluramine provides SERT release / satiety. Synergistic weight loss but fenfluramine's norfenfluramine metabolite caused valvulopathy in ~30% of long-term users; combination withdrawn 1997. Phentermine alone has no valvulopathic signal because it has no 5-HT2B activity."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "off_targets": [
       {
@@ -1715,14 +2238,23 @@
         "reference": "pmid:11104741"
       }
     ],
-    "tags_to_add": ["withdrawn-1997", "valvulopathy", "PPH"],
+    "tags_to_add": [
+      "withdrawn-1997",
+      "valvulopathy",
+      "PPH"
+    ],
     "confidence": "high",
     "notes": "Historic combination, withdrawn 1997. See individual Phentermine and Fenfluramine records.",
-    "references_consulted": ["pmid:11104741"]
+    "references_consulted": [
+      "pmid:11104741"
+    ]
   },
   {
     "name": "(+)-ephedrine",
-    "aliases_added": ["(1S,2R)-(+)-ephedrine", "d-ephedrine"],
+    "aliases_added": [
+      "(1S,2R)-(+)-ephedrine",
+      "d-ephedrine"
+    ],
     "iupac_name": "(1S,2R)-2-(methylamino)-1-phenylpropan-1-ol",
     "smiles": "C[C@@H]([C@H](O)c1ccccc1)NC",
     "inchikey": "KWGRBVOPPLSCSI-WPRPVWTQSA-N",
@@ -1730,7 +2262,13 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET (indirect sympathomimetic)", "α1", "α2", "β1", "β2"],
+      "primary_targets": [
+        "NET (indirect sympathomimetic)",
+        "α1",
+        "α2",
+        "β1",
+        "β2"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1758,15 +2296,23 @@
       ],
       "downstream_signalling": "Indirect sympathomimetic via NE release; β-hydroxyl reduces CNS penetration ~10× vs amphetamine. Also has weak direct α/β agonism."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "The (+) enantiomer; weaker than natural (-)-ephedrine. Stereochemistry matters: ephedrine = erythro, pseudoephedrine = threo.",
-    "references_consulted": ["pmid:14612135"]
+    "references_consulted": [
+      "pmid:14612135"
+    ]
   },
   {
     "name": "Ephedrine",
-    "aliases_added": ["(-)-ephedrine", "(1R,2S)-ephedrine", "l-ephedrine"],
+    "aliases_added": [
+      "(-)-ephedrine",
+      "(1R,2S)-ephedrine",
+      "l-ephedrine"
+    ],
     "iupac_name": "(1R,2S)-2-(methylamino)-1-phenylpropan-1-ol",
     "smiles": "C[C@H]([C@@H](O)c1ccccc1)NC",
     "inchikey": "KWGRBVOPPLSCSI-PSASIEDQSA-N",
@@ -1774,7 +2320,13 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "α1", "α2", "β1", "β2"],
+      "primary_targets": [
+        "NET",
+        "α1",
+        "α2",
+        "β1",
+        "β2"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1823,14 +2375,22 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["indirect-sympathomimetic"],
+    "tags_to_add": [
+      "indirect-sympathomimetic"
+    ],
     "confidence": "high",
     "notes": "Natural ephedrine from Ephedra sinica. Classic indirect sympathomimetic. β-hydroxyl differentiates it from amphetamine — less CNS stimulant, more peripheral pressor.",
-    "references_consulted": ["pmid:14612135"]
+    "references_consulted": [
+      "pmid:14612135"
+    ]
   },
   {
     "name": "Pseudoephedrine",
-    "aliases_added": ["(+)-pseudoephedrine", "(1S,2S)-pseudoephedrine", "Sudafed"],
+    "aliases_added": [
+      "(+)-pseudoephedrine",
+      "(1S,2S)-pseudoephedrine",
+      "Sudafed"
+    ],
     "iupac_name": "(1S,2S)-2-(methylamino)-1-phenylpropan-1-ol",
     "smiles": "C[C@H]([C@@H](O)c1ccccc1)NC",
     "inchikey": "KWGRBVOPPLSCSI-PSASIEDQSA-N",
@@ -1838,7 +2398,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET (indirect)", "α1 (weak)"],
+      "primary_targets": [
+        "NET (indirect)",
+        "α1 (weak)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1881,14 +2444,21 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["OTC-decongestant"],
+    "tags_to_add": [
+      "OTC-decongestant"
+    ],
     "confidence": "high",
     "notes": "The threo-diastereomer of ephedrine. Far weaker CNS effect than ephedrine despite similar pressor activity. Used as nasal decongestant.",
-    "references_consulted": ["pmid:14612135"]
+    "references_consulted": [
+      "pmid:14612135"
+    ]
   },
   {
     "name": "(−)-pseudoephedrine",
-    "aliases_added": ["(-)-pseudoephedrine", "(1R,2R)-pseudoephedrine"],
+    "aliases_added": [
+      "(-)-pseudoephedrine",
+      "(1R,2R)-pseudoephedrine"
+    ],
     "iupac_name": "(1R,2R)-2-(methylamino)-1-phenylpropan-1-ol",
     "smiles": "C[C@@H]([C@H](O)c1ccccc1)NC",
     "inchikey": "KWGRBVOPPLSCSI-WPRPVWTQSA-N",
@@ -1896,12 +2466,16 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET (indirect)"],
+      "primary_targets": [
+        "NET (indirect)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "The (-) enantiomer of pseudoephedrine — opposite stereochemistry to OTC Sudafed. Pharmacologically weaker than (+); not used clinically."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "Mirror image of OTC pseudoephedrine. Limited published data; assumed weaker NE release.",
@@ -1909,18 +2483,35 @@
   },
   {
     "name": "2-(methylamine)-1-phenyl-1-propanol",
-    "aliases_added": ["(±)-ephedrine", "racemic ephedrine"],
+    "aliases_added": [
+      "(±)-ephedrine",
+      "racemic ephedrine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["NET"], "binding": [], "functional": [], "downstream_signalling": "Racemic ephedrine — see (+)-ephedrine and Ephedrine records."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Racemic ephedrine — see (+)-ephedrine and Ephedrine records."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Racemic. Pharmacology = weighted mix of (-) and (+) ephedrine.",
-    "references_consulted": ["pmid:14612135"]
+    "references_consulted": [
+      "pmid:14612135"
+    ]
   },
   {
     "name": "Aminorex",
-    "aliases_added": ["2-amino-5-phenyl-2-oxazoline", "Menocil"],
+    "aliases_added": [
+      "2-amino-5-phenyl-2-oxazoline",
+      "Menocil"
+    ],
     "iupac_name": "5-phenyl-4,5-dihydro-1,3-oxazol-2-amine",
     "smiles": "NC1=NCC(c2ccccc2)O1",
     "inchikey": "SYAKTDIEAPMBAL-UHFFFAOYSA-N",
@@ -1928,7 +2519,12 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "SERT", "5-HT2B (weak)"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT",
+        "5-HT2B (weak)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -1967,7 +2563,9 @@
       ],
       "downstream_signalling": "Mixed monoamine releaser with significant SERT component → indirect 5-HT2B activation on pulmonary vasculature → mitogenesis → PPH. Caused epidemic of 582 PPH cases 1965–1972 (Gurtner BMJ doi:10.1136/bmj.4.5680.279)."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "off_targets": [
       {
@@ -1978,15 +2576,27 @@
         "reference": "pmid:17017961"
       }
     ],
-    "tags_to_add": ["PPH-causing", "withdrawn", "SERT-component"],
+    "tags_to_add": [
+      "PPH-causing",
+      "withdrawn",
+      "SERT-component"
+    ],
     "tags_to_remove": [],
     "confidence": "high",
     "notes": "First synthetic anorectic to cause an epidemic of PPH — established the 5-HT2B/SERT-release link to pulmonary vascular disease. Withdrawn 1972.",
-    "references_consulted": ["pmid:12163129", "pmid:17017961"]
+    "references_consulted": [
+      "pmid:12163129",
+      "pmid:17017961"
+    ]
   },
   {
     "name": "4-methylaminorex",
-    "aliases_added": ["4-MAR", "U4Euh", "Euphoria", "ice"],
+    "aliases_added": [
+      "4-MAR",
+      "U4Euh",
+      "Euphoria",
+      "ice"
+    ],
     "iupac_name": "(4R,5S)-4-methyl-5-phenyl-4,5-dihydro-1,3-oxazol-2-amine",
     "smiles": "C[C@@H]1N=C(N)O[C@H]1c1ccccc1",
     "inchikey": null,
@@ -1994,7 +2604,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "SERT"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2043,27 +2657,50 @@
         "reference": "pmid:3373171"
       }
     ],
-    "tags_to_add": ["potent-DA-releaser", "long-duration"],
+    "tags_to_add": [
+      "potent-DA-releaser",
+      "long-duration"
+    ],
     "confidence": "high",
     "notes": "Long-acting, extremely potent — among the most potent DA releasers documented. Cis-(±)-4-MAR is the recreational stereoisomer.",
-    "references_consulted": ["doi:10.1002/dta.1668", "pmid:3373171"]
+    "references_consulted": [
+      "doi:10.1002/dta.1668",
+      "pmid:3373171"
+    ]
   },
   {
     "name": "3-Methylaminorex",
-    "aliases_added": ["3-MAR"],
+    "aliases_added": [
+      "3-MAR"
+    ],
     "iupac_name": "3-methyl-5-phenyl-4,5-dihydro-1,3-oxazol-2-imine",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "Regioisomer of 4-MAR with the methyl on the oxazoline ring nitrogen rather than C4. Limited published binding data; expected weaker than 4-MAR."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Regioisomer of 4-MAR with the methyl on the oxazoline ring nitrogen rather than C4. Limited published binding data; expected weaker than 4-MAR."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50 release values"],
+    "data_gaps_remaining": [
+      "No published EC50 release values"
+    ],
     "notes": "Less studied than 4-MAR. Aminorex congener.",
     "references_consulted": []
   },
   {
     "name": "4,4'-Dimethylaminorex",
-    "aliases_added": ["4,4'-DMAR", "Serotoni"],
+    "aliases_added": [
+      "4,4'-DMAR",
+      "Serotoni"
+    ],
     "iupac_name": "4-methyl-5-(4-methylphenyl)-4,5-dihydro-1,3-oxazol-2-amine",
     "smiles": null,
     "inchikey": null,
@@ -2071,7 +2708,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT", "NET", "SERT"],
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
       "binding": [
         {
           "target": "5-HT2B",
@@ -2109,64 +2750,138 @@
       ],
       "downstream_signalling": "Balanced triple monoamine releaser (DA ≈ NE ≈ 5-HT all in 8–27 nM range) → high serotonin syndrome risk in OD especially with co-ingestants. Despite SERT release, no direct 5-HT2B activity."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
-    "tags_to_add": ["balanced-SNDRA", "fatal-overdose-risk"],
+    "tags_to_add": [
+      "balanced-SNDRA",
+      "fatal-overdose-risk"
+    ],
     "confidence": "high",
     "notes": "Caused ≥31 deaths in Europe by Feb 2014 (Brandt 2014). Balanced SNDRA → hyperthermic serotonin syndrome. Often co-ingested with other stimulants which amplified toxicity.",
-    "references_consulted": ["doi:10.1002/dta.1668", "doi:10.1021/acschemneuro.8b00415"]
+    "references_consulted": [
+      "doi:10.1002/dta.1668",
+      "doi:10.1021/acschemneuro.8b00415"
+    ]
   },
   {
     "name": "4'-Fluoro-4-methylaminorex",
-    "aliases_added": ["4F-MAR", "4-FPO"],
+    "aliases_added": [
+      "4F-MAR",
+      "4-FPO"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "Fluorinated 4-MAR analogue; expected potent monoamine releaser like parent."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Fluorinated 4-MAR analogue; expected potent monoamine releaser like parent."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50"],
+    "data_gaps_remaining": [
+      "No published EC50"
+    ],
     "notes": "Research chemical aminorex congener.",
     "references_consulted": []
   },
   {
     "name": "4′-Chloro-4-methylaminorex",
-    "aliases_added": ["4C-MAR", "4-Cl-MAR"],
+    "aliases_added": [
+      "4C-MAR",
+      "4-Cl-MAR"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "Chlorinated 4-MAR analogue; para-chloro likely shifts to SERT-heavy profile."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Chlorinated 4-MAR analogue; para-chloro likely shifts to SERT-heavy profile."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50"],
+    "data_gaps_remaining": [
+      "No published EC50"
+    ],
     "notes": "Research chemical aminorex congener.",
     "references_consulted": []
   },
   {
     "name": "4B-MAR",
-    "aliases_added": ["4'-bromo-4-methylaminorex"],
+    "aliases_added": [
+      "4'-bromo-4-methylaminorex"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "Brominated 4-MAR analogue; SERT-shifted by para-bromo."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Brominated 4-MAR analogue; SERT-shifted by para-bromo."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50"],
+    "data_gaps_remaining": [
+      "No published EC50"
+    ],
     "notes": "Research chemical aminorex congener.",
     "references_consulted": []
   },
   {
     "name": "Fluminorex",
-    "aliases_added": ["McN-1107", "2-amino-5-(4-trifluoromethylphenyl)-2-oxazoline"],
+    "aliases_added": [
+      "McN-1107",
+      "2-amino-5-(4-trifluoromethylphenyl)-2-oxazoline"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "Trifluoromethyl aminorex analogue developed as anorectic. Limited published data."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Trifluoromethyl aminorex analogue developed as anorectic. Limited published data."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["EC50 not published"],
+    "data_gaps_remaining": [
+      "EC50 not published"
+    ],
     "notes": "Aminorex analogue, abandoned anorectic.",
     "references_consulted": []
   },
   {
     "name": "Methedrone",
-    "aliases_added": ["4-methoxymethcathinone", "bk-PMMA", "PMMC"],
+    "aliases_added": [
+      "4-methoxymethcathinone",
+      "bk-PMMA",
+      "PMMC"
+    ],
     "iupac_name": "1-(4-methoxyphenyl)-2-(methylamino)propan-1-one",
     "smiles": "COc1ccc(C(=O)C(C)NC)cc1",
     "inchikey": null,
@@ -2174,7 +2889,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["SERT", "NET", "DAT (weak)"],
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT (weak)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2200,14 +2919,22 @@
       ]
     },
     "metabolism": [],
-    "tags_to_add": ["SERT-preferring-cathinone", "fatal-toxicity"],
+    "tags_to_add": [
+      "SERT-preferring-cathinone",
+      "fatal-toxicity"
+    ],
     "confidence": "medium",
     "notes": "β-keto cathinone with para-methoxy. Caused fatal serotonin-syndrome poisonings in Sweden 2010. Note: belongs to cathinone group, may be better categorised there.",
-    "references_consulted": ["pmid:21073814"]
+    "references_consulted": [
+      "pmid:21073814"
+    ]
   },
   {
     "name": "Pemoline",
-    "aliases_added": ["Cylert", "2-amino-5-phenyl-1,3-oxazol-4(5H)-one"],
+    "aliases_added": [
+      "Cylert",
+      "2-amino-5-phenyl-1,3-oxazol-4(5H)-one"
+    ],
     "iupac_name": "2-amino-5-phenyl-1,3-oxazol-4(5H)-one",
     "smiles": "NC1=NC(=O)C(c2ccccc2)O1",
     "inchikey": "NRNCYVBFPDDJNE-UHFFFAOYSA-N",
@@ -2215,7 +2942,9 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT (weak reuptake inhibitor + weak releaser)"],
+      "primary_targets": [
+        "DAT (weak reuptake inhibitor + weak releaser)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Mechanism distinct from amphetamines — primarily dopamine reuptake inhibition with mild releasing component, NO significant noradrenergic effect (PMID 9708845). Lack of peripheral sympathomimetic side effects but produces dopamine-mediated alerting."
@@ -2240,26 +2969,50 @@
         "reference": "pmid:18217792"
       }
     ],
-    "tags_to_add": ["hepatotoxic", "withdrawn-US-2005", "DA-selective"],
+    "tags_to_add": [
+      "hepatotoxic",
+      "withdrawn-US-2005",
+      "DA-selective"
+    ],
     "confidence": "high",
     "notes": "Withdrawn in US 2005 due to fatal idiosyncratic hepatotoxicity. Mechanism is selective DA release/reuptake inhibition without NE component.",
-    "references_consulted": ["pmid:9708845", "pmid:18217792"]
+    "references_consulted": [
+      "pmid:9708845",
+      "pmid:18217792"
+    ]
   },
   {
     "name": "Cyclazodone",
-    "aliases_added": ["2-cyclopropylamino-5-phenyl-4(5H)-oxazolone"],
+    "aliases_added": [
+      "2-cyclopropylamino-5-phenyl-4(5H)-oxazolone"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT (presumed)"], "binding": [], "functional": [], "downstream_signalling": "Pemoline analogue with cyclopropyl-amino substitution; CNS stimulant of the oxazoline class. Limited published mechanistic data."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT (presumed)"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Pemoline analogue with cyclopropyl-amino substitution; CNS stimulant of the oxazoline class. Limited published mechanistic data."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Mechanism not directly characterised", "No published EC50"],
+    "data_gaps_remaining": [
+      "Mechanism not directly characterised",
+      "No published EC50"
+    ],
     "notes": "Related to pemoline. Sold as designer 'nootropic' research chemical.",
     "references_consulted": []
   },
   {
     "name": "Propylhexedrine",
-    "aliases_added": ["Benzedrex", "Hexahydromethamphetamine"],
+    "aliases_added": [
+      "Benzedrex",
+      "Hexahydromethamphetamine"
+    ],
     "iupac_name": "N,α-dimethyl-cyclohexaneethanamine",
     "smiles": "CNC(C)CC1CCCCC1",
     "inchikey": "JCRIVQIOJSSCQD-UHFFFAOYSA-N",
@@ -2267,7 +3020,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET (NE release)", "α-adrenergic"],
+      "primary_targets": [
+        "NET (NE release)",
+        "α-adrenergic"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Cyclohexyl analogue of methamphetamine — saturated ring loses TAAR1 efficacy and reduces CNS penetration vs methamphetamine. Primarily peripheral sympathomimetic; nasal decongestant via NE release / α1 agonism."
@@ -2283,14 +3039,23 @@
       ]
     },
     "metabolism": [],
-    "tags_to_add": ["OTC-decongestant", "cyclohexyl-amphetamine"],
+    "tags_to_add": [
+      "OTC-decongestant",
+      "cyclohexyl-amphetamine"
+    ],
     "confidence": "medium",
     "notes": "OTC Benzedrex inhaler. Widely abused via oral/IV ingestion despite intended inhalational use (cardiotoxicity risk).",
     "references_consulted": []
   },
   {
     "name": "Dmaa",
-    "aliases_added": ["DMAA", "1,3-dimethylamylamine", "methylhexanamine", "Geranamine", "1,3-DMAA"],
+    "aliases_added": [
+      "DMAA",
+      "1,3-dimethylamylamine",
+      "methylhexanamine",
+      "Geranamine",
+      "1,3-DMAA"
+    ],
     "iupac_name": "4-methylhexan-2-amine",
     "smiles": "CCC(C)CC(C)N",
     "inchikey": "YAHRDLICUYEDAU-UHFFFAOYSA-N",
@@ -2298,7 +3063,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["NET", "DAT (indirect via NE/DA release)"],
+      "primary_targets": [
+        "NET",
+        "DAT (indirect via NE/DA release)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Non-aromatic aliphatic amine NDRA — releases NE and DA without aromatic ring. Indirectly raises blood pressure via NE release. Lacks TAAR1 efficacy. Recently confirmed as NDRA by Small 2023 (doi:10.1124/jpet.122.001514)."
@@ -2322,22 +3090,42 @@
         "reference": "doi:10.1002/cpdd.928"
       }
     ],
-    "tags_to_add": ["NDRA", "supplement-stimulant", "banned-FDA"],
+    "tags_to_add": [
+      "NDRA",
+      "supplement-stimulant",
+      "banned-FDA"
+    ],
     "confidence": "medium",
     "notes": "Aliphatic NDRA. Was marketed as supplement (Jack3D, OxyElitePro) until FDA banned 2013 after deaths.",
-    "references_consulted": ["doi:10.1002/cpdd.928", "doi:10.1124/jpet.122.001514"]
+    "references_consulted": [
+      "doi:10.1002/cpdd.928",
+      "doi:10.1124/jpet.122.001514"
+    ]
   },
   {
     "name": "DMHA",
-    "aliases_added": ["1,5-dimethylhexylamine", "octodrine", "2-amino-6-methylheptane"],
+    "aliases_added": [
+      "1,5-dimethylhexylamine",
+      "octodrine",
+      "2-amino-6-methylheptane"
+    ],
     "iupac_name": "2-amino-6-methylheptane",
     "smiles": "CC(C)CCCC(C)N",
     "inchikey": null,
     "cas": "543-82-8",
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["NET (presumed)"], "binding": [], "functional": [], "downstream_signalling": "Aliphatic amine NDRA similar to DMAA; sold as DMAA replacement in supplements after 2013 ban. Mechanism presumed NE/DA release; limited published data."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "NET (presumed)"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Aliphatic amine NDRA similar to DMAA; sold as DMAA replacement in supplements after 2013 ban. Mechanism presumed NE/DA release; limited published data."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "off_targets": [
       {
@@ -2347,15 +3135,25 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["NDRA-aliphatic", "supplement-stimulant"],
+    "tags_to_add": [
+      "NDRA-aliphatic",
+      "supplement-stimulant"
+    ],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50 binding/release data"],
+    "data_gaps_remaining": [
+      "No published EC50 binding/release data"
+    ],
     "notes": "DMAA replacement marketed in supplements. Similar mechanism, limited data.",
     "references_consulted": []
   },
   {
     "name": "Phenethylamine",
-    "aliases_added": ["β-PEA", "phenylethylamine", "PEA", "2-phenylethylamine"],
+    "aliases_added": [
+      "β-PEA",
+      "phenylethylamine",
+      "PEA",
+      "2-phenylethylamine"
+    ],
     "iupac_name": "2-phenylethan-1-amine",
     "smiles": "NCCc1ccccc1",
     "inchikey": "BHHGXPLMPWCGHP-UHFFFAOYSA-N",
@@ -2363,7 +3161,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1", "NET", "DAT"],
+      "primary_targets": [
+        "TAAR1",
+        "NET",
+        "DAT"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2422,25 +3224,49 @@
         "reference": "pmid:11459929"
       }
     ],
-    "tags_to_add": ["endogenous-TAAR1-agonist", "MAO-substrate", "orally-inactive"],
+    "tags_to_add": [
+      "endogenous-TAAR1-agonist",
+      "MAO-substrate",
+      "orally-inactive"
+    ],
     "confidence": "high",
     "notes": "The endogenous trace amine prototype. α-methylation (→ amphetamine) protects from MAO and gives oral activity.",
-    "references_consulted": ["pmid:11071707", "pmid:11459929"]
+    "references_consulted": [
+      "pmid:11071707",
+      "pmid:11459929"
+    ]
   },
   {
     "name": "PEA",
-    "aliases_added": ["β-PEA", "Phenethylamine"],
+    "aliases_added": [
+      "β-PEA",
+      "Phenethylamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1"], "binding": [], "functional": [], "downstream_signalling": "See Phenethylamine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See Phenethylamine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Duplicate of Phenethylamine.",
-    "references_consulted": ["pmid:11071707"]
+    "references_consulted": [
+      "pmid:11071707"
+    ]
   },
   {
     "name": "N-methylphenethylamine",
-    "aliases_added": ["NMPEA", "N-methyl-β-PEA"],
+    "aliases_added": [
+      "NMPEA",
+      "N-methyl-β-PEA"
+    ],
     "iupac_name": "N-methyl-2-phenylethan-1-amine",
     "smiles": "CNCCc1ccccc1",
     "inchikey": "SASNBVQSOZSTPD-UHFFFAOYSA-N",
@@ -2448,12 +3274,17 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1", "NET (weak indirect)"],
+      "primary_targets": [
+        "TAAR1",
+        "NET (weak indirect)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Endogenous trace amine; human TAAR1 agonist. Preferentially metabolised by MAO-B (KM 4.13 µM) vs MAO-A (KM 58.8 µM). Pressor activity ~1/350 of epinephrine."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "MAO-B (preferred)",
@@ -2462,27 +3293,47 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["endogenous-trace-amine", "TAAR1-agonist"],
+    "tags_to_add": [
+      "endogenous-trace-amine",
+      "TAAR1-agonist"
+    ],
     "confidence": "medium",
     "notes": "Endogenous trace amine present in human brain. MAO-B preferred substrate; orally weak.",
     "references_consulted": []
   },
   {
     "name": "N-Ethylphenethylamine hydrochloride",
-    "aliases_added": ["N-ethyl-β-PEA", "NEPEA"],
+    "aliases_added": [
+      "N-ethyl-β-PEA",
+      "NEPEA"
+    ],
     "iupac_name": "N-ethyl-2-phenylethan-1-amine hydrochloride",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1 (weak)"], "binding": [], "functional": [], "downstream_signalling": "N-ethyl PEA; reduced TAAR1 efficacy and increased MAO resistance vs PEA. Rapidly metabolised; orally weak."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1 (weak)"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "N-ethyl PEA; reduced TAAR1 efficacy and increased MAO resistance vs PEA. Rapidly metabolised; orally weak."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published TAAR1 EC50"],
+    "data_gaps_remaining": [
+      "No published TAAR1 EC50"
+    ],
     "notes": "N-ethyl trace amine; minor pharmacology.",
     "references_consulted": []
   },
   {
     "name": "Tyramine",
-    "aliases_added": ["p-tyramine", "4-hydroxyphenethylamine"],
+    "aliases_added": [
+      "p-tyramine",
+      "4-hydroxyphenethylamine"
+    ],
     "iupac_name": "4-(2-aminoethyl)phenol",
     "smiles": "NCCc1ccc(O)cc1",
     "inchikey": "DZGWFCGJZKJUFP-UHFFFAOYSA-N",
@@ -2490,7 +3341,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1", "NET (indirect)"],
+      "primary_targets": [
+        "TAAR1",
+        "NET (indirect)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2534,25 +3388,48 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["endogenous-trace-amine", "TAAR1-agonist", "cheese-reaction-MAOI"],
+    "tags_to_add": [
+      "endogenous-trace-amine",
+      "TAAR1-agonist",
+      "cheese-reaction-MAOI"
+    ],
     "confidence": "high",
     "notes": "Major dietary amine in aged cheese, cured meat, fermented foods. Cheese reaction is the canonical MAOI dietary interaction.",
-    "references_consulted": ["pmid:11459929"]
+    "references_consulted": [
+      "pmid:11459929"
+    ]
   },
   {
     "name": "tyramine",
-    "aliases_added": ["Tyramine"],
+    "aliases_added": [
+      "Tyramine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1"], "binding": [], "functional": [], "downstream_signalling": "See Tyramine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See Tyramine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Duplicate of Tyramine.",
-    "references_consulted": ["pmid:11459929"]
+    "references_consulted": [
+      "pmid:11459929"
+    ]
   },
   {
     "name": "m-tyramine",
-    "aliases_added": ["meta-tyramine", "3-tyramine", "3-hydroxyphenethylamine"],
+    "aliases_added": [
+      "meta-tyramine",
+      "3-tyramine",
+      "3-hydroxyphenethylamine"
+    ],
     "iupac_name": "3-(2-aminoethyl)phenol",
     "smiles": "NCCc1cccc(O)c1",
     "inchikey": null,
@@ -2560,7 +3437,9 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1"],
+      "primary_targets": [
+        "TAAR1"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2576,15 +3455,22 @@
       ],
       "downstream_signalling": "Endogenous trace amine; similar profile to p-tyramine."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Endogenous trace amine, less studied than p-tyramine.",
-    "references_consulted": ["pmid:11459929"]
+    "references_consulted": [
+      "pmid:11459929"
+    ]
   },
   {
     "name": "octopamine",
-    "aliases_added": ["p-octopamine", "(-)-octopamine"],
+    "aliases_added": [
+      "p-octopamine",
+      "(-)-octopamine"
+    ],
     "iupac_name": "4-[2-amino-1-hydroxyethyl]phenol",
     "smiles": "NCC(O)c1ccc(O)cc1",
     "inchikey": "QHGUCRYDKWKLMG-UHFFFAOYSA-N",
@@ -2592,7 +3478,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1", "α-adrenergic (weak)"],
+      "primary_targets": [
+        "TAAR1",
+        "α-adrenergic (weak)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2608,27 +3497,50 @@
       ],
       "downstream_signalling": "Endogenous trace amine; 400–2000× weaker than NE at mammalian adrenergic receptors. Does not cross BBB readily."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
-    "tags_to_add": ["endogenous-trace-amine", "TAAR1-agonist"],
+    "tags_to_add": [
+      "endogenous-trace-amine",
+      "TAAR1-agonist"
+    ],
     "confidence": "medium",
     "notes": "Endogenous trace amine. Major neurotransmitter in invertebrates (analogue of NE in insects).",
-    "references_consulted": ["pmid:11459929"]
+    "references_consulted": [
+      "pmid:11459929"
+    ]
   },
   {
     "name": "(-)-octopamine",
-    "aliases_added": ["octopamine"],
+    "aliases_added": [
+      "octopamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1"], "binding": [], "functional": [], "downstream_signalling": "See octopamine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See octopamine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Duplicate.",
-    "references_consulted": ["pmid:11459929"]
+    "references_consulted": [
+      "pmid:11459929"
+    ]
   },
   {
     "name": "oxedrine",
-    "aliases_added": ["synephrine", "p-synephrine"],
+    "aliases_added": [
+      "synephrine",
+      "p-synephrine"
+    ],
     "iupac_name": "(RS)-4-[1-hydroxy-2-(methylamino)ethyl]phenol",
     "smiles": "CNCC(O)c1ccc(O)cc1",
     "inchikey": "YRCWQPVGYLYSOX-UHFFFAOYSA-N",
@@ -2636,7 +3548,10 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["α1-adrenergic (weak)", "TAAR1"],
+      "primary_targets": [
+        "α1-adrenergic (weak)",
+        "TAAR1"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2664,17 +3579,35 @@
       ]
     },
     "metabolism": [],
-    "tags_to_add": ["α1-agonist-weak", "trace-amine"],
+    "tags_to_add": [
+      "α1-agonist-weak",
+      "trace-amine"
+    ],
     "confidence": "medium",
     "notes": "Found in bitter orange (Citrus aurantium); common in fat-burner supplements. Very weak compared to m-synephrine (phenylephrine).",
-    "references_consulted": ["pmid:11459929"]
+    "references_consulted": [
+      "pmid:11459929"
+    ]
   },
   {
     "name": "(+)-oxedrine",
-    "aliases_added": ["(+)-synephrine", "(S)-synephrine"],
+    "aliases_added": [
+      "(+)-synephrine",
+      "(S)-synephrine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["α1", "TAAR1"], "binding": [], "functional": [], "downstream_signalling": "S-(+)-synephrine; weaker enantiomer."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "α1",
+        "TAAR1"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "S-(+)-synephrine; weaker enantiomer."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "Enantiomer of synephrine.",
@@ -2682,10 +3615,23 @@
   },
   {
     "name": "(-)-oxedrine",
-    "aliases_added": ["(-)-synephrine", "(R)-synephrine"],
+    "aliases_added": [
+      "(-)-synephrine",
+      "(R)-synephrine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["α1", "TAAR1"], "binding": [], "functional": [], "downstream_signalling": "R-(-)-synephrine; the more α1-active enantiomer."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "α1",
+        "TAAR1"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "R-(-)-synephrine; the more α1-active enantiomer."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "Enantiomer of synephrine.",
@@ -2693,10 +3639,21 @@
   },
   {
     "name": "D-synephrine(1+)",
-    "aliases_added": ["d-synephrine cation"],
+    "aliases_added": [
+      "d-synephrine cation"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["α1"], "binding": [], "functional": [], "downstream_signalling": "Protonated form of D-synephrine; same pharmacology as parent."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "α1"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Protonated form of D-synephrine; same pharmacology as parent."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "Ionic form of D-synephrine.",
@@ -2704,7 +3661,11 @@
   },
   {
     "name": "phenylephrine",
-    "aliases_added": ["m-synephrine", "Neo-Synephrine", "(R)-phenylephrine"],
+    "aliases_added": [
+      "m-synephrine",
+      "Neo-Synephrine",
+      "(R)-phenylephrine"
+    ],
     "iupac_name": "(1R)-1-(3-hydroxyphenyl)-2-(methylamino)ethan-1-ol",
     "smiles": "CNC[C@@H](O)c1cccc(O)c1",
     "inchikey": "SONNWYBIRXJNDC-SECBINFHSA-N",
@@ -2712,7 +3673,9 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["α1-adrenergic"],
+      "primary_targets": [
+        "α1-adrenergic"
+      ],
       "binding": [
         {
           "target": "α1A-adrenergic",
@@ -2757,14 +3720,23 @@
         "reference": "pmid:17264159"
       }
     ],
-    "tags_to_add": ["α1-direct-agonist", "ineffective-oral"],
+    "tags_to_add": [
+      "α1-direct-agonist",
+      "ineffective-oral"
+    ],
     "confidence": "high",
     "notes": "FDA advisory panel September 2023 found oral phenylephrine ineffective as nasal decongestant — massive first-pass metabolism leaves no systemic drug. IV is potent and effective.",
-    "references_consulted": ["pmid:17264159"]
+    "references_consulted": [
+      "pmid:17264159"
+    ]
   },
   {
     "name": "Hordenine",
-    "aliases_added": ["hordenine", "N,N-dimethyltyramine", "anhaline"],
+    "aliases_added": [
+      "hordenine",
+      "N,N-dimethyltyramine",
+      "anhaline"
+    ],
     "iupac_name": "4-[2-(dimethylamino)ethyl]phenol",
     "smiles": "CN(C)CCc1ccc(O)cc1",
     "inchikey": "KUBCEEMXQZUPDQ-UHFFFAOYSA-N",
@@ -2772,7 +3744,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1", "MAO-B (substrate)", "NET (indirect)"],
+      "primary_targets": [
+        "TAAR1",
+        "MAO-B (substrate)",
+        "NET (indirect)"
+      ],
       "binding": [],
       "functional": [
         {
@@ -2789,7 +3765,9 @@
       ],
       "downstream_signalling": "Indirect sympathomimetic via NE release; selective MAO-B substrate (Km 479 µM, Vmax 128 nM/mg/h in rat liver, not deaminated by MAO-A). Poor BBB penetration — peripheral activity dominates."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "MAO-B (selective substrate)",
@@ -2799,25 +3777,48 @@
         "reference": "doi:10.1111/j.2042-7158.1989.tb06492.x"
       }
     ],
-    "tags_to_add": ["MAO-B-substrate", "TAAR1-agonist"],
+    "tags_to_add": [
+      "MAO-B-substrate",
+      "TAAR1-agonist"
+    ],
     "confidence": "medium",
     "notes": "Found in barley and some cacti. Marketed in pre-workout supplements as 'focus' ingredient. Poor BBB penetration limits CNS effect.",
-    "references_consulted": ["pmid:11723238", "doi:10.1111/j.2042-7158.1989.tb06492.x"]
+    "references_consulted": [
+      "pmid:11723238",
+      "doi:10.1111/j.2042-7158.1989.tb06492.x"
+    ]
   },
   {
     "name": "hordenine",
-    "aliases_added": ["Hordenine"],
+    "aliases_added": [
+      "Hordenine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1", "MAO-B"], "binding": [], "functional": [], "downstream_signalling": "See Hordenine record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1",
+        "MAO-B"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See Hordenine record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Duplicate of Hordenine.",
-    "references_consulted": ["pmid:11723238"]
+    "references_consulted": [
+      "pmid:11723238"
+    ]
   },
   {
     "name": "N-methyltyramine",
-    "aliases_added": ["NMT", "p-NMT"],
+    "aliases_added": [
+      "NMT",
+      "p-NMT"
+    ],
     "iupac_name": "4-[2-(methylamino)ethyl]phenol",
     "smiles": "CNCCc1ccc(O)cc1",
     "inchikey": "AXVZFRBSCNEKPQ-UHFFFAOYSA-N",
@@ -2825,12 +3826,17 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["TAAR1", "NET (indirect)"],
+      "primary_targets": [
+        "TAAR1",
+        "NET (indirect)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Trace amine, TAAR1 agonist. Releases NE indirectly; poor BBB penetration."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Endogenous trace amine; found in some cacti and bitter orange. Pre-workout supplement ingredient.",
@@ -2838,7 +3844,11 @@
   },
   {
     "name": "dopamine",
-    "aliases_added": ["DA", "3-hydroxytyramine", "Intropin"],
+    "aliases_added": [
+      "DA",
+      "3-hydroxytyramine",
+      "Intropin"
+    ],
     "iupac_name": "4-(2-aminoethyl)benzene-1,2-diol",
     "smiles": "NCCc1ccc(O)c(O)c1",
     "inchikey": "VYFYYTLLBUKUHU-UHFFFAOYSA-N",
@@ -2846,7 +3856,15 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["D1", "D2", "D3", "D4", "D5", "α1", "β1"],
+      "primary_targets": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "α1",
+        "β1"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Endogenous catecholamine. Full agonist at all five DA receptor subtypes; at high doses also activates α1 and β1 directly. Does NOT cross BBB."
@@ -2870,17 +3888,31 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["neurotransmitter", "IV-pressor"],
+    "tags_to_add": [
+      "neurotransmitter",
+      "IV-pressor"
+    ],
     "confidence": "high",
     "notes": "Endogenous neurotransmitter. Used clinically as IV pressor (peripherally) — does not cross BBB so no CNS effects of exogenous administration.",
     "references_consulted": []
   },
   {
     "name": "3-Hydroxytyramine hydrobromide",
-    "aliases_added": ["dopamine hydrobromide"],
+    "aliases_added": [
+      "dopamine hydrobromide"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["D1-D5"], "binding": [], "functional": [], "downstream_signalling": "Salt form of dopamine."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "D1-D5"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Salt form of dopamine."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "high",
     "notes": "Salt form of dopamine. See dopamine record.",
@@ -2888,7 +3920,11 @@
   },
   {
     "name": "deoxyepinephrine",
-    "aliases_added": ["deoxyepinephrine", "N-methyldopamine", "epinine"],
+    "aliases_added": [
+      "deoxyepinephrine",
+      "N-methyldopamine",
+      "epinine"
+    ],
     "iupac_name": "4-[2-(methylamino)ethyl]benzene-1,2-diol",
     "smiles": "CNCCc1ccc(O)c(O)c1",
     "inchikey": "NGKZFDYBISXGGS-UHFFFAOYSA-N",
@@ -2896,12 +3932,19 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["D1", "D2", "α1", "β1"],
+      "primary_targets": [
+        "D1",
+        "D2",
+        "α1",
+        "β1"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "N-methyldopamine; partial agonist at DA and adrenergic receptors. Active metabolite of ibopamine. Does cross BBB to a limited extent."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Active metabolite of ibopamine (oral DA prodrug). Used historically for cardiac inotropy.",
@@ -2909,7 +3952,10 @@
   },
   {
     "name": "oxidopamine",
-    "aliases_added": ["6-hydroxydopamine", "6-OHDA"],
+    "aliases_added": [
+      "6-hydroxydopamine",
+      "6-OHDA"
+    ],
     "iupac_name": "5-(2-aminoethyl)benzene-1,2,4-triol",
     "smiles": "NCCc1cc(O)c(O)cc1O",
     "inchikey": "DIVDFFZHCJEHGG-UHFFFAOYSA-N",
@@ -2917,12 +3963,16 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["DAT (substrate; cytotoxic)"],
+      "primary_targets": [
+        "DAT (substrate; cytotoxic)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Selectively taken up by DAT and NET into catecholaminergic neurons where auto-oxidation generates ROS → mitochondrial dysfunction → selective DA/NE neuron death. Standard research lesioning agent for Parkinson's disease models."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "off_targets": [
       {
@@ -2932,46 +3982,88 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["neurotoxin", "research-only"],
+    "tags_to_add": [
+      "neurotoxin",
+      "research-only"
+    ],
     "confidence": "high",
     "notes": "6-OHDA is the classic experimental neurotoxin for selective DA terminal lesions. Standard tool in Parkinson's disease animal models.",
     "references_consulted": []
   },
   {
     "name": "5-Hydroxydopamine",
-    "aliases_added": ["5-OHDA"],
+    "aliases_added": [
+      "5-OHDA"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["NET (substrate)"], "binding": [], "functional": [], "downstream_signalling": "Like 6-OHDA but more NET-selective; used for noradrenergic lesioning."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "NET (substrate)"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Like 6-OHDA but more NET-selective; used for noradrenergic lesioning."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
-    "tags_to_add": ["neurotoxin-NE", "research-only"],
+    "tags_to_add": [
+      "neurotoxin-NE",
+      "research-only"
+    ],
     "confidence": "high",
     "notes": "Noradrenergic neurotoxin counterpart to 6-OHDA.",
     "references_consulted": []
   },
   {
     "name": "3-O-methyldopamine",
-    "aliases_added": ["3-MT", "3-methoxytyramine"],
+    "aliases_added": [
+      "3-MT",
+      "3-methoxytyramine"
+    ],
     "iupac_name": "4-(2-aminoethyl)-2-methoxyphenol",
     "smiles": "COc1cc(CCN)ccc1O",
     "inchikey": "DIVQKHQLANKJQO-UHFFFAOYSA-N",
     "cas": "554-52-9",
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1 (weak)"], "binding": [], "functional": [], "downstream_signalling": "COMT metabolite of dopamine. Endogenous trace amine. TAAR1 partial agonist."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1 (weak)"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "COMT metabolite of dopamine. Endogenous trace amine. TAAR1 partial agonist."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published TAAR1 EC50"],
+    "data_gaps_remaining": [
+      "No published TAAR1 EC50"
+    ],
     "notes": "Endogenous metabolite of dopamine via COMT.",
     "references_consulted": []
   },
   {
     "name": "4-O-methyldopamine",
-    "aliases_added": ["3-hydroxy-4-methoxyphenethylamine"],
+    "aliases_added": [
+      "3-hydroxy-4-methoxyphenethylamine"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["TAAR1 (weak)"], "binding": [], "functional": [], "downstream_signalling": "Regioisomer of 3-O-methyldopamine; weak TAAR1 agonist."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "TAAR1 (weak)"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Regioisomer of 3-O-methyldopamine; weak TAAR1 agonist."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "Catechol O-methylation product (minor pathway).",
@@ -2979,7 +4071,11 @@
   },
   {
     "name": "4-Fluorodeprenyl",
-    "aliases_added": ["4-fluoroselegiline", "pFSL", "4-F-deprenyl"],
+    "aliases_added": [
+      "4-fluoroselegiline",
+      "pFSL",
+      "4-F-deprenyl"
+    ],
     "iupac_name": "(R)-N-methyl-N-[1-(4-fluorophenyl)propan-2-yl]prop-2-yn-1-amine",
     "smiles": null,
     "inchikey": null,
@@ -2987,12 +4083,16 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["MAO-B (irreversible inhibitor)"],
+      "primary_targets": [
+        "MAO-B (irreversible inhibitor)"
+      ],
       "binding": [],
       "functional": [],
       "downstream_signalling": "Propargylamine MAO-B inhibitor like selegiline. Fluorination at para position alters CYP metabolism — slower N-dealkylation to amphetamine metabolites; potentially safer profile. Used as PET tracer ([18F]-4-F-deprenyl) for in vivo MAO-B imaging."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "CYP2D6 / CYP3A4",
@@ -3001,64 +4101,133 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["MAO-B-inhibitor", "PET-tracer"],
+    "tags_to_add": [
+      "MAO-B-inhibitor",
+      "PET-tracer"
+    ],
     "confidence": "low",
-    "data_gaps_remaining": ["Detailed human PK", "Quantitative MAO-B Ki vs selegiline"],
+    "data_gaps_remaining": [
+      "Detailed human PK",
+      "Quantitative MAO-B Ki vs selegiline"
+    ],
     "notes": "Selegiline analogue used as PET imaging agent. Reduced amphetamine metabolite formation vs parent selegiline.",
     "references_consulted": []
   },
   {
     "name": "DESOXY",
-    "aliases_added": ["desoxypipradrol", "2-DPMP"],
+    "aliases_added": [
+      "desoxypipradrol",
+      "2-DPMP"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "Note: DESOXY in PIHKAL is actually 4-methyl-2,5-dimethoxyamphetamine (DESOXY-DOM); separate from desoxypipradrol. As PIHKAL DESOXY (Shulgin entry #61): structural analogue lacking the 5-methoxy of DOM. Limited published pharmacology."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Note: DESOXY in PIHKAL is actually 4-methyl-2,5-dimethoxyamphetamine (DESOXY-DOM); separate from desoxypipradrol. As PIHKAL DESOXY (Shulgin entry #61): structural analogue lacking the 5-methoxy of DOM. Limited published pharmacology."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["Identity ambiguous in source; no published EC50"],
+    "data_gaps_remaining": [
+      "Identity ambiguous in source; no published EC50"
+    ],
     "notes": "Name DESOXY ambiguous: PIHKAL entry vs desoxypipradrol; assuming PIHKAL DOM analogue.",
     "references_consulted": []
   },
   {
     "name": "2-methylamphetamine",
-    "aliases_added": ["2-MA", "ortho-methylamphetamine"],
+    "aliases_added": [
+      "2-MA",
+      "ortho-methylamphetamine"
+    ],
     "iupac_name": "(RS)-1-(2-methylphenyl)propan-2-amine",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET"], "binding": [], "functional": [], "downstream_signalling": "Ring-methylated amphetamine; ortho-methyl is sterically tolerated, profile similar to amphetamine with possible slight DA shift. Limited published data."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Ring-methylated amphetamine; ortho-methyl is sterically tolerated, profile similar to amphetamine with possible slight DA shift. Limited published data."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50 release values"],
+    "data_gaps_remaining": [
+      "No published EC50 release values"
+    ],
     "notes": "Research chemical; very limited data.",
     "references_consulted": []
   },
   {
     "name": "3-CAF",
-    "aliases_added": ["3-chloroamphetamine", "3-CA", "meta-chloroamphetamine", "m-CA"],
+    "aliases_added": [
+      "3-chloroamphetamine",
+      "3-CA",
+      "meta-chloroamphetamine",
+      "m-CA"
+    ],
     "iupac_name": "(RS)-1-(3-chlorophenyl)propan-2-amine",
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["DAT", "NET", "SERT"], "binding": [], "functional": [], "downstream_signalling": "Meta-chloro is less SERT-shifted than para-chloro (which is PCA, a serotonergic neurotoxin). Limited published data on m-CA specifically."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Meta-chloro is less SERT-shifted than para-chloro (which is PCA, a serotonergic neurotoxin). Limited published data on m-CA specifically."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
-    "data_gaps_remaining": ["No published EC50"],
+    "data_gaps_remaining": [
+      "No published EC50"
+    ],
     "notes": "Meta-chloroamphetamine. Distinct from PCA — less serotonergic shift expected. Research chemical.",
     "references_consulted": []
   },
   {
     "name": "Methedrone",
-    "aliases_added": ["Methedrone"],
+    "aliases_added": [
+      "Methedrone"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["SERT"], "binding": [], "functional": [], "downstream_signalling": "See Methedrone (lowercased) record above."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See Methedrone (lowercased) record above."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "medium",
     "notes": "Capitalisation duplicate.",
-    "references_consulted": ["pmid:21073814"]
+    "references_consulted": [
+      "pmid:21073814"
+    ]
   },
   {
     "name": "Mescaline",
-    "aliases_added": ["3,4,5-trimethoxyphenethylamine"],
+    "aliases_added": [
+      "3,4,5-trimethoxyphenethylamine"
+    ],
     "iupac_name": "2-(3,4,5-trimethoxyphenyl)ethan-1-amine",
     "smiles": "NCCc1cc(OC)c(OC)c(OC)c1",
     "inchikey": "RHCSKNNOAZULRK-UHFFFAOYSA-N",
@@ -3066,7 +4235,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["5-HT2A", "5-HT2C", "TAAR1 (weak)"],
+      "primary_targets": [
+        "5-HT2A",
+        "5-HT2C",
+        "TAAR1 (weak)"
+      ],
       "binding": [
         {
           "target": "5-HT2A",
@@ -3105,14 +4278,21 @@
         "notes": "Mescaline is a poor substrate of purified human MAO; deamination pathway unclear. Not significantly metabolised by CYP2D6."
       }
     ],
-    "tags_to_add": ["5-HT2A-partial-agonist", "psychedelic"],
+    "tags_to_add": [
+      "5-HT2A-partial-agonist",
+      "psychedelic"
+    ],
     "confidence": "high",
     "notes": "Mescaline is a phenethylamine but a classical psychedelic, not a stimulant — included here because of phenethylamine class membership. Active metabolite of peyote (Lophophora williamsii).",
     "references_consulted": []
   },
   {
     "name": "2C-B",
-    "aliases_added": ["2,5-dimethoxy-4-bromophenethylamine", "Nexus", "Bees"],
+    "aliases_added": [
+      "2,5-dimethoxy-4-bromophenethylamine",
+      "Nexus",
+      "Bees"
+    ],
     "iupac_name": "2-(4-bromo-2,5-dimethoxyphenyl)ethan-1-amine",
     "smiles": "NCCc1cc(Br)c(OC)cc1OC",
     "inchikey": "FEAKOSWVJXEIIK-UHFFFAOYSA-N",
@@ -3120,7 +4300,11 @@
     "pubchem_cid": null,
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["5-HT2A", "5-HT2B", "5-HT2C"],
+      "primary_targets": [
+        "5-HT2A",
+        "5-HT2B",
+        "5-HT2C"
+      ],
       "binding": [
         {
           "target": "5-HT2A",
@@ -3167,17 +4351,27 @@
       ]
     },
     "metabolism": [],
-    "tags_to_add": ["5-HT2A-agonist", "5-HT2B-agonist"],
+    "tags_to_add": [
+      "5-HT2A-agonist",
+      "5-HT2B-agonist"
+    ],
     "confidence": "high",
     "notes": "Classical 2C psychedelic. Note: not a stimulant per se but included due to phenethylamine class membership.",
     "references_consulted": []
   },
   {
     "name": "25T-NBOMe",
-    "aliases_added": ["NBOMe-2C-T", "25T2-NBOMe", "25T4-NBOMe", "25T7-NBOMe"],
+    "aliases_added": [
+      "NBOMe-2C-T",
+      "25T2-NBOMe",
+      "25T4-NBOMe",
+      "25T7-NBOMe"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
     "pharmacology": {
-      "primary_targets": ["5-HT2A"],
+      "primary_targets": [
+        "5-HT2A"
+      ],
       "binding": [
         {
           "target": "5-HT2A",
@@ -3191,7 +4385,9 @@
       "functional": [],
       "downstream_signalling": "NBOMe family — extreme 5-HT2A agonism with very narrow therapeutic index; 5-HT2B activity adds cardiotoxicity risk."
     },
-    "human_pk": {"routes": []},
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [
       {
         "enzyme": "CYP3A4 / CYP2D6",
@@ -3208,18 +4404,35 @@
         "reference": null
       }
     ],
-    "tags_to_add": ["NBOMe", "5-HT2A-superpotent"],
+    "tags_to_add": [
+      "NBOMe",
+      "5-HT2A-superpotent"
+    ],
     "confidence": "low",
-    "data_gaps_remaining": ["Specific Ki for 25T-NBOMe family members not individually published"],
+    "data_gaps_remaining": [
+      "Specific Ki for 25T-NBOMe family members not individually published"
+    ],
     "notes": "NBOMe variant. NBOMe N-benzyl modification boosts 5-HT2A affinity 30–100× over parent 2C compound. Multiple deaths in series.",
     "references_consulted": []
   },
   {
     "name": "2C-T-4-NBOMe",
-    "aliases_added": ["NBOMe-2C-T-4", "25T4-NBOMe"],
+    "aliases_added": [
+      "NBOMe-2C-T-4",
+      "25T4-NBOMe"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["5-HT2A"], "binding": [], "functional": [], "downstream_signalling": "See 25T-NBOMe record."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See 25T-NBOMe record."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "NBOMe variant of 2C-T-4.",
@@ -3227,10 +4440,22 @@
   },
   {
     "name": "2C-T-7-NBOMe",
-    "aliases_added": ["NBOMe-2C-T-7", "25T7-NBOMe"],
+    "aliases_added": [
+      "NBOMe-2C-T-7",
+      "25T7-NBOMe"
+    ],
     "class_context_id": "amphetamine-monoamine-releasers",
-    "pharmacology": {"primary_targets": ["5-HT2A"], "binding": [], "functional": [], "downstream_signalling": "See 25T-NBOMe record. NBOMe of 2C-T-7."},
-    "human_pk": {"routes": []},
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "See 25T-NBOMe record. NBOMe of 2C-T-7."
+    },
+    "human_pk": {
+      "routes": []
+    },
     "metabolism": [],
     "confidence": "low",
     "notes": "NBOMe variant of 2C-T-7.",
