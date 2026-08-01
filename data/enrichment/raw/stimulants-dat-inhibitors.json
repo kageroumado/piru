@@ -1409,8 +1409,8 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal membranes",
           "radioligand_or_probe": "[3H]WIN-35,428 (self)",
-          "reference": "pmid:1675639",
-          "notes": "Madras 1989."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:1675639, which is leukotriene C4 and the blood-brain barrier in rat ischemia. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. Madras 1989."
         },
         {
           "target": "SERT",
@@ -1419,8 +1419,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]paroxetine",
-          "reference": "pmid:1675639",
-          "notes": "~30-fold selectivity for DAT over SERT."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:1675639, which is leukotriene C4 and the blood-brain barrier in rat ischemia. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. ~30-fold selectivity for DAT over SERT."
         },
         {
           "target": "NET",
@@ -1429,7 +1429,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "pmid:1675639"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:1675639, which is leukotriene C4 and the blood-brain barrier in rat ischemia. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
         }
       ],
       "functional": [],
@@ -3162,8 +3163,8 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "doi:10.1016/j.bmcl.2015.04.083",
-          "notes": "Namjoshi/Blough/Rothman 2015 \u2014 NDA releaser."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.bmcl.2015.04.083, which is hybrid liposomes in a rheumatoid-arthritis mouse model. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. Namjoshi/Blough/Rothman 2015 \u2014 NDA releaser."
         },
         {
           "target": "NET",
@@ -3172,7 +3173,8 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "doi:10.1016/j.bmcl.2015.04.083"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.bmcl.2015.04.083, which is hybrid liposomes in a rheumatoid-arthritis mouse model. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
         },
         {
           "target": "SERT",
@@ -3181,7 +3183,8 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "doi:10.1016/j.bmcl.2015.04.083"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.bmcl.2015.04.083, which is hybrid liposomes in a rheumatoid-arthritis mouse model. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
         }
       ],
       "functional": [],

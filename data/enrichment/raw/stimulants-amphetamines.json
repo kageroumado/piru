@@ -620,7 +620,8 @@
           "reference_agonist": "β-PEA",
           "species": "human",
           "cell_system": "HEK293/hTAAR1",
-          "reference": "pmid:11459929"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:11459929, which is the trace-amine receptor discovery paper, which tested no amphetamines. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ],
       "downstream_signalling": "Methamphetamine adds two features to amphetamine pharmacology: (1) σ1 agonism, which through chaperone effects on D1, BiP/GRP78, and microglial NF-κB drives chronic-use neurotoxicity (Nguyen Pharmacol Rev 2017, doi:10.1124/pr.116.012799); (2) the N-methyl group increases lipophilicity, raising brain:plasma ratio and intracellular accumulation in DA terminals. Reactive oxygen species from cytosolic DA auto-oxidation are the proximate cause of DAT terminal degeneration (McCann 1998 PMID 9504281).",
@@ -3184,14 +3185,16 @@
           "readout": "[3H]-NE release",
           "ec50_nm": 10.9,
           "species": "rat",
-          "reference": "pmid:11071707"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:11071707, which is Rothman 2001, which assayed amphetamine/MDMA/methamphetamine/ephedrine/phentermine/aminorex — not this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         },
         {
           "target": "DAT",
           "readout": "[3H]-DA release",
           "ec50_nm": 39.5,
           "species": "rat",
-          "reference": "pmid:11071707"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:11071707, which is Rothman 2001, which assayed amphetamine/MDMA/methamphetamine/ephedrine/phentermine/aminorex — not this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ],
       "downstream_signalling": "Endogenous trace amine; equipotent to amphetamine at DAT in vitro but orally inactive in humans up to 1.6 g (Sabelli 1986) due to rapid first-pass MAO metabolism."

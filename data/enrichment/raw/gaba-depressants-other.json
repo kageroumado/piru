@@ -202,7 +202,8 @@
         "mechanism": "ALDH inhibition (similar to disulfiram)",
         "ki_um": null,
         "clinical_effect": "Disulfiram-like flushing reaction with ethanol co-ingestion.",
-        "reference": "pmid:14640476"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to pmid:14640476, which is cumulative copper poisoning in sheep. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "with": "acetaminophen / paracetamol",
@@ -537,9 +538,9 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": "GBL itself is essentially inactive at GHB/GABA-B; its effects derive from peripheral and tissue-lactonase conversion to GHB.",
-          "reference": "pmid:11071567",
+          "reference": null,
           "is_review": true,
-          "notes": "Lettieri & Fung 1979; Roth & Giarman 1968. The lactone form is extremely lipophilic → faster absorption and more rapid onset than equimolar GHB. F% approaches 100% (vs 25% for GHB) due to bypass of first-pass GHB-saturable metabolism."
+          "notes": "Citation removed: this value was attributed to pmid:11071567, which is HHV8 virion morphogenesis in endothelium. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Lettieri & Fung 1979; Roth & Giarman 1968. The lactone form is extremely lipophilic → faster absorption and more rapid onset than equimolar GHB. F% approaches 100% (vs 25% for GHB) due to bypass of first-pass GHB-saturable metabolism."
         }
       ],
       "functional": [],
@@ -968,7 +969,8 @@
         "mechanism": "Reduced gabapentin absorption (~20% AUC decrease)",
         "ki_um": null,
         "clinical_effect": "Separate doses by ≥2 h.",
-        "reference": "pmid:1907103"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to pmid:1907103, which is lactose absorption from the colon of newborn piglets. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "with": "opioids (morphine, oxycodone)",
@@ -1679,7 +1681,8 @@
         "mechanism": "Pharmacodynamic synergy",
         "ki_um": null,
         "clinical_effect": "Profound CNS / respiratory depression. Intrathecal baclofen withdrawal is a medical emergency (rebound spasticity, hyperthermia, rhabdomyolysis).",
-        "reference": "pmid:24199712"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to pmid:24199712, which is BCG intravesical therapy for bladder cancer. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "pharmacogenetics": {
@@ -1694,7 +1697,8 @@
         "phenibut"
       ],
       "withdrawal_syndrome": "Onset 24-72 h after oral discontinuation; faster after pump failure (intrathecal). Severe rebound spasticity, hallucinations, seizures, autonomic instability, hyperthermia, rhabdomyolysis. Intrathecal withdrawal can be fatal — requires emergency intrathecal restart or oral high-dose substitution.",
-      "reference": "pmid:24199712"
+      "reference": null,
+      "notes": "Citation removed: this value was attributed to pmid:24199712, which is BCG intravesical therapy for bladder cancer. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
     },
     "off_targets": [],
     "demographic_differences": {
@@ -1921,8 +1925,8 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": "Adults.",
-          "reference": "pmid:4034678",
-          "notes": "t1/2 15-50 h. Hepatic oxidation (CYP3A4, CYP2C19) → inactive metabolites. <1% renal unchanged."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:4034678, which is 1H-NMR resonance assignment in excised rat brain. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. t1/2 15-50 h. Hepatic oxidation (CYP3A4, CYP2C19) → inactive metabolites. <1% renal unchanged."
         }
       ],
       "concentration_effect": [
@@ -1931,7 +1935,8 @@
           "concentration_unit": "μg/mL",
           "threshold": 20,
           "peak_effect": 50,
-          "reference": "pmid:4034678"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:4034678, which is 1H-NMR resonance assignment in excised rat brain. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ]
     },
@@ -4906,8 +4911,8 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "cortical neurons",
-          "reference": "pmid:23142028",
-          "notes": "Withaferin A and withanolides bind BZ-like site with weak affinity."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:23142028, which is proline-induced astrocyte cytoskeleton remodeling. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Withaferin A and withanolides bind BZ-like site with weak affinity."
         }
       ],
       "biased_agonism": [],

@@ -958,15 +958,16 @@
         "metabolite_name": "EDDP (2-ethylidene-1,5-dimethyl-3,3-diphenylpyrrolidine)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1002/cpt.2956",
-        "notes": "CPIC 2024 guideline \u2014 CYP2B6 dominant; CYP3A4/5 contributes <5% by recent modelling. CYP2D6 minimal."
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1002/cpt.2956, which is a ponatinib dose-ranging oncology model analysis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. CPIC 2024 guideline \u2014 CYP2B6 dominant; CYP3A4/5 contributes <5% by recent modelling. CYP2D6 minimal."
       },
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": 5,
         "metabolite_name": "EDDP",
         "metabolite_active": false,
-        "reference": "doi:10.1002/cpt.2956"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1002/cpt.2956, which is a ponatinib dose-ranging oncology model analysis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
       }
     ],
     "drug_interactions_pk": [
@@ -992,7 +993,8 @@
         "ABCB1"
       ],
       "phenotype_effects": "CYP2B6 *6/*6 (slow metabolisers) have ~50% higher S-methadone plasma concentrations \u2192 4.5\u00d7 increased TdP risk (Eap 2007). CPIC 2024 recommends genotype-informed dosing.",
-      "reference": "doi:10.1002/cpt.2956"
+      "reference": null,
+      "notes": "Citation removed: this value was attributed to doi:10.1002/cpt.2956, which is a ponatinib dose-ranging oncology model analysis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
@@ -1719,14 +1721,16 @@
           "half_life_min": 150,
           "vd_l_per_kg": 4,
           "protein_binding_pct": 19,
-          "reference": "doi:10.2165/11530830-000000000-00000"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.2165/11530830-000000000-00000, which is a review of kinase-inhibitor cancer therapies. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
         },
         {
           "route": "intravenous",
           "bioavailability_pct": 100,
           "half_life_min": 150,
           "vd_l_per_kg": 4,
-          "reference": "doi:10.2165/11530830-000000000-00000"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.2165/11530830-000000000-00000, which is a review of kinase-inhibitor cancer therapies. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
         }
       ],
       "concentration_effect": []
@@ -1738,8 +1742,8 @@
         "metabolite_name": "hydromorphone-3-glucuronide (H3G)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1124/dmd.108.025130",
-        "notes": "H3G has been associated with neuroexcitation/myoclonus in renal failure; analogous to morphine-3-glucuronide."
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.108.025130, which is PXR activation and CYP induction by oxidosqualene cyclase inhibition. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. H3G has been associated with neuroexcitation/myoclonus in renal failure; analogous to morphine-3-glucuronide."
       }
     ],
     "drug_interactions_pk": [
@@ -2145,7 +2149,8 @@
         "fraction_of_clearance_pct": 10,
         "metabolite_name": "various demethylated metabolites",
         "metabolite_active": null,
-        "reference": "pmid:24126017"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to pmid:24126017, which is beta-galactosidase-triggered NO/HNO donor chemistry. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
       }
     ],
     "drug_interactions_pk": [
@@ -2675,9 +2680,9 @@
           "species": "human",
           "tissue_or_cell": "membrane",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "reference": null,
           "is_review": false,
-          "notes": "(-)-pentazocine is the KOR analgesic; provides analgesia + dysphoria."
+          "notes": "Citation removed: this value was attributed to doi:10.1016/0024-3205(93)90152-S, which is five other opioids; this compound was not tested. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. (-)-pentazocine is the KOR analgesic; provides analgesia + dysphoria."
         },
         {
           "target": "\u03c31 (+)",
@@ -2697,9 +2702,9 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "reference": null,
           "is_review": false,
-          "notes": "Weak partial MOR agonist; can precipitate withdrawal in MOR-tolerant patients."
+          "notes": "Citation removed: this value was attributed to doi:10.1016/0024-3205(93)90152-S, which is five other opioids; this compound was not tested. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. Weak partial MOR agonist; can precipitate withdrawal in MOR-tolerant patients."
         }
       ],
       "functional": [],

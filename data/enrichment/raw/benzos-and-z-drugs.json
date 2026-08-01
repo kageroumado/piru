@@ -5906,7 +5906,8 @@
         "metabolite_name": "desalkylgidazepam (bromonordiazepam)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1007/s11419-022-00616-y"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1007/s11419-022-00616-y, which is a designer-benzodiazepine QSAR panel not including this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "drug_interactions_pk": [],

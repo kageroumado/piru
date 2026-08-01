@@ -1,73 +1,73 @@
 {
-  "name": "Tesofensine",
-  "aliases": [
-    "NS2330"
+ "name": "Tesofensine",
+ "aliases": [
+  "NS2330"
+ ],
+ "category": "Endocrine",
+ "defaultRoute": "oral",
+ "routes": [
+  {
+   "route": "oral",
+   "unit": "mg",
+   "doses": {},
+   "protocolDosing": {
+    "lowAmount": 0.25,
+    "highAmount": 0.5,
+    "frequency": "once daily",
+    "notes": "t½ ~9 days (220 h) — significant accumulation; 2–3 weeks to steady state; 0.5 mg/day = ~10.6% placebo-corrected weight loss at 24 weeks; 1.0 mg dose abandoned (excess CV effects); approved in Mexico as Tesomet (with metoprolol)"
+   }
+  }
+ ],
+ "effects": [
+  "weight loss, appetite suppression",
+  "increased heart rate (dose-dependent, ~8 bpm at 0.5 mg)",
+  "increased blood pressure",
+  "insomnia, mood effects",
+  "serotonin syndrome risk with MAOIs/SSRIs",
+  "CYP3A4 drug interaction potential"
+ ],
+ "halfLifeMinutes": 12960,
+ "mechanismOfAction": {
+  "summary": "Triple monoamine reuptake inhibitor (dopamine + norepinephrine + serotonin); phenyltropane scaffold.",
+  "description": "SNDRI; inhibits DAT, NET, and SERT → appetite suppression via hypothalamic circuits. Possible GLP-1 pathway potentiation. Active metabolite M1 via CYP3A4. t½ ~9 days (220 h) — extremely long, requires weeks to reach steady state; dose titration essential. Approved in Mexico as Tesomet (tesofensine + metoprolol 25 mg to offset HR increase). WADA S6 in-competition.",
+  "primaryTargets": [
+   "DAT",
+   "NET",
+   "SERT"
   ],
-  "category": "Endocrine",
-  "defaultRoute": "oral",
-  "routes": [
-    {
-      "route": "oral",
-      "unit": "mg",
-      "doses": {},
-      "protocolDosing": {
-        "lowAmount": 0.25,
-        "highAmount": 0.5,
-        "frequency": "once daily",
-        "notes": "t½ ~9 days (220 h) — significant accumulation; 2–3 weeks to steady state; 0.5 mg/day = ~10.6% placebo-corrected weight loss at 24 weeks; 1.0 mg dose abandoned (excess CV effects); approved in Mexico as Tesomet (with metoprolol)"
-      }
-    }
+  "bindings": [
+   {
+    "target": "DAT",
+    "action": "reuptakeInhibitor",
+    "affinity": 3
+   },
+   {
+    "target": "NET",
+    "action": "reuptakeInhibitor",
+    "affinity": 3
+   },
+   {
+    "target": "SERT",
+    "action": "reuptakeInhibitor",
+    "affinity": 2
+   }
   ],
-  "effects": [
-    "weight loss, appetite suppression",
-    "increased heart rate (dose-dependent, ~8 bpm at 0.5 mg)",
-    "increased blood pressure",
-    "insomnia, mood effects",
-    "serotonin syndrome risk with MAOIs/SSRIs",
-    "CYP3A4 drug interaction potential"
-  ],
-  "halfLifeMinutes": 12960,
-  "mechanismOfAction": {
-    "summary": "Triple monoamine reuptake inhibitor (dopamine + norepinephrine + serotonin); phenyltropane scaffold.",
-    "description": "SNDRI; inhibits DAT, NET, and SERT → appetite suppression via hypothalamic circuits. Possible GLP-1 pathway potentiation. Active metabolite M1 via CYP3A4. t½ ~9 days (220 h) — extremely long, requires weeks to reach steady state; dose titration essential. Approved in Mexico as Tesomet (tesofensine + metoprolol 25 mg to offset HR increase). WADA S6 in-competition.",
-    "primaryTargets": [
-      "DAT",
-      "NET",
-      "SERT"
-    ],
-    "bindings": [
-      {
-        "target": "DAT",
-        "action": "reuptakeInhibitor",
-        "affinity": 3
-      },
-      {
-        "target": "NET",
-        "action": "reuptakeInhibitor",
-        "affinity": 3
-      },
-      {
-        "target": "SERT",
-        "action": "reuptakeInhibitor",
-        "affinity": 2
-      }
-    ],
-    "references": [
-      "PubChem CID 11370864",
-      "PMID 19777399",
-      "https://doi.org/10.1038/ijo.2010.51"
-    ]
-  },
-  "tags": [
-    "wada-prohibited"
-  ],
-  "cas": "195875-84-4",
-  "formula": "C17H23Cl2NO",
-  "pubchemCID": 11370864,
-  "molarMass": 337.28,
-  "sources": [
-    "PubChem CID 11370864",
-    "PMID 19777399",
-    "Nature IJO 2010 DOI:10.1038/ijo.2010.51"
+  "references": [
+   "PubChem CID 11370864",
+   "PMID 19777399",
+   "https://doi.org/10.1038/ijo.2010.51"
   ]
+ },
+ "tags": [
+  "wada-prohibited"
+ ],
+ "cas": "195875-84-4",
+ "formula": "C17H23Cl2NO",
+ "pubchemCID": 11370864,
+ "molarMass": 337.28,
+ "sources": [
+  "PubChem CID 11370864",
+  "PMID 19777399"
+ ],
+ "citationNotes": "Citation removed: this substance was attributed to doi:10.1038/ijo.2010.51, which is a study of pubertal high-fat-diet exposure and mouse mammary gland development. Verified in the 2026-08-01 topicality audit."
 }

@@ -410,7 +410,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]-dopamine uptake",
-          "reference": "pmid:23039876",
+          "reference": "pmid:23072836",
           "is_review": false,
           "notes": "Baumann 2013 Neuropsychopharmacology — MDPV is ~50× more potent than cocaine at DAT; pure blocker, NOT a substrate (no release evoked)"
         },
@@ -430,7 +430,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat hypothalamic synaptosomes",
-          "reference": "pmid:23039876"
+          "reference": "pmid:23072836"
         },
         {
           "target": "SERT",
@@ -438,7 +438,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat whole brain synaptosomes",
-          "reference": "pmid:23039876",
+          "reference": "pmid:23072836",
           "notes": "DAT/SERT selectivity >800 — the most DAT-selective monoamine drug yet characterized; explains 'pure dopaminergic' hyperstimulation profile"
         },
         {
@@ -672,8 +672,8 @@
         "enzyme": "CYP2D6 / CYP1A2 / CYP2C19",
         "metabolite_name": "OH-α-PVP (ω-1 hydroxylation), 2′′-oxo-α-PVP (pyrrolidine oxidation)",
         "metabolite_active": false,
-        "reference": "doi:10.1007/s11419-015-0265-x",
-        "notes": "Sauer 2009 / Negreira 2015 — multiple oxidative pathways; ketone reduction (carbonyl reductase) gives β-OH metabolite; no clinically active metabolites identified"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1007/s11419-015-0265-x, which is synthetic-cannabinoid urine metabolites, not a cathinone. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Sauer 2009 / Negreira 2015 — multiple oxidative pathways; ketone reduction (carbonyl reductase) gives β-OH metabolite; no clinically active metabolites identified"
       }
     ],
     "drug_interactions_pk": [],
@@ -1787,24 +1787,25 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]-dopamine",
-          "reference": "pmid:14523190",
+          "reference": null,
           "is_review": false,
-          "notes": "Rothman 2003 — S-(-)-methcathinone is the eutomer; DA release potency similar to methamphetamine"
+          "notes": "Citation removed: this value was attributed to pmid:14523190, which is outcomes in extremely-low-birth-weight children. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Rothman 2003 — S-(-)-methcathinone is the eutomer; DA release potency similar to methamphetamine"
         },
         {
           "target": "NET (release, S-isomer)",
           "ec50_nm": 22,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:14523190"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:14523190, which is outcomes in extremely-low-birth-weight children. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         },
         {
           "target": "SERT (release, S-isomer)",
           "ec50_nm": 1772,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:14523190",
-          "notes": "DA/5-HT selectivity ~35 — methamphetamine-like profile; minimal 5-HT release"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:14523190, which is outcomes in extremely-low-birth-weight children. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. DA/5-HT selectivity ~35 — methamphetamine-like profile; minimal 5-HT release"
         }
       ],
       "functional": [],
@@ -4350,7 +4351,8 @@
         "enzyme": "CYP-mediated",
         "metabolite_name": "various phase I metabolites described in case series",
         "metabolite_active": null,
-        "reference": "doi:10.1093/jat/bky016"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1093/jat/bky016, which is TXRF multielemental analysis of tobacco products. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "drug_interactions_pk": [],
@@ -4671,22 +4673,24 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:34361040",
-          "notes": "Luethi 2021 — 4F-PBP (4F-α-PVP IUPAC isomer) IC50 0.5 μM at hDAT; 4-fluoro substitution REDUCES potency vs unsubstituted α-PVP by ~25× — surprising SAR; predicts F at ring exits the optimal DAT pocket geometry"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:34361040, which is Kolaczynska 2021, which tested 4-fluoro-alpha-PBP — a different homolog from this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Luethi 2021 — 4F-PBP (4F-α-PVP IUPAC isomer) IC50 0.5 μM at hDAT; 4-fluoro substitution REDUCES potency vs unsubstituted α-PVP by ~25× — surprising SAR; predicts F at ring exits the optimal DAT pocket geometry"
         },
         {
           "target": "NET",
           "ic50_nm": 610,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "pmid:34361040"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:34361040, which is Kolaczynska 2021, which tested 4-fluoro-alpha-PBP — a different homolog from this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         },
         {
           "target": "SERT",
           "ic50_nm": 177000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "pmid:34361040"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:34361040, which is Kolaczynska 2021, which tested 4-fluoro-alpha-PBP — a different homolog from this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ],
       "functional": [],

@@ -410,8 +410,8 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "acute hippocampal slice",
-          "reference": "pmid:9054453",
-          "notes": "EC50 ~170 µM for ~50% potentiation of fast EPSPs; potency ~10-fold higher than aniracetam in same prep."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:9054453, which is FUT1 fucosyltransferase gene structure. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. EC50 ~170 µM for ~50% potentiation of fast EPSPs; potency ~10-fold higher than aniracetam in same prep."
         },
         {
           "target": "AMPA receptor (recombinant)",
@@ -1477,8 +1477,8 @@
           "reference_agonist": null,
           "species": "rat / mouse",
           "cell_system": "in vivo",
-          "reference": "pmid:15084601",
-          "notes": "Biarylpropylsulfonamide; one of the most studied LY-series for neuroprotection. Potent BDNF induction is invoked as the downstream mechanism for cognitive and neuroprotective effects."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:15084601, which is endoglin/zyxin focal-adhesion cell biology. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Biarylpropylsulfonamide; one of the most studied LY-series for neuroprotection. Potent BDNF induction is invoked as the downstream mechanism for cognitive and neuroprotective effects."
         }
       ],
       "biased_agonism": [],
@@ -2315,8 +2315,8 @@
           "reference_agonist": "AMPA / glutamate",
           "species": "rat",
           "cell_system": "rat hippocampal and frontal cortex slice",
-          "reference": "pmid:14625032",
-          "notes": "S-18986 is a benzothiadiazine PAM (Servier). Increases ACh release in hippocampus of young and aged rats; cognitive enhancement in episodic, working, declarative memory tasks across multiple paradigms."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:14625032, which is trans-sodium crocetinate and brain oxygen delivery. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. S-18986 is a benzothiadiazine PAM (Servier). Increases ACh release in hippocampus of young and aged rats; cognitive enhancement in episodic, working, declarative memory tasks across multiple paradigms."
         }
       ],
       "biased_agonism": [],

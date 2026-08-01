@@ -307,14 +307,16 @@
         "metabolite_name": "2-oxo-3-hydroxy-LSD (O-H-LSD)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1124/dmd.115.064550"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
       },
       {
         "enzyme": "CYP1A2/2D6/2E1/2C9",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "nor-LSD, lysergic acid ethylamide (LAE), 13/14-OH-LSD",
         "metabolite_active": null,
-        "reference": "doi:10.1124/dmd.115.064550"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
       }
     ],
     "drug_interactions_pk": [
@@ -323,7 +325,8 @@
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "Expected ~2\u00d7 increase in LSD AUC; theoretical from CYP3A4 contribution",
-        "reference": "doi:10.1124/dmd.115.064550"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
       },
       {
         "with": "lithium",
@@ -4355,9 +4358,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "various",
-          "reference": "pmid:27216487",
+          "reference": null,
           "is_review": false,
-          "notes": "Rickli 2016 \u2014 high 5-HT2A, 5-HT2C, 5-HT1A; lower DAT/NET than \u03b1MT family"
+          "notes": "Citation removed: this value was attributed to pmid:27216487, which is Rickli 2016, whose tested panel does not include this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. Rickli 2016 \u2014 high 5-HT2A, 5-HT2C, 5-HT1A; lower DAT/NET than \u03b1MT family"
         }
       ],
       "functional": [],
@@ -5542,7 +5545,8 @@
           "reference_agonist": null,
           "species": "human",
           "cell_system": "human MAO-A enzyme",
-          "reference": "doi:10.1016/j.neuint.2017.05.005"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuint.2017.05.005, which is a calcium-activated potassium channel review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
         }
       ],
       "biased_agonism": [],
@@ -5902,7 +5906,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MAO-A",
           "radioligand_or_probe": "kynuramine assay",
-          "reference": "doi:10.1016/j.fct.2009.12.018",
+          "reference": "doi:10.1016/j.fct.2009.12.019",
           "is_review": false,
           "notes": "Herraiz 2010: IC50 2\u20135 nM at human MAO-A; potent, reversible, competitive (RIMA)"
         },
@@ -5914,7 +5918,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MAO-B",
           "radioligand_or_probe": "kynuramine",
-          "reference": "doi:10.1016/j.fct.2009.12.018",
+          "reference": "doi:10.1016/j.fct.2009.12.019",
           "is_review": false,
           "notes": "Weak MAO-B inhibition; >10,000-fold selectivity"
         },
@@ -6070,7 +6074,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MAO-A",
           "radioligand_or_probe": "kynuramine",
-          "reference": "doi:10.1016/j.fct.2009.12.018",
+          "reference": "doi:10.1016/j.fct.2009.12.019",
           "is_review": false,
           "notes": "Similar potency to harmine but more lipophilic \u2014 penetrates CNS better"
         }
@@ -6188,7 +6192,7 @@
           "reference_agonist": null,
           "species": "human",
           "cell_system": "recombinant",
-          "reference": "doi:10.1016/j.fct.2009.12.018"
+          "reference": "doi:10.1016/j.fct.2009.12.019"
         },
         {
           "target": "SERT",
@@ -6198,7 +6202,7 @@
           "reference_agonist": null,
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "doi:10.1016/j.fct.2009.12.018"
+          "reference": "doi:10.1016/j.fct.2009.12.019"
         }
       ],
       "biased_agonism": [],

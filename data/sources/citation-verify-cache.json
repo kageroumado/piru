@@ -213,6 +213,12 @@
   "title": "Issue Information",
   "year": 2025
  },
+ "doi:10.1002/dta.3750": {
+  "journal": "Drug testing and analysis",
+  "subjects": [],
+  "title": "In vitro activation of the CB1 receptor by the semi-synthetic cannabinoids hexahydrocannabinol (HHC), hexahydrocannabinol acetate (HHC-O) and hexahydrocannabiphorol (HHC-P).",
+  "year": 2024
+ },
  "doi:10.1002/dta.70042": {
   "journal": "Drug Testing and Analysis",
   "subjects": [],
@@ -689,6 +695,12 @@
   "title": "Comparative neuropharmacology of structurally distinct non-fentanyl opioids that are appearing on recreational drug markets worldwide",
   "year": 2023
  },
+ "doi:10.1016/j.ejmech.2024.116164": {
+  "journal": "European Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Chemistry and pharmacological aspects of furanoid cannabinoids and related compounds: Is furanoid cannabinoids open a new dimension towards the non-psychoactive cannabinoids?",
+  "year": 2024
+ },
  "doi:10.1016/j.ejphar.2008.05.026": {
   "journal": "European Journal of Pharmacology",
   "subjects": [],
@@ -743,6 +755,12 @@
   "subjects": [],
   "title": "Protective effects of Forsythia suspensa extract against oxidative stress induced by diquat in rats",
   "year": 2010
+ },
+ "doi:10.1016/j.fct.2009.12.019": {
+  "journal": "Food and chemical toxicology",
+  "subjects": [],
+  "title": "beta-Carboline alkaloids in Peganum harmala and inhibition of human monoamine oxidase (MAO).",
+  "year": 2009
  },
  "doi:10.1016/j.forsciint.2017.01.003": {
   "journal": "Forensic Science International",
@@ -940,6 +958,18 @@
   "subjects": [],
   "title": "Discovery of \u03b2-Arrestin-Biased 25CN-NBOH-Derived 5-HT<sub>2A</sub>Receptor Agonists",
   "year": 2022
+ },
+ "doi:10.1021/acs.jnatprod.5b00065": {
+  "journal": "Journal of Natural Products",
+  "subjects": [],
+  "title": "Isolation and Pharmacological Evaluation of Minor Cannabinoids from High-Potency<i>Cannabis sativa</i>",
+  "year": 2015
+ },
+ "doi:10.1021/acs.jnatprod.8b00874": {
+  "journal": "Journal of Natural Products",
+  "subjects": [],
+  "title": "Plant-Based Modulators of Endocannabinoid Signaling",
+  "year": 2019
  },
  "doi:10.1021/acscentsci.9b00141": {
   "journal": "ACS Central Science",
@@ -1211,6 +1241,12 @@
   "year": 1998
  },
  "doi:10.1038/nn.2010": null,
+ "doi:10.1038/npp.2011.304": {
+  "journal": "Neuropsychopharmacology",
+  "subjects": [],
+  "title": "The Designer Methcathinone Analogs, Mephedrone and Methylone, are Substrates for Monoamine Transporters in Brain Tissue",
+  "year": 2011
+ },
  "doi:10.1038/npp.2014.298": {
   "journal": "Neuropsychopharmacology",
   "subjects": [],
@@ -1967,6 +2003,12 @@
   "journal": "BJU International",
   "subjects": [],
   "title": "Testosterone restoration using enclomiphene citrate in men with secondary hypogonadism: a pharmacodynamic and pharmacokinetic study",
+  "year": 2013
+ },
+ "doi:10.1111/bph.12222": {
+  "journal": "British journal of pharmacology",
+  "subjects": [],
+  "title": "Efficacy and ligand bias at the \u03bc-opioid receptor.",
   "year": 2013
  },
  "doi:10.1111/bph.12409": {
@@ -3643,7 +3685,7 @@
   "journal": "Journal of natural products",
   "subjects": [],
   "title": "Divinatorins A-C, new neoclerodane diterpenoids from the controlled sage Salvia divinorum.",
-  "year": "2003"
+  "year": 2003
  },
  "pmid:14517708": {
   "journal": "European journal of clinical pharmacology",
@@ -3997,7 +4039,7 @@
   "journal": "Organic letters",
   "subjects": [],
   "title": "Salvinicins A and B, new neoclerodane diterpenes from Salvia divinorum.",
-  "year": "2005"
+  "year": 2005
  },
  "pmid:15988119": {
   "journal": "Drug metabolism and pharmacokinetics",
@@ -4938,10 +4980,10 @@
   "year": "2013"
  },
  "pmid:23072836": {
-  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+  "journal": "Neuropsychopharmacology",
   "subjects": [],
   "title": "Powerful cocaine-like actions of 3,4-methylenedioxypyrovalerone (MDPV), a principal constituent of psychoactive 'bath salts' products.",
-  "year": "2013"
+  "year": 2012
  },
  "pmid:23103502": {
   "journal": "Brain research",
@@ -5338,6 +5380,12 @@
   "subjects": [],
   "title": "First reported fatalities associated with the 'research chemical' 2-methoxydiphenidine.",
   "year": "2015"
+ },
+ "pmid:2571797": {
+  "journal": "Lancet (London, England)",
+  "subjects": [],
+  "title": "HLA subtypes and meningococcal disease.",
+  "year": "1989"
  },
  "pmid:25721705": {
   "journal": "Psychotherapy and psychosomatics",

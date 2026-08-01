@@ -518,7 +518,8 @@
         {
           "modality": "PET",
           "finding": "Cimbi-36 cortical binding sensitive to 5-HT release after amphetamine challenge",
-          "reference": "pmid:30877748"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to pmid:30877748, which is broiler phytase and myo-inositol mineral solubility. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ]
     },
@@ -1632,7 +1633,8 @@
         "metabolite_name": "phenolic glucuronide + hydroxy metabolites",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1002/dta.2031"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1002/dta.2031, which is only the 25I- compounds; this analog was never studied. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "drug_interactions_pk": [],
@@ -7583,9 +7585,9 @@
           "tissue_or_cell": "rat brain membrane",
           "radioligand_or_probe": "[3H]-CP-55,940",
           "assay_buffer_notes": null,
-          "reference": "pmid:14622937",
+          "reference": null,
           "is_review": false,
-          "notes": null
+          "notes": "Citation removed: this value was attributed to pmid:14622937, which is radionuclide syringe calibration factors in medical physics. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ],
       "functional": [],
@@ -7982,7 +7984,8 @@
         "metabolite_name": "O-demethyl and hydroxy metabolites (class)",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1002/dta.2044"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1002/dta.2044, which is the 2-methoxybenzyl NBOMe isomers, not this positional isomer. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "drug_interactions_pk": [],

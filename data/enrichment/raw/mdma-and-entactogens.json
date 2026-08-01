@@ -296,7 +296,8 @@
         "with": "moclobemide / other MAOIs",
         "mechanism": "MAO-A inhibition",
         "clinical_effect": "Severe risk: massive 5-HT accumulation → serotonin syndrome, hyperthermia, fatality. Absolute contraindication.",
-        "reference": "pmid:10605976"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to pmid:10605976, which is H. pylori faecal/oral shedding. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "pharmacogenetics": {
@@ -492,7 +493,8 @@
         "with": "MAOIs",
         "mechanism": "MAO inhibition",
         "clinical_effect": "Contraindicated — serotonin syndrome risk identical to MDMA.",
-        "reference": "pmid:10605976"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to pmid:10605976, which is H. pylori faecal/oral shedding. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "pharmacogenetics": {
@@ -2270,9 +2272,9 @@
           "action": "releasingAgent",
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT",
-          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
+          "reference": null,
           "is_review": false,
-          "notes": "Niello et al 2018 — single-digit nM SNDRA."
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Niello et al 2018 — single-digit nM SNDRA."
         },
         {
           "target": "SERT",
@@ -2280,8 +2282,9 @@
           "action": "releasingAgent",
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT",
-          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
-          "is_review": false
+          "reference": null,
+          "is_review": false,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         },
         {
           "target": "NET",
@@ -2289,17 +2292,18 @@
           "action": "releasingAgent",
           "species": "human",
           "tissue_or_cell": "HEK293 hNET",
-          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
-          "is_review": false
+          "reference": null,
+          "is_review": false,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         },
         {
           "target": "VMAT2",
           "ic50_nm": null,
           "action": "channelBlocker",
           "species": "human",
-          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
+          "reference": null,
           "is_review": false,
-          "notes": "Inhibits VMAT2 — like MDMA — supports neurotoxicity hypothesis."
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Inhibits VMAT2 — like MDMA — supports neurotoxicity hypothesis."
         }
       ],
       "functional": [],
@@ -2340,7 +2344,8 @@
         "target": "VMAT2",
         "concern_level": "high",
         "clinical_consequence": "Chronic neurotoxicity risk.",
-        "reference": "doi:10.1016/j.neuropharm.2018.06.025"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "target": "pulmonary vasculature (aminorex-class)",

@@ -46,6 +46,13 @@ jobs:
         run: python3 pipeline/audit/dedup_check.py --gate
       - name: No fabricated or unverified citations
         run: python3 pipeline/audit/verify_citations.py --offline --gate
+      # verify_citations proves an identifier RESOLVES. This asks whether the
+      # paper is about the right molecule — the failure that let 28 benzofuran
+      # binding rows cite a two-page editorial and LSD's 5-HT2A rows cite a
+      # cancer-genetics paper, both of which resolved perfectly. Adjudicated
+      # false positives live in data/curated/citation-topicality-allowlist.json.
+      - name: No citations attached to the wrong substance
+        run: python3 pipeline/audit/citation_topicality.py --offline --gate
 
   swift-lint:
     name: Swift (format + lint)

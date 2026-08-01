@@ -1018,8 +1018,8 @@
           "readout": "calcium flux",
           "species": "human",
           "cell_system": "expressed α7",
-          "reference": "doi:10.1124/jpet.112.198887",
-          "notes": "DHNK is a negative allosteric modulator of α7-nAChR at low μM; opposite direction to HNK"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1124/jpet.112.198887, which is cardiac late-sodium-current inhibitors. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. DHNK is a negative allosteric modulator of α7-nAChR at low μM; opposite direction to HNK"
         }
       ],
       "biased_agonism": [],
@@ -1332,7 +1332,8 @@
         "3-MeO-PCE"
       ],
       "withdrawal_syndrome": "Psychological dependence; agitation/psychosis on cessation in heavy users",
-      "reference": "doi:10.1016/j.forsciint.2017.02.022"
+      "reference": null,
+      "notes": "Citation removed: this value was attributed to doi:10.1016/j.forsciint.2017.02.022, which is GHB cut-offs in biological samples. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
     },
     "off_targets": [
       {
@@ -1889,8 +1890,8 @@
           "ki_nm": null,
           "action": "channelBlocker",
           "species": null,
-          "reference": "doi:10.1016/j.forsciint.2021.110815",
-          "notes": "No formal Ki measurement published as of 2024. Assumed similar to ketamine (Ki ~600 nM) based on F-for-Cl bioisostere logic."
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.forsciint.2021.110815, which is trace elements in lung for seawater-drowning diagnosis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. No formal Ki measurement published as of 2024. Assumed similar to ketamine (Ki ~600 nM) based on F-for-Cl bioisostere logic."
         }
       ],
       "functional": [],
@@ -2009,8 +2010,8 @@
         {
           "route": "insufflation",
           "half_life_min": null,
-          "reference": "doi:10.1016/j.forsciint.2021.110815",
-          "notes": "Implicated in fatalities along with 2F-DCK"
+          "reference": null,
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.forsciint.2021.110815, which is trace elements in lung for seawater-drowning diagnosis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Implicated in fatalities along with 2F-DCK"
         }
       ],
       "concentration_effect": []

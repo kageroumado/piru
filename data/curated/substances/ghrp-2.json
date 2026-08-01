@@ -1,96 +1,96 @@
 {
-  "name": "GHRP-2",
-  "aliases": [
-    "Growth Hormone Releasing Peptide 2",
-    "Pralmorelin",
-    "KP-102"
-  ],
-  "category": "Peptide",
-  "defaultRoute": "subcutaneous",
-  "routes": [
-    {
-      "route": "subcutaneous",
-      "unit": "µg",
-      "doses": {
-        "threshold": 50,
-        "light": {
-          "lower": 50,
-          "upper": 100
-        },
-        "common": {
-          "lower": 100,
-          "upper": 200
-        },
-        "strong": {
-          "lower": 200,
-          "upper": 300
-        },
-        "heavy": 300
-      },
-      "duration": {
-        "onset": {
-          "min": 10,
-          "max": 30
-        },
-        "peak": {
-          "min": 30,
-          "max": 90
-        },
-        "offset": {
-          "min": 90,
-          "max": 240
-        },
-        "total": {
-          "min": 90,
-          "max": 360
-        }
-      }
+ "name": "GHRP-2",
+ "aliases": [
+  "Growth Hormone Releasing Peptide 2",
+  "Pralmorelin",
+  "KP-102"
+ ],
+ "category": "Peptide",
+ "defaultRoute": "subcutaneous",
+ "routes": [
+  {
+   "route": "subcutaneous",
+   "unit": "µg",
+   "doses": {
+    "threshold": 50,
+    "light": {
+     "lower": 50,
+     "upper": 100
     },
-    {
-      "route": "subcutaneous",
-      "unit": "mcg",
-      "doses": {},
-      "protocolDosing": {
-        "lowAmount": 100,
-        "highAmount": 300,
-        "frequency": "one to three times daily",
-        "notes": "community protocol; GHS-R1a agonist with moderate prolactin/cortisol rise"
-      }
+    "common": {
+     "lower": 100,
+     "upper": 200
+    },
+    "strong": {
+     "lower": 200,
+     "upper": 300
+    },
+    "heavy": 300
+   },
+   "duration": {
+    "onset": {
+     "min": 10,
+     "max": 30
+    },
+    "peak": {
+     "min": 30,
+     "max": 90
+    },
+    "offset": {
+     "min": 90,
+     "max": 240
+    },
+    "total": {
+     "min": 90,
+     "max": 360
     }
-  ],
-  "effects": [
-    "Synthetic hexapeptide GHRP — activates ghrelin receptor (GHS-R1a) to release GH",
-    "Raises cortisol and prolactin moderately; less so than hexarelin",
-    "Typical protocol: 100–200 µg SC 1–3x daily, ideally fasted",
-    "Saturation dose ~300 µg — higher doses don't increase GH further",
-    "Hunger stimulation (ghrelin pathway); can aid recovery and sleep quality",
-    "Not FDA approved; banned by WADA",
-    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
-  ],
-  "halfLifeMinutes": 30,
-  "sources": [
-    "https://pubmed.ncbi.nlm.nih.gov/7721842/",
-    "https://en.wikipedia.org/wiki/GHRP-2",
-    "https://pubchem.ncbi.nlm.nih.gov/compound/9919153"
-  ],
-  "tags": [
-    "peptide",
-    "GH-secretagogue",
-    "grey-market",
-    "research-chemical",
-    "performance-enhancing"
-  ],
-  "molarMass": 817.97,
-  "peptideProfile": {
-    "sequence": "D-Ala-D-2-Nal-Ala-Trp-D-Phe-Lys-NH2",
-    "suppliedForm": "lyophilized_vial",
-    "typicalVialMg": 5,
-    "reconstitutionSolvent": "Bacteriostatic water",
-    "storage": {
-      "temperature": "refrigerate",
-      "lightSensitive": true,
-      "reconstitutedStabilityDays": null
-    },
-    "iuPerMg": null
+   }
+  },
+  {
+   "route": "subcutaneous",
+   "unit": "mcg",
+   "doses": {},
+   "protocolDosing": {
+    "lowAmount": 100,
+    "highAmount": 300,
+    "frequency": "one to three times daily",
+    "notes": "community protocol; GHS-R1a agonist with moderate prolactin/cortisol rise"
+   }
   }
+ ],
+ "effects": [
+  "Synthetic hexapeptide GHRP — activates ghrelin receptor (GHS-R1a) to release GH",
+  "Raises cortisol and prolactin moderately; less so than hexarelin",
+  "Typical protocol: 100–200 µg SC 1–3x daily, ideally fasted",
+  "Saturation dose ~300 µg — higher doses don't increase GH further",
+  "Hunger stimulation (ghrelin pathway); can aid recovery and sleep quality",
+  "Not FDA approved; banned by WADA",
+  "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+ ],
+ "halfLifeMinutes": 30,
+ "sources": [
+  "https://en.wikipedia.org/wiki/GHRP-2",
+  "https://pubchem.ncbi.nlm.nih.gov/compound/9919153"
+ ],
+ "tags": [
+  "peptide",
+  "GH-secretagogue",
+  "grey-market",
+  "research-chemical",
+  "performance-enhancing"
+ ],
+ "molarMass": 817.97,
+ "peptideProfile": {
+  "sequence": "D-Ala-D-2-Nal-Ala-Trp-D-Phe-Lys-NH2",
+  "suppliedForm": "lyophilized_vial",
+  "typicalVialMg": 5,
+  "reconstitutionSolvent": "Bacteriostatic water",
+  "storage": {
+   "temperature": "refrigerate",
+   "lightSensitive": true,
+   "reconstitutedStabilityDays": null
+  },
+  "iuPerMg": null
+ },
+ "citationNotes": "Citation removed: this value was attributed to pmid:7721842, which is glycogen turnover in the isolated working rat heart. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
 }

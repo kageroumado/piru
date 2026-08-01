@@ -231,7 +231,8 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "May contribute to metabolic effects and anti-inflammatory action",
-        "reference": "doi:10.1111/j.1476-5381.2009.00467.x"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.1111/j.1476-5381.2009.00467.x, which is the estrogenic activity of non-aromatic steroids. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "demographic_differences": {
@@ -1178,7 +1179,8 @@
         "other SCRAs"
       ],
       "withdrawal_syndrome": "Onset within 24 h, peak 2-7 d, can persist 2-4 weeks. Anxiety, tachycardia, hypertension, sweating, tremor, GI distress, severe insomnia, craving. More severe than cannabis withdrawal.",
-      "reference": "doi:10.1016/j.drugalcdep.2014.07.027"
+      "reference": null,
+      "notes": "Citation removed: this value was attributed to doi:10.1016/j.drugalcdep.2014.07.027, which is a natural-cannabis withdrawal cohort with no synthetic-cannabinoid data. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
     },
     "off_targets": [
       {
@@ -2552,7 +2554,8 @@
         "metabolite_name": "methyl-ester hydrolysis → carboxylic acid (M1)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.3390/toxics11080697"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "enzyme": "CYP3A4",
@@ -2560,7 +2563,8 @@
         "metabolite_name": "pent-4-enyl hydroxylation and epoxidation",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.3390/toxics11080697"
+        "reference": null,
+        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "drug_interactions_pk": [],
