@@ -35,10 +35,8 @@
         },
         {
           "target": "MOR",
-          "ki_nm": null,
+          "ki_nm": 1.168,
           "ec50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing recombinant human MOR",
@@ -46,7 +44,82 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Volpe et al. 2011 \u2014 morphine classified in Ki = 1\u2013100 nM bin; uniform-assay re-ranking."
+          "notes": "Volpe et al. 2011 \u2014 morphine classified in Ki = 1\u2013100 nM bin; uniform-assay re-ranking. Volpe 2011 is a uniform radioligand BINDING panel and reports no functional efficacy; an Emax previously attached to this row has been removed rather than left attributed to a study that did not measure it.",
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "assay_notes": "uniform radioligand binding, [3H]-DAMGO, 19-drug single-assay panel",
+          "confidence": "HIGH"
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.18,
+          "comparable_set": "mcpherson-2010-rat-mopr-tau",
+          "reference_agonist": "DAMGO",
+          "species": "rat",
+          "tissue_or_cell": "rat MOPr, recombinant in HEK293",
+          "assay_notes": "[35S]GTP\u03b3S, operational tau",
+          "reference": "doi:10.1124/mol.110.066613",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "derived as tau_morphine/tau_DAMGO = 5.2/28.5 from retrieved tau values 5.2 \u00b1 0.2 and 28.5 \u00b1 1.1. Table 1 EC50/Emax columns not reliably extractable; operational KA reported in the same table as 97.5 \u00b1 28.5 nM but from an extraction pass that scrambled adjacent columns, so recorded null."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.18,
+          "comparable_set": "manandhar-2022-human-mor-tau",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human \u00b5 receptor (WT), recombinant in AtT20",
+          "assay_notes": "GIRK / membrane potential with \u03b2-CNA receptor depletion, operational tau",
+          "reference": "doi:10.1002/prp2.921",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "printed directly in Table 1 as 0.18 \u00b1 0.02 (abstract and Table 2 print 0.17 \u00b1 0.02). Operational pKA 6.38 \u00b1 0.3. Absolute operational tau in this system 15.4 \u00b1 4 (DAMGO 90 \u00b1 22)."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "intrinsic_activity_pct": 94,
+          "comparable_set": "chakraborty-2021-human-mor-gi1-emax",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR, transient in HEK293T",
+          "assay_notes": "TRUPATH BRET G\u03b1i1 dissociation",
+          "reference": "doi:10.1021/acs.jmedchem.1c01273",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "The same paper measures morphine at 71-72% of DAMGO in an unamplified nanobody conformational sensor and 31-32% in \u03b2arr2 assays \u2014 a clean illustration that morphine's apparent 'full agonism' is receptor reserve, not intrinsic efficacy (cf. relative tau 0.18)."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.19,
+          "comparable_set": "review-meta-summary-not-comparable",
+          "reference_agonist": "DAMGO",
+          "species": "mixed",
+          "tissue_or_cell": "mixed (heterologous cell lines and endogenous tissue)",
+          "assay_notes": "meta-summary across [35S]GTP\u03b3S, Ca2+ channel inhibition and K+ current assays",
+          "reference": "doi:10.1111/bph.12222",
+          "is_review": true,
+          "confidence": "MEDIUM",
+          "notes": "cross-study mean \u00b1 SEM of 0.19 \u00b1 0.08 for the operational-analysis subset; mean across ALL analysis methods 0.36 \u00b1 0.07, individual study range 0.02-0.72. Included as a sanity band, not as an axis value. It says the honest thing: morphine's published relative efficacy spans 0.02-0.72 depending on assay and analysis, and operational analysis lands near 0.19 \u2014 which is where both source-A and source-B independently land."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 1.1,
+          "ec50_nm": 15.6,
+          "intrinsic_activity_pct": 93,
+          "comparable_set": "toll-1998-human-mor",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR in CHO cells",
+          "assay_notes": "[35S]GTP\u03b3S on human mu-CHO membranes (Emax, EC50); Ki by [3H]DAMGO displacement, human mu-CHO",
+          "reference": "pmid:9686407",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "The only set in this file with Ki and Emax from one lab, one receptor preparation, one species. DAMGO's own EC50 in this system is 13.7 \u00b1 5.28 nM and its Ki is 0.5 \u00b1 0.05 nM."
         }
       ],
       "functional": [
@@ -84,8 +157,7 @@
         }
       ],
       "downstream_signalling": "G\u03b1i/o coupling \u2192 inhibition of adenylyl cyclase (decreased cAMP), activation of GIRK potassium channels (hyperpolarisation), inhibition of N/P/Q-type Cav channels (decreased neurotransmitter release). Repeated activation drives GRK-mediated phosphorylation, \u03b2-arrestin-2 recruitment, receptor desensitisation and internalisation (morphine internalises MOR poorly compared with DAMGO/etorphine \u2014 the 'RAVE' paradox).",
-      "neuroimaging": [
-      ]
+      "neuroimaging": []
     },
     "human_pk": {
       "routes": [
@@ -500,6 +572,77 @@
           "reference": "pmid:21866885",
           "is_review": false,
           "notes": "Weak NOP partial agonism \u2014 proposed to modulate reward and may contribute to reduced abuse liability."
+        },
+        {
+          "target": "MOR",
+          "action": "partialAgonist",
+          "relative_tau": 0.021,
+          "comparable_set": "mcpherson-2010-rat-mopr-tau",
+          "reference_agonist": "DAMGO",
+          "species": "rat",
+          "tissue_or_cell": "rat MOPr, recombinant in HEK293",
+          "assay_notes": "[35S]GTP\u03b3S, operational tau",
+          "reference": "doi:10.1124/mol.110.066613",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "derived as 0.6/28.5 from retrieved tau values 0.6 \u00b1 0.1 and 28.5 \u00b1 1.1. Lowest intrinsic efficacy of the classical clinical opioids \u2014 ~1/9 of morphine. Reproduced at 0.02 on human MOR in source-B."
+        },
+        {
+          "target": "MOR",
+          "action": "partialAgonist",
+          "relative_tau": 0.02,
+          "comparable_set": "manandhar-2022-human-mor-tau",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human \u00b5 receptor (WT), recombinant in AtT20",
+          "assay_notes": "GIRK / membrane potential with \u03b2-CNA receptor depletion, operational tau",
+          "reference": "doi:10.1002/prp2.921",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "printed as 0.02 \u00b1 0.008. Operational pKA 7.42 \u00b1 0.4; absolute tau 1.9 \u00b1 0.3."
+        },
+        {
+          "target": "MOR",
+          "action": "partialAgonist",
+          "intrinsic_activity_pct": 44,
+          "comparable_set": "chakraborty-2021-human-mor-gi1-emax",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR, transient in HEK293T",
+          "assay_notes": "TRUPATH BRET G\u03b1i1 dissociation",
+          "reference": "doi:10.1021/acs.jmedchem.1c01273",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Same paper: buprenorphine Emax 81% at G\u03b1z and 65-66% at G\u03b1oA/oB, i.e. its partial agonism is G\u03b1-subtype dependent; 24% of DAMGO in the unamplified nanobody sensor."
+        },
+        {
+          "target": "MOR",
+          "action": "partialAgonist",
+          "ki_nm": 1.5,
+          "ec50_nm": 2.3,
+          "intrinsic_activity_pct": 66,
+          "comparable_set": "toll-1998-human-mor",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR in CHO cells",
+          "assay_notes": "[35S]GTP\u03b3S on human mu-CHO membranes; Ki by [3H]DAMGO displacement",
+          "reference": "pmid:9686407",
+          "is_review": false,
+          "confidence": "MEDIUM",
+          "notes": "The only sub-maximal agonist in Toll's mu panel \u2014 but the \u00b136 error bar is more than half the value, so treat 66% as 'clearly partial, magnitude uncertain'. Toll's own commentary is that GTP\u03b3S binding cleanly identifies partial agonists such as buprenorphine. Toll's Ki of 1.5 \u00b1 0.8 nM is ~7x looser than Volpe's 0.2157 nM \u2014 the largest disagreement between the two uniform human panels."
+        },
+        {
+          "target": "MOR",
+          "action": "partialAgonist",
+          "ki_nm": 0.2157,
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "species": "human",
+          "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
+          "assay_notes": "uniform radioligand binding, [3H]-DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Second-highest affinity of the 19 (only sufentanil is tighter), while carrying the lowest intrinsic efficacy of the clinical panel (relative tau ~0.02). Highest affinity + lowest efficacy is the blockade/ceiling profile in one line. source-T disagrees at 1.5 \u00b1 0.8 nM."
         }
       ],
       "functional": [
@@ -649,7 +792,7 @@
     "data_gaps_remaining": [],
     "notes": "The respiratory ceiling effect \u2014 partial agonism at MOR limits maximal respiratory depression \u2014 is the safety feature that makes bup viable for opioid use disorder maintenance. Naloxone reversal of buprenorphine overdose requires HIGH doses (\u22652-4 mg) and may not fully overcome the slow off-rate.",
     "references_consulted": [
-"doi:10.1523/JNEUROSCI.3723-08.2009",
+      "doi:10.1523/JNEUROSCI.3723-08.2009",
       "doi:10.2165/00003088-200544070-00001",
       "doi:10.1124/dmd.105.004135"
     ]
@@ -719,6 +862,49 @@
           "reference": "pmid:17329992",
           "is_review": false,
           "notes": "Eap 2007 \u2014 (S)-methadone blocks hERG 3.5\u00d7 more potently than (R)."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.64,
+          "comparable_set": "mcpherson-2010-rat-mopr-tau",
+          "reference_agonist": "DAMGO",
+          "species": "rat",
+          "tissue_or_cell": "rat MOPr, recombinant in HEK293",
+          "assay_notes": "[35S]GTP\u03b3S, operational tau",
+          "reference": "doi:10.1124/mol.110.066613",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "derived as 18.2/28.5 from retrieved tau values 18.2 \u00b1 0.9 and 28.5 \u00b1 1.1. Highest intrinsic efficacy of the clinical opioids in this set \u2014 ~3.5x morphine. Value independently corroborated in the Kelly 2013 review text (10.1111/bph.12222)."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 0.6,
+          "ec50_nm": 26.6,
+          "intrinsic_activity_pct": 116,
+          "comparable_set": "toll-1998-human-mor",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR in CHO cells",
+          "assay_notes": "[35S]GTP\u03b3S on human mu-CHO membranes; Ki by [3H]DAMGO displacement. Compound tested was (-)-methadone (the active R-enantiomer)",
+          "reference": "pmid:9686407",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Exceeds DAMGO. This is the human-receptor corroboration of source-A's finding that methadone has the highest intrinsic efficacy of the clinical panel (relative tau 0.64). Note the enantiomer: (-)-methadone, not the racemate that is dispensed."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 3.378,
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "species": "human",
+          "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
+          "assay_notes": "uniform radioligand binding, [3H]-DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Volpe tested the racemate as dispensed; source-T tested (-)-methadone and got 0.6 \u00b1 0.2 nM. The ~5.6x gap is at least partly the enantiomer."
         }
       ],
       "functional": [],
@@ -894,6 +1080,19 @@
           "reference": "pmid:1851921",
           "is_review": false,
           "notes": "Codeine MOR Ki ~200\u00d7 weaker than morphine; analgesia depends almost entirely on CYP2D6 O-demethylation to morphine (~10% of dose)."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 734.2,
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "species": "human",
+          "tissue_or_cell": "human MOR, recombinant membranes (binding only)",
+          "assay_notes": "uniform radioligand binding (source-E, [3H]DAMGO / Chem-5 hMOR); no functional efficacy source retrieved",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "confidence": "HIGH for affinity, LOW for efficacy",
+          "notes": "STILL A HOLLOW MARKER FOR EFFICACY, but affinity is now measured. Volpe 2011 Table 2: Ki 734.2 nM \u2014 the second-weakest binder of the 19-drug human panel. Toll 1998 Table 5 independently gives 135.2 \u00b1 10.7 nM at human mu-CHO ([3H]DAMGO), i.e. the two uniform human panels disagree by ~5.4x on codeine while agreeing to within 6% on morphine; the weak-binder conclusion is robust, the point value is not. Codeine is absent from Toll's Table 7, so no human Emax exists in either panel. Efficacy class is well documented clinically (low-potency prodrug, analgesia largely via CYP2D6 O-demethylation to morphine). Peckham & Traynor 2006 (10.1124/jpet.105.094276) measured codeine's [35S]GTP\u03b3S efficacy side by side with morphine \u2014 still inaccessible."
         }
       ],
       "functional": [],
@@ -1061,6 +1260,19 @@
           "reference": "pmid:8788430",
           "is_review": false,
           "notes": "(\u2212)-tramadol enantiomer dominates NET inhibition."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 12486,
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "species": "human",
+          "tissue_or_cell": "human MOR, recombinant membranes",
+          "assay_notes": "uniform radioligand binding, single-assay panel of 19 approved opioids",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Ki 12.486 \u00b5M is printed in the retrieved abstract as the weakest binder of the 19-drug panel \u2014 the quantitative statement that tramadol itself is essentially a prodrug at MOR. Use the O-desmethyltramadol row (source-B) for the efficacy axis."
         }
       ],
       "functional": [],
@@ -1205,6 +1417,20 @@
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:8788430",
           "is_review": false
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.08,
+          "comparable_set": "manandhar-2022-human-mor-tau",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human \u00b5 receptor (WT), recombinant in AtT20",
+          "assay_notes": "GIRK / membrane potential with \u03b2-CNA receptor depletion, operational tau",
+          "reference": "doi:10.1002/prp2.921",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "printed as 0.08 \u00b1 0.02. This is the CYP2D6-derived active metabolite, not tramadol itself. Tramadol parent has no intrinsic-efficacy number in this file; its uniform-assay human MOR Ki is 12.486 \u00b5M (source-E), i.e. the parent is a prodrug at MOR. Operational pKA 5.33 \u00b1 0.4."
         }
       ],
       "functional": [],
@@ -1304,14 +1530,45 @@
       "binding": [
         {
           "target": "MOR",
-          "ki_nm": 18,
+          "ki_nm": 25.87,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Volpe 2011 uniform assay; ~15\u00d7 weaker than morphine at hMOR but oral F% and BBB transport compensate."
+          "notes": "Volpe 2011 uniform assay; ~15\u00d7 weaker than morphine at hMOR but oral F% and BBB transport compensate.",
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "assay_notes": "uniform radioligand binding, [3H]-DAMGO",
+          "confidence": "HIGH"
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.18,
+          "comparable_set": "mcpherson-2010-rat-mopr-tau",
+          "reference_agonist": "DAMGO",
+          "species": "rat",
+          "tissue_or_cell": "rat MOPr, recombinant in HEK293",
+          "assay_notes": "[35S]GTP\u03b3S, operational tau",
+          "reference": "doi:10.1124/mol.110.066613",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "derived as 5.1/28.5 from retrieved tau values 5.1 \u00b1 0.2 and 28.5 \u00b1 1.1. Essentially identical to morphine in this system; reproduced independently in source-B on human MOR."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.16,
+          "comparable_set": "manandhar-2022-human-mor-tau",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human \u00b5 receptor (WT), recombinant in AtT20",
+          "assay_notes": "GIRK / membrane potential with \u03b2-CNA receptor depletion, operational tau",
+          "reference": "doi:10.1002/prp2.921",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Table 1 prints 0.16 \u00b1 0.03; Table 2 prints 0.16 \u00b1 0.02. Operational pKA 5.39 \u00b1 0.3; absolute tau 13.9 \u00b1 2."
         }
       ],
       "functional": [],
@@ -1434,14 +1691,17 @@
       "binding": [
         {
           "target": "MOR",
-          "ki_nm": 0.6,
+          "ki_nm": 0.3654,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Volpe 2011 \u2014 sub-nanomolar, in Ki<1 nM tier with oxymorphone/buprenorphine. ~5\u00d7 morphine potency in clinical use."
+          "notes": "Volpe 2011 \u2014 sub-nanomolar, in Ki<1 nM tier with oxymorphone/buprenorphine. ~5\u00d7 morphine potency in clinical use.",
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "assay_notes": "uniform radioligand binding (source-E, [3H]DAMGO / Chem-5 hMOR); no functional efficacy source retrieved",
+          "confidence": "HIGH for affinity, LOW for efficacy"
         }
       ],
       "functional": [],
@@ -1550,14 +1810,17 @@
       "binding": [
         {
           "target": "MOR",
-          "ki_nm": 41,
+          "ki_nm": 41.58,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Volpe 2011 \u2014 Ki ~40 nM. Hydromorphone has 10-100\u00d7 higher affinity, so CYP2D6 conversion meaningfully contributes."
+          "notes": "Volpe 2011 \u2014 Ki ~40 nM. Hydromorphone has 10-100\u00d7 higher affinity, so CYP2D6 conversion meaningfully contributes.",
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "assay_notes": "uniform radioligand binding (source-E, [3H]DAMGO / Chem-5 hMOR); no functional efficacy source retrieved",
+          "confidence": "HIGH for affinity, LOW for efficacy"
         }
       ],
       "functional": [],
@@ -1671,14 +1934,17 @@
       "binding": [
         {
           "target": "MOR",
-          "ki_nm": 0.4,
+          "ki_nm": 0.4055,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Volpe 2011 \u2014 sub-nanomolar, one of the highest-affinity classical opioids. 40-60\u00d7 more potent than oxycodone at MOR."
+          "notes": "Volpe 2011 \u2014 sub-nanomolar, one of the highest-affinity classical opioids. 40-60\u00d7 more potent than oxycodone at MOR.",
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "assay_notes": "uniform radioligand binding (source-E, [3H]DAMGO / Chem-5 hMOR); no functional efficacy source retrieved",
+          "confidence": "HIGH for affinity, LOW for efficacy"
         }
       ],
       "functional": [],
@@ -1783,7 +2049,13 @@
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1021/jacs.6b00360",
           "is_review": false,
-          "notes": "V\u00e1rfi/Kruegel 2016, JACS \u2014 Ki ~233 nM (also reported 161-700 nM across labs). Partial agonist, low intrinsic efficacy (Emax ~30-50% of DAMGO)."
+          "notes": "V\u00e1rfi/Kruegel 2016, JACS \u2014 Ki ~233 nM (also reported 161-700 nM across labs). Partial agonist, low intrinsic efficacy (Emax ~30-50% of DAMGO).",
+          "ec50_nm": 339,
+          "intrinsic_activity_pct": 34,
+          "comparable_set": "kruegel-2016-human-mor-bret-emax",
+          "reference_agonist": "DAMGO",
+          "assay_notes": "BRET G protein (G\u03b1-RLuc8/G\u03b3-mVenus) dissociation",
+          "confidence": "MEDIUM"
         },
         {
           "target": "KOR",
@@ -1968,13 +2240,19 @@
         {
           "target": "MOR",
           "ki_nm": 47,
-          "action": "agonist",
+          "action": "partialAgonist",
           "species": "human",
           "tissue_or_cell": "CHO-K1 hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1021/jacs.6b00360",
           "is_review": false,
-          "notes": "Kruegel/Majumdar 2016 \u2014 ~5\u00d7 higher MOR affinity than mitragynine. Other recent measurements report 47-78 nM."
+          "notes": "Kruegel/Majumdar 2016 \u2014 ~5\u00d7 higher MOR affinity than mitragynine. Other recent measurements report 47-78 nM.",
+          "ec50_nm": 34.5,
+          "intrinsic_activity_pct": 47,
+          "comparable_set": "kruegel-2016-human-mor-bret-emax",
+          "reference_agonist": "DAMGO",
+          "assay_notes": "BRET G protein (G\u03b1-RLuc8/G\u03b3-mVenus) dissociation",
+          "confidence": "MEDIUM"
         },
         {
           "target": "KOR",
@@ -2251,6 +2529,20 @@
           "reference": "pmid:17656655",
           "is_review": false,
           "notes": "Tapentadol has only weak SERT activity (>30\u00d7 selectivity for NET vs SERT) \u2192 much lower serotonin-syndrome risk than tramadol."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.05,
+          "comparable_set": "manandhar-2022-human-mor-tau",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human \u00b5 receptor (WT), recombinant in AtT20",
+          "assay_notes": "GIRK / membrane potential with \u03b2-CNA receptor depletion, operational tau",
+          "reference": "doi:10.1002/prp2.921",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "printed as 0.05 \u00b1 0.01. First published quantification of tapentadol intrinsic efficacy. Operational pKA 5.4 \u00b1 0.3 (low-micromolar functional affinity). Clinically its analgesia is part noradrenaline-reuptake inhibition, so mu efficacy alone understates the drug; the paper cites an estimated '\u00b5-load' of ~40%. At 30 \u00b5M tapentadol directly interferes with the GIRK signal \u2014 an off-target artifact, above therapeutic plasma levels (~100-560 nM)."
         }
       ],
       "functional": [
@@ -2454,8 +2746,7 @@
       "withdrawal_syndrome": "Atypical \u2014 opioid + dysphoria; can precipitate acute withdrawal in MOR-dependent patients.",
       "reference": null
     },
-    "off_targets": [
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": null,
       "age": null,
@@ -3518,8 +3809,7 @@
       "quantitative Ki and PK data"
     ],
     "notes": "Largely historical; used in some European countries as cough/antitussive.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "Nicomorphine",
@@ -4453,8 +4743,7 @@
       "primary_targets": [
         "MOR (full agonist)"
       ],
-      "binding": [
-      ],
+      "binding": [],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -4518,8 +4807,7 @@
       "modern hMOR Ki"
     ],
     "notes": "Short duration (1-3 h) + high oral F% drove high abuse potential \u2014 withdrawn from many markets.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "Ketobemidone",
@@ -5189,8 +5477,7 @@
       "human PK"
     ],
     "notes": "Matsumoto/Horie 2014 dual \u03bc/\u03b4 agonist derived from 7-OH-mitragynine. Has appeared in vendor markets recently as a 'kratom alternative' but exhibits the canonical pharmacology of an addictive full opioid agonist.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "name": "2C-O-4",
@@ -5329,8 +5616,7 @@
     "confidence": "medium",
     "data_gaps_remaining": [],
     "notes": "Cultural shorthand for prescription codeine/promethazine cough syrup. Mortality risk reflects high single-event codeine doses (often 50-200 mg) combined with promethazine's QT and CNS-depressant effects, often plus alcohol.",
-    "references_consulted": [
-    ]
+    "references_consulted": []
   },
   {
     "is_class_context": true,

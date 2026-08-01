@@ -999,6 +999,20 @@ CREATE TABLE bindings (
     -- keep their intended emphasis without faking a numeric Ki. NULL for
     -- measured rows (those rank by ki_nm). Added with the MOA relocation.
     affinity_tier          INTEGER,
+    -- Black-Leff operational efficacy (tau) expressed as a ratio to the reference
+    -- agonist's tau measured in the SAME experiment. This is intrinsic efficacy
+    -- and is the system-independent measure; emax_pct/intrinsic_activity_pct are
+    -- intrinsic *activity*, which receptor reserve inflates. The two disagree
+    -- hard: morphine is 94% of DAMGO by Emax but 0.18 by tau, so an Emax-only
+    -- read renders every clinical opioid a full agonist. NULL unless the source
+    -- fitted the operational model.
+    relative_tau           REAL,
+    -- Opaque tag for the experiment a row came from. Rows may only be ranked
+    -- against other rows sharing this value: efficacy and affinity numbers are
+    -- comparable within one assay system and not across them. NULL means the row
+    -- was never established as part of a uniform panel — which is not the same as
+    -- "comparable to everything".
+    comparable_set         TEXT,
     reference_agonist      TEXT,
     species                TEXT,
     tissue_or_cell         TEXT,
@@ -4668,7 +4682,7 @@ class Build:
         src = self.source_ids[source_slug]
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
-            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, relative_tau, comparable_set, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 b.get("target"),
@@ -4682,6 +4696,8 @@ class Build:
                 to_float(b.get("emax_pct")),
                 to_float(b.get("intrinsic_activity_pct")),
                 to_int(b.get("affinity_tier")),
+                to_float(b.get("relative_tau")),
+                b.get("comparable_set"),
                 b.get("reference_agonist"),
                 b.get("species"),
                 b.get("tissue_or_cell"),

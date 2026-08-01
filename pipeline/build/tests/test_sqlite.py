@@ -2531,5 +2531,102 @@ class TestIsomerSynonymCoverage(unittest.TestCase):
             self.assertEqual(row[0], "L", f"{alias} should be the L enantiomer")
 
 
+class TestComparableSetIntegrity(unittest.TestCase):
+    """A pharmacology number means nothing without the basis it was measured on.
+
+    The failure this guards is not hypothetical: MDMA once mixed a binding Ki
+    (DAT 22000) with a release EC50 (NET 77.4) and rendered 95% noradrenergic
+    off a 284x ratio that was an artifact of comparing two different
+    measurements. `comparable_set` is the fix — rows may be ranked only against
+    rows sharing one — so the set has to actually mean one experiment.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        p = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_tau_rows_carry_a_reference_agonist_and_a_set(self):
+        """Operational tau is a RATIO to a reference agonist measured in the same
+        experiment. Without naming that agonist the number is unanchored, and
+        without a comparable_set it will eventually be ranked against one from a
+        different assay system."""
+        orphans = self.db.execute(
+            "SELECT s.canonical_name, b.target, b.relative_tau, b.reference_agonist,"
+            "       b.comparable_set"
+            "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE b.relative_tau IS NOT NULL"
+            "   AND (b.reference_agonist IS NULL OR b.comparable_set IS NULL)"
+        ).fetchall()
+        self.assertEqual(orphans, [], f"tau rows with no basis: {orphans}")
+
+    def test_a_comparable_set_is_one_species(self):
+        """One experiment is run in one system. A set spanning rat and human is
+        two experiments wearing one label, and ranking across it reintroduces
+        exactly the error the field exists to prevent."""
+        mixed = self.db.execute(
+            "SELECT comparable_set, COUNT(DISTINCT species)"
+            "  FROM bindings WHERE comparable_set IS NOT NULL AND species IS NOT NULL"
+            " GROUP BY comparable_set HAVING COUNT(DISTINCT species) > 1"
+        ).fetchall()
+        # The review meta-summary is the deliberate exception: it is explicitly
+        # labeled not-comparable precisely because it pools systems.
+        mixed = [row for row in mixed if "not-comparable" not in row[0]]
+        self.assertEqual(mixed, [], f"comparable_set spans multiple species: {mixed}")
+
+    def test_a_binding_only_panel_reports_no_efficacy(self):
+        """Volpe 2011 is a uniform radioligand BINDING panel — it measures what
+        sticks, not what it does. An Emax attached to one of its rows is a value
+        no one measured, and morphine carried exactly that (100% of DAMGO), which
+        contradicts both functional panels (93%, 94%) and its own tau of 0.18."""
+        rows = self.db.execute(
+            "SELECT s.canonical_name, b.intrinsic_activity_pct, b.emax_pct"
+            "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE b.comparable_set = 'volpe-2011-human-mor-ki'"
+            "   AND (b.intrinsic_activity_pct IS NOT NULL OR b.emax_pct IS NOT NULL)"
+        ).fetchall()
+        self.assertEqual(rows, [], f"efficacy attributed to a binding-only panel: {rows}")
+
+    def test_dihydromorphine_did_not_land_on_hydromorphone(self):
+        """The single likeliest silent corruption in this class. Dihydromorphine
+        (Emax 109% of DAMGO, Ki 1.7 nM) and hydromorphone sit one letter apart in
+        adjacent rows of Toll 1998's table, and they are different molecules —
+        hydromorphone is the 6-ketone. Dihydromorphine is not in the catalog, so
+        no Toll row may appear on hydromorphone at all."""
+        rows = self.db.execute(
+            "SELECT b.ki_nm, b.intrinsic_activity_pct"
+            "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE s.canonical_name = 'Hydromorphone'"
+            "   AND b.comparable_set = 'toll-1998-human-mor'"
+        ).fetchall()
+        self.assertEqual(rows, [], f"Toll's dihydromorphine row landed on Hydromorphone: {rows}")
+
+    def test_buprenorphine_is_high_affinity_low_efficacy(self):
+        """The profile that explains the drug: it binds tighter than morphine and
+        does less once bound. If a future ingest ever flips either half, the
+        ceiling effect stops being derivable from the data."""
+        tau = self.db.execute(
+            "SELECT MAX(b.relative_tau) FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE s.canonical_name = 'Buprenorphine' AND b.relative_tau IS NOT NULL"
+        ).fetchone()[0]
+        self.assertIsNotNone(tau, "buprenorphine has no operational efficacy")
+        self.assertLess(tau, 0.1, "buprenorphine should be a low-efficacy partial agonist")
+        bup, morph = (
+            self.db.execute(
+                "SELECT b.ki_nm FROM bindings b JOIN substances s ON s.id = b.substance_id"
+                " WHERE s.canonical_name = ? AND b.comparable_set = 'volpe-2011-human-mor-ki'",
+                (name,),
+            ).fetchone()[0]
+            for name in ("Buprenorphine", "Morphine")
+        )
+        self.assertLess(bup, morph, "buprenorphine should bind tighter than morphine")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

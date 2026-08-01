@@ -270,7 +270,7 @@
         "notes": "N-desethyl metabolite is itself a MOR full agonist with Ki 1.53 nM (Vandeputte 2023) — found in post-mortem casework"
       },
       {
-        "enzyme": "CYP2D6 (dominant; CYP2C8/CYP2E1/CYP2A6 minor \u2014 CYP1A2 contribution is negligible)",
+        "enzyme": "CYP2D6 (dominant; CYP2C8/CYP2E1/CYP2A6 minor — CYP1A2 contribution is negligible)",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "O-deisopropyl isotonitazene",
         "metabolite_active": true,
@@ -2551,6 +2551,63 @@
           "reference": "doi:10.1124/jpet.123.002052",
           "is_review": false,
           "notes": "Reference value used by Kozell 2024 to benchmark all nitazenes."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "relative_tau": 0.43,
+          "comparable_set": "mcpherson-2010-rat-mopr-tau",
+          "reference_agonist": "DAMGO",
+          "species": "rat",
+          "tissue_or_cell": "rat MOPr, recombinant in HEK293",
+          "assay_notes": "[35S]GTPγS, operational tau",
+          "reference": "doi:10.1124/mol.110.066613",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "derived as 12.3/28.5 from retrieved tau values 12.3 ± 0.6 and 28.5 ± 1.1. See also source-C, where fentanyl reaches Emax 122% of DAMGO in a low-amplification BRET Gi1 assay — the two are different metrics and must not be averaged."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "intrinsic_activity_pct": 122,
+          "comparable_set": "chakraborty-2021-human-mor-gi1-emax",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR, transient in HEK293T",
+          "assay_notes": "TRUPATH BRET Gαi1 dissociation",
+          "reference": "doi:10.1021/acs.jmedchem.1c01273",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Exceeds DAMGO in this assay. Intrinsic activity (Emax), NOT intrinsic efficacy — do not place on the same axis as source-A/source-B tau values."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 0.7,
+          "ec50_nm": 8.1,
+          "intrinsic_activity_pct": 100,
+          "comparable_set": "toll-1998-human-mor",
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "tissue_or_cell": "human MOR in CHO cells",
+          "assay_notes": "[35S]GTPγS on human mu-CHO membranes; Ki by [3H]DAMGO displacement",
+          "reference": "pmid:9686407",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Indistinguishable from DAMGO on Emax in this amplified system, consistent with source-C's 122%. Its EC50 is only ~2x morphine's here — fentanyl's ~100x clinical potency is not a receptor-level number."
+        },
+        {
+          "target": "MOR",
+          "action": "agonist",
+          "ki_nm": 1.346,
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "species": "human",
+          "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
+          "assay_notes": "uniform radioligand binding, [3H]-DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "Essentially equipotent with morphine at the receptor (1.346 vs 1.168 nM) despite ~100x clinical potency. source-T gives 0.7 ± 0.3 nM. Volpe's own discussion notes literature fentanyl Ki values spanning 0.007-214 nM, which is exactly why a uniform panel is worth more than per-drug bests."
         }
       ],
       "functional": [
@@ -2592,8 +2649,7 @@
       ],
       "receptor_oligomerisation": [],
       "downstream_signalling": "Full MOR agonist. Activates Gαi/o → adenylyl cyclase inhibition, opens GIRK channels, closes voltage-gated Ca²⁺ channels. Also recruits β-arrestin2 and undergoes ~25% receptor internalisation at saturating concentrations.",
-      "neuroimaging": [
-      ]
+      "neuroimaging": []
     },
     "human_pk": {
       "routes": [
@@ -2943,8 +2999,6 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": 0.4,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "Cell membrane preparation expressing recombinant hMOR",
@@ -2952,7 +3006,10 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Lowest Ki of 19 approved opioids in Volpe 2011 uniform ranking — most-potent FDA-approved MOR ligand."
+          "notes": "Lowest Ki of 19 approved opioids in Volpe 2011 uniform ranking — most-potent FDA-approved MOR ligand. Volpe 2011 is a uniform radioligand BINDING panel and reports no functional efficacy; an Emax previously attached to this row has been removed rather than left attributed to a study that did not measure it.",
+          "comparable_set": "volpe-2011-human-mor-ki",
+          "assay_notes": "uniform radioligand binding, single-assay panel of 19 approved opioids",
+          "confidence": "HIGH"
         }
       ],
       "functional": [],
@@ -3424,8 +3481,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -3518,8 +3574,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -3803,8 +3858,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -3959,8 +4013,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4081,8 +4134,7 @@
         "notes": "Furan ring undergoes epoxidation then dihydrodiol formation — distinctive metabolic pathway."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4174,8 +4226,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4267,8 +4318,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4360,8 +4410,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4453,8 +4502,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4548,8 +4596,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4661,8 +4708,7 @@
         "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
       }
     ],
-    "drug_interactions_pk": [
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP3A4",
@@ -4711,7 +4757,7 @@
     ],
     "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
     "references_consulted": [
-"doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
       "doi:10.1002/dta.2822"
     ]
   },
