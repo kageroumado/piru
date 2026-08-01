@@ -1,0 +1,89 @@
+{
+  "_comment": "Adjudicated same-molecule pairs found by pipeline/audit/structural_dupes.py — two rows sharing the full InChIKey of their largest SMILES fragment, which folds a salt onto its freebase while keeping stereochemistry so enantiomers never collapse. The detector REPORTS; only pairs recorded here are merged, because a structural collision is ambiguous: it means either a genuine duplicate or a wrong SMILES, and those have opposite fixes. That is not hypothetical: an auto-merging first version would have folded Mephenmetrazine into 4-Methylphenmetrazine, which collide only because one of the two structures is wrong — see notMerged, where that pair is still unresolved. Auto-merge destroys a real compound to 'fix' a typo, and cannot tell the two cases apart. `keep` is the survivor (the row carrying more data or the more standard forensic name); `merge` folds into it, contributing its aliases and identifiers. Applied by SQLiteBuilder.apply_structural_duplicate_merges(), which re-verifies the shared key at build time and refuses to merge a pair that no longer collides.",
+  "duplicates": [
+    {
+      "keep": "N-Ethylpentylone",
+      "merge": "Ephylone",
+      "key": "VERDHJIMZYXGIW-UHFFFAOYSA-N",
+      "why": "Same cathinone; the merged row stored the hydrochloride ([Cl-]...[H+]), which yields a different full InChIKey and defeated every name-keyed merge. DEA temporary Schedule I 2018 (83 FR 44474) citing ~151 US overdose deaths, so a split row is a safety problem, not just untidiness."
+    },
+    {
+      "keep": "Dipentylone",
+      "merge": "Dimethylpentylone",
+      "key": "PQTJKFUXRBKONZ-UHFFFAOYSA-N",
+      "why": "Straight synonyms, and both rows already carried CAS 17763-02-9 — dedup never consulted CAS. Widespread in the current adulterated supply; keeping the name drug-checking reports actually use."
+    },
+    {
+      "keep": "4-Fluorophenibut",
+      "merge": "F-Phenibut",
+      "key": "QWHXHLDNSXLAPX-UHFFFAOYSA-N",
+      "why": "Identical SMILES; the merged row had no CAS, CID or InChIKey at all, so nothing existed to match on. Survivor holds 4 dose rows to the other's 1."
+    },
+    {
+      "keep": "4-Fluoroethamphetamine",
+      "merge": "4-FEA",
+      "key": "PUJNOWQUPWZVER-UHFFFAOYSA-N",
+      "why": "Abbreviation vs full name; the survivor is stored as the hydrochloride and the abbreviation as the freebase, which is why the InChIKeys differed."
+    },
+    {
+      "keep": "Methiodone",
+      "merge": "IC-26",
+      "key": "NLPGJSPLDNDKKZ-UHFFFAOYSA-N",
+      "why": "IC-26 is Methiodone's development code. Freebase vs hydrochloride; survivor carries 3 dose rows to the other's 1."
+    },
+    {
+      "keep": "2C-T-4-NBOMe",
+      "merge": "25T-4-NBOMe",
+      "key": "BOWHVFJVXBVJCU-UHFFFAOYSA-N",
+      "why": "The same compound under the two competing NBOMe naming schemes (2C-x-NBOMe vs 25x-NBOMe). Survivor has CAS, CID and 3 dose rows."
+    },
+    {
+      "keep": "2-Methylethcathinone",
+      "merge": "2-MEC",
+      "key": "DGQUHAZEXMTKBQ-UHFFFAOYSA-N",
+      "why": "Abbreviation of the survivor's own name; the abbreviation row is stored as the hydrochloride."
+    },
+    {
+      "keep": "4-Fluorophenylpiperazine",
+      "merge": "4-FPP",
+      "key": "AVJKDKWRVSSJPK-UHFFFAOYSA-N",
+      "why": "Abbreviation of the survivor's own name."
+    },
+    {
+      "keep": "2,5-Dimethoxy-4-ethoxyamphetamine",
+      "merge": "MEM",
+      "key": "ITZLAXJQDMGDEO-UHFFFAOYSA-N",
+      "why": "MEM is the Shulgin code for this compound, and the survivor already carries 'MEM' as its display_name — so the split row was the code name duplicating its own parent."
+    },
+    {
+      "keep": "Isoproscaline",
+      "merge": "IP",
+      "key": "UBNHYNYMUORHAM-UHFFFAOYSA-N",
+      "why": "IP is the Shulgin code for isoproscaline. The two-letter row is also an alias-collision hazard."
+    },
+    {
+      "keep": "5-Bromo-DMT",
+      "merge": "5-BR-DMT",
+      "key": "ATEYZYQLBQUZJE-UHFFFAOYSA-N",
+      "why": "Same compound under two spellings of the same abbreviation. Invisible until now because 5-BR-DMT's SMILES did not sanitize at all — its indole nitrogen was written as aromatic `n` instead of `[nH]`, so the row keyed off its fumarate counterion. Corrected in identifier-corrections-manual.json, whereupon the duplicate surfaced. Independently flagged by the research-chemical auditor in the same session."
+    }
+  ],
+  "notMerged": [
+    {
+      "names": [
+        "CBD",
+        "Nabiximols"
+      ],
+      "key": "QHMBSVQNZZTUGM-UHFFFAOYSA-N",
+      "why": "NOT a duplicate — Nabiximols (Sativex) is a botanical extract standardised to roughly 1:1 THC:CBD, so it has no single structure. Its row stores CBD's SMILES, which is why it collides. A combination product should carry no SMILES at all; left in place pending the combination-product modelling decision."
+    },
+    {
+      "names": [
+        "Mephenmetrazine",
+        "4-Methylphenmetrazine"
+      ],
+      "key": "NWNCIXFIIDVRKE-UHFFFAOYSA-N",
+      "why": "UNRESOLVED — do not merge, and do not 'correct' either structure without real evidence. Our Mephenmetrazine row stores 4-methylphenmetrazine's structure (para-methylphenyl, NH) and carries no InChIKey. A PubChem name lookup for 'mephenmetrazine' returns CID 30487 = (2S,3S)-3,4-dimethyl-2-phenylmorpholine, but that CID is PHENDIMETRAZINE, which the catalog already holds as its own marketed anorectic — so PubChem is resolving the name through a loose synonym index rather than confirming a distinct compound. Writing that structure in was tried and immediately produced a Mephenmetrazine/Phendimetrazine block-1 collision, which the PSID guard failed the build on. Needs a primary source for what 'mephenmetrazine' denotes before either row is touched."
+    }
+  ]
+}

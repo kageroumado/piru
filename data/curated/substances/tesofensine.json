@@ -54,8 +54,7 @@
   ],
   "references": [
    "PubChem CID 11370864",
-   "PMID 19777399",
-   "https://doi.org/10.1038/ijo.2010.51"
+   "PMID 19777399"
   ]
  },
  "tags": [
@@ -69,5 +68,5 @@
   "PubChem CID 11370864",
   "PMID 19777399"
  ],
- "citationNotes": "Citation removed: this substance was attributed to doi:10.1038/ijo.2010.51, which is a study of pubertal high-fat-diet exposure and mouse mammary gland development. Verified in the 2026-08-01 topicality audit."
+ "citationNotes": "Citation removed: this substance was attributed to doi:10.1038/ijo.2010.51, which is a study of pubertal high-fat-diet exposure and mouse mammary gland development. Verified in the 2026-08-01 topicality audit. The DOI was cleared from `sources` at the time but left in `mechanismOfAction.references`, which is what still emitted a substance_citations row; removed 2026-08-01 once the topicality gate stopped flaking and surfaced it every run."
 }

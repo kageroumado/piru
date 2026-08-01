@@ -97,6 +97,11 @@ DRUG_COMMUNITY_EFFECTS = REPO / "data/sources/drug-community-effects.json"
 # correction override that lets the next-priority source backfill, instead of
 # duplicating fixed dose data in the curated layer.
 DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
+# Adjudicated same-molecule pairs from pipeline/audit/structural_dupes.py — two rows
+# with one structure that no name-keyed merge could see. Only pairs a human verified
+# are listed; the detector deliberately does not merge, because a structural collision
+# is equally likely to be a wrong SMILES as a duplicate.
+STRUCTURAL_DUPLICATES = REPO / "data/curated/structural-duplicates.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # Citation link-health cache produced by pipeline/audit/validate_links.py.
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
@@ -3436,6 +3441,14 @@ _CANONICAL_CASE: dict[str, str] = {
 # lineage via its category + lysergamide/tryptamine/TIHKAL/common tags.
 _TAG_BLOCKLIST: dict[str, set[str]] = {
     "lsd": {"no-human-data", "phenethylamine"},
+    # An endogenous mu-opioid tetrapeptide (Tyr-Pro-Trp-Phe-NH2), tagged by a bad
+    # wikidata ingest as a 5-HT2A-agonist phenethylamine tryptamine DOx — all
+    # four at once, which is that ingest's signature. It also categorised the row
+    # Psychedelic (pinned back to Peptide in _CATEGORY_OVERRIDES). The 2026-08-01
+    # cleanup removed most of what that query damaged — a chemo conjugate, two
+    # approved peptide drugs, plant lipids, an LHRH photoaffinity probe — and
+    # this is the last row still carrying the full signature.
+    "endomorphin-1": {"5-HT2A-agonist", "DOx", "phenethylamine", "tryptamine"},
     # An endogenous hormone / OTC sleep aid mis-tagged as a recreational TIHKAL
     # tryptamine (erowid-tihkal false-match) with "no-human-data" (absurd — it's
     # among the best-studied supplements). Category pinned to Supplement via
@@ -7836,6 +7849,158 @@ class Build:
         )
         return cur.rowcount
 
+    def apply_structural_duplicate_merges(self, path: Path) -> dict[str, int]:
+        """Merge the adjudicated same-molecule pairs in
+        ``data/curated/structural-duplicates.json``.
+
+        Every other merge in this file keys on *text* — a canonical name, an
+        alias, a ``duplicate-of-`` tag, or a curated registry. That misses rows
+        that are the same molecule but share no name and whose identifiers don't
+        line up, because one side has no InChIKey or is stored as the salt.
+        ``pipeline/audit/structural_dupes.py`` finds them; this applies the ones
+        a human adjudicated.
+
+        **It merges only from the file, never from the computed key**, because a
+        structural collision is ambiguous: it means either a genuine duplicate or
+        a wrong SMILES, and those have opposite fixes. The first version of this
+        pass merged on the key directly and would have folded Mephenmetrazine
+        into 4-Methylphenmetrazine — they collide because Mephenmetrazine's row
+        stored the wrong structure (PubChem CID 30487 gives 3,4-dimethyl-2-
+        phenylmorpholine), so the "duplicate" was a real compound with a typo.
+
+        Each pair is **re-verified at build time**: the two rows must still share
+        the full InChIKey of their largest SMILES fragment. A pair that no longer
+        collides is skipped with a warning rather than merged on faith — that is
+        what catches an upstream structure change silently invalidating a
+        recorded decision."""
+        if not path.is_file():
+            return {"merged": 0, "skipped": 0}
+        try:
+            from rdkit import Chem, RDLogger
+        except ImportError:  # pragma: no cover - rdkit is a hard dep via molecule_shapes
+            print("  structural merges: rdkit unavailable, skipped", file=sys.stderr)
+            return {"merged": 0, "skipped": 0}
+        RDLogger.DisableLog("rdApp.*")
+
+        def key_of(smiles: str | None) -> str | None:
+            if not smiles:
+                return None
+            best = None
+            for frag in smiles.split("."):
+                mol = Chem.MolFromSmiles(frag)
+                if mol is None or mol.GetNumHeavyAtoms() == 0:
+                    continue
+                if best is None or mol.GetNumHeavyAtoms() > best.GetNumHeavyAtoms():
+                    best = mol
+            if best is None or best.GetNumHeavyAtoms() < 3:
+                return None
+            try:
+                return Chem.MolToInchiKey(best) or None
+            except Exception:  # noqa: BLE001 - rdkit raises bare exceptions here
+                return None
+
+        payload = json.loads(path.read_text())
+        merged = skipped = 0
+        for entry in payload.get("duplicates", []):
+            keep_row = self.cur.execute(
+                "SELECT id, smiles FROM substances WHERE canonical_name = ? COLLATE NOCASE",
+                (entry["keep"],),
+            ).fetchone()
+            merge_row = self.cur.execute(
+                "SELECT id, smiles FROM substances WHERE canonical_name = ? COLLATE NOCASE",
+                (entry["merge"],),
+            ).fetchone()
+            if not keep_row or not merge_row or keep_row[0] == merge_row[0]:
+                # Already folded by an earlier pass, or renamed upstream.
+                skipped += 1
+                continue
+            kk, mk = key_of(keep_row[1]), key_of(merge_row[1])
+            if kk is None or mk is None or kk != mk:
+                print(
+                    f"  WARNING: structural pair {entry['merge']!r} → {entry['keep']!r} no "
+                    f"longer shares a structural key ({mk} vs {kk}) — NOT merged. Re-adjudicate "
+                    f"{path.name}; one of the two structures probably changed.",
+                    file=sys.stderr,
+                )
+                skipped += 1
+                continue
+            self._merge_into(keep_row[0], merge_row[0], fold_aliases=True)
+            merged += 1
+        return {"merged": merged, "skipped": skipped}
+
+    def repair_comma_split_aliases(self) -> dict[str, int]:
+        """Rejoin systematic names that upstream split on their own commas.
+
+        `N,N-dimethyltryptamine` arrives from several sources as two aliases,
+        `N` and `N-dimethyltryptamine`, because something split the name on
+        commas. That costs twice: searching `N` returns eight unrelated
+        tryptamines, and the *full* name is unsearchable because only the pieces
+        were ever stored. TripSit ships the halves pre-split, so this is not our
+        splitter to fix — it has to be repaired on the way in.
+
+        The repair is a join, not a delete: `X-N` + `N-Y` → `X,N-Y`, and the two
+        fragments are dropped once consumed. The pairing rule is deliberately
+        narrow, because the obvious version is wrong:
+
+        - **The locant letters must match.** Pairing every left fragment with
+          every right one turns `4-Acetoxy-N` + `O-Acetylpsilocin` into
+          `4-Acetoxy-N,O-Acetylpsilocin`. `O-Acetylpsilocin` is a real
+          standalone alias that merely starts with a locant letter.
+        - **The pairing must be unambiguous.** Two candidates on either side and
+          the pass reports instead of guessing. That is not a cop-out: 4-HO-DPT
+          carries *both* `N-dimethyltryptamine` and `n-dipropyltryptamine`, and
+          it is a dipropyl compound — the dimethyl fragment is on the wrong row
+          entirely. Guessing would have written a name asserting the wrong
+          molecule; reporting surfaces the real defect.
+        """
+        left_re = re.compile(r"^(?:[nos]|.+-[nos])$", re.I)
+        right_re = re.compile(r"^([nos])-\w", re.I)
+        rows: dict[int, list[tuple[int, str]]] = defaultdict(list)
+        for rowid, sid, alias in self.cur.execute(
+            "SELECT rowid, substance_id, alias FROM aliases"
+        ).fetchall():
+            rows[sid].append((rowid, alias))
+
+        joined = dropped = ambiguous = 0
+        for sid, entries in rows.items():
+            lefts = [(r, a) for r, a in entries if left_re.match(a)]
+            rights = [(r, a) for r, a in entries if right_re.match(a)]
+            if not lefts or not rights:
+                continue
+            by_letter: dict[str, tuple[list, list]] = defaultdict(lambda: ([], []))
+            for rowid, alias in lefts:
+                by_letter[alias[-1].lower()][0].append((rowid, alias))
+            for rowid, alias in rights:
+                by_letter[alias[0].lower()][1].append((rowid, alias))
+            for letter, (ls, rs) in sorted(by_letter.items()):
+                if not ls or not rs:
+                    continue
+                if len(ls) > 1 or len(rs) > 1:
+                    name = self.cur.execute(
+                        "SELECT canonical_name FROM substances WHERE id=?", (sid,)
+                    ).fetchone()
+                    print(
+                        f"  comma-split aliases on {name[0] if name else sid!r}: "
+                        f"'{letter}' has {[a for _, a in ls]} / {[a for _, a in rs]} — "
+                        f"ambiguous, left alone. One of these fragments is probably on the "
+                        f"wrong substance.",
+                        file=sys.stderr,
+                    )
+                    ambiguous += 1
+                    continue
+                (lrow, lalias), (rrow, ralias) = ls[0], rs[0]
+                full = f"{lalias},{ralias}"
+                self.cur.execute("DELETE FROM aliases WHERE rowid IN (?, ?)", (lrow, rrow))
+                dropped += 2
+                try:
+                    # Attributed to the curated layer: the joined name is our
+                    # reconstruction, not something any source actually shipped.
+                    self._add_alias(sid, full, "piru-curated")
+                    joined += 1
+                except sqlite3.IntegrityError:
+                    pass
+        return {"joined": joined, "fragments_dropped": dropped, "ambiguous": ambiguous}
+
     def dedup_substances(self) -> dict[str, int]:
         """Merge substance records that are the SAME compound under different
         names — typically a brand and its generic that came from different
@@ -8221,6 +8386,10 @@ class Build:
         "S-(+)-MDMA": "Empathogen",
         "R-(-)-MDMA": "Empathogen",
         "Lys-MDA": "Empathogen",
+        # Endogenous mu-opioid tetrapeptide (Tyr-Pro-Trp-Phe-NH2), not a
+        # psychedelic — see the _TAG_BLOCKLIST note. Its only category came from
+        # the same bad wikidata ingest.
+        "Endomorphin-1": "Peptide",
     }
 
     def apply_category_overrides(self) -> int:
@@ -8997,6 +9166,12 @@ def main() -> int:
     greeked = build.fold_greek_capital_display_names()
     print(f"Greek-capital display fold: {greeked}", file=sys.stderr)
 
+    # Rejoin systematic names that upstream split on their own commas
+    # ("N" + "N-dimethyltryptamine"). Runs BEFORE dedup_substances, which links
+    # substances by alias — fragments make that linking noisy.
+    alias_repair = build.repair_comma_split_aliases()
+    print(f"Comma-split alias repair: {alias_repair}", file=sys.stderr)
+
     deduped = build.dedup_substances()
     print(f"Substance dedup: {deduped}", file=sys.stderr)
 
@@ -9183,6 +9358,15 @@ def main() -> int:
             f"smiles={rec_m['smiles']} cas={rec_m['cas']}",
             file=sys.stderr,
         )
+
+    # Same molecule, two rows, no shared name — the class every text-keyed merge
+    # misses. Must run AFTER identifier reconciliation: the pairs are verified by
+    # recomputing a structural key from the SMILES, and a row whose structure was
+    # only just corrected keys off its counterion until that correction lands
+    # (5-BR-DMT's indole SMILES did not sanitize at all before the fix). Still
+    # before PSID assignment, so merges don't churn identities.
+    structural = build.apply_structural_duplicate_merges(STRUCTURAL_DUPLICATES)
+    print(f"Structural duplicate merges: {structural}", file=sys.stderr)
 
     # Fill pubchem_cid for substances that have an InChIKey but no CID, keyed by
     # InChIKey (exact structural match → CID↔InChIKey-consistent by construction).

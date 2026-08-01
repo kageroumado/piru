@@ -38,6 +38,14 @@ jobs:
         run: python3 pipeline/build/tests/test_identifier_integrity.py
       - name: Curated overlay integrity (dead files, cross-category clones, InChIKey dups)
         run: python3 pipeline/build/tests/test_overlay_integrity.py
+      # Two rows with one structure. Every merge pass in the builder keys on
+      # text, so a duplicate whose names don't overlap and whose identifiers
+      # don't line up survives all of them — which is how a Schedule I cathinone
+      # ended up split across two rows with half its dose ladder on each. A
+      # collision is EITHER a duplicate OR a wrong SMILES, so the check reports
+      # and data/curated/structural-duplicates.json records the decision.
+      - name: No unadjudicated same-molecule rows
+        run: python3 pipeline/audit/structural_dupes.py --gate
       # The catalog's removals are adjudicated, not incidental: diagnostic
       # analytes, cosmetic-cream peptides, lab reagents, and rows whose only
       # content was a banner saying they had no content. An upstream refresh
@@ -59,6 +67,13 @@ jobs:
       # false positives live in data/curated/citation-topicality-allowlist.json.
       - name: No citations attached to the wrong substance
         run: python3 pipeline/audit/citation_topicality.py --offline --gate
+      # verify_citations proves the identifier RESOLVES; citation_topicality
+      # proves the paper is about the right molecule. Neither compares the
+      # identifier to the human LABEL a curator wrote beside it — which is how
+      # fifteen rows cited "Abelian 2024 SAR paper" at a PMID that is an
+      # archaeology news piece in Science.
+      - name: Citation labels match the record they point at
+        run: python3 pipeline/audit/citation_labels.py --gate
 
   swift-lint:
     name: Swift (format + lint)

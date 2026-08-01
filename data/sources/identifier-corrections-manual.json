@@ -1,13 +1,56 @@
 {
-  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name.",
-  "Theobromine": {"inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N", "smiles": "CN1C=NC2=C1C(=O)NC(=O)N2C"},
-  "Busulfan": {"inchikey": "COVZYZSDYWQREU-UHFFFAOYSA-N", "smiles": "CS(=O)(=O)OCCCCOS(=O)(=O)C"},
-  "L-Tryptophan": {"inchikey": "QIVBCDIJIAJPQS-VIFPVBQESA-N", "smiles": "C1=CC=C2C(=C1)C(=CN2)C[C@@H](C(=O)O)N"},
-  "4-HO-MCPT": {"inchikey": "UJOZERYNSXXQRD-UHFFFAOYSA-N", "smiles": "CN(CCC1=C2C(=O)C=CC=C2N=C1)C3CC3"},
-  "5-MeO-EiPT": {"inchikey": "VVEQXDHSGNBFLZ-UHFFFAOYSA-N", "smiles": "CCN(CCC1=CNC2=C1C=C(C=C2)OC)C(C)C"},
-  "Serdexmethylphenidate": {"inchikey": "UBZPNQRBUOBBLN-PWRODBHTSA-N", "smiles": "COC(=O)[C@@H]([C@H]1CCCCN1C(=O)OC[N+]2=CC=CC(=C2)C(=O)N[C@@H](CO)C(=O)[O-])C3=CC=CC=C3"},
-  "3-FEA": {"inchikey": "CKPWHLGHHXSVJI-UHFFFAOYSA-N", "smiles": "CCNC(C)CC1=CC(=CC=C1)F"},
-  "MXiPr": {"inchikey": "FTQIVDGNGXPEKP-UHFFFAOYSA-N", "smiles": "CC(C)NC1(CCCCC1=O)C2=CC(=CC=C2)OC"},
-  "Salvinorin B": {"inchikey": "BLTMVAIOAAGYAR-CEFSSPBYSA-N", "smiles": "C[C@@]12CC[C@H]3C(=O)O[C@@H](C[C@@]3([C@H]1C(=O)[C@H](C[C@H]2C(=O)OC)O)C)C4=COC=C4"},
-  "Tianeptine": {"inchikey": "APNKSKXHMUCNSY-UHFFFAOYSA-N", "smiles": "CC1=CC=CC2=C1C(NCCCCCCC(O)=O)C3=CC(=CC=C3S2(=O)=O)Cl", "cas": "66981-73-5"}
+  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;.",
+  "Theobromine": {
+    "inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
+    "smiles": "CN1C=NC2=C1C(=O)NC(=O)N2C"
+  },
+  "Busulfan": {
+    "inchikey": "COVZYZSDYWQREU-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)OCCCCOS(=O)(=O)C"
+  },
+  "L-Tryptophan": {
+    "inchikey": "QIVBCDIJIAJPQS-VIFPVBQESA-N",
+    "smiles": "C1=CC=C2C(=C1)C(=CN2)C[C@@H](C(=O)O)N"
+  },
+  "4-HO-MCPT": {
+    "inchikey": "UJOZERYNSXXQRD-UHFFFAOYSA-N",
+    "smiles": "CN(CCC1=C2C(=O)C=CC=C2N=C1)C3CC3"
+  },
+  "5-MeO-EiPT": {
+    "inchikey": "VVEQXDHSGNBFLZ-UHFFFAOYSA-N",
+    "smiles": "CCN(CCC1=CNC2=C1C=C(C=C2)OC)C(C)C"
+  },
+  "Serdexmethylphenidate": {
+    "inchikey": "UBZPNQRBUOBBLN-PWRODBHTSA-N",
+    "smiles": "COC(=O)[C@@H]([C@H]1CCCCN1C(=O)OC[N+]2=CC=CC(=C2)C(=O)N[C@@H](CO)C(=O)[O-])C3=CC=CC=C3"
+  },
+  "3-FEA": {
+    "inchikey": "CKPWHLGHHXSVJI-UHFFFAOYSA-N",
+    "smiles": "CCNC(C)CC1=CC(=CC=C1)F"
+  },
+  "MXiPr": {
+    "inchikey": "FTQIVDGNGXPEKP-UHFFFAOYSA-N",
+    "smiles": "CC(C)NC1(CCCCC1=O)C2=CC(=CC=C2)OC"
+  },
+  "Salvinorin B": {
+    "inchikey": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",
+    "smiles": "C[C@@]12CC[C@H]3C(=O)O[C@@H](C[C@@]3([C@H]1C(=O)[C@H](C[C@H]2C(=O)OC)O)C)C4=COC=C4"
+  },
+  "Tianeptine": {
+    "inchikey": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=CC2=C1C(NCCCCCCC(O)=O)C3=CC(=CC=C3S2(=O)=O)Cl",
+    "cas": "66981-73-5"
+  },
+  "5-BR-DMT": {
+    "inchikey": "ATEYZYQLBQUZJE-UHFFFAOYSA-N",
+    "smiles": "CN(C)CCc1c[nH]c2ccc(Br)cc12"
+  },
+  "alpha-N,N-trimethyltryptamine": {
+    "inchikey": "XQFCCTPWINMCQJ-UHFFFAOYSA-N",
+    "smiles": "CC(Cc1c[nH]c2ccccc12)N(C)C"
+  },
+  "4-HO-PiPT": {
+    "inchikey": "CUTUPKOZXNFVHK-UHFFFAOYSA-N",
+    "smiles": "CCCN(CCc1c[nH]c2cccc(O)c12)C(C)C"
+  }
 }

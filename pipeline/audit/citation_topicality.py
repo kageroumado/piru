@@ -584,7 +584,14 @@ def _others_in(
     Anything looser and the tail of 5,700 aliases starts matching prose."""
     hits: list[tuple[str, int]] = []
     seen: set[int] = set()
-    for key in index.grams:
+    # Both loops iterate SORTED, and that is load-bearing rather than tidiness.
+    # `index.grams` and `ids` are sets, so their iteration order varies with
+    # PYTHONHASHSEED between processes. The caller keeps only one representative
+    # of `hits` as the finding's `other_label`, and the score depends on which —
+    # so unsorted iteration made `--gate` pass or fail on identical data
+    # depending on the run (measured: 1 red in 4, and exactly reproducible per
+    # seed). A gate that flips on its own teaches people to re-run it.
+    for key in sorted(index.grams):
         ids = accusable.get(key)
         if not ids or key in self_names:
             continue
@@ -592,7 +599,7 @@ def _others_in(
             continue  # short abbreviations must have been written in caps
         if _names_a_mechanism(index, key):
             continue
-        for sid in ids:
+        for sid in sorted(ids):
             if sid not in exclude and sid not in seen:
                 seen.add(sid)
                 hits.append((key, sid))
