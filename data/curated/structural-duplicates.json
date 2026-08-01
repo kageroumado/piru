@@ -66,6 +66,12 @@
       "merge": "5-BR-DMT",
       "key": "ATEYZYQLBQUZJE-UHFFFAOYSA-N",
       "why": "Same compound under two spellings of the same abbreviation. Invisible until now because 5-BR-DMT's SMILES did not sanitize at all — its indole nitrogen was written as aromatic `n` instead of `[nH]`, so the row keyed off its fumarate counterion. Corrected in identifier-corrections-manual.json, whereupon the duplicate surfaced. Independently flagged by the research-chemical auditor in the same session."
+    },
+    {
+      "keep": "2-Aminoindane",
+      "merge": "2-AI",
+      "key": "LMHHFZAXSANGGM-UHFFFAOYSA-N",
+      "why": "Abbreviation of the survivor's own name. The two rows carry different CAS numbers — 2338-13-8 on the survivor and 2975-41-9 on the abbreviation — which is the freebase/hydrochloride pair, not two compounds; that mismatch is exactly why no name- or identifier-keyed pass merged them. Survivor holds 5 dose rows and 23 durations to the other's 1 and 3. Flagged in the 2026-08-01 data audit's duplicate list and surfaced structurally once the alias tangle was untied."
     }
   ],
   "notMerged": [

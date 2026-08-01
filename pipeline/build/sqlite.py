@@ -3526,6 +3526,22 @@ _INERT_TAGS: set[str] = {
 # Keys are normalised canonical names (lowercase). Values are sets of
 # normalised alias strings to drop on insert.
 _ALIAS_BLOCKLIST: dict[str, set[str]] = {
+    # ── The arylcyclohexylamine tangle (SAFETY) ──────────────────────────────
+    # Three distinct molecules, cross-wired so that two of the names resolved to
+    # the wrong compound. This is the one dissociative family where getting the
+    # identity wrong actually kills people — samples sold as ketamine that turn
+    # out to be a 2'-oxo-PCE.
+    #
+    #   2-Fluorodeschloroketamine  CNC1(CCCCC1=O)c1ccccc1F      N-METHYL, 2-F
+    #   Canket                     CCNC1(CCCCC1=O)c1ccccc1F     N-ETHYL,  2-F (ortho)
+    #   Fluorexetamine             CCNC1(CCCCC1=O)c1cccc(c1)F   N-ETHYL,  3-F (meta)
+    #
+    # 2-FDCK is the N-methyl compound and has no business carrying either
+    # N-ethyl name; Canket is the ortho isomer and must not answer to FXE or
+    # 3-FXE, which are the meta compound's names. Canket keeps 2-FXE, which is
+    # correctly its own.
+    "2-fluorodeschloroketamine": {"canket", "fluorexetamine"},
+    "canket": {"fluorexetamine", "fxe", "3-fxe", "3‑fxe"},
     # GHB carries the names of its two PRODRUGS. They are separate substances in
     # this DB with their own ladders — and, critically, dosed in **millilitres**
     # where GHB is dosed in **grams**, so a reader who searched "GBL" and landed
@@ -3937,8 +3953,25 @@ class Build:
     # "OxyContin (ER oxycodone)" → "OxyContin", "Nicorette (gum, brand)".
     _ALIAS_PAREN_RE = re.compile(r"\s*\([^()]*\)\s*$")
 
+    #: Unicode dashes that look identical to a hyphen but are not one. Sources
+    #: mix them freely — Canket shipped "2‑FXE" with U+2011 alongside the ASCII
+    #: spelling, so the two were distinct strings and every dedup, blocklist and
+    #: collision check saw two different aliases. That is how an empty duplicate
+    #: row survived beside a populated one. Folded to ASCII on the way in.
+    _DASH_VARIANTS = str.maketrans(
+        {
+            "‐": "-",  # hyphen
+            "‑": "-",  # non-breaking hyphen
+            "‒": "-",  # figure dash
+            "–": "-",  # en dash
+            "—": "-",  # em dash
+            "−": "-",  # minus sign
+            "′": "'",  # prime (2′-oxo-PCE)
+        }
+    )
+
     def _add_alias(self, sid: int, alias: str, source_slug: str | None) -> None:
-        alias = (alias or "").strip().strip('"“”').strip()
+        alias = (alias or "").strip().strip('"“”').strip().translate(self._DASH_VARIANTS)
         # Strip a trailing parenthetical annotation, then drop descriptive /
         # list / fragment junk that leaked in as aliases: colons ("Counterfeit
         # slang: M30 blues"), braces ("{N-[2-...]} Acetamide"), ", "-separated
