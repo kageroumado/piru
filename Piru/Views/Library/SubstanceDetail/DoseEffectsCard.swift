@@ -25,6 +25,10 @@ struct DoseEffectsCard: View {
     var accent: Color = Theme.accent
     /// Shapes the drawn curve — see ``DoseDurationCard/curveCategory``.
     var curveCategory: SubstanceCategory?
+    /// The dose text for the tier the user is looking at, published upward so the
+    /// card's own Log button can name it ("Log 50–100 mg") — the action belongs to
+    /// this card, and it should say which number it is about to log.
+    var selectedDoseText: Binding<String?>?
 
     /// Tier the user tapped, overriding the model's reference tier. Card-local
     /// and deliberately not persisted — it answers "what does Strong mean here?"
@@ -61,6 +65,20 @@ struct DoseEffectsCard: View {
             }
         }
         .padding(.vertical, 4)
+        .onAppear { publishSelection() }
+        .onChange(of: selected) { publishSelection() }
+    }
+
+    /// Push the current tier's dose text to the parent. Nil when the substance has
+    /// no ladder — the button then falls back to a plain "Log this".
+    private func publishSelection() {
+        guard let binding = selectedDoseText else { return }
+        guard let tiers, hasDosage else {
+            binding.wrappedValue = nil
+            return
+        }
+        let index = min(max(selected ?? tiers.selectedID, 0), 4)
+        binding.wrappedValue = tiers.tier(index)?.fullValue
     }
 
     // MARK: - Dose (the tier grid)

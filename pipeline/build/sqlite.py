@@ -7241,6 +7241,79 @@ class Build:
         now-trailing salt)."""
         return normalise(self._release_alias_re.sub(" ", alias))
 
+    def sweep_wrong_molecule_aliases(self) -> dict[str, int]:
+        """Remove aliases that name something other than the substance they sit on.
+
+        Driven by `data/curated/alias-kinds.json` rather than a hand-list, but NOT
+        as a blanket sweep — a blanket sweep would have been actively harmful.
+        Of the 37 aliases the classifier marked `distinct_substance`, most are
+        **enantiomers the app already models**: Dexedrine and Dextroamphetamine on
+        Amphetamine, Esketamine and Spravato on Ketamine, Focalin and
+        Dexmethylphenidate on Methylphenidate. Those carry an `isomer` facet from
+        `annotate_alias_facets`, which is precisely the machinery for "same family,
+        different molecule", and they resolve correctly today. Deleting them would
+        mean someone searching Spravato or Focalin gets nothing.
+
+        So the rule is narrow, and this pass runs *after* the facet annotation so it
+        can see it:
+          · `junk` — not the name of anything — always goes.
+          · `distinct_substance` goes only when it carries **no isomer or release
+            facet** AND the name resolves to some other substance, so search still
+            lands somewhere.
+        Anything else is reported, not deleted: those are the rows that need a real
+        record of their own (Sodium Chloride under Sodium) or an isomer annotation
+        the facet pass missed (Levmetamfetamine under Methamphetamine).
+        """
+        path = CURATED_DIR.parent / "alias-kinds.json"
+        stats = {
+            "dropped_junk": 0,
+            "dropped_wrong_molecule": 0,
+            "kept_faceted": 0,
+            "kept_unresolvable": 0,
+        }
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        for name, entries in payload.get("substances", {}).items():
+            sid = self.substance_ids.get(normalise(name))
+            if sid is None:
+                continue
+            for entry in entries:
+                kind = entry.get("kind")
+                if kind not in ("junk", "distinct_substance"):
+                    continue
+                norm = normalise(entry["alias"])
+                row = self.cur.execute(
+                    "SELECT rowid, isomer, release_form FROM aliases"
+                    " WHERE substance_id = ? AND alias_normalized = ?",
+                    (sid, norm),
+                ).fetchone()
+                if row is None:
+                    continue
+                rowid, isomer, release_form = row
+                if kind == "junk":
+                    self.cur.execute("DELETE FROM aliases WHERE rowid = ?", (rowid,))
+                    stats["dropped_junk"] += 1
+                    continue
+                if isomer or release_form:
+                    stats["kept_faceted"] += 1
+                    continue
+                elsewhere = self.cur.execute(
+                    "SELECT 1 FROM aliases WHERE alias_normalized = ? AND substance_id != ?"
+                    " UNION SELECT 1 FROM substances WHERE normalized_name = ? AND id != ?"
+                    " LIMIT 1",
+                    (norm, sid, norm, sid),
+                ).fetchone()
+                if elsewhere:
+                    self.cur.execute("DELETE FROM aliases WHERE rowid = ?", (rowid,))
+                    stats["dropped_wrong_molecule"] += 1
+                else:
+                    # Deleting would make the name unfindable anywhere. Keep it and
+                    # let the coverage report carry it — the remedy is a record of
+                    # its own or an isomer annotation, not a deletion.
+                    stats["kept_unresolvable"] += 1
+        return stats
+
     def apply_alias_kinds(self) -> dict[str, int]:
         """Fill `aliases.kind` (and `locale`) from data/curated/alias-kinds.json.
 
@@ -9118,6 +9191,9 @@ def main() -> int:
 
     alias_facets = build.annotate_alias_facets()
     print(f"Alias facet annotation: {alias_facets}", file=sys.stderr)
+    alias_sweep = build.sweep_wrong_molecule_aliases()
+    print(f"Wrong-molecule alias sweep: {alias_sweep}", file=sys.stderr)
+
     forms = build.build_substance_forms()
     print(f"Substance forms enumerated: {forms}", file=sys.stderr)
     strengths = build.build_product_strengths()

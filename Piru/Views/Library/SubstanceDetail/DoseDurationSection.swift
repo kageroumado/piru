@@ -91,6 +91,10 @@ struct DoseDurationSection: View {
     @Binding var isomerSelection: String?
     let provenance: SubstanceStore.SubstanceProvenance?
 
+    /// The dialed dose, published up from the card so the Log button can name it.
+    @State private var loggableDose: String?
+    @Environment(\.appNavigator) private var navigator
+
     private var substance: Substance {
         routes.substance
     }
@@ -156,8 +160,17 @@ struct DoseDurationSection: View {
                         // Lets the card shape its curve the same way the journal does.
                         // Without it the two disagreed for ~a third of the library.
                         curveCategory: substance.category,
+                        selectedDoseText: $loggableDose,
                     )
                     sourceRows(for: route)
+
+                    // The action belongs to this card. Floating below it as its own
+                    // full-width slab, it broke the card rhythm — every other thing
+                    // on the screen is a card, and this was a pink bar sitting on
+                    // the page between two of them. Inside, under the sources, it
+                    // reads as "…and here is what you do with this".
+                    LogThisButton(substanceName: substance.name, doseText: loggableDose)
+                        .padding(.top, 12)
                 }
                 .listRowSeparator(.hidden)
             } header: {
@@ -279,5 +292,39 @@ struct RouteChips: View {
             .padding(.horizontal, 20)
         }
         .scrollClipDisabled()
+    }
+}
+
+/// The screen's primary action, rendered as the last row of the dose card: open
+/// quick-log with this substance staged at the dose the reader is looking at.
+///
+/// It has moved twice. In the header it prompted an action before the screen had
+/// said anything worth acting on; as a free-floating bar under the card it broke
+/// the card rhythm and read as a page-level banner. It belongs to the dose card,
+/// because the dose card is what it acts on.
+private struct LogThisButton: View {
+    let substanceName: String
+    /// The dialed tier's dose, when the substance has a ladder.
+    let doseText: String?
+
+    @Environment(\.appNavigator) private var navigator
+
+    var body: some View {
+        Button {
+            navigator.present(.quickLog(routine: nil, prefillSubstance: substanceName))
+        } label: {
+            Group {
+                if let doseText {
+                    Text("Log \(doseText)", comment: "Primary action naming the dialed dose")
+                } else {
+                    Text("Log this", comment: "Primary action when the substance has no dose ladder")
+                }
+            }
+            .font(.subheadline.weight(.semibold))
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 3)
+        }
+        .buttonStyle(.glassProminent)
+        .tint(Theme.accent)
     }
 }

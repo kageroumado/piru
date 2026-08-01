@@ -53,11 +53,6 @@ struct SubstanceDetailLayout: View {
                 isomerSelection: isomerSelection,
                 provenance: model.provenance,
             )
-
-            // The flow is *what it is → how much → log*, so the primary action
-            // sits under the dose card carrying the dialed dose, not in the
-            // header. (It's also in the ⋯ menu — see `SubstanceDetailView`.)
-            LogThisSection(substanceName: substance.name)
         }
 
         // 4. Effects — the dose dial and what's reported at each band. The dose
@@ -174,43 +169,6 @@ struct SubstanceDetailLayout: View {
 
     private var hasSourcesData: Bool {
         !SubstanceSourceLinks.mergedLinks(for: substance).isEmpty
-    }
-}
-
-/// The screen's primary action: open quick-log with this substance already
-/// staged and its dose editor expanded, so "I'm taking this" is one tap from
-/// reading about it rather than a trip back through search.
-///
-/// It sits **after** the dose card, because that is where the question it
-/// answers arrives: you read what the substance is, you read how much, and only
-/// then is "log it" a sentence that means anything. In the header it was a
-/// prompt to act before there was anything to act on — and it spent a row of
-/// vertical space at the most expensive point on the screen.
-private struct LogThisSection: View {
-    let substanceName: String
-
-    @Environment(\.appNavigator) private var navigator
-
-    var body: some View {
-        Section {
-            Button {
-                navigator.present(.quickLog(routine: nil, prefillSubstance: substanceName))
-            } label: {
-                Text("Log this")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 4)
-            }
-            .buttonStyle(.glassProminent)
-            .tint(Theme.accent)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 2, leading: 20, bottom: 6, trailing: 20))
-        }
-        // On the Section, not on the button: the list applies `CardBackground()`
-        // to every row of this layout, and a button-level override didn't reach
-        // the row — so the CTA sat on a card of its own, which is not what a
-        // primary action is.
-        .listRowBackground(Color.clear)
     }
 }
 

@@ -25973,6 +25973,7 @@
       }
     },
     "Log %@" : {
+      "comment" : "Primary action naming the dialed dose",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26353,6 +26354,7 @@
       }
     },
     "Log this" : {
+      "comment" : "Primary action when the substance has no dose ladder",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
