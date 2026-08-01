@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract the four ~/Developer/piru-datasources raw files into
+"""Extract the four ~/Developer/piru-data raw files into
 Piru-`Substance`-shaped JSON artifacts, written OUT OF the repo.
 
 These artifacts (and the raw source files) are intentionally kept out of the
@@ -13,7 +13,7 @@ preserved under `x_*` keys so nothing is discarded before review.
 Reuses `_common.py` (category/route mapping, HTML stripping, range parsing).
 
 Paths (override with env vars):
-  PIRU_DATASOURCES — raw input dir   (default ~/Developer/piru-datasources)
+  PIRU_DATASOURCES — raw input dir   (default ~/Developer/piru-data)
   PIRU_EXTERNAL_DIR — JSON output dir (default /tmp/piru-extract; must match sqlite.py)
 """
 
@@ -35,7 +35,12 @@ from _common import (  # noqa: E402
     strip_html,
 )
 
-DS = Path(os.environ.get("PIRU_DATASOURCES", Path.home() / "Developer" / "piru-datasources"))
+# The default used to be ~/Developer/piru-datasources, which no longer exists.
+# A wrong default here is not a harmless miss: every ingest_* reader does
+# `if not path.exists(): return`, so a silent no-op extract costs ~1150
+# indications, ~1658 contraindications, 33 diazepam equivalents and the NPS
+# identifier set — and the build still succeeds, just thinner.
+DS = Path(os.environ.get("PIRU_DATASOURCES", Path.home() / "Developer" / "piru-data"))
 OUT = Path(os.environ.get("PIRU_EXTERNAL_DIR", "/tmp/piru-extract"))
 OUT.mkdir(parents=True, exist_ok=True)
 

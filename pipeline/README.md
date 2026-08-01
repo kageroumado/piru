@@ -88,11 +88,11 @@ the repo root with no arguments.
 Most curation changes only touch `data/curated/substances/` — for those, the
 fast path is enough (it's offline and reproducible from committed inputs). A
 `full` run is only needed when upstream external data has actually changed; it
-requires network and `~/Developer/piru-datasources`.
+requires network and `~/Developer/piru-data`.
 
 After a build, commit `Piru/Data/piru-substances.sqlite`, `Piru/Data/manifest.json`,
 and `docs/audit/sqlite-build-report.md` (+ any `data/` inputs that genuinely
-changed). The raw `piru-datasources` files and `/tmp/piru-extract` JSON are
+changed). The raw `piru-data` files and `/tmp/piru-extract` JSON are
 deliberately NOT committed — only the built SQLite is.
 
 ## Sub-pipeline overviews
@@ -101,7 +101,7 @@ deliberately NOT committed — only the built SQLite is.
 - **`psychonautwiki.py`** — paginated GraphQL crawl of psychonautwiki.org;
   writes `data/sources/psychonautwiki.json`.
 - **`brushers/extract.py`** — extracts the four out-of-repo datasets
-  (`~/Developer/piru-datasources`: TripSit-benzos, MedTAP, NPS DataHub,
+  (`~/Developer/piru-data`: TripSit-benzos, MedTAP, NPS DataHub,
   Pyrls) into `Substance`-shaped JSON written to `/tmp/piru-extract`
   (out of repo). `build/sqlite.py` ingests those directly. `_common.py`
   holds the shared category/route/dose parsing helpers.

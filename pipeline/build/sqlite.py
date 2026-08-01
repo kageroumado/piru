@@ -167,7 +167,7 @@ def dose_context_for(source_slug: str, route: str, notes: str | None) -> str:
 
 # External datasource extractions (Substance-shaped JSON with x_* extension
 # fields). Produced out-of-repo by pipeline/fetch/brushers/extract.py from the
-# raw files in ~/Developer/piru-datasources. Kept out of the repo by design —
+# raw files in ~/Developer/piru-data. Kept out of the repo by design —
 # the built SQLite is the committed artifact, the raw extractions are not.
 # Override with PIRU_EXTERNAL_DIR if regenerated elsewhere.
 EXTERNAL_DIR = Path(os.environ.get("PIRU_EXTERNAL_DIR", "/tmp/piru-extract"))

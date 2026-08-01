@@ -10,7 +10,7 @@
 #   pipeline/build.sh full       # full: re-run the upstream scrape/extract first
 #
 # "fast" is reproducible offline from what's committed in the repo. "full"
-# refreshes the upstream snapshots and needs network + ~/Developer/piru-datasources.
+# refreshes the upstream snapshots and needs network + ~/Developer/piru-data.
 set -euo pipefail
 cd "$(dirname "$0")/.."   # repo root
 MODE="${1:-fast}"
@@ -30,7 +30,7 @@ if [ "$MODE" = "full" ]; then
   ( cd Tools/SubstanceCollector && swift run SubstanceCollector )
 
   step "3/8  Extract out-of-repo datasets (Pyrls/MedTAP/NPS/benzos) → /tmp/piru-extract/*.json"
-  # Needs ~/Developer/piru-datasources present.
+  # Needs ~/Developer/piru-data present (export PIRU_DATASOURCES if it moved).
   python3 pipeline/fetch/brushers/extract.py
 
   step "4/8  (manual) Enrichment swarm → data/enrichment/raw/*.json  — see pipeline/enrichment/"
