@@ -38,6 +38,12 @@ jobs:
         run: python3 pipeline/build/tests/test_identifier_integrity.py
       - name: Curated overlay integrity (dead files, cross-category clones, InChIKey dups)
         run: python3 pipeline/build/tests/test_overlay_integrity.py
+      # The catalog's removals are adjudicated, not incidental: diagnostic
+      # analytes, cosmetic-cream peptides, lab reagents, and rows whose only
+      # content was a banner saying they had no content. An upstream refresh
+      # reintroduces them silently, so the list is a gate, not a one-off edit.
+      - name: Removed substances stay removed (and stay reviewable)
+        run: python3 pipeline/build/tests/test_removed_substances.py
       - name: Link-validator tests (verdict + cache staleness)
         run: python3 pipeline/audit/tests/test_validate_links.py
       - name: Dedupe tests (exact rows, prose echoes, value duplicates)

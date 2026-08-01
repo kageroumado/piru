@@ -1286,8 +1286,8 @@ struct Substance: Identifiable {
             bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15],
         ))
     }
-    /// Optional human-facing title override (e.g. "2,3-MDMA" for the compound
-    /// whose canonical `name` is "2,3-Methylenedioxymethamphetamine"). When set,
+    /// Optional human-facing title override (e.g. "2,5-DMBZP" for the compound
+    /// whose canonical `name` is "1-(2,5-Dimethoxybenzyl) piperazine"). When set,
     /// the UI shows this as the primary title and demotes `name` to the subtitle.
     /// `name` stays canonical for search/dedup/logging. See `displayTitle`/`displaySubtitle`.
     let displayName: String?

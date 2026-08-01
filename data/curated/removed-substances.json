@@ -1,0 +1,1069 @@
+{
+  "_comment": "Adjudicated removals — compounds that are not physiologically active substances anyone doses, and rows that carry no pharmacology at all (a detail screen whose only content is a banner saying there is no content). Applied by SQLiteBuilder.drop_removed_substances(), which deliberately OUTRANKS the curated layer: a curated file is usually what kept an empty row alive, so removing a name here means deleting its data/curated/substances/*.json too (the build warns if one is left behind). Matching is on canonical_name only, never aliases — junk rows routinely share an alias with a legitimate one. Verdicts: not_a_substance (reagent, diagnostic analyte, cosmetic-cream ingredient, chemical-class name, protonated-cation record, vendor SKU), no_relevant_activity (real molecule, no activity a dose tracker can model), no_content (real compound, zero pharmacology in the catalog), catalog_noise (paper/patent/trial-only, never in human circulation), duplicate (supersededBy names the survivor). contentRowsAtRemoval records how many fact rows the entry held when it was cut, so a reviewer can see nothing substantial was thrown away. Each entry carries its own evidence; nothing here was removed on a hunch.",
+  "removed": [
+    {
+      "name": "1-(3-Chlorophenyl)-4-(2-phenylethyl)piperazine",
+      "verdict": "catalog_noise",
+      "reason": "Sigma-ligand patent example later found to be an ultra-potent DAT ligand (PMID 24211020). Wikipedia calls it \"a designer drug\" citing only the patent and the SAR paper. One Bluelight thread, pure structure speculation.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "1-Benzyl-4-(2-(diphenylmethoxy)ethyl)piperidine",
+      "verdict": "catalog_noise",
+      "reason": "Dutta/Reith GBR-12909 analogue series, PMID 11300876. Rodent only.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "1-Methyl-3-propyl-4-(p-chlorophenyl)piperidine",
+      "verdict": "catalog_noise",
+      "reason": "Kozikowski-group 4-arylpiperidine DAT inhibitors (PMID 12109901). It is a description, not a trivial name. Don't merge with LR-5182 — different program.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "1ZP2MA",
+      "verdict": "catalog_noise",
+      "reason": "Indolizinylethylamine dopamine releaser (EC50 62 nM) from a Tactogen patent. No human dosing, no trial, no vendor presence. The catalog code itself is unverifiable: the string '1ZP2MA' returns zero PubChem CIDs and zero Google Patents hits — it is a Wikipedia-assigned label absent from the primary patent.",
+      "evidence": "Patent WO2023183613A2/A3 'Indolizine compounds for the treatment of mental disorders or inflammation' (Tactogen Inc, inventor Matthew J. Baggott); US application 20240308999. No PubChem CID for the code.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2,3-Dimethoxyamphetamine",
+      "verdict": "catalog_noise",
+      "reason": "PIHKAL #55 says the 2,3-, 2,6- and 3,5-isomers *\"have been made and studied pharmacologically in animals but not in man\"* — Shulgin explicitly excludes it. [scrape-bias]",
+      "evidence": "Provenance: wikidata. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2,3-Methylenedioxyamphetamine",
+      "verdict": "catalog_noise",
+      "reason": "Not its own PIHKAL entry — a mention inside #100 (MDA): *\"At 50 milligrams, one person was awake and alert all night, but reported no MDA-like effects.\"* No vendor, seizure, or trip-report footprint. A commentary mention is not the \"well-known Shulgin entry\" the bias rule protects.",
+      "evidence": "Provenance: peer-review-primary, wikidata. Evidence of human use: one Shulgin trial, 50 mg.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2,3-Methylenedioxymethamphetamine",
+      "verdict": "catalog_noise",
+      "reason": "Not in PIHKAL. And it is not an MDMA impurity — the forensic literature (e.g. Aalberg, PMID 10955507) synthesized all ten MW-193 regioisomers as standards precisely so 3,4-MDMA can be excluded from them; every mainstream route inherits the 3,4 bridge from its precursor.",
+      "evidence": "Provenance: peer-review-primary, wikidata. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2-(Phenethylamino)ethanol",
+      "verdict": "not_a_substance",
+      "reason": "N-phenethylethanolamine, an industrial synthesis intermediate. PubChem synonyms are catalog codes only.",
+      "evidence": "PubChem CID 17826; CAS 2842-37-7; synonyms NSC 194893 / BRN 2084395",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2-Chlorodeschloroketamine",
+      "verdict": "duplicate",
+      "reason": "Survivor: 391 Ketamine. DCK is ketamine minus the 2-Cl; putting a 2-Cl back on regenerates ketamine. The row already carries the tag name-collision-with-ketamine. 0 PubChem hits for the name.",
+      "evidence": "Provenance: piru-curated, peer-review-primary. Evidence of human use: n/a.",
+      "supersededBy": "Ketamine",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2-FXE",
+      "verdict": "duplicate",
+      "reason": "Survivor: 1836 Canket (SMILES CCNC1(CCCCC1=O)c1ccccc1F = 2'-F-2-oxo-PCE = 2F-NENDCK), which already carries the alias 2‑FXE — with U+2011 non-breaking hyphens, which is why dedup missed it. Row 25's own alias \"2-Fluoro-FXE\" is incoherent.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: (compound itself is heavily circulated).",
+      "supersededBy": "Canket",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2-hydroxy-N-methyltryptamine",
+      "verdict": "not_a_substance",
+      "reason": "A computationally enumerated structure nobody has ever handled.",
+      "evidence": "PubChem CID 101412996 has exactly 2 synonyms, one being SCHEMBL26932795 (a patent-mining ID); no CAS, no vendor, no literature",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2C-BZ",
+      "verdict": "not_a_substance",
+      "reason": "An unresolvable name-only artifact from a stale source snapshot. Absent from the live drug.community bootstrap and from Wikipedia's 52-entry 2C list.",
+      "evidence": "No PubChem hit, no InChIKey/CID/CAS/SMILES, no categories/tags/doses; provenance is drug-community-names.json, which also contains a leaked LLM prompt fragment",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "2C-G-4",
+      "verdict": "catalog_noise",
+      "reason": "PIHKAL #29, DOSAGE unknown: *\"The product 2C-G-4 lies just one synthetic step (the LAH reduction) away from completion.\"* A compound Shulgin never made.",
+      "evidence": "Provenance: erowid-pihkal, wikidata. Evidence of human use: none — never synthesized.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "3-O-methyldopamine",
+      "verdict": "not_a_substance",
+      "reason": "3-Methoxytyramine, dopamine's major extracellular COMT metabolite. Has real TAAR1 activity but only when infused directly into the brain of DA-depleted mice; in humans it is a urinary analyte.",
+      "evidence": "Sotnikova 2010 PLoS One, doi:10.1371/journal.pone.0013452",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4,5-MDO-DMT",
+      "verdict": "catalog_noise",
+      "reason": "TIHKAL #30, but DOSAGE/DURATION both \"unknown\" and Shulgin writes *\"it has not been looked at in man, to my knowledge.\"* A TIHKAL number is not a bioassay.",
+      "evidence": "Provenance: erowid-tihkal. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4-BR-DMT",
+      "verdict": "catalog_noise",
+      "reason": "Not in PIHKAL/TIHKAL. The only human-encounter claim traces to a Health Canada NPS-2022 row footnoted as isomer-unresolved (\"only the 5-substituted isomer have been drawn\") — a misattribution, not evidence for the 4-isomer.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4-CL-DMT",
+      "verdict": "catalog_noise",
+      "reason": "CID 23373080; zero literature, all depositors are patent-text miners. Same isomer-unresolved caveat as above.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4-Fluoro-1-pyrazin-2-ylazepane",
+      "verdict": "not_a_substance",
+      "reason": "An enumerated chemical-library structure. Its curated file called it an 'azepane stimulant research compound' citing a bare pubchem.ncbi.nlm.nih.gov URL.",
+      "evidence": "PubChem CID 176196691 has zero synonyms and no bioactivity record",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4-Fluorotryptamine",
+      "verdict": "not_a_substance",
+      "reason": "A chemical-supplier reagent / SAR probe. Every PubChem synonym is a vendor or registry code; the 'PAL-551' alias is an RTI medicinal-chemistry series number, not a street name.",
+      "evidence": "PubChem CID 20976025: MFCD03095376, AKOS006276652, BDBM50025216",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4-Methylthiodimethyltryptamine",
+      "verdict": "not_a_substance",
+      "reason": "Registry-only structure — Shulgin-adjacent but never made it off paper. All 10 PubChem synonyms are database IDs.",
+      "evidence": "PubChem CID 193459: DTXSID, CHEMBL285355, BDBM50224305; no CAS market presence, no human report",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "4-O-methyldopamine",
+      "verdict": "not_a_substance",
+      "reason": "Regioisomer of 3-methoxytyramine; a screening-library reference standard. Its only catalog alias is a Sigma LOPAC product number.",
+      "evidence": "PubChem CID 1748; DB alias 'Lopac-H-3132'",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5,6-MDO-DiPT",
+      "verdict": "catalog_noise",
+      "reason": "TIHKAL #29: *\"none of these three 5,6-methylenedioxy N,N-disubstituted tryptamines … has been explored up to an active level.\"* Synthesis recipe only.",
+      "evidence": "Provenance: erowid-tihkal. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-(2-Aminoethyl)-2,3-Dimethoxyphenol",
+      "verdict": "no_relevant_activity",
+      "reason": "3-O-desmethylmescaline, a minor mescaline metabolite. Its own curated note says 'not a major active metabolite — phenolic OH likely sulfated/glucuronidated'.",
+      "evidence": "PubChem CID 44559361; synonyms are catalog codes (AKOS006291416, EN300-8580924)",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-Bromotryptamine",
+      "verdict": "not_a_substance",
+      "reason": "A screening-library reagent (PAL-518 series).",
+      "evidence": "PubChem CID 77158: MFCD00130169, EINECS 222-779-8, Oprea1_552997",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-Carboxamidotryptamine",
+      "verdict": "not_a_substance",
+      "reason": "5-CT, the canonical in-vitro 5-HT1 agonist radioligand. PubChem lists the tritiated form [3H]-5-CT; 286 PubMed hits are all receptor pharmacology.",
+      "evidence": "PubChem CID 1809; CAS 74885-09-9; CHEMBL18840; CHEBI:48292",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-F-DMT",
+      "verdict": "catalog_noise",
+      "reason": "Same molecule as 5-fluoro-N,N-dimethyltryptamine, which the catalog carried as a separate row (a dedup miss). Both are removed: rodent HTR and drug-discrimination data only, with no vendor, no PsychonautWiki or TripSit page, and no analytical standard. Recorded as its own entry rather than a merge so the dedup miss stays visible.",
+      "evidence": "Identical structure BXYDWQABVPBLBU-UHFFFAOYSA-N, CAS 22120-36-1, to the row 5-fluoro-N,N-dimethyltryptamine, which is removed alongside it.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-fluoro-N,N-dimethyltryptamine",
+      "verdict": "catalog_noise",
+      "reason": "Rodent HTR/drug-discrimination only. No vendor, no PW/TripSit page, not even a Cayman standard. [scrape-bias]",
+      "evidence": "Provenance: wikidata. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-Hydroxydopamine",
+      "verdict": "not_a_substance",
+      "reason": "5-OHDA, a NET-selective catecholaminergic neurotoxin used to lesion noradrenergic neurons. Never given to humans by any route.",
+      "evidence": "PubChem CID 114772; the curated row already tags it neurotoxin-NE / research-only",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-MeO-NET",
+      "verdict": "catalog_noise",
+      "reason": "No TripSit, PsychonautWiki 404, no vendor, no EWS notification. Receptor literature only. [scrape-bias]",
+      "evidence": "Provenance: wikidata. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-methoxy-N-isopropyltryptamine",
+      "verdict": "duplicate",
+      "reason": "Survivor: 1026 5-MeO-NIPT (TripSit; 1 dose range, 3 durations). Merge CID 707167 / QQZJNZJNPDORBO up into 1026 — the survivor has no structure.",
+      "evidence": "Provenance: wikidata. Evidence of human use: (compound is circulated).",
+      "supersededBy": "5-MeO-NIPT",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "5-methoxy-N-methyl-N-ethyltryptamine",
+      "verdict": "duplicate",
+      "reason": "Survivor: 1025 5-MeO-MET (TripSit; 2 dose ranges, 2 durations). Merge CID 6619012 / AVECDEWGCOLCPZ up into 1025.",
+      "evidence": "Provenance: wikidata. Evidence of human use: (compound is circulated).",
+      "supersededBy": "5-MeO-MET",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "6-F-DMT",
+      "verdict": "catalog_noise",
+      "reason": "The \"inactive\" datum usually cited belongs to 6-fluoro-DET, a different compound; TIHKAL #5 covers fluoro-AMT. Nothing on 6-F-DMT itself.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "7-CL-DMT",
+      "verdict": "catalog_noise",
+      "reason": "CID 101212924 — registry-only: one depositor, no CAS, no synonyms.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "ABT-126",
+      "verdict": "catalog_noise",
+      "reason": "NCT01549834 (n=434) among 14 registered trials; failed Phase 2b. No consumer sale.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "ABT-418",
+      "verdict": "catalog_noise",
+      "reason": "Abbott α4β2 agonist; transdermal 75 mg/day in 32 ADHD adults (PMID 10588407). Never marketed, not sold to consumers.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only (bucket C).",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Adamax",
+      "verdict": "not_a_substance",
+      "reason": "Vendor-list name for a claimed Semax derivative of unknown structure. Its own curated file says 'No independent pharmacology published'.",
+      "evidence": "1 irrelevant PubMed hit; structure unknown; Semax itself is already catalogued with real data",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "AHK-Cu",
+      "verdict": "not_a_substance",
+      "reason": "Cosmetic copper tripeptide — a topical formulation ingredient, not a dose anyone logs.",
+      "evidence": "INCI/CosIng; manufacturer tech sheet",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Allylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Argireline",
+      "verdict": "not_a_substance",
+      "reason": "Acetyl hexapeptide-8, a SNAP-25 mimic sold as a face-serum ingredient.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Bronchogen",
+      "verdict": "no_relevant_activity",
+      "reason": "Synthetic tetrapeptide Ala-Glu-Asp-Leu. The strongest of the bioregulator family — a rat COPD line without Khavinson as author — but still rodent-only, same-city, with no human data and nothing to model.",
+      "evidence": "PMIDs 26468022, 30199201, 21240358, 22117547, 22808515, 28371610; 0 registered trials; 0 human PK",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Butylcathinone",
+      "verdict": "catalog_noise",
+      "reason": "Genuinely distinct from butylone and buphedrone (CID 423965). But the single PubMed hit for the string (PMID 37977086) is about MDPT / D-Tertylone, a real widely-abused NPS — this row is most likely a truncation of MDPT. Verify before deleting rather than after.",
+      "evidence": "Provenance: peer-review-primary, wikidata. Evidence of human use: none for this molecule.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Cardiogen",
+      "verdict": "no_relevant_activity",
+      "reason": "Synthetic tetrapeptide Ala-Glu-Asp-Arg. Rat organotypic culture only, from the originating institute.",
+      "evidence": "PMID 17152728; no other on-topic hits",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Cartalax",
+      "verdict": "no_relevant_activity",
+      "reason": "Tripeptide Ala-Glu-Asp. Zero PubMed hits under this name; the catalog also shipped Cortagen's sequence for it.",
+      "evidence": "0 PubMed hits; 0 trials; PubChem CID 87815447 gives AED, not the AEDP the catalog claimed",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Chonluten",
+      "verdict": "no_relevant_activity",
+      "reason": "Tripeptide Glu-Asp-Gly. One in-vitro paper, one group.",
+      "evidence": "PMID 35408963 (THP-1 cell culture, Khavinson co-author)",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Clofenciclan",
+      "verdict": "catalog_noise",
+      "reason": "Marketed West Germany as Tonquil / Vesitan c. 1961-1968 (PMID 14487367, PMID 5730288). Unobtainable today.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: historical only (bucket B).",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Cortagen",
+      "verdict": "no_relevant_activity",
+      "reason": "Tetrapeptide Ala-Glu-Asp-Pro. Rodent behavior only; no human data.",
+      "evidence": "PMIDs 37042594, 21476278 + 11 others; 0 trials; 0 human PK",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "CX-1739",
+      "verdict": "catalog_noise",
+      "reason": "RespireRx Ph1 SAD/MAD 100-1200 mg (NCT02735629; PMID 39302241). No consumer vendor found.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 3
+    },
+    {
+      "name": "CX-1942",
+      "verdict": "catalog_noise",
+      "reason": "Preclinical only (PMID 39301929, title begins \"Preclinical characterization…\"); 0 registered trials.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "CX-546",
+      "verdict": "catalog_noise",
+      "reason": "0 NCTs; lab-reagent listings only (Tocris/Sigma/Selleck). Its Wikipedia article makes no \"sold as a designer drug\" claim.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "CX-614",
+      "verdict": "catalog_noise",
+      "reason": "Lab reagent only, 0 NCTs. Wikipedia likewise makes no market claim.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "CX-691",
+      "verdict": "catalog_noise",
+      "reason": "Farampator / Org 24448: 500 mg oral in 16 healthy elderly (PMID 17119538; NCT00113022, NCT00780585). Never marketed.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 4
+    },
+    {
+      "name": "CX-717",
+      "verdict": "catalog_noise",
+      "reason": "Extensive human trials (PMID 21940760 sleep-dep; PMID 40783159 Ph2A ADHD). Gray-market claim checked and refuted: the \"nootropic users synthesize and sell it\" line is self-described as unsubstantiated at its source, and the Longecity group buy was abandoned before any purchase.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Cyclobutylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Cyclopropylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "D-161",
+      "verdict": "catalog_noise",
+      "reason": "Dutta-lab benzhydryl-pyran triple reuptake blocker (PMID 18561912); rodent FST/TST only. Also misfiled — a 2008 US academic tool compound, not a mid-century stimulant.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Decapeptide-12",
+      "verdict": "not_a_substance",
+      "reason": "Cosmetic tyrosinase-inhibiting peptide.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Dehydronorketamine",
+      "verdict": "no_relevant_activity",
+      "reason": "Terminal ketamine metabolite. The DB's own tag for it is 'inactive-at-NMDA'; only a residual alpha7-nAChR NAM action remains, and there is no dose, duration or route.",
+      "evidence": "Distinct from Norketamine and Hydroxynorketamine, both of which are NMDA-active and kept",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Desglymidodrine",
+      "verdict": "no_relevant_activity",
+      "reason": "Active metabolite of midodrine, but never itself a dosed product — ChEMBL carries it as 'Midodrine related compound A', a USP reference standard. (Midodrine itself is missing from the catalog: a real coverage gap.)",
+      "evidence": "ChEMBL CHEMBL1076: max_phase -1, therapeutic_flag false, dosed_ingredient false",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Dimethylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Dimiracetam",
+      "verdict": "catalog_noise",
+      "reason": "Two registered Ph2 neuropathic-pain trials (NCT01135251 n=116, NCT01444690). Not sold to consumers.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "DMPC",
+      "verdict": "not_a_substance",
+      "reason": "1,2-Dimyristoyl-sn-glycero-3-phosphocholine — a synthetic phospholipid for liposomes and model membranes. There is no psychoactive compound called DMPC; the 0.484 popularity was harvested from the lipid's Wikipedia article.",
+      "evidence": "Wikipedia DMPC is a hard redirect to Dimyristoylphosphatidylcholine; wikipedia-popularity.json maps DMPC to that article",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "DMXM",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "DS5",
+      "verdict": "duplicate",
+      "reason": "A peptide-vendor SKU, not a compound — the product code for a DSIP 5 mg vial. Its own curated file states its provenance as 'thepeptidelist.com (enumeration only)'.",
+      "evidence": "Vendor product listing; no sequence, no CAS, no structure",
+      "supersededBy": "DSIP",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "EEE",
+      "verdict": "catalog_noise",
+      "reason": "PIHKAL #73, DOSAGE and DURATION both unknown. Shulgin: \"This amphetamine … has never been tried in man.\" One of 33 TMA-2 ethoxy homologues synthesized in 23 days.",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "EEM",
+      "verdict": "catalog_noise",
+      "reason": "PIHKAL #74, DOSAGE and DURATION both unknown. Shulgin calls it \"a totally unexplored molecule … there is no way of guessing what the nature of its activity might be.\"",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "EME",
+      "verdict": "catalog_noise",
+      "reason": "PIHKAL #75, DOSAGE and DURATION both unknown. Shulgin: \"This compound has never been assayed … I suspect that it will never be assayed, certainly not by me.\"",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "ETHYL-K",
+      "verdict": "not_a_substance",
+      "reason": "A phantom row minted by stripping the beta-ketone prefix from the alias 'betak-Ethyl-K', which belongs to N-Ethylpentylone / Ephylone. Dropping the marker names a DIFFERENT molecule (the non-ketone benzodioxolylpentanamine). The row held no SMILES, formula or InChIKey, so nothing is lost; the cathinone it was corrupted from stays under its own two rows.",
+      "evidence": "Alias 'betak-Ethyl-K' present on N-Ethylpentylone and 'bk-ethyl-K' on Ephylone. No NPS source uses bare 'ETHYL-K' for any cathinone. Same failure family as the micro-sign and U+2011 hyphen bugs.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Etifelmine",
+      "verdict": "catalog_noise",
+      "reason": "Marketed West Germany as Gilutensin c. 1963-early 1970s for hypotension (PMID 14254672, PMID 5476058). Literature stops in 1970.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: historical only (bucket B).",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Etryptamine",
+      "verdict": "duplicate",
+      "reason": "alpha-ethyltryptamine — the same molecule as the populated a-ET row. Its own downstream_signalling row literally reads 'See a-ET'.",
+      "evidence": "Survivor a-ET carries dose_ranges, durations, pk_routes and the TIHKAL/agranulocytosis tags. NB a third copy (AET) also exists — an identity merge tracked separately.",
+      "supersededBy": "a-ET",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "G-4",
+      "verdict": "catalog_noise",
+      "reason": "PIHKAL #83 — never synthesized. \"although the final product has not yet been made, this last synthetic step should be … simply a matter of technique.\" Identical case to 2C-G-4, removed on the same grounds.",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "G-N",
+      "verdict": "no_content",
+      "reason": "PIHKAL #86. Tried once and inactive: \"An initial trial at the 2 milligram level showed neither central action, nor toxicity … this level is not known to anyone, anywhere, because no one has yet defined it.\"",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "GHK",
+      "verdict": "not_a_substance",
+      "reason": "Copper-free Gly-His-Lys, a cosmetic ingredient. (GHK-Cu, which is injected, is kept.)",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "GSK1360707F",
+      "verdict": "catalog_noise",
+      "reason": "NCT01153802, GSK Phase 1, n=12; PET occupancy PMID 23685546 states development \"was put on hold for strategic reasons.\" Never marketed, zero PW presence.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: trial-only (bucket C).",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Hexacyclonate",
+      "verdict": "catalog_noise",
+      "reason": "Sodium hexacyclonate, marketed Italy as Gevilon c. 1961-mid-60s (PMID 14163606; US 3,007,940). Brand collision: \"Gevilon\" was later reused for gemfibrozil, so the NCATS record is contaminated with 1990s lipid literature.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: historical only (bucket B).",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Imuracetam",
+      "verdict": "catalog_noise",
+      "reason": "Zero PubMed records under that name; zero NCTs. No primary literature at all — a name with no science behind it.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Indanorex",
+      "verdict": "catalog_noise",
+      "reason": "Marketed France as Dietor, Laboratoires Jacques Logeais, late 1970s-80s (human study PMID 422305). French amphetaminic anorectics all withdrawn by end-1990s.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: historical only (bucket B).",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Indriline",
+      "verdict": "catalog_noise",
+      "reason": "Mead Johnson MJ 1986 / Lu 3-083, US3360435; animal CNS pharmacology only (PMID 4387506). Search engines silently substitute indatraline — a different compound.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Ispronicline",
+      "verdict": "catalog_noise",
+      "reason": "AZD-3480 / TC-1734, NCT00501111 n=659; Alzforum lists it Inactive. Never marketed.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "JWH-367",
+      "verdict": "catalog_noise",
+      "reason": "Naphthoylpyrrole synthesized by Huffman in 2006 as a CB1 binding probe (CID 44418330). Never found in products — absent from the forensic literature, 0 PubMed hits, no TripSit/PW entry. Note the row's MISCATEGORIZED tag is itself the error: the \"synthetic cannabinoid\" class tag is correct.",
+      "evidence": "Provenance: peer-review-primary, wikidata. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Leuphasyl",
+      "verdict": "not_a_substance",
+      "reason": "Pentapeptide-18, a topical enkephalin analog.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "LHRH, N-epsilon-azidobenzoyl-lys(6)-",
+      "verdict": "not_a_substance",
+      "reason": "LHRH bearing a 4-azidobenzoyl crosslinker on Lys6 — a photoaffinity-labeling bench reagent for mapping the GnRH receptor. Never administered to anyone.",
+      "evidence": "PubChem CID 25079037; CAS 78527-81-8; PubChem's leading synonym is 'Lab-gnrh'",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Livagen",
+      "verdict": "no_relevant_activity",
+      "reason": "Tetrapeptide Lys-Glu-Asp-Ala. Chromatin and gene-expression assays only.",
+      "evidence": "PMIDs 37042594, 32362099, 28574395; Khavinson/Tbilisi orbit",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Lomevactone",
+      "verdict": "catalog_noise",
+      "reason": "INN 1982 (code DR-250), NCATS \"Investigational\", no trial record. PubMed returns 0 records for the name; the sole cited reference (PMID 6136063) is a rat study.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "LR-5182",
+      "verdict": "catalog_noise",
+      "reason": "Eli Lilly internal code; rodent/cat only (PMID 713683, PMID 460546). Appears mostly as a reference compound in others' assays.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "LY-404187",
+      "verdict": "catalog_noise",
+      "reason": "0 registered trials; mouse/rat s.c. only (PMID 16803862). Stereochemically unspecified form, CAS 211311-95-4. See the LY note below.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "LY-451646",
+      "verdict": "catalog_noise",
+      "reason": "0 registered trials; DBA/2 mice only (PMID 16175401). The (2R) enantiomer, CAS 507483-43-4, CID 66857735. Its aliases \"Mibampator; Pesampator\" are WRONG — mibampator is LY-451395, CID 9889366, C21H30N2O4S2, a different molecule. Fix or drop that alias even if the row goes.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "LY-503430",
+      "verdict": "catalog_noise",
+      "reason": "Rodent PD models, rat/dog PK (PMID 15867954). No human dosing.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "M-Tyramine",
+      "verdict": "no_relevant_activity",
+      "reason": "Minor endogenous trace amine (meta isomer), not sold or ingested — conspicuously absent from the FDA Dietary Supplement Ingredient Advisory List that names its para isomer, octopamine and N-methyltyramine.",
+      "evidence": "Pawar 2020, doi:10.1002/dta.2871. Not to be confused with p-tyramine (kept).",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Matrixyl",
+      "verdict": "not_a_substance",
+      "reason": "Palmitoyl pentapeptide-4 — an anti-wrinkle cream ingredient.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Medifoxamine",
+      "verdict": "catalog_noise",
+      "reason": "Marketed France/Spain/Morocco as Clédial and Gerdaxyl (~1990 on), withdrawn Morocco 1999 / France 2000 for hepatotoxicity (PMID 12506267). Unobtainable.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: historical only (bucket B).",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Metanephrine",
+      "verdict": "not_a_substance",
+      "reason": "Inactive COMT metabolite of epinephrine, used solely as a plasma/urine diagnostic analyte for pheochromocytoma. Nobody administers it.",
+      "evidence": "PubChem CID 21100; CAS 5001-33-2; 43 PubMed hits as a diagnostic, zero as an administered agent",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Methoxydoisuthine",
+      "verdict": "not_a_substance",
+      "reason": "A bare chemical-database entry (a tertiary benzamide) tagged as a phenethylamine DOx and categorised Psychedelic.",
+      "evidence": "PubChem CID 101929573 has zero synonyms; sole referent is Wikidata Q105267953 'instance of: chemical compound'",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Methylethylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Methylpropylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "N,N-Dimethyl-3,3-diphenylcyclobutanamine",
+      "verdict": "catalog_noise",
+      "reason": "Real compound from a late-1970s 3,3-diphenylcyclobutylamine antidepressant series, but paper-only: PubMed returns 0 hits, so the monoamine reuptake-inhibitor/releaser claim rests on tertiary sources, and the only 'market' listings are research-reagent aggregators.",
+      "evidence": "PubChem CID 47490; 0 PubMed records; no vendor, PsychonautWiki or TripSit presence.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "N-desmethyl zolmitriptan",
+      "verdict": "no_relevant_activity",
+      "reason": "Zolmitriptan metabolite, never a dosed product. The dosed drug, Zolmitriptan, is already in the catalog.",
+      "evidence": "Zero fact rows; the DB tag 'zolmitriptan-active-metabolite' describes activity, not administration",
+      "supersededBy": "Zolmitriptan",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "N-methylphenylethanolaminium",
+      "verdict": "not_a_substance",
+      "reason": "Protonated cation of N-methylphenylethanolamine (halostachine) — same ChEBI species artifact.",
+      "evidence": "PubChem CID 25203440; CHEBI:57946; C9H14NO+",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Nebracetam",
+      "verdict": "catalog_noise",
+      "reason": "800 mg/day × 8 wk in 9 Alzheimer outpatients with CSF levels, Tottori Univ. (PMID 8104098), plus two Boehringer healthy-volunteer ERP studies. Wikipedia's \"human trials have not yet been conducted\" is flatly false and uncited — don't inherit it. Still: never marketed, no vendor.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "NET",
+      "verdict": "no_content",
+      "reason": "TIHKAL #49 has no DOSAGE or DURATION field at all — a dual synthesis recipe describing \"two monoalkyltryptamines which have received only modest human trials but which have yet to have any active levels discovered.\"",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Nitazene",
+      "verdict": "not_a_substance",
+      "reason": "Reads as the class name for the entire nitazene family and already exists as an alias on N-Desethylprotonitazene. Shipping a bare 'Nitazene' row next to 20 specific nitazenes is a search hazard in the one class where a mis-identification is lethal.",
+      "evidence": "Alias collision: 'Nitazene' is attached to both this row and id 481",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Nonapeptide-1",
+      "verdict": "not_a_substance",
+      "reason": "Cosmetic MSH-antagonist peptide.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Normetanephrine",
+      "verdict": "not_a_substance",
+      "reason": "Inactive COMT metabolite of norepinephrine; pheochromocytoma biomarker.",
+      "evidence": "ChEMBL CHEMBL774: max_phase null, therapeutic_flag false, dosed_ingredient false, no ATC",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "O-PCA",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "O-PCAl",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "O-PCcP",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation. PMID 38786747, doi:10.3390/metabo14050270: for 2-oxo-PCcP/PCiP/PCPr no metabolism data exist 'nor have reports of their use in online forums, or seizures, been reported by relevant authorities.'",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "O-PCEtOH",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "O-PCiPr",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation. PMID 38786747, doi:10.3390/metabo14050270: for 2-oxo-PCcP/PCiP/PCPr no metabolism data exist 'nor have reports of their use in online forums, or seizures, been reported by relevant authorities.'",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Org 26576",
+      "verdict": "catalog_noise",
+      "reason": "Merck/Organon MDD + ADHD Ph2 (NCT00610649, NCT00610441; PMID 22954616). Never marketed.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Ovagen",
+      "verdict": "no_relevant_activity",
+      "reason": "Tripeptide Glu-Asp-Leu. Its 22 nominal PubMed hits are almost all false positives for 'Ovagen Group Ltd', a germ-free mouse supplier.",
+      "evidence": "No on-topic peptide pharmacology found",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Oxidopamine",
+      "verdict": "not_a_substance",
+      "reason": "6-OHDA, the standard Parkinson's-model lesioning neurotoxin. Its own off_targets row already reads 'research-only, not for human use'.",
+      "evidence": "ChEMBL CHEMBL337702: therapeutic_flag false, dosed_ingredient false, never approved; 211 PubMed hits are intracerebral lesion models",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "P21",
+      "verdict": "no_content",
+      "reason": "P021, a CNTF-derived neurotrophic peptide mimetic. Real and structurally defined, but single-lab and rodent-only, and the row carries no route, no dose and nothing to track.",
+      "evidence": "PMIDs 20600002, 26401692, 28387677, 34057082; 0 trials, 0 human data",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "PAL-AHK",
+      "verdict": "not_a_substance",
+      "reason": "Palmitoyl tripeptide, cosmetic.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "PAL-GHK",
+      "verdict": "not_a_substance",
+      "reason": "Palmitoyl tripeptide-1, cosmetic.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Palmitoyl Dipeptide-6",
+      "verdict": "not_a_substance",
+      "reason": "Cosmetic dipeptide.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Pancragen",
+      "verdict": "no_relevant_activity",
+      "reason": "Tetrapeptide Lys-Glu-Asp-Trp. Cell culture and rat explants.",
+      "evidence": "PMIDs 22808515, 17152728",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "PEPA",
+      "verdict": "catalog_noise",
+      "reason": "Pure lab tool (Tocris #2929); the \"PEPA\" trial hits are a dialysis membrane.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Phenethyl Isothiocyanate",
+      "verdict": "no_relevant_activity",
+      "reason": "PEITC, a cruciferous-vegetable glucosinolate hydrolysis product sold as a chemopreventive nutraceutical. An isothiocyanate, not an amine — the 'phenethylamine' tag is a name-substring artifact. Ingestible, but with no acute effect a dose tracker can model.",
+      "evidence": "PubChem CID 16741; CAS 2257-09-2",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Phenylbutenamine",
+      "verdict": "catalog_noise",
+      "reason": "4-phenylbut-3-en-2-amine; PAL-881/PAL-893, RTI International SAR series. In vitro NDRA only, far weaker than amphetamine. The bare string resolves to 0 PubChem CIDs — a semi-systematic label, not a registered synonym.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Phenylbutynamine",
+      "verdict": "catalog_noise",
+      "reason": "4-phenylbut-3-yn-2-amine, PAL-874, same series, CID 15728382. In vitro only.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Phenylethanolaminium",
+      "verdict": "not_a_substance",
+      "reason": "Protonated cation (+1) of phenylethanolamine — a ChEBI metabolic-species record, not a neutral compound anyone doses.",
+      "evidence": "PubChem CID 4745144; CHEBI:57741; formula C8H12NO+; InChIKey ULSIYEODSMZIPX-UHFFFAOYSA-O",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Pinealon",
+      "verdict": "no_relevant_activity",
+      "reason": "Tripeptide Glu-Asp-Arg, marketed as a nootropic. Evidence is HeLa uptake and rodent hypoxia, single group.",
+      "evidence": "PMID 22117547 + 14 others; 0 trials; 0 human PK",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Podocarpamide",
+      "verdict": "no_relevant_activity",
+      "reason": "A plant cinnamamide. A tertiary amide with no basic amine — structurally incapable of being a DOx, despite carrying 5-HT2A-agonist and DOx tags.",
+      "evidence": "PubChem CID 5320643; CAS 121880-09-9",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "PR-000608",
+      "verdict": "catalog_noise",
+      "reason": "Bare compound number (also PR-608), CAS 143759-63-1, Pola Orbis patent 1990s. PubMed has no hit for the string. Only consolidated source is Wikipedia/Wikidata.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Pridefine",
+      "verdict": "catalog_noise",
+      "reason": "A.H. Robins AHR-1118; open trial in depressed patients (PMID 7406986). Never marketed.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Propylketamine",
+      "verdict": "no_content",
+      "reason": "Arylcyclohexylamine from an unpublished dissertation SAR series, several members of which the thesis itself lists as never synthesized. No vendor, seizure, drug-checking or community-use evidence.",
+      "evidence": "Sole citation was 'Abelian 2024 SAR paper' -> PMID 38301014, verified to be Curry 2024, 'In Europe, an early, cold dawn for modern humans', Science 383(6682):468-469, doi:10.1126/science.ado3858 — a fabricated citation.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Prostamax",
+      "verdict": "no_relevant_activity",
+      "reason": "Tetrapeptide Lys-Glu-Asp-Pro. Rat prostate explants.",
+      "evidence": "PMIDs 17152728, 15085253",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "PRX-14040",
+      "verdict": "catalog_noise",
+      "reason": "Prexa Pharmaceuticals compound; one rat study (PMID 27296079); ClinicalTrials.gov returns 0 records. Don't confuse with EPIX's PRX-00023 series.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "PYR-T",
+      "verdict": "no_content",
+      "reason": "TIHKAL #52, DOSAGE unknown. The one human report is negative: \"(with 25 mg, orally) There was a general malaise without any particular spiritual or noble side to it. I was sick.\"",
+      "evidence": "Adjudicated against the rule that a PIHKAL/TIHKAL entry number is not evidence of human bioassay — the same test that removed 2C-G-4 (never synthesized) and 4,5-MDO-DMT (\"not looked at in man\"). Corroborated against this repo's own Erowid scrape in data/intermediate/sourced-substances.json, which parses DOSAGE/DURATION into `routes` when the book states them (5-MeO-DMT, DET, DPT all carry ranges) and emitted `routes: []` plus a `no-human-data` tag for every row listed here.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Resedine",
+      "verdict": "not_a_substance",
+      "reason": "5-Phenyl-1,3-oxazolidin-2-one — a synthesis building block / chiral auxiliary. An oxazolidinone with no amine, despite a 'phenethylamine' tag.",
+      "evidence": "PubChem CID 202193; CAS 7693-77-8",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "RG3487",
+      "verdict": "catalog_noise",
+      "reason": "MEM-3454, NCT00454870. Never marketed, no consumer sale.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Rigin",
+      "verdict": "not_a_substance",
+      "reason": "Palmitoyl tetrapeptide-7, cosmetic.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Rolziracetam",
+      "verdict": "catalog_noise",
+      "reason": "Every \"human\" claim traces to one 1987 sentence (PMID 3820221) saying CI-911 \"was selected for evaluation in cognitively impaired human subjects\" — a plan with no published result.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "RTI-133",
+      "verdict": "catalog_noise",
+      "reason": "0 PubChem hits, 0 PubMed hits, and absent from the RTI-4229 preferred-compound enumerations in Carroll patents US6329520B1 and US7189737B2 (both jump 132 → 139). Likely a mis-transcription of RTI-113 / RTI-126 / RTI-132. Removing the name is right either way; if you want the real compound, resolve which one was meant.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none — probably does not exist.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "RTI-150",
+      "verdict": "catalog_noise",
+      "reason": "Carroll/RTI phenyltropane (RTI-4229-150), CID 9972881, rodent/primate only. A *different* series member (RTI-126) appeared in a DEA Microgram case — that does not transfer.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "S-18986",
+      "verdict": "catalog_noise",
+      "reason": "Servier Ph2 in MCI, 15/50 mg oral × 12 months, n=38, terminated (NCT00202540). Never marketed.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: trial-only.",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Scorodocarpine B",
+      "verdict": "no_relevant_activity",
+      "reason": "N-erucoyl-serotonin, a C22 fatty-acid amide from Scorodocarpus borneensis. The serotonin nitrogen is acylated, so there is no 5-HT receptor activity — a plant lipid (XLogP 10.1).",
+      "evidence": "PubChem CID 101159107",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Scorodocarpine C",
+      "verdict": "no_relevant_activity",
+      "reason": "N-gondoyl-serotonin, the C20 homolog of Scorodocarpine B. Same acylated-nitrogen reasoning.",
+      "evidence": "PubChem CID 101159108",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Setazindol",
+      "verdict": "catalog_noise",
+      "reason": "NCATS says \"clinical stage\" but the drug page says never approved; PubMed returns 0 records for \"setazindol\". No published evidence of human dosing at all.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none published.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "SNAP-8",
+      "verdict": "not_a_substance",
+      "reason": "Acetyl octapeptide-3, cosmetic.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "SYN-AKE",
+      "verdict": "not_a_substance",
+      "reason": "Waglerin-1 mimic and a genuine nAChR antagonist — but formulated into a cream at ppm, with no dose to log.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "SYN-COLL",
+      "verdict": "not_a_substance",
+      "reason": "Palmitoyl tripeptide-5, cosmetic.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Tametraline",
+      "verdict": "catalog_noise",
+      "reason": "Pfizer CP-24,441, sertraline's parent, CID 163308. PubMed returns 0 records; no vendor, no PsychonautWiki, no TripSit. Directly checked and refuted: it is not sold on the gray/nootropic market.",
+      "evidence": "Provenance: peer-review-primary, piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Testagen",
+      "verdict": "no_relevant_activity",
+      "reason": "Tetrapeptide Lys-Glu-Asp-Gly. HeLa fluorescence only.",
+      "evidence": "PMIDs 22117547, 40807317",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Thymagen",
+      "verdict": "no_relevant_activity",
+      "reason": "Claimed dipeptide Glu-Trp; its identity versus 'Thymogen' was never resolved and the curated file self-flags the sequence as unverified.",
+      "evidence": "0 on-topic PubMed hits",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Tripeptide-29",
+      "verdict": "not_a_substance",
+      "reason": "Cosmetic collagen-boosting tripeptide.",
+      "evidence": "INCI/CosIng",
+      "contentRowsAtRemoval": 1
+    },
+    {
+      "name": "Tropoxane",
+      "verdict": "catalog_noise",
+      "reason": "O-1072, 8-oxa analogue of dichloropane (PMID 9276012, where it is compound \"6g\"). \"Tropoxane\" looks like a Wikipedia/community coinage.",
+      "evidence": "Provenance: piru-curated. Evidence of human use: none.",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Vesilute",
+      "verdict": "no_relevant_activity",
+      "reason": "Claimed dipeptide Glu-Asp. The term is not indexed in PubMed at all — a name with nothing behind it.",
+      "evidence": "0 PubMed hits",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Vesugen",
+      "verdict": "no_relevant_activity",
+      "reason": "Tripeptide Lys-Glu-Asp. Fibroblast CXCL12 expression only.",
+      "evidence": "PMID 22808515 + a handful, originating group",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Vialox",
+      "verdict": "not_a_substance",
+      "reason": "Pentapeptide-3, a curare-like NMJ antagonist — real mechanism, still a cream.",
+      "evidence": "INCI/CosIng; CAS 135679-88-8",
+      "contentRowsAtRemoval": 2
+    },
+    {
+      "name": "Vilon",
+      "verdict": "no_relevant_activity",
+      "reason": "Dipeptide Lys-Glu, the most-published of the family — still one group, still no human pharmacology.",
+      "evidence": "PMIDs 35408963, 37042594, 28371610 (62 total); 0 trials; 0 human PK",
+      "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "Zoptarelin Doxorubicin",
+      "verdict": "not_a_substance",
+      "reason": "AEZS-108 / AN-152, a GnRH-agonist–doxorubicin cytotoxic conjugate (IV oncology, discontinued after a failed Phase 3). Catalogued as 'Psychedelic' with 5-HT2A-agonist tags.",
+      "evidence": "PubChem CID 16134409; CAS 139570-93-7",
+      "contentRowsAtRemoval": 0
+    }
+  ]
+}

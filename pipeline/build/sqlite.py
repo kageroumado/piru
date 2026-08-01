@@ -64,6 +64,13 @@ OUT_REPORT = REPO / "docs/audit/sqlite-build-report.md"
 # mints for genuinely-new substances, appending them back.
 SUBSTANCE_IDS = REPO / "data/curated/substance-ids.json"
 
+# Adjudicated removals: compounds that are NOT physiologically active substances
+# a person doses, or that carry no pharmacology at all — a row whose only content
+# is that it has no content. One entry per removal with its verdict and the
+# evidence behind it, so the deletion is reviewable rather than a bare name list.
+# Applied by drop_removed_substances(), which OUTRANKS a curated file (see there).
+REMOVED_SUBSTANCES = REPO / "data/curated/removed-substances.json"
+
 SOURCED = REPO / "data/intermediate/sourced-substances.json"
 # Curated substances, one JSON file per compound (authoritative hand-curated
 # layer). Ingested directly as the `piru-curated` source — sqlite.py is the
@@ -517,7 +524,7 @@ CREATE TABLE substances (
     canonical_name  TEXT NOT NULL UNIQUE,
     -- Optional human-facing title override. When set, the app shows this as the
     -- primary name and demotes canonical_name to the subtitle (e.g. show
-    -- "2,3-MDMA" with "2,3-Methylenedioxymethamphetamine" beneath). canonical_name
+    -- "2,5-DMBZP" with "1-(2,5-Dimethoxybenzyl) piperazine" beneath). canonical_name
     -- stays the UNIQUE dedup/merge key; only presentation changes. NULL = use canonical.
     display_name    TEXT,
     normalized_name TEXT NOT NULL,
@@ -8054,6 +8061,67 @@ class Build:
             removed_inert += 1
         return {"named": removed_named, "inert": removed_inert}
 
+    def drop_removed_substances(self, path: Path) -> dict[str, int]:
+        """Delete the adjudicated removals in ``data/curated/removed-substances.json``.
+
+        Two distinct failure modes share one exit: entries that are not
+        physiologically active substances anyone doses (diagnostic analytes,
+        neurotoxin research tools, lab reagents, cosmetic-cream peptides,
+        protonated-cation records, vendor SKUs, chemical-class names), and
+        entries that carry no pharmacology whatsoever — a row whose only content
+        is a banner saying there is no content.
+
+        Unlike ``drop_junk_and_inert``/``drop_orphan_stubs``, this pass has **no
+        protect list**: an explicit adjudicated removal outranks a curated file,
+        because the curated file is usually the thing that kept the empty row
+        alive. When a curated file for a removed name is still present the build
+        says so loudly — the file should have been deleted alongside the entry,
+        and leaving it means the next rebuild silently resurrects the row's
+        aliases and category.
+
+        Matches on ``normalise(canonical_name)`` only, never on aliases: aliases
+        are frequently shared between a junk row and a legitimate one (``NMT``
+        belongs to both N-methyltryptamine and N-methyltyramine), so alias
+        matching would delete the survivor too. Runs after dedup/merges, so a
+        removed row that was really an unmerged duplicate has already folded its
+        data into the survivor named in the entry's ``supersededBy``."""
+        if not path.is_file():
+            return {"removed": 0, "unmatched": 0}
+        payload = json.loads(path.read_text())
+        entries = payload.get("removed", [])
+        by_norm = {normalise(e["name"]): e for e in entries if e.get("name")}
+        removed = 0
+        for sid, cname in self.cur.execute("SELECT id, canonical_name FROM substances").fetchall():
+            entry = by_norm.pop(normalise(cname), None)
+            if entry is None:
+                continue
+            self._delete_substance(sid)
+            removed += 1
+        # A name that matched nothing is not an error — the upstream source may
+        # simply have stopped carrying it — but it IS worth surfacing, because a
+        # typo'd entry looks identical to a successful removal from the outside.
+        for _norm, entry in sorted(by_norm.items()):
+            print(
+                f"  NOTE: removed-substances entry '{entry['name']}' matched no row "
+                f"(already absent upstream?)",
+                file=sys.stderr,
+            )
+        # Curated filenames are slugs, not names, so resolve by reading each
+        # file's own `name` field rather than guessing the path.
+        removed_norms = {normalise(e["name"]) for e in entries if e.get("name")}
+        for fp in sorted(CURATED_DIR.glob("*.json")):
+            try:
+                curated_name = (json.loads(fp.read_text()) or {}).get("name")
+            except (ValueError, OSError):
+                continue
+            if curated_name and normalise(curated_name) in removed_norms:
+                print(
+                    f"  WARNING: '{curated_name}' is in removed-substances.json but "
+                    f"{fp.name} still exists — delete the file too or the row comes back",
+                    file=sys.stderr,
+                )
+        return {"removed": removed, "unmatched": len(by_norm)}
+
     def drop_orphan_stubs(self, protect_norms: set[str] | None = None) -> dict[str, int]:
         """Delete content-less wikidata long-tail stubs.
 
@@ -8989,6 +9057,15 @@ def main() -> int:
     # junk row that was an unmerged duplicate has already folded.
     junk = build.drop_junk_and_inert(protect_norms={normalise(n) for n in curated_names})
     print(f"Junk/inert removal: {junk}", file=sys.stderr)
+
+    # Adjudicated removals (data/curated/removed-substances.json): compounds that
+    # are not physiologically active substances anyone doses, plus rows carrying
+    # no pharmacology at all. Deliberately UNPROTECTED by the curated layer —
+    # see drop_removed_substances. Same window as the junk drop: after dedup, so
+    # a removal that was an unmerged duplicate has already folded into its
+    # survivor, and before classify/stub-flagging so the counts reflect reality.
+    adjudicated = build.drop_removed_substances(REMOVED_SUBSTANCES)
+    print(f"Adjudicated removals: {adjudicated}", file=sys.stderr)
 
     # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
     # indication/binding/duration and no recreational provenance). Runs after
