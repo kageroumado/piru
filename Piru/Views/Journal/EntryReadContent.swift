@@ -12,6 +12,7 @@ struct EntryReadContent: View {
     let sessionInteraction: InteractionResult?
 
     @State private var metaboliteModel = ActiveMetaboliteEntryModel()
+    @State private var combinationModel = CombinationMetaboliteEntryModel()
 
     var body: some View {
         // Timeline graph — the session screen's bordered-chart treatment as a
@@ -57,6 +58,9 @@ struct EntryReadContent: View {
         .task(id: substance?.name) {
             if let name = substance?.name { metaboliteModel.load(substanceName: name) }
         }
+        .task(id: entry.id) {
+            combinationModel.load(entry: entry)
+        }
 
         if isAlcoholEntry, UserProfileStore.shared.aldh2Deficient {
             AcetaldehydeCard(gramsEthanol: entryGramsEthanol)
@@ -86,6 +90,12 @@ struct EntryReadContent: View {
                 accent: substanceColor,
             )
         }
+
+        // The pair-gated counterpart: a species this dose forms only because
+        // something else was onboard with it. Sits directly under "Also Active"
+        // — same question ("what is working besides what I took"), different
+        // answer shape.
+        CombinationMetaboliteEntrySection(formations: combinationModel.formations)
 
         EntrySessionSection(entry: entry, sessionInteraction: sessionInteraction, colorMap: colorMap)
 

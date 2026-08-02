@@ -115,4 +115,43 @@ nonisolated enum CombinationMetabolite {
             return allPresent ? Formation(definition: def) : nil
         }
     }
+
+    // MARK: - Temporal gate
+
+    /// One substance and the window it is actually onboard for — the unit the
+    /// dose-entry path gates on. The interaction checker asks a hypothetical
+    /// ("what if I took these together"), so it has no windows and uses
+    /// ``formed(among:)`` directly; a *logged* dose has real timestamps, and two
+    /// doses eight hours apart are not a combination.
+    struct Onboard: Hashable, Sendable {
+        let name: String
+        let interval: DateInterval
+
+        init(name: String, interval: DateInterval) {
+            self.name = name
+            self.interval = interval
+        }
+    }
+
+    /// Which combination metabolites form *around one dose* — the surface an entry
+    /// screen needs.
+    ///
+    /// Two conditions beyond ``formed(among:)``, both of which keep the readout
+    /// from over-claiming:
+    ///
+    /// - **`focus` must itself be a precursor.** Otherwise a session containing
+    ///   cocaine and alcohol would print a cocaethylene note on the ibuprofen
+    ///   logged alongside them.
+    /// - **Windows must overlap.** Formation is transesterification *while the
+    ///   co-drug is present*, so a peer whose activity window has closed before
+    ///   this dose was taken contributes nothing. `DateInterval.intersects`
+    ///   includes touching endpoints, which is the right boundary: a dose taken
+    ///   exactly as the previous one clears still meets it.
+    static func formed(overlapping focus: Onboard, with peers: [Onboard]) -> [Formation] {
+        let concurrent = peers.filter { $0.interval.intersects(focus.interval) }
+        let focusKey = focus.name.lowercased().trimmingCharacters(in: .whitespaces)
+        return formed(among: [focus.name] + concurrent.map(\.name)).filter { formation in
+            formation.definition.precursors.contains { $0.contains(focusKey) }
+        }
+    }
 }
