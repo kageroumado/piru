@@ -38,7 +38,7 @@ them directly.
 
 ### `curated/` — hand-maintained overrides
 
-`overlay.json` is the [`piru-curated`](../docs/sqlite-schema.md) source.
+`overlay.json` is the `piru-curated` source.
 It has the highest default priority and wins against any external source
 on conflicts. Use it to:
 
@@ -110,5 +110,5 @@ The flow for fixing or extending substance data:
 5. **Open a PR**. The diff in `snapshots/substances.csv` will show exactly
    what your change does to user-visible values.
 
-For schema details, see [`docs/sqlite-schema.md`](../docs/sqlite-schema.md).
-For known data gaps, see [`docs/known-limitations.md`](../docs/known-limitations.md).
+For schema details, run `sqlite3 ../Piru/Data/piru-substances.sqlite .schema` — the
+table definitions carry their own comments, and unlike a prose copy they cannot go stale.

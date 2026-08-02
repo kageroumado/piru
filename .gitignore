@@ -47,9 +47,8 @@ __pycache__/
 *.pyc
 
 # Regenerable verification dump (script: pipeline/audit/dump_for_verification.py).
-# The audit findings under docs/audit/verification-findings/ are tracked; the
-# raw per-substance dump itself is regenerable working output.
-docs/audit/verification-dump/
+# Regenerable working output, not a record — rerun the script rather than keep it.
+data/snapshots/verification-dump/
 
 # Regenerable merge outputs from pipeline/enrichment/merge.py — pure derivatives
 # of data/enrichment/raw/*.json (which is tracked), not consumed by any

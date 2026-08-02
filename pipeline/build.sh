@@ -62,4 +62,4 @@ python3 pipeline/build/tests/test_psid.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
 
 step "Done. Commit: Piru/Data/piru-substances.sqlite, Piru/Data/manifest.json,"
-echo  "       docs/audit/sqlite-build-report.md (+ data/ inputs only if they changed)."
+echo  "       data/snapshots/build-report.md (+ data/ inputs only if they changed)."

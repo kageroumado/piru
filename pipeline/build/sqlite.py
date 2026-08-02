@@ -14,7 +14,7 @@ Inputs (all already in the repo):
 Outputs:
   Piru/Data/piru-substances.sqlite          — bundled read-only database (what the app ships)
   Piru/Data/manifest.json                   — version + sha256 + release notes
-  docs/audit/sqlite-build-report.md         — build statistics
+  data/snapshots/build-report.md            — build statistics
 
 Run from the repo root:
     python3 pipeline/build/sqlite.py
@@ -56,7 +56,7 @@ from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E
 REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
-OUT_REPORT = REPO / "docs/audit/sqlite-build-report.md"
+OUT_REPORT = REPO / "data/snapshots/build-report.md"
 
 # Committed PSID FAMILY registry (derive-once, pin-forever). Maps canonical_name
 # → FAMILY so an InChIKey correction, a rename, or a re-fold never moves an

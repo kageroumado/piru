@@ -11,7 +11,7 @@ Outputs a markdown table sorted by popularity, flagging:
   - unit mismatch (e.g. PW says µg, resolver says mg with no conversion)
 
 Run from the repo root:
-    python3 pipeline/audit/compare_to_pw.py > docs/audit/pw-divergence.md
+    python3 pipeline/audit/compare_to_pw.py > data/snapshots/pw-divergence.md
 """
 
 from __future__ import annotations

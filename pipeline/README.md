@@ -58,7 +58,7 @@ in-code curation dict: one file fully describes one substance.
                                                                                           ▼
                                               Piru/Data/piru-substances.sqlite  ← app ships this
                                               Piru/Data/manifest.json
-                                              docs/audit/sqlite-build-report.md
+                                              data/snapshots/build-report.md
                                                                                           │
                                                                           build/snapshots.py
                                                                                           ▼
@@ -91,7 +91,7 @@ fast path is enough (it's offline and reproducible from committed inputs). A
 requires network and `~/Developer/piru-data`.
 
 After a build, commit `Piru/Data/piru-substances.sqlite`, `Piru/Data/manifest.json`,
-and `docs/audit/sqlite-build-report.md` (+ any `data/` inputs that genuinely
+and `data/snapshots/build-report.md` (+ any `data/` inputs that genuinely
 changed). The raw `piru-data` files and `/tmp/piru-extract` JSON are
 deliberately NOT committed — only the built SQLite is.
 
@@ -130,7 +130,7 @@ LLM-assisted research used to fill gaps external sources don't cover
 - **`sqlite.py`** — the main build script. Ingests the curated dir first, then
   every web/enrichment/external source, resolves per-field priority, writes
   `Piru/Data/piru-substances.sqlite` + `manifest.json` +
-  `docs/audit/sqlite-build-report.md`.
+  `data/snapshots/build-report.md`.
 - **`snapshots.py`** — GitHub-friendly mirror at `data/snapshots/`, generated
   FROM the built SQLite (resolved + deterministic), so it reflects exactly what
   the app ships.
@@ -142,12 +142,12 @@ LLM-assisted research used to fill gaps external sources don't cover
 ### `audit/`
 - **`compare_to_pw.py`** — compares resolved DB values to PsychonautWiki
   (our high-trust reference) and flags divergences. Output:
-  `docs/audit/pw-divergence.md`.
+  `data/snapshots/pw-divergence.md`.
 - **`dump_substance_library.py`** — emits the by-category text dumps
   that live in `data/snapshots/by-category/`.
 - **`dump_for_verification.py`** — emits richer per-substance dumps
   suitable for parallel human or LLM review. Output is gitignored under
-  `docs/audit/verification-dump/`.
+  `data/snapshots/verification-dump/`.
 
 ## Reproducibility
 

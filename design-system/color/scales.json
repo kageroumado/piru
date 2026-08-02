@@ -143,7 +143,7 @@
       "cardinality": "nominal (complete/partial/missed are a quality order; noData is out-of-band)",
       "count": 4,
       "source": "Piru/Views/Insights/AdherenceView.swift -- hand-declared 3 independent times in one file",
-      "note": "Same finding as component-sameness.md#F6, restated here as raw color values. All three declarations agree on hue-per-case but differ on exact icon glyph AND none share one enum extension.",
+      "note": "All three declarations agree on hue-per-case but differ on exact icon glyph AND none share one enum extension.",
       "steps": [
         {"pos": 0, "case": "complete", "label": "All taken", "color": {"system": ".green"}},
         {"pos": 1, "case": "partial", "label": "Partially taken", "color": {"system": ".orange"}},
@@ -227,7 +227,7 @@
       ],
       "related_but_distinct": {
         "id": "inventory_supply_bar_identity_tint",
-        "note": "A SEPARATE bar-tint path exists for the same InventoryItem: InventoryItem.supplyBarTint (InventorySupport.swift:74-80) uses the substance's OWN identity color (L3, opacity 0.5) instead of StockStatus.barTint -- this is DIV-031 in divergences.md, restated here as a scale-vs-identity-color collision: two different color systems (L2 status vs L3 identity) both claim the same 'inventory bar fill' role at different call sites (SubstanceCardView.swift:175 and InventoryStockSection.swift:81 use barTint; InventorySupport.swift:74-80's supplyBarTint is the substance-color path)."
+        "note": "A SEPARATE bar-tint path exists for the same InventoryItem: InventoryItem.supplyBarTint (InventorySupport.swift:74-80) uses the substance's OWN identity color (L3, opacity 0.5) instead of StockStatus.barTint -- this is  in divergences.md, restated here as a scale-vs-identity-color collision: two different color systems (L2 status vs L3 identity) both claim the same 'inventory bar fill' role at different call sites (SubstanceCardView.swift:175 and InventoryStockSection.swift:81 use barTint; InventorySupport.swift:74-80's supplyBarTint is the substance-color path)."
       }
     },
     {

@@ -105,7 +105,7 @@ confirm whether it's text or icon-only, worth a quick re-check before acting on 
 
 ## 5. Adherence status — `adherence_status` (nominal-ish, 4)
 
-Restates `component-sameness.md#F6` as raw values: `complete (green) / partial (orange) /
+Raw values: `complete (green) / partial (orange) /
 missed (red) / noData (secondary)`, hand-declared **three times** in `AdherenceView.swift` with
 agreeing hues but disagreeing icon glyphs (bare vs. circle-composited) and one path (the monthly
 rate percentage, `:152-155`, `.system(.title2, design: .rounded, weight: .semibold)`) that isn't
@@ -144,8 +144,8 @@ Flagging the boundary case explicitly since it's an L2/L3 collision, not a pure 
 `InventoryItem.supplyBarTint` (`InventorySupport.swift:74-80`) uses the **substance's own identity
 color** (L3, at 0.5 opacity) instead. `SubstanceCardView.swift:175` and
 `InventoryStockSection.swift:81` use `StockStatus.barTint`; `supplyBarTint` is a separate,
-independently-called accessor on the same type. This is `divergences.md#DIV-031`, restated here as
-"two color systems (status vs. identity) both compete for one visual slot."
+independently-called accessor on the same type — two color systems (status vs. identity) both
+competing for one visual slot.
 
 ---
 
@@ -217,9 +217,8 @@ on role, now-line `0.7`. Two fixed vitals lanes: HR `rgb(0.898, 0.290, 0.310)`
   system-dynamic) **except** `.common`'s `labelColor`, the one step with an explicit, Piru-authored
   light/dark pair — an inconsistency inside an otherwise-uniform scale.
 - `experience_phase_hex_ramp`, `dose_tier_strip`, `dose_intensity_dial` — all `Color(hex:)`
-  literals, meaning (per `asset-catalog-migration.md`'s finding on `Color(hex:)`'s sRGB-only
-  construction) every step in these three scales is unambiguously one fixed value for both
-  appearances today.
+  literals, and because `Color(hex:)` constructs in sRGB only, every step in these three scales is
+  unambiguously one fixed value for both appearances today.
 
 ---
 

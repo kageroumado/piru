@@ -12,8 +12,7 @@ bundle resolution, and compile-time checking. A hand-emitted accessor file uses
 string lookup, so a typo compiles and silently resolves to a fallback colour at
 runtime — strictly worse, so this script no longer offers it.
 
-Design goals (see `design-system/color/asset-catalog-migration.md`
-section 4-5 for the full rationale):
+Design goals:
 
   * display-p3 in every emitted colorset, always — this tool exists because
     the app has zero P3 usage today (grep-verified) and 100% sRGB literals.

@@ -73,17 +73,16 @@ decide. Six distinct patterns:
    `done ? .green : (due ? WidgetColors.accent : .primary.opacity(0.25))` — L1 status, brand chrome, and
    generic system gray, three different color *mechanisms*, one state indicator.
 
-## 3. Screenshot join
+## 3. Rendered-pixel evidence
 
-Two evidence sources, both cited per row: my own direct reads of the PNGs in `screenshots/`, and
-`sampled.json` / `sampled-contactsheet.png` (produced by the sibling `pixel-sampler` agent — 145 patch
-samples + 45 fg/bg pairs, real per-channel medians off the actual screenshots, sRGB raw). I did not
-recompute their pixel data; I cross-referenced it against the code-level inventory and read what a user
-would take the color to mean. Where I opened a screenshot directly, that's noted as "direct read"; where I
-relied on a pixel-sampler ID, that's cited as `PX-NNN`.
+Rows are backed by `sampled.json` (145 patch samples + 45 fg/bg pairs, real per-channel medians
+measured off rendered screens, sRGB raw), cited per row as `PX-NNN`. Those measurements were
+cross-referenced against the code-level inventory and against what a user would take each color to
+mean.
 
-I checked the `screenshots/` directory for new files before writing this — still 37 PNGs, unchanged from
-what `README.md`'s screen nodes map; nothing new landed from `pixel-sampler` since my last check.
+**The screenshots themselves were deleted 2026-08-02 as stale** — captured from a build that no
+longer exists. `sampled.json` retains its per-sample source filenames as provenance, but those files
+are gone: to re-measure anything, re-capture rather than hunt for the originals.
 
 ### 3a. Confirmed alignment (code meaning = what a user reads)
 
@@ -241,8 +240,5 @@ tokens in §5 exist to wrap.
 - Layer assignment lives in `inventory.json` as `"layer"` (+ `"layer_note"` where non-obvious) on all 186
   individual sites, and as a block-level `"layer": "chrome"` tag on each of the 7 `theme_token_pairs`
   objects from the previous pass.
-- The `pixel-sampler` sibling agent's `sampled.json`/`sampled-contactsheet.png`/`colorimetry.py` in this
-  same directory were read but not modified; their 145 samples and 45 pairs are cited by `PX-NNN` ID above
-  where used as evidence.
-- `component-sameness.md` and `asset-catalog-migration.md`, also present in this directory from other
-  agents, were not read for this pass — out of scope for the layer/screenshot task as assigned.
+- `sampled.json` / `colorimetry.py` in this same directory were read but not modified; their 145
+  samples and 45 pairs are cited by `PX-NNN` ID above where used as evidence.
