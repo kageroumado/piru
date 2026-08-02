@@ -39,6 +39,36 @@ repos:
         language: system
         types: [swift]
 
+      # Pre-push gate: run CI's whole Python job before anything reaches the
+      # remote. `ci_local.py` READS .github/workflows/ci.yml rather than keeping
+      # its own copy of the list, so a gate added to CI is a gate that runs here
+      # on the next push with no second edit. That matters: structural_dupes
+      # --gate sat in CI broken for six commits because nothing local ran it.
+      # ~4s for 13 checks. Skips the 200s identifier-integrity check, which is
+      # path-gated below.
+      - id: ci-local
+        name: CI (python job, local)
+        entry: python3 pipeline/ci_local.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+
+      # The one expensive check (~200s: it shells out to obabel once per row), so
+      # it runs only when the push actually touches what it reads — the bundled
+      # SQLite or the checker itself. It cannot newly fail otherwise, so this is a
+      # real precondition rather than a shortcut.
+      - id: ci-local-identifier-integrity
+        name: CI (identifier integrity, on data changes)
+        entry: python3 pipeline/ci_local.py --only test_identifier_integrity
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        # One line on purpose: a YAML folded scalar (>-) joins lines with a SPACE,
+        # which lands inside the alternation and silently kills every branch but
+        # the last. Verified by matching all three paths after the change.
+        files: ^(Piru/Data/piru-substances\.sqlite|pipeline/build/check_identifier_integrity\.py|pipeline/build/tests/test_identifier_integrity\.py)$
+
       # Fast, offline guard on the curated data layer — same validator the build
       # uses. Only fires when a curated file is staged.
       - id: validate-curated
