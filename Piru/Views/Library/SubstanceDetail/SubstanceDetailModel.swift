@@ -44,6 +44,12 @@ final class SubstanceDetailModel {
     /// DA↔5-HT character / releaser-blocker card, derived from the bindings.
     var monoamineProfile: MonoamineProfile?
 
+    /// The class signature for the Pharmacology card — the gated comparison that says where this
+    /// compound sits among the ones it is actually comparable to (efficacy axis / 5-HT balance /
+    /// transporter ternary), or the stated absence when nothing passed the gate. `nil` for classes
+    /// with no signature and for compounds with no rows of the kind at all.
+    var classSignature: ClassSignature?
+
     /// The substance's 2D skeleton, drawn faint behind the whole screen.
     var moleculeStructure: MoleculeStructure?
 
@@ -64,7 +70,7 @@ final class SubstanceDetailModel {
     /// Resolve every store-backed field for the substance at the current
     /// disclosure tier. Each query is skipped for tiers that don't show its
     /// surface, matching the old per-tier `.task` gating.
-    func load(substanceName: String, policy: DisclosurePolicy) {
+    func load(substanceName: String, category: SubstanceCategory, policy: DisclosurePolicy) {
         // Always fetch provenance — per-field source attribution is shown to
         // every tier so users can see where each fact came from.
         provenance = store.provenance(forSubstanceName: substanceName)
@@ -90,6 +96,18 @@ final class SubstanceDetailModel {
             monoamineProfile = nil
             literatureBindings = []
         }
+
+        // The class signature is a *comparison*, so unlike everything else here it reads the whole
+        // family's rows rather than this substance's. Only the mechanism audience sees it.
+        classSignature = policy.showsMechanism
+            ? ClassSignature.family(for: category).flatMap { family in
+                ClassSignature.resolve(
+                    substanceName: substanceName,
+                    category: category,
+                    legs: store.signatureLegs(family: family),
+                )
+            }
+            : nil
 
         // Pharmacokinetics (per-route PK + CYP metabolism) is a pharma-nerd
         // surface — skip the two queries for other tiers.
