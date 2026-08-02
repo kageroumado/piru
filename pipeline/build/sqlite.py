@@ -1720,9 +1720,9 @@ def apply_identifier_reconciliation(con, mapping: dict) -> dict:
     the snapshot's basis) and **before** ``apply_pubchem_cids`` so CID resolution
     keys off the corrected InChIKey. Returns per-field change counts."""
     if not mapping:
-        return {"inchikey": 0, "smiles": 0, "cas": 0}
+        return {"inchikey": 0, "smiles": 0, "cas": 0, "formula": 0}
     cur = con.cursor()
-    res = {"inchikey": 0, "smiles": 0, "cas": 0}
+    res = {"inchikey": 0, "smiles": 0, "cas": 0, "formula": 0}
     for name, fix in mapping.items():
         if fix.get("inchikey"):
             cur.execute(
@@ -1742,8 +1742,269 @@ def apply_identifier_reconciliation(con, mapping: dict) -> dict:
                 (fix["cas"], name, fix["cas"]),
             )
             res["cas"] += cur.rowcount
+        # `formula` exists because fixing a structure without fixing the formula
+        # leaves the row half-corrected and the MASS wrong: theobromine's SMILES
+        # was corrected here in an earlier pass while its formula stayed the
+        # hydrochloride, so it kept shipping 216.63 g/mol for a 180.16 compound.
+        # molecular_weight is not settable directly — reconcile_formula_mass
+        # derives it from this, so there is exactly one place a mass comes from.
+        if fix.get("formula"):
+            # NULL the mass with it. reconcile_formula_mass only *corrects* a
+            # stored mass that is wrong by >2%, so a small correction otherwise
+            # leaves the old value in place — Proscaline's impossible C13H22NO3
+            # became C13H21NO3 and kept 240.32 for a 239.31 compound, a 0.4%
+            # error that sat under the threshold. Nulling routes it through that
+            # function's exact backfill arm instead.
+            cur.execute(
+                "UPDATE substances SET formula = ?, molecular_weight = NULL "
+                "WHERE canonical_name = ? AND formula IS NOT ?",
+                (fix["formula"], name, fix["formula"]),
+            )
+            res["formula"] += cur.rowcount
     con.commit()
     return res
+
+
+def reject_unparseable_smiles(con) -> list[tuple[str, str]]:
+    """NULL any stored SMILES that RDKit cannot parse, and report what was cut.
+
+    A SMILES that does not parse is not a weaker structure — it is no structure
+    at all, and it fails *silently* at every consumer: ``molecule_shapes`` skips
+    it (so the Chemistry card draws nothing), the structural-duplicate pass
+    can't key off it (so a real duplicate stays split), and formula/mass
+    reconciliation has nothing to check against. Berberine shipped for months
+    with an isoquinolinium nitrogen written as an aliphatic ``[N+]`` inside an
+    aromatic ring system — one row of 958, invisible because every one of those
+    consumers degrades quietly.
+
+    Runs AFTER identifier reconciliation, so a curated correction gets its
+    chance first and only genuinely-broken strings are dropped. Corrections live
+    in ``data/sources/identifier-corrections-manual.json``; this function is the
+    backstop that makes a missing correction loud instead of invisible.
+    """
+    try:
+        from rdkit import Chem, RDLogger
+    except ImportError:  # pragma: no cover - rdkit is a hard dep via molecule_shapes
+        print("  unparseable-SMILES gate: rdkit unavailable, skipped", file=sys.stderr)
+        return []
+    RDLogger.DisableLog("rdApp.*")
+    cur = con.cursor()
+    bad: list[tuple[str, str]] = []
+    for sid, name, smiles in cur.execute(
+        "SELECT id, canonical_name, smiles FROM substances WHERE smiles IS NOT NULL AND smiles <> ''"
+    ).fetchall():
+        try:
+            mol = Chem.MolFromSmiles(smiles)
+        except Exception:  # noqa: BLE001 - rdkit raises bare exceptions here
+            mol = None
+        if mol is None:
+            bad.append((name, smiles))
+            cur.execute("UPDATE substances SET smiles = NULL WHERE id = ?", (sid,))
+    con.commit()
+    return bad
+
+
+# Counter-ions a pharmaceutical salt is actually made of, as element→count maps.
+# Used to decide whether "stored formula minus structure formula" is a SALT or
+# just a discrepancy. `is_clean_desalt` is deliberately looser than this — it
+# guards a PubChem-CID lookup where an authority already vouched for the free
+# base, so "nitrogen-free and no foreign elements" is enough there. As the SOLE
+# arbiter it is not: a missing methyl (Dichloropane, CH2) and a missing H2
+# (4-HO-MCPT) both pass it, and neither is a salt. Requiring the delta to BE a
+# counter-ion, at a small whole-number stoichiometry, rejects both.
+_COUNTER_IONS: dict[str, dict[str, int]] = {
+    "HCl": {"H": 1, "Cl": 1},
+    "HBr": {"H": 1, "Br": 1},
+    "HI": {"H": 1, "I": 1},
+    "HF": {"H": 1, "F": 1},
+    "H2SO4": {"H": 2, "S": 1, "O": 4},
+    "H3PO4": {"H": 3, "P": 1, "O": 4},
+    "HNO3": {"H": 1, "N": 1, "O": 3},
+    "tartrate": {"C": 4, "H": 6, "O": 6},
+    "fumarate/maleate": {"C": 4, "H": 4, "O": 4},
+    "succinate": {"C": 4, "H": 6, "O": 4},
+    "citrate": {"C": 6, "H": 8, "O": 7},
+    "oxalate": {"C": 2, "H": 2, "O": 4},
+    "acetate": {"C": 2, "H": 4, "O": 2},
+    "mesylate": {"C": 1, "H": 4, "O": 3, "S": 1},
+    "tosylate": {"C": 7, "H": 8, "O": 3, "S": 1},
+    "besylate": {"C": 6, "H": 6, "O": 3, "S": 1},
+    "water": {"H": 2, "O": 1},
+    "sodium": {"Na": 1},
+    "potassium": {"K": 1},
+}
+
+
+def counterion_delta(structure_formula: str | None, stored_formula: str | None) -> str | None:
+    """Name the counter-ion when ``stored`` is ``structure`` plus a salt, else None.
+
+    Returns e.g. ``"HCl"`` / ``"2x HCl"`` / ``"tartrate"``. A delta that is not a
+    whole multiple (1-3x) of a known counter-ion returns None, which is how a
+    lost methyl or a lost H2 gets routed to the conflict list instead of being
+    silently written over a formula that was right.
+    """
+    structure = parse_formula(structure_formula)
+    stored = parse_formula(stored_formula)
+    if not structure or not stored:
+        return None
+    delta: dict[str, int] = {}
+    for element in set(structure) | set(stored):
+        diff = stored.get(element, 0) - structure.get(element, 0)
+        if diff < 0:
+            return None  # the structure has atoms the "salt" lacks — not a salt
+        if diff:
+            delta[element] = diff
+    if not delta:
+        return None
+    for label, ion in _COUNTER_IONS.items():
+        for multiple in (1, 2, 3):
+            if delta == {el: count * multiple for el, count in ion.items()}:
+                return label if multiple == 1 else f"{multiple}x {label}"
+    return None
+
+
+def normalize_protonation_smiles(con) -> list[tuple[str, str, str]]:
+    """Rewrite SMILES that carry a **bare proton as its own component**.
+
+    Upstream hands us salts as ``[Cl-].<base>.[H+]`` and acids as
+    ``<anion>.[H+]`` — a free H⁺ floating beside the molecule instead of a
+    protonated heteroatom. It is a real malformation: the Chemistry card draws
+    the stray proton, and it is why the salt rows' structural keys read oddly.
+
+    The fix is an InChI round-trip, which re-seats the proton canonically. That
+    is **identity-preserving by construction** — InChI models protonation in its
+    own layer, so the round-tripped molecule has a *byte-identical* InChIKey and
+    the same molecular formula. Verified on every affected row before this was
+    written; a row whose key would move is skipped and reported rather than
+    changed, so a future surprise can't silently re-key a substance.
+
+    Deliberately NOT a desalting pass. Stripping counterions looks tempting here
+    and is wrong: `Nabiximols` is a 1:1 THC/CBD mixture, `Tuinal` is
+    amobarbital + secobarbital, and lithium citrate's metal *is* the drug — a
+    "parent fragment" rule silently halves all three.
+    """
+    try:
+        from rdkit import Chem, RDLogger
+        from rdkit.Chem.inchi import MolFromInchi, MolToInchi, MolToInchiKey
+    except ImportError:  # pragma: no cover - rdkit is a hard dep via molecule_shapes
+        print("  protonation normalize: rdkit unavailable, skipped", file=sys.stderr)
+        return []
+    RDLogger.DisableLog("rdApp.*")
+    cur = con.cursor()
+    changed: list[tuple[str, str, str]] = []
+    for sid, name, smiles in cur.execute(
+        "SELECT id, canonical_name, smiles FROM substances "
+        "WHERE smiles IS NOT NULL AND smiles <> ''"
+    ).fetchall():
+        # Component-level test: a bare proton is its OWN fragment. Substring
+        # matching would also catch legitimate charged atoms (berberine's [N+]).
+        if not any(part in ("[H+]", "[H-]") for part in smiles.split(".")):
+            continue
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            continue
+        try:
+            before = MolToInchiKey(mol)
+            roundtrip = MolFromInchi(MolToInchi(mol))
+        except Exception:  # noqa: BLE001 - rdkit raises bare exceptions here
+            continue
+        if roundtrip is None:
+            continue
+        if MolToInchiKey(roundtrip) != before:
+            print(f"  protonation normalize SKIPPED (key would move): {name}", file=sys.stderr)
+            continue
+        new = Chem.MolToSmiles(roundtrip)
+        if new == smiles:
+            continue
+        cur.execute("UPDATE substances SET smiles = ? WHERE id = ?", (new, sid))
+        changed.append((name, smiles, new))
+    con.commit()
+    return changed
+
+
+def reconcile_formula_from_structure(con) -> dict[str, list[tuple[str, str, str]]]:
+    """Rewrite ``formula`` from the SMILES wherever the InChIKey corroborates it.
+
+    The failure this closes: **a hydrochloride formula sitting on a free-base
+    structure**. Theobromine shipped as ``C7H9ClN4O2`` (MW 216.63) beside a
+    neutral theobromine SMILES; the real compound is ``C7H8N4O2``, 180.16.
+    Ephedrine, α-PVP, Methadone and ~35 others had the same shape. It is not
+    cosmetic: ``reconcile_formula_mass`` derives ``molecular_weight`` **from the
+    formula**, and that mass is what ``PKModel.concentrationMolar`` divides by —
+    so every molar concentration for those substances ran ~15-20% low.
+
+    ``apply_pubchem_freebase`` already fixes this class *when the CID is in the
+    committed PubChem snapshot*. This is the offline complement: the structure we
+    already ship, arbitrated by the identifier we already ship.
+
+    **"Structure and identifier agree" is NOT sufficient to overrule the
+    formula**, and an earlier version of this function that assumed it was made
+    the data worse. When a SMILES and an InChIKey come from the same bad source
+    they corroborate each *other* while both being wrong for the compound named
+    on the row, and then the formula is the only independent witness left:
+    RTI-55 is the **iodo** compound (``C16H20INO2``) beside a fluoro SMILES;
+    Tianeptine's corrected SMILES is missing a ring nitrogen; Dichloropane's is
+    missing a methyl. In all three the formula was right and the structure wrong.
+
+    So this only fires on the two cases where nothing can be destroyed:
+
+    1. **Backfill** — the row has no formula at all. Writing one cannot lose
+       information, and ~50 rows arrived without one.
+    2. **Clean desalt** — the stored formula is exactly the structure's formula
+       plus a nitrogen-free counter-ion, per ``is_clean_desalt``. That is the
+       salt-on-free-base defect and nothing else: an I→F swap, a lost nitrogen
+       and a lost methyl are all rejected by that guard.
+
+    Everything else is **reported, not rewritten** — a genuine three-way
+    disagreement is an editorial question, and the returned ``conflicts`` list is
+    the worklist. Runs BEFORE ``reconcile_formula_mass`` so a corrected formula
+    drives the mass.
+    """
+    try:
+        from rdkit import Chem, RDLogger
+        from rdkit.Chem.inchi import MolToInchiKey
+        from rdkit.Chem.rdMolDescriptors import CalcMolFormula
+    except ImportError:  # pragma: no cover - rdkit is a hard dep via molecule_shapes
+        print("  formula-from-structure: rdkit unavailable, skipped", file=sys.stderr)
+        return []
+    RDLogger.DisableLog("rdApp.*")
+    cur = con.cursor()
+    filled: list[tuple[str, str, str]] = []
+    desalted: list[tuple[str, str, str]] = []
+    conflicts: list[tuple[str, str, str]] = []
+    for sid, name, smiles, inchikey, formula in cur.execute(
+        "SELECT id, canonical_name, smiles, inchikey, formula FROM substances "
+        "WHERE smiles IS NOT NULL AND smiles <> '' AND inchikey IS NOT NULL"
+    ).fetchall():
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            continue
+        try:
+            calc_key = MolToInchiKey(mol)
+            calc_formula = CalcMolFormula(mol)
+        except Exception:  # noqa: BLE001 - rdkit raises bare exceptions here
+            continue
+        if not calc_key or calc_key.split("-")[0] != inchikey.split("-")[0]:
+            continue  # structure and identifier disagree — not ours to arbitrate
+        if parse_formula(calc_formula) == parse_formula(formula):
+            continue  # charge-suffix spelling differences are not a change
+        if not formula:
+            bucket, note = filled, ""
+        elif (ion := counterion_delta(calc_formula, formula)) is not None:
+            bucket, note = desalted, f" (−{ion})"
+        else:
+            conflicts.append((name, formula, calc_formula))
+            continue
+        # Mass goes with the formula — see the note in apply_identifier_reconciliation:
+        # reconcile_formula_mass only overrides a stored mass that is >2% wrong, so a
+        # corrected formula must hand it a blank to fill rather than a near-miss.
+        cur.execute(
+            "UPDATE substances SET formula = ?, molecular_weight = NULL WHERE id = ?",
+            (calc_formula, sid),
+        )
+        bucket.append((name, (formula or "(none)") + note, calc_formula))
+    con.commit()
+    return {"filled": filled, "desalted": desalted, "conflicts": conflicts}
 
 
 def apply_pubchem_cids(con, mapping: dict) -> dict:
@@ -1916,9 +2177,10 @@ def apply_pubchem_freebase(con, props: dict) -> dict:
     }
 
 
-def reconcile_formula_mass(con, tolerance: float = 0.02) -> dict:
+def reconcile_formula_mass(con, tolerance: float = 0.1) -> dict:
     """Recompute ``molecular_weight`` from ``formula`` — *backfilling* a missing
-    mass and *correcting* a stored one that disagrees beyond ``tolerance`` (2%).
+    mass and *correcting* a stored one that disagrees by more than ``tolerance``
+    **daltons** (0.1 Da — a rounding epsilon, not a judgement call).
 
     A formula has exactly one molecular weight, so:
 
@@ -1933,7 +2195,13 @@ def reconcile_formula_mass(con, tolerance: float = 0.02) -> dict:
 
     Both recompute from the formula itself, so it's source-independent. Rows whose
     formula contains an element we don't weigh (peptide 3-letter codes) are left
-    untouched. Returns the per-substance changes."""
+    untouched. Returns the per-substance changes.
+
+    The threshold is **absolute, not relative**. It was 2% relative, which is a
+    wide berth for a quantity that is a pure function of the formula: Bretazenil
+    kept 420.29 against a 418.29 formula and 4-D kept 214.24 against 211.26, both
+    hiding under it. Upstream disagreements are rounding (278.3 vs 278.36); a
+    whole dalton is a different compound, not a rounding artefact."""
     cur = con.cursor()
     changed: list[str] = []
     filled: list[str] = []
@@ -1947,7 +2215,7 @@ def reconcile_formula_mass(con, tolerance: float = 0.02) -> dict:
         if mw is None:
             cur.execute("UPDATE substances SET molecular_weight = ? WHERE id = ?", (computed, sid))
             filled.append(f"{name}: ∅→{computed} ({formula})")
-        elif abs(mw - computed) / computed > tolerance:
+        elif abs(mw - computed) > tolerance:
             cur.execute("UPDATE substances SET molecular_weight = ? WHERE id = ?", (computed, sid))
             changed.append(f"{name}: {mw}→{computed} ({formula})")
     con.commit()
@@ -3307,6 +3575,28 @@ _NAME_REMAP: dict[str, str] = {
     "indopan": "AMT",  # Indopan = brand name for α-methyltryptamine
     "5-bromodimethyltryptamine": "5-Bromo-DMT",  # same InChIKey ATEYZYQLBQUZJE
     "4-hydroxy-n,n diethyltryptamine": "4-HO-DET",  # same InChIKey OHHYMKDBKJPILO
+    # "2-PA" is TripSit's RC-market label for plain cathinone — its own summary
+    # says "amphetamine with the alpha-methyl replaced by ketone" (= β-keto-
+    # amphetamine), it already carries `cathinone` and `2-Aminopropiophenone` as
+    # aliases, and the row resolved to CID 107786 / PUAQLLVFLMYYJJ. drug.community
+    # files the same name under the cathinone market. So the catalog was shipping
+    # the parent of the whole cathinone class under a code name nobody searches,
+    # while the name everybody searches — the khat alkaloid — resolved to nothing.
+    # Remap so "Cathinone" is the canonical and "2-PA" survives as an alias.
+    "2-pa": "Cathinone",
+    # "Mephenmetrazine" is an AMBIGUOUS name and the catalog carried both readings
+    # as separate rows. TripSit's entry is `pretty_name: "4-MPM"` with aliases
+    # `4-mpm`/`4-methylphenmetrazine`, and nps-datahub files the same structure as
+    # `4-MPH_(Mephenmetrazine)` — so on the RC side it means 4-methylphenmetrazine
+    # (a ring methyl, mephedrone-style "me-"). PubChem, meanwhile, maps the name to
+    # **phendimetrazine** — a different drug, methyl on the NITROGEN, CAS 634-03-7,
+    # brand Bontril — which we also carry, correctly, under its own name.
+    #
+    # Fold to the unambiguous name, exactly as GHB/GBL was resolved: the two rows
+    # really were one molecule (identical SMILES, and the stub had no InChIKey/CID/
+    # CAS at all), but merging under "Mephenmetrazine" would have left a canonical
+    # that half the world reads as the other drug.
+    "mephenmetrazine": "4-Methylphenmetrazine",
 }
 
 # Same-compound clusters the structural auto-dedup leaves split because the
@@ -3643,6 +3933,13 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "aluminum hydroxide": {"calcium"},
     "bismuth subsalicylate": {"bismuth"},
     "docusate/sennosides": {"sennosides"},
+    # TripSit lists "2-phenylacetamide" as an alias of its "2-PA" entry (now
+    # canonicalised to Cathinone, see _NAME_REMAP). Phenylacetamide is C8H9NO,
+    # a non-psychoactive amide — not the C9H11NO β-keto-amphetamine the entry's
+    # own summary, dose ladder and InChIKey describe. It is the abbreviation
+    # being back-expanded wrongly, and it makes a search for an inert amide land
+    # on a stimulant's ladder.
+    "cathinone": {"2-phenylacetamide"},
 }
 
 
@@ -5154,6 +5451,12 @@ class Build:
             inchikey=inchikey or s.get("inchikey"),
             pubchem_cid=pubchem_cid if pubchem_cid is not None else to_int(s.get("pubchemCID")),
             cas=cas or s.get("cas"),
+            # A curated file could pin the InChIKey but NOT the structure, so a
+            # source would back-fill a SMILES that contradicted the identity the
+            # file had just asserted (Cathine got racemic norephedrine·HCl over
+            # its own (1S,2S) free-base key). Curated is ingested first, so this
+            # wins the COALESCE.
+            smiles=s.get("smiles"),
             formula=s.get("formula"),
             molecular_weight=to_float(s.get("molarMass")),
             source_slug=slug,
@@ -9388,9 +9691,17 @@ def main() -> int:
         rec_m = apply_identifier_reconciliation(build.cur.connection, manual)
         print(
             f"Identifier reconciliation (manual): inchikey={rec_m['inchikey']} "
-            f"smiles={rec_m['smiles']} cas={rec_m['cas']}",
+            f"smiles={rec_m['smiles']} cas={rec_m['cas']} formula={rec_m['formula']}",
             file=sys.stderr,
         )
+
+    # Backstop for the correction files above: anything RDKit still can't parse
+    # is not a structure, and every downstream consumer degrades silently on it.
+    # Drop it and say so, before the structural pass tries to key off it.
+    unparseable = reject_unparseable_smiles(build.cur.connection)
+    print(f"Unparseable SMILES dropped: {len(unparseable)}", file=sys.stderr)
+    for bad_name, bad_smiles in unparseable:
+        print(f"  NOT A STRUCTURE, smiles nulled: {bad_name} — {bad_smiles}", file=sys.stderr)
 
     # Same molecule, two rows, no shared name — the class every text-keyed merge
     # misses. Must run AFTER identifier reconciliation: the pairs are verified by
@@ -9447,6 +9758,36 @@ def main() -> int:
         print(
             f"PubChem computed: logp={pc['logp']} tpsa={pc['tpsa']} "
             f"hba={pc['hba']} hbd={pc['hbd']} iupac={pc['iupac']}",
+            file=sys.stderr,
+        )
+
+    # Re-seat bare-proton salts ("[Cl-].<base>.[H+]") onto a properly protonated
+    # heteroatom. InChIKey-identical by construction, so nothing re-keys; it only
+    # stops the Chemistry card drawing a free H+ beside the molecule.
+    proton_fixes = normalize_protonation_smiles(build.cur.connection)
+    print(f"Bare-proton SMILES normalized: {len(proton_fixes)}", file=sys.stderr)
+    for pname, _old, _new in proton_fixes:
+        print(f"  {pname}", file=sys.stderr)
+
+    # The offline complement to apply_pubchem_freebase: where the SMILES and the
+    # InChIKey agree and only the FORMULA dissents, the formula loses. This is
+    # what keeps a hydrochloride mass off a free-base structure when the CID
+    # isn't in the committed PubChem snapshot (theobromine shipped 216.63 for a
+    # compound that weighs 180.16, and that mass feeds PKModel's molar math).
+    formula_fixes = reconcile_formula_from_structure(build.cur.connection)
+    print(
+        f"Formula from structure: desalted={len(formula_fixes['desalted'])} "
+        f"backfilled={len(formula_fixes['filled'])} "
+        f"conflicts-left-alone={len(formula_fixes['conflicts'])}",
+        file=sys.stderr,
+    )
+    for fname, old_f, new_f in formula_fixes["desalted"]:
+        print(f"  desalted {fname}: {old_f} → {new_f}", file=sys.stderr)
+    # A three-way disagreement between name, structure and formula is editorial —
+    # printed so it stays visible instead of being silently resolved the wrong way.
+    for fname, old_f, new_f in formula_fixes["conflicts"]:
+        print(
+            f"  CONFLICT, formula kept: {fname}: stored {old_f} vs structure {new_f}",
             file=sys.stderr,
         )
 

@@ -1495,6 +1495,12 @@
   "title": "Non\u2010linear pharmacokinetics of MDMA (\u2018ecstasy\u2019) in humans",
   "year": 2000
  },
+ "doi:10.1046/j.1365-2125.2003.01834.x": {
+  "journal": "British Journal of Clinical Pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves",
+  "year": 2003
+ },
  "doi:10.1046/j.1365-2125.2003.02002.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
@@ -3613,6 +3619,12 @@
   "journal": "Naunyn-Schmiedeberg's archives of pharmacology",
   "subjects": [],
   "title": "New selective ligands of human cloned melatonin MT1 and MT2 receptors.",
+  "year": "2003"
+ },
+ "pmid:12848785": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves.",
   "year": "2003"
  },
  "pmid:12895126": {

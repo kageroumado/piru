@@ -1211,8 +1211,7 @@
   "title": "2,5-DMA",
   "page_slug": "2,5-DMA",
   "names": [
-   "2",
-   "5-DMA",
+   "2,5-DMA",
    "DOH",
    "5-二甲氧基苯丙胺"
   ],
@@ -3456,10 +3455,7 @@
   "title": "2C-B-FLY",
   "page_slug": "2C-B-FLY",
   "names": [
-   "8-bromo-2",
-   "3",
-   "6",
-   "7-benzo-dihydro-difuran-ethylamine"
+   "8-bromo-2,3,6,7-benzo-dihydro-difuran-ethylamine"
   ],
   "formula": null,
   "cas": null,
@@ -3606,8 +3602,7 @@
   "title": "2C-B",
   "page_slug": "2C-B",
   "names": [
-   "4-Bromo-2",
-   "5-dimethoxyphenethylamine"
+   "4-Bromo-2,5-dimethoxyphenethylamine"
   ],
   "formula": null,
   "cas": null,
@@ -3862,8 +3857,7 @@
   "title": "2C-C",
   "page_slug": "2C-C",
   "names": [
-   "4-氯-2",
-   "5-二甲氧基苯乙胺"
+   "4-氯-2,5-二甲氧基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4002,8 +3996,7 @@
   "title": "2C-D",
   "page_slug": "2C-D",
   "names": [
-   "2",
-   "5-二甲氧基-4-甲基苯乙胺"
+   "2,5-二甲氧基-4-甲基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4135,8 +4128,7 @@
   "title": "2C-E",
   "page_slug": "2C-E",
   "names": [
-   "2",
-   "5-二甲氧基-4-乙基苯乙胺"
+   "2,5-二甲氧基-4-乙基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4244,8 +4236,7 @@
   "title": "2C-EF",
   "page_slug": "2C-EF",
   "names": [
-   "4-氟乙基-2",
-   "5-二甲氧基苯乙胺"
+   "4-氟乙基-2,5-二甲氧基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4415,8 +4406,7 @@
   "page_slug": "2C-H",
   "names": [
    "DMPEA",
-   "2",
-   "5-二甲氧基苯乙胺"
+   "2,5-二甲氧基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4456,8 +4446,7 @@
   "title": "2C-I",
   "page_slug": "2C-I",
   "names": [
-   "2",
-   "5-二甲氧基-4-碘苯乙胺"
+   "2,5-二甲氧基-4-碘苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4591,8 +4580,7 @@
   "title": "2C-P",
   "page_slug": "2C-P",
   "names": [
-   "2",
-   "5-二甲氧基-4-丙基苯乙胺"
+   "2,5-二甲氧基-4-丙基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -4756,8 +4744,7 @@
   "title": "2C-T-2",
   "page_slug": "2C-T-2",
   "names": [
-   "4-Ethylthio-2",
-   "5-dimethoxyphenethylamine"
+   "4-Ethylthio-2,5-dimethoxyphenethylamine"
   ],
   "formula": null,
   "cas": null,
@@ -5055,8 +5042,7 @@
   "title": "2C-T-7",
   "page_slug": "2C-T-7",
   "names": [
-   "2",
-   "5-二甲氧基-4-(丙硫基)苯乙胺"
+   "2,5-二甲氧基-4-(丙硫基)苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -5178,8 +5164,7 @@
   "title": "2C-T",
   "page_slug": "2C-T",
   "names": [
-   "4-甲硫基-2",
-   "5-二甲氧基苯乙胺"
+   "4-甲硫基-2,5-二甲氧基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -5374,8 +5359,7 @@
   "title": "3,4-CTMP",
   "page_slug": "3,4-CTMP",
   "names": [
-   "3",
-   "4-CTMP",
+   "3,4-CTMP",
    "4-二氯哌甲酯"
   ],
   "formula": null,
@@ -6069,8 +6053,7 @@
   "title": "3-FPM",
   "page_slug": "3-FPM",
   "names": [
-   "PAL-593",
-   "3-Fluorophenmetrazine"
+   "PAL-593,3-Fluorophenmetrazine"
   ],
   "formula": null,
   "cas": null,
@@ -7546,8 +7529,7 @@
   "title": "3C-E",
   "page_slug": "3C-E",
   "names": [
-   "3",
-   "5-二甲氧基-4-乙氧基苯丙胺"
+   "3,5-二甲氧基-4-乙氧基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -9747,8 +9729,7 @@
   "title": "4C-D",
   "page_slug": "4C-D",
   "names": [
-   "4-甲基-2",
-   "5-二甲氧基-α-乙基苯乙胺"
+   "4-甲基-2,5-二甲氧基-α-乙基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -11795,8 +11776,7 @@
   "title": "6-APDB",
   "page_slug": "6-APDB",
   "names": [
-   "6-(2-氨基丙基)-2",
-   "3-二氢苯并呋喃"
+   "6-(2-氨基丙基)-2,3-二氢苯并呋喃"
   ],
   "formula": null,
   "cas": null,
@@ -11930,8 +11910,7 @@
   "title": "8-氯茶碱",
   "page_slug": "8-氯茶碱",
   "names": [
-   "1",
-   "3-dimethyl-8-chloroxanthine"
+   "1,3-dimethyl-8-chloroxanthine"
   ],
   "formula": null,
   "cas": null,
@@ -12618,8 +12597,7 @@
   "title": "BOD",
   "page_slug": "BOD",
   "names": [
-   "4-甲基-2",
-   "5",
+   "4-甲基-2,5",
    "β-三甲氧基苯乙胺"
   ],
   "formula": null,
@@ -13387,8 +13365,7 @@
   "title": "DOB",
   "page_slug": "DOB",
   "names": [
-   "4-溴-2",
-   "5-二甲氧基苯丙胺"
+   "4-溴-2,5-二甲氧基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -13537,8 +13514,7 @@
   "title": "DOC",
   "page_slug": "DOC",
   "names": [
-   "2",
-   "5-二甲氧基-4-氯苯丙胺"
+   "2,5-二甲氧基-4-氯苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -13681,8 +13657,7 @@
   "title": "DOI",
   "page_slug": "DOI",
   "names": [
-   "2",
-   "5-二甲氧基-4-碘苯丙胺"
+   "2,5-二甲氧基-4-碘苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -13821,8 +13796,7 @@
   "title": "DOM",
   "page_slug": "DOM",
   "names": [
-   "2",
-   "5-二甲氧基-4-甲基苯丙胺"
+   "2,5-二甲氧基-4-甲基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -14557,8 +14531,7 @@
   "page_slug": "GBL",
   "names": [
    "γ-丁内酯",
-   "1",
-   "4-内酯",
+   "1,4-内酯",
    "4-丁内酯",
    "4-羟基丁酸内酯",
    "γ-羟基丁酸内酯",
@@ -15860,8 +15833,7 @@
    "LA-SS-Az",
    "Diazedine",
    "Lambda",
-   "麦角酸 2",
-   "4-二甲基氮杂环丁烷"
+   "麦角酸 2,4-二甲基氮杂环丁烷"
   ],
   "formula": null,
   "cas": null,
@@ -15984,8 +15956,7 @@
   "title": "MDA",
   "page_slug": "MDA",
   "names": [
-   "3",
-   "4-亚甲双氧基苯丙胺"
+   "3,4-亚甲双氧基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -16160,8 +16131,7 @@
   "title": "MDAI",
   "page_slug": "MDAI",
   "names": [
-   "5",
-   "6-亚甲双氧基-2-氨基茚"
+   "5,6-亚甲双氧基-2-氨基茚"
   ],
   "formula": null,
   "cas": null,
@@ -16281,8 +16251,7 @@
   "title": "MDEA",
   "page_slug": "MDEA",
   "names": [
-   "3",
-   "4-Methylenedioxy-N-ethylamphetamine"
+   "3,4-Methylenedioxy-N-ethylamphetamine"
   ],
   "formula": null,
   "cas": null,
@@ -16415,8 +16384,7 @@
   "title": "MDEC",
   "page_slug": "MDEC",
   "names": [
-   "3",
-   "4-亚甲二氧基-N-乙基卡西酮"
+   "3,4-亚甲二氧基-N-乙基卡西酮"
   ],
   "formula": null,
   "cas": null,
@@ -16532,8 +16500,7 @@
    "Rolls",
    "Beans",
    "Pingers",
-   "3",
-   "4-亚甲二氧基-N-甲基苯丙胺"
+   "3,4-亚甲二氧基-N-甲基苯丙胺"
   ],
   "formula": "C11H15NO2",
   "cas": "42542-10-9",
@@ -16785,8 +16752,7 @@
   "title": "MDMC",
   "page_slug": "MDMC",
   "names": [
-   "3",
-   "4-亚甲二氧基-N-甲基卡西酮"
+   "3,4-亚甲二氧基-N-甲基卡西酮"
   ],
   "formula": null,
   "cas": null,
@@ -17264,8 +17230,7 @@
   "title": "MDNMP",
   "page_slug": "MDNMP",
   "names": [
-   "3",
-   "4-亚甲二氧基戊酮"
+   "3,4-亚甲二氧基戊酮"
   ],
   "formula": null,
   "cas": null,
@@ -17612,10 +17577,7 @@
   "page_slug": "MDPV",
   "names": [
    "Bath Salts (浴盐)",
-   "NRG-1",
-   "3",
-   "4-亚甲双氧基吡咯戊酮 (3",
-   "4-Methylenedioxypyrovalerone)"
+   "NRG-1,3,4-亚甲双氧基吡咯戊酮 (3,4-Methylenedioxypyrovalerone)"
   ],
   "formula": "C16H21NO3",
   "cas": "687603-66-3",
@@ -18129,10 +18091,8 @@
   "title": "MMDA",
   "page_slug": "MMDA",
   "names": [
-   "3-甲氧基-4",
-   "5-亚甲双氧基苯丙胺",
-   "5-甲氧基-3",
-   "4-亚甲双氧基苯丙胺"
+   "3-甲氧基-4,5-亚甲双氧基苯丙胺",
+   "5-甲氧基-3,4-亚甲双氧基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -21327,8 +21287,7 @@
   "title": "RTI-111",
   "page_slug": "RTI-111",
   "names": [
-   "(−)-2β-甲氧羰基-3β-(3",
-   "4-二氯苯基)托烷"
+   "(−)-2β-甲氧羰基-3β-(3,4-二氯苯基)托烷"
   ],
   "formula": null,
   "cas": null,
@@ -21825,9 +21784,7 @@
   "title": "TMA-2",
   "page_slug": "TMA-2",
   "names": [
-   "2",
-   "4",
-   "5-三甲氧基苯丙胺"
+   "2,4,5-三甲氧基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -21935,9 +21892,7 @@
   "title": "TMA-6",
   "page_slug": "TMA-6",
   "names": [
-   "2",
-   "4",
-   "6-三甲氧基苯丙胺"
+   "2,4,6-三甲氧基苯丙胺"
   ],
   "formula": null,
   "cas": null,
@@ -26015,8 +25970,7 @@
   "iupac": null,
   "categories": [],
   "tags": [
-   "1",
-   "3-丙二醇二氨基甲酸酯"
+   "1,3-丙二醇二氨基甲酸酯"
   ],
   "doses": {},
   "durations": {},
@@ -27644,9 +27598,7 @@
   "names": [
    "Caffeine",
    "咖啡碱",
-   "1",
-   "3",
-   "7-三甲基黄嘌呤"
+   "1,3,7-三甲基黄嘌呤"
   ],
   "formula": "C8H10N4O2",
   "cas": "58-08-2",
@@ -31439,9 +31391,7 @@
   "title": "替扎尼定",
   "page_slug": "替扎尼定",
   "names": [
-   "2",
-   "1",
-   "3-苯并噻二唑"
+   "2,1,3-苯并噻二唑"
   ],
   "formula": null,
   "cas": null,
@@ -34709,8 +34659,7 @@
    "烯丙沙林",
    "Allylescaline",
    "AL",
-   "4-烯丙氧基-3",
-   "5-二甲氧基苯乙胺"
+   "4-烯丙氧基-3,5-二甲氧基苯乙胺"
   ],
   "formula": "C13H19NO3",
   "cas": "39201-75-7",
@@ -35592,8 +35541,7 @@
   "title": "甲基己胺",
   "page_slug": "甲基己胺",
   "names": [
-   "1",
-   "3-二甲基戊胺"
+   "1,3-二甲基戊胺"
   ],
   "formula": null,
   "cas": null,
@@ -35731,8 +35679,7 @@
   "page_slug": "甲基烯丙基艾斯卡林",
   "names": [
    "MAL",
-   "4-methallyloxy-3",
-   "5-dimethoxyphenethylamine"
+   "4-methallyloxy-3,5-dimethoxyphenethylamine"
   ],
   "formula": null,
   "cas": null,
@@ -38481,8 +38428,7 @@
   "page_slug": "艾斯卡林",
   "names": [
    "艾斯卡林d",
-   "3",
-   "5-二甲氧基-4-乙氧基苯乙胺"
+   "3,5-二甲氧基-4-乙氧基苯乙胺"
   ],
   "formula": null,
   "cas": null,
@@ -39054,10 +39000,7 @@
   "title": "苦茶碱",
   "page_slug": "苦茶碱",
   "names": [
-   "1",
-   "3",
-   "7",
-   "9-四甲基尿酸"
+   "1,3,7,9-四甲基尿酸"
   ],
   "formula": null,
   "cas": null,
@@ -41904,9 +41847,7 @@
   "title": "麦斯卡林",
   "page_slug": "麦斯卡林",
   "names": [
-   "3",
-   "4",
-   "5-三甲氧基苯乙胺"
+   "3,4,5-三甲氧基苯乙胺"
   ],
   "formula": "C11H17NO3",
   "cas": "54-04-6",

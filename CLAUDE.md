@@ -40,7 +40,7 @@ cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 - **Each shipped build is git-tagged** (`vMAJOR.MINOR-bBUILD`). Run `git tag --sort=-creatordate | head` to find the current shipped baseline; everything after the newest tag is **unreleased**. Tag every release going forward so this stays true.
 - **Never bump a persisted schema version that hasn't shipped.** Many schema/data changes land between releases and never reach a user, so the "current" version is often itself unshipped — amend it *in place* rather than minting `n+1`. Check the newest release tag before assuming a version is live in the wild.
   - **SwiftData store:** uses additive automatic lightweight migration with **no version ladder** (see `StoreRecovery`'s schema-migration policy). Additive `@Model` changes (new entity, new optional/defaulted field) need **no** version bump and no migration plan at all. Only a genuinely non-additive change reintroduces a scoped `VersionedSchema` + `MigrationStage`.
-  - **Bundled substance SQLite** (`manifest.schema_version`, currently `5`): the DB ships as a wholesale-replaced bundle artifact, so its version can be edited in place pre-release — only bump it for a change that an *already-shipped* app must read.
+  - **Bundled substance SQLite** (`manifest.schema_version`, currently `6`): the DB ships as a wholesale-replaced bundle artifact, so its version can be edited in place pre-release — only bump it for a change that an *already-shipped* app must read.
 
 ## Rebuilding the bundled substance DB
 

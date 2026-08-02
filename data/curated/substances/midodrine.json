@@ -1,0 +1,56 @@
+{
+  "name": "Midodrine",
+  "aliases": [
+    "ProAmatine",
+    "Orvaten",
+    "Gutron",
+    "Amatine",
+    "Desglymidodrine",
+    "ST-1059",
+    "米多君"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [],
+  "halfLifeMinutes": 25,
+  "effects": [
+    "Prodrug — the drug that acts is desglymidodrine, formed by deglycination in many tissues",
+    "Raises standing blood pressure by constricting arterioles and veins; no direct cardiac effect",
+    "Prescribed for symptomatic orthostatic hypotension, and off-label for vasovagal syncope and hepatorenal syndrome",
+    "Desglymidodrine crosses the blood-brain barrier poorly, so it is not centrally stimulating",
+    "Supine hypertension is the dose-limiting adverse effect and carries an FDA boxed warning",
+    "Midodrine's own half-life is ~25 min; desglymidodrine's is ~3–4 h, and that is what the duration follows"
+  ],
+  "mechanismOfAction": {
+    "summary": "Prodrug of desglymidodrine, a selective peripheral α1-adrenergic agonist — vasoconstriction without central or β-adrenergic action.",
+    "description": "Oral midodrine is rapidly absorbed and deglycinated to desglymidodrine, which activates α1-adrenoceptors on arteriolar and venous smooth muscle, raising vascular tone and blood pressure. It does not stimulate cardiac β-adrenoceptors, so pulse rate is essentially unchanged, and it penetrates the CNS poorly. Absolute bioavailability measured as desglymidodrine is 93%, unaffected by food; clearance is ~80% active renal secretion. Neither compound is a monoamine-oxidase substrate.",
+    "primaryTargets": [
+      "α1-adrenergic receptor"
+    ],
+    "bindings": [
+      {
+        "target": "α1-adrenergic receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03b54024-2a26-4abe-bd8b-b66bb6781fa7"
+    ]
+  },
+  "tags": [
+    "prescription",
+    "alpha-agonist",
+    "vasopressor",
+    "orthostatic-hypotension"
+  ],
+  "cas": "42794-76-3",
+  "inchikey": "PTKSEFOSCHHMPD-UHFFFAOYSA-N",
+  "pubchemCID": 4195,
+  "formula": "C12H18N2O4",
+  "molarMass": 254.28,
+  "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03b54024-2a26-4abe-bd8b-b66bb6781fa7",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4195"
+  ]
+}

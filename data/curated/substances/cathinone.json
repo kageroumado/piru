@@ -1,0 +1,73 @@
+{
+  "name": "Cathinone",
+  "aliases": [
+    "2-PA",
+    "β-keto-amphetamine",
+    "bk-amphetamine",
+    "bk-AMP",
+    "2-Aminopropiophenone",
+    "Norephedrone",
+    "阿拉伯茶碱",
+    "卡西酮"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "halfLifeMinutes": 90,
+  "effects": [
+    "The parent compound of the whole cathinone class — amphetamine with a ketone at the β-position",
+    "Natural khat (Catha edulis) alkaloid; the leaf's fresh-cut potency is cathinone decaying to cathine",
+    "Roughly amphetamine-like but shorter and less potent — the β-keto group is polar and slows brain entry",
+    "Plasma half-life 1.5 ± 0.8 h after khat chewing; partly metabolized to norephedrine",
+    "US Schedule I and UN 1971 Schedule I; sold on RC markets under the code name 2-PA"
+  ],
+  "mechanismOfAction": {
+    "summary": "Substrate-type releasing agent at DAT and NET, weak at SERT — the β-keto analogue of amphetamine.",
+    "description": "Cathinone is transported into the neuron by DAT/NET and reverses the transporter, driving dopamine and noradrenaline efflux in the same manner as amphetamine. The β-keto substituent raises polarity and lowers blood-brain-barrier permeability, which is why the same intrinsic releasing potency reads as a weaker, shorter subjective effect. Serotonergic release is minor, so the profile is stimulant rather than entactogenic. Natural khat contains the (S)-(−) enantiomer, the more active of the two.",
+    "primaryTargets": [
+      "DAT",
+      "NET"
+    ],
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity": 3
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity": 3
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity": 1
+      }
+    ],
+    "references": [
+      "doi:10.1046/j.1365-2125.2003.01834.x",
+      "https://en.wikipedia.org/wiki/Cathinone"
+    ]
+  },
+  "tags": [
+    "cathinone",
+    "stimulant",
+    "khat",
+    "natural-product"
+  ],
+  "cas": "5265-18-9",
+  "inchikey": "PUAQLLVFLMYYJJ-UHFFFAOYSA-N",
+  "pubchemCID": 107786,
+  "formula": "C9H11NO",
+  "molarMass": 149.19,
+  "popularAliases": [
+    "Khat alkaloid",
+    "β-keto-amphetamine"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/12848785/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/107786",
+    "https://en.wikipedia.org/wiki/Cathinone"
+  ]
+}

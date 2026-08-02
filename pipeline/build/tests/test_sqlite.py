@@ -1689,6 +1689,33 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             survivors.append(al)
         self.assertEqual(survivors, [], f"chemnoise aliases survived the purge: {survivors[:10]}")
 
+    def test_every_shipped_smiles_parses(self):
+        """A SMILES that RDKit cannot parse is not a weaker structure — it is no
+        structure at all, and it fails silently everywhere: no molecule shape is
+        drawn, the structural-duplicate pass can't key off it, and formula/mass
+        reconciliation has nothing to check. Berberine shipped for months with
+        the isoquinolinium nitrogen written as an aliphatic `[N+]` inside an
+        aromatic ring system — 1 row out of 958, and every consumer degraded
+        quietly rather than complaining. reject_unparseable_smiles() nulls these
+        at build; this asserts none reached the artifact."""
+        try:
+            from rdkit import Chem, RDLogger
+        except ImportError:
+            self.skipTest("rdkit unavailable")
+        RDLogger.DisableLog("rdApp.*")
+        bad = []
+        for r in self.db.execute(
+            "select canonical_name c, smiles from substances "
+            "where smiles is not null and smiles <> ''"
+        ):
+            try:
+                mol = Chem.MolFromSmiles(r["smiles"])
+            except Exception:  # noqa: BLE001 - rdkit raises bare exceptions here
+                mol = None
+            if mol is None:
+                bad.append((r["c"], r["smiles"]))
+        self.assertEqual(bad, [], f"unparseable SMILES shipped: {bad}")
+
 
 _vspec = importlib.util.spec_from_file_location(
     "validate_curated", Path(__file__).resolve().parent.parent / "validate_curated.py"

@@ -1,12 +1,13 @@
 {
-  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;.",
+  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;. Berberine added 2026-08-02: the nps-datahub dump wrote the isoquinolinium nitrogen as an aliphatic `[N+]` inside an otherwise-aromatic ring system, so the whole molecule failed kekulization — replaced with PubChem CID 2353's own SMILES. The build now refuses to store any SMILES RDKit cannot parse (see reject_unparseable_smiles). Cathine added the same day: the curated file pins the (1S,2S) freebase InChIKey, but the curated schema carries no `smiles` field, so a source back-filled the racemic HCl written with the `.[H+]` bare-proton malformation — a different molecule from the one the row's own InChIKey claims. Doip: the stored InChIKey GYEHYVZVTYSXPS resolves to nothing on PubChem while the row's SMILES recomputes to SPKSLAUXKHSASF = 1-(2,5-dimethoxy-4-propan-2-ylphenyl)propan-2-amine (DOiP, CID 44265275) — here the SMILES was right and the identifier was the fabrication, so the key was replaced, not the structure.",
   "Theobromine": {
     "inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
     "smiles": "CN1C=NC2=C1C(=O)NC(=O)N2C"
   },
   "Busulfan": {
     "inchikey": "COVZYZSDYWQREU-UHFFFAOYSA-N",
-    "smiles": "CS(=O)(=O)OCCCCOS(=O)(=O)C"
+    "smiles": "CS(=O)(=O)OCCCCOS(=O)(=O)C",
+    "formula": "C6H14O6S2"
   },
   "L-Tryptophan": {
     "inchikey": "QIVBCDIJIAJPQS-VIFPVBQESA-N",
@@ -14,7 +15,8 @@
   },
   "4-HO-MCPT": {
     "inchikey": "UJOZERYNSXXQRD-UHFFFAOYSA-N",
-    "smiles": "CN(CCC1=C2C(=O)C=CC=C2N=C1)C3CC3"
+    "smiles": "CN(CCC1=C2C(=O)C=CC=C2N=C1)C3CC3",
+    "formula": "C14H16N2O"
   },
   "5-MeO-EiPT": {
     "inchikey": "VVEQXDHSGNBFLZ-UHFFFAOYSA-N",
@@ -37,9 +39,10 @@
     "smiles": "C[C@@]12CC[C@H]3C(=O)O[C@@H](C[C@@]3([C@H]1C(=O)[C@H](C[C@H]2C(=O)OC)O)C)C4=COC=C4"
   },
   "Tianeptine": {
-    "inchikey": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
-    "smiles": "CC1=CC=CC2=C1C(NCCCCCCC(O)=O)C3=CC(=CC=C3S2(=O)=O)Cl",
-    "cas": "66981-73-5"
+    "inchikey": "JICJBGPOMZQUBB-UHFFFAOYSA-N",
+    "smiles": "CN1C2=CC=CC=C2C(C3=C(S1(=O)=O)C=C(C=C3)Cl)NCCCCCCC(=O)O",
+    "cas": "66981-73-5",
+    "formula": "C21H25ClN2O4S"
   },
   "5-BR-DMT": {
     "inchikey": "ATEYZYQLBQUZJE-UHFFFAOYSA-N",
@@ -52,5 +55,79 @@
   "4-HO-PiPT": {
     "inchikey": "CUTUPKOZXNFVHK-UHFFFAOYSA-N",
     "smiles": "CCCN(CCc1c[nH]c2cccc(O)c12)C(C)C"
+  },
+  "Berberine": {
+    "inchikey": "YBHILYKTIRIUTE-UHFFFAOYSA-N",
+    "smiles": "COC1=C(C2=C[N+]3=C(C=C2C=C1)C4=CC5=C(C=C4CC3)OCO5)OC"
+  },
+  "Doip": {
+    "inchikey": "SPKSLAUXKHSASF-UHFFFAOYSA-N",
+    "smiles": "CC(C)C1=C(C=C(C(=C1)OC)CC(C)N)OC"
+  },
+  "1Cp-LSD": {
+    "inchikey": "RAFUPYYDHPFASC-DYESRHJHSA-N",
+    "smiles": "CCN(CC)C(=O)[C@H]1CN([C@@H]2CC3=CN(C4=CC=CC(=C34)C2=C1)C(=O)C5CC5)C",
+    "formula": "C24H29N3O2"
+  },
+  "Furanylfentanyl": {
+    "inchikey": "FZJVHWISUGFFQV-UHFFFAOYSA-N",
+    "smiles": "C1CN(CCC1N(C2=CC=CC=C2)C(=O)C3=CC=CO3)CCC4=CC=CC=C4",
+    "formula": "C24H26N2O2"
+  },
+  "Protonitazene": {
+    "inchikey": "SJHUJFHOXYDSJY-UHFFFAOYSA-N",
+    "smiles": "CCCOC1=CC=C(C=C1)CC2=NC3=C(N2CCN(CC)CC)C=CC(=C3)[N+](=O)[O-]",
+    "formula": "C23H30N4O3"
+  },
+  "RTI-55": {
+    "inchikey": "SIIICDNNMDMWCI-YJNKXOJESA-N",
+    "smiles": "CN1[C@H]2CC[C@@H]1[C@H]([C@H](C2)C3=CC=C(C=C3)I)C(=O)OC",
+    "formula": "C16H20INO2"
+  },
+  "Varenicline": {
+    "inchikey": "JQSHBVHOMNKWFT-DTORHVGOSA-N",
+    "smiles": "C1[C@@H]2CNC[C@H]1C3=CC4=NC=CN=C4C=C23",
+    "formula": "C13H13N3"
+  },
+  "Proscaline": {
+    "inchikey": "HYWLMSUAZVDUFW-UHFFFAOYSA-N",
+    "formula": "C13H21NO3"
+  },
+  "Seletracetam": {
+    "formula": "C10H14F2N2O2"
+  },
+  "Febuxostat": {
+    "formula": "C16H16N2O3S"
+  },
+  "4-AcO-MET": {
+    "formula": "C16H22N2O2"
+  },
+  "4-Chloromethamphetamine": {
+    "formula": "C10H14ClN"
+  },
+  "Dichloropane": {
+    "formula": "C15H17Cl2NO2"
+  },
+  "MMB-2201": {
+    "formula": "C20H27FN2O3"
+  },
+  "H4CBD": {
+    "formula": "C21H34O2"
+  },
+  "PRL-8-53": {
+    "formula": "C18H22ClNO2"
+  },
+  "Valproate": {
+    "formula": "C8H16O2"
+  },
+  "4-Methylphenmetrazine": {
+    "inchikey": "NWNCIXFIIDVRKE-UHFFFAOYSA-N",
+    "cas": "1094649-71-4",
+    "formula": "C12H17NO"
+  },
+  "4-FPM": {
+    "inchikey": "CLXPYTBRAZHUFD-UHFFFAOYSA-N",
+    "smiles": "CC1C(OCCN1)C2=CC=C(C=C2)F",
+    "formula": "C11H14FNO"
   }
 }

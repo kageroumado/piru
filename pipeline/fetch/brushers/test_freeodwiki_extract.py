@@ -159,5 +159,51 @@ class TestPerRouteSectionHeaders(unittest.TestCase):
         self.assertEqual(set(doses), {"oral"})  # stays on the default route
 
 
+class TestRejoinLocantSplits(unittest.TestCase):
+    """A comma inside a systematic name is a locant, not a name separator.
+
+    Splitting "4-Bromo-2,5-dimethoxyphenethylamine" on its comma produced two
+    useless halves: the full name became unsearchable, and the fragment
+    "5-二甲氧基苯乙胺" ended up an alias of five unrelated 2C-x compounds."""
+
+    def test_single_locant_comma_is_rejoined(self):
+        self.assertEqual(
+            _mod.rejoin_locant_splits(["4-Bromo-2", "5-dimethoxyphenethylamine"]),
+            ["4-Bromo-2,5-dimethoxyphenethylamine"],
+        )
+
+    def test_cjk_name_is_rejoined(self):
+        self.assertEqual(
+            _mod.rejoin_locant_splits(["4-氯-2", "5-二甲氧基苯乙胺"]),
+            ["4-氯-2,5-二甲氧基苯乙胺"],
+        )
+
+    def test_locant_chain_collapses_to_one_name(self):
+        # "8-bromo-2,3,6,7-benzo-..." splits into four pieces, two of them bare
+        # numbers. A bare number is never a name on its own.
+        self.assertEqual(
+            _mod.rejoin_locant_splits(
+                ["8-bromo-2", "3", "6", "7-benzo-dihydro-difuran-ethylamine"]
+            ),
+            ["8-bromo-2,3,6,7-benzo-dihydro-difuran-ethylamine"],
+        )
+
+    def test_leading_locant_keeps_preceding_acronym_separate(self):
+        self.assertEqual(
+            _mod.rejoin_locant_splits(["DMPEA", "2", "5-二甲氧基苯乙胺"]),
+            ["DMPEA", "2,5-二甲氧基苯乙胺"],
+        )
+
+    def test_genuinely_separate_names_are_untouched(self):
+        self.assertEqual(
+            _mod.rejoin_locant_splits(["Mephedrone", "4-MMC", "Meow"]),
+            ["Mephedrone", "4-MMC", "Meow"],
+        )
+
+    def test_trailing_digit_without_a_locant_follower_is_untouched(self):
+        # "2C-B" ends in a letter; "AL-LAD" does not start with a digit-hyphen.
+        self.assertEqual(_mod.rejoin_locant_splits(["JWH-018", "AM-2201"]), ["JWH-018", "AM-2201"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

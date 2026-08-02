@@ -1,0 +1,63 @@
+{
+  "name": "Cathine",
+  "aliases": [
+    "Norpseudoephedrine",
+    "d-Norpseudoephedrine",
+    "Adiposetten",
+    "Exponcit",
+    "去甲伪麻黄碱",
+    "卡西宁"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "halfLifeMinutes": 312,
+  "effects": [
+    "The second khat alkaloid — cathinone decays to cathine as the leaf dries, which is why khat is chewed fresh",
+    "Roughly an order of magnitude weaker than cathinone; mostly noradrenergic",
+    "Plasma half-life 5.2 ± 3.4 h after khat chewing — far longer than cathinone's 1.5 h",
+    "Formerly sold in Europe as an appetite suppressant (Exponcit, Adiposetten)",
+    "US Schedule IV and UN 1971 Schedule III; also a phenylpropanolamine stereoisomer, so it turns up in doping tests"
+  ],
+  "mechanismOfAction": {
+    "summary": "Weak substrate-type releasing agent, NET > DAT — the reduced, β-hydroxy relative of cathinone.",
+    "description": "Cathine is (1S,2S)-2-amino-1-phenylpropan-1-ol: cathinone with the ketone reduced to an alcohol. That reduction costs most of the potency — releasing activity is retained but roughly 7–10× weaker, and skewed toward noradrenaline over dopamine, giving a peripheral sympathomimetic and anorectic profile rather than a euphoriant one. Its much longer half-life is why khat's tail outlasts its peak.",
+    "primaryTargets": [
+      "NET",
+      "DAT"
+    ],
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity": 2
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity": 1
+      }
+    ],
+    "references": [
+      "doi:10.1046/j.1365-2125.2003.01834.x",
+      "https://en.wikipedia.org/wiki/Cathine"
+    ]
+  },
+  "tags": [
+    "stimulant",
+    "khat",
+    "natural-product",
+    "anorectic"
+  ],
+  "cas": "492-39-7",
+  "inchikey": "DLNKOYKMWOXYQA-IONNQARKSA-N",
+  "smiles": "C[C@@H]([C@H](C1=CC=CC=C1)O)N",
+  "pubchemCID": 441457,
+  "formula": "C9H13NO",
+  "molarMass": 151.21,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/12848785/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/441457",
+    "https://en.wikipedia.org/wiki/Cathine"
+  ]
+}

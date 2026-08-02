@@ -208,10 +208,38 @@ def parse_duration_value(raw: str) -> dict | None:
     return {"min": lo, "max": hi}
 
 
+# A locant comma inside a systematic name — "2,5-dimethoxy…", "3,4-methylenedioxy…".
+# The separator split has no way to know a comma is part of a chemical name, so it
+# cuts "4-Bromo-2,5-dimethoxyphenethylamine" into "4-Bromo-2" + "5-dimethoxy…".
+# The tell is unambiguous: the left piece ENDS in a digit and the right piece
+# BEGINS with a digit followed by a hyphen. No real pair of separate names looks
+# like that, and both halves are useless alone — the fragment "5-二甲氧基苯乙胺"
+# was an alias of five different 2C-x compounds, and the full name was unsearchable
+# because only the pieces were ever stored.
+# The right piece may itself be a bare locant — "8-bromo-2,3,6,7-benzo…" splits
+# into four pieces, of which the middle two are just "3" and "6". A bare number is
+# never a name on its own (``_add_alias`` drops those as noise anyway), so folding
+# it leftwards is always the better reading.
+_LOCANT_LEFT_RE = re.compile(r"\d$")
+_LOCANT_RIGHT_RE = re.compile(r"^\d+(?:[-,]|$)")
+
+
+def rejoin_locant_splits(parts: list[str]) -> list[str]:
+    """Glue back name fragments a locant comma was split on."""
+    out: list[str] = []
+    for part in parts:
+        if out and _LOCANT_LEFT_RE.search(out[-1]) and _LOCANT_RIGHT_RE.match(part):
+            out[-1] = f"{out[-1]},{part}"
+        else:
+            out.append(part)
+    return out
+
+
 def split_names(value: str) -> list[str]:
     parts = re.split(r"[、,，/;；]", strip_md(value))
     # Strip stray italic underscores left when "_a / b_" splits mid-emphasis.
-    return [p.strip().strip("_").strip() for p in parts if p.strip().strip("_").strip()]
+    cleaned = [p.strip().strip("_").strip() for p in parts if p.strip().strip("_").strip()]
+    return rejoin_locant_splits(cleaned)
 
 
 def is_table_row(line: str) -> bool:

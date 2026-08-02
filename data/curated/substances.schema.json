@@ -22,6 +22,8 @@
     "tags": {"type": "array", "items": {"type": "string"}},
     "cas": {"type": "string"},
     "inchikey": {"type": "string"},
+    "smiles": {"type": "string",
+      "description": "Pins the STRUCTURE, not just the identity. Without it a curated file can assert an InChIKey and still have a source back-fill a contradicting SMILES (see Cathine, 2026-08-02). Ingested first, so it wins."},
     "formula": {"type": "string"},
     "pubchemCID": {"type": "integer"},
     "molarMass": {"type": "number"},
