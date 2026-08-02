@@ -43,6 +43,35 @@ enum SubstanceSourceLinks {
         return SubstanceStore.shared.sourceDisplayName(forSlug: slug)
     }
 
+    /// The content license a source's material is bundled under, when it carries
+    /// one. Only the copyleft community wikis do (CC BY-SA 4.0), and naming the
+    /// license is part of what that license asks for — ``SourceInfo/license`` has
+    /// been populated since the sources were added but was never displayed
+    /// anywhere, so the Sources list is where that obligation is discharged.
+    static func license(forSlug slug: String) -> String? {
+        guard let name = AppSources.slugToName[slug] else { return nil }
+        return AppSources.info(for: name)?.license
+    }
+
+    /// The facets a source supplies, as a static fallback for the identifier-only
+    /// sources — the one place a "provides" claim is *not* read from the DB.
+    ///
+    /// PubChem, NPS Data Hub and Wikidata write into `substances`' identifier
+    /// columns (formula / CAS / InChIKey / SMILES / CID), and those columns carry
+    /// no `source_id`, so no query can attribute them per field. What makes the
+    /// claim safe rather than a guess is that these three ingest *nothing else*:
+    /// each is documented in the bundled `sources` table as identifier-only, so
+    /// "chemistry" is the complete answer for them by construction. Still gated
+    /// on the compound actually having an identifier to show.
+    private static let identifierOnlySlugs: Set<String> = ["pubchem", "nps-datahub", "wikidata"]
+
+    private static func staticFacets(forSlug slug: String, substance: Substance) -> [SubstanceStore.SourceFacet] {
+        guard identifierOnlySlugs.contains(slug) else { return [] }
+        let hasIdentifier = substance.formula != nil || substance.cas != nil || substance.inchikey != nil
+            || substance.smiles != nil || substance.pubchemCID != nil
+        return hasIdentifier ? [.chemistry] : []
+    }
+
     /// A tidy display name for a citation that lacks a title — the bare URL
     /// (the old `Citation.label` fallback) reads as clutter, so name the work
     /// (TiHKAL / PiHKAL) when recognisable, else show the host.
@@ -64,37 +93,98 @@ enum SubstanceSourceLinks {
     /// this compound's data followed by any primary literature, each deep-linked
     /// to the substance's own page where one exists. Used to be two near-identical
     /// "Databases" / "References" subsections; collapsed into one tappable list.
-    static func mergedLinks(for substance: Substance) -> [DetailSourceLink] {
+    ///
+    /// Pass the substance's ``SubstanceStore/SourceContributions`` to get the
+    /// two-column ledger (each row paired with what that source actually
+    /// supplied). Without it — the presence check in ``SubstanceDetailLayout``,
+    /// which runs on every `body` and must stay free of DB reads — the same rows
+    /// come back with an empty `provides`.
+    static func mergedLinks(
+        for substance: Substance,
+        contributions: SubstanceStore.SourceContributions = .empty,
+    ) -> [DetailSourceLink] {
         var seenURLs = Set<String>()
         var out: [DetailSourceLink] = []
-        func add(label: String, url: URL?) {
+        func add(label: String, url: URL?, provides: [SubstanceStore.SourceFacet] = [], license: String? = nil) {
             // The same work can arrive as both a database row and a citation
             // (e.g. TiHKAL — the source only knows the book's homepage, the
             // citation has this substance's chapter). Dedup by display label,
             // and let a *linked* candidate upgrade an already-added bare-text
-            // one so the chapter URL wins over the missing homepage.
+            // one so the chapter URL wins over the missing homepage. A merged
+            // row keeps the union of both sides' facets — under-crediting a
+            // source is the one failure mode this list must not have.
             let labelKey = label.lowercased()
             if let idx = out.firstIndex(where: { $0.label.lowercased() == labelKey }) {
-                if out[idx].url == nil, let url {
+                var merged = out[idx]
+                if merged.url == nil, let url {
                     seenURLs.insert(url.absoluteString)
-                    out[idx] = DetailSourceLink(label: out[idx].label, url: url)
+                    merged.url = url
                 }
+                merged.provides = union(merged.provides, provides)
+                merged.license = merged.license ?? license
+                out[idx] = merged
                 return
             }
             if let url {
                 if seenURLs.contains(url.absoluteString) { return }
                 seenURLs.insert(url.absoluteString)
             }
-            out.append(DetailSourceLink(label: label, url: url))
+            out.append(DetailSourceLink(label: label, url: url, provides: provides, license: license))
         }
-        // `substance.sources` holds wire slugs ("peer-review-primary",
-        // "tripsit") — map each to a human source name and its per-substance page.
-        for slug in substance.sources {
-            add(label: label(forSlug: slug), url: deepLink(slug, substance: substance))
+        // Wire slugs ("peer-review-primary", "tripsit") mapped to a human source
+        // name and its per-substance page. `substance.sources` is the narrower
+        // set — it only counts six tables — so a source that supplied *only* the
+        // effects list or the overview is absent from it. The ledger knows about
+        // those, and an uncredited copyleft wiki is a licensing defect, so the
+        // two sets are unioned rather than intersected.
+        for slug in orderedSlugs(for: substance, contributions: contributions) {
+            add(
+                label: label(forSlug: slug),
+                url: deepLink(slug, substance: substance),
+                provides: union(
+                    contributions.bySourceSlug[slug] ?? [],
+                    staticFacets(forSlug: slug, substance: substance),
+                ),
+                license: license(forSlug: slug),
+            )
         }
         for ref in substance.references {
-            add(label: friendlyReferenceLabel(ref), url: ref.resolvedURL)
+            add(
+                label: friendlyReferenceLabel(ref),
+                url: ref.resolvedURL,
+                provides: contributions.facets(for: ref),
+            )
         }
         return out
+    }
+
+    /// Contributing slugs in the user's own source-priority order, so the row the
+    /// app most often resolves *from* leads the list. Slugs the priority order
+    /// doesn't know about (a newer bundled DB than the stored order) sort last,
+    /// alphabetically, instead of vanishing.
+    private static func orderedSlugs(
+        for substance: Substance,
+        contributions: SubstanceStore.SourceContributions,
+    ) -> [String] {
+        let slugs = Set(substance.sources).union(contributions.bySourceSlug.keys)
+        let priority = SubstanceStore.shared.enabledSourceOrder
+        let rank = Dictionary(uniqueKeysWithValues: priority.enumerated().map { ($0.element, $0.offset) })
+        return slugs.sorted { lhs, rhs in
+            let lhsRank = rank[lhs] ?? priority.count
+            let rhsRank = rank[rhs] ?? priority.count
+            if lhsRank != rhsRank { return lhsRank < rhsRank }
+            return lhs < rhs
+        }
+    }
+
+    /// Facet union that preserves ``SubstanceStore/SourceFacet/displayOrder``.
+    private static func union(
+        _ lhs: [SubstanceStore.SourceFacet],
+        _ rhs: [SubstanceStore.SourceFacet],
+    ) -> [SubstanceStore.SourceFacet] {
+        if rhs.isEmpty { return lhs }
+        if lhs.isEmpty { return rhs }
+        let combined = Set(lhs).union(rhs)
+        return SubstanceStore.SourceFacet.displayOrder.filter(combined.contains)
     }
 }

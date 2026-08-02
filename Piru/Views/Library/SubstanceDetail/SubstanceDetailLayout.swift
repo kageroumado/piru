@@ -220,6 +220,14 @@ private struct SubstanceDetailHeader: View {
                     }
                 }
 
+                // Framing marker (prescription / research compound / no human
+                // data), on its own line rather than beside the category chip:
+                // its titles are phrases, and a third item in that row overflows
+                // the header at large text sizes and in Chinese.
+                if let kind = SubstanceStatusMarker.Kind.resolve(for: substance) {
+                    SubstanceStatusMarker(kind: kind)
+                }
+
                 if !shownAliases.isEmpty {
                     FlowLayout(spacing: 7) {
                         ForEach(shownAliases, id: \.self) { alias in

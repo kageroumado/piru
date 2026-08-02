@@ -3,11 +3,19 @@ import SwiftUI
 import UIKit
 
 /// One row in the merged "Sources" list — a contributing database or a piece of
-/// primary literature, deep-linked to this substance's page where one exists.
+/// primary literature, deep-linked to this substance's page where one exists,
+/// paired with what it actually supplied for *this* compound.
 struct DetailSourceLink: Identifiable {
     let id = UUID()
     let label: String
-    let url: URL?
+    var url: URL?
+    /// Which parts of the page this row is behind, most substantive first.
+    /// Empty when the caller didn't load the contribution ledger, and for
+    /// literature attached to the compound in general rather than to one fact.
+    var provides: [SubstanceStore.SourceFacet] = []
+    /// Content license for a copyleft source (CC BY-SA 4.0), shown beside the
+    /// name. `nil` for sources that carry no such obligation.
+    var license: String?
 }
 
 /// Small inline badge that names the source that supplied a specific field
