@@ -140,44 +140,95 @@ struct HistorySection: View {
     }
 }
 
-/// The contextual status banner shown above reference content. Peptides and
-/// protocol-dosed performance compounds get framing appropriate to them instead
-/// of the generic "ask your doctor" prescription notice.
-struct StatusBanner: View {
-    let substance: Substance
+/// The compound's framing — peptide protocol, research compound, prescription
+/// medication, no-human-data — as **a chip in the header**, not a full-width
+/// banner between the dose data and its meaning.
+///
+/// This was `StatusBanner`, a `Section`-sized `DetailBanner` with a title and a
+/// two-line message. The design review's diagnosis was that three such banners
+/// sat between the dose card and the first sentence that explained it, so the
+/// framing cost a screen of scroll to say one word. Demoted here to a marker: the
+/// title alone is the visible text, and the sentence that used to be the banner
+/// body survives verbatim as the marker's accessibility label — same strings,
+/// same translations, a tenth of the page.
+struct SubstanceStatusMarker: View {
+    /// The framings a compound can carry, in the order they're tested. Resolving
+    /// is a `static` on the enum rather than an optional-returning `body`, so the
+    /// header can `if let` it: a `View` that renders nothing still occupies a
+    /// stack slot and takes its spacing with it.
+    enum Kind {
+        case peptideProtocol
+        case researchCompound
+        case prescription
+        case medicalReference
+        case limitedHumanData
+
+        static func resolve(for substance: Substance) -> Kind? {
+            if substance.usesPeptidePresentation { return .peptideProtocol }
+            if substance.displayClass == .medicalRx || substance.displayClass == .nonRecreational {
+                if substance.primaryProtocolDosing != nil { return .researchCompound }
+                return substance.displayClass == .medicalRx ? .prescription : .medicalReference
+            }
+            if substance.hasNoDoseData { return .limitedHumanData }
+            return nil
+        }
+
+        var title: LocalizedStringResource {
+            switch self {
+            case .peptideProtocol: "Peptide — protocol reference"
+            case .researchCompound: "Research / performance compound"
+            case .prescription: "Prescription medication"
+            case .medicalReference: "Medical information only"
+            case .limitedHumanData: "Limited human data"
+            }
+        }
+
+        /// The old banner body, kept as the marker's spoken label so nothing that
+        /// was said before is lost — only its share of the screen.
+        var detail: LocalizedStringResource {
+            switch self {
+            case .peptideProtocol:
+                "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below."
+            case .researchCompound:
+                "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data."
+            case .prescription, .medicalReference:
+                "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only."
+            case .limitedHumanData:
+                "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds."
+            }
+        }
+
+        var systemImage: String {
+            switch self {
+            case .peptideProtocol: "syringe.fill"
+            case .researchCompound: "flask.fill"
+            case .prescription, .medicalReference: "cross.case.fill"
+            case .limitedHumanData: "exclamationmark.triangle.fill"
+            }
+        }
+
+        var tint: Color {
+            switch self {
+            case .researchCompound, .limitedHumanData: .orange
+            case .peptideProtocol, .prescription, .medicalReference: .blue
+            }
+        }
+    }
+
+    let kind: Kind
 
     var body: some View {
-        if substance.usesPeptidePresentation {
-            DetailBanner(
-                title: "Peptide — protocol reference",
-                systemImage: "syringe.fill",
-                tint: .blue,
-                message: "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below.",
-            )
-        } else if substance.displayClass == .medicalRx || substance.displayClass == .nonRecreational {
-            if substance.primaryProtocolDosing != nil {
-                DetailBanner(
-                    title: "Research / performance compound",
-                    systemImage: "flask.fill",
-                    tint: .orange,
-                    message: "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data.",
-                )
-            } else {
-                DetailBanner(
-                    title: substance.displayClass == .medicalRx ? "Prescription medication" : "Medical information only",
-                    systemImage: "cross.case.fill",
-                    tint: .blue,
-                    message: "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only.",
-                )
-            }
-        } else if substance.hasNoDoseData {
-            DetailBanner(
-                title: "Limited human data",
-                systemImage: "exclamationmark.triangle.fill",
-                tint: .orange,
-                message: "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.",
-            )
-        }
+        Label(kind.title, systemImage: kind.systemImage)
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(kind.tint)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 4)
+            // Matches ``CategoryChip``'s fill: 0.10 is the alpha the accent
+            // scales' text variants are contrast-gated against.
+            .background(kind.tint.opacity(0.10), in: Capsule())
+            .fixedSize(horizontal: false, vertical: true)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(kind.detail))
     }
 }
 
@@ -208,27 +259,8 @@ struct JokeBanner: View {
     }
 }
 
-/// The shared "framing" banner rendered as a `Section` — an icon-led title in a
-/// tint color over a caption message. Used by ``StatusBanner`` for every
-/// non-joke framing state.
-struct DetailBanner: View {
-    let title: LocalizedStringResource
-    let systemImage: String
-    let tint: Color
-    let message: LocalizedStringResource
-
-    var body: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 8) {
-                Label(title, systemImage: systemImage)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(tint)
-                Text(message)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(.vertical, 4)
-        }
-    }
-}
+// `DetailBanner` — the shared full-width framing `Section` — lived here. It had
+// exactly one client, `StatusBanner`, and both are gone: the framing is now
+// ``SubstanceStatusMarker``, a chip in the header. Nothing else on the screen
+// wants a banner, so the component went with its only caller rather than staying
+// behind as an invitation to reintroduce one.

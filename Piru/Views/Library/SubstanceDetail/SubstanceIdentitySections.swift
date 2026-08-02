@@ -11,7 +11,11 @@ struct InfoDisclosureSection: View {
     @State private var aliasesExpanded = false
 
     var body: some View {
-        CollapsibleSection("Additional Info", systemImage: "info.circle", isExpanded: $infoExpanded) {
+        // `tag`, not `info.circle`: a trailing `info.circle` on this screen is the
+        // tap-for-help affordance (``CollapsibleSection/onInfo``), so a *leading*
+        // one on a section that has no help sheet was the same glyph meaning two
+        // things one row apart. This section is category, route, names and tags.
+        CollapsibleSection("Additional Info", systemImage: "tag", isExpanded: $infoExpanded) {
             let extras = infoExtraCells
             Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
                 GridRow {
@@ -296,48 +300,142 @@ struct ChemistrySection: View {
     }
 }
 
-/// Unified provenance: the **databases** that contributed this compound's data
-/// (deep-linked to their page for it) followed by the **primary literature**
-/// (DOIs / PMIDs / URLs as tappable links, free-text labels as plain text).
-/// Merged into one disclosure — they used to read as two near-identical
-/// "Sources"/"References" sections.
+/// Unified provenance, as an **accountability ledger rather than a link dump**:
+/// the databases that contributed this compound's data (deep-linked to their page
+/// for it) and the primary literature, each paired with *what it supplied here* —
+/// dose, duration, effects, pharmacology. A raw list of eight site names told the
+/// reader nothing about which one is behind the number they were just looking at.
+///
+/// The pairing is read from the bundled DB's per-row `source_id` / `citation_id`
+/// columns (``SubstanceStore/sourceContributions(forSubstanceName:)``), not from
+/// a hand-written table — what a source supplies differs per substance.
 struct SourcesSection: View {
     let substance: Substance
     let showsSources: Bool
 
+    /// The one piece of async state this section owns. Loaded in `.task` because
+    /// it is a SQLite read: running it from `body` would re-query on every
+    /// re-render, and the presence gate in ``SubstanceDetailLayout`` calls
+    /// ``SubstanceSourceLinks/mergedLinks(for:contributions:)`` without it.
+    @State private var contributions: SubstanceStore.SourceContributions = .empty
+
     var body: some View {
-        let links = SubstanceSourceLinks.mergedLinks(for: substance)
+        let links = SubstanceSourceLinks.mergedLinks(for: substance, contributions: contributions)
         if showsSources, !links.isEmpty {
             Section {
                 ForEach(links) { link in
                     if let url = link.url {
                         Link(destination: url) {
-                            sourceLinkRow(link, linked: true)
+                            SourceLedgerRow(link: link, linked: true)
                         }
                     } else {
-                        sourceLinkRow(link, linked: false)
+                        SourceLedgerRow(link: link, linked: false)
                     }
                 }
             } header: {
                 Text("Sources")
+                    // On the header rather than the `Section`: a `.task` attached
+                    // to a Section inside a List has no dependable content view to
+                    // bind its lifetime to, and the header always renders.
+                    .task(id: substance.name) {
+                        contributions = SubstanceStore.shared.sourceContributions(forSubstanceName: substance.name)
+                    }
             } footer: {
-                Text("Each link opens this substance's page on that source. Always verify against the original.")
+                Text("Each row lists what that source supplied here. Links open the source's own page — always verify against the original.")
+            }
+        }
+    }
+}
+
+/// One ledger row: **who** on the left, **what they supplied** on the right.
+///
+/// Two columns, and therefore two ways to break — an accessibility text size, or
+/// a source whose facet list is long. Both are handled by *reflowing to a stack*
+/// rather than truncating: an attribution that has been clipped to "dose · dur…"
+/// is worse than one that took two lines, and for CC BY-SA content it is also a
+/// licensing question, not only a legibility one.
+private struct SourceLedgerRow: View {
+    let link: DetailSourceLink
+    let linked: Bool
+
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    /// " · "-joined rather than `Text` concatenation: `Text + Text` is deprecated
+    /// in iOS 26, and each facet is independently localized.
+    private var providesSummary: String {
+        link.provides.map { String(localized: $0.label) }.joined(separator: " · ")
+    }
+
+    var body: some View {
+        Group {
+            if link.provides.isEmpty {
+                nameColumn
+            } else if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 4) {
+                    nameColumn
+                    providesText
+                }
+            } else {
+                // Both columns keep the default layout priority, so the row splits
+                // about evenly and each side wraps within its half. Giving the name
+                // priority reads better for the databases but starves the facet
+                // column on a literature row — a six-line paper title then takes
+                // the whole width and what it supports disappears, which is the one
+                // thing this row exists to say.
+                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                    nameColumn
+                    Spacer(minLength: 12)
+                    providesText
+                        .multilineTextAlignment(.trailing)
+                }
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var nameColumn: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            // `.firstTextBaseline`, not the default center: a citation title wraps
+            // to five or six lines and a centered glyph then floats in the middle
+            // of the block, reading as a bullet rather than a link marker.
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(link.label)
+                    .font(.subheadline)
+                    .foregroundStyle(linked ? Color.primary : Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+                if linked {
+                    Image(systemName: "arrow.up.right")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
+                }
+            }
+            if let license = link.license {
+                // Verbatim: a license identifier is a proper noun and must not be
+                // translated or reflowed into another form.
+                Text(verbatim: license)
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
     }
 
-    private func sourceLinkRow(_ link: DetailSourceLink, linked: Bool) -> some View {
-        HStack(spacing: 8) {
-            Text(link.label)
-                .font(.subheadline)
-                .foregroundStyle(linked ? Color.primary : Theme.secondaryLabel)
-            Spacer()
-            if linked {
-                Image(systemName: "arrow.up.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
-            }
+    private var providesText: some View {
+        Text(providesSummary)
+            .font(.caption)
+            .foregroundStyle(Theme.secondaryLabel)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var accessibilityLabel: Text {
+        var parts = [link.label]
+        if !link.provides.isEmpty {
+            parts.append(String(localized: "supplies \(providesSummary)"))
         }
+        if let license = link.license {
+            parts.append(String(localized: "licensed \(license)"))
+        }
+        return Text(parts.joined(separator: ", "))
     }
 }
