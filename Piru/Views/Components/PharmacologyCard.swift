@@ -15,9 +15,34 @@ struct PharmacologyCard: View {
     /// Class-specific receptor-panel hero (opioid/benzo/dissociative). When present it replaces the
     /// monoamine slider + target grid, and the separate Receptor Literature section is suppressed.
     var hero: PharmacologyHero?
+    /// The gated class signature (efficacy axis / 5-HT balance / transporter ternary, or the stated
+    /// absence). Independent of the hero: the hero is *this* compound's receptor panel, the signature
+    /// is where it sits among the compounds it can legitimately be compared with.
+    var signature: ClassSignature?
 
     private var accent: Color {
         category.color
+    }
+
+    /// An absence is an explanation, so it reads as a footnote below the panel. Every drawn signature
+    /// is the card's headline claim and leads.
+    private var signatureLeads: Bool {
+        guard let signature else { return false }
+        if case .absent = signature { return false }
+        return true
+    }
+
+    /// The efficacy axis states the agonist class itself ("Partial μ-opioid agonist"), so the hero's
+    /// own character chip would say it twice.
+    private var signatureSuppliesCharacter: Bool {
+        guard case let .efficacy(model)? = signature else { return false }
+        return model.headline != nil
+    }
+
+    @ViewBuilder private var signatureView: some View {
+        if let signature {
+            ClassSignatureView(signature: signature, accent: accent)
+        }
     }
 
     /// The summary is a short *title* ("Monoamine-Releasing Stimulant") — color it as a headline.
@@ -30,10 +55,12 @@ struct PharmacologyCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if let hero {
-                // Class-panel path (opioid/benzo/dissociative): headline, prose, hero.
+                // Class-panel path (opioid/benzo/dissociative): headline, prose, signature, hero.
                 summaryText
                 descriptionText
+                if signatureLeads { signatureView }
                 heroSection(hero)
+                if !signatureLeads { signatureView }
             } else if let monoamine {
                 // Monoamine path — **bar first** (design review §3.3): the S↔D lean
                 // is what makes the drug what it is, so it leads. The one-line
@@ -41,13 +68,15 @@ struct PharmacologyCard: View {
                 // then the (demoted) prose last, then the harm-reduction flags.
                 monoamineHero(monoamine)
                 summaryText
+                signatureView
                 receptorTargets
                 descriptionText
                 flags(monoamine)
             } else {
-                // No monoamine profile, no class hero: headline, prose, targets.
+                // No monoamine profile, no class hero: headline, prose, signature, targets.
                 summaryText
                 descriptionText
+                signatureView
                 receptorTargets
             }
         }
@@ -91,7 +120,7 @@ struct PharmacologyCard: View {
 
     private func heroSection(_ hero: PharmacologyHero) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            if let character = hero.character {
+            if let character = hero.character, !signatureSuppliesCharacter {
                 Text(character)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(accent)

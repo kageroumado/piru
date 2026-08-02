@@ -259,7 +259,7 @@ struct SubstanceDetailView: View {
         }
         .toolbar { toolbarContent }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
-            model.load(substanceName: substance.name, policy: policy)
+            model.load(substanceName: substance.name, category: substance.category, policy: policy)
         }
         .task(id: baseSubstance.name) {
             // Upgrade the pushed shell to the full resolved record off the push.

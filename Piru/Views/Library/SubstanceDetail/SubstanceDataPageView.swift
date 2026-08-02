@@ -29,7 +29,7 @@ struct SubstanceDataPageView: View {
                 }
                 .listStyle(.insetGrouped)
                 .task(id: name) {
-                    model.load(substanceName: substance.name, policy: Self.policy)
+                    model.load(substanceName: substance.name, category: substance.category, policy: Self.policy)
                 }
                 .sheet(item: $glossaryTopic) { topic in
                     PharmacologyGlossarySheet(topic: topic)

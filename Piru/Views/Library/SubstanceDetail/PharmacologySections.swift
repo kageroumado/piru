@@ -76,7 +76,13 @@ struct PharmacologySections: View {
                     // Card and footer share one row — see ``DoseDurationSection``
                     // for why a peer row grows a hairline at some card heights.
                     VStack(alignment: .leading, spacing: 0) {
-                        PharmacologyCard(moa: moa, monoamine: model.monoamineProfile, category: substance.category, hero: hero)
+                        PharmacologyCard(
+                            moa: moa,
+                            monoamine: model.monoamineProfile,
+                            category: substance.category,
+                            hero: hero,
+                            signature: model.classSignature,
+                        )
                         if let slug = model.provenance?.mechanismSource {
                             SourceAttributionRow(
                                 slug: slug,
