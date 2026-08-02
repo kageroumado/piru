@@ -13,7 +13,7 @@ substances per file, suitable for parallel verification by multiple agents.
 Usage:
     python3 pipeline/audit/dump_for_verification.py [output_dir]
 
-Defaults to `docs/audit/verification-dump/` (gitignored — regenerate as needed).
+Defaults to `data/snapshots/verification-dump/` (gitignored — regenerate as needed).
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ PHASE_ORDER = ["onset", "comeup", "peak", "offset", "total", "afterglow"]
 
 
 def main() -> int:
-    out_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "docs/audit/verification-dump"
+    out_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "data/snapshots/verification-dump"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     db = sqlite3.connect(DB)

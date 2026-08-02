@@ -50,7 +50,7 @@ nonisolated enum ContentLanguage: String {
 /// **Bundled `piru-substances.sqlite`** — ships with the app, read-only,
 /// replaced atomically on opt-in update. Holds every fact-bearing row from
 /// every source with explicit `source_id` attribution. Schema documented in
-/// `docs/sqlite-schema.md`.
+/// the bundled DB's own `.schema` output.
 ///
 /// **User `piru-user-prefs.sqlite`** — lives in `Documents/`, writable, survives
 /// bundled-DB updates. Holds the user's source-priority order, profile level
