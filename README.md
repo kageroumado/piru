@@ -20,7 +20,7 @@
 <table>
   <tr>
     <td align="center"><img src=".github/piru-journal.png" alt="Piru Journal — a live session graph with overlaid pharmacokinetic curves for caffeine, alcohol, and melatonin, above a list of past sessions grouped by day" width="380"><br><sub><b>the journal</b> ・ what you took, drawn as it rises and clears</sub></td>
-    <td align="center"><img src=".github/piru-pharmacology.png" alt="Piru pharmacology card for cocaine — a triple monoamine reuptake inhibitor with a serotonin–dopamine balance slider, receptor target table, and source attribution" width="380"><br><sub><b>the pharmacopeia</b> ・ mechanism, binding, and citations for 1,900+ substances</sub></td>
+    <td align="center"><img src=".github/piru-pharmacology.png" alt="Piru pharmacology card for cocaine — a triple monoamine reuptake inhibitor with a serotonin–dopamine balance slider, receptor target table, and source attribution" width="380"><br><sub><b>the pharmacopeia</b> ・ mechanism, binding, and citations for 1,700+ substances</sub></td>
   </tr>
 </table>
 
@@ -60,7 +60,7 @@ Questions, bug reports, or just want to hang out? **[Join the Discord →](https
 - **A journal that draws itself.** Every dose becomes a pharmacokinetic curve. Doses within a window
   group into **sessions**, and the session graph overlays each substance so you can read the whole
   night at a glance — what's peaking, what's fading, what's about to come back around.
-- **1,900+ substances, cited.** Dose ladders (threshold → light → common → strong → heavy), routes,
+- **1,700+ substances, cited.** Dose ladders (threshold → light → common → strong → heavy), routes,
   onset/peak/offset durations, half-lives, mechanism of action, receptor binding, and subjective
   effects — resolved per-field from **17 data sources** and linked back to each one.
 - **Interaction warnings.** Class-based danger rules (MAOI + stimulant, opioid + depressant, serotonergic
@@ -158,9 +158,9 @@ sandbox. None of it is bolted on.
   </tr>
 </table>
 
-## The library — 1,900+ substances, every claim cited
+## The library — 1,700+ substances, every claim cited
 
-Piru bundles an offline SQLite library of **1,900+ substances**. Each field — a dose range, a duration,
+Piru bundles an offline SQLite library of **1,700+ substances**. Each field — a dose range, a duration,
 a receptor affinity, a mechanism summary — is resolved by **source priority** (which you can reorder)
 and carries its own attribution, so a substance sheet ends with a **Data Sources** list that links
 straight to each source's page for that compound. Doses and durations come first from
