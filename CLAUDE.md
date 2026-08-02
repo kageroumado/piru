@@ -1,6 +1,6 @@
 # Piru
 
-Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1,900+ substances from a bundled SQLite database (sourced from TripSit/PsychonautWiki/DailyMed and curated data), checks interactions, and provides pharmacokinetic insights.
+Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1,700+ substances from a bundled SQLite database (sourced from TripSit/PsychonautWiki/DailyMed and curated data), checks interactions, and provides pharmacokinetic insights.
 
 ## Voice (read before writing any user-facing copy)
 
@@ -14,6 +14,17 @@ Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, br
 Piru presents as a **reference, a record, and a model** — what is known about a substance, what you logged, how the pharmacology behaves. Never advice to use, never a dosing recommendation. "Not medical advice" stays prominent.
 
 (The rule is about *consumer* voice, not scholarship: in a peer-reviewed paper "harm reduction" is a legitimate field name.)
+
+## What curated content may claim (read before authoring under `data/curated/`)
+
+Voice governs register; these govern *claims*. Each was gotten wrong at least once, and a curated claim is indistinguishable to the reader from a sourced one.
+
+- **Bust myths; never restate them.** A misconception entry names the belief, says plainly it is wrong, and cites the work showing why. Not even a hedged restatement.
+- **Don't ship an uncited model — and don't replace it with an invented number.** The community "3-month rule" for MDMA is an uncited fixed-exponential; it must not appear. But human recovery kinetics are graded LOW-to-no evidence, so no substitute "recovers in X" figure either. What is real and sayable is *acute intra-session* tolerance. When the honest answer is "the kinetics aren't known," say that — removing a wrong number doesn't license a better-sounding one.
+- **Rank combination risk by evidence, not reputation.** "MDMA + SSRI is dangerous" is a myth; the replicated human finding is 30–80% effect *blockade*, with no serotonin-syndrome case having MDMA as sole agent. The real danger is **MAOIs**. So any combinations surface ranks MAOI as danger and SSRI as "mostly just blunts it" — the reverse of the folk ordering.
+- **Bound practical guidance on both sides.** MDMA raises core temperature *metabolically*, so "stay cool" alone is insufficient and hydration genuinely matters — but over-drinking causes the hyponatremia that has actually killed people. Hence: **≈250 mL/hour while active, less at rest, favor electrolytes, "more is not safer."** Never an exact-mL prescription, never an open-ended instruction to drink.
+- **Get the citation right, including the journal.** The retracted primate neurotoxicity study is **Ricaurte 2002 in *Science*** (retracted *Science* 2003;301:1479) — **not *Nature***; those animals received methamphetamine. Cite a retracted source only to *discredit*, always marked as retracted, linking the notice rather than the paper. Distinguish an *association* (reduced SERT binding — reversible, no deficit in long-abstinent users) from a *lesion*. And say when a frightening result came from doses far above human use; that extrapolation, not the finding, is usually where the myth is manufactured.
+- **Curate names for recognition, not completeness.** `popularAliases` is hand-authored (MDMA = *Ecstasy · Molly · E*) with remaining synonyms collapsed behind a count — never an algorithmic top-N slice, and when it's missing the fallback is to show nothing rather than dump the raw alias list.
 
 ## Working Style
 
