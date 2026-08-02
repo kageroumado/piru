@@ -39,7 +39,9 @@ extension SubstanceStore {
         case chemistry
         case identity
 
-        var id: String { rawValue }
+        var id: String {
+            rawValue
+        }
 
         /// Most substantive first — the order facets are listed in, so a row
         /// reads "dose · duration · effects" rather than alphabetical noise.

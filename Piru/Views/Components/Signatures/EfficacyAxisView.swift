@@ -99,9 +99,12 @@ private struct EfficacyAxisTrack: View {
             Capsule()
                 .fill(accent.opacity(0.75))
                 .frame(width: max(0, filledWidth(width)), height: 7)
-                .offset(x: layoutDirection == .rightToLeft
-                    ? x(model.focus.percent, width: width)
-                    : Self.inset, y: Self.trackY - 3.5)
+                .offset(
+                    x: layoutDirection == .rightToLeft
+                        ? x(model.focus.percent, width: width)
+                        : Self.inset,
+                    y: Self.trackY - 3.5,
+                )
         }
     }
 
@@ -156,8 +159,12 @@ private struct EfficacyAxisTrack: View {
     /// of the axis (buprenorphine 0.02 → morphine 0.18 of DAMGO), which is the *point* of plotting τ
     /// — so the labels have to stagger rather than the axis rescale away the finding.
     private func placedLabels(width: CGFloat) -> [(cluster: Cluster, row: Int)] {
-        var rowRight: [CGFloat] = [-.greatestFiniteMagnitude, -.greatestFiniteMagnitude,
-                                   -.greatestFiniteMagnitude, -.greatestFiniteMagnitude]
+        var rowRight: [CGFloat] = [
+            -.greatestFiniteMagnitude,
+            -.greatestFiniteMagnitude,
+            -.greatestFiniteMagnitude,
+            -.greatestFiniteMagnitude,
+        ]
         var placed: [(cluster: Cluster, row: Int)] = []
         // Focus first so it always lands on an inner row, then left-to-right.
         let ordered = clusters.sorted { lhs, rhs in

@@ -65,7 +65,7 @@ struct UsageSubstanceStyle {
 /// explanation of what the section answers, and its content.
 struct UsageSectionCard<Content: View>: View {
     let title: LocalizedStringKey
-    var subtitle: LocalizedStringKey? = nil
+    var subtitle: LocalizedStringKey?
     @ViewBuilder var content: () -> Content
 
     var body: some View {

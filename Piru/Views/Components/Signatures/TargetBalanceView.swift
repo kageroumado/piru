@@ -133,8 +133,7 @@ private struct BalanceArc: View {
     /// Assembled as a plain `String` so it resolves to `Text`'s `StringProtocol` overload rather than
     /// minting a `"%@, %@"` catalog key.
     private var spokenValue: String {
-        let combined = model.ratioText + ", " + model.valueText
-        return combined
+        model.ratioText + ", " + model.valueText
     }
 
     private func tickMark(
@@ -165,7 +164,7 @@ private struct BalanceArc: View {
         }
     }
 
-    private func handle(center: CGPoint, radius: CGFloat, width: CGFloat) -> some View {
+    private func handle(center: CGPoint, radius: CGFloat, width _: CGFloat) -> some View {
         let position = point(center: center, radius: radius, angle: angle(focus.position))
         return Circle()
             .fill(Color(.systemBackground))

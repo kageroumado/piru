@@ -187,7 +187,7 @@ nonisolated extension ClassSignature {
         legs.filter { basis.value(in: $0) != nil }.min { isBetter($0, than: $1, basis: basis) }
     }
 
-    private static func isBetter(_ lhs: SignatureLeg, than rhs: SignatureLeg, basis: SignatureBasis) -> Bool {
+    private static func isBetter(_ lhs: SignatureLeg, than rhs: SignatureLeg, basis _: SignatureBasis) -> Bool {
         // A fitted number beats a row that only documents the class.
         if lhs.isDocumentedClassOnly != rhs.isDocumentedClassOnly { return rhs.isDocumentedClassOnly }
         if lhs.isHuman != rhs.isHuman { return lhs.isHuman }
@@ -274,7 +274,7 @@ nonisolated extension ClassSignature {
         guard !mine.isEmpty else { return nil }
 
         let paired = SignatureComparability.partition(relevant)
-            .filter { $0.basis.isPotency }
+            .filter(\.basis.isPotency)
             .filter { group in
                 group.leg(substance: substanceName, target: .serotonin2A) != nil
                     && group.leg(substance: substanceName, target: .serotonin1A) != nil
@@ -284,7 +284,7 @@ nonisolated extension ClassSignature {
         // Ticks for every substance whose own pair is itself gated — each tick is one study.
         var ticks: [TargetBalanceModel.Tick] = []
         var seen = Set<String>()
-        for candidate in SignatureComparability.partition(relevant).filter({ $0.basis.isPotency }) {
+        for candidate in SignatureComparability.partition(relevant).filter(\.basis.isPotency) {
             for name in candidate.substanceNames where !seen.contains(name) {
                 guard let two = candidate.leg(substance: name, target: .serotonin2A),
                       let one = candidate.leg(substance: name, target: .serotonin1A),
@@ -343,7 +343,7 @@ nonisolated extension ClassSignature {
         ))
     }
 
-    private static func balanceRank(_ group: ComparableGroup, focus: String) -> Int {
+    private static func balanceRank(_ group: ComparableGroup, focus _: String) -> Int {
         (group.key.isDeclaredPanel ? 200 : 0) + (group.isHuman ? 100 : 0) + min(group.substanceNames.count, 50)
     }
 
@@ -356,7 +356,7 @@ nonisolated extension ClassSignature {
     }
 
     private static func scaleText(_ value: Double) -> String {
-        value >= 1000 ? ">1000" : value.formatted(.number.precision(.fractionLength(0 ... 0)))
+        value >= 1_000 ? ">1000" : value.formatted(.number.precision(.fractionLength(0 ... 0)))
     }
 
     private static func spreadTicks(
@@ -392,7 +392,7 @@ nonisolated extension ClassSignature {
         let mine = relevant.filter { $0.substanceName == substanceName }
         guard !mine.isEmpty else { return nil }
 
-        let groups = SignatureComparability.partition(relevant).filter { $0.basis.isPotency }
+        let groups = SignatureComparability.partition(relevant).filter(\.basis.isPotency)
 
         func point(_ group: ComparableGroup, _ name: String, isGated: Bool) -> TransporterTernaryModel.Point? {
             guard let sert = group.leg(substance: name, target: .sert).flatMap({ group.basis.value(in: $0) }),
@@ -506,8 +506,8 @@ nonisolated extension ClassSignature {
         if value >= 1_000_000 {
             return "\((value / 1_000_000).formatted(.number.precision(.fractionLength(0 ... 1)))) mM"
         }
-        if value >= 1000 {
-            return "\((value / 1000).formatted(.number.precision(.fractionLength(0 ... 1)))) µM"
+        if value >= 1_000 {
+            return "\((value / 1_000).formatted(.number.precision(.fractionLength(0 ... 1)))) µM"
         }
         return "\(value.formatted(.number.precision(.fractionLength(0 ... 2)))) nM"
     }
@@ -609,8 +609,12 @@ nonisolated struct TargetBalanceModel: Sendable {
     let provenance: SignatureProvenance?
     let withheldReason: LocalizedStringResource?
 
-    var leadingPole: String { SignatureTarget.serotonin2A.label }
-    var trailingPole: String { SignatureTarget.serotonin1A.label }
+    var leadingPole: String {
+        SignatureTarget.serotonin2A.label
+    }
+    var trailingPole: String {
+        SignatureTarget.serotonin1A.label
+    }
 }
 
 /// The SERT / DAT / NET triangle, one triple per gated study.

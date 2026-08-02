@@ -87,7 +87,7 @@ struct MedTimeConsequence: Equatable {
         return (
             base.addingTimeInterval(onsetMinutes * 60),
             base.addingTimeInterval(wearOffMinutes * 60),
-            base.addingTimeInterval(effectsEndMinutes * 60)
+            base.addingTimeInterval(effectsEndMinutes * 60),
         )
     }
 

@@ -49,7 +49,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `A fixed range ends now and is exactly its own length`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let result = UsageAnalytics.bounds(for: .thirtyDays, entries: [], now: now)
         #expect(result.end == now)
         #expect(result.lengthDays == 30)
@@ -59,11 +59,11 @@ struct UsageAnalyticsTests {
 
     @Test
     func `All spans the first entry to now and has no previous period`() {
-        let now = date(2026, 6, 15)
-        let first = date(2026, 5, 16)
+        let now = date(2_026, 6, 15)
+        let first = date(2_026, 5, 16)
         let result = UsageAnalytics.bounds(
             for: .all,
-            entries: [snapshot(at: first), snapshot(at: date(2026, 6, 1))],
+            entries: [snapshot(at: first), snapshot(at: date(2_026, 6, 1))],
             now: now,
         )
         #expect(result.start == first)
@@ -76,7 +76,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Period-over-period delta compares the window to the one before it`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let window = bounds(now.addingTimeInterval(-7 * 86_400), now)
         // 3 entries this week, 2 the week before.
         let all = [
@@ -98,7 +98,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `An empty previous period yields no percentage rather than an infinite one`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let window = bounds(now.addingTimeInterval(-7 * 86_400), now)
         let all = [snapshot(at: now.addingTimeInterval(-1 * 86_400))]
         let overview = UsageAnalytics.overview(all: all, inRange: all, bounds: window, calendar: utc)
@@ -109,7 +109,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `All has no previous period so no comparison is offered`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let window = bounds(now.addingTimeInterval(-30 * 86_400), now, previous: false)
         let all = [snapshot(at: now.addingTimeInterval(-1 * 86_400))]
         let overview = UsageAnalytics.overview(all: all, inRange: all, bounds: window, calendar: utc)
@@ -120,7 +120,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `New substances are the ones whose first-ever dose falls in the window`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let window = bounds(now.addingTimeInterval(-7 * 86_400), now)
         let all = [
             // Substance 0 debuted long ago and is still in use — not new.
@@ -138,7 +138,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Dose intensity counts only entries that landed on a ladder`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let window = bounds(now.addingTimeInterval(-7 * 86_400), now)
         let all = [
             snapshot(level: 2, at: now.addingTimeInterval(-1 * 86_400)), // light
@@ -159,7 +159,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Dose intensity is absent, not zero, when nothing could be placed`() {
-        let now = date(2026, 6, 15)
+        let now = date(2_026, 6, 15)
         let window = bounds(now.addingTimeInterval(-7 * 86_400), now)
         let all = [snapshot(level: nil, at: now.addingTimeInterval(-1 * 86_400))]
         let overview = UsageAnalytics.overview(all: all, inRange: all, bounds: window, calendar: utc)
@@ -169,8 +169,8 @@ struct UsageAnalyticsTests {
 
     @Test
     func `The sparkline splits the window into seven equal buckets`() {
-        let start = date(2026, 6, 1, 0)
-        let end = date(2026, 6, 8, 0)
+        let start = date(2_026, 6, 1, 0)
+        let end = date(2_026, 6, 8, 0)
         let window = bounds(start, end)
         // One entry per day for seven days → one per bucket.
         let entries = (0 ..< 7).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
@@ -180,8 +180,8 @@ struct UsageAnalyticsTests {
 
     @Test
     func `An entry at the very end of the window lands in the last sparkline bucket`() {
-        let start = date(2026, 6, 1, 0)
-        let end = date(2026, 6, 8, 0)
+        let start = date(2_026, 6, 1, 0)
+        let end = date(2_026, 6, 8, 0)
         let window = bounds(start, end)
 
         #expect(UsageAnalytics.sparkline([snapshot(at: end)], bounds: window) == [0, 0, 0, 0, 0, 0, 1])
@@ -192,22 +192,22 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Daily bucketing emits one bucket per day, inclusive of both ends`() {
-        let window = bounds(date(2026, 6, 1, 9), date(2026, 6, 5, 9))
+        let window = bounds(date(2_026, 6, 1, 9), date(2_026, 6, 5, 9))
         let starts = UsageAnalytics.bucketStarts(bounds: window, weekly: false, calendar: utc)
 
         #expect(starts.count == 5)
-        #expect(starts.first == utc.sessionDayStart(for: date(2026, 6, 1, 9)))
-        #expect(starts.last == utc.sessionDayStart(for: date(2026, 6, 5, 9)))
+        #expect(starts.first == utc.sessionDayStart(for: date(2_026, 6, 1, 9)))
+        #expect(starts.last == utc.sessionDayStart(for: date(2_026, 6, 5, 9)))
     }
 
     @Test
     func `Weekly bucketing snaps to week starts`() {
         // 2026-06-01 is a Monday and 2026-06-20 a Saturday; with firstWeekday =
         // Sunday that is the weeks beginning 05-31, 06-07 and 06-14.
-        let window = bounds(date(2026, 6, 1, 9), date(2026, 6, 20, 9))
+        let window = bounds(date(2_026, 6, 1, 9), date(2_026, 6, 20, 9))
         let starts = UsageAnalytics.bucketStarts(bounds: window, weekly: true, calendar: utc)
 
-        #expect(starts == [date(2026, 5, 31, 0), date(2026, 6, 7, 0), date(2026, 6, 14, 0)])
+        #expect(starts == [date(2_026, 5, 31, 0), date(2_026, 6, 7, 0), date(2_026, 6, 14, 0)])
         for start in starts {
             #expect(utc.component(.weekday, from: start) == utc.firstWeekday)
         }
@@ -215,21 +215,21 @@ struct UsageAnalyticsTests {
 
     @Test
     func `A timestamp resolves to the last bucket that started before it`() {
-        let starts = [date(2026, 6, 1, 0), date(2026, 6, 8, 0), date(2026, 6, 15, 0)]
+        let starts = [date(2_026, 6, 1, 0), date(2_026, 6, 8, 0), date(2_026, 6, 15, 0)]
 
-        #expect(UsageAnalytics.bucket(for: date(2026, 6, 10), in: starts) == starts[1])
-        #expect(UsageAnalytics.bucket(for: date(2026, 6, 8, 0), in: starts) == starts[1])
-        #expect(UsageAnalytics.bucket(for: date(2026, 6, 20), in: starts) == starts[2])
+        #expect(UsageAnalytics.bucket(for: date(2_026, 6, 10), in: starts) == starts[1])
+        #expect(UsageAnalytics.bucket(for: date(2_026, 6, 8, 0), in: starts) == starts[1])
+        #expect(UsageAnalytics.bucket(for: date(2_026, 6, 20), in: starts) == starts[2])
         // Before the first bucket, clamp forward rather than dropping the entry.
-        #expect(UsageAnalytics.bucket(for: date(2026, 5, 1), in: starts) == starts[0])
-        #expect(UsageAnalytics.bucket(for: date(2026, 6, 1), in: []) == nil)
+        #expect(UsageAnalytics.bucket(for: date(2_026, 5, 1), in: starts) == starts[0])
+        #expect(UsageAnalytics.bucket(for: date(2_026, 6, 1), in: []) == nil)
     }
 
     // MARK: - Rolling windows (§3)
 
     @Test
     func `A daily trend point counts the trailing seven days, normalized per week`() {
-        let start = date(2026, 6, 1, 0)
+        let start = date(2_026, 6, 1, 0)
         // One dose a day for ten days.
         let entries = (0 ..< 10).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
         let starts = (0 ..< 10).map { start.addingTimeInterval(Double($0) * 86_400) }
@@ -251,7 +251,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `A four-week window is still reported as entries per week`() {
-        let start = date(2026, 6, 1, 0)
+        let start = date(2_026, 6, 1, 0)
         // 28 doses over 28 days = one per day = seven per week.
         let entries = (0 ..< 28).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
         let starts = (0 ..< 4).map { start.addingTimeInterval(Double($0) * 7 * 86_400) }
@@ -266,7 +266,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `A dry spell draws zero instead of breaking the line`() {
-        let start = date(2026, 6, 1, 0)
+        let start = date(2_026, 6, 1, 0)
         let entries = [snapshot(at: start.addingTimeInterval(3_600))]
         let starts = (0 ..< 20).map { start.addingTimeInterval(Double($0) * 86_400) }
 
@@ -284,9 +284,9 @@ struct UsageAnalyticsTests {
     func `The newest point closes its window at the range end, not the bucket start`() {
         // A week-bucketed range whose last bucket has only just begun: the point
         // must still reflect the doses logged inside it.
-        let weekStart = date(2026, 6, 7, 0)
-        let rangeEnd = date(2026, 6, 9, 12)
-        let entries = [snapshot(at: date(2026, 6, 8, 10)), snapshot(at: date(2026, 6, 9, 10))]
+        let weekStart = date(2_026, 6, 7, 0)
+        let rangeEnd = date(2_026, 6, 9, 12)
+        let entries = [snapshot(at: date(2_026, 6, 8, 10)), snapshot(at: date(2_026, 6, 9, 10))]
 
         let series = UsageAnalytics.trends(
             entries, ranking: [(substanceIndex: 0, count: 2)], bucketStarts: [weekStart],
@@ -299,7 +299,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Only the top substances get a line`() {
-        let start = date(2026, 6, 1, 0)
+        let start = date(2_026, 6, 1, 0)
         var entries: [UsageEntrySnapshot] = []
         var ranking: [(substanceIndex: Int, count: Int)] = []
         for index in 0 ..< 14 {
@@ -381,14 +381,14 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Dose-level buckets carry only placeable entries and report coverage`() {
-        let start = date(2026, 6, 1, 0)
+        let start = date(2_026, 6, 1, 0)
         let starts = (0 ..< 3).map { start.addingTimeInterval(Double($0) * 86_400) }
         let entries = [
-            snapshot(level: 3, at: date(2026, 6, 1, 10)),
-            snapshot(level: 3, at: date(2026, 6, 1, 20)),
-            snapshot(level: 5, at: date(2026, 6, 2, 10)),
-            snapshot(level: nil, at: date(2026, 6, 2, 11)),
-            snapshot(level: nil, at: date(2026, 6, 3, 11)),
+            snapshot(level: 3, at: date(2_026, 6, 1, 10)),
+            snapshot(level: 3, at: date(2_026, 6, 1, 20)),
+            snapshot(level: 5, at: date(2_026, 6, 2, 10)),
+            snapshot(level: nil, at: date(2_026, 6, 2, 11)),
+            snapshot(level: nil, at: date(2_026, 6, 3, 11)),
         ]
 
         let breakdown = UsageAnalytics.doseLevels(
@@ -406,10 +406,10 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Coverage under thirty percent demotes the section`() {
-        let start = date(2026, 6, 1, 0)
-        var entries = [snapshot(level: 3, at: date(2026, 6, 1, 10))]
+        let start = date(2_026, 6, 1, 0)
+        var entries = [snapshot(level: 3, at: date(2_026, 6, 1, 10))]
         for hour in 0 ..< 9 {
-            entries.append(snapshot(level: nil, at: date(2026, 6, 1, 11 + hour % 12)))
+            entries.append(snapshot(level: nil, at: date(2_026, 6, 1, 11 + hour % 12)))
         }
 
         let breakdown = UsageAnalytics.doseLevels(
@@ -426,14 +426,14 @@ struct UsageAnalyticsTests {
     func `Co-use pairs count the days two substances share`() {
         let entries = [
             // Day 1: A, B, C — three pairs.
-            snapshot(substance: 0, at: date(2026, 6, 1, 10)),
-            snapshot(substance: 1, at: date(2026, 6, 1, 11)),
-            snapshot(substance: 2, at: date(2026, 6, 1, 12)),
+            snapshot(substance: 0, at: date(2_026, 6, 1, 10)),
+            snapshot(substance: 1, at: date(2_026, 6, 1, 11)),
+            snapshot(substance: 2, at: date(2_026, 6, 1, 12)),
             // Day 2: A, B.
-            snapshot(substance: 0, at: date(2026, 6, 2, 10)),
-            snapshot(substance: 1, at: date(2026, 6, 2, 11)),
+            snapshot(substance: 0, at: date(2_026, 6, 2, 10)),
+            snapshot(substance: 1, at: date(2_026, 6, 2, 11)),
             // Day 3: A only.
-            snapshot(substance: 0, at: date(2026, 6, 3, 10)),
+            snapshot(substance: 0, at: date(2_026, 6, 3, 10)),
         ]
         let pairs = UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc))
 
@@ -450,10 +450,10 @@ struct UsageAnalyticsTests {
     @Test
     func `Two doses of the same substance on one day are not a pair`() {
         let entries = [
-            snapshot(substance: 0, at: date(2026, 6, 1, 10)),
-            snapshot(substance: 0, at: date(2026, 6, 1, 18)),
-            snapshot(substance: 0, at: date(2026, 6, 2, 10)),
-            snapshot(substance: 0, at: date(2026, 6, 2, 18)),
+            snapshot(substance: 0, at: date(2_026, 6, 1, 10)),
+            snapshot(substance: 0, at: date(2_026, 6, 1, 18)),
+            snapshot(substance: 0, at: date(2_026, 6, 2, 10)),
+            snapshot(substance: 0, at: date(2_026, 6, 2, 18)),
         ]
         #expect(UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc)).isEmpty)
     }
@@ -461,8 +461,8 @@ struct UsageAnalyticsTests {
     @Test
     func `A single shared day is a coincidence and is not shown`() {
         let entries = [
-            snapshot(substance: 0, at: date(2026, 6, 1, 10)),
-            snapshot(substance: 1, at: date(2026, 6, 1, 11)),
+            snapshot(substance: 0, at: date(2_026, 6, 1, 10)),
+            snapshot(substance: 1, at: date(2_026, 6, 1, 11)),
         ]
         #expect(UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc)).isEmpty)
     }
@@ -474,7 +474,7 @@ struct UsageAnalyticsTests {
         // threshold; only the cap's worth should come back.
         for day in 1 ... 4 {
             for substance in 0 ..< 8 {
-                entries.append(snapshot(substance: substance, at: date(2026, 6, day, 10 + substance)))
+                entries.append(snapshot(substance: substance, at: date(2_026, 6, day, 10 + substance)))
             }
         }
         let pairs = UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc))
@@ -488,10 +488,10 @@ struct UsageAnalyticsTests {
         // 02:00 rolls into the previous session day, so this is one night out,
         // not two separate days with no overlap.
         let entries = [
-            snapshot(substance: 0, at: date(2026, 6, 1, 22)),
-            snapshot(substance: 1, at: date(2026, 6, 2, 2)),
-            snapshot(substance: 0, at: date(2026, 6, 8, 22)),
-            snapshot(substance: 1, at: date(2026, 6, 9, 2)),
+            snapshot(substance: 0, at: date(2_026, 6, 1, 22)),
+            snapshot(substance: 1, at: date(2_026, 6, 2, 2)),
+            snapshot(substance: 0, at: date(2_026, 6, 8, 22)),
+            snapshot(substance: 1, at: date(2_026, 6, 9, 2)),
         ]
         let pairs = UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc))
 
@@ -519,7 +519,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `A daily habit reads as very regular at one day apart`() {
-        let entries = (1 ... 8).map { snapshot(at: date(2026, 6, $0, 9)) }
+        let entries = (1 ... 8).map { snapshot(at: date(2_026, 6, $0, 9)) }
         let rows = UsageAnalytics.regularity(
             dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc),
             counts: [(substanceIndex: 0, count: 8)],
@@ -539,7 +539,7 @@ struct UsageAnalyticsTests {
         var entries: [UsageEntrySnapshot] = []
         for day in 1 ... 6 {
             for hour in [8, 13, 20] {
-                entries.append(snapshot(at: date(2026, 6, day, hour)))
+                entries.append(snapshot(at: date(2_026, 6, day, hour)))
             }
         }
         let rows = UsageAnalytics.regularity(
@@ -555,7 +555,7 @@ struct UsageAnalyticsTests {
     func `A bursty history reads as sporadic`() {
         // Two clusters far apart: tiny gaps, then a huge one.
         let days = [1, 2, 3, 4, 28]
-        let entries = days.map { snapshot(at: date(2026, 6, $0, 9)) }
+        let entries = days.map { snapshot(at: date(2_026, 6, $0, 9)) }
         let rows = UsageAnalytics.regularity(
             dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc),
             counts: [(substanceIndex: 0, count: 5)],
@@ -568,7 +568,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Too few entries or too few days produce no regularity row`() {
-        let sparse = (1 ... 4).map { snapshot(at: date(2026, 6, $0, 9)) }
+        let sparse = (1 ... 4).map { snapshot(at: date(2_026, 6, $0, 9)) }
         #expect(
             UsageAnalytics.regularity(
                 dayIndex: UsageAnalytics.groupByDay(sparse, calendar: utc),
@@ -579,9 +579,9 @@ struct UsageAnalyticsTests {
         // Five entries but only two distinct days — one interval is not a
         // spread.
         let clustered = [
-            snapshot(at: date(2026, 6, 1, 8)), snapshot(at: date(2026, 6, 1, 12)),
-            snapshot(at: date(2026, 6, 1, 18)), snapshot(at: date(2026, 6, 2, 8)),
-            snapshot(at: date(2026, 6, 2, 18)),
+            snapshot(at: date(2_026, 6, 1, 8)), snapshot(at: date(2_026, 6, 1, 12)),
+            snapshot(at: date(2_026, 6, 1, 18)), snapshot(at: date(2_026, 6, 2, 8)),
+            snapshot(at: date(2_026, 6, 2, 18)),
         ]
         #expect(
             UsageAnalytics.regularity(
@@ -605,7 +605,7 @@ struct UsageAnalyticsTests {
 
     @Test
     func `One route is not a breakdown`() {
-        let entries = (1 ... 3).map { snapshot(route: 0, at: date(2026, 6, $0, 9)) }
+        let entries = (1 ... 3).map { snapshot(route: 0, at: date(2_026, 6, $0, 9)) }
         let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: [(substanceIndex: 0, count: 3)])
 
         #expect(breakdown.distinctRoutes == [0])
@@ -615,9 +615,9 @@ struct UsageAnalyticsTests {
     @Test
     func `Two routes split a substance's bar, most-used first`() {
         let entries = [
-            snapshot(route: 0, at: date(2026, 6, 1, 9)),
-            snapshot(route: 0, at: date(2026, 6, 2, 9)),
-            snapshot(route: 3, at: date(2026, 6, 3, 9)),
+            snapshot(route: 0, at: date(2_026, 6, 1, 9)),
+            snapshot(route: 0, at: date(2_026, 6, 2, 9)),
+            snapshot(route: 3, at: date(2_026, 6, 3, 9)),
         ]
         let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: [(substanceIndex: 0, count: 3)])
 
@@ -634,11 +634,11 @@ struct UsageAnalyticsTests {
     func `The heatmap lays out whole weeks and marks out-of-range padding`() {
         // 2026-06-03 is a Wednesday; the range starts mid-week, so the first
         // column has leading cells outside it.
-        let window = bounds(date(2026, 6, 3, 9), date(2026, 6, 16, 9))
+        let window = bounds(date(2_026, 6, 3, 9), date(2_026, 6, 16, 9))
         let entries = [
-            snapshot(at: date(2026, 6, 3, 10)),
-            snapshot(at: date(2026, 6, 3, 20)),
-            snapshot(category: 1, at: date(2026, 6, 10, 10)),
+            snapshot(at: date(2_026, 6, 3, 10)),
+            snapshot(at: date(2_026, 6, 3, 20)),
+            snapshot(category: 1, at: date(2_026, 6, 10, 10)),
         ]
         let heatmap = UsageAnalytics.heatmap(
             dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc), bounds: window, calendar: utc,
@@ -651,17 +651,17 @@ struct UsageAnalyticsTests {
         #expect(heatmap.cell(column: 0, row: 0)?.inRange == false)
         let busiest = heatmap.cells.first { $0.total == 2 }
         #expect(busiest?.inRange == true)
-        #expect(busiest?.date == utc.sessionDayStart(for: date(2026, 6, 3, 10)))
+        #expect(busiest?.date == utc.sessionDayStart(for: date(2_026, 6, 3, 10)))
     }
 
     @Test
     func `Heatmap cells keep a per-category split for the filter pills`() {
         let entries = [
-            snapshot(category: 0, at: date(2026, 6, 3, 10)),
-            snapshot(category: 4, at: date(2026, 6, 3, 12)),
-            snapshot(category: 4, at: date(2026, 6, 3, 14)),
+            snapshot(category: 0, at: date(2_026, 6, 3, 10)),
+            snapshot(category: 4, at: date(2_026, 6, 3, 12)),
+            snapshot(category: 4, at: date(2_026, 6, 3, 14)),
         ]
-        let window = bounds(date(2026, 6, 1, 0), date(2026, 6, 7, 23))
+        let window = bounds(date(2_026, 6, 1, 0), date(2_026, 6, 7, 23))
         let heatmap = UsageAnalytics.heatmap(
             dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc), bounds: window, calendar: utc,
         )
@@ -674,10 +674,10 @@ struct UsageAnalyticsTests {
     @Test
     func `The hour histogram has 24 bins, overall and per day`() {
         let entries = [
-            snapshot(at: date(2026, 6, 3, 9)),
-            snapshot(at: date(2026, 6, 3, 9)),
-            snapshot(category: 2, at: date(2026, 6, 3, 22)),
-            snapshot(at: date(2026, 6, 4, 9)),
+            snapshot(at: date(2_026, 6, 3, 9)),
+            snapshot(at: date(2_026, 6, 3, 9)),
+            snapshot(category: 2, at: date(2_026, 6, 3, 22)),
+            snapshot(at: date(2_026, 6, 4, 9)),
         ]
         let profile = UsageAnalytics.hourProfile(entries, calendar: utc)
 
@@ -687,7 +687,7 @@ struct UsageAnalyticsTests {
         #expect(profile.all.bins(category: 2)[22] == 1)
         #expect(profile.all.bins(category: 2)[9] == 0)
 
-        let day = utc.sessionDayStart(for: date(2026, 6, 3, 9))
+        let day = utc.sessionDayStart(for: date(2_026, 6, 3, 9))
         #expect(profile.byDay[day]?.total[9] == 2)
         #expect(profile.byDay[day]?.total[22] == 1)
     }
@@ -696,11 +696,11 @@ struct UsageAnalyticsTests {
 
     @Test
     func `Weekday buckets are ordered by the calendar's first weekday`() {
-        let window = bounds(date(2026, 6, 1, 0), date(2026, 6, 14, 23))
+        let window = bounds(date(2_026, 6, 1, 0), date(2_026, 6, 14, 23))
         let entries = [
-            snapshot(at: date(2026, 6, 1, 9)), // Monday
-            snapshot(at: date(2026, 6, 8, 9)), // Monday
-            snapshot(category: 3, at: date(2026, 6, 6, 9)), // Saturday
+            snapshot(at: date(2_026, 6, 1, 9)), // Monday
+            snapshot(at: date(2_026, 6, 8, 9)), // Monday
+            snapshot(category: 3, at: date(2_026, 6, 6, 9)), // Saturday
         ]
         let buckets = UsageAnalytics.weekdayBreakdown(entries, bounds: window, calendar: utc)
 
@@ -716,7 +716,7 @@ struct UsageAnalyticsTests {
     @Test
     func `A partial range divides by the weekdays it actually contains`() {
         // Ten days: some weekdays come around twice, some once.
-        let window = bounds(date(2026, 6, 1, 0), date(2026, 6, 10, 23))
+        let window = bounds(date(2_026, 6, 1, 0), date(2_026, 6, 10, 23))
         let occurrences = UsageAnalytics.weekdayOccurrences(bounds: window, calendar: utc)
 
         #expect(occurrences.values.reduce(0, +) == 10)
@@ -728,12 +728,12 @@ struct UsageAnalyticsTests {
 
     @Test
     func `A full pass wires every section together`() {
-        let now = date(2026, 6, 15, 12)
+        let now = date(2_026, 6, 15, 12)
         var entries: [UsageEntrySnapshot] = []
         for day in 1 ... 14 {
-            entries.append(snapshot(substance: 0, category: 0, route: 0, level: 3, at: date(2026, 6, day, 8)))
+            entries.append(snapshot(substance: 0, category: 0, route: 0, level: 3, at: date(2_026, 6, day, 8)))
             if day.isMultiple(of: 2) {
-                entries.append(snapshot(substance: 1, category: 4, route: 3, level: nil, at: date(2026, 6, day, 21)))
+                entries.append(snapshot(substance: 1, category: 4, route: 3, level: nil, at: date(2_026, 6, day, 21)))
             }
         }
         let refs = [
@@ -762,7 +762,7 @@ struct UsageAnalyticsTests {
     @Test
     func `An empty history produces an empty, non-crashing result`() {
         let result = UsageAnalytics.compute(
-            entries: [], substances: [], range: .ninetyDays, calendar: utc, now: date(2026, 6, 15),
+            entries: [], substances: [], range: .ninetyDays, calendar: utc, now: date(2_026, 6, 15),
         )
 
         #expect(result.isEmpty)

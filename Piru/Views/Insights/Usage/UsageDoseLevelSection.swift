@@ -36,7 +36,6 @@ struct UsageDoseLevelSection: View {
         }
     }
 
-    @ViewBuilder
     private var content: some View {
         UsageDoseLevelContent(breakdown: breakdown, style: style, weekly: weekly)
     }

@@ -46,7 +46,7 @@ struct SignatureComparabilityTests {
         let legs = [
             Self.leg("1", "MDMA", .dat, ki: 22_000, citation: 1),
             Self.leg("2", "MDMA", .net, ec50: 77.4, citation: 1),
-            Self.leg("3", "MDMA", .sert, ec50: 5630, citation: 1),
+            Self.leg("3", "MDMA", .sert, ec50: 5_630, citation: 1),
         ]
         #expect(SignatureComparability.admits(legs) == nil)
     }
@@ -190,10 +190,10 @@ struct ClassSignatureTests {
         // full-activation ticks is the reading that makes every opioid a full agonist, so a
         // documented class never counts as a comparable measurement.
         let legs = [
-            Self.leg("1", "Carfentanil", .mu, intrinsic: 100, citation: 1311, reference: "DAMGO", action: "agonist"),
-            Self.leg("2", "Alfentanil", .mu, intrinsic: 100, citation: 1311, reference: "DAMGO", action: "agonist"),
-            Self.leg("3", "Remifentanil", .mu, intrinsic: 100, citation: 1311, reference: "DAMGO", action: "agonist"),
-            Self.leg("4", "Lofentanil", .mu, intrinsic: 100, citation: 1311, reference: "DAMGO", action: "agonist"),
+            Self.leg("1", "Carfentanil", .mu, intrinsic: 100, citation: 1_311, reference: "DAMGO", action: "agonist"),
+            Self.leg("2", "Alfentanil", .mu, intrinsic: 100, citation: 1_311, reference: "DAMGO", action: "agonist"),
+            Self.leg("3", "Remifentanil", .mu, intrinsic: 100, citation: 1_311, reference: "DAMGO", action: "agonist"),
+            Self.leg("4", "Lofentanil", .mu, intrinsic: 100, citation: 1_311, reference: "DAMGO", action: "agonist"),
         ]
         guard case let .efficacy(model)? = ClassSignature.resolve(
             substanceName: "Carfentanil", category: .opioid, legs: legs,
@@ -209,9 +209,9 @@ struct ClassSignatureTests {
     func `A real measured series from one paper does gate`() {
         // Citation 1287's shape: thirteen nitazenes with genuinely varied fitted values.
         let legs = [
-            Self.leg("1", "Metonitazene", .mu, intrinsic: 95.3, citation: 1287, reference: "DAMGO", action: "agonist"),
-            Self.leg("2", "Protonitazene", .mu, intrinsic: 93.0, citation: 1287, reference: "DAMGO", action: "agonist"),
-            Self.leg("3", "Clonitazene", .mu, intrinsic: 104.2, citation: 1287, reference: "DAMGO", action: "agonist"),
+            Self.leg("1", "Metonitazene", .mu, intrinsic: 95.3, citation: 1_287, reference: "DAMGO", action: "agonist"),
+            Self.leg("2", "Protonitazene", .mu, intrinsic: 93.0, citation: 1_287, reference: "DAMGO", action: "agonist"),
+            Self.leg("3", "Clonitazene", .mu, intrinsic: 104.2, citation: 1_287, reference: "DAMGO", action: "agonist"),
         ]
         guard case let .efficacy(model)? = ClassSignature.resolve(
             substanceName: "Metonitazene", category: .opioid, legs: legs,
@@ -220,7 +220,7 @@ struct ClassSignatureTests {
             return
         }
         #expect(model.isGated)
-        #expect(model.marks.allSatisfy { $0.isGated })
+        #expect(model.marks.allSatisfy(\.isGated))
     }
 
     @Test
@@ -282,8 +282,8 @@ struct ClassSignatureTests {
     @Test
     func `The balance needs both receptors from one experiment`() {
         let split = [
-            Self.leg("1", "Mescaline", .serotonin1A, ki: 1841, set: "pdsp", citation: 70),
-            Self.leg("2", "Mescaline", .serotonin2A, ki: 6300, citation: 71),
+            Self.leg("1", "Mescaline", .serotonin1A, ki: 1_841, set: "pdsp", citation: 70),
+            Self.leg("2", "Mescaline", .serotonin2A, ki: 6_300, citation: 71),
         ]
         guard case let .balance(model)? = ClassSignature.resolve(
             substanceName: "Mescaline", category: .psychedelic, legs: split,
@@ -323,16 +323,16 @@ struct ClassSignatureTests {
     func `MDMA yields two triples, a release basis and a blocker basis`() {
         let legs = [
             // Baumann 2012, rat synaptosome release EC₅₀ — a complete triple.
-            Self.leg("1", "MDMA", .sert, ec50: 49.6, citation: 1446, species: "rat"),
-            Self.leg("2", "MDMA", .dat, ec50: 51.2, citation: 1446, species: "rat"),
-            Self.leg("3", "MDMA", .net, ec50: 54.1, citation: 1446, species: "rat"),
+            Self.leg("1", "MDMA", .sert, ec50: 49.6, citation: 1_446, species: "rat"),
+            Self.leg("2", "MDMA", .dat, ec50: 51.2, citation: 1_446, species: "rat"),
+            Self.leg("3", "MDMA", .net, ec50: 54.1, citation: 1_446, species: "rat"),
             // Simmler 2013, human uptake IC₅₀ — a second complete triple…
-            Self.leg("4", "MDMA", .sert, ic50: 1360, citation: 1444),
-            Self.leg("5", "MDMA", .dat, ic50: 17_000, citation: 1444),
-            Self.leg("6", "MDMA", .net, ic50: 447, citation: 1444),
+            Self.leg("4", "MDMA", .sert, ic50: 1_360, citation: 1_444),
+            Self.leg("5", "MDMA", .dat, ic50: 17_000, citation: 1_444),
+            Self.leg("6", "MDMA", .net, ic50: 447, citation: 1_444),
             // …whose own paper also carries the binding legs that must NOT join it.
-            Self.leg("7", "MDMA", .dat, ec50: 22_000, citation: 1444),
-            Self.leg("8", "MDMA", .sert, ec50: 5630, citation: 1444),
+            Self.leg("7", "MDMA", .dat, ec50: 22_000, citation: 1_444),
+            Self.leg("8", "MDMA", .sert, ec50: 5_630, citation: 1_444),
         ]
         guard case let .ternary(model)? = ClassSignature.resolve(
             substanceName: "MDMA", category: .empathogen, legs: legs,

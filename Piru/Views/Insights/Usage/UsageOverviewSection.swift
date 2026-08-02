@@ -169,10 +169,10 @@ struct UsageOverviewSection: View {
 private struct UsageOverviewCard<Art: View>: View {
     let title: LocalizedStringKey
     let value: String
-    var caption: Text? = nil
+    var caption: Text?
     var captionColor: Color = Theme.secondaryLabel
     let accessibilityValue: String
-    var badge: Color? = nil
+    var badge: Color?
     @ViewBuilder var art: () -> Art
 
     var body: some View {
