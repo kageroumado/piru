@@ -36,6 +36,16 @@ Voice governs register; these govern *claims*. Each was gotten wrong at least on
 
 **Prefer the Xcode MCP over raw `xcodebuild`.** Use `mcp__xcode__BuildProject` to build and `mcp__xcode__RunAllTests` / `mcp__xcode__RunSomeTests` to test. The MCP surfaces compiler errors and warnings far more legibly than parsing `xcodebuild` output, and it drives the one shared Xcode/DerivedData instance — so it won't race a build another agent (or the IDE) already has in flight. Raw `xcodebuild` is a fallback for CI or when the MCP is unavailable; two concurrent `xcodebuild` invocations against the same DerivedData clobber each other.
 
+**When a test run reports 0 tests, use `Tools/run-tests.sh`.** The IDE/MCP test runner intermittently wedges — the test host never pairs with `testmanagerd`, so nothing executes and the run hangs indefinitely (cause and A/B in the `xcode-test-hang-lldb-attach` memory). The script is the bounded escape hatch: `build-for-testing` once, then
+
+```bash
+xcodebuild build-for-testing -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
+Tools/run-tests.sh                  # full suite, ~20s healthy
+Tools/run-tests.sh -only SomeSuite  # one suite (repeatable; use the Swift type name)
+```
+
+**A run that exceeds its cutoff is a failure, not an inconclusive result** — the script exits non-zero (124 timeout / 125 nothing-executed) rather than letting a wedged run read as green. Three cutoffs: 45 s to the first test line, 180 s whole-run, 60 s per-test (`STARTUP_TIMEOUT` / `RUN_TIMEOUT` / `TEST_TIMEOUT` to override). Read the verdict off Swift Testing's `✔/✘ Test run with N tests` line — the legacy XCTest reporter prints `Executed 0 tests` on *every* run and that 0 means nothing.
+
 ```bash
 # Fallback only (prefer the Xcode MCP above):
 xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
