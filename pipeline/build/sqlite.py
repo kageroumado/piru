@@ -4055,6 +4055,12 @@ class Build:
         # strip_stereo chiral-alias drop and the chemnoise purge so they stay
         # searchable. Populated by fold_isomer_families().
         self.isomer_alias_protect: set[str] = set()
+        # `pk_routes` rowids that reached a racemic parent by folding one of its
+        # enantiomers in. The rows stay (the pharmacology engine reads a coherent
+        # PK row and needs them) but `derive_half_lives_from_pk` must not promote
+        # their t½ into the parent's single `half_lives` value. See
+        # _drop_variant_half_lives.
+        self.isomer_pk_rowids: set[int] = set()
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
         self.citation_cache: dict[tuple[str | None, int | None, str | None], int] = {}
         # Per-substance union of tags seen across every source so far. The
@@ -5497,11 +5503,21 @@ class Build:
             self.add_category(sid, slug, s["category"])
         for tag in s.get("tags") or []:
             self.add_tag(sid, slug, tag)
+        # Per-source dose exceptions (data/curated/dose-source-exceptions.json).
+        # drug.community applies this in its own ingester; every other source
+        # flows through here, which is how the erowid books are reached.
+        skip_routes = self._dose_skip_map(slug).get(name.strip().lower(), False)
         for r in s.get("routes") or []:
             if not isinstance(r, dict):
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
+            if doses and (
+                skip_routes is None
+                or (skip_routes and normalise_route(r.get("route") or "") in skip_routes)
+            ):
+                self.stats["dose_skipped"] += 1
+                doses = {}  # drop the ladder, keep whatever duration rides with it
             # An empty `doses` block is fine here — `add_dose` drops a row with
             # no tiers, so a curated route can carry durations alone.
             self.add_dose(
@@ -5782,10 +5798,14 @@ class Build:
             self._ingest_substance_record(substance, "psychonautwiki")
 
     @staticmethod
+    @functools.cache
     def _dose_skip_map(source_slug: str) -> dict[str, set[str] | None]:
         """Load the per-substance dose-skip list for a source (see
         ``dose-source-exceptions.json``). Returns {normalized name: set of
-        lowercased routes to skip, or None to skip every route}."""
+        lowercased routes to skip, or None to skip every route}.
+
+        Cached: `_ingest_substance_record` consults it once per record, and the
+        file is a build-time constant."""
         if not DOSE_SOURCE_EXCEPTIONS.exists():
             return {}
         entries = json.loads(DOSE_SOURCE_EXCEPTIONS.read_text()).get(source_slug) or []
@@ -7586,7 +7606,7 @@ class Build:
         All members already share one FAMILY (assign_substance_uids treats the cluster
         as a fold), so this adds the substance-level fold the identity layer assumes.
         Runs in the same post-dedup / pre-classify window as the salt fold."""
-        folded, families = 0, 0
+        folded, families, dropped_half_lives, orphaned = 0, 0, 0, []
         isomer_tables = ("dose_ranges", "durations", "durations_of_action", "protocol_dosing")
 
         def tag_isomer(sid: int, code: str, display: str) -> None:
@@ -7648,13 +7668,79 @@ class Build:
                 # the chemnoise purge so they survive as searchable parent aliases.
                 for nm in (v["name"], *(v.get("brands") or [])):
                     self.isomer_alias_protect.add(normalise(nm))
+                dropped_half_lives += self._drop_variant_half_lives(vid)
                 self._merge_into(parent_id, vid, fold_aliases=True)
                 # Brands may not already be aliases on the variant row — add them.
                 for brand in v.get("brands") or []:
                     self._add_alias(parent_id, brand, "piru-curated")
                 folded += 1
             self.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (max_pop, parent_id))
-        return {"families": families, "folded": folded}
+            # pk_routes counts as cover: derive_half_lives_from_pk promotes it
+            # later in the build, so a parent with only a PK row is not orphaned.
+            if not self.cur.execute(
+                "SELECT 1 FROM half_lives WHERE substance_id=? UNION ALL "
+                "SELECT 1 FROM pk_routes WHERE substance_id=? AND half_life_min IS NOT NULL",
+                (parent_id, parent_id),
+            ).fetchone():
+                orphaned.append(parent_name)
+        if orphaned:
+            print(
+                "  fold_isomer_families: no half-life left on "
+                + ", ".join(sorted(orphaned))
+                + " — the racemate needs its own halfLifeMinutes in data/curated/",
+                file=sys.stderr,
+            )
+        return {
+            "families": families,
+            "folded": folded,
+            "half_lives_dropped": dropped_half_lives,
+        }
+
+    def _drop_variant_half_lives(self, variant_id: int) -> int:
+        """Discard a stereoisomer variant's half-life before it folds into its
+        racemic parent.
+
+        Neither `half_lives` nor `pk_routes` has an isomer facet — the app reads
+        one half-life per substance — so `_merge_into`'s reassignment silently
+        republishes an enantiomer's kinetics as the racemate's. That is how
+        Ketamine came to carry Esketamine's 7 h (the Spravato terminal t½),
+        outranking a peer-review-primary 150 min for a drug whose terminal t½ is
+        2.5–3 h. Salt and release folds are exempt by construction: they share the
+        active moiety, so the value transfers honestly.
+
+        Both doors have to be shut, but only one of them by deletion.
+        `derive_half_lives_from_pk` promotes a `pk_routes.half_life_min` into
+        `half_lives` whenever a substance has none, so clearing only `half_lives`
+        just moves the leak — Zopiclone would still end up with Eszopiclone's 6 h
+        over its own measured 5 h. The variant's PK **rows** must survive intact
+        though: `SubstanceStore+Pharmacology` resolves
+        `PharmacologyParameters.halfLifeMinutes` from `pk_routes` alone, coupled to
+        that same row's Vd and F, and for Amphetamine the coherent row is
+        Dextroamphetamine's. Nulling the column there is not a fix, it is a
+        lobotomy — it took `canComputeOccupancy` to false and broke 12 tests.
+
+        So the rows are left alone and their rowids are recorded in
+        `self.isomer_pk_rowids`, which `derive_half_lives_from_pk` excludes when
+        choosing what to promote. The enantiomer's t½ stays available to the
+        engine that reads it as part of a coherent PK row, and stays out of the
+        one-value-per-substance surface where it would masquerade as the
+        racemate's.
+
+        The parent keeps whatever half-life its own sources give it; when it has
+        none, the caller reports it rather than borrowing the enantiomer's.
+        """
+        dropped = self.cur.execute(
+            "SELECT COUNT(*) FROM half_lives WHERE substance_id=?", (variant_id,)
+        ).fetchone()[0]
+        self.cur.execute("DELETE FROM half_lives WHERE substance_id=?", (variant_id,))
+        self.isomer_pk_rowids.update(
+            r[0]
+            for r in self.cur.execute(
+                "SELECT rowid FROM pk_routes WHERE substance_id=? AND half_life_min IS NOT NULL",
+                (variant_id,),
+            )
+        )
+        return dropped
 
     def _release_stripped_norm(self, alias: str) -> str:
         """`normalise()` of an alias with its release token/phrase removed, so a
@@ -7836,14 +7922,19 @@ class Build:
         stats = {"derived": 0, "skipped_have_row": 0, "no_source": 0}
         rows = self.cur.execute(
             """
-            SELECT p.substance_id, p.route, p.half_life_min, p.source_id, p.citation_id
+            SELECT p.substance_id, p.route, p.half_life_min, p.source_id, p.citation_id, p.rowid
               FROM pk_routes p
              WHERE p.half_life_min IS NOT NULL
                AND p.substance_id NOT IN (SELECT substance_id FROM half_lives)
             """
         ).fetchall()
         best: dict[int, tuple[float, int, int | None]] = {}
-        for sid, route, minutes, source_id, citation_id in rows:
+        for sid, route, minutes, source_id, citation_id, rowid in rows:
+            # An enantiomer's t½ folded onto its racemic parent — usable as part
+            # of that PK row, never as the parent's one published half-life.
+            if rowid in self.isomer_pk_rowids:
+                stats["skipped_isomer_fold"] = stats.get("skipped_isomer_fold", 0) + 1
+                continue
             rank = 0 if (route or "").lower() == "oral" else 1
             current = best.get(sid)
             if current is None or rank < current[0]:
