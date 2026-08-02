@@ -218,6 +218,72 @@ nonisolated enum TimelineCurveModel {
         }
     }
 
+    // MARK: - Heavy-dose threshold region
+
+    /// Height, in the same `0...1` units the curves are drawn in, at which the
+    /// substance's published heavy-dose bound falls — or `nil` when there is no
+    /// honest place to put it.
+    ///
+    /// The y-axis carries **shape, not magnitude**: it is normalized so the
+    /// tallest curve on screen fills the height, which means a height only means
+    /// something relative to the other curves sharing it. So this answers only
+    /// for a graph showing **one substance**, where "relative to the other
+    /// curves" collapses to "relative to itself" and the axis becomes readable
+    /// as that substance's own dose scale. Mixed graphs get `nil` rather than a
+    /// line whose position would change when an unrelated dose is logged.
+    ///
+    /// It also returns `nil` whenever the answer is off the top of the graph,
+    /// which is the common case and the important one: a dose below the heavy
+    /// bound puts the threshold *above* the curve's peak, i.e. above full
+    /// height. Nothing is drawn — the region appears exactly when the modeled
+    /// level actually reaches it.
+    ///
+    /// Two renderers, two arithmetics, because they normalize differently:
+    ///
+    /// - **Stacked** (`stackRedoses`): values are `hill(Σ magnitude·bell)·yNorm`,
+    ///   so the threshold is `hill(threshold)·yNorm`. The per-group amplitude
+    ///   compression is exactly `1` for a lone group (its peak is already `1`
+    ///   after normalization), so it drops out.
+    /// - **Non-stacked**: a dose is drawn as `bell(t)` scaled to amplitude
+    ///   `hill(magnitude)·yNorm`, which for a lone dose is `1`. The level reaches
+    ///   the bound where `magnitude·bell = threshold`, i.e. at height
+    ///   `threshold / magnitude`.
+    ///
+    /// Both give `1.0` — the curve's own crest — for a dose sitting exactly on
+    /// the bound, which is the shared check that they agree.
+    nonisolated static func heavyThresholdHeight(
+        substances: [ActiveSubstanceState],
+        stackedGroups: [[ActiveSubstanceState]],
+        stackRedoses: Bool,
+        yNormalization: Double,
+    ) -> Double? {
+        guard let first = substances.first else { return nil }
+        // One substance only — see above. (Redoses of it are fine and are the
+        // interesting case: three doses can clear a bound one dose doesn't.)
+        let name = first.substanceName.lowercased()
+        guard substances.allSatisfy({ $0.substanceName.lowercased() == name }) else { return nil }
+        // Every dose must agree on the bound; they will, being the same
+        // substance and route ladder, but a disagreement means one of them was
+        // scaled off a fallback and the region would be meaningless.
+        let thresholds = substances.map(\.heavyThresholdMagnitude)
+        guard let threshold = thresholds.first ?? nil, threshold > 0,
+              thresholds.allSatisfy({ $0 == threshold }) else { return nil }
+
+        let height: Double
+        if stackRedoses {
+            guard stackedGroups.count == 1 else { return nil }
+            height = hill(threshold) * yNormalization
+        } else {
+            guard substances.count == 1 else { return nil }
+            let magnitude = max(first.doseMagnitude, 0.0001)
+            height = threshold / magnitude
+        }
+        // Above the plot, or flush with its ceiling where the band would be a
+        // hairline nobody can read.
+        guard height > 0, height <= 0.98 else { return nil }
+        return height
+    }
+
     /// Compression exponent applied to each curve's *amplitude* — the peak
     /// height it's scaled to — never to its time-varying shape. Linear
     /// (`1.0`) makes a threshold dose beside a heavy one collapse to an

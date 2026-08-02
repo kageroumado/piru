@@ -213,12 +213,20 @@ struct MedFormView: View {
         @Bindable var draft = draft
         return Section {
             ForEach(draft.times.indices, id: \.self) { index in
-                DatePicker(
-                    selection: timeBinding(at: index),
-                    displayedComponents: .hourAndMinute,
-                ) {
-                    Text(MedTimeGroup.group(forMinutes: draft.times[index]).label)
-                        .foregroundStyle(Theme.secondaryLabel)
+                VStack(alignment: .leading, spacing: 0) {
+                    DatePicker(
+                        selection: timeBinding(at: index),
+                        displayedComponents: .hourAndMinute,
+                    ) {
+                        Text(MedTimeGroup.group(forMinutes: draft.times[index]).label)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    // What that time actually does — onset, easing off, and (for
+                    // the wake-promoting classes) how it sits against sleep.
+                    // Silent when the med has no acute profile to state.
+                    if let consequence {
+                        MedTimeConsequenceLine(consequence: consequence, minutesOfDay: draft.times[index])
+                    }
                 }
             }
             .onDelete { offsets in
@@ -239,12 +247,25 @@ struct MedFormView: View {
         } header: {
             Text("Times")
         } footer: {
-            if draft.times.isEmpty {
-                Text("No set time — this med still counts toward adherence once per due day.")
-            } else if draft.remind {
-                Text("A reminder at each time. If you don't log it, Piru asks again \(askAgainListText) later — never a scold, just a nudge.")
+            VStack(alignment: .leading, spacing: 6) {
+                if draft.times.isEmpty {
+                    Text("No set time — this med still counts toward adherence once per due day.")
+                } else if draft.remind {
+                    Text("A reminder at each time. If you don't log it, Piru asks again \(askAgainListText) later — never a scold, just a nudge.")
+                }
+                if !draft.times.isEmpty, consequence != nil {
+                    Text("Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate, not a schedule.")
+                }
             }
         }
+    }
+
+    /// The onset/wear-off/sleep readout for the picked med and route, resolved
+    /// once for the whole section — every time row shares it, only the clock
+    /// anchor differs. `nil` for a hand-typed substance or a chronic med with no
+    /// acute profile, in which case the rows stay bare.
+    private var consequence: MedTimeConsequence? {
+        MedTimeConsequence.resolve(substance: draft.selectedSubstance, route: draft.route)
     }
 
     private var quietSection: some View {
