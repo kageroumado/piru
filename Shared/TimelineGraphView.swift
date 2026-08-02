@@ -652,12 +652,16 @@ struct TimelineGraphView: View, Equatable {
         let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
         let samples = scrubSamples(atMinute: nowMinutes)
         guard !samples.isEmpty else { return Text("No active doses") }
-        let parts: [String] = samples.prefix(4).map { sample in
+        var parts: [String] = samples.prefix(4).map { sample in
             let percent = Int((sample.value * 100).rounded())
             if let phase = sample.phase {
                 return String(localized: "\(sample.name) in \(String(localized: phase)) at \(percent) percent")
             }
             return String(localized: "\(sample.name) at \(percent) percent")
+        }
+        // The marked region is drawn, so it has to be spoken too.
+        if heavyThresholdHeight != nil {
+            parts.append(String(localized: "This curve reaches the heavy dose range"))
         }
         return Text(verbatim: parts.joined(separator: ", "))
     }
@@ -986,6 +990,16 @@ struct TimelineGraphView: View, Equatable {
                 graphHeight: graphHeight,
                 graphInset: graphInset,
             )
+
+            // The heavy-dose tier's stretch of axis, over the phase bands but
+            // still behind the gridlines and the curve.
+            if let heavyHeight = heavyThresholdHeight {
+                HeavyThresholdBand.draw(
+                    in: context, height: heavyHeight, size: size,
+                    graphTop: graphTop, graphHeight: graphHeight, graphInset: graphInset,
+                    squareCorners: chartFrame,
+                )
+            }
 
             // Tick marks & gridlines (behind everything)
             if !compact {
@@ -1993,6 +2007,19 @@ struct TimelineGraphView: View, Equatable {
                 )
             }
         }
+    }
+
+    /// Normalized height of the heavy-dose bound on this graph, memoized inputs
+    /// only — see ``TimelineCurveModel/heavyThresholdHeight(substances:stackedGroups:stackRedoses:yNormalization:)``
+    /// for when it is `nil` (which is most of the time, by design).
+    private var heavyThresholdHeight: Double? {
+        guard !compact else { return nil }
+        return TimelineCurveModel.heavyThresholdHeight(
+            substances: substances,
+            stackedGroups: stackedGroups,
+            stackRedoses: stackRedoses,
+            yNormalization: yNormalization,
+        )
     }
 
     private func drawTickMarks(

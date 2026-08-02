@@ -63,6 +63,26 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     /// at `minimumIntensity`; defaults to ``doseIntensity`` when not supplied.
     let doseMagnitude: Double
 
+    /// Where the substance's **sourced** heavy-dose bound falls on the
+    /// ``doseMagnitude`` scale, or `nil` when its dose ladder carries no heavy
+    /// bound at all.
+    ///
+    /// Because magnitude is `amount / heavy_threshold`, this is `1.0` whenever
+    /// the denominator *is* a published `heavy` value — so the number itself
+    /// carries no new information, but its presence does: it is the difference
+    /// between a threshold somebody wrote down and one
+    /// `ActiveSubstanceCalculator.heavyReference(for:)` improvised from the
+    /// strong/common bounds so the curve would have *some* height. Only the
+    /// former may be drawn as a marked region on the graph; the fallbacks scale
+    /// a curve honestly enough but are nobody's stated threshold.
+    ///
+    /// Route caveat: the ladder is the one that scaled this dose, which for a
+    /// route with no doses of its own is another route's (see
+    /// `ActiveSubstanceCalculator.resolveDoseRange(substance:route:)`). That is
+    /// already true of the curve's whole height, so the band inherits it rather
+    /// than introducing it.
+    let heavyThresholdMagnitude: Double?
+
     /// Acute-tolerance (tachyphylaxis) strength, `0...1`, from the substance's
     /// category (`SubstanceCategory.acuteToleranceFactor`). Drives the timeline
     /// curve's descending-limb gate: stimulants/empathogens crash faster than
@@ -78,7 +98,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     /// key for free. Defaults to ``PKModel/referenceBodyWeightKg`` for non-alcohol doses, which ignore it.
     let bodyWeightKg: Double
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg) {
+    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg) {
         self.substanceName = substanceName
         self.colorHex = colorHex
         self.doseTimestamp = doseTimestamp
@@ -93,6 +113,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.totalMinutes = totalMinutes
         self.doseIntensity = doseIntensity
         self.doseMagnitude = doseMagnitude ?? doseIntensity
+        self.heavyThresholdMagnitude = heavyThresholdMagnitude
         self.tachyphylaxis = tachyphylaxis
         self.bodyWeightKg = bodyWeightKg
     }
@@ -113,6 +134,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         totalMinutes = try c.decode(Double.self, forKey: .totalMinutes)
         doseIntensity = try c.decodeIfPresent(Double.self, forKey: .doseIntensity) ?? 1.0
         doseMagnitude = try c.decodeIfPresent(Double.self, forKey: .doseMagnitude) ?? doseIntensity
+        // Absent on an activity started by an older build: no marked region, which
+        // is the same answer as a substance with no published heavy bound.
+        heavyThresholdMagnitude = try c.decodeIfPresent(Double.self, forKey: .heavyThresholdMagnitude)
         tachyphylaxis = try c.decodeIfPresent(Double.self, forKey: .tachyphylaxis) ?? 0
         bodyWeightKg = try c.decodeIfPresent(Double.self, forKey: .bodyWeightKg) ?? PKModel.referenceBodyWeightKg
     }

@@ -162,7 +162,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg) {
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -190,6 +190,7 @@ extension ActiveSubstanceState {
             totalMinutes: zeroOrder?.total ?? duration.estimatedTotalMinutes,
             doseIntensity: doseIntensity,
             doseMagnitude: doseMagnitude,
+            heavyThresholdMagnitude: heavyThresholdMagnitude,
             tachyphylaxis: tachyphylaxis,
             bodyWeightKg: weightKg,
         )
@@ -256,6 +257,7 @@ extension ActiveSubstanceState {
                 category: substance.category,
                 doseIntensity: intensity,
                 doseMagnitude: magnitude,
+                heavyThresholdMagnitude: Self.heavyThresholdMagnitude(for: doseRange),
                 tachyphylaxis: substance.category.acuteToleranceFactor,
                 weightKg: UserProfileStore.shared.effectiveWeightKg,
             )
@@ -364,6 +366,21 @@ extension ActiveSubstanceState {
     static func computeDoseMagnitude(amount: Double, doseRange: DoseRange?) -> Double {
         guard let reference = heavyReference(for: doseRange) else { return unknownIntensity }
         return max(minimumIntensity, amount / reference)
+    }
+
+    /// Where a **published** heavy bound sits on the magnitude scale, or `nil`
+    /// when the ladder has none.
+    ///
+    /// The distinction ``heavyReference(for:)`` deliberately erases — it will
+    /// improvise a denominator from `strong.upperBound`, `common × 1.5`, even
+    /// `threshold × 10`, because a curve needs *a* height and any monotone
+    /// reference gives an honest ordering. A marked region on the graph is a
+    /// different kind of claim: it names a line, so it may only be drawn where
+    /// a source actually drew one. When `heavy` is present it is the
+    /// denominator, which puts the threshold at exactly `1.0`.
+    static func heavyThresholdMagnitude(for doseRange: DoseRange?) -> Double? {
+        guard let heavy = doseRange?.heavy, heavy > 0 else { return nil }
+        return 1.0
     }
 
     /// Resolve the "heavy" reference dose used as the denominator for both
