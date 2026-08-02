@@ -9,8 +9,6 @@ edges:
   - {rel: evidence, target: inventory.json}
   - {rel: evidence, target: scales.json}
   - {rel: values, target: palette-L1.json}
-  - {rel: implemented_by, target: asset-catalog-migration.md}
-  - {rel: gated_by, target: component-sameness.md}
 ---
 
 # Piru color system
@@ -48,9 +46,9 @@ L1 62 · L2 53 · chrome 45 · L3 13 · **ambiguous 13**. The 13 ambiguous sites
 
 ### The collision, made visible
 
-`screenshots/SCR-entry-detail.png` shows the "common" dose-tier pill and the
-"caution" interaction pill rendering in the **identical** muted tan, one row
-apart. Confirmed at source: `DoseLevelIndicator.swift:184`
+On Entry detail, the "common" dose-tier pill and the "caution" interaction pill
+render in the **identical** muted tan, one row apart. Confirmed at source:
+`DoseLevelIndicator.swift:184`
 (`self == .common ? Theme.legibleYellow : swiftUIColor`) and
 `Interactions.swift:38` (`self == .caution ? Theme.legibleYellow : color`) both
 resolve through the same token. **An L2 encoding step and an L1 status are the
@@ -254,7 +252,7 @@ token.
 | **Dose level ×3 encodings** | `Substance.swift:179` `DoseLevel.color: String` returns word-strings (`"gray"`) and has **zero consumers — dead, delete it**. `DoseLevelIndicator.swift:167-177` `swiftUIColor` (fill) vs `:183-186` `labelColor` (text) diverge only at `.common`. |
 | **Phase ×2 definitions** | Hex ramp `9B9BA1/3A8DEF/34C759/FF9F0A` (`SessionReportPDF`/`DosePhaseProgressBar`/`TimelineGraphView`) vs `DoseLevelIndicator.ExperiencePhase`'s `.blue/.teal/.orange/.purple`. Same dose entry: edit uses one, read uses the other, so "peak" flips orange→green. Both are **intentionally non-monotonic** — a narrative arc, not a magnitude ramp. Do not "fix" the non-monotonicity; fix the duplication. |
 | **Dose intensity ×3 scales** | `dose_level` (6), `dose_tier_strip` (5, `DoseDurationCard.swift:328-334`), `dose_intensity_dial` (6 incl. Overdose, `DoseIntensityCard.swift:26-29`) — three step counts, three different greens for "Light". |
-| **Inventory L2/L3 collision** | `StockStatus.barTint` (status) and `InventoryItem.supplyBarTint` (identity) compete for the same bar-fill role. Restates DIV-031. |
+| **Inventory L2/L3 collision** | `StockStatus.barTint` (status) and `InventoryItem.supplyBarTint` (identity) compete for the same bar-fill role. |
 | **Category scale half-dark-blind** | 9 of 29 `substance_category` cases are bare `Color(red:)` with no dark variant — same pixel in both appearances. |
 | **Route rendered two incompatible ways** | The substance-detail route *picker* draws selected/unselected pills in generic accent-pink/gray with **zero** route-color signal, while the read-only route badge elsewhere uses the real route tint. Same L2 concept, two renderers, one of which discards the encoding entirely. |
 
@@ -372,6 +370,5 @@ baseline.
 6. **L3 rule enforcement** — derived text variants; identity out of chart chrome.
 7. **High-contrast variants** — now expressible; author them last.
 
-Unification of the component families that render these tokens is gated on
-`component-sameness.md`: 19 instances mergeable, **7 must stay separate** with
-DO-NOT-MERGE reasons recorded.
+Unification of the component families that render these tokens is not automatic: a prior pass found
+19 instances mergeable and **7 that must stay separate**. Re-derive before merging anything.
