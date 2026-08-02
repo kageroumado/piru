@@ -24,6 +24,13 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install ruff==0.15.15
+      # RDKit is a HARD dependency of the data checks, not an optional extra.
+      # `structural_dupes.py --gate` imports it unguarded, and the SMILES
+      # invariants in test_sqlite.py skip themselves when it is missing — so
+      # without this the same-molecule gate crashes and the "every shipped SMILES
+      # parses / agrees with its InChIKey" checks quietly pass by not running.
+      # The gate step was added in d0407894 and had never executed on CI.
+      - run: pip install rdkit==2026.3.4
       - name: Install OpenBabel (for the InChIKey↔SMILES integrity check)
         run: sudo apt-get update && sudo apt-get install -y openbabel
       - name: Ruff format check
