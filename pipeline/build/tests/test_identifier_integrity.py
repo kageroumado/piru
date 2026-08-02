@@ -58,7 +58,12 @@ ANCHORS = {
     "Phenmetrazine": "OOBHFESNSZDWIU-UHFFFAOYSA-N",
     "Salvinorin B": "BLTMVAIOAAGYAR-CEFSSPBYSA-N",
     "Theobromine": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
-    "Tianeptine": "APNKSKXHMUCNSY-UHFFFAOYSA-N",
+    # Re-anchored 2026-08-02. The previous value, APNKSKXHMUCNSY, resolves to
+    # NOTHING on PubChem — it was pinned here as "verified" while the SMILES
+    # beside it was missing the dibenzothiazepine ring nitrogen (it computed
+    # C21H24ClNO4S against tianeptine's C21H25ClN2O4S). CID 68870 is the real
+    # compound. An anchor is only as good as the check that produced it.
+    "Tianeptine": "JICJBGPOMZQUBB-UHFFFAOYSA-N",
     # Stage 0.0 collision cleanup: distinct keys restored to drugs whose upstream
     # keys were corrupted to collide (0.0a) and stereo-layer fixes (0.0b). Pinning
     # these guards against a source re-fetch reintroducing the shared/wrong key.

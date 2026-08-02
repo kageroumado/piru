@@ -54,9 +54,14 @@ DEFAULT_DB = Path(__file__).resolve().parents[2] / "Piru/Data/piru-substances.sq
 # structures we have no authority to correct against. See module docstring.
 ALLOWLIST = {
     "4-HO-PiPT",  # novel tryptamine, not in PubChem
-    "5-BR-DMT",  # novel tryptamine, not in PubChem
+    # Was "5-BR-DMT", which stopped being a canonical name when the row folded
+    # into "5-Bromo-DMT" (5-BR-DMT survives as an alias). This set is matched on
+    # canonical_name, so the old spelling silently allowlisted nothing.
+    "5-Bromo-DMT",  # novel tryptamine, not in PubChem
     "alpha-N,N-trimethyltryptamine",  # not in PubChem
-    "Doip",  # upstream name + CAS both resolve to an unrelated plasticizer
+    # "Doip" removed 2026-08-02: its stored key was GYEHYVZVTYSXPS, which resolves
+    # nowhere; the SMILES was right all along and now carries the matching
+    # SPKSLAUXKHSASF (CID 44265275). Nothing left to excuse.
 }
 
 
