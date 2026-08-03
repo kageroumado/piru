@@ -23,6 +23,7 @@ STARTUP_TIMEOUT="${STARTUP_TIMEOUT:-45}"  # seconds of silence before calling it
 TEST_TIMEOUT="${TEST_TIMEOUT:-60}"    # per-test allowance, seconds
 SIM_NAME="${SIM_NAME:-iPhone 17 Pro Max}"
 SIM_OS="${SIM_OS:-26.5}"              # never float to a beta — see ios27-beta-unstable
+APP_BUNDLE_ID="${APP_BUNDLE_ID:-dev.yumeji.piru}"
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 only_args=()
@@ -57,52 +58,82 @@ for runtime, devices in json.load(sys.stdin)['devices'].items():
 ")"
 [[ -n "$udid" ]] || { echo "No booted-able '$SIM_NAME' on iOS $SIM_OS." >&2; exit 2; }
 
-log="$(mktemp -t piru-tests)"
+fired="$(mktemp -t piru-tests-timeout)"
 echo "▸ $(basename "$xctestrun") on $SIM_NAME ($SIM_OS)"
 echo "▸ cutoffs: ${STARTUP_TIMEOUT}s to first test, ${RUN_TIMEOUT}s whole-run, ${TEST_TIMEOUT}s per-test"
-echo "▸ log: $log"
 
-# `test-without-building` skips the build, so it never races Xcode's DerivedData
-# the way plain `xcodebuild test` does (run-tests-via-xcode-mcp).
-#
-# Run in its own process group and kill the group on timeout: xcodebuild spawns
-# testmanagerd helpers that survive a bare SIGTERM to the parent and then wedge
-# the *next* run, which is what makes this hang look intermittent.
-set -m
-xcodebuild test-without-building \
-  -xctestrun "$xctestrun" \
-  -destination "platform=iOS Simulator,id=$udid" \
-  -test-timeouts-enabled YES \
-  -default-test-execution-time-allowance "$TEST_TIMEOUT" \
-  ${only_args[@]+"${only_args[@]}"} >"$log" 2>&1 &
-pid=$!
-set +m
+run_suite() {
+  # A FRESH log per attempt, never a truncated one. A killed xcodebuild leaves
+  # children holding the old descriptor; they keep writing at their own offset,
+  # so a reused file ends up interleaving a dead run's failures with a live run's
+  # summary — which reads as a broken suite when nothing is broken. Cost an hour.
+  log="$(mktemp -t piru-tests)"
+  : >"$fired"
+  echo "▸ log: $log"
 
-fired="$(mktemp -t piru-tests-timeout)"
-(
-  # Early bail on the wedge. A healthy run prints its first test line within a
-  # few seconds; the testmanagerd-pairing failure prints none, ever. Waiting the
-  # full whole-run cap to learn that costs minutes for a suite that finishes in
-  # ~17s, so give startup its own much shorter deadline and kill on silence.
-  for _ in $(seq 1 "$STARTUP_TIMEOUT"); do
-    sleep 1
-    grep -qE '^Test Suite|Test run with|◇|✔|✘' "$log" 2>/dev/null && break
-    kill -0 "$pid" 2>/dev/null || exit 0
-  done
-  if ! grep -qE '^Test Suite|Test run with|◇|✔|✘' "$log" 2>/dev/null; then
+  # Uninstall before every attempt. `test-without-building` reinstalls the app,
+  # but a run killed mid-install leaves a HALF-installed container behind and the
+  # next run happily reuses it — with the bundled substance .sqlite missing or
+  # truncated. Every SubstanceLibrary lookup then returns nil and ~24 tests fail
+  # with what looks exactly like a data regression. It is not; it is a dirty
+  # simulator. Uninstalling costs a second and removes the whole failure mode.
+  xcrun simctl uninstall "$udid" "$APP_BUNDLE_ID" >/dev/null 2>&1 || true
+
+  # `test-without-building` skips the build, so it never races Xcode's DerivedData
+  # the way plain `xcodebuild test` does (run-tests-via-xcode-mcp).
+  #
+  # Run in its own process group and kill the group on timeout: xcodebuild spawns
+  # testmanagerd helpers that survive a bare SIGTERM to the parent and then wedge
+  # the *next* run, which is what makes this hang look intermittent.
+  set -m
+  xcodebuild test-without-building \
+    -xctestrun "$xctestrun" \
+    -destination "platform=iOS Simulator,id=$udid" \
+    -test-timeouts-enabled YES \
+    -default-test-execution-time-allowance "$TEST_TIMEOUT" \
+    ${only_args[@]+"${only_args[@]}"} >"$log" 2>&1 &
+  pid=$!
+  set +m
+
+  (
+    # Early bail on the wedge. A healthy run prints its first test line within a
+    # few seconds; the testmanagerd-pairing failure prints none, ever. Waiting the
+    # full whole-run cap to learn that costs minutes for a suite that finishes in
+    # ~17s, so give startup its own much shorter deadline and kill on silence.
+    for _ in $(seq 1 "$STARTUP_TIMEOUT"); do
+      sleep 1
+      grep -qE '^Test Suite|Test run with|◇|✔|✘' "$log" 2>/dev/null && break
+      kill -0 "$pid" 2>/dev/null || exit 0
+    done
+    if ! grep -qE '^Test Suite|Test run with|◇|✔|✘' "$log" 2>/dev/null; then
+      echo fired >"$fired"
+      kill -TERM -"$pid" 2>/dev/null; sleep 5; kill -KILL -"$pid" 2>/dev/null
+      exit 0
+    fi
+    # Tests are running — fall back to the whole-run cap for the rest.
+    sleep "$RUN_TIMEOUT"
     echo fired >"$fired"
     kill -TERM -"$pid" 2>/dev/null; sleep 5; kill -KILL -"$pid" 2>/dev/null
-    exit 0
-  fi
-  # Tests are running — fall back to the whole-run cap for the rest.
-  sleep "$RUN_TIMEOUT"
-  echo fired >"$fired"
-  kill -TERM -"$pid" 2>/dev/null; sleep 5; kill -KILL -"$pid" 2>/dev/null
-) &
-watchdog=$!
+  ) &
+  watchdog=$!
 
-wait "$pid"; status=$?
-kill "$watchdog" 2>/dev/null; wait "$watchdog" 2>/dev/null
+  wait "$pid"; status=$?
+  kill "$watchdog" 2>/dev/null; wait "$watchdog" 2>/dev/null
+}
+
+run_suite
+# One automatic retry, and only for the wedge. A previous killed run can leave the
+# simulator's testmanagerd unable to pair, and it stays that way for every
+# subsequent run until the device is cycled — so the cure is a shutdown/boot, not
+# patience. Retry once so an environment fault does not read as a code failure;
+# fail hard the second time, because twice is not a fluke.
+if [[ -s "$fired" ]] && ! grep -qE '^Test Suite|Test run with' "$log"; then
+  echo "▸ no tests started — cycling the simulator and retrying once"
+  xcrun simctl shutdown "$udid" >/dev/null 2>&1
+  xcrun simctl boot "$udid" >/dev/null 2>&1
+  xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1
+  run_suite
+fi
 
 # The verdict line is Swift Testing's `✔/✘ Test run with N tests …`. The legacy
 # XCTest reporter also prints `Test Suite 'PiruTests.xctest' passed … Executed 0
