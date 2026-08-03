@@ -35,7 +35,7 @@
     "Modest weight gain; minimal metabolic burden",
     "D3 selectivity rationale: addresses negative symptoms and cognitive deficits"
   ],
-  "halfLifeMinutes": 72000,
+  "halfLifeMinutes": 30240,
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/204370orig1s000lbl.pdf",
     "https://en.wikipedia.org/wiki/Cariprazine",

@@ -36,9 +36,9 @@
     "Beta-carotene (provitamin A) non-toxic in excess — conversion is regulated",
     "Carotenodermia (yellow-orange skin) with excess beta-carotene — harmless",
     "Hypervitaminosis A: headache, nausea, bone pain, liver damage at chronic high doses",
-    "Beta-carotene supplementation linked to lung cancer risk increase in smokers"
+    "Beta-carotene supplementation linked to lung cancer risk increase in smokers",
+    "Half-life deliberately not modeled: plasma retinol clears in 7–10 h while liver stores turn over across 50–100 days, and a single number cannot say which it means"
   ],
-  "halfLifeMinutes": 34560,
   "sources": [
     "https://ods.od.nih.gov/factsheets/VitaminA-HealthProfessional/",
     "https://pubchem.ncbi.nlm.nih.gov/compound/445354",

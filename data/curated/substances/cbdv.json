@@ -11,9 +11,9 @@
     "Anticonvulsant (being investigated for Rett syndrome and autism spectrum disorder)",
     "Anti-nausea",
     "Analgesic via TRPV1/TRPA1 modulation",
-    "Propyl analogue of CBD (shorter side chain)"
+    "Propyl analogue of CBD (shorter side chain)",
+    "No human pharmacokinetic study has been published — half-life unknown, deliberately not modeled"
   ],
-  "halfLifeMinutes": 1440,
   "sources": [
     "https://en.wikipedia.org/wiki/Cannabidivarin",
     "https://pubchem.ncbi.nlm.nih.gov/compound/2877025"

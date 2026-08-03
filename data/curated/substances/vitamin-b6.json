@@ -56,7 +56,7 @@
     "Irreversible neuropathy reported above 500mg/day long-term",
     "Used for morning sickness (B6 + doxylamine = Diclegis)"
   ],
-  "halfLifeMinutes": 1440,
+  "halfLifeMinutes": 36000,
   "sources": [
     "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/",
     "https://pubchem.ncbi.nlm.nih.gov/compound/1052",
