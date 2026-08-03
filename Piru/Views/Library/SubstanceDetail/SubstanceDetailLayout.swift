@@ -248,13 +248,13 @@ private struct SubstanceDetailHeader: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.bottom, 2)
             // A title block, not a card: clear the shared `CardBackground()` the
-            // list applies to every other row (innermost wins) and pull the
-            // insets in so the name sits on the screen's left margin.
+            // list applies to every other row (innermost wins). No insets of its
+            // own — the name then sits on the list's own margin, level with the
+            // cards beneath it, the way a system large title does.
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 4, trailing: 20))
+            .listRowInsets(EdgeInsets())
         }
     }
 

@@ -23,12 +23,18 @@ struct DoseIntensityCard: View {
     @State private var selected: Int = 0
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    /// Six bands over the shared `dose` scale. The sixth ("Overdose") reuses
-    /// `heavy` rather than inventing a seventh step — the band's *label* carries
-    /// that distinction, and a redder red would collide with heavy anyway.
+    /// Six bands over the shared `dose` scale.
+    ///
+    /// **Every band has its own color, and Overdose must keep one.** It used to
+    /// reuse `heavy`, which made Heavy → Overdose the single pass on this dial
+    /// where the tint handed to `glassEffect` did not change — so the glass layer
+    /// was reused at the previous band's geometry and the pill sat still while
+    /// the finger moved on. Overdose is `oklch(0.55 0.21 22)`, heavy's family
+    /// pulled deeper and toward pure red, ΔE ≈ 0.11 from heavy in Oklab (the
+    /// distinct-UI-color floor is ~0.08–0.10).
     private static let bandColors: [Color] = [
         .Dose.Threshold.accent, .Dose.Light.accent, .Dose.Common.accent,
-        .Dose.Strong.accent, .Dose.Heavy.accent, .Dose.Heavy.accent,
+        .Dose.Strong.accent, .Dose.Heavy.accent, .Dose.Overdose.accent,
     ]
 
     private var current: SpectrumBand {
@@ -81,8 +87,19 @@ struct DoseIntensityCard: View {
             .padding(.vertical, 8)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: selected)
 
-            if !current.topEffects.isEmpty {
-                mostReported
+            // Same reserve-the-space treatment as the summary above, and for the
+            // same reason it matters on this card: Overdose is the band with no
+            // reported effects, so an `if` here inserted and removed this whole
+            // block on the Heavy↔Overdose pass — inside the drag's own animated
+            // transaction, changing the card's height and forcing the row to
+            // relayout mid-flight. Hidden copies of every band size the ZStack;
+            // the visible block fades out rather than leaving.
+            ZStack(alignment: .top) {
+                ForEach(bands) { band in
+                    mostReported(band).hidden()
+                }
+                mostReported(current)
+                    .opacity(current.topEffects.isEmpty ? 0 : 1)
             }
 
             SourceAttributionRow(
@@ -159,15 +176,15 @@ struct DoseIntensityCard: View {
         .offset(y: 10)
     }
 
-    private var mostReported: some View {
-        let maxFreq = max(current.topEffects.map(\.frequency).max() ?? 1, 1)
+    private func mostReported(_ band: SpectrumBand) -> some View {
+        let maxFreq = max(band.topEffects.map(\.frequency).max() ?? 1, 1)
         return VStack(alignment: .leading, spacing: 6) {
             Text("MOST REPORTED AT THIS DOSE", comment: "Intensity dial effects heading")
                 .font(.caption2.weight(.bold))
                 .tracking(0.4)
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.bottom, 2)
-            ForEach(current.topEffects.prefix(3), id: \.name) { eff in
+            ForEach(band.topEffects.prefix(3), id: \.name) { eff in
                 HStack(spacing: 10) {
                     Text(eff.name)
                         .font(.subheadline)
@@ -238,6 +255,12 @@ struct IntensityGauge: View {
         reduceMotion ? nil : animation
     }
 
+    /// The selector's slide animation. A spring, always — dragging interpolates
+    /// toward the finger and that is the intended feel.
+    private var slide: Animation? {
+        motion(.spring(response: 0.34, dampingFraction: 0.74))
+    }
+
     private func color(_ i: Int) -> Color {
         colors[min(max(i, 0), colors.count - 1)]
     }
@@ -274,7 +297,7 @@ struct IntensityGauge: View {
                             radius: radius, tracksTangent: false,
                         ),
                     )
-                    .animation(motion(.spring(response: 0.34, dampingFraction: 0.74)), value: selected)
+                    .animation(slide, value: selected)
                     .gesture(
                         ArcPan(
                             coordSpace: coordSpace,
@@ -362,6 +385,11 @@ struct IntensityGauge: View {
         // soft glass *plate* around the pill (a lighter rounded halo). A bare
         // tinted glass over the filled pill gives the material without the plate;
         // the grab lift is driven manually below, so `.interactive()` isn't needed.
+        // `glassEffect(_:in:)` takes the shape as a snapshot, and only picks up
+        // new geometry when the modifier's inputs change identity — the tint being
+        // one of them. That is why `bandColors` must never repeat a color: a
+        // repeat leaves the glass layer reused at the previous band's geometry,
+        // and the pill stops following the finger.
         return shape
             .fill(color(selected).gradient)
             .frame(width: size.width, height: size.height)
@@ -385,7 +413,7 @@ struct IntensityGauge: View {
             // modifier drive the *angle* on the lift curve, which overshoots more.
             // The pill and the grabber glyph then settle on different curves and
             // visibly separate for a beat before converging.
-            .animation(motion(.spring(response: 0.34, dampingFraction: 0.74)), value: SelectorMotion(band: selected, grabbed: isGrabbed))
+            .animation(slide, value: SelectorMotion(band: selected, grabbed: isGrabbed))
     }
 
     private func point(center: CGPoint, radius: Double, degrees: Double) -> CGPoint {
