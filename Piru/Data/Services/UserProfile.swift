@@ -64,21 +64,30 @@ enum UserProfile: String, CaseIterable, Codable, Identifiable {
 /// regressions in tier visibility would otherwise need a SwiftUI snapshot
 /// test to catch.
 ///
-/// **Show vs expand:** "shows" means the section appears in the view at all;
-/// "default expanded" means the `DisclosureGroup` starts open. A casual user
-/// never sees the pharma-nerd surfaces (no manual override). A harm-reduction
-/// user sees mechanism/subjective effects but they start collapsed.
+/// **The tier folds, it does not delete.** Every section is present at every
+/// tier; what the tier decides is whether a section arrives *open* or *folded*.
+/// A Casual user still has the mechanism, the class signature, the receptor
+/// table and the PK data on the page — collapsed, one tap away — rather than
+/// being silently denied that they exist.
+///
+/// This replaced a matrix that removed sections outright below Pharma Nerd, and
+/// the reason it had to go is concrete: the class signatures shipped invisible
+/// to the default audience because `showsMechanism` was `profile != .casual`.
+/// A tier is a statement about *density*, not about who is allowed to know
+/// things — the app is a reference, and a reference does not hide its evidence.
+/// So the `shows*` gates below are constants now, and the placement matrix
+/// resolves to `.inlineCollapsed` where it used to resolve to `.hidden`.
 struct DisclosurePolicy: Hashable {
     let profile: UserProfile
 
     /// Mechanism summary + binding affinity grid (the in-app curated
     /// summary, distinct from the literature table below).
     var showsMechanism: Bool {
-        profile != .casual
+        true
     }
     /// Rich subjective effects with PsychonautWiki-style descriptions.
     var showsRichSubjective: Bool {
-        profile != .casual
+        true
     }
     /// Substance-level "Sources" disclosure at the bottom. Shown to every
     /// tier — even casual users may want to see source attribution.
@@ -86,14 +95,14 @@ struct DisclosurePolicy: Hashable {
         true
     }
     /// The full receptor-binding literature table with Ki/EC50 and per-row
-    /// citations. Only pharma-nerd surface.
+    /// citations. Dense, so it starts folded below Pharma Nerd — but present.
     var showsReceptorLiterature: Bool {
-        profile == .pharmaNerd
+        true
     }
     /// Per-route pharmacokinetics (bioavailability/tmax/half-life) + CYP
-    /// metabolism tables with per-row citations. Only pharma-nerd surface.
+    /// metabolism tables with per-row citations. Folded below Pharma Nerd.
     var showsPharmacokinetics: Bool {
-        profile == .pharmaNerd
+        true
     }
 
     var mechanismDefaultExpanded: Bool {
@@ -200,7 +209,8 @@ extension DisclosurePolicy {
     /// them from drifting apart.
     func placement(for section: DetailSection, spine: DetailSpine) -> SectionPlacement {
         switch section {
-        // Mechanism + "in the body" (PK): hidden for Casual, on-page from there.
+        // Mechanism + "in the body" (PK): on-page at every tier. Casual gets it
+        // folded rather than deleted — the tier controls density, not access.
         //
         // `.showAll` — a row that pushed a whole screen holding one card — is
         // gone from this matrix. The cards already fold; wrapping a fold in a
@@ -208,15 +218,15 @@ extension DisclosurePolicy {
         // disclosure triangle, and it split one substance's pharmacology across
         // two backgrounds. Depth on this screen is a fold, not a destination.
         case .mechanism, .pharmacokinetics:
-            tiered(casual: .hidden, curious: .inlineCollapsed, nerd: .inline)
-        // The full Kᵢ/EC₅₀ literature table: Pharma Nerd only, and collapsed even
-        // there — it is long, and nobody scrolls past it by accident. Kept at
-        // `.hidden` for Curious so this matrix agrees with `showsReceptorLiterature`,
-        // which `PharmacologySections` still gates on; a matrix that promised the
-        // table at Curious while the boolean withheld it would just be a lie in
-        // the one place that documents the tiers.
+            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inline)
+        // The full Kᵢ/EC₅₀ literature table: present everywhere, collapsed
+        // everywhere — it is long, and nobody scrolls past it by accident, so
+        // even a Pharma Nerd gets it folded. This now agrees with
+        // `showsReceptorLiterature`, which is a constant: the matrix and the
+        // boolean must never disagree, because between them they are the only
+        // documentation of what a tier means.
         case .receptorLiterature:
-            tiered(casual: .hidden, curious: .hidden, nerd: .inlineCollapsed)
+            tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inlineCollapsed)
         // Chemistry / sources: collapsed on-page at every tier.
         case .chemistry, .sources:
             tiered(casual: .inlineCollapsed, curious: .inlineCollapsed, nerd: .inlineCollapsed)

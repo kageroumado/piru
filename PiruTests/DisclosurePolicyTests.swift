@@ -7,23 +7,29 @@ import Testing
 @Suite("DisclosurePolicy")
 struct DisclosurePolicyTests {
     @Test
-    func `Casual tier hides every advanced section`() {
+    func `Casual sees every section — folded, not deleted`() {
         let p = DisclosurePolicy(profile: .casual)
-        #expect(!p.showsMechanism)
-        #expect(!p.showsRichSubjective)
-        #expect(!p.showsReceptorLiterature)
-        // Sources stay visible to every tier — even casual users may want
-        // attribution. Defaults collapsed though.
+        // The tier controls density, not access. A Casual user has the
+        // mechanism, the class signature and the literature on the page, one
+        // tap from open. The old policy removed them, which is how the class
+        // signatures shipped invisible to the default audience.
+        #expect(p.showsMechanism)
+        #expect(p.showsRichSubjective)
+        #expect(p.showsReceptorLiterature)
         #expect(p.showsSources)
+        // ...and every one of them arrives collapsed.
+        #expect(!p.mechanismDefaultExpanded)
+        #expect(!p.subjectiveDefaultExpanded)
+        #expect(!p.receptorLitDefaultExpanded)
         #expect(!p.sourcesDefaultExpanded)
     }
 
     @Test
-    func `Harm-reduction shows mechanism + subjective, hides literature`() {
+    func `Curious shows the same sections, still folded`() {
         let p = DisclosurePolicy(profile: .harmReduction)
         #expect(p.showsMechanism)
         #expect(p.showsRichSubjective)
-        #expect(!p.showsReceptorLiterature) // Literature is pharma-nerd only
+        #expect(p.showsReceptorLiterature)
         #expect(p.showsSources)
         // Middle tier: sections visible but not default-expanded.
         #expect(!p.mechanismDefaultExpanded)
@@ -45,10 +51,19 @@ struct DisclosurePolicyTests {
     }
 
     @Test
-    func `Receptor literature is exclusively a pharma-nerd surface`() {
+    func `No tier has a section withheld from it`() {
+        // The invariant that replaced "receptor literature is pharma-nerd only".
+        // Every `shows*` gate is a constant; tiering happens in the expanded
+        // flags and the placement matrix, both of which only ever choose how
+        // much is unfolded. If a future tier wants to remove a section, it has
+        // to argue with this test first.
         for profile in UserProfile.allCases {
             let p = DisclosurePolicy(profile: profile)
-            #expect(p.showsReceptorLiterature == (profile == .pharmaNerd))
+            #expect(p.showsMechanism)
+            #expect(p.showsRichSubjective)
+            #expect(p.showsReceptorLiterature)
+            #expect(p.showsPharmacokinetics)
+            #expect(p.showsSources)
         }
     }
 
@@ -77,12 +92,11 @@ struct DisclosurePolicyTests {
     }
 
     @Test
-    func `Casual hides pharmacology and keeps chemistry and sources folded on the page`() {
+    func `Casual gets the whole pharmacology ladder on the page, folded`() {
         let p = DisclosurePolicy(profile: .casual)
-        #expect(p.placement(for: .mechanism, spine: .recreational) == .hidden)
-        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .hidden)
-        #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .hidden)
-        // The only depth a Casual user can reach — and it is a fold, not a push.
+        #expect(p.placement(for: .mechanism, spine: .recreational) == .inlineCollapsed)
+        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .inlineCollapsed)
+        #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .inlineCollapsed)
         #expect(p.placement(for: .chemistry, spine: .recreational) == .inlineCollapsed)
         #expect(p.placement(for: .sources, spine: .recreational) == .inlineCollapsed)
     }
@@ -93,10 +107,26 @@ struct DisclosurePolicyTests {
         #expect(p.placement(for: .mechanism, spine: .recreational) == .inlineCollapsed)
         #expect(p.placement(for: .pharmacokinetics, spine: .recreational) == .inlineCollapsed)
         #expect(p.placement(for: .chemistry, spine: .recreational) == .inlineCollapsed)
-        // Matches `showsReceptorLiterature`, which PharmacologySections still gates
-        // on: the Kᵢ table is Pharma Nerd only, and the matrix must not promise
-        // what the boolean withholds.
-        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .hidden)
+        #expect(p.placement(for: .receptorLiterature, spine: .recreational) == .inlineCollapsed)
+    }
+
+    @Test
+    func `The pharmacology ladder is never hidden at any tier`() {
+        // Companion to `No tier has a section withheld from it` — the matrix
+        // half of the same invariant. Recreational/medical *spine* exclusions
+        // are still real (no dose ladder on a statin); tier exclusions are not.
+        let ladder: [DetailSection] = [.mechanism, .receptorLiterature, .pharmacokinetics, .chemistry, .sources]
+        for profile in UserProfile.allCases {
+            let p = DisclosurePolicy(profile: profile)
+            for section in ladder {
+                for spine in [DetailSpine.recreational, .medical] {
+                    #expect(
+                        p.placement(for: section, spine: spine).isInline,
+                        "\(section) is not on the page at \(profile) on the \(spine) spine",
+                    )
+                }
+            }
+        }
     }
 
     @Test
