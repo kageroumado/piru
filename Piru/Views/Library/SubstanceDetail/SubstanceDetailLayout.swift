@@ -184,10 +184,6 @@ struct SubstanceDetailLayout: View {
 private struct SubstanceDetailHeader: View {
     let substance: Substance
 
-    /// How far the row is widened past the list margin so its rounded-corner
-    /// clip lands outside the title's glyphs rather than on them.
-    private static let clipSlack: CGFloat = 8
-
     /// Popular aliases shown as chips before the overflow count.
     private var shownAliases: [String] {
         Array(substance.popularAliases.prefix(4))
@@ -205,10 +201,24 @@ private struct SubstanceDetailHeader: View {
     }
 
     var body: some View {
+        // **A section header, not a row.** In a grouped list every row is clipped
+        // to a rounded rect, and at any inset that curve bites into whatever sits
+        // in a corner — it was shaving the category chip at the bottom-left, and
+        // no amount of slack fixes it because the clip follows the row. Section
+        // headers are outside that chrome entirely, which is also what makes this
+        // read as a title rather than a card pretending to be one.
         Section {
+            EmptyView()
+        } header: {
             VStack(alignment: .leading, spacing: 5) {
                 Text(substance.displayTitle)
                     .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    // `Color.primary`, not `.primary`: a section header carries a
+                    // secondary style, and the hierarchical `.primary` resolves to
+                    // the primary *level of that style* — which is still gray. The
+                    // absolute label color is the only way to get a black title
+                    // out of a header.
+                    .foregroundStyle(Color.primary)
                     .lineLimit(2)
                     .minimumScaleFactor(0.5)
                     .fixedSize(horizontal: false, vertical: true)
@@ -252,30 +262,11 @@ private struct SubstanceDetailHeader: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            // Restores the x the negative row insets below take away, so the name
-            // still lands on the list's margin, level with the cards.
-            .padding(.horizontal, Self.clipSlack)
-            // A title block, not a card: clear the shared `CardBackground()` the
-            // list applies to every other row (innermost wins).
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            // **Negative insets on purpose.** A list row clips to its own bounds,
-            // and that clip is a rounded rect — the same clip that sliced the
-            // molecule watermark before it moved to the screen background. At
-            // zero insets the row's bounds sit exactly on the title, so its
-            // corner radius shaved the first and last glyphs of a 40pt heavy
-            // face. Widening the row past the margin puts the rounded corners
-            // outside the text; the padding above puts the text back where it
-            // was. Vertical stays at zero — the name should sit as close to the
-            // bar as a system large title does.
-            .listRowInsets(EdgeInsets(
-                top: 0, leading: -Self.clipSlack, bottom: 0, trailing: -Self.clipSlack,
-            ))
-            // `.compact` still leaves a full section gap under a title block, so
-            // this is an explicit value: the byline belongs to the name above it,
-            // not floating halfway to the first card.
-            .listSectionSpacing(8)
+            // Headers arrive uppercased and in the secondary style by default.
+            .textCase(nil)
+            .listRowInsets(EdgeInsets())
         }
+        .listSectionSpacing(8)
     }
 
     private var aliasAccessibilityLabel: String {
