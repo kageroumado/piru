@@ -12,7 +12,6 @@ struct PharmacologyGlossarySheet: View {
         case receptor
         case pharmacokinetics
         case metabolism
-        case metabolismInteractions
         var id: String {
             rawValue
         }
@@ -87,7 +86,6 @@ struct PharmacologyGlossarySheet: View {
         case .receptor: "Receptor data"
         case .pharmacokinetics: "Pharmacokinetics"
         case .metabolism: "Metabolism"
-        case .metabolismInteractions: "Metabolism Interactions"
         }
     }
 
@@ -99,8 +97,6 @@ struct PharmacologyGlossarySheet: View {
             "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward."
         case .metabolism:
             "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance."
-        case .metabolismInteractions:
-            "Everyday things — foods like grapefruit, smoking, or the drug's own buildup over repeated doses — can speed up or slow down how fast it's cleared, which raises or lowers its levels in the body."
         case .receptor, .pharmacokinetics:
             nil
         }
@@ -114,8 +110,6 @@ struct PharmacologyGlossarySheet: View {
             "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab."
         case .metabolism:
             "Estimates from primary literature, not measured for you."
-        case .metabolismInteractions:
-            "Educated predictions from typical pharmacology, not measured for you."
         case .mechanism, .monoamine:
             nil
         }
@@ -132,7 +126,7 @@ struct PharmacologyGlossarySheet: View {
         switch topic {
         case .pharmacokinetics: Self.pkEntries
         case .receptor: Self.receptorEntries
-        case .mechanism, .monoamine, .metabolism, .metabolismInteractions: []
+        case .mechanism, .monoamine, .metabolism: []
         }
     }
 

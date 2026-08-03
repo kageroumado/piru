@@ -130,11 +130,13 @@ struct PharmacologySections: View {
             // Metabolism (CYP enzymes / metabolites) — split out of Pharmacokinetics into its own
             // section and placed next to the metabolic-interaction banners below: it's the more
             // actionable, grapefruit-adjacent half of the PK story.
+            // No ⓘ on this header. ``AlsoActiveSection`` already opens the identical
+            // `.metabolism` sheet, and it is the only ⓘ a Casual reader can reach —
+            // so the duplicate to cut is this one, not that one.
             if policy.showsPharmacokinetics, !model.metabolismRows.isEmpty {
                 CollapsibleSection(
                     "Metabolism",
                     systemImage: "arrow.triangle.branch",
-                    onInfo: { onGlossary(.metabolism) },
                     isExpanded: binding(.metabolism, default: policy.pharmacokineticsDefaultExpanded),
                 ) {
                     metabolismBody
@@ -150,12 +152,10 @@ struct PharmacologySections: View {
                     }
                 } header: {
                     // Not "fork.knife" — smoking and enzyme induction aren't eating; an up/down glyph
-                    // reads as "these change the drug's levels". Trailing (i) explains the section.
-                    sectionHeaderWithInfo(
-                        "Metabolism Interactions",
-                        systemImage: "arrow.up.arrow.down",
-                        topic: .metabolismInteractions,
-                    )
+                    // reads as "these change the drug's levels". No ⓘ: each banner states its own
+                    // effect in a sentence, so a help sheet one header below the Metabolism card
+                    // was the sixth ⓘ on one screen and explained nothing the banner didn't.
+                    Label("Metabolism Interactions", systemImage: "arrow.up.arrow.down")
                 }
             }
 
@@ -271,26 +271,6 @@ struct PharmacologySections: View {
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-
-    /// A plain `Section` header (icon + title) with a trailing (i) that opens the card's help sheet —
-    /// the equivalent of `CollapsibleSection`'s `onInfo` for the non-collapsible interaction sections.
-    private func sectionHeaderWithInfo(
-        _ title: LocalizedStringResource,
-        systemImage: String,
-        topic: PharmacologyGlossarySheet.Topic,
-    ) -> some View {
-        HStack {
-            Label(title, systemImage: systemImage)
-            Spacer()
-            Button { onGlossary(topic) } label: {
-                Image(systemName: "info.circle")
-                    .foregroundStyle(Theme.accent)
-                    .textCase(nil)
-            }
-            .buttonStyle(.borderless)
-            .accessibilityLabel("What do these mean?")
         }
     }
 }
