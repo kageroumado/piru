@@ -258,6 +258,99 @@ MECHANISM_FOLLOWERS = {
     "channels",
 }
 
+#: How a paper writes the target a row names. Without this, the check has no way
+#: to tell the two shapes of "the substance is absent" apart:
+#:
+#:   Diazepam's Kᵢ at GABA-A α1β2γ2 cited to the paper that CLONED α1β2γ2 and
+#:   measured a benzodiazepine ligand panel. Correct — its title and abstract
+#:   name the receptor and no compound, because the compounds are in Table 2.
+#:
+#:   Ephenidine's Kᵢ at the NMDA receptor cited to a case report about a great
+#:   white shark bite. Not correct.
+#:
+#: Both are ABSENT on substance name alone. Only the target tells them apart, so
+#: this table is what converts that judgment from human to mechanical. Keys are
+#: `strict_key`-normalized target strings; values are how the literature spells
+#: them. Multi-word entries are matched against phrases, single tokens against
+#: the punctuation-joined grams.
+TARGET_SYNONYMS: dict[str, tuple[str, ...]] = {
+    "5ht1a": ("5ht1a", "serotonin 1a", "5hydroxytryptamine1a"),
+    "5ht2a": ("5ht2a", "serotonin 2a", "5hydroxytryptamine2a"),
+    "5ht2b": ("5ht2b", "serotonin 2b"),
+    "5ht2c": ("5ht2c", "serotonin 2c"),
+    "5ht3": ("5ht3", "serotonin 3"),
+    "dat": ("dat", "dopamine transporter", "dopamine uptake"),
+    "sert": ("sert", "serotonin transporter", "5ht transporter", "serotonin uptake"),
+    "net": ("net", "norepinephrine transporter", "noradrenaline transporter"),
+    "vmat2": ("vmat2", "vesicular monoamine transporter"),
+    "mor": ("mor", "muopioid", "mu opioid", "opioid receptor", "oprm1"),
+    "kor": ("kor", "kappaopioid", "kappa opioid", "oprk1"),
+    "dor": ("dor", "deltaopioid", "delta opioid", "oprd1"),
+    "nop": ("nop", "nociceptin", "orl1"),
+    "cb1": ("cb1", "cannabinoid receptor", "cnr1"),
+    "cb2": ("cb2", "cannabinoid receptor", "cnr2"),
+    "gabaa": (
+        "gabaa",
+        "gaba a",
+        "gammaaminobutyric",
+        "benzodiazepine site",
+        "benzodiazepine binding",
+    ),
+    "gabab": ("gabab", "gaba b"),
+    "nmda": ("nmda", "nmethyldaspartate", "mk801", "glutamate receptor"),
+    "ampa": ("ampa", "glutamate receptor"),
+    "taar1": ("taar1", "trace amine"),
+    "sigma1": ("sigma1", "sigma receptor", "sigma1 receptor"),
+    "sigma2": ("sigma2", "sigma receptor"),
+    "d1": ("d1", "dopamine receptor", "dopamine d1"),
+    "d2": ("d2", "dopamine receptor", "dopamine d2", "drd2"),
+    "d3": ("d3", "dopamine receptor", "dopamine d3"),
+    "h1": ("h1", "histamine receptor", "histamine h1"),
+    "m1": ("m1", "muscarinic"),
+    "m2": ("m2", "muscarinic"),
+    "m3": ("m3", "muscarinic"),
+    "nachr": ("nachr", "nicotinic", "acetylcholine receptor"),
+    "a1": ("adrenoceptor", "adrenergic receptor"),
+    "a2": ("adrenoceptor", "adrenergic receptor"),
+    "maoa": ("maoa", "monoamine oxidase"),
+    "maob": ("maob", "monoamine oxidase"),
+    "comt": ("comt", "catecholomethyltransferase"),
+    "ache": ("ache", "acetylcholinesterase"),
+    "trpv1": ("trpv1", "vanilloid"),
+    "gpr55": ("gpr55",),
+    "herg": ("herg", "kcnh2", "potassium channel"),
+    "ces1": ("ces1", "carboxylesterase"),
+    "lsd1": ("lsd1", "kdm1a", "lysine demethylase"),
+}
+
+#: Enzyme families follow a rule rather than a list: `CYP3A4` is written
+#: "CYP3A4" or "cytochrome P450 3A4", `UGT2B7` likewise. Generated instead of
+#: enumerated so a new enzyme in the data needs no edit here.
+ENZYME_PREFIXES = ("cyp", "ugt", "sult", "nat", "fmo", "abcb", "abcg", "slc")
+
+#: Words a target string contributes that identify nothing. Matching on these
+#: would mark almost every pharmacology paper as naming almost every target.
+TARGET_STOPWORDS = {
+    "receptor",
+    "receptors",
+    "site",
+    "sites",
+    "channel",
+    "transporter",
+    "uptake",
+    "release",
+    "binding",
+    "subunit",
+    "human",
+    "rat",
+    "assumed",
+    "mediated",
+    "other",
+    "unknown",
+    "and",
+    "the",
+}
+
 #: Tables whose rows are a *number attached to one compound*. A citation under
 #: one of these must be about that compound; there is no "general background"
 #: reading available. Findings here are scored up.
@@ -446,6 +539,13 @@ class Attachment:
     citation_id: int
     substance_id: int
     tables: set[str] = field(default_factory=set)
+    #: The targets, enzymes and genes the citing rows name — "5-HT2A", "CYP3A4".
+    subjects: set[str] = field(default_factory=set)
+
+
+#: Columns naming what a row is *about*, in preference order. Read alongside the
+#: citation so a finding can tell "wrong paper" from "paper about the target".
+SUBJECT_COLUMNS = ("target", "enzyme", "gene", "readout")
 
 
 def load_attachments(conn: sqlite3.Connection) -> dict[tuple[int, int], Attachment]:
@@ -466,12 +566,117 @@ def load_attachments(conn: sqlite3.Connection) -> dict[tuple[int, int], Attachme
         cols = {row[1] for row in conn.execute(f'PRAGMA table_info("{table}")')}
         if not {"citation_id", "substance_id"} <= cols:
             continue
-        for cid, sid in conn.execute(
-            f'SELECT citation_id, substance_id FROM "{table}" '
+        subject = next((c for c in SUBJECT_COLUMNS if c in cols), None)
+        selected = f", {subject}" if subject else ""
+        for record in conn.execute(
+            f'SELECT citation_id, substance_id{selected} FROM "{table}" '
             "WHERE citation_id IS NOT NULL AND substance_id IS NOT NULL"
         ):
-            pairs.setdefault((cid, sid), Attachment(cid, sid)).tables.add(table)
+            cid, sid = record[0], record[1]
+            attachment = pairs.setdefault((cid, sid), Attachment(cid, sid))
+            attachment.tables.add(table)
+            if subject and record[2]:
+                attachment.subjects.add(str(record[2]))
     return pairs
+
+
+#: Greek letters name receptor subunits and opioid receptor types, and the data
+#: writes both forms freely (`σ1` and `sigma-1`, `μ-opioid` and `MOR`). Folded
+#: before anything else so the two spellings reach `TARGET_SYNONYMS` as one key.
+GREEK_TO_LATIN = {
+    "α": "alpha",
+    "β": "beta",
+    "γ": "gamma",
+    "δ": "delta",
+    "ε": "epsilon",
+    "θ": "theta",
+    "κ": "kappa",
+    "μ": "mu",
+    "ρ": "rho",
+    "σ": "sigma",
+}
+
+#: Spellings that reach a `TARGET_SYNONYMS` key only after folding. Kept apart
+#: from the synonym table because these map data→data, not data→literature.
+TARGET_ALIASES = {
+    "muopioid": "mor",
+    "muopioidreceptor": "mor",
+    "kappaopioid": "kor",
+    "kappaopioidreceptor": "kor",
+    "deltaopioid": "dor",
+    "deltaopioidreceptor": "dor",
+    "oprm1": "mor",
+    "oprk1": "kor",
+    "oprd1": "dor",
+    "nmethyldaspartate": "nmda",
+    "alpha1": "a1",
+    "alpha2": "a2",
+    "serotonintransporter": "sert",
+    "dopaminetransporter": "dat",
+    "norepinephrinetransporter": "net",
+}
+
+#: Subunit stoichiometry, which no paper title carries and every data string does.
+_SUBUNITS = re.compile(r"(?:alpha|beta|gamma|delta|epsilon|theta|rho|pi)\d+")
+
+
+def _canonical_target(subject: str) -> str:
+    """A target string reduced to the key a paper would be indexed under.
+
+    `GABA-A α1β2γ2` → `gabaa`. The stoichiometry is dropped on purpose: it is
+    written a dozen ways, appears in no title, and pins any lookup to zero. The
+    receptor family is the part a paper reliably names, and it is the part that
+    separates a GABA-A cloning paper from a shark-bite case report.
+    """
+    text = re.sub(r"\([^)]*\)", " ", subject).lower()
+    for greek, latin in GREEK_TO_LATIN.items():
+        text = text.replace(greek, latin)
+    text = re.sub(r"[^a-z0-9]+", "", normalise(text))
+    stripped = _SUBUNITS.sub("", text)
+    for candidate in (stripped, text):
+        if candidate in TARGET_SYNONYMS:
+            return candidate
+        if candidate in TARGET_ALIASES:
+            return TARGET_ALIASES[candidate]
+    return stripped or text
+
+
+def target_keys(subject: str) -> tuple[set[str], set[str]]:
+    """A target string, expanded into (grams, phrases) a paper might contain."""
+    if not subject:
+        return set(), set()
+    head = _canonical_target(subject)
+    grams: set[str] = set()
+    phrases: set[str] = set()
+
+    for expansion in TARGET_SYNONYMS.get(head, ()):
+        if " " in expansion:
+            phrases.add(expansion)
+        else:
+            grams.add(expansion)
+    if head.startswith(ENZYME_PREFIXES) and len(head) >= 4:
+        grams.add(head)
+    if not grams and not phrases:
+        # An unrecognized target still contributes its own distinctive words —
+        # "androgen", "frataxin" — just never its filler ones.
+        text = normalise(re.sub(r"\([^)]*\)", " ", subject))
+        for token in re.split(r"[^a-z0-9]+", text):
+            if len(token) >= 5 and token not in TARGET_STOPWORDS:
+                grams.add(token)
+    return grams, phrases
+
+
+def _target_named(subjects: set[str], index: TextIndex) -> str | None:
+    """The target a paper plainly names, out of the ones its citing rows claim."""
+    for subject in sorted(subjects):
+        grams, phrases = target_keys(subject)
+        for key in sorted(grams):
+            if key in index.grams and (len(key) >= 5 or key in index.caps):
+                return subject
+        for phrase in sorted(phrases):
+            if phrase in index.phrases or re.sub(r"\s+", "", phrase) in index.grams:
+                return subject
+    return None
 
 
 def load_citations(conn: sqlite3.Connection) -> dict[int, dict]:
@@ -650,6 +855,10 @@ class Finding:
     has_abstract: bool = False
     #: Whether the citing row is a per-compound number rather than prose.
     numeric: bool = False
+    #: The row's target, when the paper names it. A paper about the right
+    #: receptor that never names the drug is the shape a substance-name check
+    #: cannot judge on its own.
+    target_named: str | None = None
 
     @property
     def is_hard_absence(self) -> bool:
@@ -758,6 +967,22 @@ def evaluate(
         score -= 0.15
         reasons.append("another citing substance IS named — looks like a borrowed analog source")
 
+    # The row's own target, when the paper names it. This separates the two
+    # shapes of absence a substance-name check cannot tell apart: the α1β2γ2
+    # cloning paper that really did measure a benzodiazepine panel in Table 2,
+    # versus the shark-bite case report.
+    #
+    # It deliberately does NOT move the score. Tested against the eight findings
+    # it fired on, four were correct citations and four were not — Bupropion's
+    # transporter Kᵢ values cite a paper about *serotonin-transporter knockout
+    # mice*, which names the target perfectly and contains no bupropion at all.
+    # At that precision the signal is worth ranking by and not worth clearing on,
+    # so it stays a reason a reviewer reads, and the allowlist stays the only way
+    # out of the gate.
+    target_named = _target_named(attachment.subjects, index)
+    if target_named:
+        reasons.append(f"but the paper DOES name the row's target ({target_named})")
+
     return Finding(
         citation_id=attachment.citation_id,
         identifier=identifier,
@@ -770,6 +995,7 @@ def evaluate(
         tables=sorted(attachment.tables),
         has_abstract=has_abstract,
         numeric=bool(numeric),
+        target_named=target_named,
     )
 
 

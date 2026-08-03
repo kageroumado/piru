@@ -43,6 +43,12 @@
   "doi:10.1021/acs.jmedchem.1c01273|Fentanyl",
   "doi:10.1021/acs.jmedchem.1c01273|Buprenorphine",
 
+  "_target-panel: the paper measured a LIGAND PANEL at the row's target and names its compounds only as a class. Verified individually against the paper, and each row's own notes already named the same authors. This is the shape citation_topicality reports as 'but the paper DOES name the row's target' — a hint to check, never a reason to clear: four of the eight findings carrying that hint were still real defects.",
+  "doi:10.1007/pl00005315|DOB",
+  "doi:10.1007/pl00005315|DOM",
+  "doi:10.1007/pl00005315|DOET",
+  "pmid:8391122|Diazepam",
+
   "_mechanism-or-metabolite: supports a class/metabolite claim rather than a per-compound number; revisit if the row ever states a substance-specific value",
   "pmid:2704370|Scopolamine",
   "pmid:10384858|Hydroxyzine",
