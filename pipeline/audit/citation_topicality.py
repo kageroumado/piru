@@ -89,6 +89,8 @@ DEFAULT_DB = REPO / "Piru/Data/piru-substances.sqlite"
 ABSTRACT_CACHE = REPO / "data/sources/citation-abstract-cache.json"
 #: Adjudicated findings that should stop failing `--gate`. See `load_allowlist`.
 ALLOWLIST = REPO / "data/curated/citation-topicality-allowlist.json"
+#: Known-real defects awaiting re-sourcing. See `load_backlog`.
+BACKLOG = REPO / "data/curated/citation-topicality-backlog.json"
 USER_AGENT = "piru-citation-topicality/1.0 (https://github.com/kageroumado/piru)"
 
 #: Extends `verify_citations.SYNONYMS` with the expansions this check needs:
@@ -786,6 +788,27 @@ def load_allowlist() -> set[str]:
         return set()
 
 
+def load_backlog() -> set[str]:
+    """Findings already adjudicated as **real defects**, awaiting re-sourcing.
+
+    Deliberately a different file from the allowlist, because they mean opposite
+    things and a reader must never have to guess which. The allowlist says "the
+    checker is wrong here". This says "the checker is right here, and the row is
+    still broken" — it exists only so a known backlog doesn't block unrelated
+    work while it burns down.
+
+    The consequence is the ratchet: a citation added *tomorrow* with the same
+    defect fails immediately, because it isn't in this file and nothing may be
+    added to it.
+    """
+    if not BACKLOG.exists():
+        return set()
+    try:
+        return {k for k in json.loads(BACKLOG.read_text()) if not k.startswith("_")}
+    except (ValueError, OSError):
+        return set()
+
+
 def load_abstracts(path: Path) -> dict[str, str]:
     if path.exists():
         try:
@@ -1005,13 +1028,33 @@ def main() -> int:
         # over both. Off by default only because the standing backlog is large;
         # see --gate-absent.
         if args.gate_absent:
-            failures += [
+            backlog = load_backlog()
+            hard = [
                 f
                 for f in buckets.get("ABSENT", [])
-                if f.is_hard_absence
-                and f.score >= args.gate_absent_threshold
-                and f"{f.identifier}|{f.substance}" not in allow
+                if f.is_hard_absence and f.score >= args.gate_absent_threshold
             ]
+            failures += [
+                f
+                for f in hard
+                if f"{f.identifier}|{f.substance}" not in allow
+                and f"{f.identifier}|{f.substance}" not in backlog
+            ]
+            # The ratchet only holds if the backlog shrinks. Report both
+            # directions: what is still owed, and which entries have been fixed
+            # and should now be deleted from the file.
+            outstanding = {f"{f.identifier}|{f.substance}" for f in hard} & backlog
+            if outstanding:
+                print(
+                    f"\ncitation-topicality: {len(outstanding)} known defect(s) still on the backlog."
+                )
+            if stale := backlog - {f"{f.identifier}|{f.substance}" for f in hard}:
+                print(
+                    f"citation-topicality: {len(stale)} backlog entries no longer flagged — "
+                    f"delete them from {BACKLOG.relative_to(REPO)}:",
+                )
+                for key in sorted(stale)[:20]:
+                    print(f"  {key}")
         if failures:
             print(
                 f"\ncitation-topicality: FAILED — {len(failures)} citation(s) are about a "

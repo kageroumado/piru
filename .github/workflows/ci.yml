@@ -72,8 +72,17 @@ jobs:
       # binding rows cite a two-page editorial and LSD's 5-HT2A rows cite a
       # cancer-genetics paper, both of which resolved perfectly. Adjudicated
       # false positives live in data/curated/citation-topicality-allowlist.json.
+      #
+      # --gate-absent also fails a HARD ABSENCE: the paper names no compound at
+      # all, the absence was confirmed against a full abstract, and the citing
+      # row is a per-compound number. WRONG_SUBSTANCE is structurally blind to
+      # that shape, which is how a nursing-ethics bibliography shipped as
+      # cannabis's CB1 Kᵢ. The 178 known-real defects outstanding on 2026-08-04
+      # sit in citation-topicality-backlog.json — a SEPARATE file from the
+      # allowlist because they mean opposite things, and nothing may be added
+      # to it. That is what makes this a ratchet rather than a rubber stamp.
       - name: No citations attached to the wrong substance
-        run: python3 pipeline/audit/citation_topicality.py --offline --gate
+        run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent
       # verify_citations proves the identifier RESOLVES; citation_topicality
       # proves the paper is about the right molecule. Neither compares the
       # identifier to the human LABEL a curator wrote beside it — which is how
