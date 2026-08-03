@@ -66,6 +66,13 @@ struct SubstanceDetailLayout: View {
         //      metabolism, one inline block or one deep-page target.
         pharmacologyInline
 
+        // What else it touches — hERG, bladder, taste receptors. Called
+        // unconditionally rather than through the placement matrix: it self-hides
+        // on absent data and folds identically at every tier and on both spines,
+        // so a matrix row would encode no decision. The matrix is for sections
+        // whose placement actually varies.
+        OffTargetSection(substance: substance, model: model)
+
         // Metabolites doing some of the work — on the main screen at every tier.
         AlsoActiveSection(substance: substance, model: model, onGlossary: onGlossary)
 
@@ -153,18 +160,6 @@ struct SubstanceDetailLayout: View {
         substance.formula != nil || substance.cas != nil || substance.inchikey != nil
             || substance.molarMass != nil || substance.smiles != nil || substance.iupacName != nil
             || substance.pubchemCID != nil || (substance.physicochemical?.hasAnyValue ?? false)
-    }
-
-    /// True when the pharmacology cluster has anything to show — so its "Show
-    /// all" launcher never pushes an empty page (the model fields fill in as the
-    /// `.task` resolves, so the row appears once there's content).
-    private var hasPharmacologyData: Bool {
-        substance.mechanismOfAction != nil
-            || model.monoamineProfile != nil
-            || !model.literatureBindings.isEmpty
-            || !model.pkRoutes.isEmpty
-            || !model.metabolismRows.isEmpty
-            || !model.activeMetabolites.isEmpty
     }
 
     private var hasSourcesData: Bool {

@@ -12995,6 +12995,22 @@
         }
       }
     },
+    "Clinically significant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "具有临床意义"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "具有臨床意義"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19075,6 +19091,7 @@
       }
     },
     "Effects can outlast the duration above — %@ clears much more slowly than %@." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19092,6 +19109,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "效果可能超出上方時長——%1$@ 的清除速度遠慢於 %2$@。"
+          }
+        }
+      }
+    },
+    "Effects can outlast the duration above — %@ is still present when %@'s listed duration ends." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Effects can outlast the duration above — %1$@ is still present when %2$@'s listed duration ends."
           }
         }
       }
@@ -21392,6 +21419,7 @@
       }
     },
     "Faint dots are other compounds measured on the same basis — each in its own study, drawn for scale." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27184,6 +27212,22 @@
         }
       }
     },
+    "Limited" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "影响有限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "影響有限"
+          }
+        }
+      }
+    },
     "Limited data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29271,6 +29315,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "簡約"
+          }
+        }
+      }
+    },
+    "Minor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "影响轻微"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "影響輕微"
           }
         }
       }
@@ -32856,6 +32916,22 @@
         }
       }
     },
+    "Not clinically dominant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在临床上并不占主导"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在臨床上並不佔主導"
+          }
+        }
+      }
+    },
     "Not enough history yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33416,6 +33492,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關"
+          }
+        }
+      }
+    },
+    "Off-Target Effects" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "脱靶作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "脫靶作用"
           }
         }
       }
@@ -37665,6 +37757,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "即用型注射溶液"
+          }
+        }
+      }
+    },
+    "Real but bounded" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确有影响但有限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確有影響但有限"
           }
         }
       }
@@ -43201,6 +43309,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "登入 iCloud 並開啟 iCloud 雲碟以啟用自動加密備份。"
+          }
+        }
+      }
+    },
+    "Significant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "影响明确"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "影響明確"
           }
         }
       }

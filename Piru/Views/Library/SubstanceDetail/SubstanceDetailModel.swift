@@ -31,6 +31,10 @@ final class SubstanceDetailModel {
     /// Grapefruit / smoking / self-edge metabolic-modulation education.
     var metabolicEducation: [MetabolicModulation.Effect] = []
 
+    /// Things the compound acts on that are not why anyone takes it — the hERG
+    /// / bladder / taste-receptor rows. One per target, most-consequential first.
+    var offTargets: [SubstanceStore.OffTargetHit] = []
+
     /// Metabolites doing some of the work — the "Also Active" surface. Folded
     /// from ``metabolismRows`` by metabolite (the table groups by enzyme), and
     /// filtered to the ones that can actually say something, so the section is
@@ -79,6 +83,12 @@ final class SubstanceDetailModel {
         // sees a dose ladder — not just the ones that see the pharmacology.
         spectrumBands = store.spectrumBands(forSubstanceName: substanceName)
         moleculeStructure = store.moleculeStructure(forSubstanceName: substanceName)
+
+        // Ungated by tier. A row here is a consequence ("ulcerative cystitis in
+        // chronic high-dose users"), not an affinity table, and tiering in this
+        // app governs density rather than access — the card ships folded at
+        // every tier instead.
+        offTargets = store.offTargets(forSubstanceName: substanceName)
 
         // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil,
         // rifampicin…) can lower hormonal-contraception levels. Ungated like a

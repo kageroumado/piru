@@ -1803,6 +1803,16 @@ T = {
     "Grapefruit dose logging": ("西柚剂量记录", "葡萄柚劑量記錄"),
     "Metabolic Effects": ("代谢影响", "代謝影響"),
     "Metabolism Interactions": ("代谢相互作用", "代謝交互作用"),
+    # Off-Target Effects card. The concern chips describe the *consequence*, not
+    # the binding strength — a bare 高/低 beside a receptor name would read as
+    # affinity, which is the one thing this column never means.
+    "Off-Target Effects": ("脱靶作用", "脫靶作用"),
+    "Significant": ("影响明确", "影響明確"),
+    "Limited": ("影响有限", "影響有限"),
+    "Minor": ("影响轻微", "影響輕微"),
+    "Clinically significant": ("具有临床意义", "具有臨床意義"),
+    "Real but bounded": ("确有影响但有限", "確有影響但有限"),
+    "Not clinically dominant": ("在临床上并不占主导", "在臨床上並不佔主導"),
     "Had grapefruit with this dose": ("此剂量同服了西柚", "此劑量同服了葡萄柚"),
     "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels.": (
         "烟草烟雾会加快 CYP1A2，从而降低某些药物（如咖啡因和奥氮平）的血药浓度。西柚会减慢 CYP3A4，升高另一些药物的浓度——开启西柚记录后，可在受影响物质的单次剂量上标记它。两者仅在确实会改变某药物浓度时才显示。",
@@ -5898,6 +5908,13 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Off-Target Effects",
+        "Significant",
+        "Limited",
+        "Minor",
+        "Clinically significant",
+        "Real but bounded",
+        "Not clinically dominant",
         "Log this",
         "Prescribing",
         "Approved uses",
