@@ -362,8 +362,13 @@ struct IntensityGauge: View {
             }
             // Neutral lift, not a colored glow — a tinted shadow reads as a halo.
             .shadow(color: .black.opacity(isGrabbed ? 0.22 : 0.14), radius: isGrabbed ? 9 : 5, y: 2)
-            .animation(motion(.spring(response: 0.34, dampingFraction: 0.74)), value: selected)
-            .animation(motion(.spring(response: 0.28, dampingFraction: 0.6)), value: isGrabbed)
+            // ONE animation modifier, keyed on both values. Stacking two — a
+            // slide spring for `selected` and a springier lift for `isGrabbed` —
+            // means a drag that changes both in the same frame can have the outer
+            // modifier drive the *angle* on the lift curve, which overshoots more.
+            // The pill and the grabber glyph then settle on different curves and
+            // visibly separate for a beat before converging.
+            .animation(motion(.spring(response: 0.34, dampingFraction: 0.74)), value: SelectorMotion(band: selected, grabbed: isGrabbed))
     }
 
     private func point(center: CGPoint, radius: Double, degrees: Double) -> CGPoint {
@@ -385,6 +390,13 @@ struct IntensityGauge: View {
     }
 }
 
+/// The pair of values that move the selector. Keyed as one so a single spring
+/// governs the slide and the lift together — see `glassSelector`.
+private struct SelectorMotion: Equatable {
+    let band: Int
+    let grabbed: Bool
+}
+
 /// One band of the ring as a rounded pill: the band's centerline arc stroked
 /// with round caps, so its ends are fully rounded (a capsule bent along the
 /// arc). A filled shape — not a live stroke — so it can carry a glass effect.
@@ -396,12 +408,16 @@ private struct ArcSegment: Shape {
     var thickness: Double
     var center: CGPoint
 
-    /// Slide (startDeg) and lift (thickness) both animate.
-    var animatableData: AnimatablePair<Double, Double> {
-        get { AnimatablePair(startDeg, thickness) }
+    /// Slide (startDeg), span (sweepDeg) and lift (thickness) all animate. Span
+    /// has to be in here even though every band is currently the same width: the
+    /// grabber rides `startDeg + sweepDeg / 2`, so a sweep that jumps while the
+    /// start slides puts the glyph somewhere the pill is not.
+    var animatableData: AnimatablePair<Double, AnimatablePair<Double, Double>> {
+        get { AnimatablePair(startDeg, AnimatablePair(sweepDeg, thickness)) }
         set {
             startDeg = newValue.first
-            thickness = newValue.second
+            sweepDeg = newValue.second.first
+            thickness = newValue.second.second
         }
     }
 
