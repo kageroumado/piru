@@ -117,10 +117,15 @@ final class SubstanceDetailModel {
 
         // The class signature is a *comparison*, so unlike everything else here it reads the whole
         // family's rows rather than this substance's. Only the mechanism audience sees it.
+        //
+        // Resolved through ``ActiveIngredient`` like the bindings above, and for a sharper reason:
+        // the axis marks its focus by NAME. Left unresolved, cannabis would look for a "Cannabis"
+        // leg among rows that are all filed under THC, find none, and drop the axis entirely on the
+        // one page where "how far does this switch the receptor on" is the whole question.
         classSignature = policy.showsMechanism
             ? ClassSignature.family(for: category).flatMap { family in
                 ClassSignature.resolve(
-                    substanceName: substanceName,
+                    substanceName: ActiveIngredient.pharmacologyName(for: substanceName),
                     category: category,
                     legs: store.signatureLegs(family: family),
                 )

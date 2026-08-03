@@ -1937,6 +1937,10 @@ T = {
         "曲马多只有在 CYP2D6 将其转化为 M1 后才成为强效阿片类药物——而生成多少取决于你的基因。多数人会达到平台；“超快代谢者”则没有这种上限，在普通剂量下也可能达到危险水平。",
         "曲馬多只有在 CYP2D6 將其轉化為 M1 後才成為強效鴉片類藥物——而生成多少取決於你的基因。多數人會達到平台；「超快代謝者」則沒有這種上限，在普通劑量下也可能達到危險水平。",
     ),
+    "%@ acts through %@ — the pharmacology below is %@'s.": (
+        "%@ 通过 %@ 起效——下方的药理数据来自 %@。",
+        "%@ 透過 %@ 起效——下方的藥理資料來自 %@。",
+    ),
     "Off-Target Effects": ("脱靶作用", "脫靶作用"),
     "Significant": ("影响明确", "影響明確"),
     "Limited": ("影响有限", "影響有限"),
@@ -6103,6 +6107,7 @@ if __name__ == "__main__":
         # The 2026-08-04 sweep's two strings the extractor didn't pick up.
         "Estimates from primary literature.",
         "Suppresses the enzyme that makes serotonin, so recovery takes weeks.",
+        "%@ acts through %@ — the pharmacology below is %@'s.",
         "Off-Target Effects",
         "Significant",
         "Limited",

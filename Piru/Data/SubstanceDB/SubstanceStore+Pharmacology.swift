@@ -56,8 +56,14 @@ extension SubstanceStore {
     /// canonical name. Used by the detail view's "Receptor Literature"
     /// disclosure (pharma-nerd tier) to show the full Ki/EC50 table with
     /// per-row source attribution. Returns rows sorted by tightest Ki first.
+    ///
+    /// Resolves through ``ActiveIngredient`` first, so a preparation reads its
+    /// molecule's rows rather than a copy filed under the plant. This is the
+    /// choke point for it: mechanism hero, receptor literature and the monoamine
+    /// profile all read through here, so they agree by construction.
     func bindings(forSubstanceName name: String) -> [BindingHit] {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        let resolved = ActiveIngredient.pharmacologyName(for: name)
+        guard let substanceID = substanceID(forNameOrAlias: resolved) else { return [] }
         return Self.bindingRows(substanceID: substanceID, db: substancesDB)
     }
 

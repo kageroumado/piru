@@ -855,6 +855,23 @@
         }
       }
     },
+    "%@ acts through %@ — the pharmacology below is %@'s." : {
+      "comment" : "Preparation borrowing its active ingredient's pharmacology",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 通过 %@ 起效——下方的药理数据来自 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 透過 %@ 起效——下方的藥理資料來自 %@。"
+          }
+        }
+      }
+    },
     "%@ ago" : {
       "localizations" : {
         "zh-Hans" : {

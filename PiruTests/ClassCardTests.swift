@@ -109,3 +109,66 @@ struct ClassCardTests {
         }
     }
 }
+
+/// A preparation borrowing its molecule's pharmacology. Cannabis is the case
+/// that forced it: it shipped a CB1 Kᵢ and intrinsic activity that were THC's,
+/// under a citation resolving to a nursing-ethics bibliography, and the CB1
+/// ladder drew one molecule twice as a result.
+@Suite("Active ingredient")
+@MainActor
+struct ActiveIngredientTests {
+    @Test
+    func `Cannabis resolves to THC, and almost nothing else resolves at all`() {
+        #expect(ActiveIngredient.resolve("Cannabis") == "THC")
+        #expect(ActiveIngredient.resolve("cannabis") == "THC") // case-folded
+        #expect(ActiveIngredient.resolve("THC") == nil) // no self-reference
+        #expect(ActiveIngredient.resolve("MDMA") == nil)
+        // Ayahuasca is deliberately absent: its effect is the DMT × MAOI
+        // interaction, so no single molecule's rows could stand for it.
+        #expect(ActiveIngredient.resolve("Ayahuasca") == nil)
+    }
+
+    @Test
+    func `pharmacologyName falls through for an ordinary substance`() {
+        #expect(ActiveIngredient.pharmacologyName(for: "MDMA") == "MDMA")
+        #expect(ActiveIngredient.pharmacologyName(for: "Cannabis") == "THC")
+    }
+
+    @Test
+    func `Cannabis carries no binding rows of its own any more`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+        // Read by id, bypassing the ActiveIngredient hop, so this asserts the DB
+        // and not the proxy. The rows it used to carry were THC's (CB1/CB2,
+        // "Original Felder/Showalter measurement") and CBD's (GPR55) — a plant
+        // has no Kᵢ.
+        let cannabisID = try #require(store.substanceID(forNameOrAlias: "Cannabis"))
+        #expect(SubstanceStore.bindingRows(substanceID: cannabisID, db: store.substancesDB).isEmpty)
+    }
+
+    @Test
+    func `Cannabis reads THC's bindings through the store`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+        let viaCannabis = store.bindings(forSubstanceName: "Cannabis")
+        let viaTHC = store.bindings(forSubstanceName: "THC")
+        #expect(!viaCannabis.isEmpty)
+        #expect(viaCannabis.map(\.id) == viaTHC.map(\.id))
+    }
+
+    @Test
+    func `The CB1 ladder no longer draws the same molecule twice`() {
+        let legs = SubstanceStore.shared.signatureLegs(family: .cannabinoid1)
+        guard case let .efficacy(model)? = ClassSignature.resolve(
+            substanceName: ActiveIngredient.pharmacologyName(for: "Cannabis"),
+            category: .cannabinoid, legs: legs,
+        ) else {
+            Issue.record("Cannabis lost the CB1 efficacy axis it borrows from THC")
+            return
+        }
+        // The focus is the molecule, and Cannabis appears nowhere on the axis:
+        // 25 % (mislabelled) sitting beside 36.1 % (correct) read as two drugs.
+        #expect(model.focus.name == "THC")
+        #expect(!model.marks.contains { $0.name == "Cannabis" })
+    }
+}

@@ -76,6 +76,17 @@ struct PharmacologySections: View {
                     // Card and footer share one row — see ``DoseDurationSection``
                     // for why a peer row grows a hairline at some card heights.
                     VStack(alignment: .leading, spacing: 0) {
+                        // Load-bearing, not decoration. Every number below this line was
+                        // measured on the molecule, and without the line the card reads as
+                        // receptor data for a plant — which is how cannabis came to carry a
+                        // CB1 Kᵢ in the first place.
+                        if let ingredient = ActiveIngredient.resolve(substance.name) {
+                            ActiveIngredientNote(
+                                preparation: substance.displayTitle,
+                                ingredient: ingredient,
+                                accent: substance.category.color,
+                            )
+                        }
                         PharmacologyCard(
                             moa: moa,
                             monoamine: model.monoamineProfile,
@@ -272,5 +283,45 @@ struct PharmacologySections: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }
+    }
+}
+
+/// "Cannabis acts through Δ9-THC — everything below is THC's." The one line that
+/// keeps a preparation's pharmacology card from reading as receptor data for a
+/// plant. See ``ActiveIngredient`` for why the mapping exists at all.
+struct ActiveIngredientNote: View {
+    let preparation: String
+    let ingredient: String
+    let accent: Color
+
+    @Environment(\.appNavigator) private var navigator
+
+    var body: some View {
+        Button {
+            navigator.push(.substance(name: ingredient))
+        } label: {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Image(systemName: "arrow.trianglehead.branch")
+                    .font(.caption2)
+                    .accessibilityHidden(true)
+                // Both names are proper nouns supplied at runtime, so the sentence
+                // is a catalog key with two substituted names rather than three
+                // concatenated `Text`s (`Text + Text` is deprecated in iOS 26).
+                Text(
+                    "\(preparation) acts through \(ingredient) — the pharmacology below is \(ingredient)'s.",
+                    comment: "Preparation borrowing its active ingredient's pharmacology",
+                )
+                .font(.caption)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.caption2)
+                    .accessibilityHidden(true)
+            }
+            .foregroundStyle(accent)
+        }
+        .buttonStyle(.plain)
+        .padding(.bottom, 10)
     }
 }
