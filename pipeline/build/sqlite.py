@@ -3557,6 +3557,12 @@ _NAME_REMAP: dict[str, str] = {
     # match handles all structurally-confirmed duplicates automatically.)
     "vyvanse": "Lisdexamfetamine",
     "elvanse": "Lisdexamfetamine",
+    # Demerol is a BRAND, and it was sitting in the catalog as a canonical name —
+    # carrying pethidine's own InChIKey (XADCESSVHJOZHK) and CID 4058, with
+    # Morpheridine filed separately as though they were peers. Canonicalise to the
+    # INN; Demerol survives as an alias. Same defect class as the PMA duplication.
+    "demerol": "Pethidine",
+    "meperidine": "Pethidine",
     "focalin": "Dexmethylphenidate",
     "focalin xr": "Dexmethylphenidate",
     # Wikidata long-form / synonym variants that never matched the enriched
@@ -3607,6 +3613,13 @@ _NAME_REMAP: dict[str, str] = {
 # (loser canonical, winner canonical, fold loser's aliases?). Verified synonyms
 # only — never enantiomers or merely-related drugs.
 _FORCE_MERGE: list[tuple[str, str, bool]] = [
+    # "PMA" and "Para-Methoxyamphetamine" are one molecule under two names, and
+    # BOTH displayed as "PMA" — two different dose ladders under one shown name.
+    # The short-name row is a bare stub (no InChIKey, no formula, no CID), which
+    # is exactly why structural dedup never matched it to the identified record
+    # (NEGYEDYHPHMHGK / CID 31721). Fold into the identified one; "PMA" survives
+    # as its alias and its display_name already reads PMA.
+    ("PMA", "Para-Methoxyamphetamine", True),
     # Bisfluoro-modafinil (flmodafinil = bisfluoromodafinil = CRL-40,940)
     ("Bisfluoromodafinil", "Flmodafinil", True),
     ("CRL-40,940", "Flmodafinil", True),
@@ -4728,6 +4741,73 @@ class Build:
                 removed += 1
         return removed
 
+    # A residual tail longer than three days is not a tail. Sources genuinely cap
+    # afterglow at 72 h for MDMA, buprenorphine and the long psychedelics, so the
+    # bound sits just above that convention rather than cutting into it.
+    _MAX_CREDIBLE_AFTERGLOW_MIN = 72 * 60
+    # Swallowed routes only — sublingual/intranasal absorb transmucosally and are
+    # legitimately fast, so they are deliberately excluded.
+    _ENTERAL_ROUTES = frozenset({"oral", "rectal"})
+    _MIN_ENTERAL_ONSET_MIN = 5.0
+
+    @staticmethod
+    def _duration_profile_faults(profile: dict, route: str = "") -> tuple[bool, bool, bool]:
+        """Screen one duration profile for internal contradictions.
+
+        Returns ``(drop_whole_profile, drop_afterglow, drop_onset)``.
+
+        `onset`/`comeup`/`peak`/`offset` are **segments of** `total`, so if even
+        their *minimum* readings summed cannot fit inside the *longest* stated
+        total, the profile disagrees with itself. Which field is corrupt is not
+        knowable from here and guessing gets it backwards: Gaboxadol's PW profile
+        reads onset 1–3 min, peak 60–120 min, total 2–5 min, where the ruined
+        field is `total`, not the phases. So the whole profile goes and the next
+        source backfills — the dose-source-exception move, applied to durations.
+        41 of 2,263 profiles trip this, including Gaboxadol, Caffeine on two
+        routes, and Phenobarbital.
+
+        `afterglow` is a tail *after* total, so `total` does not bound it and the
+        audit's proposed `afterglow ≤ total` invariant would have deleted correct
+        rows. What is not credible is a multi-day one: 25I-NBOH claimed 288 h of
+        afterglow on an 8 h experience, which is an elimination half-life written
+        into the wrong field. Only the afterglow row goes, and only when it also
+        exceeds the total — that spares the long deliriants (EA-3167, 3-quinuclidinyl
+        benzilate) whose whole experience genuinely runs for days.
+
+        `onset` on a **swallowed** route has a floor that is not a matter of
+        opinion: nothing crosses the gut and reaches the brain inside a few
+        minutes, because gastric emptying alone takes longer than that. Sources
+        nonetheless carry oral morphine at 0 min, oral DMT at 2–10 **seconds**
+        and Blue Lotus at 10 s–1 min — smoked and IV onsets landing on an enteral
+        route. Only oral and rectal are screened; sublingual and intranasal
+        absorb transmucosally and can legitimately be fast.
+        """
+        segments = ("onset", "comeup", "peak", "offset")
+
+        def bound(phase: str, key: str) -> float | None:
+            p = profile.get(phase)
+            return to_float(p.get(key)) if isinstance(p, dict) else None
+
+        total_max = bound("total", "max")
+        if total_max:
+            floors = [bound(ph, "min") for ph in segments]
+            present = [v for v in floors if v is not None]
+            if present and sum(present) > total_max:
+                return True, False, False
+        afterglow_max = bound("afterglow", "max")
+        implausible = bool(
+            afterglow_max
+            and afterglow_max > Build._MAX_CREDIBLE_AFTERGLOW_MIN
+            and (total_max is None or afterglow_max > total_max)
+        )
+        onset_max = bound("onset", "max")
+        impossible_onset = bool(
+            normalise_route(route) in Build._ENTERAL_ROUTES
+            and onset_max is not None
+            and onset_max < Build._MIN_ENTERAL_ONSET_MIN
+        )
+        return False, implausible, impossible_onset
+
     def add_duration_profile(
         self,
         sid: int,
@@ -4741,9 +4821,19 @@ class Build:
         if not route or not profile:
             return
         src = self.source_ids[source_slug]
+        drop_all, drop_afterglow, drop_onset = self._duration_profile_faults(profile, route)
+        if drop_all:
+            self.stats["duration_profile_contradictory"] += 1
+            return
         for phase in ("onset", "comeup", "peak", "offset", "afterglow", "total"):
             p = profile.get(phase)
             if not p:
+                continue
+            if phase == "afterglow" and drop_afterglow:
+                self.stats["duration_afterglow_implausible"] += 1
+                continue
+            if phase == "onset" and drop_onset:
+                self.stats["duration_onset_impossible"] += 1
                 continue
             mn = to_float(p.get("min"))
             mx = to_float(p.get("max"))
@@ -5506,16 +5596,28 @@ class Build:
         # Per-source dose exceptions (data/curated/dose-source-exceptions.json).
         # drug.community applies this in its own ingester; every other source
         # flows through here, which is how the erowid books are reached.
-        skip_routes = self._dose_skip_map(slug).get(name.strip().lower(), False)
+        #
+        # Matched against the record's own name AND the name it resolved to, so
+        # an entry can be written once under the name the catalog shows. Sources
+        # disagree constantly about what a compound is called — PsychonautWiki
+        # files CDP-Choline under "Citicoline", drug.community files MXP as
+        # "MXP (Methoxphenidine)" — and keying on the raw record alone means an
+        # exception silently does nothing, which looks exactly like a fixed row.
+        skip_routes = self._exception_for(self._dose_skip_map(slug), name, sid)
+        drop_routes = self._exception_for(self._route_drop_map(slug), name, sid)
+        drop_durations = self._exception_for(self._duration_drop_map(slug), name, sid)
         for r in s.get("routes") or []:
             if not isinstance(r, dict):
                 continue
+            route_key = normalise_route(r.get("route") or "")
+            # `"drop": "route"` — the route is not offered at all, so nothing
+            # from it is ingested (ladder, timeline or protocol).
+            if drop_routes is None or (drop_routes and route_key in drop_routes):
+                self.stats["route_dropped"] += 1
+                continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
-            if doses and (
-                skip_routes is None
-                or (skip_routes and normalise_route(r.get("route") or "") in skip_routes)
-            ):
+            if doses and (skip_routes is None or (skip_routes and route_key in skip_routes)):
                 self.stats["dose_skipped"] += 1
                 doses = {}  # drop the ladder, keep whatever duration rides with it
             # An empty `doses` block is fine here — `add_dose` drops a row with
@@ -5534,9 +5636,12 @@ class Build:
                 citation=route_ref,
             )
             if r.get("duration"):
-                self.add_duration_profile(
-                    sid, slug, r.get("route", ""), r["duration"], citation=route_ref
-                )
+                if drop_durations is None or (drop_durations and route_key in drop_durations):
+                    self.stats["duration_skipped"] += 1
+                else:
+                    self.add_duration_profile(
+                        sid, slug, r.get("route", ""), r["duration"], citation=route_ref
+                    )
             if r.get("durationOfAction"):
                 self.add_duration_of_action(
                     sid, slug, r.get("route", ""), r["durationOfAction"], citation=route_ref
@@ -5818,6 +5923,67 @@ class Build:
             out[key] = {str(r).strip().lower() for r in routes} if routes else None
         return out
 
+    @staticmethod
+    @functools.cache
+    def _duration_drop_map(source_slug: str) -> dict[str, set[str] | None]:
+        """Entries marked ``"drop": "durations"`` — the ladder is fine, the
+        timeline is not.
+
+        Almost always a profile copied from the wrong route: TripSit gives oral
+        sufentanil a 5–10 min total, which is the **IV** curve, on a drug whose
+        oral absorption alone takes 30–90 min. Nothing backfills these (TripSit
+        is the only source for the route), so the route keeps its doses and
+        renders without a curve rather than with a fictional one."""
+        return Build._exception_map(source_slug, "durations")
+
+    @staticmethod
+    @functools.cache
+    def _route_drop_map(source_slug: str) -> dict[str, set[str] | None]:
+        """Entries marked ``"drop": "route"`` — the route itself should not be
+        offered, not merely its ladder.
+
+        A dose exception alone leaves the route present with a timeline and no
+        numbers, which reads as "we have no dose for this" rather than "this
+        route does not do anything". Oral naloxone is the case that forced the
+        distinction: ~2% bioavailable, used orally *because* it is systemically
+        inactive, and PsychonautWiki still gives it a 5–15 min onset and a 1–2 h
+        total. Dropping the ladder and keeping that timeline would still promise
+        an opioid reversal that will not happen."""
+        return Build._exception_map(source_slug, "route")
+
+    def _exception_for(
+        self, mapping: dict[str, set[str] | None], record_name: str, sid: int
+    ) -> set[str] | None | bool:
+        """Look an exception up by the source's own name for a substance, then by
+        the canonical name it actually resolved to. Returns the route set, None
+        for "every route", or False for no exception."""
+        key = (record_name or "").strip().lower()
+        if key in mapping:
+            return mapping[key]
+        row = self.cur.execute(
+            "SELECT canonical_name FROM substances WHERE id=?", (sid,)
+        ).fetchone()
+        if row and (canon := row[0].strip().lower()) in mapping:
+            return mapping[canon]
+        return False
+
+    @staticmethod
+    def _exception_map(source_slug: str, kind: str) -> dict[str, set[str] | None]:
+        """Shared reader for the `drop`-tagged entries of one source."""
+        if not DOSE_SOURCE_EXCEPTIONS.exists():
+            return {}
+        entries = json.loads(DOSE_SOURCE_EXCEPTIONS.read_text()).get(source_slug) or []
+        out: dict[str, set[str] | None] = {}
+        for e in entries:
+            if e.get("drop") != kind:
+                continue
+            key = (e.get("name") or "").strip().lower()
+            if not key:
+                continue
+            routes = e.get("routes")
+            out[key] = {str(r).strip().lower() for r in routes} if routes else None
+        return out
+
     def ingest_drug_community(self, path: Path) -> None:
         if not path.exists():
             return
@@ -5853,6 +6019,7 @@ class Build:
                 if cc and len(cc) <= 48 and ";" not in cc and "(" not in cc:
                     self.add_tag(sid, slug, f"class:{cc}")
             skip_routes = dose_skip.get(name.strip().lower(), False)
+            drop_routes = self._route_drop_map(slug).get(name.strip().lower(), False)
             dosages = (s.get("dosages") or {}).get("routes_of_administration") or []
             for r in dosages:
                 # Normalize the raw dc route ("IV", "insufflated", …) to Piru's
@@ -5861,7 +6028,12 @@ class Build:
                 route_key = normalise_route(r.get("route") or "")
                 # Correction override: drop dc's dose ladder for excepted
                 # substances/routes so the next-priority source backfills.
-                if skip_routes is None or (skip_routes and route_key in skip_routes):
+                if (
+                    skip_routes is None
+                    or (skip_routes and route_key in skip_routes)
+                    or drop_routes is None
+                    or (drop_routes and route_key in drop_routes)
+                ):
                     self.stats["dc_dose_skipped"] += 1
                     continue
                 dr = r.get("dose_ranges") or {}
@@ -5883,11 +6055,21 @@ class Build:
                     heavy=heavy,
                     notes=r.get("notes"),
                 )
+            drop_durations = self._duration_drop_map(slug).get(name.strip().lower(), False)
             for dc in s.get("duration_curves") or []:
                 curve = dc.get("duration_curve")
                 if not isinstance(curve, dict):
                     continue
                 route = (dc.get("method") or "oral").lower()
+                route_key = normalise_route(route)
+                if (
+                    drop_routes is None
+                    or (drop_routes and route_key in drop_routes)
+                    or drop_durations is None
+                    or (drop_durations and route_key in drop_durations)
+                ):
+                    self.stats["duration_skipped"] += 1
+                    continue
                 # drug.community labels each curve with its own unit. Earlier
                 # versions assumed hours unconditionally, which inflated minute-
                 # denominated entries (e.g. 6-MAM IV 90 min → 5400 min = 90 h)
@@ -6444,7 +6626,21 @@ class Build:
                 if mapped:
                     self.add_category(sid, slug, mapped)
 
+            # Exceptions key on the RESOLVED canonical name — FreeOD pages are
+            # titled in Chinese and their Latin name is chosen above, so keying
+            # on the record would never match an English exception entry.
+            ex_key = canonical.strip().lower()
+            skip_routes = self._dose_skip_map(slug).get(ex_key, False)
+            drop_routes = self._route_drop_map(slug).get(ex_key, False)
+            drop_durations = self._duration_drop_map(slug).get(ex_key, False)
+
+            def excepted(mapping: set[str] | None | bool, route: str) -> bool:
+                return mapping is None or bool(mapping and normalise_route(route) in mapping)
+
             for route, d in (rec.get("doses") or {}).items():
+                if excepted(drop_routes, route) or excepted(skip_routes, route):
+                    self.stats["dose_skipped"] += 1
+                    continue
                 unit = d.get("unit") or "mg"
                 self.add_dose(
                     sid,
@@ -6458,6 +6654,9 @@ class Build:
                     heavy=d.get("heavy"),
                 )
             for route, phases in (rec.get("durations") or {}).items():
+                if excepted(drop_routes, route) or excepted(drop_durations, route):
+                    self.stats["duration_skipped"] += 1
+                    continue
                 if phases:
                     self.add_duration_profile(sid, slug, route, phases)
 
