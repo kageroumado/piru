@@ -342,7 +342,6 @@ struct IntensityGauge: View {
         center: CGPoint, radius: Double, startAngle: Double, seg: Double, size: CGSize,
     ) -> some View {
         let thickness = lineWidth + (isGrabbed ? 15 : 9)
-        let midDeg = startAngle + seg / 2
         let shape = ArcSegment(
             startDeg: startAngle, sweepDeg: seg, radius: radius, thickness: thickness, center: center,
         )
@@ -355,10 +354,15 @@ struct IntensityGauge: View {
             .frame(width: size.width, height: size.height)
             .glassEffect(.regular.tint(color(selected)), in: shape)
             .overlay {
-                // Rides the arc on the same interpolated angle as the pill's own
-                // path, so the two never separate mid-slide.
-                GrabberGlyph(active: isGrabbed)
-                    .modifier(ArcPlacement(degrees: midDeg, center: center, radius: radius))
+                // Same shape inputs as the pill above, so both paths are rebuilt
+                // from one interpolated angle in the same frame.
+                GrabberRidges(
+                    startDeg: startAngle, sweepDeg: seg, radius: radius,
+                    thickness: thickness, center: center,
+                )
+                .fill(.white.opacity(isGrabbed ? 0.95 : 0.8))
+                .frame(width: size.width, height: size.height)
+                .shadow(color: .black.opacity(0.15), radius: 0.5, y: 0.5)
             }
             // Neutral lift, not a colored glow — a tinted shadow reads as a halo.
             .shadow(color: .black.opacity(isGrabbed ? 0.22 : 0.14), radius: isGrabbed ? 9 : 5, y: 2)
@@ -472,26 +476,59 @@ private struct ArcPlacement: ViewModifier, Animatable {
 }
 
 /// The grip on the floating pill — a few short ridges that say "drag me,"
-/// echoing the sheet grabber. Sits at the pill's center and is rotated by the
-/// caller to track the pill around the arc; brightens and spreads slightly when
-/// grabbed.
-private struct GrabberGlyph: View {
-    let active: Bool
+/// echoing the sheet grabber.
+///
+/// **A `Shape`, sharing `ArcSegment`'s exact animatable data — not a view placed
+/// by a transform.** A `Shape` path is recomputed on the main thread every frame,
+/// while `rotationEffect`/`position` can be promoted to the render server and keep
+/// interpolating without it. Any main-thread hitch inside the animation window
+/// therefore froze the pill and let the ridges sail on, and they arrived visibly
+/// detached — worst on the longest throw (Heavy → Overdose), only when the drag
+/// was fast enough to still be animating, and only the first time, when the
+/// band's color asset and its glass material were being resolved for the first
+/// time. Drawn from the same interpolated angle in the same pass, the two cannot
+/// come apart: a hitch stalls both.
+private struct GrabberRidges: Shape {
+    var startDeg: Double
+    var sweepDeg: Double
+    var radius: Double
+    var thickness: Double
+    var center: CGPoint
 
-    var body: some View {
-        // Spacing is fixed. Animating it made the grab a *layout* change while
-        // the pill's matching lift was a path interpolation — same nominal
-        // spring, different settling curves, which read as the ridges buzzing
-        // independently of the pill they sit on. Opacity composites, so it
-        // settles with the pill.
-        HStack(spacing: 3) {
-            ForEach(0 ..< 3, id: \.self) { _ in
-                Capsule()
-                    .fill(.white.opacity(active ? 0.95 : 0.8))
-                    .frame(width: 2, height: 11)
-            }
+    private static let count = 3
+    private static let ridgeWidth: Double = 2
+    private static let ridgeLength: Double = 11
+    private static let spacing: Double = 5
+
+    var animatableData: AnimatablePair<Double, AnimatablePair<Double, Double>> {
+        get { AnimatablePair(startDeg, AnimatablePair(sweepDeg, thickness)) }
+        set {
+            startDeg = newValue.first
+            sweepDeg = newValue.second.first
+            thickness = newValue.second.second
         }
-        .shadow(color: .black.opacity(0.15), radius: 0.5, y: 0.5)
+    }
+
+    func path(in _: CGRect) -> Path {
+        let mid = (startDeg + sweepDeg / 2) * .pi / 180
+        // Radial points out of the dial; tangent runs along it. The ridges sit
+        // across the arc, so they line up spaced along the tangent and extend
+        // along the radius — which is what keeps them square to the curve
+        // without a rotation modifier.
+        let radial = CGPoint(x: cos(mid), y: sin(mid))
+        let tangent = CGPoint(x: -sin(mid), y: cos(mid))
+        let hub = CGPoint(x: center.x + radius * radial.x, y: center.y + radius * radial.y)
+        let half = Self.ridgeLength / 2
+        let first = -Double(Self.count - 1) / 2
+
+        var path = Path()
+        for index in 0 ..< Self.count {
+            let offset = (first + Double(index)) * Self.spacing
+            let seat = CGPoint(x: hub.x + tangent.x * offset, y: hub.y + tangent.y * offset)
+            path.move(to: CGPoint(x: seat.x - radial.x * half, y: seat.y - radial.y * half))
+            path.addLine(to: CGPoint(x: seat.x + radial.x * half, y: seat.y + radial.y * half))
+        }
+        return path.strokedPath(StrokeStyle(lineWidth: Self.ridgeWidth, lineCap: .round))
     }
 }
 
