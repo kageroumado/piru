@@ -316,36 +316,60 @@ struct ChemistrySection: View {
 struct SourcesSection: View {
     let substance: Substance
     let showsSources: Bool
+    /// Which source supplied which field. Owned by ``SubstanceDetailModel`` —
+    /// a `.task` of this section's own would sit inside a collapsed disclosure
+    /// and not run until the reader opened it.
+    let contributions: SubstanceStore.SourceContributions
 
-    /// The one piece of async state this section owns. Loaded in `.task` because
-    /// it is a SQLite read: running it from `body` would re-query on every
-    /// re-render, and the presence gate in ``SubstanceDetailLayout`` calls
-    /// ``SubstanceSourceLinks/mergedLinks(for:contributions:)`` without it.
-    @State private var contributions: SubstanceStore.SourceContributions = .empty
+    @State private var isExpanded: Bool
+
+    /// `initiallyExpanded` seeds the disclosure open — the deep-data page passes
+    /// `true` so a "Sources" tap lands on the ledger rather than on a second
+    /// collapsed row, the same double-collapse void ``ChemistrySection`` avoids.
+    init(
+        substance: Substance,
+        showsSources: Bool,
+        contributions: SubstanceStore.SourceContributions,
+        initiallyExpanded: Bool = false,
+    ) {
+        self.substance = substance
+        self.showsSources = showsSources
+        self.contributions = contributions
+        _isExpanded = State(initialValue: initiallyExpanded)
+    }
 
     var body: some View {
         let links = SubstanceSourceLinks.mergedLinks(for: substance, contributions: contributions)
         if showsSources, !links.isEmpty {
-            Section {
-                ForEach(links) { link in
-                    if let url = link.url {
-                        Link(destination: url) {
-                            SourceLedgerRow(link: link, linked: true)
+            // Folded, like every other reference card on the page. `DisclosurePolicy`
+            // has said so since it was written (`sourcesDefaultExpanded` is `false`
+            // at every tier, and the placement matrix says `.inlineCollapsed`) —
+            // this section was simply the one that never honored it, and the ledger
+            // is one row per source, which made it the longest block on the screen
+            // for the reader least likely to want it.
+            CollapsibleSection(
+                "Sources",
+                systemImage: "text.book.closed",
+                count: links.count,
+                isExpanded: $isExpanded,
+            ) {
+                VStack(alignment: .leading, spacing: 10) {
+                    ForEach(links) { link in
+                        if let url = link.url {
+                            Link(destination: url) {
+                                SourceLedgerRow(link: link, linked: true)
+                            }
+                            .buttonStyle(.plain)
+                        } else {
+                            SourceLedgerRow(link: link, linked: false)
                         }
-                    } else {
-                        SourceLedgerRow(link: link, linked: false)
                     }
+                    Text("Each row lists what that source supplied here. Links open the source's own page — always verify against the original.")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-            } header: {
-                Text("Sources")
-                    // On the header rather than the `Section`: a `.task` attached
-                    // to a Section inside a List has no dependable content view to
-                    // bind its lifetime to, and the header always renders.
-                    .task(id: substance.name) {
-                        contributions = SubstanceStore.shared.sourceContributions(forSubstanceName: substance.name)
-                    }
-            } footer: {
-                Text("Each row lists what that source supplied here. Links open the source's own page — always verify against the original.")
+                .padding(.vertical, 4)
             }
         }
     }

@@ -52,7 +52,12 @@ struct SubstanceDataPageView: View {
         case .chemistry:
             ChemistrySection(substance: substance, showsMechanism: true, initiallyExpanded: true)
         case .sources:
-            SourcesSection(substance: substance, showsSources: true)
+            SourcesSection(
+                substance: substance,
+                showsSources: true,
+                contributions: model.sourceContributions,
+                initiallyExpanded: true,
+            )
         case .pharmacology:
             // Host the whole pharmacology cluster (mechanism · monoamine ·
             // receptor literature · PK · metabolism) at full tier so the deep
