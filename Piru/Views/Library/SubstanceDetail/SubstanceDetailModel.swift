@@ -35,6 +35,13 @@ final class SubstanceDetailModel {
     /// / bladder / taste-receptor rows. One per target, most-consequential first.
     var offTargets: [SubstanceStore.OffTargetHit] = []
 
+    /// Which source supplied which field, for the Sources ledger. Loaded here
+    /// rather than by the section itself: the ledger folds now, and a `.task`
+    /// inside a collapsed disclosure doesn't run until the user opens it — so
+    /// the layout's presence gate would be deciding whether to show the section
+    /// from data that only arrives once the section is already on screen.
+    var sourceContributions: SubstanceStore.SourceContributions = .empty
+
     /// Metabolites doing some of the work — the "Also Active" surface. Folded
     /// from ``metabolismRows`` by metabolite (the table groups by enzyme), and
     /// filtered to the ones that can actually say something, so the section is
@@ -89,6 +96,7 @@ final class SubstanceDetailModel {
         // app governs density rather than access — the card ships folded at
         // every tier instead.
         offTargets = store.offTargets(forSubstanceName: substanceName)
+        sourceContributions = store.sourceContributions(forSubstanceName: substanceName)
 
         // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil,
         // rifampicin…) can lower hormonal-contraception levels. Ungated like a

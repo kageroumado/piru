@@ -73,6 +73,12 @@ struct SubstanceDetailLayout: View {
         // whose placement actually varies.
         OffTargetSection(substance: substance, model: model)
 
+        // Two class cards, each self-hiding outside its family: the benzodiazepine
+        // duration ladder and the antidepressant class explainer. Same reasoning
+        // as above for staying out of the placement matrix.
+        BenzoDurationSection(substance: substance, model: model)
+        DrugClassSection(substance: substance)
+
         // Metabolites doing some of the work — on the main screen at every tier.
         AlsoActiveSection(substance: substance, model: model, onGlossary: onGlossary)
 
@@ -150,7 +156,11 @@ struct SubstanceDetailLayout: View {
             ChemistrySection(substance: substance, showsMechanism: policy.showsMechanism)
         }
         if placement(.sources) != .hidden, hasSourcesData {
-            SourcesSection(substance: substance, showsSources: true)
+            SourcesSection(
+                substance: substance,
+                showsSources: true,
+                contributions: model.sourceContributions,
+            )
         }
     }
 
@@ -162,8 +172,11 @@ struct SubstanceDetailLayout: View {
             || substance.pubchemCID != nil || (substance.physicochemical?.hasAnyValue ?? false)
     }
 
+    /// Same call the section makes, contributions included — a gate computed
+    /// from a narrower set than the section renders would hide a ledger that
+    /// does have rows.
     private var hasSourcesData: Bool {
-        !SubstanceSourceLinks.mergedLinks(for: substance).isEmpty
+        !SubstanceSourceLinks.mergedLinks(for: substance, contributions: model.sourceContributions).isEmpty
     }
 }
 

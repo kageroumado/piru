@@ -1813,6 +1813,67 @@ T = {
     "Clinically significant": ("具有临床意义", "具有臨床意義"),
     "Real but bounded": ("确有影响但有限", "確有影響但有限"),
     "Not clinically dominant": ("在临床上并不占主导", "在臨床上並不佔主導"),
+    # Benzodiazepine duration ladder. The caption's negation is deliberate: every
+    # reader arrives believing half-life is how long the drug is felt.
+    "How Long It Stays": ("在体内停留多久", "在體內停留多久"),
+    "Elimination half-life — not how long you feel it.": (
+        "消除半衰期——不是你能感觉到的时长。",
+        "消除半衰期——不是你能感覺到的時長。",
+    ),
+    "Metabolite of the above": ("上一项的代谢产物", "上一項的代謝產物"),
+    # Antidepressant class card.
+    "Drug Class": ("药物类别", "藥物類別"),
+    "The rest of the family": ("同类其他药物", "同類其他藥物"),
+    "Selective serotonin reuptake inhibitor": (
+        "选择性5-羟色胺再摄取抑制剂",
+        "選擇性血清素回收抑制劑",
+    ),
+    "Serotonin–noradrenaline reuptake inhibitor": (
+        "5-羟色胺-去甲肾上腺素再摄取抑制剂",
+        "血清素-正腎上腺素回收抑制劑",
+    ),
+    "Noradrenaline–dopamine reuptake inhibitor": (
+        "去甲肾上腺素-多巴胺再摄取抑制剂",
+        "正腎上腺素-多巴胺回收抑制劑",
+    ),
+    "Tricyclic antidepressant": ("三环类抗抑郁药", "三環類抗憂鬱藥"),
+    "Monoamine oxidase inhibitor": ("单胺氧化酶抑制剂", "單胺氧化酶抑制劑"),
+    "Serotonin antagonist and reuptake inhibitor": (
+        "5-羟色胺拮抗与再摄取抑制剂",
+        "血清素拮抗與回收抑制劑",
+    ),
+    "Noradrenergic and specific serotonergic antidepressant": (
+        "去甲肾上腺素能与特异性5-羟色胺能抗抑郁药",
+        "正腎上腺素能與特異性血清素能抗憂鬱藥",
+    ),
+    "Blocks the serotonin transporter and little else, which is why its effects and its side effects are both mostly serotonergic.": (
+        "几乎只阻断5-羟色胺转运体，因此它的作用与副作用大多都是5-羟色胺性的。",
+        "幾乎只阻斷血清素轉運體，因此它的作用與副作用大多都是血清素性的。",
+    ),
+    "Blocks serotonin and noradrenaline reuptake together. The noradrenaline share grows with dose, so a low dose can behave much like an SSRI.": (
+        "同时阻断5-羟色胺和去甲肾上腺素的再摄取。去甲肾上腺素那一份随剂量增大，因此低剂量时表现可以很像SSRI。",
+        "同時阻斷血清素和正腎上腺素的回收。正腎上腺素那一份隨劑量增大，因此低劑量時表現可以很像SSRI。",
+    ),
+    "Blocks noradrenaline and dopamine reuptake, leaving serotonin alone — the activating end of the family.": (
+        "阻断去甲肾上腺素和多巴胺的再摄取，不动5-羟色胺——这一类里偏兴奋的一端。",
+        "阻斷正腎上腺素和多巴胺的回收，不動血清素——這一類裡偏興奮的一端。",
+    ),
+    "Blocks serotonin and noradrenaline reuptake like an SNRI, and also histamine, muscarinic and α₁ receptors. That extra binding is the sedation, the dry mouth, and the narrow margin in overdose.": (
+        "像SNRI一样阻断5-羟色胺和去甲肾上腺素的再摄取，同时还结合组胺、毒蕈碱和α₁受体。多出来的这部分结合，就是镇静、口干，以及过量时安全窗口狭窄的来源。",
+        "像SNRI一樣阻斷血清素和正腎上腺素的回收，同時還結合組織胺、蕈毒鹼和α₁受體。多出來的這部分結合，就是鎮靜、口乾，以及過量時安全窗口狹窄的來源。",
+    ),
+    "Blocks the enzyme that breaks monoamines down, rather than the transporters that recycle them, so all three rise. The tyramine restriction and the long interaction list both follow from that.": (
+        "阻断的是分解单胺的酶，而不是回收它们的转运体，所以三种单胺都会升高。酪胺饮食限制和那一长串相互作用，都由此而来。",
+        "阻斷的是分解單胺的酶，而不是回收它們的轉運體，所以三種單胺都會升高。酪胺飲食限制和那一長串交互作用，都由此而來。",
+    ),
+    "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant.": (
+        "阻断5-HT₂A，同时弱抑制5-羟色胺再摄取。低剂量时受体阻断占主导，这就是曲唑酮作为助眠药比作为抗抑郁药触及了多得多的人的原因。",
+        "阻斷5-HT₂A，同時弱抑制血清素回收。低劑量時受體阻斷佔主導，這就是曲唑酮作為助眠藥比作為抗憂鬱藥觸及了多得多的人的原因。",
+    ),
+    "Raises noradrenaline and serotonin release by blocking the α₂ autoreceptors that normally brake it, instead of blocking reuptake. The H₁ block alongside it is the sedation and the appetite.": (
+        "通过阻断本来起刹车作用的α₂自身受体来提高去甲肾上腺素和5-羟色胺的释放，而不是阻断再摄取。与之并行的H₁阻断，就是镇静和食欲的来源。",
+        "透過阻斷本來起煞車作用的α₂自身受體來提高正腎上腺素和血清素的釋放，而不是阻斷回收。與之並行的H₁阻斷，就是鎮靜和食慾的來源。",
+    ),
     "Had grapefruit with this dose": ("此剂量同服了西柚", "此劑量同服了葡萄柚"),
     "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. Both are shown only where they actually change a drug's levels.": (
         "烟草烟雾会加快 CYP1A2，从而降低某些药物（如咖啡因和奥氮平）的血药浓度。西柚会减慢 CYP3A4，升高另一些药物的浓度——开启西柚记录后，可在受影响物质的单次剂量上标记它。两者仅在确实会改变某药物浓度时才显示。",
@@ -5915,6 +5976,25 @@ if __name__ == "__main__":
         "Clinically significant",
         "Real but bounded",
         "Not clinically dominant",
+        "How Long It Stays",
+        "Elimination half-life — not how long you feel it.",
+        "Metabolite of the above",
+        "Drug Class",
+        "The rest of the family",
+        "Selective serotonin reuptake inhibitor",
+        "Serotonin–noradrenaline reuptake inhibitor",
+        "Noradrenaline–dopamine reuptake inhibitor",
+        "Tricyclic antidepressant",
+        "Monoamine oxidase inhibitor",
+        "Serotonin antagonist and reuptake inhibitor",
+        "Noradrenergic and specific serotonergic antidepressant",
+        "Blocks the serotonin transporter and little else, which is why its effects and its side effects are both mostly serotonergic.",
+        "Blocks serotonin and noradrenaline reuptake together. The noradrenaline share grows with dose, so a low dose can behave much like an SSRI.",
+        "Blocks noradrenaline and dopamine reuptake, leaving serotonin alone — the activating end of the family.",
+        "Blocks serotonin and noradrenaline reuptake like an SNRI, and also histamine, muscarinic and α₁ receptors. That extra binding is the sedation, the dry mouth, and the narrow margin in overdose.",
+        "Blocks the enzyme that breaks monoamines down, rather than the transporters that recycle them, so all three rise. The tyramine restriction and the long interaction list both follow from that.",
+        "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant.",
+        "Raises noradrenaline and serotonin release by blocking the α₂ autoreceptors that normally brake it, instead of blocking reuptake. The H₁ block alongside it is the sedation and the appetite.",
         "Log this",
         "Prescribing",
         "Approved uses",

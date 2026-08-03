@@ -10907,6 +10907,22 @@
         }
       }
     },
+    "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻断5-HT₂A，同时弱抑制5-羟色胺再摄取。低剂量时受体阻断占主导，这就是曲唑酮作为助眠药比作为抗抑郁药触及了多得多的人的原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻斷5-HT₂A，同時弱抑制血清素回收。低劑量時受體阻斷佔主導，這就是曲唑酮作為助眠藥比作為抗憂鬱藥觸及了多得多的人的原因。"
+          }
+        }
+      }
+    },
     "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing dopaminergic neurotransmission associated with positive psychotic symptoms. Also blocks D2 receptors in the nigrostriatal pathway (causing extrapyramidal symptoms), tuberoinfundibular pathway (causing hyperprolactinemia), and mesocortical pathway. Most also antagonize histamine H1, muscarinic, and α1-adrenergic receptors to varying degrees." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10972,6 +10988,22 @@
         }
       }
     },
+    "Blocks noradrenaline and dopamine reuptake, leaving serotonin alone — the activating end of the family." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻断去甲肾上腺素和多巴胺的再摄取，不动5-羟色胺——这一类里偏兴奋的一端。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻斷正腎上腺素和多巴胺的回收，不動血清素——這一類裡偏興奮的一端。"
+          }
+        }
+      }
+    },
     "Blocks presynaptic α2-adrenergic autoreceptors and heteroreceptors, increasing norepinephrine and serotonin release. Simultaneously blocks 5-HT2A, 5-HT2C, and 5-HT3 receptors, directing serotonergic activity through 5-HT1A receptors. Potent histamine H1 antagonism produces marked sedation and appetite stimulation, particularly at lower doses where antihistaminic effects predominate." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -11001,6 +11033,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阻斷再攝取但不促進釋放（古柯鹼／派醋甲酯類）——其耐受性與再用藥特徵與釋放劑不同。"
+          }
+        }
+      }
+    },
+    "Blocks serotonin and noradrenaline reuptake like an SNRI, and also histamine, muscarinic and α₁ receptors. That extra binding is the sedation, the dry mouth, and the narrow margin in overdose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "像SNRI一样阻断5-羟色胺和去甲肾上腺素的再摄取，同时还结合组胺、毒蕈碱和α₁受体。多出来的这部分结合，就是镇静、口干，以及过量时安全窗口狭窄的来源。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "像SNRI一樣阻斷血清素和正腎上腺素的回收，同時還結合組織胺、蕈毒鹼和α₁受體。多出來的這部分結合，就是鎮靜、口乾，以及過量時安全窗口狹窄的來源。"
+          }
+        }
+      }
+    },
+    "Blocks serotonin and noradrenaline reuptake together. The noradrenaline share grows with dose, so a low dose can behave much like an SSRI." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同时阻断5-羟色胺和去甲肾上腺素的再摄取。去甲肾上腺素那一份随剂量增大，因此低剂量时表现可以很像SSRI。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同時阻斷血清素和正腎上腺素的回收。正腎上腺素那一份隨劑量增大，因此低劑量時表現可以很像SSRI。"
           }
         }
       }
@@ -11035,6 +11099,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阻斷多巴胺轉運體 (DAT) 和去甲腎上腺素轉運體 (NET),增加突觸多巴胺和去甲腎上腺素。與苯丙胺類不同,哌甲酯是純再攝取抑制劑 — 不反轉轉運體功能或釋放儲存的單胺。優先增加前額葉皮質和紋狀體中的兒茶酚胺,增強注意力、工作記憶和執行功能。"
+          }
+        }
+      }
+    },
+    "Blocks the enzyme that breaks monoamines down, rather than the transporters that recycle them, so all three rise. The tyramine restriction and the long interaction list both follow from that." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻断的是分解单胺的酶，而不是回收它们的转运体，所以三种单胺都会升高。酪胺饮食限制和那一长串相互作用，都由此而来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻斷的是分解單胺的酶，而不是回收它們的轉運體，所以三種單胺都會升高。酪胺飲食限制和那一長串交互作用，都由此而來。"
+          }
+        }
+      }
+    },
+    "Blocks the serotonin transporter and little else, which is why its effects and its side effects are both mostly serotonergic." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几乎只阻断5-羟色胺转运体，因此它的作用与副作用大多都是5-羟色胺性的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾乎只阻斷血清素轉運體，因此它的作用與副作用大多都是血清素性的。"
           }
         }
       }
@@ -18064,6 +18160,22 @@
     "Drug" : {
 
     },
+    "Drug Class" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物類別"
+          }
+        }
+      }
+    },
     "Dual Orexin Receptor Antagonist (DORA)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19386,6 +19498,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 的消除曲線"
+          }
+        }
+      }
+    },
+    "Elimination half-life — not how long you feel it." : {
+      "comment" : "Ladder caption",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除半衰期——不是你能感觉到的时长。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消除半衰期——不是你能感覺到的時長。"
           }
         }
       }
@@ -24363,6 +24492,22 @@
         }
       }
     },
+    "How Long It Stays" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在体内停留多久"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在體內停留多久"
+          }
+        }
+      }
+    },
     "How much detail?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29169,6 +29314,23 @@
         }
       }
     },
+    "Metabolite of the above" : {
+      "comment" : "Ladder rung role",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一项的代谢产物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一項的代謝產物"
+          }
+        }
+      }
+    },
     "Methadone" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29961,6 +30123,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按分子計,強度約為 %2$@ 的 %1$@ 倍。"
+          }
+        }
+      }
+    },
+    "Monoamine oxidase inhibitor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单胺氧化酶抑制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單胺氧化酶抑制劑"
           }
         }
       }
@@ -32831,6 +33009,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "益智劑透過多種機制增強認知功能,可能包括對乙醯膽鹼、麩胺酸或單胺神經傳導物質系統的調節;改善腦血流;透過抗氧化活性進行神經保護;或調節神經可塑性訊號級聯。機制差異很大,且具有物質特異性。"
+          }
+        }
+      }
+    },
+    "Noradrenaline–dopamine reuptake inhibitor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去甲肾上腺素-多巴胺再摄取抑制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正腎上腺素-多巴胺回收抑制劑"
+          }
+        }
+      }
+    },
+    "Noradrenergic and specific serotonergic antidepressant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去甲肾上腺素能与特异性5-羟色胺能抗抑郁药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正腎上腺素能與特異性血清素能抗憂鬱藥"
           }
         }
       }
@@ -37513,6 +37723,22 @@
         }
       }
     },
+    "Raises noradrenaline and serotonin release by blocking the α₂ autoreceptors that normally brake it, instead of blocking reuptake. The H₁ block alongside it is the sedation and the appetite." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过阻断本来起刹车作用的α₂自身受体来提高去甲肾上腺素和5-羟色胺的释放，而不是阻断再摄取。与之并行的H₁阻断，就是镇静和食欲的来源。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透過阻斷本來起煞車作用的α₂自身受體來提高正腎上腺素和血清素的釋放，而不是阻斷回收。與之並行的H₁阻斷，就是鎮靜和食慾的來源。"
+          }
+        }
+      }
+    },
     "Ramp" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -41482,6 +41708,22 @@
         }
       }
     },
+    "Selective serotonin reuptake inhibitor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择性5-羟色胺再摄取抑制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇性血清素回收抑制劑"
+          }
+        }
+      }
+    },
     "Selective Serotonin Reuptake Inhibitor (SSRI)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41961,6 +42203,22 @@
         }
       }
     },
+    "Serotonin antagonist and reuptake inhibitor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-羟色胺拮抗与再摄取抑制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素拮抗與回收抑制劑"
+          }
+        }
+      }
+    },
     "Serotonin Antagonist and Reuptake Inhibitor (SARI)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -42323,6 +42581,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素優勢單胺釋放劑兼共感劑"
+          }
+        }
+      }
+    },
+    "Serotonin–noradrenaline reuptake inhibitor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-羟色胺-去甲肾上腺素再摄取抑制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素-正腎上腺素回收抑制劑"
           }
         }
       }
@@ -47367,6 +47641,23 @@
         }
       }
     },
+    "The rest of the family" : {
+      "comment" : "Header above the sibling drug classes",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同类其他药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同類其他藥物"
+          }
+        }
+      }
+    },
     "The same dose hits harder the less you weigh. Set yours so estimates fit your body — otherwise Piru assumes an average adult, about 60 kg." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -49338,6 +49629,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "趨勢"
+          }
+        }
+      }
+    },
+    "Tricyclic antidepressant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三环类抗抑郁药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三環類抗憂鬱藥"
           }
         }
       }
