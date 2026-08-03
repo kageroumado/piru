@@ -86,7 +86,7 @@ struct AcetaldehydeCard: View {
         } header: {
             Text("Acetaldehyde (ALDH2)")
         } footer: {
-            Text("Based on your self-reported alcohol flush · educational, not a measured level.")
+            Text("Based on your self-reported alcohol flush · educational.")
         }
     }
 }

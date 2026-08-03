@@ -109,7 +109,7 @@ struct PharmacologyGlossarySheet: View {
         case .receptor:
             "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab."
         case .metabolism:
-            "Estimates from primary literature, not measured for you."
+            "Estimates from primary literature."
         case .mechanism, .monoamine:
             nil
         }

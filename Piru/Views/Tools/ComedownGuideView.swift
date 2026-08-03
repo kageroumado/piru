@@ -123,7 +123,7 @@ struct ComedownGuideView: View {
                     "Don't fight the fatigue — lie down even if sleep doesn't come immediately.",
                     "Dark room, comfortable temperature, no screens.",
                     "A warm shower or light stretching helps your muscles release.",
-                    "The low mood is chemical, not a reflection of reality. It lifts.",
+                    "The low mood is chemical. It lifts.",
                 ],
                 avoid: [
                     "Don't redose to escape the crash — it only delays and worsens recovery.",
@@ -173,7 +173,7 @@ struct ComedownGuideView: View {
                 ],
                 nextHours: [
                     "Rest. Sleep often comes easily once the peak is past.",
-                    "Don't try to 'figure it all out' right now. Integration takes days, not hours.",
+                    "Don't try to 'figure it all out' right now. Integration takes days.",
                     "Nature, art, or quiet music can help you process gently.",
                     "Be easy with yourself — profound experiences need time to settle.",
                 ],
@@ -199,7 +199,7 @@ struct ComedownGuideView: View {
                 ],
                 nextHours: [
                     "Sleep when you can — your brain recovers fastest during rest.",
-                    "The foggy feeling will clear. Give it hours, not minutes.",
+                    "The foggy feeling will clear. Give it hours.",
                     "Gentle sensory input (music, soft textures) can help you reconnect.",
                     "Don't worry if things feel 'weird' — your perception is still recalibrating.",
                 ],
@@ -240,7 +240,7 @@ struct ComedownGuideView: View {
             CategoryGuide(
                 whatsHappening: [
                     "Your GABA receptors are readjusting — anxiety or restlessness may temporarily increase.",
-                    "This is a rebound effect, not a return to baseline anxiety. It passes.",
+                    "This is a rebound effect. It passes.",
                     "If you've been using regularly, talk to a doctor about tapering — never stop abruptly.",
                 ],
                 rightNow: [

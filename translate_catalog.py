@@ -1806,6 +1806,137 @@ T = {
     # Off-Target Effects card. The concern chips describe the *consequence*, not
     # the binding strength — a bare 高/低 beside a receptor name would read as
     # affinity, which is the one thing this column never means.
+    # ---------------------------------------------------------------
+    # 2026-08-04 negative-clause sweep. "Say what it is, never what it isn't":
+    # every ", not X" clause below was cut from the English, so the Chinese loses
+    # its matching 而非／並非／不是 clause. Kept only where the negation is mandated
+    # elsewhere — "not medical advice", "not clinical potency", and the
+    # tolerance-by-receptor title, which name a belief the reader actively holds.
+    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths.": (
+        "释放剂的输出受限于囊泡中剩余的多巴胺存量；若同时存在再摄取抑制剂，还会被进一步压制。抑制剂则不受存量限制——它通过减慢清除而非推出递质来提升多巴胺。两者由不同的代码路径处理。",
+        "釋放劑的輸出受限於囊泡中剩餘的多巴胺存量；若同時存在再攝取抑制劑，還會被進一步壓制。抑制劑則不受存量限制——它透過減慢清除而非推出遞質來提升多巴胺。兩者由不同的程式路徑處理。",
+    ),
+    "Approximate — equivalence tables disagree. Treat this as a ballpark.": (
+        "仅为近似——各等效换算表并不一致。请将其视为大致参考。",
+        "僅為近似——各等效換算表並不一致。請將其視為大致參考。",
+    ),
+    "Based on first-pass metabolism of oral THC · educational. Onset and duration vary with dose, product, and tolerance.": (
+        "基于口服 THC 的首过代谢 · 仅供教育参考。起效与持续时间因剂量、产品和耐受性而异。",
+        "基於口服 THC 的首過代謝 · 僅供教育參考。起效與持續時間因劑量、產品和耐受性而異。",
+    ),
+    "Based on your self-reported alcohol flush · educational.": (
+        "依据你自报的喝酒脸红 · 仅供参考。",
+        "依據你自報的喝酒臉紅 · 僅供參考。",
+    ),
+    "Ceiling on effect — described in words (no precise dose knee).": (
+        "效应封顶——以文字说明（没有精确的剂量拐点）。",
+        "效應封頂——以文字說明（沒有精確的劑量拐點）。",
+    ),
+    "Steep, supralinear — described in words (no reliable human kinetics).": (
+        "陡峭、超线性——以文字说明（缺乏可靠的人体动力学数据）。",
+        "陡峭、超線性——以文字說明（缺乏可靠的人體動力學數據）。",
+    ),
+    "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration while the pain relief plateaus.": (
+        "可待因只有转化为吗啡才能起效，而大多数人的 CYP2D6 酶限制了能生成的吗啡量——因此超过某一点后，增加可待因只会带来更多副作用和更长的持续时间，镇痛则趋于平台。",
+        "可待因只有轉化為嗎啡才能起效，而大多數人的 CYP2D6 酶限制了能生成的嗎啡量——因此超過某一點後，增加可待因只會帶來更多副作用和更長的持續時間，鎮痛則趨於平台。",
+    ),
+    "The limit is set by how much CYP2D6 enzyme you have. The analgesic plateau around ~60 mg is a clinical observation.": (
+        "这个上限取决于你拥有多少 CYP2D6 酶。约 60 毫克左右的镇痛平台是临床观察结果。",
+        "這個上限取決於你擁有多少 CYP2D6 酶。約 60 毫克左右的鎮痛平台是臨床觀察結果。",
+    ),
+    "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios.": (
+        "依据该物质经分级的 DAT/NET/SERT 结合数据得出。转运体效价多为同一实验内的相对比值。",
+        "依據該物質經分級的 DAT/NET/SERT 結合資料得出。轉運體效價多為同一實驗內的相對比值。",
+    ),
+    "Don't try to 'figure it all out' right now. Integration takes days.": (
+        "现在不要试图「想通一切」。整合需要数天。",
+        "現在不要試圖「想通一切」。整合需要數天。",
+    ),
+    "The foggy feeling will clear. Give it hours.": (
+        "迷糊感会消散。需要数小时。",
+        "迷糊感會消散。需要數小時。",
+    ),
+    "The low mood is chemical. It lifts.": (
+        "情绪低落源于化学变化。它会过去。",
+        "情緒低落源於化學變化。它會過去。",
+    ),
+    "This is a rebound effect. It passes.": (
+        "这是反弹效应。它会过去。",
+        "這是反彈效應。它會過去。",
+    ),
+    "Doses are milligrams of THC. Flower needed ≈ desired THC ÷ the strain's %THC (e.g. 3 mg ÷ 18% ≈ 0.02 g). Smoking loses 50–80% to combustion, so real flower amounts run higher.": (
+        "剂量是 THC 的毫克数。所需花量 ≈ 目标 THC ÷ 品系的 THC 含量百分比（例如 3 mg ÷ 18% ≈ 0.02 g）。吸食会因燃烧损失 50–80%，因此实际所需花量更高。",
+        "劑量是 THC 的毫克數。所需花量 ≈ 目標 THC ÷ 品系的 THC 含量百分比（例如 3 mg ÷ 18% ≈ 0.02 g）。吸食會因燃燒損失 50–80%，因此實際所需花量更高。",
+    ),
+    "Equivalences are approximate and contested. Use the cited value as a starting estimate.": (
+        "等效值只是近似且存在争议。请将引用值作为起始估计。",
+        "等效值只是近似且存在爭議。請將引用值作為起始估計。",
+    ),
+    "Estimates from primary literature.": (
+        "数据为原始文献中的估计值。",
+        "數據為原始文獻中的估計值。",
+    ),
+    "Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate.": (
+        "起效与消退时间来自这款药物自身的持续时间数据——与时间线所用的模型相同。这是估算。",
+        "起效與消退時間來自這款藥物自身的持續時間資料——與時間線所用的模型相同。這是估算。",
+    ),
+    "MME is a population risk metric. CDC states the calculated MME should not be used to determine the dose when switching opioids.": (
+        "MME 是群体风险指标。CDC 指出，更换阿片时不应使用计算得出的 MME 来确定剂量。",
+        "MME 是群體風險指標。CDC 指出，更換阿片時不應使用計算得出的 MME 來確定劑量。",
+    ),
+    "No body weight, bioavailability or volume of distribution. Concentration here is dimensionless and relative to a reference dose.": (
+        "不含体重、生物利用度或分布容积。此处的浓度是无量纲的、相对于参考剂量而言。",
+        "不含體重、生物利用度或分布容積。此處的濃度是無量綱的、相對於參考劑量而言。",
+    ),
+    "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply as well as the receptors.": (
+        "用着用着会减弱，要好几周才回得来。MDMA 这类更慢，因为它连血清素的供应一起伤到了。",
+        "用著用著會減弱，要好幾週才回得來。MDMA 這類更慢，因為它連血清素的供應一起傷到了。",
+    ),
+    "Suppresses the enzyme that makes serotonin, so recovery takes weeks.": (
+        "它会抑制生成血清素的那种酶，所以恢复要几周。",
+        "它會抑制生成血清素的那種酶，所以恢復要幾週。",
+    ),
+    "Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide.": (
+        "来源：TripSit 苯二氮䓬数据集。不同参考来源（Ashton、厂商、临床）的等效值各异；这些仅供参考。",
+        "來源：TripSit 苯二氮䓬資料集。不同參考來源（Ashton、廠商、臨床）的等效值各異；這些僅供參考。",
+    ),
+    "These values were not measured together — each is its own study. Ranked here for scale.": (
+        "这些数值并非在同一实验中测得——每个都来自各自的研究。此处排列只为呈现量级。",
+        "這些數值並非在同一實驗中測得——每個都來自各自的研究。此處排列只為呈現量級。",
+    ),
+    "Transdermal fentanyl is dosed in micrograms per hour — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table.": (
+        "透皮芬太尼以微克/小时计量——没有口服毫克当量（CDC 使用约 2.4 MME 每 mcg/hr）。它无法套用基于毫克的换算表。",
+        "透皮芬太尼以微克/小時計量——沒有口服毫克當量（CDC 使用約 2.4 MME 每 mcg/hr）。它無法套用基於毫克的換算表。",
+    ),
+    "What you feel is a gap": ("你感受到的是差距", "你感受到的是差距"),
+    "This is a reduced effect · predicted (model, %@).": (
+        "这是效果减弱 · 预测（模型，%@）。",
+        "這是效果減弱 · 預測（模型，%@）。",
+    ),
+    "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates.": (
+        "结合亲和力来自 NIMH PDSP Kᵢ 数据库和原始文献；恢复动力学则照着已发表的人体研究校准。每个参数都标了可信度，凡是用了类别默认值的都会标出来。卡片是根据你的剂量记录和这些经过整理的数值预测出来的——都是估计值。",
+        "結合親和力來自 NIMH PDSP Kᵢ 資料庫和原始文獻；恢復動力學則照著已發表的人體研究校準。每個參數都標了可信度，凡是用了類別預設值的都會標出來。卡片是根據你的劑量記錄和這些經過整理的數值預測出來的——都是估計值。",
+    ),
+    "MDA is an active drug of its own — more amphetamine-like and more hallucinogenic than MDMA, and longer-lived — so the later hours can feel qualitatively different from the peak.": (
+        "MDA 本身就是一种活性药物——比 MDMA 更像安非他明、致幻性更强，也更持久——因此后段时间的体验在性质上会与峰值不同。",
+        "MDA 本身就是一種活性藥物——比 MDMA 更像安非他命、致幻性更強，也更持久——因此後段時間的體驗在性質上會與峰值不同。",
+    ),
+    "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak. Not medical advice.": (
+        "模型估算（单室口服 PK；酒精按零级动力学）基于群体半衰期与你记录的剂量 — 个体清除速度存在差异。主观强度相对于每次剂量自身的峰值。不构成医疗建议。",
+        "模型估算（單室口服 PK；酒精按零級動力學）基於群體半衰期與你記錄的劑量 — 個體清除速度存在差異。主觀強度相對於每次劑量自身的峰值。不構成醫療建議。",
+    ),
+    "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described in words.": (
+        "这是可待因的镜像：同样的 CYP2D6 活化步骤，危险却相反。两点提醒。(1) 反复给药会提高曲马多自身的吸收（首过代谢饱和，生物利用度由约 75% 升至 90–100%），因此稳态血药浓度高于单次剂量的预测值。(2) 阿片效应几乎完全由代谢物 M1／O-DSMT（一种强效的 3.4 nM µ 受体激动剂）承载，因此强效 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮、奎尼丁）会削弱镇痛作用，同时保留——甚至升高——原药的 5-羟色胺能及致癫痫风险。“更干净”并不等于“更安全”。此处为文字描述。",
+        "這是可待因的鏡像：同樣的 CYP2D6 活化步驟，危險卻相反。兩點提醒。(1) 反覆給藥會提高曲馬多自身的吸收（首過代謝飽和，生物利用度由約 75% 升至 90–100%），因此穩態血藥濃度高於單次劑量的預測值。(2) 鴉片效應幾乎完全由代謝物 M1／O-DSMT（一種強效的 3.4 nM µ 受體激動劑）承載，因此強效 CYP2D6 抑制劑（帕羅西汀、氟西汀、安非他酮、奎尼丁）會削弱鎮痛作用，同時保留——甚至升高——原藥的 5-羥色胺能及致癲癇風險。「更乾淨」並不等於「更安全」。此處為文字描述。",
+    ),
+    "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape.": (
+        "这与酒精／苯妥英的“封顶”恰好相反：那里是清除酶饱和、暴露量失控上升；而这里是吸收转运体（system-L／LAT1）饱和、暴露量趋于平缓——这是一种内在的制动，不过它也限制了单次大剂量的获益，并且正是加巴喷丁每日分多次服用的原因。普瑞巴林虽属同一药物类别，却以不同方式利用该转运体，在任何剂量下都保持约 90% 的吸收（与剂量呈线性）——是同类药物中一个清晰的对照。此处显示的是相对形态。",
+        "這與酒精／苯妥英的「封頂」恰好相反：那裡是清除酶飽和、暴露量失控上升；而這裡是吸收轉運體（system-L／LAT1）飽和、暴露量趨於平緩——這是一種內在的制動，不過它也限制了單次大劑量的獲益，並且正是加巴噴丁每日分多次服用的原因。普瑞巴林雖屬同一藥物類別，卻以不同方式利用該轉運體，在任何劑量下都保持約 90% 的吸收（與劑量呈線性）——是同類藥物中一個清晰的對照。此處顯示的是相對形態。",
+    ),
+    "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses.": (
+        "曲马多只有在 CYP2D6 将其转化为 M1 后才成为强效阿片类药物——而生成多少取决于你的基因。多数人会达到平台；“超快代谢者”则没有这种上限，在普通剂量下也可能达到危险水平。",
+        "曲馬多只有在 CYP2D6 將其轉化為 M1 後才成為強效鴉片類藥物——而生成多少取決於你的基因。多數人會達到平台；「超快代謝者」則沒有這種上限，在普通劑量下也可能達到危險水平。",
+    ),
     "Off-Target Effects": ("脱靶作用", "脫靶作用"),
     "Significant": ("影响明确", "影響明確"),
     "Limited": ("影响有限", "影響有限"),
@@ -5969,6 +6100,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # The 2026-08-04 sweep's two strings the extractor didn't pick up.
+        "Estimates from primary literature.",
+        "Suppresses the enzyme that makes serotonin, so recovery takes weeks.",
         "Off-Target Effects",
         "Significant",
         "Limited",

@@ -348,8 +348,8 @@ struct CeilingEffectToolView: View {
                 .foregroundStyle(tint(for: sub))
             Text(
                 sub.mechanism == .activation
-                    ? "Ceiling on effect — described, not drawn (no precise dose knee)."
-                    : "Steep, supralinear — described, not drawn (no reliable human kinetics).",
+                    ? "Ceiling on effect — described in words (no precise dose knee)."
+                    : "Steep, supralinear — described in words (no reliable human kinetics).",
             )
             .font(.caption)
             .foregroundStyle(Theme.secondaryLabel)

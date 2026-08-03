@@ -50,13 +50,13 @@ struct EffectPipelineExplainerView: View {
                 title: "Releasers and reuptake blockers diverge",
                 symbol: "arrow.triangle.branch",
                 paragraphs: [
-                    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths, not by one shared knob.",
+                    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths.",
                 ],
             )
 
             stage(
                 number: 4,
-                title: "What you feel is a gap, not a level",
+                title: "What you feel is a gap",
                 symbol: "arrow.up.and.down",
                 paragraphs: [
                     "Two internal compensation signals chase the drug-driven dopamine elevation: a fast one that settles within minutes (autoreceptor feedback, transporter trafficking) and a slow one over hours (synthesis regulation). The felt effect is modeled as the distance between dopamine and those expectations — never the dopamine level itself.",
@@ -147,7 +147,7 @@ struct EffectPipelineExplainerView: View {
     private var limitationsSection: some View {
         Section {
             Text("No tolerance between sessions. Every simulation starts from a naive baseline; acclimation within the session is modeled, carry-over from yesterday is not.")
-            Text("No body weight, bioavailability or volume of distribution. Concentration here is dimensionless and relative to a reference dose, not a measured blood level.")
+            Text("No body weight, bioavailability or volume of distribution. Concentration here is dimensionless and relative to a reference dose.")
             Text("No genetics, no metabolizer phenotype, and no drug–drug metabolic interaction. Interactions are pharmacodynamic only: shared transporters, shared stores, shared receptors.")
             Text("No individual variability. The same inputs always give the same curve, and no confidence band is drawn around it.")
             Text("Psychedelics, dissociatives and cannabinoids are out of scope — pharmacokinetics is not what drives their effects.")

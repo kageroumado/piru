@@ -156,7 +156,7 @@ extension SessionStateExport {
         }
 
         out.append("---")
-        out.append("*Model estimates (one-compartment oral PK; alcohol zero-order). Individual clearance varies. Intensity is peak-relative, not a measure of impairment. Not medical advice.*")
+        out.append("*Model estimates (one-compartment oral PK; alcohol zero-order). Individual clearance varies. Intensity is peak-relative. Not medical advice.*")
         return out.joined(separator: "\n")
     }
 

@@ -176,7 +176,7 @@ struct BenzoEquivalenceToolView: View {
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
-                Text("Approximate — equivalence tables disagree. Treat this as a ballpark, not a precise dose.")
+                Text("Approximate — equivalence tables disagree. Treat this as a ballpark.")
                     .font(.caption2)
                     .foregroundStyle(.orange)
                     .multilineTextAlignment(.center)
@@ -216,7 +216,7 @@ struct BenzoEquivalenceToolView: View {
             if let to, to.name != from?.name, let text = to.equivalent.displayText {
                 citationLine(text)
             }
-            Text("Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide, not a single clinical truth.")
+            Text("Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.top, 2)
@@ -287,7 +287,7 @@ struct BenzoEquivalenceToolView: View {
                 safetyPoint("This converts and compares — it is not a taper schedule. Plan any dose reduction with a clinician.")
                 safetyPoint("Never stop a benzodiazepine abruptly. Withdrawal can be dangerous (seizures); a slow taper is the safe path.")
                 safetyPoint("Single-dose equivalence isn't steady-state equivalence — long-acting metabolites accumulate over days.")
-                safetyPoint("Equivalences are approximate and contested. Use the cited value as a starting estimate, not a precise dose.")
+                safetyPoint("Equivalences are approximate and contested. Use the cited value as a starting estimate.")
             }
         }
         .padding()

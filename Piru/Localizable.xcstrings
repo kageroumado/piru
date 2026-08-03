@@ -5392,6 +5392,7 @@
       }
     },
     "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths, not by one shared knob." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5403,6 +5404,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "釋放劑的輸出受限於囊泡中剩餘的多巴胺存量；若同時存在再攝取抑制劑，還會被進一步壓制。抑制劑則不受存量限制——它透過減慢清除而非推出遞質來提升多巴胺。兩者由不同的程式路徑處理，而非共用一個參數。"
+          }
+        }
+      }
+    },
+    "A releaser's output is limited by the vesicular dopamine still in store, and is suppressed further if a reuptake blocker is also on board. A blocker is not store-limited — it raises dopamine by slowing clearance rather than by pushing transmitter out. The two are handled by different code paths." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放剂的输出受限于囊泡中剩余的多巴胺存量；若同时存在再摄取抑制剂，还会被进一步压制。抑制剂则不受存量限制——它通过减慢清除而非推出递质来提升多巴胺。两者由不同的代码路径处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放劑的輸出受限於囊泡中剩餘的多巴胺存量；若同時存在再攝取抑制劑，還會被進一步壓制。抑制劑則不受存量限制——它透過減慢清除而非推出遞質來提升多巴胺。兩者由不同的程式路徑處理。"
           }
         }
       }
@@ -9188,6 +9205,7 @@
       }
     },
     "Approximate — equivalence tables disagree. Treat this as a ballpark, not a precise dose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9199,6 +9217,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅為近似——各等效換算表並不一致。請將其視為大致參考，而非精確劑量。"
+          }
+        }
+      }
+    },
+    "Approximate — equivalence tables disagree. Treat this as a ballpark." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅为近似——各等效换算表并不一致。请将其视为大致参考。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅為近似——各等效換算表並不一致。請將其視為大致參考。"
           }
         }
       }
@@ -10266,6 +10300,7 @@
       }
     },
     "Based on first-pass metabolism of oral THC · educational, not a measured level. Onset and duration vary with dose, product, and tolerance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10281,7 +10316,24 @@
         }
       }
     },
+    "Based on first-pass metabolism of oral THC · educational. Onset and duration vary with dose, product, and tolerance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基于口服 THC 的首过代谢 · 仅供教育参考。起效与持续时间因剂量、产品和耐受性而异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基於口服 THC 的首過代謝 · 僅供教育參考。起效與持續時間因劑量、產品和耐受性而異。"
+          }
+        }
+      }
+    },
     "Based on your self-reported alcohol flush · educational, not a measured level." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10293,6 +10345,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依據你自報的喝酒臉紅 · 僅供參考，並非實測水平。"
+          }
+        }
+      }
+    },
+    "Based on your self-reported alcohol flush · educational." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依据你自报的喝酒脸红 · 仅供参考。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依據你自報的喝酒臉紅 · 僅供參考。"
           }
         }
       }
@@ -10612,6 +10680,7 @@
       }
     },
     "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates, not a measurement of you." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10623,6 +10692,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "結合親和力來自 NIMH PDSP Kᵢ 資料庫和原始文獻；恢復動力學則照著已發表的人體研究校準。每個參數都標了可信度，凡是用了類別預設值的都會標出來。卡片是根據你的劑量記錄和這些經過整理的數值預測出來的——是估計，不是對你本人的實測。"
+          }
+        }
+      }
+    },
+    "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结合亲和力来自 NIMH PDSP Kᵢ 数据库和原始文献；恢复动力学则照着已发表的人体研究校准。每个参数都标了可信度，凡是用了类别默认值的都会标出来。卡片是根据你的剂量记录和这些经过整理的数值预测出来的——都是估计值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結合親和力來自 NIMH PDSP Kᵢ 資料庫和原始文獻；恢復動力學則照著已發表的人體研究校準。每個參數都標了可信度，凡是用了類別預設值的都會標出來。卡片是根據你的劑量記錄和這些經過整理的數值預測出來的——都是估計值。"
           }
         }
       }
@@ -12232,7 +12317,24 @@
         }
       }
     },
+    "Ceiling on effect — described in words (no precise dose knee)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效应封顶——以文字说明（没有精确的剂量拐点）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效應封頂——以文字說明（沒有精確的劑量拐點）。"
+          }
+        }
+      }
+    },
     "Ceiling on effect — described, not drawn (no precise dose knee)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13219,7 +13321,24 @@
         }
       }
     },
+    "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration while the pain relief plateaus." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可待因只有转化为吗啡才能起效，而大多数人的 CYP2D6 酶限制了能生成的吗啡量——因此超过某一点后，增加可待因只会带来更多副作用和更长的持续时间，镇痛则趋于平台。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可待因只有轉化為嗎啡才能起效，而大多數人的 CYP2D6 酶限制了能生成的嗎啡量——因此超過某一點後，增加可待因只會帶來更多副作用和更長的持續時間，鎮痛則趨於平台。"
+          }
+        }
+      }
+    },
     "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration, not more pain relief." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16198,6 +16317,7 @@
       }
     },
     "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16209,6 +16329,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依據該物質經分級的 DAT/NET/SERT 結合資料得出。轉運體效價多為同一實驗內的相對比值，而非跨平台的絕對數值。"
+          }
+        }
+      }
+    },
+    "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依据该物质经分级的 DAT/NET/SERT 结合数据得出。转运体效价多为同一实验内的相对比值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依據該物質經分級的 DAT/NET/SERT 結合資料得出。轉運體效價多為同一實驗內的相對比值。"
           }
         }
       }
@@ -16966,6 +17102,7 @@
       }
     },
     "Don't try to 'figure it all out' right now. Integration takes days, not hours." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16977,6 +17114,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "現在不要試圖「想通一切」。整合需要數天,而不是數小時。"
+          }
+        }
+      }
+    },
+    "Don't try to 'figure it all out' right now. Integration takes days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在不要试图「想通一切」。整合需要数天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在不要試圖「想通一切」。整合需要數天。"
           }
         }
       }
@@ -17610,6 +17763,7 @@
       }
     },
     "Doses are milligrams of THC, not flower weight. Flower needed ≈ desired THC ÷ the strain's %THC (e.g. 3 mg ÷ 18% ≈ 0.02 g). Smoking loses 50–80% to combustion, so real flower amounts run higher." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17621,6 +17775,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量是 THC 的毫克數，而非花的重量。所需花量 ≈ 目標 THC ÷ 品系的 THC 含量百分比（例如 3 mg ÷ 18% ≈ 0.02 g）。吸食會因燃燒損失 50–80%，因此實際所需花量更高。"
+          }
+        }
+      }
+    },
+    "Doses are milligrams of THC. Flower needed ≈ desired THC ÷ the strain's %THC (e.g. 3 mg ÷ 18% ≈ 0.02 g). Smoking loses 50–80% to combustion, so real flower amounts run higher." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量是 THC 的毫克数。所需花量 ≈ 目标 THC ÷ 品系的 THC 含量百分比（例如 3 mg ÷ 18% ≈ 0.02 g）。吸食会因燃烧损失 50–80%，因此实际所需花量更高。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量是 THC 的毫克數。所需花量 ≈ 目標 THC ÷ 品系的 THC 含量百分比（例如 3 mg ÷ 18% ≈ 0.02 g）。吸食會因燃燒損失 50–80%，因此實際所需花量更高。"
           }
         }
       }
@@ -20370,6 +20540,7 @@
       }
     },
     "Equivalences are approximate and contested. Use the cited value as a starting estimate, not a precise dose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20381,6 +20552,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "等效值只是近似且存在爭議。請將引用值作為起始估計，而非精確劑量。"
+          }
+        }
+      }
+    },
+    "Equivalences are approximate and contested. Use the cited value as a starting estimate." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等效值只是近似且存在争议。请将引用值作为起始估计。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等效值只是近似且存在爭議。請將引用值作為起始估計。"
           }
         }
       }
@@ -20578,6 +20765,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "數據為原始文獻中的估計值，並非針對你本人測量。"
+          }
+        }
+      }
+    },
+    "Estimates from primary literature." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据为原始文献中的估计值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數據為原始文獻中的估計值。"
           }
         }
       }
@@ -26851,6 +27055,7 @@
       }
     },
     "Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate, not a schedule." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26862,6 +27067,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起效與消退時間來自這款藥物自身的持續時間資料——與時間線所用的模型相同。這是估算，不是時刻表。"
+          }
+        }
+      }
+    },
+    "Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起效与消退时间来自这款药物自身的持续时间数据——与时间线所用的模型相同。这是估算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起效與消退時間來自這款藥物自身的持續時間資料——與時間線所用的模型相同。這是估算。"
           }
         }
       }
@@ -28694,8 +28915,21 @@
     "mCPP acts on serotonin in a different way than trazodone — it tends to feel activating or anxious rather than sedating, which is part of why trazodone's later hours can feel unlike its calm onset." : {
 
     },
-    "MDA is an active drug of its own — more amphetamine-like and more hallucinogenic than MDMA, and longer-lived — so the later hours can feel different in kind from the peak, not just fainter." : {
-
+    "MDA is an active drug of its own — more amphetamine-like and more hallucinogenic than MDMA, and longer-lived — so the later hours can feel qualitatively different from the peak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDA 本身就是一种活性药物——比 MDMA 更像安非他明、致幻性更强，也更持久——因此后段时间的体验在性质上会与峰值不同。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDA 本身就是一種活性藥物——比 MDMA 更像安非他命、致幻性更強，也更持久——因此後段時間的體驗在性質上會與峰值不同。"
+          }
+        }
+      }
     },
     "MDMA" : {
       "localizations" : {
@@ -29604,6 +29838,7 @@
 
     },
     "MME is a population risk metric, not a precision dosing tool. CDC states the calculated MME should not be used to determine the dose when switching opioids." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29615,6 +29850,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MME 是群體風險指標，而非精確給藥工具。CDC 指出，更換阿片時不應使用計算得出的 MME 來確定劑量。"
+          }
+        }
+      }
+    },
+    "MME is a population risk metric. CDC states the calculated MME should not be used to determine the dose when switching opioids." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MME 是群体风险指标。CDC 指出，更换阿片时不应使用计算得出的 MME 来确定剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MME 是群體風險指標。CDC 指出，更換阿片時不應使用計算得出的 MME 來確定劑量。"
           }
         }
       }
@@ -29716,6 +29967,7 @@
       }
     },
     "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak, not a measure of impairment. Not medical advice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29727,6 +29979,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型估算（單室口服 PK；酒精按零級動力學）基於群體半衰期與你記錄的劑量 — 個體清除速度存在差異。主觀強度相對於每次劑量自身的峰值，並非損傷程度的衡量。不構成醫療建議。"
+          }
+        }
+      }
+    },
+    "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak. Not medical advice." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型估算（单室口服 PK；酒精按零级动力学）基于群体半衰期与你记录的剂量 — 个体清除速度存在差异。主观强度相对于每次剂量自身的峰值。不构成医疗建议。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型估算（單室口服 PK；酒精按零級動力學）基於群體半衰期與你記錄的劑量 — 個體清除速度存在差異。主觀強度相對於每次劑量自身的峰值。不構成醫療建議。"
           }
         }
       }
@@ -31829,6 +32097,7 @@
       }
     },
     "No body weight, bioavailability or volume of distribution. Concentration here is dimensionless and relative to a reference dose, not a measured blood level." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31840,6 +32109,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不含體重、生物利用度或分布容積。此處的濃度是無量綱的、相對於參考劑量而言，並非實測血藥濃度。"
+          }
+        }
+      }
+    },
+    "No body weight, bioavailability or volume of distribution. Concentration here is dimensionless and relative to a reference dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含体重、生物利用度或分布容积。此处的浓度是无量纲的、相对于参考剂量而言。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不含體重、生物利用度或分布容積。此處的濃度是無量綱的、相對於參考劑量而言。"
           }
         }
       }
@@ -40727,7 +41012,24 @@
         }
       }
     },
+    "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply as well as the receptors." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用着用着会减弱，要好几周才回得来。MDMA 这类更慢，因为它连血清素的供应一起伤到了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用著用著會減弱，要好幾週才回得來。MDMA 這類更慢，因為它連血清素的供應一起傷到了。"
+          }
+        }
+      }
+    },
     "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply, not just the receptors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44426,6 +44728,7 @@
       }
     },
     "Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide, not a single clinical truth." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44437,6 +44740,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "來源：TripSit 苯二氮䓬資料集。不同參考來源（Ashton、廠商、臨床）的等效值各異；這些僅供參考，並非唯一的臨床標準。"
+          }
+        }
+      }
+    },
+    "Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源：TripSit 苯二氮䓬数据集。不同参考来源（Ashton、厂商、临床）的等效值各异；这些仅供参考。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源：TripSit 苯二氮䓬資料集。不同參考來源（Ashton、廠商、臨床）的等效值各異；這些僅供參考。"
           }
         }
       }
@@ -45382,7 +45701,24 @@
         }
       }
     },
+    "Steep, supralinear — described in words (no reliable human kinetics)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陡峭、超线性——以文字说明（缺乏可靠的人体动力学数据）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陡峭、超線性——以文字說明（缺乏可靠的人體動力學數據）。"
+          }
+        }
+      }
+    },
     "Steep, supralinear — described, not drawn (no reliable human kinetics)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46358,6 +46694,23 @@
         }
       }
     },
+    "Suppresses the enzyme that makes serotonin, so recovery takes weeks." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会抑制生成血清素的那种酶，所以恢复要几周。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它會抑制生成血清素的那種酶，所以恢復要幾週。"
+          }
+        }
+      }
+    },
     "Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC — an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked." : {
       "localizations" : {
         "zh-Hans" : {
@@ -47329,6 +47682,7 @@
       }
     },
     "The foggy feeling will clear. Give it hours, not minutes." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47340,6 +47694,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "迷糊感會消散。需要數小時,而非數分鐘。"
+          }
+        }
+      }
+    },
+    "The foggy feeling will clear. Give it hours." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷糊感会消散。需要数小时。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷糊感會消散。需要數小時。"
           }
         }
       }
@@ -47443,6 +47813,7 @@
       }
     },
     "The limit is set by how much CYP2D6 enzyme you have, not by a specific milligram dose. The analgesic plateau around ~60 mg is a clinical observation, not a kinetic ceiling." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47458,7 +47829,24 @@
         }
       }
     },
+    "The limit is set by how much CYP2D6 enzyme you have. The analgesic plateau around ~60 mg is a clinical observation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个上限取决于你拥有多少 CYP2D6 酶。约 60 毫克左右的镇痛平台是临床观察结果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個上限取決於你擁有多少 CYP2D6 酶。約 60 毫克左右的鎮痛平台是臨床觀察結果。"
+          }
+        }
+      }
+    },
     "The low mood is chemical, not a reflection of reality. It lifts." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47470,6 +47858,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "情緒低落源於化學變化,並非現實的反映。它會過去。"
+          }
+        }
+      }
+    },
+    "The low mood is chemical. It lifts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情绪低落源于化学变化。它会过去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情緒低落源於化學變化。它會過去。"
           }
         }
       }
@@ -47970,6 +48374,7 @@
       }
     },
     "These values were not measured together — each is its own study. Ranked here for scale, not as a league table." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47981,6 +48386,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些數值並非在同一實驗中測得——每個都來自各自的研究。此處排列只為呈現量級，不是排行榜。"
+          }
+        }
+      }
+    },
+    "These values were not measured together — each is its own study. Ranked here for scale." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些数值并非在同一实验中测得——每个都来自各自的研究。此处排列只为呈现量级。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些數值並非在同一實驗中測得——每個都來自各自的研究。此處排列只為呈現量級。"
           }
         }
       }
@@ -48196,6 +48617,7 @@
       }
     },
     "This is a rebound effect, not a return to baseline anxiety. It passes." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48211,7 +48633,40 @@
         }
       }
     },
+    "This is a rebound effect. It passes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是反弹效应。它会过去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是反彈效應。它會過去。"
+          }
+        }
+      }
+    },
+    "This is a reduced effect · predicted (model, %@)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是效果减弱 · 预测（模型，%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是效果減弱 · 預測（模型，%@）。"
+          }
+        }
+      }
+    },
     "This is a reduced effect, not a danger warning · predicted (model, %@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48243,7 +48698,24 @@
         }
       }
     },
+    "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described in words." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是可待因的镜像：同样的 CYP2D6 活化步骤，危险却相反。两点提醒。(1) 反复给药会提高曲马多自身的吸收（首过代谢饱和，生物利用度由约 75% 升至 90–100%），因此稳态血药浓度高于单次剂量的预测值。(2) 阿片效应几乎完全由代谢物 M1／O-DSMT（一种强效的 3.4 nM µ 受体激动剂）承载，因此强效 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮、奎尼丁）会削弱镇痛作用，同时保留——甚至升高——原药的 5-羟色胺能及致癫痫风险。“更干净”并不等于“更安全”。此处为文字描述。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是可待因的鏡像：同樣的 CYP2D6 活化步驟，危險卻相反。兩點提醒。(1) 反覆給藥會提高曲馬多自身的吸收（首過代謝飽和，生物利用度由約 75% 升至 90–100%），因此穩態血藥濃度高於單次劑量的預測值。(2) 鴉片效應幾乎完全由代謝物 M1／O-DSMT（一種強效的 3.4 nM µ 受體激動劑）承載，因此強效 CYP2D6 抑制劑（帕羅西汀、氟西汀、安非他酮、奎尼丁）會削弱鎮痛作用，同時保留——甚至升高——原藥的 5-羥色胺能及致癲癇風險。「更乾淨」並不等於「更安全」。此處為文字描述。"
+          }
+        }
+      }
+    },
     "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described, not drawn." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48276,6 +48748,7 @@
       }
     },
     "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, not a danger, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape, not absolute level." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48287,6 +48760,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這與酒精／苯妥英的「封頂」恰好相反：那裡是清除酶飽和、暴露量失控上升；而這裡是吸收轉運體（system-L／LAT1）飽和、暴露量趨於平緩——這是一種內在的制動，而非危險，不過它也限制了單次大劑量的獲益，並且正是加巴噴丁每日分多次服用的原因。普瑞巴林雖屬同一藥物類別，卻以不同方式利用該轉運體，在任何劑量下都保持約 90% 的吸收（與劑量呈線性）——是同類藥物中一個清晰的對照。此處顯示的是相對形態，而非絕對水平。"
+          }
+        }
+      }
+    },
+    "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这与酒精／苯妥英的“封顶”恰好相反：那里是清除酶饱和、暴露量失控上升；而这里是吸收转运体（system-L／LAT1）饱和、暴露量趋于平缓——这是一种内在的制动，不过它也限制了单次大剂量的获益，并且正是加巴喷丁每日分多次服用的原因。普瑞巴林虽属同一药物类别，却以不同方式利用该转运体，在任何剂量下都保持约 90% 的吸收（与剂量呈线性）——是同类药物中一个清晰的对照。此处显示的是相对形态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這與酒精／苯妥英的「封頂」恰好相反：那裡是清除酶飽和、暴露量失控上升；而這裡是吸收轉運體（system-L／LAT1）飽和、暴露量趨於平緩——這是一種內在的制動，不過它也限制了單次大劑量的獲益，並且正是加巴噴丁每日分多次服用的原因。普瑞巴林雖屬同一藥物類別，卻以不同方式利用該轉運體，在任何劑量下都保持約 90% 的吸收（與劑量呈線性）——是同類藥物中一個清晰的對照。此處顯示的是相對形態。"
           }
         }
       }
@@ -49504,6 +49993,7 @@
 
     },
     "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -49515,6 +50005,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "曲馬多只有在 CYP2D6 將其轉化為 M1 後才成為強效鴉片類藥物——而生成多少取決於你的基因，而不僅僅是劑量。多數人會達到平台；「超快代謝者」則沒有這種上限，在普通劑量下也可能達到危險水平。"
+          }
+        }
+      }
+    },
+    "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曲马多只有在 CYP2D6 将其转化为 M1 后才成为强效阿片类药物——而生成多少取决于你的基因。多数人会达到平台；“超快代谢者”则没有这种上限，在普通剂量下也可能达到危险水平。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曲馬多只有在 CYP2D6 將其轉化為 M1 後才成為強效鴉片類藥物——而生成多少取決於你的基因。多數人會達到平台；「超快代謝者」則沒有這種上限，在普通劑量下也可能達到危險水平。"
           }
         }
       }
@@ -49535,7 +50041,24 @@
         }
       }
     },
+    "Transdermal fentanyl is dosed in micrograms per hour — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透皮芬太尼以微克/小时计量——没有口服毫克当量（CDC 使用约 2.4 MME 每 mcg/hr）。它无法套用基于毫克的换算表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透皮芬太尼以微克/小時計量——沒有口服毫克當量（CDC 使用約 2.4 MME 每 mcg/hr）。它無法套用基於毫克的換算表。"
+          }
+        }
+      }
+    },
     "Transdermal fentanyl is dosed in micrograms per hour, not milligrams — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -51530,7 +52053,24 @@
         }
       }
     },
+    "What you feel is a gap" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你感受到的是差距"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你感受到的是差距"
+          }
+        }
+      }
+    },
     "What you feel is a gap, not a level" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

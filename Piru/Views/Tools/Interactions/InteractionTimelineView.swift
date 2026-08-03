@@ -672,7 +672,7 @@ struct InteractionTimelineView: View {
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
 
-            Text("This is a reduced effect, not a danger warning · predicted (model, \(String(localized: a.confidence.label))).")
+            Text("This is a reduced effect · predicted (model, \(String(localized: a.confidence.label))).")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }

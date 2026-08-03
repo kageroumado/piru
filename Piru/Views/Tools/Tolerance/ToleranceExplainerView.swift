@@ -147,7 +147,7 @@ struct ToleranceExplainerView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Label("Where the numbers come from", systemImage: "checkmark.seal")
                     .font(.subheadline.weight(.semibold))
-                Text("Binding affinities come from the NIMH PDSP K\u{1D62} database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates, not a measurement of you.")
+                Text("Binding affinities come from the NIMH PDSP K\u{1D62} database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates.")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -196,7 +196,7 @@ struct ToleranceExplainerView: View {
         case .catecholamineStimulant:
             "A fast within-session fade, plus a modest, slower shift with heavy use. A bigger dose still works — but ramps the comedown and the risk, while the effect on your heart barely fades."
         case .serotonergicReleaser:
-            "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply, not just the receptors."
+            "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply as well as the receptors."
         case .nicotinic:
             "Mostly fast receptor desensitization that recovers between uses rather than a lasting change."
         case .alpha2Agonist:

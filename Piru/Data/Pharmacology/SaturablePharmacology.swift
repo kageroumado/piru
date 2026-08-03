@@ -307,7 +307,7 @@ enum SaturablePharmacology {
         ),
         headline: "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure.",
         knee: "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less.",
-        detail: "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, not a danger, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape, not absolute level.",
+        detail: "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape.",
         citation: "FDA NEURONTIN label (NDA 020235); Stewart et al. 1993 (PMID 8456077); Gidal et al. 1998 (PMID 9714500); Gee et al. 1996 (PMID 8621444).",
     )
 
@@ -323,8 +323,8 @@ enum SaturablePharmacology {
         mechanism: .activation,
         confidence: .medium,
         kinetics: nil,
-        headline: "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration, not more pain relief.",
-        knee: "The limit is set by how much CYP2D6 enzyme you have, not by a specific milligram dose. The analgesic plateau around ~60 mg is a clinical observation, not a kinetic ceiling.",
+        headline: "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration while the pain relief plateaus.",
+        knee: "The limit is set by how much CYP2D6 enzyme you have. The analgesic plateau around ~60 mg is a clinical observation.",
         detail: "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: \u{201C}ultra-rapid metabolizers\u{201D} convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while \u{201C}poor metabolizers\u{201D} get little relief. So this is not a green light to take more.",
         citation: "Frontiers Pharmacol 2024 (PMC11096448); CPIC 2021 (PMC8249478); Kirchheiner et al. 2007 (PMID 16819548).",
     )
@@ -341,9 +341,9 @@ enum SaturablePharmacology {
         mechanism: .activation,
         confidence: .high,
         kinetics: nil,
-        headline: "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes, not just the dose. Most people plateau; \u{201C}ultra-rapid metabolizers\u{201D} have no such cap and can reach dangerous levels at ordinary doses.",
+        headline: "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes. Most people plateau; \u{201C}ultra-rapid metabolizers\u{201D} have no such cap and can reach dangerous levels at ordinary doses.",
         knee: "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling.",
-        detail: "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. \u{201C}Cleaner\u{201D} is not \u{201C}safer.\u{201D} Described, not drawn.",
+        detail: "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. \u{201C}Cleaner\u{201D} is not \u{201C}safer.\u{201D} Described in words.",
         citation: "Gillen et al. 2000 (PMID 10961373); Stamer et al. 2003 (PMID 14499440); FDA ULTRAM label (NDA 020281); CPIC CYP2D6/tramadol (PMID 33387367).",
     )
 

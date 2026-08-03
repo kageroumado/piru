@@ -254,7 +254,7 @@ struct MedFormView: View {
                     Text("A reminder at each time. If you don't log it, Piru asks again \(askAgainListText) later — never a scold, just a nudge.")
                 }
                 if !draft.times.isEmpty, consequence != nil {
-                    Text("Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate, not a schedule.")
+                    Text("Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate.")
                 }
             }
         }

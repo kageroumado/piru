@@ -23,7 +23,7 @@ struct VolumetricDosingDisclaimer: View {
 struct THCContentNote: View {
     var body: some View {
         Label {
-            Text("Doses are milligrams of THC, not flower weight. Flower needed ≈ desired THC ÷ the strain's %THC (e.g. 3 mg ÷ 18% ≈ 0.02 g). Smoking loses 50–80% to combustion, so real flower amounts run higher.")
+            Text("Doses are milligrams of THC. Flower needed ≈ desired THC ÷ the strain's %THC (e.g. 3 mg ÷ 18% ≈ 0.02 g). Smoking loses 50–80% to combustion, so real flower amounts run higher.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
         } icon: {

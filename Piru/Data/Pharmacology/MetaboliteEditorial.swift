@@ -119,7 +119,7 @@ nonisolated enum MetaboliteEditorial {
         .init(
             parent: "MDMA",
             metabolite: "MDA",
-            note: "MDA is an active drug of its own — more amphetamine-like and more hallucinogenic than MDMA, and longer-lived — so the later hours can feel different in kind from the peak, not just fainter.",
+            note: "MDA is an active drug of its own — more amphetamine-like and more hallucinogenic than MDMA, and longer-lived — so the later hours can feel qualitatively different from the peak.",
         ),
         // Norbuprenorphine acts more like a full agonist and drives respiratory effect.
         .init(

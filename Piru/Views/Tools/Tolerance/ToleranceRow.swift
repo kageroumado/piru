@@ -69,7 +69,7 @@ struct ToleranceRow: Identifiable {
         case .alpha2Agonist, .betaBlocker:
             "Little tolerance builds — the thing to watch is stopping suddenly."
         case .serotonergicReleaser where snapshot.sSynthesis > 0.05:
-            "Suppresses the enzyme that makes serotonin, so recovery takes weeks, not days."
+            "Suppresses the enzyme that makes serotonin, so recovery takes weeks."
         default:
             nil
         }

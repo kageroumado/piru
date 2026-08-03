@@ -255,7 +255,7 @@ struct OpioidEquivalenceToolView: View {
                 .foregroundStyle(.yellow)
                 .accessibilityAddTraits(.isHeader)
             VStack(alignment: .leading, spacing: 6) {
-                safetyPoint("MME is a population risk metric, not a precision dosing tool. CDC states the calculated MME should not be used to determine the dose when switching opioids.")
+                safetyPoint("MME is a population risk metric. CDC states the calculated MME should not be used to determine the dose when switching opioids.")
                 safetyPoint("Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.")
                 safetyPoint("These oral factors don't cover every route or product. Transdermal, buccal, and IV forms differ.")
                 safetyPoint("Opioids plus benzodiazepines, alcohol, or other depressants sharply raise overdose risk. Tolerance also drops fast after a break — a dose you once handled can be fatal.")

@@ -82,7 +82,7 @@ extension OpioidEquivalence {
         OpioidEquivalence(
             name: "fentanyl",
             displayName: String(localized: "Fentanyl (transdermal)"),
-            convertibility: .transdermal(reason: "Transdermal fentanyl is dosed in micrograms per hour, not milligrams — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table."),
+            convertibility: .transdermal(reason: "Transdermal fentanyl is dosed in micrograms per hour — it has no oral-mg equivalent (CDC uses ≈ 2.4 MME per mcg/hr). It can't share the mg-based table."),
         ),
         OpioidEquivalence(
             name: "buprenorphine",

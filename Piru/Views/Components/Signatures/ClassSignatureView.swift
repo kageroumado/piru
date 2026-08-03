@@ -51,7 +51,7 @@ struct SignatureCaption: View {
             if !isGated {
                 Label {
                     Text(
-                        "These values were not measured together — each is its own study. Ranked here for scale, not as a league table.",
+                        "These values were not measured together — each is its own study. Ranked here for scale.",
                     )
                 } icon: {
                     Image(systemName: "circle.dashed")

@@ -156,7 +156,7 @@ struct MonoamineProfileCard: View {
                 )
             }
 
-            Text("Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios, not absolute cross-platform numbers.")
+            Text("Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }

@@ -334,7 +334,7 @@ struct SessionReportView: View {
     // MARK: Footer
 
     private var footer: some View {
-        Text("Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak, not a measure of impairment. Not medical advice.")
+        Text("Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak. Not medical advice.")
             .font(.system(size: 10.5))
             .foregroundStyle(ink2)
             .padding(.top, 26)
