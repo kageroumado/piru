@@ -641,6 +641,23 @@ class Finding:
     reasons: list[str]
     other: str | None
     tables: list[str]
+    #: Whether the absence was checked against a full abstract or only a title.
+    #: The single fact that separates hard evidence from a naming artifact — a
+    #: generic title ("…a Synthetic Cannabinoid Receptor Agonist") names no
+    #: compound even when the panel is in Table 1.
+    has_abstract: bool = False
+    #: Whether the citing row is a per-compound number rather than prose.
+    numeric: bool = False
+
+    @property
+    def is_hard_absence(self) -> bool:
+        """An ABSENT that is evidence rather than a title artifact.
+
+        Both conditions are load-bearing. Without the abstract this is the Yano
+        false positive (a real CB1 efficacy panel whose title names nothing);
+        without the numeric table it is defensible background reading.
+        """
+        return self.verdict == "ABSENT" and self.has_abstract and self.numeric
 
     def line(self) -> str:
         other = f" → paper names {self.other}" if self.other else ""
@@ -749,6 +766,8 @@ def evaluate(
         reasons=reasons,
         other=other_label,
         tables=sorted(attachment.tables),
+        has_abstract=has_abstract,
+        numeric=bool(numeric),
     )
 
 
@@ -800,6 +819,19 @@ def main() -> int:
         "--abstract-cache", type=Path, default=ABSTRACT_CACHE, help="abstract cache location"
     )
     parser.add_argument("--gate", action="store_true", help="exit 1 on a confident WRONG_SUBSTANCE")
+    parser.add_argument(
+        "--gate-absent",
+        action="store_true",
+        help="also fail on a hard ABSENT — absence confirmed against the abstract, "
+        "on a row citing a per-compound number. Catches the misattribution that "
+        "names no rival compound, which WRONG_SUBSTANCE structurally cannot see.",
+    )
+    parser.add_argument(
+        "--gate-absent-threshold",
+        type=float,
+        default=0.60,
+        help="minimum score a hard ABSENT must reach to fail --gate-absent",
+    )
     parser.add_argument(
         "--gate-threshold",
         type=float,
@@ -966,6 +998,20 @@ def main() -> int:
             for f in buckets.get("WRONG_SUBSTANCE", [])
             if f.score >= args.gate_threshold and f"{f.identifier}|{f.substance}" not in allow
         ]
+        # A hard absence is the shape that shipped a *nursing-ethics bibliography*
+        # (PMID 8632377) as cannabis's CB1 Kᵢ source, and an HIV-cytokine paper
+        # (PMID 9700761) as the half-life of three β-carbolines. Nothing named a
+        # rival compound, so WRONG_SUBSTANCE never fired and the gate stayed green
+        # over both. Off by default only because the standing backlog is large;
+        # see --gate-absent.
+        if args.gate_absent:
+            failures += [
+                f
+                for f in buckets.get("ABSENT", [])
+                if f.is_hard_absence
+                and f.score >= args.gate_absent_threshold
+                and f"{f.identifier}|{f.substance}" not in allow
+            ]
         if failures:
             print(
                 f"\ncitation-topicality: FAILED — {len(failures)} citation(s) are about a "
