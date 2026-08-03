@@ -184,6 +184,10 @@ struct SubstanceDetailLayout: View {
 private struct SubstanceDetailHeader: View {
     let substance: Substance
 
+    /// How far the row is widened past the list margin so its rounded-corner
+    /// clip lands outside the title's glyphs rather than on them.
+    private static let clipSlack: CGFloat = 8
+
     /// Popular aliases shown as chips before the overflow count.
     private var shownAliases: [String] {
         Array(substance.popularAliases.prefix(4))
@@ -202,7 +206,7 @@ private struct SubstanceDetailHeader: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 7) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text(substance.displayTitle)
                     .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .lineLimit(2)
@@ -248,13 +252,29 @@ private struct SubstanceDetailHeader: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            // Restores the x the negative row insets below take away, so the name
+            // still lands on the list's margin, level with the cards.
+            .padding(.horizontal, Self.clipSlack)
             // A title block, not a card: clear the shared `CardBackground()` the
-            // list applies to every other row (innermost wins). No insets of its
-            // own — the name then sits on the list's own margin, level with the
-            // cards beneath it, the way a system large title does.
+            // list applies to every other row (innermost wins).
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets())
+            // **Negative insets on purpose.** A list row clips to its own bounds,
+            // and that clip is a rounded rect — the same clip that sliced the
+            // molecule watermark before it moved to the screen background. At
+            // zero insets the row's bounds sit exactly on the title, so its
+            // corner radius shaved the first and last glyphs of a 40pt heavy
+            // face. Widening the row past the margin puts the rounded corners
+            // outside the text; the padding above puts the text back where it
+            // was. Vertical stays at zero — the name should sit as close to the
+            // bar as a system large title does.
+            .listRowInsets(EdgeInsets(
+                top: 0, leading: -Self.clipSlack, bottom: 0, trailing: -Self.clipSlack,
+            ))
+            // `.compact` still leaves a full section gap under a title block, so
+            // this is an explicit value: the byline belongs to the name above it,
+            // not floating halfway to the first card.
+            .listSectionSpacing(8)
         }
     }
 

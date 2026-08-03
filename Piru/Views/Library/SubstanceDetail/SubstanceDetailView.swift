@@ -211,6 +211,10 @@ struct SubstanceDetailView: View {
             )
             .listRowBackground(CardBackground())
         }
+        // The list's default top inset sits the title ~55pt under the bar. A
+        // system large title sits right beneath it, and this screen's first row
+        // *is* that title, so the inset only reads as a gap.
+        .contentMargins(.top, 0, for: .scrollContent)
         // Deriving a `Bool` (not the raw offset) means the action fires only on
         // the handoff itself, not on every scroll frame.
         //
