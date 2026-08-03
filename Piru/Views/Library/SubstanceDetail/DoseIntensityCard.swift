@@ -129,16 +129,29 @@ struct DoseIntensityCard: View {
     }
 
     private var centerReadout: some View {
-        VStack(spacing: 2) {
-            Text(bandDoseText[current.bandIndex] ?? current.localizedBandName)
+        let dose = bandDoseText[current.bandIndex]
+        // The second line is ALWAYS built, and merely invisible when the band has
+        // no dose range — the same reserve-the-space rule the band summary below
+        // follows, for a stronger reason than tidiness.
+        //
+        // Overdose is the only band without a dose range, so it was the only band
+        // whose readout dropped from two lines to one. Wrapping that in `if` makes
+        // it a structural insert/remove, and it lands in the *same* animated
+        // transaction as a drag between bands. A structural change there can have
+        // SwiftUI rebuild part of the subtree, and a re-created `Shape` loses its
+        // in-flight `animatableData` and snaps to its target while its sibling
+        // keeps interpolating — which is how the dial's pill and its grabber
+        // ridges arrived completely detached, on the Heavy↔Overdose pass and
+        // nowhere else. Keep this unconditional.
+        return VStack(spacing: 2) {
+            Text(dose ?? current.localizedBandName)
                 .font(.system(size: 27, weight: .heavy, design: .rounded))
                 .foregroundStyle(current.isOverdose ? color(current.bandIndex) : .primary)
                 .contentTransition(reduceMotion ? .identity : .numericText())
-            if bandDoseText[current.bandIndex] != nil {
-                Text(current.localizedBandName)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(color(current.bandIndex))
-            }
+            Text(current.localizedBandName)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(color(current.bandIndex))
+                .opacity(dose == nil ? 0 : 1)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(current.localizedBandName)
