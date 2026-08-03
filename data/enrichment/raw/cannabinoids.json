@@ -1388,6 +1388,19 @@
           "reference": "pmid:25921407",
           "is_review": false,
           "notes": null
+        },
+        {
+          "target": "CB1",
+          "intrinsic_activity_pct": 105.8,
+          "reference_agonist": "CP55,940",
+          "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
+          "action": "agonist",
+          "species": "human",
+          "assay_notes": "human CB1R, HEK-293T, BRET Gαi engagement (CB1R-Rluc / Gαi-mVenus), Emax read at 16 min",
+          "reference": "doi:10.1021/acschemneuro.3c00530",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "105.8 ± 2.3% of CP55,940. Yano 2023 Table 1, CB1R-Gαi engagement at 16 min, Emax normalised against CP55,940 = 100% in the same assay. Reported as % of CP55,940 with SEM; pEC50 for THC could not be determined (ND), so this row carries efficacy only and no potency. The β-arrestin-2 arm of the same table gives a near-identical ordering (THC 36.0, AM2201 106.5, 5F-MDMB-PICA 147.7) and is deliberately NOT loaded: two pathway sets would partition into two ladders and the axis would pick one arbitrarily."
         }
       ],
       "functional": [],
@@ -2443,6 +2456,19 @@
           "reference": "doi:10.1038/s41386-021-01227-8",
           "is_review": false,
           "notes": "Schindler 2022. EC50 reported 0.45-27.6 nM across assays. Indole counterpart of 4F-MDMB-BINACA."
+        },
+        {
+          "target": "CB1",
+          "intrinsic_activity_pct": 142.1,
+          "reference_agonist": "CP55,940",
+          "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
+          "action": "agonist",
+          "species": "human",
+          "assay_notes": "human CB1R, HEK-293T, BRET Gαi engagement (CB1R-Rluc / Gαi-mVenus), Emax read at 16 min",
+          "reference": "doi:10.1021/acschemneuro.3c00530",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "142.1 ± 2.7% of CP55,940 — a super-agonist relative to the reference. Yano 2023 Table 1, CB1R-Gαi engagement at 16 min, Emax normalised against CP55,940 = 100% in the same assay. Reported as % of CP55,940 with SEM; pEC50 for THC could not be determined (ND), so this row carries efficacy only and no potency. The β-arrestin-2 arm of the same table gives a near-identical ordering (THC 36.0, AM2201 106.5, 5F-MDMB-PICA 147.7) and is deliberately NOT loaded: two pathway sets would partition into two ladders and the axis would pick one arbitrarily."
         }
       ],
       "functional": [],
@@ -3558,6 +3584,19 @@
           "confidence": "MEDIUM",
           "notes": "Third independent Delta-9-THC CB1 figure, from the same Ray 2010 paper that anchors the psychedelic axis, so it shares a provenance frame with axis 1. That table lists three CB1 measurements — 13.7 nM (human cortical membranes), 15.3 nM (human cloned), 5.05 nM (human cloned, [3H]CP-55940) — and reports an average of 10.19 nM; CB2 average 16.85 nM. The 5.05 value is the single tightest human-cloned CP-55940-based measurement in that table.",
           "action": "partialAgonist"
+        },
+        {
+          "target": "CB1",
+          "intrinsic_activity_pct": 36.1,
+          "reference_agonist": "CP55,940",
+          "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
+          "action": "partialAgonist",
+          "species": "human",
+          "assay_notes": "human CB1R, HEK-293T, BRET Gαi engagement (CB1R-Rluc / Gαi-mVenus), Emax read at 16 min",
+          "reference": "doi:10.1021/acschemneuro.3c00530",
+          "is_review": false,
+          "confidence": "HIGH",
+          "notes": "36.1 ± 4.1% of CP55,940. Yano 2023 Table 1, CB1R-Gαi engagement at 16 min, Emax normalised against CP55,940 = 100% in the same assay. Reported as % of CP55,940 with SEM; pEC50 for THC could not be determined (ND), so this row carries efficacy only and no potency. The β-arrestin-2 arm of the same table gives a near-identical ordering (THC 36.0, AM2201 106.5, 5F-MDMB-PICA 147.7) and is deliberately NOT loaded: two pathway sets would partition into two ladders and the axis would pick one arbitrarily. This is the row the CB1 efficacy axis was missing: THC's three other comparable_sets are radioligand BINDING panels (Ki only, no Emax), so the ladder could not gate on any of them."
         }
       ]
     }

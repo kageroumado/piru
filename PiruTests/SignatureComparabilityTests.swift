@@ -480,4 +480,32 @@ struct ClassSignatureDatabaseTests {
         #expect(model.triples.allSatisfy { $0.provenance.basis != .ec50 })
         #expect(model.triples[0].focus.shares.sert > 0.9)
     }
+
+    /// The axis that explains why SCRAs hurt people and cannabis mostly does not.
+    ///
+    /// It was hollow for a year because THC's three `comparable_set`s are all radioligand
+    /// **binding** panels — Ki with no Emax — so nothing could gate. Yano 2023 (BRET Gαi
+    /// engagement, HEK-293T, human CB1, everything normalised to CP-55,940) measured THC
+    /// beside AM-2201 and 5F-MDMB-PICA in one experiment, which is what a gate needs.
+    @Test
+    @MainActor
+    func `THC's CB1 efficacy axis gates against the SCRAs measured beside it`() {
+        let legs = SubstanceStore.shared.signatureLegs(family: .cannabinoid1)
+        guard case let .efficacy(model)? = ClassSignature.resolve(
+            substanceName: "THC", category: .cannabinoid, legs: legs,
+        ) else {
+            Issue.record("THC lost its CB1 efficacy axis")
+            return
+        }
+        #expect(model.isGated)
+        // Partial, and far below the reference full agonist: 36.1 % of CP-55,940.
+        #expect(model.focus.percent < 50)
+        // A ladder needs peers actually measured beside it, or it is one fact and a caption.
+        let solid = model.marks.filter(\.isGated)
+        #expect(solid.count >= 3)
+        #expect(solid.contains { $0.name == "THC" })
+        // The whole point of the axis: the synthetics sit at or above full activation while
+        // THC sits at a third of it. If this inverts, the card is telling the opposite story.
+        #expect(solid.filter { $0.name != "THC" }.allSatisfy { $0.percent > model.focus.percent })
+    }
 }

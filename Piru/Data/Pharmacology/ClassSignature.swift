@@ -165,10 +165,18 @@ nonisolated extension ClassSignature {
             .filter { $0.key != substanceName }
             .values
             .compactMap(mark)
+        // Thin the hollow peers, never the gated ones. The gated marks *are* the evidence the
+        // axis claims — dropping one to an even-index sample leaves the card saying "measured
+        // together" while showing only across-study marks. THC's CB1 axis is where this bites:
+        // three compounds share its experiment and fourteen more carry a bare CP-55,940 100 %,
+        // so an undifferentiated sample of 7 reliably discards two of the three.
+        let gatedPeers = peers.filter(\.isGated)
+        let hollowPeers = peers.filter { !$0.isGated }
         let model = EfficacyAxisModel(
             target: target,
             focus: focusMark,
-            marks: ([focusMark] + spread(peers, keeping: 7)).sorted { $0.percent < $1.percent },
+            marks: ([focusMark] + gatedPeers + spread(hollowPeers, keeping: 7 - gatedPeers.count))
+                .sorted { $0.percent < $1.percent },
             headline: agonistHeadline(focusLeg.action, target: target),
             provenance: provenance(provenanceGroup, fallback: focusLeg, basis: basis),
             isGated: gated != nil,
@@ -217,8 +225,13 @@ nonisolated extension ClassSignature {
         _ marks: [EfficacyAxisModel.Mark],
         keeping limit: Int,
     ) -> [EfficacyAxisModel.Mark] {
+        // A budget of 0 or 1 has to mean 0 or 1. The old `limit > 1` guard fell through to
+        // "return everything", which is the opposite of a limit and only stayed invisible
+        // because nothing passed a small budget until the gated marks got their own reservation.
+        guard limit > 0 else { return [] }
         let sorted = marks.sorted { $0.percent < $1.percent }
-        guard sorted.count > limit, limit > 1 else { return sorted }
+        guard sorted.count > limit else { return sorted }
+        guard limit > 1 else { return [sorted[sorted.count / 2]] }
         let step = Double(sorted.count - 1) / Double(limit - 1)
         var picked: [EfficacyAxisModel.Mark] = []
         var seen = Set<String>()
