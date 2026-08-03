@@ -220,7 +220,13 @@ struct ClassSignatureTests {
             return
         }
         #expect(model.isGated)
-        #expect(model.marks.allSatisfy(\.isGated))
+        // Hoisted out of `#expect`: SwiftFormat's preferKeyPath rewrites the closure
+        // form to `allSatisfy(\.isGated)`, and inside the macro expansion the compiler
+        // can no longer prove the `rethrows` call non-throwing ("call can throw, but it
+        // is not marked with 'try'"). A plain `let` satisfies both the formatter and
+        // the macro. `map(\.x)` inside `#expect` is fine — this bites `rethrows` only.
+        let everyMarkGated = model.marks.allSatisfy(\.isGated)
+        #expect(everyMarkGated)
     }
 
     @Test
