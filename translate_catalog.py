@@ -266,9 +266,9 @@ T = {
     "About metabolites": ("关于代谢物", "關於代謝物"),
     "Compare all %lld sources": ("对比全部 %lld 个来源", "對比全部 %lld 個來源"),
     "%@ · %lld sources": ("%1$@ · %2$lld 个来源", "%1$@ · %2$lld 個來源"),
-    "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority.": (
-        "各来源测量的人群和用途不同，因此范围有差异。Piru 显示你排序最高的那个来源——可在“设置 › 来源优先级”中更改。",
-        "各來源測量的族群與用途不同，因此範圍有差異。Piru 顯示你排序最高的那個來源——可在「設定 › 來源優先順序」中更改。",
+    "Piru shows the source you rank highest — change that in Settings › Source Priority.": (
+        "Piru 显示你排序最高的来源——可在“设置 › 来源优先级”中更改。",
+        "Piru 顯示你排序最高的來源——可在「設定 › 來源優先順序」中更改。",
     ),
     # TestFlight feedback round, build 33 (2026-07-27) — card overflow menu.
     "More actions": ("更多操作", "更多操作"),
@@ -5908,7 +5908,7 @@ if __name__ == "__main__":
         "About metabolites",
         "Compare all %lld sources",
         "%@ · %lld sources",
-        "Ranges differ because the sources are measuring different populations and intents. Piru shows the one you rank highest — change that in Settings › Source Priority.",
+        "Piru shows the source you rank highest — change that in Settings › Source Priority.",
         "Buccal",
         "More actions",
         "Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.",
