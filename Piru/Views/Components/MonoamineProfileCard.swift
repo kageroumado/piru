@@ -237,23 +237,59 @@ struct DopamineSerotoninLeanBar: View {
         SubstanceCategory.stimulant.color
     }
 
+    /// Half the knob; the ratio label centers on this and is clamped by it.
+    private static let knobRadius: CGFloat = 8
+    private static let ratioLabelWidth: CGFloat = 190
+    /// Vertical room reserved above the track for the ratio label.
+    private static let ratioRowHeight: CGFloat = 18
+
+    /// Centered on the knob, then clamped so neither end escapes the track. At the
+    /// extremes the text also switches its own alignment, so a clamped label hugs
+    /// the edge it belongs to instead of drifting away from the knob.
+    private func ratioOffset(knobX: CGFloat, width: CGFloat) -> CGFloat {
+        let ideal = knobX - Self.ratioLabelWidth / 2
+        return min(max(ideal, 0), max(0, width - Self.ratioLabelWidth))
+    }
+
+    private func ratioAlignment(knobX: CGFloat, width: CGFloat) -> TextAlignment {
+        if knobX < Self.ratioLabelWidth / 2 { return .leading }
+        if knobX > width - Self.ratioLabelWidth / 2 { return .trailing }
+        return .center
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             GeometryReader { geo in
+                let knobX = geo.size.width * (leanPosition ?? 0.5)
                 ZStack(alignment: .leading) {
                     Capsule()
                         .fill(LinearGradient(colors: [serotoninColor, dopamineColor], startPoint: .leading, endPoint: .trailing))
                         .frame(height: 8)
+                        .offset(y: Self.ratioRowHeight)
                     Circle()
                         .fill(.white)
                         .frame(width: 16, height: 16)
                         .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
                         .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
-                        .offset(x: geo.size.width * (leanPosition ?? 0.5) - 8)
+                        .offset(x: knobX - Self.knobRadius, y: Self.ratioRowHeight)
+                    // The ratio rides directly above the knob, so it reads as that
+                    // position's value rather than a caption about the whole bar —
+                    // far left when a compound is serotonin-dominant, far right when
+                    // it is dopamine-dominant. Clamped so it stays inside the track
+                    // at either extreme.
+                    if let ratioLine {
+                        Text(verbatim: ratioLine)
+                            .font(.caption.weight(.semibold).monospacedDigit())
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
+                            .frame(width: Self.ratioLabelWidth)
+                            .multilineTextAlignment(ratioAlignment(knobX: knobX, width: geo.size.width))
+                            .offset(x: ratioOffset(knobX: knobX, width: geo.size.width))
+                    }
                 }
-                .frame(height: 16)
+                .frame(height: 16 + Self.ratioRowHeight)
             }
-            .frame(height: 16)
+            .frame(height: 16 + Self.ratioRowHeight)
 
             HStack {
                 Text("Serotonin").font(.caption2.weight(.medium)).foregroundStyle(serotoninColor)
@@ -261,15 +297,12 @@ struct DopamineSerotoninLeanBar: View {
                 Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
             }
 
-            if showsLeanLabel || ratioLine != nil || ratioText != nil {
+            if showsLeanLabel || (ratioLine == nil && ratioText != nil) {
                 VStack(alignment: .leading, spacing: 1) {
                     if showsLeanLabel {
                         Text(leanLabel).font(.caption.weight(.semibold))
                     }
-                    if let ratioLine {
-                        Text(verbatim: ratioLine)
-                            .font(.caption.weight(.semibold).monospacedDigit())
-                    } else if let ratioText {
+                    if ratioLine == nil, let ratioText {
                         Text("DAT:SERT \(ratioText)")
                             .font(.caption2.monospacedDigit())
                             .foregroundStyle(Theme.secondaryLabel)

@@ -70,13 +70,11 @@ enum UserProfile: String, CaseIterable, Codable, Identifiable {
 /// table and the PK data on the page — collapsed, one tap away — rather than
 /// being silently denied that they exist.
 ///
-/// This replaced a matrix that removed sections outright below Pharma Nerd, and
-/// the reason it had to go is concrete: the class signatures shipped invisible
-/// to the default audience because `showsMechanism` was `profile != .casual`.
-/// A tier is a statement about *density*, not about who is allowed to know
-/// things — the app is a reference, and a reference does not hide its evidence.
-/// So the `shows*` gates below are constants now, and the placement matrix
-/// resolves to `.inlineCollapsed` where it used to resolve to `.hidden`.
+/// **Do not make any `shows*` gate tier-dependent, and do not return `.hidden`
+/// from the placement matrix for a tier.** A tier is a statement about
+/// *density*, not about who is allowed to know things — the app is a reference,
+/// and a reference does not hide its evidence. Tiering belongs entirely in the
+/// `*DefaultExpanded` flags and in `.inline` vs `.inlineCollapsed`.
 struct DisclosurePolicy: Hashable {
     let profile: UserProfile
 
@@ -111,8 +109,12 @@ struct DisclosurePolicy: Hashable {
     var subjectiveDefaultExpanded: Bool {
         profile == .pharmaNerd
     }
+    /// Folded at every tier. Attribution is reference material you go looking
+    /// for, not something to scroll past on the way out of the page — and the
+    /// ledger is one row per source, so unfolded it is the longest block on the
+    /// screen for the reader least likely to want it.
     var sourcesDefaultExpanded: Bool {
-        profile != .casual
+        false
     }
     var receptorLitDefaultExpanded: Bool {
         profile == .pharmaNerd

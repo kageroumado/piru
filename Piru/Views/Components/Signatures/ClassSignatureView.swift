@@ -32,6 +32,9 @@ struct SignatureCaption: View {
     /// Overrides the generic basis wording when the rendering knows something sharper — a releaser's
     /// EC₅₀ is a *release* EC₅₀, and that distinction is the whole reason the ternary has a switch.
     var basisLabel: String?
+    /// False when the rendering places the citation itself (the ternary pins it to a plot corner
+    /// rather than spending a caption line on it).
+    var showsCitationLink = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -41,7 +44,7 @@ struct SignatureCaption: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
                 // A broken or free-text citation renders as plain text, never a dead link.
-                if let url = provenance.citationURL {
+                if showsCitationLink, let url = provenance.citationURL {
                     CitationLink(url: url, size: 9)
                 }
             }
@@ -71,7 +74,9 @@ struct SignatureCaption: View {
             parts.append(String(localized: "mixed species", comment: "Signature axis basis clause"))
         }
         parts.append(gateClause)
-        if isGated, let year = provenance.year { parts.append(String(year)) }
+        // No publication year. It sets no expectation the reader can act on — what
+        // matters is the basis, the species, and whether one experiment produced all
+        // the values, and the citation itself carries the date for anyone who opens it.
         return parts.joined(separator: " · ")
     }
 

@@ -31,6 +31,8 @@ Voice governs register; these govern *claims*. Each was gotten wrong at least on
 - **Use sub-agents** for research, exploration, and parallel tasks. Spawn agents for codebase searches, multi-file reads, and independent investigations rather than doing everything sequentially in the main context.
 - Prefer editing existing files over creating new ones.
 - Keep changes minimal and focused — no over-engineering.
+- **Never leave a comment describing something that no longer exists.** If a thing is gone, it is gone from everywhere — the code, the docs, and the comments. A removed pill, a superseded ordering, a deleted flag: delete the words too. `git log` is the history; a comment narrating what used to be here is dead weight that makes every later reader reconstruct a design that isn't there.
+  - **The one exception: a comment whose job is to stop the thing coming back.** Then it stays. The test is whether it changes what the next person *does*, not whether it explains what happened. Write it as the prohibition and the reason — "no mechanism pill here, the ratio line and every ACTS ON row already say it" — not as a changelog entry ("the pill was removed because…"). If it doesn't prevent a reintroduction, it doesn't belong.
 
 ## Build & Test
 

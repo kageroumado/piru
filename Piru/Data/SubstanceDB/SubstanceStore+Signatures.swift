@@ -33,7 +33,7 @@ extension SubstanceStore {
                     SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm,
                            b.relative_tau, b.intrinsic_activity_pct, b.emax_pct,
                            b.comparable_set, b.citation_id, b.species, b.reference_agonist,
-                           s.canonical_name AS substance_name,
+                           s.canonical_name AS substance_name, s.popularity,
                            c.doi, c.pmid, c.year
                       FROM bindings b
                       JOIN substances s ON s.id = b.substance_id
@@ -61,6 +61,7 @@ extension SubstanceStore {
                         doi: row["doi"],
                         pmid: row["pmid"],
                         year: row["year"],
+                        popularity: row["popularity"] ?? 0,
                     )
                 }
             }
@@ -76,7 +77,7 @@ extension SubstanceStore {
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT f.id, f.target, f.ec50_nm, f.ic50_nm, f.emax_pct, f.reference_agonist,
                            f.species, f.citation_id,
-                           s.canonical_name AS substance_name,
+                           s.canonical_name AS substance_name, s.popularity,
                            c.doi, c.pmid, c.year
                       FROM functional_assays f
                       JOIN substances s ON s.id = f.substance_id
@@ -100,6 +101,7 @@ extension SubstanceStore {
                         doi: row["doi"],
                         pmid: row["pmid"],
                         year: row["year"],
+                        popularity: row["popularity"] ?? 0,
                     )
                 }
             }

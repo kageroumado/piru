@@ -987,7 +987,15 @@ final class SubstanceStore {
                 let allRows = try Row.fetchAll(
                     db,
                     sql:
-                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity, is_stub, substance_uid FROM substances ORDER BY canonical_name COLLATE NOCASE",
+                    """
+                    SELECT id, canonical_name, display_name, display_class, regulatory_status,
+                           duration_implausible, popularity, is_stub, substance_uid,
+                           -- Chemical identity travels with the shell. Without it a screen served
+                           -- from this prewarm has no formula, mass, CAS, SMILES or InChIKey, and
+                           -- the Chemistry card renders an empty grid.
+                           cas, inchikey, formula, pubchem_cid, molecular_weight, smiles, iupac_name
+                      FROM substances ORDER BY canonical_name COLLATE NOCASE
+                    """,
                 )
                 let ids: [Int64] = allRows.map { $0["id"] }
                 let names: [Int64: String] = Dictionary(
@@ -1005,6 +1013,14 @@ final class SubstanceStore {
                 var durationImplausibleByID: [Int64: Bool] = [:]
                 var isStubByID: [Int64: Bool] = [:]
                 var substanceUIDByID: [Int64: String] = [:]
+                // Chemical identity — see the SELECT above.
+                var casByID: [Int64: String] = [:]
+                var inchikeyByID: [Int64: String] = [:]
+                var formulaByID: [Int64: String] = [:]
+                var pubchemCIDByID: [Int64: Int] = [:]
+                var molarMassByID: [Int64: Double] = [:]
+                var smilesByID: [Int64: String] = [:]
+                var iupacNameByID: [Int64: String] = [:]
                 for row in allRows {
                     let sid: Int64 = row["id"]
                     if let raw: String = row["display_class"], let cls = CompoundDisplayClass(rawValue: raw) {
@@ -1016,6 +1032,13 @@ final class SubstanceStore {
                     popularityByID[sid] = row["popularity"] as Double? ?? 0
                     isStubByID[sid] = (row["is_stub"] as Int64? ?? 0) != 0
                     if let uid: String = row["substance_uid"] { substanceUIDByID[sid] = uid }
+                    if let v: String = row["cas"] { casByID[sid] = v }
+                    if let v: String = row["inchikey"] { inchikeyByID[sid] = v }
+                    if let v: String = row["formula"] { formulaByID[sid] = v }
+                    if let v = row["pubchem_cid"] as Int64? { pubchemCIDByID[sid] = Int(v) }
+                    if let v = row["molecular_weight"] as Double? { molarMassByID[sid] = v }
+                    if let v: String = row["smiles"] { smilesByID[sid] = v }
+                    if let v: String = row["iupac_name"] { iupacNameByID[sid] = v }
                 }
 
                 // Aliases — union across sources.
@@ -1168,8 +1191,15 @@ final class SubstanceStore {
                         regulatoryStatus: regulatoryByID[sid],
                         durationImplausible: durationImplausibleByID[sid] ?? false,
                         substanceUID: substanceUIDByID[sid],
+                        cas: casByID[sid],
+                        inchikey: inchikeyByID[sid],
+                        formula: formulaByID[sid],
+                        pubchemCID: pubchemCIDByID[sid],
                         popularity: popularityByID[sid] ?? 0,
                         isStub: isStubByID[sid] ?? false,
+                        molarMass: molarMassByID[sid],
+                        smiles: smilesByID[sid],
+                        iupacName: iupacNameByID[sid],
                     )
                 }
             }
@@ -1996,19 +2026,27 @@ final class SubstanceStore {
         )
 
         // Union-merge bindings across sources (curated ∪ measured) into ONE row per
-        // (target, action), taking the STRONGEST tier any source attests. Each row's
-        // tier is the **measurement-aware potency band** (`ReceptorStrength`): measured
-        // affinity/potency WINS, with the curated `affinity_tier` only a fallback for
-        // tier-only rows that carry no Kᵢ/EC₅₀/IC₅₀ (e.g. mitragynine). Measured-wins is
-        // what keeps this card in lock-step with the Receptor Literature card, which
-        // computes the same bands from the same values. Binding (Kᵢ) and functional
-        // (EC₅₀/IC₅₀) get different cutoffs because a releaser's EC₅₀ runs ~10× higher
-        // than a blocker's Kᵢ for the same strength. We GROUP BY and take MAX(tier) so a
-        // potent assay never loses to a weaker sibling. Keep these cutoffs identical to
-        // `ReceptorStrength` in Substance.swift.
+        // (target, action).
+        //
+        // **A curated `affinity_tier` outranks the derived band.** The derived band is
+        // absolute — Kᵢ < 100 nM strong, EC₅₀ < 1 µM strong — and an absolute band
+        // cannot say which of *this* compound's targets is the weak one. Methamphetamine
+        // is the case that proves it: SERT release EC₅₀ 736 nM lands under the 1 µM
+        // cutoff and dots as "strong", beside DAT 24.5 and NET 12.3 nM on the same card
+        // and a ternary reading SERT 1 %. The curator had already written the answer as
+        // `affinity_tier = 1`; the query was discarding it. Do not restore measured-wins
+        // — a hand-set tier is a claim about this drug's own balance, which is the
+        // question the dots ask.
+        //
+        // The derived band still does all the work where nothing is curated. Binding
+        // (Kᵢ) and functional (EC₅₀/IC₅₀) keep different cutoffs because a releaser's
+        // EC₅₀ runs ~10× higher than a blocker's Kᵢ for the same strength. Keep these
+        // identical to `ReceptorStrength` in Substance.swift.
         let bindingRows = try Row.fetchAll(db, sql: """
-            SELECT target, action, MAX(tier) AS affinity, MAX(measured) AS measured, MIN(ki_nm) AS ki_nm FROM (
-                SELECT b.target, b.action, b.ki_nm,
+            SELECT target, action,
+                   COALESCE(MAX(curated_tier), MAX(derived_tier), 1) AS affinity,
+                   MAX(measured) AS measured, MIN(ki_nm) AS ki_nm FROM (
+                SELECT b.target, b.action, b.ki_nm, b.affinity_tier AS curated_tier,
                        CASE WHEN b.ki_nm IS NOT NULL OR b.ec50_nm IS NOT NULL OR b.ic50_nm IS NOT NULL
                             THEN 1 ELSE 0 END AS measured,
                        CASE WHEN b.ki_nm   IS NOT NULL AND b.ki_nm   <   100 THEN 3
@@ -2020,7 +2058,7 @@ final class SubstanceStore {
                             WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm <  1000 THEN 3
                             WHEN b.ic50_nm IS NOT NULL AND b.ic50_nm < 10000 THEN 2
                             WHEN b.ic50_nm IS NOT NULL                        THEN 1
-                            ELSE COALESCE(b.affinity_tier, 1) END AS tier
+                            ELSE NULL END AS derived_tier
                   FROM bindings b
                   JOIN sources src ON src.id = b.source_id
                  WHERE b.substance_id = ?
@@ -2045,10 +2083,10 @@ final class SubstanceStore {
         }
         // Collapse one row per receptor for the *summary* table: a measured row often restates a curated
         // target under a wordier name ("NMDA (MK-801 site, S-enantiomer)" vs the curated "NMDA"). We keep
-        // the cleanest name and the curated action label, but take the **measured tier** when any measured
-        // assay exists — so the summary's dots match the Receptor Literature card's (which also computes
-        // `ReceptorStrength` from the same measured values) instead of showing the editorial tier. The full
-        // per-assay detail still lives in the Receptor Literature disclosure.
+        // the cleanest name and the curated action label. Tier precedence is already settled per
+        // (target, action) by the query above — curated first, derived band otherwise — so this pass
+        // only picks between differently-*named* rows for the same receptor, preferring measured ones
+        // when any exist. The full per-assay detail lives in the Receptor Literature disclosure.
         var groupOrder: [String] = []
         var groups: [String: [RawHit]] = [:]
         for hit in rawHits {

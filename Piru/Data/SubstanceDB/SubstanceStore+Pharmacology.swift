@@ -738,7 +738,27 @@ extension SubstanceStore {
                            m.metabolite_potency_basis, m.metabolite_potency_target,
                            m.metabolite_mechanism_vs_parent, m.metabolite_half_life_min,
                            m.formation_fraction_pct, m.notes,
-                           src.slug AS source_slug, c.doi, c.pmid
+                           src.slug AS source_slug, c.doi, c.pmid,
+                           -- The metabolite's OWN sourced half-life, when we carry it as a
+                           -- substance. Linking beats copying (see the `metabolite_substance_id`
+                           -- comment in the schema). Do not drop this in favour of the scalar
+                           -- `metabolite_half_life_min` beside it: that column holds whatever a
+                           -- single paper reported, on whatever basis it used, and is not
+                           -- comparable with the parent's own half-life. Methamphetamine →
+                           -- amphetamine stores 1242 min there, which the row's own note
+                           -- identifies as a *urinary* elimination half-life; set against
+                           -- methamphetamine's *plasma* 606 min it reads as a 2× difference
+                           -- where there is none — both are ~10 h plasma. Same mixed-basis trap
+                           -- the ternary's gate exists to catch, in a different table.
+                           -- The inner `src` alias deliberately shadows the outer one so the
+                           -- shared source-priority CASE applies to the metabolite's own rows.
+                           (SELECT h.half_life_minutes
+                              FROM half_lives h
+                              JOIN sources src ON src.id = h.source_id
+                             WHERE h.substance_id = m.metabolite_substance_id
+                               AND src.slug IN (\(enabledSourceListSQL))
+                             ORDER BY \(priorityCaseSQL) ASC
+                             LIMIT 1) AS metabolite_own_half_life_min
                       FROM metabolism m
                       JOIN sources src ON src.id = m.source_id
                       LEFT JOIN substances ms ON ms.id = m.metabolite_substance_id
@@ -762,7 +782,10 @@ extension SubstanceStore {
                         // a scaled copy", which must fail `canScaleParentEffect`.
                         metaboliteMechanismVsParent: (row["metabolite_mechanism_vs_parent"] as String?)
                             .flatMap(MetaboliteMechanism.init(rawValue:)) ?? .unknown,
-                        metaboliteHalfLifeMinutes: row["metabolite_half_life_min"],
+                        // Own record first, scalar column only when we don't carry the
+                        // metabolite as a substance (norfluoxetine, cotinine, dextrorphan).
+                        metaboliteHalfLifeMinutes: (row["metabolite_own_half_life_min"] as Double?)
+                            ?? (row["metabolite_half_life_min"] as Double?),
                         formationFractionPct: row["formation_fraction_pct"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],

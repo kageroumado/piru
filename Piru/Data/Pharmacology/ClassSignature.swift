@@ -407,6 +407,7 @@ nonisolated extension ClassSignature {
                 values: .init(sert: sert, dat: dat, net: net),
                 isFocus: name == substanceName,
                 isGated: isGated,
+                popularity: group.leg(substance: name, target: .dat)?.popularity ?? 0,
             )
         }
 
@@ -417,10 +418,17 @@ nonisolated extension ClassSignature {
                 .filter { $0 != substanceName }
                 .compactMap { point(group, $0, isGated: true) }
             // The population on the same basis, each from its own study: context, not a ranking.
+            // Ordered by popularity so the plot can name the recognizable ones — a cloud of
+            // anonymous dots asks the reader to take the spread on faith, and "4-Fluoroamphetamine"
+            // is not a landmark. One entry per compound: the same drug measured in three studies
+            // must not spend three of the labelling slots.
+            var seenGhost: Set<String> = []
             let ghosts = groups
                 .filter { $0.id != group.id && $0.basis == group.basis }
                 .flatMap { other in other.substanceNames.compactMap { point(other, $0, isGated: false) } }
                 .filter { $0.name != substanceName }
+                .sorted { $0.popularity > $1.popularity }
+                .filter { seenGhost.insert($0.name).inserted }
             triples.append(TransporterTernaryModel.Triple(
                 id: group.id,
                 focus: focus,
@@ -647,6 +655,8 @@ nonisolated struct TransporterTernaryModel: Hashable, Sendable {
         let isFocus: Bool
         /// Solid when measured in the focus's own experiment; hollow context otherwise.
         let isGated: Bool
+        /// Wikipedia-pageview popularity [0,1] — decides which context dots get named.
+        let popularity: Double
     }
 
     nonisolated struct Triple: Identifiable, Hashable, Sendable {

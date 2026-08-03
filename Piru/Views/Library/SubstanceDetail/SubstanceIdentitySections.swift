@@ -151,7 +151,11 @@ struct ChemistrySection: View {
     }
 
     var body: some View {
-        let hasPubChem = substance.pubChemURL != nil
+        // Gate on data we actually hold. `pubChemURL` cannot be part of this test:
+        // it falls back to a name-search URL, so it is non-nil for every substance
+        // in the library and would make this card render for all of them — as an
+        // empty grid whenever nothing else resolved.
+        let hasPubChem = substance.pubchemCID != nil
         let phys = substance.physicochemical
         let hasChem = substance.formula != nil || substance.cas != nil || substance.inchikey != nil
             || substance.molarMass != nil || hasPubChem || substance.smiles != nil
@@ -358,8 +362,6 @@ private struct SourceLedgerRow: View {
     let link: DetailSourceLink
     let linked: Bool
 
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-
     /// " · "-joined rather than `Text` concatenation: `Text + Text` is deprecated
     /// in iOS 26, and each facet is independently localized.
     private var providesSummary: String {
@@ -367,26 +369,19 @@ private struct SourceLedgerRow: View {
     }
 
     var body: some View {
+        // One column, two lines: the source, then what it supplied beneath it.
+        // Keep it this way. Side-by-side columns have to divide a phone's width
+        // between a name that can be a six-line paper title and a facet list
+        // that can run to six terms, and whichever side loses the split wraps
+        // into a ragged stack of one-word lines. Stacked, each gets the full
+        // width and the facets read as a caption belonging to the name above.
         Group {
             if link.provides.isEmpty {
                 nameColumn
-            } else if dynamicTypeSize.isAccessibilitySize {
-                VStack(alignment: .leading, spacing: 4) {
-                    nameColumn
-                    providesText
-                }
             } else {
-                // Both columns keep the default layout priority, so the row splits
-                // about evenly and each side wraps within its half. Giving the name
-                // priority reads better for the databases but starves the facet
-                // column on a literature row — a six-line paper title then takes
-                // the whole width and what it supports disappears, which is the one
-                // thing this row exists to say.
-                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                VStack(alignment: .leading, spacing: 3) {
                     nameColumn
-                    Spacer(minLength: 12)
                     providesText
-                        .multilineTextAlignment(.trailing)
                 }
             }
         }

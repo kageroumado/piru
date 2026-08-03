@@ -278,6 +278,10 @@ struct CitationLink: View {
                 .font(.system(size: size, weight: .semibold))
                 .foregroundStyle(Theme.secondaryLabel)
         }
+        // Required. A bare Link claims its entire List row, so any row holding
+        // both a citation and a "push this substance" button sends every tap to
+        // the browser — including taps on the button.
+        .buttonStyle(.plain)
         .accessibilityLabel(Text("View citation"))
     }
 }
@@ -297,6 +301,8 @@ func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> 
             }
             .foregroundStyle(accent)
         }
+        // See CitationLink: a bare Link owns its entire List row's hit area.
+        .buttonStyle(.plain)
     } else {
         Text(name).font(.caption2)
     }
@@ -518,14 +524,19 @@ struct MetabolismRow: View {
                 Group {
                     if let resolved {
                         Button { navigator.push(.substance(name: resolved.name)) } label: {
+                            // Fills the row so the whole width activates, not just the
+                            // text. The chevron promises a tappable row; a hit area that
+                            // stops at the end of a short name leaves most of that row
+                            // dead, and a tap there reads as the app ignoring you.
                             metaboliteLabel(headline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .buttonStyle(.plain)
                     } else {
                         metaboliteLabel(headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
-                Spacer(minLength: 6)
                 trailingAffordance(resolved: resolved)
             }
 

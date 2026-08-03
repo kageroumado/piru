@@ -62,13 +62,14 @@ struct PharmacologyCard: View {
                 heroSection(hero)
                 if !signatureLeads { signatureView }
             } else if let monoamine {
-                // Monoamine path — **bar first** (design review §3.3): the S↔D lean
-                // is what makes the drug what it is, so it leads. The one-line
-                // headline follows, then the receptor targets as full-width pills,
-                // then the (demoted) prose last, then the harm-reduction flags.
-                monoamineHero(monoamine)
+                // Monoamine path — the class name, then the triangle, then the S↔D
+                // bar. The headline is what the whole card is an argument for, so it
+                // leads. Do not move the bar above the triangle: the bar is the same
+                // fact collapsed onto one axis, and a summary of a picture must not
+                // precede the picture.
                 summaryText
                 signatureView
+                monoamineHero(monoamine)
                 receptorTargets
                 descriptionText
                 flags(monoamine)
@@ -193,18 +194,16 @@ struct PharmacologyCard: View {
     // MARK: - Monoamine slider hero
 
     private func monoamineHero(_ profile: MonoamineProfile) -> some View {
+        // No mechanism-label pill here. The ratio line below says
+        // `DAT : SERT release ≈ 30 : 1`, the signature caption says
+        // `release EC₅₀`, and every ACTS ON row says "Releasing Agent" — a pill
+        // would be a fourth statement of the same word with the most visual
+        // weight of the four.
         VStack(alignment: .leading, spacing: 10) {
-            Text(profile.mechanismLabel)
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 10).padding(.vertical, 4)
-                .background(Capsule().fill(Theme.secondaryLabel.opacity(0.12)))
-                .overlay(Capsule().strokeBorder(Theme.secondaryLabel.opacity(0.18), lineWidth: 0.5))
-
             if profile.leanPosition != nil {
                 spectrum(profile)
             }
         }
-        .padding(.top, 2)
     }
 
     private func spectrum(_ profile: MonoamineProfile) -> some View {
@@ -220,25 +219,28 @@ struct PharmacologyCard: View {
         )
     }
 
-    /// A clean transporter-selectivity line — "SERT : DAT release ≈ 13 : 1" —
-    /// stating the more-potent transporter first (potency is the inverse of the
-    /// half-max concentration, so a low SERT:DAT concentration ratio means SERT is
-    /// the more potent target). `nil` when the ratio is missing.
+    /// A transporter-selectivity line — "SERT : DAT release ≈ 1 : 30".
+    ///
+    /// **SERT is always named first, because it is always the left end of the bar
+    /// this line labels.** Ordering by which target is more potent instead meant a
+    /// dopamine-dominant compound printed "DAT : SERT ≈ 30 : 1" above a track
+    /// running serotonin→dopamine, so the first term named the right-hand end.
+    /// Reading order follows the axis; the numbers say which side wins.
+    /// `nil` when the ratio is missing.
     private func transporterRatioLine(_ profile: MonoamineProfile) -> String? {
         guard let ratio = profile.datSertRatio, ratio > 0 else { return nil }
         let basis = profile.basis == .release
             ? String(localized: "release", comment: "Transporter ratio basis")
             : String(localized: "reuptake", comment: "Transporter ratio basis")
-        // `datSertRatio` = SERT concentration ÷ DAT concentration. SERT is more
-        // potent when that ratio < 1.
-        let sertPotency = 1 / ratio
+        /// `datSertRatio` = SERT concentration ÷ DAT concentration. Potency is the
+        /// inverse of concentration, so ratio > 1 means DAT is the more potent target.
         func clamp(_ v: Double) -> String {
             v >= 100 ? ">100" : String(Int(v.rounded()))
         }
-        if sertPotency >= 1 {
-            return "SERT : DAT \(basis) ≈ \(clamp(sertPotency)) : 1"
+        if ratio >= 1 {
+            return "SERT : DAT \(basis) ≈ 1 : \(clamp(ratio))"
         }
-        return "DAT : SERT \(basis) ≈ \(clamp(ratio)) : 1"
+        return "SERT : DAT \(basis) ≈ \(clamp(1 / ratio)) : 1"
     }
 
     @ViewBuilder

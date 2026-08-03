@@ -9,10 +9,9 @@ struct DisclosurePolicyTests {
     @Test
     func `Casual sees every section — folded, not deleted`() {
         let p = DisclosurePolicy(profile: .casual)
-        // The tier controls density, not access. A Casual user has the
+        // The tier controls density, not access: a Casual user has the
         // mechanism, the class signature and the literature on the page, one
-        // tap from open. The old policy removed them, which is how the class
-        // signatures shipped invisible to the default audience.
+        // tap from open.
         #expect(p.showsMechanism)
         #expect(p.showsRichSubjective)
         #expect(p.showsReceptorLiterature)
@@ -34,7 +33,7 @@ struct DisclosurePolicyTests {
         // Middle tier: sections visible but not default-expanded.
         #expect(!p.mechanismDefaultExpanded)
         #expect(!p.subjectiveDefaultExpanded)
-        #expect(p.sourcesDefaultExpanded)
+        #expect(!p.sourcesDefaultExpanded)
     }
 
     @Test
@@ -46,17 +45,18 @@ struct DisclosurePolicyTests {
         #expect(p.showsSources)
         #expect(p.mechanismDefaultExpanded)
         #expect(p.subjectiveDefaultExpanded)
-        #expect(p.sourcesDefaultExpanded)
         #expect(p.receptorLitDefaultExpanded)
+        // Attribution stays folded even here — it is reference material you go
+        // looking for, and unfolded it is the longest block on the page.
+        #expect(!p.sourcesDefaultExpanded)
     }
 
     @Test
     func `No tier has a section withheld from it`() {
-        // The invariant that replaced "receptor literature is pharma-nerd only".
         // Every `shows*` gate is a constant; tiering happens in the expanded
         // flags and the placement matrix, both of which only ever choose how
-        // much is unfolded. If a future tier wants to remove a section, it has
-        // to argue with this test first.
+        // much is unfolded. A tier that wants to withhold a section has to
+        // argue with this test first.
         for profile in UserProfile.allCases {
             let p = DisclosurePolicy(profile: profile)
             #expect(p.showsMechanism)
@@ -112,9 +112,9 @@ struct DisclosurePolicyTests {
 
     @Test
     func `The pharmacology ladder is never hidden at any tier`() {
-        // Companion to `No tier has a section withheld from it` — the matrix
-        // half of the same invariant. Recreational/medical *spine* exclusions
-        // are still real (no dose ladder on a statin); tier exclusions are not.
+        // The matrix half of the same invariant. Recreational/medical *spine*
+        // exclusions are real (no dose ladder on a statin); tier exclusions are
+        // not.
         let ladder: [DetailSection] = [.mechanism, .receptorLiterature, .pharmacokinetics, .chemistry, .sources]
         for profile in UserProfile.allCases {
             let p = DisclosurePolicy(profile: profile)

@@ -47,13 +47,12 @@ struct DoseSourceComparisonView: View {
                 } header: {
                     Text("\(route.localizedName) · \(ladders.count) sources")
                 } footer: {
-                    // Says which source is in use and how to change it — nothing
-                    // else. The old copy explained the ranges away ("the sources
-                    // are measuring different populations and intents"), an
-                    // uncited causal claim nothing in the data supports. Asserting
-                    // they *disagree* is no better: the ladders above may well be
-                    // identical for a given substance. The reader can see the
-                    // numbers; the footer's only job is the control.
+                    // This footer names the control and nothing else. Do not add a
+                    // sentence explaining why the ladders differ — nothing in the
+                    // data records who a source measured or what for, so any such
+                    // reason is invented. "These sources disagree" is equally
+                    // unsupported: for many substances the ladders above are
+                    // identical. The reader can see the numbers.
                     Text(
                         "Piru shows the source you rank highest — change that in Settings › Source Priority.",
                         comment: "Dose source comparison footer",

@@ -38,25 +38,37 @@ struct TransporterTernaryView: View {
             }
 
             if dynamicTypeSize.isAccessibilitySize {
+                // The list is a VoiceOver / large-type reader's only access to the
+                // plot, so it keeps the numbers the visual caption drops.
                 TernaryShareList(triple: triple, accent: accent)
             } else {
+                // Both pieces of provenance live in the plot's top-trailing corner
+                // rather than on lines of their own. The basis has to stay visible — a
+                // release EC₅₀ and a blocker's IC₅₀ are different axes, and that is
+                // the whole reason this view has a basis switch — but it is a label
+                // on the picture, not a sentence about it.
+                //
+                // Per-transporter percentages are deliberately absent. The triangle's
+                // point is the *position*: which corner a compound leans to and how
+                // far it sits from its neighbours. "DAT 33% · NET 66% · SERT 1%"
+                // reads as a measured composition when it is a normalized reciprocal
+                // of three half-max concentrations, and that much precision invites
+                // arithmetic the numbers cannot support.
                 TernaryPlot(triple: triple, accent: accent)
-            }
-
-            SignatureCaption(
-                provenance: triple.provenance,
-                isGated: true,
-                leading: Self.shareLine(triple.focus.shares),
-                basisLabel: Self.captionBasis(triple),
-            )
-
-            if !triple.ghosts.isEmpty, !dynamicTypeSize.isAccessibilitySize {
-                Text(
-                    "Faint dots are other compounds measured on the same basis — each in its own study, drawn for scale.",
-                )
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
+                    // Both stack in the top-trailing corner. The bottom corners belong
+                    // to the NET and SERT vertex labels, and a basis sitting there
+                    // collided with SERT.
+                    .overlay(alignment: .topTrailing) {
+                        VStack(alignment: .trailing, spacing: 3) {
+                            if let url = triple.provenance.citationURL {
+                                CitationLink(url: url, size: 10)
+                            }
+                            Text(Self.captionBasis(triple))
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                        .padding(.trailing, 2)
+                    }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -102,6 +114,19 @@ private struct TernaryPlot: View {
 
     private static let height: CGFloat = 196
     private static let labelWidth: CGFloat = 92
+    /// How many context dots get named. Four is what fits a ~300pt plot without
+    /// labels colliding; the rest stay unnamed dots that still show the spread.
+    private static let namedGhostLimit = 4
+
+    /// The best-known context compounds, skipping any that would print on top of
+    /// a peer or the focus — those already carry their own label.
+    private var namedGhosts: [TransporterTernaryModel.Point] {
+        let taken = Set(triple.peers.map(\.name) + [triple.focus.name])
+        return triple.ghosts
+            .filter { !taken.contains($0.name) && $0.popularity > 0 }
+            .prefix(Self.namedGhostLimit)
+            .map(\.self)
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -116,6 +141,13 @@ private struct TernaryPlot: View {
 
                 ForEach(triple.ghosts) { ghost in
                     dot(ghost, box: box, radius: 3, filled: false)
+                }
+                // Name the best-known few. The context cloud only means something
+                // if the reader recognizes what is in it — landmarks, not a count.
+                // Kept to `namedGhostLimit` so labels stay legible; the plot is
+                // ~300pt wide and every label is a 92pt box.
+                ForEach(namedGhosts) { ghost in
+                    label(ghost, box: box)
                 }
                 ForEach(triple.peers) { peer in
                     dot(peer, box: box, radius: 4.5, filled: true)
@@ -199,7 +231,9 @@ private struct TernaryPlot: View {
         let clamped = min(max(center.x, Self.labelWidth / 2), box.width - Self.labelWidth / 2)
         return Text(point.name)
             .font(.system(size: 9.5, weight: point.isFocus ? .bold : .medium))
-            .foregroundStyle(point.isFocus ? accent : Theme.secondaryLabel)
+            // Context names sit a step back from the gated peers so the triangle
+            // still reads focus → same-study peers → landmarks, not one flat list.
+            .foregroundStyle(point.isFocus ? accent : Theme.secondaryLabel.opacity(point.isGated ? 1 : 0.65))
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .multilineTextAlignment(.center)

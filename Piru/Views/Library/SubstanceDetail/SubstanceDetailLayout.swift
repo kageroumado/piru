@@ -152,7 +152,7 @@ struct SubstanceDetailLayout: View {
     private var hasChemistryData: Bool {
         substance.formula != nil || substance.cas != nil || substance.inchikey != nil
             || substance.molarMass != nil || substance.smiles != nil || substance.iupacName != nil
-            || substance.pubChemURL != nil || (substance.physicochemical?.hasAnyValue ?? false)
+            || substance.pubchemCID != nil || (substance.physicochemical?.hasAnyValue ?? false)
     }
 
     /// True when the pharmacology cluster has anything to show — so its "Show

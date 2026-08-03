@@ -511,7 +511,14 @@ struct ActiveMetaboliteCard: View {
     private var primaryText: String {
         switch statement {
         case let .outlastsDuration(metabolite, parent):
-            String(localized: "Effects can outlast the duration above — \(metabolite) clears much more slowly than \(parent).")
+            // Say only what the gate proves. It tests
+            // `metaboliteHalfLife >= parentDuration` — the metabolite is still
+            // around when the stated duration runs out. Never phrase this as a
+            // comparison of clearance *rates* ("clears more slowly than"): that
+            // claim needs half-life vs half-life, and for methamphetamine →
+            // amphetamine both are ~10 h, so it would be false exactly where
+            // this case fires.
+            String(localized: "Effects can outlast the duration above — \(metabolite) is still present when \(parent)'s listed duration ends.")
         case let .persistsBeyondParent(metabolite, parent):
             String(localized: "\(metabolite) stays active in your body long after \(parent) itself is gone.")
         case let .comparable(ratio, parent):

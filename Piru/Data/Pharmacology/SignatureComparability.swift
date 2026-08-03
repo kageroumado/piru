@@ -100,6 +100,10 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
     let doi: String?
     let pmid: Int?
     let year: Int?
+    /// Wikipedia-pageview popularity [0,1] for the leg's substance. Purely a
+    /// presentation signal: it decides which context points on a plot are worth
+    /// naming, never which are comparable.
+    let popularity: Double
 
     init(
         id: String,
@@ -119,6 +123,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
         doi: String? = nil,
         pmid: Int? = nil,
         year: Int? = nil,
+        popularity: Double = 0,
     ) {
         self.id = id
         self.substanceName = substanceName
@@ -137,6 +142,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
         self.doi = doi
         self.pmid = pmid
         self.year = year
+        self.popularity = popularity
     }
 
     /// Which experiment this row belongs to. A declared `comparable_set` **wins** over the citation:
