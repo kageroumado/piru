@@ -9,6 +9,250 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # ---------------------------------------------------------------
+    # Live Activity timer labels — orphaned in PiruLiveActivityExtension's own
+    # catalog, so they shipped English to zh users on the Lock Screen.
+    "Elapsed": ("已用时间", "已用時間"),
+    "Remaining": ("剩余时间", "剩餘時間"),
+    # Four parallel lanes merged 2026-08-03: class signatures (Lane A),
+    # Insights > Usage v2 (Lane B), med-time consequence + heavy-tier band
+    # + combination metabolites (Lane D), Sources ledger (Lane E).
+    # ---------------------------------------------------------------
+    # ---- Lane A — class signatures on the substance detail screen ----
+    "Efficacy axis": ("效能轴", "效能軸"),
+    "Measurement basis": ("测量基准", "測量基準"),
+    "Release EC₅₀": ("释放 EC₅₀", "釋放 EC₅₀"),
+    "Functional EC₅₀": ("功能 EC₅₀", "功能 EC₅₀"),
+    "Reuptake IC₅₀": ("再摄取 IC₅₀", "再攝取 IC₅₀"),
+    "Binding Kᵢ": ("结合 Kᵢ", "結合 Kᵢ"),
+    "release EC₅₀": ("释放 EC₅₀", "釋放 EC₅₀"),
+    "functional EC₅₀": ("功能 EC₅₀", "功能 EC₅₀"),
+    "reuptake-inhibition IC₅₀": ("再摄取抑制 IC₅₀", "再攝取抑制 IC₅₀"),
+    "binding Kᵢ": ("结合 Kᵢ", "結合 Kᵢ"),
+    "inhibition IC₅₀": ("抑制 IC₅₀", "抑制 IC₅₀"),
+    "efficacy τ": ("效能 τ", "效能 τ"),
+    "intrinsic activity": ("内在活性", "內在活性"),
+    "Emax": ("Emax", "Emax"),
+    "Full agonist": ("完全激动剂", "完全促效劑"),
+    "Partial agonist": ("部分激动剂", "部分促效劑"),
+    "no activation": ("无激活", "無活化"),
+    "full activation": ("完全激活", "完全活化"),
+    "full activation · %@": ("完全激活 · %@", "完全活化 · %@"),
+    "mixed species": ("混合物种", "混合物種"),
+    "one panel": ("同一组实验", "同一組實驗"),
+    "one study": ("同一研究", "同一研究"),
+    "across studies": ("跨研究", "跨研究"),
+    "different study": ("不同研究", "不同研究"),
+    "nothing comparable to rank it against": ("没有可比对象供排序", "沒有可比對象供排序"),
+    "perception": ("感知", "感知"),
+    "body": ("身体", "身體"),
+    "balanced": ("均衡", "均衡"),
+    "%@ to %@ balance": ("%1$@ 与 %2$@ 的平衡", "%1$@ 與 %2$@ 的平衡"),
+    "%@ vs %@": ("%1$@ 对 %2$@", "%1$@ 對 %2$@"),
+    "%@ at %@": ("%1$@ 于 %2$@", "%1$@ 於 %2$@"),
+    "Transporter potency share": ("转运体效价占比", "轉運體效價占比"),
+    "Transporter triangle withheld": ("已隐去转运体三角图", "已隱去轉運體三角圖"),
+    "No comparison axis for dissociatives": ("解离剂没有可比坐标轴", "解離劑沒有可比座標軸"),
+    "These values were not measured together — each is its own study. Ranked here for scale, not as a league table.": (
+        "这些数值并非在同一实验中测得——每个都来自各自的研究。此处排列只为呈现量级，不是排行榜。",
+        "這些數值並非在同一實驗中測得——每個都來自各自的研究。此處排列只為呈現量級，不是排行榜。",
+    ),
+    "Faint dots are other compounds measured on the same basis — each in its own study, drawn for scale.": (
+        "浅色圆点是以相同基准测得的其他化合物——各自出自不同研究，仅用于呈现量级。",
+        "淺色圓點是以相同基準測得的其他化合物——各自出自不同研究，僅用於呈現量級。",
+    ),
+    "No single study in our data measured 5-HT2A and 5-HT1A for this compound on one assay, so the balance is withheld — a ratio built from two studies is not a ratio. The 5-HT2A value alone is shown.": (
+        "我们的数据中没有任何一项研究在同一实验里同时测定该化合物的 5-HT2A 与 5-HT1A，因此不显示平衡图——由两项研究拼出的比值算不上比值。此处仅显示 5-HT2A 数值。",
+        "我們的資料中沒有任何一項研究在同一實驗裡同時測定該化合物的 5-HT2A 與 5-HT1A，因此不顯示平衡圖——由兩項研究拼出的比值算不上比值。此處僅顯示 5-HT2A 數值。",
+    ),
+    "No single study in our data measured SERT, DAT and NET for this compound on one basis. Mixing them is how MDMA once rendered as a 95 % noradrenaline drug — a binding Kᵢ plotted against a release EC₅₀ — so the triangle is withheld rather than drawn from rows that can't be ranked together.": (
+        "我们的数据中没有任何一项研究以同一基准同时测定该化合物的 SERT、DAT 与 NET。混用不同基准正是 MDMA 一度被呈现为「95% 去甲肾上腺素能药物」的原因——把结合 Kᵢ 与释放 EC₅₀ 画在了一起——因此宁可隐去三角图，也不用无法相互排序的数据作图。",
+        "我們的資料中沒有任何一項研究以同一基準同時測定該化合物的 SERT、DAT 與 NET。混用不同基準正是 MDMA 一度被呈現為「95% 去甲腎上腺素能藥物」的原因——把結合 Kᵢ 與釋放 EC₅₀ 畫在了一起——因此寧可隱去三角圖，也不用無法相互排序的資料作圖。",
+    ),
+    "NMDA-block potency is the obvious signature for this class, and it is the one number the literature disagrees about most — the same site is reported decades apart, in different preparations, mostly in rat. Most dissociatives here carry no measured value at all, and potency is not what separates them subjectively. So this card says so instead of drawing an axis out of numbers that can't be ranked against each other.": (
+        "NMDA 阻断效价是这一类物质最直观的特征，却也是文献分歧最大的一个数字——同一位点的报告相隔数十年，制备方法各异，且多为大鼠数据。此处多数解离剂根本没有实测值，而主观差异也并非由效价决定。因此这张卡片如实说明，而不是用无法相互排序的数字硬画一条坐标轴。",
+        "NMDA 阻斷效價是這一類物質最直觀的特徵，卻也是文獻分歧最大的一個數字——同一位點的報告相隔數十年，製備方法各異，且多為大鼠數據。此處多數解離劑根本沒有實測值，而主觀差異也並非由效價決定。因此這張卡片如實說明，而不是用無法相互排序的數字硬畫一條座標軸。",
+    ),
+    # ---- Lane B — Insights › Usage, eight analytical sections ----
+    "This period": ("本期", "本期"),
+    "1Y": ("1年", "1年"),
+    "Activity heatmap": ("活动热力图", "活動熱力圖"),
+    "Day of week": ("星期分布", "星期分佈"),
+    "Hour of day": ("时段分布", "時段分佈"),
+    "Hour": ("小时", "小時"),
+    "Bucket": ("区间", "區間"),
+    "Selected": ("已选中", "已選取"),
+    "Trend": ("趋势", "趨勢"),
+    "Per week": ("每周", "每週"),
+    "%@/wk": ("%@/周", "%@/週"),
+    "Dose levels": ("剂量档位", "劑量檔位"),
+    "Dose levels over time": ("剂量档位随时间变化", "劑量檔位隨時間變化"),
+    "Substance trends": ("物质趋势", "物質趨勢"),
+    "Regularity": ("规律性", "規律性"),
+    "Routes": ("给药途径", "給藥途徑"),
+    "Used together": ("同时使用", "同時使用"),
+    "Very regular": ("非常规律", "非常規律"),
+    "Somewhat regular": ("较为规律", "較為規律"),
+    "Irregular": ("不规律", "不規律"),
+    "Sporadic": ("零星", "零星"),
+    "Hidden": ("已隐藏", "已隱藏"),
+    "Which days and hours you log on": ("你在哪些日子和时段记录", "你在哪些日子和時段記錄"),
+    "Entries by weekday, split by class": (
+        "按星期统计的条目，并按类别拆分",
+        "按星期統計的條目，並按類別拆分",
+    ),
+    "Entries per week, 7-day rolling average": (
+        "每周条目数，7 天滚动平均",
+        "每週條目數，7 天滾動平均",
+    ),
+    "Entries per week, 4-week rolling average": (
+        "每周条目数，4 周滚动平均",
+        "每週條目數，4 週滾動平均",
+    ),
+    "Where your doses sit on each substance's ladder": (
+        "你的剂量在各物质剂量阶梯上的位置",
+        "你的劑量在各物質劑量階梯上的位置",
+    ),
+    "Only a minority of entries could be placed on a ladder": (
+        "只有少数条目能对应到剂量阶梯",
+        "只有少數條目能對應到劑量階梯",
+    ),
+    "Substances logged on the same day": ("同一天记录的物质", "同一天記錄的物質"),
+    "How evenly spaced your doses are": ("你的剂量间隔有多均匀", "你的劑量間隔有多均勻"),
+    "How each substance was taken": ("每种物质的使用方式", "每種物質的使用方式"),
+    "Most active: %@": ("最活跃：%@", "最活躍：%@"),
+    "%lld new this period": ("本期新增 %lld 种", "本期新增 %lld 種"),
+    "at common or above": ("达到常规或以上", "達到常規或以上"),
+    "at common or above · %lld heavy": (
+        "达到常规或以上 · %lld 次大剂量",
+        "達到常規或以上 · %lld 次大劑量",
+    ),
+    "Based on %lld of %lld entries with dose data": (
+        "基于 %2$lld 条条目中有剂量数据的 %1$lld 条",
+        "基於 %2$lld 筆條目中有劑量資料的 %1$lld 筆",
+    ),
+    "No dose ladders matched": ("没有匹配的剂量阶梯", "沒有匹配的劑量階梯"),
+    "No dose levels resolved": ("未能解析出剂量档位", "未能解析出劑量檔位"),
+    "No entries in the previous period": ("上一期没有条目", "上一期沒有條目"),
+    "No entries in this window": ("此时间范围内没有条目", "此時間範圍內沒有條目"),
+    "Nothing logged in this window": ("此时间范围内没有记录", "此時間範圍內沒有記錄"),
+    "No pairs in this class": ("此类别下没有组合", "此類別下沒有組合"),
+    "Nothing in This Range": ("此范围内没有数据", "此範圍內沒有資料"),
+    "Pick a longer time range to see your history.": (
+        "选择更长的时间范围以查看历史记录。",
+        "選擇更長的時間範圍以查看歷史記錄。",
+    ),
+    "Not enough history yet": ("历史记录还不够", "歷史記錄還不夠"),
+    "Show all %lld": ("显示全部 %lld 项", "顯示全部 %lld 項"),
+    "Show fewer": ("收起", "收起"),
+    "Clear selected day": ("清除所选日期", "清除所選日期"),
+    "every %@ days": ("每 %@ 天一次", "每 %@ 天一次"),
+    "up %lld percent": ("上升百分之 %lld", "上升百分之 %lld"),
+    "down %lld percent": ("下降百分之 %lld", "下降百分之 %lld"),
+    "↑ %lld%% vs previous %@": ("↑ %1$lld%% 相比上一个%2$@", "↑ %1$lld%% 相比上一個%2$@"),
+    "↓ %lld%% vs previous %@": ("↓ %1$lld%% 相比上一个%2$@", "↓ %1$lld%% 相比上一個%2$@"),
+    "%@ entries across seven equal slices of the period.": (
+        "按本期七等分统计的 %@ 条条目。",
+        "按本期七等分統計的 %@ 筆條目。",
+    ),
+    "%@ entries per day": ("每日 %@ 条条目", "每日 %@ 筆條目"),
+    "%@ entries per day on average": ("平均每日 %@ 条条目", "平均每日 %@ 筆條目"),
+    "%@ entries per day, most active on %@": (
+        "每日 %1$@ 条条目，%2$@最活跃",
+        "每日 %1$@ 筆條目，%2$@最活躍",
+    ),
+    "%lld entries": ("%lld 条条目", "%lld 筆條目"),
+    "%lld distinct substances": ("%lld 种不同物质", "%lld 種不同物質"),
+    "%lld distinct substances, %lld new this period": (
+        "%1$lld 种不同物质，本期新增 %2$lld 种",
+        "%1$lld 種不同物質，本期新增 %2$lld 種",
+    ),
+    "%lld entries, %@ versus the previous period": (
+        "%1$lld 条条目，较上一期%2$@",
+        "%1$lld 筆條目，較上一期%2$@",
+    ),
+    "%lld entries, busiest around %@": (
+        "%1$lld 条条目，%2$@前后最密集",
+        "%1$lld 筆條目，%2$@前後最密集",
+    ),
+    "%lld entries, busiest on %@ with %lld": (
+        "%1$lld 条条目，%2$@最多，共 %3$lld 条",
+        "%1$lld 筆條目，%2$@最多，共 %3$lld 筆",
+    ),
+    "%lld entries: %@": ("%1$lld 条条目：%2$@", "%1$lld 筆條目：%2$@"),
+    "%lld percent of %lld placed doses were common or above, %lld heavy": (
+        "在 %2$lld 次可定位的剂量中，百分之 %1$lld 达到常规或以上，其中 %3$lld 次为大剂量",
+        "在 %2$lld 次可定位的劑量中，百分之 %1$lld 達到常規或以上，其中 %3$lld 次為大劑量",
+    ),
+    "No entries could be placed on a dose ladder": (
+        "没有条目能对应到剂量阶梯",
+        "沒有條目能對應到劑量階梯",
+    ),
+    "%lld days together, %lld percent of the days either was logged": (
+        "共同出现 %1$lld 天，占任一方被记录天数的百分之 %2$lld",
+        "共同出現 %1$lld 天，佔任一方被記錄天數的百分之 %2$lld",
+    ),
+    "%@, about every %@ days across %lld entries": (
+        "%1$@，%3$lld 条条目中大约每 %2$@ 天一次",
+        "%1$@，%3$lld 筆條目中大約每 %2$@ 天一次",
+    ),
+    "%@ rising to %@ per week": ("%1$@ 上升至每周 %2$@", "%1$@ 上升至每週 %2$@"),
+    "%@ falling to %@ per week": ("%1$@ 下降至每周 %2$@", "%1$@ 下降至每週 %2$@"),
+    "%@ steady at %@ per week": ("%1$@ 稳定在每周 %2$@", "%1$@ 穩定在每週 %2$@"),
+    "%@ with %@": ("%1$@ 与 %2$@", "%1$@ 與 %2$@"),
+    "%@ %lld percent": ("%1$@ 百分之 %2$lld", "%1$@ 百分之 %2$lld"),
+    "%lld %@": ("%1$lld %2$@", "%1$lld %2$@"),
+    "%lld. %@": ("%1$lld. %2$@", "%1$lld. %2$@"),
+    "%lld/%lld": ("%1$lld/%2$lld", "%1$lld/%2$lld"),
+    "%@ %@ · %@": ("%1$@ %2$@ · %3$@", "%1$@ %2$@ · %3$@"),
+    "Entries by hour of day": ("按时段统计的条目", "按時段統計的條目"),
+    "Entries by weekday": ("按星期统计的条目", "按星期統計的條目"),
+    "Days with entries are listed one by one. Select a day to filter the hour chart below.": (
+        "有条目的日期会逐一列出。选择某一天可筛选下方的时段图表。",
+        "有條目的日期會逐一列出。選擇某一天可篩選下方的時段圖表。",
+    ),
+    "Toggles this substance's line": ("切换该物质的曲线显示", "切換該物質的曲線顯示"),
+    # ---- Lane D — med times, heavy-tier band, combination metabolites ----
+    "Kicks in ~%@": ("约 %@ 起效", "約 %@ 起效"),
+    "Kicks in ~%@ · easing off ~%@": (
+        "约 %1$@ 起效 · 约 %2$@ 开始消退",
+        "約 %1$@ 起效 · 約 %2$@ 開始消退",
+    ),
+    "Clear for sleep ~%@": ("约 %@ 消退，不影响睡眠", "約 %@ 消退，不影響睡眠"),
+    "Clear for sleep ~%@ — after most bedtimes.": (
+        "约 %@ 消退，不影响睡眠——晚于多数人的就寝时间。",
+        "約 %@ 消退，不影響睡眠——晚於多數人的就寢時間。",
+    ),
+    "Kick-in and wear-off come from this med's own duration data — the same model the timeline draws. An estimate, not a schedule.": (
+        "起效与消退时间来自这款药物自身的持续时间数据——与时间线所用的模型相同。这是估算，不是时刻表。",
+        "起效與消退時間來自這款藥物自身的持續時間資料——與時間線所用的模型相同。這是估算，不是時刻表。",
+    ),
+    "heavy": ("大剂量", "大劑量"),
+    "This curve reaches the heavy dose range": ("此曲线达到大剂量区间", "此曲線達到大劑量區間"),
+    "Formed With": ("联合生成", "聯合生成"),
+    "A third compound your body makes from this dose and something else in the session — not from either alone.": (
+        "你的身体用这次剂量和本次记录中的另一种物质生成的第三种化合物——单独任何一种都不会产生。",
+        "你的身體用這次劑量和本次記錄中的另一種物質生成的第三種化合物——單獨任何一種都不會產生。",
+    ),
+    "Next: %@ at %@ · %@": ("下一次：%1$@ 于 %2$@ · %3$@", "下一次：%1$@ 於 %2$@ · %3$@"),
+    # ---- Lane E — Sources screen ledger ----
+    "dose": ("剂量", "劑量"),
+    "duration": ("持续时间", "持續時間"),
+    "effects": ("效应", "效應"),
+    "overview": ("概述", "概述"),
+    "pharmacology": ("药理学", "藥理學"),
+    "pharmacokinetics": ("药代动力学", "藥物動力學"),
+    "tolerance": ("耐受性", "耐受性"),
+    "prescribing": ("处方信息", "處方資訊"),
+    "interactions": ("相互作用", "相互作用"),
+    "chemistry": ("化学", "化學"),
+    "names & tags": ("名称与标签", "名稱與標籤"),
+    "supplies %@": ("提供 %@", "提供 %@"),
+    "licensed %@": ("授权协议 %@", "授權條款 %@"),
+    "Each row lists what that source supplied here. Links open the source's own page — always verify against the original.": (
+        "每一行列出该来源在此提供的内容。链接会打开来源自身的页面——请始终对照原始资料核实。",
+        "每一行列出該來源在此提供的內容。連結會開啟來源自身的頁面——請始終對照原始資料核實。",
+    ),
     # Substance-detail round 5 (2026-08-01) — dose/effects split, the dose-source
     # comparison sheet, the folded Prescribing card, and the Log CTA under the
     # dose card.
@@ -5836,7 +6080,30 @@ if __name__ == "__main__":
     for m in missing:
         print(f"  - {m!r}")
 
-    # Hand both catalogs back to Xcode so it re-collates every key into its
+    print()
+    print("--- Live Activity catalog ---")
+    # The Live Activity target has its own catalog and, like the widget, reuses
+    # Shared strings. It went unhandled until 2026-08-03, when the heavy-tier
+    # threshold band put target-specific strings there and they came back
+    # untranslated: the export/import round-trip cross-fills from project-wide
+    # translations, but only for keys Xcode already resolves elsewhere, so a
+    # string that lives *only* in this catalog was never reached. Same empty
+    # insert set as the widget — the keys are extracted by the build; this pass
+    # only fills them.
+    ACTIVITY_NEW_KEYS: set[str] = set()
+    n, added, missing = apply_translations(
+        project_root / "PiruLiveActivityExtension/Localizable.xcstrings",
+        {**T, **WT},
+        insert_keys=ACTIVITY_NEW_KEYS,
+    )
+    print(f"Translated: {n}  (inserted {len(added)} new key(s))")
+    for a in added:
+        print(f"  + {a!r}")
+    print(f"Missing: {len(missing)}")
+    for m in missing:
+        print(f"  - {m!r}")
+
+    # Hand all three catalogs back to Xcode so it re-collates every key into its
     # canonical order — this is what stops the IDE from churning the file on the
     # next build. Done last, after all translations are filled, so the export
     # captures the freshly-inserted keys. Skipped gracefully if xcodebuild is

@@ -572,6 +572,22 @@
         }
       }
     },
+    "heavy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大劑量"
+          }
+        }
+      }
+    },
     "High confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1290,6 +1306,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天的都完成了。"
+          }
+        }
+      }
+    },
+    "This curve reaches the heavy dose range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此曲线达到大剂量区间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此曲線達到大劑量區間"
           }
         }
       }
