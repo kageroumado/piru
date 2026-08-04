@@ -38,12 +38,12 @@ Voice governs register; these govern *claims*. Each was gotten wrong at least on
 
 **Prefer the Xcode MCP over raw `xcodebuild`.** Use `mcp__xcode__BuildProject` to build and `mcp__xcode__RunAllTests` / `mcp__xcode__RunSomeTests` to test. The MCP surfaces compiler errors and warnings far more legibly than parsing `xcodebuild` output, and it drives the one shared Xcode/DerivedData instance — so it won't race a build another agent (or the IDE) already has in flight. Raw `xcodebuild` is a fallback for CI or when the MCP is unavailable; two concurrent `xcodebuild` invocations against the same DerivedData clobber each other.
 
-**When a test run reports 0 tests, use `Tools/run-tests.sh`.** The IDE/MCP test runner intermittently wedges — the test host never pairs with `testmanagerd`, so nothing executes and the run hangs indefinitely (cause and A/B in the `xcode-test-hang-lldb-attach` memory). The script is the bounded escape hatch: `build-for-testing` once, then
+**When a test run reports 0 tests, use `pipeline/run-tests.sh`.** The IDE/MCP test runner intermittently wedges — the test host never pairs with `testmanagerd`, so nothing executes and the run hangs indefinitely (cause and A/B in the `xcode-test-hang-lldb-attach` memory). The script is the bounded escape hatch: `build-for-testing` once, then
 
 ```bash
 xcodebuild build-for-testing -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
-Tools/run-tests.sh                  # full suite, ~20s healthy
-Tools/run-tests.sh -only SomeSuite  # one suite (repeatable; use the Swift type name)
+pipeline/run-tests.sh                  # full suite, ~20s healthy
+pipeline/run-tests.sh -only SomeSuite  # one suite (repeatable; use the Swift type name)
 ```
 
 **A run that exceeds its cutoff is a failure, not an inconclusive result** — the script exits non-zero (124 timeout / 125 nothing-executed) rather than letting a wedged run read as green. Three cutoffs: 45 s to the first test line, 180 s whole-run, 60 s per-test (`STARTUP_TIMEOUT` / `RUN_TIMEOUT` / `TEST_TIMEOUT` to override). Read the verdict off Swift Testing's `✔/✘ Test run with N tests` line — the legacy XCTest reporter prints `Executed 0 tests` on *every* run and that 0 means nothing.
@@ -53,9 +53,6 @@ Tools/run-tests.sh -only SomeSuite  # one suite (repeatable; use the Swift type 
 xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
 xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' test
 
-# Build & run the SubstanceValidator CLI tool
-cd Tools/SubstanceValidator && swift build
-cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 ```
 
 ## Releases & schema versioning
@@ -75,17 +72,17 @@ cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 
 ### The bundled DB is not in git — it is fetched
 
-`Piru/Data/piru-substances.sqlite` is ~19 MB and is rewritten wholesale on nearly every data pass, so it is **gitignored and hosted** rather than tracked. `Tools/fetch-db.sh` puts it in place:
+`Piru/Data/piru-substances.sqlite` is ~19 MB and is rewritten wholesale on nearly every data pass, so it is **gitignored and hosted** rather than tracked. `pipeline/fetch-db.sh` puts it in place:
 
 ```bash
-Tools/fetch-db.sh            # no-op when the file already matches the manifest
-Tools/fetch-db.sh --force    # re-download regardless
+pipeline/fetch-db.sh            # no-op when the file already matches the manifest
+pipeline/fetch-db.sh --force    # re-download regardless
 ```
 
 - **Run it after cloning, and before any build.** `Piru/Data` is a filesystem-synchronized Xcode group, so the app bundles the DB by its merely being there, and `SubstanceStore` calls `fatalError` at launch when the bundle lacks it. Both CI jobs that read it run the script right after checkout.
 - **`manifest.json` beside it stays tracked.** It is small, and its `sqlite_sha256` is what the download is verified against — so a host serving a database this checkout does not expect is rejected rather than installed. The checksum comes from the tracked manifest, never from the server.
 - **It is served from the `db` release tag**, which holds both files. The shipped app reads the same pair: `Info.plist`'s `PiruManifestURL` points at the manifest, and `SubstanceDBUpdater` resolves `sqlite_path` against the manifest's own directory — so keeping the two together is all that is required, and the build and the OTA updater cannot disagree about what the current database is.
-- **Run `Tools/publish-db.sh` after every rebuild.** The manifest is committed and the database it describes is not, so a manifest pushed without its database fails every later fetch. The script refuses to publish a database the committed manifest does not describe, and verifies what the release serves afterwards.
+- **Run `pipeline/publish-db.sh` after every rebuild.** The manifest is committed and the database it describes is not, so a manifest pushed without its database fails every later fetch. The script refuses to publish a database the committed manifest does not describe, and verifies what the release serves afterwards.
 - **Never put it in Git LFS.** `raw.githubusercontent.com` serves an LFS path as its 133-byte pointer, so an LFS-tracked DB ships pointer text to every device asking for an update.
 
 Builds through `v2.2-b38` have the old `raw.githubusercontent.com` URL compiled in and no longer receive updates; they keep working on their bundled data.
@@ -117,7 +114,6 @@ Shared/              # Code shared across all targets (widget + Live Activity):
 PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
 PiruTests/           # 105 test files, ~1,300 tests using Apple Testing framework (@Suite, @Test)
-Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against APIs
 pipeline/            # Python data pipeline that builds the bundled substance SQLite DB
 ```
 

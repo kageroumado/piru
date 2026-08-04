@@ -68,12 +68,7 @@ Editing it by hand is silently clobbered on the next rebuild and it hides pipeli
 2. Rebuild the whole DB — it's offline and reproducible: `pipeline/build.sh fast`.
 3. Commit the rebuilt `piru-substances.sqlite` + `manifest.json` + snapshots together.
 
-The pre-commit hook runs `pipeline/build/validate_curated.py` over staged curated files. For a pharmacology
-change, also run the validator that cross-checks against external APIs:
-
-```sh
-cd Tools/SubstanceValidator && swift run SubstanceValidator validate
-```
+The pre-commit hook runs `pipeline/build/validate_curated.py` over staged curated files.
 
 ## Localization
 
@@ -104,7 +99,6 @@ before it leaves your machine.
 - `Shared/` — the SwiftData `@Model`s, `PKModel`, and formatting, shared with the widget and Live Activity.
 - `PiruWidget/`, `PiruLiveActivityExtension/` — Home Screen widgets and the Lock Screen Live Activity.
 - `pipeline/` — the offline Python pipeline that builds the substance DB from `data/`.
-- `Tools/SubstanceValidator/` — the SPM CLI that validates substance data against APIs.
 
 The safety-critical code — `Interactions`, `HalfLifeDatabase`, `PKModel`, the effect engine, and the curated
 data layer — is the high-value, fragile part. Read the relevant `Specs/` doc before touching it.

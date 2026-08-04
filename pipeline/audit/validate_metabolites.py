@@ -21,10 +21,10 @@ wrong drug is still wrong.
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sqlite3
-import sys
 import time
 import urllib.error
 import urllib.parse
@@ -264,11 +264,19 @@ def validate_metabolite(row: dict, where: str, errors: list[str], warnings: list
 
 
 def main() -> int:
-    if len(sys.argv) < 2:
-        print(__doc__)
-        return 2
-    src = Path(sys.argv[1])
-    write = "--write" in sys.argv
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument("input_dir", type=Path, help="Directory containing per-class JSON batches")
+    parser.add_argument(
+        "--write", action="store_true", help="Emit the merged enrichment file (dry run without)"
+    )
+    parser.add_argument(
+        "--verify-citations", action="store_true", help="Resolve every DOI/PMID and print titles"
+    )
+    args = parser.parse_args()
+    src = args.input_dir
+    write = args.write
 
     known = known_substances()
     merged: list[dict] = []
@@ -368,7 +376,7 @@ def main() -> int:
         for e in errors:
             print(f"  ERR  {e}")
 
-    if "--verify-citations" in sys.argv and citations:
+    if args.verify_citations and citations:
         verify_all_citations(citations)
 
     if write:

@@ -6,7 +6,7 @@ UI itself. Coordinates are logical points (the `axe describe-ui` space);
 the scale factor maps them to screenshot pixels (@3x by default).
 
 Usage:
-    python3 Tools/annotate_screenshot.py in.png out.png X Y [--radius 44] [--scale 3]
+    python3 pipeline/annotate_screenshot.py in.png out.png X Y [--radius 44] [--scale 3]
 """
 
 import argparse

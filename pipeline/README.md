@@ -50,7 +50,7 @@ in-code curation dict: one file fully describes one substance.
 ```
   PsychonautWiki API ─► fetch/psychonautwiki.py ─► data/sources/psychonautwiki.json ─┐
   drug.community     ─► (manual snapshot)        ─► data/sources/drug-community.json  │
-  TripSit/Wikidata/PubChem/Erowid/DEA ─► Tools/SubstanceCollector (Swift) ─►          │
+  TripSit/Wikidata/PubChem/Erowid/DEA ─► fetch/collector (Swift) ──────────►          │
                                           data/intermediate/sourced-substances.json   │
                                                                                       ▼
   data/curated/substances/*.json  ──────────────────────────────────────────►  build/sqlite.py
@@ -112,9 +112,11 @@ deliberately NOT committed — only the built SQLite is.
   (out of repo). `build/sqlite.py` ingests those directly. `_common.py`
   holds the shared category/route/dose parsing helpers.
 
-Fetching the *papers* those citations point at is not here: that is an external
-`papers` CLI, if you have one. Piru's half is `audit/cited_identifiers.py`, which
-emits the identifiers this database cites. See [Researching a claim](#researching-a-claim).
+Fetching the *papers* those citations point at is not here — a paper cache
+belongs outside this repo (it is public, and an open-access license permits
+reading a paper, not vendoring it into someone else's git history). Piru's half
+is `audit/cited_identifiers.py`, which emits the identifiers this database
+cites. See [Researching a claim](#researching-a-claim).
 
 ### `enrichment/`
 LLM-assisted research used to fill gaps external sources don't cover
@@ -181,12 +183,42 @@ pipeline/audit/cited_identifiers.py            # every DOI/PMID cited
 pipeline/audit/cited_identifiers.py --limit 50 # the 50 most-cited
 ```
 
-Pipe that into whatever fetches full text for you. If you use an open-access
-fetcher, expect roughly three-quarters of these to come back with no free copy —
-that is the state of the pharmacology literature, not a bug. Such a paper is a
-library request; **do not cite a number from a paper nobody read**. An identifier
-no registry resolves is suspicious but not proof of fabrication: that verdict
-belongs to `audit/verify_citations.py`, which weighs topicality too.
+Pipe that into whatever fetches full text for you.
+
+### What a paper-fetching CLI should do
+
+The maintainers use a private `papers` CLI for this. If you want to build your
+own (any language, any architecture), here is what it needs to provide:
+
+1. **Fetch by identifier** — accept a DOI, PMID, PMCID, or arXiv id; locate
+   the paper via open-access routes (Unpaywall, PubMed Central, Sci-Hub,
+   arXiv); download the PDF.
+2. **Convert to text** — turn the PDF into searchable Markdown or plain text,
+   preserving tables (that is where the binding values live). Store the result
+   in a local cache directory **outside this repo**.
+3. **Metadata lookup** — given an identifier, return title, authors, journal,
+   year, and DOI without fetching the full paper. Triangulating across
+   registries (Crossref, OpenAlex, Europe PMC, arXiv) catches errors a single
+   source misses. This is the cheap first pass before committing to a download.
+4. **Batch mode** — accept a file of identifiers (one per line, as emitted by
+   `audit/cited_identifiers.py`) and fetch them all, skipping cache hits.
+5. **Anchor + verify** — pin a specific claim to a quoted sentence in the
+   paper, then re-verify that the quote still appears (a string comparison
+   that can gate CI).
+6. **Cache semantics** — a fetch is a no-op when the cache already holds the
+   result. The cache is rebuildable from the PDFs: metadata in front matter,
+   index derived. A paper fetched once is cheap to read in every future session.
+
+The output of (1) + (2) is a readable file at a predictable path. The output of
+(3) is structured metadata (JSON or stdout fields). The output of (5) is
+exit-zero-or-not, suitable for a CI gate.
+
+If you use an open-access fetcher, expect roughly three-quarters of these to
+come back with no free copy — that is the state of the pharmacology literature,
+not a bug. Such a paper is a library request; **do not cite a number from a
+paper nobody read**. An identifier no registry resolves is suspicious but not
+proof of fabrication: that verdict belongs to `audit/verify_citations.py`, which
+weighs topicality too.
 
 ## Reproducibility
 

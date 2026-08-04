@@ -243,6 +243,4 @@ def client(offline: bool = False) -> EuropePMC:
     global _CLIENT
     if _CLIENT is None:
         _CLIENT = EuropePMC(offline=offline)
-    else:
-        _CLIENT.offline = offline
     return _CLIENT

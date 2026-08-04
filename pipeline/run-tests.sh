@@ -13,9 +13,9 @@
 #     `Test Suite` line at all, which is how this script tells "hung" from "slow".
 #
 # Usage:
-#   Tools/run-tests.sh                 # full suite
-#   Tools/run-tests.sh -only SomeSuite # one suite (repeatable)
-#   RUN_TIMEOUT=600 Tools/run-tests.sh # raise the whole-run cap (default 300s)
+#   pipeline/run-tests.sh                 # full suite
+#   pipeline/run-tests.sh -only SomeSuite # one suite (repeatable)
+#   RUN_TIMEOUT=600 pipeline/run-tests.sh # raise the whole-run cap (default 300s)
 set -uo pipefail
 
 RUN_TIMEOUT="${RUN_TIMEOUT:-180}"     # whole-run wall clock, seconds (healthy ≈ 17s)

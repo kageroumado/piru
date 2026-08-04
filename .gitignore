@@ -15,9 +15,8 @@ xcuserdata/
 *~
 
 # Swift Package Manager
-Tools/SubstanceValidator/.build
-Tools/SubstanceCollector/.build
-Tools/SubstanceCollector/.cache
+pipeline/fetch/collector/.build
+pipeline/fetch/collector/.cache
 
 # SQLite journal sidecars (only the .sqlite itself is tracked)
 *.sqlite-shm
@@ -46,7 +45,7 @@ skills-lock.json
 __pycache__/
 *.pyc
 
-# The bundled substance DB is fetched by Tools/fetch-db.sh from the host that
+# The bundled substance DB is fetched by pipeline/fetch-db.sh from the host that
 # also serves it to installed builds. Do not track it, and do not reach for Git
 # LFS: SubstanceDBUpdater downloads it over plain HTTP, and raw.githubusercontent
 # serves an LFS path as its 133-byte pointer. manifest.json beside it STAYS

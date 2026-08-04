@@ -31,7 +31,7 @@ if [ "$MODE" = "full" ]; then
   # prints usage and exits 0, so this step silently did nothing while the
   # build reported success (sourced-substances.json went stale from May 31).
   # The CLI now also declares a defaultSubcommand, so both spellings work.
-  ( cd Tools/SubstanceCollector && swift run SubstanceCollector build )
+  ( cd pipeline/fetch/collector && swift run SubstanceCollector build )
 
   step "3/8  Extract out-of-repo datasets (Pyrls/MedTAP/NPS/benzos) → /tmp/piru-extract/*.json"
   # Needs ~/Developer/piru-data present (export PIRU_DATASOURCES if it moved).

@@ -51,7 +51,7 @@ included:
   - PiruWidget
   - PiruLiveActivityExtension
   - Shared
-  - Tools/SubstanceCollector/Sources
+  - pipeline/fetch/collector/Sources
 
 excluded:
   - .build

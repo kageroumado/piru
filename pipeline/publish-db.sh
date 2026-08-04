@@ -4,11 +4,11 @@
 #
 # The database is untracked and manifest.json is committed, so a rebuild is only
 # half-published when it is committed: the manifest describes a database nobody
-# can fetch yet, and Tools/fetch-db.sh fails its checksum check until this runs.
+# can fetch yet, and pipeline/fetch-db.sh fails its checksum check until this runs.
 # Publish BEFORE pushing the manifest, so the host is never behind the repo.
 #
 # USAGE
-#   Tools/publish-db.sh
+#   pipeline/publish-db.sh
 #
 #
 set -euo pipefail

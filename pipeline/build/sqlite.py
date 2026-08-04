@@ -4021,7 +4021,7 @@ def canonical_mass_unit(unit: str | None) -> str | None:
     return _CANONICAL_MASS_UNIT.get(unit.strip().lower(), unit)
 
 
-def _unit_to_mg_factor(unit: str | None) -> float | None:
+def unit_to_mg_factor(unit: str | None) -> float | None:
     if unit is None:
         return 1.0
     u = unit.lower().strip()
@@ -4536,7 +4536,7 @@ class Build:
         tags = self.substance_tags.get(sid, ())
         ceilings = [_CLASS_DOSE_CEILING_MG[t] for t in tags if t in _CLASS_DOSE_CEILING_MG]
         if ceilings:
-            factor = _unit_to_mg_factor(unit)
+            factor = unit_to_mg_factor(unit)
             if factor is not None:
                 ceiling_mg = min(ceilings)
                 for v in tiers_flat:
@@ -10401,9 +10401,7 @@ def main() -> int:
         }
         for slug, *_ in SOURCES
     }
-    build.finalise(
-        content_version, "build-sqlite-database.py 0.1.0", substance_count, sources_summary
-    )
+    build.finalise(content_version, "pipeline/build/sqlite.py", substance_count, sources_summary)
     db.commit()
 
     # Multi-source ingestion writes the same fact more than once — two sources
@@ -10445,13 +10443,12 @@ def main() -> int:
         "schema_version": 6,
         "content_version": content_version,
         "generated_at": datetime.now(UTC).isoformat(),
-        "generator_version": "pipeline/build/sqlite.py 0.1.0",
+        "generator_version": "pipeline/build/sqlite.py",
         "substance_count": substance_count,
         "sources": sources_summary,
         "sqlite_path": "piru-substances.sqlite",
         "sqlite_sha256": sha,
         "sqlite_size_bytes": size,
-        "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
     }
     OUT_MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 

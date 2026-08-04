@@ -101,7 +101,7 @@ The flow for fixing or extending substance data:
    is enough to ship a fix without touching upstream providers.
 3. **Regenerate** by running:
    ```bash
-   cd Tools/SubstanceCollector && swift run SubstanceCollector
+   cd pipeline/fetch/collector && swift run SubstanceCollector
    python3 pipeline/build/sqlite.py
    python3 pipeline/build/snapshots.py
    ```

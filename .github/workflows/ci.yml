@@ -24,7 +24,7 @@ jobs:
       # anything reads it: without this, test_sqlite.py's end-to-end suite skips
       # itself on a missing file and the run goes green having checked nothing.
       - name: Fetch the bundled substance DB
-        run: Tools/fetch-db.sh
+        run: pipeline/fetch-db.sh
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
@@ -122,11 +122,11 @@ jobs:
       # anything reads it: without this, test_sqlite.py's end-to-end suite skips
       # itself on a missing file and the run goes green having checked nothing.
       - name: Fetch the bundled substance DB
-        run: Tools/fetch-db.sh
+        run: pipeline/fetch-db.sh
       - name: Select latest Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
       - name: Build SubstanceCollector (SPM)
-        run: swift build --package-path Tools/SubstanceCollector
+        run: swift build --package-path pipeline/fetch/collector
       # Requires a runner Xcode with the iOS 26 SDK + an iPhone 17 Pro simulator.
       - name: Build & test the app
         run: |

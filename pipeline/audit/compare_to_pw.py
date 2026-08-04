@@ -25,7 +25,7 @@ REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru/Data/piru-substances.sqlite"
 
 sys.path.insert(0, str(REPO / "pipeline/build"))  # for the canonical unit helper
-from sqlite import _unit_to_mg_factor as unit_to_mg_factor  # noqa: E402
+from sqlite import unit_to_mg_factor  # noqa: E402
 
 # Source priority (lower wins) is loaded from the DB's `sources` table once the
 # connection opens (below), not hard-coded here — a hard-coded copy silently

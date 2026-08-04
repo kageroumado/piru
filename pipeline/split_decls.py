@@ -142,7 +142,7 @@ def main():
         else:
             kept.append((name, body))
 
-    def render(chunk_list, with_header_comment=None):
+    def render(chunk_list):
         out = list(imports) + [""]
         for _, body in chunk_list:
             # trim leading/trailing blank lines of the chunk, re-add one separator

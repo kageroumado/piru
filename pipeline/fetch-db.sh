@@ -12,8 +12,8 @@
 # rather than the file.
 #
 # USAGE
-#   Tools/fetch-db.sh              # ensure the DB is present and correct
-#   Tools/fetch-db.sh --force      # re-download even if the checksum matches
+#   pipeline/fetch-db.sh              # ensure the DB is present and correct
+#   pipeline/fetch-db.sh --force      # re-download even if the checksum matches
 #
 #   PIRU_DB_URL pins a single source (staging, a fork, a local file server).
 #
@@ -73,7 +73,7 @@ if [ "$GOT_SHA" != "$EXPECTED_SHA" ]; then
     echo "error: checksum mismatch — refusing to install" >&2
     echo "       expected $EXPECTED_SHA" >&2
     echo "       got      $GOT_SHA" >&2
-    echo "       Publish the current build with Tools/publish-db.sh, or re-run" >&2
+    echo "       Publish the current build with pipeline/publish-db.sh, or re-run" >&2
     echo "       pipeline/build.sh so the manifest describes what is hosted." >&2
     exit 1
 fi
