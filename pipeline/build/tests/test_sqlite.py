@@ -40,7 +40,7 @@ apply_pubchem_computed = _mod.apply_pubchem_computed
 _parse_bioavailability = _mod._parse_bioavailability
 apply_identifier_corrections = _mod.apply_identifier_corrections
 apply_wikipedia_popularity = _mod.apply_wikipedia_popularity
-_unit_to_mg_factor = _mod._unit_to_mg_factor
+unit_to_mg_factor = _mod.unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 is_dosage_form_tag = _mod.is_dosage_form_tag
 _REPO = Path(__file__).resolve().parents[3]
@@ -328,43 +328,43 @@ class TestChemCaps(unittest.TestCase):
 
 
 class TestUnitToMgFactor(unittest.TestCase):
-    """`_unit_to_mg_factor` is the mass-conversion lookup the class-dose
+    """`unit_to_mg_factor` is the mass-conversion lookup the class-dose
     ceiling consults. Unparseable units must return None so the gate
     skips them rather than misclassifying."""
 
     def test_milligrams_pass_through(self):
-        self.assertEqual(_unit_to_mg_factor("mg"), 1.0)
-        self.assertEqual(_unit_to_mg_factor("mgs"), 1.0)
-        self.assertEqual(_unit_to_mg_factor(None), 1.0)
-        self.assertEqual(_unit_to_mg_factor(""), 1.0)
+        self.assertEqual(unit_to_mg_factor("mg"), 1.0)
+        self.assertEqual(unit_to_mg_factor("mgs"), 1.0)
+        self.assertEqual(unit_to_mg_factor(None), 1.0)
+        self.assertEqual(unit_to_mg_factor(""), 1.0)
 
     def test_micrograms_variants(self):
         for u in ("µg", "ug", "mcg", "μg", "micrograms"):
             with self.subTest(unit=u):
-                self.assertEqual(_unit_to_mg_factor(u), 0.001)
+                self.assertEqual(unit_to_mg_factor(u), 0.001)
 
     def test_grams_variants(self):
         for u in ("g", "gram", "grams"):
             with self.subTest(unit=u):
-                self.assertEqual(_unit_to_mg_factor(u), 1000.0)
+                self.assertEqual(unit_to_mg_factor(u), 1000.0)
 
     def test_patch_per_hour_units(self):
         """`µg/hr` patch numerics ARE microgram quantities — treat as µg."""
         for u in ("µg/hr", "ug/hr", "mcg/hr", "mcg/hour", "mcg/hr (patch)"):
             with self.subTest(unit=u):
-                self.assertEqual(_unit_to_mg_factor(u), 0.001)
+                self.assertEqual(unit_to_mg_factor(u), 0.001)
 
     def test_per_kg_and_per_day_return_none(self):
         """mg/kg and mg/day numerics aren't direct masses — skip the check."""
-        self.assertIsNone(_unit_to_mg_factor("mg/kg"))
-        self.assertIsNone(_unit_to_mg_factor("µg/kg"))
-        self.assertIsNone(_unit_to_mg_factor("mg/day"))
-        self.assertIsNone(_unit_to_mg_factor("mg/24h"))
+        self.assertIsNone(unit_to_mg_factor("mg/kg"))
+        self.assertIsNone(unit_to_mg_factor("µg/kg"))
+        self.assertIsNone(unit_to_mg_factor("mg/day"))
+        self.assertIsNone(unit_to_mg_factor("mg/24h"))
 
     def test_non_mass_units_return_none(self):
         for u in ("seeds", "drops", "IU", "ml", "sprays", "%", "x", "units"):
             with self.subTest(unit=u):
-                self.assertIsNone(_unit_to_mg_factor(u))
+                self.assertIsNone(unit_to_mg_factor(u))
 
 
 class TestClassDoseCeilingGate(unittest.TestCase):
@@ -896,7 +896,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         """).fetchall()
         violations = []
         for r in rows:
-            factor = _unit_to_mg_factor(r["unit"])
+            factor = unit_to_mg_factor(r["unit"])
             if factor is None:
                 continue  # unparseable unit — gate doesn't apply
             tiers = [

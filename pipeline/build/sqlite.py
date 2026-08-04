@@ -9106,10 +9106,18 @@ class Build:
         "Cannabidiolic acid": "Cannabinoid",
         # --- Benzodiazepine ---
         "Avizafone": "Benzodiazepine",
+        "Cinolazepam": "Benzodiazepine",
         "Clobromazolam": "Benzodiazepine",
+        "Cloxazolam": "Benzodiazepine",
         "Flubrotizolam": "Benzodiazepine",
         "Fluetizolam": "Benzodiazepine",
         "Gidazepam": "Benzodiazepine",
+        "Ketazolam": "Benzodiazepine",
+        "Loprazolam": "Benzodiazepine",
+        "Metaclazepam": "Benzodiazepine",
+        "Metizolam": "Benzodiazepine",
+        "Mexazolam": "Benzodiazepine",
+        "Oxazolam": "Benzodiazepine",
         # --- GABAergic ---
         "1,4-BDO": "GABAergic",
         "Aceburic acid": "GABAergic",
