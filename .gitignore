@@ -44,6 +44,7 @@ skills-lock.json
 # Python build-script intermediates (repo-root translate_catalog.py, pipeline, etc.)
 __pycache__/
 *.pyc
+pipeline/populate-papers.log
 
 # The bundled substance DB is fetched by pipeline/fetch-db.sh from the host that
 # also serves it to installed builds. Do not track it, and do not reach for Git

@@ -31,6 +31,7 @@ import os
 import re
 import shutil
 import subprocess
+from collections.abc import Callable
 from pathlib import Path
 
 
@@ -176,50 +177,62 @@ class PapersCache:
         identifiers: list[str],
         *,
         metadata_only: bool = False,
+        on_progress: Callable[[int, int, str, str], None] | None = None,
+        workers: int = 1,
     ) -> int:
         """Fetch papers into the cache via the ``papers`` CLI.
 
         Returns the number of identifiers submitted (0 if the CLI is not
         installed).  With ``metadata_only=True``, calls ``papers meta`` in a
-        loop instead of ``papers batch`` — cheaper and does not fetch full
-        text, so it won't pollute the cache with unrelated papers.
+        loop instead of ``papers get``.
+
+        ``on_progress(done, total, identifier, status)`` is called after each
+        identifier completes.  ``workers`` controls concurrency (default 1).
         """
         if not _cli_available() or not identifiers:
             return 0
 
-        if metadata_only:
-            submitted = 0
-            for ident in identifiers:
-                if self._resolve(ident) is not None:
-                    continue
-                try:
-                    subprocess.run(
-                        ["papers", "meta", str(ident)],
-                        capture_output=True,
-                        text=True,
-                        timeout=30,
-                    )
-                    submitted += 1
-                except (subprocess.TimeoutExpired, FileNotFoundError):
-                    pass
-            return submitted
+        import threading
+        from concurrent.futures import ThreadPoolExecutor, as_completed
 
-        import tempfile
+        total = len(identifiers)
+        counter = threading.Lock()
+        done_count = 0
+        submitted = 0
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
-            for ident in identifiers:
-                f.write(f"{ident}\n")
-            f.flush()
+        def _fetch_one(ident: str) -> tuple[str, str, bool]:
+            if self._resolve(ident) is not None:
+                return (ident, "cached", False)
+            cmd = ["papers", "meta" if metadata_only else "get", str(ident)]
             try:
-                subprocess.run(
-                    ["papers", "batch", "--file", f.name],
-                    timeout=600,
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
                 )
-                return len(identifiers)
-            except (subprocess.TimeoutExpired, FileNotFoundError):
-                return 0
-            finally:
-                Path(f.name).unlink(missing_ok=True)
+                status = "ok" if result.returncode == 0 else "failed"
+            except subprocess.TimeoutExpired:
+                status = "timeout"
+            except FileNotFoundError:
+                status = "no-cli"
+            return (ident, status, status != "cached")
+
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(_fetch_one, ident): ident for ident in identifiers}
+            for future in as_completed(futures):
+                ident, status, was_submitted = future.result()
+                with counter:
+                    done_count += 1
+                    if was_submitted:
+                        submitted += 1
+                    n = done_count
+                if on_progress:
+                    on_progress(n, total, ident, status)
+                if status == "no-cli":
+                    break
+
+        return submitted
 
     def reload(self) -> None:
         """Force a re-read of the index (e.g. after ``populate``)."""

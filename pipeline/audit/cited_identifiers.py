@@ -91,10 +91,30 @@ def main() -> int:
         )
 
         if uncached:
-            n = pc.populate(uncached)
+            from datetime import UTC, datetime
+
+            log_path = REPO / "pipeline" / "populate-papers.log"
+            log = open(log_path, "w")  # noqa: SIM115
+
+            def _progress(done: int, total_n: int, ident: str, status: str) -> None:
+                ts = datetime.now(UTC).strftime("%H:%M:%S")
+                short = ident[:60] + ("…" if len(ident) > 60 else "")
+                line = f"[{ts}] {done:>4}/{total_n}  {status:<7}  {short}"
+                print(line, file=sys.stderr, flush=True)
+                print(line, file=log, flush=True)
+
+            header = f"populating {len(uncached)} papers (3 workers)"
+            print(header, file=sys.stderr)
+            print(header, file=log, flush=True)
+
+            n = pc.populate(uncached, on_progress=_progress, workers=3)
+            log.close()
+
             pc.reload()
             now_cached = sum(1 for i in identifiers if pc.has(i))
-            print(f"submitted {n}, cache now holds {now_cached}/{total}", file=sys.stderr)
+            summary = f"submitted {n}, cache now holds {now_cached}/{total}"
+            print(summary, file=sys.stderr)
+            print(f"log: {log_path}", file=sys.stderr)
         return 0
 
     for identifier in identifiers:
