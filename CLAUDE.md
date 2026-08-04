@@ -73,6 +73,14 @@ cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 - To change pharmacology/MOA data, edit the curated source (`data/curated/`), then `pipeline/build.sh fast`, then commit the rebuilt `piru-substances.sqlite` + `manifest.json` + `data/snapshots/*`.
 - Some datasources are private (not in this open-source repo); the build **warns loudly** when an external extract is missing and produces a clearly-partial DB rather than failing silently (set `PIRU_REQUIRE_EXTERNAL=1` to hard-fail instead).
 
+### The bundled DB lives in Git LFS
+
+`Piru/Data/piru-substances.sqlite` is ~19 MB and was rewritten on nearly every data pass, so plain git accumulated **2.2 GB** of it. It is now an LFS object; git tracks a 133-byte pointer.
+
+- **A fresh clone needs `git lfs pull`** (or `git lfs install` beforehand). Without it that path is a pointer file, and everything reading it — `test_sqlite.py`, the `--gate` audits, the app target that bundles it — sees a corrupt database rather than a missing one. Both CI jobs that touch it check out with `lfs: true`.
+- **Pushing requires git-lfs to run at pre-push.** `.git/hooks/pre-push` is shared with pre-commit, whose generated block ends in `exec`, so the LFS block must stay **above** it or the object never uploads and the remote gets a pointer with nothing behind it. `git lfs install` overwrites that file wholesale and destroys the pre-commit half — if it ever gets clobbered, re-merge the two rather than picking one.
+- Only this one path is in LFS. Every LFS revision is stored forever and counts against the repo's LFS quota, so the usual "rebuild the DB" cadence is what spends it — there is no reason to add more files.
+
 ## Architecture
 
 **Pattern**: SwiftUI + SwiftData with @Observable singletons — no formal MVVM ViewModels.
