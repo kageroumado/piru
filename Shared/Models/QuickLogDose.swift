@@ -4,10 +4,7 @@ import SwiftData
 /// A curated quick-log dose chip: one dose *measurement* (amount + unit) the
 /// user keeps as a one-tap shortcut for a given substance + route.
 ///
-/// Quick-log chips used to be pure aggregates over ``DoseEntry`` history, so an
-/// accidental or one-off dose stuck around as a suggestion until the underlying
-/// journal entries were deleted, and the user had no say in what showed or in
-/// what order. The curated list fixes that: each `QuickLogDose` is an explicit,
+/// Each `QuickLogDose` is an explicit,
 /// removable, reorderable entry. The list is seeded once from history, then
 /// maintained as the user logs — a freshly logged dose is added (or floated to
 /// the top), capped per (substance, route) group.
