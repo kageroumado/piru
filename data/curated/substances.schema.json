@@ -17,7 +17,14 @@
     "defaultRoute": {"type": "string"},
     "routes": {"type": "array", "items": {"$ref": "#/$defs/route"}},
     "effects": {"type": "array", "items": {"type": "string"}},
-    "halfLifeMinutes": {"type": "number"},
+    "halfLifeMinutes": {
+      "type": "number",
+      "description": "Elimination half-life in MINUTES (12 h = 720). Overrides every scraped source and the Swift HalfLifeDatabase fallback."
+    },
+    "halfLifeSource": {
+      "type": "string",
+      "description": "Citation for halfLifeMinutes specifically — a DOI, PMID, or URL. The `sources` array is substance-level provenance and does NOT cite this number."
+    },
     "sources": {"type": "array", "items": {"type": "string"}},
     "tags": {"type": "array", "items": {"type": "string"}},
     "cas": {"type": "string"},
