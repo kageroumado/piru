@@ -229,6 +229,7 @@ struct DopamineSerotoninLeanBar: View {
     /// A ready-made ratio line ("SERT : DAT release ≈ 13 : 1") that replaces the
     /// raw "DAT:SERT <n>" caption when provided.
     var ratioLine: String?
+    var onInfo: (() -> Void)?
 
     private var serotoninColor: Color {
         SubstanceCategory.empathogen.color
@@ -294,6 +295,16 @@ struct DopamineSerotoninLeanBar: View {
             HStack {
                 Text("Serotonin").font(.caption2.weight(.medium)).foregroundStyle(serotoninColor)
                 Spacer()
+                if let onInfo {
+                    Button(action: onInfo) {
+                        Image(systemName: "info.circle")
+                            .font(.caption)
+                            .foregroundStyle(Theme.accent)
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel("About monoamine profile")
+                    Spacer()
+                }
                 Text("Dopamine").font(.caption2.weight(.medium)).foregroundStyle(dopamineColor)
             }
 

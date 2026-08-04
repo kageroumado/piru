@@ -19,6 +19,7 @@ struct PharmacologyCard: View {
     /// absence). Independent of the hero: the hero is *this* compound's receptor panel, the signature
     /// is where it sits among the compounds it can legitimately be compared with.
     var signature: ClassSignature?
+    var onMonoamineInfo: (() -> Void)?
 
     private var accent: Color {
         category.color
@@ -216,6 +217,7 @@ struct PharmacologyCard: View {
             ratioText: nil,
             showsLeanLabel: false,
             ratioLine: transporterRatioLine(profile),
+            onInfo: onMonoamineInfo,
         )
     }
 

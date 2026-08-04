@@ -40,7 +40,7 @@
       "one-four bee",
       "tetramethylene glycol"
     ],
-    "category": "",
+    "category": "GABAergic",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -618,7 +618,7 @@
     "aliases": [
       "N1-TMS-propionyl lysergamide"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "class:Lysergamide"
@@ -917,7 +917,7 @@
       "2-BR-4,5-MDMA",
       "6-BR-MDMA"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "psychedelic-leaning"
@@ -1346,7 +1346,7 @@
     "aliases": [
       "2-(methylamino)propylbenzofuran"
     ],
-    "category": "",
+    "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
       "class:Benzofuran-substituted amphetamine"
@@ -2165,7 +2165,7 @@
       "2C-C-NB3OMe",
       "NB3OMe-2C-C"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "NBOMe-regioisomer",
@@ -2332,7 +2332,7 @@
       "NBOH-2C-CN",
       "PubChem CID 90489020"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "misclassified-not-a-dissociative"
@@ -2946,7 +2946,7 @@
       "2C-T-NBOMe",
       "NBOMe-2C-T"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-superpotent",
@@ -4475,7 +4475,7 @@
       "25T7-NBOMe",
       "NBOMe-2C-T-7"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -4670,7 +4670,7 @@
       "CFPP",
       "Kleferein"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -4740,7 +4740,7 @@
       "3,4-DiMeO-Α-PHP",
       "DMO-PHP"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "pyrrolidinophenone-predicted"
@@ -4813,7 +4813,7 @@
       "DMMC",
       "M2"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "substrate-releaser-predicted"
@@ -4850,7 +4850,7 @@
       "4-MD-PCP",
       "MDPCP"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -4937,7 +4937,7 @@
       "MDPM",
       "Methylenedioxyphenmetrazine"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "NDRA"
@@ -4971,7 +4971,7 @@
       "3,4-TMPD",
       "TMPD"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DAT-NET-blocker-predicted"
@@ -5038,7 +5038,7 @@
       "m-CA",
       "meta-chloroamphetamine"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -5071,7 +5071,7 @@
       "3-Chloroethcathinone",
       "3-chloro-NEC"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "hybrid-DAT-preferring-predicted"
@@ -5155,7 +5155,7 @@
       "PAL-594",
       "PAL594"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "NDRA",
@@ -5219,7 +5219,7 @@
       "3-OEt-PCP",
       "3-ethoxy-PCP"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "class:Arylcyclohexylamine dissociative"
@@ -5412,7 +5412,7 @@
       "3-FEA",
       "meta-fluoro ethylamphetamine"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -5794,7 +5794,7 @@
       "3-methyl-PCPy",
       "M3ppy"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [],
     "default_route": "inhalation",
@@ -6162,7 +6162,7 @@
       "MF-PVP",
       "MFPVP"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "fatalities-reported",
@@ -6200,7 +6200,7 @@
     "aliases": [
       "3-MAR"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "inhalation",
@@ -6832,7 +6832,7 @@
       "4F-MAR",
       "P-F-4-MAR"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -6867,7 +6867,7 @@
       "4-methyl-euphoria",
       "Serotoni"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "balanced-SNDRA",
@@ -7403,7 +7403,7 @@
       "p-Bromoamphetamine",
       "para-Bromoamphetamine"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "MAO-A-inhibitor",
@@ -7470,7 +7470,7 @@
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "SERT-selective",
@@ -7509,7 +7509,7 @@
       "para-Chloroamphetamine",
       "对氯苯丙胺"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "MAO-A-inhibitor",
@@ -7543,7 +7543,7 @@
       "4-chloro-butyrophenone cathinone",
       "para-Chloro-buphedrone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "hybrid-DAT-blocker-SERT-substrate-predicted",
@@ -7616,7 +7616,7 @@
       "4-chloro-PPP",
       "p-chloro-α-PPP"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -7733,7 +7733,7 @@
       "p-ethyl ethcathinone",
       "para-ethyl ethcathinone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "hybrid-predicted"
@@ -7846,7 +7846,7 @@
       "4F-PPP",
       "pFPPP"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -8706,7 +8706,7 @@
     "name": "4-HO-PiPT",
     "display_name": "",
     "aliases": [],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "class:Tryptamine"
@@ -8800,7 +8800,7 @@
       "4-methylbenzylcathinone",
       "Benzedrone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "weak-DAT-blocker-predicted"
@@ -8833,7 +8833,7 @@
     "aliases": [
       "4-methyl NEB"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "hybrid-predicted"
@@ -9244,7 +9244,7 @@
       "propylpsilocin",
       "psilypropynone"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "prodrug-of-psilocin"
@@ -9281,7 +9281,7 @@
       "4-propionoxy-MET",
       "O-propionyl-metocin"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "prodrug"
@@ -9468,7 +9468,7 @@
       "4'-BR-4-MAR",
       "4-Bromo Aminorex"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "inhalation",
@@ -9507,7 +9507,7 @@
       "p-Cl-IBF",
       "para-Chloroisobutyrylfentanyl"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
@@ -9639,7 +9639,7 @@
       "4-fluorobuphedrone",
       "4F-buphedrone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DAT-NET-blocker-predicted",
@@ -9912,7 +9912,7 @@
       "4-CL-MAR",
       "4C-MAR"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -11859,7 +11859,7 @@
       "6-MAM",
       "6-acetyl morphine"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "MOR-full-agonist",
@@ -11901,7 +11901,7 @@
       "7-OHM",
       "7OH"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "G-protein-biased",
@@ -12463,7 +12463,7 @@
       "4-acetoxybutanoic acid",
       "4-acetoxybutyric acid"
     ],
-    "category": "",
+    "category": "GABAergic",
     "display_class": "recreational",
     "tags": [
       "GHB-prodrug-ester"
@@ -12597,8 +12597,8 @@
       "Acetorfina",
       "Acetylpropylorvinol"
     ],
-    "category": "",
-    "display_class": "medical_rx",
+    "category": "Opioid",
+    "display_class": "recreational",
     "tags": [
       "Bentley-compound",
       "MOR-superagonist",
@@ -12669,7 +12669,7 @@
       "6-acetyldihydrocodeine",
       "ADC"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP2D6-bioactivation",
@@ -12924,7 +12924,7 @@
     "name": "ADB-INACA",
     "display_name": "",
     "aliases": [],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "class:Synthetic cannabinoid",
@@ -13005,7 +13005,7 @@
       "ADB-PINACA positional isomer",
       "ADB-PINACA structural isomer"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "class:Indazole-based synthetic cannabinoid",
@@ -13042,7 +13042,7 @@
       "ADB-ICA",
       "ADB-PICA"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "class:Indole–3-carboxamide synthetic cannabinoid",
@@ -13483,7 +13483,7 @@
       "AKB57",
       "Spice”/“K2”-type synthetic cannabinoid"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -13993,7 +13993,7 @@
       "R-39209",
       "Rapifen"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
@@ -14274,7 +14274,7 @@
       "alpha D2PV",
       "Α-D2PV"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "inhalation",
@@ -14719,7 +14719,7 @@
     "aliases": [
       "AM 1248"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "adamantoyl-indole",
@@ -14950,7 +14950,7 @@
       "MDMB-CHMICA",
       "MMB-CHMICA"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "fatalities-reported",
@@ -15057,7 +15057,7 @@
       "Tenuate Dospan",
       "Tepanil"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
@@ -16120,8 +16120,8 @@
       "ADD",
       "Androsta-3"
     ],
-    "category": "",
-    "display_class": "recreational",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [],
     "default_route": "oral",
     "all_routes": [
@@ -16572,7 +16572,7 @@
       "RO-03-7355/000",
       "Ro03-7355"
     ],
-    "category": "",
+    "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
       "class:Peptidic benzodiazepine prodrug",
@@ -17756,7 +17756,7 @@
       "DB01552",
       "β-Meprodine"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [],
     "default_route": "intramuscular",
@@ -17881,7 +17881,7 @@
       "R 4845",
       "R-4845"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -18674,7 +18674,7 @@
       "BrMcat",
       "para-Bromomethcathinone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "para-bromo-neurotoxicity-flag",
@@ -19700,7 +19700,7 @@
       "LEVO-BC-2627",
       "Stadol"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "KOR-partial-agonist",
@@ -20116,7 +20116,7 @@
       "2F-NENK",
       "Canberra ketamine"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -20178,7 +20178,7 @@
       "CBD-A",
       "CBDA"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "5-HT1A-agonist",
@@ -20431,8 +20431,8 @@
       "R-33799",
       "Wildnil"
     ],
-    "category": "",
-    "display_class": "medical_rx",
+    "category": "Opioid",
+    "display_class": "recreational",
     "tags": [
       "beta-arrestin-biased",
       "extreme-potency",
@@ -20731,7 +20731,7 @@
       "SAB-378",
       "SAB378"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [],
     "default_route": "inhalation",
@@ -21010,7 +21010,7 @@
       "CBN-A",
       "Cannabinolic acid"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
       "minor-cannabinoid",
@@ -21506,7 +21506,7 @@
       "Trichloroacetaldehyde monohydrate",
       "Welldorm"
     ],
-    "category": "",
+    "category": "GABAergic",
     "display_class": "recreational",
     "tags": [
       "ADH-substrate-prodrug",
@@ -22436,7 +22436,7 @@
       "SD-271-12",
       "氯苄雷司"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -22502,7 +22502,7 @@
       "Phenazolam",
       "RC/triazolobenzodiazepine"
     ],
-    "category": "",
+    "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
       "designer-benzo",
@@ -23819,7 +23819,7 @@
       "Cyclorphine",
       "piperidinyl-benzimidazolone (“orphine”) opioid"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "class:Piperidinyl-benzimidazolone derivative"
@@ -24129,7 +24129,7 @@
       "N-CMC",
       "N-Cyclohexylmethylone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DAT-NET-blocker-predicted"
@@ -26550,7 +26550,7 @@
       "N,N-Dimethylpentylone",
       "bk-DMBDP"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DAT-preferring",
@@ -27232,7 +27232,7 @@
       "SKF-51",
       "Vaporpac"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "NDRA-aliphatic",
@@ -28543,7 +28543,7 @@
       "Delsym",
       "Dextromethorphan polistirex"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "ion-exchange-resin"
@@ -28721,7 +28721,7 @@
       "ED-MC",
       "βk-EDMA"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "SNDRA-predicted"
@@ -29829,8 +29829,8 @@
       "cis-Estradiol",
       "estradiol/norethindrone"
     ],
-    "category": "",
-    "display_class": "recreational",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "class:Estrogenic steroid"
     ],
@@ -30680,7 +30680,7 @@
       "CL-1848C",
       "U-37862A"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [],
     "default_route": "intravenous",
@@ -31203,7 +31203,7 @@
       "Pondimin",
       "Rotondin"
     ],
-    "category": "",
+    "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
       "5-HT2B-via-metabolite",
@@ -31773,7 +31773,7 @@
       "Flurotizolam",
       "LS-152,574"
     ],
-    "category": "",
+    "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
       "class:Thienotriazolodiazepine",
@@ -31915,7 +31915,7 @@
     "aliases": [
       "Flu-E"
     ],
-    "category": "",
+    "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
       "class:Thienotriazolodiazepine",
@@ -31981,7 +31981,7 @@
       "4-CF3-aminorex",
       "McN-1107"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "inhalation",
@@ -33960,7 +33960,7 @@
       "Hidazepam",
       "Hydazepam"
     ],
-    "category": "",
+    "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
       "class:Benzodiazepine",
@@ -37474,7 +37474,7 @@
       "NSC 34569",
       "isopropylphenidine"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "class:1,2-diarylethylamine"
@@ -38875,7 +38875,7 @@
       "texas tea",
       "wock"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "QT-risk",
@@ -39598,7 +39598,7 @@
       "3-methylcarfentanil",
       "R-34995"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "extreme-potency",
@@ -44933,7 +44933,7 @@
       "Matsumoto MGM-15",
       "dihydro-7-hydroxymitragynine"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "DOR-full-agonist",
@@ -45389,7 +45389,7 @@
       "DS-5565",
       "Tarlige"
     ],
-    "category": "",
+    "category": "GABAergic",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -45497,7 +45497,7 @@
       "MIT",
       "SK&F 12711"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-bioactivation",
@@ -46647,7 +46647,7 @@
       "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "likely-very-high-NMDA-potency"
@@ -46827,7 +46827,7 @@
       "NDP",
       "Nitazene"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "extreme-potency",
@@ -48355,8 +48355,8 @@
     "aliases": [
       "硝基甲喹酮"
     ],
-    "category": "",
-    "display_class": "medical_rx",
+    "category": "Depressant",
+    "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
     "all_routes": [
@@ -49189,7 +49189,7 @@
       "2-keto-PCP",
       "2-oxo-PCP"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "β-keto-PCP-analog"
@@ -51440,7 +51440,7 @@
       "Melfiat",
       "Statobex"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "anorectic",
@@ -52009,7 +52009,7 @@
       "PPAP",
       "α,N-dipropylphenethylamine"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -52357,7 +52357,7 @@
       "Meratran",
       "diphenyl(piperidin-2-yl)methanol"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "NDRI",
@@ -54727,7 +54727,7 @@
       "O-2371",
       "beta-keto-prolintane"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "class:Pyrrolidinophenone cathinone"
@@ -55259,7 +55259,7 @@
       "Remifentanyl",
       "Ultiva"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "OIH-risk",
@@ -57367,7 +57367,7 @@
       "SDX",
       "Serdexmethylphenidate chloride"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "extended-duration",
@@ -57480,7 +57480,7 @@
       "Reductil",
       "Sibutramine hydrochloride monohydrate"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -57689,7 +57689,7 @@
       "methaqualone analogue",
       "quinazolinone sedative"
     ],
-    "category": "",
+    "category": "Depressant",
     "display_class": "recreational",
     "tags": [
       "quinazolinone",
@@ -57896,7 +57896,7 @@
       "R6890",
       "SPC"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "class:Spiropiperidine opioid"
@@ -57989,7 +57989,7 @@
       "SR-14",
       "SR14968"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -58023,7 +58023,7 @@
       "SR-17",
       "SR17018"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [],
     "default_route": "oral",
@@ -60185,7 +60185,7 @@
     "name": "Tilmetamine",
     "display_name": "",
     "aliases": [],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "class:Arylcyclohexylamine"
@@ -63633,7 +63633,7 @@
       "alpha-PCyP",
       "alpha-PyrrolidinoCyclohexanoPhenone"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [],
     "default_route": "insufflation",
@@ -63666,7 +63666,7 @@
       "a-PPP",
       "alpha-PPP"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "class:Pyrrolidinophenone cathinone stimulant"

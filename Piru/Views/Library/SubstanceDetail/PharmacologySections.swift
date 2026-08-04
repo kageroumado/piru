@@ -93,6 +93,7 @@ struct PharmacologySections: View {
                             category: substance.category,
                             hero: hero,
                             signature: model.classSignature,
+                            onMonoamineInfo: { onGlossary(.monoamine) },
                         )
                         if let slug = model.provenance?.mechanismSource {
                             SourceAttributionRow(
