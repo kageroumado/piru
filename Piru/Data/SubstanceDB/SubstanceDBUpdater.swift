@@ -42,15 +42,18 @@ private nonisolated let updaterLogger = Logger(subsystem: "dev.yumeji.piru", cat
 final class SubstanceDBUpdater {
     static let shared = SubstanceDBUpdater()
 
-    /// The base URL of the project's GitHub raw mirror. Read from Info.plist
-    /// key `PiruManifestURL` so different environments (staging, fork) can
-    /// override without code changes. Defaults to the canonical repo.
+    /// Where the published manifest lives. Read from the Info.plist key
+    /// `PiruManifestURL` so a staging environment or a fork can point elsewhere
+    /// without a code change, falling back to the canonical release.
+    ///
+    /// The database is served beside its manifest rather than from the repo
+    /// tree: it is untracked, so no ref of this repository carries it.
     let manifestURL: URL = {
         if let raw = Bundle.main.object(forInfoDictionaryKey: "PiruManifestURL") as? String,
            let url = URL(string: raw) {
             return url
         }
-        return URL(string: "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/manifest.json")!
+        return URL(string: "https://github.com/kageroumado/piru/releases/download/db/manifest.json")!
     }()
 
     /// Fallback for ``supportedSchemaVersion`` used only if the bundled
