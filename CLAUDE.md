@@ -90,8 +90,6 @@ Tools/fetch-db.sh --force    # re-download regardless
 
 Builds through `v2.2-b38` have the old `raw.githubusercontent.com` URL compiled in and no longer receive updates; they keep working on their bundled data.
 
-`Tools/strip-db-history.sh` discards the accumulated revisions of the `data/snapshots/*` artifacts, which churn per rebuild — it keeps each path's HEAD revision and drops the rest. It is a history rewrite needing a force-push, so run it after a release.
-
 ## Architecture
 
 **Pattern**: SwiftUI + SwiftData with @Observable singletons — no formal MVVM ViewModels.
