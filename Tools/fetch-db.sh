@@ -21,15 +21,7 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-# Tried in order. The release asset is first because kagerou.glass sits behind
-# Cloudflare Bot Fight Mode, which 403s CI runners; the origin is the canonical
-# copy and what the shipped app reads. Serving the wrong file from either is
-# caught by the checksum below, so an extra mirror costs no trust.
-MIRRORS=(
-    "https://github.com/kageroumado/piru/releases/download/db/piru-substances.sqlite"
-    "https://kagerou.glass/piru-db/Piru/Data/piru-substances.sqlite"
-)
-[ -n "${PIRU_DB_URL:-}" ] && MIRRORS=("$PIRU_DB_URL")
+DB_URL="${PIRU_DB_URL:-https://github.com/kageroumado/piru/releases/download/db/piru-substances.sqlite}"
 MANIFEST="Piru/Data/manifest.json"
 DB="Piru/Data/piru-substances.sqlite"
 FORCE=0
@@ -72,25 +64,17 @@ fi
 TMP="$(mktemp "${TMPDIR:-/tmp}/piru-db.XXXXXX")"
 trap 'rm -f "$TMP" 2>/dev/null || true' EXIT
 
-GOT_SHA=""
-for URL in "${MIRRORS[@]}"; do
-    echo "==> Fetching $URL"
-    if ! curl --fail --location --show-error --silent --retry 3 --retry-delay 2 \
-        --output "$TMP" "$URL"; then
-        echo "    unreachable; trying the next source" >&2
-        continue
-    fi
-    GOT_SHA="$(actual_sha "$TMP")"
-    [ "$GOT_SHA" = "$EXPECTED_SHA" ] && break
-    echo "    serves $GOT_SHA, expected $EXPECTED_SHA; trying the next source" >&2
-    GOT_SHA=""
-done
+echo "==> Fetching $DB_URL"
+curl --fail --location --show-error --silent --retry 3 --retry-delay 2 \
+    --output "$TMP" "$DB_URL"
+GOT_SHA="$(actual_sha "$TMP")"
 
 if [ "$GOT_SHA" != "$EXPECTED_SHA" ]; then
-    echo "error: no source had the database this checkout expects" >&2
+    echo "error: checksum mismatch — refusing to install" >&2
     echo "       expected $EXPECTED_SHA" >&2
+    echo "       got      $GOT_SHA" >&2
     echo "       Publish the current build with Tools/publish-db.sh, or re-run" >&2
-    echo "       pipeline/build.sh so the manifest describes an available one." >&2
+    echo "       pipeline/build.sh so the manifest describes what is hosted." >&2
     exit 1
 fi
 

@@ -14,7 +14,7 @@ struct SubstanceDBManifestTests {
       "sources": {
         "tripsit": {"categories": 100, "dose_ranges": 250}
       },
-      "sqlite_path": "Piru/Data/piru-substances.sqlite",
+      "sqlite_path": "piru-substances.sqlite",
       "sqlite_sha256": "abc123",
       "sqlite_size_bytes": 4276224,
       "release_notes": "Initial build."
@@ -76,7 +76,7 @@ struct SubstanceDBManifestTests {
             generatorVersion: "test",
             substanceCount: 100,
             sources: [:],
-            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqlitePath: "piru-substances.sqlite",
             sqliteSha256: "deadbeef",
             sqliteSizeBytes: 1_024,
             releaseNotes: "Test build",
@@ -131,8 +131,8 @@ struct SubstanceDBUpdaterTests {
     // MARK: - URL arithmetic
 
     @Test
-    func `sqliteURL joins repo root + manifest's sqlitePath correctly`() throws {
-        let manifestURL = try #require(URL(string: "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/manifest.json"))
+    func `sqliteURL resolves sqlitePath against the manifest's own directory`() throws {
+        let manifestURL = try #require(URL(string: "https://github.com/kageroumado/piru/releases/download/db/manifest.json"))
         let manifest = SubstanceDBManifest(
             schemaVersion: 1,
             contentVersion: "2026-05-25.0",
@@ -140,13 +140,13 @@ struct SubstanceDBUpdaterTests {
             generatorVersion: "",
             substanceCount: 0,
             sources: [:],
-            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqlitePath: "piru-substances.sqlite",
             sqliteSha256: "",
             sqliteSizeBytes: 0,
             releaseNotes: "",
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
-        #expect(resolved.absoluteString == "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/piru-substances.sqlite")
+        #expect(resolved.absoluteString == "https://github.com/kageroumado/piru/releases/download/db/piru-substances.sqlite")
     }
 
     @Test
@@ -155,7 +155,7 @@ struct SubstanceDBUpdaterTests {
         let manifest = SubstanceDBManifest(
             schemaVersion: 1, contentVersion: "", generatedAt: "", generatorVersion: "",
             substanceCount: 0, sources: [:],
-            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqlitePath: "piru-substances.sqlite",
             sqliteSha256: "", sqliteSizeBytes: 0, releaseNotes: "",
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
@@ -207,7 +207,7 @@ struct SubstanceDBUpdaterTests {
             generatorVersion: "test",
             substanceCount: 1,
             sources: [:],
-            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqlitePath: "piru-substances.sqlite",
             sqliteSha256: String(repeating: "0", count: 64),
             sqliteSizeBytes: 0,
             releaseNotes: "Test remote build",
@@ -276,5 +276,24 @@ struct SubstanceDBUpdaterTests {
         let result = updater.evaluateManifest(remoteData: data)
         if case .updateAvailable = result { return }
         Issue.record("A remote build at the bundled schema (\(bundledSchema)) must be offered, got \(result)")
+    }
+
+    @Test
+    func `sqliteURL follows the manifest to any host`() throws {
+        let manifestURL = try #require(URL(string: "https://example.test/some/dir/manifest.json"))
+        let manifest = SubstanceDBManifest(
+            schemaVersion: 1,
+            contentVersion: "2026-05-25.0",
+            generatedAt: "",
+            generatorVersion: "",
+            substanceCount: 0,
+            sources: [:],
+            sqlitePath: "piru-substances.sqlite",
+            sqliteSha256: "",
+            sqliteSizeBytes: 0,
+            releaseNotes: "",
+        )
+        let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
+        #expect(resolved.absoluteString == "https://example.test/some/dir/piru-substances.sqlite")
     }
 }

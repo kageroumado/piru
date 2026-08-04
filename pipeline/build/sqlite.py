@@ -10341,7 +10341,7 @@ def main() -> int:
         "generator_version": "pipeline/build/sqlite.py 0.1.0",
         "substance_count": substance_count,
         "sources": sources_summary,
-        "sqlite_path": "Piru/Data/piru-substances.sqlite",
+        "sqlite_path": "piru-substances.sqlite",
         "sqlite_sha256": sha,
         "sqlite_size_bytes": size,
         "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",

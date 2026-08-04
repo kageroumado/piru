@@ -231,20 +231,17 @@ final class SubstanceDBUpdater {
         Self.sqliteURL(manifestURL: manifestURL, manifest: manifest)
     }
 
-    /// Build the SQLite download URL by joining the manifest-relative
-    /// `sqlite_path` onto the manifest URL's repo root.
+    /// Build the SQLite download URL by resolving the manifest's `sqlite_path`
+    /// against the directory the manifest itself was fetched from.
     ///
-    /// The manifest URL is structured as `<repo-root>/Piru/Data/manifest.json`
-    /// — stripping the trailing two path components (`Data/manifest.json`)
-    /// plus the `Piru/` segment yields the repo root that `sqlite_path` is
-    /// relative to. Exposed as `internal` so the URL arithmetic can be unit
-    /// tested directly.
+    /// Keeping the database a sibling of its manifest is what lets the pair be
+    /// served from anywhere — a release asset, a static host, a local directory
+    /// — without the app knowing which. Exposed as `internal` so the URL
+    /// arithmetic can be unit tested directly.
     static func sqliteURL(manifestURL: URL, manifest: SubstanceDBManifest) -> URL {
-        let repoRoot = manifestURL
-            .deletingLastPathComponent() // .../Piru/Data
-            .deletingLastPathComponent() // .../Piru
-            .deletingLastPathComponent() // .../
-        return repoRoot.appendingPathComponent(manifest.sqlitePath)
+        manifestURL
+            .deletingLastPathComponent()
+            .appendingPathComponent(manifest.sqlitePath)
     }
 
     /// Hex-encoded SHA-256 of the given bytes. Exposed for testability — the
