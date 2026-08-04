@@ -3646,7 +3646,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
-          "reference": "doi:10.1124/jpet.114.220293",
+          "reference": "pmid:35785702",
           "notes": "Hopkins et al. \u2014 high DAT potency."
         },
         {
@@ -3655,7 +3655,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
-          "reference": "doi:10.1124/jpet.114.220293"
+          "reference": "pmid:35785702"
         },
         {
           "target": "SERT",

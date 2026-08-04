@@ -1,0 +1,221 @@
+[
+ {
+  "identifier": "pmid:8788430",
+  "substance": "O-desmethyltramadol",
+  "replace": "pmid:10961373",
+  "where": {
+   "target": "MOR (+)-O-DSMT"
+  },
+  "why": "Agent research found 'Affinity, potency and efficacy of tramadol and its metabolites at the '; independent re-check: CONFIRMED_WITH_DOUBTS: substance not named in the text we can read"
+ },
+ {
+  "identifier": "pmid:8788430",
+  "substance": "O-desmethyltramadol",
+  "replace": "pmid:10961373",
+  "where": {
+   "target": "MOR (−)-O-DSMT"
+  },
+  "why": "Agent research found 'Affinity, potency and efficacy of tramadol and its metabolites at the '; independent re-check: CONFIRMED_WITH_DOUBTS: substance not named in the text we can read"
+ },
+ {
+  "identifier": "doi:10.1093/jat/bky072",
+  "substance": "Carfentanil",
+  "replace": "pmid:29679387",
+  "where": {
+   "route": "intravenous"
+  },
+  "why": "Agent research found 'The Pharmacokinetics and Pharmacodynamics of Carfentanil After Recreat'; independent re-check: CONFIRMED: value present: half_life_min=5.7 hours"
+ },
+ {
+  "identifier": "doi:10.1093/jat/bky072",
+  "substance": "Carfentanil",
+  "replace": "pmid:29679387",
+  "why": "Agent research found 'The Pharmacokinetics and Pharmacodynamics of Carfentanil After Recreat'; independent re-check: CONFIRMED: value present: half_life_minutes=5.7 hours"
+ },
+ {
+  "identifier": "pmid:25379886",
+  "substance": "Kanna",
+  "replace": "pmid:21798331",
+  "where": {
+   "target": "SERT (rat brain)"
+  },
+  "why": "Agent research found 'Pharmacological actions of the South African medicinal and functional '; independent re-check: CONFIRMED_WITH_DOUBTS: substance not named in the text we can read"
+ },
+ {
+  "identifier": "doi:10.1124/dmd.30.10.1059",
+  "substance": "Methamphetamine",
+  "replace": "pmid:14586388",
+  "where": {
+   "route": "intranasal"
+  },
+  "why": "Agent research found 'The bioavailability of intranasal and smoked methamphetamine'; independent re-check: CONFIRMED: value present: half_life_min=11.4 hours (Scoped on the SOURCE's route name 'intranasal'; the build normalizes it to 'insufflation'.)"
+ },
+ {
+  "identifier": "doi:10.1124/dmd.30.10.1059",
+  "substance": "Methamphetamine",
+  "replace": "pmid:8104133",
+  "where": {
+   "route": "smoked"
+  },
+  "why": "Agent research found 'Pharmacokinetics of methamphetamine self-administered to human subject'; independent re-check: CONFIRMED: value present: half_life_min=11.1 hr (Scoped on the SOURCE's route name 'smoked'; the build normalizes it to 'inhalation'.)"
+ },
+ {
+  "identifier": "pmid:37354128",
+  "substance": "16-Bromo-salvinorin A",
+  "replace": "pmid:37375403",
+  "where": {
+   "target": "KOR"
+  },
+  "why": "Agent research found 'The Kappa Opioid Receptor Agonist 16-Bromo Salvinorin A Has Anti-Cocai'; independent re-check: CONFIRMED: value present: ki_nm=2.9 ± 0.3 nM"
+ },
+ {
+  "identifier": "pmid:12895126",
+  "substance": "Gabapentin",
+  "replace": "pmid:20818832",
+  "where": {
+   "route": "oral"
+  },
+  "why": "Agent research found 'A comparison of the pharmacokinetics and pharmacodynamics of pregabali'; independent re-check: CONFIRMED: value present: half_life_min=6 hours"
+ },
+ {
+  "identifier": "doi:10.1016/j.hrthm.2022.07.005",
+  "substance": "Lamotrigine",
+  "replace": "pmid:35579204",
+  "where": {
+   "target": "Nav1.5 (late Na current, cardiac)"
+  },
+  "why": "Agent research found 'Cardiac sodium channel inhibition by lamotrigine: In vitro characteriz'; independent re-check: CONFIRMED: value present: ic50_nm=12.2 ± 0.5 μM"
+ },
+ {
+  "identifier": "doi:10.1016/j.hrthm.2022.07.005",
+  "substance": "Lamotrigine",
+  "replace": "pmid:35579204",
+  "where": {
+   "target": "cardiac Nav1.5"
+  },
+  "why": "Agent research found 'Cardiac sodium channel inhibition by lamotrigine: In vitro characteriz'; independent re-check: CONFIRMED: value present: ki_or_ic50_nm=12.2 ± 0.5 μM"
+ },
+ {
+  "identifier": "pmid:20136736",
+  "substance": "Pregabalin",
+  "replace": "pmid:20818832",
+  "where": {
+   "route": "oral"
+  },
+  "why": "Agent research found 'A comparison of the pharmacokinetics and pharmacodynamics of pregabali'; independent re-check: CONFIRMED: value present: half_life_min=6 hours"
+ },
+ {
+  "identifier": "pmid:6404261",
+  "substance": "Thiopental",
+  "replace": "pmid:40006063",
+  "where": {
+   "route": "intravenous"
+  },
+  "why": "Agent research found 'General Anesthetics: Aspects of Chirality, Pharmacodynamics, and Pharm'; independent re-check: CONSISTENT: value present but not discriminating: tmax_min=30 s, bioavailability_pct=85%, protein_binding_pct=85% — corroborating, not conclusive"
+ },
+ {
+  "identifier": "doi:10.1042/bj2660697",
+  "substance": "Lithium orotate",
+  "replace": "pmid:6253491",
+  "where": {
+   "target": "Inositol monophosphatase (IMPase)"
+  },
+  "why": "Agent research found 'The effects of lithium ion and other agents on the activity of myo-ino'; independent re-check: CONSISTENT: value present but not discriminating: ic50_nm=1 mM — corroborating, not conclusive (The source authors this record under 'Lithium orotate'.)"
+ },
+ {
+  "identifier": "doi:10.1002/dta.1525",
+  "substance": "Pyrazolam",
+  "replace": "doi:10.1007/s11419-013-0187-4",
+  "where": {
+   "route": "oral"
+  },
+  "why": "Agent research found 'Characterization of the designer benzodiazepine pyrazolam and its dete'; independent re-check: Crossref confirms Moosmann 2013 Forensic Toxicology, exact title match; Europe PMC does not index that journal."
+ },
+ {
+  "identifier": "doi:10.1124/jpet.114.220293",
+  "substance": "Dasotraline",
+  "replace": "pmid:35785702",
+  "where": {
+   "target": "DAT"
+  },
+  "why": "Agent research found 'In vitro and in vivo pharmacological characterization of dasotraline, '; independent re-check: CONSISTENT: value present but not discriminating: ki_nm=3 nM — corroborating, not conclusive"
+ },
+ {
+  "identifier": "doi:10.1124/jpet.114.220293",
+  "substance": "Dasotraline",
+  "replace": "pmid:35785702",
+  "where": {
+   "target": "NET"
+  },
+  "why": "Agent research found 'In vitro and in vivo pharmacological characterization of dasotraline, '; independent re-check: CONSISTENT: value present but not discriminating: ki_nm=3 nM — corroborating, not conclusive"
+ },
+ {
+  "identifier": "doi:10.1124/dmd.117.075788",
+  "substance": "Melatonin",
+  "replace": "pmid:10883420",
+  "where": {
+   "route": "oral"
+  },
+  "why": "Agent research found 'The absolute bioavailability of oral melatonin'; independent re-check: CONSISTENT: value present but not discriminating: bioavailability_pct=15% — corroborating, not conclusive"
+ },
+ {
+  "identifier": "doi:10.1097/00000542-198304000-00010",
+  "substance": "Fentanyl",
+  "replace": "pmid:7389247",
+  "where": {
+   "route": "intravenous"
+  },
+  "why": "Agent research found 'Intravenous fentanyl kinetics'; independent re-check: CONFIRMED: value present: half_life_min=219 min"
+ },
+ {
+  "identifier": "pmid:27623219",
+  "substance": "Ephenidine",
+  "replace": "pmid:27520396",
+  "where": {
+   "target": "DAT"
+  },
+  "why": "Agent research found 'Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor '; independent re-check: CONFIRMED: value present: ki_nm=379 nM"
+ },
+ {
+  "identifier": "pmid:27623219",
+  "substance": "Ephenidine",
+  "replace": "pmid:27520396",
+  "where": {
+   "target": "NET"
+  },
+  "why": "Agent research found 'Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor '; independent re-check: CONFIRMED: value present: ki_nm=841 nM"
+ },
+ {
+  "identifier": "pmid:27623219",
+  "substance": "Ephenidine",
+  "replace": "pmid:27520396",
+  "where": {
+   "target": "sigma-1"
+  },
+  "why": "Agent research found 'Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor '; independent re-check: CONFIRMED: value present: ki_nm=629 nM"
+ },
+ {
+  "identifier": "pmid:27623219",
+  "substance": "Ephenidine",
+  "replace": "pmid:27520396",
+  "where": {
+   "target": "sigma-2"
+  },
+  "why": "Agent research found 'Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor '; independent re-check: CONFIRMED: value present: ki_nm=722 nM"
+ },
+ {
+  "identifier": "doi:10.2165/00003088-198611030-00003",
+  "substance": "Fenfluramine",
+  "replace": "pmid:30336805",
+  "why": "Agent research found 'A phase I, randomized, open-label, single-dose, 3-period crossover stu'; independent re-check: CONFIRMED: value present: half_life_minutes=20.1 ± 3.3 hours"
+ },
+ {
+  "identifier": "pmid:27780703",
+  "substance": "Salvinorin A",
+  "replace": "pmid:26880225",
+  "where": {
+   "route": "inhalation"
+  },
+  "why": "Agent research found 'Time course of pharmacokinetic and hormonal effects of inhaled high-do'; independent re-check: CONSISTENT: value present but not discriminating: tmax_min=2 min — corroborating, not conclusive"
+ }
+]

@@ -168,7 +168,7 @@
           "dose_in_study_mg": null,
           "subject_n": 6,
           "subject_demographics": "Healthy adults, mean age 25, 4× received 21 µg/kg and 2× received 18 µg/kg vaporised via glass pipe",
-          "reference": "pmid:27780703",
+          "reference": "pmid:26880225",
           "_note": "Johnson/Reissig — Cmax mean 18.8 ng/mL at 2 min; subjective intensity correlated with plasma level r ≈ 0.93 across subjects; prolactin rose from 5 min peaking at 15 min, cortisol inconsistent. Effects essentially gone by 20 min, plasma near baseline by 90 min."
         },
         {
@@ -1732,7 +1732,7 @@
           "tissue_or_cell": "HEK293 expressing human KOR (also DAT-KOR coexpressed)",
           "radioligand_or_probe": "[3H]diprenorphine",
           "assay_buffer_notes": "Ki = 2.9 ± 0.3 nM vs Sal A Ki = 2.5 ± 0.6 nM in same assay.",
-          "reference": "pmid:37354128",
+          "reference": "pmid:37375403",
           "is_review": false,
           "notes": "C-16 bromine on the furan ring — affinity essentially preserved vs Sal A."
         }
@@ -1746,7 +1746,7 @@
           "reference_agonist": "U69593",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:37354128"
+          "reference": "pmid:37375403"
         },
         {
           "target": "KOR",
@@ -1756,7 +1756,7 @@
           "reference_agonist": "U50488",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:37354128"
+          "reference": "pmid:37375403"
         }
       ],
       "biased_agonism": [
@@ -1769,7 +1769,7 @@
           "bias_factor_log": null,
           "bias_reference_compound": "Sal A / 16-ethynyl Sal A",
           "interpretation": "Reported as G-protein-biased KOR agonist, contrasting with the more balanced 16-ethynyl Sal A. Anti-cocaine efficacy without significant effects on locomotion, food reward, learning/memory, anxiety, or depression — supports the hypothesis that KOR G-bias drives the desirable effects.",
-          "reference": "pmid:37354128"
+          "reference": "pmid:37375403"
         }
       ],
       "receptor_oligomerisation": [],

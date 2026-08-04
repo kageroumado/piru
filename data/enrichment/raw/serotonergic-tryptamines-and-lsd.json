@@ -6491,7 +6491,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": "various",
-          "reference": "doi:10.1124/dmd.117.075788"
+          "reference": "pmid:10883420"
         }
       ],
       "concentration_effect": []

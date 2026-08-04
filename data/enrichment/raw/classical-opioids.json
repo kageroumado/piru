@@ -1406,7 +1406,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:8788430",
+          "reference": "pmid:10961373",
           "is_review": false,
           "notes": "Raffa 1992 \u2014 (+) enantiomer is the potent MOR agonist; \u2248400\u00d7 more potent than parent (+)-tramadol."
         },
@@ -1417,7 +1417,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:8788430",
+          "reference": "pmid:10961373",
           "is_review": false
         },
         {

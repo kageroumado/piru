@@ -937,7 +937,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": "Healthy adults; PK is dose-dependent due to saturable LAT1 absorption.",
-          "reference": "pmid:12895126",
+          "reference": "pmid:20818832",
           "notes": "F% drops from ~60% at 300 mg → ~47% at 600 mg → ~34% at 1200 mg → ~25% at 3600 mg due to saturation of LAT1 (SLC7A5, L-type amino acid transporter) in gut. t1/2 5-7 h (longer in renal failure: CL closely tracks CrCl). Negligible protein binding. ~100% renally excreted unchanged."
         }
       ],
@@ -1112,7 +1112,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": "Healthy adults; PK linear up to clinical doses (LAT1 not saturated at standard 150-600 mg/d).",
-          "reference": "pmid:20136736",
+          "reference": "pmid:20818832",
           "notes": "Bioavailability ~90% (higher than gabapentin because pregabalin uses multiple transporters in addition to LAT1). PK linear, predictable. t1/2 6.3 h. Renal excretion ~98% unchanged. No food effect on AUC."
         }
       ],
@@ -2420,7 +2420,7 @@
           "dose_in_study_mg": 250,
           "subject_n": null,
           "subject_demographics": "Adults; t1/2β 11 h but clinical recovery <10 min due to peripheral redistribution.",
-          "reference": "pmid:6404261",
+          "reference": "pmid:40006063",
           "notes": "Classic 'context-sensitive half-life' demonstration drug — single dose is short due to redistribution; infusions accumulate dramatically."
         }
       ],
@@ -4808,7 +4808,7 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]citalopram",
           "assay_buffer_notes": "Mesembrine — the primary alkaloid — is a high-affinity SERT inhibitor (~SSRI-like) plus weak PDE4 inhibitor.",
-          "reference": "pmid:25379886",
+          "reference": "pmid:21798331",
           "is_review": false,
           "notes": null
         }

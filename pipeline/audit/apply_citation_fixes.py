@@ -160,6 +160,10 @@ def matches_scope(record: dict, fix: dict) -> bool:
     paper actually reports. Without `where`, one adjudicated repair silently
     becomes five unadjudicated ones.
     """
+    # A `where` clause is matched against the SOURCE file's vocabulary, not the
+    # DB's. The build normalises as it loads — "intranasal" becomes
+    # "insufflation", "smoked" becomes "inhalation" — so a clause copied out of
+    # a SQLite row silently selects nothing.
     for field_name, expected in (fix.get("where") or {}).items():
         if str(record.get(field_name) or "") != str(expected):
             return False

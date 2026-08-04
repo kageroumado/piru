@@ -640,14 +640,14 @@
           "bioavailability_pct": 79,
           "tmax_min": 15,
           "half_life_min": 660,
-          "reference": "doi:10.1124/dmd.30.10.1059"
+          "reference": "pmid:14586388"
         },
         {
           "route": "smoked",
           "bioavailability_pct": 90,
           "tmax_min": 18,
           "half_life_min": 660,
-          "reference": "doi:10.1124/dmd.30.10.1059"
+          "reference": "pmid:8104133"
         }
       ]
     },
@@ -1927,7 +1927,7 @@
         "metabolite_name": "norfenfluramine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 400,
-        "reference": "doi:10.2165/00003088-198611030-00003",
+        "reference": "pmid:30336805",
         "notes": "Norfenfluramine is 400× more 5-HT2B-active than parent (Ki 52 nM vs 4134 nM); also has 5-HT2C activity (Ki 557 nM)"
       },
       {
@@ -1935,7 +1935,7 @@
         "fraction_of_clearance_pct": 20,
         "metabolite_name": "norfenfluramine (minor pathway)",
         "metabolite_active": true,
-        "reference": "doi:10.2165/00003088-198611030-00003"
+        "reference": "pmid:30336805"
       }
     ],
     "drug_interactions_pk": [
@@ -1949,13 +1949,13 @@
         "with": "CYP2D6 inhibitors",
         "mechanism": "reduced norfenfluramine formation",
         "clinical_effect": "Reduces 5-HT2B exposure — potentially safer in PMs",
-        "reference": "doi:10.2165/00003088-198611030-00003"
+        "reference": "pmid:30336805"
       },
       {
         "with": "MAOIs",
         "mechanism": "MAOI + SERT releaser",
         "clinical_effect": "Lethal serotonin syndrome; absolute contraindication",
-        "reference": "doi:10.2165/00003088-198611030-00003"
+        "reference": "pmid:30336805"
       }
     ],
     "pharmacogenetics": {
@@ -1963,7 +1963,7 @@
         "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs may have less norfenfluramine formation → potentially less valvulopathy risk but variable. UMs make norfen faster.",
-      "reference": "doi:10.2165/00003088-198611030-00003"
+      "reference": "pmid:30336805"
     },
     "off_targets": [
       {

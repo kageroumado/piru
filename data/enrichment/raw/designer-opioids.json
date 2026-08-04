@@ -2666,7 +2666,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adult anaesthesia patients (Mather 1983; Singleton 1987)",
-          "reference": "doi:10.1097/00000542-198304000-00010",
+          "reference": "pmid:7389247",
           "notes": "Terminal t½ 3-7 h; Vd large due to lipophilicity; context-sensitive t½ ~250 min after 4h infusion."
         },
         {
@@ -2906,7 +2906,7 @@
           "dose_in_study_mg": null,
           "subject_n": 1,
           "subject_demographics": "Single case report — intentional self-exposure",
-          "reference": "doi:10.1093/jat/bky072",
+          "reference": "pmid:29679387",
           "notes": "Case-report-derived t½ 5.7h for carfentanil and 11.8h for norcarfentanyl (one-compartment model)."
         }
       ],
@@ -2919,7 +2919,7 @@
         "metabolite_name": "norcarfentanyl",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1093/jat/bky072",
+        "reference": "pmid:29679387",
         "notes": "N-dealkylation to norcarfentanyl (inactive) is dominant pathway; also monohydroxylation of piperidine ring."
       }
     ],
