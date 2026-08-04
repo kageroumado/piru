@@ -4,8 +4,9 @@ import Testing
 
 /// Golden-master characterization tests for the mechanistic effect engine.
 /// The reference parameters live here (not in the curated DB) so these pin the ENGINE math itself —
-/// they must stay in lockstep with the JS reference (`piru-effect-model/model-hc.mjs`) and the numbers
-/// in `SPEC.md` §7. If the engine drifts, these break.
+/// they must stay in lockstep with the JS reference, which lives in the separate `piru-effect-model`
+/// repo: `model-hc.mjs` for the math and `SPEC.md` §7 ("Validated Behaviors") for the numbers.
+/// Neither file is in this repo; if the engine drifts from them, these break.
 @Suite("EffectEngine golden-master")
 struct EffectEngineTests {
     private static let LN2 = log(2.0)
