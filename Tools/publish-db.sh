@@ -16,11 +16,7 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-# An SSH alias, NOT an address. This repo is public and the origin sits behind
-# Cloudflare with its ports open only to Cloudflare's ranges — publishing the
-# address it hides would hand out the one thing that setup exists to withhold.
-# Define `piru-db` in ~/.ssh/config (or set PIRU_DB_HOST); the real host lives
-# in the private infrastructure repo.
+# `piru-db` is an ssh alias; define it in ~/.ssh/config.
 HOST="${PIRU_DB_HOST:-piru-db}"
 REMOTE_DIR="${PIRU_DB_REMOTE_DIR:-/var/www/piru-db/Piru/Data}"
 DB="Piru/Data/piru-substances.sqlite"

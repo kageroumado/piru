@@ -59,12 +59,10 @@ Piru/Data/piru-substances.sqlite
 # poorly that every citation pass appends another full blob, and the 100 MB hard
 # limit is the wall that eventually rejects a push outright.
 #
-# Nothing offline needs them — the entire CI Python job and `build.sh fast` were
-# run with both files absent and every gate passed. The offline gates read the
-# small caches that stay tracked beside them: link-cache.json (the build),
+# Nothing offline reads them. The CI gates and `build.sh fast` use the small
+# caches that stay tracked beside them: link-cache.json (the build),
 # citation-verify-cache.json (verify_citations --offline) and
-# citation-abstract-cache.json (citation_topicality --offline). Refilling these
-# two is a network act on one machine, so the local copies are the useful ones.
+# citation-abstract-cache.json (citation_topicality --offline).
 data/sources/chembl-cache.json
 data/sources/europepmc-cache.json
 
