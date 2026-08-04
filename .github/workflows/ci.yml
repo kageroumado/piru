@@ -20,6 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      # The substance DB is not tracked in git (see .gitignore). Fetch it before
+      # anything reads it: without this, test_sqlite.py's end-to-end suite skips
+      # itself on a missing file and the run goes green having checked nothing.
+      - name: Fetch the bundled substance DB
+        run: Tools/fetch-db.sh
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
@@ -113,6 +118,11 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v5
+      # The substance DB is not tracked in git (see .gitignore). Fetch it before
+      # anything reads it: without this, test_sqlite.py's end-to-end suite skips
+      # itself on a missing file and the run goes green having checked nothing.
+      - name: Fetch the bundled substance DB
+        run: Tools/fetch-db.sh
       - name: Select latest Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
       - name: Build SubstanceCollector (SPM)

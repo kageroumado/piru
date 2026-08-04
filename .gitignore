@@ -46,6 +46,13 @@ skills-lock.json
 __pycache__/
 *.pyc
 
+# The bundled substance DB is fetched by Tools/fetch-db.sh from the host that
+# also serves it to installed builds. Do not track it, and do not reach for Git
+# LFS: SubstanceDBUpdater downloads it over plain HTTP, and raw.githubusercontent
+# serves an LFS path as its 133-byte pointer. manifest.json beside it STAYS
+# tracked — it holds the checksum fetch-db.sh validates the download against.
+Piru/Data/piru-substances.sqlite
+
 # Bulk upstream API caches for the manual citation passes (audit/europepmc.py,
 # the ChEMBL client in audit/citation_sourcing.py). Do not track these: at
 # ~75-80 MB each they exceed GitHub's 50 MB advisory, JSON that size deltas so

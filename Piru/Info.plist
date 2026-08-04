@@ -30,6 +30,8 @@
 		<string>fetch</string>
 		<string>processing</string>
 	</array>
+	<key>PiruManifestURL</key>
+	<string>https://kagerou.glass/piru-db/Piru/Data/manifest.json</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>

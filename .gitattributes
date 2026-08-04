@@ -1,8 +1,0 @@
-# The bundled substance DB must stay an ORDINARY tracked file — never Git LFS.
-# SubstanceDBUpdater derives the download URL relative to its manifest URL and
-# fetches it from raw.githubusercontent.com, which serves an LFS-tracked path as
-# its 133-byte pointer instead of the file. Putting this in LFS ships pointer
-# text to every installed build that asks for a database update.
-#
-# Its accumulated revisions are discarded instead — see Tools/strip-db-history.sh.
-Piru/Data/piru-substances.sqlite binary

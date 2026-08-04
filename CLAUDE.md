@@ -70,17 +70,26 @@ cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 `pipeline/build.sh` (default `fast`) is **quick, offline, and reproducible** — it rebuilds the whole `Piru/Data/piru-substances.sqlite` from committed inputs (cached web snapshots in `data/sources/` + the curated layer in `data/curated/`) plus external extracts in `/tmp/piru-extract`. `pipeline/build.sh full` additionally re-runs the upstream scrape (network).
 
 - **Always rebuild the WHOLE DB through the pipeline — never hand-edit the bundled `.sqlite`.** A surgical/manual edit hides build-pipeline bugs (they only surface on a full rebuild) and is silently clobbered on the next run. Because the full rebuild is fast and offline, there is never a reason to avoid it.
-- To change pharmacology/MOA data, edit the curated source (`data/curated/`), then `pipeline/build.sh fast`, then commit the rebuilt `piru-substances.sqlite` + `manifest.json` + `data/snapshots/*`.
+- To change pharmacology/MOA data, edit the curated source (`data/curated/`), then `pipeline/build.sh fast`, then commit the rebuilt `manifest.json` + `data/snapshots/*` and **publish the rebuilt `.sqlite` to the host** (see below) — the DB itself is not tracked, and the manifest's checksum is what every later fetch is validated against, so shipping one without the other breaks both CI and installed builds.
 - Some datasources are private (not in this open-source repo); the build **warns loudly** when an external extract is missing and produces a clearly-partial DB rather than failing silently (set `PIRU_REQUIRE_EXTERNAL=1` to hard-fail instead).
 
-### The bundled DB is a plain tracked file, and its old revisions get discarded
+### The bundled DB is not in git — it is fetched
 
-`Piru/Data/piru-substances.sqlite` is ~19 MB and is rewritten wholesale on nearly every data pass, so its history reached **2.2 GB across 142 revisions**. Two escapes are closed off, both for concrete reasons:
+`Piru/Data/piru-substances.sqlite` is ~19 MB and is rewritten wholesale on nearly every data pass, so it is **gitignored and hosted** rather than tracked. `Tools/fetch-db.sh` puts it in place:
 
-- **It cannot be untracked.** `Piru/Data` is a filesystem-synchronized Xcode group, so the file is bundled into the app by existing; `SubstanceStore.swift` calls `fatalError` at launch when the bundle lacks it. CI's `swift-build` and any contributor's build need it present, and the pipeline cannot regenerate a complete one from this repo alone — some datasources are private.
-- **It cannot go in Git LFS.** `SubstanceDBUpdater` derives the download URL relative to its manifest URL and fetches from `raw.githubusercontent.com`, which serves an LFS-tracked path as its **133-byte pointer**, not the file. Tracking it in LFS ships pointer text to every installed build asking for an update. `.gitattributes` records this so it doesn't get retried.
+```bash
+Tools/fetch-db.sh            # no-op when the file already matches the manifest
+Tools/fetch-db.sh --force    # re-download regardless
+```
 
-So the file stays an ordinary blob and its **stale revisions are thrown away periodically** with `Tools/strip-db-history.sh` (add `--push` to publish). It keeps each listed path's HEAD revision, drops every older one, preserves all commits and messages, and aborts if HEAD's tree would change. It also covers `data/snapshots/{substances.json,substances.csv,gaps.csv}`, which churn the same way. Being a history rewrite, it needs a force-push and invalidates existing clones — run it after a release, not mid-review.
+- **Run it after cloning, and before any build.** `Piru/Data` is a filesystem-synchronized Xcode group, so the app bundles the DB by its merely being there, and `SubstanceStore` calls `fatalError` at launch when the bundle lacks it. Both CI jobs that read it run the script right after checkout.
+- **`manifest.json` beside it stays tracked.** It is small, and its `sqlite_sha256` is what the download is verified against — so a host serving a database this checkout does not expect is rejected rather than installed. The checksum comes from the tracked manifest, never from the server.
+- **It is served from `https://kagerou.glass/piru-db/`** (Caddy `file_server` over `/var/www/piru-db`, deliberately outside the site webroot, which `deploy.sh` rsyncs `--delete` into). The shipped app reads the same two files: `Info.plist`'s `PiruManifestURL` points there, and `SubstanceDBUpdater` derives the DB URL relative to it — so the build and the OTA updater agree by construction. **After publishing a rebuilt DB, upload it there too**, or installed builds keep the old one.
+- **Never put it in Git LFS.** `raw.githubusercontent.com` serves an LFS path as its 133-byte pointer, so an LFS-tracked DB ships pointer text to every device asking for an update.
+
+Builds through `v2.2-b38` have the old `raw.githubusercontent.com` URL compiled in and no longer receive updates; they keep working on their bundled data.
+
+`Tools/strip-db-history.sh` discards the accumulated revisions of the `data/snapshots/*` artifacts, which churn per rebuild — it keeps each path's HEAD revision and drops the rest. It is a history rewrite needing a force-push, so run it after a release.
 
 ## Architecture
 
