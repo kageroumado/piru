@@ -82,7 +82,7 @@ def main() -> int:
             )
             return 1
 
-        uncached = [i for i in identifiers if not pc.has(i)]
+        uncached = [i for i in identifiers if not pc.known(i)]
         total = len(identifiers)
         cached = total - len(uncached)
         print(
@@ -99,15 +99,15 @@ def main() -> int:
             def _progress(done: int, total_n: int, ident: str, status: str) -> None:
                 ts = datetime.now(UTC).strftime("%H:%M:%S")
                 short = ident[:60] + ("…" if len(ident) > 60 else "")
-                line = f"[{ts}] {done:>4}/{total_n}  {status:<7}  {short}"
+                line = f"[{ts}] {done:>4}/{total_n}  {short}  {status}"
                 print(line, file=sys.stderr, flush=True)
                 print(line, file=log, flush=True)
 
-            header = f"populating {len(uncached)} papers (3 workers)"
+            header = f"populating {len(uncached)} papers"
             print(header, file=sys.stderr)
             print(header, file=log, flush=True)
 
-            n = pc.populate(uncached, on_progress=_progress, workers=3)
+            n = pc.populate(uncached, on_progress=_progress)
             log.close()
 
             pc.reload()

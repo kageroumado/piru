@@ -132,6 +132,10 @@ class PapersCache:
         entry = self._resolve(identifier)
         return entry is not None and entry.get("status") in ("ok", "scanned")
 
+    def known(self, identifier: str) -> bool:
+        """True if the identifier has any index entry (including closed/error)."""
+        return self._resolve(identifier) is not None
+
     def meta(self, identifier: str) -> dict | None:
         """Return metadata for a cached paper, or None if not in the cache.
 
@@ -178,7 +182,6 @@ class PapersCache:
         *,
         metadata_only: bool = False,
         on_progress: Callable[[int, int, str, str], None] | None = None,
-        workers: int = 1,
     ) -> int:
         """Fetch papers into the cache via the ``papers`` CLI.
 
@@ -192,17 +195,15 @@ class PapersCache:
         if not _cli_available() or not identifiers:
             return 0
 
-        import threading
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-
         total = len(identifiers)
-        counter = threading.Lock()
-        done_count = 0
         submitted = 0
 
-        def _fetch_one(ident: str) -> tuple[str, str, bool]:
+        for i, ident in enumerate(identifiers, 1):
+            self.reload()
             if self._resolve(ident) is not None:
-                return (ident, "cached", False)
+                if on_progress:
+                    on_progress(i, total, ident, "cached")
+                continue
             cmd = ["papers", "meta" if metadata_only else "get", str(ident)]
             try:
                 result = subprocess.run(
@@ -211,26 +212,25 @@ class PapersCache:
                     text=True,
                     timeout=120,
                 )
-                status = "ok" if result.returncode == 0 else "failed"
+                if result.returncode == 0:
+                    status = "ok"
+                else:
+                    reason = ""
+                    for line in (result.stdout + result.stderr).splitlines():
+                        line = line.strip()
+                        if line and (
+                            "closed" in line or "error" in line or "✗" in line or "!" in line
+                        ):
+                            reason = re.sub(r"^\s*[✗!✔]\s*\w+\s+\S+\s*", "", line).strip()
+                            break
+                    status = f"FAIL  {reason}" if reason else "FAIL"
             except subprocess.TimeoutExpired:
-                status = "timeout"
+                status = "TIMEOUT (120s)"
             except FileNotFoundError:
-                status = "no-cli"
-            return (ident, status, status != "cached")
-
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            futures = {pool.submit(_fetch_one, ident): ident for ident in identifiers}
-            for future in as_completed(futures):
-                ident, status, was_submitted = future.result()
-                with counter:
-                    done_count += 1
-                    if was_submitted:
-                        submitted += 1
-                    n = done_count
-                if on_progress:
-                    on_progress(n, total, ident, status)
-                if status == "no-cli":
-                    break
+                return submitted
+            submitted += 1
+            if on_progress:
+                on_progress(i, total, ident, status)
 
         return submitted
 
