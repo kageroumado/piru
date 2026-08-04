@@ -32,6 +32,12 @@ aliases, a dose-basis fix). There is no separate overlay/override file and no
 in-code curation dict: one file fully describes one substance.
 
 - Schema: [`../data/curated/substances.schema.json`](../data/curated/) (editor support).
+- **Cite a number where the number is, not on the substance.** The `sources`
+  array is substance-level provenance; it does not cite any particular value.
+  A per-fact citation is a sibling field — `halfLifeSource` next to
+  `halfLifeMinutes`, and the same pattern elsewhere — and that is what the
+  citation gates can actually check. Adding another URL to `sources` looks like
+  citing the number and is not.
 - Enforced validator: `build/validate_curated.py` (stdlib, build-consistent route
   normalisation). Run before every build; CI/test gate via `tests/test_sqlite.py`.
 - `build/sqlite.py` ingests this directory **directly** as the `piru-curated`
@@ -106,6 +112,10 @@ deliberately NOT committed — only the built SQLite is.
   (out of repo). `build/sqlite.py` ingests those directly. `_common.py`
   holds the shared category/route/dose parsing helpers.
 
+Fetching the *papers* those citations point at is not here: that is an external
+`papers` CLI, if you have one. Piru's half is `audit/cited_identifiers.py`, which
+emits the identifiers this database cites. See [Researching a claim](#researching-a-claim).
+
 ### `enrichment/`
 LLM-assisted research used to fill gaps external sources don't cover
 (receptor affinities, primary-literature citations, class-context).
@@ -148,6 +158,35 @@ LLM-assisted research used to fill gaps external sources don't cover
 - **`dump_for_verification.py`** — emits richer per-substance dumps
   suitable for parallel human or LLM review. Output is gitignored under
   `data/snapshots/verification-dump/`.
+
+## Researching a claim
+
+A curated number has to come from somewhere a later reader can check, and a
+citation that resolves is not yet a citation that supports the claim. The order:
+
+1. **Identify the paper** — PubMed/OpenAlex/ChEMBL MCP tools, or a DOI you have.
+2. **Read the full text.** Fetched papers belong in a cache **outside this
+   repo** — it is public, and an open-access license permits reading a paper,
+   not vendoring it into someone else's git history. Nothing here reads that
+   cache, so its location is yours to choose.
+3. **Check the claim against the text** — grep the paper for the number itself.
+4. **Record it** in `data/curated/substances/<slug>.json`, then rebuild.
+5. **Gate it** — `audit/verify_citations.py --gate`.
+
+`audit/cited_identifiers.py` emits the identifiers this database cites,
+most-cited first, so a bounded run covers the papers the most rows depend on:
+
+```bash
+pipeline/audit/cited_identifiers.py            # every DOI/PMID cited
+pipeline/audit/cited_identifiers.py --limit 50 # the 50 most-cited
+```
+
+Pipe that into whatever fetches full text for you. If you use an open-access
+fetcher, expect roughly three-quarters of these to come back with no free copy —
+that is the state of the pharmacology literature, not a bug. Such a paper is a
+library request; **do not cite a number from a paper nobody read**. An identifier
+no registry resolves is suspicious but not proof of fabrication: that verdict
+belongs to `audit/verify_citations.py`, which weighs topicality too.
 
 ## Reproducibility
 
