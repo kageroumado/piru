@@ -15,13 +15,21 @@
 #   Tools/fetch-db.sh              # ensure the DB is present and correct
 #   Tools/fetch-db.sh --force      # re-download even if the checksum matches
 #
-#   PIRU_DB_BASE_URL overrides the host (staging, a fork, a local file server).
+#   PIRU_DB_URL pins a single source (staging, a fork, a local file server).
 #
 set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-BASE_URL="${PIRU_DB_BASE_URL:-https://kagerou.glass/piru-db}"
+# Tried in order. The release asset is first because kagerou.glass sits behind
+# Cloudflare Bot Fight Mode, which 403s CI runners; the origin is the canonical
+# copy and what the shipped app reads. Serving the wrong file from either is
+# caught by the checksum below, so an extra mirror costs no trust.
+MIRRORS=(
+    "https://github.com/kageroumado/piru/releases/download/db/piru-substances.sqlite"
+    "https://kagerou.glass/piru-db/Piru/Data/piru-substances.sqlite"
+)
+[ -n "${PIRU_DB_URL:-}" ] && MIRRORS=("$PIRU_DB_URL")
 MANIFEST="Piru/Data/manifest.json"
 DB="Piru/Data/piru-substances.sqlite"
 FORCE=0
@@ -61,21 +69,28 @@ if [ "$FORCE" -eq 0 ] && [ -f "$DB" ] && [ "$(actual_sha "$DB")" = "$EXPECTED_SH
     exit 0
 fi
 
-URL="$BASE_URL/$DB"
 TMP="$(mktemp "${TMPDIR:-/tmp}/piru-db.XXXXXX")"
-trap 'test -f "$TMP" && mv -f "$TMP" "$TMP.failed" 2>/dev/null || true' EXIT
+trap 'rm -f "$TMP" 2>/dev/null || true' EXIT
 
-echo "==> Fetching $URL"
-curl --fail --location --show-error --silent --retry 3 --retry-delay 2 \
-    --output "$TMP" "$URL"
+GOT_SHA=""
+for URL in "${MIRRORS[@]}"; do
+    echo "==> Fetching $URL"
+    if ! curl --fail --location --show-error --silent --retry 3 --retry-delay 2 \
+        --output "$TMP" "$URL"; then
+        echo "    unreachable; trying the next source" >&2
+        continue
+    fi
+    GOT_SHA="$(actual_sha "$TMP")"
+    [ "$GOT_SHA" = "$EXPECTED_SHA" ] && break
+    echo "    serves $GOT_SHA, expected $EXPECTED_SHA; trying the next source" >&2
+    GOT_SHA=""
+done
 
-GOT_SHA="$(actual_sha "$TMP")"
 if [ "$GOT_SHA" != "$EXPECTED_SHA" ]; then
-    echo "error: checksum mismatch — refusing to install" >&2
+    echo "error: no source had the database this checkout expects" >&2
     echo "       expected $EXPECTED_SHA" >&2
-    echo "       got      $GOT_SHA" >&2
-    echo "       The host is serving a database this checkout's manifest does not" >&2
-    echo "       describe. Re-run pipeline/build.sh, or publish the current DB." >&2
+    echo "       Publish the current build with Tools/publish-db.sh, or re-run" >&2
+    echo "       pipeline/build.sh so the manifest describes an available one." >&2
     exit 1
 fi
 
