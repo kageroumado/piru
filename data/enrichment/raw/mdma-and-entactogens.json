@@ -120,7 +120,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "h5-HT2B cloned receptor, [3H]-LSD binding",
-          "reference": "pmid:12649569",
+          "reference": null,
           "is_review": false,
           "notes": "Setola & Roth 2003. 5-HT2B agonism is the proposed mechanism of MDMA-associated valvular heart disease (fenfluramine-like). Active metabolite MDA is more potent at 5-HT2B (Ki ~100 nM)."
         },
@@ -331,7 +331,7 @@
         "ki_or_ic50_nm": 500,
         "concern_level": "moderate",
         "clinical_consequence": "Cardiac valvular fibrosis with chronic/repeated heavy use (fenfluramine-like mechanism). Epidemiological evidence supports increased VHD risk in regular MDMA users.",
-        "reference": "pmid:12649569"
+        "reference": null
       },
       {
         "target": "hERG",
@@ -383,7 +383,7 @@
       "doi:10.1046/j.1365-2125.2000.00121.x",
       "doi:10.1016/s0006-2952(00)00284-7",
       "doi:10.1038/s41386-024-01972-6",
-      "pmid:12649569",
+      null,
       "doi:10.3389/fgene.2012.00235",
       "doi:10.1177/0269881106065907"
     ]
@@ -438,7 +438,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "h5-HT2B cloned",
-          "reference": "pmid:12649569",
+          "reference": null,
           "is_review": false,
           "notes": "5× more potent at 5-HT2B than MDMA. MDA is the major active metabolite of MDMA — chronic MDMA users get repeated 5-HT2B exposure via MDA, driving VHD risk."
         }
@@ -521,7 +521,7 @@
         "ki_or_ic50_nm": 100,
         "concern_level": "moderate",
         "clinical_consequence": "Cardiac valvulopathy risk; MDA is the more potent 5-HT2B agonist of the MDxx family.",
-        "reference": "pmid:12649569"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -546,7 +546,7 @@
     "notes": "MDA is both a recreational drug and the active N-demethyl metabolite of MDMA. Its longer half-life (~8 h) explains the persistent next-day stimulant tail after MDMA use. Schedule I.",
     "references_consulted": [
       "doi:10.1038/s41386-025-02248-3",
-      "pmid:12649569"
+      null
     ]
   },
   {
@@ -5280,7 +5280,7 @@
       "doi:10.1016/s0006-2952(00)00284-7",
       "doi:10.1038/s41386-024-01972-6",
       "doi:10.1038/s41386-025-02248-3",
-      "pmid:12649569",
+      null,
       "doi:10.3389/fgene.2012.00235",
       "doi:10.1177/0269881106065907"
     ]

@@ -13,6 +13,7 @@ xcuserdata/
 .DS_Store
 *.swp
 *~
+*.profraw
 
 # Swift Package Manager
 pipeline/fetch/collector/.build

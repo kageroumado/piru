@@ -913,7 +913,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "DRG neurons / cortical synaptosomes",
-          "reference": "pmid:18793239",
+          "reference": null,
           "notes": "Reduces stimulated glutamate release ~25-40%; effect requires hours-days of treatment, reflecting reduced trafficking of α2δ-1-containing Cav channels to the membrane rather than acute channel block."
         }
       ],

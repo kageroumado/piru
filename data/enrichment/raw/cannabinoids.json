@@ -54,7 +54,7 @@
         {
           "modality": "fMRI BOLD",
           "finding": "Increased BOLD in striatum/ACC during reward and salience tasks; decreased in DLPFC during working memory",
-          "reference": "doi:10.1093/cercor/bhq229"
+          "reference": null
         }
       ]
     },

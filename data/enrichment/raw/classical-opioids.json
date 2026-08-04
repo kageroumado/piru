@@ -742,7 +742,7 @@
         "mechanism": "CYP3A4 induction",
         "ki_um": null,
         "clinical_effect": "\u2193 buprenorphine AUC \u226550%, possible withdrawal",
-        "reference": "doi:10.1086/527566"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
