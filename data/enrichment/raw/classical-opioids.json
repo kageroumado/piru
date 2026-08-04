@@ -174,7 +174,7 @@
           "dose_in_study_mg": 30,
           "subject_n": null,
           "subject_demographics": "adult, mixed",
-          "reference": "doi:10.1016/j.jpain.2009.12.002",
+          "reference": "pmid:3514045",
           "notes": "F% ranges 20-40% due to high first-pass UGT2B7 glucuronidation; oral AUC ratios M3G:morphine \u2248 30:1, M6G:morphine \u2248 5:1."
         },
         {
@@ -184,7 +184,7 @@
           "vd_l_per_kg": 3.5,
           "clearance_ml_per_min_per_kg": 15,
           "protein_binding_pct": 35,
-          "reference": "doi:10.1016/j.jpain.2009.12.002"
+          "reference": "pmid:3514045"
         }
       ],
       "concentration_effect": [
@@ -351,7 +351,7 @@
         "metabolite_name": "morphine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
-        "reference": "doi:10.1038/s41598-019-50461-0"
+        "reference": "pmid:8930175"
       }
     ],
     "drug_interactions_pk": [],
@@ -767,10 +767,10 @@
     "off_targets": [
       {
         "target": "hERG",
-        "ki_or_ic50_nm": 7700,
+        "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Clinically meaningful QT prolongation rare; no torsades signal in routine use.",
-        "reference": "doi:10.1093/qjmed/hcg143"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -1107,12 +1107,12 @@
       "routes": [
         {
           "route": "oral",
-          "bioavailability_pct": 60,
-          "tmax_min": 60,
-          "half_life_min": 180,
-          "vd_l_per_kg": 3.5,
-          "protein_binding_pct": 7,
-          "reference": "doi:10.1097/PR9.0000000000000615"
+          "bioavailability_pct": null,
+          "tmax_min": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "protein_binding_pct": null,
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1457,10 +1457,10 @@
     "metabolism": [
       {
         "enzyme": "UGT2B7 / UGT1A8",
-        "fraction_of_clearance_pct": 60,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "O-DSMT-glucuronide",
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.105.005124"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1583,12 +1583,12 @@
       "routes": [
         {
           "route": "oral",
-          "bioavailability_pct": 75,
-          "tmax_min": 90,
-          "half_life_min": 240,
-          "vd_l_per_kg": 2.6,
-          "protein_binding_pct": 45,
-          "reference": "doi:10.2165/00003088-199631040-00005"
+          "bioavailability_pct": null,
+          "tmax_min": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "protein_binding_pct": null,
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3194,9 +3194,9 @@
       "routes": [
         {
           "route": "intravenous",
-          "bioavailability_pct": 100,
-          "half_life_min": 90,
-          "reference": "doi:10.1016/j.forsciint.2017.01.003",
+          "bioavailability_pct": null,
+          "half_life_min": null,
+          "reference": null,
           "notes": "Fast onset (15-30 s IV), short duration (1-2 h)."
         }
       ],
@@ -4648,12 +4648,12 @@
         {
           "target": "MOR",
           "ki_nm": null,
-          "ec50_nm": 40,
+          "ec50_nm": null,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[35S]GTP\u03b3S",
-          "reference": "doi:10.1002/dta.3722",
+          "reference": null,
           "is_review": false,
           "notes": "Dipyanone (pyrrolidino analogue) EC50 ~40 nM, Emax 155% of hydromorphone \u2014 likely similar for dipipanone (piperidino analogue). Methadone-class."
         }

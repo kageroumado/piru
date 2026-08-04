@@ -1150,12 +1150,12 @@
           "route": "oral",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
-          "tmax_min": 120,
+          "tmax_min": null,
           "half_life_min": null,
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Argyreia nervosa seed ingestion study",
-          "reference": "doi:10.1007/s00216-008-2486-x"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3001,18 +3001,18 @@
       "routes": [
         {
           "route": "intravenous",
-          "bioavailability_pct": 100,
+          "bioavailability_pct": null,
           "cmax_ng_per_ml": 75,
-          "tmax_min": 2,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 6.5,
-          "vd_l_per_kg": 36,
-          "clearance_ml_per_min_per_kg": 230,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
           "protein_binding_pct": null,
           "dose_in_study_mg": 25,
           "subject_n": 11,
           "subject_demographics": "Strassman 1994; healthy volunteers M+F",
-          "reference": "pmid:8067486"
+          "reference": null
         },
         {
           "route": "intravenous",
@@ -3061,10 +3061,10 @@
     "metabolism": [
       {
         "enzyme": "MAO-A",
-        "fraction_of_clearance_pct": 90,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "indole-3-acetic acid (IAA)",
         "metabolite_active": false,
-        "reference": "pmid:8067486"
+        "reference": null
       },
       {
         "enzyme": "CYP2D6/peroxidase (minor)",
@@ -5244,7 +5244,7 @@
           "reference_agonist": "5-HT",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:9089915"
+          "reference": "pmid:21474568"
         },
         {
           "target": "DAT/NET",
@@ -5254,7 +5254,7 @@
           "reference_agonist": null,
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:9089915"
+          "reference": "pmid:21474568"
         }
       ],
       "biased_agonism": [],
@@ -5959,16 +5959,16 @@
           "route": "oral (as ayahuasca brew)",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": 115,
-          "tmax_min": 90,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 120,
+          "half_life_min": null,
           "vd_l_per_kg": null,
           "clearance_ml_per_min_per_kg": null,
           "protein_binding_pct": null,
           "dose_in_study_mg": 250,
           "subject_n": 15,
           "subject_demographics": "Callaway 1996 healthy Brazilian UDV members",
-          "reference": "pmid:9700761"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5976,11 +5976,11 @@
     "metabolism": [
       {
         "enzyme": "CYP1A2 + CYP2D6",
-        "fraction_of_clearance_pct": 80,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "harmol (O-demethylated)",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 30,
-        "reference": "doi:10.1016/j.taap.2010.04.020"
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -6091,12 +6091,12 @@
           "route": "oral (as ayahuasca)",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": 35,
-          "tmax_min": 90,
-          "half_life_min": 120,
+          "tmax_min": null,
+          "half_life_min": null,
           "dose_in_study_mg": 30,
           "subject_n": 15,
           "subject_demographics": "Callaway 1996",
-          "reference": "pmid:9700761"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6107,7 +6107,7 @@
         "fraction_of_clearance_pct": 60,
         "metabolite_name": "harmalol",
         "metabolite_active": true,
-        "reference": "doi:10.1016/j.taap.2010.04.020"
+        "reference": "pmid:19445902"
       }
     ],
     "drug_interactions_pk": [
@@ -6221,7 +6221,7 @@
           "dose_in_study_mg": 160,
           "subject_n": 15,
           "subject_demographics": "Callaway 1996",
-          "reference": "pmid:9700761"
+          "reference": "pmid:10404423"
         }
       ],
       "concentration_effect": []
@@ -6499,10 +6499,10 @@
     "metabolism": [
       {
         "enzyme": "CYP1A2 (major)",
-        "fraction_of_clearance_pct": 80,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "6-sulfatoxymelatonin (urine marker)",
         "metabolite_active": false,
-        "reference": "doi:10.1124/dmd.117.075788"
+        "reference": null
       },
       {
         "enzyme": "CYP2C19/CYP1B1 (minor)",

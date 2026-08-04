@@ -198,10 +198,10 @@
     "off_targets": [
       {
         "target": "hERG",
-        "ki_or_ic50_nm": 30000,
+        "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Minimal direct hERG block (~9% inhibition at 30 μM); cardiotoxicity is sympathomimetic, not channel-mediated",
-        "reference": "doi:10.1016/j.ejphar.2011.10.045"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -500,8 +500,8 @@
         "enzyme": "COMT",
         "metabolite_name": "4-OH-3-MeO-pyrovalerone",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 25,
-        "reference": "pmid:23922010"
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -1282,7 +1282,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
-          "reference": "pmid:36876024",
+          "reference": "pmid:36669877",
           "is_review": false,
           "notes": "Wojcieszak/Sitka 2023 (PMC10201577) — full SNDRA profile; nonselective"
         },
@@ -1291,7 +1291,7 @@
           "ec50_nm": 91,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:36876024",
+          "reference": "pmid:36669877",
           "notes": "Substrate-type releaser, fully efficacious"
         },
         {
@@ -1299,28 +1299,28 @@
           "ic50_nm": 559,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024"
+          "reference": "pmid:36669877"
         },
         {
           "target": "NET (release)",
           "ec50_nm": 99,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:36876024"
+          "reference": "pmid:36669877"
         },
         {
           "target": "SERT (uptake)",
           "ic50_nm": 542,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024"
+          "reference": "pmid:36669877"
         },
         {
           "target": "SERT (release)",
           "ec50_nm": 169,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:36876024",
+          "reference": "pmid:36669877",
           "notes": "4-CMC is a fully efficacious SERT substrate — analogous to PCMA/4-CA neurotoxic amphetamines, raising chronic-use serotonin neurotoxicity concern"
         }
       ],
@@ -2039,19 +2039,19 @@
       "binding": [
         {
           "target": "DAT (release)",
-          "ec50_nm": 622,
+          "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
-          "reference": "pmid:24123416",
+          "reference": null,
           "notes": "Eshleman 2013 — ethylone is less potent than methylone at all three transporters; N-ethyl shifts profile toward 5-HT release"
         },
         {
           "target": "SERT (release)",
-          "ec50_nm": 1064,
+          "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:24123416"
+          "reference": null
         }
       ],
       "functional": [],
@@ -2424,17 +2424,17 @@
         },
         {
           "target": "NET (uptake)",
-          "ic50_nm": 150,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "pmid:32542207"
+          "reference": null
         },
         {
           "target": "SERT (uptake)",
-          "ic50_nm": 700,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "pmid:32542207"
+          "reference": null
         }
       ],
       "functional": [],

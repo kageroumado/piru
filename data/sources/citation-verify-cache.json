@@ -762,6 +762,12 @@
   "title": "Clinical parameters of circadian rhythms in affective disorders",
   "year": 2011
  },
+ "doi:10.1016/j.euroneuro.2011.08.002": {
+  "journal": "European Neuropsychopharmacology",
+  "subjects": [],
+  "title": "Evaluation of sigma (\u03c3) receptors in the antidepressant-like effects of ketamine in vitro and in vivo",
+  "year": 2012
+ },
  "doi:10.1016/j.euroneuro.2014.12.012": {
   "journal": "European Neuropsychopharmacology",
   "subjects": [],
@@ -3217,6 +3223,12 @@
   "title": "Clinical pharmacology of new histamine H1 receptor antagonists.",
   "year": "1999"
  },
+ "pmid:10404423": {
+  "journal": "Journal of ethnopharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of Hoasca alkaloids in healthy humans.",
+  "year": "1999"
+ },
  "pmid:10485779": {
   "journal": "Anesthesiology",
   "subjects": [],
@@ -3227,6 +3239,12 @@
   "journal": "British journal of pharmacology",
   "subjects": [],
   "title": "Functional characterization of agonists at recombinant human 5-HT2A, 5-HT2B and 5-HT2C receptors in CHO-K1 cells.",
+  "year": "1999"
+ },
+ "pmid:10511072": {
+  "journal": "Anesthesia and analgesia",
+  "subjects": [],
+  "title": "A review of the pharmacokinetics and pharmacodynamics of remifentanil.",
   "year": "1999"
  },
  "pmid:10511920": {
@@ -4331,6 +4349,12 @@
   "title": "Therapeutic potential of monoamine transporter substrates.",
   "year": "2006"
  },
+ "pmid:17020955": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Identification of human cytochrome p450 isozymes involved in diphenhydramine N-demethylation.",
+  "year": "2007"
+ },
  "pmid:17047932": {
   "journal": "Psychopharmacology",
   "subjects": [],
@@ -4727,6 +4751,12 @@
   "title": "Dexmethylphenidate hydrochloride in the treatment of attention deficit hyperactivity disorder.",
   "year": "2006"
  },
+ "pmid:19445902": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Effects of CYP2D6 status on harmaline metabolism, pharmacokinetics and pharmacodynamics, and a pharmacogenetics-based pharmacokinetic model.",
+  "year": "2009"
+ },
  "pmid:19457260": {
   "journal": "BMC genomics",
   "subjects": [],
@@ -4947,6 +4977,18 @@
   "journal": "British journal of pharmacology",
   "subjects": [],
   "title": "Effects of cannabinoids and cannabinoid-enriched Cannabis extracts on TRP channels and endocannabinoid metabolic enzymes.",
+  "year": "2011"
+ },
+ "pmid:21474568": {
+  "journal": "The Journal of pharmacology and experimental therapeutics",
+  "subjects": [],
+  "title": "Abuse liability profile of three substituted tryptamines.",
+  "year": "2011"
+ },
+ "pmid:21575627": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Binding characteristics of brivaracetam, a selective, high affinity SV2A ligand in rat, mouse and human brain: relationship to anti-convulsant properties.",
   "year": "2011"
  },
  "pmid:2157817": {
@@ -5217,6 +5259,12 @@
   "journal": "Antimicrobial agents and chemotherapy",
   "subjects": [],
   "title": "Quantitative study of antibiotic-induced susceptibility to Clostridium difficile enterocecitis in hamsters.",
+  "year": "1990"
+ },
+ "pmid:2391399": {
+  "journal": "Journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Diphenhydramine: pharmacokinetics and pharmacodynamics in elderly adults, young adults, and children.",
   "year": "1990"
  },
  "pmid:23922010": {
@@ -5711,6 +5759,12 @@
   "title": "In Vitro Characterization of Psychoactive Substances at Rat, Mouse, and Human Trace Amine-Associated Receptor 1.",
   "year": "2016"
  },
+ "pmid:2684471": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Pharmacokinetic implications for the clinical use of propofol.",
+  "year": "1989"
+ },
  "pmid:26880225": {
   "journal": "Journal of psychopharmacology (Oxford, England)",
   "subjects": [],
@@ -5915,6 +5969,12 @@
   "title": "Tranylcypromine in mind (Part I): Review of pharmacology.",
   "year": "2017"
  },
+ "pmid:28677876": {
+  "journal": "Drug testing and analysis",
+  "subjects": [],
+  "title": "Human urinary metabolic patterns of the designer benzodiazepines flubromazolam and pyrazolam studied by liquid chromatography-high resolution mass spectrometry.",
+  "year": "2018"
+ },
  "pmid:28720424": {
   "journal": "Journal of surgical education",
   "subjects": [],
@@ -5973,6 +6033,12 @@
   "journal": "Drugs",
   "subjects": [],
   "title": "Efficacy and Safety of Tiotropium in Children and Adolescents.",
+  "year": "2018"
+ },
+ "pmid:29462364": {
+  "journal": "Journal of analytical toxicology",
+  "subjects": [],
+  "title": "Bioavailability and Pharmacokinetics of Oral Cocaine in Humans.",
   "year": "2018"
  },
  "pmid:2960395": {
@@ -6034,6 +6100,12 @@
   "subjects": [],
   "title": "Evolutionary Psychology of Eating Disorders: An Explorative Study in Patients With Anorexia Nervosa and Bulimia Nervosa.",
   "year": "2018"
+ },
+ "pmid:30450642": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Butanediol Conversion to Gamma-Hydroxybutyrate Markedly Reduced by the Alcohol Dehydrogenase Blocker Fomepizole.",
+  "year": "2019"
  },
  "pmid:30617391": {
   "journal": "Analytical and bioanalytical chemistry",
@@ -6215,6 +6287,12 @@
   "title": "The psychoactive aminoalkylbenzofuran derivatives, 5-APB and 6-APB, mimic the effects of 3,4-methylenedioxyamphetamine (MDA) on monoamine transmission in male rats.",
   "year": "2020"
  },
+ "pmid:3293868": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Clinical pharmacokinetics of clonidine.",
+  "year": "1988"
+ },
  "pmid:32982255": {
   "journal": "Therapeutics and clinical risk management",
   "subjects": [],
@@ -6383,6 +6461,12 @@
   "title": "A Novel Training and Collaboration Integrated Framework for Human-Agent Teleoperation.",
   "year": "2021"
  },
+ "pmid:3514045": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "High-dose morphine and methadone in cancer patients. Clinical pharmacokinetic considerations of oral treatment.",
+  "year": "1986"
+ },
  "pmid:35142070": {
   "journal": "Drug testing and analysis",
   "subjects": [],
@@ -6531,6 +6615,12 @@
   "journal": "Science (New York, N.Y.)",
   "subjects": [],
   "title": "In Europe, an early, cold dawn for modern humans.",
+  "year": "2024"
+ },
+ "pmid:38583809": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "CYP2C9, CYP3A and CYP2C19 metabolize \u03949-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1).",
   "year": "2024"
  },
  "pmid:38619360": {
@@ -6857,6 +6947,12 @@
   "title": "Identification, localization and functional analysis of imidazoline and alpha adrenergic receptors in canine prostate.",
   "year": "1994"
  },
+ "pmid:7526076": {
+  "journal": "Journal of ethnopharmacology",
+  "subjects": [],
+  "title": "Salvia divinorum and salvinorin A: new pharmacologic findings.",
+  "year": "1994"
+ },
  "pmid:7586928": {
   "journal": "Clinical pharmacology and therapeutics",
   "subjects": [],
@@ -7067,6 +7163,12 @@
   "title": "An endogenous glycogen-associated compound modulates glucose-6-phosphatase activity in rat liver microsomes.",
   "year": "1993"
  },
+ "pmid:8430051": {
+  "journal": "Pharmaceutical research",
+  "subjects": [],
+  "title": "Enantioselective pharmacokinetics of dl-threo-methylphenidate in humans.",
+  "year": "1993"
+ },
  "pmid:8498879": {
   "journal": "Archives of general psychiatry",
   "subjects": [],
@@ -7210,6 +7312,12 @@
   "subjects": [],
   "title": "Pharmacokinetics and pharmacodynamics of cocaine.",
   "year": "1995"
+ },
+ "pmid:8930175": {
+  "journal": "The Journal of pharmacology and experimental therapeutics",
+  "subjects": [],
+  "title": "Metabolism of cocaine and heroin is catalyzed by the same human liver carboxylesterases.",
+  "year": "1996"
  },
  "pmid:8944494": {
   "journal": "Annals of the Royal College of Surgeons of England",

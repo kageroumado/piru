@@ -29,7 +29,7 @@
           "tissue_or_cell": "human brain homogenate (cortex) and CHO cells expressing human recombinant SV2A",
           "radioligand_or_probe": "[3H]-ucb 30889",
           "assay_buffer_notes": "37 C; standard binding buffer",
-          "reference": "pmid:18496489",
+          "reference": "pmid:21575627",
           "is_review": false,
           "notes": "Reported ~15-20x higher affinity for SV2A than levetiracetam in same assay system; pIC50 ~7.4. Brivaracetam shows no measurable affinity for AMPA receptors despite the racetam scaffold — the SV2A site is the entire mechanism."
         }
@@ -436,16 +436,16 @@
           "route": "oral",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
-          "tmax_min": 60,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 120,
+          "half_life_min": null,
           "vd_l_per_kg": null,
           "clearance_ml_per_min_per_kg": null,
           "protein_binding_pct": null,
           "dose_in_study_mg": 900,
           "subject_n": null,
           "subject_demographics": "Phase 2 schizophrenia adjunct (Goff et al.) and Alzheimer/MCI studies",
-          "reference": "pmid:11377896"
+          "reference": null
         }
       ],
       "concentration_effect": []

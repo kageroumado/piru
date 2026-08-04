@@ -163,7 +163,7 @@
         "mechanism": "CYP2C19 inhibition",
         "ki_um": null,
         "clinical_effect": "Citalopram AUC ↑ ~40%; pushes plasma into QTc-risk range at >20mg.",
-        "reference": "doi:10.1007/s00228-008-0531-5"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -430,7 +430,7 @@
         "mechanism": "CYP2C19 inhibition",
         "ki_um": null,
         "clinical_effect": "Escitalopram AUC ↑ ~50%; clinically modest QTc effect compared to racemic citalopram.",
-        "reference": "doi:10.1007/s00228-008-0531-5"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -1178,35 +1178,35 @@
     "metabolism": [
       {
         "enzyme": "CYP2B6",
-        "fraction_of_clearance_pct": 45,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "desmethylsertraline",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 2,
-        "reference": "doi:10.1097/FPC.0000000000000378"
+        "reference": null
       },
       {
         "enzyme": "CYP2C19",
-        "fraction_of_clearance_pct": 21,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "desmethylsertraline",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1097/FPC.0000000000000378"
+        "reference": null
       },
       {
         "enzyme": "CYP2C9",
-        "fraction_of_clearance_pct": 13,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "desmethylsertraline",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1097/FPC.0000000000000378"
+        "reference": null
       },
       {
         "enzyme": "CYP2D6",
-        "fraction_of_clearance_pct": 4,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "desmethylsertraline",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1097/FPC.0000000000000378"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -2326,8 +2326,8 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "N-acetylphenelzine",
         "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:7088016"
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null
       }
     ],
     "drug_interactions_pk": [

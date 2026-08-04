@@ -4031,7 +4031,7 @@
         "metabolite_name": "pyrazolam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1002/dta.1525",
+        "reference": "pmid:28677876",
         "notes": "Unusual — pyrazolam is excreted largely as parent + glucuronide; no hydroxy metabolites detected."
       }
     ],

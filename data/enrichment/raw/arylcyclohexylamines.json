@@ -87,18 +87,18 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "reference": "doi:10.1016/j.euroneuro.2011.08.002",
           "is_review": false,
           "notes": "R-ketamine Ki ≈ 27,000 nM, S-ketamine Ki ≈ 131,000 nM at σ1; substantial enantioselectivity"
         },
         {
           "target": "σ2 (racemate)",
-          "ki_nm": 2800000,
+          "ki_nm": null,
           "action": "modulator",
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DTG",
-          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "reference": null,
           "is_review": false,
           "notes": "Very weak; clinical relevance unclear"
         },
@@ -205,8 +205,8 @@
         },
         {
           "route": "sublingual",
-          "bioavailability_pct": 30,
-          "reference": "doi:10.1111/j.1365-2125.2010.03635.x"
+          "bioavailability_pct": null,
+          "reference": null
         },
         {
           "route": "rectal",

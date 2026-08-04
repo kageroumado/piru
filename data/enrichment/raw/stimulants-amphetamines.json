@@ -654,11 +654,11 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "fraction_of_clearance_pct": 30,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "4-hydroxymethamphetamine (pholedrine)",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 25,
-        "reference": "doi:10.1124/dmd.30.10.1059"
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null
       },
       {
         "enzyme": "CYP2D6 (N-demethylation, minor)",
@@ -1077,17 +1077,17 @@
         {
           "target": "DAT (rat synaptosomes)",
           "readout": "[3H]-DA release",
-          "ec50_nm": 33,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:15914673",
+          "reference": null,
           "notes": "Wee 2005 J Pharmacol Exp Ther — 2-FA is DA-selective releaser, similar potency profile to d-amphetamine with weaker SERT effect than 4-FA"
         },
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
-          "ec50_nm": 10000,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:15914673",
+          "reference": null,
           "notes": "EC50 >10 µM — essentially no SERT release; cleaner DA-selective profile than 4-FA"
         }
       ],
@@ -1170,9 +1170,9 @@
         {
           "target": "NET",
           "readout": "[3H]-NE release",
-          "ec50_nm": 22,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:15914673"
+          "reference": null
         },
         {
           "target": "SERT",
@@ -1655,17 +1655,17 @@
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
-          "ec50_nm": 26,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:12649293",
+          "reference": null,
           "notes": "Huang et al. — 4-MTA is potent SERT releaser, similar to PCA"
         },
         {
           "target": "DAT",
           "readout": "[3H]-DA release",
-          "ec50_nm": 1000,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:12649293",
+          "reference": null,
           "notes": "Weak DA release — SERT-dominant"
         }
       ],
@@ -1759,9 +1759,9 @@
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
-          "ec50_nm": 100,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:12649293",
+          "reference": null,
           "notes": "Potent SERT releaser; combined with MAO-A inhibition this is the killing mechanism"
         }
       ],
@@ -4378,10 +4378,10 @@
       "binding": [
         {
           "target": "5-HT2A",
-          "ki_nm": 0.5,
+          "ki_nm": null,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:37474114",
+          "reference": null,
           "notes": "Estimated based on the NBOMe series boost: parent 2C-T is moderate, N-benzyl modification increases affinity 30–100×"
         }
       ],

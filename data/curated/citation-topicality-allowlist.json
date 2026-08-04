@@ -1,6 +1,5 @@
 [
   "_comment: Findings adjudicated by a human as correct despite the checker flagging them. Keyed '<identifier>|<canonical name>'. --gate ignores these; the report still lists them so an entry stays visible rather than silently rotting. Two failure modes produce nearly all of them: the citing substance is a member of a chemical SERIES the paper names collectively ('NBOMe derivatives', 'pyrovalerone cathinones', 'fentanyl analogs'), and the checker matching an unrelated substance's alias against a journal name or a MeSH term ('Drug and *Alcohol* Dependence', 'ether', 'serotonin').",
-
   "_series: the paper names the series, not each member",
   "doi:10.1016/j.neuropharm.2015.08.034|25I-NBOMe",
   "doi:10.1016/j.neuropharm.2015.08.034|25B-NBOMe",
@@ -21,7 +20,6 @@
   "pmid:25220897|AM-1248",
   "pmid:38844801|AM-1248",
   "pmid:24244317|Bromo-dragonfly",
-
   "_named-in-full-text: the compound is in the paper, just not the title or abstract",
   "doi:10.1021/acschemneuro.3c00530|AM-2201",
   "doi:10.1021/acschemneuro.3c00530|5F-MDMB-PICA",
@@ -33,7 +31,6 @@
   "pmid:16723194|Cannabis",
   "pmid:38741590|Mushrooms",
   "doi:10.1089/can.2016.0017|Cannabidiolic acid",
-
   "_comparator: the substance is a reference compound in the paper's own panel",
   "pmid:9686407|Morphine",
   "pmid:9686407|Fentanyl",
@@ -42,13 +39,17 @@
   "doi:10.1021/acs.jmedchem.1c01273|Morphine",
   "doi:10.1021/acs.jmedchem.1c01273|Fentanyl",
   "doi:10.1021/acs.jmedchem.1c01273|Buprenorphine",
-
   "_target-panel: the paper measured a LIGAND PANEL at the row's target and names its compounds only as a class. Verified individually against the paper, and each row's own notes already named the same authors. This is the shape citation_topicality reports as 'but the paper DOES name the row's target' — a hint to check, never a reason to clear: four of the eight findings carrying that hint were still real defects.",
   "doi:10.1007/pl00005315|DOB",
   "doi:10.1007/pl00005315|DOM",
   "doi:10.1007/pl00005315|DOET",
   "pmid:8391122|Diazepam",
-
+  "_full-text-only: the compound is in a table or the body, and the abstract this check reads names it nowhere. Confirmed by reading the open-access full text, or by ChEMBL having extracted the row's exact value from this document.",
+  "doi:10.1016/j.bmcl.2020.127681|Quetiapine",
+  "doi:10.1016/j.bmc.2010.12.024|Tranylcypromine",
+  "pmid:20126400|2C-B-FLY",
+  "pmid:37631302|Tapentadol",
+  "doi:10.1111/bph.12222|Morphine",
   "_mechanism-or-metabolite: supports a class/metabolite claim rather than a per-compound number; revisit if the row ever states a substance-specific value",
   "pmid:2704370|Scopolamine",
   "pmid:10384858|Hydroxyzine",

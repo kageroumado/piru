@@ -132,7 +132,7 @@
           "bioavailability_pct": 33,
           "tmax_min": 60,
           "half_life_min": 48,
-          "reference": "doi:10.1093/jat/bkx108"
+          "reference": "pmid:29462364"
         }
       ],
       "concentration_effect": [
@@ -365,7 +365,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:11129748",
+          "reference": "pmid:8430051",
           "notes": "d-MPH bioavailability 22\u00b18%, l-MPH only 5\u00b13% due to first-pass CES1 hydrolysis; protein binding 10-33%."
         }
       ],
@@ -3659,11 +3659,11 @@
         },
         {
           "target": "SERT",
-          "ki_nm": 12,
+          "ki_nm": null,
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
-          "reference": "doi:10.1124/jpet.114.220293"
+          "reference": null
         }
       ],
       "functional": [],

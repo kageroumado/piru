@@ -119,7 +119,7 @@
         "metabolite_name": "8β-OH-THC",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
-        "reference": "pmid:11444969"
+        "reference": "pmid:38583809"
       },
       {
         "enzyme": "CYP2C9 + UGT",
@@ -1475,8 +1475,8 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "AB-FUBINACA carboxylic acid",
         "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:25755108"
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],

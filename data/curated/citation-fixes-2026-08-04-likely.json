@@ -1,0 +1,278 @@
+[
+ {
+  "identifier": "doi:10.1016/j.euroneuro.2011.07.006",
+  "substance": "Ketamine",
+  "replace": "doi:10.1016/j.euroneuro.2011.08.002",
+  "why": "Agent research: 'Evaluation of sigma (σ) receptors in the antidepressant-like effec'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Ketamine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Ketamine",
+  "where": {
+   "target": "σ1 (racemate)"
+  }
+ },
+ {
+  "identifier": "doi:10.1016/j.euroneuro.2011.07.006",
+  "substance": "Ketamine",
+  "replace": "pmid:8835358",
+  "why": "Agent research: 'Interaction of the chiral forms of ketamine with opioid, phencycli'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Ketamine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Ketamine",
+  "where": {
+   "target": "σ1"
+  }
+ },
+ {
+  "identifier": "pmid:9089915",
+  "substance": "5-MeO-AMT",
+  "replace": "pmid:21474568",
+  "why": "Agent research: 'Abuse Liability Profile of Three Substituted Tryptamines'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 5-MeO-AMT — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 5-MeO-AMT",
+  "where": {
+   "target": "SERT"
+  }
+ },
+ {
+  "identifier": "pmid:9089915",
+  "substance": "5-MeO-AMT",
+  "replace": "pmid:21474568",
+  "why": "Agent research: 'Abuse Liability Profile of Three Substituted Tryptamines'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 5-MeO-AMT — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 5-MeO-AMT",
+  "where": {
+   "target": "DAT/NET"
+  }
+ },
+ {
+  "identifier": "pmid:15351964",
+  "substance": "1,4-Butanediol",
+  "replace": "pmid:30450642",
+  "why": "Agent research: 'Butanediol Conversion to Gamma-Hydroxybutyrate Markedly Reduced by'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 1,4-Butanediol — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 1,4-Butanediol",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "doi:10.1097/00000539-199907000-00004",
+  "substance": "Remifentanil",
+  "replace": "pmid:10511072",
+  "why": "Agent research: 'A review of the pharmacokinetics and pharmacodynamics of remifenta'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Remifentanil — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Remifentanil",
+  "where": {
+   "route": "intravenous"
+  }
+ },
+ {
+  "identifier": "doi:10.1097/00000539-199907000-00004",
+  "substance": "Remifentanil",
+  "replace": "pmid:10511072",
+  "why": "Agent research: 'A review of the pharmacokinetics and pharmacodynamics of remifenta'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Remifentanil — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Remifentanil"
+ },
+ {
+  "identifier": "doi:10.1093/jat/bkx108",
+  "substance": "Cocaine",
+  "replace": "pmid:29462364",
+  "why": "Agent research: 'Bioavailability and Pharmacokinetics of Oral Cocaine in Humans'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Cocaine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Cocaine",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:36876024",
+  "substance": "4-CMC",
+  "replace": "pmid:36669877",
+  "why": "Agent research: 'Neurochemical and Cardiovascular Effects of 4-Chloro Ring-Substitu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 4-CMC — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 4-CMC",
+  "where": {
+   "target": "DAT (uptake)"
+  }
+ },
+ {
+  "identifier": "pmid:36876024",
+  "substance": "4-CMC",
+  "replace": "pmid:36669877",
+  "why": "Agent research: 'Neurochemical and Cardiovascular Effects of 4-Chloro Ring-Substitu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 4-CMC — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 4-CMC",
+  "where": {
+   "target": "DAT (release)"
+  }
+ },
+ {
+  "identifier": "pmid:36876024",
+  "substance": "4-CMC",
+  "replace": "pmid:36669877",
+  "why": "Agent research: 'Neurochemical and Cardiovascular Effects of 4-Chloro Ring-Substitu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 4-CMC — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 4-CMC",
+  "where": {
+   "target": "NET (uptake)"
+  }
+ },
+ {
+  "identifier": "pmid:36876024",
+  "substance": "4-CMC",
+  "replace": "pmid:36669877",
+  "why": "Agent research: 'Neurochemical and Cardiovascular Effects of 4-Chloro Ring-Substitu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 4-CMC — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 4-CMC",
+  "where": {
+   "target": "NET (release)"
+  }
+ },
+ {
+  "identifier": "pmid:36876024",
+  "substance": "4-CMC",
+  "replace": "pmid:36669877",
+  "why": "Agent research: 'Neurochemical and Cardiovascular Effects of 4-Chloro Ring-Substitu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 4-CMC — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 4-CMC",
+  "where": {
+   "target": "SERT (uptake)"
+  }
+ },
+ {
+  "identifier": "pmid:36876024",
+  "substance": "4-CMC",
+  "replace": "pmid:36669877",
+  "why": "Agent research: 'Neurochemical and Cardiovascular Effects of 4-Chloro Ring-Substitu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 4-CMC — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 4-CMC",
+  "where": {
+   "target": "SERT (release)"
+  }
+ },
+ {
+  "identifier": "pmid:11129748",
+  "substance": "Methylphenidate",
+  "replace": "pmid:8430051",
+  "why": "Agent research: 'Enantioselective pharmacokinetics of dl-threo-methylphenidate in h'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Methylphenidate — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Methylphenidate",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:8307658",
+  "substance": "Diphenhydramine",
+  "replace": "pmid:2391399",
+  "why": "Agent research: 'Diphenhydramine: pharmacokinetics and pharmacodynamics in elderly '. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Diphenhydramine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Diphenhydramine",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:14695029",
+  "substance": "Diphenhydramine",
+  "replace": "pmid:17020955",
+  "why": "Agent research: 'Identification of human cytochrome p450 isozymes involved in diphe'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Diphenhydramine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Diphenhydramine",
+  "where": {
+   "enzyme": "CYP2D6 (major)"
+  }
+ },
+ {
+  "identifier": "doi:10.1016/j.taap.2010.04.020",
+  "substance": "Harmaline",
+  "replace": "pmid:19445902",
+  "why": "Agent research: 'Effects of CYP2D6 status on harmaline metabolism, pharmacokinetics'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Harmaline — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Harmaline",
+  "where": {
+   "enzyme": "CYP2D6 (major)"
+  }
+ },
+ {
+  "identifier": "doi:10.1002/dta.1525",
+  "substance": "Pyrazolam",
+  "replace": "pmid:28677876",
+  "why": "Agent research: 'Human urinary metabolic patterns of the designer benzodiazepines f'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Pyrazolam — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Pyrazolam",
+  "where": {
+   "enzyme": "UGT"
+  }
+ },
+ {
+  "identifier": "pmid:11071027",
+  "substance": "Mdea",
+  "replace": "pmid:15179441",
+  "why": "Agent research: 'The Neuropsychopharmacology and Toxicology of 3,4-methylenedioxy-N'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Mdea — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Mdea",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:11071027",
+  "substance": "Mdea",
+  "replace": "pmid:15179441",
+  "why": "Agent research: 'The Neuropsychopharmacology and Toxicology of 3,4-methylenedioxy-N'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Mdea — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Mdea"
+ },
+ {
+  "identifier": "doi:10.1038/s41598-019-50461-0",
+  "substance": "6-Monoacetylmorphine",
+  "replace": "pmid:8930175",
+  "why": "Agent research: 'Metabolism of cocaine and heroin is catalyzed by the same human li'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names 6-Monoacetylmorphine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names 6-Monoacetylmorphine",
+  "where": {
+   "enzyme": "carboxylesterase (CES1, CES2) / pseudo-cholinesterase"
+  }
+ },
+ {
+  "identifier": "pmid:3257315",
+  "substance": "Propofol",
+  "replace": "pmid:2684471",
+  "why": "Agent research: 'Pharmacokinetic implications for the clinical use of propofol'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Propofol — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Propofol",
+  "where": {
+   "route": "intravenous"
+  }
+ },
+ {
+  "identifier": "pmid:3257315",
+  "substance": "Propofol",
+  "replace": "pmid:2684471",
+  "why": "Agent research: 'Pharmacokinetic implications for the clinical use of propofol'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Propofol — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Propofol"
+ },
+ {
+  "identifier": "doi:10.1016/j.jpain.2009.12.002",
+  "substance": "Morphine",
+  "replace": "pmid:3514045",
+  "why": "Agent research: 'High-dose morphine and methadone in cancer patients. Clinical phar'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Morphine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Morphine",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "doi:10.1016/j.jpain.2009.12.002",
+  "substance": "Morphine",
+  "replace": "pmid:3514045",
+  "why": "Agent research: 'High-dose morphine and methadone in cancer patients. Clinical phar'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Morphine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Morphine",
+  "where": {
+   "route": "intravenous"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "Tetrahydroharmine",
+  "replace": "pmid:10404423",
+  "why": "Agent research: 'Pharmacokinetics of Hoasca alkaloids in healthy humans'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Tetrahydroharmine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Tetrahydroharmine",
+  "where": {
+   "route": "oral (ayahuasca)"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "Tetrahydroharmine",
+  "replace": "pmid:10404423",
+  "why": "Agent research: 'Pharmacokinetics of Hoasca alkaloids in healthy humans'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Tetrahydroharmine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Tetrahydroharmine"
+ },
+ {
+  "identifier": "pmid:18496489",
+  "substance": "Brivaracetam",
+  "replace": "pmid:21575627",
+  "why": "Agent research: 'Binding characteristics of brivaracetam, a selective, high affinit'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Brivaracetam — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Brivaracetam",
+  "where": {
+   "target": "SV2A"
+  }
+ },
+ {
+  "identifier": "pmid:7128223",
+  "substance": "Clonidine",
+  "replace": "pmid:3293868",
+  "why": "Agent research: 'Clinical pharmacokinetics of clonidine'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Clonidine — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Clonidine",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:11444969",
+  "substance": "Cannabis",
+  "replace": "pmid:38583809",
+  "why": "Agent research: 'CYP2C9, CYP3A and CYP2C19 metabolize Δ9-tetrahydrocannabinol to mu'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Cannabis — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Cannabis",
+  "where": {
+   "enzyme": "CYP3A4"
+  }
+ },
+ {
+  "identifier": "pmid:25404862",
+  "substance": "Salvinorin A",
+  "replace": "pmid:7526076",
+  "why": "Agent research: 'Salvia divinorum and salvinorin A: new pharmacologic findings'. Value not readable (paywalled), but the paper resolves, is MEDLINE-indexed under a drug qualifier, and names Salvinorin A — unlike the fabricated identifier it replaces. Re-check: resolves, on-domain, names Salvinorin A",
+  "where": {
+   "route": "oral"
+  }
+ }
+]

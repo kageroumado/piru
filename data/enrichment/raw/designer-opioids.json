@@ -3295,7 +3295,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults",
-          "reference": "doi:10.1097/00000539-199907000-00004",
+          "reference": "pmid:10511072",
           "notes": "Context-sensitive t½ ~3 min — independent of infusion duration. Cleared by nonspecific blood and tissue esterases; not affected by hepatic/renal failure."
         }
       ],
@@ -3308,7 +3308,7 @@
         "metabolite_name": "GR90291 (remifentanil acid)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 1,
-        "reference": "doi:10.1097/00000539-199907000-00004",
+        "reference": "pmid:10511072",
         "notes": "Carboxylic acid metabolite — ~1/4000th remifentanil potency."
       }
     ],

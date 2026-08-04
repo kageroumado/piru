@@ -1,0 +1,863 @@
+[
+ {
+  "identifier": "doi:10.1016/j.euroneuro.2011.07.006",
+  "substance": "Ketamine",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. Same wrong DOI as row 81 (circadian-rhythm paper). Robson 2012 (pmid:21911285) is the only paper found that measured ketamine at σ",
+  "where": {
+   "target": "σ2 (racemate)"
+  }
+ },
+ {
+  "identifier": "doi:10.1111/j.1365-2125.2010.03635.x",
+  "substance": "Ketamine",
+  "drop": [
+   "bioavailability_pct"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1111/j.1365-2125.2010.03635.x resolves (Crossref) to Ruf et al., 'Pharmacokinetics, immunogenicity and bioactivi",
+  "where": {
+   "route": "sublingual"
+  }
+ },
+ {
+  "identifier": "doi:10.1007/s40262-016-0436-x",
+  "substance": "Ketamine",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct",
+   "protein_binding_pct",
+   "vd_l_per_kg",
+   "clearance_ml_per_min_per_kg"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1007/s40262-016-0436-x resolves (Crossref) to Calvier et al., 'Allometric Scaling of Clearance in Paediatric Pat",
+  "where": {
+   "route": "intranasal"
+  }
+ },
+ {
+  "identifier": "doi:10.1097/00000542-199605000-00012",
+  "substance": "Ketamine",
+  "drop": [
+   "half_life_min",
+   "bioavailability_pct"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1097/00000542-199605000-00012 resolves (Crossref) to Cole et al., 'Fiberoptic Intubation Using Anesthetized, Par",
+  "where": {
+   "route": "intravenous"
+  }
+ },
+ {
+  "identifier": "doi:10.1007/s40262-016-0436-x",
+  "substance": "Ketamine",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct",
+   "protein_binding_pct"
+  ],
+  "why": "No source establishes this value. Duplicate of row 19 (same wrong Clin Pharmacokinet allometric-scaling DOI, same four label-derived values, note explicitly says 'S",
+  "where": {
+   "route": "intranasal"
+  }
+ },
+ {
+  "identifier": "doi:10.1124/dmd.105.005124",
+  "substance": "O-desmethyltramadol",
+  "drop": [
+   "fraction_of_clearance_pct"
+  ],
+  "why": "No source establishes this value. Stored DOI 10.1124/dmd.105.005124 resolves (Crossref) to Stelck et al., 'Estrous cycle alters naphthalene metabolism in female mou",
+  "where": {
+   "enzyme": "UGT2B7 / UGT1A8"
+  }
+ },
+ {
+  "identifier": "doi:10.1093/jat/bky072",
+  "substance": "Carfentanil",
+  "drop": [
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. Stored DOI 10.1093/jat/bky072 is the bromethalin paper (wrong). The real CYP work is pmid:33652071, Kong & Walz, 'Identification o",
+  "where": {
+   "enzyme": "CYP3A4"
+  }
+ },
+ {
+  "identifier": "pmid:15351964",
+  "substance": "1,4-Butanediol",
+  "drop": [
+   "fraction_of_clearance_pct",
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. Same wrong pmid:15351964 (Arabidopsis HD-Zip paper). Liakoni 2019 (pmid:30450642, doi:10.1002/cpt.1306) supports the PATHWAY quali",
+  "where": {
+   "enzyme": "ADH then ALDH"
+  }
+ },
+ {
+  "identifier": "doi:10.1093/qjmed/hcg143",
+  "substance": "Buprenorphine",
+  "drop": [
+   "ki_or_ic50_nm"
+  ],
+  "why": "No source establishes this value. Stored DOI 10.1093/qjmed/hcg143 resolves (Crossref) to Gill et al., 'Intensified treatment of type 2 diabetes—positive effects on ",
+  "where": {
+   "target": "hERG"
+  }
+ },
+ {
+  "identifier": "pmid:9089915",
+  "substance": "Psilocin",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct"
+  ],
+  "why": "No source establishes this value. Stored pmid:9089915 is the general-practice consultation-duration paper (same wrong PMID as the 5-MeO-AMT rows) — wrong. The autho",
+  "where": {
+   "route": "intravenous (as psilocybin)"
+  }
+ },
+ {
+  "identifier": "doi:10.1124/dmd.30.10.1059",
+  "substance": "Methamphetamine",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct"
+  ],
+  "why": "No source establishes this value. Searched europepmc for methamphetamine bioavailability across every route: title searches for methamphetamine + pharmacokinetics/o",
+  "where": {
+   "route": "intranasal (vicks inhaler)"
+  }
+ },
+ {
+  "identifier": "doi:10.1124/dmd.30.10.1059",
+  "substance": "Methamphetamine",
+  "drop": [
+   "fraction_of_clearance_pct",
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. Searched europepmc TITLE:\"methamphetamine\" AND TITLE:\"CYP2D6\" and \"methamphetamine\" AND \"CYP2D6\" AND \"4-hydroxymethamphetamine\", t",
+  "where": {
+   "enzyme": "CYP2D6"
+  }
+ },
+ {
+  "identifier": "doi:10.1097/00000539-199907000-00004",
+  "substance": "Remifentanil",
+  "drop": [
+   "fraction_of_clearance_pct",
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. Searched europepmc for '\"remifentanil\" AND \"esterase\" AND \"GR90291\"', '\"remifentanil\" AND \"carboxylic acid metabolite\" AND \"potenc",
+  "where": {
+   "enzyme": "nonspecific esterases (NOT CES1 or BChE)"
+  }
+ },
+ {
+  "identifier": "pmid:23026953",
+  "substance": "Phenobarbital",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Searched europepmc for '\"phenobarbital\" AND \"alpha1beta2gamma2\" AND \"EC50\"' (2 hits, both about lactones and thiopentone), '\"pheno",
+  "where": {
+   "target": "GABA-A α1β2γ2"
+  }
+ },
+ {
+  "identifier": "pmid:11226216",
+  "substance": "Phenobarbital",
+  "drop": [
+   "fraction_of_clearance_pct"
+  ],
+  "why": "No source establishes this value. Searched europepmc for '\"phenobarbital\" AND \"CYP2C9\" AND \"p-hydroxyphenobarbital\"' (2 hits, both unrelated reviews) and TITLE:\"phe",
+  "where": {
+   "enzyme": "CYP2C9"
+  }
+ },
+ {
+  "identifier": "pmid:15914673",
+  "substance": "2-Fluoroamphetamine",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. The note names Wee 2005 J Pharmacol Exp Ther. I resolved it: pmid:15677348, DOI 10.1124/jpet.104.080101, 'Relationship between the",
+  "where": {
+   "target": "DAT (rat synaptosomes)"
+  }
+ },
+ {
+  "identifier": "pmid:15914673",
+  "substance": "2-Fluoroamphetamine",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Same searches as row 170. Wee 2005 (pmid:15677348) covers 4-FA and 3-FA only, not 2-FA. No SERT release EC50 for 2-fluoroamphetami",
+  "where": {
+   "target": "SERT"
+  }
+ },
+ {
+  "identifier": "pmid:14998663",
+  "substance": "Sabroxy",
+  "drop": [
+   "ki_nm",
+   "intrinsic_activity_pct"
+  ],
+  "why": "No source establishes this value. Sabroxy is an Oroxylum indicum extract standardized to oroxylin A (plus chrysin and baicalein), so I searched for oroxylin A at th",
+  "where": {
+   "target": "GABA-A BZ site (rat)"
+  }
+ },
+ {
+  "identifier": "doi:10.1186/s40360-016-0053-1",
+  "substance": "Dextromethorphan",
+  "drop": [
+   "ki_or_ic50_nm"
+  ],
+  "why": "No source establishes this value. Searched europepmc ('\"dextromethorphan\" AND \"hERG\"', TITLE:\"dextromethorphan\" AND \"potassium channel\", '\"dextromethorphan\" AND \"hE",
+  "where": {
+   "target": "hERG (Kv11.1)"
+  }
+ },
+ {
+  "identifier": "pmid:10591456",
+  "substance": "GHB",
+  "drop": [
+   "ec50_nm",
+   "intrinsic_activity_pct"
+  ],
+  "why": "No source establishes this value. Searched europepmc for TITLE:\"gamma-hydroxybutyrate\" AND TITLE:\"GABA(B)\"; 'gamma-hydroxybutyrate AND \"weak agonist\" AND GABAB'; 'G",
+  "where": {
+   "target": "GABA-B receptor (rat brain)"
+  }
+ },
+ {
+  "identifier": "pmid:22778411",
+  "substance": "GHB",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. The intended paper exists and I found it: Absalom N, Eghorn LF, Villumsen IS, Karim N, Bay T, Olsen JV, Knudsen GM, Brauner-Osborn",
+  "where": {
+   "target": "α4β3δ GABA-A (extrasynaptic)"
+  }
+ },
+ {
+  "identifier": "pmid:10591456",
+  "substance": "GHB",
+  "drop": [
+   "ec50_nm",
+   "emax_pct"
+  ],
+  "why": "No source establishes this value. Same search set as row 423. This row's target label 'GABA-B -> GIRK' matches the Lingenhoehl 1999 assay design exactly (GABA(B)R1/",
+  "where": {
+   "target": "GABA-B → GIRK"
+  }
+ },
+ {
+  "identifier": "pmid:8067486",
+  "substance": "DMT",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct",
+   "vd_l_per_kg",
+   "clearance_ml_per_min_per_kg"
+  ],
+  "why": "No source establishes this value. Searched europepmc for TITLE:\"dimethyltryptamine\" AND (pharmacokinetics OR \"half-life\") AND human, plus 'ayahuasca AND DMT AND (Tm",
+  "where": {
+   "route": "intravenous"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "DMT",
+  "drop": [
+   "half_life_min",
+   "tmax_min"
+  ],
+  "why": "No source establishes this value. This row is the oral/MAOI-potentiated route. The canonical source is Callaway JC, McKenna DJ, Grob CS, Brito GS, Raymon LP, Poland",
+  "where": {
+   "route": "oral (with maoi)"
+  }
+ },
+ {
+  "identifier": "pmid:8067486",
+  "substance": "DMT",
+  "drop": [
+   "fraction_of_clearance_pct"
+  ],
+  "why": "No source establishes this value. The qualitative claim is well supported but the 90% number is not. van der Heijden 2025 (pmid:39838235, PMC11782443) full text sta",
+  "where": {
+   "enzyme": "MAO-A"
+  }
+ },
+ {
+  "identifier": "pmid:12649293",
+  "substance": "4-Methylthioamphetamine",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. The paper the note names is real: Huang X, Marona-Lewicka D, Nichols DE (1992) 'p-methylthioamphetamine is a potent new non-neurot",
+  "where": {
+   "target": "SERT"
+  }
+ },
+ {
+  "identifier": "pmid:12649293",
+  "substance": "4-Methylthioamphetamine",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Same search set as row 179. Huang 1992 (pmid:1473561) supports the SERT-dominant DIRECTION qualitatively ('about 7-fold and 10-fol",
+  "where": {
+   "target": "DAT"
+  }
+ },
+ {
+  "identifier": "pmid:18987635",
+  "substance": "Memantine",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. ChEMBL get_bioactivity for CHEMBL807 (memantine), activity_type=Ki, returned 14 records — all NMDA/PCP-site, no sigma target at al",
+  "where": {
+   "target": "sigma-1"
+  }
+ },
+ {
+  "identifier": "doi:10.1016/j.ejphar.2011.10.045",
+  "substance": "Mephedrone",
+  "drop": [
+   "ki_or_ic50_nm"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1016/j.ejphar.2011.10.045 resolves via Crossref to Fahlenkamp et al., 'The noble gas argon modifies extracellula",
+  "where": {
+   "target": "hERG"
+  }
+ },
+ {
+  "identifier": "pmid:15694239",
+  "substance": "Quetiapine",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. europepmc full-text searches: quetiapine AND \"770 nM\" = 0 hits; quetiapine AND \"770\" AND \"295\" returned only unrelated epidemiolog",
+  "where": {
+   "target": "D2 (human)"
+  }
+ },
+ {
+  "identifier": "pmid:15694239",
+  "substance": "Quetiapine",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. europepmc quetiapine AND \"295 nM\" returned 7 records, none a receptor-binding study (albumin binding, zebrafish screening, nanoemu",
+  "where": {
+   "target": "5-HT2A (human)"
+  }
+ },
+ {
+  "identifier": "pmid:15694239",
+  "substance": "Quetiapine",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. europepmc quetiapine AND \"alpha 1\" AND \"7 nM\" returned only two conference-abstract collections. ChEMBL activity API for CHEMBL716",
+  "where": {
+   "target": "α1 adrenergic"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "Harmine",
+  "drop": [
+   "half_life_min",
+   "tmax_min"
+  ],
+  "why": "No source establishes this value. europepmc searches for harmine + pharmacokinetics/half-life; read two open-access human studies in full. Dornbierer et al., Int J ",
+  "where": {
+   "route": "oral (as ayahuasca brew)"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "Harmine",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. Same search as row 321. No paper reports a 120 min harmine half-life in humans; the best directly-measured human figure is 1.4-1.5"
+ },
+ {
+  "identifier": "doi:10.1016/j.taap.2010.04.020",
+  "substance": "Harmine",
+  "drop": [
+   "fraction_of_clearance_pct",
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. europepmc harmine AND CYP1A2 AND O-demethylation -> Yu, Idle, Krausz, Kupfer & Gonzalez, J Pharmacol Exp Ther 2003;305(1):315-22 (",
+  "where": {
+   "enzyme": "CYP1A2 + CYP2D6"
+  }
+ },
+ {
+  "identifier": "pmid:11377896",
+  "substance": "CX-516",
+  "drop": [
+   "half_life_min",
+   "tmax_min"
+  ],
+  "why": "No source establishes this value. europepmc searches on \"CX-516\", \"CX516\" AND (healthy volunteers OR pharmacokinetic*), \"CX516\" AND \"plasma\", and \"Ampalex\" (60, 56,",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:11377896",
+  "substance": "CX-516",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. Same searches as row 4. No published half-life for CX-516 found."
+ },
+ {
+  "identifier": "pmid:6404261",
+  "substance": "Thiopental",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. europepmc thiopental AND \"elimination half-life\" AND \"11 h\", and AND \"11.6 h\": nothing but conference abstracts and unrelated PK p"
+ },
+ {
+  "identifier": "doi:10.1002/dta.3722",
+  "substance": "Dipipanone",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1002/dta.3722 resolves via Crossref to 'Issue Information', Drug Testing and Analysis 2025 - a masthead page. eu",
+  "where": {
+   "target": "MOR"
+  }
+ },
+ {
+  "identifier": "doi:10.1097/pr9.0000000000000615",
+  "substance": "Codeine",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct",
+   "protein_binding_pct",
+   "vd_l_per_kg"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1097/pr9.0000000000000615 resolves via Crossref to 'Pharmacoeconomics of genotyping-based treatment decisions in",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:25755108",
+  "substance": "Ab-fubinaca",
+  "drop": [
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. europepmc \"AB-FUBINACA\" AND \"carboxylesterase\" (7 hits) and AND \"CB1\" AND \"EC50\" (35 hits); read the full text of Molecules 2020;2",
+  "where": {
+   "enzyme": "CES1/CYP3A4"
+  }
+ },
+ {
+  "identifier": "pmid:9844053",
+  "substance": "Baclofen",
+  "drop": [
+   "ec50_nm",
+   "intrinsic_activity_pct"
+  ],
+  "why": "No source establishes this value. ChEMBL get_bioactivity for baclofen (CHEMBL701, EC50) returned every curated agonist potency: 1700 nM at human GABA-B B1/B2 in HEK",
+  "where": {
+   "target": "GABA-B (recombinant hR1a/R2)"
+  }
+ },
+ {
+  "identifier": "pmid:7128223",
+  "substance": "Baclofen",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct",
+   "protein_binding_pct",
+   "vd_l_per_kg"
+  ],
+  "why": "No source establishes this value. Located the primary human oral-baclofen PK literature via Europe PMC (AUTH:'Wuis' AND baclofen) and read both abstracts through Pu",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:7128223",
+  "substance": "Baclofen",
+  "drop": [
+   "half_life_min",
+   "bioavailability_pct"
+  ],
+  "why": "No source establishes this value. Europe PMC searches for intrathecal baclofen CSF kinetics ('baclofen AND intrathecal AND half-life AND cerebrospinal', 168 hits, a",
+  "where": {
+   "route": "intrathecal"
+  }
+ },
+ {
+  "identifier": "pmid:7128223",
+  "substance": "Baclofen",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. Same search as row 160. The only primary human half-life measurement found is Wuis et al. 1989 (pmid:2792173), 'The half-life, cal"
+ },
+ {
+  "identifier": "pmid:26581328",
+  "substance": "Diphenhydramine",
+  "drop": [
+   "ic50_nm"
+  ],
+  "why": "No source establishes this value. Europe PMC TITLE:'diphenhydramine' AND NMDA returned exactly one primary paper on this measurement: Fohr et al., 'Open channel blo",
+  "where": {
+   "target": "NMDA (open-channel block)"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "Harmaline",
+  "drop": [
+   "half_life_min",
+   "tmax_min"
+  ],
+  "why": "No source establishes this value. Searched Europe PMC for TITLE:'harmaline' AND pharmacokinetics, AUTH:'Yu AM' AND harmaline, and AUTH:'Wu C' AND harmaline AND CYP2",
+  "where": {
+   "route": "oral (as ayahuasca)"
+  }
+ },
+ {
+  "identifier": "pmid:9700761",
+  "substance": "Harmaline",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. Same search as row 322. No human harmaline elimination half-life found in any indexed paper; all available kinetics are mouse i.v."
+ },
+ {
+  "identifier": "pmid:22354460",
+  "substance": "Methylone",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Found the canonical methylone release-assay paper via Europe PMC TITLE search (Baumann et al., 'The designer methcathinone analogs",
+  "where": {
+   "target": "NET (release)"
+  }
+ },
+ {
+  "identifier": "pmid:22354460",
+  "substance": "Methylone",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Same investigation as row 861. Baumann et al. 2012 (pmid:22169943) Table 1 gives methylone SERT release EC50 = 242.1 +- 48.3 nM, n",
+  "where": {
+   "target": "SERT (release)"
+  }
+ },
+ {
+  "identifier": "pmid:15893213",
+  "substance": "AM-694",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. No binding measurement for AM-694 found in any queried database. ChEMBL compound_search returned zero records for both 'AM-694' an",
+  "where": {
+   "target": "CB1"
+  }
+ },
+ {
+  "identifier": "doi:10.2165/00003088-199631040-00005",
+  "substance": "Oxycodone",
+  "drop": [
+   "half_life_min",
+   "tmax_min",
+   "bioavailability_pct",
+   "protein_binding_pct",
+   "vd_l_per_kg"
+  ],
+  "why": "No source establishes this value. Located and read the primary human oxycodone PK literature (Europe PMC AUTH:'Poyhia' AND oxycodone), and the stored numbers contra",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:24316736",
+  "substance": "Propofol",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. europepmc + pubmed searches for propofol GABA-A photolabelling / alpha1beta3gamma2 EC50. The paper matching the row's note is Szab",
+  "where": {
+   "target": "GABA-A α1β3γ2"
+  }
+ },
+ {
+  "identifier": "pmid:9756415",
+  "substance": "Propofol",
+  "drop": [
+   "fraction_of_clearance_pct"
+  ],
+  "why": "No source establishes this value. pubmed 'propofol glucuronidation UGT1A9 human liver' (67 hits, read the top relevance set: pmids 11714888, 14570768, 12386132, 172",
+  "where": {
+   "enzyme": "UGT1A9"
+  }
+ },
+ {
+  "identifier": "doi:10.1124/jpet.114.220293",
+  "substance": "Dasotraline",
+  "drop": [
+   "ki_nm"
+  ],
+  "why": "No source establishes this value. Same search as rows 1022/1023, plus ChEMBL (CHEMBL3301595 has only SARS-CoV-2 and mouse-cortical-neuron assays, no transporter dat",
+  "where": {
+   "target": "SERT"
+  }
+ },
+ {
+  "identifier": "doi:10.1124/dmd.117.075788",
+  "substance": "Melatonin",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. pubmed 'melatonin pharmacokinetics elimination half-life healthy volunteers oral intravenous'. The two dedicated human PK studies "
+ },
+ {
+  "identifier": "doi:10.1124/dmd.117.075788",
+  "substance": "Melatonin",
+  "drop": [
+   "fraction_of_clearance_pct"
+  ],
+  "why": "No source establishes this value. europepmc 'melatonin AND CYP1A2 AND (6-hydroxylation OR metabolism)'. Qualitative statements that CYP1A2 is the principal melatoni",
+  "where": {
+   "enzyme": "CYP1A2 (major)"
+  }
+ },
+ {
+  "identifier": "pmid:11378828",
+  "substance": "Phenibut",
+  "drop": [
+   "ec50_nm",
+   "intrinsic_activity_pct"
+  ],
+  "why": "No source establishes this value. pubmed 'phenibut GABAB receptor' (39 hits, read the pre-2005 set: 11830761, 2540879, 2995847, 3601209, 2998506, 2861865) plus euro",
+  "where": {
+   "target": "GABA-B (rat brain)"
+  }
+ },
+ {
+  "identifier": "pmid:31682279",
+  "substance": "Propranolol",
+  "drop": [
+   "fraction_of_clearance_pct",
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. pubmed 'propranolol mechanism-based inhibition CYP2D6' (4 hits, all read) and europepmc propranolol+CYP2D6+4-hydroxylation. The ro",
+  "where": {
+   "enzyme": "CYP2D6 (major)"
+  }
+ },
+ {
+  "identifier": "pmid:9089915",
+  "substance": "AMT",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Searched europepmc for alpha-methyltryptamine release/transporter papers and read the two primary sources that actually measure AM",
+  "where": {
+   "target": "SERT"
+  }
+ },
+ {
+  "identifier": "pmid:9089915",
+  "substance": "AMT",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Same search as row 141. Published AMT NET release EC50 values are 112 nM (Blough 2014, pmid:24800892, Table 1) and 68 nM (Nagai 20",
+  "where": {
+   "target": "NET"
+  }
+ },
+ {
+  "identifier": "pmid:9089915",
+  "substance": "AMT",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Same search as row 141. Published AMT DAT release EC50 values are 78.6 nM (Blough 2014, pmid:24800892, Table 1) and 180 nM (Nagai ",
+  "where": {
+   "target": "DAT"
+  }
+ },
+ {
+  "identifier": "doi:10.2165/00003088-198611030-00003",
+  "substance": "Fenfluramine",
+  "drop": [
+   "fraction_of_clearance_pct",
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. The real reaction-phenotyping study is Martin et al. 2022 (pmid:35599345, PMC9124820, Pharmacol Res Perspect 10(3):e00958, doi 10.",
+  "where": {
+   "enzyme": "CYP2D6"
+  }
+ },
+ {
+  "identifier": "doi:10.2165/00003088-198611030-00003",
+  "substance": "Fenfluramine",
+  "drop": [
+   "fraction_of_clearance_pct"
+  ],
+  "why": "No source establishes this value. Same source review as row 546 (Martin et al. 2022, pmid:35599345). It reports CYP1A2 contribution as 32% (furafylline inhibition) ",
+  "where": {
+   "enzyme": "CYP1A2"
+  }
+ },
+ {
+  "identifier": "pmid:24123416",
+  "substance": "Ethylone",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. The notes name 'Eshleman 2013', which is pmid:23583454 (PMC3692398, Biochem Pharmacol) - I read all seven of its tables and ethylo",
+  "where": {
+   "target": "DAT (release)"
+  }
+ },
+ {
+  "identifier": "pmid:24123416",
+  "substance": "Ethylone",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Same as row 896. Eshleman et al. 2017 (pmid:27799294) reports ethylone hSERT release EC50 = 1.48 +/- 0.25 microM (1480 nM, n = 4),",
+  "where": {
+   "target": "SERT (release)"
+  }
+ },
+ {
+  "identifier": "doi:10.1016/j.forsciint.2017.01.003",
+  "substance": "Desomorphine",
+  "drop": [
+   "half_life_min",
+   "bioavailability_pct"
+  ],
+  "why": "No source establishes this value. The stored DOI 10.1016/j.forsciint.2017.01.003 resolves to pmid:28095345, 'Forensic assignment to geographic origin, a useful tool",
+  "where": {
+   "route": "intravenous"
+  }
+ },
+ {
+  "identifier": "doi:10.1016/j.forsciint.2017.01.003",
+  "substance": "Desomorphine",
+  "drop": [
+   "half_life_minutes"
+  ],
+  "why": "No source establishes this value. Same searches as row 116. No paper reports a 90 min (or any) elimination half-life for desomorphine."
+ },
+ {
+  "identifier": "pmid:26195733",
+  "substance": "Methaqualone",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Found and READ the correct paper: Hammer et al. 2015, 'A Multifaceted GABAA Receptor Modulator: Functional Properties and Mechanis",
+  "where": {
+   "target": "GABA-A α1β2γ2S"
+  }
+ },
+ {
+  "identifier": "pmid:7088016",
+  "substance": "Phenelzine",
+  "drop": [
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. The stored pmid:7088016 resolves to 'Branched-chain ketoacids reduce muscle protein degradation in Duchenne muscular dystrophy' (c",
+  "where": {
+   "enzyme": "N-acetyltransferase 2 (NAT2)"
+  }
+ },
+ {
+  "identifier": "pmid:15914673",
+  "substance": "3-Fluoroamphetamine",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Searched europepmc for 'PAL-353' AND 'norepinephrine' (16 hits, all checked for tables) and read the two papers that tabulate the ",
+  "where": {
+   "target": "NET"
+  }
+ },
+ {
+  "identifier": "pmid:32542207",
+  "substance": "N-Ethylpentylone",
+  "drop": [
+   "ic50_nm"
+  ],
+  "why": "No source establishes this value. pubmed search 'N-ethylpentylone ephylone transporter uptake inhibition' and europepmc '\"N-ethylpentylone\" OR \"ephylone\" OR \"N-ethy",
+  "where": {
+   "target": "NET (uptake)"
+  }
+ },
+ {
+  "identifier": "pmid:32542207",
+  "substance": "N-Ethylpentylone",
+  "drop": [
+   "ic50_nm"
+  ],
+  "why": "No source establishes this value. Same searches as row 908. Costa et al. 2018 (pmid:30207090) gives SERT IC50 = 383 nM, not 700 nM. No other in vitro transporter st",
+  "where": {
+   "target": "SERT (uptake)"
+  }
+ },
+ {
+  "identifier": "pmid:19457260",
+  "substance": "Carisoprodol",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. The paper the notes name is real — Gonzalez, Gatch, Forster & Dillon, 'Abuse Potential of Soma: the GABA(A) Receptor as a Target',",
+  "where": {
+   "target": "GABA-A α1β2γ2 (meprobamate metabolite + parent)"
+  }
+ },
+ {
+  "identifier": "pmid:12649293",
+  "substance": "Para-Methoxyamphetamine",
+  "drop": [
+   "ec50_nm"
+  ],
+  "why": "No source establishes this value. Searched pubmed ('4-methoxyamphetamine serotonin releasing potency rat brain synaptosomes EC50', 'PMA PMMA para-methoxy amphetamin",
+  "where": {
+   "target": "SERT"
+  }
+ },
+ {
+  "identifier": "pmid:23922010",
+  "substance": "MDPV",
+  "drop": [
+   "metabolite_potency_vs_parent_pct"
+  ],
+  "why": "No source establishes this value. europepmc '\"MDPV\" AND \"catechol\" AND \"dopamine transporter\"' → the one study that measures MDPV's COMT product against the parent ",
+  "where": {
+   "enzyme": "COMT"
+  }
+ }
+]
