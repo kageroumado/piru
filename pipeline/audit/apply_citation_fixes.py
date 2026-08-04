@@ -40,8 +40,37 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from build.sqlite import parse_reference  # noqa: E402
+
 REPO = Path(__file__).resolve().parents[2]
-SOURCE_GLOBS = ("data/enrichment/raw/*.json", "data/curated/substances/*.json")
+#: Every place a `reference` may be authored. `data/curated/*.json` is included
+#: at the top level because the flagship pharmacology file lives there, not
+#: under `substances/` — a narrower glob silently skipped four repairs.
+SOURCE_GLOBS = (
+    "data/enrichment/raw/*.json",
+    "data/curated/*.json",
+    "data/curated/substances/*.json",
+)
+
+
+def canonical_reference(reference: str | None) -> str:
+    """A reference string reduced to the identifier the build would derive.
+
+    Matching on the raw text does not work, because one identifier is spelled
+    several ways across the sources — `pmid:25578256`, `PMID 25578256`,
+    `doi:10.1007/PL00005315`, and a bare DOI all name one paper, and the SQLite
+    lowercases DOIs on the way in. Reusing the BUILD's own parser rather than a
+    second regex means a repair matches exactly what the pipeline matched; a
+    private rule here would drift from it silently.
+    """
+    doi, pmid, url, _title = parse_reference(reference)
+    if doi:
+        return f"doi:{doi.lower()}"
+    if pmid:
+        return f"pmid:{pmid}"
+    return (url or "").strip().lower()
 
 
 def read_source(path: Path) -> tuple[object, bool, bool]:
@@ -56,9 +85,50 @@ def read_source(path: Path) -> tuple[object, bool, bool]:
     return json.loads(text), escaped, text.endswith("\n")
 
 
-def write_source(path: Path, data: object, escaped: bool, trailing_newline: bool) -> None:
-    text = json.dumps(data, indent=2, ensure_ascii=escaped)
-    path.write_text(text + ("\n" if trailing_newline else ""), encoding="utf-8")
+def serialize(data: object, escaped: bool, trailing_newline: bool) -> str:
+    return json.dumps(data, indent=2, ensure_ascii=escaped) + ("\n" if trailing_newline else "")
+
+
+def reproduces_original(text: str, data: object, escaped: bool, trailing_newline: bool) -> bool:
+    """Whether re-serializing the parsed file gives back the file.
+
+    Two styles live in these sources. Most are plain `indent=2`. But
+    `pharmacology-flagship.json` is a hybrid — outer objects indented, each
+    binding record written on ONE line — and re-serializing it turned a
+    one-token repair into a 1153-line diff nobody could review.
+
+    So the round trip is *tested* rather than assumed, and a file that fails the
+    test is edited textually instead. Style is not cosmetic here: an
+    unreviewable diff is how a bad edit gets waved through.
+    """
+    return serialize(data, escaped, trailing_newline) == text
+
+
+def replace_reference_textually(
+    text: str, substance: str | None, old: str, new: str
+) -> tuple[str, int]:
+    """Swap a reference inside one substance's slice of the file, as text.
+
+    The slice runs from this substance's `"name"` key to the next one, which is
+    what keeps a shared wrong identifier from being rewritten under a substance
+    whose replacement has not been adjudicated.
+    """
+    start = 0
+    end = len(text)
+    if substance:
+        marker = f'"name": "{substance}"'
+        start = text.find(marker)
+        if start < 0:
+            return text, 0
+        following = text.find('"name": "', start + len(marker))
+        end = following if following > 0 else len(text)
+
+    needle = f'"reference": "{old}"'
+    segment = text[start:end]
+    count = segment.count(needle)
+    if not count:
+        return text, 0
+    return text[:start] + segment.replace(needle, f'"reference": "{new}"') + text[end:], count
 
 
 def walk_records(node: object, substance: str | None = None):
@@ -78,6 +148,22 @@ def walk_records(node: object, substance: str | None = None):
     elif isinstance(node, list):
         for item in node:
             yield from walk_records(item, substance)
+
+
+def matches_scope(record: dict, fix: dict) -> bool:
+    """Whether a fix's `where` clause selects this record.
+
+    Substance-level scoping is too coarse and quietly over-applies. Quetiapine
+    has four rows citing one fabricated PMID, and the evidence recovered for it
+    covers only the H1 row — the D2, 5-HT2A and α1 values still have no source.
+    Fenfluramine has six, of which exactly one is the PK route the recovered
+    paper actually reports. Without `where`, one adjudicated repair silently
+    becomes five unadjudicated ones.
+    """
+    for field_name, expected in (fix.get("where") or {}).items():
+        if str(record.get(field_name) or "") != str(expected):
+            return False
+    return True
 
 
 def apply_fix(record: dict, fix: dict) -> str | None:
@@ -124,17 +210,50 @@ def main() -> int:
 
     by_identifier: dict[str, list[dict]] = {}
     for fix in fixes:
-        by_identifier.setdefault(fix["identifier"], []).append(fix)
+        by_identifier.setdefault(canonical_reference(fix["identifier"]), []).append(fix)
 
     applied = 0
     unmatched = {fix["identifier"] for fix in fixes}
     for pattern in SOURCE_GLOBS:
         for path in sorted(REPO.glob(pattern)):
+            text = path.read_text(encoding="utf-8")
             data, escaped, trailing = read_source(path)
+            structural = reproduces_original(text, data, escaped, trailing)
             changed = False
             for record, substance in walk_records(data):
-                for fix in by_identifier.get(record.get("reference") or "", []):
-                    if fix.get("substance") and fix["substance"] != substance:
+                for fix in by_identifier.get(canonical_reference(record.get("reference")), []):
+                    # Matched case-insensitively against the name in the SOURCE,
+                    # which is not always the DB's canonical name: the sources
+                    # spell it "HARMINE", "endomorphin-1", and "Marinol".
+                    if (
+                        fix.get("substance")
+                        and fix["substance"].lower() != (substance or "").lower()
+                    ):
+                        continue
+                    if not matches_scope(record, fix):
+                        continue
+                    if not structural:
+                        # Style-fragile file: edit the reference in place rather
+                        # than round-tripping the whole document.
+                        if "replace" not in fix:
+                            print(
+                                f"  SKIPPED {path.relative_to(REPO)} [{substance}] — only a "
+                                "'replace' can be applied textually to this file's format",
+                                file=sys.stderr,
+                            )
+                            continue
+                        text, hits = replace_reference_textually(
+                            text, substance, record["reference"], fix["replace"]
+                        )
+                        if not hits:
+                            continue
+                        changed = True
+                        applied += hits
+                        unmatched.discard(fix["identifier"])
+                        print(
+                            f"  {path.relative_to(REPO)}  [{substance}]  reference "
+                            f"{record['reference']} → {fix['replace']} (textual)"
+                        )
                         continue
                     described = apply_fix(record, fix)
                     if not described:
@@ -144,7 +263,10 @@ def main() -> int:
                     unmatched.discard(fix["identifier"])
                     print(f"  {path.relative_to(REPO)}  [{substance}]  {described}")
             if changed and not arguments.dry_run:
-                write_source(path, data, escaped, trailing)
+                path.write_text(
+                    text if not structural else serialize(data, escaped, trailing),
+                    encoding="utf-8",
+                )
 
     print(f"\napply-citation-fixes: {applied} record(s) changed across the sources")
     if unmatched:

@@ -1,0 +1,110 @@
+[
+ {
+  "identifier": "pmid:8788430",
+  "substance": "Tramadol",
+  "replace": "doi:10.1016/s0022-3565(25)11227-5",
+  "why": "Notes name 'Raffa 1992 - parent tramadol Ki ~2.1 uM'. Europe PMC resolves Raffa RB 1992 J Pharmacol Exp Ther, 'Opioid and nonopioid components...'; the stored pmid:8788430 is an endothelin/hypertension paper."
+ },
+ {
+  "identifier": "doi:10.1124/jpet.117.245019",
+  "substance": "W-15",
+  "replace": "doi:10.1172/jci.insight.97222",
+  "why": "Notes name 'Huang 2017 - no detectable opioid receptor activity for W-15 or W-18 up to 10 uM'. Resolves to Huang XP 2017 JCI Insight, 'Fentanyl-related designer drugs W-18 and W-15 lack appreciable opioid activity' - the title states the row's finding."
+ },
+ {
+  "identifier": "pmid:19053825",
+  "substance": "Salvinorin A",
+  "replace": "doi:10.1021/bi900605n",
+  "why": "Notes name 'Yan et al. 2009 (Biochemistry) - reports Ki = 1.8 +/- 1.4 nM'. Resolves to Yan F 2009 Biochemistry; the stored pmid:19053825 is a prostate-imaging paper."
+ },
+ {
+  "identifier": "pmid:14595397",
+  "substance": "Alcohol",
+  "replace": "doi:10.1126/science.2467382",
+  "why": "Notes name 'Lovinger, White, Weight 1989, Science 243:1721'. Resolves to Lovinger DM 1989 Science, 'Ethanol inhibits NMDA-activated ion current in hippocampal neurons' - exact title match."
+ },
+ {
+  "identifier": "pmid:2467611",
+  "substance": "Alcohol",
+  "replace": "doi:10.1073/pnas.2435171100",
+  "why": "Notes name 'Wallner, Hanchar, Olsen 2003'. Resolves to Wallner M 2003 PNAS with all three surnames in the author list. Reached only after the resolver was taught to require EVERY named surname - matching on 'Olsen' alone returned a Danish cancer cohort."
+ },
+ {
+  "identifier": "pmid:27623219",
+  "substance": "Ephenidine",
+  "replace": "doi:10.1016/j.neuropharm.2016.08.004",
+  "why": "Notes name 'Kang et al. 2017 (Neuropharmacology 112:144-149)'. Resolves to Kang H 2017 Neuropharmacology, 'Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor antagonist properties'; the value check reads Ki 629 and 722 nM out of it. The stored pmid:27623219 is a great white shark bite case report. All five binding values (NMDA 66.4, DAT 379, NET 841, sigma-1 628, sigma-2 721) were read out of the paper's open-access full text by the value check."
+ },
+ {
+  "identifier": "doi:10.1371/journal.pone.0019409",
+  "substance": "Harmine",
+  "replace": "doi:10.1042/bj20070797",
+  "why": "Notes name 'Bain 2007: ATP-competitive DYRK1A inhibitor'. Resolves to Bain J 2007 Biochem J, 'The selectivity of protein kinase inhibitors: a further update' - the standard kinase selectivity panel. The stored DOI is an H1N1 influenza epidemiology paper."
+ },
+ {
+  "identifier": "pmid:22354460",
+  "substance": "Mephedrone",
+  "replace": "doi:10.1038/npp.2011.304",
+  "why": "All three rows' notes name 'Baumann 2012 Neuropsychopharmacology' with the matching release EC50s (DA 51, NE 58, 5-HT 122 nM). The stored pmid:22354460 is a tendon-repair paper."
+ },
+ {
+  "identifier": "pmid:22354460",
+  "substance": "Methylone",
+  "replace": "doi:10.1038/npp.2011.304",
+  "why": "Same panel as the mephedrone rows; notes name 'Baumann 2012 - methylone is ~2x less potent than mephedrone at DA release'."
+ },
+ {
+  "identifier": "pmid:25578256",
+  "substance": "Naphyrone",
+  "replace": "doi:10.1016/j.euroneuro.2014.12.012",
+  "why": "All three rows' notes name 'Rickli 2015, human-HEK uptake IC50' with the matching triple (DAT 40 / NET 11.7 / SERT 46 nM). The stored pmid:25578256 is an ocular tuberculosis paper."
+ },
+ {
+  "identifier": "doi:10.1124/dmd.105.004135",
+  "substance": "Buprenorphine",
+  "replace": "doi:10.1124/dmd.105.003681",
+  "why": "Notes name 'Picard 2005 - CYP3A4 dominant, CYP2C8 minor contributor'. Resolves to Picard N 2005 Drug Metab Dispos, 'In vitro metabolism of...'. The stored DOI is a methods paper on allometric correction factors, which MEDLINE indexes under no drug qualifier at all."
+ },
+ {
+  "identifier": "pmid:9252259",
+  "substance": "Endomorphin-1",
+  "replace": "doi:10.1038/386499a0",
+  "why": "Notes name 'Zadina et al. 1997'. The automated resolver proposed Champion 1997 Life Sci, which does list Zadina as a coauthor but is a vasodilator study; the endomorphin discovery paper reporting the mu Ki is Zadina JE 1997 Nature 386:499, 'A potent and selective endogenous agonist for the mu-opiate receptor'. Confirmed by hand."
+ },
+ {
+  "identifier": "doi:10.2165/00003088-198611030-00003",
+  "substance": "Fenfluramine",
+  "replace": "doi:10.1007/bf00547426",
+  "why": "Notes name 'Caccia 1986 - fenfluramine t1/2 13-30 h'. The automated resolver proposed Mennini 1985, an anorectic-effect study. The PK paper is Caccia S 1985 Eur J Clin Pharmacol, 'Pharmacokinetics of fenfluramine and norfenfluramine in volunteers given D- and DL-fenfluramine' - accumulation and elimination half-lives in 8 volunteers. Confirmed by hand; the notes' year is off by one. Scoped to the oral PK route: the CYP2D6/CYP1A2 metabolism rows on the same fabricated DOI are not from a 1985 volunteer PK study.",
+  "where": {
+   "route": "oral"
+  }
+ },
+ {
+  "identifier": "pmid:12502350",
+  "substance": "Marinol",
+  "replace": "doi:10.1021/jm9803875",
+  "why": "ChEMBL records this compound's CB1 Ki in this document. Accepted only after target agreement became a requirement - ranking by value alone had offered a CB2 Ki of 39.3 nM for this CB1 row. The stored pmid:12502350 is about a cyclic hexadepsipeptide antibiotic. (The source file authors this record under the brand name Marinol.)"
+ },
+ {
+  "identifier": "pmid:11020385",
+  "substance": "JWH-018",
+  "replace": "doi:10.1021/acs.jmedchem.1c00442",
+  "why": "ChEMBL records this compound's CB2 Ki of 2.94 nM in this document. The stored pmid:11020385 is about mitochondrial processing of human frataxin."
+ },
+ {
+  "identifier": "pmid:15694239",
+  "substance": "Quetiapine",
+  "replace": "doi:10.1016/j.bmcl.2020.127681",
+  "why": "ChEMBL records Ki 11.0 nM for this compound at the histamine H1 receptor in this document, matching the row. The stored pmid:15694239 is an EEG study of impulsiveness. Scoped to the H1 row only: the D2, 5-HT2A and alpha1 values on the same fabricated PMID still have no source.",
+  "where": {
+   "target": "H1 (human)"
+  }
+ },
+ {
+  "identifier": "pmid:18093142",
+  "substance": "Tranylcypromine",
+  "replace": "doi:10.1016/j.bmc.2010.12.024",
+  "why": "ChEMBL records IC50 21000 nM for this compound at LSD1/KDM1A in this document, matching both the bindings and off_targets rows. The stored pmid:18093142 is a survey of cadmium-treated forest-soil bacteria."
+ }
+]

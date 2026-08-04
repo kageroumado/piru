@@ -716,7 +716,7 @@
         "metabolite_name": "norbuprenorphine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
-        "reference": "doi:10.1124/dmd.105.004135",
+        "reference": "doi:10.1124/dmd.105.003681",
         "notes": "Picard 2005 \u2014 CYP3A4 dominant, CYP2C8 minor contributor. Norbup is a full MOR/DOR/NOP agonist but has poor BBB penetration in humans."
       },
       {
@@ -753,7 +753,7 @@
         "UGT2B7"
       ],
       "phenotype_effects": "CYP3A4 polymorphisms and inducers/inhibitors meaningfully alter buprenorphine and norbuprenorphine AUC. OPRM1 118G carriers may need higher maintenance doses.",
-      "reference": "doi:10.1124/dmd.105.004135"
+      "reference": "doi:10.1124/dmd.105.003681"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Very slow MOR off-rate (>2 h dissociation) means antagonist effects persist; withdrawal symptoms milder and slower-onset than full agonists.",
@@ -1217,7 +1217,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:8788430",
+          "reference": "doi:10.1016/s0022-3565(25)11227-5",
           "is_review": false,
           "notes": "Raffa 1992 \u2014 parent tramadol Ki \u2248 2.1 \u03bcM (weak); analgesia largely from M1 (O-DSMT)."
         },
@@ -1228,7 +1228,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:8788430",
+          "reference": "doi:10.1016/s0022-3565(25)11227-5",
           "is_review": false
         },
         {
@@ -1238,7 +1238,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:8788430",
+          "reference": "doi:10.1016/s0022-3565(25)11227-5",
           "is_review": false
         },
         {
@@ -1248,7 +1248,7 @@
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
           "radioligand_or_probe": "[3H]5-HT uptake",
-          "reference": "pmid:8788430",
+          "reference": "doi:10.1016/s0022-3565(25)11227-5",
           "is_review": false,
           "notes": "(+)-tramadol enantiomer dominates SERT inhibition."
         },
@@ -1259,7 +1259,7 @@
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
           "radioligand_or_probe": "[3H]NE uptake",
-          "reference": "pmid:8788430",
+          "reference": "doi:10.1016/s0022-3565(25)11227-5",
           "is_review": false,
           "notes": "(\u2212)-tramadol enantiomer dominates NET inhibition."
         },
@@ -4488,7 +4488,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "various",
-          "reference": "doi:10.1124/jpet.117.245019",
+          "reference": "doi:10.1172/jci.insight.97222",
           "is_review": false,
           "notes": "Huang 2017 \u2014 no detectable opioid receptor activity for W-15 or W-18 up to 10 \u03bcM. The 'designer opioid' marketing of W-15/W-18 was based on a pharmacology error; in fact they are NOT opioids."
         }

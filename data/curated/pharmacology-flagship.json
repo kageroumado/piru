@@ -215,9 +215,9 @@
     "name": "Naphyrone",
     "aliases": ["NRG-1", "Naphthylpyrovalerone"],
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 40, "confidence": "MEDIUM", "reference": "PMID 25578256", "notes": "Rickli 2015, human-HEK uptake IC50. Naphyrone is the pyrovalerone-family OUTLIER: a NON-selective triple reuptake inhibitor (DAT 40 / NET 11.7 / SERT 46 nM) — the ONLY pyrovalerone that potently blocks SERT, so it is NOT SERT-sparing and carries serotonergic-interaction relevance the rest of the family lack. Pure blocker, no efflux." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 11.7, "confidence": "MEDIUM", "reference": "PMID 25578256", "notes": "Rickli 2015, human-HEK — most potent of the triple. Same-assay with DAT 40 / SERT 46." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 46, "confidence": "MEDIUM", "reference": "PMID 25578256", "notes": "Rickli 2015, human-HEK. Potent SERT block (~46 nM) — the family exception; do NOT mark naphyrone SERT-sparing." }
+      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 40, "confidence": "MEDIUM", "reference": "doi:10.1016/j.euroneuro.2014.12.012", "notes": "Rickli 2015, human-HEK uptake IC50. Naphyrone is the pyrovalerone-family OUTLIER: a NON-selective triple reuptake inhibitor (DAT 40 / NET 11.7 / SERT 46 nM) — the ONLY pyrovalerone that potently blocks SERT, so it is NOT SERT-sparing and carries serotonergic-interaction relevance the rest of the family lack. Pure blocker, no efflux." },
+      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 11.7, "confidence": "MEDIUM", "reference": "doi:10.1016/j.euroneuro.2014.12.012", "notes": "Rickli 2015, human-HEK — most potent of the triple. Same-assay with DAT 40 / SERT 46." },
+      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 46, "confidence": "MEDIUM", "reference": "doi:10.1016/j.euroneuro.2014.12.012", "notes": "Rickli 2015, human-HEK. Potent SERT block (~46 nM) — the family exception; do NOT mark naphyrone SERT-sparing." }
     ]
   },
   {

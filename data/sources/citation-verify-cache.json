@@ -340,6 +340,12 @@
   "title": "PRL-8-53: Enhanced learning and subsequent retention in humans as a result of low oral doses of new psychotropic agent",
   "year": 1978
  },
+ "doi:10.1007/bf00547426": {
+  "journal": "European Journal of Clinical Pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of fenfluramine and norfenfluramine in volunteers given d- and dl-fenfluramine for 15 days",
+  "year": 1985
+ },
  "doi:10.1007/bf01252511": {
   "journal": "Journal of Neural Transmission",
   "subjects": [],
@@ -643,11 +649,23 @@
   "title": "Synthesis, vasorelaxant activity and antihypertensive effect of benzo[d]imidazole derivatives",
   "year": 2010
  },
+ "doi:10.1016/j.bmc.2010.12.024": {
+  "journal": "Bioorganic &amp; Medicinal Chemistry",
+  "subjects": [],
+  "title": "Synthesis and biological activity of optically active NCL-1, a lysine-specific demethylase 1 selective inhibitor",
+  "year": 2011
+ },
  "doi:10.1016/j.bmcl.2015.04.083": {
   "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
   "subjects": [],
   "title": "Therapeutic effects of hybrid liposomes with downregulation of inflammatory cytokine for model mice of rheumatoid arthritis in vivo",
   "year": 2015
+ },
+ "doi:10.1016/j.bmcl.2020.127681": {
+  "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
+  "subjects": [],
+  "title": "Synthesis and biological evaluation of novel antipsychotic trans-4-(2-(1,2,4,5-tetrahydro-3H-benzo[d]azepin-3-yl)ethyl)cyclohexan-1-amine derivatives targeting dopamine/serotonin receptor subtypes",
+  "year": 2021
  },
  "doi:10.1016/j.cell.2016.12.033": {
   "journal": "Cell",
@@ -737,6 +755,12 @@
   "subjects": [],
   "title": "Clinical parameters of circadian rhythms in affective disorders",
   "year": 2011
+ },
+ "doi:10.1016/j.euroneuro.2014.12.012": {
+  "journal": "European Neuropsychopharmacology",
+  "subjects": [],
+  "title": "Monoamine transporter and receptor interaction profiles of novel psychoactive substances: Para-halogenated amphetamines and pyrovalerone cathinones",
+  "year": 2015
  },
  "doi:10.1016/j.euroneuro.2016.05.001": {
   "journal": "European Neuropsychopharmacology",
@@ -829,6 +853,12 @@
   "subjects": [],
   "title": "Receptor interaction profiles of novel N-2-methoxybenzyl (NBOMe) derivatives of 2,5-dimethoxy-substituted phenethylamines (2C drugs)",
   "year": 2015
+ },
+ "doi:10.1016/j.neuropharm.2016.08.004": {
+  "journal": "Neuropharmacology",
+  "subjects": [],
+  "title": "Ephenidine: A new psychoactive agent with ketamine-like NMDA receptor antagonist properties",
+  "year": 2017
  },
  "doi:10.1016/j.neuropharm.2017.10.006": {
   "journal": "Neuropharmacology",
@@ -933,6 +963,12 @@
   "title": "Norketamine, the main metabolite of ketamine, is a non-competitive NMDA receptor antagonist in the rat cortex and spinal cord",
   "year": 1997
  },
+ "doi:10.1016/s0022-3565(25)11227-5": {
+  "journal": "The Journal of Pharmacology and Experimental Therapeutics",
+  "subjects": [],
+  "title": "Opioid and nonopioid components independently contribute to the mechanism of action of tramadol, an 'atypical' opioid analgesic.",
+  "year": 1992
+ },
  "doi:10.1016/s0028-3908(99)00075-2": null,
  "doi:10.1016/s0306-4603(99)00073-4": null,
  "doi:10.1021/acs.chemrestox.5b00450": {
@@ -946,6 +982,12 @@
   "subjects": [],
   "title": "Halo and Pseudohalo Gold(I)\u2013NHC Complexes Derived from 4,5-Diarylimidazoles with Excellent <i>In Vitro</i> and <i>In Vivo</i> Anticancer Activities Against HCC",
   "year": 2020
+ },
+ "doi:10.1021/acs.jmedchem.1c00442": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Synthesis, Molecular Pharmacology, and Structure\u2013Activity Relationships of 3-(Indanoyl)indoles as Selective Cannabinoid Type 2 Receptor Antagonists",
+  "year": 2021
  },
  "doi:10.1021/acs.jmedchem.1c01273": {
   "journal": "Journal of medicinal chemistry",
@@ -1092,6 +1134,12 @@
   "year": 2024
  },
  "doi:10.1021/bi050680u": null,
+ "doi:10.1021/bi900605n": {
+  "journal": "Biochemistry",
+  "subjects": [],
+  "title": "Structure-Based Design, Synthesis, and Biochemical and Pharmacological Characterization of Novel Salvinorin A Analogues as Active State Probes of the \u03ba-Opioid Receptor",
+  "year": 2009
+ },
  "doi:10.1021/cn5000524": {
   "journal": "ACS Chemical Neuroscience",
   "subjects": [],
@@ -1137,6 +1185,12 @@
   "title": "1-[1-(2-Benzo[<i>b</i>]thiopheneyl)cyclohexyl]piperidine Hydrochloride (BTCP) Yields Two Active Primary Metabolites in Vitro:\u2009 Synthesis, Identification from Rat Liver Microsome Extracts, and Affinity for the Neuronal Dopamine Transporter",
   "year": 1997
  },
+ "doi:10.1021/jm9803875": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Potent Cyano and Carboxamido Side-Chain Analogues of 1\u2018,1\u2018-Dimethyl-\u0394<sup>8</sup>-Tetrahydrocannabinol",
+  "year": 1998
+ },
  "doi:10.1021/jm980394k": null,
  "doi:10.1021/np0205699": {
   "journal": "Journal of Natural Products",
@@ -1161,6 +1215,12 @@
   "subjects": [],
   "title": "Abuse-related effects of dual dopamine/serotonin releasers with varying potency to release norepinephrine in male rats and rhesus monkeys.",
   "year": 2014
+ },
+ "doi:10.1038/386499a0": {
+  "journal": "Nature",
+  "subjects": [],
+  "title": "A potent and selective endogenous agonist for the \u00b5-opiate receptor",
+  "year": 1997
  },
  "doi:10.1038/386827a0": {
   "journal": "Nature",
@@ -1483,6 +1543,12 @@
   "title": "The atypical antidepressant and neurorestorative agent tianeptine is a \u03bc-opioid receptor agonist",
   "year": 2014
  },
+ "doi:10.1042/bj20070797": {
+  "journal": "Biochemical Journal",
+  "subjects": [],
+  "title": "The selectivity of protein kinase inhibitors: a further update",
+  "year": 2007
+ },
  "doi:10.1042/bj2660697": {
   "journal": "Biochemical Journal",
   "subjects": [],
@@ -1574,6 +1640,12 @@
   "subjects": [],
   "title": "Persistent binding at dopamine transporters determines sustained psychostimulant effects",
   "year": 2023
+ },
+ "doi:10.1073/pnas.2435171100": {
+  "journal": "Proceedings of the National Academy of Sciences",
+  "subjects": [],
+  "title": "Ethanol enhances \u03b1\n                    <sub>4</sub>\n                    \u03b2\n                    <sub>3</sub>\n                    \u03b4 and \u03b1\n                    <sub>6</sub>\n                    \u03b2\n                    <sub>3</sub>\n                    \u03b4 \u03b3-aminobutyric acid type A receptors at low concentrations known to affect humans",
+  "year": 2003
  },
  "doi:10.1073/pnas.74.9.3805": {
   "journal": "Proceedings of the National Academy of Sciences",
@@ -2249,6 +2321,12 @@
   "title": "MECHANISM-BASED INACTIVATION OF CYP2D6 BY METHYLENEDIOXYMETHAMPHETAMINE",
   "year": 2004
  },
+ "doi:10.1124/dmd.105.003681": {
+  "journal": "Drug Metabolism and Disposition",
+  "subjects": [],
+  "title": "IN VITRO METABOLISM STUDY OF BUPRENORPHINE: EVIDENCE FOR NEW METABOLIC PATHWAYS",
+  "year": 2005
+ },
  "doi:10.1124/dmd.105.004135": {
   "journal": "Drug Metabolism and Disposition",
   "subjects": [],
@@ -2435,6 +2513,12 @@
   "title": "The Hallucinogen\n            <i>N,N</i>\n            -Dimethyltryptamine (DMT) Is an Endogenous Sigma-1 Receptor Regulator",
   "year": 2009
  },
+ "doi:10.1126/science.2467382": {
+  "journal": "Science",
+  "subjects": [],
+  "title": "Ethanol Inhibits NMDA-Activated Ion Current in Hippocampal Neurons",
+  "year": 1989
+ },
  "doi:10.1126/science.abl8615": {
   "journal": "Science",
   "subjects": [],
@@ -2454,6 +2538,12 @@
   "subjects": [],
   "title": "A Toxicological Evaluation of Methylliberine (Dynamine\u00ae)",
   "year": 2019
+ },
+ "doi:10.1172/jci.insight.97222": {
+  "journal": "JCI Insight",
+  "subjects": [],
+  "title": "Fentanyl-related designer drugs W-18 and W-15 lack appreciable opioid activity in vitro and in vivo",
+  "year": 2017
  },
  "doi:10.1172/jci134892": {
   "journal": "Journal of Clinical Investigation",

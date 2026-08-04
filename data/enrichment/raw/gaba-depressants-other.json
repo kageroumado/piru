@@ -33,7 +33,7 @@
           "tissue_or_cell": "hippocampal pyramidal neurons (Lovinger 1989)",
           "radioligand_or_probe": null,
           "assay_buffer_notes": "Whole-cell patch; ~50 mM ethanol gives ~50% inhibition of NMDA-evoked current; effect is NOT voltage-dependent (so not Mg2+ pore-block-like).",
-          "reference": "pmid:2467611",
+          "reference": "doi:10.1073/pnas.2435171100",
           "is_review": false,
           "notes": "Lovinger, White, Weight 1989, Science 243:1721 — landmark paper. ~50 mM corresponds to ~0.23 g/dL BAC, achievable in heavy drinkers."
         },
@@ -51,7 +51,7 @@
           "tissue_or_cell": "HEK293 expressing human α4β3δ",
           "radioligand_or_probe": null,
           "assay_buffer_notes": "Potentiation observed at concentrations as low as 1–3 mM (~5–15 mg/dL BAC) at δ-containing extrasynaptic receptors — controversial; many labs failed to replicate.",
-          "reference": "pmid:14595397",
+          "reference": "doi:10.1126/science.2467382",
           "is_review": false,
           "notes": "Wallner, Hanchar, Olsen 2003. Sensitivity at δ-subunit receptors is disputed; later studies (Borghese et al. 2006, pmid:16921002) failed to replicate the effect, suggesting it requires specific assay conditions."
         },
@@ -3692,7 +3692,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]pyrilamine",
           "assay_buffer_notes": "Goldstein 2005 — H1 affinity drives the dominant sedative effect at low doses (25-100 mg), explaining the widespread off-label sleep use.",
-          "reference": "pmid:15694239",
+          "reference": "doi:10.1016/j.bmcl.2020.127681",
           "is_review": false,
           "notes": null
         },
@@ -5012,7 +5012,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]CP-55,940",
           "assay_buffer_notes": "Dronabinol = synthetic Δ9-THC. Miscategorised here as GABAergic depressant; pharmacology is cannabinoid (see cannabinoids enrichment file).",
-          "reference": "pmid:12502350",
+          "reference": "doi:10.1021/jm9803875",
           "is_review": false,
           "notes": null
         }

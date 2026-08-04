@@ -1915,7 +1915,7 @@
           "half_life_min": 1200,
           "vd_l_per_kg": 11,
           "protein_binding_pct": 50,
-          "reference": "doi:10.2165/00003088-198611030-00003",
+          "reference": "doi:10.1007/bf00547426",
           "notes": "Caccia 1986 — fenfluramine t1/2 13–30 h (mean ~19 h depending on enantiomer); active metabolite norfenfluramine t1/2 1.5–2× longer (~30 h), accumulates with chronic dosing"
         }
       ]
