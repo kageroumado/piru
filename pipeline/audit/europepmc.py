@@ -59,8 +59,21 @@ class Record:
     first_author: str = ""
     abstract: str = ""
     is_open_access: bool = False
+    #: MEDLINE's own indexing of what the paper is about — descriptor names and
+    #: the qualifiers attached to them ("Ketamine" / "pharmacokinetics"). A
+    #: controlled vocabulary applied by a human indexer, which makes it the one
+    #: subject signal here that owes nothing to our own text matching.
+    mesh: tuple[tuple[str, tuple[str, ...]], ...] = ()
     #: Filled lazily by `text_for`; never populated by a search.
     full_text: str = ""
+
+    @property
+    def mesh_qualifiers(self) -> set[str]:
+        return {qualifier for _, qualifiers in self.mesh for qualifier in qualifiers}
+
+    @property
+    def mesh_descriptors(self) -> set[str]:
+        return {descriptor.lower() for descriptor, _ in self.mesh}
 
     @property
     def identifier(self) -> str | None:
@@ -83,9 +96,33 @@ def _strip_markup(text: str | None) -> str:
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", text)).strip()
 
 
+def _mesh_from(raw: dict) -> tuple[tuple[str, tuple[str, ...]], ...]:
+    headings = (raw.get("meshHeadingList") or {}).get("meshHeading") or []
+    out: list[tuple[str, tuple[str, ...]]] = []
+    for heading in headings:
+        if not isinstance(heading, dict):
+            continue
+        descriptor = heading.get("descriptorName")
+        if not descriptor:
+            continue
+        qualifiers = (heading.get("meshQualifierList") or {}).get("meshQualifier") or []
+        out.append(
+            (
+                descriptor,
+                tuple(
+                    q.get("qualifierName", "").lower()
+                    for q in qualifiers
+                    if isinstance(q, dict) and q.get("qualifierName")
+                ),
+            )
+        )
+    return tuple(out)
+
+
 def _record_from(raw: dict) -> Record:
     authors = raw.get("authorString") or ""
     return Record(
+        mesh=_mesh_from(raw),
         pmid=(raw.get("pmid") or None),
         pmcid=(raw.get("pmcid") or None),
         doi=(raw.get("doi") or None),

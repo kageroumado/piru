@@ -21,7 +21,8 @@ from audit.citation_sourcing import (  # noqa: E402
     parse_prose_citation,
     value_matches,
 )
-from audit.citation_topicality import target_keys  # noqa: E402
+from audit.citation_topicality import PHARMACOLOGICAL_QUALIFIERS, target_keys  # noqa: E402
+from audit.europepmc import _record_from  # noqa: E402
 
 
 def canonical(text, unit_class):
@@ -135,6 +136,57 @@ class TestTargetKeys(unittest.TestCase):
     def test_filler_words_never_become_a_key(self):
         grams, phrases = target_keys("receptor site")
         self.assertEqual(grams | phrases, set())
+
+
+class TestMeshDomain(unittest.TestCase):
+    """The domain check reads MEDLINE's own indexing, so it works with no
+    abstract and no full text. Both halves of the parse are load-bearing: a
+    missing qualifier list must not crash, and an unindexed paper must stay
+    silent rather than be accused."""
+
+    def test_qualifiers_are_flattened_across_headings(self):
+        record = _record_from(
+            {
+                "meshHeadingList": {
+                    "meshHeading": [
+                        {
+                            "descriptorName": "Ketamine",
+                            "meshQualifierList": {
+                                "meshQualifier": [
+                                    {"qualifierName": "pharmacokinetics"},
+                                    {"qualifierName": "pharmacology"},
+                                ]
+                            },
+                        },
+                        {"descriptorName": "Animals"},
+                    ]
+                }
+            }
+        )
+        self.assertEqual(record.mesh_qualifiers, {"pharmacokinetics", "pharmacology"})
+        self.assertEqual(record.mesh_descriptors, {"ketamine", "animals"})
+        self.assertTrue(record.mesh_qualifiers & PHARMACOLOGICAL_QUALIFIERS)
+
+    def test_a_paper_about_no_substance_has_no_pharmacological_qualifier(self):
+        # "ASA Award. Kai Rehder", cited as the source of ketamine's half-life.
+        record = _record_from(
+            {
+                "meshHeadingList": {
+                    "meshHeading": [
+                        {"descriptorName": "Anesthesiology"},
+                        {"descriptorName": "Awards and Prizes"},
+                        {"descriptorName": "History, 20th Century"},
+                    ]
+                }
+            }
+        )
+        self.assertFalse(record.mesh_qualifiers & PHARMACOLOGICAL_QUALIFIERS)
+
+    def test_an_unindexed_paper_yields_no_mesh_at_all(self):
+        # Distinct from "indexed under nothing relevant" — the domain check must
+        # stay silent here, because the absence is about the journal, not the
+        # paper.
+        self.assertEqual(_record_from({"title": "A preprint"}).mesh, ())
 
 
 if __name__ == "__main__":

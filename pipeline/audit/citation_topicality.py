@@ -70,6 +70,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from audit.europepmc import client as epmc_client  # noqa: E402
 from audit.verify_citations import SYNONYMS, load_cache  # noqa: E402
 from build.sqlite import normalise  # noqa: E402
 
@@ -349,6 +350,42 @@ TARGET_STOPWORDS = {
     "unknown",
     "and",
     "the",
+}
+
+#: MeSH qualifiers that mark a paper as saying something about a *substance*.
+#:
+#: MEDLINE indexers attach these by hand from a controlled vocabulary, which
+#: makes them the one subject signal in this file that owes nothing to our own
+#: string matching — and the only one that works with no abstract at all.
+#:
+#: The rule built on them is narrow on purpose: a paper carrying a per-compound
+#: number must be indexed under at least one of these. Measured across every
+#: MEDLINE-indexed citation attached to a numeric row, 16 papers failed it that
+#: nothing else in this pipeline flagged, and all 16 were garbage — "The Ostom-i™
+#: Alert Sensor: a new device to measure stoma output" as the source of
+#: butylone's pharmacology, "ASA Award. Kai Rehder" for ketamine's, "India.
+#: Saving female babies" for alcohol's.
+#:
+#: It is deliberately NOT a test of whether the paper is about the right drug.
+#: The shark-bite case report passes, because the antibiotics it prescribes are
+#: indexed under `pharmacology`. Catching that one is topicality's job; this
+#: catches the paper that is not about pharmacology at all.
+PHARMACOLOGICAL_QUALIFIERS = {
+    "administration & dosage",
+    "adverse effects",
+    "agonists",
+    "analogs & derivatives",
+    "antagonists & inhibitors",
+    "blood",
+    "chemical synthesis",
+    "chemistry",
+    "metabolism",
+    "pharmacokinetics",
+    "pharmacology",
+    "poisoning",
+    "therapeutic use",
+    "toxicity",
+    "urine",
 }
 
 #: Tables whose rows are a *number attached to one compound*. A citation under
@@ -1002,6 +1039,63 @@ def evaluate(
 # ------------------------------------------------------------------------ main
 
 
+def domain_findings(
+    attachments: dict[tuple[int, int], Attachment],
+    citations: dict[int, dict],
+    substances: dict[int, SubstanceNames],
+    allow: set[str],
+) -> list[Finding]:
+    """Citations indexed by MEDLINE as being about no substance at all.
+
+    Runs off `meshHeadingList`, so unlike every other check here it needs no
+    abstract and no full text — which is why it reaches papers the rest of the
+    pipeline is structurally blind to.
+
+    Only numeric rows are judged. A prose row may legitimately cite a paper with
+    no drug indexing (an epidemiology survey behind a `descriptions` sentence);
+    a Kᵢ may not.
+    """
+    api = epmc_client(offline=True)
+    findings: list[Finding] = []
+    for (cid, sid), attachment in sorted(attachments.items()):
+        if not attachment.tables & NUMERIC_TABLES or sid not in substances:
+            continue
+        citation = citations.get(cid)
+        if not citation:
+            continue
+        record = api.by_id(pmid=citation["pmid"], doi=citation["doi"])
+        # No MeSH means not MEDLINE-indexed, which is a fact about the journal
+        # and not about the paper. Silence is the only honest verdict there.
+        if record is None or not record.mesh:
+            continue
+        if record.mesh_qualifiers & PHARMACOLOGICAL_QUALIFIERS:
+            continue
+        names = substances[sid]
+        identifier = record.identifier or "—"
+        if f"{identifier}|{names.canonical}" in allow:
+            continue
+        findings.append(
+            Finding(
+                citation_id=cid,
+                identifier=identifier,
+                substance=names.canonical,
+                verdict="OFF_DOMAIN",
+                score=0.75,
+                title=record.title,
+                reasons=[
+                    "MEDLINE indexed this paper under no drug or chemical qualifier",
+                    f"indexed as: {', '.join(sorted(record.mesh_descriptors)[:6])}",
+                    f"published in {record.journal}" if record.journal else "journal unknown",
+                ],
+                other=None,
+                tables=sorted(attachment.tables),
+                has_abstract=bool(record.abstract),
+                numeric=True,
+            )
+        )
+    return findings
+
+
 def load_allowlist() -> set[str]:
     """Findings a human has already adjudicated as fine, keyed
     "<identifier>|<canonical name>". `--gate` ignores these; the report still
@@ -1033,6 +1127,15 @@ def load_backlog() -> set[str]:
         return {k for k in json.loads(BACKLOG.read_text()) if not k.startswith("_")}
     except (ValueError, OSError):
         return set()
+
+
+def _citation_key(citation: dict) -> str | None:
+    """The cache key for a citation: DOI first, PMID second, nothing otherwise."""
+    if citation.get("doi"):
+        return f"doi:{citation['doi']}"
+    if citation.get("pmid"):
+        return f"pmid:{citation['pmid']}"
+    return None
 
 
 def load_abstracts(path: Path) -> dict[str, str]:
@@ -1074,6 +1177,13 @@ def main() -> int:
         help="also fail on a hard ABSENT — absence confirmed against the abstract, "
         "on a row citing a per-compound number. Catches the misattribution that "
         "names no rival compound, which WRONG_SUBSTANCE structurally cannot see.",
+    )
+    parser.add_argument(
+        "--gate-domain",
+        action="store_true",
+        help="also fail when a per-compound number cites a paper MEDLINE indexed "
+        "under no drug or chemical qualifier. Needs no abstract, so it reaches "
+        "citations every other check here is structurally blind to.",
     )
     parser.add_argument(
         "--gate-absent-threshold",
@@ -1138,6 +1248,38 @@ def main() -> int:
                 time.sleep(0.12)
             save_abstracts(args.abstract_cache, abstracts)
 
+        # Whatever PubMed and Crossref still have no abstract for, ask Europe PMC.
+        # It is not a third opinion — it is a different corpus: it carries an
+        # abstract for papers Crossref stores none for, and it resolves DOIs and
+        # PMIDs through one query grammar. Coverage is what bounds this whole
+        # check, since a citation with no abstract can never reach a hard
+        # absence, so the last 20% of coverage buys more than any threshold.
+        still_missing = [
+            (cid, citations[cid])
+            for cid in wanted
+            if cid in citations
+            and not abstracts.get(_citation_key(citations[cid]) or "", "").strip()
+        ]
+        if still_missing:
+            print(
+                f"Fetching {len(still_missing)} remaining abstract(s) from Europe PMC…",
+                file=sys.stderr,
+            )
+            api = epmc_client()
+            for n, (_cid, citation) in enumerate(still_missing, 1):
+                key = _citation_key(citation)
+                if not key:
+                    continue
+                record = api.by_id(pmid=citation["pmid"], doi=citation["doi"])
+                if record and record.abstract:
+                    abstracts[key] = record.abstract
+                if n % 50 == 0:
+                    print(f"  {n}/{len(still_missing)}", file=sys.stderr)
+                    api.save()
+                    save_abstracts(args.abstract_cache, abstracts)
+            api.save()
+            save_abstracts(args.abstract_cache, abstracts)
+
     # The accusation index: name → substances answering to it, minus every name
     # too short, too English, or too generic to survive contact with a title.
     accusable: dict[str, set[int]] = defaultdict(set)
@@ -1187,6 +1329,7 @@ def main() -> int:
             mentioned_by[cid].add(sid)
 
     allow = load_allowlist()
+    off_domain = domain_findings(attachments, citations, substances, allow)
     findings: list[Finding] = []
     for (cid, sid), attachment in attachments.items():
         entry = indexes.get(cid)
@@ -1218,6 +1361,13 @@ def main() -> int:
         f"\ncitation-topicality: {len(attachments)} (citation, substance) pair(s) over "
         f"{checked} resolvable citation(s) in {args.db.name}"
     )
+    if off_domain:
+        print(f"\nOFF_DOMAIN: {len(off_domain)}")
+        for finding in off_domain[: args.top]:
+            print(f"  {finding.line()}")
+        if len(off_domain) > args.top:
+            print(f"  … and {len(off_domain) - args.top} more")
+
     for verdict in ("WRONG_SUBSTANCE", "ANALOG_SUBSTANCE", "ABSENT"):
         rows = buckets.get(verdict, [])
         if not rows:
@@ -1253,6 +1403,8 @@ def main() -> int:
         # rival compound, so WRONG_SUBSTANCE never fired and the gate stayed green
         # over both. Off by default only because the standing backlog is large;
         # see --gate-absent.
+        if args.gate_domain:
+            failures += off_domain
         if args.gate_absent:
             backlog = load_backlog()
             hard = [
