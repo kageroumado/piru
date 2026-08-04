@@ -7437,7 +7437,7 @@ class Build:
     # supplements. Drives two dose_ranges columns the loader consumes later:
     #
     #   rank      Universal. 0 = the default the app should pre-select; 1, 2 … =
-    #             the rest. Kiri-approved leads: Magnesium Glycinate, Lithium
+    #             the rest. Maintainer-approved leads: Magnesium Glycinate, Lithium
     #             Carbonate, Tianeptine Sodium (the Stablon pharma standard).
     #   elemental Mineral-only enrichment, else None. Mass fraction of the
     #             elemental metal so the app can show "≈ N mg elemental Mg/Li".
@@ -7760,7 +7760,7 @@ class Build:
         """Remove the salt-tagged ACUTE duration rows on the Mg/Li supplement
         parents.
 
-        Audit decision (WS-5 #5, Kiri-flagged): Magnesium (a mineral ion) and
+        Audit decision (WS-5 #5, maintainer-flagged): Magnesium (a mineral ion) and
         Lithium (a serum-level-titrated maintenance drug) have no perceptible
         acute onset/peak/offset curve — the salt-tagged durations folded in from
         the curated variant files reflect serum Tmax, not a felt effect, and

@@ -39,7 +39,7 @@ final class NotificationPreferences {
     var quietHoursEndMinutes: Int = 7 * 60
 
     /// Per-type Time Sensitive delivery (break through Focus / the summary) —
-    /// the user decides which of the eligible types get it (Kiri, 2026-07-18).
+    /// the user decides which of the eligible types get it (maintainer decision, 2026-07-18).
     /// Defaults on, matching the behavior before the setting existed.
     var routineTimeSensitive: Bool = true
     var routineFollowUpTimeSensitive: Bool = true
