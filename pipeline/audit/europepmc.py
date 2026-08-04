@@ -57,6 +57,10 @@ class Record:
     volume: str = ""
     pages: str = ""
     first_author: str = ""
+    #: Every author, as Europe PMC returns them. Kept whole because an
+    #: author-and-year query is only as good as the check that the paper it
+    #: returned is actually by that author.
+    authors: str = ""
     abstract: str = ""
     is_open_access: bool = False
     #: MEDLINE's own indexing of what the paper is about — descriptor names and
@@ -136,6 +140,7 @@ def _record_from(raw: dict) -> Record:
         volume=str((raw.get("journalInfo") or {}).get("volume") or ""),
         pages=raw.get("pageInfo") or "",
         first_author=authors.split(",")[0].strip(),
+        authors=authors,
         abstract=_strip_markup(raw.get("abstractText")),
         is_open_access=(raw.get("isOpenAccess") == "Y"),
     )

@@ -49,16 +49,26 @@ import math
 import re
 import sqlite3
 import sys
+import time
 import unicodedata
+import urllib.error
+import urllib.parse
+import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from audit.citation_topicality import (  # noqa: E402
+    PHARMACOLOGICAL_QUALIFIERS,
+    TARGET_STOPWORDS,
+    target_keys,
+)
 from audit.europepmc import Record, client  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_DB = REPO / "Piru/Data/piru-substances.sqlite"
+USER_AGENT = "piru-citation-sourcing/1.0 (https://github.com/kageroumado/piru)"
 
 
 # --------------------------------------------------------------- quantities
@@ -322,10 +332,16 @@ class Row:
     subject: str
     values: list[tuple[str, float, str]] = field(default_factory=list)
     notes: str = ""
+    #: The substance's InChIKey, when known. This is the only *exact* identity
+    #: link out of this database — a name search guesses, an InChIKey does not.
+    inchikey: str = ""
 
 
 def load_rows(conn: sqlite3.Connection, only_citations: set[int] | None = None) -> list[Row]:
     substances = dict(conn.execute("SELECT id, canonical_name FROM substances"))
+    inchikeys = {
+        sid: key for sid, key in conn.execute("SELECT id, inchikey FROM substances") if key
+    }
     identifiers = {}
     for cid, doi, pmid, url in conn.execute("SELECT id, doi, pmid, url FROM citations"):
         identifiers[cid] = f"doi:{doi}" if doi else (f"pmid:{pmid}" if pmid else (url or "—"))
@@ -369,9 +385,232 @@ def load_rows(conn: sqlite3.Connection, only_citations: set[int] | None = None) 
                     subject=str(data.get(subject) or "") if subject else "",
                     values=values,
                     notes=str(data.get("notes") or ""),
+                    inchikey=inchikeys.get(data["substance_id"], ""),
                 )
             )
     return rows
+
+
+# -------------------------------------------------------------------- ChEMBL
+
+
+CHEMBL_BASE = "https://www.ebi.ac.uk/chembl/api/data"
+CHEMBL_CACHE = REPO / "data/sources/chembl-cache.json"
+
+#: Which ChEMBL `standard_type` may satisfy which of our columns. Kd is allowed
+#: to answer a Kᵢ because curators file displacement constants under either, but
+#: an IC50 may not — it is assay-conditional and not an affinity.
+CHEMBL_TYPES = {
+    "ki_nm": ("Ki", "Kd"),
+    "kd_nm": ("Kd", "Ki"),
+    "ec50_nm": ("EC50",),
+    "ic50_nm": ("IC50",),
+    "ki_or_ic50_nm": ("Ki", "IC50", "Kd"),
+}
+
+
+class ChEMBL:
+    """The one source here that knows which paper a NUMBER came from.
+
+    Every other repair route works backwards — take a value, guess at papers,
+    hope one contains it. ChEMBL's curators already did the forward version:
+    they read the primary literature and recorded each measured constant against
+    the document it was extracted from. So a row claiming `Kᵢ = 66.4 nM` can be
+    matched to the activity record holding 66.4 nM, and that record names its
+    own source.
+
+    Identity comes from the InChIKey rather than the name wherever possible. A
+    name search for "MDMA" or "4-CMC" returns whatever ChEMBL's synonym table
+    happens to hold; an InChIKey is the compound.
+    """
+
+    def __init__(self, offline: bool = False) -> None:
+        self.offline = offline
+        self._cache: dict = {}
+        self._dirty = False
+        if CHEMBL_CACHE.exists():
+            try:
+                self._cache = json.loads(CHEMBL_CACHE.read_text())
+            except ValueError:
+                self._cache = {}
+
+    def save(self) -> None:
+        if self._dirty:
+            CHEMBL_CACHE.parent.mkdir(parents=True, exist_ok=True)
+            CHEMBL_CACHE.write_text(json.dumps(self._cache, indent=1, sort_keys=True) + "\n")
+            self._dirty = False
+
+    def _get(self, key: str, path: str):
+        if key in self._cache:
+            return self._cache[key]
+        if self.offline:
+            return None
+        request = urllib.request.Request(
+            f"{CHEMBL_BASE}/{path}", headers={"User-Agent": USER_AGENT}
+        )
+        payload = None
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                payload = json.loads(response.read())
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
+            payload = None
+        self._cache[key] = payload
+        self._dirty = True
+        time.sleep(0.15)
+        return payload
+
+    def molecule_id(self, inchikey: str, name: str) -> str | None:
+        if inchikey:
+            payload = self._get(
+                f"mol:key:{inchikey}",
+                f"molecule?molecule_structures__standard_inchi_key={urllib.parse.quote(inchikey)}&format=json",
+            )
+            molecules = (payload or {}).get("molecules") or []
+            if molecules:
+                return molecules[0].get("molecule_chembl_id")
+        if name:
+            payload = self._get(
+                f"mol:name:{name.lower()}",
+                f"molecule/search?q={urllib.parse.quote(name)}&format=json",
+            )
+            molecules = (payload or {}).get("molecules") or []
+            if molecules:
+                return molecules[0].get("molecule_chembl_id")
+        return None
+
+    def activities(self, molecule_id: str) -> list[dict]:
+        out: list[dict] = []
+        for offset in (0, 1000):
+            payload = self._get(
+                f"act:{molecule_id}:{offset}",
+                f"activity?molecule_chembl_id={molecule_id}&limit=1000&offset={offset}&format=json",
+            )
+            chunk = (payload or {}).get("activities") or []
+            out.extend(chunk)
+            if len(chunk) < 1000:
+                break
+        return out
+
+    def document(self, document_id: str) -> dict | None:
+        return self._get(f"doc:{document_id}", f"document/{document_id}?format=json")
+
+
+_SUBTYPE = re.compile(r"(\d+[a-z]?)$")
+
+
+def _identifying_words(terms: set[str]) -> set[str]:
+    return {
+        word
+        for term in terms
+        for word in re.split(r"[^a-z0-9]+", term.lower())
+        if len(word) >= 3 and word not in TARGET_STOPWORDS
+    }
+
+
+def target_agrees(subject: str, other: str) -> bool:
+    """Whether a foreign target name denotes the same protein as ours.
+
+    Two failure modes pull in opposite directions and both are real:
+
+        KOR   vs "Kappa-type opioid receptor"   — share no word, same protein
+        CB1   vs "Cannabinoid receptor 2"       — share every word, different one
+
+    So the test is word overlap *through the synonym expansion*, plus a veto on
+    disagreeing subtype markers. The veto is what stops a CB2 Kᵢ of 39.3 nM being
+    offered as the source of THC's CB1 row, and an hERG row is rejected outright
+    for sharing nothing with "Sigma non-opioid intracellular receptor 1".
+    """
+    grams, phrases = target_keys(subject)
+    # "receptor", "transporter", "channel" are shared by almost every protein
+    # name in the corpus, so an overlap on them alone means nothing: it is what
+    # made NET agree with "Sodium-dependent DOPAMINE transporter".
+    ours = _identifying_words(grams | phrases | {subject.lower()})
+    theirs = _identifying_words({other})
+    if not ours & theirs:
+        return False
+
+    our_subtype = next(
+        (match.group(1) for key in sorted(grams) if (match := _SUBTYPE.search(key))), None
+    )
+    if our_subtype:
+        their_subtypes = set(re.findall(r"\b(\d+[a-z]?)\b", other.lower()))
+        if their_subtypes and our_subtype not in their_subtypes:
+            return False
+    return True
+
+
+def chembl_sources(row: Row, api: ChEMBL) -> list[dict]:
+    """The papers ChEMBL says reported this row's exact value at this target.
+
+    Returns one entry per distinct document, best first. An empty list means
+    ChEMBL holds no activity matching the value — which is informative in its
+    own right for a well-covered compound, and meaningless for a research
+    chemical ChEMBL has never seen.
+    """
+    molecule_id = api.molecule_id(row.inchikey, row.substance)
+    if not molecule_id:
+        return []
+
+    proposals: dict[str, dict] = {}
+    for activity in api.activities(molecule_id):
+        standard_type = activity.get("standard_type")
+        units = (activity.get("standard_units") or "").lower()
+        raw_value = activity.get("standard_value")
+        document_id = activity.get("document_chembl_id")
+        if not (standard_type and raw_value and document_id) or units not in CONCENTRATION_NM:
+            continue
+        try:
+            measured = float(raw_value) * CONCENTRATION_NM[units]
+        except (TypeError, ValueError):
+            continue
+
+        for column, value, unit_class in row.values:
+            if unit_class != "concentration":
+                continue
+            if standard_type not in CHEMBL_TYPES.get(column, ()):
+                continue
+            if (
+                corroboration_strength(value, unit_class, Quantity(measured, unit_class, ""))
+                != "high"
+            ):
+                continue
+            if not value_matches(value, unit_class, [Quantity(measured, unit_class, "")]):
+                continue
+
+            document = api.document(document_id)
+            if not document:
+                continue
+            identifier = (
+                f"doi:{document['doi']}"
+                if document.get("doi")
+                else f"pmid:{document['pubmed_id']}"
+                if document.get("pubmed_id")
+                else None
+            )
+            if not identifier or identifier in proposals:
+                continue
+            # The target must AGREE, and this was learned the expensive way.
+            # Scoring it and taking the best anyway proposed a CB2 Kᵢ of 39.3 nM
+            # as the source of THC's CB1 row (41 nM), and a sigma-1 Kᵢ of 5070 nM
+            # as the source of dextromethorphan's hERG row (5100 nM). Both are
+            # real measurements of the right compound at the wrong protein, and
+            # a near-miss number made them look like confirmations.
+            target_name = activity.get("target_pref_name") or ""
+            if row.subject and not target_agrees(row.subject, target_name):
+                continue
+            proposals[identifier] = {
+                "identifier": identifier,
+                "score": 100.0,
+                "why": (
+                    f"ChEMBL records {standard_type} {raw_value} {units} for this compound"
+                    + (f" at {target_name}" if target_name else "")
+                    + f", extracted from this paper (matches {column}={value:g})"
+                ),
+                "cite": f"{document.get('journal', '')} {document.get('year', '')} — {document.get('title', '')}"[
+                    :160
+                ],
+            }
+    return sorted(proposals.values(), key=lambda p: -p["score"])[:3]
 
 
 # ----------------------------------------------------------------- searching
@@ -472,8 +711,14 @@ def propose_sources(row: Row, api, limit: int = 6) -> list[tuple[float, Record, 
 #: identifier. Author names are constrained to a leading capital and no trailing
 #: possessive so that "Table 1" and "Figure 2A" cannot pass as authors.
 PROSE_CITE_RE = re.compile(
-    r"\b(?P<author>[A-Z][A-Za-zÀ-ɏ'-]{2,})"
-    r"(?:\s*(?:et\s+al\.?|and\s+colleagues|&\s*[A-Z][A-Za-z'-]+|/\s*[A-Z][A-Za-z'-]+))?"
+    # Up to three surnames may precede the year, and capturing ALL of them is
+    # what makes the match checkable. "Wallner, Hanchar, Olsen 2003" parsed to
+    # its LAST surname alone resolved to a Danish cancer cohort — which really
+    # does have an author named Olsen. One surname plus a year identifies a
+    # paper far less often than it looks.
+    r"\b(?P<authors>[A-Z][A-Za-zÀ-ɏ'-]{2,}"
+    r"(?:\s*(?:,|&|/|\band\b)\s*[A-Z][A-Za-zÀ-ɏ'-]{2,}){0,2})"
+    r"(?:\s*(?:et\s+al\.?|and\s+colleagues))?"
     r"[,.]?\s*\(?(?P<year>(?:19|20)\d{2})\)?"
 )
 #: Words that pass the author pattern but never name a person.
@@ -501,17 +746,26 @@ NOT_AUTHORS = {
 
 @dataclass
 class ProseCitation:
-    author: str
+    authors: tuple[str, ...]
     year: str
     raw: str
+
+    @property
+    def author(self) -> str:
+        """The surname to query on. The rest are used to check the answer."""
+        return self.authors[0]
 
 
 def parse_prose_citation(notes: str) -> ProseCitation | None:
     for match in PROSE_CITE_RE.finditer(notes or ""):
-        author = match.group("author")
-        if author.lower() in NOT_AUTHORS:
+        surnames = tuple(
+            name.strip()
+            for name in re.split(r"\s*(?:,|&|/|\band\b)\s*", match.group("authors"))
+            if name.strip() and name.strip().lower() not in NOT_AUTHORS
+        )
+        if not surnames:
             continue
-        return ProseCitation(author=author, year=match.group("year"), raw=match.group(0))
+        return ProseCitation(authors=surnames, year=match.group("year"), raw=match.group(0))
     return None
 
 
@@ -532,7 +786,11 @@ def resolve_prose(row: Row, api) -> tuple[str, str, Record | None]:
         f'AUTH:"{prose.author}" AND PUB_YEAR:{prose.year} AND "{name}"',
         f'AUTH:"{prose.author}" AND PUB_YEAR:[{int(prose.year) - 1} TO {int(prose.year) + 1}] AND "{name}"',
     ):
-        hits = api.search(query, page_size=5)
+        hits = [
+            candidate
+            for candidate in api.search(query, page_size=5)
+            if _wrote_it(candidate, prose.authors) and _plausible_source(candidate)
+        ]
         if not hits:
             continue
         best = hits[0]
@@ -544,6 +802,35 @@ def resolve_prose(row: Row, api) -> tuple[str, str, Record | None]:
             best,
         )
     return "PROSE_UNRESOLVED", f"“{prose.raw}” matched no paper naming {name}", None
+
+
+def _wrote_it(record: Record, surnames: tuple[str, ...]) -> bool:
+    """Whether this paper is actually by the author the notes named.
+
+    Europe PMC's AUTH field is a hint, not a filter: `AUTH:"Wallner" AND
+    PUB_YEAR:2003 AND "alcohol"` returned a Tjønneland epidemiology paper, and
+    `AUTH:"Zadina" ... "endomorphin"` returned one by Champion. Both were then
+    offered as replacement sources — which would have swapped one fabricated
+    citation for another, differently wrong one. The surname the curator wrote
+    has to appear in the author list, or the hit is not the paper they meant.
+    """
+    listed = (record.authors or "").lower()
+    return all(surname.lower() in listed for surname in surnames)
+
+
+def _plausible_source(record: Record) -> bool:
+    """Whether a search hit could be anyone's pharmacology source at all.
+
+    An author-and-year query is a blunt instrument: "Tjønneland 2003" plus
+    "alcohol" returned *"Alcohol intake, drinking patterns…"* in Cancer Causes &
+    Control, and the resolver offered that epidemiology paper as the source of
+    ethanol's GABA-A affinity. Reusing the MeSH domain rule here costs nothing
+    and rejects exactly that shape — a real paper, the right author, the right
+    year, and not a pharmacology paper.
+    """
+    if not record.mesh:
+        return True  # unindexed says nothing; refusing here would punish preprints
+    return bool(record.mesh_qualifiers & PHARMACOLOGICAL_QUALIFIERS)
 
 
 # ------------------------------------------------------------------ checking
@@ -575,7 +862,7 @@ class Result:
         return "\n".join(lines)
 
 
-def check_row(row: Row, api, propose: bool, read_notes: bool = True) -> Result:
+def check_row(row: Row, api, propose: bool, read_notes: bool = True, chembl=None) -> Result:
     pmid = row.identifier[5:] if row.identifier.startswith("pmid:") else None
     doi = row.identifier[4:] if row.identifier.startswith("doi:") else None
     record = api.by_id(pmid=pmid, doi=doi)
@@ -642,6 +929,13 @@ def check_row(row: Row, api, propose: bool, read_notes: bool = True) -> Result:
                 }
             )
 
+    if chembl is not None and verdict != "VALUE_PRESENT":
+        # ChEMBL first, unconditionally: it is the only route that knows the
+        # value-to-paper link rather than inferring it.
+        for proposal in chembl_sources(row, chembl):
+            if not any(p["identifier"] == proposal["identifier"] for p in result.proposals):
+                result.proposals.append(proposal)
+
     if propose and verdict != "VALUE_PRESENT":
         for score, candidate, why in propose_sources(row, api):
             if any(p["identifier"] == candidate.identifier for p in result.proposals):
@@ -668,6 +962,13 @@ def main() -> int:
     )
     parser.add_argument("--check", action="store_true", help="check every checkable row")
     parser.add_argument("--propose", action="store_true", help="hunt for replacement sources")
+    parser.add_argument(
+        "--chembl",
+        action="store_true",
+        help="ask ChEMBL which paper reported this row's value. The strongest "
+        "repair route available: its curators recorded each constant against the "
+        "document they read it from, so this recovers a source instead of guessing one.",
+    )
     parser.add_argument(
         "--no-notes",
         action="store_true",
@@ -703,15 +1004,22 @@ def main() -> int:
         rows = rows[: args.limit]
 
     api = client(offline=args.offline)
+    chembl = ChEMBL(offline=args.offline) if args.chembl else None
     results: list[Result] = []
     try:
         for index, row in enumerate(rows, 1):
-            results.append(check_row(row, api, args.propose, read_notes=not args.no_notes))
+            results.append(
+                check_row(row, api, args.propose, read_notes=not args.no_notes, chembl=chembl)
+            )
             if index % 25 == 0:
                 api.save()
+                if chembl:
+                    chembl.save()
                 print(f"  … {index}/{len(rows)}", file=sys.stderr)
     finally:
         api.save()
+        if chembl:
+            chembl.save()
 
     counts: dict[str, int] = {}
     for result in results:

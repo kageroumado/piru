@@ -19,6 +19,7 @@ from audit.citation_sourcing import (  # noqa: E402
     extract_quantities,
     match_strength,
     parse_prose_citation,
+    target_agrees,
     value_matches,
 )
 from audit.citation_topicality import PHARMACOLOGICAL_QUALIFIERS, target_keys  # noqa: E402
@@ -100,11 +101,18 @@ class TestMatchStrength(unittest.TestCase):
 class TestProseCitation(unittest.TestCase):
     def test_author_year_is_recovered(self):
         prose = parse_prose_citation("Kang et al. 2017 (Neuropharmacology 112:144-149).")
-        self.assertEqual((prose.author, prose.year), ("Kang", "2017"))
+        self.assertEqual((prose.authors, prose.year), (("Kang",), "2017"))
 
     def test_ampersand_pair(self):
         prose = parse_prose_citation("Setola & Roth 2003. 5-HT2B agonism is…")
-        self.assertEqual((prose.author, prose.year), ("Setola", "2003"))
+        self.assertEqual(prose.authors, ("Setola", "Roth"))
+
+    def test_every_named_surname_is_captured(self):
+        # Parsed to its last surname alone, "Wallner, Hanchar, Olsen 2003"
+        # resolved to a Danish cancer cohort — which really does have an author
+        # named Olsen. All three are needed to check the answer.
+        prose = parse_prose_citation("Wallner, Hanchar, Olsen 2003. Sensitivity at δ…")
+        self.assertEqual(prose.authors, ("Wallner", "Hanchar", "Olsen"))
 
     def test_table_reference_is_not_an_author(self):
         self.assertIsNone(parse_prose_citation("Table 1 of the 2019 panel"))
@@ -136,6 +144,33 @@ class TestTargetKeys(unittest.TestCase):
     def test_filler_words_never_become_a_key(self):
         grams, phrases = target_keys("receptor site")
         self.assertEqual(grams | phrases, set())
+
+
+class TestTargetAgreement(unittest.TestCase):
+    """Two failure modes pull in opposite directions, and a foreign target name
+    has to survive both: an abbreviation shares no word with its spelled-out
+    form, and a receptor subtype shares every word with its siblings."""
+
+    def test_an_abbreviation_matches_its_spelled_out_protein(self):
+        self.assertTrue(target_agrees("KOR", "Kappa-type opioid receptor"))
+        self.assertTrue(target_agrees("μ-opioid (MOR)", "Mu opioid receptor"))
+
+    def test_a_disagreeing_subtype_is_vetoed(self):
+        # A CB2 Ki of 39.3 nM was offered as the source of THC's CB1 row (41 nM):
+        # right compound, right journal, wrong protein, near-enough number.
+        self.assertTrue(target_agrees("CB1", "Cannabinoid receptor 1"))
+        self.assertFalse(target_agrees("CB1", "Cannabinoid receptor 2"))
+        self.assertFalse(target_agrees("5-HT2A", "Serotonin 2c (5-HT2c) receptor"))
+
+    def test_a_shared_filler_word_is_not_agreement(self):
+        # "transporter" alone made NET agree with the DOPAMINE transporter.
+        self.assertFalse(target_agrees("NET", "Sodium-dependent dopamine transporter"))
+        self.assertTrue(target_agrees("NET", "Sodium-dependent noradrenaline transporter"))
+
+    def test_unrelated_proteins_share_nothing(self):
+        self.assertFalse(
+            target_agrees("hERG (Kv11.1)", "Sigma non-opioid intracellular receptor 1")
+        )
 
 
 class TestMeshDomain(unittest.TestCase):

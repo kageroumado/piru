@@ -61,6 +61,12 @@ jobs:
         run: python3 pipeline/build/tests/test_removed_substances.py
       - name: Link-validator tests (verdict + cache staleness)
         run: python3 pipeline/audit/tests/test_validate_links.py
+      # Unit canonicalisation and match strength decide whether the value check
+      # is deterministic or merely plausible, so they are pinned rather than
+      # trusted: a row holding ki_nm = 66.4 has to match "0.0664 µM" and "pKi
+      # 7.18", and must NOT be "confirmed" by a coincidental "50%".
+      - name: Citation-sourcing tests (units, match strength, MeSH domain)
+        run: python3 pipeline/audit/tests/test_citation_sourcing.py
       - name: Dedupe tests (exact rows, prose echoes, value duplicates)
         run: python3 pipeline/build/tests/test_dedupe.py
       - name: No duplicated values in the shipped DB
