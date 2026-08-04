@@ -25,6 +25,7 @@ import argparse
 import json
 import re
 import sqlite3
+import sys
 import time
 import urllib.error
 import urllib.parse
@@ -32,6 +33,7 @@ import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 DB = REPO / "Piru/Data/piru-substances.sqlite"
 OUT = REPO / "data/enrichment/raw/metabolites-active.json"
 
@@ -102,6 +104,22 @@ def resolve_citation(ref: str) -> tuple[bool, str]:
     """Resolve a reference to (found, title). Network; used only under
     ``--verify-citations``. A well-formed DOI that resolves to nothing is an
     invented one — the failure mode a regex can never catch."""
+    from audit.papers import papers_cache  # noqa: E402
+
+    pc = papers_cache()
+    if pc.available:
+        ident = (
+            ref[4:]
+            if ref.lower().startswith("doi:")
+            else ref[5:]
+            if ref.lower().startswith("pmid:")
+            else None
+        )
+        if ident:
+            pm = pc.meta(ident)
+            if pm and pm.get("title"):
+                return (True, pm["title"])
+
     try:
         if ref.lower().startswith("doi:"):
             doi = ref[4:]

@@ -1222,6 +1222,42 @@ def main() -> int:
         wanted = wanted[: args.limit]
         attachments = {k: v for k, v in attachments.items() if k[0] in set(wanted)}
 
+    # ── papers cache: fill abstracts + metadata from local full-text ──────
+    from audit.papers import papers_cache  # noqa: E402
+
+    pc = papers_cache()
+    if pc.available:
+        filled = 0
+        for cid in wanted:
+            citation = citations.get(cid)
+            if not citation:
+                continue
+            ident = citation["doi"] or citation["pmid"]
+            if not ident:
+                continue
+            key = _citation_key(citation)
+            if not key or abstracts.get(key, "").strip():
+                continue
+            paper_text = pc.text(ident)
+            if paper_text:
+                abstracts[key] = paper_text
+                filled += 1
+                continue
+            pm = pc.meta(ident)
+            if pm and pm.get("title"):
+                meta.setdefault(
+                    key,
+                    {
+                        "title": pm["title"],
+                        "journal": pm["journal"],
+                        "subjects": [],
+                        "year": pm["year"],
+                    },
+                )
+        if filled:
+            print(f"Filled {filled} abstract(s) from the papers cache", file=sys.stderr)
+            save_abstracts(args.abstract_cache, abstracts)
+
     if not args.offline:
         want_pmids = [
             citations[c]["pmid"]

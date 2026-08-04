@@ -65,6 +65,7 @@ from audit.citation_topicality import (  # noqa: E402
     target_keys,
 )
 from audit.europepmc import Record, client  # noqa: E402
+from audit.papers import papers_cache  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_DB = REPO / "Piru/Data/piru-substances.sqlite"
@@ -865,14 +866,19 @@ class Result:
 def check_row(row: Row, api, propose: bool, read_notes: bool = True, chembl=None) -> Result:
     pmid = row.identifier[5:] if row.identifier.startswith("pmid:") else None
     doi = row.identifier[4:] if row.identifier.startswith("doi:") else None
-    record = api.by_id(pmid=pmid, doi=doi)
-    text = api.text_for(record)
 
-    # Coverage is reported, not inferred from the verdict, because "the number is
-    # not in this paper" and "we only ever saw the title" print identically
-    # otherwise — and only the first is evidence. A Kᵢ lives in Table 2, so an
-    # absence read off an abstract means almost nothing and must never gate.
-    if record and record.pmcid and record.full_text:
+    # ── papers cache: full text from local cache if available ─────────
+    papers_text = ""
+    pc = papers_cache()
+    if pc.available:
+        ident = doi or pmid
+        if ident:
+            papers_text = pc.text(ident)
+
+    record = api.by_id(pmid=pmid, doi=doi)
+    text = papers_text or api.text_for(record)
+
+    if papers_text or (record and record.pmcid and record.full_text):
         coverage = "fulltext"
     elif record and record.abstract:
         coverage = "abstract"

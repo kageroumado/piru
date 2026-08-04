@@ -55,6 +55,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 DEFAULT_DB = REPO / "Piru/Data/piru-substances.sqlite"
 CACHE = REPO / "data/sources/citation-verify-cache.json"
 USER_AGENT = "piru-citation-verifier/1.0 (https://github.com/kageroumado/piru)"
@@ -391,7 +392,34 @@ def main() -> int:
 
     cache = {} if args.refresh else load_cache()
 
-    # Resolve everything missing from the cache: PMIDs batched, DOIs one by one.
+    # ── papers cache: resolve from local full-text cache first ────────────
+    from audit.papers import papers_cache  # noqa: E402
+
+    pc = papers_cache()
+    if pc.available:
+        filled = 0
+        for c in citations:
+            ident = c["doi"] or c["pmid"]
+            if not ident:
+                continue
+            key = f"doi:{c['doi']}" if c["doi"] else f"pmid:{c['pmid']}"
+            if key in cache:
+                continue
+            pm = pc.meta(ident)
+            if pm is None:
+                continue
+            cache[key] = {
+                "title": pm["title"],
+                "journal": pm["journal"],
+                "subjects": [],
+                "year": pm["year"],
+            }
+            filled += 1
+        if filled:
+            print(f"Resolved {filled} citation(s) from the papers cache", file=sys.stderr)
+            save_cache(cache)
+
+    # Resolve remaining via network: PMIDs batched, DOIs one by one.
     if not args.offline:
         want_pmids = [
             c["pmid"] for c in citations if c["pmid"] and f"pmid:{c['pmid']}" not in cache
