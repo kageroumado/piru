@@ -73,13 +73,14 @@ cd Tools/SubstanceValidator && swift run SubstanceValidator validate
 - To change pharmacology/MOA data, edit the curated source (`data/curated/`), then `pipeline/build.sh fast`, then commit the rebuilt `piru-substances.sqlite` + `manifest.json` + `data/snapshots/*`.
 - Some datasources are private (not in this open-source repo); the build **warns loudly** when an external extract is missing and produces a clearly-partial DB rather than failing silently (set `PIRU_REQUIRE_EXTERNAL=1` to hard-fail instead).
 
-### The bundled DB lives in Git LFS
+### The bundled DB is a plain tracked file, and its old revisions get discarded
 
-`Piru/Data/piru-substances.sqlite` is ~19 MB and was rewritten on nearly every data pass, so plain git accumulated **2.2 GB** of it. It is now an LFS object; git tracks a 133-byte pointer.
+`Piru/Data/piru-substances.sqlite` is ~19 MB and is rewritten wholesale on nearly every data pass, so its history reached **2.2 GB across 142 revisions**. Two escapes are closed off, both for concrete reasons:
 
-- **A fresh clone needs `git lfs pull`** (or `git lfs install` beforehand). Without it that path is a pointer file, and everything reading it — `test_sqlite.py`, the `--gate` audits, the app target that bundles it — sees a corrupt database rather than a missing one. Both CI jobs that touch it check out with `lfs: true`.
-- **Pushing requires git-lfs to run at pre-push.** `.git/hooks/pre-push` is shared with pre-commit, whose generated block ends in `exec`, so the LFS block must stay **above** it or the object never uploads and the remote gets a pointer with nothing behind it. `git lfs install` overwrites that file wholesale and destroys the pre-commit half — if it ever gets clobbered, re-merge the two rather than picking one.
-- Only this one path is in LFS. Every LFS revision is stored forever and counts against the repo's LFS quota, so the usual "rebuild the DB" cadence is what spends it — there is no reason to add more files.
+- **It cannot be untracked.** `Piru/Data` is a filesystem-synchronized Xcode group, so the file is bundled into the app by existing; `SubstanceStore.swift` calls `fatalError` at launch when the bundle lacks it. CI's `swift-build` and any contributor's build need it present, and the pipeline cannot regenerate a complete one from this repo alone — some datasources are private.
+- **It cannot go in Git LFS.** `SubstanceDBUpdater` derives the download URL relative to its manifest URL and fetches from `raw.githubusercontent.com`, which serves an LFS-tracked path as its **133-byte pointer**, not the file. Tracking it in LFS ships pointer text to every installed build asking for an update. `.gitattributes` records this so it doesn't get retried.
+
+So the file stays an ordinary blob and its **stale revisions are thrown away periodically** with `Tools/strip-db-history.sh` (add `--push` to publish). It keeps each listed path's HEAD revision, drops every older one, preserves all commits and messages, and aborts if HEAD's tree would change. It also covers `data/snapshots/{substances.json,substances.csv,gaps.csv}`, which churn the same way. Being a history rewrite, it needs a force-push and invalidates existing clones — run it after a release, not mid-review.
 
 ## Architecture
 

@@ -19,14 +19,7 @@ jobs:
     name: Python (lint + data + tests)
     runs-on: ubuntu-latest
     steps:
-      # `lfs: true` is REQUIRED, not a nicety: Piru/Data/piru-substances.sqlite
-      # is stored in Git LFS, and a checkout without it yields a 133-byte
-      # pointer file. test_sqlite.py's end-to-end suite opens that path with
-      # sqlite3, and dedup_check/structural_dupes gate on its contents — all of
-      # which read a pointer as a corrupt database rather than as "absent".
       - uses: actions/checkout@v5
-        with:
-          lfs: true
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
@@ -119,13 +112,7 @@ jobs:
     name: Swift (build + test)
     runs-on: macos-latest
     steps:
-      # The bundled substance DB is an LFS object and is a build *resource* of
-      # the app target — without `lfs: true` the app ships a 133-byte pointer
-      # where its database should be. swift-lint above needs no LFS, and skips
-      # it so the checkout does not spend LFS bandwidth it has no use for.
       - uses: actions/checkout@v5
-        with:
-          lfs: true
       - name: Select latest Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
       - name: Build SubstanceCollector (SPM)
