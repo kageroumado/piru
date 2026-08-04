@@ -16,8 +16,10 @@ Europe PMC closes most of that gap for three reasons the other two cannot:
     answer "does the number this row claims actually appear in the paper?" — a
     Kᵢ almost never appears in an abstract, it appears in Table 2.
 
-Everything is cached on disk, keyed by request, so a re-run is offline and the
-gates stay reproducible.
+Everything is cached on disk, keyed by request, so a re-run on a machine that
+already fetched is offline. That cache is deliberately untracked (it reaches
+75 MB and every pass rewrites it whole) — the offline gates do not read it, they
+read the small committed caches, so a clone without it still runs green.
 
     from audit.europepmc import client
     rec = client().by_id(pmid=27520396)      # → Record | None
