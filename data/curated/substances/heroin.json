@@ -3,5 +3,18 @@
   "aliases": [
     "海洛因",
     "白粉"
-  ]
+  ],
+  "mechanismOfAction": {
+    "summary": "Prodrug deacetylated to 6-MAM and morphine, both potent μ-opioid receptor (MOR) full agonists.",
+    "description": "Diacetylmorphine itself has low MOR affinity — its effects come from rapid stepwise deacetylation to 6-monoacetylmorphine (6-MAM, t½ ~6–25 min, a potent MOR full agonist) and then morphine. Both metabolites are active and present simultaneously. The diacetyl groups confer higher lipophilicity than morphine, accelerating blood-brain barrier penetration and accounting for the faster perceived onset after injection. Oral bioavailability is low (~35%) due to extensive first-pass deacetylation.",
+    "primaryTargets": ["μ-opioid (MOR)"],
+    "bindings": [
+      {
+        "target": "μ-opioid (MOR)",
+        "action": "agonist",
+        "affinity": 3,
+        "notes": "Via active metabolites 6-MAM and morphine; diacetylmorphine itself has low MOR affinity."
+      }
+    ]
+  }
 }

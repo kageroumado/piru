@@ -81,17 +81,16 @@ struct PiruApp: App {
         DoseNotificationManager.registerCategories()
         DoseNotificationManager.modelContainer = container
 
-        // Register on the main queue so the launch handler runs on the MainActor
-        // executor. Otherwise — under `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` —
-        // this closure is inferred as @MainActor, and BGTaskScheduler invoking it
-        // from a background queue (the default for `using: nil`) trips the Swift
-        // runtime's entry isolation guard and crashes.
-        BGTaskScheduler.shared.register(
-            forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
-            using: .main,
-        ) { task in
-            guard let task = task as? BGAppRefreshTask else { return }
-            LiveActivityManager.shared.handleBackgroundRefresh(task)
+        // BackgroundTasks is unsupported on iOS-apps-on-Mac — register raises an
+        // uncatchable NSInternalInconsistencyException → SIGABRT before any window.
+        if !ProcessInfo.processInfo.isiOSAppOnMac {
+            BGTaskScheduler.shared.register(
+                forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
+                using: .main,
+            ) { task in
+                guard let task = task as? BGAppRefreshTask else { return }
+                LiveActivityManager.shared.handleBackgroundRefresh(task)
+            }
         }
     }
 

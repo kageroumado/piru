@@ -487,6 +487,14 @@
         "oral"
       ],
       "note": "Documented adverse/lethal exposure overlaps the range this source calls \"common\", so there is no window left to ladder. Dropped rather than re-numbered — no source gives a defensible ladder and inventing one is the failure mode this file exists to stop."
+    },
+    {
+      "name": "Cannabis",
+      "routes": [
+        "oral"
+      ],
+      "drop": "durations",
+      "note": "FreeOD's oral-cannabis durations (onset 0.1–10, peak 15–45 min) are byte-identical to psychonautwiki's inhalation profile. A 0.1-min oral onset is impossible for cannabis; the data is mislabeled inhalation. Dose ladder (0.4–10 mg THC) is plausible for edibles and kept."
     }
   ],
   "tripsit": [

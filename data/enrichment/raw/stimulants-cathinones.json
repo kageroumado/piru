@@ -4666,33 +4666,7 @@
         "DAT",
         "NET"
       ],
-      "binding": [
-        {
-          "target": "DAT (uptake)",
-          "ic50_nm": 500,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:34361040, which is Kolaczynska 2021, which tested 4-fluoro-alpha-PBP — a different homolog from this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Luethi 2021 — 4F-PBP (4F-α-PVP IUPAC isomer) IC50 0.5 μM at hDAT; 4-fluoro substitution REDUCES potency vs unsubstituted α-PVP by ~25× — surprising SAR; predicts F at ring exits the optimal DAT pocket geometry"
-        },
-        {
-          "target": "NET",
-          "ic50_nm": 610,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:34361040, which is Kolaczynska 2021, which tested 4-fluoro-alpha-PBP — a different homolog from this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        },
-        {
-          "target": "SERT",
-          "ic50_nm": 177000,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:34361040, which is Kolaczynska 2021, which tested 4-fluoro-alpha-PBP — a different homolog from this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        }
-      ],
+      "binding": [],
       "functional": [],
       "downstream_signalling": "Pure DAT/NET blocker but ~25× weaker than α-PVP — 4-fluoro substitution surprisingly reduces pyrrolidinophenone potency",
       "neuroimaging": []

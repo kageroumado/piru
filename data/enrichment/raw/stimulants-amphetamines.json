@@ -3181,20 +3181,21 @@
           "notes": "Bunzow/Borowsky 2001 — PEA is the prototypical TAAR1 endogenous agonist"
         },
         {
-          "target": "NET",
-          "readout": "[3H]-NE release",
-          "ec50_nm": 10.9,
-          "species": "rat",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:11071707, which is Rothman 2001, which assayed amphetamine/MDMA/methamphetamine/ephedrine/phentermine/aminorex — not this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        },
-        {
           "target": "DAT",
           "readout": "[3H]-DA release",
           "ec50_nm": 39.5,
           "species": "rat",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:11071707, which is Rothman 2001, which assayed amphetamine/MDMA/methamphetamine/ephedrine/phentermine/aminorex — not this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "cell_system": "brain synaptosomes",
+          "reference": "pmid:25548026",
+          "notes": "Reith 2015 Table 1: phenethylamine DA release EC50 39.5 ± 1.8 nM (n=3, triplicate, rat brain synaptosomes)"
+        },
+        {
+          "target": "NET",
+          "readout": "[3H]-NE release",
+          "ec50_nm": 10.9,
+          "species": "rat",
+          "cell_system": "brain synaptosomes",
+          "notes": "Blough 2008 (book chapter in Trudell & Izenwasser, Transporters as Targets for Drugs); not PubMed-indexed. Consistent with the amphetamine-family NE-preferring pattern (Rothman 2001 Synapse 39:32-41)"
         }
       ],
       "downstream_signalling": "Endogenous trace amine; equipotent to amphetamine at DAT in vitro but orally inactive in humans up to 1.6 g (Sabelli 1986) due to rapid first-pass MAO metabolism."
