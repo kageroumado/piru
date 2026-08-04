@@ -2,6 +2,15 @@ import Foundation
 
 /// Hardcoded pharmacokinetic half-life data for common substances.
 ///
+/// **This table is a fallback, and editing it will usually change nothing.**
+/// Every call site reads `substance?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for:)`,
+/// so a value resolved from the bundled substance database always wins; this
+/// dictionary is consulted only when the database has none. The file name and
+/// the source list below make it look like the canonical store — it is not.
+/// To correct a substance's half-life, edit `data/curated/substances/<slug>.json`
+/// (`halfLifeMinutes`, plus `halfLifeSource` for the citation) and rebuild with
+/// `pipeline/build.sh fast`.
+///
 /// Values are population-average elimination half-lives expressed in
 /// **minutes**. Many entries reflect the midpoint of a published range rather
 /// than a single canonical figure — half-lives vary substantially with route,
