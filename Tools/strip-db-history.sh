@@ -93,9 +93,15 @@ PRE_COMMITS="$(git rev-list --count HEAD)"
 
 git filter-repo --strip-blobs-with-ids "$WORK/strip-blobs.txt" --prune-empty never --force
 
-# filter-repo drops the remote so a rewritten history can't be pushed by
-# reflex. This script's whole purpose is to push it, so put it back.
-[ -n "$REMOTE_URL" ] && git remote add origin "$REMOTE_URL" 2> /dev/null || true
+# filter-repo drops the remote so a rewritten history can't be pushed by reflex.
+# This script's whole purpose is to push it, so put it back — including the
+# branch's upstream link, which `git remote add` alone does not restore and
+# without which git and every UI report the branch as unrelated to origin.
+if [ -n "$REMOTE_URL" ]; then
+    git remote add origin "$REMOTE_URL" 2> /dev/null || true
+    git fetch --quiet origin || true
+    git branch --set-upstream-to=origin/main main 2> /dev/null || true
+fi
 
 # The one invariant that matters: the checked-out tree must be untouched. If
 # HEAD's tree moved, a live file was stripped and the rewrite must be discarded.
