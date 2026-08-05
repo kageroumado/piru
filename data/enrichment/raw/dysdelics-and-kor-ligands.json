@@ -144,12 +144,12 @@
         {
           "modality": "fMRI BOLD (12 healthy men, 15 µg/kg inhaled vapor)",
           "finding": "Decreased within-network static functional connectivity, increased between-network connectivity, reduced dynamic FC, increased FC entropy. Most prominent effect: attenuation of default mode network (DMN) during first half of 20-min scan (F(1,11) = 9.40, p = 0.011; every subject showed DMN reduction, d = 1.50). Effect tracks the 1–10 min peak subjective intensity.",
-          "reference": "pmid:32869039"
+          "reference": null
         },
         {
           "modality": "EEG (10 subjects, 8 and 12 mg inhaled)",
           "finding": "Reduced resting EEG spectral power across most bands (Ranganathan/Krystal, Yale).",
-          "reference": "doi:10.1016/j.biopsych.2012.05.030"
+          "reference": null
         }
       ]
     },
@@ -210,7 +210,7 @@
           "concentration_unit": "ng/mL",
           "threshold": null,
           "peak_effect": 18,
-          "reference": "pmid:27780703"
+          "reference": null
         }
       ]
     },
@@ -328,8 +328,6 @@
       "doi:10.1021/jm049438q",
       "pmid:18434204",
       "pmid:19462483",
-      "pmid:32869039",
-      "doi:10.1016/j.biopsych.2012.05.030",
       "pmid:25320048",
       "doi:10.1124/jpet.114.216820",
       "pmid:33546518",

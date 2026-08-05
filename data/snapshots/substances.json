@@ -215,14 +215,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "Interactions of antiviral indolo[2,3-b]quinoxaline derivatives with DNA."
-    ],
+    "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -1564,7 +1563,6 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Electron-stimulated sputtering of thin amorphous solid water films on Pt(111).",
       "https://en.wikipedia.org/wiki/Salvinorin_B_methoxymethyl_ether"
     ],
     "data_gaps": [
@@ -2017,14 +2015,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "Electron-stimulated sputtering of thin amorphous solid water films on Pt(111)."
-    ],
+    "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -7935,7 +7932,7 @@
       "Wakefulness"
     ],
     "references": [
-      "Pharmacokinetic properties of 4-fluoroamphetamine in serum and oral fluid after oral ingestion."
+      "Pharmacokinetic properties of 4-fluoroamphetamine in serum and oral fluid after oral ingestion"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -10055,12 +10052,11 @@
     "half_life_minutes": 480.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "Comparison of ROX and HACOR scales to predict high-flow nasal cannula failure in patients with SARS-CoV-2 pneumonia."
-    ],
+    "references": [],
     "data_gaps": [
       "duration_by_route",
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -11910,7 +11906,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "6-Monoacetylmorphine (6-MAM), Not Morphine, Is Responsible for the Rapid Neural Effects Induced by Intravenous Heroin."
+      "6-Monoacetylmorphine (6-MAM), Not Morphine, Is Responsible for the Rapid Neural Effects Induced by Intravenous Heroin"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -11993,12 +11989,11 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "Localized dimerization and nucleoid binding drive gradient formation by the bacterial cell division inhibitor MipZ."
-    ],
+    "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -14574,8 +14569,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Alpha-Pyrrolidinopentiophenone",
-      "https://www.dea.gov/sites/default/files/2018-07/alpha-PVP-2018.pdf",
-      "A high-pressure polymorph of phosphorus oxonitride with the coesite structure."
+      "https://www.dea.gov/sites/default/files/2018-07/alpha-PVP-2018.pdf"
     ],
     "data_gaps": []
   },
@@ -16001,7 +15995,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetic-pharmacodynamic relationships of apomorphine in patients with Parkinson's disease."
+      "Pharmacokinetic-pharmacodynamic relationships of apomorphine in patients with Parkinson's disease"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -16461,7 +16455,7 @@
     "mechanism_summary": "Selective Norepinephrine Reuptake Inhibitor (NRI)",
     "effects": [],
     "references": [
-      "Disposition and metabolic fate of atomoxetine hydrochloride: the role of CYP2D6 in human disposition and metabolism."
+      "Disposition and metabolic fate of atomoxetine hydrochloride: the role of CYP2D6 in human disposition and metabolism"
     ],
     "data_gaps": []
   },
@@ -18754,7 +18748,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Bretazenil",
-      "Pharmacokinetic and pharmacodynamic interactions of bretazenil and diazepam with alcohol.",
+      "Pharmacokinetic and pharmacodynamic interactions of bretazenil and diazepam with alcohol",
       "PMC12858478",
       "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12858478/"
     ],
@@ -19013,7 +19007,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "The effect of itraconazole on the pharmacokinetics and pharmacodynamics of bromazepam in healthy volunteers."
+      "The effect of itraconazole on the pharmacokinetics and pharmacodynamics of bromazepam in healthy volunteers"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -20326,7 +20320,7 @@
       "Vasodilation"
     ],
     "references": [
-      "Plasma delta-9 tetrahydrocannabinol concentrations and clinical effects after oral and intravenous administration and smoking."
+      "Plasma delta-9 tetrahydrocannabinol concentrations and clinical effects after oral and intravenous administration and smoking"
     ],
     "data_gaps": []
   },
@@ -20474,7 +20468,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "The Pharmacokinetics and Pharmacodynamics of Carfentanil After Recreational Exposure: A Case Report."
+      "The Pharmacokinetics and Pharmacodynamics of Carfentanil After Recreational Exposure: A Case Report"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -20891,7 +20885,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Cannabidivarin",
-      "Efficacy and safety of cannabidivarin treatment of epilepsy in girls with Rett syndrome: A phase 1 clinical trial."
+      "Efficacy and safety of cannabidivarin treatment of epilepsy in girls with Rett syndrome: A phase 1 clinical trial"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -21129,7 +21123,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Participation of Colon and Rectal Fellows in Robotic Rectal Cancer Surgery: Effect on Surgical Outcomes."
+      "Participation of Colon and Rectal Fellows in Robotic Rectal Cancer Surgery: Effect on Surgical Outcomes"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -21819,7 +21813,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Chlorphenamine",
-      "Clinical pharmacokinetics of chlorpheniramine."
+      "Clinical pharmacokinetics of chlorpheniramine"
     ],
     "data_gaps": []
   },
@@ -22711,7 +22705,7 @@
       "Thought deceleration"
     ],
     "references": [
-      "Clonazepam pharmacokinetics: comparison of subcutaneous microsphere injection with multiple-dose oral administration."
+      "Clonazepam pharmacokinetics: comparison of subcutaneous microsphere injection with multiple-dose oral administration"
     ],
     "data_gaps": []
   },
@@ -23166,7 +23160,7 @@
       "Wakefulness"
     ],
     "references": [
-      "Cocaethylene metabolism and interaction with cocaine and ethanol: role of carboxylesterases."
+      "Cocaethylene metabolism and interaction with cocaine and ethanol: role of carboxylesterases"
     ],
     "data_gaps": []
   },
@@ -24214,7 +24208,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Cytisine",
-      "Pharmacokinetics of cytisine, an α4 β2 nicotinic receptor partial agonist, in healthy smokers following a single dose."
+      "Pharmacokinetics of cytisine, an α4 β2 nicotinic receptor partial agonist, in healthy smokers following a single dose"
     ],
     "data_gaps": [
       "duration_by_route",
@@ -24526,7 +24520,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Dasotraline",
-      "Dasotraline for the Treatment of Attention-Deficit/Hyperactivity Disorder: A Randomized, Double-Blind, Placebo-Controlled, Proof-of-Concept Trial in Adults."
+      "Dasotraline for the Treatment of Attention-Deficit/Hyperactivity Disorder: A Randomized, Double-Blind, Placebo-Controlled, Proof-of-Concept Trial in Adults"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -25763,7 +25757,7 @@
     "mechanism_summary": "Opioids produce their effects by binding to and activating μ-opioid receptors. This occurs because opioids structurally mimic endogenous endorphins that are naturally present in the body and that likewise act on the μ-opioid receptor system. This structural mimicry of natural endorphins accounts for opioids' physical euphoria, analgesia, and anxiolytic effects. This is because endorphins are responsible for reducing pain, inducing drowsiness, and producing pleasure. They are released during pain, vigorous exercise, orgasm, or general excitement.\n\nUnlike most opioids, dextropropoxyphene is also a weak serotonin reuptake inhibitor and a potent nicotinic acetylcholine receptor antagonist. Dextropropoxyphene has a bioavailability of approximately 40% and is metabolized by the cytochrome P450 3A4 enzyme. The enantiomer levopropoxyphene lacks analgesic activity but retains cough suppressant effects.",
     "effects": [],
     "references": [
-      "Pharmacokinetics of dextropropoxyphene and nordextropropoxyphene in young and elderly volunteers after single and multiple dextropropoxyphene dosage."
+      "Pharmacokinetics of dextropropoxyphene and nordextropropoxyphene in young and elderly volunteers after single and multiple dextropropoxyphene dosage"
     ],
     "data_gaps": []
   },
@@ -25860,7 +25854,7 @@
       "Thought deceleration"
     ],
     "references": [
-      "Pharmacokinetics and pharmacodynamics of oral diazepam: effect of dose, plasma concentration, and time."
+      "Pharmacokinetics and pharmacodynamics of oral diazepam: effect of dose, plasma concentration, and time"
     ],
     "data_gaps": []
   },
@@ -26296,7 +26290,7 @@
       "Sedation"
     ],
     "references": [
-      "An anatomy lesson by Sir James Paget."
+      "An anatomy lesson by Sir James Paget"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -26723,7 +26717,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Diphenhydramine",
-      "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration."
+      "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration"
     ],
     "data_gaps": []
   },
@@ -27128,11 +27122,10 @@
     "half_life_minutes": 510.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "Model‐Informed Drug Development for Long‐Acting Injectable Products: Summary of American College of Clinical Pharmacology Symposium"
-    ],
+    "references": [],
     "data_gaps": [
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -28173,7 +28166,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Doxylamine",
-      "The pharmacokinetics of doxylamine: use of automated gas chromatography with nitrogen-phosphorus detection."
+      "The pharmacokinetics of doxylamine: use of automated gas chromatography with nitrogen-phosphorus detection"
     ],
     "data_gaps": []
   },
@@ -28424,7 +28417,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Reaction of clinical isolates and typed strains of the family Bacteroidaceae with rabbit anti-Bacteroides sera examined by radial immunodiffusion.",
+      "Reaction of clinical isolates and typed strains of the family Bacteroidaceae with rabbit anti-Bacteroides sera examined by radial immunodiffusion",
       "https://en.wikipedia.org/wiki/Delta_sleep-inducing_peptide"
     ],
     "data_gaps": [
@@ -29513,7 +29506,6 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "A Novel Training and Collaboration Integrated Framework for Human-Agent Teleoperation.",
       "https://en.wikipedia.org/wiki/Epitalon"
     ],
     "data_gaps": [
@@ -32145,7 +32137,7 @@
     "mechanism_summary": "苯二氮卓类药物通过结合苯二氮卓受体位点并通过作用于其受体来放大神经递质 γ-氨基丁酸（GABA）的效率和作用，从而产生各种效果。 由于该位点是大脑中最丰富的抑制性受体组，其调节导致氟硝西泮对神经系统的镇静（或镇静作用）。\n\n苯二氮卓类药物的抗惊厥特性可能部分或全部归因于与电压依赖性钠通道的结合，而不是苯二氮卓受体。\n\n已知足量的氟硝西泮会诱导顺行性遗忘（个体无法记住他们在药物影响下经历的某些事件）。这种效果可能特别危险，如果氟硝西泮被用来协助实施性侵犯，因为受害者可能无法清楚地回忆起袭击、袭击者或袭击周围的事件。\n\n口服摄入的氟硝西泮有 80% 被吸收，但栓剂形式的生物利用度接近 50%。",
     "effects": [],
     "references": [
-      "Pharmacokinetics of flunitrazepam following single dose oral administration in liver disease patients compared with healthy volunteers."
+      "Pharmacokinetics of flunitrazepam following single dose oral administration in liver disease patients compared with healthy volunteers"
     ],
     "data_gaps": []
   },
@@ -38500,7 +38492,7 @@
       "Visual disconnection"
     ],
     "references": [
-      "Pharmacokinetics of mitragynine in man."
+      "Pharmacokinetics of mitragynine in man"
     ],
     "data_gaps": []
   },
@@ -42265,7 +42257,7 @@
     ],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal35.shtml",
-      "The absolute bioavailability of oral melatonin."
+      "The absolute bioavailability of oral melatonin"
     ],
     "data_gaps": []
   },
@@ -42373,7 +42365,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Memantine",
-      "Pharmacokinetic study of memantine in healthy and renally impaired subjects."
+      "Pharmacokinetic study of memantine in healthy and renally impaired subjects"
     ],
     "data_gaps": []
   },
@@ -43311,7 +43303,7 @@
       "Wakefulness"
     ],
     "references": [
-      "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans."
+      "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans"
     ],
     "data_gaps": []
   },
@@ -43383,7 +43375,7 @@
       "Visual disconnection"
     ],
     "references": [
-      "Methaqualone-diphenhydramine interaction study in humans."
+      "Methaqualone-diphenhydramine interaction study in humans"
     ],
     "data_gaps": []
   },
@@ -43479,7 +43471,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Two fatal intoxications with the new designer drug methedrone (4-methoxymethcathinone)."
+      "Two fatal intoxications with the new designer drug methedrone (4-methoxymethcathinone)"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -45062,7 +45054,7 @@
     "mechanism_summary": "咪达唑仑对成人是一种短效苯二氮卓类药物，消除半衰期为 1.5 ~ 2.5 小时。 咪达唑仑代谢成活性代谢物 α1-羟基咪达唑仑。然而，咪达唑仑的活性代谢物很少，仅占咪达唑仑生物活性的 10%。咪达唑仑口服吸收差，只有 50% 的药物到达血液。\n\n咪达唑仑由细胞色素 P450 (CYP) 酶和葡萄糖醛酸结合代谢。咪达唑仑的治疗和不良反应是其对 GABAA 受体作用的结果；咪达唑仑不直接激活 GABAA 受体，但与其他苯二氮卓类药物一样，它增强了神经递质 GABA 对 GABAA 受体的作用（增加 Cl-通道开放的频率），导致神经抑制。几乎所有的药代动力学特性都可以用苯二氮卓类药物对 GABAA 受体的作用来解释。",
     "effects": [],
     "references": [
-      "Pharmacokinetic-pharmacodynamic modeling of the central nervous system effects of midazolam and its main metabolite alpha-hydroxymidazolam in healthy volunteers."
+      "Pharmacokinetic-pharmacodynamic modeling of the central nervous system effects of midazolam and its main metabolite alpha-hydroxymidazolam in healthy volunteers"
     ],
     "data_gaps": []
   },
@@ -45540,7 +45532,7 @@
     "mechanism_summary": "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator",
     "effects": [],
     "references": [
-      "Pharmacokinetics of mitragynine in man."
+      "Pharmacokinetics of mitragynine in man"
     ],
     "data_gaps": []
   },
@@ -48269,7 +48261,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Clinical pharmacokinetics of nitrazepam."
+      "Clinical pharmacokinetics of nitrazepam"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -50180,7 +50172,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Determination and pharmacokinetics of dextromoramide in methadone maintenance therapy."
+      "Determination and pharmacokinetics of dextromoramide in methadone maintenance therapy"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -50922,7 +50914,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Neuropsychopharmacological mechanisms of stimulant drug action in attention-deficit hyperactivity disorder: a review and integration."
+      "Neuropsychopharmacological mechanisms of stimulant drug action in attention-deficit hyperactivity disorder: a review and integration"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -51479,7 +51471,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Role of phenmetrazine as an active metabolite of phendimetrazine: evidence from studies of drug discrimination and pharmacokinetics in rhesus monkeys."
+      "Role of phenmetrazine as an active metabolite of phendimetrazine: evidence from studies of drug discrimination and pharmacokinetics in rhesus monkeys"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -51573,7 +51565,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Trace amines: identification of a family of mammalian G protein-coupled receptors."
+      "Trace amines: identification of a family of mammalian G protein-coupled receptors"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -51709,7 +51701,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Role of phenmetrazine as an active metabolite of phendimetrazine: evidence from studies of drug discrimination and pharmacokinetics in rhesus monkeys."
+      "Role of phenmetrazine as an active metabolite of phendimetrazine: evidence from studies of drug discrimination and pharmacokinetics in rhesus monkeys"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -51757,7 +51749,7 @@
     "mechanism_summary": "Phenobarbital is a long-acting barbiturate that binds to and activates the gamma-aminobutyric acid (GABA)-A receptor, thereby mimicking and enhancing the inhibitory actions of GABA in the brain.",
     "effects": [],
     "references": [
-      "Phenobarbital pharmacokinetics and bioavailability in adults."
+      "Phenobarbital pharmacokinetics and bioavailability in adults"
     ],
     "data_gaps": []
   },
@@ -53298,7 +53290,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Pregabalin",
-      "Clinical pharmacokinetics of pregabalin in healthy volunteers."
+      "Clinical pharmacokinetics of pregabalin in healthy volunteers"
     ],
     "data_gaps": []
   },
@@ -53629,7 +53621,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Promethazine",
-      "Pharmacokinetics of promethazine hydrochloride after administration of rectal suppositories and oral syrup to healthy subjects."
+      "Pharmacokinetics of promethazine hydrochloride after administration of rectal suppositories and oral syrup to healthy subjects"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -53696,7 +53688,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetic implications for the clinical use of propofol."
+      "Pharmacokinetic implications for the clinical use of propofol"
     ],
     "data_gaps": [
       "duration_by_route",
@@ -53727,7 +53719,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetics of dextropropoxyphene and nordextropropoxyphene in young and elderly volunteers after single and multiple dextropropoxyphene dosage."
+      "Pharmacokinetics of dextropropoxyphene and nordextropropoxyphene in young and elderly volunteers after single and multiple dextropropoxyphene dosage"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -53778,7 +53770,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Propranolol",
-      "Clinical pharmacokinetics of propranolol."
+      "Clinical pharmacokinetics of propranolol"
     ],
     "data_gaps": []
   },
@@ -56472,7 +56464,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Salvinicins A and B, new neoclerodane diterpenes from Salvia divinorum."
+      "Salvinicins A and B, new neoclerodane diterpenes from Salvia divinorum"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -56504,7 +56496,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Salvinicins A and B, new neoclerodane diterpenes from Salvia divinorum."
+      "Salvinicins A and B, new neoclerodane diterpenes from Salvia divinorum"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -56637,14 +56629,13 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "Electron-stimulated sputtering of thin amorphous solid water films on Pt(111)."
-    ],
+    "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -59297,7 +59288,7 @@
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal54.shtml",
-      "Pharmacokinetics of Hoasca alkaloids in healthy humans."
+      "Pharmacokinetics of Hoasca alkaloids in healthy humans"
     ],
     "data_gaps": [
       "duration_by_route",
@@ -60196,7 +60187,7 @@
     "mechanism_summary": "Tilidine itself is only a weak μ-opioid receptor agonist. Its pharmacological activity following administration is mediated by its primary active metabolite nortilidine, which is further metabolized to the equally active bisnortilidine. Tilidine is therefore a prodrug. The N-demethylation of tilidine to nortilidine and bisnortilidine occurs in the liver and is catalyzed by the cytochrome P450 enzyme family, primarily CYP3A4, CYP2D6, and CYP2C19.",
     "effects": [],
     "references": [
-      "Contribution of CYP2C19 and CYP3A4 to the formation of the active nortilidine from the prodrug tilidine."
+      "Contribution of CYP2C19 and CYP3A4 to the formation of the active nortilidine from the prodrug tilidine"
     ],
     "data_gaps": []
   },
@@ -61336,7 +61327,7 @@
     "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [
-      "Triazolam disposition."
+      "Triazolam disposition"
     ],
     "data_gaps": []
   },

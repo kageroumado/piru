@@ -455,7 +455,7 @@
           "ki_nm": null,
           "action": "modulator",
           "species": "rat",
-          "reference": "pmid:25239817",
+          "reference": null,
           "is_review": false,
           "notes": "Glennon 2014 reports moderate σ1 affinity for MDPV (low μM); contributes to psychostimulant profile and possibly proconvulsant effects"
         }
@@ -519,7 +519,7 @@
         "CYP2C19"
       ],
       "phenotype_effects": "CYP2D6/CYP2C19 PMs likely show prolonged exposure; redundant metabolic pathways reduce magnitude of pharmacogenetic impact compared to mephedrone",
-      "reference": "pmid:23922010"
+      "reference": null
     },
     "tolerance_and_dependence": {
       "cross_tolerance": [
@@ -545,7 +545,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
         "clinical_consequence": "Possible contribution to seizures and psychosis at high doses",
-        "reference": "pmid:25239817"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -576,7 +576,6 @@
       "pmid:34361040",
       "doi:10.1021/acschemneuro.5b00006",
       "pmid:27029951",
-      "pmid:25239817",
       "doi:10.3390/ijms27010059",
       "doi:10.1007/s11419-014-0250-9"
     ]
@@ -660,7 +659,7 @@
         {
           "route": "oral",
           "half_life_min": 270,
-          "reference": "pmid:25664636",
+          "reference": null,
           "notes": "Marusich 2014 estimates t1/2 ~4.5 h from forensic and animal data; no controlled human PK"
         }
       ],
@@ -1397,7 +1396,6 @@
     "references_consulted": [
       "doi:10.1007/s12640-020-00227-8",
       "doi:10.3390/ijms27010089",
-      "doi:10.1002/dta.2229",
       "doi:10.1002/hup.2621"
     ]
   },
@@ -1452,7 +1450,7 @@
         "enzyme": "CYP2D6/CYP2B6",
         "metabolite_name": "nor-3-CMC",
         "metabolite_active": true,
-        "reference": "doi:10.1002/dta.2229"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1501,8 +1499,7 @@
     ],
     "notes": "3-CMC emerged as a 4-CMC replacement after EU scheduling; clinically similar fatality and addiction profile. The 3-position halogen is less SERT-shifted than 4-position but still produces delayed cytotoxicity in vitro.",
     "references_consulted": [
-      "doi:10.1007/s12640-020-00227-8",
-      "doi:10.1002/dta.2229"
+      "doi:10.1007/s12640-020-00227-8"
     ]
   },
   {

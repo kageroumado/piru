@@ -2139,7 +2139,7 @@
           "action": "negativeAllostericModulator",
           "species": "rat",
           "tissue_or_cell": "rat striatum",
-          "reference": "pmid:28499925",
+          "reference": null,
           "notes": "Allosterically modulates cocaine and HIV-Tat binding to DAT without itself blocking DA uptake substantially."
         }
       ],
@@ -2160,9 +2160,7 @@
       "No human data."
     ],
     "notes": "Allosteric DAT modulator developed at Southern Research Institute; mechanistically distinct from orthosteric inhibitors.",
-    "references_consulted": [
-      "pmid:28499925"
-    ]
+    "references_consulted": []
   },
   {
     "name": "Indriline",

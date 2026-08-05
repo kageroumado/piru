@@ -170,7 +170,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing rat TAAR1",
           "radioligand_or_probe": "functional cAMP",
-          "reference": "pmid:24001482",
+          "reference": null,
           "is_review": false,
           "notes": "Cited via Reckweg 2022 review; original Bunzow et al 2001"
         }
@@ -364,7 +364,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Weak interaction reported; not considered clinically meaningful for LSD",
-        "reference": "pmid:24001482"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -5513,7 +5513,7 @@
           "reference_agonist": "5-HT",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:9089915"
+          "reference": null
         },
         {
           "target": "NET",
@@ -5523,7 +5523,7 @@
           "reference_agonist": "NE",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:9089915"
+          "reference": null
         },
         {
           "target": "DAT",
@@ -5533,7 +5533,7 @@
           "reference_agonist": "DA",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:9089915"
+          "reference": null
         },
         {
           "target": "MAO-A",
@@ -6009,7 +6009,7 @@
         "CYP1A2"
       ],
       "phenotype_effects": "CYP2D6 PM higher harmine exposure; CYP1A2 inducer status (smoking) reduces AUC",
-      "reference": "doi:10.1016/j.taap.2010.04.020"
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
@@ -6145,8 +6145,7 @@
     "notes": "More CNS-penetrant than harmine; tremorgenic via inferior olive ION climbing-fibre activation (well-characterised in cerebellar physiology).",
     "references_consulted": [
       "doi:10.1016/j.fct.2009.12.018",
-      "pmid:9700761",
-      "doi:10.1016/j.taap.2010.04.020"
+      "pmid:9700761"
     ]
   },
   {
@@ -6536,7 +6535,7 @@
         "CYP1A2*1F (rs762551)"
       ],
       "phenotype_effects": "Slow CYP1A2 metabolisers have ~3× longer half-life and higher AUC at standard doses",
-      "reference": "doi:10.1124/dmd.117.075788"
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "MT1 internalisation after sustained agonist exposure; documented in chronic ramelteon use",
@@ -6607,7 +6606,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": "various",
-          "reference": "doi:10.1006/abbi.1998.0973"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6673,9 +6672,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "notes": "Eosinophilia-myalgia syndrome was traced to contaminated L-tryptophan, not 5-HTP — but FDA still cautious. Pharmaceutical-grade 5-HTP from Griffonia simplicifolia.",
-    "references_consulted": [
-      "doi:10.1006/abbi.1998.0973"
-    ]
+    "references_consulted": []
   },
   {
     "name": "tryptophan",
@@ -6800,7 +6797,7 @@
           "reference_agonist": null,
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "pmid:9089915"
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -25153,7 +25150,6 @@
     "shared_safety": "Generally safe in physiological/supplement doses. 5-HTP + MAOI/SSRI → serotonin syndrome. Melatonin in pregnancy and immune-suppressed populations cautious. Tryptophan EMS outbreak 1989 linked to Showa Denko contamination, not the amino acid itself.",
     "sar_summary": "Hydroxyl position determines receptor target: 5-OH (serotonin) → 5-HT receptors; 5-methoxy + N-acetyl (melatonin) → MT1/MT2; phosphorylation at 4 (psilocybin) → 4-HT prodrug system.",
     "key_references": [
-      "doi:10.1006/abbi.1998.0973",
       "pmid:11459929"
     ]
   },

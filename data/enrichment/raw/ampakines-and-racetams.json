@@ -180,7 +180,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "hippocampal synaptosomes; chronic in-vivo dosing 0.3-3 mg/kg PO",
-          "reference": "pmid:10543440"
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -1625,7 +1625,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "DRG neurons; cortical neurons",
-          "reference": "pmid:1611056",
+          "reference": null,
           "notes": "Two-fold potentiation of long-lasting Ca2+ current component; bell-shaped concentration-response with peak at 1 µM is unusual and reproducible."
         },
         {
@@ -1636,7 +1636,7 @@
           "reference_agonist": "ACh",
           "species": "rat / Xenopus oocyte",
           "cell_system": "expressed nAChR",
-          "reference": "pmid:9300758",
+          "reference": null,
           "notes": "PKA-dependent potentiation of α4β2 nAChR; mechanism distinct from direct agonism."
         }
       ],
@@ -2058,7 +2058,7 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "hippocampal slice; reported only at mM concentrations",
-          "reference": "pmid:15994140",
+          "reference": null,
           "notes": "Direct AMPA potentiation in vitro requires millimolar piracetam — likely irrelevant at therapeutic exposures. Proposed mechanism is enhanced AMPA receptor 'density' or membrane fluidity rather than allosteric binding."
         }
       ],
@@ -2069,7 +2069,7 @@
         {
           "modality": "fMRI / EEG",
           "finding": "Modest increases in interhemispheric EEG coherence in elderly subjects; small fMRI BOLD increases in language regions after acute dosing. Effect sizes generally small and inconsistent across studies.",
-          "reference": "pmid:15994140"
+          "reference": null
         }
       ]
     },

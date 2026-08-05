@@ -1949,7 +1949,7 @@
           "bias_factor_log": 0,
           "bias_reference_compound": "hydromorphone",
           "interpretation": "Not significantly biased relative to reference. Brorphine and halogenated analogues recruit β-arrestin2 with high efficacy — at odds with the idea that 'designer opioids are uniformly β-arrestin-biased'.",
-          "reference": "doi:10.1016/j.neuropharm.2024.110115"
+          "reference": null
         }
       ],
       "receptor_oligomerisation": [],
@@ -2767,7 +2767,7 @@
         "U-47700"
       ],
       "withdrawal_syndrome": "Onset 8-24h (transdermal slower), peak 36-72h, duration 7-10 days. Symptoms: lacrimation, rhinorrhoea, mydriasis, gooseflesh, GI cramping, muscle aches, anxiety, insomnia, dysphoria.",
-      "reference": "doi:10.1056/NEJMra1604339"
+      "reference": null
     },
     "off_targets": [
       {

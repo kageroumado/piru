@@ -683,7 +683,7 @@
         "CYP2D6"
       ],
       "phenotype_effects": "CYP2D6 PMs show slightly higher meth plasma exposure and lower amphetamine metabolite; small clinical effect.",
-      "reference": "doi:10.1124/dmd.30.10.1059"
+      "reference": null
     },
     "off_targets": [
       {
@@ -706,7 +706,6 @@
     "references_consulted": [
       "pmid:11071707",
       "pmid:11459929",
-      "doi:10.1124/dmd.30.10.1059",
       "doi:10.1124/pr.116.012799"
     ]
   },
@@ -766,7 +765,7 @@
           "bioavailability_pct": 67,
           "tmax_min": 180,
           "half_life_min": 600,
-          "reference": "doi:10.1124/dmd.30.10.1059"
+          "reference": null
         }
       ]
     },
@@ -775,7 +774,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "4-hydroxy-d-methamphetamine",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.30.10.1059"
+        "reference": null
       }
     ],
     "tags_to_add": [
@@ -785,8 +784,7 @@
     "confidence": "high",
     "notes": "The clinical and illicit form. See Methamphetamine record for full data.",
     "references_consulted": [
-      "pmid:11071707",
-      "doi:10.1124/dmd.30.10.1059"
+      "pmid:11071707"
     ]
   },
   {
@@ -844,7 +842,7 @@
           "bioavailability_pct": 65,
           "tmax_min": 30,
           "half_life_min": 660,
-          "reference": "doi:10.1124/dmd.30.10.1059",
+          "reference": null,
           "notes": "OTC Vicks Vapor Inhaler contains 50 mg l-meth; produces detectable urinary meth (and amphetamine from N-demethylation) with no CNS effect — common forensic confound"
         }
       ]
@@ -854,7 +852,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "l-amphetamine",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.30.10.1059"
+        "reference": null
       }
     ],
     "tags_to_add": [
@@ -865,8 +863,7 @@
     "confidence": "high",
     "notes": "Also a metabolite of selegiline (deprenyl) at therapeutic doses — explains some of selegiline's amphetamine-like effects.",
     "references_consulted": [
-      "pmid:11071707",
-      "doi:10.1124/dmd.30.10.1059"
+      "pmid:11071707"
     ]
   },
   {
@@ -3076,7 +3073,7 @@
         {
           "route": "oral",
           "half_life_min": 510,
-          "reference": "doi:10.1002/cpdd.928",
+          "reference": null,
           "notes": "t1/2 ~8.5 h — accumulates with repeated dosing"
         }
       ]
@@ -3087,7 +3084,7 @@
         "target": "vasculature",
         "concern_level": "high",
         "clinical_consequence": "Severe hypertension, cerebral haemorrhage, MI — ≥5 deaths attributed; banned by FDA from supplements 2013",
-        "reference": "doi:10.1002/cpdd.928"
+        "reference": null
       }
     ],
     "tags_to_add": [
@@ -3098,7 +3095,6 @@
     "confidence": "medium",
     "notes": "Aliphatic NDRA. Was marketed as supplement (Jack3D, OxyElitePro) until FDA banned 2013 after deaths.",
     "references_consulted": [
-      "doi:10.1002/cpdd.928",
       "doi:10.1124/jpet.122.001514"
     ]
   },

@@ -112,7 +112,7 @@
         {
           "modality": "PET",
           "finding": "Acute alcohol (0.75 g/kg) increases [11C]raclopride displacement in ventral striatum, indicating ~5-15% dopamine release — much smaller than psychostimulants.",
-          "reference": "pmid:14584984"
+          "reference": null
         },
         {
           "modality": "EEG",
@@ -386,7 +386,7 @@
         {
           "modality": "EEG",
           "finding": "Xyrem (sodium oxybate) increases slow-wave sleep (N3) duration and amplitude in narcolepsy; produces 2.5-3 Hz spike-wave discharges (absence-like) in some species at supratherapeutic doses.",
-          "reference": "pmid:18811876"
+          "reference": null
         }
       ]
     },
@@ -943,7 +943,7 @@
           "concentration_unit": "μg/mL plasma",
           "threshold": 2,
           "peak_effect": 20,
-          "reference": "pmid:12895126",
+          "reference": null,
           "notes": "Therapeutic range approximate; no formal therapeutic drug monitoring established."
         }
       ]
@@ -1019,7 +1019,6 @@
     "data_gaps_remaining": [],
     "notes": "The name 'gabapentin' is misleading — it has no direct action at any GABA receptor. The mechanism is Cav α2δ-1 binding with downstream effects on glutamate (not GABA) release. Saturable LAT1 absorption makes dose-response flatten at high doses.",
     "references_consulted": [
-      "pmid:12895126",
       "pmid:23567998"
     ]
   },
@@ -1821,7 +1820,7 @@
         "CYP2C19"
       ],
       "phenotype_effects": "CYP2C9 poor metabolisers (~5% Caucasians) have reduced clearance — risk of accumulation.",
-      "reference": "pmid:11226216"
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "GABA-A subunit composition shifts with chronic exposure (α1 → α4).",
@@ -1861,8 +1860,7 @@
     "notes": "Less direct GABA-A channel activation than pentobarbital → better therapeutic index for chronic epilepsy use. Classic CAR/PXR-mediated CYP inducer (predates the cloning of nuclear receptors — 'phenobarbital induction' was the prototype).",
     "references_consulted": [
       "pmid:23026953",
-      "pmid:7068937",
-      "pmid:11226216"
+      "pmid:7068937"
     ]
   },
   {
@@ -2715,7 +2713,7 @@
         {
           "modality": "EEG",
           "finding": "Frontal alpha (8-12 Hz) coherence increase and slow-delta dominance characteristic of propofol unconsciousness — Purdon spectrogram signature.",
-          "reference": "pmid:23297232"
+          "reference": null
         }
       ]
     },
@@ -2785,7 +2783,7 @@
         "volatile anaesthetics"
       ],
       "withdrawal_syndrome": "Withdrawal not described in normal use; abuse-related dependence reported in anaesthesia providers (occupational risk).",
-      "reference": "pmid:18648257"
+      "reference": null
     },
     "off_targets": [
       {
@@ -2815,8 +2813,7 @@
     "references_consulted": [
       "pmid:24316736",
       "pmid:3257315",
-      "pmid:9756415",
-      "pmid:23297232"
+      "pmid:9756415"
     ]
   },
   {
@@ -4670,7 +4667,7 @@
           "reference_agonist": "GABA",
           "species": "rat",
           "cell_system": "cortical neurons",
-          "reference": "pmid:11489425",
+          "reference": null,
           "notes": "Kavain, dihydrokavain, methysticin, dihydromethysticin, yangonin, desmethoxyyangonin all show modest GABA-A potentiation. Binding site distinct from BZ site (flumazenil insensitive)."
         }
       ],

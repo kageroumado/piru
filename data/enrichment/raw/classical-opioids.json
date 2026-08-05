@@ -945,7 +945,7 @@
           "concentration_unit": "ng/mL",
           "threshold": 200,
           "peak_effect": 1000,
-          "reference": "doi:10.1592/phco.27.6.825",
+          "reference": null,
           "notes": "Daily methadone dose >100 mg / serum >1000 ng/mL associated with increased TdP risk."
         }
       ]
@@ -1750,7 +1750,7 @@
         "mechanism": "UGT2B7 inhibition",
         "ki_um": 0.82,
         "clinical_effect": "potential increase in hydromorphone AUC",
-        "reference": "pmid:34493601"
+        "reference": null
       }
     ],
     "pharmacogenetics": {

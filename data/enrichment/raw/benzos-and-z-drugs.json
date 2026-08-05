@@ -4700,7 +4700,7 @@
           "tissue_or_cell": "rat brain membranes",
           "radioligand_or_probe": "[3H]diazepam",
           "assay_buffer_notes": "Mohler & Okada 1977 conditions",
-          "reference": "doi:10.1021/jm00351a009",
+          "reference": null,
           "is_review": false,
           "confidence": "high",
           "notes": "Fryer 1982 Table I. IC50, not Ki."

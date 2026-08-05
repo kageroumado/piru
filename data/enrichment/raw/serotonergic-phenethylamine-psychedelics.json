@@ -250,7 +250,7 @@
           "concentration_unit": "ng/mL",
           "threshold": null,
           "peak_effect": 19.8,
-          "reference": "doi:10.1093/jat/bku015"
+          "reference": null
         }
       ]
     },
@@ -1249,7 +1249,7 @@
           "reference_agonist": "LSD",
           "species": "human",
           "cell_system": "HEK293T",
-          "reference": "doi:10.3390/biom11020238"
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -1288,8 +1288,7 @@
     ],
     "notes": "4-H parent of the NBOMe series. ~10× weaker than 25I/25B/25C-NBOMe at 5-HT2A.",
     "references_consulted": [
-      "doi:10.1016/j.bcp.2018.10.025",
-      "doi:10.3390/biom11020238"
+      "doi:10.1016/j.bcp.2018.10.025"
     ]
   },
   {

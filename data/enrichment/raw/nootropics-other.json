@@ -372,7 +372,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo rat brain",
-          "reference": "doi:10.1007/s11055-008-9013-6",
+          "reference": null,
           "notes": "Bromantane upregulates TH and AADC mRNA/protein in dopaminergic regions over 1-2 h post-dose, increasing newly-synthesized dopamine stores without releasing pre-formed pools. This is the basis for its 'actoprotector' / atypical psychostimulant profile."
         }
       ],
