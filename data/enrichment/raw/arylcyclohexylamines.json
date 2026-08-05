@@ -241,7 +241,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
         "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "Yanagihara 2002, Hijazi 2002. CYP2B6 demethylates S- and R-ketamine equipotently"
+        "notes": "Yanagihara 2002, Hijazi 2002. CYP2B6 demethylates S- and R-ketamine equipotently",
+        "metabolite_potency_target": "NMDA",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -250,7 +253,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
         "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine; primary in human liver microsomes per some reports"
+        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine; primary in human liver microsomes per some reports",
+        "metabolite_potency_target": "NMDA",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2B6/CYP2A6",
@@ -259,7 +265,8 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.1038/nature17998",
-        "notes": "HNK does NOT block NMDA at antidepressant-relevant doses (Zanos 2016, Suzuki 2017 doi:10.1073/pnas.1816071116); acts via α7 nAChR and AMPA potentiation"
+        "notes": "HNK does NOT block NMDA at antidepressant-relevant doses (Zanos 2016, Suzuki 2017 doi:10.1073/pnas.1816071116); acts via α7 nAChR and AMPA potentiation",
+        "metabolite_potency_target": "NMDA"
       },
       {
         "enzyme": "CYP2B6",
@@ -2286,7 +2293,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "doi:10.1021/jm970078z",
-        "notes": "Two active hydroxylated metabolites bind DAT with Ki within 2× of parent"
+        "notes": "Two active hydroxylated metabolites bind DAT with Ki within 2× of parent",
+        "metabolite_potency_target": "DAT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],

@@ -221,7 +221,8 @@
         "metabolite_name": "Salvinorin B (2-deacetyl Sal A)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:19462483"
+        "reference": "pmid:19462483",
+        "metabolite_potency_target": "KOR"
       },
       {
         "enzyme": "CYP1A1",
@@ -1158,7 +1159,8 @@
         "metabolite_name": "salvinorin B",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:17090705"
+        "reference": "pmid:17090705",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],

@@ -326,7 +326,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "doi:10.2165/00003088-197803010-00005",
-        "notes": "N-demethylation — primary route. Nordazepam t1/2 ~50–100 h; further metabolized to oxazepam (CYP3A4 hydroxylation) then UGT2B15-glucuronidated."
+        "notes": "N-demethylation — primary route. Nordazepam t1/2 ~50–100 h; further metabolized to oxazepam (CYP3A4 hydroxylation) then UGT2B15-glucuronidated.",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "UGT2B15",
@@ -493,7 +496,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf",
-        "notes": "All metabolites inactive at benzodiazepine site; carboxylic acid metabolites excreted renally."
+        "notes": "All metabolites inactive at benzodiazepine site; carboxylic acid metabolites excreted renally.",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "CYP1A2",
@@ -857,7 +861,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:23554428",
-        "notes": "Both R- and S-lorazepam glucuronidated by UGT2B4, 2B7, 2B15. UGT2B15*2/*2 PMs show 40–50% lower lorazepam CL (Chung 2005, pmid:15961980)."
+        "notes": "Both R- and S-lorazepam glucuronidated by UGT2B4, 2B7, 2B15. UGT2B15*2/*2 PMs show 40–50% lower lorazepam CL (Chung 2005, pmid:15961980).",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "UGT2B7",
@@ -865,7 +870,8 @@
         "metabolite_name": "lorazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:23554428"
+        "reference": "pmid:23554428",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [
@@ -1014,7 +1020,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
         "reference": "pmid:8004131",
-        "notes": "Kronbach 1989 / Gorski review; 1-OH-midazolam ≈ 20% of parent's BZ-receptor affinity. Active metabolite contributes to clinical effect, especially in renal failure where glucuronide can accumulate."
+        "notes": "Kronbach 1989 / Gorski review; 1-OH-midazolam ≈ 20% of parent's BZ-receptor affinity. Active metabolite contributes to clinical effect, especially in renal failure where glucuronide can accumulate.",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A5",
@@ -1022,7 +1031,10 @@
         "metabolite_name": "1-hydroxymidazolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
-        "reference": "pmid:8004131"
+        "reference": "pmid:8004131",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -1030,7 +1042,10 @@
         "metabolite_name": "4-hydroxymidazolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 7,
-        "reference": "pmid:8004131"
+        "reference": "pmid:8004131",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -1155,7 +1170,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "Klonopin FDA label",
-        "notes": "Nitroreduction to inactive 7-amino metabolite (major); minor 3-hydroxylation. 7-amino subsequently acetylated by NAT2 to 7-acetamido-clonazepam."
+        "notes": "Nitroreduction to inactive 7-amino metabolite (major); minor 3-hydroxylation. 7-amino subsequently acetylated by NAT2 to 7-acetamido-clonazepam.",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "NAT2",
@@ -1163,7 +1179,8 @@
         "metabolite_name": "7-acetamido-clonazepam",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Klonopin FDA label"
+        "reference": "Klonopin FDA label",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [
@@ -1442,7 +1459,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:11259331",
-        "notes": "Nitroreduction by CYP3A4 + nitroreductase; inactive but the primary forensic urinary marker."
+        "notes": "Nitroreduction by CYP3A4 + nitroreductase; inactive but the primary forensic urinary marker.",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -1552,7 +1570,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:12386133",
-        "notes": "Court 2002 — S-isomer almost exclusively glucuronidated by UGT2B15. R-isomer uses UGT2B7 and UGT1A9."
+        "notes": "Court 2002 — S-isomer almost exclusively glucuronidated by UGT2B15. R-isomer uses UGT2B7 and UGT1A9.",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "UGT2B7",
@@ -1560,7 +1579,8 @@
         "metabolite_name": "R-oxazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:12386133"
+        "reference": "pmid:12386133",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -1670,7 +1690,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:40543327",
-        "notes": "Stereoselective: UGT2B7/1A9 dominant for R-temazepam; UGT2B15/1A6 for S-temazepam."
+        "notes": "Stereoselective: UGT2B7/1A9 dominant for R-temazepam; UGT2B15/1A6 for S-temazepam.",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "UGT2B7",
@@ -1678,7 +1699,8 @@
         "metabolite_name": "R-temazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:40543327"
+        "reference": "pmid:40543327",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -2017,7 +2039,8 @@
         "metabolite_name": "3-hydroxybromazepam glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "https://e-lactancia.org/media/papers/Bromazepam-DS-2012.pdf"
+        "reference": "https://e-lactancia.org/media/papers/Bromazepam-DS-2012.pdf",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [
@@ -2135,7 +2158,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 25,
         "reference": "pmc:PMC5914180",
-        "notes": "~2/3 of clobazam undergoes N-demethylation. Norclobazam is ~25% as potent but at chronic dosing reaches plasma concentrations 8–20× clobazam."
+        "notes": "~2/3 of clobazam undergoes N-demethylation. Norclobazam is ~25% as potent but at chronic dosing reaches plasma concentrations 8–20× clobazam.",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2C19",
@@ -2144,7 +2170,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmc:PMC5914180",
-        "notes": "CYP2C19 PMs have 5× higher norclobazam levels — clinically important for dosing in Asian populations."
+        "notes": "CYP2C19 PMs have 5× higher norclobazam levels — clinically important for dosing in Asian populations.",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [
@@ -2268,7 +2295,10 @@
         "metabolite_name": "N-desmethylzopiclone",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -2276,7 +2306,8 @@
         "metabolite_name": "zopiclone-N-oxide (inactive)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [
@@ -2394,7 +2425,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "Sonata FDA label",
-        "notes": "Unusual: primary clearance is via aldehyde oxidase, not CYP. Minimal CYP interactions."
+        "notes": "Unusual: primary clearance is via aldehyde oxidase, not CYP. Minimal CYP interactions.",
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "CYP3A4",
@@ -2402,7 +2434,8 @@
         "metabolite_name": "desethylzaleplon",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Sonata FDA label"
+        "reference": "Sonata FDA label",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [
@@ -2740,7 +2773,10 @@
         "metabolite_name": "4-hydroxyestazolam",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 5,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -3122,7 +3158,8 @@
         "metabolite_name": "lormetazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A"
       },
       {
         "enzyme": "CYP3A4",
@@ -3131,7 +3168,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "Minor N-demethylation to lorazepam."
+        "notes": "Minor N-demethylation to lorazepam.",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -3222,7 +3262,10 @@
         "metabolite_name": "α-hydroxybrotizolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -3433,7 +3476,8 @@
         "metabolite_name": "6-bromo-2-amino-2'-chlorobenzophenone",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:2858403"
+        "reference": "pmid:2858403",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -3501,7 +3545,8 @@
         "metabolite_name": "3-OH-phenazepam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:2858403"
+        "reference": "pmid:2858403",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -3788,7 +3833,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Parallel to clonazepam nitroreduction."
+        "notes": "Parallel to clonazepam nitroreduction.",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -4124,7 +4170,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 2500,
         "reference": "pmid:1474178",
-        "notes": ">80% of dose converted to NDMAD. Affinity for benzodiazepine receptors is ~25× parent's."
+        "notes": ">80% of dose converted to NDMAD. Affinity for benzodiazepine receptors is ~25× parent's.",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -4208,7 +4257,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:28677876",
-        "notes": "Unusual — pyrazolam is excreted largely as parent + glucuronide; no hydroxy metabolites detected."
+        "notes": "Unusual — pyrazolam is excreted largely as parent + glucuronide; no hydroxy metabolites detected.",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -4268,7 +4318,8 @@
         "metabolite_name": "nifoxipam-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -4333,7 +4384,8 @@
         "metabolite_name": "7-amino-desmethylflunitrazepam",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:11259331"
+        "reference": "pmid:11259331",
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -5708,7 +5760,8 @@
         "metabolite_name": "8-amino-nitrazolam",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],

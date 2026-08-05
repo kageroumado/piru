@@ -205,7 +205,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.1016/j.bja.2017.10.014",
-        "notes": "M3G has been implicated in opioid-induced hyperalgesia/neuroexcitation (TLR4) but is not an MOR agonist."
+        "notes": "M3G has been implicated in opioid-induced hyperalgesia/neuroexcitation (TLR4) but is not an MOR agonist.",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "UGT2B7",
@@ -214,7 +215,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 200,
         "reference": "doi:10.1016/j.bja.2017.10.014",
-        "notes": "M6G accumulates in renal failure → prolonged sedation/respiratory depression. Penetrates BBB poorly but acts at MOR with higher intrinsic potency than parent."
+        "notes": "M6G accumulates in renal failure → prolonged sedation/respiratory depression. Penetrates BBB poorly but acts at MOR with higher intrinsic potency than parent.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -350,7 +354,10 @@
         "metabolite_name": "morphine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
-        "reference": "pmid:8930175"
+        "reference": "pmid:8930175",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -716,7 +723,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
         "reference": "doi:10.1124/dmd.105.003681",
-        "notes": "Picard 2005 — CYP3A4 dominant, CYP2C8 minor contributor. Norbup is a full MOR/DOR/NOP agonist but has poor BBB penetration in humans."
+        "notes": "Picard 2005 — CYP3A4 dominant, CYP2C8 minor contributor. Norbup is a full MOR/DOR/NOP agonist but has poor BBB penetration in humans.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "divergent"
       },
       {
         "enzyme": "UGT1A1, UGT2B7",
@@ -958,7 +968,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1002/cpt.2956, which is a ponatinib dose-ranging oncology model analysis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. CPIC 2024 guideline — CYP2B6 dominant; CYP3A4/5 contributes <5% by recent modelling. CYP2D6 minimal."
+        "notes": "Citation removed: this value was attributed to doi:10.1002/cpt.2956, which is a ponatinib dose-ranging oncology model analysis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. CPIC 2024 guideline — CYP2B6 dominant; CYP3A4/5 contributes <5% by recent modelling. CYP2D6 minimal.",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "CYP3A4",
@@ -1123,7 +1134,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20000,
         "reference": "pmid:32982255",
-        "notes": "Rate-limiting bioactivation step; PMs get ~96% lower morphine AUC, UMs get supratherapeutic morphine from normal codeine doses."
+        "notes": "Rate-limiting bioactivation step; PMs get ~96% lower morphine AUC, UMs get supratherapeutic morphine from normal codeine doses.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -1304,7 +1318,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20000,
         "reference": "pmid:28520365",
-        "notes": "M1 has ≈200× higher MOR affinity than parent; clinical analgesia largely depends on M1."
+        "notes": "M1 has ≈200× higher MOR affinity than parent; clinical analgesia largely depends on M1.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4 / CYP2B6",
@@ -1599,7 +1616,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:16678548",
-        "notes": "Lalovic 2006 — major pathway; noroxycodone has negligible MOR activity."
+        "notes": "Lalovic 2006 — major pathway; noroxycodone has negligible MOR activity.",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "CYP2D6",
@@ -1608,7 +1626,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:16678548",
-        "notes": "Oxymorphone has 40-60× higher MOR affinity than oxycodone but contributes only ≈15% of analgesia in EMs because plasma exposure is low."
+        "notes": "Oxymorphone has 40-60× higher MOR affinity than oxycodone but contributes only ≈15% of analgesia in EMs because plasma exposure is low.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -1741,7 +1762,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.108.025130, which is PXR activation and CYP induction by oxidosqualene cyclase inhibition. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. H3G has been associated with neuroexcitation/myoclonus in renal failure; analogous to morphine-3-glucuronide."
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.108.025130, which is PXR activation and CYP induction by oxidosqualene cyclase inhibition. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. H3G has been associated with neuroexcitation/myoclonus in renal failure; analogous to morphine-3-glucuronide.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [
@@ -1860,7 +1882,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
         "reference": "pmid:14998425",
-        "notes": "Km 26 μM high-affinity CYP2D6 step; PMs have ~50% reduced subjective effects."
+        "notes": "Km 26 μM high-affinity CYP2D6 step; PMs have ~50% reduced subjective effects.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "UGT2B7",
@@ -2140,7 +2165,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
         "reference": "doi:10.1021/acscentsci.9b00141",
-        "notes": "Kruegel 2019 — CYP3A4 generates 7-OH-MG in vivo; 7-OH-MG is the dominant analgesic species after oral kratom."
+        "notes": "Kruegel 2019 — CYP3A4 generates 7-OH-MG in vivo; 7-OH-MG is the dominant analgesic species after oral kratom.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2D6",
@@ -2968,7 +2996,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "pmid:15319333",
-        "notes": "Normeperidine has half the analgesia but several-fold the proconvulsant activity; t½ ~15-30 h; accumulates with repeat dosing → seizures."
+        "notes": "Normeperidine has half the analgesia but several-fold the proconvulsant activity; t½ ~15-30 h; accumulates with repeat dosing → seizures.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -3097,7 +3128,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 6000,
         "reference": "pmid:7586928",
-        "notes": "Fromm 1995 — CYP2D6 O-demethylation; PMs have impaired dihydromorphine formation. Unlike codeine, parent dihydrocodeine retains some analgesia in PMs."
+        "notes": "Fromm 1995 — CYP2D6 O-demethylation; PMs have impaired dihydromorphine formation. Unlike codeine, parent dihydrocodeine retains some analgesia in PMs.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "UGT2B7",
@@ -3325,7 +3359,10 @@
         "metabolite_name": "norpropoxyphene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmid:10690289"
+        "reference": "pmid:10690289",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -3442,7 +3479,10 @@
         "metabolite_name": "norpropoxyphene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmid:10690289"
+        "reference": "pmid:10690289",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -3555,7 +3595,10 @@
         "metabolite_name": "nortilidine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
-        "reference": "pmid:22381043"
+        "reference": "pmid:22381043",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4 / CYP2C19 / CYP2B6",

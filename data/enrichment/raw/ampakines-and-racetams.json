@@ -1241,7 +1241,8 @@
         "metabolite_name": "ucb L057 (carboxylic acid metabolite)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1046/j.1528-1157.2001.0420s4024.x"
+        "reference": "doi:10.1046/j.1528-1157.2001.0420s4024.x",
+        "metabolite_potency_target": "SV2A"
       }
     ],
     "drug_interactions_pk": [],

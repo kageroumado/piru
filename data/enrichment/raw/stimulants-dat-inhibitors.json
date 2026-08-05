@@ -167,7 +167,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 80,
         "reference": "pmid:8926741",
-        "notes": "Norcocaine is hepatotoxic (further oxidized to nitroxide radical)."
+        "notes": "Norcocaine is hepatotoxic (further oxidized to nitroxide radical).",
+        "metabolite_potency_target": "DAT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "Carboxylesterase 1 (CES1) + ethanol",
@@ -1037,7 +1040,10 @@
         "metabolite_name": "modafinil",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "doi:10.1080/08897077.2019.1700584"
+        "reference": "doi:10.1080/08897077.2019.1700584",
+        "metabolite_potency_target": "DAT",
+        "metabolite_potency_basis": "clinical",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "off_targets": [
@@ -2303,7 +2309,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "doi:10.1124/dmd.112.050591",
-        "notes": "Active NET-selective metabolite; reaches 4-7x higher steady-state plasma than parent."
+        "notes": "Active NET-selective metabolite; reaches 4-7x higher steady-state plasma than parent.",
+        "metabolite_potency_target": "NET",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
@@ -2312,7 +2321,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
         "reference": "pmid:23804523",
-        "notes": "Carbonyl reduction; threohydro responsible for dry mouth."
+        "notes": "Carbonyl reduction; threohydro responsible for dry mouth.",
+        "metabolite_potency_target": "NET",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
@@ -2321,7 +2333,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "pmid:23804523",
-        "notes": "Erythrohydro plasma levels correlate with insomnia."
+        "notes": "Erythrohydro plasma levels correlate with insomnia.",
+        "metabolite_potency_target": "NET",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -2454,7 +2469,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "pmc:4876529",
-        "notes": "Equipotent at NET but rapidly glucuronidated → low plasma exposure."
+        "notes": "Equipotent at NET but rapidly glucuronidated → low plasma exposure.",
+        "metabolite_potency_target": "NET",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2C19 (minor)",
@@ -2816,7 +2834,10 @@
         "metabolite_name": "d-amphetamine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmc:4257105"
+        "reference": "pmc:4257105",
+        "metabolite_potency_target": "DAT/NET",
+        "metabolite_potency_basis": "clinical",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "tags_to_add": [
@@ -2902,7 +2923,10 @@
         "metabolite_name": "dexmethylphenidate",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "https://www.fda.gov/media/166741/download"
+        "reference": "https://www.fda.gov/media/166741/download",
+        "metabolite_potency_target": "DAT",
+        "metabolite_potency_basis": "clinical",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "tags_to_add": [
@@ -3433,7 +3457,10 @@
         "metabolite_name": "phenmetrazine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmid:23211394"
+        "reference": "pmid:23211394",
+        "metabolite_potency_target": "DAT/NET",
+        "metabolite_potency_basis": "clinical",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "tags_to_add": [

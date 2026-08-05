@@ -308,7 +308,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified.",
+        "metabolite_potency_target": "5-HT2A"
       },
       {
         "enzyme": "CYP1A2/2D6/2E1/2C9",
@@ -1323,7 +1324,10 @@
         "metabolite_name": "psilocin",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
-        "reference": "doi:10.1021/acsptsci.2c00222"
+        "reference": "doi:10.1021/acsptsci.2c00222",
+        "metabolite_potency_target": "5-HT2A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -3999,7 +4003,10 @@
         "metabolite_name": "bufotenin (5-HO-DMT)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 1000,
-        "reference": "pmid:20942780"
+        "reference": "pmid:20942780",
+        "metabolite_potency_target": "5-HT2A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [

@@ -138,7 +138,10 @@
         "metabolite_name": "demethylcitalopram (DCT)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
-        "reference": "doi:10.1097/00004714-200110000-00007"
+        "reference": "doi:10.1097/00004714-200110000-00007",
+        "metabolite_potency_target": "SERT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -405,7 +408,10 @@
         "metabolite_name": "S-demethylescitalopram (S-DCT)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
-        "reference": "pmid:11454728"
+        "reference": "pmid:11454728",
+        "metabolite_potency_target": "SERT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4",
@@ -603,7 +609,10 @@
         "metabolite_name": "norfluoxetine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "doi:10.3390/pharmaceutics13020148"
+        "reference": "doi:10.3390/pharmaceutics13020148",
+        "metabolite_potency_target": "SERT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2C9",
@@ -994,7 +1003,8 @@
         "metabolite_name": "paroxetine catechol",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:12584155"
+        "reference": "pmid:12584155",
+        "metabolite_potency_target": "SERT"
       }
     ],
     "drug_interactions_pk": [
@@ -1182,7 +1192,10 @@
         "metabolite_name": "desmethylsertraline",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 2,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "SERT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2C19",
@@ -1467,7 +1480,10 @@
         "metabolite_name": "8-hydroxymirtazapine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": "doi:10.2165/00003088-200038060-00001"
+        "reference": "doi:10.2165/00003088-200038060-00001",
+        "metabolite_potency_target": "α2-adrenergic",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP1A2",
@@ -1483,7 +1499,10 @@
         "metabolite_name": "demethylmirtazapine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": "doi:10.2165/00003088-200038060-00001"
+        "reference": "doi:10.2165/00003088-200038060-00001",
+        "metabolite_potency_target": "α2-adrenergic",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -1789,7 +1808,8 @@
         "metabolite_name": "olanzapine-10-N-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.2165/00003088-199937030-00001"
+        "reference": "doi:10.2165/00003088-199937030-00001",
+        "metabolite_potency_target": "D2/5-HT2A"
       },
       {
         "enzyme": "CYP1A2",
@@ -1797,7 +1817,8 @@
         "metabolite_name": "4'-N-desmethylolanzapine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.2165/00003088-199937030-00001"
+        "reference": "doi:10.2165/00003088-199937030-00001",
+        "metabolite_potency_target": "D2/5-HT2A"
       },
       {
         "enzyme": "FMO3",
@@ -1805,7 +1826,8 @@
         "metabolite_name": "olanzapine N-oxide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.2165/00003088-199937030-00001"
+        "reference": "doi:10.2165/00003088-199937030-00001",
+        "metabolite_potency_target": "D2/5-HT2A"
       }
     ],
     "drug_interactions_pk": [
@@ -1949,7 +1971,8 @@
         "metabolite_name": "various morpholinone metabolites",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:11309556"
+        "reference": "pmid:11309556",
+        "metabolite_potency_target": "MAO-A"
       },
       {
         "enzyme": "CYP2D6",
@@ -1957,7 +1980,8 @@
         "metabolite_name": "various",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:11309556"
+        "reference": "pmid:11309556",
+        "metabolite_potency_target": "MAO-A"
       }
     ],
     "drug_interactions_pk": [
@@ -2124,7 +2148,8 @@
         "metabolite_name": "4-hydroxytranylcypromine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:11099737"
+        "reference": "pmid:11099737",
+        "metabolite_potency_target": "MAO"
       }
     ],
     "drug_interactions_pk": [
@@ -2683,7 +2708,8 @@
         "metabolite_name": "lamotrigine-2-N-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1111/bcp.12984"
+        "reference": "doi:10.1111/bcp.12984",
+        "metabolite_potency_target": "Na+ channel"
       },
       {
         "enzyme": "UGT2B7",
@@ -2691,7 +2717,8 @@
         "metabolite_name": "minor glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1111/bcp.12984"
+        "reference": "doi:10.1111/bcp.12984",
+        "metabolite_potency_target": "Na+ channel"
       }
     ],
     "drug_interactions_pk": [

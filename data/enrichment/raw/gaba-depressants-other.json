@@ -824,7 +824,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "Inferred by chemical analogy."
+        "notes": "Inferred by chemical analogy.",
+        "metabolite_potency_target": "GABA-B",
+        "metabolite_potency_basis": "clinical",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -2428,7 +2431,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": null,
-        "notes": null
+        "notes": null,
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -2884,7 +2890,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 200,
         "reference": "pmid:3615341",
-        "notes": "TCE is more potent than parent; subsequently glucuronidated to urochloralic acid (inactive), the rate-limiting elimination step."
+        "notes": "TCE is more potent than parent; subsequently glucuronidated to urochloralic acid (inactive), the rate-limiting elimination step.",
+        "metabolite_potency_target": "GABA-A",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -4217,7 +4226,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "Cetirizine is itself a marketed antihistamine."
+        "notes": "Cetirizine is itself a marketed antihistamine.",
+        "metabolite_potency_target": "H1",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -5043,7 +5055,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "11-OH-THC is further oxidized to THC-COOH (inactive, long t½, the urinalysis target)"
+        "notes": "11-OH-THC is further oxidized to THC-COOH (inactive, long t½, the urinalysis target)",
+        "metabolite_potency_target": "CB1",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],

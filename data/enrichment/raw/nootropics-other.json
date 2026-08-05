@@ -1941,7 +1941,10 @@
         "metabolite_name": "cotinine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": "pmid:17979512"
+        "reference": "pmid:17979512",
+        "metabolite_potency_target": "nAChR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "FMO3",

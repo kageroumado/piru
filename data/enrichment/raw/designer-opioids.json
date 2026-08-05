@@ -267,7 +267,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-        "notes": "N-desethyl metabolite is itself a MOR full agonist with Ki 1.53 nM (Vandeputte 2023) — found in post-mortem casework"
+        "notes": "N-desethyl metabolite is itself a MOR full agonist with Ki 1.53 nM (Vandeputte 2023) — found in post-mortem casework",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2D6 (dominant; CYP2C8/CYP2E1/CYP2A6 minor — CYP1A2 contribution is negligible)",
@@ -2728,7 +2731,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:8886601",
-        "notes": "Tateishi 1996 — CYP3A4 N-dealkylation is the dominant pathway; norfentanyl is essentially inactive. CYP3A5 contributes minor fraction."
+        "notes": "Tateishi 1996 — CYP3A4 N-dealkylation is the dominant pathway; norfentanyl is essentially inactive. CYP3A5 contributes minor fraction.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [
@@ -2919,7 +2923,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:29679387",
-        "notes": "N-dealkylation to norcarfentanyl (inactive) is dominant pathway; also monohydroxylation of piperidine ring."
+        "notes": "N-dealkylation to norcarfentanyl (inactive) is dominant pathway; also monohydroxylation of piperidine ring.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -3062,7 +3067,10 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "pmid:8712396",
-        "notes": "Predominantly CYP3A4 N-dealkylation. Desmethyl-sufentanil retains ~10% potency."
+        "notes": "Predominantly CYP3A4 N-dealkylation. Desmethyl-sufentanil retains ~10% potency.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -3188,7 +3196,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:8886601",
-        "notes": "Used clinically as CYP3A4 probe substrate."
+        "notes": "Used clinically as CYP3A4 probe substrate.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [
@@ -3308,7 +3317,10 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 1,
         "reference": "pmid:10511072",
-        "notes": "Carboxylic acid metabolite — ~1/4000th remifentanil potency."
+        "notes": "Carboxylic acid metabolite — ~1/4000th remifentanil potency.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -3477,7 +3489,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -3570,7 +3583,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -3743,7 +3757,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "CYP2D6",
@@ -3854,7 +3869,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4009,7 +4025,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4121,7 +4138,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       },
       {
         "enzyme": "CYP3A4",
@@ -4222,7 +4240,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4314,7 +4333,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4406,7 +4426,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4498,7 +4519,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4592,7 +4614,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4704,7 +4727,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],
@@ -4792,7 +4816,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Methylenedioxy ring may also be cleaved by CYP1A2 (catechol formation) by analogy with MDMA/safrole."
+        "notes": "Methylenedioxy ring may also be cleaved by CYP1A2 (catechol formation) by analogy with MDMA/safrole.",
+        "metabolite_potency_target": "MOR"
       }
     ],
     "drug_interactions_pk": [],

@@ -1923,7 +1923,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 400,
         "reference": "pmid:30336805",
-        "notes": "Norfenfluramine is 400× more 5-HT2B-active than parent (Ki 52 nM vs 4134 nM); also has 5-HT2C activity (Ki 557 nM)"
+        "notes": "Norfenfluramine is 400× more 5-HT2B-active than parent (Ki 52 nM vs 4134 nM); also has 5-HT2C activity (Ki 557 nM)",
+        "metabolite_potency_target": "SERT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "divergent"
       },
       {
         "enzyme": "CYP1A2",

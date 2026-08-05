@@ -119,7 +119,10 @@
         "metabolite_name": "8β-OH-THC",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
-        "reference": "pmid:38583809"
+        "reference": "pmid:38583809",
+        "metabolite_potency_target": "CB1",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": null,
@@ -2488,7 +2491,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:31461219",
-        "notes": "Acid metabolite is inactive at CB1; defluorinated and ω-OH metabolites retain partial activity."
+        "notes": "Acid metabolite is inactive at CB1; defluorinated and ω-OH metabolites retain partial activity.",
+        "metabolite_potency_target": "CB1"
       }
     ],
     "drug_interactions_pk": [],
@@ -2580,7 +2584,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified.",
+        "metabolite_potency_target": "CB1"
       },
       {
         "enzyme": "CYP3A4",
@@ -2929,7 +2934,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:24518903",
-        "notes": "Ester hydrolysis to inactive carboxylic acid — likely contributes to relatively short duration but does NOT prevent acute toxicity."
+        "notes": "Ester hydrolysis to inactive carboxylic acid — likely contributes to relatively short duration but does NOT prevent acute toxicity.",
+        "metabolite_potency_target": "CB1"
       }
     ],
     "drug_interactions_pk": [],
@@ -3118,7 +3124,8 @@
         "metabolite_name": "AMB-CHMICA ester-hydrolysis metabolite",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:35788413"
+        "reference": "pmid:35788413",
+        "metabolite_potency_target": "CB1"
       }
     ],
     "drug_interactions_pk": [],
@@ -3156,7 +3163,7 @@
     "references_consulted": []
   },
   {
-    "name": "AMB-FUBINACA (AMB) — augmentation plan and justifications BEFORE JSON changes",
+    "name": "AMB-FUBINACA",
     "aliases_added": [
       "AMB-FUBINACA"
     ],
@@ -3244,7 +3251,8 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.1007/s11419-022-00649-3",
-        "notes": "Methyl ester rapidly cleaved in plasma; main urinary marker for forensic detection."
+        "notes": "Methyl ester rapidly cleaved in plasma; main urinary marker for forensic detection.",
+        "metabolite_potency_target": "CB1"
       }
     ],
     "drug_interactions_pk": [],

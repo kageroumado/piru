@@ -152,7 +152,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "doi:10.1002/cpt.1417",
-        "notes": "Primary N-demethylation by CYP2D6; CYP2D6 PMs show 2-3× higher parent AUC and worse adverse effects"
+        "notes": "Primary N-demethylation by CYP2D6; CYP2D6 PMs show 2-3× higher parent AUC and worse adverse effects",
+        "metabolite_potency_target": "DAT/NET/SERT",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP2D6/CYP2B6",

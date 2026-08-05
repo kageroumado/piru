@@ -714,7 +714,8 @@
         "metabolite_name": "promethazine sulfoxide (S-oxidized)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:8946477"
+        "reference": "pmid:8946477",
+        "metabolite_potency_target": "H1"
       },
       {
         "enzyme": "CYP2D6 / CYP3A4",
@@ -730,7 +731,8 @@
         "metabolite_name": "promethazine N-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": null
+        "reference": null,
+        "metabolite_potency_target": "H1"
       }
     ],
     "drug_interactions_pk": [

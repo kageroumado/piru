@@ -14999,6 +14999,37 @@
     ]
   },
   {
+    "name": "AMB-FUBINACA",
+    "display_name": "",
+    "aliases": [
+      "FUB-AMB"
+    ],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [
+      "full-agonist-CB1",
+      "mass-poisoning-history",
+      "zombie-cluster-Brooklyn-2016"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "Amcinonide",
     "display_name": "",
     "aliases": [

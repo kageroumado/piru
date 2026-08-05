@@ -123,7 +123,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:15988119",
-        "notes": "O-demethylation. Dextrorphan is the principal NMDA-active metabolite (Ki ~900 nM at PCP site, ~8x parent)."
+        "notes": "O-demethylation. Dextrorphan is the principal NMDA-active metabolite (Ki ~900 nM at PCP site, ~8x parent).",
+        "metabolite_potency_target": "NMDA",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       },
       {
         "enzyme": "CYP3A4/CYP3A5",
@@ -294,7 +297,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:15988119",
-        "notes": "Same pathway as free-base DXM."
+        "notes": "Same pathway as free-base DXM.",
+        "metabolite_potency_target": "NMDA",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -395,7 +401,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:15988119",
-        "notes": null
+        "notes": null,
+        "metabolite_potency_target": "NMDA",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [],
@@ -608,7 +617,9 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "pmid:22863669",
-        "notes": "Excreted via OCT2/MATE-mediated tubular secretion; pH-dependent reabsorption. Urinary alkalinisation (e.g., heavy sodium bicarbonate) decreases clearance up to 9-fold."
+        "notes": "Excreted via OCT2/MATE-mediated tubular secretion; pH-dependent reabsorption. Urinary alkalinisation (e.g., heavy sodium bicarbonate) decreases clearance up to 9-fold.",
+        "metabolite_potency_target": "NMDA",
+        "metabolite_mechanism_vs_parent": "scaled"
       }
     ],
     "drug_interactions_pk": [
@@ -1952,7 +1963,10 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "pmid:25651476",
-        "notes": "O-demethylation. Noribogaine has 10x higher SERT affinity, longer t1/2 (28-49 h), and is the kappa-opioid G-biased active metabolite responsible for sustained anti-addictive effect."
+        "notes": "O-demethylation. Noribogaine has 10x higher SERT affinity, longer t1/2 (28-49 h), and is the kappa-opioid G-biased active metabolite responsible for sustained anti-addictive effect.",
+        "metabolite_potency_target": "MOR",
+        "metabolite_potency_basis": "receptor_affinity",
+        "metabolite_mechanism_vs_parent": "divergent"
       },
       {
         "enzyme": "ABCB1 (P-gp) / OATP1B1",

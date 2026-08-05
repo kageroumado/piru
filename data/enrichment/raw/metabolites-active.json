@@ -1967,7 +1967,7 @@
         "reference": "doi:10.1371/journal.pone.0150955",
         "notes": "Major clearance metabolite (dominant CYP2D6 pathway) but not established as pharmacologically active at monoamine targets in the way MDA is; included because it dominates elimination and has a longer apparent half-life than MDMA itself in many reports, though this specific reference's phase-II conjugate ratios (not simple half-lives) were the only quantitative data recoverable here.",
         "metabolite_mechanism_vs_parent": "unknown",
-        "metabolite_potency_target": null
+        "metabolite_potency_target": "SERT"
       }
     ]
   },
@@ -2029,7 +2029,7 @@
         "reference": "doi:10.1208/s12248-017-0132-2",
         "notes": "Not reported as pharmacologically active; noted here only because it is the longest-lived detectable metabolite (t1/2 8.2 h) and serves as the primary forensic/toxicology marker of mephedrone use given the parent's very rapid clearance.",
         "metabolite_mechanism_vs_parent": "divergent",
-        "metabolite_potency_target": null,
+        "metabolite_potency_target": "DAT/NET/SERT",
         "mechanism_note": "N-succinyl-nor-mephedrone is not reported to be pharmacologically active and does not share mephedrone's monoamine-releasing activity; it functions only as a forensic clearance marker."
       }
     ]
