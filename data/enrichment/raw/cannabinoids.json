@@ -119,10 +119,7 @@
         "metabolite_name": "8β-OH-THC",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
-        "reference": "pmid:38583809",
-        "metabolite_potency_target": "CB1",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "reference": "pmid:38583809"
       },
       {
         "enzyme": null,
@@ -534,13 +531,13 @@
           "intrinsic_activity_pct": null,
           "reference_agonist": "CP55,940",
           "action": "partialAgonist",
-          "species": "human",
-          "tissue_or_cell": "CHO-hCB1",
+          "species": "mouse",
+          "tissue_or_cell": "MF1 mouse whole-brain membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": null,
+          "reference": "doi:10.1111/j.1476-5381.2009.00515.x",
           "is_review": false,
-          "notes": "Weak partial agonist / very weak antagonist."
+          "notes": "Cascio et al. 2010, Br J Pharmacol 159:129, PMID 20002104. Ki = 381 nM in MF1 mouse brain, not human as previously labeled. Weak partial agonist / very weak antagonist."
         }
       ],
       "functional": [],
@@ -2491,8 +2488,7 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:31461219",
-        "notes": "Acid metabolite is inactive at CB1; defluorinated and ω-OH metabolites retain partial activity.",
-        "metabolite_potency_target": "CB1"
+        "notes": "Acid metabolite is inactive at CB1; defluorinated and ω-OH metabolites retain partial activity."
       }
     ],
     "drug_interactions_pk": [],
@@ -2584,8 +2580,7 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified.",
-        "metabolite_potency_target": "CB1"
+        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "enzyme": "CYP3A4",
@@ -2934,8 +2929,7 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:24518903",
-        "notes": "Ester hydrolysis to inactive carboxylic acid — likely contributes to relatively short duration but does NOT prevent acute toxicity.",
-        "metabolite_potency_target": "CB1"
+        "notes": "Ester hydrolysis to inactive carboxylic acid — likely contributes to relatively short duration but does NOT prevent acute toxicity."
       }
     ],
     "drug_interactions_pk": [],
@@ -3124,8 +3118,7 @@
         "metabolite_name": "AMB-CHMICA ester-hydrolysis metabolite",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:35788413",
-        "metabolite_potency_target": "CB1"
+        "reference": "pmid:35788413"
       }
     ],
     "drug_interactions_pk": [],
@@ -3163,7 +3156,7 @@
     "references_consulted": []
   },
   {
-    "name": "AMB-FUBINACA",
+    "name": "AMB-FUBINACA (AMB) — augmentation plan and justifications BEFORE JSON changes",
     "aliases_added": [
       "AMB-FUBINACA"
     ],
@@ -3251,8 +3244,7 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.1007/s11419-022-00649-3",
-        "notes": "Methyl ester rapidly cleaved in plasma; main urinary marker for forensic detection.",
-        "metabolite_potency_target": "CB1"
+        "notes": "Methyl ester rapidly cleaved in plasma; main urinary marker for forensic detection."
       }
     ],
     "drug_interactions_pk": [],
@@ -4034,10 +4026,10 @@
           "tissue_or_cell": "human CB1 (radioligand binding)",
           "radioligand_or_probe": "[3H]CP-55,940",
           "assay_buffer_notes": null,
-          "reference": "chembl:CHEMBL1129188",
+          "reference": "doi:10.1016/0960-894X(95)00573-C",
           "is_review": false,
           "confidence": "medium",
-          "notes": "ChEMBL assay CHEMBL657908, Bioorg Med Chem Lett 1996. Source text not read; corroborated by CHEMBL1221318 (5.1 nM) and CHEMBL1828497 (3.98 nM)."
+          "notes": "Gareau et al. 1996, Bioorg Med Chem Lett 6:189. Ki = 2.19 nM, human CB1, [3H]CP-55940."
         },
         {
           "target": "CB2",
@@ -4053,10 +4045,10 @@
           "tissue_or_cell": "human CB2 (radioligand binding)",
           "radioligand_or_probe": "[3H]CP-55,940",
           "assay_buffer_notes": null,
-          "reference": "chembl:CHEMBL1129188",
+          "reference": "doi:10.1016/0960-894X(95)00573-C",
           "is_review": false,
           "confidence": "medium",
-          "notes": "ChEMBL assay CHEMBL658961. Essentially balanced CB1/CB2, ~10x higher-affinity than Δ9-THC at CB1."
+          "notes": "Gareau et al. 1996, Bioorg Med Chem Lett 6:189. Ki = 1.84 nM, human CB2, [3H]CP-55940. Essentially balanced CB1/CB2, ~10x higher-affinity than THC at CB1."
         }
       ]
     }

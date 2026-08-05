@@ -167,10 +167,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 80,
         "reference": "pmid:8926741",
-        "notes": "Norcocaine is hepatotoxic (further oxidized to nitroxide radical).",
-        "metabolite_potency_target": "DAT",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Norcocaine is hepatotoxic (further oxidized to nitroxide radical)."
       },
       {
         "enzyme": "Carboxylesterase 1 (CES1) + ethanol",
@@ -1040,10 +1037,7 @@
         "metabolite_name": "modafinil",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "doi:10.1080/08897077.2019.1700584",
-        "metabolite_potency_target": "DAT",
-        "metabolite_potency_basis": "clinical",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "reference": "doi:10.1080/08897077.2019.1700584"
       }
     ],
     "off_targets": [
@@ -1415,18 +1409,18 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal membranes",
           "radioligand_or_probe": "[3H]WIN-35,428 (self)",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:1675639, which is leukotriene C4 and the blood-brain barrier in rat ischemia. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Madras 1989."
+          "reference": "pmid:7830281",
+          "notes": "Carroll et al. 1995, J Med Chem 38:379. Ki = 22.95 nM ([3H]DA uptake inhibition, rat striatum)."
         },
         {
           "target": "SERT",
-          "ki_nm": 692,
+          "ki_nm": 100.6,
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]paroxetine",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:1675639, which is leukotriene C4 and the blood-brain barrier in rat ischemia. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. ~30-fold selectivity for DAT over SERT."
+          "reference": "pmid:7830281",
+          "notes": "Carroll et al. 1995, J Med Chem 38:379. Ki = 100.56 nM ([3H]5-HT uptake inhibition, rat cortex). The previous value (692 nM) was the radioligand-binding IC50 from the same paper's Table 2, not the Ki from Table 1."
         },
         {
           "target": "NET",
@@ -1435,8 +1429,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:1675639, which is leukotriene C4 and the blood-brain barrier in rat ischemia. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "reference": "pmid:7830281",
+          "notes": "Carroll et al. 1995, J Med Chem 38:379. Ki = 38.59 nM ([3H]NE uptake inhibition, rat cortex)."
         }
       ],
       "functional": [],
@@ -2224,7 +2218,7 @@
           "tissue_or_cell": "HEK293 expressing human NET",
           "radioligand_or_probe": "[3H]nisoxetine",
           "reference": null,
-          "notes": "Stahl review — bupropion is a weak NET/DAT inhibitor at parent level; hydroxybupropion metabolite contributes substantially."
+          "notes": "CAUTION: this NET/DAT/SERT triple (1400/2800/45000) has NET more potent than DAT, inverting every published radioligand-binding study (Tatsumi 1997: DAT 520, SERT 9100, NET 52000 nM). The rank-order inversion is the signature of uptake-inhibition IC50, not binding Ki. These values may be IC50 mislabeled as Ki; original source unidentified."
         },
         {
           "target": "DAT",
@@ -2233,7 +2227,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": null
+          "reference": null,
+          "notes": "CAUTION: may be uptake-inhibition IC50 rather than binding Ki. See NET row for details of rank-order inversion vs Tatsumi 1997 binding data."
         },
         {
           "target": "DAT",
@@ -2251,7 +2246,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "reference": null,
-          "notes": "Negligible serotonin activity."
+          "notes": "CAUTION: may be uptake-inhibition IC50 rather than binding Ki. See NET row for details of rank-order inversion vs Tatsumi 1997 binding data."
         },
         {
           "target": "α4β2 nAChR",
@@ -2309,10 +2304,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "doi:10.1124/dmd.112.050591",
-        "notes": "Active NET-selective metabolite; reaches 4-7x higher steady-state plasma than parent.",
-        "metabolite_potency_target": "NET",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Active NET-selective metabolite; reaches 4-7x higher steady-state plasma than parent."
       },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
@@ -2321,10 +2313,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
         "reference": "pmid:23804523",
-        "notes": "Carbonyl reduction; threohydro responsible for dry mouth.",
-        "metabolite_potency_target": "NET",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Carbonyl reduction; threohydro responsible for dry mouth."
       },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
@@ -2333,10 +2322,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "pmid:23804523",
-        "notes": "Erythrohydro plasma levels correlate with insomnia.",
-        "metabolite_potency_target": "NET",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Erythrohydro plasma levels correlate with insomnia."
       }
     ],
     "drug_interactions_pk": [
@@ -2469,10 +2455,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "pmc:4876529",
-        "notes": "Equipotent at NET but rapidly glucuronidated → low plasma exposure.",
-        "metabolite_potency_target": "NET",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Equipotent at NET but rapidly glucuronidated → low plasma exposure."
       },
       {
         "enzyme": "CYP2C19 (minor)",
@@ -2834,10 +2817,7 @@
         "metabolite_name": "d-amphetamine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmc:4257105",
-        "metabolite_potency_target": "DAT/NET",
-        "metabolite_potency_basis": "clinical",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "reference": "pmc:4257105"
       }
     ],
     "tags_to_add": [
@@ -2923,10 +2903,7 @@
         "metabolite_name": "dexmethylphenidate",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "https://www.fda.gov/media/166741/download",
-        "metabolite_potency_target": "DAT",
-        "metabolite_potency_basis": "clinical",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "reference": "https://www.fda.gov/media/166741/download"
       }
     ],
     "tags_to_add": [
@@ -3457,10 +3434,7 @@
         "metabolite_name": "phenmetrazine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmid:23211394",
-        "metabolite_potency_target": "DAT/NET",
-        "metabolite_potency_basis": "clinical",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "reference": "pmid:23211394"
       }
     ],
     "tags_to_add": [

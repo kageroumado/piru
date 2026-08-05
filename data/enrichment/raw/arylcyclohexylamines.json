@@ -81,15 +81,26 @@
           "notes": "Zhang et al. 2021 Nature (PMID 34321660). R-ketamine IC50 2.39 µM at the human NMDA receptor."
         },
         {
-          "target": "σ1 (racemate)",
-          "ki_nm": 139000,
+          "target": "σ1",
+          "ki_nm": 131000,
           "action": "agonist",
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1016/j.euroneuro.2011.08.002",
+          "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x",
           "is_review": false,
-          "notes": "R-ketamine Ki ≈ 27,000 nM, S-ketamine Ki ≈ 131,000 nM at σ1; substantial enantioselectivity"
+          "notes": "S(+)-ketamine; Hustveit, Maurset & Oye 1995, Pharmacol Toxicol 77:355, PMID 8835358."
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 27000,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x",
+          "is_review": false,
+          "notes": "R(−)-ketamine; Hustveit, Maurset & Oye 1995, Pharmacol Toxicol 77:355, PMID 8835358."
         },
         {
           "target": "σ2 (racemate)",
@@ -241,10 +252,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
         "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "Yanagihara 2002, Hijazi 2002. CYP2B6 demethylates S- and R-ketamine equipotently",
-        "metabolite_potency_target": "NMDA",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Yanagihara 2002, Hijazi 2002. CYP2B6 demethylates S- and R-ketamine equipotently"
       },
       {
         "enzyme": "CYP3A4",
@@ -253,10 +261,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
         "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine; primary in human liver microsomes per some reports",
-        "metabolite_potency_target": "NMDA",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine; primary in human liver microsomes per some reports"
       },
       {
         "enzyme": "CYP2B6/CYP2A6",
@@ -265,8 +270,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.1038/nature17998",
-        "notes": "HNK does NOT block NMDA at antidepressant-relevant doses (Zanos 2016, Suzuki 2017 doi:10.1073/pnas.1816071116); acts via α7 nAChR and AMPA potentiation",
-        "metabolite_potency_target": "NMDA"
+        "notes": "HNK does NOT block NMDA at antidepressant-relevant doses (Zanos 2016, Suzuki 2017 doi:10.1073/pnas.1816071116); acts via α7 nAChR and AMPA potentiation"
       },
       {
         "enzyme": "CYP2B6",
@@ -2293,10 +2297,7 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "doi:10.1021/jm970078z",
-        "notes": "Two active hydroxylated metabolites bind DAT with Ki within 2× of parent",
-        "metabolite_potency_target": "DAT",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Two active hydroxylated metabolites bind DAT with Ki within 2× of parent"
       }
     ],
     "drug_interactions_pk": [],

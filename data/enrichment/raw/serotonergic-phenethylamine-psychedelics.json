@@ -5440,7 +5440,7 @@
       "binding": [
         {
           "target": "5-HT2A (as psilocin)",
-          "ki_nm": 6.0,
+          "ki_nm": null,
           "ki_ci_nm": [
             6,
             340
@@ -5457,7 +5457,7 @@
           "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "Psilocybin itself is inactive; activity attributable to psilocin formed by alkaline phosphatase"
+          "notes": "ki_nm nulled: 6.0 nM appeared in no database or paper; every published psilocin 5-HT2A Ki is 25-390 nM (Rickli 2016: 49 nM). The value was the lower bound of the CI, not a measured Ki. Psilocybin itself is inactive; activity attributable to psilocin formed by alkaline phosphatase"
         },
         {
           "target": "5-HT2B (as psilocin)",
@@ -5482,7 +5482,7 @@
         },
         {
           "target": "5-HT2C (as psilocin)",
-          "ki_nm": 10,
+          "ki_nm": null,
           "ki_ci_nm": [
             10,
             141
@@ -5499,7 +5499,7 @@
           "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": null
+          "notes": "ki_nm nulled: 10 nM appeared in no database or paper; every published psilocin 5-HT2C Ki is 140-721 nM (Rickli 2016: 721 nM). The value was the lower bound of the CI, not a measured Ki."
         },
         {
           "target": "5-HT1A",
@@ -5826,7 +5826,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": null,
+          "reference": "pmid:9537821",
           "is_review": true,
           "notes": null
         },
@@ -6165,7 +6165,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-spiperone",
           "assay_buffer_notes": null,
-          "reference": null,
+          "reference": "doi:10.1021/jm950625l",
           "is_review": true,
           "notes": null
         },
@@ -7592,9 +7592,9 @@
           "tissue_or_cell": "rat brain membrane",
           "radioligand_or_probe": "[3H]-CP-55,940",
           "assay_buffer_notes": null,
-          "reference": null,
+          "reference": "doi:10.1021/jm050135l",
           "is_review": false,
-          "notes": "Citation removed: this value was attributed to pmid:14622937, which is radionuclide syringe calibration factors in medical physics. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "notes": "(R)-enantiomer; racemate is 2.8 nM, (S)-enantiomer 560 nM. Deng et al. 2005, J Med Chem 48:6386, PMID 16190764."
         }
       ],
       "functional": [],
