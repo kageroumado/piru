@@ -6940,11 +6940,12 @@
     },
     "metabolism": [
       {
-        "enzyme": "MAO-A; INMT (methylation)",
+        "enzyme": "INMT (methylation)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "DMT, indole-3-acetic acid",
+        "metabolite_name": "DMT",
         "metabolite_active": true,
-        "reference": null
+        "reference": null,
+        "notes": "Minor INMT-mediated N-methylation to DMT; primary route is MAO-A deamination to indole-3-acetic acid (inactive)"
       }
     ],
     "drug_interactions_pk": [],

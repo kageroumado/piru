@@ -1496,17 +1496,17 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "amphetamine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 1242,
+        "metabolite_half_life_min": 600,
         "metabolite_half_life_range_min": [
-          840,
-          1680
+          540,
+          840
         ],
         "formation_fraction_pct": null,
         "metabolite_tmax_min": 720,
         "metabolite_potency_vs_parent_pct": null,
-        "metabolite_potency_basis": "unknown",
+        "metabolite_potency_basis": null,
         "reference": "pmid:15570192",
-        "notes": "Amphetamine/methamphetamine urinary AUC ratio rose from ~13% to ~36% over the dosing interval (Kim et al. 2004, Ther Drug Monit). This is a urinary excretion ratio, not a validated plasma formation fraction of administered dose -- true systemic formation_fraction_pct is not well established in humans, hence null. Amphetamine is an active CNS stimulant in its own right and meaningfully extends/broadens the subjective tail of methamphetamine use. Urinary elimination half-life for amphetamine was 20.7 ± 7.3 h in the same study; plasma t1/2 is shorter (commonly cited ~10-13 h in single-dose amphetamine PK) -- range given spans both to reflect genuine uncertainty rather than false precision.",
+        "notes": "Mean plasma t½ of amphetamine is ~10 h (FDA Adderall XR label; 9–14 h range reflects d/l-enantiomer and pH variation). The Kim 2004 study (Ther Drug Monit) reported a urinary elimination t½ of 20.7 ± 7.3 h, which is longer than plasma t½ due to ongoing renal reabsorption — the plasma value is the pharmacologically relevant one. Amphetamine/methamphetamine urinary AUC ratio ~13–36%; true systemic formation fraction is not well established, hence null.",
         "metabolite_mechanism_vs_parent": "scaled"
       }
     ]
@@ -1564,14 +1564,14 @@
           504,
           675
         ],
-        "formation_fraction_pct": 100,
+        "formation_fraction_pct": 29.7,
         "metabolite_tmax_min": 228,
-        "metabolite_potency_vs_parent_pct": 100,
-        "metabolite_potency_basis": "clinical",
+        "metabolite_potency_vs_parent_pct": null,
+        "metabolite_potency_basis": null,
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/208510lbl.pdf",
-        "notes": "Lisdexamfetamine is an inactive prodrug -- essentially all clinical/subjective effect derives from d-amphetamine after RBC peptidase hydrolysis (the rate-limiting step, not CYP-mediated, so DDI risk from CYP inhibitors is low). FDA label: d-amphetamine Tmax ~3.8h (fasted), terminal t1/2 ~9.7 ± 1.55h. Because conversion is essentially quantitative and dose-linear, formation_fraction_pct is modeled as ~100% and potency_vs_parent_pct as 100 (the 'parent' drug has no activity of its own, so the metabolite IS the drug).",
+        "notes": "Inactive prodrug — all effect is d-amphetamine after RBC peptidase hydrolysis (non-CYP, low DDI risk). Molar conversion is quantitative, but doses are labeled as the dimesylate salt (MW 455.6), so mass yield is MW(d-amph)/MW(salt) = 135.21/455.6 = 29.7% (70 mg LDX → 20.8 mg d-amph, per FDA label). d-Amphetamine Tmax ~3.8 h fasted, t½ ~9.7 ± 1.55 h.",
         "metabolite_mechanism_vs_parent": "scaled",
-        "metabolite_potency_target": "clinical-effect"
+        "metabolite_potency_target": null
       }
     ]
   },
@@ -1662,7 +1662,7 @@
     "parent_half_life_notes": "R-MDMA t1/2 8.2 ± 2.4 h (extensive CYP2D6 metabolizers, placebo) to 10.3 ± 3.6 h (poor metabolizers); S-MDMA is cleared faster (4.5-5.1 h). Nonlinear/autoinhibitory kinetics at typical recreational doses (MDMA inhibits its own CYP2D6-mediated clearance) mean t1/2 lengthens somewhat at higher doses -- treat as approximate.",
     "metabolism": [
       {
-        "enzyme": "CYP2B6 / CYP1A2 / CYP3A4 (minor N-demethylenation)",
+        "enzyme": "CYP2B6 / CYP1A2 / CYP3A4 (minor N-demethylation)",
         "metabolite_name": "MDA (3,4-methylenedioxyamphetamine)",
         "metabolite_active": true,
         "metabolite_half_life_min": 552,
@@ -1778,7 +1778,7 @@
       },
       {
         "enzyme": "Reduction (putative)",
-        "metabolite_name": "hydroxyl-3-MMC / carboxy-3-MMC",
+        "metabolite_name": "hydroxyl-3-MMC",
         "metabolite_active": null,
         "metabolite_half_life_min": null,
         "metabolite_half_life_range_min": null,
@@ -1834,7 +1834,7 @@
       {
         "enzyme": "CYP2A6",
         "metabolite_name": "cotinine",
-        "metabolite_active": true,
+        "metabolite_active": false,
         "metabolite_half_life_min": 1020,
         "metabolite_half_life_range_min": [
           900,

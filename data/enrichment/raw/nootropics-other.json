@@ -1921,7 +1921,7 @@
         "enzyme": "CYP2A6",
         "fraction_of_clearance_pct": 80,
         "metabolite_name": "cotinine",
-        "metabolite_active": true,
+        "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "pmid:17979512"
       },
@@ -2202,10 +2202,11 @@
       {
         "enzyme": "hepatic carboxylesterases",
         "fraction_of_clearance_pct": 100,
-        "metabolite_name": "DMAE + p-chlorophenoxyacetic acid",
+        "metabolite_name": "DMAE",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null
+        "reference": null,
+        "notes": "Ester hydrolysis yields DMAE (deanol → choline → ACh) and p-chlorophenoxyacetic acid (pCPA, may cross BBB independently)"
       }
     ],
     "drug_interactions_pk": [],
@@ -3048,10 +3049,11 @@
       {
         "enzyme": "glutathione conjugation (GST)",
         "fraction_of_clearance_pct": 70,
-        "metabolite_name": "SFN-glutathione → SFN-cysteine → SFN-NAC (mercapturic acid)",
+        "metabolite_name": "SFN-NAC",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1371/journal.pone.0140963"
+        "reference": "doi:10.1371/journal.pone.0140963",
+        "notes": "Mercapturic acid pathway: SFN-glutathione → SFN-cysteine → SFN-NAC (the urinary metabolite)"
       }
     ],
     "drug_interactions_pk": [],

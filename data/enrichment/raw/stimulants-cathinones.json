@@ -1018,9 +1018,10 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "nor-3-MMC (N-demethyl), β-OH-3-MMC, 3-carboxy-3-MMC",
+        "metabolite_name": "nor-3-MMC",
         "metabolite_active": true,
-        "reference": "doi:10.1038/s41386-024-02042-7"
+        "reference": "doi:10.1038/s41386-024-02042-7",
+        "notes": "N-demethylation to nor-3-MMC is the primary CYP2D6 route; β-hydroxylation and ring carboxylation are minor pathways"
       }
     ],
     "drug_interactions_pk": [],

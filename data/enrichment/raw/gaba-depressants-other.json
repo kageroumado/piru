@@ -2887,11 +2887,11 @@
       {
         "enzyme": "ADH",
         "fraction_of_clearance_pct": 95,
-        "metabolite_name": "trichloroethanol → TCE-glucuronide (urochloralic acid)",
+        "metabolite_name": "trichloroethanol",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 200,
         "reference": "pmid:3615341",
-        "notes": "TCE is more potent than parent; UGT2B7 glucuronidation is rate-limiting for elimination."
+        "notes": "TCE is more potent than parent; subsequently glucuronidated to urochloralic acid (inactive), the rate-limiting elimination step."
       }
     ],
     "drug_interactions_pk": [
@@ -5048,11 +5048,11 @@
       {
         "enzyme": "CYP2C9, CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "11-OH-THC (active) → THC-COOH",
+        "metabolite_name": "11-OH-THC",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": null
+        "notes": "11-OH-THC is further oxidized to THC-COOH (inactive, long t½, the urinalysis target)"
       }
     ],
     "drug_interactions_pk": [],
@@ -5138,11 +5138,11 @@
       {
         "enzyme": "amidases (hydrolysis to GABA + niacin)",
         "fraction_of_clearance_pct": 100,
-        "metabolite_name": "GABA + nicotinic acid",
+        "metabolite_name": "GABA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
-        "notes": null
+        "notes": "Prodrug hydrolysis yields GABA (active, GABAergic) and nicotinic acid (niacin, vitamin B3)"
       }
     ],
     "drug_interactions_pk": [],
@@ -5482,7 +5482,7 @@
       {
         "enzyme": "carboxylesterases",
         "fraction_of_clearance_pct": 100,
-        "metabolite_name": "descarboxyloflazepate (active)",
+        "metabolite_name": "descarboxyloflazepate",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,

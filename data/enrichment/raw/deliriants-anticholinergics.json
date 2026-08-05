@@ -652,7 +652,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "Healthy adults",
-          "reference": "medscape:406904 (Pharmacokinetics of promethazine HCl, Strenkoski-Nix et al. 2000); Wikipedia/StatPearls compendium",
+          "reference": "medscape:406904",
           "notes": "Although >80% of an oral dose is absorbed, first-pass hepatic glucuronidation and sulfoxidation reduce absolute bioavailability to ~25%. Cmax from 25-50 mg oral 11-23 ng/mL; Tmax 2-3 h."
         },
         {
@@ -729,7 +729,7 @@
         "metabolite_name": "promethazine N-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Wikipedia/StatPearls compendium"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -787,7 +787,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Non-competitive channel block at 5-HT3 contributes to antiemetic effect (in addition to D2 antagonism).",
-        "reference": "pmid:rxhero compendium"
+        "reference": null
       }
     ],
     "demographic_differences": {

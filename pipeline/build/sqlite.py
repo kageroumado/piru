@@ -5369,6 +5369,8 @@ class Build:
         potency = to_float(m.get("metabolite_potency_vs_parent_pct"))
         if potency is not None and basis is None:
             basis = "unknown"
+        if potency is None:
+            basis = None
         mechanism = m.get("metabolite_mechanism_vs_parent")
         mechanism = mechanism if mechanism in self.MECHANISM_VS_PARENT else "unknown"
         # A target only means something next to a number to scope.
