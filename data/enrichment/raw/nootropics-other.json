@@ -68,6 +68,25 @@
           "reference": "doi:10.1038/tp.2014.30",
           "is_review": false,
           "notes": "Negligible binding at KOR — selectivity ratio MOR >> KOR."
+        },
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing hMOR",
+          "radioligand_or_probe": "BRET G-protein activation",
+          "assay_buffer_notes": "EC50 194 +/- 70 nM at hMOR. BRET, not GTPgammaS. Authors' classification as 'full agonist', no explicit numeric Emax tabulated.",
+          "reference": "doi:10.1038/tp.2014.30",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Gassaway 2014. 100% is the authors' stated classification, not a tabulated Emax."
         }
       ],
       "functional": [

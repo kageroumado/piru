@@ -5638,5 +5638,57 @@
       "doi:10.1016/j.tips.2019.04.002",
       "doi:10.1038/s41380-023-02353-z"
     ]
+  },
+  {
+    "name": "Naloxone",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "DAMGO",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-hMOR membranes",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": "10 uM: 107 +/- 4.1% of basal (NS), Na+-free K+ buffer",
+          "reference": "pmid:19220294",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Divin 2009. Neutral antagonist in naive state; weak inverse agonist in morphine-pretreated membranes."
+        }
+      ]
+    }
+  },
+  {
+    "name": "Naltrexone",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "DAMGO",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-hMOR membranes",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": "115 +/- 6.9% of basal (NS). Kelly 2014: +40% at supraphysiological Bmax.",
+          "reference": "pmid:19220294",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Divin 2009."
+        }
+      ]
+    }
   }
 ]

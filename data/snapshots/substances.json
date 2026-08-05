@@ -327,7 +327,8 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/1Bz-LSD",
-      "Azuma 2026 Drug Test Anal"
+      "Azuma 2026 Drug Test Anal",
+      "In Vitro Metabolism of 1‐Benzoyl‐Lysergic Acid Diethylamide (1Bz‐LSD) and Identification of a Deethylated Metabolite (1Bz‐LAE) Using a Synthesized Reference Standard"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -11517,6 +11518,31 @@
     "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action"
+    ]
+  },
+  {
+    "name": "5F-ADB-PINACA",
+    "display_name": "",
+    "aliases": [],
+    "category": "",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {

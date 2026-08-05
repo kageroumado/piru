@@ -100,7 +100,30 @@
         "notes": "Terminal active metabolite of the CDX/diazepam/clorazepate cascade; itself a marketed anxiolytic. Greenblatt's Clinical Pharmacokinetics review reports sex-differentiated t1/2: men 7.8h (4.9-10.8h), women 9.7h (6.3-19.4h). No quantified potency ratio vs. chlordiazepoxide itself was found.",
         "metabolite_mechanism_vs_parent": "scaled"
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site (alpha1beta3gamma2)",
+          "ki_nm": 560.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "human",
+          "tissue_or_cell": "recombinant human GABA-A in L(tk-) cells",
+          "radioligand_or_probe": "[3H]Ro15-1788 (flumazenil)",
+          "assay_buffer_notes": "alpha2 460, alpha3 275, alpha5 320 nM",
+          "reference": "doi:10.1021/jm0110789",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Carling 2002. Essentially non-selective across subtypes."
+        }
+      ]
+    }
   },
   {
     "name": "Clorazepate",
@@ -140,7 +163,30 @@
         "notes": "Further downstream active metabolite of nordazepam; a minor contributor relative to nordazepam given clorazepate's near-complete, rapid conversion pathway.",
         "metabolite_mechanism_vs_parent": "scaled"
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 30.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat whole-forebrain P2 membranes",
+          "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/0014-2999(78)90085-7",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Braestrup & Squires 1978 Table 1. Prodrug — decarboxylates to nordazepam; 30 nM may reflect in-assay conversion."
+        }
+      ]
+    }
   },
   {
     "name": "Alprazolam",
@@ -274,7 +320,30 @@
         "notes": "Identified as a urinary metabolite (13-30% of dose recovered as the conjugate) by Schwartz et al 1973 in human, dog, rat, and mouse. Secondary sources disagree on its clinical significance -- some describe it as active with a half-life similar to the parent, others as less active, and at least one notes that bromazepam's metabolites 'do not contribute significantly' to its effects overall. No primary study with a directly citable, verifiable half-life or potency value for 3-hydroxybromazepam was located, so those fields are left null rather than guessed. FLAGGED: genuine literature disagreement on this metabolite's clinical relevance.",
         "metabolite_mechanism_vs_parent": "scaled"
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 30.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat whole-forebrain P2 membranes",
+          "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
+          "assay_buffer_notes": "Ki = IC50/(1+C/KD), KD 3.4 nM",
+          "reference": "doi:10.1016/0014-2999(78)90085-7",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Braestrup & Squires 1978 Table 1 entry 15 (reproduced from Squires & Braestrup 1977)."
+        }
+      ]
+    }
   },
   {
     "name": "Etizolam",
@@ -471,13 +540,78 @@
     "name": "Pregabalin",
     "parent_half_life_min": 378.0,
     "parent_half_life_reference": "pmid:20147618",
-    "parent_half_life_notes": "Bockbrader HN et al 2010 (J Clin Pharmacol), review of 5 healthy-volunteer studies: t1/2 approximately 6.3 h, oral bioavailability ~90%, dose- and frequency-independent. Pregabalin is not hepatically metabolized (no CYP450 induction/inhibition) and ~98% of an administered dose is excreted unchanged in urine; its only identified metabolite (an N-methylated derivative) accounts for ~0.9% of the dose and has no established pharmacological activity. No active metabolite is included."
+    "parent_half_life_notes": "Bockbrader HN et al 2010 (J Clin Pharmacol), review of 5 healthy-volunteer studies: t1/2 approximately 6.3 h, oral bioavailability ~90%, dose- and frequency-independent. Pregabalin is not hepatically metabolized (no CYP450 induction/inhibition) and ~98% of an administered dose is excreted unchanged in urine; its only identified metabolite (an N-methylated derivative) accounts for ~0.9% of the dose and has no established pharmacological activity. No active metabolite is included.",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "alpha2delta-1 (CACNA2D1)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": 6.0,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "blocker",
+          "species": "pig",
+          "tissue_or_cell": "recombinant porcine alpha2delta-1",
+          "radioligand_or_probe": "[3H]pregabalin (46 Ci/mmol, 1-125 nM)",
+          "assay_buffer_notes": "SPA saturation, 24 h RT, Krebs-Hepes pH 7.0, Scatchard; Bmax 26.0 pmol/mg",
+          "reference": "doi:10.1016/j.ejphar.2011.05.054",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Li 2011 Table 3. Kd (saturation binding), not Ki. (S)-enantiomer confirmed."
+        },
+        {
+          "target": "alpha2delta-2 (CACNA2D2)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": 7.2,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "blocker",
+          "species": "human",
+          "tissue_or_cell": "recombinant human alpha2delta-2",
+          "radioligand_or_probe": "[3H]pregabalin",
+          "assay_buffer_notes": "Same SPA saturation as alpha2delta-1",
+          "reference": "doi:10.1016/j.ejphar.2011.05.054",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Li 2011 Table 3. Essentially non-selective between alpha2delta-1 and alpha2delta-2 (~1.2x)."
+        }
+      ]
+    }
   },
   {
     "name": "Gabapentin",
     "parent_half_life_min": 420.0,
     "parent_half_life_reference": "pmid:8022536",
-    "parent_half_life_notes": "McLean MJ 1994 (Epilepsia review): elimination t1/2 approximately 5-9 h. Like pregabalin, gabapentin is not hepatically metabolized and is eliminated unchanged by the kidneys, with clearance proportional to creatinine clearance; no active metabolite is known. No active metabolite is included."
+    "parent_half_life_notes": "McLean MJ 1994 (Epilepsia review): elimination t1/2 approximately 5-9 h. Like pregabalin, gabapentin is not hepatically metabolized and is eliminated unchanged by the kidneys, with clearance proportional to creatinine clearance; no active metabolite is known. No active metabolite is included.",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "alpha2delta-1 (CACNA2D1)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": 16.0,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "blocker",
+          "species": "rabbit",
+          "tissue_or_cell": "COS-7 membranes transfected with recombinant rabbit skeletal-muscle alpha2delta",
+          "radioligand_or_probe": "[3H]gabapentin (57.7 Ci/mmol)",
+          "assay_buffer_notes": "22 C, 45 min, saturation binding, Scatchard/LIGAND; KD 13 and 19.8 nM in two transfections, summarized as 16 nM",
+          "reference": "doi:10.1074/jbc.271.10.5768",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Gee 1996. Kd (saturation binding), not Ki."
+        }
+      ]
+    }
   },
   {
     "name": "Cyclobenzaprine",
@@ -525,7 +659,30 @@
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "clinical-effect"
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 67,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "C6 glioma cells stably expressing rat MOR (C6mu)",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.105.094276",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Peckham 2005 Table 3: 67.1 +/- 5.9%. Codeine's own receptor activity; in vivo effect is dominated by CYP2D6-derived morphine."
+        }
+      ]
+    }
   },
   {
     "name": "Tramadol",
@@ -552,7 +709,30 @@
         "metabolite_potency_target": "MOR",
         "mechanism_note": "Tramadol acts as a weak MOR agonist combined with SNRI-like monoamine reuptake inhibition, while M1 is a comparatively pure, strong MOR agonist with little monoaminergic activity, so no single clinical scalar converts one into the other."
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells expressing hMOR",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": "Emax <5%, no fitted curve obtainable. Active metabolite (+)-M1 (O-desmethyltramadol) is 52 +/- 2% of DAMGO in same table.",
+          "reference": "doi:10.1007/s002100000266",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Gillen 2000 Table 2. Parent has essentially zero MOR efficacy; opioid effect is entirely via (+)-M1 metabolite."
+        }
+      ]
+    }
   },
   {
     "name": "Hydrocodone",
@@ -681,7 +861,30 @@
         "notes": "Morphine (via 6-MAM) is the dominant metabolite responsible for heroin's sustained opioid effect; see the separate Morphine record for M6G/M3G downstream metabolism. A 'potency vs. parent' comparison is not very meaningful here since heroin itself has essentially no direct receptor activity of its own.",
         "metabolite_mechanism_vs_parent": "scaled"
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 80,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat thalamic membranes",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": "Selley HPLC showed ~60% non-enzymatic deacetylation to 6-MAM during incubation",
+          "reference": "doi:10.1016/s0006-2952(01)00689-x",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Selley 2001: 80 +/- 2%. Measured value is substantially a 6-MAM value due to in-assay hydrolysis."
+        }
+      ]
+    }
   },
   {
     "name": "Morphine",
@@ -745,7 +948,30 @@
         "metabolite_potency_target": "clinical-effect",
         "mechanism_note": "Norbuprenorphine has higher intrinsic efficacy (near-full MOR agonism) than buprenorphine's own partial agonism, and its real-world CNS/respiratory impact is further limited by P-glycoprotein-restricted brain penetration."
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 53,
+          "reference_agonist": "DAMGO",
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stably expressing hMOPr (high expression)",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": "Table 1: max response 0.55 vs DAMGO 1.04. In native tissue with low receptor reserve, reads ~15-30%.",
+          "reference": "doi:10.1124/mol.110.066613",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "McPherson 2010. System-dependent — high-expression HEK293."
+        }
+      ]
+    }
   },
   {
     "name": "Dihydrocodeine",
@@ -796,7 +1022,30 @@
     "name": "Tapentadol",
     "parent_half_life_min": 240.0,
     "parent_half_life_reference": "doi:10.1007/BF03190478",
-    "parent_half_life_notes": "IR ~4h, PR (extended-release) ~5-6h. Tapentadol is metabolized ~70% by direct UGT1A9/UGT2B7 glucuronidation (inactive conjugates), ~13% by CYP2C9/2C19 to N-desmethyltapentadol, and only ~2% by CYP2D6 to hydroxytapentadol -- minimal CYP dependence relative to the other drugs on this list, and no metabolite is reported to contribute to analgesia. This is a clinically meaningful contrast with tramadol (its closest analog): tapentadol is not a CYP2D6-dependent prodrug and its effect is not materially altered by CYP2D6 phenotype."
+    "parent_half_life_notes": "IR ~4h, PR (extended-release) ~5-6h. Tapentadol is metabolized ~70% by direct UGT1A9/UGT2B7 glucuronidation (inactive conjugates), ~13% by CYP2C9/2C19 to N-desmethyltapentadol, and only ~2% by CYP2D6 to hydroxytapentadol -- minimal CYP dependence relative to the other drugs on this list, and no metabolite is reported to contribute to analgesia. This is a clinically meaningful contrast with tramadol (its closest analog): tapentadol is not a CYP2D6-dependent prodrug and its effect is not materially altered by CYP2D6 phenotype.",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 88,
+          "reference_agonist": "morphine",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 expressing hMOR",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": "EC50 0.67 uM. Reference agonist is MORPHINE, not DAMGO.",
+          "reference": "doi:10.1124/jpet.107.126052",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Tzschentke 2007. 88% relative to morphine. Not comparable to DAMGO-referenced values without cross-calibration."
+        }
+      ]
+    }
   },
   {
     "name": "Methadone",
@@ -819,7 +1068,30 @@
         "metabolite_mechanism_vs_parent": "divergent",
         "mechanism_note": "EDDP is pharmacologically inactive and shares none of methadone's opioid receptor activity; methadone's danger profile comes entirely from the parent molecule's own slow, variable clearance."
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "MOR (mu-opioid receptor)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "C6 glioma cells stably expressing rat MOR (C6mu)",
+          "radioligand_or_probe": "[35S]GTPgammaS",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.105.094276",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Peckham 2005 Table 3: 100 +/- 7.0%. Full agonist. Corroborated by McPherson 2010 (113% in HEK293-hMOPr)."
+        }
+      ]
+    }
   },
   {
     "name": "Fentanyl",
@@ -1069,7 +1341,10 @@
         "notes": "This human oral kratom-leaf PK study (Tanna et al. 2024) directly confirms meaningful in vivo formation of 7-hydroxymitragynine after ordinary oral kratom leaf consumption (plasma 7-OH-mitragynine:mitragynine ratio 0.20-0.31 by AUC/Cmax, higher after single vs. repeated dosing) — this contradicts claims that in vivo formation from leaf material is negligible. 7-hydroxymitragynine is identified as a key mediator of mitragynine's analgesic/opioid-like effects with high mu-opioid-receptor affinity (Kruegel et al. 2019, ACS Cent Sci, doi:10.1021/acscentsci.9b00141), but no reliable quantitative human potency ratio vs. mitragynine was found — left null rather than guessed. Note this is distinct from the newer regulatory/product controversy over concentrated, isolated '7-OH' extract products, whose PK this leaf-based study does not characterize.",
         "metabolite_mechanism_vs_parent": "scaled"
       }
-    ]
+    ],
+    "pharmacology": {
+      "binding": []
+    }
   },
   {
     "name": "7-Hydroxymitragynine",

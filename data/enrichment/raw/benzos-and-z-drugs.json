@@ -1614,7 +1614,27 @@
       "primary_targets": [
         "GABA-A (non-selective)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 25.76,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "mouse",
+          "tissue_or_cell": "mouse forebrain membranes",
+          "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
+          "assay_buffer_notes": "0-4 C, 30 min (n>=4)",
+          "reference": "doi:10.1016/0024-3205(84)90576-9",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Chweh 1984 Table I. IC50, not Ki (no radioligand Kd reported)."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -2059,7 +2079,27 @@
       "primary_targets": [
         "GABA-A (α2-preferring; 1,5-benzodiazepine)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 151.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat brain homogenate",
+          "radioligand_or_probe": "[3H]flunitrazepam",
+          "assay_buffer_notes": "Cheng-Prusoff from Kd 1.5 nM (n=4)",
+          "reference": "doi:10.1371/journal.pone.0088456",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Jensen 2014 Table 1. 1,5-benzodiazepine. Active metabolite N-desmethylclobazam Ki 133 nM in same panel."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -2423,7 +2463,27 @@
       "primary_targets": [
         "GABA-A (non-selective; via metabolite)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 16.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat whole-forebrain P2 membranes",
+          "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
+          "assay_buffer_notes": "Ki = IC50/(1+C/KD), KD 3.4 nM",
+          "reference": "doi:10.1016/0014-2999(78)90085-7",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Braestrup & Squires 1978 Table 1."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -2521,7 +2581,27 @@
       "primary_targets": [
         "GABA-A α1 (preferring)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site (BZ1/omega1, cerebellum)",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 29.7,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat cerebellar membranes",
+          "radioligand_or_probe": "[3H]flunitrazepam (2 nM)",
+          "assay_buffer_notes": "0 C, 90 min; hippocampus IC50 163.7 nM (ratio 5.5)",
+          "reference": "doi:10.1016/0304-3940(83)90113-1",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Sieghart 1983 Table I. IC50, not Ki. BZ1-preferring (5.5x cerebellum vs hippocampus)."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -2605,7 +2685,27 @@
       "primary_targets": [
         "GABA-A (non-selective)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 46.6,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat whole brain minus cerebellum",
+          "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
+          "assay_buffer_notes": "25 C, 60 min (MDS Pharma Services)",
+          "reference": "doi:10.1016/j.bmc.2008.09.037",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Nakagawa 2008 Table 1. IC50, not Ki."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -2766,7 +2866,27 @@
       "primary_targets": [
         "GABA-A (via nordazepam)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 422.0,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat brain P2 synaptosomal membranes",
+          "radioligand_or_probe": "[3H]flunitrazepam",
+          "assay_buffer_notes": "22 C, 30 min (n=3)",
+          "reference": "doi:10.1159/000118458",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Jacqmin & Ansseau 1988 Table II. IC50, not Ki. Prodrug — nordazepam (24.9 nM) carries the clinical effect."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -2947,7 +3067,27 @@
       "primary_targets": [
         "GABA-A (non-selective)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site (omega1)",
+          "ki_nm": 10.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat cerebellar membranes",
+          "radioligand_or_probe": "[3H]flumazenil (0.3 nM)",
+          "assay_buffer_notes": "37 C, 30 min, 100 uM bicuculline, Cheng-Prusoff Kd 8.8 nM; omega2 (spinal cord) 29 nM",
+          "reference": "doi:10.1254/fpj.98.5_399",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Ozawa 1991 Table 2. Measured at 37 C (not cold-assay panel-comparable). omega1-preferring (1:2.9)."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -3027,7 +3167,27 @@
       "primary_targets": [
         "GABA-A (non-selective)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 0.87,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat cerebral cortex membranes",
+          "radioligand_or_probe": "[3H]flunitrazepam",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1254/jjp.42.189",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Watanabe 1986 Table 2. Corrects ChEMBL IC50 2.6 nM (miscited from a 2020 review)."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -3908,7 +4068,27 @@
       "primary_targets": [
         "GABA-A (via metabolite)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 208.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "crude rat cerebral cortex membranes",
+          "radioligand_or_probe": "[3H]flunitrazepam (0.98 nM)",
+          "assay_buffer_notes": "Cheng-Prusoff from Kd 1.09 nM",
+          "reference": "doi:10.1111/j.2042-7158.1984.tb04449.x",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Sethy 1984 Table 1. Prodrug — N-desmethyladinazolam (active metabolite) Ki 6.96 nM in same table."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -4413,7 +4593,27 @@
       "primary_targets": [
         "GABA-A (via active triazolobenzodiazepine metabolite)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 2500.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain P2 crude synaptosomal fraction",
+          "radioligand_or_probe": "[3H]diazepam (1.0 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/0006-2952(84)90287-9",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Fujimoto 1984 Table 2. Prodrug — the weak affinity IS the finding. Active metabolites M-1 2.1 nM, M-2/M-3 0.9 nM."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -4485,7 +4685,27 @@
       "primary_targets": [
         "GABA-A (non-selective)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 2.8,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membranes",
+          "radioligand_or_probe": "[3H]diazepam",
+          "assay_buffer_notes": "Mohler & Okada 1977 conditions",
+          "reference": "doi:10.1021/jm00351a009",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Fryer 1982 Table I. IC50, not Ki."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -4556,7 +4776,27 @@
       "primary_targets": [
         "GABA-A (non-selective)"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 4.3,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "mouse",
+          "tissue_or_cell": "mouse cortical P2 synaptosomal membranes",
+          "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
+          "assay_buffer_notes": "4 C, 60 min, Cheng-Prusoff (n=3)",
+          "reference": "doi:10.1016/0091-3057(92)90170-K",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Miller 1992 Tables 1-2. Shared active metabolite of flurazepam and quazepam."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -4621,7 +4861,27 @@
       "primary_targets": [
         "GABA-A"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 3.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "mouse",
+          "tissue_or_cell": "C57BL/6J mouse brain membranes (minus cerebellum)",
+          "radioligand_or_probe": "[3H]flunitrazepam (5 nM)",
+          "assay_buffer_notes": "Cheng-Prusoff from Kd 3.8 nM",
+          "reference": "doi:10.1016/j.bcp.2004.07.020",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Ogris 2004 Table 1."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -5211,7 +5471,27 @@
       "primary_targets": [
         "GABA-A"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 13.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "mouse",
+          "tissue_or_cell": "mouse brain receptors",
+          "radioligand_or_probe": "[3H]flunitrazepam",
+          "assay_buffer_notes": null,
+          "reference": "pmid:6148044",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Oki 1984, abstract-verified only (full text unobtainable)."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -5274,7 +5554,27 @@
       "primary_targets": [
         "GABA-A"
       ],
-      "binding": [],
+      "binding": [
+        {
+          "target": "GABA-A benzodiazepine site",
+          "ki_nm": 8.52,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "positiveAllostericModulator",
+          "species": "rat",
+          "tissue_or_cell": "rat cerebral cortex synaptosomal membranes",
+          "radioligand_or_probe": "[3H]diazepam (0.6 nM)",
+          "assay_buffer_notes": "4 C, 15 min (n=5)",
+          "reference": "doi:10.1016/0024-3205(85)90089-X",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Nakatsuka 1985 Table II. Corrects ChEMBL 85 nM (DrugMatrix screening panel)."
+        }
+      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],

@@ -808,6 +808,44 @@
           "confidence": "LOW",
           "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number.",
           "action": "partialAgonist"
+        },
+        {
+          "target": "CB1",
+          "ki_nm": 285.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 285 nM (95% CI 154-520). ChEMBL 13 nM outlier (J Nat Prod 2019) is ~20x off — do not use."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 163.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 163 nM (95% CI 83-330)."
         }
       ],
       "functional": [],
@@ -1719,6 +1757,25 @@
           "reference": "pmid:26134475",
           "is_review": false,
           "notes": null
+        },
+        {
+          "target": "CB1",
+          "ki_nm": 0.59,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB1 (Cerep/Eurofins)",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": "8 concentrations, Cheng-Prusoff",
+          "reference": "doi:10.1007/s00213-016-4237-6",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Gatch & Forster 2016. Recovered from Results prose, no SEM given."
         }
       ],
       "functional": [],
@@ -3581,6 +3638,44 @@
           "confidence": "MEDIUM",
           "notes": "In this document Delta-8 (40 nM) and Delta-9 (39 nM) are indistinguishable at CB1 — the direct counterweight to the 78-vs-18 split in the 2015 J Nat Prod document.",
           "action": "partialAgonist"
+        },
+        {
+          "target": "CB1",
+          "ki_nm": 36.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
+          "assay_buffer_notes": "90 min, 30 C, GF/C filtration; Ki constrained to Kd 1.2 nM",
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley/Marusich/Blough 2024 Table 1: 36 nM (95% CI 25-52)."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 69.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 69 nM (95% CI 37-126)."
         }
       ]
     }
@@ -3729,6 +3824,482 @@
           "confidence": "LOW",
           "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist.",
           "action": "modulator"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Dronabinol",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 20.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
+          "assay_buffer_notes": "90 min, 30 C, GF/C filtration; Ki constrained to Kd 1.2 nM",
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 20 nM (95% CI 14-30)."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 52.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 52 nM (95% CI 36-77)."
+        }
+      ]
+    }
+  },
+  {
+    "name": "THCV",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 17.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 17 nM (95% CI 9-30). Highest CB1 affinity in the Wiley panel."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 47.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 47 nM (95% CI 32-69)."
+        }
+      ]
+    }
+  },
+  {
+    "name": "Delta-10-THC",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 63.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 63 nM (95% CI 27-144). Single epimer (6aR,9R)-delta10-THC."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 28.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.pnpbp.2024.110984",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Wiley 2024 Table 1: 28 nM (95% CI 17-46). Modestly CB2-preferring (~2.3x)."
+        }
+      ]
+    }
+  },
+  {
+    "name": "THCP",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 1.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "purified human CB1 (Eurofins/Cerep)",
+          "radioligand_or_probe": "[3H]CP-55,940 (2 nM, Kd 2.4 nM)",
+          "assay_buffer_notes": "10 concentrations in duplicate, Cheng-Prusoff",
+          "reference": "doi:10.1038/s41598-019-56785-1",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Citti 2019. In-run control CP55,940 Ki 0.93 nM. ~17x Δ9-THC."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 6.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "purified human CB2",
+          "radioligand_or_probe": "[3H]WIN 55,212-2 (0.8 nM, Kd 1.5 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1038/s41598-019-56785-1",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Citti 2019. Different radioligand from the CB1 assay — do not compute CB1/CB2 ratio from this pair."
+        }
+      ]
+    }
+  },
+  {
+    "name": "Nabilone",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 2.19,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "human CB1 (radioligand binding)",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "chembl:CHEMBL1129188",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "ChEMBL assay CHEMBL657908, Bioorg Med Chem Lett 1996. Source text not read; corroborated by CHEMBL1221318 (5.1 nM) and CHEMBL1828497 (3.98 nM)."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 1.84,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "human CB2 (radioligand binding)",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "chembl:CHEMBL1129188",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "ChEMBL assay CHEMBL658961. Essentially balanced CB1/CB2, ~10x higher-affinity than Δ9-THC at CB1."
+        }
+      ]
+    }
+  },
+  {
+    "name": "H4CBD",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 145.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomal membranes",
+          "radioligand_or_probe": "[3H]HU-243 (Kd 45 pM)",
+          "assay_buffer_notes": "90 min, 30 C, Cheng-Prusoff. Radioligand is [3H]HU-243 — not on a common scale with [3H]CP-55,940 rows.",
+          "reference": "doi:10.1021/jm050709m",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Ben-Shabat 2006. Parent CBD >10,000 nM in same run — hydrogenation raises CB1 affinity >70-fold."
+        }
+      ]
+    }
+  },
+  {
+    "name": "APICA",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 6.52,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940 (0.1 nM)",
+          "assay_buffer_notes": "mean +/- SEM of 3-5 experiments",
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "medium",
+          "notes": "Hess/Muller 2016 Table 1, compound 15. SEM is 57% of mean (widest in table)."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 1.22,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1. ~5x CB2-preferring."
+        }
+      ]
+    }
+  },
+  {
+    "name": "STS-135",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 2.51,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1, compound 16. 5F-APICA."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 0.794,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1. Subnanomolar."
+        }
+      ]
+    }
+  },
+  {
+    "name": "THJ-018",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 5.84,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1, compound 28. Indazole analog of JWH-018."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 4.57,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1. Essentially balanced CB1/CB2."
+        }
+      ]
+    }
+  },
+  {
+    "name": "THJ-2201",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 1.34,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1, compound 29. Gatch & Forster 2016 says 'THJ-2201 was not tested for binding' — never attribute a Ki to Gatch for this compound."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 1.32,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s11419-016-0320-2",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Hess 2016 Table 1. Fluorination of THJ-018 improves affinity ~4x at CB1, ~3.5x at CB2."
+        }
+      ]
+    }
+  },
+  {
+    "name": "5F-ADB-PINACA",
+    "pharmacology": {
+      "binding": [
+        {
+          "target": "CB1",
+          "ki_nm": 1.29,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 membranes expressing human CB1",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": "pKi 8.89 +/- 0.12",
+          "reference": "doi:10.1021/acschemneuro.2c00034",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Markham 2022, compound 18."
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 0.32,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 membranes expressing human CB2",
+          "radioligand_or_probe": "[3H]CP-55,940",
+          "assay_buffer_notes": "pKi 9.50 +/- 0.06",
+          "reference": "doi:10.1021/acschemneuro.2c00034",
+          "is_review": false,
+          "confidence": "high",
+          "notes": "Markham 2022. Highest-affinity compound in the library."
         }
       ]
     }
