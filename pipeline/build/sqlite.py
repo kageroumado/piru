@@ -57,6 +57,7 @@ REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
 OUT_REPORT = REPO / "data/snapshots/build-report.md"
+PAPERS_INDEX = Path.home() / "Developer/papers/index.json"
 
 # Committed PSID FAMILY registry (derive-once, pin-forever). Maps canonical_name
 # → FAMILY so an InChIKey correction, a rename, or a re-fold never moves an
@@ -3187,6 +3188,28 @@ def normalize_category(raw: str | None) -> str:
     return "Other"
 
 
+def _load_identifier_xref() -> tuple[dict[str, int], dict[int, str]]:
+    """Build DOI↔PMID cross-reference from the local papers cache."""
+    doi_to_pmid: dict[str, int] = {}
+    pmid_to_doi: dict[int, str] = {}
+    if PAPERS_INDEX.exists():
+        try:
+            idx = json.load(PAPERS_INDEX.open())
+            for entry in idx.values():
+                doi = entry.get("doi")
+                pmid = entry.get("pmid")
+                if doi and pmid:
+                    try:
+                        pmid_int = int(pmid)
+                    except (ValueError, TypeError):
+                        continue
+                    doi_to_pmid[doi.lower()] = pmid_int
+                    pmid_to_doi[pmid_int] = doi.lower()
+        except (json.JSONDecodeError, OSError):
+            pass
+    return doi_to_pmid, pmid_to_doi
+
+
 def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None, str | None]:
     """Parse a reference string into ``(doi, pmid, url, title)``.
 
@@ -4076,6 +4099,7 @@ class Build:
         self.isomer_pk_rowids: set[int] = set()
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
         self.citation_cache: dict[tuple[str | None, int | None, str | None], int] = {}
+        self._doi_to_pmid, self._pmid_to_doi = _load_identifier_xref()
         # Per-substance union of tags seen across every source so far. The
         # tag-keyed dose-magnitude gate in `add_dose` consults this; populated
         # by `add_tag`.
@@ -4125,16 +4149,19 @@ class Build:
         doi, pmid, url, title = parse_reference(ref)
         if (doi, pmid, url) == (None, None, None):
             return None
-        # Identifiers and database landing pages are not literature — drop them
-        # so they never reach the references list (they live in Chemistry / the
-        # PubChem link / the Databases subsection instead).
         if is_identifier_citation(doi, pmid, url, title):
             self.stats["citations_dropped_identifier"] = (
                 self.stats.get("citations_dropped_identifier", 0) + 1
             )
             return None
-        # Dedup key stays (doi, pmid, url) — the UNIQUE constraint; title is
-        # descriptive metadata that backfills onto the shared citation.
+
+        # Cross-fill DOI↔PMID from the papers cache so that "pmid:27216487"
+        # and "doi:10.1016/j.euroneuro.2016.05.001" collapse onto one row.
+        if doi and not pmid:
+            pmid = self._doi_to_pmid.get(doi)
+        elif pmid and not doi:
+            doi = self._pmid_to_doi.get(pmid)
+
         key = (doi, pmid, url)
         if key in self.citation_cache:
             cid = self.citation_cache[key]
@@ -4143,23 +4170,50 @@ class Build:
                     "UPDATE citations SET title=COALESCE(title, ?) WHERE id=?", (title, cid)
                 )
             return cid
-        try:
-            self.cur.execute(
-                "INSERT INTO citations(doi, pmid, url, title) VALUES (?, ?, ?, ?)",
-                (doi, pmid, url, title),
-            )
-            cid = self.cur.lastrowid
-        except sqlite3.IntegrityError:
+
+        # A prior call may have inserted this paper under the other identifier
+        # before the cross-fill resolved it. Check partial-key matches.
+        existing_cid = None
+        if doi and pmid:
             row = self.cur.execute(
-                "SELECT id FROM citations WHERE doi IS ? AND pmid IS ? AND url IS ?",
-                (doi, pmid, url),
+                "SELECT id FROM citations WHERE doi = ? OR pmid = ?",
+                (doi, pmid),
             ).fetchone()
-            cid = row[0]
-            if title:
+            if row:
+                existing_cid = row[0]
                 self.cur.execute(
-                    "UPDATE citations SET title=COALESCE(title, ?) WHERE id=?", (title, cid)
+                    "UPDATE citations SET doi=COALESCE(doi, ?), pmid=COALESCE(pmid, ?), title=COALESCE(title, ?) WHERE id=?",
+                    (doi, pmid, title, existing_cid),
                 )
+                self.stats["citations_deduped"] = self.stats.get("citations_deduped", 0) + 1
+
+        if existing_cid:
+            cid = existing_cid
+        else:
+            try:
+                self.cur.execute(
+                    "INSERT INTO citations(doi, pmid, url, title) VALUES (?, ?, ?, ?)",
+                    (doi, pmid, url, title),
+                )
+                cid = self.cur.lastrowid
+            except sqlite3.IntegrityError:
+                row = self.cur.execute(
+                    "SELECT id FROM citations WHERE doi IS ? AND pmid IS ? AND url IS ?",
+                    (doi, pmid, url),
+                ).fetchone()
+                cid = row[0]
+                if title:
+                    self.cur.execute(
+                        "UPDATE citations SET title=COALESCE(title, ?) WHERE id=?", (title, cid)
+                    )
+
         self.citation_cache[key] = cid
+        # Also cache under partial keys so later lookups hit regardless of
+        # which identifier form the enrichment uses.
+        if doi:
+            self.citation_cache[(doi, None, None)] = cid
+        if pmid:
+            self.citation_cache[(None, pmid, None)] = cid
         return cid
 
     # ---- substances ----
@@ -10420,6 +10474,18 @@ def main() -> int:
     # so it surfaces as a card printed twice. Strip the mechanically-identical
     # ones before the file is sealed; value duplicates (same numbers, different
     # notes) are only reported — see pipeline/build/dedupe.py.
+    # Propagate is_review from binding rows to citations. The per-row flag
+    # is set in enrichment; the citation-level flag was never written by any
+    # INSERT. If ANY binding row marks a citation as review, the citation is.
+    review_propagated = db.execute(
+        """UPDATE citations SET is_review = 1
+           WHERE id IN (SELECT DISTINCT citation_id FROM bindings WHERE is_review = 1)
+             AND is_review = 0"""
+    ).rowcount
+    if review_propagated:
+        print(f"is_review: propagated to {review_propagated} citation(s) from binding rows")
+    db.commit()
+
     dedupe = dedupe_database(db)
     print(
         f"Dedupe: removed {dedupe.total_removed} exact duplicate row(s), "

@@ -327,8 +327,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/1Bz-LSD",
-      "Azuma 2026 Drug Test Anal",
-      "In Vitro Metabolism of 1‐Benzoyl‐Lysergic Acid Diethylamide (1Bz‐LSD) and Identification of a Deethylated Metabolite (1Bz‐LAE) Using a Synthesized Reference Standard"
+      "Azuma 2026 Drug Test Anal"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -20663,7 +20662,6 @@
     "effects": [],
     "references": [
       "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves",
-      "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves.",
       "https://en.wikipedia.org/wiki/Cathine"
     ],
     "data_gaps": [
@@ -20716,7 +20714,6 @@
     "effects": [],
     "references": [
       "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves",
-      "Pharmacokinetics of cathinone, cathine and norephedrine after the chewing of khat leaves.",
       "https://en.wikipedia.org/wiki/Cathinone"
     ],
     "data_gaps": []
@@ -26941,7 +26938,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Divinatorins A-C, new neoclerodane diterpenoids from the controlled sage Salvia divinorum."
+      "Divinatorins A−C, New Neoclerodane Diterpenoids from the Controlled Sage <i>Salvia </i><i>d</i><i>ivinorum</i>"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -26972,7 +26969,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Divinatorins A-C, new neoclerodane diterpenoids from the controlled sage Salvia divinorum."
+      "Divinatorins A−C, New Neoclerodane Diterpenoids from the Controlled Sage <i>Salvia </i><i>d</i><i>ivinorum</i>"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -29115,7 +29112,6 @@
       "muscle relaxation"
     ],
     "references": [
-      "Emylcamate, A Potent Tranquillizing Relaxant",
       "J Med Chem 1959",
       "https://drugs.ncats.io/drug/KCJ747D3R4"
     ],
@@ -36035,7 +36031,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Hydroxynorketamine",
-      "NMDAR inhibition-independent antidepressant actions of ketamine metabolites."
+      "NMDAR inhibition-independent antidepressant actions of ketamine metabolites"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -45375,8 +45371,7 @@
     "effects": [],
     "references": [
       "FDA Myrbetriq prescribing information",
-      "JCI",
-      "The β3-adrenergic receptor agonist mirabegron improves glucose homeostasis in obese humans"
+      "JCI"
     ],
     "data_gaps": []
   },
